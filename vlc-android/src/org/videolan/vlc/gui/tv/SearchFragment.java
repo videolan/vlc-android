@@ -29,6 +29,7 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v17.leanback.app.SearchSupportFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
@@ -50,8 +51,7 @@ import org.videolan.vlc.VLCApplication;
 import java.util.Arrays;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class SearchFragment extends android.support.v17.leanback.app.SearchFragment
-        implements android.support.v17.leanback.app.SearchFragment.SearchResultProvider {
+public class SearchFragment extends SearchSupportFragment implements SearchSupportFragment.SearchResultProvider {
 
     private static final String TAG = "SearchFragment";
 

@@ -1,15 +1,15 @@
 package org.videolan.vlc.gui.tv;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.webkit.WebView;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Util;
 
-public class LicenceActivity extends Activity {
+public class LicenceActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

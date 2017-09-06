@@ -4,7 +4,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <fragment
-          android:name="android.support.v17.leanback.app.BrowseFragment"
+          android:name="android.support.v17.leanback.app.BrowseSupportFragment"
           android:id="@+id/browse_fragment"
           android:layout_width="match_parent"
           android:layout_height="match_parent" />

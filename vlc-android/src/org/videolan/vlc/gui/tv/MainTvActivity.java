@@ -22,7 +22,6 @@ package org.videolan.vlc.gui.tv;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +36,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
+import android.support.v17.leanback.app.BrowseSupportFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
@@ -107,7 +107,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
     public static final String TAG = "VLC/MainTvActivity";
 
-    protected BrowseFragment mBrowseFragment;
+    protected BrowseSupportFragment mBrowseFragment;
     private ProgressBar mProgressBar;
     private ArrayObjectAdapter mRowsAdapter = null;
     private ArrayObjectAdapter mVideoAdapter, mCategoriesAdapter, mHistoryAdapter, mBrowserAdapter, mOtherAdapter;
@@ -134,8 +134,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         mContext = this;
         setContentView(R.layout.tv_main);
 
-        final FragmentManager fragmentManager = getFragmentManager();
-        mBrowseFragment = (BrowseFragment) fragmentManager.findFragmentById(
+        final android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        mBrowseFragment = (BrowseSupportFragment) fragmentManager.findFragmentById(
                 R.id.browse_fragment);
         mProgressBar = findViewById(R.id.tv_main_progress);
 

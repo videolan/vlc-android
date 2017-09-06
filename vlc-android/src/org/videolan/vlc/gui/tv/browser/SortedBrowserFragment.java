@@ -30,7 +30,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v17.leanback.app.BackgroundManager;
-import android.support.v17.leanback.app.BrowseFragment;
+import android.support.v17.leanback.app.BrowseSupportFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.HeaderItem;
 import android.support.v17.leanback.widget.ListRow;
@@ -65,7 +65,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public abstract class SortedBrowserFragment extends BrowseFragment implements BrowserFragmentInterface, OnItemViewSelectedListener, OnItemViewClickedListener, DetailsFragment {
+public abstract class SortedBrowserFragment extends BrowseSupportFragment implements BrowserFragmentInterface, OnItemViewSelectedListener, OnItemViewClickedListener, DetailsFragment {
 
     public static final String TAG = "VLC/SortedBrowserFragment";
 

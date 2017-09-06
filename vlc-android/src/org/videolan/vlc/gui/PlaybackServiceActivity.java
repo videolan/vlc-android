@@ -22,15 +22,15 @@
 
 package org.videolan.vlc.gui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.MainThread;
+import android.support.v4.app.FragmentActivity;
 
 import org.videolan.vlc.PlaybackService;
 
 import java.util.ArrayList;
 
-public class PlaybackServiceActivity extends Activity implements PlaybackService.Client.Callback {
+public class PlaybackServiceActivity extends FragmentActivity implements PlaybackService.Client.Callback {
     final private Helper mHelper = new Helper(this, this);
     protected PlaybackService mService;
 

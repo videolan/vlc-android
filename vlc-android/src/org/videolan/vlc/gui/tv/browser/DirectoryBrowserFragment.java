@@ -36,7 +36,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import java.io.File;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class DirectoryBrowserFragment extends MediaSortedFragment{
+public class DirectoryBrowserFragment extends MediaSortedFragment {
 
     public static final String TAG = "VLC/NetworkBrowserFragment";
 

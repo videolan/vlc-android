@@ -21,10 +21,10 @@
 package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
-import android.app.Fragment;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -78,7 +78,7 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
             finish();
             return;
         }
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .add(R.id.tv_fragment_placeholder, ((Fragment)mFragment))
                 .commit();
     }
@@ -94,7 +94,7 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
             mFragment.updateList();
     }
 
-    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((mFragment instanceof DetailsFragment)
                 && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
             ((DetailsFragment)mFragment).showDetails();
