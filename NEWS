@@ -1,3 +1,20 @@
+Changes between 2.1.18 and 2.1.19:
+----------------------------------
+
+Application:
+ * Oreo support for background service
+ * Fix navigation bar shown in video player
+ * Fix video playback when started during audio playback
+ * Misc. fixes
+
+TV:
+ * Fix now playing card colors
+
+Chromebook:
+ * Fix video player advanced option display
+ * Show status bar in video player
+
+
 Changes between 2.1.17 and 2.1.18:
 ----------------------------------
 
