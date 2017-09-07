@@ -130,6 +130,7 @@ import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.SubtitlesDownloader;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.io.ByteArrayInputStream;
@@ -3309,13 +3310,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             ArrayList<String> prefsList = new ArrayList<>();
 
             if (subtitleList_serialized != null) {
-                ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
+                final ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
+                ObjectInputStream ois = null;
                 try {
-                    ObjectInputStream ois = new ObjectInputStream(bis);
+                    ois = new ObjectInputStream(bis);
                     prefsList = (ArrayList<String>) ois.readObject();
                 } catch (InterruptedIOException ignored) {
                     return prefsList; /* Task is cancelled */
-                } catch (ClassNotFoundException | IOException ignored) {}
+                } catch (ClassNotFoundException | IOException ignored) {
+                } finally {
+                    Util.close(ois);
+                }
             }
 
             if (!TextUtils.equals(mUri.getScheme(), "content"))
