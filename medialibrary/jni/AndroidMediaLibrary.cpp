@@ -161,7 +161,9 @@ AndroidMediaLibrary::forceParserRetry()
 bool
 AndroidMediaLibrary::increasePlayCount(int64_t mediaId)
 {
-    return p_ml->media(mediaId)->increasePlayCount();
+    auto media = p_ml->media(mediaId);
+    if (media != nullptr)
+        return media->increasePlayCount();
 }
 
 std::vector<medialibrary::MediaPtr>

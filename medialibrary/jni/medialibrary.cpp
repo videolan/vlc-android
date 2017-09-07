@@ -667,6 +667,8 @@ setMediaStringMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     const char *char_meta = env->GetStringUTFChars(meta, JNI_FALSE);
     medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr)
+        return;
     media->setMetadata((medialibrary::IMedia::MetadataType)metadataType, char_meta);
     env->ReleaseStringUTFChars(meta, char_meta);
 }
@@ -676,6 +678,8 @@ setMediaLongMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, 
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr)
+        return;
     media->setMetadata((medialibrary::IMedia::MetadataType)metadataType, meta);
 }
 
