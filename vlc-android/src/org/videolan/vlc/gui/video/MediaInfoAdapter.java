@@ -83,7 +83,7 @@ public class MediaInfoAdapter extends RecyclerView.Adapter<MediaInfoAdapter.View
         mDataset = tracks;
         if (size > 0)
             notifyItemRangeRemoved(0, size-1);
-        notifyItemRangeInserted(0, tracks.size()-1);
+        notifyItemRangeInserted(0, tracks.size());
     }
 
     private void appendCommon(StringBuilder textBuilder, Resources res, Media.Track track) {
