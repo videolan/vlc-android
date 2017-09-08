@@ -3200,12 +3200,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             MediaWrapper media;
             if (!resumePlaylist) {
                 // restore last position
-                final Medialibrary ml = mMedialibrary;
-                media = ml.getMedia(mUri.getScheme().equals("content") ? FileUtils.getUri(mUri) : mUri);
+                media = mMedialibrary.getMedia("content".equals(mUri.getScheme()) ? FileUtils.getUri(mUri) : mUri);
                 if (media == null && TextUtils.equals(mUri.getScheme(), "file") &&
                         mUri.getPath() != null && mUri.getPath().startsWith("/sdcard")) {
                     mUri = FileUtils.convertLocalUri(mUri);
-                    media = ml.getMedia(mUri);
+                    media = mMedialibrary.getMedia(mUri);
                 }
                 if (media != null && media.getId() != 0L && media.getTime() == 0L)
                     media.setTime((long) (media.getMetaLong(MediaWrapper.META_PROGRESS) * (double) media.getLength())/100L);
