@@ -2312,9 +2312,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
          * We don't want to always show the default UI volume, so show it only when volume is not set. */
         if (vol <= mAudioMax) {
             mService.setVolume(100);
-            int newVol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            if (vol != newVol)
+            if (vol !=  mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC)) {
                 mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
+                // High Volume warning can block volume setting
+                if (mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) != vol)
+                    mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI);
+            }
             vol = Math.round(vol * 100 / mAudioMax);
         } else {
             vol = Math.round(vol * 100 / mAudioMax);
