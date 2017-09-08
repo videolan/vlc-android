@@ -1329,30 +1329,26 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             delaySubs(50000l);
             return true;
         case KeyEvent.KEYCODE_VOLUME_DOWN:
-            if (mMute) {
-                updateMute();
-            } else {
-                int vol;
-                if (mService.getVolume() > 100)
-                    vol = Math.round(((float)mService.getVolume())*mAudioMax/100 - 1);
-                else
-                    vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) - 1;
-                vol = Math.min(Math.max(vol, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
-                mOriginalVol = vol;
-                setAudioVolume(vol);
-            }
+            int vol;
+            if (mService.getVolume() > 100)
+                vol = Math.round(((float)mService.getVolume())*mAudioMax/100 - 1);
+            else
+                vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) - 1;
+            vol = Math.min(Math.max(vol, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
+            mOriginalVol = vol;
+            setAudioVolume(vol);
             return true;
         case KeyEvent.KEYCODE_VOLUME_UP:
             if (mMute) {
                 updateMute();
             } else {
-                int vol;
+                int volume;
                 if (mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) < mAudioMax)
-                    vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) + 1;
+                    volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) + 1;
                 else
-                    vol = Math.round(((float)mService.getVolume())*mAudioMax/100 + 1);
-                vol = Math.min(Math.max(vol, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
-                setAudioVolume(vol);
+                    volume = Math.round(((float)mService.getVolume())*mAudioMax/100 + 1);
+                volume = Math.min(Math.max(volume, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
+                setAudioVolume(volume);
             }
             return true;
         case KeyEvent.KEYCODE_CAPTIONS:
@@ -2305,8 +2301,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void setAudioVolume(int vol) {
-        if (vol <= 0 && AndroidUtil.isNougatOrLater)
+        if (AndroidUtil.isNougatOrLater && (vol <= 0 ^ mMute)) {
+            mute(!mMute);
             return; //Android N+ throws "SecurityException: Not allowed to change Do Not Disturb state"
+        }
 
         /* Since android 4.3, the safe volume warning dialog is displayed only with the FLAG_SHOW_UI flag.
          * We don't want to always show the default UI volume, so show it only when volume is not set. */
