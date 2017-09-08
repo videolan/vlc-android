@@ -47,6 +47,8 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         mMenu = menu;
+        if (getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder) instanceof AboutFragment)
+            return true;
         getMenuInflater().inflate(R.menu.activity_option, menu);
         if (getCurrentFragment() instanceof ExtensionBrowser){
             menu.findItem(R.id.ml_menu_last_playlist).setVisible(false);
