@@ -260,7 +260,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
         // Make sure the audio player will acquire a wake-lock while playing. If we don't do
         // that, the CPU might go to sleep while the song is playing, causing playback to stop.
-        PowerManager pm = (PowerManager) VLCApplication.getAppContext().getSystemService(Context.POWER_SERVICE);
+        final PowerManager pm = (PowerManager) VLCApplication.getAppContext().getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
 
         updateHasWidget();
@@ -286,13 +286,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         filter.addAction(ACTION_CAR_MODE_EXIT);
         registerReceiver(mReceiver, filter);
 
-        boolean stealRemoteControl = mSettings.getBoolean("enable_steal_remote_control", false);
+        final boolean stealRemoteControl = mSettings.getBoolean("enable_steal_remote_control", false);
 
         if (stealRemoteControl) {
             /* Backward compatibility for API 7 */
             filter = new IntentFilter();
-            if (stealRemoteControl)
-                filter.setPriority(Integer.MAX_VALUE);
+            filter.setPriority(Integer.MAX_VALUE);
             filter.addAction(Intent.ACTION_MEDIA_BUTTON);
             mRemoteControlClientReceiver = new RemoteControlClientReceiver();
             registerReceiver(mRemoteControlClientReceiver, filter);
@@ -310,7 +309,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null)
             return START_STICKY;
-        String action = intent.getAction();
+        final String action = intent.getAction();
         if (Intent.ACTION_MEDIA_BUTTON.equals(action)) {
             MediaButtonReceiver.handleIntent(mMediaSession, intent);
             return START_STICKY;
@@ -440,8 +439,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         private boolean wasPlaying = false;
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            int state = intent.getIntExtra("state", 0);
+            final String action = intent.getAction();
+            final int state = intent.getIntExtra("state", 0);
             if( mMediaPlayer == null ) {
                 Log.w(TAG, "Intent received, but VLC is not loaded, skipping.");
                 return;
@@ -798,7 +797,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public boolean switchToVideo() {
-        MediaWrapper media = mMediaList.getMedia(mCurrentIndex);
+        final MediaWrapper media = mMediaList.getMedia(mCurrentIndex);
         if (media == null || media.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || !canSwitchToVideo())
             return false;
         mVideoBackground = false;
@@ -853,10 +852,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         return isValidIndex(mCurrentIndex);
     }
 
-    private final Handler mHandler = new AudioServiceHandler(this);
+    private final Handler mHandler = new PlaybackServiceHandler(this);
 
-    private static class AudioServiceHandler extends WeakHandler<PlaybackService> {
-        public AudioServiceHandler(PlaybackService fragment) {
+    private static class PlaybackServiceHandler extends WeakHandler<PlaybackService> {
+        PlaybackServiceHandler(PlaybackService fragment) {
             super(fragment);
         }
 
