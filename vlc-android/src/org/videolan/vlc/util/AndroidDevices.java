@@ -72,7 +72,7 @@ public class AndroidDevices {
     public final static boolean showInternalStorage = !TextUtils.equals(Build.BRAND, "Swisscom") && !TextUtils.equals(Build.BOARD, "sprint");
     private final static String[] noMediaStyleManufacturers = {"huawei", "symphony teleca"};
     public final static boolean showMediaStyle = !isManufacturerBannedForMediastyleNotifications();
-    public static final boolean hasPlayServices = hasPlayServices();
+    public static final boolean hasPlayServices;
 
     //Devices mountpoints management
     private static final List<String> typeWL = Arrays.asList("vfat", "exfat", "sdcardfs", "fuse", "ntfs", "fat32", "ext3", "ext4", "esdfs");
@@ -99,16 +99,17 @@ public class AndroidDevices {
 
     static {
         final HashSet<String> devicesWithoutNavBar = new HashSet<>();
-        final Context ctx = VLCApplication.getAppContext();
         devicesWithoutNavBar.add("HTC One V");
         devicesWithoutNavBar.add("HTC One S");
         devicesWithoutNavBar.add("HTC One X");
         devicesWithoutNavBar.add("HTC One XL");
         hasNavBar = AndroidUtil.isICSOrLater && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
+        final Context ctx = VLCApplication.getAppContext();
         final PackageManager pm = ctx.getPackageManager();
-        hasTsp = pm.hasSystemFeature("android.hardware.touchscreen");
-        isAndroidTv = pm.hasSystemFeature("android.software.leanback");
-        isChromeBook = pm.hasSystemFeature("org.chromium.arc.device_management");
+        hasTsp = pm == null || pm.hasSystemFeature("android.hardware.touchscreen");
+        isAndroidTv = pm != null && pm.hasSystemFeature("android.software.leanback");
+        isChromeBook = pm != null && pm.hasSystemFeature("org.chromium.arc.device_management");
+        hasPlayServices = pm == null || hasPlayServices(pm);
         hasPiP = AndroidUtil.isOOrLater || AndroidUtil.isNougatOrLater && isAndroidTv;
         isPhone = ((TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE))
                 .getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
@@ -280,9 +281,9 @@ public class AndroidDevices {
         return false;
     }
 
-    private static boolean hasPlayServices() {
+    private static boolean hasPlayServices(PackageManager pm) {
         try {
-            VLCApplication.getAppContext().getPackageManager().getPackageInfo("com.google.android.gsf", PackageManager.GET_SERVICES);
+            pm.getPackageInfo("com.google.android.gsf", PackageManager.GET_SERVICES);
             return true;
         } catch (PackageManager.NameNotFoundException ignored) {}
         return false;
