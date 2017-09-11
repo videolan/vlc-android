@@ -448,7 +448,7 @@
     <string name="no">否</string>
     <string name="loading_medialibrary">正在加载媒体库...</string>
     <string name="ml_external_storage_title">检测到外部存储设备</string>
-    <string name="ml_external_storage_msg">是否同意VLC将%1$ 存储空间用于媒体库？</string>
+    <string name="ml_external_storage_msg">是否同意VLC将%1$s 存储空间用于媒体库？</string>
     <string name="ml_external_storage_accept">是</string>
     <string name="ml_external_storage_decline">否</string>
 </resources>

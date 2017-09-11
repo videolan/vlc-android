@@ -377,7 +377,7 @@
     <string name="subtitles_download_title">字幕下載</string>
     <string name="connecting">連接中…</string>
     <string name="ml_external_storage_title">檢測到外部存儲設備</string>
-    <string name="ml_external_storage_msg">是否同意VLC將%1$ 存儲空間用於媒體庫？</string>
+    <string name="ml_external_storage_msg">是否同意VLC將%1$s 存儲空間用於媒體庫？</string>
     <string name="ml_external_storage_accept">是</string>
     <string name="ml_external_storage_decline">否</string>
 </resources>
