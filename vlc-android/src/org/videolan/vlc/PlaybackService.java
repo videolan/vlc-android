@@ -912,12 +912,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                                     mUpdateMeta.wait();
                             } catch (InterruptedException ignored) {}
                             final MediaMetadataCompat metaData = mMediaSession.getController().getMetadata();
-                            title = metaData.getString(MediaMetadataCompat.METADATA_KEY_TITLE);
-                            artist = metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST);
-                            album = metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM);
-                            cover = coverOnLockscreen ?
-                                    metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART) :
-                                    AudioUtil.readCoverBitmap(Uri.decode(mw.getArtworkMrl()), width);
+                            title = metaData == null ? mw.getTitle() : metaData.getString(MediaMetadataCompat.METADATA_KEY_TITLE);
+                            artist = metaData == null ? mw.getArtist() : metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST);
+                            album = metaData == null ? mw.getAlbum() : metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM);
+                            cover = coverOnLockscreen && metaData != null
+                                    ? metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART)
+                                    : AudioUtil.readCoverBitmap(Uri.decode(mw.getArtworkMrl()), width);
                         }
                         if (cover == null || cover.isRecycled())
                             cover = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_no_media);
