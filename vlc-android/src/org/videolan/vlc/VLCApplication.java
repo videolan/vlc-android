@@ -88,8 +88,8 @@ public class VLCApplication extends Application {
 
     @Override
     public void onCreate() {
-        super.onCreate();
         instance = this;
+        super.onCreate();
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
         setLocale();
