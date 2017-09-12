@@ -135,10 +135,10 @@ public class AndroidDevices {
             String line;
             while ((line = bufReader.readLine()) != null) {
 
-                StringTokenizer tokens = new StringTokenizer(line, " ");
-                String device = tokens.nextToken();
-                String mountpoint = tokens.nextToken();
-                String type = tokens.nextToken();
+                final StringTokenizer tokens = new StringTokenizer(line, " ");
+                final String device = tokens.nextToken();
+                final String mountpoint = tokens.nextToken();
+                final String type = tokens.nextToken();
 
                 // skip if already in list or if type/mountpoint is blacklisted
                 if (list.contains(mountpoint) || typeBL.contains(type) || Strings.startsWith(mountBL, mountpoint))
@@ -184,8 +184,7 @@ public class AndroidDevices {
     }
 
     @TargetApi(VERSION_CODES.HONEYCOMB_MR1)
-    public static float getCenteredAxis(MotionEvent event,
-                                        InputDevice device, int axis) {
+    public static float getCenteredAxis(MotionEvent event, InputDevice device, int axis) {
         final InputDevice.MotionRange range =
                 device.getMotionRange(axis, event.getSource());
 
