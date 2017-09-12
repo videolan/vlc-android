@@ -100,18 +100,17 @@ public class FileUtils {
     public static Uri convertLocalUri(Uri uri) {
         if (!TextUtils.equals(uri.getScheme(), "file") || !uri.getPath().startsWith("/sdcard"))
             return uri;
-        String path = uri.toString();
-        return Uri.parse(path.replace("/sdcard", AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
+        return Uri.parse(uri.toString().replace("/sdcard", AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
     }
 
     public static String getPathFromURI(Uri contentUri) {
         Cursor cursor = null;
         try {
-            String[] proj = {MediaStore.Images.Media.DATA};
+            final String[] proj = {MediaStore.Images.Media.DATA};
             cursor = VLCApplication.getAppContext().getContentResolver().query(contentUri, proj, null, null, null);
-            if (cursor == null)
+            if (cursor == null || cursor.getCount() == 0)
                 return "";
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            final int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
             return cursor.getString(column_index);
         } catch (IllegalArgumentException e) {
@@ -122,9 +121,9 @@ public class FileUtils {
         }
     }
 
-    public static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
+    static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
         try {
-            String[] files = assetManager.list(fromAssetPath);
+            final String[] files = assetManager.list(fromAssetPath);
             if (files.length == 0)
                 return false;
             new File(toPath).mkdirs();
@@ -165,7 +164,7 @@ public class FileUtils {
         }
     }
 
-    public static void copyFile(InputStream in, OutputStream out) throws IOException {
+    private static void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
         while((read = in.read(buffer)) != -1){
@@ -173,7 +172,7 @@ public class FileUtils {
         }
     }
 
-    public static boolean copyFile(File src, File dst){
+    private static boolean copyFile(File src, File dst){
         boolean ret = true;
         if (src.isDirectory()) {
             File[] filesList = src.listFiles();
@@ -194,8 +193,7 @@ public class FileUtils {
                     out.write(buf, 0, len);
                 }
                 return true;
-            } catch (FileNotFoundException e) {
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             } finally {
                 Util.close(in);
                 Util.close(out);
@@ -217,13 +215,13 @@ public class FileUtils {
                         MediaStore.Files.FileColumns.DATA + "=?", new String[]{path}) > 0;
             } catch (IllegalArgumentException ignored) {} // Can happen on some devices...
         }
-        File file = new File(path);
+        final File file = new File(path);
         if (file.exists())
             deleted |= file.delete();
         return deleted;
     }
 
-    public static void asyncRecursiveDelete(String path, Callback callback) {
+    private static void asyncRecursiveDelete(String path, Callback callback) {
         asyncRecursiveDelete(new File(path), callback);
     }
 
@@ -263,14 +261,12 @@ public class FileUtils {
                 TextUtils.equals(scheme, "sftp");
     }
 
-    public static boolean canWrite(Uri uri){
+    public static boolean canWrite(Uri uri) {
         if (uri == null)
             return false;
         if (TextUtils.equals("file", uri.getScheme()))
             return canWrite(uri.toString());
-        if (TextUtils.equals("content", uri.getScheme()))
-            return canWrite(getPathFromURI(uri));
-        return false;
+        return TextUtils.equals("content", uri.getScheme()) && canWrite(getPathFromURI(uri));
 
     }
 
@@ -289,11 +285,10 @@ public class FileUtils {
         return (file.exists() && file.canWrite());
     }
 
-    public static String computeHash(File file) {
+    static String computeHash(File file) {
         long size = file.length();
         long chunkSizeForFile = Math.min(HASH_CHUNK_SIZE, size);
-        long head = 0;
-        long tail = 0;
+        long head, tail;
         FileInputStream fis = null;
         FileChannel fileChannel = null;
         try {
@@ -302,7 +297,7 @@ public class FileUtils {
             head = computeHashForChunk(fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, chunkSizeForFile));
 
             //Alternate way to calculate tail hash for files over 4GB.
-            ByteBuffer bb = ByteBuffer.allocateDirect((int)chunkSizeForFile);
+            final ByteBuffer bb = ByteBuffer.allocateDirect((int)chunkSizeForFile);
             int read;
             long position = Math.max(size - HASH_CHUNK_SIZE, 0);
             while ((read = fileChannel.read(bb, position)) > 0) {
@@ -310,23 +305,18 @@ public class FileUtils {
             }
             bb.flip();
             tail = computeHashForChunk(bb);
-
             return String.format("%016x", size + head + tail);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-            return null;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
-        }finally {
+        } finally {
             Util.close(fileChannel);
             Util.close(fis);
         }
     }
 
     private static long computeHashForChunk(ByteBuffer buffer) {
-        LongBuffer longBuffer = buffer.order(ByteOrder.LITTLE_ENDIAN).asLongBuffer();
+        final LongBuffer longBuffer = buffer.order(ByteOrder.LITTLE_ENDIAN).asLongBuffer();
         long hash = 0;
         while (longBuffer.hasRemaining())
             hash += longBuffer.get();
@@ -338,24 +328,23 @@ public class FileUtils {
         Uri uri = data;
         if (data != null && TextUtils.equals(data.getScheme(), "content")) {
             // Mail-based apps - download the stream to a temporary file and play it
-            if(data.getHost().equals("com.fsck.k9.attachmentprovider")
-                    || data.getHost().equals("gmail-ls")) {
+            if ("com.fsck.k9.attachmentprovider".equals(data.getHost()) || "gmail-ls".equals(data.getHost())) {
                 InputStream is = null;
                 OutputStream os = null;
+                Cursor cursor = null;
                 try {
-                    Cursor cursor = VLCApplication.getAppContext().getContentResolver().query(data,
+                    cursor = VLCApplication.getAppContext().getContentResolver().query(data,
                             new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
-                    if (cursor != null) {
-                        cursor.moveToFirst();
+                    if (cursor != null && cursor.moveToFirst()) {
                         String filename = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME));
-                        cursor.close();
                         Log.i(TAG, "Getting file " + filename + " from content:// URI");
-
                         is = VLCApplication.getAppContext().getContentResolver().openInputStream(data);
+                        if (is == null)
+                            return data;
                         os = new FileOutputStream(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename);
-                        byte[] buffer = new byte[1024];
-                        int bytesRead = 0;
-                        while((bytesRead = is.read(buffer)) >= 0) {
+                        final byte[] buffer = new byte[1024];
+                        int bytesRead;
+                        while ((bytesRead = is.read(buffer)) >= 0) {
                             os.write(buffer, 0, bytesRead);
                         }
                         uri = AndroidUtil.PathToUri(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename);
@@ -366,6 +355,7 @@ public class FileUtils {
                 } finally {
                     Util.close(is);
                     Util.close(os);
+                    Util.close(cursor);
                 }
             }
             // Media or MMS URI
