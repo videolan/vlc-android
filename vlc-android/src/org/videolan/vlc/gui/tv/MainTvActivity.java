@@ -129,7 +129,14 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             return;
         }
 
-        Permissions.checkReadStoragePermission(this, false);
+        // Delay access permission dialog prompt to avoid background corruption
+        if (!Permissions.canReadStorage())
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Permissions.checkReadStoragePermission(MainTvActivity.this, false);
+                }
+            }, 1000);
 
         mContext = this;
         setContentView(R.layout.tv_main);
@@ -200,6 +207,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     @Override
     protected void onStart() {
         super.onStart();
+        if (!mBackgroundManager.isAttached())
+            mBackgroundManager.attach(getWindow());
         if (mSelectedItem != null)
             TvUtil.updateBackground(mBackgroundManager, mSelectedItem);
     }
@@ -212,6 +221,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                     RecommendationsService.class);
             startService(recommendationIntent);
         }
+        TvUtil.releaseBackgroundManager(mBackgroundManager);
     }
 
     @Override
@@ -223,8 +233,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             setmedialibraryListeners();
         } else
             setupMediaLibraryReceiver();
-        if (!mBackgroundManager.isAttached())
-            mBackgroundManager.attach(getWindow());
     }
 
     @Override
@@ -235,7 +243,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         if (mService != null)
             mService.removeCallback(this);
         mMediaLibrary.removeMediaUpdatedCb();
-        TvUtil.releaseBackgroundManager(mBackgroundManager);
     }
 
     @Override
