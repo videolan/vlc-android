@@ -57,10 +57,9 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioPlayer;
-import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IRefreshable;
-import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.WeakHandler;
@@ -149,6 +148,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         IntentFilter progressFilter = new IntentFilter(MediaParsingService.ACTION_SERVICE_STARTED);
         progressFilter.addAction(MediaParsingService.ACTION_SERVICE_ENDED);
         progressFilter.addAction(MediaParsingService.ACTION_PROGRESS);
+        progressFilter.addAction(MediaParsingService.ACTION_NEW_STORAGE);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, progressFilter);
     }
 
@@ -362,20 +362,29 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (ACTION_SHOW_PLAYER.equals(action))
+            final String action = intent.getAction();
+            if (ACTION_SHOW_PLAYER.equals(action)) {
                 showAudioPlayer();
-            else if (MediaParsingService.ACTION_SERVICE_STARTED.equals(action))
-                updateProgressVisibility(View.VISIBLE);
-            else if (MediaParsingService.ACTION_SERVICE_ENDED.equals(action)) {
-                mActivityHandler.removeMessages(ACTION_DISPLAY_PROGRESSBAR);
-                updateProgressVisibility(View.GONE);
-            } else if (MediaParsingService.ACTION_PROGRESS.equals(action)) {
-                updateProgressVisibility(View.VISIBLE);
-                if (mScanProgressText != null)
-                    mScanProgressText.setText(intent.getStringExtra(MediaParsingService.ACTION_PROGRESS_TEXT));
-                if (mScanProgressBar != null)
-                    mScanProgressBar.setProgress(intent.getIntExtra(MediaParsingService.ACTION_PROGRESS_VALUE, 0));
+                return;
+            }
+            switch (action) {
+                case MediaParsingService.ACTION_NEW_STORAGE:
+                    UiTools.newStorageDetected(AudioPlayerContainerActivity.this, intent.getStringExtra(MediaParsingService.EXTRA_PATH));
+                    break;
+                case MediaParsingService.ACTION_SERVICE_STARTED:
+                    updateProgressVisibility(View.VISIBLE);
+                    break;
+                case MediaParsingService.ACTION_SERVICE_ENDED:
+                    mActivityHandler.removeMessages(ACTION_DISPLAY_PROGRESSBAR);
+                    updateProgressVisibility(View.GONE);
+                    break;
+                case MediaParsingService.ACTION_PROGRESS:
+                    updateProgressVisibility(View.VISIBLE);
+                    if (mScanProgressText != null)
+                        mScanProgressText.setText(intent.getStringExtra(MediaParsingService.ACTION_PROGRESS_TEXT));
+                    if (mScanProgressBar != null)
+                        mScanProgressBar.setProgress(intent.getIntExtra(MediaParsingService.ACTION_PROGRESS_VALUE, 0));
+                    break;
             }
         }
     };
@@ -452,10 +461,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
                     if (!TextUtils.isEmpty(uuid)
                             && !PreferenceManager.getDefaultSharedPreferences(owner).getBoolean("ignore_"+ uuid, false)) {
                         if (VLCApplication.getMLInstance().addDevice(uuid, path, true, true)) {
-                            owner.startActivity(new Intent(owner, DialogActivity.class)
-                                    .setAction(DialogActivity.KEY_STORAGE)
-                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                    .putExtra(MediaParsingService.EXTRA_PATH, path));
+                            UiTools.newStorageDetected(owner, path);
                         } else
                             owner.startService(new Intent(MediaParsingService.ACTION_RELOAD, null, owner, MediaParsingService.class)
                                     .putExtra(MediaParsingService.EXTRA_PATH, path));

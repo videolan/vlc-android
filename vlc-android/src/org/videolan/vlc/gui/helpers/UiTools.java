@@ -27,6 +27,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.databinding.BindingAdapter;
@@ -48,6 +49,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -67,11 +69,13 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.BaseAudioBrowser;
 import org.videolan.vlc.gui.browser.SortableFragment;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
 
 import java.util.List;
@@ -126,20 +130,6 @@ public class UiTools {
         snack.show();
         if (action != null)
             sHandler.postDelayed(action, DELETE_DURATION);
-    }
-
-    public static int convertPxToDp(int px) {
-        DisplayMetrics metrics = VLCApplication.getAppResources().getDisplayMetrics();
-        float logicalDensity = metrics.density;
-        int dp = Math.round(px / logicalDensity);
-        return dp;
-    }
-
-    public static int convertDpToPx(int dp) {
-        return Math.round(
-                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
-                        VLCApplication.getAppResources().getDisplayMetrics())
-        );
     }
 
     /**
@@ -412,5 +402,55 @@ public class UiTools {
                 dialog.dismiss();
             }
         }).create().show();
+    }
+
+    public static void newStorageDetected(final Activity activity, final String path) {
+        if (activity == null)
+            return;
+        final String uuid = FileUtils.getFileNameFromPath(path);
+        final String message = String.format(activity.getString(R.string.ml_external_storage_msg), uuid);
+        final Intent serviceInent = new Intent(MediaParsingService.ACTION_DISCOVER_DEVICE, null, activity, MediaParsingService.class)
+                .putExtra(MediaParsingService.EXTRA_PATH, path);
+        if (activity instanceof AppCompatActivity) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity)
+                    .setTitle(R.string.ml_external_storage_title)
+                    .setMessage(message)
+                    .setPositiveButton(R.string.ml_external_storage_accept, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            if (activity != null)
+                                activity.startService(serviceInent);
+                        }
+                    })
+                    .setNegativeButton(R.string.ml_external_storage_decline, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext())
+                                    .edit()
+                                    .putBoolean("ignore_"+ uuid, true)
+                                    .apply();
+                            dialog.dismiss();
+                        }
+                    });
+            builder.show();
+        } else {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity)
+                    .setTitle(R.string.ml_external_storage_title)
+                .setMessage(message)
+                .setPositiveButton(R.string.ml_external_storage_accept, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (activity != null)
+                            activity.startService(serviceInent);
+                    }
+                })
+                .setNegativeButton(R.string.ml_external_storage_decline, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext())
+                                .edit()
+                                .putBoolean("ignore_"+ uuid, true)
+                                .apply();
+                        dialog.dismiss();
+                    }
+                });
+            builder.show();
+        }
     }
 }

@@ -20,7 +20,6 @@ import android.util.Log;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
-import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.gui.helpers.NotificationHelper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
@@ -48,6 +47,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public final static String ACTION_PAUSE_SCAN = "action_pause_scan";
     public final static String ACTION_SERVICE_STARTED = "action_service_started";
     public final static String ACTION_SERVICE_ENDED = "action_service_ended";
+    public final static String ACTION_NEW_STORAGE = "action_new_storage";
     public final static String ACTION_PROGRESS = "action_progress";
     public final static String ACTION_PROGRESS_TEXT = "action_progress_text";
     public final static String ACTION_PROGRESS_VALUE = "action_progress_value";
@@ -220,7 +220,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                         devices.add(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                         devices.addAll(AndroidDevices.getExternalStorageDirectories());
                         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MediaParsingService.this);
-                        for (String device : devices) {
+                        for (final String device : devices) {
                             boolean isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                             String uuid = FileUtils.getFileNameFromPath(device);
                             if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid))
@@ -228,10 +228,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : uuid, device, !isMainStorage, false);
                             boolean isIgnored = sharedPreferences.getBoolean("ignore_"+ uuid, false);
                             if (!isMainStorage && isNew && !isIgnored) {
-                                startActivity(new Intent(MediaParsingService.this, DialogActivity.class)
-                                        .setAction(DialogActivity.KEY_STORAGE)
-                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                        .putExtra(EXTRA_PATH, device));
+                                mLocalBroadcastManager.sendBroadcast(new Intent(ACTION_NEW_STORAGE).putExtra(EXTRA_PATH, device));
                             }
                         }
                         mMedialibrary.start();

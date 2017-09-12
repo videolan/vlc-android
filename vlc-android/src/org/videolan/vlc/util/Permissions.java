@@ -176,7 +176,7 @@ public class Permissions {
                             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             try {
                                 activity.startActivity(i);
-                            } catch (Exception ex) {}
+                            } catch (Exception ignored) {}
                         }
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putBoolean("user_declined_storage_access", true);

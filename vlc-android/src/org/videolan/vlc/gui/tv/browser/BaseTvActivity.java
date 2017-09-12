@@ -41,8 +41,8 @@ import android.view.KeyEvent;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.tv.SearchActivity;
 import org.videolan.vlc.util.Permissions;
 
@@ -79,6 +79,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
         storageFilter.addDataScheme("file");
         IntentFilter parsingServiceFilter = new IntentFilter(MediaParsingService.ACTION_SERVICE_ENDED);
         parsingServiceFilter.addAction(MediaParsingService.ACTION_SERVICE_STARTED);
+        parsingServiceFilter.addAction(MediaParsingService.ACTION_NEW_STORAGE);
 
         mRegistering = true;
         LocalBroadcastManager.getInstance(this).registerReceiver(mParsingServiceReceiver, parsingServiceFilter);
@@ -118,6 +119,9 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
                 case MediaParsingService.ACTION_SERVICE_STARTED:
                     onParsingServiceStarted();
                     break;
+                case MediaParsingService.ACTION_NEW_STORAGE:
+                    UiTools.newStorageDetected(BaseTvActivity.this, intent.getStringExtra(MediaParsingService.EXTRA_PATH));
+                    break;
             }
         }
     };
@@ -149,10 +153,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
                     return;
                 boolean isIgnored = mSettings.getBoolean("ignore_"+ uuid, false);
                 if (!isIgnored && mMediaLibrary.addDevice(uuid, path, true, true)) {
-                    startActivity(new Intent(BaseTvActivity.this, DialogActivity.class)
-                            .setAction(DialogActivity.KEY_STORAGE)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            .putExtra(MediaParsingService.EXTRA_PATH, path));
+                    UiTools.newStorageDetected(BaseTvActivity.this, path);
                 } else
                     startService(new Intent(MediaParsingService.ACTION_RELOAD, null, BaseTvActivity.this, MediaParsingService.class)
                             .putExtra(MediaParsingService.EXTRA_PATH, path));
