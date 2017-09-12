@@ -24,7 +24,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.widget.NestedScrollView;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -57,7 +57,7 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
 
     private PlaybackService.Client mClient = new PlaybackService.Client(this, this);
     private PlaybackService mService;
-    private NestedScrollView nestedScrollView;
+    private AppBarLayout mAppBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +73,11 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
                     .replace(R.id.fragment_placeholder, new PreferencesFragment())
                     .commit();
         }
-        nestedScrollView = (NestedScrollView) findViewById(R.id.nestedscrollview);
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar);
     }
 
-    void scrollUp() {
-        nestedScrollView.scrollTo(0,0);
+    void expandBar() {
+        mAppBarLayout.setExpanded(true);
     }
 
     @Override

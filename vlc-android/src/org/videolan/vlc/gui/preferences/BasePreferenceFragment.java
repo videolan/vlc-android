@@ -50,9 +50,10 @@ public abstract class BasePreferenceFragment extends PreferenceFragmentCompat {
     public void onStart() {
         super.onStart();
         final PreferencesActivity activity = (PreferencesActivity)getActivity();
-        activity.scrollUp();
-        if (activity != null && activity.getSupportActionBar() != null && getTitleId() != 0) {
-            activity.getSupportActionBar().setTitle(getString(getTitleId()));
+        if (activity != null) {
+            activity.expandBar();
+            if (activity.getSupportActionBar() != null && getTitleId() != 0)
+                activity.getSupportActionBar().setTitle(getString(getTitleId()));
         }
     }
 
