@@ -702,8 +702,14 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
 
     protected Fragment getCurrentFragment() {
         return mCurrentFragment instanceof BaseBrowserFragment || currentIdIsExtension()
-                ? getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder)
-                : mCurrentFragment;
+                ? getFirstVisibleFragment() : mCurrentFragment;
+    }
+
+    private Fragment getFirstVisibleFragment() {
+        for (Fragment fragment : getSupportFragmentManager().getFragments())
+            if (!fragment.isHidden() && fragment.getClass().isInstance(mCurrentFragment))
+                return fragment;
+        return mCurrentFragment;
     }
 
     public boolean currentIdIsExtension() {
