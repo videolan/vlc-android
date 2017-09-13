@@ -48,6 +48,10 @@ import static org.videolan.vlc.util.Permissions.canReadStorage;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class StoragePermissionsDelegate extends BaseHeadlessFragment {
 
+    public interface CustomActionController {
+        void onStorageAccessGranted();
+    }
+
     public final static String TAG = "VLC/StorageHF";
 
     private boolean mFirstRun, mUpgrade;
@@ -81,10 +85,14 @@ public class StoragePermissionsDelegate extends BaseHeadlessFragment {
                 // If request is cancelled, the result arrays are empty.
                 final Context ctx = VLCApplication.getAppContext();
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent serviceIntent = new Intent(MediaParsingService.ACTION_INIT, null, ctx, MediaParsingService.class);
-                    serviceIntent.putExtra(StartActivity.EXTRA_FIRST_RUN, mFirstRun);
-                    serviceIntent.putExtra(StartActivity.EXTRA_UPGRADE, mUpgrade);
-                    ctx.startService(serviceIntent);
+                    if (mActivity instanceof CustomActionController) {
+                        ((CustomActionController) mActivity).onStorageAccessGranted();
+                    } else {
+                        final Intent serviceIntent = new Intent(MediaParsingService.ACTION_INIT, null, ctx, MediaParsingService.class);
+                        serviceIntent.putExtra(StartActivity.EXTRA_FIRST_RUN, mFirstRun);
+                        serviceIntent.putExtra(StartActivity.EXTRA_UPGRADE, mUpgrade);
+                        ctx.startService(serviceIntent);
+                    }
                     exit();
                 } else if (mActivity != null) {
                     Permissions.showStoragePermissionDialog(mActivity, false);

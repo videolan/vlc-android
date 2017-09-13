@@ -119,6 +119,7 @@ import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
@@ -143,9 +144,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback, IVLCVout.OnNewVideoLayoutListener,
-        IPlaybackSettingsController, PlaybackService.Client.Callback, PlaybackService.Callback,
-        PlaylistAdapter.IPlayer, OnClickListener, View.OnLongClickListener, ScaleGestureDetector.OnScaleGestureListener {
+public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
+        IVLCVout.OnNewVideoLayoutListener, IPlaybackSettingsController,
+        PlaybackService.Client.Callback, PlaybackService.Callback,PlaylistAdapter.IPlayer,
+        OnClickListener, StoragePermissionsDelegate.CustomActionController,
+        ScaleGestureDetector.OnScaleGestureListener, View.OnLongClickListener {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -1805,13 +1808,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void encounteredError() {
         if (isFinishing())
             return;
-        //We may not have the permission to access files
-        if (AndroidUtil.isMarshMallowOrLater && mUri != null &&
-                TextUtils.equals(mUri.getScheme(), "file") &&
-                !Permissions.canReadStorage()) {
-            Permissions.checkReadStoragePermission(this, true);
-            return;
-        }
         /* Encountered Error, exit player with a message */
         mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
         .setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -2575,6 +2571,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {}
+
+    @Override
+    public void onStorageAccessGranted() {
+        mHandler.sendEmptyMessage(START_PLAYBACK);
+    }
 
     private interface TrackSelectedListener {
         boolean onTrackSelected(int trackID);
@@ -3698,7 +3699,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void onConnected(PlaybackService service) {
         mService = service;
-        if (!mSwitchingView)
+        //We may not have the permission to access files
+        if (!Permissions.canReadStorage())
+            Permissions.checkReadStoragePermission(this, true);
+        else if (!mSwitchingView)
             mHandler.sendEmptyMessage(START_PLAYBACK);
         mSwitchingView = false;
         mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
