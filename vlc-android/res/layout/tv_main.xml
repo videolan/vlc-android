@@ -8,11 +8,13 @@
           android:id="@+id/browse_fragment"
           android:layout_width="match_parent"
           android:layout_height="match_parent" />
+
     <ProgressBar
         android:id="@+id/tv_main_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
-        android:layout_margin="10dp"
-        android:visibility="gone"/>
+        android:layout_marginRight="128dp"
+        android:layout_marginTop="32dp"
+        android:visibility="gone" />
 </FrameLayout>

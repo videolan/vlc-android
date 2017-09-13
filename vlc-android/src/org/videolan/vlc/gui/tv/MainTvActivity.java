@@ -363,6 +363,12 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     }
 
     @Override
+    protected void onParsingServiceProgress() {
+        if (mProgressBar.getVisibility() == View.GONE)
+            mHandler.sendEmptyMessage(SHOW_LOADING);
+    }
+
+    @Override
     protected void onParsingServiceFinished() {
         update();
     }

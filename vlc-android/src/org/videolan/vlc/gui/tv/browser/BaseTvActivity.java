@@ -71,14 +71,15 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
         super.onStart();
         mIsVisible = true;
         //Handle network connection state
-        IntentFilter networkFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        final IntentFilter networkFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 
-        IntentFilter storageFilter = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
+        final IntentFilter storageFilter = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
         storageFilter.addAction(Intent.ACTION_MEDIA_REMOVED);
         storageFilter.addAction(Intent.ACTION_MEDIA_EJECT);
         storageFilter.addDataScheme("file");
-        IntentFilter parsingServiceFilter = new IntentFilter(MediaParsingService.ACTION_SERVICE_ENDED);
+        final IntentFilter parsingServiceFilter = new IntentFilter(MediaParsingService.ACTION_SERVICE_ENDED);
         parsingServiceFilter.addAction(MediaParsingService.ACTION_SERVICE_STARTED);
+        parsingServiceFilter.addAction(MediaParsingService.ACTION_PROGRESS);
         parsingServiceFilter.addAction(MediaParsingService.ACTION_NEW_STORAGE);
 
         mRegistering = true;
@@ -119,6 +120,9 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
                 case MediaParsingService.ACTION_SERVICE_STARTED:
                     onParsingServiceStarted();
                     break;
+                case MediaParsingService.ACTION_PROGRESS:
+                    onParsingServiceProgress();
+                    break;
                 case MediaParsingService.ACTION_NEW_STORAGE:
                     UiTools.newStorageDetected(BaseTvActivity.this, intent.getStringExtra(MediaParsingService.EXTRA_PATH));
                     break;
@@ -131,6 +135,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
     }
 
     protected void onParsingServiceStarted() {}
+    protected void onParsingServiceProgress() {}
     protected void onParsingServiceFinished() {}
 
     protected final BroadcastReceiver mExternalDevicesReceiver = new BroadcastReceiver() {
