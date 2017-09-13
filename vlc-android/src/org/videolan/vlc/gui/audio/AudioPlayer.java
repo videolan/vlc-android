@@ -188,7 +188,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
                         return true;
                     }
                 } else if (item.getItemId() == R.id.audio_player_set_song) {
-                    AudioUtil.setRingtone(mw, activity);
+                    AudioUtil.setRingtone(mw, (FragmentActivity) activity);
                     return true;
                 }
                 return false;

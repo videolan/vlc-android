@@ -20,7 +20,6 @@
 package org.videolan.vlc.gui.helpers;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -32,6 +31,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.WorkerThread;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -83,7 +83,7 @@ public class AudioUtil {
 //     */
 //    public static AtomicReference<String> PLAYLIST_DIR = new AtomicReference<>();
 
-    public static void setRingtone(MediaWrapper song, Activity context){
+    public static void setRingtone(MediaWrapper song, FragmentActivity context){
         if (!Permissions.canWriteSettings(context)) {
             Permissions.checkWriteSettingsPermission(context, Permissions.PERMISSION_SYSTEM_RINGTONE);
             return;

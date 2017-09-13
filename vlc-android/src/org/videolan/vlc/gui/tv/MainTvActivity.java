@@ -26,7 +26,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -61,7 +60,6 @@ import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RecommendationsService;
@@ -243,27 +241,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         if (mService != null)
             mService.removeCallback(this);
         mMediaLibrary.removeMediaUpdatedCb();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case Permissions.PERMISSION_STORAGE_TAG: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent serviceIntent = new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class);
-                    serviceIntent.putExtra(StartActivity.EXTRA_FIRST_RUN, getIntent().getBooleanExtra(StartActivity.EXTRA_FIRST_RUN, false));
-                    serviceIntent.putExtra(StartActivity.EXTRA_UPGRADE, getIntent().getBooleanExtra(StartActivity.EXTRA_UPGRADE, false));
-                    startService(serviceIntent);
-                } else {
-                    Permissions.showStoragePermissionDialog(this, false);
-                }
-            }
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
     }
 
     @Override

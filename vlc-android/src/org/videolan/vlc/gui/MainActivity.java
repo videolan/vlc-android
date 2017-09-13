@@ -25,7 +25,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -104,8 +103,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
 
     private boolean mScanNeeded = false;
 
-    private boolean mFirstRun, mUpgrade;
-
     // Extensions management
     private ServiceConnection mExtensionServiceConnection;
     private ExtensionManagerService mExtensionManagerService;
@@ -134,9 +131,10 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             final FragmentManager fm = getSupportFragmentManager();
             mCurrentFragment = fm.getFragment(savedInstanceState, "current_fragment");
             //Restore fragments stack
-            if (fm != null && fm.getFragments() != null) {
+            final List<Fragment> fragments = fm.getFragments();
+            if (fragments != null) {
                 final FragmentTransaction ft =  fm.beginTransaction();
-                for (Fragment fragment : fm.getFragments())
+                for (Fragment fragment : fragments)
                     if (fragment != null) {
                         if (fragment instanceof ExtensionBrowser) {
                             ft.remove(fragment);
@@ -182,8 +180,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         if (getIntent().getBooleanExtra(StartActivity.EXTRA_UPGRADE, false)) {
-            mUpgrade = true;
-            mFirstRun = getIntent().getBooleanExtra(StartActivity.EXTRA_FIRST_RUN, false);
             /*
              * The sliding menu is automatically opened when the user closes
              * the info dialog. If (for any reason) the dialog is not shown,
@@ -195,7 +191,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                     mDrawerLayout.openDrawer(mNavigationView);
                 }
             }, 500);
-            getIntent().removeExtra(StartActivity.EXTRA_UPGRADE);
         }
 
         /* Reload the latest preferences */
@@ -212,26 +207,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         }
 
         mNavigationView.getMenu().findItem(R.id.nav_history).setVisible(mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true));
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case Permissions.PERMISSION_STORAGE_TAG:
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent serviceIntent = new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class);
-                    serviceIntent.putExtra(StartActivity.EXTRA_FIRST_RUN, mFirstRun);
-                    serviceIntent.putExtra(StartActivity.EXTRA_UPGRADE, mUpgrade);
-                    startService(serviceIntent);
-                } else
-                    Permissions.showStoragePermissionDialog(this, false);
-                break;
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
     }
 
     @Override
