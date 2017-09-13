@@ -652,9 +652,10 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                 fm.beginTransaction().remove(mCurrentFragment).commit();
             else {
                 if (mCurrentFragment instanceof BaseBrowserFragment
-                        && !((BaseBrowserFragment) mCurrentFragment).isRootDirectory())
+                        && !((BaseBrowserFragment) mCurrentFragment).isRootDirectory()) {
                     getSupportFragmentManager().popBackStackImmediate(getTag(id), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                mCurrentFragment = getCurrentFragment();
+                    mCurrentFragment = getCurrentFragment();
+                }
                 fm.beginTransaction().hide(mCurrentFragment).commit();
             }
         FragmentTransaction ft = fm.beginTransaction();
