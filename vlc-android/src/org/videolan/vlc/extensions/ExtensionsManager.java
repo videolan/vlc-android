@@ -182,7 +182,7 @@ public class ExtensionsManager {
                         })
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int _) {
+                    public void onClick(DialogInterface dialogInterface, int which) {
                         PreferenceManager.getDefaultSharedPreferences(activity.getApplication()).edit().putBoolean(key, true).apply();
                         for (int i=0; i<extraTitles.size(); i++)
                             PreferenceManager.getDefaultSharedPreferences(activity.getApplication()).edit().putBoolean(extraKeys.get(i), extraCheckedStates[i]).apply();
