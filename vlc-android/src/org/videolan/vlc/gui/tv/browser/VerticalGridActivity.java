@@ -89,7 +89,7 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
     }
 
     @Override
-    protected void onNetworkUpdated() {
+    public void onNetworkConnectionChanged(boolean connected) {
         if (mFragment instanceof NetworkBrowserFragment)
             mFragment.updateList();
     }

@@ -194,7 +194,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             final ArrayList<MediaLibraryItem> mediaList = (ArrayList<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST+mMrl);
             if (!Util.isListEmpty(mediaList))
                 mAdapter.update(mediaList);
-        } else if (!(this instanceof NetworkBrowserFragment))
+        } else
             refresh();
     }
 

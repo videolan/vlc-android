@@ -28,6 +28,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.VLCApplication;
@@ -176,7 +177,7 @@ public class Util {
      * @param intent service intent to start
      */
     public static void startService(Context ctx, Intent intent) {
-        if (VLCApplication.isForeground())
+        if (AndroidUtil.isOOrLater && VLCApplication.isForeground())
             ctx.startService(intent);
         else
             ctx.startForegroundService(intent);

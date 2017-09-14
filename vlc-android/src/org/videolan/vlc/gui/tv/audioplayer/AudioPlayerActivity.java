@@ -126,7 +126,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     }
 
     @Override
-    protected void onNetworkUpdated() {
+    public void onNetworkConnectionChanged(boolean connected) {
         update();
     }
 

@@ -2,7 +2,7 @@
  * *************************************************************************
  *  NetworkBrowserFragment.java
  * **************************************************************************
- *  Copyright © 2015 VLC authors and VideoLAN
+ *  Copyright © 2015-2017 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -27,8 +27,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,18 +38,18 @@ import android.view.View;
 
 import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.NetworkMonitor;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.util.AndroidDevices;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NetworkBrowserFragment extends BaseBrowserFragment {
+public class NetworkBrowserFragment extends BaseBrowserFragment implements NetworkMonitor.NetworkObserver {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -74,12 +72,16 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
 
     public void onStart() {
         super.onStart();
-        //Handle network connection state
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        mSkipRefresh = !mAdapter.isEmpty();
-        getActivity().registerReceiver(networkReceiver, filter);
         if (!mRoot)
             LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
+    }
+
+    @Override
+    public void refresh() {
+        if (NetworkMonitor.isConnected())
+            super.refresh();
+        else
+            mAdapter.clear();
     }
 
     @Override
@@ -97,6 +99,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        if (hidden)
+            NetworkMonitor.unsubscribe(this);
+        else
+            NetworkMonitor.subscribe(this);
         if (!mRoot || mFabPlay == null)
             return;
         if (hidden) {
@@ -117,7 +123,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     @Override
     public void onStop() {
         super.onStop();
-        getActivity().unregisterReceiver(networkReceiver);
         if (!mRoot)
             LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
     }
@@ -172,7 +177,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     }
 
     private boolean allowLAN() {
-        return AndroidDevices.hasLANConnection() || AndroidDevices.isVPNActive();
+        return NetworkMonitor.isLan() || NetworkMonitor.isVPN();
     }
 
     @Override
@@ -180,8 +185,8 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         return getString(R.string.network_browsing);
     }
 
-    private void updateFavorites(){
-        if (!AndroidDevices.hasConnection()) {
+    private void updateFavorites() {
+        if (!NetworkMonitor.isConnected()) {
             if (mFavorites != 0) {
                 mAdapter.clear();
                 mFavorites = 0;
@@ -248,7 +253,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
      * Update views visibility and emptiness info
      */
     protected void updateEmptyView() {
-        if (AndroidDevices.hasConnection()) {
+        if (NetworkMonitor.isConnected()) {
             if (mAdapter.isEmpty()) {
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mEmptyView.setText(R.string.loading);
@@ -294,32 +299,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         return !mRoot;
     }
 
-    private boolean mSkipRefresh = false;
-    private final BroadcastReceiver networkReceiver = new BroadcastReceiver() {
-        boolean connected = true;
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (mReadyToDisplay && ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
-                final NetworkInfo networkInfo = ((ConnectivityManager) VLCApplication.getAppContext().getSystemService(
-                        Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-                if (networkInfo == null || networkInfo.getState() == NetworkInfo.State.CONNECTED) {
-                    if (networkInfo == null){
-                        if (connected)
-                            connected = false;
-                        else
-                            return; //block consecutive calls when disconnected
-                    } else
-                        connected = true;
-                    if (mSkipRefresh)
-                        mSkipRefresh = false;
-                    else
-                        refresh();
-                }
-            }
-        }
-    };
-
     private BroadcastReceiver mLocalReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -329,4 +308,12 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
                 goBack = true;
         }
     };
+
+    @Override
+    public void onNetworkConnectionChanged(boolean connected) {
+        final boolean isEmpty = mAdapter.isEmpty();
+        refresh();
+        if (!connected && isEmpty) //update() will trigger updateEmptyView
+            updateEmptyView();
+    }
 }

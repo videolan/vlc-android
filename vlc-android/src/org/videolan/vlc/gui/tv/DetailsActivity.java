@@ -34,7 +34,4 @@ public class DetailsActivity extends BaseTvActivity {
 
     @Override
     protected void refresh() {}
-
-    @Override
-    protected void onNetworkUpdated() {}
 }

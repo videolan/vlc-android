@@ -280,22 +280,23 @@ public class VLCApplication extends Application {
     }
 
     /**
-     * Check if Oreo will allow background service
-     * @return false if service needs to immediatly declare itself foreground.
+     * Check if application is currently displayed
+     * @return true if an activity is displayed, false if app is in background.
      */
     public static boolean isForeground() {
-        return sActivityCbListener == null || sActivitiesCount > 0;
+        return sActivitiesCount > 0;
     }
 
     private static int sActivitiesCount = 0;
-    private static ActivityLifecycleCallbacks sActivityCbListener = AndroidUtil.isOOrLater ? new ActivityLifecycleCallbacks() {
+    private static ActivityLifecycleCallbacks sActivityCbListener = new ActivityLifecycleCallbacks() {
         @Override
-        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-            ++sActivitiesCount;
-        }
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {}
 
         @Override
-        public void onActivityStarted(Activity activity) {}
+        public void onActivityStarted(Activity activity) {
+            if (++sActivitiesCount == 1)
+                NetworkMonitor.register(instance);
+        }
 
         @Override
         public void onActivityResumed(Activity activity) {}
@@ -304,14 +305,15 @@ public class VLCApplication extends Application {
         public void onActivityPaused(Activity activity) {}
 
         @Override
-        public void onActivityStopped(Activity activity) {}
+        public void onActivityStopped(Activity activity) {
+            if (--sActivitiesCount == 0)
+                NetworkMonitor.unregister(instance);
+        }
 
         @Override
         public void onActivitySaveInstanceState(Activity activity, Bundle outState) {}
 
         @Override
-        public void onActivityDestroyed(Activity activity) {
-            --sActivitiesCount;
-        }
-    } : null;
+        public void onActivityDestroyed(Activity activity) {}
+    };
 }

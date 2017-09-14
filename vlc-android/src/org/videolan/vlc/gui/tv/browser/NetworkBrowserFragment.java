@@ -72,7 +72,6 @@ public class NetworkBrowserFragment extends MediaSortedFragment {
     protected void addMedia(MediaWrapper mw){
         if (mUri == null)
             mw.setDescription(mw.getUri().getScheme());
-        int type = mw.getType();
         String letter = mw.getTitle().substring(0, 1).toUpperCase();
         if (mMediaItemMap.containsKey(letter)) {
             mMediaItemMap.get(letter).mediaList.add(mw);

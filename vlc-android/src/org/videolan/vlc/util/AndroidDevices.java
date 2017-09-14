@@ -24,10 +24,6 @@ import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
@@ -46,11 +42,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -202,67 +195,6 @@ public class AndroidDevices {
             }
         }
         return 0;
-    }
-
-    public static boolean isVPNActive() {
-        if (AndroidUtil.isLolliPopOrLater) {
-            final ConnectivityManager cm = (ConnectivityManager)VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            for (Network network : cm.getAllNetworks()) {
-                if (cm.getNetworkCapabilities(network).hasTransport(NetworkCapabilities.TRANSPORT_VPN))
-                    return true;
-            }
-            return false;
-        } else {
-            try {
-                final Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
-                while (networkInterfaces.hasMoreElements()) {
-                    final NetworkInterface networkInterface = networkInterfaces.nextElement();
-                    final String name = networkInterface.getDisplayName();
-                    if (name.startsWith("ppp") || name.startsWith("tun") || name.startsWith("tap"))
-                        return true;
-                }
-            } catch (SocketException ignored) {}
-            return false;
-        }
-    }
-
-    public static boolean hasLANConnection() {
-        boolean networkEnabled = false;
-        final ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
-        if (connectivity != null) {
-            final NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.isConnected() &&
-                    (networkInfo.getType() != ConnectivityManager.TYPE_MOBILE)) {
-                networkEnabled = true;
-            }
-        }
-        return networkEnabled;
-    }
-
-    public static boolean hasConnection() {
-        boolean networkEnabled = false;
-        final ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
-        if (connectivity != null) {
-            final NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.isConnected()) {
-                networkEnabled = true;
-            }
-        }
-        return networkEnabled;
-    }
-
-    public static boolean hasMobileConnection() {
-        boolean networkEnabled = false;
-        final ConnectivityManager connectivity = (ConnectivityManager) (VLCApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE));
-        if (connectivity != null) {
-            final NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.isConnected() &&
-                    (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE)) {
-                networkEnabled = true;
-            }
-        }
-        return networkEnabled;
     }
 
     public static void setRemoteControlReceiverEnabled(boolean enabled) {

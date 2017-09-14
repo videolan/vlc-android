@@ -18,6 +18,7 @@ import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.vlc.gui.helpers.NotificationHelper;
@@ -123,7 +124,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             // Set 1s delay before displaying scan icon
             // Except for Android 8+ which expects startForeground immediatly
             if (mLastNotificationTime <= 0L)
-                mLastNotificationTime = VLCApplication.isForeground() ? System.currentTimeMillis() : 0L;
+                mLastNotificationTime = AndroidUtil.isOOrLater && VLCApplication.isForeground() ? System.currentTimeMillis() : 0L;
         }
         switch (intent.getAction()) {
             case ACTION_INIT:

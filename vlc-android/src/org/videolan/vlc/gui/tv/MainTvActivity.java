@@ -60,6 +60,7 @@ import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.NetworkMonitor;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RecommendationsService;
@@ -508,7 +509,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         for (MediaWrapper directory : directories)
             mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_DIRECTORIES, directory.getTitle(), R.drawable.ic_menu_folder_big, directory.getUri()));
 
-        if (AndroidDevices.hasLANConnection()) {
+        if (NetworkMonitor.isLan()) {
             final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
             mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_NETWORK, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
             mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_STREAM, getString(R.string.open_mrl), R.drawable.ic_menu_stream_big));
@@ -528,7 +529,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     }
 
     @Override
-    protected void onNetworkUpdated() {
+    public void onNetworkConnectionChanged(boolean connected) {
         updateBrowsers();
     }
 
@@ -537,8 +538,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
     @Override
     public
-    void onMediaEvent(Media.Event event) {
-    }
+    void onMediaEvent(Media.Event event) {}
 
     @Override
     public

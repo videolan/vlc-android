@@ -29,8 +29,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -40,6 +38,7 @@ import android.view.KeyEvent;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.MediaParsingService;
+import org.videolan.vlc.NetworkMonitor;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -47,7 +46,7 @@ import org.videolan.vlc.gui.tv.SearchActivity;
 import org.videolan.vlc.util.Permissions;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public abstract class BaseTvActivity extends PlaybackServiceActivity {
+public abstract class BaseTvActivity extends PlaybackServiceActivity implements NetworkMonitor.NetworkObserver {
 
     private static final String TAG = "VLC/BaseTvActivity";
 
@@ -71,7 +70,6 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
         super.onStart();
         mIsVisible = true;
         //Handle network connection state
-        final IntentFilter networkFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
 
         final IntentFilter storageFilter = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
         storageFilter.addAction(Intent.ACTION_MEDIA_REMOVED);
@@ -85,7 +83,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
         mRegistering = true;
         LocalBroadcastManager.getInstance(this).registerReceiver(mParsingServiceReceiver, parsingServiceFilter);
         registerReceiver(mExternalDevicesReceiver, storageFilter);
-        registerReceiver(mExternalDevicesReceiver, networkFilter);
+        NetworkMonitor.subscribe(this);
     }
 
     @Override
@@ -94,6 +92,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
         super.onStop();
         unregisterReceiver(mExternalDevicesReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mParsingServiceReceiver);
+        NetworkMonitor.unsubscribe(this);
     }
 
     @Override
@@ -106,7 +105,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
     }
 
     protected abstract void refresh();
-    protected abstract void onNetworkUpdated();
+    public void onNetworkConnectionChanged(boolean connected) {}
 
     protected final BroadcastReceiver mParsingServiceReceiver = new BroadcastReceiver() {
 
@@ -145,18 +144,13 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
                 mRegistering = false;
                 return;
             }
-            String action = intent.getAction();
-            if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
-                final NetworkInfo networkInfo = ((ConnectivityManager) getApplicationContext().getSystemService(
-                        Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-                if (networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED)
-                    onNetworkUpdated();
-            } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
+            final String action = intent.getAction();
+            if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
                 String path = intent.getData().getPath();
                 String uuid = intent.getData().getLastPathSegment();
                 if (TextUtils.isEmpty(uuid))
                     return;
-                boolean isIgnored = mSettings.getBoolean("ignore_"+ uuid, false);
+                final boolean isIgnored = mSettings.getBoolean("ignore_"+ uuid, false);
                 if (!isIgnored && mMediaLibrary.addDevice(uuid, path, true, true)) {
                     UiTools.newStorageDetected(BaseTvActivity.this, path);
                 } else
