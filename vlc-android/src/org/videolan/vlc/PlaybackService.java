@@ -587,6 +587,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         public void onEvent(MediaPlayer.Event event) {
             switch (event.type) {
                 case MediaPlayer.Event.Playing:
+                    mMedialibrary.pauseBackgroundOperations();
                     mStopped = false;
                     loadMediaMeta();
                     if (mSavedTime > 0L) {
@@ -614,6 +615,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         mMedialibrary.addToHistory(getCurrentMediaLocation(), getCurrentMediaWrapper().getTitle());
                     break;
                 case MediaPlayer.Event.Paused:
+                    mMedialibrary.resumeBackgroundOperations();
                     mStopped = false;
                     Log.i(TAG, "MediaPlayer.Event.Paused");
                     executeUpdate();
@@ -625,6 +627,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         mWakeLock.release();
                     break;
                 case MediaPlayer.Event.Stopped:
+                    mMedialibrary.resumeBackgroundOperations();
                     Log.i(TAG, "MediaPlayer.Event.Stopped");
                     onPlaybackStopped();
                     break;

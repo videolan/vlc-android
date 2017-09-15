@@ -657,7 +657,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     protected void onStart() {
         super.onStart();
-        mMedialibrary.pauseBackgroundOperations();
         mHelper.onStart();
         if (mSettings.getBoolean("save_brightness", false)) {
             float brightness = mSettings.getFloat("brightness_value", -1f);
@@ -680,7 +679,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     protected void onStop() {
         super.onStop();
-        mMedialibrary.resumeBackgroundOperations();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mServiceReceiver);
 
         if (mBtReceiver != null)
