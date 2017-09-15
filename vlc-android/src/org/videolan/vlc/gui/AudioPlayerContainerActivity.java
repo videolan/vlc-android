@@ -28,7 +28,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -40,10 +39,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +50,7 @@ import android.widget.TextView;
 
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaParsingService;
+import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -133,13 +131,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     protected void onStart() {
         super.onStart();
         mHelper.onStart();
-
-        //Handle external storage state
-        IntentFilter storageFilter = new IntentFilter();
-        storageFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
-        storageFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
-        storageFilter.addDataScheme("file");
-        registerReceiver(storageReceiver, storageFilter);
+        ExternalMonitor.subscribeStorageCb(this);
 
         /* Prepare the progressBar */
         IntentFilter playerFilter = new IntentFilter();
@@ -170,7 +162,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     @Override
     protected void onStop() {
         super.onStop();
-        unregisterReceiver(storageReceiver);
+        ExternalMonitor.unsubscribeStorageCb(this);
         unregisterReceiver(messageReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
         mHelper.onStop();
@@ -245,7 +237,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
                     removeTipViewIfDisplayed();
                 }
             });
-            TextView okGotIt = (TextView) v.findViewById(R.id.okgotit_button);
+            TextView okGotIt = v.findViewById(R.id.okgotit_button);
             okGotIt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -389,22 +381,9 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         }
     };
 
-    private final BroadcastReceiver storageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED))
-                mActivityHandler.obtainMessage(ACTION_MEDIA_MOUNTED, intent.getData()).sendToTarget();
-            else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_UNMOUNTED))
-                mActivityHandler.sendMessageDelayed(mActivityHandler.obtainMessage(ACTION_MEDIA_UNMOUNTED, intent.getData()), 100);
-        }
-    };
-
     Handler mActivityHandler = new StorageHandler(this);
     AudioPlayerBottomSheetCallback mAudioPlayerBottomSheetCallback = new AudioPlayerBottomSheetCallback();
 
-    private static final int ACTION_MEDIA_MOUNTED = 1337;
-    private static final int ACTION_MEDIA_UNMOUNTED = 1338;
     private static final int ACTION_DISPLAY_PROGRESSBAR = 1339;
 
     public boolean isAudioPlayerReady() {
@@ -452,26 +431,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
             AudioPlayerContainerActivity owner = getOwner();
             if (owner == null)
                 return;
-            String uuid;
             switch (msg.what){
-                case ACTION_MEDIA_MOUNTED:
-                    uuid = ((Uri) msg.obj).getLastPathSegment();
-                    String path = ((Uri) msg.obj).getPath();
-                    removeMessages(ACTION_MEDIA_UNMOUNTED);
-                    if (!TextUtils.isEmpty(uuid)
-                            && !PreferenceManager.getDefaultSharedPreferences(owner).getBoolean("ignore_"+ uuid, false)) {
-                        if (VLCApplication.getMLInstance().addDevice(uuid, path, true, true)) {
-                            UiTools.newStorageDetected(owner, path);
-                        } else
-                            owner.startService(new Intent(MediaParsingService.ACTION_RELOAD, null, owner, MediaParsingService.class)
-                                    .putExtra(MediaParsingService.EXTRA_PATH, path));
-                    }
-                    break;
-                case ACTION_MEDIA_UNMOUNTED:
-                    uuid = ((Uri) msg.obj).getLastPathSegment();
-                    VLCApplication.getMLInstance().removeDevice(uuid);
-                    LocalBroadcastManager.getInstance(owner).sendBroadcast(new Intent(MediaParsingService.ACTION_SERVICE_ENDED));
-                    break;
                 case ACTION_DISPLAY_PROGRESSBAR:
                     removeMessages(ACTION_DISPLAY_PROGRESSBAR);
                     owner.showProgressBar();

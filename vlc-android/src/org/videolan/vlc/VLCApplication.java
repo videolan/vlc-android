@@ -116,7 +116,7 @@ public class VLCApplication extends Application {
         if (sActivityCbListener != null)
             registerActivityLifecycleCallbacks(sActivityCbListener);
         else
-            NetworkMonitor.register(instance);
+            ExternalMonitor.register(instance);
     }
 
     @Override
@@ -297,7 +297,7 @@ public class VLCApplication extends Application {
         @Override
         public void onActivityStarted(Activity activity) {
             if (++sActivitiesCount == 1)
-                NetworkMonitor.register(instance);
+                ExternalMonitor.register(instance);
         }
 
         @Override
@@ -309,7 +309,7 @@ public class VLCApplication extends Application {
         @Override
         public void onActivityStopped(Activity activity) {
             if (--sActivitiesCount == 0)
-                NetworkMonitor.unregister(instance);
+                ExternalMonitor.unregister(instance);
         }
 
         @Override

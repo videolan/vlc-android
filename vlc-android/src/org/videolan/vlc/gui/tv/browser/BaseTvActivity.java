@@ -33,12 +33,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.MediaParsingService;
-import org.videolan.vlc.NetworkMonitor;
+import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -46,7 +45,7 @@ import org.videolan.vlc.gui.tv.SearchActivity;
 import org.videolan.vlc.util.Permissions;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public abstract class BaseTvActivity extends PlaybackServiceActivity implements NetworkMonitor.NetworkObserver {
+public abstract class BaseTvActivity extends PlaybackServiceActivity implements ExternalMonitor.NetworkObserver {
 
     private static final String TAG = "VLC/BaseTvActivity";
 
@@ -69,12 +68,8 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity implements 
     protected void onStart() {
         super.onStart();
         mIsVisible = true;
-        //Handle network connection state
+        ExternalMonitor.subscribeStorageCb(this);
 
-        final IntentFilter storageFilter = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
-        storageFilter.addAction(Intent.ACTION_MEDIA_REMOVED);
-        storageFilter.addAction(Intent.ACTION_MEDIA_EJECT);
-        storageFilter.addDataScheme("file");
         final IntentFilter parsingServiceFilter = new IntentFilter(MediaParsingService.ACTION_SERVICE_ENDED);
         parsingServiceFilter.addAction(MediaParsingService.ACTION_SERVICE_STARTED);
         parsingServiceFilter.addAction(MediaParsingService.ACTION_PROGRESS);
@@ -82,17 +77,16 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity implements 
 
         mRegistering = true;
         LocalBroadcastManager.getInstance(this).registerReceiver(mParsingServiceReceiver, parsingServiceFilter);
-        registerReceiver(mExternalDevicesReceiver, storageFilter);
-        NetworkMonitor.subscribe(this);
+        ExternalMonitor.subscribeNetworkCb(this);
     }
 
     @Override
     protected void onStop() {
         mIsVisible = false;
+        ExternalMonitor.unsubscribeStorageCb(this);
         super.onStop();
-        unregisterReceiver(mExternalDevicesReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mParsingServiceReceiver);
-        NetworkMonitor.unsubscribe(this);
+        ExternalMonitor.unsubscribeNetworkCb(this);
     }
 
     @Override
@@ -136,30 +130,4 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity implements 
     protected void onParsingServiceStarted() {}
     protected void onParsingServiceProgress() {}
     protected void onParsingServiceFinished() {}
-
-    protected final BroadcastReceiver mExternalDevicesReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (mRegistering) {
-                mRegistering = false;
-                return;
-            }
-            final String action = intent.getAction();
-            if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_MOUNTED)) {
-                String path = intent.getData().getPath();
-                String uuid = intent.getData().getLastPathSegment();
-                if (TextUtils.isEmpty(uuid))
-                    return;
-                final boolean isIgnored = mSettings.getBoolean("ignore_"+ uuid, false);
-                if (!isIgnored && mMediaLibrary.addDevice(uuid, path, true, true)) {
-                    UiTools.newStorageDetected(BaseTvActivity.this, path);
-                } else
-                    startService(new Intent(MediaParsingService.ACTION_RELOAD, null, BaseTvActivity.this, MediaParsingService.class)
-                            .putExtra(MediaParsingService.EXTRA_PATH, path));
-            } else if (action.equalsIgnoreCase(Intent.ACTION_MEDIA_EJECT) || action.equalsIgnoreCase(Intent.ACTION_MEDIA_REMOVED)) {
-                mMediaLibrary.removeDevice(intent.getData().getLastPathSegment());
-                onParsingServiceFinished();
-            }
-        }
-    };
 }

@@ -38,7 +38,7 @@ import android.view.View;
 
 import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.NetworkMonitor;
+import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NetworkBrowserFragment extends BaseBrowserFragment implements NetworkMonitor.NetworkObserver {
+public class NetworkBrowserFragment extends BaseBrowserFragment implements ExternalMonitor.NetworkObserver {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -78,7 +78,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Netwo
 
     @Override
     public void refresh() {
-        if (NetworkMonitor.isConnected())
+        if (ExternalMonitor.isConnected())
             super.refresh();
         else
             mAdapter.clear();
@@ -100,9 +100,9 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Netwo
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden)
-            NetworkMonitor.unsubscribe(this);
+            ExternalMonitor.unsubscribeNetworkCb(this);
         else
-            NetworkMonitor.subscribe(this);
+            ExternalMonitor.subscribeNetworkCb(this);
         if (!mRoot || mFabPlay == null)
             return;
         if (hidden) {
@@ -177,7 +177,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Netwo
     }
 
     private boolean allowLAN() {
-        return NetworkMonitor.isLan() || NetworkMonitor.isVPN();
+        return ExternalMonitor.isLan() || ExternalMonitor.isVPN();
     }
 
     @Override
@@ -186,7 +186,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Netwo
     }
 
     private void updateFavorites() {
-        if (!NetworkMonitor.isConnected()) {
+        if (!ExternalMonitor.isConnected()) {
             if (mFavorites != 0) {
                 mAdapter.clear();
                 mFavorites = 0;
@@ -253,7 +253,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Netwo
      * Update views visibility and emptiness info
      */
     protected void updateEmptyView() {
-        if (NetworkMonitor.isConnected()) {
+        if (ExternalMonitor.isConnected()) {
             if (mAdapter.isEmpty()) {
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mEmptyView.setText(R.string.loading);
