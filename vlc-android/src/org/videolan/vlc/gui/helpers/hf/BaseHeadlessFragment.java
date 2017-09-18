@@ -52,6 +52,7 @@ public class BaseHeadlessFragment extends Fragment {
     }
 
     protected void exit() {
-        mActivity.getSupportFragmentManager().beginTransaction().remove(this).commit();
+        if (mActivity != null && !mActivity.isFinishing())
+            mActivity.getSupportFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
     }
 }
