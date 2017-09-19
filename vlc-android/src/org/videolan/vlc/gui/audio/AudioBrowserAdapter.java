@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui.audio;
 
-import android.app.Activity;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.BitmapDrawable;
@@ -41,6 +40,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.SortableAdapter;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
@@ -66,15 +66,13 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
 
     private ArrayList<MediaLibraryItem> mOriginalDataSet;
     private ItemFilter mFilter = new ItemFilter();
-    private Activity mContext;
     private IEventsHandler mIEventsHandler;
     private int mSelectionCount = 0;
     private int mType;
     private int mParentType = 0;
     private BitmapDrawable mDefaultCover;
 
-    public AudioBrowserAdapter(Activity context, int type, IEventsHandler eventsHandler, boolean sections) {
-        mContext = context;
+    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, boolean sections) {
         mIEventsHandler = eventsHandler;
         mMakeSections = sections;
         mType = type;
@@ -245,7 +243,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
                     if (currentArtist == null || !TextUtils.equals(currentArtist, artist)) {
                         currentArtist = artist;
                         DummyItem sep = new DummyItem(TextUtils.isEmpty(currentArtist)
-                                ? mContext.getResources().getString(R.string.unknown_artist)
+                                ? VLCApplication.getAppResources().getString(R.string.unknown_artist)
                                 : currentArtist);
                         datalist.add(sep);
                     }
@@ -263,7 +261,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
                     if (currentAlbum == null || !TextUtils.equals(currentAlbum, album)) {
                         currentAlbum = album;
                         DummyItem sep = new DummyItem(TextUtils.isEmpty(currentAlbum)
-                                ? mContext.getResources().getString(R.string.unknown_album)
+                                ? VLCApplication.getAppResources().getString(R.string.unknown_album)
                                 : currentAlbum);
                         datalist.add(sep);
                     }
@@ -308,8 +306,8 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
                     if (currentNumber != number) {
                         currentNumber = number;
                         DummyItem sep = new DummyItem(currentNumber == 0
-                                ? mContext.getResources().getString(R.string.unknown_number)
-                                : mContext.getResources().getQuantityString(R.plurals.songs_quantity, currentNumber, currentNumber));
+                                ? VLCApplication.getAppResources().getString(R.string.unknown_number)
+                                : VLCApplication.getAppResources().getQuantityString(R.plurals.songs_quantity, currentNumber, currentNumber));
                         datalist.add(sep);
                     }
                     datalist.add(item);
