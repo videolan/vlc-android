@@ -7,6 +7,7 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.WorkerThread;
+import android.text.TextUtils;
 
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
@@ -21,6 +22,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import static org.videolan.medialibrary.Medialibrary.THUMBS_FOLDER_NAME;
+import static org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap;
 
 public class ThumbnailsProvider {
 
@@ -30,16 +32,33 @@ public class ThumbnailsProvider {
     private static final int MAX_IMAGES = 4;
 
     @WorkerThread
-    public static Bitmap getThumbnail(final String filePath) {
-        final Bitmap bitmap= ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND);
+    public static Bitmap getMediaThumbnail(final MediaWrapper item) {
+        if (item.getType() == MediaWrapper.TYPE_GROUP)
+            return ThumbnailsProvider.getComposedImage((MediaGroup) item);
+        if (item.getType() == MediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.getArtworkMrl()))
+            return getVideoThumbnail(item.getUri().getPath());
+        else
+            return AudioUtil.readCoverBitmap(Uri.decode(item.getArtworkMrl()), sImageWidth);
+    }
+
+    @WorkerThread
+    private static Bitmap getVideoThumbnail(final String filePath) {
+        final File appDir = VLCApplication.getAppContext().getExternalFilesDir(null);
+        final boolean hasCache = appDir != null && appDir.exists();
+        final String thumbPath = hasCache ? appDir.getAbsolutePath()+ THUMBS_FOLDER_NAME
+                +"/"+ FileUtils.getFileNameFromPath(filePath)+".jpg" : null;
+        final Bitmap cacheBM = hasCache ? BitmapCache.getInstance().getBitmapFromMemCache(thumbPath) : null;
+        if (cacheBM != null)
+            return cacheBM;
+        if (hasCache && new File(thumbPath).exists())
+            return readCoverBitmap(thumbPath, sImageWidth);
+        final Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND);
         if (bitmap != null) {
-            final File appDir = VLCApplication.getAppContext().getExternalFilesDir(null);
-            if (appDir != null && appDir.exists())
+            if (hasCache)
                 VLCApplication.runBackground(new Runnable() {
                     @Override
                     public void run() {
-                        saveOnDisk(bitmap, appDir.getAbsolutePath()+ THUMBS_FOLDER_NAME
-                                +"/"+ FileUtils.getFileNameFromPath(filePath)+".jpg");
+                        saveOnDisk(bitmap, thumbPath);
                     }
                 });
         }
@@ -48,8 +67,8 @@ public class ThumbnailsProvider {
 
     @WorkerThread
     public static Bitmap getComposedImage(MediaGroup group) {
-        BitmapCache bmc = BitmapCache.getInstance();
-        String key = "group:"+group.getTitle();
+        final BitmapCache bmc = BitmapCache.getInstance();
+        final String key = "group:"+group.getTitle();
         Bitmap composedImage = bmc.getBitmapFromMemCache(key);
         if (composedImage == null) {
             composedImage = composeImage(group);
@@ -64,10 +83,10 @@ public class ThumbnailsProvider {
      * @return a Bitmap object
      */
     private static Bitmap composeImage(MediaGroup group) {
-        Bitmap[] sourcesImages = new Bitmap[MAX_IMAGES];
+        final Bitmap[] sourcesImages = new Bitmap[Math.min(MAX_IMAGES, group.size())];
         int count = 0, minWidth = Integer.MAX_VALUE, minHeight = Integer.MAX_VALUE;
         for (MediaWrapper media : group.getAll()) {
-            Bitmap bm = AudioUtil.readCoverBitmap(Uri.decode(media.getArtworkMrl()), sImageWidth);
+            final Bitmap bm = readCoverBitmap(Uri.decode(media.getArtworkMrl()), sImageWidth);
             if (bm != null) {
                 int width = bm.getWidth();
                 int height = bm.getHeight();
@@ -128,9 +147,9 @@ public class ThumbnailsProvider {
     }
 
     private static void saveOnDisk(Bitmap bitmap, String destPath) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        final ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
+        final byte[] byteArray = stream.toByteArray();
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(destPath);
