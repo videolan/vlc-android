@@ -135,12 +135,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (mMode == MODE_VIDEO) {
-            mPlaybackController = (IPlaybackSettingsController) activity;
-        }
-        mActivity = activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (mMode == MODE_VIDEO)
+            mPlaybackController = (IPlaybackSettingsController) context;
+        mActivity = (Activity) context;
     }
 
     @Override
@@ -167,12 +166,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mToast.setGravity(Gravity.TOP,0,100);
 
         //Get default color
-        int[] attrs = new int[] { android.R.attr.textColorSecondary };
-        TypedArray a = getActivity().getTheme().obtainStyledAttributes(R.style.Theme_VLC, attrs);
+        final int[] attrs = new int[] { android.R.attr.textColorSecondary };
+        final TypedArray a = getActivity().getTheme().obtainStyledAttributes(R.style.Theme_VLC, attrs);
         mTextColor = a.getColor(0, Color.LTGRAY);
         a.recycle();
-
-        getDialog().getWindow().setBackgroundDrawableResource(UiTools.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
 
         return mRecyclerView;
     }
@@ -181,21 +178,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getDialog().setOnKeyListener(this);
-    }
-
-    private void setDialogDimensions(int offset) {
-        if (getDialog() == null)
-            return;
-        int dialogWidth = getResources().getDimensionPixelSize(R.dimen.option_width) * SPAN_COUNT + mRecyclerView.getPaddingLeft()+ mRecyclerView.getRight();
-
-        int count = mAdapter.getItemCount()-offset;
-        int rows = offset + count / SPAN_COUNT;
-        if (count % SPAN_COUNT != 0)
-            rows++;
-
-        int dialogHeight = getResources().getDimensionPixelSize(R.dimen.option_height) * rows + mRecyclerView.getPaddingBottom()+ mRecyclerView.getPaddingTop();
-
-        getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
     }
 
     private void showFragment(int id) {
@@ -252,16 +234,14 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     public static void setSleep(Calendar time) {
-        AlarmManager alarmMgr = (AlarmManager) VLCApplication.getAppContext().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(VLCApplication.SLEEP_INTENT);
-        PendingIntent sleepPendingIntent = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        final AlarmManager alarmMgr = (AlarmManager) VLCApplication.getAppContext().getSystemService(Context.ALARM_SERVICE);
+        final Intent intent = new Intent(VLCApplication.SLEEP_INTENT);
+        final PendingIntent sleepPendingIntent = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if (time != null) {
+        if (time != null)
             alarmMgr.set(AlarmManager.RTC_WAKEUP, time.getTimeInMillis(), sleepPendingIntent);
-        }
-        else {
+        else
             alarmMgr.cancel(sleepPendingIntent);
-        }
         VLCApplication.sPlayerSleepTime = time;
     }
 
@@ -296,7 +276,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     private void initSpuDelay() {
-        long spudelay = mService.getSpuDelay() / 1000L;
+        final long spudelay = mService.getSpuDelay() / 1000L;
         if (spudelay == 0L) {
             mSpuDelay.setText(null);
             mSpuDelay.setCompoundDrawablesWithIntrinsicBounds(0,
@@ -311,7 +291,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     private void initAudioDelay() {
-        long audiodelay = mService.getAudioDelay() / 1000L;
+        final long audiodelay = mService.getAudioDelay() / 1000L;
         if (audiodelay == 0L) {
             mAudioDelay.setText(null);
             mAudioDelay.setCompoundDrawablesWithIntrinsicBounds(0,
@@ -337,7 +317,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 break;
             case PlaybackService.REPEAT_ONE:
                 mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_one, 0, 0);
-                    break;
+                break;
         }
     }
 
@@ -447,7 +427,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 }
                 break;
             case ID_PLAYBACK_SPEED:
-                    showFragment(ID_PLAYBACK_SPEED);
+                showFragment(ID_PLAYBACK_SPEED);
                 break;
             case ID_CHAPTER_TITLE:
                 showFragment(ID_CHAPTER_TITLE);
@@ -523,7 +503,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public void onConnected(PlaybackService service) {
         mAdapter.clear();
         mService = service;
-        int large_items = 0;
         boolean tvUi = VLCApplication.showTvUi();
 
         mAdapter.addOption(new Option(ID_SLEEP, R.attr.ic_sleep_normal_style, getString(R.string.sleep_title)));
@@ -544,14 +523,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
             final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
             final int chaptersCount = chapters != null ? chapters.length : 0;
-            if (chaptersCount > 1) {
+            if (chaptersCount > 1)
                 mAdapter.addOption(new Option(ID_CHAPTER_TITLE, R.attr.ic_chapter_normal_style, getString(R.string.go_to_chapter)));
-                large_items++;
-            }
         } else {
             mAdapter.addOption(new Option(ID_SAVE_PLAYLIST, R.attr.ic_save, getString(R.string.playlist_save)));
         }
-        setDialogDimensions(large_items);
     }
 
     @Override
@@ -600,10 +576,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private class AdvOptionsAdapter extends RecyclerView.Adapter<AdvOptionsAdapter.ViewHolder> {
 
-        private ArrayList<Option> mList = new ArrayList<>();
+        private final ArrayList<Option> mList = new ArrayList<>();
         private int mSelection = 0;
 
-        public AdvOptionsAdapter() {
+        AdvOptionsAdapter() {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AdvOptionsDialog.this.getContext());
             if (!(prefs.getBoolean("enable_volume_gesture",false) || prefs.getBoolean("enable_volume_gesture",false)))
                 mSelection = 0;
@@ -620,12 +596,12 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            Option option = mList.get(position);
-            TextView tv = (TextView) holder.itemView;
+            final Option option = mList.get(position);
+            final TextView tv = (TextView) holder.itemView;
             if (mSelection == position)
                 tv.requestFocus();
             tv.setId(option.id);
-            int icon = UiTools.getResourceFromAttribute(mActivity, option.icon);
+            final int icon = UiTools.getResourceFromAttribute(mActivity, option.icon);
             if (option.id == ID_CHAPTER_TITLE)
                 tv.setCompoundDrawablesWithIntrinsicBounds(icon, 0, 0, 0);
             else
@@ -647,12 +623,12 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             return mList.get(position).id;
         }
 
-        public void addOption(Option opt) {
+        void addOption(Option opt) {
             mList.add(opt);
             notifyItemInserted(mList.size()-1);
         }
 
-        public String getSelectedAdvOptionHelp () {
+        String getSelectedAdvOptionHelp () {
             return mList.get(getSelection()).text;
         }
 
@@ -671,7 +647,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             mList.remove(opt);
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+        class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
 
             public ViewHolder(View itemView) {
                 super(itemView);
