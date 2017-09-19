@@ -125,6 +125,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             mMode = getArguments().getInt(MODE_KEY);
         else
             mMode = MODE_VIDEO;
+        setStyle(DialogFragment.STYLE_NO_FRAME, 0);
     }
 
     @Override
