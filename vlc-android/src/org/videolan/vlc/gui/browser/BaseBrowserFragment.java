@@ -444,20 +444,22 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         }
         @Override
         public void handleMessage(Message msg) {
-            BaseBrowserFragment fragment = getOwner();
+            final BaseBrowserFragment fragment = getOwner();
             if (fragment == null)
                 return;
             switch (msg.what){
                 case MSG_SHOW_LOADING:
-                    fragment.mSwipeRefreshLayout.setRefreshing(true);
+                    if (fragment.mSwipeRefreshLayout != null)
+                        fragment.mSwipeRefreshLayout.setRefreshing(true);
                     break;
                 case MSG_HIDE_LOADING:
                     removeMessages(MSG_SHOW_LOADING);
-                    fragment.mSwipeRefreshLayout.setRefreshing(false);
+                    if (fragment.mSwipeRefreshLayout != null)
+                        fragment.mSwipeRefreshLayout.setRefreshing(false);
                     break;
                 case MSG_REFRESH:
-                    if (getOwner() != null && !getOwner().isDetached())
-                        getOwner().refresh();
+                    if (fragment != null && !fragment.isDetached())
+                        fragment.refresh();
             }
         }
     }

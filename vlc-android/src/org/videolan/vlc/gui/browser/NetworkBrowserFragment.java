@@ -255,7 +255,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
     protected void updateEmptyView() {
         if (ExternalMonitor.isConnected()) {
             if (mAdapter.isEmpty()) {
-                if (mSwipeRefreshLayout.isRefreshing()) {
+                if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) {
                     mEmptyView.setText(R.string.loading);
                     mEmptyView.setVisibility(View.VISIBLE);
                     mRecyclerView.setVisibility(View.GONE);
@@ -266,7 +266,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
                         mEmptyView.setText(R.string.network_empty);
                     mEmptyView.setVisibility(View.VISIBLE);
                     mRecyclerView.setVisibility(View.GONE);
-                    mSwipeRefreshLayout.setRefreshing(false);
+                    mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
                 }
             } else if (mEmptyView.getVisibility() == View.VISIBLE) {
                     mEmptyView.setVisibility(View.GONE);
