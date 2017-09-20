@@ -51,8 +51,8 @@ import java.util.List;
 
 public class ExternalMonitor extends BroadcastReceiver {
     public final static String TAG = "VLC/ExternalMonitor";
-    private static volatile boolean connected = false;
-    private static volatile boolean mobile = false;
+    private static volatile boolean connected = true;
+    private static volatile boolean mobile = true;
     private static volatile boolean vpn = false;
     private static final ExternalMonitor instance = new ExternalMonitor();
     private static final List<NetworkObserver> networkObservers = new LinkedList<>();
@@ -70,21 +70,6 @@ public class ExternalMonitor extends BroadcastReceiver {
         filter.addAction(Intent.ACTION_MEDIA_EJECT);
         filter.addDataScheme("file");
         ctx.registerReceiver(instance, filter);
-        instance.init();
-    }
-
-    private void init() {
-        if (cm == null)
-            cm = (ConnectivityManager) VLCApplication.getAppContext().getSystemService(
-                    Context.CONNECTIVITY_SERVICE);
-        if (cm == null)
-            return;
-        final NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if (networkInfo == null)
-            return;
-        connected = networkInfo.isConnected();
-        mobile = networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
-        vpn = updateVPNStatus();
     }
 
     static void unregister(Context ctx) {
