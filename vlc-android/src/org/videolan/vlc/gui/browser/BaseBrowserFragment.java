@@ -189,12 +189,17 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         mRecyclerView.setAdapter(mAdapter);
         registerForContextMenu(mRecyclerView);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        if (savedInstanceState != null) {
-            @SuppressWarnings("unchecked")
-            final ArrayList<MediaLibraryItem> mediaList = (ArrayList<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST+mMrl);
-            if (!Util.isListEmpty(mediaList))
-                mAdapter.update(mediaList);
-        } else
+
+        VLCApplication.storeData(KEY_CONTENT_LIST+mMrl, mFoldersContentLists);
+        @SuppressWarnings("unchecked")
+        final SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>> content = (SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>>) VLCApplication.getData(KEY_CONTENT_LIST + mMrl);
+        if (content != null)
+            mFoldersContentLists = content;
+        @SuppressWarnings("unchecked")
+        final ArrayList<MediaLibraryItem> mediaList = (ArrayList<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST + mMrl);
+        if (!Util.isListEmpty(mediaList))
+            mAdapter.update(mediaList);
+        else
             refresh();
     }
 
@@ -236,7 +241,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         outState.putString(KEY_MRL, mMrl);
         outState.putParcelable(KEY_MEDIA, mCurrentMedia);
         VLCApplication.storeData(KEY_MEDIA_LIST+mMrl, mAdapter.getAll());
-        VLCApplication.storeData(KEY_CONTENT_LIST, mFoldersContentLists);
+        VLCApplication.storeData(KEY_CONTENT_LIST+mMrl, mFoldersContentLists);
         if (mRecyclerView != null)
             outState.putInt(KEY_POSITION, mLayoutManager.findFirstCompletelyVisibleItemPosition());
         super.onSaveInstanceState(outState);
@@ -276,12 +281,14 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
 
     public void browse(MediaWrapper media, int position, boolean save) {
         mBrowserHandler.removeCallbacksAndMessages(null);
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment next = createFragment();
-        Bundle args = new Bundle();
-        ArrayList<MediaLibraryItem> list = mFoldersContentLists.get(media);
+        final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        final Fragment next = createFragment();
+        final Bundle args = new Bundle();
+        VLCApplication.storeData(KEY_MEDIA_LIST+mMrl, mAdapter.getAll());
+        VLCApplication.storeData(KEY_CONTENT_LIST+ mMrl, mFoldersContentLists);
+        final ArrayList<MediaLibraryItem> list = mFoldersContentLists.get(media);
         if (!Util.isListEmpty(list) && !(this instanceof StorageBrowserFragment))
-            VLCApplication.storeData(KEY_MEDIA_LIST+media.getLocation(), list);
+            VLCApplication.storeData(KEY_MEDIA_LIST+ media.getLocation(), list);
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
         if (isRootDirectory())
