@@ -64,12 +64,13 @@ public class ExternalMonitor extends BroadcastReceiver {
     }
 
     static void register(Context ctx) {
-        final IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
-        filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
-        filter.addAction(Intent.ACTION_MEDIA_EJECT);
-        filter.addDataScheme("file");
-        ctx.registerReceiver(instance, filter);
+        final IntentFilter networkFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        final IntentFilter storageFilter = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
+        storageFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+        storageFilter.addAction(Intent.ACTION_MEDIA_EJECT);
+        storageFilter.addDataScheme("file");
+        ctx.registerReceiver(instance, networkFilter);
+        ctx.registerReceiver(instance, storageFilter);
     }
 
     static void unregister(Context ctx) {
