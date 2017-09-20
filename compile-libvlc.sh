@@ -16,7 +16,7 @@ checkfail()
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_HASH=a423fa4e
+MEDIALIBRARY_HASH=e7cd5d7f
 
 RELEASE=0
 ASAN=0
