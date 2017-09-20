@@ -2469,12 +2469,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     @MainThread
     public int expand(boolean updateHistory) {
         final Media media = mMediaPlayer.getMedia();
-        String mrl = updateHistory ? getCurrentMediaLocation() : null;
+        final String mrl = updateHistory ? getCurrentMediaLocation() : null;
         if (media == null)
             return -1;
         final MediaList ml = media.subItems();
         media.release();
-        int ret;
+        int ret = -1;
 
         if (ml.getCount() > 0) {
             mMediaList.remove(mCurrentIndex);
@@ -2486,9 +2486,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             }
             if (updateHistory && ml.getCount() == 1)
                 mMedialibrary.addToHistory(mrl, mMediaList.getMedia(mCurrentIndex).getTitle());
-            ret = 0;
-        } else {
-            ret = -1;
+            ret = mCurrentIndex;
         }
         ml.release();
         return ret;
