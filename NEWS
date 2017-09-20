@@ -1,3 +1,16 @@
+Changes between 2.1.19 and 2.1.20:
+----------------------------------
+
+Application:
+ * Pause media scan during playback
+ * Fix subtitles on Android 7+, including non-latin alphabets
+ * Fix folder expanding in current playlist
+ * Fix archive expanding in current playlist
+ * Fix volume changed blocked by OS sound level warning
+ * Fix advanced options dialog style
+ * Misc. bugfixes
+
+
 Changes between 2.1.18 and 2.1.19:
 ----------------------------------
 
