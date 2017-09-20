@@ -150,10 +150,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         mBrowseFragment.setTitle(getString(R.string.app_name));
         mBrowseFragment.setBadgeDrawable(ContextCompat.getDrawable(this, R.drawable.icon));
 
-        // add a listener for selected items
-        mBrowseFragment.setOnItemViewClickedListener(this);
-        mBrowseFragment.setOnItemViewSelectedListener(this);
-
         //Enable search feature only if we detect Google Play Services.
         if (AndroidDevices.hasPlayServices) {
             mBrowseFragment.setOnSearchClickedListener(this);
@@ -184,7 +180,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                     @Override
                     public void run() {
                         final MediaWrapper[] history = mMediaLibrary.lastMediaPlayed();
-                        mHandler.post(new Runnable() {
+                        VLCApplication.runOnMainThread(new Runnable() {
                             @Override
                             public void run() {
                                 updateHistory(history);
@@ -215,11 +211,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     @Override
     protected void onStop() {
         super.onStop();
-        if (AndroidDevices.isAndroidTv) {
-            Intent recommendationIntent = new Intent(this,
-                    RecommendationsService.class);
-            startService(recommendationIntent);
-        }
+        if (AndroidDevices.isAndroidTv)
+            startService(new Intent(this, RecommendationsService.class));
         TvUtil.releaseBackgroundManager(mBackgroundManager);
     }
 
@@ -228,9 +221,9 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         super.onResume();
         if (mService != null)
             mService.addCallback(this);
-        if (mMediaLibrary.isInitiated()) {
+        if (mMediaLibrary.isInitiated())
             setmedialibraryListeners();
-        } else
+        else
             setupMediaLibraryReceiver();
     }
 
@@ -270,7 +263,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             MediaWrapper media = (MediaWrapper) mSelectedItem;
             if (media.getType() != MediaWrapper.TYPE_DIR)
                 return false;
-            Intent intent = new Intent(this,
+            final Intent intent = new Intent(this,
                     DetailsActivity.class);
             // pass the item information
             intent.putExtra("media", (MediaWrapper) mSelectedItem);
@@ -482,6 +475,10 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
             mBrowseFragment.setAdapter(mRowsAdapter);
             mBrowseFragment.setSelectedPosition(Math.min(mBrowseFragment.getSelectedPosition(), mRowsAdapter.size()-1));
+
+            // add a listener for selected items
+            mBrowseFragment.setOnItemViewClickedListener(MainTvActivity.this);
+            mBrowseFragment.setOnItemViewSelectedListener(MainTvActivity.this);
         }
     }
 
