@@ -23,7 +23,6 @@
 package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -35,6 +34,7 @@ import android.os.Process;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.SimpleArrayMap;
@@ -271,9 +271,11 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     }
 
     public void goBack(){
-        Activity activity = getActivity();
+        final FragmentActivity activity = getActivity();
+        if (activity == null)
+            return;
         if (!mRoot) {
-            if (!getActivity().getSupportFragmentManager().popBackStackImmediate() && activity instanceof MainActivity)
+            if (!activity.getSupportFragmentManager().popBackStackImmediate() && activity instanceof MainActivity)
                 ((MainActivity)activity).showFragment(this instanceof NetworkBrowserFragment ? R.id.nav_network : R.id.nav_directories);
         } else
             activity.finish();
