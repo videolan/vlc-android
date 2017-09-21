@@ -177,7 +177,7 @@ public class Util {
      * @param intent service intent to start
      */
     public static void startService(Context ctx, Intent intent) {
-        if (AndroidUtil.isOOrLater && VLCApplication.isForeground())
+        if (!AndroidUtil.isOOrLater || VLCApplication.isForeground())
             ctx.startService(intent);
         else
             ctx.startForegroundService(intent);
