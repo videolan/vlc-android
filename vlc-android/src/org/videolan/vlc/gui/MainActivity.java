@@ -131,21 +131,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             final FragmentManager fm = getSupportFragmentManager();
             mCurrentFragment = fm.getFragment(savedInstanceState, "current_fragment");
             //Restore fragments stack
-            final List<Fragment> fragments = fm.getFragments();
-            if (fragments != null) {
-                final FragmentTransaction ft =  fm.beginTransaction();
-                for (Fragment fragment : fragments)
-                    if (fragment != null) {
-                        if (fragment instanceof ExtensionBrowser) {
-                            ft.remove(fragment);
-                        } else if ((fragment instanceof MediaBrowserFragment)) {
-                            mFragmentsStack.put(fragment.getTag(), new WeakReference<>(fragment));
-                            if (fragment != mCurrentFragment)
-                                ft.hide(fragment);
-                        }
-                    }
-                ft.commit();
-            }
+            restoreFragmentsStack(savedInstanceState, fm);
             mCurrentFragmentId = savedInstanceState.getInt("current", mSettings.getInt("fragment_id", R.id.nav_video));
         } else
             reloadPreferences();
@@ -198,6 +184,25 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         mScanNeeded = savedInstanceState == null && mSettings.getBoolean("auto_rescan", true);
         mExtensionsManager = ExtensionsManager.getInstance();
         mMediaLibrary = VLCApplication.getMLInstance();
+    }
+
+    private void restoreFragmentsStack(Bundle savedInstanceState, FragmentManager fm) {
+        final List<Fragment> fragments = fm.getFragments();
+        if (fragments != null) {
+            final FragmentTransaction ft =  fm.beginTransaction();
+            final Fragment displayed = fm.getFragment(savedInstanceState, "current_fragment_visible");
+            for (Fragment fragment : fragments)
+                if (fragment != null) {
+                    if (fragment instanceof ExtensionBrowser) {
+                        ft.remove(fragment);
+                    } else if ((fragment instanceof MediaBrowserFragment)) {
+                        mFragmentsStack.put(fragment.getTag(), new WeakReference<>(fragment));
+                        if (fragment != displayed)
+                            ft.hide(fragment);
+                    }
+                }
+            ft.commit();
+        }
     }
 
     private void setupNavigationView() {
@@ -314,8 +319,10 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     protected void onSaveInstanceState(Bundle outState) {
         if (mCurrentFragment instanceof ExtensionBrowser)
             mCurrentFragment = null;
-        else
-            getSupportFragmentManager().putFragment(outState, "current_fragment", getCurrentFragment());
+        else {
+            getSupportFragmentManager().putFragment(outState, "current_fragment", mCurrentFragment);
+            getSupportFragmentManager().putFragment(outState, "current_fragment_visible", getCurrentFragment());
+        }
         super.onSaveInstanceState(outState);
         outState.putInt("current", mCurrentFragmentId);
     }
