@@ -713,7 +713,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         final List<Fragment> fragments = getSupportFragmentManager().getFragments();
         if (fragments != null)
             for (Fragment fragment : fragments)
-                if (!fragment.isHidden() && fragment.getClass().isInstance(mCurrentFragment))
+                if (fragment != null && !fragment.isHidden() && fragment.getClass().isInstance(mCurrentFragment))
                     return fragment;
         return mCurrentFragment;
     }
