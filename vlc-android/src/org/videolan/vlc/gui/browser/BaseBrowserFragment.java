@@ -296,7 +296,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         else
             ft.remove(this);
         if (save)
-            ft.addToBackStack(media.getLocation());
+            ft.addToBackStack(mRoot ? "root" : mMrl);
         ft.add(R.id.fragment_placeholder, next, media.getLocation());
         ft.commit();
     }

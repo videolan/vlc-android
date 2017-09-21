@@ -159,8 +159,9 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                if (getCurrentFragment() instanceof MediaBrowserFragment)
-                    ((MediaBrowserFragment) getCurrentFragment()).setReadyToDisplay(true);
+                final Fragment current = getCurrentFragment();
+                if (current instanceof MediaBrowserFragment)
+                    ((MediaBrowserFragment) current).setReadyToDisplay(true);
             }
 
             // Hack to make navigation drawer browsable with DPAD.
@@ -339,7 +340,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             return;
 
         // If it's the directory view, a "backpressed" action shows a parent.
-        Fragment fragment = getCurrentFragment();
+        final Fragment fragment = getCurrentFragment();
         if (fragment instanceof BaseBrowserFragment){
             ((BaseBrowserFragment)fragment).goBack();
             return;
@@ -553,7 +554,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     public boolean onQueryTextChange(String filterQueryString) {
         if (filterQueryString.length() < 3)
             return false;
-        Fragment current = getCurrentFragment();
+        final Fragment current = getCurrentFragment();
         if (current instanceof Filterable) {
             ((Filterable) current).getFilter().filter(filterQueryString);
             return true;
@@ -634,31 +635,26 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     public void showFragment(int id) {
-        FragmentManager fm = getSupportFragmentManager();
-        String tag = getTag(id);
+        final FragmentManager fm = getSupportFragmentManager();
+        final String tag = getTag(id);
         //Get new fragment
         Fragment fragment = null;
-        boolean add = false;
-        WeakReference<Fragment> wr = mFragmentsStack.get(tag);
-        if (wr != null)
-            fragment = wr.get();
-        if (fragment == null) {
+        final WeakReference<Fragment> wr = mFragmentsStack.get(tag);
+        final boolean add = wr == null || (fragment = wr.get()) == null;
+        if (add) {
             fragment = getNewFragment(id);
             mFragmentsStack.put(tag, new WeakReference<>(fragment));
-            add = true;
         }
         if (mCurrentFragment != null)
             if (mCurrentFragment instanceof ExtensionBrowser)
                 fm.beginTransaction().remove(mCurrentFragment).commit();
             else {
                 if (mCurrentFragment instanceof BaseBrowserFragment
-                        && !((BaseBrowserFragment) getCurrentFragment()).isRootDirectory()) {
-                    getSupportFragmentManager().popBackStackImmediate(getTag(id), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    mCurrentFragment = getCurrentFragment();
-                }
+                        && !((BaseBrowserFragment) getCurrentFragment()).isRootDirectory())
+                    fm.popBackStackImmediate("root", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 fm.beginTransaction().hide(mCurrentFragment).commit();
             }
-        FragmentTransaction ft = fm.beginTransaction();
+        final FragmentTransaction ft = fm.beginTransaction();
         if (add)
             ft.add(R.id.fragment_placeholder, fragment, tag);
         else
@@ -670,12 +666,10 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     private void clearBackstackFromClass(Class clazz) {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment current = getCurrentFragment();
-        while (clazz.isInstance(current)) {
+        final FragmentManager fm = getSupportFragmentManager();
+        while (clazz.isInstance(getCurrentFragment())) {
             if (!fm.popBackStackImmediate())
                 break;
-            current = getCurrentFragment();
         }
     }
 
@@ -706,12 +700,14 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     private Fragment getFirstVisibleFragment() {
+        final Fragment frag = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+        if (!frag.isHidden())
+            return frag;
         final List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        if (fragments != null) {
+        if (fragments != null)
             for (Fragment fragment : fragments)
                 if (!fragment.isHidden() && fragment.getClass().isInstance(mCurrentFragment))
                     return fragment;
-        }
         return mCurrentFragment;
     }
 
