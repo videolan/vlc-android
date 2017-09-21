@@ -35,7 +35,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 
 public abstract class BaseQueuedAdapter <T extends MediaLibraryItem, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
-    protected final ExecutorService mUpdateExecutor = Executors.newSingleThreadExecutor();
+    private final ExecutorService mUpdateExecutor = Executors.newSingleThreadExecutor();
 
     protected volatile ArrayList<T> mDataset = new ArrayList<>();
     private final ArrayDeque<ArrayList<T>> mPendingUpdates = new ArrayDeque<>();
@@ -100,7 +100,7 @@ public abstract class BaseQueuedAdapter <T extends MediaLibraryItem, VH extends 
         if (mPendingUpdates.isEmpty())
             onUpdateFinished();
         else {
-            ArrayList<T> lastList = mPendingUpdates.peekLast();
+            final ArrayList<T> lastList = mPendingUpdates.peekLast();
             if (!mPendingUpdates.isEmpty()) {
                 mPendingUpdates.clear();
                 mPendingUpdates.add(lastList);
