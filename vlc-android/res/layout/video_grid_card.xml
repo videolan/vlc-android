@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_seen_normal"
-            android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE}"
+            android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE, default=gone}"
             vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"
             vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail" />
 
