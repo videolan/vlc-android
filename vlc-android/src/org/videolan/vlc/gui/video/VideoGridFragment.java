@@ -48,7 +48,6 @@ import android.widget.Filter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.MediaAddedCb;
@@ -72,7 +71,6 @@ import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -205,7 +203,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         final Resources res = getResources();
         final boolean listMode = res.getBoolean(R.bool.list_mode)
                 || (res.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT &&
-                    PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("force_list_portrait", false));
+                PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("force_list_portrait", false));
 
         // Select between grid or list
         if (!listMode) {
@@ -226,7 +224,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
 
     protected void playVideo(MediaWrapper media, boolean fromStart) {
-        Activity activity = getActivity();
+        final Activity activity = getActivity();
         if (activity instanceof PlaybackService.Callback)
             mService.removeCallback((PlaybackService.Callback) activity);
         media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
@@ -300,11 +298,11 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         if (menuInfo == null)
             return;
         // Do not show the menu of media group.
-        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo)menuInfo;
-        MediaWrapper media = mAdapter.getItem(info.position);
+        final ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo)menuInfo;
+        final MediaWrapper media = mAdapter.getItem(info.position);
         if (media == null)
             return;
-        MenuInflater inflater = getActivity().getMenuInflater();
+        final MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(media instanceof MediaGroup ? R.menu.video_group_contextual : R.menu.video_list, menu);
         if (media instanceof MediaGroup) {
             if (!AndroidUtil.isHoneycombOrLater) {
@@ -316,18 +314,8 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     }
 
     private void setContextMenuItems(Menu menu, MediaWrapper mediaWrapper) {
-        long lastTime = mediaWrapper.getTime();
-        if (lastTime > 0)
-            menu.findItem(R.id.video_list_play_from_start).setVisible(true);
-
-        boolean hasInfo = false;
-        final Media media = new Media(VLCInstance.get(), mediaWrapper.getUri());
-        media.parse();
-        boolean canWrite = FileUtils.canWrite(mediaWrapper.getLocation());
-        if (media.getMeta(Media.Meta.Title) != null)
-            hasInfo = true;
-        media.release();
-        menu.findItem(R.id.video_list_info).setVisible(hasInfo);
+        menu.findItem(R.id.video_list_play_from_start).setVisible(mediaWrapper.getTime() > 0);
+        final boolean canWrite = FileUtils.canWrite(mediaWrapper.getLocation());
         menu.findItem(R.id.video_list_delete).setVisible(canWrite);
         if (!AndroidUtil.isHoneycombOrLater) {
             menu.findItem(R.id.video_list_play_all).setVisible(false);
@@ -448,7 +436,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        int count = mAdapter.getSelectionCount();
+        final int count = mAdapter.getSelectionCount();
         if (count == 0) {
             stopActionMode();
             return false;
@@ -461,7 +449,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        List<MediaWrapper> list = mAdapter.getSelection();
+        final List<MediaWrapper> list = mAdapter.getSelection();
         if (!list.isEmpty()) {
             switch (item.getItemId()) {
                 case R.id.action_video_play:
@@ -473,10 +461,10 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
                 case R.id.action_video_info:
                     showInfoDialog(list.get(0));
                     break;
-    //            case R.id.action_video_delete:
-    //                for (int position : mAdapter.getSelectedPositions())
-    //                    removeVideo(position, mAdapter.getItem(position));
-    //                break;
+                //            case R.id.action_video_delete:
+                //                for (int position : mAdapter.getSelectedPositions())
+                //                    removeVideo(position, mAdapter.getItem(position));
+                //                break;
                 case R.id.action_video_download_subtitles:
                     MediaUtils.getSubs(getActivity(), list);
                     break;
@@ -497,7 +485,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mActionMode = null;
-        ArrayList<MediaWrapper> items = mAdapter.getAll();
+        final ArrayList<MediaWrapper> items = mAdapter.getAll();
         for (int i = 0; i < items.size(); ++i) {
             MediaWrapper mw = items.get(i);
             if (mw.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
@@ -534,45 +522,45 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     @Override
     public void onClick(View v, int position, MediaLibraryItem item) {
-        MediaWrapper media = (MediaWrapper) item;
-            if (mActionMode != null) {
-                item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
-                mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-                mAdapter.notifyItemChanged(position, VideoListAdapter.UPDATE_SELECTION);
-                invalidateActionMode();
-                return;
-            }
-            Activity activity = getActivity();
-            if (media instanceof MediaGroup) {
-                String title = media.getTitle().substring(media.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
-                ((MainActivity)activity).showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
+        final MediaWrapper media = (MediaWrapper) item;
+        if (mActionMode != null) {
+            item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+            mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
+            mAdapter.notifyItemChanged(position, VideoListAdapter.UPDATE_SELECTION);
+            invalidateActionMode();
+            return;
+        }
+        final Activity activity = getActivity();
+        if (media instanceof MediaGroup) {
+            final String title = media.getTitle().substring(media.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
+            ((MainActivity)activity).showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
+        } else {
+            media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+            final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+            if (settings.getBoolean("force_play_all", false)) {
+                final ArrayList<MediaWrapper> playList = new ArrayList<>();
+                MediaUtils.openList(activity, playList, mAdapter.getListWithPosition(playList, position));
             } else {
-                media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-                if (settings.getBoolean("force_play_all", false)) {
-                    ArrayList<MediaWrapper> playList = new ArrayList<>();
-                    MediaUtils.openList(activity, playList, mAdapter.getListWithPosition(playList, position));
-                } else {
-                    playVideo(media, false);
-                }
+                playVideo(media, false);
             }
+        }
     }
 
     @Override
     public boolean onLongClick(View v, int position, MediaLibraryItem item) {
-            if (mActionMode != null)
-                return false;
-            item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
-            mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-            mAdapter.notifyItemChanged(position, VideoListAdapter.UPDATE_SELECTION);
-            startActionMode();
-            return true;
+        if (mActionMode != null)
+            return false;
+        item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
+        mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
+        mAdapter.notifyItemChanged(position, VideoListAdapter.UPDATE_SELECTION);
+        startActionMode();
+        return true;
     }
 
     @Override
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
-            if (mActionMode == null)
-                mGridView.openContextMenu(position);
+        if (mActionMode == null)
+            mGridView.openContextMenu(position);
     }
 
     @Override
