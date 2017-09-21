@@ -133,8 +133,22 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             //Restore fragments stack
             restoreFragmentsStack(savedInstanceState, fm);
             mCurrentFragmentId = savedInstanceState.getInt("current", mSettings.getInt("fragment_id", R.id.nav_video));
-        } else
+        } else {
+            if (getIntent().getBooleanExtra(StartActivity.EXTRA_UPGRADE, false)) {
+            /*
+             * The sliding menu is automatically opened when the user closes
+             * the info dialog. If (for any reason) the dialog is not shown,
+             * open the menu after a short delay.
+             */
+            mActivityHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mDrawerLayout.openDrawer(mNavigationView);
+                    }
+                }, 500);
+            }
             reloadPreferences();
+        }
 
         /* Set up the action bar */
         prepareActionBar();
@@ -165,20 +179,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-
-        if (getIntent().getBooleanExtra(StartActivity.EXTRA_UPGRADE, false)) {
-            /*
-             * The sliding menu is automatically opened when the user closes
-             * the info dialog. If (for any reason) the dialog is not shown,
-             * open the menu after a short delay.
-             */
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mDrawerLayout.openDrawer(mNavigationView);
-                }
-            }, 500);
-        }
 
         /* Reload the latest preferences */
         mScanNeeded = savedInstanceState == null && mSettings.getBoolean("auto_rescan", true);
