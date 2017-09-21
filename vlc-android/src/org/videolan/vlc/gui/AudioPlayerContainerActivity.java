@@ -381,7 +381,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         }
     };
 
-    Handler mActivityHandler = new StorageHandler(this);
+    Handler mActivityHandler = new ProgressHandler(this);
     AudioPlayerBottomSheetCallback mAudioPlayerBottomSheetCallback = new AudioPlayerBottomSheetCallback();
 
     private static final int ACTION_DISPLAY_PROGRESSBAR = 1339;
@@ -419,9 +419,9 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
 
     protected void onPlayerStateChanged(View bottomSheet, int newState) {}
 
-    private static class StorageHandler extends WeakHandler<AudioPlayerContainerActivity> {
+    private static class ProgressHandler extends WeakHandler<AudioPlayerContainerActivity> {
 
-        StorageHandler(AudioPlayerContainerActivity owner) {
+        ProgressHandler(AudioPlayerContainerActivity owner) {
             super(owner);
         }
 
