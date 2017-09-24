@@ -397,7 +397,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         runOnBrowserThread(new Runnable() {
             @Override
             public void run() {
-                mFoldersContentLists.clear();
+                if (mFoldersContentLists != null)
+                    mFoldersContentLists.clear();
                 initMediaBrowser(BaseBrowserFragment.this);
                 mCurrentParsedPosition = 0;
                 if (mRoot)
