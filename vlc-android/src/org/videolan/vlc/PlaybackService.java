@@ -627,7 +627,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         mWakeLock.release();
                     break;
                 case MediaPlayer.Event.Stopped:
-                    mMedialibrary.resumeBackgroundOperations();
                     Log.i(TAG, "MediaPlayer.Event.Stopped");
                     onPlaybackStopped();
                     break;
@@ -682,6 +681,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private void onPlaybackStopped() {
         if (mStopped)
             return;
+        mMedialibrary.resumeBackgroundOperations();
         mStopped = true;
         mCurrentIndex = -1;
         hideNotification();
