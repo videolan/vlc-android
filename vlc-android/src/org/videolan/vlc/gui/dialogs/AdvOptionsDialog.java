@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.dialogs;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -70,7 +71,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     public static final int MODE_VIDEO = 0;
     public static final int MODE_AUDIO = 1;
 
-    private static final int SPAN_COUNT = 3;
+    private static final int SPAN_COUNT = 4;
 
     public static final int ACTION_AUDIO_DELAY = 2 ;
     public static final int ACTION_SPU_DELAY = 3 ;
@@ -504,6 +505,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mAdapter.clear();
         mService = service;
         boolean tvUi = VLCApplication.showTvUi();
+        int large_items = 0;
 
         mAdapter.addOption(new Option(ID_SLEEP, R.attr.ic_sleep_normal_style, getString(R.string.sleep_title)));
         mAdapter.addOption(new Option(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, getString(R.string.playback_speed)));
@@ -523,11 +525,14 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
             final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
             final int chaptersCount = chapters != null ? chapters.length : 0;
-            if (chaptersCount > 1)
+            if (chaptersCount > 1) {
                 mAdapter.addOption(new Option(ID_CHAPTER_TITLE, R.attr.ic_chapter_normal_style, getString(R.string.go_to_chapter)));
+                ++large_items;
+            }
         } else {
             mAdapter.addOption(new Option(ID_SAVE_PLAYLIST, R.attr.ic_save, getString(R.string.playlist_save)));
         }
+        setDialogDimensions(large_items);
     }
 
     @Override
@@ -573,6 +578,18 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         }
         return false;
     }
+
+    private void setDialogDimensions(int offset) {
+    final Dialog dialog = getDialog();
+    if (dialog == null)
+        return;
+    final int dialogWidth = getResources().getDimensionPixelSize(R.dimen.option_width) * SPAN_COUNT + mRecyclerView.getPaddingLeft()+ mRecyclerView.getRight();
+    final int count = mAdapter.getItemCount()-offset;
+    final int rows = offset + (count + SPAN_COUNT-1) / SPAN_COUNT;
+    final int dialogHeight = getResources().getDimensionPixelSize(R.dimen.option_height) * rows + mRecyclerView.getPaddingBottom()+ mRecyclerView.getPaddingTop();
+
+    dialog.getWindow().setLayout(dialogWidth, dialogHeight);
+}
 
     private class AdvOptionsAdapter extends RecyclerView.Adapter<AdvOptionsAdapter.ViewHolder> {
 
