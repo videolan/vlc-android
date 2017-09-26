@@ -125,6 +125,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
         super.onStop();
         if (!mRoot)
             LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
+        goBack = false;
     }
 
     protected boolean handleContextItemSelected(MenuItem item, final int position) {
