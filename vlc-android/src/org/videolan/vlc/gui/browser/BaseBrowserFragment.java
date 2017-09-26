@@ -29,6 +29,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
 import android.support.annotation.NonNull;
@@ -117,7 +118,10 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     private Handler mBrowserHandler;
 
     protected void runOnBrowserThread(Runnable runnable) {
-        mBrowserHandler.post(runnable);
+        if (Looper.myLooper() == mBrowserHandler.getLooper())
+            runnable.run();
+        else
+            mBrowserHandler.post(runnable);
     }
 
     public BaseBrowserFragment() {
@@ -217,13 +221,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden || mRoot) {
-            runOnBrowserThread(new Runnable() {
-                @Override
-                public void run() {
-                    releaseBrowser();
-                }
-            });
+        if (hidden) {
+            releaseBrowser();
         } else if (mFabPlay != null) {
             mFabPlay.setImageResource(R.drawable.ic_fab_play);
             updateFab();
@@ -231,10 +230,15 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     }
 
     private void releaseBrowser() {
-        if (mMediaBrowser != null) {
-            mMediaBrowser.release();
-            mMediaBrowser = null;
-        }
+        runOnBrowserThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mMediaBrowser != null) {
+                    mMediaBrowser.release();
+                    mMediaBrowser = null;
+                }
+            }
+        });
     }
 
     public void onSaveInstanceState(Bundle outState){
@@ -409,16 +413,30 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                         }
                     });
                 else
-                    mMediaBrowser.browse(mCurrentMedia != null ? mCurrentMedia.getUri() : Uri.parse(mMrl), getBrowserFlags());
+                    browse(mCurrentMedia != null ? mCurrentMedia.getUri() : Uri.parse(mMrl), getBrowserFlags());
             }
         });
     }
 
-    protected void initMediaBrowser(MediaBrowser.EventListener listener) {
-        if (mMediaBrowser == null)
-            mMediaBrowser = new MediaBrowser(VLCInstance.get(), listener, mBrowserHandler);
-        else
-            mMediaBrowser.changeEventListener(listener);
+    private void browse(final Uri uri, final int flags) {
+        runOnBrowserThread(new Runnable() {
+            @Override
+            public void run() {
+                mMediaBrowser.browse(uri, flags);
+            }
+        });
+    }
+
+    protected void initMediaBrowser(final MediaBrowser.EventListener listener) {
+        runOnBrowserThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mMediaBrowser == null)
+                    mMediaBrowser = new MediaBrowser(VLCInstance.get(), listener, mBrowserHandler);
+                else
+                    mMediaBrowser.changeEventListener(listener);
+            }
+        });
     }
 
     @Override
@@ -646,7 +664,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                         if (mw != null) {
                             if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST) {
                                 final Uri uri = mw.getUri();
-                                mMediaBrowser.browse(uri, mShowHiddenFiles ? MediaBrowser.Flag.ShowHiddenFiles : 0);
+                                browse(uri, mShowHiddenFiles ? MediaBrowser.Flag.ShowHiddenFiles : 0);
                                 return;
                             }
                         }
@@ -713,7 +731,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
 
                 if (mw != null) {
                     if (mCurrentParsedPosition < currentMediaList.size()) {
-                        mMediaBrowser.browse(mw.getUri(), 0);
+                        browse(mw.getUri(), 0);
                     } else {
                         mCurrentParsedPosition = -1;
                         currentMediaList = new ArrayList<>();
