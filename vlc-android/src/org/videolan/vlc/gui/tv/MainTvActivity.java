@@ -507,16 +507,18 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_DIRECTORIES, directory.getTitle(), R.drawable.ic_menu_folder_big, directory.getUri()));
 
         if (ExternalMonitor.isLan()) {
-            final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
-            mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_NETWORK, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
-            mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_STREAM, getString(R.string.open_mrl), R.drawable.ic_menu_stream_big));
+            try {
+                final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
+                mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_NETWORK, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
+                mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_STREAM, getString(R.string.open_mrl), R.drawable.ic_menu_stream_big));
 
-            if (!favs.isEmpty()) {
-                for (MediaWrapper fav : favs) {
-                    fav.setDescription(fav.getUri().getScheme());
-                    mBrowserAdapter.add(fav);
+                if (!favs.isEmpty()) {
+                    for (MediaWrapper fav : favs) {
+                        fav.setDescription(fav.getUri().getScheme());
+                        mBrowserAdapter.add(fav);
+                    }
                 }
-            }
+            } catch (Exception ignored) {} //SQLite can explode
         }
         mBrowserAdapter.notifyArrayItemRangeChanged(0, mBrowserAdapter.size());
     }
