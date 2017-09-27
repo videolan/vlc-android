@@ -164,6 +164,7 @@ AndroidMediaLibrary::increasePlayCount(int64_t mediaId)
     auto media = p_ml->media(mediaId);
     if (media != nullptr)
         return media->increasePlayCount();
+    return false;
 }
 
 std::vector<medialibrary::MediaPtr>
