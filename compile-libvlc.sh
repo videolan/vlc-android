@@ -840,11 +840,15 @@ if [ ! -d "build-android-$ANDROID_ABI/" ]; then
 fi;
 cd "build-android-$ANDROID_ABI/";
 
+if [ "$RELEASE" = 1 ]; then
+    MEDIALIBRARY_MODE=--enable-release
+fi
 if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
 ../bootstrap
 ../configure \
     --host=$TARGET_TUPLE \
     --disable-shared \
+    ${MEDIALIBRARY_MODE} \
     CFLAGS="${VLC_CFLAGS} ${EXTRA_CFLAGS}" \
     CXXFLAGS="${VLC_CXXFLAGS} ${EXTRA_CFLAGS} ${EXTRA_CXXFLAGS}" \
     CC="clang" \
