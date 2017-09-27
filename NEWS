@@ -1,3 +1,12 @@
+Changes between 2.1.20 and 2.5.0:
+----------------------------------
+
+Application:
+ * Fix playback launch from widget or headset
+ * Fix browser overlapping other views
+ * Fix display in auido when no audio has been discovered
+ * Misc. fixes
+
 Changes between 2.1.19 and 2.1.20:
 ----------------------------------
 
