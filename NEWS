@@ -1,10 +1,48 @@
+Changes between 2.0.6 and 2.5.0:
+----------------------------------
+
+Application:
+ * 360° videos support
+ * Android Auto implementation
+ * More dynamic and Material-compliant UI
+ * Enable Picture-In-Picture mode on Android O
+ * Refactored MediaLibrary
+ * DayNight mode integration
+ * New Search activity and integration with Google Now
+ * Resume position for audio media tagged as audiobook or podcast
+ * Double tap on screen edges in video player to seek by 10s
+ * Audio boost in video player
+ * Custom equalizer presets
+ * Restored double/long click on remote play to skip songs
+ * Allow network browsing & discovery when connected to a VPN
+ * Sort options in Video, browsers & Audio sub-categories
+ * Improve RTL support
+ * 'Seen' check on seen videos
+ * Update notification when playlist is ended
+ * Improve app & video player startup speed
+ * Support for screens with aspect ratio up to 18.5:9
+
+TV:
+ * Picture-In-Picture mode integration
+ * Improved theme with dynamic background
+
+Core
+ * Switch to clang and libc++_shared using ndk13
+ * 360° videos support
+ * OpenGLES 2.0 is now used to render video (for software decoders)
+ * AV1 codec support
+ * Support for VP8/VP9/VP10 in MP4
+ * HDMI passthrough
+ * Improve MP4V/H264/HEVC adaptive playback performances
+
+
 Changes between 2.1.20 and 2.5.0:
 ----------------------------------
 
 Application:
  * Fix playback launch from widget or headset
  * Fix browser overlapping other views
- * Fix display in auido when no audio has been discovered
+ * Fix display in audio when no audio has been discovered
  * Misc. fixes
 
 Changes between 2.1.19 and 2.1.20:
