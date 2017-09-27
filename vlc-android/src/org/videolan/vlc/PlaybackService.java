@@ -705,8 +705,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (canSwitchToVideo || media.isPodcast()) {
             //Save progress
             final long time = getTime();
-            float progress = time / (float)media.getLength();
-            if (progress > 0.95f) {
+            final long length =  media.getLength();
+            float progress = time / (float)length;
+            if (progress > 0.95f || (length-time) < 10000) {
                 //increase seen counter if more than 95% of the media have been seen
                 //and reset progress to 0
                 final long incSeen = media.getSeen() + 1L;
