@@ -1991,7 +1991,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mMediaPlayer.setMedia(media);
         media.release();
 
-        if (mw .getType() != MediaWrapper.TYPE_VIDEO || isVideoPlaying || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
+        if (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && mMediaPlayer.getAudioTracksCount() == 0)
+            next();
+        else if (mw .getType() != MediaWrapper.TYPE_VIDEO || isVideoPlaying || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
             mMediaPlayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(this));
             mMediaPlayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
             changeAudioFocus(true);
