@@ -104,6 +104,7 @@ VLC_BOOTSTRAP_ARGS="\
     --disable-vncclient \
     --disable-vnc \
     --enable-jpeg \
+    --enable-ad-clauses \
 "
 
 ###########################
