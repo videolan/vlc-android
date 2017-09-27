@@ -16,21 +16,6 @@
         android:layout_marginRight="@dimen/default_margin"
         android:layout_marginEnd="@dimen/default_margin" />
 
-    <TextView
-        android:id="@+id/no_media"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
-        android:layout_centerInParent="true"
-        android:layout_margin="@dimen/default_margin"
-        android:drawableBottom="@drawable/ic_no_media"
-        android:drawablePadding="@dimen/default_margin"
-        android:gravity="center"
-        android:maxWidth="600dp"
-        android:text="@string/nomedia"
-        android:textSize="20sp"
-        android:visibility="gone" />
-
     <org.videolan.vlc.gui.view.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
         android:layout_width="@dimen/default_content_width"
@@ -49,6 +34,22 @@
             <include layout="@layout/audio_recyclerview" />
         </android.support.v4.view.ViewPager>
     </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/no_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/default_margin"
+        android:drawableBottom="@drawable/ic_no_media"
+        android:drawablePadding="@dimen/default_margin"
+        android:gravity="center"
+        android:maxWidth="600dp"
+        android:text="@string/nomedia"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
     <org.videolan.vlc.gui.view.FastScroller
         android:id="@+id/songs_fast_scroller"
         android:layout_width="wrap_content"
