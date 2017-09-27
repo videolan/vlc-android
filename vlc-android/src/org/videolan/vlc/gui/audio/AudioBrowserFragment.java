@@ -96,8 +96,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private final static int MODE_PLAYLIST = 4;
     private final static int MODE_TOTAL = 5; // Number of audio browser modes
 
-    public final static int MSG_LOADING = 0;
-
     public final static String TAG_ITEM = "ML_ITEM";
 
     @Override
@@ -554,11 +552,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         final AudioBrowserFragment fragment = getOwner();
         if (fragment == null) return;
         switch (msg.what) {
-            case MSG_LOADING:
-                if (fragment.mArtistsAdapter.isEmpty() && fragment.mAlbumsAdapter.isEmpty() &&
-                        fragment.mSongsAdapter.isEmpty() && fragment.mGenresAdapter.isEmpty())
-                    fragment.mSwipeRefreshLayout.setRefreshing(true);
-                break;
             case REFRESH:
                 refresh(fragment, (String) msg.obj);
                 break;
@@ -591,7 +584,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @MainThread
     private void updateLists() {
         mTabLayout.setVisibility(View.VISIBLE);
-        mHandler.sendEmptyMessageDelayed(MSG_LOADING, 300);
+        mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
         mHandler.removeMessages(UPDATE_LIST);
         updateArtists();
         updateAlbums();
