@@ -513,7 +513,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mAdapter.addOption(new Option(ID_EQUALIZER, R.attr.ic_equalizer_normal_style, getString(R.string.equalizer)));
 
         if (mMode == MODE_VIDEO) {
-            if (!tvUi)
+            if (!tvUi && mService.getAudioTracksCount() > 0)
                 mAdapter.addOption(new Option(ID_PLAY_AS_AUDIO, R.attr.ic_playasaudio_on, getString(R.string.play_as_audio)));
             mAdapter.addOption(new Option(ID_SPU_DELAY, R.attr.ic_subtitledelay, getString(R.string.spu_delay)));
             mAdapter.addOption(new Option(ID_AUDIO_DELAY, R.attr.ic_audiodelay, getString(R.string.audio_delay)));
