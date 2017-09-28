@@ -271,7 +271,7 @@ public class FileUtils {
     }
 
     public static boolean canWrite(String path){
-        if (TextUtils.isEmpty(path))
+        if (AndroidUtil.isOOrLater || TextUtils.isEmpty(path))
             return false;
         if (path.startsWith("file://"))
             path = path.substring(7);
