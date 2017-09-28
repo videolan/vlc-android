@@ -372,8 +372,10 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
      * Update views visibility and emptiness info
      */
     protected void updateEmptyView() {
+        if (mSwipeRefreshLayout == null)
+            return;
         if (mAdapter.isEmpty()) {
-            if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) {
+            if (mSwipeRefreshLayout.isRefreshing()) {
                 mEmptyView.setText(R.string.loading);
                 mEmptyView.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.GONE);
@@ -788,7 +790,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     }
 
     public void restoreList() {
-        if (mAdapter != null)
+        if (mAdapter != null && mEmptyView != null)
             mAdapter.restoreList();
     }
     public void setSearchVisibility(boolean visible) {

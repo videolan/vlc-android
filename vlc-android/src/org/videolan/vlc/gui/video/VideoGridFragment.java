@@ -418,7 +418,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     @Override
     public void restoreList() {
-        if (mAdapter != null)
+        if (mAdapter != null && mGridView != null)
             mAdapter.restoreList();
     }
 

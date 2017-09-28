@@ -400,9 +400,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     public void restoreList() {
-        if (mViewPager == null)
-            return;
-        getCurrentAdapter().restoreList();
+        if (mViewPager != null)
+            getCurrentAdapter().restoreList();
     }
 
     private void updateEmptyView(int position) {
