@@ -563,4 +563,5 @@
     <string name="custom_set_already_exist">Equalizer-set with this name already exists</string>
     <string name="custom_set_restored">Custom equalizer-set restored.</string>
     <string name="unsaved_set_deleted_message">Unsaved equalizer-set deleted.</string>
+    <string name="equalizer_new_preset_name">New</string>
 </resources>

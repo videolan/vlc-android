@@ -78,6 +78,7 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
     private boolean updateAlreadyHandled = false;
     private EqualizerBinding binding;
     final private EqualizerState mState = new EqualizerState();
+    private final String newPresetName = VLCApplication.getAppResources().getString(R.string.equalizer_new_preset_name);
 
     private final static int TYPE_PRESET = 0;
     private final static int TYPE_CUSTOM = 1;
@@ -129,7 +130,7 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
                 customCount++;
             }
         }
-        allSets.add("new");
+        allSets.add(newPresetName);
 
         mEqualizer = VLCOptions.getEqualizerSetFromSettings(context);
 
@@ -376,8 +377,8 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
                 positiveButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String newName = input.getText().toString();
-                        if (newName.contains("_") || TextUtils.equals(newName,"new")) {
+                        final String newName = input.getText().toString();
+                        if (newName.contains("_") || TextUtils.equals(newName, newPresetName)) {
                             Toast.makeText(VLCApplication.getAppContext(), VLCApplication.getAppContext().getResources().getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show();
                         } else if (allSets.contains(newName) && !TextUtils.equals(newName,oldName)) {
                             Toast.makeText(VLCApplication.getAppContext(), VLCApplication.getAppContext().getResources().getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show();
