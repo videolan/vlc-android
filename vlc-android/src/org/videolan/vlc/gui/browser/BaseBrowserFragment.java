@@ -500,11 +500,11 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     }
 
     protected void setContextMenuItems(Menu menu, int position) {
-        MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
-        int type = mw.getType();
+        final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
+        final int type = mw.getType();
         boolean canWrite = this instanceof FileBrowserFragment && FileUtils.canWrite(mw.getUri().getPath());
         if (type == MediaWrapper.TYPE_DIR) {
-            boolean isEmpty = Util.isListEmpty(mFoldersContentLists.get(position));
+            final boolean isEmpty = Util.isListEmpty(mFoldersContentLists.get(mw));
 //                if (canWrite) {
 //                    boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();
 //                    menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
