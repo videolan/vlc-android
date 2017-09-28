@@ -141,6 +141,7 @@ public abstract class BaseAudioBrowser extends SortableFragment<AudioBrowserAdap
     }
 
     public void onDestroyActionMode(AudioBrowserAdapter adapter) {
+        setFabPlayVisibility(true);
         mActionMode = null;
         ArrayList<? extends MediaLibraryItem> items = adapter.getAll();
         if (items != null) {

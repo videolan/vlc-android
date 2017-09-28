@@ -485,6 +485,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mActionMode = null;
+        setFabPlayVisibility(true);
         final ArrayList<MediaWrapper> items = mAdapter.getAll();
         for (int i = 0; i < items.size(); ++i) {
             MediaWrapper mw = items.get(i);
