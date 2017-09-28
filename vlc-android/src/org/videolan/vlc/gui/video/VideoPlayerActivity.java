@@ -854,8 +854,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         initUI();
 
         loadMedia();
-        boolean ratePref = mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true);
-        mService.setRate(ratePref || mRateHasChanged ? mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f) : 1.0F, false);
     }
 
     private void initPlaylistUi() {
@@ -3253,6 +3251,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             else
                 mService.loadUri(mUri);
 
+            if (!resumePlaylist ||!isPlaying || positionInPlaylist != mService.getCurrentMediaPosition()) {
+                final boolean ratePref = mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true);
+                mService.setRate(ratePref || mRateHasChanged ? mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f) : 1.0F, false);
+            }
             // Get possible subtitles
             getSubtitles();
 
