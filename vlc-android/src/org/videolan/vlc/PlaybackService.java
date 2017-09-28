@@ -2497,6 +2497,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     public void restartMediaPlayer() {
         mMediaPlayer.setEventListener(null);
+        mMediaPlayer.setVideoTrackEnabled(false);
         if (isVideoPlaying())
             mMediaPlayer.getVLCVout().detachViews();
         final MediaPlayer mp = mMediaPlayer;
