@@ -42,12 +42,14 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
     }
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final MediaViewHolder vh = (MediaViewHolder) holder;
-        final MediaWrapper media = (MediaWrapper) getItem(position);
-        vh.binding.setItem(media);
-        vh.binding.setHasContextMenu(false);
-        vh.binding.setProtocol(null);
-        vh.binding.setCover(getIcon(media));
+        if (holder instanceof MediaViewHolder) {
+            final MediaViewHolder vh = (MediaViewHolder) holder;
+            final MediaWrapper media = (MediaWrapper) getItem(position);
+            vh.binding.setItem(media);
+            vh.binding.setHasContextMenu(false);
+            vh.binding.setProtocol(null);
+            vh.binding.setCover(getIcon(media));
+        }
     }
 
     //TODO update with different filter types in other cases than subtitles selection
