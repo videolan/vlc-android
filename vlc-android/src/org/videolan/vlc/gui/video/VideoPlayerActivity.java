@@ -572,7 +572,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     protected void onPause() {
         super.onPause();
-        hideOverlay(true);
+        if (!isFinishing())
+            hideOverlay(true);
         setHudClickListeners(false);
 
         /* Stop the earliest possible to avoid vout error */
