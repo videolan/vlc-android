@@ -22,7 +22,6 @@
     <string name="play_as_audio">Toista äänenä</string>
     <string name="play_as_video">Toista videona</string>
     <string name="play_as_audio_background">Toista videot taustalla</string>
-    <string name="play_as_audio_background_summary">Jatka videon toistoa taustalla kun laitteen näyttö kytketään pois päältä tai kun kotinäppäintä painetaan.</string>
     <string name="append">Lisää loppuun</string>
     <string name="play_all">Toista kaikki</string>
     <string name="append_all">Lisää kaikki loppuun</string>
