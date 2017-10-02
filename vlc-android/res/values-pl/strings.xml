@@ -21,10 +21,12 @@
     </plurals>
     <string name="play">Odtwórz</string>
     <string name="play_from_start">Odtwórz od początku</string>
-    <string name="play_as_audio">Odtwórz jako audio</string>
+    <string name="play_as_audio">Odtwórz jako dźwięk</string>
     <string name="play_as_video">Odtwórz jako wideo</string>
+    <string name="video_app_switch_title">Działanie na przełączaniu aplikacji</string>
+    <string name="video_app_switch_summary">Wybierz zachowanie VLC, gdy przełączasz z odtwarzania widea do innej aplikacji</string>
+    <string name="play_pip_title">Odtwarzaj widea w trybie obraz w obrazie</string>
     <string name="play_as_audio_background">Odtwarzaj widea w tle</string>
-    <string name="play_as_audio_background_summary">Kontynuuj odtwarzanie wideo w tle po włączeniu ekranu urządzenia lub kliknięciu przycisku HOME.</string>
     <string name="append">Dołącz</string>
     <string name="insert_next">Wstaw jako następny</string>
     <string name="play_all">Odtwórz wszystko</string>
@@ -54,6 +56,7 @@
     </plurals>
     <string name="artists">Wykonawcy</string>
     <string name="albums">Albumy</string>
+    <string name="tracks">Ścieżki</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="few">%d albumy</item>
@@ -106,7 +109,7 @@
     <string name="shuffle_title">Tryb Losowo</string>
     <string name="shuffle">Losowo wyłączone</string>
     <string name="shuffle_on">Losowo włączone</string>
-    <string name="repeat_title">Tryb Powtórz</string>
+    <string name="repeat_title">Tryb powtórz</string>
     <string name="repeat">Nie powtarzaj żadnych</string>
     <string name="repeat_single">Powtórz pojedynczy</string>
     <string name="repeat_all">Powtórz wszystkie</string>
@@ -201,7 +204,7 @@
     <string name="remove_playlist_item">%1$s zostało usunięte z listy</string>
     <string name="rearrange_order">Zmień kolejność</string>
     <string name="hold_to_seek">Przytrzymaj, aby przeszukiwać</string>
-    <string name="audio_player_tips">Porady odtwarzacza audio</string>
+    <string name="audio_player_tips">Porady odtwarzacza dźwiękowego</string>
     <string name="previous_next_song">Poprzedni/Następny utwór</string>
     <string name="show_playlist">Pokaż listę odtwarzania</string>
     <string name="hold_to_stop">Przytrzymaj, aby zatrzymać</string>
@@ -303,6 +306,8 @@
     <string name="audio_title_alignment_centre">Środkowy</string>
     <string name="audio_title_alignment_right">Prawy</string>
     <string name="audio_title_alignment_marquee">Przewijający się tekst</string>
+    <string name="audio_save_repeat_title">Zapisz tryb powtórz</string>
+    <string name="audio_save_repeat_summary">Zapamiętaj tryb powtórz podczas ładowania list odtwarzania dźwięku</string>
     <string name="headset_prefs_category">Słuchawki</string>
     <string name="enable_headset_detection">Wykrywanie słuchawek</string>
     <string name="enable_headset_detection_summary">Wykrywanie wkładania i wyjmowania zestawu słuchawkowego</string>
@@ -395,6 +400,7 @@
     <string name="player_touch_disable_all">Wyłącz wszystkie przyciski dotykowe</string>
     <string name="tv_ui_title">Interfejs Android TV</string>
     <string name="tv_ui_summary">Zmień interfejs użytkownika do dopasowanego przez TV</string>
+    <string name="medialibrary">Biblioteka mediów</string>
     <string name="medialibrary_directories">Foldery biblioteki mediów</string>
     <!--Accessibility-->
     <string name="more_actions">Więcej operacji</string>
@@ -470,4 +476,5 @@
     <string name="last_added_media">ostatnio dodane</string>
     <string name="no">Nie</string>
     <string name="loading_medialibrary">Ładowanie biblioteki mediów...</string>
+    <string name="yes">Tak</string>
 </resources>
