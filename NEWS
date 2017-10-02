@@ -1,3 +1,14 @@
+Changes between 2.5.0 and 2.5.1:
+----------------------------------
+
+Application:
+ * Preserve playback speed between video player and popup mode
+ * Disable file suppression on Oreo, because of missing permission
+ * Reset FAB visibility on action mode clearance
+ * Fix 'Now Playing' card disappearing on TV
+ * Misc bugfixes
+
+
 Changes between 2.0.6 and 2.5.0:
 ----------------------------------
 
