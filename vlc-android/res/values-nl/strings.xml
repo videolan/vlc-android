@@ -21,8 +21,10 @@
     <string name="play_from_start">Vanaf begin afspelen</string>
     <string name="play_as_audio">Als audio afspelen</string>
     <string name="play_as_video">Als video afspelen</string>
+    <string name="video_app_switch_title">Actie bij wisselen tussen toepassingen</string>
+    <string name="video_app_switch_summary">Selecteer VLC-gedrag wanneer u naar een andere toepassing wisselt vanuit het afspelen van video</string>
+    <string name="play_pip_title">Video\'s afspelen in modus beeld-in-beeld</string>
     <string name="play_as_audio_background">Video\'s op achtergrond afspelen</string>
-    <string name="play_as_audio_background_summary">Afspelen van video op achtergrond voortzetten bij het uitschakelen van het scherm of bij het klikken op de home-knop.</string>
     <string name="append">Achteraan toevoegen</string>
     <string name="insert_next">Als volgende invoegen</string>
     <string name="play_all">Alles afspelen</string>
@@ -50,6 +52,7 @@
     </plurals>
     <string name="artists">Artiesten</string>
     <string name="albums">Albums</string>
+    <string name="tracks">Tracks</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d albums</item>
@@ -289,6 +292,8 @@
     <string name="audio_title_alignment_centre">Midden</string>
     <string name="audio_title_alignment_right">Rechts</string>
     <string name="audio_title_alignment_marquee">Lichtkrant</string>
+    <string name="audio_save_repeat_title">Herhaalmodus opslaan</string>
+    <string name="audio_save_repeat_summary">Herhaalmodus onthouden bij het laden van audio-afspeellijsten</string>
     <string name="headset_prefs_category">Headset</string>
     <string name="enable_headset_detection">Hoofdtelefoon detecteren</string>
     <string name="enable_headset_detection_summary">Insteken en verwijderen van headset detecteren</string>
@@ -381,6 +386,7 @@
     <string name="player_touch_disable_all">Alle aanraakbedieningen uitschakelen</string>
     <string name="tv_ui_title">Android tv-interface</string>
     <string name="tv_ui_summary">UI wijzigen naar aangepast tv-thema</string>
+    <string name="medialibrary">Mediabibliotheek</string>
     <string name="medialibrary_directories">Mediabibliotheek-mappen</string>
     <!--Accessibility-->
     <string name="more_actions">Meer acties</string>
@@ -456,4 +462,5 @@
     <string name="last_added_media">laatst toegevoegd</string>
     <string name="no">Nee</string>
     <string name="loading_medialibrary">Mediabibliotheek laden...</string>
+    <string name="yes">ja</string>
 </resources>
