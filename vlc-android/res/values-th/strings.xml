@@ -21,7 +21,6 @@
     <string name="play_as_audio">เล่นแต่เสียง</string>
     <string name="play_as_video">เล่นทั้งภาพและเสียง</string>
     <string name="play_as_audio_background">เล่นวีดิทัศน์ต่อเมื่อพับหรือปิดหน้าจอ</string>
-    <string name="play_as_audio_background_summary">ให้ทำการเล่นวีดิทัศน์ต่อไปเมื่อปิดหน้าจอ หรือคลิกปุ่ม HOME</string>
     <string name="append">เพิ่มเข้า</string>
     <string name="play_all">เล่นทั้งหมด</string>
     <string name="append_all">เพิ่มเข้าทั้งหมด</string>
