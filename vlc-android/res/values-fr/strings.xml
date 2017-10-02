@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Main VLC Interface -->
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">Annuler</string>
     <string name="other">Autre</string>
     <string name="sortby">Trier par…</string>
@@ -21,9 +21,12 @@
     <string name="play_from_start">Lire du début</string>
     <string name="play_as_audio">Lire comme audio</string>
     <string name="play_as_video">Lire comme vidéo</string>
+    <string name="video_app_switch_title">Action lors du changement d\'application</string>
+    <string name="video_app_switch_summary">Sélectionnez le comportement que VLC doit adopter lorsque vous passez à une autre application au cours de la lecture d\'une vidéo</string>
+    <string name="play_pip_title">Lire les vidéos en mode Image-sur-image</string>
     <string name="play_as_audio_background">Lire les vidéos en arrière-plan</string>
-    <string name="play_as_audio_background_summary">Continue la lecture de la vidéo en arrière plan lorsque l\'écran de l\'appareil est éteint ou lors de l\'appui sur le bouton HOME.</string>
     <string name="append">Lire à la suite</string>
+    <string name="insert_next">Ajouter juste après</string>
     <string name="play_all">Lire tout</string>
     <string name="append_all">Lire tout à la suite</string>
     <string name="last_playlist">Dernière liste de lecture</string>
@@ -49,6 +52,7 @@
     </plurals>
     <string name="artists">Artistes</string>
     <string name="albums">Albums</string>
+    <string name="tracks">Pistes</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d albums</item>
@@ -81,6 +85,7 @@
     <string name="directories">Dossiers</string>
     <string name="loading">Chargement</string>
     <string name="please_wait">Veuillez patienter…</string>
+    <string name="nomedia">Aucun fichier média trouvé. Veuillez en transférer sur votre appareil ou bien réglez vos préférences.</string>
     <string name="noplaylist">Aucune liste de lecture trouvée.</string>
     <string name="mediafiles">Fichiers multimédia</string>
     <string name="notavailable">Non disponible</string>
@@ -217,7 +222,7 @@
     <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatique</string>
     <string name="screen_orientation">Orientation vidéo</string>
-    <string name="screen_orientation_sensor">Automatique (senseur)</string>
+    <string name="screen_orientation_sensor">Automatique (capteurs)</string>
     <string name="screen_orientation_start_lock">Figée au démarrage</string>
     <string name="screen_orientation_portrait">Portrait</string>
     <string name="screen_orientation_landscape">Paysage</string>
@@ -249,14 +254,20 @@
     <string name="force_play_all_title">Mode liste de lecture vidéo</string>
     <string name="save_brightness_summary">Mémoriser le niveau de rétroéclairage du lecteur video</string>
     <string name="save_brightness_title">Enregistrer le niveau de rétroéclairage pour les videos</string>
-    <string name="save_audiodelay_summary">Enregistrer le délai de l\'audio pour chaque video</string>
-    <string name="save_audiodelay_title">Enregistrer le délai audio</string>
+    <string name="save_audiodelay_summary">Enregistrer le décalage audio pour chaque vidéo</string>
+    <string name="save_audiodelay_title">Enregistrer le décalage audio</string>
     <string name="enable_brightness_gesture_title">Contrôler la luminosité au toucher</string>
     <string name="enable_brightness_gesture_summary">Pendant la lecture d’une vidéo, contrôler la luminosité au toucher</string>
     <string name="enable_volume_gesture_title">Volume sonore au toucher</string>
     <string name="enable_volume_gesture_summary">Pendant la lecture d’une vidéo, contrôler le volume au toucher</string>
     <string name="enable_seek_buttons">Activer les boutons de déplacement</string>
     <string name="enable_seek_buttons_summary">Afficher les boutons d\'avance et retour rapides sur l\'interface vidéo</string>
+    <string name="enable_double_tap_seek_title">Appuyer deux fois pour décaler</string>
+    <string name="enable_double_tap_seek_summary">Un double appui sur les bords de l\'écran fait avancer ou reculer de 10 secondes</string>
+    <string name="popup_keepscreen_title">Maintenir l\'écran allumé en mode Pop-Up</string>
+    <string name="popup_keepscreen_summary">Maintenir l\'écran allumé en mode Pop-Up, y compris lorsque la vidéo est en pause</string>
+    <string name="browser_show_hidden_files_title">Afficher les fichiers cachés</string>
+    <string name="browser_show_hidden_files_summary">Afficher les fichiers cachés dans les navigateurs</string>
     <string name="subtitles_prefs_category">Sous-titres</string>
     <string name="subtitles_size_title">Taille des sous-titres</string>
     <string name="subtitles_size_small">Petit</string>
@@ -273,12 +284,16 @@
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Pochette des albums sur l\'écran de verrouillage</string>
     <string name="lockscreen_cover_summary">Si disponible, la pochette de l\'album sera affichée comme fond d\'écran lorsque l\'appareil est verrouillé</string>
+    <string name="playlist_animate_scroll_title">Animer le défilement automatique de la liste de lecture en cours</string>
+    <string name="playlist_animate_scroll_summary">Animer le défilement au changement de piste</string>
     <string name="audio_title_alignment">Alignement des titres audio</string>
     <string name="audio_title_alignment_default">Prédéfini(e)</string>
     <string name="audio_title_alignment_left">Gauche</string>
     <string name="audio_title_alignment_centre">Centre</string>
     <string name="audio_title_alignment_right">Droite</string>
     <string name="audio_title_alignment_marquee">Texte</string>
+    <string name="audio_save_repeat_title">Enregistrer le mode de répétition</string>
+    <string name="audio_save_repeat_summary">Restaurer le mode de répétition au chargement de listes de lecture audio</string>
     <string name="headset_prefs_category">Casque</string>
     <string name="enable_headset_detection">Détecter le casque</string>
     <string name="enable_headset_detection_summary">Détecter l\'insertion et le retrait d\'un micro-casque</string>
@@ -319,7 +334,7 @@
     <string name="network_caching_summary">Durée en ms pour le tampon réseau. Ne fonctionne pas avec le décodage matériel. Laissez vide pour ré-initialiser.</string>
     <string name="resume_playback_title">Reprendre la lecture après un appel</string>
     <string name="resume_playback_summary">Rester en pause dans le cas contraire</string>
-    <string name="network_caching_popup">Cett valeur doit être comprise entre 0 et 6000 ms</string>
+    <string name="network_caching_popup">Cette valeur doit être comprise entre 0 et 6000 ms</string>
     <string name="quit">Quitter et redémarrer l\'application</string>
     <string name="developer_prefs_category">Développeur</string>
     <string name="enable_verbose_mode">Verbosité</string>
@@ -371,6 +386,7 @@
     <string name="player_touch_disable_all">Désactiver tous les contrôles tactiles</string>
     <string name="tv_ui_title">Interface Android TV</string>
     <string name="tv_ui_summary">Basculer sur l\'interface Android TV</string>
+    <string name="medialibrary">Bibliothèque multimédia</string>
     <string name="medialibrary_directories">Dossiers de la bibliothèque multimédia</string>
     <!--Accessibility-->
     <string name="more_actions">Plus d\'actions</string>
@@ -423,6 +439,7 @@
     <string name="list_languages_download_summary">Langue à télécharger lors de la recherche de sous-titres</string>
     <string name="list_languages_download_title">Langues des sous-titres téléchargés</string>
     <string name="service_unavailable">Service injoignable</string>
+    <string name="subs_dl_lang_fail">Échec lors de la définition de la langue des sous-titres ; essayez de la définir dans les paramètres de l\'application</string>
     <string name="downloading_subtitles">Téléchargement des sous-titres</string>
     <string name="browse_folder">Ouvrir le dossier</string>
     <string name="listen">Écouter</string>
@@ -435,11 +452,15 @@
     <string name="clear_playback_history">Supprimer l\'historique de lecture</string>
     <string name="various_artists">Artistes Divers</string>
     <string name="ml_scanning">Recherche de fichiers multimédia</string>
-    <string name="ml_parse_media">Analyse du média</string>
+    <string name="ml_parse_media">Analyse des média</string>
     <string name="ml_discovering">Exploration</string>
     <string name="resume">Reprendre</string>
-    <string name="length">Longueur</string>
+    <string name="length">durée</string>
     <string name="tv_settings_hint">Appui prolongé sur OK pour cocher/décocher</string>
     <string name="ml_external_storage_title">Nouveau stockage externe détecté</string>
     <string name="ml_external_storage_msg">Souhaitez-vous que VLC ajoute le périphérique %1$s à votre bibliothèque de media ?</string>
+    <string name="last_added_media">Derniers ajouts</string>
+    <string name="no">Non</string>
+    <string name="loading_medialibrary">Chargement de la bibliothèque multimédia</string>
+    <string name="yes">oui</string>
 </resources>
