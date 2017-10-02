@@ -355,6 +355,8 @@ public class SubtitlesDownloader {
         for (MediaWrapper media : mediaList) {
             if (stop)
                 break;
+            if (media == null)
+                continue;
             String hash = null, tag = null;
             long fileLength = 0;
             final Uri mediaUri = media.getUri();
