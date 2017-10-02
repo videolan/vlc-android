@@ -21,7 +21,6 @@
     <string name="play_as_audio">پخش صوتی</string>
     <string name="play_as_video">پخش تصویری</string>
     <string name="play_as_audio_background">پخش ویدیو ها در پس زمینه</string>
-    <string name="play_as_audio_background_summary">ادامه پخش ویدیو در پس زمینه، هنگامی که صفحه خاموش یا دکمه خانه زده شود.</string>
     <string name="append">افزودن</string>
     <string name="play_all">پخش همه</string>
     <string name="append_all">افزودن همه</string>
