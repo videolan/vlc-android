@@ -26,7 +26,6 @@
     <string name="play_as_audio">شغّل كصوت</string>
     <string name="play_as_video">شغّل كمرئي</string>
     <string name="play_as_audio_background">تشغيل الفيديو في الخلفية</string>
-    <string name="play_as_audio_background_summary">مواصلة تشغيل الفيديو في الخلفية عندما تحول شاشة الجهاز إلى وضع الأيقاف أو النقر على زر منزل</string>
     <string name="append">ألحِق</string>
     <string name="play_all">شغّل الكل</string>
     <string name="append_all">ألحِق الكل</string>
