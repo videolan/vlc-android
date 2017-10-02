@@ -23,8 +23,10 @@
     <string name="play_from_start">Predvajaj od začetka</string>
     <string name="play_as_audio">Predvajaj kot zvok</string>
     <string name="play_as_video">Predvajaj kot video</string>
+    <string name="video_app_switch_title">Dejanje pri preklapljanju programa</string>
+    <string name="video_app_switch_summary">Izbor načina delovanja programa VLC med preklopom na drug program ob dejavnem predvajanju</string>
+    <string name="play_pip_title">Predvajaj posnetke v načinu slika-v-sliki</string>
     <string name="play_as_audio_background">Predvajaj video posnetke v ozadju</string>
-    <string name="play_as_audio_background_summary">Nadaljuj s predvajanjem video posnetkov v ozadju, ko se zaslon naprave izklopi oziroma ko kliknete gumb za skok na začetni zaslon.</string>
     <string name="append">Dodaj</string>
     <string name="insert_next">Vstavi naslednjega</string>
     <string name="play_all">Predvajaj vse</string>
@@ -54,6 +56,7 @@
     </plurals>
     <string name="artists">Izvajalci</string>
     <string name="albums">Albumi</string>
+    <string name="tracks">Sledi</string>
     <plurals name="albums_quantity">
         <item quantity="one">%d album</item>
         <item quantity="two">%d albuma</item>
@@ -299,6 +302,8 @@
     <string name="audio_title_alignment_centre">Sredinsko</string>
     <string name="audio_title_alignment_right">Desno</string>
     <string name="audio_title_alignment_marquee">Oznaka</string>
+    <string name="audio_save_repeat_title">Shrani način ponavljanja</string>
+    <string name="audio_save_repeat_summary">Zapomni si izbiro načina ponavljanja med nalaganjem seznamov predvajanja</string>
     <string name="headset_prefs_category">Slušalke</string>
     <string name="enable_headset_detection">Zaznaj slušalke</string>
     <string name="enable_headset_detection_summary">Zaznaj priklop in odklop slušalk</string>
@@ -391,6 +396,7 @@
     <string name="player_touch_disable_all">Onemogoči upravljanje z dotikom</string>
     <string name="tv_ui_title">Vmesnik Android TV</string>
     <string name="tv_ui_summary">Spremeni vmesnik za TV-temo</string>
+    <string name="medialibrary">Zbirka predstavnih datotek</string>
     <string name="medialibrary_directories">Mape zbirke predstavnih datotek</string>
     <!--Accessibility-->
     <string name="more_actions">Več dejanj</string>
@@ -466,4 +472,5 @@
     <string name="last_added_media">nazadnje dodano</string>
     <string name="no">Ne</string>
     <string name="loading_medialibrary">Poteka nalaganje predstavne knjižnice ...</string>
+    <string name="yes">da</string>
 </resources>
