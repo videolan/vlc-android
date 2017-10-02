@@ -23,9 +23,12 @@
     <string name="play_from_start">Воспроизвести с начала</string>
     <string name="play_as_audio">Воспроизвести как аудио</string>
     <string name="play_as_video">Воспроизвести как видео</string>
+    <string name="video_app_switch_title">Поведение при переключении приложения</string>
+    <string name="video_app_switch_summary">Выбор поведения VLC при переключении на другое приложение во время воспроизведения видео</string>
+    <string name="play_pip_title">Воспроизводить видео в режиме «Картинка в картинке»</string>
     <string name="play_as_audio_background">Проигрывать видео в фоне</string>
-    <string name="play_as_audio_background_summary">Продолжать воспроизведение видео в фоновом режиме, когда экран выключен или нажата кнопка Домой.</string>
     <string name="append">Добавить</string>
+    <string name="insert_next">Вставить следующим пунктом</string>
     <string name="play_all">Воспроизвести всё</string>
     <string name="append_all">Добавить всё</string>
     <string name="last_playlist">Последний плейлист</string>
@@ -53,6 +56,7 @@
     </plurals>
     <string name="artists">Исполнители</string>
     <string name="albums">Альбомы</string>
+    <string name="tracks">Дорожки</string>
     <plurals name="albums_quantity">
         <item quantity="one">Альбомов: 1</item>
         <item quantity="few">Альбомов: %d</item>
@@ -93,6 +97,7 @@
     <string name="directories">Каталоги</string>
     <string name="loading">Загрузка…</string>
     <string name="please_wait">Пожалуйста, подождите…</string>
+    <string name="nomedia">Медиафайлы не найдены. Пожалуйста, перенесите файлы на ваше устройство или измените настройки.</string>
     <string name="noplaylist">Плейлисты не найдены.</string>
     <string name="mediafiles">Медиафайлы</string>
     <string name="notavailable">недоступно</string>
@@ -271,6 +276,12 @@
     <string name="enable_volume_gesture_summary">Управление громкостью жестами во время воспроизведения видео</string>
     <string name="enable_seek_buttons">Включить кнопки перемотки</string>
     <string name="enable_seek_buttons_summary">Показывать кнопки перемотки назад и вперёд поверх видео</string>
+    <string name="enable_double_tap_seek_title">Промотка при двойном нажатии</string>
+    <string name="enable_double_tap_seek_summary">Двойное нажатие у краёв экрана для промотки на 10 секунд</string>
+    <string name="popup_keepscreen_title">Не допускать отключения экрана со всплывающим окном</string>
+    <string name="popup_keepscreen_summary">Всегда поддерживать экран включённым, когда отображается всплывающее окно, даже если видео на паузе.</string>
+    <string name="browser_show_hidden_files_title">Показывать скрытые файлы</string>
+    <string name="browser_show_hidden_files_summary">Показывать скрытые файлы при обзоре</string>
     <string name="subtitles_prefs_category">Субтитры</string>
     <string name="subtitles_size_title">Размер субтитров</string>
     <string name="subtitles_size_small">маленький</string>
@@ -287,12 +298,16 @@
     <string name="audio_prefs_category">Аудио</string>
     <string name="lockscreen_cover_title">Обложка медиа на экране блокировки</string>
     <string name="lockscreen_cover_summary">Если текущий медиаобъект имеет обложку, она будет установлена как фон экрана блокировки</string>
+    <string name="playlist_animate_scroll_title">Анимировать автопрокрутку текущего плейлиста</string>
+    <string name="playlist_animate_scroll_summary">Анимировать прокрутку при смене позиции</string>
     <string name="audio_title_alignment">Расположение заголовка аудио</string>
     <string name="audio_title_alignment_default">по умолчанию</string>
     <string name="audio_title_alignment_left">слева</string>
     <string name="audio_title_alignment_centre">по центру</string>
     <string name="audio_title_alignment_right">справа</string>
     <string name="audio_title_alignment_marquee">бегущая строка</string>
+    <string name="audio_save_repeat_title">Сохранять режим повтора</string>
+    <string name="audio_save_repeat_summary">Запоминать режим повтора при загрузке плейлистов с аудиозаписями</string>
     <string name="headset_prefs_category">Наушники</string>
     <string name="enable_headset_detection">Отслеживание гарнитуры</string>
     <string name="enable_headset_detection_summary">Обнаружение подключения и отключения наушников</string>
@@ -333,6 +348,7 @@
     <string name="network_caching_summary">Время буферизации сетевых потоков (в мс). Не применимо при аппаратном декодировании. Для сброса очистите это значение.</string>
     <string name="resume_playback_title">Возобновлять воспроизведение после звонка</string>
     <string name="resume_playback_summary">В противном случае сохраняется пауза</string>
+    <string name="network_caching_popup">Это значение должно быть от 0 до 6000 мс</string>
     <string name="quit">Перезапустить приложение</string>
     <string name="developer_prefs_category">Для разработчиков</string>
     <string name="enable_verbose_mode">Детализация</string>
@@ -384,6 +400,8 @@
     <string name="player_touch_disable_all">Отключить всё управление касаниями</string>
     <string name="tv_ui_title">Интерфейс Android TV</string>
     <string name="tv_ui_summary">Сменить интерфейс на тему для TV</string>
+    <string name="medialibrary">Медиатека</string>
+    <string name="medialibrary_directories">Папки медиатеки</string>
     <!--Accessibility-->
     <string name="more_actions">Другие действия</string>
     <string name="move">Переместить</string>
@@ -435,6 +453,7 @@
     <string name="list_languages_download_summary">Языки субтитров, которые будут загружаться</string>
     <string name="list_languages_download_title">Языки загружаемых субтитров</string>
     <string name="service_unavailable">Служба недоступна</string>
+    <string name="subs_dl_lang_fail">Установить язык субтитров не удалось, попробуйте задать его в настройках приложения</string>
     <string name="downloading_subtitles">Загрузка субтитров</string>
     <string name="browse_folder">Просмотр папки</string>
     <string name="listen">Прослушать</string>
@@ -451,4 +470,11 @@
     <string name="ml_discovering">Обнаружение</string>
     <string name="resume">Возобновить</string>
     <string name="length">Длительность</string>
+    <string name="tv_settings_hint">При долгом нажатии кнопка OK ставит/убирает пометки каталогов</string>
+    <string name="ml_external_storage_title">Обнаружено новое внешнее хранилище</string>
+    <string name="ml_external_storage_msg">Вы хотите, чтобы VLC добавил устройство %1$s в вашу медиатеку?</string>
+    <string name="last_added_media">недавно добавленное</string>
+    <string name="no">Нет</string>
+    <string name="loading_medialibrary">Загрузка медиатеки...</string>
+    <string name="yes">да</string>
 </resources>
