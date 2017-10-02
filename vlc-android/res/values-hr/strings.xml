@@ -23,7 +23,6 @@
     <string name="play_as_audio">Reproduciraj zvučni zapis</string>
     <string name="play_as_video">Reproduciraj video zapis</string>
     <string name="play_as_audio_background">Reproduciraj video snimke u pozadini</string>
-    <string name="play_as_audio_background_summary">Nastavi reprodukciju video snimaka u pozadini kada se zaslon uređaja isključi ili pritisne tipka početnog zaslona.</string>
     <string name="append">Dodaj</string>
     <string name="play_all">Reproduciraj sve</string>
     <string name="append_all">Dodaj sve</string>
