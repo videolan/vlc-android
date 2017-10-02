@@ -23,7 +23,6 @@
     <string name="play_as_audio">Groti kaip garso kūrinį</string>
     <string name="play_as_video">Groti kaip vaizdo kūrinį</string>
     <string name="play_as_audio_background">Vaizdo kūrinius groti fone</string>
-    <string name="play_as_audio_background_summary">Toliau groti vaizdo kūrinius, net jei išjungiamas įrenginio ekranas ar nuspaudžiamas PRADŽIOS mygtukas</string>
     <string name="append">Papildyti</string>
     <string name="play_all">Groti visus</string>
     <string name="append_all">Įtraukti visus</string>
