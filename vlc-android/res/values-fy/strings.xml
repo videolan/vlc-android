@@ -21,9 +21,11 @@
     <string name="play_from_start">Fan begjin ôf ôfspylje</string>
     <string name="play_as_audio">As audio ôfspylje</string>
     <string name="play_as_video">As fideo ôfspylje</string>
+    <string name="video_app_switch_title">Aksje by tapassingswiksel</string>
+    <string name="play_pip_title">Fideo\'s yn picture-in-picturemodus ôfspylje</string>
     <string name="play_as_audio_background">Fideo\'s op achtergrûn ôfspylje</string>
-    <string name="play_as_audio_background_summary">Ofspyljen fan fideo op achtergrûn trochsette by it útskeakeljen fan it skerm of by it klikken op de home-knop.</string>
     <string name="append">Tafoegje</string>
+    <string name="insert_next">Folgjende tafoegje</string>
     <string name="play_all">Alles ôfspylje</string>
     <string name="append_all">Alles tafoegje</string>
     <string name="last_playlist">Lêste ôfspyllist</string>
@@ -49,6 +51,7 @@
     </plurals>
     <string name="artists">Artysten</string>
     <string name="albums">Albums</string>
+    <string name="tracks">Nûmers</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d albums</item>
@@ -246,14 +249,19 @@
     <string name="force_list_portrait">Gjin raster yn steande moadus</string>
     <string name="force_list_portrait_summary">Fideo\'s yn list werjaan yn stee fan yn raster yn steande moadus</string>
     <string name="force_play_all_summary">Spylje alle fodeo\'s, te begjinnen mei dy dêr\'t jo op klikt hawwe</string>
+    <string name="force_play_all_title">Fideo-ôfspyllistmodus</string>
     <string name="save_brightness_summary">Helderheidsnivo yn fideospiler ûnthâlde</string>
     <string name="save_brightness_title">Helderheidsnivo foar fideo bewarje</string>
+    <string name="save_audiodelay_title">Lûdsfertraging bewarje</string>
     <string name="enable_brightness_gesture_title">Helderheidsgebear</string>
     <string name="enable_brightness_gesture_summary">Helderheid oanpasse troch middel fan gebearen wylst ôfspyljen fan fideo</string>
     <string name="enable_volume_gesture_title">Folumegebear</string>
     <string name="enable_volume_gesture_summary">Folume oanpasse troch gebearen wylst ôfspyljen fan fideo</string>
     <string name="enable_seek_buttons">Sykknoppen ynskeakelje</string>
     <string name="enable_seek_buttons_summary">Tebekspyl- en foarútspyl-knoppen werjaan op de fideo-ynterface</string>
+    <string name="enable_double_tap_seek_title">Dûbeltik om te sykjen</string>
+    <string name="browser_show_hidden_files_title">Ferstoppe bestannen toane</string>
+    <string name="browser_show_hidden_files_summary">Ferstoppe bestannen yn browsers toane</string>
     <string name="subtitles_prefs_category">Undertitels</string>
     <string name="subtitles_size_title">Undertitelgrutte</string>
     <string name="subtitles_size_small">Lyts</string>
@@ -362,6 +370,8 @@
     <string name="player_touch_disable_all">Alle oanraakbetsjinningen útskeakelje</string>
     <string name="tv_ui_title">Android tf-ynterface</string>
     <string name="tv_ui_summary">UI wizigje nei oanpast tf-tema</string>
+    <string name="medialibrary">Mediabiblioteek</string>
+    <string name="medialibrary_directories">Mediabiblioteekmappen</string>
     <!--Accessibility-->
     <string name="more_actions">Mear aksjes</string>
     <string name="move">Ferpleatse</string>
@@ -388,6 +398,10 @@
     <string name="plugins">Ynstekkers</string>
     <string name="download_on_device">Downloade</string>
     <string name="extension_empty">Gjin items om wer te jaan, gean nei jo útwreidings-ynstellingen om der wat op te heljen.</string>
+    <string name="opengl_title">OpenGL ES2-gebrûk</string>
+    <string name="opengl_automatic">Automatysk</string>
+    <string name="opengl_on">Oan forsearje</string>
+    <string name="opengl_off">Ut forsearje</string>
     <string name="network_favorites">Netwurkfavoriten</string>
     <string name="network_shared_folders">Dielde mappen</string>
     <string name="encryption_warning">Warskôging: fersifering is net beskikber op dizze Android-ferzje. It wachtwurd sil bewarre wurde op in priveeromte mar net fersifere.</string>
@@ -406,10 +420,28 @@
     <string name="list_languages_download_summary">Talen om te downloaden by it opheljen fan ûndertitels</string>
     <string name="list_languages_download_title">Undertitel-downloadtalen</string>
     <string name="service_unavailable">Tsjinst net beskikber</string>
+    <string name="subs_dl_lang_fail">Ynstellen taal ûndertitels  mislearre, probearje it yn te stellen yn de applikaasjeynstellingen</string>
     <string name="downloading_subtitles">Undertitels downloade</string>
     <string name="browse_folder">Blêdzje yn map</string>
     <string name="listen">Lústerje</string>
     <string name="subtitles_download_title">Undertiteldownload</string>
     <string name="connecting">Ferbine...</string>
     <string name="save_bluetooth_delay">fertraging foar bluetooth-apparaat bewarje</string>
+    <string name="episodes">episoaden</string>
+    <string name="movies">films</string>
+    <string name="videos">fideo\'s</string>
+    <string name="clear_playback_history">Ofspylskiednis wiskje</string>
+    <string name="various_artists">Ferskate artysten</string>
+    <string name="ml_scanning">Scant nei mediabestannen</string>
+    <string name="ml_parse_media">Media ferwurkje</string>
+    <string name="ml_discovering">Untdekke</string>
+    <string name="resume">Fierder</string>
+    <string name="length">Lingte</string>
+    <string name="tv_settings_hint">Hâld OK-knop lang yndrukt om mappen te (de)selektearjen</string>
+    <string name="ml_external_storage_title">Nije eksterne ûnthâld detektearre</string>
+    <string name="ml_external_storage_msg">Wolle jo dat VLC it apparaat %1$s tafoeget oan jo mediabiblioteek?</string>
+    <string name="last_added_media">lêst tafoege</string>
+    <string name="no">Nee</string>
+    <string name="loading_medialibrary">Mediabiblioteek lade...</string>
+    <string name="yes">ja</string>
 </resources>
