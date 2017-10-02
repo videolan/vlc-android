@@ -21,8 +21,10 @@
     <string name="play_from_start">En baştan oynat</string>
     <string name="play_as_audio">Ses olarak oynat</string>
     <string name="play_as_video">Görüntü olarak oynat</string>
+    <string name="video_app_switch_title">Uygulama değiştirildiğinde işlem</string>
+    <string name="video_app_switch_summary">Görüntü oynatılırken başka bir uygulamaya geçildiğinde VLC tarafından yapılacak işlemi seçin</string>
+    <string name="play_pip_title">Görüntüler görsel içinde görsel kipinde oynatılsın</string>
     <string name="play_as_audio_background">Görüntüler artalanda oynatılsın</string>
-    <string name="play_as_audio_background_summary">Aygıt ekranı kapatıldığında ya da ANASAYFA düğmesine basıldığında görüntüler artalanda oynatılmaya devam edilir.</string>
     <string name="append">Ekle</string>
     <string name="insert_next">Sonrakini ekle</string>
     <string name="play_all">Tümünü oynat</string>
@@ -50,6 +52,7 @@
     </plurals>
     <string name="artists">Sanatçılar</string>
     <string name="albums">Albümler</string>
+    <string name="tracks">İzler</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 albüm</item>
         <item quantity="other">%d albüm</item>
@@ -138,8 +141,8 @@
     <string name="sleep_in">Uykuya dalma süresi</string>
     <string name="sleep_cancel">Uyku zamanlayıcıyı iptal et</string>
     <string name="jump_to_time">Sıçranacak Zaman</string>
-    <string name="subtitle_label">Altyazı dosyası ekle</string>
-    <string name="subtitle_select">Altyazı dosyasını seçin</string>
+    <string name="subtitle_label">Alt yazı dosyası ekle</string>
+    <string name="subtitle_select">Alt yazı dosyasını seçin</string>
     <string name="no_file_picker_found">Sisteminizde bir dosya seçicisi yok.</string>
     <string name="server_add_title">Sık kullanılanlara yeni sunucu ekle</string>
     <string name="server_domain_hint">Sunucu adresi (etki alanı ya da IP)</string>
@@ -176,8 +179,8 @@
     <!--Tips-->
     <string name="video_player_tips">Görüntü oynatıcı ipuçları:</string>
     <string name="seek">Arama</string>
-    <string name="subtitles">Altyazılar</string>
-    <string name="audio_sub">Ses izleri\nve altyazılar</string>
+    <string name="subtitles">Alt yazılar</string>
+    <string name="audio_sub">Ses izleri\nve alt yazılar</string>
     <string name="resize">Boyutlandır</string>
     <string name="options">Ayarlar</string>
     <string name="lock">Kilitle</string>
@@ -217,9 +220,9 @@
     <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
     <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
     <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
-    <string name="automatic">Kendiliğinden</string>
+    <string name="automatic">Otomatik</string>
     <string name="screen_orientation">Görüntü ekranı doğrultusu</string>
-    <string name="screen_orientation_sensor">Kendiliğinden (almaç)</string>
+    <string name="screen_orientation_sensor">Otomatik (almaç)</string>
     <string name="screen_orientation_start_lock">Başlangıçta kilitli</string>
     <string name="screen_orientation_portrait">Dikey</string>
     <string name="screen_orientation_landscape">Yatay</string>
@@ -227,7 +230,7 @@
     <string name="screen_orientation_reverse_landscape">Ters yatay</string>
     <string name="enable_black_theme">Siyah tema kullanılsın</string>
     <string name="enable_black_theme_summary">Düşük ışıklı ortamlarda daha rahat kullanım için arayüz renklerini değiştirir.</string>
-    <string name="subtitle_text_encoding">Altyazı metin kodlaması</string>
+    <string name="subtitle_text_encoding">Alt yazı metin kodlaması</string>
     <string name="daynight_title">Gündüz/Gece kipi</string>
     <string name="daynight_summary">Uygun zamanda otomatik olarak gece kipine geçilsin</string>
     <string name="extra_prefs_category">Ek ayarlar</string>
@@ -265,7 +268,7 @@
     <string name="popup_keepscreen_summary">Açılan pencere görüntülenirken görüntü duraklatılmış olsa bile ekran açık kalsın.</string>
     <string name="browser_show_hidden_files_title">Gizli dosyalar görüntülensin</string>
     <string name="browser_show_hidden_files_summary">Web tarayıcılarında gizli dosyalar görüntülensin</string>
-    <string name="subtitles_prefs_category">Altyazılar</string>
+    <string name="subtitles_prefs_category">Alt yazılar</string>
     <string name="subtitles_size_title">Alt Yazı Boyutu</string>
     <string name="subtitles_size_small">Küçük</string>
     <string name="subtitles_size_normal">Normal</string>
@@ -281,7 +284,7 @@
     <string name="audio_prefs_category">Ses</string>
     <string name="lockscreen_cover_title">Kilit ekranında ortam kapağı</string>
     <string name="lockscreen_cover_summary">Yapılabildiğinde, kilit ekranının duvar kağıdı olarak geçerli ortam kapağı görseli görüntülenir</string>
-    <string name="playlist_animate_scroll_title">Geçerli oynatma listesi kaydırması canlandırılsın</string>
+    <string name="playlist_animate_scroll_title">Geçerli oynatma listesi otomatik kaydırması canlandırılsın</string>
     <string name="playlist_animate_scroll_summary">Ortam geçişi kaydırması canlandırılsın</string>
     <string name="audio_title_alignment">Ses başlığının hizası</string>
     <string name="audio_title_alignment_default">Varsayılan</string>
@@ -289,6 +292,8 @@
     <string name="audio_title_alignment_centre">Ortada</string>
     <string name="audio_title_alignment_right">Sağda</string>
     <string name="audio_title_alignment_marquee">Marka</string>
+    <string name="audio_save_repeat_title">Yineleme kipini kaydet</string>
+    <string name="audio_save_repeat_summary">Ses oynatma listeleri yüklenirken yineleme kipi hatırlansın</string>
     <string name="headset_prefs_category">Kulaklık</string>
     <string name="enable_headset_detection">Kulaklık algılansın</string>
     <string name="enable_headset_detection_summary">Kulaklığın takıldığı ve çıkarıldığı algılansın</string>
@@ -356,7 +361,7 @@
     <string name="browsing">Göz atılıyor</string>
     <string name="file_size">Dosya boyutu:</string>
     <string name="audio_delay">Ses gecikmesi</string>
-    <string name="spu_delay">Altyazı gecikmesi</string>
+    <string name="spu_delay">Alt yazı gecikmesi</string>
     <string name="sleep_time_not_set">hiçbiri ayarlanmamış</string>
     <string name="network_shares_discovery">Ağ paylaşımları aranıyor...</string>
     <string name="network_empty">Bu klasör boş.</string>
@@ -381,6 +386,7 @@
     <string name="player_touch_disable_all">Tüm dokunma denetimleri devre dışı kalsın</string>
     <string name="tv_ui_title">Android TV arayüzü</string>
     <string name="tv_ui_summary">Kullanıcı arayüzünü TV uyumlu temaya dönüştürür</string>
+    <string name="medialibrary">Ortam kitaplığı</string>
     <string name="medialibrary_directories">Ortam kitaplığı klasörleri</string>
     <!--Accessibility-->
     <string name="more_actions">Diğer İşlemler</string>
@@ -388,7 +394,7 @@
     <string name="back_quit_lock">Çıkmak için yeniden geriye basın</string>
     <string name="playlist_deleted">Oynatma listesi silindi</string>
     <string name="file_deleted">Dosya silindi</string>
-    <string name="no_subs_found">Bu klasörde altyazı yok</string>
+    <string name="no_subs_found">Bu klasörde herhangi bir alt yazı yok</string>
     <string name="music_now_playing">Şimdi Oynatılan</string>
     <!--Widget-->
     <string name="widget_name_w">Beyaz VLC Gereci</string>
@@ -423,21 +429,21 @@
     <string name="popup_playback_title">Görüntü açılan pencerede oynatılsın</string>
     <string name="popup_playback">Açılan pencerede oynatılıyor</string>
     <string name="popup_expand">Görüntüyü genişlet</string>
-    <string name="snack_subloader_sub_found">Altyazılar indirildi</string>
-    <string name="snack_subloader_sub_not_found">Altyazılar bulunamadı</string>
-    <string name="dialog_subloader_success">Şu altyazılar bulundu:</string>
-    <string name="dialog_subloader_fails">Şu altyazılar bulunamadı:</string>
+    <string name="snack_subloader_sub_found">Alt yazılar indirildi</string>
+    <string name="snack_subloader_sub_not_found">Alt yazılar bulunamadı</string>
+    <string name="dialog_subloader_success">Şu alt yazılar bulundu:</string>
+    <string name="dialog_subloader_fails">Şu alt yazılar bulunamadı:</string>
     <string name="dialog_subloader_sumup">İndirildi</string>
-    <string name="download_subtitles">Altyazıları indir</string>
-    <string name="preferences_languages_download">Altyazı dilleri</string>
-    <string name="list_languages_download_summary">Altyazılar alınırken indirilecek diller</string>
-    <string name="list_languages_download_title">İndirilecek altyazı dilleri</string>
+    <string name="download_subtitles">Alt yazıları indir</string>
+    <string name="preferences_languages_download">Alt yazı dilleri</string>
+    <string name="list_languages_download_summary">Alt yazılar alınırken indirilecek diller</string>
+    <string name="list_languages_download_title">İndirilecek alt yazı dilleri</string>
     <string name="service_unavailable">Hizmet kullanılamıyor</string>
-    <string name="subs_dl_lang_fail">Altyazı dili ayarlanamadı, uygulama ayarlarından seçmeyi deneyin</string>
-    <string name="downloading_subtitles">Altyazılar indiriliyor</string>
+    <string name="subs_dl_lang_fail">Alt yazı dili ayarlanamadı, uygulama ayarlarından seçmeyi deneyin</string>
+    <string name="downloading_subtitles">Alt yazılar indiriliyor</string>
     <string name="browse_folder">Klasör gözat</string>
     <string name="listen">Dinle</string>
-    <string name="subtitles_download_title">Altyazı indirme</string>
+    <string name="subtitles_download_title">Alt yazı indirme</string>
     <string name="connecting">Bağlanılıyor...</string>
     <string name="save_bluetooth_delay">Bluetooth aygıtı için kaydetme gecikmesi</string>
     <string name="episodes">bölümler</string>
@@ -456,4 +462,5 @@
     <string name="last_added_media">son eklenen</string>
     <string name="no">Hayır</string>
     <string name="loading_medialibrary">Ortam Kitaplığı Yükleniyor...</string>
+    <string name="yes">evet</string>
 </resources>
