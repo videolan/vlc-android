@@ -22,7 +22,6 @@
     <string name="play_as_audio">ஒலியாக இயக்கு</string>
     <string name="play_as_video">காணொளியாக இயக்கு</string>
     <string name="play_as_audio_background">பின்னணியில் காணொளிகளை இயக்கு</string>
-    <string name="play_as_audio_background_summary">பின்னணியில் காணொளிகளை தொடர்ந்து இயக்கு சாதனத்தின் திரை அணைக்கும்போதும் மற்றும் முகப்பு பொத்தானை அழுத்தும்போதும்.</string>
     <string name="append">சேர்</string>
     <string name="play_all">அனைத்தையும் இயக்கு</string>
     <string name="append_all">அனைத்தையும் சேர்</string>
