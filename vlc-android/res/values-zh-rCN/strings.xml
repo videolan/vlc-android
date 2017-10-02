@@ -450,8 +450,8 @@
     <string name="resume">继续</string>
     <string name="length">长度</string>
     <string name="tv_settings_hint">长按 OK 按钮可选中/取消选中目录</string>
-    <string name="ml_external_storage_title">发现新的外部存储设备</string>
-    <string name="ml_external_storage_msg">是否希望 VLC 将设备“%1$s”添加到您的媒体库?</string>
+    <string name="ml_external_storage_title">检测到外部存储设备</string>
+    <string name="ml_external_storage_msg">是否同意VLC将%1$s 存储空间用于媒体库？</string>
     <string name="last_added_media">添加时间</string>
     <string name="no">否</string>
     <string name="loading_medialibrary">正在加载媒体库...</string>
