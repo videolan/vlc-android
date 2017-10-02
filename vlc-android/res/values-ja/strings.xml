@@ -20,8 +20,10 @@
     <string name="play_from_start">最初から再生</string>
     <string name="play_as_audio">オーディオとして再生</string>
     <string name="play_as_video">ビデオとして再生</string>
+    <string name="video_app_switch_title">アプリケーション切替時のアクション</string>
+    <string name="video_app_switch_summary">ビデオ再生中にVLCから他のアプリケーションに切り替えた場合の動作を選択します</string>
+    <string name="play_pip_title">ピクチャーインピクチャーモードで動画を再生</string>
     <string name="play_as_audio_background">バックグラウンドでビデオを再生</string>
-    <string name="play_as_audio_background_summary">デバイスのスクリーンをオフにするかホームボタンをクリックした際、バックグラウンドでビデオの再生を続けます。</string>
     <string name="append">追加</string>
     <string name="insert_next">次に挿入</string>
     <string name="play_all">すべて再生</string>
@@ -48,6 +50,7 @@
     </plurals>
     <string name="artists">アーティスト</string>
     <string name="albums">アルバム</string>
+    <string name="tracks">トラック</string>
     <plurals name="albums_quantity">
         <item quantity="other">%d アルバム</item>
     </plurals>
@@ -282,6 +285,8 @@
     <string name="audio_title_alignment_centre">センター</string>
     <string name="audio_title_alignment_right">右</string>
     <string name="audio_title_alignment_marquee">マーキー</string>
+    <string name="audio_save_repeat_title">リピートモードを保存</string>
+    <string name="audio_save_repeat_summary">オーディオプレイリストを読み込む際、リピートモードを記憶する</string>
     <string name="headset_prefs_category">ヘッドセット</string>
     <string name="enable_headset_detection">ヘッドセットの検出</string>
     <string name="enable_headset_detection_summary">ヘッドセットの着脱を検出</string>
@@ -374,6 +379,7 @@
     <string name="player_touch_disable_all">すべてのタッチコントロールを無効化</string>
     <string name="tv_ui_title">Android TVインターフェース</string>
     <string name="tv_ui_summary">TVのテーマにUIを変更</string>
+    <string name="medialibrary">メディアライブラリ</string>
     <string name="medialibrary_directories">メディアライブラリフォルダー</string>
     <!--Accessibility-->
     <string name="more_actions">他のアクション</string>
@@ -449,4 +455,5 @@
     <string name="last_added_media">最近の追加</string>
     <string name="no">No</string>
     <string name="loading_medialibrary">メディアライブラリーを読み込んでいます...</string>
+    <string name="yes">yes</string>
 </resources>
