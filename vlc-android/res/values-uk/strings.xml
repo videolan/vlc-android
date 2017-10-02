@@ -22,8 +22,10 @@
     <string name="play_from_start">Відтворити з початку</string>
     <string name="play_as_audio">Відтворити як аудіо</string>
     <string name="play_as_video">Відтворити як відео</string>
+    <string name="video_app_switch_title">Дія при перемиканні програми</string>
+    <string name="video_app_switch_summary">Виберіть поводження VLC, коли ви перемикаєтеся на іншу програму при відтворенні відео</string>
+    <string name="play_pip_title">Відтворювати відео у режимі Картинка в картинці</string>
     <string name="play_as_audio_background">Відтворювати відео у фоні</string>
-    <string name="play_as_audio_background_summary">Продовжити відтворення відео у фоні, коли вимикається екран відео або натискається кнопка Домівка.</string>
     <string name="append">Додати</string>
     <string name="insert_next">Вставити наступне</string>
     <string name="play_all">Відтворити все</string>
@@ -52,6 +54,7 @@
     </plurals>
     <string name="artists">Виконавці</string>
     <string name="albums">Альбоми</string>
+    <string name="tracks">Доріжки</string>
     <plurals name="albums_quantity">
         <item quantity="one">%d альбом</item>
         <item quantity="few">%d альбоми</item>
@@ -296,6 +299,8 @@
     <string name="audio_title_alignment_centre">По центру</string>
     <string name="audio_title_alignment_right">Правий</string>
     <string name="audio_title_alignment_marquee">Рухливий текст</string>
+    <string name="audio_save_repeat_title">Зберегти режим повторення</string>
+    <string name="audio_save_repeat_summary">Запам\'ятати режим повторення, коли завантажуються списки відтворення аудіо</string>
     <string name="headset_prefs_category">Навушники</string>
     <string name="enable_headset_detection">Виявляти гарнітуру</string>
     <string name="enable_headset_detection_summary">Виявляти під\'єднання і вилучення навушників</string>
@@ -388,6 +393,7 @@
     <string name="player_touch_disable_all">Вимкнути сенсорне керування</string>
     <string name="tv_ui_title">Інтерфейс ТБ Андроїд</string>
     <string name="tv_ui_summary">Змінити інтерфейс на тему під ТБ</string>
+    <string name="medialibrary">Медіа бібліотека</string>
     <string name="medialibrary_directories">Теки медіа бібліотеки</string>
     <!--Accessibility-->
     <string name="more_actions">Більше дій</string>
@@ -463,4 +469,5 @@
     <string name="last_added_media">останнє додане</string>
     <string name="no">Ні</string>
     <string name="loading_medialibrary">Завантажується бібліотека медіа…</string>
+    <string name="yes">так</string>
 </resources>
