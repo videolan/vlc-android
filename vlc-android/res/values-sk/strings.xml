@@ -22,8 +22,10 @@
     <string name="play_from_start">Prehrať od začiatku</string>
     <string name="play_as_audio">Prehrať ako audio</string>
     <string name="play_as_video">Prehrať ako video</string>
+    <string name="video_app_switch_title">Akcia pri prepnutí aplikácie</string>
+    <string name="video_app_switch_summary">Vyberte si úkon VLC, ktorý prebehne pri prepnutí na inú aplikáciu počas prehrávania videa</string>
+    <string name="play_pip_title">Prehrať videá v režime obrazu v obraze</string>
     <string name="play_as_audio_background">Prehrávať videá na pozadí</string>
-    <string name="play_as_audio_background_summary">Pokračovať v prehrávaní videa na pozadí pri vypnutí obrazovky zariadenia alebo kliknutí na tlačidlo HOME.</string>
     <string name="append">Pripojiť</string>
     <string name="insert_next">Vložiť ako ďalšie</string>
     <string name="play_all">Prehrať všetko</string>
@@ -52,6 +54,7 @@
     </plurals>
     <string name="artists">Umelci</string>
     <string name="albums">Albumy</string>
+    <string name="tracks">Stopy</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="few">%d albumy</item>
@@ -266,6 +269,12 @@
     <string name="enable_volume_gesture_summary">Počas prehrávania videa ovládať hlasitosť gestom</string>
     <string name="enable_seek_buttons">Zapnúť tlačidlá pre vyhľadávanie</string>
     <string name="enable_seek_buttons_summary">Zobraziť prevíjanie dozadu a dopredu v rozhraní videa</string>
+    <string name="enable_double_tap_seek_title">Pre hľadanie/posun sa 2x dotknite</string>
+    <string name="enable_double_tap_seek_summary">Pre posun o 10 sekúnd sa 2x dotknite rohov obrazovky</string>
+    <string name="popup_keepscreen_title">V režime vyskakovacieho okna ponechať zapnutý displej</string>
+    <string name="popup_keepscreen_summary">Počas zobrazenia vyskakovacieho okna ponechať obrazovku zapnutú, aj pri pozastavení videa.</string>
+    <string name="browser_show_hidden_files_title">Zobraziť skryté súbory</string>
+    <string name="browser_show_hidden_files_summary">Zobraziť skryté súbory v prehliadačoch</string>
     <string name="subtitles_prefs_category">Titulky</string>
     <string name="subtitles_size_title">Veľkosť titulkov</string>
     <string name="subtitles_size_small">Malé</string>
@@ -282,12 +291,16 @@
     <string name="audio_prefs_category">Zvuk</string>
     <string name="lockscreen_cover_title">Obal média na obrazovke uzamknutia</string>
     <string name="lockscreen_cover_summary">Ak je dostupný, nastaví obal média ako pozadie na obrazovke uzamknutia</string>
+    <string name="playlist_animate_scroll_title">Animovať autom. rolovanie aktuálneho playlistu</string>
+    <string name="playlist_animate_scroll_summary">Animovať rolovanie pri zmene média</string>
     <string name="audio_title_alignment">Zarovnanie názvu zvukového súboru</string>
     <string name="audio_title_alignment_default">Predvolené</string>
     <string name="audio_title_alignment_left">Vľavo</string>
     <string name="audio_title_alignment_centre">Stred</string>
     <string name="audio_title_alignment_right">Vpravo</string>
     <string name="audio_title_alignment_marquee">Rolovanie</string>
+    <string name="audio_save_repeat_title">Uložiť režim opakovania</string>
+    <string name="audio_save_repeat_summary">Pamätať si režim opakovania pri načítavaní zvukových playlistov</string>
     <string name="headset_prefs_category">Slúchadlá</string>
     <string name="enable_headset_detection">Detegovať headset</string>
     <string name="enable_headset_detection_summary">Detegovať pripojenie a odpojenie headsetu</string>
@@ -380,6 +393,7 @@
     <string name="player_touch_disable_all">Zablokovať všetky dotykové ovládače</string>
     <string name="tv_ui_title">Rozhranie Android TV</string>
     <string name="tv_ui_summary">Zmeniť UI na tému prispôsobenú TV</string>
+    <string name="medialibrary">Knižnica médií</string>
     <string name="medialibrary_directories">Priečinky knižnice médií</string>
     <!--Accessibility-->
     <string name="more_actions">Viac akcií</string>
@@ -455,4 +469,5 @@
     <string name="last_added_media">naposledy pridané</string>
     <string name="no">Nie</string>
     <string name="loading_medialibrary">Načítavanie knižnice s médiami...</string>
+    <string name="yes">áno</string>
 </resources>
