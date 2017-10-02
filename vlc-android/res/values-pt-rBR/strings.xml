@@ -21,8 +21,8 @@
     <string name="play_from_start">Reproduzir do início</string>
     <string name="play_as_audio">Reproduzir como áudio</string>
     <string name="play_as_video">Reproduzir como vídeo</string>
+    <string name="play_pip_title">Reproduzir vídeos em modo de mini tela</string>
     <string name="play_as_audio_background">Reproduzir vídeos em segundo plano</string>
-    <string name="play_as_audio_background_summary">Continua a reprodução do vídeo em segundo plano quando a tela do dispositivo for desligada ou a tecla HOME for pressionada.</string>
     <string name="append">Adicionar</string>
     <string name="insert_next">Inserir como próximo</string>
     <string name="play_all">Reproduzir tudo</string>
@@ -50,6 +50,7 @@
     </plurals>
     <string name="artists">Artistas</string>
     <string name="albums">Álbuns</string>
+    <string name="tracks">Trilhas</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 álbum</item>
         <item quantity="other">%d álbuns</item>
@@ -245,14 +246,23 @@
     <string name="video_min_group_length_long">Grande número de letras (9)</string>
     <string name="force_list_portrait">Desativar a grade no modo retrato</string>
     <string name="force_list_portrait_summary">Exibir vídeos em lista em vez de grade, no modo retrato</string>
+    <string name="force_play_all_summary">Reproduz todos os vídeos, iniciando pelo que você clicar.</string>
+    <string name="force_play_all_title">Modo de lista de reprodução de vídeos</string>
     <string name="save_brightness_summary">Salvar o nível de brilho no reprodutor de vídeos</string>
     <string name="save_brightness_title">Salvar o nível de brilho para vídeo</string>
+    <string name="save_audiodelay_summary">Salvar o atraso individual de áudio para cada vídeo</string>
+    <string name="save_audiodelay_title">Salvar o atraso de áudio</string>
     <string name="enable_brightness_gesture_title">Gesto de brilho</string>
     <string name="enable_brightness_gesture_summary">Controla o brilho por gestos durante a reprodução de vídeo</string>
     <string name="enable_volume_gesture_title">Gesto de volume</string>
     <string name="enable_volume_gesture_summary">Controla o volume por gesto durante a reprodução</string>
     <string name="enable_seek_buttons">Habilitar os botões de deslocamento</string>
     <string name="enable_seek_buttons_summary">Exibir os botões de avançar e retroceder na interface de vídeo</string>
+    <string name="enable_double_tap_seek_title">Toque duplo para pesquisar</string>
+    <string name="enable_double_tap_seek_summary">Toque duplo nos cantos da tela para pesquisar por 10 segundos</string>
+    <string name="popup_keepscreen_title">Manter a tela ativa no modo Pop-Up</string>
+    <string name="browser_show_hidden_files_title">Exibir arquivos ocultos</string>
+    <string name="browser_show_hidden_files_summary">Exibir arquivos ocultos em navegadores</string>
     <string name="subtitles_prefs_category">Legendas</string>
     <string name="subtitles_size_title">Tamanho da Legenda</string>
     <string name="subtitles_size_small">Pequeno</string>
@@ -356,6 +366,8 @@
     <string name="player_touch_disable_brightness">Desabilitar o controle de brilho</string>
     <string name="player_touch_disable_all">Desabilitar todos os controles por toque</string>
     <string name="tv_ui_title">Interface do Android TV</string>
+    <string name="medialibrary">Biblioteca de mídias</string>
+    <string name="medialibrary_directories">Pastas da biblioteca de mídias</string>
     <!--Accessibility-->
     <string name="more_actions">Mais Ações</string>
     <string name="move">Mover</string>
@@ -383,6 +395,7 @@
     <string name="download_on_device">Baixar</string>
     <string name="extension_empty">Nenhum item para exibir. Verifique as configurações de extensão para obter algumas.</string>
     <string name="opengl_title">Uso do OpenGL ES2</string>
+    <string name="opengl_summary">Por padrão, o OpenGL ES2 é usado para decodificação por software e por hardware, quando necessário (vídeos em 360°).</string>
     <string name="opengl_automatic">Automático</string>
     <string name="opengl_on">Impor em Ligado</string>
     <string name="opengl_off">Import em Desligado</string>
@@ -416,7 +429,6 @@
     <string name="clear_playback_history">Limpar histórico de reprodução</string>
     <string name="various_artists">Vários Artistas</string>
     <string name="ml_scanning">Procurando arquivos de mídia</string>
-    <string name="ml_discovering">Descobrir</string>
     <string name="resume">Retomar</string>
     <string name="length">Duração</string>
     <string name="tv_settings_hint">Pressione prolongadamente o botão OK para marcar/desmarcar pastas</string>
@@ -424,4 +436,5 @@
     <string name="ml_external_storage_msg">Deseja que o VLC adicione o dispositivo %1$s à sua biblioteca de mídias?</string>
     <string name="last_added_media">último adicionado</string>
     <string name="no">Não</string>
+    <string name="loading_medialibrary">Carregando Biblioteca de Mídias</string>
 </resources>
