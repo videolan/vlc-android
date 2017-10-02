@@ -21,8 +21,10 @@
     <string name="play_from_start">Riproduci all\'avvio</string>
     <string name="play_as_audio">Riproduci come audio</string>
     <string name="play_as_video">Riproduci come video</string>
+    <string name="video_app_switch_title">Azione al cambio di applicazione</string>
+    <string name="video_app_switch_summary">Seleziona il comportamento di VLC quando passi ad altra applicazione dalla riproduzione video</string>
+    <string name="play_pip_title">Riproduci video in modalità Picture-in-Picture</string>
     <string name="play_as_audio_background">Riproduci video in background</string>
-    <string name="play_as_audio_background_summary">Continua la riproduzione del video sullo sfondo quando spegni lo schermo del dispositivo o fai clic sul pulsante HOME.</string>
     <string name="append">Aggiungi</string>
     <string name="insert_next">Inserisci dopo</string>
     <string name="play_all">Riproduci tutto</string>
@@ -50,6 +52,7 @@
     </plurals>
     <string name="artists">Artisti</string>
     <string name="albums">Album</string>
+    <string name="tracks">Tracce</string>
     <plurals name="albums_quantity">
         <item quantity="one">Un album</item>
         <item quantity="other">%d album</item>
@@ -259,6 +262,12 @@
     <string name="enable_volume_gesture_summary">Controlla il volume tramite gesti durante la riproduzione video</string>
     <string name="enable_seek_buttons">Abilita i pulsanti di posizionamento</string>
     <string name="enable_seek_buttons_summary">Mostra i pulsanti di riavvolgimento e avanzamento nell\'interfaccia video</string>
+    <string name="enable_double_tap_seek_title">Doppio tocco per spostare la posizione</string>
+    <string name="enable_double_tap_seek_summary">Doppio tocco sui bordi dello schermo per spostare la posizione di 10 secondi</string>
+    <string name="popup_keepscreen_title">Mantieni lo schermo attivo in modalità con finestra a comparsa</string>
+    <string name="popup_keepscreen_summary">Mantieni lo schermo sempre attivo quando la finestra a comparsa è visualizzata, anche se il video è in pausa.</string>
+    <string name="browser_show_hidden_files_title">Mostra file nascosti</string>
+    <string name="browser_show_hidden_files_summary">Mostra file nascosti nei browser</string>
     <string name="subtitles_prefs_category">Sottotitoli</string>
     <string name="subtitles_size_title">Dimensione sottotitoli</string>
     <string name="subtitles_size_small">Piccola</string>
@@ -275,12 +284,16 @@
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Copertina al blocco dello schermo</string>
     <string name="lockscreen_cover_summary">Se disponibili, imposta la copertina del media corrente come sfondo del salvaschermo</string>
+    <string name="playlist_animate_scroll_title">Anima lo scorrimento automatico della scaletta attuale</string>
+    <string name="playlist_animate_scroll_summary">Anima lo scorrimento al cambio di media</string>
     <string name="audio_title_alignment">Allineamento titolo audio</string>
     <string name="audio_title_alignment_default">Predefinito</string>
     <string name="audio_title_alignment_left">Sinistra</string>
     <string name="audio_title_alignment_centre">Centrato</string>
     <string name="audio_title_alignment_right">Destra</string>
     <string name="audio_title_alignment_marquee">Testo in sovraimpressione</string>
+    <string name="audio_save_repeat_title">Salva modalità di ripetizione</string>
+    <string name="audio_save_repeat_summary">Ricorda la modalità di ripetizione quando carichi le scalette audio</string>
     <string name="headset_prefs_category">Cuffie</string>
     <string name="enable_headset_detection">Rileva le cuffie</string>
     <string name="enable_headset_detection_summary">Rileva inserimento e rimozione delle cuffie</string>
@@ -373,6 +386,7 @@
     <string name="player_touch_disable_all">Disabilita tutti i controlli a tocco</string>
     <string name="tv_ui_title">Inerfaccia Android TV</string>
     <string name="tv_ui_summary">Cambia interfaccia a tema adattato alla TV</string>
+    <string name="medialibrary">Raccolta multimediale</string>
     <string name="medialibrary_directories">Cartelle della raccolta multimediale</string>
     <!--Accessibility-->
     <string name="more_actions">Altre azioni</string>
@@ -448,4 +462,5 @@
     <string name="last_added_media">ultima aggiunta</string>
     <string name="no">No</string>
     <string name="loading_medialibrary">Caricamento raccolta multimediale...</string>
+    <string name="yes">sì</string>
 </resources>
