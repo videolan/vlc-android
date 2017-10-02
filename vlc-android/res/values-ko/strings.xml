@@ -20,8 +20,10 @@
     <string name="play_from_start">처음부터 재생하기</string>
     <string name="play_as_audio">오디오로 재생하기</string>
     <string name="play_as_video">비디오로 재생하기</string>
+    <string name="video_app_switch_title">앱 전환시 동작</string>
+    <string name="video_app_switch_summary">비디오 재생 중에 다른 앱으로 전환시 VLC의 동작을 선택하세요</string>
+    <string name="play_pip_title">PIP 모드에서 비디오 재생하기</string>
     <string name="play_as_audio_background">백그라운드로 비디오 재생하기</string>
-    <string name="play_as_audio_background_summary">기기의 화면을 끄거나 홈 버튼을 누를 때 백그라운드로 비디오를 계속 재생합니다</string>
     <string name="append">재생 대기열에 추가하기</string>
     <string name="insert_next">다음을 넣으세요</string>
     <string name="play_all">모두 재생하기</string>
@@ -48,6 +50,7 @@
     </plurals>
     <string name="artists">아티스트</string>
     <string name="albums">앨범</string>
+    <string name="tracks">트랙</string>
     <plurals name="albums_quantity">
         <item quantity="other">%d 앨범</item>
     </plurals>
@@ -282,6 +285,8 @@
     <string name="audio_title_alignment_centre">가운데</string>
     <string name="audio_title_alignment_right">오른쪽</string>
     <string name="audio_title_alignment_marquee">마키 (Marquee)</string>
+    <string name="audio_save_repeat_title">반복 모드 저장</string>
+    <string name="audio_save_repeat_summary">오디오 재생 목록을 불러올 때 반복 모드를 기억합니다</string>
     <string name="headset_prefs_category">헤드셋</string>
     <string name="enable_headset_detection">헤드셋 감지하기</string>
     <string name="enable_headset_detection_summary">헤드셋 연결과 제거 감지하기</string>
@@ -374,6 +379,7 @@
     <string name="player_touch_disable_all">모든 터치 조작 사용하지 않기</string>
     <string name="tv_ui_title">안드로이드 TV 인터페이스 사용하기</string>
     <string name="tv_ui_summary">UI를 TV에 맞춘 테마로 바꿉니다</string>
+    <string name="medialibrary">미디어 라이브러리</string>
     <string name="medialibrary_directories">미디어 라이브러리 폴더</string>
     <!--Accessibility-->
     <string name="more_actions">추가 동작</string>
@@ -449,4 +455,5 @@
     <string name="last_added_media">마지막에 추가됨</string>
     <string name="no">아니오</string>
     <string name="loading_medialibrary">미디어 라이브러리 불러오는 중...</string>
+    <string name="yes">예</string>
 </resources>
