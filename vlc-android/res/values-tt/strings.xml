@@ -20,8 +20,8 @@
     <string name="play_from_start">Башыннан уйнатырга</string>
     <string name="play_as_audio">Аудио итеп уйнатырга</string>
     <string name="play_as_video">Видео итеп уйнатырга</string>
+    <string name="play_pip_title">Видеоларны Рәсемдә-рәсем режимында уйнатырга</string>
     <string name="play_as_audio_background">Видеоны фонда уйнатырга</string>
-    <string name="play_as_audio_background_summary">Экран сүнгән, яки Өйгә төймәсе басылган вакытта, видеоны фонда уйнатуны дәвам итәргә.</string>
     <string name="append">Өстәргә</string>
     <string name="insert_next">Киләсен куярга</string>
     <string name="play_all">Бөтенесен уйнатырга</string>
@@ -48,6 +48,7 @@
     </plurals>
     <string name="artists">Башкаручылар</string>
     <string name="albums">Альбомнар</string>
+    <string name="tracks">Язмалар</string>
     <plurals name="albums_quantity">
         <item quantity="other">%d альбом</item>
     </plurals>
@@ -252,6 +253,10 @@
     <string name="enable_volume_gesture_summary">Видео уйнатканда тавыш көче белән ишарә ярдәмендә идарә итү</string>
     <string name="enable_seek_buttons">Чорнау төймәләрен кабызырга</string>
     <string name="enable_seek_buttons_summary">Видео күренешендә алга һәм артка чорнау төймәләрен күрсәтергә</string>
+    <string name="enable_double_tap_seek_title">Чорнау өчен ике тапкыр басыгыз</string>
+    <string name="enable_double_tap_seek_summary">10 секундка чорнау өчен экран кырыена ике тапкыр басыгыз</string>
+    <string name="browser_show_hidden_files_title">Яшерен файлларны күрсәтергә</string>
+    <string name="browser_show_hidden_files_summary">Яшерелгән файлларны браузерда күрсәтү</string>
     <string name="subtitles_prefs_category">Субтитрлар</string>
     <string name="subtitles_size_title">Субтитрлар зурлыгы</string>
     <string name="subtitles_size_small">Кечкенә</string>
@@ -274,6 +279,7 @@
     <string name="audio_title_alignment_centre">Уртада</string>
     <string name="audio_title_alignment_right">Уңда</string>
     <string name="audio_title_alignment_marquee">Йөгерек юл</string>
+    <string name="audio_save_repeat_title">Кабатлау режимын сакларга</string>
     <string name="headset_prefs_category">Колакчын</string>
     <string name="enable_headset_detection">Колакчынны ачыклау</string>
     <string name="enable_headset_detection_summary">Колакчынны ялгауны/өзүне ачыклау</string>
@@ -366,6 +372,7 @@
     <string name="player_touch_disable_all">Бөтен кагылу белән идарәне сүндерергә</string>
     <string name="tv_ui_title">Android TV күренеше</string>
     <string name="tv_ui_summary">Күренешне TV өчен темага алыштырырга</string>
+    <string name="medialibrary">Медиа-китапханә</string>
     <string name="medialibrary_directories">Медиаханә папкалары</string>
     <!--Accessibility-->
     <string name="more_actions">Башка гамәлләр</string>
@@ -440,4 +447,6 @@
     <string name="ml_external_storage_msg">VLC  %1$s җайланмасын медиаханәгезгә өстәсенме?</string>
     <string name="last_added_media">соңгы өстәү</string>
     <string name="no">Юк</string>
+    <string name="loading_medialibrary">Медиаханәне йөкләү...</string>
+    <string name="yes">әйе</string>
 </resources>
