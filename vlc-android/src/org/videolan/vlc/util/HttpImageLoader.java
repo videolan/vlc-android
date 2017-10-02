@@ -95,12 +95,14 @@ public class HttpImageLoader implements Callbacks {
 
     @Nullable
     public static Bitmap getBitmapFromIconCache(String imageUrl) {
-        if (iconsMap.containsKey(imageUrl)) {
-            Bitmap bd = iconsMap.get(imageUrl).get();
-            if (bd != null) {
-                return bd;
-            } else
-                iconsMap.remove(imageUrl);
+        synchronized (iconsMap) {
+            if (iconsMap.containsKey(imageUrl)) {
+                Bitmap bd = iconsMap.get(imageUrl).get();
+                if (bd != null) {
+                    return bd;
+                } else
+                    iconsMap.remove(imageUrl);
+            }
         }
         return null;
     }
@@ -108,17 +110,21 @@ public class HttpImageLoader implements Callbacks {
     @Nullable
     public static Bitmap downloadBitmap(String imageUrl) {
         HttpURLConnection urlConnection = null;
+        InputStream in = null;
         Bitmap icon = getBitmapFromIconCache(imageUrl);
         if (icon != null)
             return icon;
         try {
-            URL url = new URL(imageUrl);
+            final URL url = new URL(imageUrl);
             urlConnection = (HttpURLConnection) url.openConnection();
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            in = new BufferedInputStream(urlConnection.getInputStream());
             icon = BitmapFactory.decodeStream(in);
-            iconsMap.put(imageUrl, new SoftReference<>(icon));
+            synchronized (iconsMap) {
+                iconsMap.put(imageUrl, new SoftReference<>(icon));
+            }
         } catch (IOException|IllegalArgumentException ignored) {
         } finally {
+            Util.close(in);
             if (urlConnection != null)
                 urlConnection.disconnect();
         }
