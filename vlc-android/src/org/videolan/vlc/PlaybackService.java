@@ -895,7 +895,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private void showNotification() {
         if (VLCApplication.showTvUi())
             return;
-        if (mMediaPlayer.getVLCVout().areViewsAttached()) {
+        if (isPlayingPopup() || mMediaPlayer.getVLCVout().areViewsAttached()) {
             hideNotification();
             return;
         }
@@ -908,6 +908,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             mExecutorService.execute(new Runnable() {
                 @Override
                 public void run() {
+                    if (isPlayingPopup())
+                        return;
                     try {
                         Bitmap cover;
                         String title, artist, album;
@@ -930,6 +932,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         Notification notification = NotificationHelper.createPlaybackNotification(PlaybackService.this,
                                 mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO), title, artist, album,
                                 cover, playing, sessionToken, getSessionPendingIntent());
+                        if (isPlayingPopup())
+                            return;
                         if (!AndroidUtil.isLolliPopOrLater || playing)
                             PlaybackService.this.startForeground(3, notification);
                         else {
@@ -968,7 +972,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mExecutorService.execute(new Runnable() {
             @Override
             public void run() {
-                PlaybackService.this.stopForeground(true);
+                if (!isPlayingPopup())
+                    PlaybackService.this.stopForeground(true);
                 NotificationManagerCompat.from(PlaybackService.this).cancel(3);
             }
         });

@@ -31,7 +31,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
@@ -283,9 +282,9 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     }
 
     private void showNotification() {
-        PendingIntent piStop = PendingIntent.getBroadcast(mService, 0,
+        final PendingIntent piStop = PendingIntent.getBroadcast(mService, 0,
                 new Intent(PlaybackService.ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mService)
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(mService)
                 .setSmallIcon(R.drawable.ic_notif_video)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(mService.getTitle())
@@ -296,23 +295,20 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
         //Switch
         final Intent notificationIntent = new Intent(PlaybackService.ACTION_REMOTE_SWITCH_VIDEO);
-        PendingIntent piExpand = PendingIntent.getBroadcast(mService, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent piExpand = PendingIntent.getBroadcast(mService, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         //PLay Pause
-        PendingIntent piPlay = PendingIntent.getBroadcast(mService, 0, new Intent(PlaybackService.ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent piPlay = PendingIntent.getBroadcast(mService, 0, new Intent(PlaybackService.ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (mService.isPlaying())
             builder.addAction(R.drawable.ic_popup_pause, mService.getString(R.string.pause), piPlay);
         else
             builder.addAction(R.drawable.ic_popup_play, mService.getString(R.string.play), piPlay);
         builder.addAction(R.drawable.ic_popup_expand_w, mService.getString(R.string.popup_expand), piExpand);
-
-        try {
-            NotificationManagerCompat.from(mService).notify(42, builder.build());
-        } catch (IllegalArgumentException ignored) {}
+        mService.startForeground(42, builder.build());
     }
 
     private void hideNotification() {
-        NotificationManagerCompat.from(mService).cancel(42);
+        mService.stopForeground(true);
     }
 
     @Override
