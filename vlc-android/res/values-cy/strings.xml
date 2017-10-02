@@ -23,9 +23,12 @@
     <string name="play_from_start">Chwarae o\'r dechrau</string>
     <string name="play_as_audio">Chwarae fel sain</string>
     <string name="play_as_video">Chwarae fel fideo</string>
+    <string name="video_app_switch_title">Gweithred wrth newid aplen</string>
+    <string name="video_app_switch_summary">Dewisa beth sy\'n digwydd i VLC pan wyt ti\'n newid i ap arall wrth chwarae fideo.</string>
+    <string name="play_pip_title">Chwarae fideo mewn modd llun-o-fewn-llun</string>
     <string name="play_as_audio_background">Chwarae fideos yn y cefndir</string>
-    <string name="play_as_audio_background_summary">Parhau i chwarae fideos yn y cefndir wrth ddiffodd sgrîn y ddyfais neu\'n clicio\'r botwm HAFAN</string>
     <string name="append">Atodi</string>
+    <string name="insert_next">Mewnosod y nesaf</string>
     <string name="play_all">Chwarae\'r cyfan</string>
     <string name="append_all">Atodi\'r cyfan</string>
     <string name="last_playlist">Rhestr chwarae diwethaf</string>
@@ -53,6 +56,7 @@
     </plurals>
     <string name="artists">Artistiaid</string>
     <string name="albums">Albymau</string>
+    <string name="tracks">Traciau</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 albwm</item>
         <item quantity="two">%d albwm</item>
@@ -93,6 +97,7 @@
     <string name="directories">Cyfeiriaduron</string>
     <string name="loading">Yn llwytho…</string>
     <string name="please_wait">Arhoswch…</string>
+    <string name="nomedia">Ni chanfuwyd ffeiliau cyfryngau. Dewisa ffeiliau o dy ddyfais neu addasu dy osodiadau.</string>
     <string name="noplaylist">Ni chanfuwyd rhestr chwarae.</string>
     <string name="mediafiles">Ffeiliau cyfryngau</string>
     <string name="notavailable">dim ar gael</string>
@@ -146,9 +151,9 @@
     <string name="track_framerate_info">Fframiau: %1$.3f\n</string>
     <string name="tools">Offer</string>
     <string name="playback_speed">Cyflymder chwarae</string>
-    <string name="sleep_title">Amserydd cwsg</string>
-    <string name="sleep_in">Cysgu\'n hwyr</string>
-    <string name="sleep_cancel">Diffodd yr amserydd cwsg</string>
+    <string name="sleep_title">Amserydd cysgu</string>
+    <string name="sleep_in">Cysgu mewn</string>
+    <string name="sleep_cancel">Diffodd yr amserydd cysgu</string>
     <string name="jump_to_time">Neidio i amser</string>
     <string name="subtitle_label">Ychwanegu ffeil isdeitlau</string>
     <string name="subtitle_select">Dewis ffeil isdeitlau</string>
@@ -271,6 +276,12 @@
     <string name="enable_volume_gesture_summary">Rheoli\'r sain gan gyffwrdd y sgrîn wrth chwarae fideo</string>
     <string name="enable_seek_buttons">Galluogi botymau canfod</string>
     <string name="enable_seek_buttons_summary">Dangos botymau nôl ac ymlaen ar y rhyngwyneb fideo</string>
+    <string name="enable_double_tap_seek_title">Tap dwbl i chwilio</string>
+    <string name="enable_double_tap_seek_summary">Mae tap dwbl ar ymylon y sgrin yn chwilio fesul 10 eiliad</string>
+    <string name="popup_keepscreen_title">Cadw\'r sgrin YMLAEN mewn modd Ffenestr Llaim</string>
+    <string name="popup_keepscreen_summary">Cadw\'r sgrin YMLAEN tro bod ffenestr llaim yn ymddangos, hyd yn oed os yw\'r fideo wedi ei oedi.</string>
+    <string name="browser_show_hidden_files_title">Dangos ffeiliau cudd</string>
+    <string name="browser_show_hidden_files_summary">Dangos ffeiliau cudd mewn porwyr</string>
     <string name="subtitles_prefs_category">Isdeitlau</string>
     <string name="subtitles_size_title">Maint Isdeitlau</string>
     <string name="subtitles_size_small">Bach</string>
@@ -287,12 +298,16 @@
     <string name="audio_prefs_category">Sain</string>
     <string name="lockscreen_cover_title">Clawr y cyfrwng ar y sgrîn cloi</string>
     <string name="lockscreen_cover_summary">Os ar gael, gosod delwedd clawr y trac, albwm neu fideo sy\'n chwarae fel delwedd sgrîn cloi\'r ddyfais.</string>
+    <string name="playlist_animate_scroll_title">Animeiddio awto-sgrolio\'r rhestr chwarae gyfredol</string>
+    <string name="playlist_animate_scroll_summary">Animeiddio sgrolio wrth newid cyfrwng</string>
     <string name="audio_title_alignment">Aliniad teitl sain</string>
     <string name="audio_title_alignment_default"> Rhagosodedig</string>
     <string name="audio_title_alignment_left">Chwith</string>
     <string name="audio_title_alignment_centre">Canol</string>
     <string name="audio_title_alignment_right">Dde</string>
     <string name="audio_title_alignment_marquee">Pabell fawr</string>
+    <string name="audio_save_repeat_title">Cadw\'r modd ail-chwarae</string>
+    <string name="audio_save_repeat_summary">Cofio\'r modd ail-chwarae wrth lwytho rhestrau chwarae sain</string>
     <string name="headset_prefs_category">Clustffonau</string>
     <string name="enable_headset_detection">Canfod clustffonau</string>
     <string name="enable_headset_detection_summary">Synhwyro cysylltu a datgysylltu clustffonau </string>
@@ -385,6 +400,7 @@
     <string name="player_touch_disable_all">Analluogi\'r holl reolaethau cyffwrdd</string>
     <string name="tv_ui_title">Rhyngwyneb teledu Android</string>
     <string name="tv_ui_summary">Newid rhyngwyneb i thema teledu addasedig</string>
+    <string name="medialibrary">Llyfrgell cyfryngau</string>
     <string name="medialibrary_directories">Ffolderi llyfrgell cyfryngau</string>
     <!--Accessibility-->
     <string name="more_actions">Mwy o Weithredoedd</string>
@@ -437,6 +453,7 @@
     <string name="list_languages_download_summary">Ieithoedd i\'w lawrlwytho wrth nôl isdeitlau</string>
     <string name="list_languages_download_title">Ieithoedd isdeitlau i\'w lawrlwytho</string>
     <string name="service_unavailable">Gwasanaeth dim ar gael</string>
+    <string name="subs_dl_lang_fail">Methwyd gosod iaith isdeitlau. Ceisia ei osod yn osodiadau\'r ap.</string>
     <string name="downloading_subtitles">Yn lawrlwytho isdeitlau</string>
     <string name="browse_folder">Pori\'r ffolder</string>
     <string name="listen">Gwrando</string>
@@ -457,4 +474,7 @@
     <string name="ml_external_storage_title">Wedi canfod storfa allanol newydd</string>
     <string name="ml_external_storage_msg">Wyt ti am i VLC ychwanegu\'r ddyfais %1$s i dy lyfrgell cyfryngau?</string>
     <string name="last_added_media">ychwanegwyd diwethaf</string>
+    <string name="no">Na</string>
+    <string name="loading_medialibrary">Yn llwytho\'r Metalyfrgell...</string>
+    <string name="yes">ie</string>
 </resources>
