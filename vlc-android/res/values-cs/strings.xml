@@ -23,7 +23,6 @@
     <string name="play_as_audio">Přehrát jako zvuk</string>
     <string name="play_as_video">Přehrát jako video</string>
     <string name="play_as_audio_background">Přehrávat videa na pozadí</string>
-    <string name="play_as_audio_background_summary">Pokračovat v přehrávání videa na pozadí při vypnuté obrazovce zařízení, nebo po stisknutí tlačítka DOMŮ.</string>
     <string name="append">Připojit</string>
     <string name="insert_next">Vložit další</string>
     <string name="play_all">Přehrát vše</string>
@@ -266,6 +265,8 @@
     <string name="enable_volume_gesture_summary">Během přehrávání videa ovládat hlasitost gestem</string>
     <string name="enable_seek_buttons">Povolit tlačítka posunutí</string>
     <string name="enable_seek_buttons_summary">V rozhraní videa zobrazit tlačítka vpřed a vzad</string>
+    <string name="browser_show_hidden_files_title">Zobrazit skryté soubory</string>
+    <string name="browser_show_hidden_files_summary">Zobrazit skryté soubory v prohlížeči</string>
     <string name="subtitles_prefs_category">Titulky</string>
     <string name="subtitles_size_title">Velikost titulků</string>
     <string name="subtitles_size_small">Malé</string>
