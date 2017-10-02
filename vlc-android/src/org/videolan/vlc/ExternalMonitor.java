@@ -194,7 +194,8 @@ public class ExternalMonitor extends BroadcastReceiver {
     private boolean updateVPNStatus() {
         if (AndroidUtil.isLolliPopOrLater) {
             for (Network network : cm.getAllNetworks()) {
-                if (cm.getNetworkCapabilities(network).hasTransport(NetworkCapabilities.TRANSPORT_VPN))
+                final NetworkCapabilities nc = cm.getNetworkCapabilities(network);
+                if (nc != null && nc.hasTransport(NetworkCapabilities.TRANSPORT_VPN))
                     return true;
             }
             return false;
