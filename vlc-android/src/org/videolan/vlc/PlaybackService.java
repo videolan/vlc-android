@@ -354,6 +354,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             unregisterReceiver(mRemoteControlClientReceiver);
             mRemoteControlClientReceiver = null;
         }
+        if (isVideoPlaying())
+            mMediaPlayer.getVLCVout().detachViews();
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
