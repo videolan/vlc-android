@@ -22,7 +22,6 @@
     <string name="play_as_audio">Reproducir como audio</string>
     <string name="play_as_video">Reproducir como video</string>
     <string name="play_as_audio_background">Reproducir videos en segundo plano</string>
-    <string name="play_as_audio_background_summary">Continuar reproducción de video en segundo plano cuando la pantalla del dispositivo se apague o haciendo clic en la tecla HOME</string>
     <string name="append">Añadir</string>
     <string name="insert_next">Insertar siguiente</string>
     <string name="play_all">Reproducir todo</string>
