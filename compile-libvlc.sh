@@ -901,21 +901,10 @@ $ANDROID_NDK/ndk-build -C medialibrary \
 
 checkfail "ndk-build failed"
 
-cd ${SRC_DIR}
-
-if [ ! -d $OUT_LIB_DIR ]; then
-    mkdir -p $OUT_LIB_DIR
-fi
-
-if [ "$RELEASE" = 1 ]; then
-    echo -e "\e[1m\e[32mStripping\e[0m"
-    ${CROSS_TOOLS}strip ${OUT_LIB_DIR}/*.so
-    checkfail "stripping"
-fi
-
-OUT_DBG_DIR=.dbg/${ANDROID_ABI}
-
 echo "Dumping dbg symbols info ${OUT_DBG_DIR}"
+
+cd ${SRC_DIR}
+OUT_DBG_DIR=.dbg/${ANDROID_ABI}
 
 mkdir -p $OUT_DBG_DIR
 cp -a libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
