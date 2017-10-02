@@ -21,8 +21,10 @@
     <string name="play_from_start">Afspil fra start</string>
     <string name="play_as_audio">Afspil som lyd</string>
     <string name="play_as_video">Afspil som video</string>
+    <string name="video_app_switch_title">Handling ved skift af program</string>
+    <string name="video_app_switch_summary">Vælg VLC opførsel når du skifter til et andet program fra videoafspilning</string>
+    <string name="play_pip_title">Afspil videoer i billede-i-billede-tilstand</string>
     <string name="play_as_audio_background">Afspil videoer i baggrunden</string>
-    <string name="play_as_audio_background_summary">Fortsæt afspilning af video i baggrunden når enhedens skærm slukkes eller ved klik på HJEM-knappen.</string>
     <string name="append">Tilføj</string>
     <string name="insert_next">Indsæt næste</string>
     <string name="play_all">Afspil alle</string>
@@ -50,6 +52,7 @@
     </plurals>
     <string name="artists">Kunstnere</string>
     <string name="albums">Album</string>
+    <string name="tracks">Spor</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d album</item>
@@ -143,7 +146,7 @@
     <string name="no_file_picker_found">Der blev ikke fundet nogen filvælger på systemet.</string>
     <string name="server_add_title">Tilføj en ny server til favoritter </string>
     <string name="server_domain_hint">Serveradresse (domænenavn eller IP)</string>
-    <string name="server_share_hint">Netværkdelingsnavn (eller IP-adresse)</string>
+    <string name="server_share_hint">Netværksdelingsnavn (eller IP-adresse)</string>
     <string name="server_folder_hint">Mappesti (valgfri)</string>
     <string name="server_username_hint">Brugernavn</string>
     <string name="server_servername_hint">Servernavn, for at gøre det let</string>
@@ -240,7 +243,7 @@
     <string name="interface_other_category">Brugerflade - andet</string>
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Gruppér videoer</string>
-    <string name="video_min_group_length_summary">Videoer grupperes hvis deres første tegn er det samme.</string>
+    <string name="video_min_group_length_summary">Videoer grupperes hvis deres første bogstav er det samme.</string>
     <string name="video_min_group_length_disable">Deaktivér</string>
     <string name="video_min_group_length_first">Kun første bogstav</string>
     <string name="video_min_group_length_short">Korte antal tegn (6)</string>
@@ -257,7 +260,7 @@
     <string name="enable_brightness_gesture_summary">Tilpas lysstyrke via gestus under videoafspilning</string>
     <string name="enable_volume_gesture_title">Lydstyrke-gestus</string>
     <string name="enable_volume_gesture_summary">Styr lydstyrke med gestus under videoafspilning</string>
-    <string name="enable_seek_buttons">Slå søgeknapper til</string>
+    <string name="enable_seek_buttons">Aktivér søgeknapper</string>
     <string name="enable_seek_buttons_summary">Vis spoleknapper på brugerflade for video</string>
     <string name="enable_double_tap_seek_title">Dobbelttryk for at søge</string>
     <string name="enable_double_tap_seek_summary">Dobbelttryk på skærmkanterne for at søge med 10 sekunder</string>
@@ -277,10 +280,10 @@
     <string name="subtitles_color_blue">Blå</string>
     <string name="subtitles_color_yellow">Gul</string>
     <string name="subtitles_color_green">Grøn</string>
-    <string name="subtitles_background_title">Underteksterne baggrund</string>
+    <string name="subtitles_background_title">Underteksters baggrund</string>
     <string name="audio_prefs_category">Lyd</string>
-    <string name="lockscreen_cover_title">Mediecover på Låsskærm</string>
-    <string name="lockscreen_cover_summary">Når det er muligt, angiv det aktuelle mediecover-billede som låsskærmens tapet</string>
+    <string name="lockscreen_cover_title">Mediecover på låseskærm</string>
+    <string name="lockscreen_cover_summary">Når det er muligt, angiv det aktuelle mediecover-billede som låseskærmens tapet</string>
     <string name="playlist_animate_scroll_title">Animer aktuelle spilleliste auto-rulning</string>
     <string name="playlist_animate_scroll_summary">Animer rulning ved medieovergang</string>
     <string name="audio_title_alignment">Justering af lydtitel</string>
@@ -289,12 +292,14 @@
     <string name="audio_title_alignment_centre">Midten</string>
     <string name="audio_title_alignment_right">Højre</string>
     <string name="audio_title_alignment_marquee">Lysavis</string>
+    <string name="audio_save_repeat_title">Gem gentagtilstand</string>
+    <string name="audio_save_repeat_summary">Husk gentagtilstand ved indlæsning af lydspillelister</string>
     <string name="headset_prefs_category">Hovedtelefoner</string>
     <string name="enable_headset_detection">Registrer hovedtelefoner</string>
-    <string name="enable_headset_detection_summary">Registrér indsættes og fjernelse af hovedtelefon</string>
-    <string name="enable_play_on_headset_insertion">Genoptag ved indsættelse af hovedtelefon</string>
+    <string name="enable_headset_detection_summary">Registrér indsættes og fjernelse af hovedtelefoner</string>
+    <string name="enable_play_on_headset_insertion">Genoptag ved indsættelse af hovedtelefoner</string>
     <string name="enable_play_on_headset_insertion_summary">Ellers sæt på pause</string>
-    <string name="enable_steal_remote_control">Udeluk hovedtelefon fjernbetjening</string>
+    <string name="enable_steal_remote_control">Udeluk hovedtelefoner fjernbetjening</string>
     <string name="enable_steal_remote_control_summary">Undgå konflikter ved at stjæle fjernbetjeningen fra andre programmer. Dette forhindrer opringning ved dobbeltklik på HTC-telefoner.</string>
     <string name="aout">Lyd-output</string>
     <string name="aout_summary">Udskift den metode som VLC anvender til at udsende lyd med.</string>
@@ -316,7 +321,7 @@
     <string name="save_video_none">Gem ikke hastighed</string>
     <string name="save_video_session">Gem hastighed under session</string>
     <string name="save_video_always">Gem hastighed mellem sessioner</string>
-    <string name="auto_rescan">Skan igen auto.</string>
+    <string name="auto_rescan">Automatisk genskan</string>
     <string name="auto_rescan_summary">Automatisk skanning af enhed efter nye eller slettede medier ved opstart af program</string>
     <string name="clear_media_db">Ryd medie-database</string>
     <string name="clear_media_db_summary">Tilgå Android VLC info for at rydde data</string>
@@ -339,7 +344,7 @@
     <string name="stop_logging">Stop logregistrering</string>
     <string name="clear_log">Ryd log</string>
     <string name="log_service_title">Optagelse af VLC-logge</string>
-    <string name="log_service_text">Åbn log-konsol</string>
+    <string name="log_service_text">Åbn log-konsollen</string>
     <string name="copy_to_clipboard">Kopiér til udklipsholder</string>
     <string name="copied_to_clipboard">Kopierede log til udklipsholder.</string>
     <string name="dump_logcat">Logdump af logcat</string>
@@ -375,12 +380,13 @@
     <string name="confirm_resume_title">Spørg om bekræftelse til at genoptage afspilningen</string>
     <string name="confirm_resume_summary">Hvis den aktiveres vil du blive spurgt om videoen skal genoptage afspilningen fra sidste position</string>
     <string name="directory_empty">Mappen er tom</string>
-    <string name="player_touch_title">Berøringskontrolelementer for Video</string>
-    <string name="player_touch_enable_all">Aktivér berøringskontolelementer</string>
+    <string name="player_touch_title">Berøringskontrolelementer for video</string>
+    <string name="player_touch_enable_all">Aktivér berøringskontrolelementer</string>
     <string name="player_touch_disable_brightness">Deaktivér lysstyrkekontrolelement</string>
     <string name="player_touch_disable_all">Deaktivér alle berøringskontrolelementer</string>
     <string name="tv_ui_title">Android TV-grænseflade</string>
     <string name="tv_ui_summary">Skift brugerflade til tema som er tilpasset TV</string>
+    <string name="medialibrary">Mediebibliotek</string>
     <string name="medialibrary_directories">Mediebiblioteksmapper</string>
     <!--Accessibility-->
     <string name="more_actions">Flere handlinger</string>
@@ -392,7 +398,7 @@
     <string name="music_now_playing">Afspiller nu</string>
     <!--Widget-->
     <string name="widget_name_w">VLC hvid widget</string>
-    <string name="widget_name_b">VLC sort widget</string>
+    <string name="widget_name_b">VLC mørk widget</string>
     <string name="allow_storage_access_title">Tillad at VLC tilgår video- og lydfiler</string>
     <string name="allow_storage_access_description">VLC kræver at du giver rettigheder til at tilgå mediefilerne på denne enhed.</string>
     <string name="allow_settings_access_ringtone_title">Tillad at VLC indstiller ringetonen</string>
@@ -456,4 +462,5 @@
     <string name="last_added_media">sidst tilføjet</string>
     <string name="no">Nej</string>
     <string name="loading_medialibrary">Indlæser mediebibliotek...</string>
+    <string name="yes">ja</string>
 </resources>
