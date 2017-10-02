@@ -21,8 +21,10 @@
     <string name="play_from_start">Spill fra start</string>
     <string name="play_as_audio">Spill som lyd</string>
     <string name="play_as_video">Spill som video</string>
+    <string name="video_app_switch_title">Handling ved programbytting</string>
+    <string name="video_app_switch_summary">Velg VLC-oppførsel for bytting fra videoavspilling til andre programmer.</string>
+    <string name="play_pip_title">Spill videoer i bilde-i-bilde -modus</string>
     <string name="play_as_audio_background">Spill videoer i bakgrunnen</string>
-    <string name="play_as_audio_background_summary">Fortsett videoavspilling i bakgrunnen når enhetens skjerm skrus av, eller når du trykker på Hjem-knappen.</string>
     <string name="append">Legg til</string>
     <string name="insert_next">Sett inn neste</string>
     <string name="play_all">Spill alle</string>
@@ -50,6 +52,7 @@
     </plurals>
     <string name="artists">Artister</string>
     <string name="albums">Album</string>
+    <string name="tracks">Spor</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d album</item>
@@ -94,7 +97,7 @@
     <string name="shuffle_title">Tilfeldig-modus</string>
     <string name="shuffle">Tilfeldig av</string>
     <string name="shuffle_on">Tilfeldig på</string>
-    <string name="repeat_title">Gjentakningsmodus</string>
+    <string name="repeat_title">Gjentagelsesmodus</string>
     <string name="repeat">Ikke gjenta noen</string>
     <string name="repeat_single">Gjenta én</string>
     <string name="repeat_all">Gjenta alle</string>
@@ -289,6 +292,8 @@
     <string name="audio_title_alignment_centre">Senter</string>
     <string name="audio_title_alignment_right">Høyre</string>
     <string name="audio_title_alignment_marquee">Rulletekst</string>
+    <string name="audio_save_repeat_title">Lagre gjentagelsesmodus</string>
+    <string name="audio_save_repeat_summary">Husk gjentagelsesmodus når lydspillelister lastes</string>
     <string name="headset_prefs_category">Hodetelefoner</string>
     <string name="enable_headset_detection">Oppdag hodetelefon</string>
     <string name="enable_headset_detection_summary">Oppdag hodetelefon-innplugging og -fjerning</string>
@@ -349,7 +354,7 @@
     <string name="help_us_send_log">Hjelp oss å forbedre VLC ved å sende oss følgende krasjlogg:</string>
     <string name="restart_vlc">Start VLC på nytt</string>
     <string name="send_log">Send inn loggen</string>
-    <string name="sending_log">Sender inn loggen...</string>
+    <string name="sending_log">Sender inn loggen…</string>
     <string name="drawer_open">Åpne navigasjonsskuffe</string>
     <string name="drawer_close">Lukk navigasjonsskuffe</string>
     <string name="network_browsing">Lokalt nettverk</string>
@@ -358,7 +363,7 @@
     <string name="audio_delay">Lydforsinkelse</string>
     <string name="spu_delay">Undertekstsforsinkelse</string>
     <string name="sleep_time_not_set">ingen valgt</string>
-    <string name="network_shares_discovery">Søker etter nettverkslager...</string>
+    <string name="network_shares_discovery">Søker etter nettverkslager…</string>
     <string name="network_empty">Denne mappen er tom.</string>
     <string name="network_connection_needed">Ingen tilgang til lokalt nettverk.</string>
     <string name="search_hint">Søk i medier</string>
@@ -368,7 +373,7 @@
     <string name="directory_hide_medialib">Skjul fra MediaLib</string>
     <string name="playlist_save">Lagre spilleliste</string>
     <string name="playlist_name_hint">spillelistenavn</string>
-    <string name="go_to_chapter">Gå til kapittel...</string>
+    <string name="go_to_chapter">Gå til kapittel…</string>
     <string name="chapter">Kapittel</string>
     <string name="resume_from_position">Fortsett fra siste posisjon</string>
     <string name="confirm_resume">Fortsett fra siste posisjon?</string>
@@ -381,6 +386,7 @@
     <string name="player_touch_disable_all">Skru av alle berøringskontroller</string>
     <string name="tv_ui_title">Grensesnitt for Android TV</string>
     <string name="tv_ui_summary">Endre grensesnittet til en TV-tilpasset drakt.</string>
+    <string name="medialibrary">Mediebibliotek</string>
     <string name="medialibrary_directories">Mediebiblioteksmapper</string>
     <!--Accessibility-->
     <string name="more_actions">Flere handlinger</string>
@@ -391,8 +397,8 @@
     <string name="no_subs_found">Ingen undertekster i denne mappen</string>
     <string name="music_now_playing">Spilles nå</string>
     <!--Widget-->
-    <string name="widget_name_w">Lys VLC-modul</string>
-    <string name="widget_name_b">Mørk VLC-modul</string>
+    <string name="widget_name_w">Lyst VLC-miniprogram</string>
+    <string name="widget_name_b">Mørk VLC-miniprogram</string>
     <string name="allow_storage_access_title">Gi VLC tilgang til video- og lyd-filer</string>
     <string name="allow_storage_access_description">VLC behøver denne tilgangen for å kunne lese mediefilene på denne enheten.</string>
     <string name="allow_settings_access_ringtone_title">Tillat VLC å velge ringetonen</string>
@@ -455,5 +461,6 @@
     <string name="ml_external_storage_msg">Ønsker du at VLC skal legge enheten %1$s til i ditt mediebibliotek?</string>
     <string name="last_added_media">Sist lagt til</string>
     <string name="no">Nei</string>
-    <string name="loading_medialibrary">Laster inn mediebiblioteket...</string>
+    <string name="loading_medialibrary">Laster inn mediebiblioteket…</string>
+    <string name="yes">ja</string>
 </resources>
