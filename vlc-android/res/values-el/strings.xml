@@ -21,8 +21,10 @@
     <string name="play_from_start">Αναπαραγωγή από την αρχή</string>
     <string name="play_as_audio">Αναπαραγωγή ως ήχος</string>
     <string name="play_as_video">Αναπαραγωγή ως βίντεο</string>
+    <string name="video_app_switch_title">Λειτουργία κατά την αλλαγή της εφαρμογής</string>
+    <string name="video_app_switch_summary">Επιλέξτε τη συμπεριφορά του VLC όταν αλλάζετε σε άλλη εφαρμογή</string>
+    <string name="play_pip_title">Αναπαραγωγή βίντεο σε λειτουργία Εικόνα-μέσα-σε-εικόνα</string>
     <string name="play_as_audio_background">Αναπαραγωγή βίντεο στο υπόβαθρο</string>
-    <string name="play_as_audio_background_summary">Συνέχιση της αναπαραγωγής βίντεο στο υπόβαθρο όταν σβήνει η οθόνη ή όταν πατιέται το κουμπί HOME.</string>
     <string name="append">Προσθήκη</string>
     <string name="insert_next">Εισαγάγετε το επόμενο</string>
     <string name="play_all">Αναπαραγωγή όλων</string>
@@ -50,6 +52,7 @@
     </plurals>
     <string name="artists">Καλλιτέχνες</string>
     <string name="albums">Άλμπουμς</string>
+    <string name="tracks">Κομμάτια</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 άλμπουμ</item>
         <item quantity="other">%d άλμπουμς</item>
@@ -289,6 +292,8 @@
     <string name="audio_title_alignment_centre">Κέντρο</string>
     <string name="audio_title_alignment_right">Δεξιά</string>
     <string name="audio_title_alignment_marquee">Μαρκίζα</string>
+    <string name="audio_save_repeat_title">Αποθήκευση λειτουργίας επανάληψης</string>
+    <string name="audio_save_repeat_summary">Υπενθύμιση λειτουργίας επανάληψης κατά τη φόρτωση λιστών αναπαραγωγής </string>
     <string name="headset_prefs_category">Ακουστικό</string>
     <string name="enable_headset_detection">Ανίχνευση ακουστικών</string>
     <string name="enable_headset_detection_summary">Αναγνώριση τοποθέτησης και εξαγωγής ακουστικών</string>
@@ -381,6 +386,7 @@
     <string name="player_touch_disable_all">Απενεργοποίηση όλων των ελέγχων Αφής</string>
     <string name="tv_ui_title">Διεπαφή Android TV</string>
     <string name="tv_ui_summary">Αλλαγή UI στο θέμα TV </string>
+    <string name="medialibrary">Βιβλιοθήκη Μέσων</string>
     <string name="medialibrary_directories">Φάκελοι βιβλιοθήκης μέσων</string>
     <!--Accessibility-->
     <string name="more_actions">Περισσότερες Ενέργειες</string>
@@ -456,4 +462,5 @@
     <string name="last_added_media">τελευταία προσθήκη</string>
     <string name="no">Όχι</string>
     <string name="loading_medialibrary">Φόρτωση βιβλιοθήκης μέσων</string>
+    <string name="yes">ναι</string>
 </resources>
