@@ -148,7 +148,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
         VLCApplication.runBackground(new Runnable() {
             public void run() {
                 final String name = mEditText.getText().toString().trim();
-                boolean addTracks = !Tools.isArrayEmpty(mNewTrack);
+                final boolean addTracks = !Tools.isArrayEmpty(mNewTrack);
                 Playlist playlist = mMedialibrary.getPlaylist(mPlaylistId);
                 boolean exists = playlist != null;
                 MediaWrapper[] tracks;
@@ -163,7 +163,9 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
                         playlist.remove(mw.getId());
                     tracks = mTracks;
                 }
-                LinkedList<Long> ids = new LinkedList<>();
+                if (tracks == null)
+                    return;
+                final LinkedList<Long> ids = new LinkedList<>();
                 for (MediaWrapper mw : tracks) {
                     long id = mw.getId();
                     if (id == 0) {
