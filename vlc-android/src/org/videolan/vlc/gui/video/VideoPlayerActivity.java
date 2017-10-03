@@ -601,8 +601,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (Permissions.canDrawOverlays(this)) {
                 mSwitchingView = true;
                 mSwitchToPopup = true;
+                final MediaWrapper mw = mService.getCurrentMediaWrapper();
+                if (mw == null)
+                    return;
                 if (mService != null && !mService.isPlaying())
-                    mService.getCurrentMediaWrapper().addFlags(MediaWrapper.MEDIA_PAUSED);
+                    mw.addFlags(MediaWrapper.MEDIA_PAUSED);
                 cleanUI();
                 exitOK();
             } else
