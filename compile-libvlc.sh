@@ -367,11 +367,14 @@ VLC_CXXFLAGS="-std=gnu++11"
 if [ "$NO_OPTIM" = "1" ];
 then
      VLC_CFLAGS="${VLC_CFLAGS} -g -O0"
+     VLC_CXXFLAGS="${VLC_CXXFLAGS} -g -O0"
 else
      VLC_CFLAGS="${VLC_CFLAGS} -g -O2"
+     VLC_CXXFLAGS="${VLC_CXXFLAGS} -g -O2"
 fi
 
 VLC_CFLAGS="${VLC_CFLAGS} -fstrict-aliasing -funsafe-math-optimizations"
+VLC_CXXFLAGS="${VLC_CXXFLAGS} -fstrict-aliasing -funsafe-math-optimizations"
 
 # Setup CFLAGS per ABI
 if [ "${ANDROID_ABI}" = "armeabi-v7a" ] ; then
@@ -447,6 +450,7 @@ fi
 
 echo "EXTRA_CFLAGS:      ${EXTRA_CFLAGS}"
 echo "VLC_CFLAGS:        ${VLC_CFLAGS}"
+echo "VLC_CXXFLAGS:      ${VLC_CXXFLAGS}"
 
 cd vlc
 
