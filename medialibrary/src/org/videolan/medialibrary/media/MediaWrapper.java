@@ -397,6 +397,10 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         return mLength;
     }
 
+    public void setLength(long length) {
+        mLength = length;
+    }
+
     public int getType() {
         return mType;
     }
