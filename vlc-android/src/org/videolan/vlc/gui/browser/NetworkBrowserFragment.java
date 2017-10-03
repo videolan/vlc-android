@@ -254,6 +254,8 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
      * Update views visibility and emptiness info
      */
     protected void updateEmptyView() {
+        if (mEmptyView == null)
+            return;
         if (ExternalMonitor.isConnected()) {
             if (mAdapter.isEmpty()) {
                 if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) {
