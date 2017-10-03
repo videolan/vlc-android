@@ -253,6 +253,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         }
 
         mMedialibrary = VLCApplication.getMLInstance();
+        if (!mMedialibrary.isInitiated())
+            registerMedialibrary(null);
         if (!AndroidDevices.hasTsp && !AndroidDevices.hasPlayServices)
             AndroidDevices.setRemoteControlReceiverEnabled(true);
 
@@ -297,6 +299,18 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             registerReceiver(mRemoteControlClientReceiver, filter);
         }
         mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+    }
+
+    MedialibraryReceiver mLibraryReceiver = null;
+    private void registerMedialibrary(final Runnable action) {
+        final LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
+        if (mLibraryReceiver == null) {
+            mLibraryReceiver = new MedialibraryReceiver();
+            lbm.registerReceiver(mLibraryReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
+            Util.startService(PlaybackService.this, new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
+        }
+        if (action != null)
+            mLibraryReceiver.addAction(action);
     }
 
     private void updateHasWidget() {
@@ -497,7 +511,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 updateWidget();
             } else if (action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_ENABLED)
                     || action.equalsIgnoreCase(VLCAppWidgetProvider.ACTION_WIDGET_DISABLED)) {
-               updateHasWidget();
+                updateHasWidget();
             }
             /*
              * headset plug events
@@ -580,7 +594,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private Media.Stats previousMediaStats = null;
 
     public Media.Stats getLastStats() {
-       return previousMediaStats;
+        return previousMediaStats;
     }
 
     private final MediaPlayer.EventListener mMediaPlayerListener = new MediaPlayer.EventListener() {
@@ -1116,8 +1130,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private final class MediaSessionCallback extends MediaSessionCompat.Callback {
-    private long mHeadsetDownTime = 0;
-    private long mHeadsetUpTime = 0;
+        private long mHeadsetDownTime = 0;
+        private long mHeadsetUpTime = 0;
 
         @Override
         public boolean onMediaButtonEvent(Intent mediaButtonEvent) {
@@ -1219,17 +1233,13 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
         @Override
         public void onPlayFromSearch(final String query, final Bundle extras) {
-            if (!mMedialibrary.isInitiated()) {
-                Util.startService(PlaybackService.this, new Intent(MediaParsingService.ACTION_INIT, null, PlaybackService.this, MediaParsingService.class));
-                final BroadcastReceiver libraryReadyReceiver = new BroadcastReceiver() {
+            if (!mMedialibrary.isInitiated() || mLibraryReceiver != null) {
+                registerMedialibrary(new Runnable() {
                     @Override
-                    public void onReceive(Context context, Intent intent) {
-                        LocalBroadcastManager.getInstance(PlaybackService.this).unregisterReceiver(this);
+                    public void run() {
                         onPlayFromSearch(query, extras);
                     }
-                };
-                LocalBroadcastManager.getInstance(PlaybackService.this).registerReceiver(libraryReadyReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
-                return;
+                });
             }
             mMediaSession.setPlaybackState(new PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, getTime(), 1.0f).build());
             VLCApplication.runBackground(new Runnable() {
@@ -1494,11 +1504,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     private String mCurrentWidgetCover = null;
     private void updateWidgetCover() {
-    String newWidgetCover = hasCurrentMedia() ? getCurrentMedia().getArtworkMrl() : null;
+        String newWidgetCover = hasCurrentMedia() ? getCurrentMedia().getArtworkMrl() : null;
         if (!TextUtils.equals(mCurrentWidgetCover, newWidgetCover)) {
             mCurrentWidgetCover = newWidgetCover;
             sendBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
-                            .putExtra("artworkMrl", newWidgetCover));
+                    .putExtra("artworkMrl", newWidgetCover));
         }
     }
 
@@ -1527,25 +1537,16 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 .putExtra("package", "org.videolan.vlc"));
     }
 
-    BroadcastReceiver mLibraryReceiver = null;
     private void loadLastAudioPlaylist() {
-        if (mLibraryReceiver != null)
-            return;
-        if (mMedialibrary.isInitiated())
+        if (mMedialibrary.isInitiated() && mLibraryReceiver == null)
             loadLastPlaylist(TYPE_AUDIO);
-        else {
-            final LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
-            mLibraryReceiver = new BroadcastReceiver() {
+        else
+            registerMedialibrary(new Runnable() {
                 @Override
-                public void onReceive(Context context, Intent intent) {
-                    lbm.unregisterReceiver(this);
-                    mLibraryReceiver = null;
+                public void run() {
                     loadLastPlaylist(TYPE_AUDIO);
                 }
-            };
-            lbm.registerReceiver(mLibraryReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
-            Util.startService(PlaybackService.this, new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
-        }
+            });
     }
 
     public void loadLastPlaylist(final int type) {
@@ -1908,13 +1909,13 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             String title = media.getNowPlaying();
             if (title == null)
                 title = media.getTitle();
-                MediaDescriptionCompat.Builder builder = new MediaDescriptionCompat.Builder();
-                builder.setTitle(title)
-                        .setDescription(Util.getMediaDescription(MediaUtils.getMediaArtist(this, media), MediaUtils.getMediaAlbum(this, media)))
-                        .setIconBitmap(BitmapUtil.getPictureFromCache(media))
-                        .setMediaUri(media.getUri())
-                        .setMediaId(BrowserProvider.generateMediaId(media));
-                queue.add(new MediaSessionCompat.QueueItem(builder.build(), ++position));
+            MediaDescriptionCompat.Builder builder = new MediaDescriptionCompat.Builder();
+            builder.setTitle(title)
+                    .setDescription(Util.getMediaDescription(MediaUtils.getMediaArtist(this, media), MediaUtils.getMediaAlbum(this, media)))
+                    .setIconBitmap(BitmapUtil.getPictureFromCache(media))
+                    .setMediaUri(media.getUri())
+                    .setMediaId(BrowserProvider.generateMediaId(media));
+            queue.add(new MediaSessionCompat.QueueItem(builder.build(), ++position));
         }
         mMediaSession.setQueue(queue);
     }
@@ -2600,19 +2601,45 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         return Permissions.canReadStorage() ? new BrowserRoot(BrowserProvider.ID_ROOT, null) : null;
     }
 
-    boolean mMLInitializing = false;
     @Override
     public void onLoadChildren(@NonNull final String parentId, @NonNull final Result<List<MediaBrowserCompat.MediaItem>> result) {
         result.detach();
-        if (!mMLInitializing && !mMedialibrary.isInitiated() && BrowserProvider.ID_ROOT.equals(parentId)) {
-            Util.startService(PlaybackService.this, new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
-            mMLInitializing = true;
-        }
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                result.sendResult(BrowserProvider.browse(parentId));
+        if (!mMedialibrary.isInitiated() || mLibraryReceiver != null)
+            registerMedialibrary(new Runnable() {
+                @Override
+                public void run() {
+                    VLCApplication.runBackground(new Runnable() {
+                        @Override
+                        public void run() {
+                            result.sendResult(BrowserProvider.browse(parentId));
+                        }
+                    });
+                }
+            });
+        else
+            VLCApplication.runBackground(new Runnable() {
+                @Override
+                public void run() {
+                    result.sendResult(BrowserProvider.browse(parentId));
+                }
+            });
+    }
+
+    private class MedialibraryReceiver extends BroadcastReceiver {
+        private final List<Runnable> pendingActions = new LinkedList<>();
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mLibraryReceiver = null;
+            LocalBroadcastManager.getInstance(PlaybackService.this).unregisterReceiver(this);
+            synchronized (pendingActions) {
+                for (Runnable r : pendingActions)
+                    r.run();
             }
-        });
+        }
+        public void addAction(Runnable r) {
+            synchronized (pendingActions) {
+                pendingActions.add(r);
+            }
+        }
     }
 }
