@@ -1117,6 +1117,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
         if (mMedia != null)
             mMedia.release();
+        mVoutCount = 0;
         nativeRelease();
     }
 
