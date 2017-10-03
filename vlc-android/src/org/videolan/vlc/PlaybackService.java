@@ -605,12 +605,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 case MediaPlayer.Event.Playing:
                     mMedialibrary.pauseBackgroundOperations();
                     mStopped = false;
+                    final MediaWrapper mw = getCurrentMediaWrapper();
                     loadMediaMeta();
-                    if (mSavedTime > 0L) {
-                        if (mSavedTime < 0.95*getLength())
-                            seek(mSavedTime);
-                        mSavedTime = 0L;
-                    }
+                    seekToResume(mw);
 
                     Log.i(TAG, "MediaPlayer.Event.Playing");
                     executeUpdate();
@@ -627,8 +624,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         showNotification();
                     }
                     mVideoBackground = false;
-                    if (getCurrentMediaWrapper().getType() == MediaWrapper.TYPE_STREAM)
-                        mMedialibrary.addToHistory(getCurrentMediaLocation(), getCurrentMediaWrapper().getTitle());
+                    if (mw.getType() == MediaWrapper.TYPE_STREAM)
+                        mMedialibrary.addToHistory(getCurrentMediaLocation(), mw.getTitle());
                     break;
                 case MediaPlayer.Event.Paused:
                     mMedialibrary.resumeBackgroundOperations();
@@ -692,6 +689,24 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     callback.onMediaPlayerEvent(event);
             }
         }
+
+        private void seekToResume(MediaWrapper mw) {
+            if (mSavedTime > 0L) {
+                if (mSavedTime < 0.95*getLength())
+                    seek(mSavedTime);
+                mSavedTime = 0L;
+            } else {
+                final long length = getLength();
+                if (mw.getLength() <= 0L && length > 0L) {
+                    mw = mMedialibrary.findMedia(mw);
+                    if (mw.getId() != 0L) {
+                        mw.setTime((long) (mw.getMetaLong(MediaWrapper.META_PROGRESS) * (double) length) / 100L);
+                        if (mw.getTime() > 0L)
+                            seek(mw.getTime());
+                    }
+                }
+            }
+        }
     };
 
     private void onPlaybackStopped() {
@@ -721,7 +736,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (canSwitchToVideo || media.isPodcast()) {
             //Save progress
             final long time = getTime();
-            final long length =  media.getLength();
+            final long length = getLength();
             float progress = time / (float)length;
             if (progress > 0.95f || (length-time) < 10000) {
                 //increase seen counter if more than 95% of the media have been seen
