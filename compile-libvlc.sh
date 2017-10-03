@@ -846,7 +846,7 @@ fi;
 cd "build-android-$ANDROID_ABI/";
 
 if [ "$RELEASE" = 1 ]; then
-    MEDIALIBRARY_MODE=--enable-release
+    MEDIALIBRARY_MODE=--disable-debug
 fi
 if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
 ../bootstrap
