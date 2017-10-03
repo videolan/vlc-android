@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:targetApi="jelly_bean" >
     <data>
         <import type="android.view.View"/>
         <import type="android.text.TextUtils"/>
@@ -80,8 +81,7 @@
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintEnd_toStartOf="@+id/item_more"
             app:layout_constraintBottom_toTopOf="@+id/text"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
+            android:ellipsize="start"
             android:maxLines="1"
             android:text="@{item.title}"
             android:fontFamily="sans-serif-light"
@@ -92,7 +92,6 @@
             android:id="@+id/text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
             android:fontFamily="sans-serif-light"
             android:maxLines="1"
             android:text="@{item.description}"
@@ -101,7 +100,7 @@
             app:layout_constraintEnd_toStartOf="@+id/item_more"
             app:layout_constraintStart_toStartOf="@+id/title"
             app:layout_constraintTop_toBottomOf="@+id/title"
-            android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE, default=gone}"  />
+            android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE, default=gone}" />
 
         <ImageView
             android:id="@+id/item_more"
