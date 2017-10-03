@@ -178,7 +178,6 @@ public class SubtitlesDownloader {
         final HashMap<String, ArrayList<String>> success = new HashMap<>();
         final HashMap<String, ArrayList<String>> fails = new HashMap<>();
         ArrayList<HashMap<String, String>> videoSearchList = prepareRequestList(mediaList, languages, index, true);
-        Object[] subtitleMaps;
         if (!videoSearchList.isEmpty()) {
             try {
                 map = (HashMap<String, Object>) mClient.call("SearchSubtitles", mToken, videoSearchList);
@@ -188,23 +187,22 @@ public class SubtitlesDownloader {
                 return;
             }
             if(!stop && map.get("data") instanceof Object[]) {
-                subtitleMaps = ((Object[]) map.get("data"));
+                final Object[] subtitleMaps = ((Object[]) map.get("data"));
                 if (!single)
                     mHandler.obtainMessage(DIALOG_UPDATE_PROGRESS, mediaList.size(), 0).sendToTarget();
                 if (subtitleMaps.length > 0){
-                    String srtFormat, movieHash, fileUrl, fileName, subLanguageID, subDownloadLink;
                     for (Object map : subtitleMaps){
                         if (stop)
                             break;
-                        srtFormat = ((HashMap<String, String>) map).get("SubFormat");
-                        movieHash = ((HashMap<String, String>) map).get("MovieHash");
-                        subLanguageID = ((HashMap<String, String>) map).get("SubLanguageID");
-                        subDownloadLink = ((HashMap<String, String>) map).get("SubDownloadLink");
-                        fileUrl = index.get(movieHash);
+                        final String srtFormat = ((HashMap<String, String>) map).get("SubFormat");
+                        final String movieHash = ((HashMap<String, String>) map).get("MovieHash");
+                        final String subLanguageID = ((HashMap<String, String>) map).get("SubLanguageID");
+                        final String subDownloadLink = ((HashMap<String, String>) map).get("SubDownloadLink");
+                        final String fileUrl = index.get(movieHash);
                         if (fileUrl == null)
                             return;
 
-                        fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+                        final String fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
                         if (success.containsKey(fileName) && success.get(fileName).contains(subLanguageID)){
                             continue;
                         } else {
@@ -228,7 +226,9 @@ public class SubtitlesDownloader {
 
         //Second pass
         for (MediaWrapper media : mediaList){
-            String fileName = media.getUri().getLastPathSegment();
+            if (media == null)
+                return;
+            final String fileName = media.getUri().getLastPathSegment();
             if (!success.containsKey(fileName))
                 notFoundFiles.add(media);
         }
@@ -243,30 +243,28 @@ public class SubtitlesDownloader {
                 return;
             }
             if (map.get("data") instanceof Object[]) {
-                subtitleMaps = ((Object[]) map.get("data"));
+                final Object[] subtitleMaps = ((Object[]) map.get("data"));
                 if (subtitleMaps.length > 0) {
-                    String srtFormat, fileUrl, fileName, subLanguageID, subDownloadLink;
-                    HashMap<String, Object> resultMap;
-                    Object[] paths = index.values().toArray();
+                    final Object[] paths = index.values().toArray();
                     for (Object subtitleMap : subtitleMaps) {
                         if (stop)
                             break;
-                        resultMap = (HashMap<String, Object>) subtitleMap;
-                        srtFormat = (String) resultMap.get("SubFormat");
-                        String queryNumber = (String) resultMap.get("QueryNumber");
-                        subLanguageID = (String) resultMap.get("SubLanguageID");
-                        subDownloadLink = (String) resultMap.get("SubDownloadLink");
-                        fileUrl = (String) paths[Integer.getInteger(queryNumber, 0) / languages.size()];
+                        final HashMap<String, Object> resultMap = (HashMap<String, Object>) subtitleMap;
+                        final String srtFormat = (String) resultMap.get("SubFormat");
+                        final String queryNumber = (String) resultMap.get("QueryNumber");
+                        final String subLanguageID = (String) resultMap.get("SubLanguageID");
+                        final String subDownloadLink = (String) resultMap.get("SubDownloadLink");
+                        final String fileUrl = (String) paths[Integer.getInteger(queryNumber, 0) / languages.size()];
                         if (fileUrl == null) //we keep only result for exact matching name
                             continue;
-                        fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+                        final String fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
                         if (success.containsKey(fileName) && success.get(fileName).contains(subLanguageID)) {
                             continue;
                         } else {
                             if (success.containsKey(fileName))
                                 success.get(fileName).add(subLanguageID);
                             else {
-                                ArrayList<String> newLanguage = new ArrayList<>();
+                                final ArrayList<String> newLanguage = new ArrayList<>();
                                 newLanguage.add(subLanguageID);
                                 success.put(fileName, newLanguage);
                             }
@@ -279,22 +277,21 @@ public class SubtitlesDownloader {
             }
         }
         //fill fails list
-        for (MediaWrapper media : mediaList){
-            String fileName;
-            fileName = media.getUri().getLastPathSegment();
+        for (MediaWrapper media : mediaList) {
+            if (media == null)
+                continue;
+            final String fileName = media.getUri().getLastPathSegment();
             if (!success.containsKey(fileName)){
-                ArrayList<String> langs = new ArrayList<>();
-                for (String language : languages) {
+                final ArrayList<String> langs = new ArrayList<>();
+                for (String language : languages)
                     langs.add(getCompliantLanguageID(language));
-                }
                 fails.put(fileName, langs);
             } else {
-                ArrayList<String> langs = new ArrayList<>();
+                final ArrayList<String> langs = new ArrayList<>();
                 for (String language : languages) {
-                    String langID = getCompliantLanguageID(language);
-                    if (!success.get(fileName).contains(langID)){
+                    final String langID = getCompliantLanguageID(language);
+                    if (!success.get(fileName).contains(langID))
                         langs.add(langID);
-                    }
                 }
                 if (!langs.isEmpty())
                     fails.put(fileName, langs);
@@ -311,9 +308,8 @@ public class SubtitlesDownloader {
             if (single){
                 stop = true;
                 showSnackBar(buildSumup(success, fails, true));
-            } else {
+            } else
                 showSumup(buildSumup(success, fails, false));
-            }
         }
         logOut();
     }
@@ -371,21 +367,19 @@ public class SubtitlesDownloader {
             } else { //Second pass, search by TAG (filename)
                 tag = mediaUri.getLastPathSegment();
             }
-            HashMap<String, String> video;
             for (String item : languages){
                 if (stop)
                     break;
-                String languageID = getCompliantLanguageID(item);
-
-                video = new HashMap<>();
+                final String languageID = getCompliantLanguageID(item);
+                final HashMap<String, String> video = new HashMap<>();
                 video.put("sublanguageid", languageID);
-                if (firstPass){
+                if (firstPass) {
                     index.put(hash, mediaUri.getPath());
                     video.put("moviehash", hash);
                     video.put("moviebytesize", String.valueOf(fileLength));
                 } else if (!TextUtils.isEmpty(tag)) {
                     video.put("tag", tag);
-                    int dotPos = tag.lastIndexOf('.');
+                    final int dotPos = tag.lastIndexOf('.');
                     if (dotPos > -1)
                         index.put(tag.substring(0, dotPos), mediaUri.getPath());
                     else
@@ -417,7 +411,7 @@ public class SubtitlesDownloader {
                             }
                         }).create();
                 //We catch these exceptions because context might disappear while loading/showing the dialog, no matter if we wipe it in onPause()
-                try{
+                try {
                     mSumUpDialog.show();
                 } catch (IllegalArgumentException | WindowManager.BadTokenException e){
                     e.printStackTrace();
@@ -427,8 +421,8 @@ public class SubtitlesDownloader {
     }
 
     private String buildSumup(HashMap<String, ArrayList<String>> success, HashMap<String, ArrayList<String>> fails, boolean single) {
-        StringBuilder textToDisplay = new StringBuilder();
-        if (single){ // Text for the toast
+        final StringBuilder textToDisplay = new StringBuilder();
+        if (single) { // Text for the toast
             if (!success.isEmpty()) {
                 for (Entry<String, ArrayList<String>> entry : success.entrySet()) {
                     textToDisplay.append(VLCApplication.getAppResources().getString(R.string.snack_subloader_sub_found));
@@ -448,8 +442,8 @@ public class SubtitlesDownloader {
                 textToDisplay.append(VLCApplication.getAppResources().getString(R.string.dialog_subloader_success)).append("\n");
 
                 for (Entry<String, ArrayList<String>> entry : success.entrySet()){
-                    ArrayList<String> langs = entry.getValue();
-                    String filename = entry.getKey();
+                    final ArrayList<String> langs = entry.getValue();
+                    final String filename = entry.getKey();
                     textToDisplay.append("\n- ").append(filename).append(" ").append(langs.toString());
                 }
 
@@ -461,8 +455,8 @@ public class SubtitlesDownloader {
                 textToDisplay.append(VLCApplication.getAppResources().getString(R.string.dialog_subloader_fails)).append("\n");
 
                 for (Entry<String, ArrayList<String>> entry : fails.entrySet()){
-                    ArrayList<String> langs = entry.getValue();
-                    String filename = entry.getKey();
+                    final ArrayList<String> langs = entry.getValue();
+                    final String filename = entry.getKey();
                     textToDisplay.append("\n- ").append(filename).append(" ").append(langs.toString());
                 }
             }
