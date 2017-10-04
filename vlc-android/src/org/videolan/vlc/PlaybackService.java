@@ -303,6 +303,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     MedialibraryReceiver mLibraryReceiver = null;
     private void registerMedialibrary(final Runnable action) {
+        if (!Permissions.canReadStorage())
+            return;
         final LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
         if (mLibraryReceiver == null) {
             mLibraryReceiver = new MedialibraryReceiver();
