@@ -1,3 +1,13 @@
+Changes between 2.5.1 and 2.5.2:
+----------------------------------
+
+Application:
+ * Update translations
+ * Fix media position not resumed in some cases
+ * Block medialibrary folders settings access while ML is working
+ * Delay storage dialog, it could be missed on upgrade
+ * Misc. crashes fixed
+
 Changes between 2.5.0 and 2.5.1:
 ----------------------------------
 
