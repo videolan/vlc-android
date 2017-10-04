@@ -241,7 +241,7 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
                 binding.equalizerButton.setChecked(true);
 
             //save set if changes made (needs old currentPosition)
-            if (!mState.saved && !updateAlreadyHandled)
+            if (savePos >= 0 && !mState.saved && !updateAlreadyHandled)
                 createSaveCustomSetDialog(savePos, false, false);
 
             updateEqualizer(pos);
