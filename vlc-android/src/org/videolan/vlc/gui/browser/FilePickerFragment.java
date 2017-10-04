@@ -127,7 +127,7 @@ public class FilePickerFragment extends FileBrowserFragment {
             }
             return true;
         } else
-            return mMrl.startsWith("http");
+            return mMrl.length() < 7;
     }
 
     @Override
