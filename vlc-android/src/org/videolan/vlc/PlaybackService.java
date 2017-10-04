@@ -473,7 +473,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
              * Launch the activity if needed
              */
             if (action.startsWith(ACTION_REMOTE_GENERIC) && !mMediaPlayer.isPlaying() && !hasCurrentMedia()) {
-                context.startActivity(getPackageManager().getLaunchIntentForPackage(getPackageName()));
+                final Intent activityIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
+                if (activityIntent != null)
+                    context.startActivity(activityIntent);
             }
 
             /*
