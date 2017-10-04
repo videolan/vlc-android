@@ -32,6 +32,7 @@ import android.support.v7.preference.Preference;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.helpers.UiTools;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class PreferencesFragment extends BasePreferenceFragment {
@@ -66,10 +67,14 @@ public class PreferencesFragment extends BasePreferenceFragment {
     public boolean onPreferenceTreeClick(Preference preference) {
         switch (preference.getKey()){
             case "directories":
-                Intent intent = new Intent(VLCApplication.getAppContext(), SecondaryActivity.class);
-                intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER);
-                startActivity(intent);
-                getActivity().setResult(PreferencesActivity.RESULT_RESTART);
+                if (VLCApplication.getMLInstance().isWorking())
+                    UiTools.snacker(getView(), getString(R.string.settings_ml_block_scan));
+                else {
+                    final Intent intent = new Intent(VLCApplication.getAppContext(), SecondaryActivity.class);
+                    intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER);
+                    startActivity(intent);
+                    getActivity().setResult(PreferencesActivity.RESULT_RESTART);
+                }
                 return true;
             case "ui_category":
                 loadFragment(new PreferencesUi());

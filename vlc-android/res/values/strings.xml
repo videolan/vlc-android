@@ -564,4 +564,5 @@
     <string name="custom_set_restored">Custom equalizer-set restored.</string>
     <string name="unsaved_set_deleted_message">Unsaved equalizer-set deleted.</string>
     <string name="equalizer_new_preset_name">New</string>
+    <string name="settings_ml_block_scan">Medialibray is scanning your devices right now</string>
 </resources>
