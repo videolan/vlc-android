@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
@@ -213,24 +215,24 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             exitCommand();
         } else
             mCallsExecutor.execute(new Runnable() {
+                Handler handler = null;
                 @Override
                 public void run() {
                     boolean shouldInit = !(new File(MediaParsingService.this.getDir("db", Context.MODE_PRIVATE)+Medialibrary.VLC_MEDIA_DB_NAME).exists());
                     if (mMedialibrary.init(getApplicationContext())) {
-                        List<String> devices = new ArrayList<>();
+                        final List<String> devices = new ArrayList<>();
                         devices.add(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                         devices.addAll(AndroidDevices.getExternalStorageDirectories());
-                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MediaParsingService.this);
+                        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MediaParsingService.this);
                         for (final String device : devices) {
-                            boolean isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
-                            String uuid = FileUtils.getFileNameFromPath(device);
+                            final boolean isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
+                            final String uuid = FileUtils.getFileNameFromPath(device);
                             if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid))
                                 continue;
-                            boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : uuid, device, !isMainStorage, false);
-                            boolean isIgnored = sharedPreferences.getBoolean("ignore_"+ uuid, false);
-                            if (!isMainStorage && isNew && !isIgnored) {
-                                mLocalBroadcastManager.sendBroadcast(new Intent(ACTION_NEW_STORAGE).putExtra(EXTRA_PATH, device));
-                            }
+                            final boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : uuid, device, !isMainStorage, false);
+                            final boolean isIgnored = sharedPreferences.getBoolean("ignore_"+ uuid, false);
+                            if (!isMainStorage && isNew && !isIgnored)
+                                showStorageNotification(device);
                         }
                         mMedialibrary.start();
                         mLocalBroadcastManager.sendBroadcast(new Intent(VLCApplication.ACTION_MEDIALIBRARY_READY));
@@ -244,13 +246,26 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             reload(null);
                     }
                 }
+
+                private void showStorageNotification(final String device) {
+                    if (handler == null) {
+                        final HandlerThread ht = new HandlerThread("advisor");
+                        ht.start();
+                        handler = new Handler(ht.getLooper());
+                    }
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mLocalBroadcastManager.sendBroadcast(new Intent(ACTION_NEW_STORAGE).putExtra(EXTRA_PATH, device));
+                        }
+                    }, 2000);
+                }
             });
     }
 
     private boolean wasWorking;
     final StringBuilder sb = new StringBuilder();
     private final Intent progessIntent = new Intent(ACTION_PROGRESS);
-    private final Intent notificationIntent = new Intent();
     private void showNotification() {
         final long currentTime = System.currentTimeMillis();
         synchronized (MediaParsingService.this) {
