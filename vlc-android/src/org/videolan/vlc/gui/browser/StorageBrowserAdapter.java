@@ -41,20 +41,10 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
 
     private static ArrayList<String> mMediaDirsLocation;
     private static ArrayList<String> mCustomDirsLocation;
-    private boolean mParsing = false;
 
     StorageBrowserAdapter(BaseBrowserFragment fragment) {
         super(fragment);
         updateMediaDirs();
-        mParsing = VLCApplication.getMLInstance().isWorking();
-    }
-
-    // Deactivate checkboxes while ML is scanning to avoid ML undefined states
-    void setServiceActive(boolean started) {
-        if (started != mParsing) {
-            mParsing = started;
-            notifyDataSetChanged();
-        }
     }
 
     @Override
@@ -77,7 +67,7 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
             vh.binding.browserCheckbox.setState(ThreeStatesCheckbox.STATE_PARTIAL);
         else
             vh.binding.browserCheckbox.setState(ThreeStatesCheckbox.STATE_UNCHECKED);
-        vh.binding.setCheckEnabled(!mParsing && !((StorageBrowserFragment) fragment).mScannedDirectory);
+        vh.binding.setCheckEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
         if (hasContextMenu)
             vh.setContextMenuListener();
     }

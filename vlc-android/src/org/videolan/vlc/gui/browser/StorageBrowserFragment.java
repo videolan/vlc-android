@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui.browser;
 
-import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,7 +30,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.SimpleArrayMap;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -44,7 +42,6 @@ import org.videolan.medialibrary.interfaces.EntryPointsEventsCb;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
-import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
@@ -79,8 +76,9 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         mAdapter = new StorageBrowserAdapter(this);
         if (bundle == null)
             bundle = getArguments();
-        if (bundle != null)
+        if (bundle != null){
             mScannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB);
+        }
     }
 
     @Override
@@ -101,15 +99,6 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         VLCApplication.getMLInstance().addEntryPointsEventsCb(this);
         if (mSnack != null)
             mSnack.show();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        final IntentFilter filter = new IntentFilter(MediaParsingService.ACTION_SERVICE_STARTED);
-        filter.addAction(MediaParsingService.ACTION_SERVICE_ENDED);
-        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mParsingServiceReceiver, filter);
-        ((StorageBrowserAdapter)mAdapter).setServiceActive(mMediaLibrary.isWorking());
     }
 
     @Override
@@ -259,17 +248,5 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
             });
             ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
         }
-    }
-
-    @Override
-    protected void onParsingServiceFinished() {
-        super.onParsingServiceFinished();
-        ((StorageBrowserAdapter)mAdapter).setServiceActive(false);
-    }
-
-    @Override
-    protected void onParsingServiceStarted() {
-        super.onParsingServiceStarted();
-        ((StorageBrowserAdapter)mAdapter).setServiceActive(true);
     }
 }
