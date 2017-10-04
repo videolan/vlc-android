@@ -2290,10 +2290,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (vol <= mAudioMax) {
             mService.setVolume(100);
             if (vol !=  mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC)) {
-                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
-                // High Volume warning can block volume setting
-                if (mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) != vol)
-                    mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI);
+                try {
+                    mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0);
+                    // High Volume warning can block volume setting
+                    if (mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) != vol)
+                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI);
+                } catch (SecurityException ignored) {} //Some device won't allow us to change volume
             }
             vol = Math.round(vol * 100 / mAudioMax);
         } else {
