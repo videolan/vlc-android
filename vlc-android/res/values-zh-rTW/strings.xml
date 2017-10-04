@@ -450,10 +450,12 @@
     <string name="resume">復原</string>
     <string name="length">長度</string>
     <string name="tv_settings_hint">長按確定鈕以勾選／取消勾選目錄</string>
-    <string name="ml_external_storage_title">檢測到外部存儲設備</string>
-    <string name="ml_external_storage_msg">是否同意VLC將%1$s 存儲空間用於媒體庫？</string>
     <string name="last_added_media">最近加入</string>
     <string name="no">否</string>
     <string name="loading_medialibrary">正在載入媒體櫃...</string>
     <string name="yes">是</string>
+    <string name="ml_external_storage_title">檢測到外部存儲設備</string>
+    <string name="ml_external_storage_msg">是否同意VLC將%1$s 存儲空間用於媒體庫？</string>
+    <string name="ml_external_storage_accept">是</string>
+    <string name="ml_external_storage_decline">否</string>
 </resources>
