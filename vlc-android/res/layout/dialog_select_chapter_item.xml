@@ -13,6 +13,7 @@
         android:ellipsize="marquee"
         android:padding="@dimen/half_default_margin"
         android:singleLine="true"
+        android:maxLines="1"
         android:text="Chapter_name" />
 
     <TextView

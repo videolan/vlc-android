@@ -38,7 +38,9 @@
             android:layout_marginRight="@dimen/half_default_margin"
             android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_subtitle"
-            android:ellipsize="start" />
+            android:ellipsize="start"
+            android:singleLine="true"
+            android:maxLines="1" />
     </LinearLayout>
 
 </LinearLayout>

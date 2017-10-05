@@ -90,6 +90,7 @@
             android:fontFamily="sans-serif-light"
             android:gravity="center_vertical"
             android:maxLines="2"
+            android:singleLine="true"
             android:paddingLeft="@dimen/half_default_margin"
             android:paddingStart="@dimen/half_default_margin"
             android:text="@{media.title}"

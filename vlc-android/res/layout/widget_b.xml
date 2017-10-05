@@ -36,6 +36,7 @@
                 android:layout_marginLeft="@dimen/half_default_margin"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="@color/grey500"
                 android:textSize="14sp" />
 
@@ -47,6 +48,7 @@
                 android:layout_marginLeft="@dimen/half_default_margin"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:maxLines="1"
                 android:text="@string/widget_default_text"
                 android:textColor="@color/grey50"
                 android:textSize="16sp" />

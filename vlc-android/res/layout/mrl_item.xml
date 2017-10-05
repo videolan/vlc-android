@@ -26,6 +26,7 @@
         android:ellipsize="middle"
         android:gravity="center_vertical"
         android:maxLines="1"
+        android:singleLine="true"
         android:fontFamily="sans-serif-light"
         android:textColor="?attr/font_default"/>
 </LinearLayout>
