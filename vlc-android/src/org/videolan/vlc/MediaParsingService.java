@@ -244,6 +244,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             mMedialibrary.forceParserRetry();
                         else if (PreferenceManager.getDefaultSharedPreferences(MediaParsingService.this).getBoolean("auto_rescan", true))
                             reload(null);
+                        else
+                            exitCommand();
                     }
                 }
 
