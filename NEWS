@@ -1,3 +1,15 @@
+Changes between 2.5.2 and 2.5.3:
+----------------------------------
+
+Application:
+ * Fix crash with ellipsizes
+ * Properly exit medialibrary scan service
+ * Check for new storages when app goes foreground
+ * Fix custom directories with wrong path
+
+Core:
+ * Disable lua for Medialibrary parsing
+
 Changes between 2.5.1 and 2.5.2:
 ----------------------------------
 
