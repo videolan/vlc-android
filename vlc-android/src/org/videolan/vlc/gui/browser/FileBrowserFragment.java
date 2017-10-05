@@ -25,14 +25,11 @@ package org.videolan.vlc.gui.browser;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -50,6 +47,7 @@ import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class FileBrowserFragment extends BaseBrowserFragment {
@@ -143,8 +141,10 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                     return;
                 }
 
-                CustomDirectories.addCustomDirectory(f.getAbsolutePath());
-                ((AudioPlayerContainerActivity)getActivity()).updateLib();
+                try {
+                    CustomDirectories.addCustomDirectory(f.getCanonicalPath());
+                    ((AudioPlayerContainerActivity)getActivity()).updateLib();
+                } catch (IOException ignored) {}
             }
         });
         mAlertDialog = builder.show();
