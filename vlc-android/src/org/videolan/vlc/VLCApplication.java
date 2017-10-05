@@ -60,7 +60,6 @@ public class VLCApplication extends Application {
 
     public final static String ACTION_MEDIALIBRARY_READY = "VLC/VLCApplication";
     private static volatile VLCApplication instance;
-    private static volatile Medialibrary sMedialibraryInstance;
 
     public final static String SLEEP_INTENT = Strings.buildPkgString("SleepIntent");
 
@@ -243,10 +242,7 @@ public class VLCApplication extends Application {
     }
 
     public static Medialibrary getMLInstance() {
-        if (sMedialibraryInstance == null) {
-            sMedialibraryInstance = Medialibrary.getInstance();
-        }
-        return sMedialibraryInstance;
+        return Medialibrary.getInstance();
     }
 
     public static void setLocale(){

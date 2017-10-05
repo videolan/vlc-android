@@ -45,7 +45,6 @@ public class Medialibrary {
     public static final int FLAG_MEDIA_ADDED_AUDIO_EMPTY    = 1 << 4;
     public static final int FLAG_MEDIA_ADDED_VIDEO          = 1 << 5;
 
-    private static final String extDirPath = Environment.getExternalStorageDirectory().getAbsolutePath();
     public static final String ACTION_IDLE = "action_idle";
     public static final String STATE_IDLE = "state_idle";
 
@@ -66,14 +65,16 @@ public class Medialibrary {
     private AlbumsModifiedCb mAlbumsModifiedCb = null;
     private final List<DevicesDiscoveryCb> devicesDiscoveryCbList = new ArrayList<>();
     private final List<EntryPointsEventsCb> entryPointsEventsCbList = new ArrayList<>();
-
-    private static Medialibrary sInstance;
     private static Context sContext;
 
     static {
         LibVLC.loadLibraries();
         System.loadLibrary("c++_shared");
         System.loadLibrary("mla");
+    }
+
+    private static class MedialibraryHolder {
+        public static final Medialibrary instance = new Medialibrary();
     }
 
     public static Context getContext() {
@@ -142,10 +143,8 @@ public class Medialibrary {
         super.finalize();
     }
 
-    public static synchronized Medialibrary getInstance() {
-        if (sInstance == null)
-            sInstance = new Medialibrary();
-        return sInstance;
+    public static Medialibrary getInstance() {
+        return MedialibraryHolder.instance;
     }
 
     @WorkerThread
