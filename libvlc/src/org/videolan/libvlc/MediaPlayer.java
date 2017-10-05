@@ -417,6 +417,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     private long getEncodingFlags(int encodings[]) {
+        if (encodings == null)
+            return 0;
         long encodingFlags = 0;
         for (int encoding : encodings) {
             if (isEncoded(encoding))
