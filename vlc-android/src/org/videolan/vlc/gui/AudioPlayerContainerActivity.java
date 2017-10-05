@@ -49,8 +49,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.ExternalMonitor;
+import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -129,8 +129,6 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
 
     @Override
     protected void onStart() {
-        super.onStart();
-        mHelper.onStart();
         ExternalMonitor.subscribeStorageCb(this);
 
         /* Prepare the progressBar */
@@ -142,6 +140,9 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         progressFilter.addAction(MediaParsingService.ACTION_PROGRESS);
         progressFilter.addAction(MediaParsingService.ACTION_NEW_STORAGE);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, progressFilter);
+        // super.onStart must be called after receiver registration
+        super.onStart();
+        mHelper.onStart();
     }
 
     @Override

@@ -28,6 +28,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -40,7 +41,12 @@ import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
 
 import java.lang.ref.WeakReference;
 import java.net.NetworkInterface;
@@ -48,6 +54,9 @@ import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.videolan.vlc.MediaParsingService.ACTION_NEW_STORAGE;
+import static org.videolan.vlc.MediaParsingService.EXTRA_PATH;
 
 public class ExternalMonitor extends BroadcastReceiver {
     public final static String TAG = "VLC/ExternalMonitor";
@@ -71,6 +80,43 @@ public class ExternalMonitor extends BroadcastReceiver {
         storageFilter.addDataScheme("file");
         ctx.registerReceiver(instance, networkFilter);
         ctx.registerReceiver(instance, storageFilter);
+        if (AndroidUtil.isICSOrLater)
+            checkNewStorages(ctx);
+    }
+
+    private static void checkNewStorages(final Context ctx) {
+        final Medialibrary ml = VLCApplication.getMLInstance();
+        if (!ml.isInitiated() || ml.isWorking())
+            return;
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+                final List<String> devices = AndroidDevices.getExternalStorageDirectories();
+                if (Util.isListEmpty(devices))
+                    return;
+                final String[] knownDevices = ml.getDevices();
+                for (final String device : devices) {
+                    final String uuid = FileUtils.getFileNameFromPath(device);
+                    if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid)
+                            || containsDevice(knownDevices, device))
+                        continue;
+                    final boolean isNew = ml.addDevice(uuid, device, true, true);
+                    final boolean isIgnored = sharedPreferences.getBoolean("ignore_"+ uuid, false);
+                    if (isNew && !isIgnored)
+                        LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(ACTION_NEW_STORAGE).putExtra(EXTRA_PATH, device));
+                }
+            }
+
+            private boolean containsDevice(String[] devices, String device) {
+                if (Util.isArrayEmpty(devices))
+                    return false;
+                for (String dev : devices)
+                    if (device.startsWith(Strings.removeFileProtocole(dev)))
+                        return true;
+                return false;
+            }
+        });
     }
 
     static void unregister(Context ctx) {
@@ -130,7 +176,7 @@ public class ExternalMonitor extends BroadcastReceiver {
                             notifyStorageChanges(path);
                         } else
                             appCtx.startService(new Intent(MediaParsingService.ACTION_RELOAD, null, appCtx, MediaParsingService.class)
-                                    .putExtra(MediaParsingService.EXTRA_PATH, path));
+                                    .putExtra(EXTRA_PATH, path));
                     }
                     break;
                 case ACTION_MEDIA_UNMOUNTED:

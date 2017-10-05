@@ -66,8 +66,6 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity implements 
 
     @Override
     protected void onStart() {
-        super.onStart();
-        mIsVisible = true;
         ExternalMonitor.subscribeStorageCb(this);
 
         final IntentFilter parsingServiceFilter = new IntentFilter(MediaParsingService.ACTION_SERVICE_ENDED);
@@ -78,6 +76,9 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity implements 
         mRegistering = true;
         LocalBroadcastManager.getInstance(this).registerReceiver(mParsingServiceReceiver, parsingServiceFilter);
         ExternalMonitor.subscribeNetworkCb(this);
+        // super.onStart must be called after receiver registration
+        super.onStart();
+        mIsVisible = true;
     }
 
     @Override
