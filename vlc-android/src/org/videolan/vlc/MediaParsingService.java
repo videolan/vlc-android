@@ -124,9 +124,9 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             return START_NOT_STICKY;
         synchronized (MediaParsingService.this) {
             // Set 1s delay before displaying scan icon
-            // Except for Android 8+ which expects startForeground immediatly
+            // Except for Android 8+ which expects startForeground immediately
             if (mLastNotificationTime <= 0L)
-                mLastNotificationTime = !AndroidUtil.isOOrLater && VLCApplication.isForeground() ? System.currentTimeMillis() : 0L;
+                mLastNotificationTime = AndroidUtil.isOOrLater ? 0L : System.currentTimeMillis();
         }
         switch (intent.getAction()) {
             case ACTION_INIT:
