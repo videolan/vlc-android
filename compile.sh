@@ -227,22 +227,22 @@ if [ ! -d "vlc" ]; then
     diagnostic "VLC source not found, cloning"
     git clone http://git.videolan.org/git/vlc.git vlc
     checkfail "vlc source: git clone failed"
-else
-    diagnostic "VLC source found"
-    cd vlc
-    if ! git cat-file -e ${TESTED_HASH}; then
-        cat 1>&2 << EOF
+fi
+diagnostic "VLC source found"
+cd vlc
+if ! git cat-file -e ${TESTED_HASH}; then
+    cat 1>&2 << EOF
 ***
 *** Error: Your vlc checkout does not contain the latest tested commit: ${TESTED_HASH}
 ***
 EOF
-        exit 1
-    fi
-    if [ "$RELEASE" = 1 ]; then
-        git reset --hard ${TESTED_HASH}
-    fi
-    cd ..
+    exit 1
 fi
+if [ "$RELEASE" = 1 ]; then
+    git reset --hard ${TESTED_HASH}
+fi
+cd ..
+
 
 ############
 # Make VLC #
