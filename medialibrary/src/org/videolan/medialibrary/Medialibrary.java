@@ -87,7 +87,8 @@ public class Medialibrary {
         sContext = context;
         File extFilesDir = context.getExternalFilesDir(null);
         File dbDirectory = context.getDir("db", Context.MODE_PRIVATE);
-        if (extFilesDir == null || !extFilesDir.exists())
+        if (extFilesDir == null || !extFilesDir.exists()
+                || dbDirectory == null || !dbDirectory.canWrite())
             return false;
         mIsInitiated = nativeInit(dbDirectory+ VLC_MEDIA_DB_NAME, extFilesDir+ THUMBS_FOLDER_NAME);
         return mIsInitiated;
