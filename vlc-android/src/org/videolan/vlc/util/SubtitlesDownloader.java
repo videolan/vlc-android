@@ -80,6 +80,7 @@ public class SubtitlesDownloader {
     private static final String OpenSubtitlesAPIUrl = "http://api.opensubtitles.org/xml-rpc";
     private static final String HTTP_USER_AGENT = "VLSub";
     private static final String USER_AGENT = "VLSub 0.9";
+    private static final File SUBTITLES_DIRECTORY = new File(VLCApplication.getAppContext().getExternalFilesDir(null), "subs");
 
     private HashMap<String, Object> map = null;
     private XMLRPCClient mClient;
@@ -116,7 +117,7 @@ public class SubtitlesDownloader {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                AndroidDevices.SUBTITLES_DIRECTORY.mkdirs();
+                SUBTITLES_DIRECTORY.mkdirs();
                 if (logIn())
                     getSubtitles(mediaList, finalLanguages);
                 mHandler.sendEmptyMessage(DIALOG_HIDE);
@@ -319,7 +320,7 @@ public class SubtitlesDownloader {
             return;
         final StringBuilder sb = new StringBuilder();
         final String name = fileName.lastIndexOf('.') > 0 ? fileName.substring(0, fileName.lastIndexOf('.')) : fileName;
-        sb.append(AndroidDevices.SUBTITLES_DIRECTORY.getPath()).append('/').append(name).append('.').append(language).append('.').append(subFormat);
+        sb.append(SUBTITLES_DIRECTORY.getPath()).append('/').append(name).append('.').append(language).append('.').append(subFormat);
         final String srtUrl = sb.toString();
         FileOutputStream f = null;
         GZIPInputStream gzIS = null;

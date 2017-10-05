@@ -53,7 +53,6 @@ import java.util.StringTokenizer;
 public class AndroidDevices {
     public final static String TAG = "VLC/UiTools/AndroidDevices";
     public final static String EXTERNAL_PUBLIC_DIRECTORY = Environment.getExternalStorageDirectory().getPath();
-    public static final File SUBTITLES_DIRECTORY;
 
     public final static boolean isPhone;
     public final static boolean hasCombBar;
@@ -104,12 +103,11 @@ public class AndroidDevices {
         isChromeBook = pm != null && pm.hasSystemFeature("org.chromium.arc.device_management");
         hasPlayServices = pm == null || hasPlayServices(pm);
         hasPiP = AndroidUtil.isOOrLater || AndroidUtil.isNougatOrLater && isAndroidTv;
-        isPhone = ((TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE))
+        isPhone = ctx == null || ((TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE))
                 .getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
         // hasCombBar test if device has Combined Bar : only for tablet with Honeycomb or ICS
         hasCombBar = !AndroidDevices.isPhone && AndroidUtil.isHoneycombOrLater
                 && !AndroidUtil.isJellyBeanMR1OrLater;
-        SUBTITLES_DIRECTORY = new File(ctx.getExternalFilesDir(null), "subs");
     }
 
     public static boolean hasExternalStorage() {
