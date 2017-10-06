@@ -323,6 +323,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (AndroidUtil.isOOrLater)
+            showNotification();
         if (intent == null)
             return START_STICKY;
         final String action = intent.getAction();
