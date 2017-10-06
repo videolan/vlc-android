@@ -36,7 +36,6 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SearchActivity;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
-import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Permissions;
@@ -58,10 +57,7 @@ public class StartActivity extends Activity {
 
         if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null) {
             intent.setDataAndType(intent.getData(), intent.getType());
-            if (intent.getType() != null && intent.getType().startsWith("video"))
-                startActivity(intent.setClass(this, VideoPlayerActivity.class));
-            else
-                MediaUtils.openMediaNoUi(intent.getData());
+            MediaUtils.openMediaNoUi(intent.getData());
             finish();
             return;
         }
