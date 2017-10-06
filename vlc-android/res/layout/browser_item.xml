@@ -81,7 +81,7 @@
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintEnd_toStartOf="@+id/item_more"
             app:layout_constraintBottom_toTopOf="@+id/text"
-            android:ellipsize="start"
+            android:ellipsize="end"
             android:singleLine="true"
             android:maxLines="1"
             android:text="@{item.title}"
