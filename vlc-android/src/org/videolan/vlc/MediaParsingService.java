@@ -127,6 +127,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             // Except for Android 8+ which expects startForeground immediately
             if (mLastNotificationTime <= 0L)
                 mLastNotificationTime = AndroidUtil.isOOrLater ? 0L : System.currentTimeMillis();
+            if (AndroidUtil.isOOrLater)
+                showNotification();
         }
         switch (intent.getAction()) {
             case ACTION_INIT:

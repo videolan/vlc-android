@@ -323,8 +323,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (AndroidUtil.isOOrLater)
-            showNotification();
         if (intent == null)
             return START_STICKY;
         final String action = intent.getAction();
@@ -969,7 +967,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                                 cover, playing, sessionToken, getSessionPendingIntent());
                         if (isPlayingPopup())
                             return;
-                        if (!AndroidUtil.isLolliPopOrLater || playing)
+                        if (AndroidUtil.isOOrLater || !AndroidUtil.isLolliPopOrLater || playing)
                             PlaybackService.this.startForeground(3, notification);
                         else {
                             PlaybackService.this.stopForeground(false);
