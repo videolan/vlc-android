@@ -70,12 +70,13 @@ public class NotificationHelper {
                     .setCategory(NotificationCompat.CATEGORY_SERVICE)
                     .setDeleteIntent(piStop)
                     .setContentIntent(spi)
-                    .addAction(R.drawable.ic_previous_w, ctx.getString(R.string.previous), piBackward);
+                    .addAction(R.drawable.ic_widget_previous_w, ctx.getString(R.string.previous), piBackward);
             if (playing)
-                builder.addAction(R.drawable.ic_pause_w, ctx.getString(R.string.pause), piPlay);
+                builder.addAction(R.drawable.ic_widget_pause_w, ctx.getString(R.string.pause), piPlay);
             else
-                builder.addAction(R.drawable.ic_play_w, ctx.getString(R.string.play), piPlay);
-            builder.addAction(R.drawable.ic_next_w, ctx.getString(R.string.next), piForward);
+                builder.addAction(R.drawable.ic_widget_play_w, ctx.getString(R.string.play), piPlay);
+            builder.addAction(R.drawable.ic_widget_next_w, ctx.getString(R.string.next), piForward);
+            builder.addAction(R.drawable.ic_widget_close_w, ctx.getString(R.string.stop), piStop);
 
             if (AndroidDevices.showMediaStyle) {
                 builder.setStyle(new Notification.MediaStyle()
@@ -98,12 +99,13 @@ public class NotificationHelper {
                     .setCategory(NotificationCompat.CATEGORY_SERVICE)
                     .setDeleteIntent(piStop)
                     .setContentIntent(spi)
-                    .addAction(R.drawable.ic_previous_w, ctx.getString(R.string.previous), piBackward);
+                    .addAction(R.drawable.ic_widget_previous_w, ctx.getString(R.string.previous), piBackward);
             if (playing)
-                builder.addAction(R.drawable.ic_pause_w, ctx.getString(R.string.pause), piPlay);
+                builder.addAction(R.drawable.ic_widget_pause_w, ctx.getString(R.string.pause), piPlay);
             else
-                builder.addAction(R.drawable.ic_play_w, ctx.getString(R.string.play), piPlay);
-            builder.addAction(R.drawable.ic_next_w, ctx.getString(R.string.next), piForward);
+                builder.addAction(R.drawable.ic_widget_play_w, ctx.getString(R.string.play), piPlay);
+            builder.addAction(R.drawable.ic_widget_next_w, ctx.getString(R.string.next), piForward);
+            builder.addAction(R.drawable.ic_widget_close_w, ctx.getString(R.string.stop), piStop);
             if (AndroidDevices.showMediaStyle) {
                 builder.setStyle(new NotificationCompat.MediaStyle()
                         .setMediaSession(sessionToken)
