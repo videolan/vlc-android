@@ -24,9 +24,11 @@
 package org.videolan.vlc;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 
@@ -39,6 +41,7 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Permissions;
+import org.videolan.vlc.util.Util;
 
 public class StartActivity extends Activity {
 
@@ -51,9 +54,9 @@ public class StartActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        boolean tv =  showTvUi();
-        String action = intent != null ? intent.getAction(): null;
+        final Intent intent = getIntent();
+        final boolean tv =  showTvUi();
+        final String action = intent != null ? intent.getAction(): null;
 
         if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null) {
             intent.setDataAndType(intent.getData(), intent.getType());
@@ -64,12 +67,12 @@ public class StartActivity extends Activity {
 
         // Start application
         /* Get the current version from package */
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        int currentVersionNumber = BuildConfig.VERSION_CODE;
-        int savedVersionNumber = settings.getInt(PREF_FIRST_RUN, -1);
+        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        final int currentVersionNumber = BuildConfig.VERSION_CODE;
+        final int savedVersionNumber = settings.getInt(PREF_FIRST_RUN, -1);
         /* Check if it's the first run */
-        boolean firstRun = savedVersionNumber == -1;
-        boolean upgrade = firstRun || savedVersionNumber != currentVersionNumber;
+        final boolean firstRun = savedVersionNumber == -1;
+        final boolean upgrade = firstRun || savedVersionNumber != currentVersionNumber;
         if (upgrade)
             settings.edit().putInt(PREF_FIRST_RUN, currentVersionNumber).apply();
         startMedialibrary(firstRun, upgrade);
@@ -79,9 +82,9 @@ public class StartActivity extends Activity {
             finish();
             return;
         } else if (MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH.equals(action)) {
-            Intent serviceInent = new Intent(PlaybackService.ACTION_PLAY_FROM_SEARCH, null, this, PlaybackService.class)
+            final Intent serviceInent = new Intent(PlaybackService.ACTION_PLAY_FROM_SEARCH, null, this, PlaybackService.class)
                     .putExtra(PlaybackService.EXTRA_SEARCH_BUNDLE, intent.getExtras());
-            startService(serviceInent);
+            Util.startService(this, serviceInent);
         } else if (AudioPlayerContainerActivity.ACTION_SHOW_PLAYER.equals(action)) {
             startActivity(new Intent(this, tv ? AudioPlayerActivity.class : MainActivity.class));
         } else {
@@ -92,11 +95,21 @@ public class StartActivity extends Activity {
         finish();
     }
 
-    private void startMedialibrary(boolean firstRun, boolean upgrade) {
-        if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage())
-            startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class)
-                    .putExtra(EXTRA_FIRST_RUN, firstRun)
-                    .putExtra(EXTRA_UPGRADE, upgrade));
+    private void startMedialibrary(final boolean firstRun, final boolean upgrade) {
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage())
+                    startService(new Intent(MediaParsingService.ACTION_INIT, null, StartActivity.this, MediaParsingService.class)
+                            .putExtra(EXTRA_FIRST_RUN, firstRun)
+                            .putExtra(EXTRA_UPGRADE, upgrade));
+            }
+        };
+        final Context ctx = VLCApplication.getAppContext();
+        if (ctx != null)
+            runnable.run();
+        else
+            new Handler().postDelayed(runnable, 500);
     }
 
     private boolean showTvUi() {
