@@ -2590,7 +2590,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         }
 
         private static void startService(Context context) {
-            context.startService(getServiceIntent(context));
+            Util.startService(context, getServiceIntent(context));
         }
 
         private static void stopService(Context context) {
@@ -2609,7 +2609,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             if (mBound)
                 throw new IllegalStateException("already connected");
             final Intent serviceIntent = getServiceIntent(mContext);
-            mContext.startService(serviceIntent);
+            Util.startService(mContext, serviceIntent);
             mBound = mContext.bindService(serviceIntent, mServiceConnection, BIND_AUTO_CREATE);
         }
 
