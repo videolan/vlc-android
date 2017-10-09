@@ -119,8 +119,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static android.R.attr.width;
-
 public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVout.Callback {
 
     private static final String TAG = "VLC/PlaybackService";
@@ -959,7 +957,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                             album = metaData == null ? mw.getAlbum() : metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM);
                             cover = coverOnLockscreen && metaData != null
                                     ? metaData.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART)
-                                    : AudioUtil.readCoverBitmap(Uri.decode(mw.getArtworkMrl()), width);
+                                    : AudioUtil.readCoverBitmap(Uri.decode(mw.getArtworkMrl()), 256);
                         }
                         if (cover == null || cover.isRecycled())
                             cover = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_no_media);
