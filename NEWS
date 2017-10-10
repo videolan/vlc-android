@@ -1,3 +1,16 @@
+Changes between 2.5.3 and 2.5.4:
+----------------------------------
+
+Application:
+ * Set services foreground on Oreo
+ * Ellipsize end of filenames in browsers
+ * Add 'stop' action in notification
+ * Fix media loading from 3rd party apps
+ * Fix resume point not saved on TV
+ * Fix popup crashing on some devices
+ * Misc. bugfixes
+
+
 Changes between 2.5.2 and 2.5.3:
 ----------------------------------
 
