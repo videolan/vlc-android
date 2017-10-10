@@ -79,12 +79,12 @@ public class NotificationHelper {
             builder.addAction(R.drawable.ic_widget_close_w, ctx.getString(R.string.stop), piStop);
 
             if (AndroidDevices.showMediaStyle) {
-                builder.setStyle(new Notification.MediaStyle()
-                        .setMediaSession((MediaSession.Token) sessionToken.getToken())
-                        .setShowActionsInCompactView(0,1,2)
-                );
+                final Notification.MediaStyle ms = new Notification.MediaStyle()
+                        .setShowActionsInCompactView(0,1,2);
+                if (sessionToken != null)
+                    ms.setMediaSession((MediaSession.Token) sessionToken.getToken());
+                builder.setStyle(ms);
             }
-            ctx.startForegroundService(new Intent(ctx, PlaybackService.class));
             return builder.build();
         } else {
             final NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);
@@ -114,7 +114,6 @@ public class NotificationHelper {
                         .setCancelButtonIntent(piStop)
                 );
             }
-            ctx.startService(new Intent(ctx, PlaybackService.class));
             return builder.build();
         }
     }
