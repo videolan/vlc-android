@@ -241,6 +241,8 @@
     <string name="video_min_group_length_first">僅第一個字母</string>
     <string name="video_min_group_length_short">短數量的字母 (6)</string>
     <string name="video_min_group_length_long">長數量的字母 (9)</string>
+    <string name="media_seen">標記已看完的視訊</string>
+    <string name="media_seen_summary">當你播放壹個視訊到末尾時，將其標記為已看完</string>
     <string name="force_list_portrait">直向模式時不使用格狀排列</string>
     <string name="force_list_portrait_summary">在直向模式時以清單顯示影片而非格狀排列</string>
     <string name="force_play_all_summary">播放所有影片，從您已經點選的開始</string>
@@ -269,11 +271,13 @@
     <string name="subtitles_size_huge">巨大</string>
     <string name="subtitles_color_title">字幕顏色</string>
     <string name="subtitles_color_white">白色</string>
+    <string name="subtitles_color_gray">灰色</string>
     <string name="subtitles_color_pink">粉紅色</string>
     <string name="subtitles_color_blue">藍色</string>
     <string name="subtitles_color_yellow">黃色</string>
     <string name="subtitles_color_green">綠色</string>
     <string name="subtitles_background_title">字幕背景</string>
+    <string name="subtitles_bold_title">字幕加粗</string>
     <string name="audio_prefs_category">音訊</string>
     <string name="lockscreen_cover_title">鎖定畫面中的媒體封面</string>
     <string name="lockscreen_cover_summary">可用時，會將目前的媒體封面圖片設定為鎖定畫面桌布</string>
@@ -287,6 +291,8 @@
     <string name="audio_title_alignment_marquee">滾動</string>
     <string name="audio_save_repeat_title">儲存重覆模式</string>
     <string name="audio_save_repeat_summary">記住當載入音訊播放清單時的重覆模式</string>
+    <string name="audio_boost_title">音訊增強</string>
+    <string name="audio_boost_summary">使音量放大200%</string>
     <string name="headset_prefs_category">耳機</string>
     <string name="enable_headset_detection">偵測耳機</string>
     <string name="enable_headset_detection_summary">偵測耳機插入與移除</string>
