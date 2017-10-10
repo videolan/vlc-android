@@ -24,11 +24,9 @@
 package org.videolan.vlc;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 
@@ -96,20 +94,10 @@ public class StartActivity extends Activity {
     }
 
     private void startMedialibrary(final boolean firstRun, final boolean upgrade) {
-        final Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage())
-                    startService(new Intent(MediaParsingService.ACTION_INIT, null, StartActivity.this, MediaParsingService.class)
-                            .putExtra(EXTRA_FIRST_RUN, firstRun)
-                            .putExtra(EXTRA_UPGRADE, upgrade));
-            }
-        };
-        final Context ctx = VLCApplication.getAppContext();
-        if (ctx != null)
-            runnable.run();
-        else
-            new Handler().postDelayed(runnable, 500);
+        if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage(StartActivity.this))
+            startService(new Intent(MediaParsingService.ACTION_INIT, null, StartActivity.this, MediaParsingService.class)
+                    .putExtra(EXTRA_FIRST_RUN, firstRun)
+                    .putExtra(EXTRA_UPGRADE, upgrade));
     }
 
     private boolean showTvUi() {

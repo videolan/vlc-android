@@ -73,9 +73,14 @@ public class Permissions {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public static boolean canReadStorage() {
+        return canReadStorage(VLCApplication.getAppContext());
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public static boolean canReadStorage(Context context) {
         if (!AndroidUtil.isICSOrLater)
-            return VLCApplication.getAppContext().getExternalFilesDir(null) != null;
-        return !AndroidUtil.isMarshMallowOrLater || ContextCompat.checkSelfPermission(VLCApplication.getAppContext(),
+            return context.getExternalFilesDir(null) != null;
+        return !AndroidUtil.isMarshMallowOrLater || ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
