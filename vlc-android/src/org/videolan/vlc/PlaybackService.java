@@ -242,7 +242,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     public void onCreate() {
         super.onCreate();
 
-        hideNotification();
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         mMediaPlayer = newMediaPlayer();
         mMediaPlayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(this));
@@ -353,7 +352,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     @Override
     public void onDestroy() {
         super.onDestroy();
-        stop();
+        stop(true);
         if (mMediaSession != null) {
             mMediaSession.setActive(false);
             mMediaSession.release();
@@ -719,7 +718,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mMedialibrary.resumeBackgroundOperations();
         mStopped = true;
         mCurrentIndex = -1;
-        hideNotification();
         executeUpdate();
         publishState();
         executeUpdateProgress();
@@ -967,10 +965,17 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                                 cover, playing, sessionToken, getSessionPendingIntent());
                         if (isPlayingPopup())
                             return;
-                        if (AndroidUtil.isOOrLater || !AndroidUtil.isLolliPopOrLater || playing)
-                            PlaybackService.this.startForeground(3, notification);
-                        else {
-                            PlaybackService.this.stopForeground(false);
+                        if (AndroidUtil.isOOrLater || !AndroidUtil.isLolliPopOrLater || playing) {
+                            if (!mIsForeground) {
+                                PlaybackService.this.startForeground(3, notification);
+                                mIsForeground = true;
+                            } else
+                                NotificationManagerCompat.from(ctx).notify(3, notification);
+                        } else {
+                            if (mIsForeground) {
+                                PlaybackService.this.stopForeground(false);
+                                mIsForeground = false;
+                            }
                             NotificationManagerCompat.from(ctx).notify(3, notification);
                         }
                     } catch (IllegalArgumentException e){
@@ -999,12 +1004,15 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         }
     }
 
+    private volatile boolean mIsForeground = false;
     private void hideNotification() {
         mExecutorService.execute(new Runnable() {
             @Override
             public void run() {
-                if (!isPlayingPopup())
+                if (!isPlayingPopup() && mIsForeground) {
                     PlaybackService.this.stopForeground(true);
+                    mIsForeground = false;
+                }
                 NotificationManagerCompat.from(PlaybackService.this).cancel(3);
             }
         });
@@ -1026,6 +1034,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public void stop() {
+        stop(false);
+    }
+
+    @MainThread
+    public void stop(boolean systemExit) {
         removePopup();
         if (mMediaPlayer == null)
             return;
@@ -1041,6 +1054,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mPrevious.clear();
         mHandler.removeMessages(SHOW_PROGRESS);
         onPlaybackStopped();
+        if (!systemExit)
+            hideNotification();
     }
 
     private void determinePrevAndNextIndices() {
