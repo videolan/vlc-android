@@ -351,17 +351,17 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
 
     protected ArrayList<MediaLibraryItem> prepareList(ArrayList<MediaLibraryItem> items) {
         if (!isSortAllowed(getSortBy()))
-            sMediaComparator.setSortDefault();
+            getComparator().setSortDefault();
         if (mMakeSections) {
-            if (sMediaComparator.sortBy == MediaLibraryItemComparator.SORT_DEFAULT) {
+            if (getComparator().sortBy == MediaLibraryItemComparator.SORT_DEFAULT) {
                 return generateSections(items, getDefaultSort());
             } else {
                 ArrayList<MediaLibraryItem> newList = removeSections(items);
-                Collections.sort(newList, sMediaComparator);
-                return generateSections(newList, sMediaComparator.sortBy);
+                Collections.sort(newList, getComparator());
+                return generateSections(newList, getComparator().sortBy);
             }
         } else {
-            Collections.sort(items, sMediaComparator);
+            Collections.sort(items, getComparator());
             return items;
         }
     }
