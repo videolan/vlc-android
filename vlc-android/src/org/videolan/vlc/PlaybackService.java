@@ -2073,16 +2073,23 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void retrieveMediaTitle(MediaWrapper mw) {
-        final Cursor returnCursor = getContentResolver().query(mw.getUri(), null, null, null, null);
-        if (returnCursor == null)
-            return;
-        final int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-        if (nameIndex > -1 && returnCursor.getCount() > 0) {
-            returnCursor.moveToFirst();
-            if (!returnCursor.isNull(nameIndex))
-                mw.setTitle(returnCursor.getString(nameIndex));
+        Cursor cursor = null;
+        try {
+            cursor = getContentResolver().query(mw.getUri(), null, null, null, null);
+            if (cursor == null)
+                return;
+            final int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            if (nameIndex > -1 && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                if (!cursor.isNull(nameIndex))
+                    mw.setTitle(cursor.getString(nameIndex));
+            }
+        } catch (SecurityException e) { // We may not have storage access permission yet
+            Log.w(TAG, "retrieveMediaTitle: fail to resolve file from "+mw.getUri(), e);
+        } finally {
+            if (cursor != null && !cursor.isClosed())
+                cursor.close();
         }
-        Util.close(returnCursor);
     }
 
     /**
