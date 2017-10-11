@@ -297,17 +297,20 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         }
 
         public void onClick(View v) {
-            int position = getLayoutPosition();
-            mEventsHandler.onClick(v, position, mDataset.get(position));
+            final int position = getLayoutPosition();
+            if (isPositionValid(position))
+                mEventsHandler.onClick(v, position, mDataset.get(position));
         }
 
         public void onMoreClick(View v){
-            mEventsHandler.onCtxClick(v, getLayoutPosition(), null);
+            final int position = getLayoutPosition();
+            if (isPositionValid(position))
+                mEventsHandler.onCtxClick(v, position, null);
         }
 
         public boolean onLongClick(View v) {
-            int position = getLayoutPosition();
-            return mEventsHandler.onLongClick(v, position, mDataset.get(position));
+            final int position = getLayoutPosition();
+            return isPositionValid(position) && mEventsHandler.onLongClick(v, position, mDataset.get(position));
         }
 
         @Override
