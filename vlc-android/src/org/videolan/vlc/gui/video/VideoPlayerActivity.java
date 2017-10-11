@@ -593,7 +593,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public void switchToPopup() {
         if (AndroidDevices.hasPiP) {
             if (AndroidUtil.isOOrLater)
-                enterPictureInPictureMode(new PictureInPictureParams.Builder().setAspectRatio(new Rational(mVideoWidth, mVideoHeight)).build());
+                try {
+                    enterPictureInPictureMode(new PictureInPictureParams.Builder().setAspectRatio(new Rational(mVideoWidth, mVideoHeight)).build());
+                } catch (IllegalArgumentException e) { // Fallback with default parameters
+                    enterPictureInPictureMode();
+                }
             else
                 //noinspection deprecation
                 enterPictureInPictureMode();
