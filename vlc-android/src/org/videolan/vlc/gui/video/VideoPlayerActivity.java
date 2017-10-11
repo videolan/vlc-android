@@ -3721,9 +3721,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public void onConnected(PlaybackService service) {
         mService = service;
         //We may not have the permission to access files
-        if (!Permissions.canReadStorage())
-            Permissions.checkReadStoragePermission(this, true);
-        else if (!mSwitchingView)
+        if (Permissions.checkReadStoragePermission(this, true) && !mSwitchingView)
             mHandler.sendEmptyMessage(START_PLAYBACK);
         mSwitchingView = false;
         mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();

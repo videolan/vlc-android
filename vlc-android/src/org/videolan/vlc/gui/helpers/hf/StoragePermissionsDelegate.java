@@ -103,7 +103,7 @@ public class StoragePermissionsDelegate extends BaseHeadlessFragment {
         }
     }
 
-    public static void AskStoragePermission(@NonNull FragmentActivity activity) {
+    public static void askStoragePermission(@NonNull FragmentActivity activity) {
         final FragmentManager fm = activity.getSupportFragmentManager();
         Fragment fragment = fm.findFragmentByTag(TAG);
         if (fragment == null)

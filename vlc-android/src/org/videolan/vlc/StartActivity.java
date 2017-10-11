@@ -23,17 +23,18 @@
 
 package org.videolan.vlc;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SearchActivity;
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
@@ -41,7 +42,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 
-public class StartActivity extends Activity {
+public class StartActivity extends FragmentActivity implements StoragePermissionsDelegate.CustomActionController {
 
     public final static String TAG = "VLC/StartActivity";
 
@@ -57,9 +58,8 @@ public class StartActivity extends Activity {
         final String action = intent != null ? intent.getAction(): null;
 
         if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null) {
-            intent.setDataAndType(intent.getData(), intent.getType());
-            MediaUtils.openMediaNoUi(intent.getData());
-            finish();
+            if (Permissions.checkReadStoragePermission(this, true))
+                startPlaybackFromApp(intent);
             return;
         }
 
@@ -93,6 +93,11 @@ public class StartActivity extends Activity {
         finish();
     }
 
+    private void startPlaybackFromApp(Intent intent) {
+        MediaUtils.openMediaNoUi(intent.getData());
+        finish();
+    }
+
     private void startMedialibrary(final boolean firstRun, final boolean upgrade) {
         if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage(StartActivity.this))
             startService(new Intent(MediaParsingService.ACTION_INIT, null, StartActivity.this, MediaParsingService.class)
@@ -103,5 +108,10 @@ public class StartActivity extends Activity {
     private boolean showTvUi() {
         return AndroidUtil.isJellyBeanMR1OrLater && (AndroidDevices.isAndroidTv || !AndroidDevices.hasTsp ||
                 PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tv_ui", false));
+    }
+
+    @Override
+    public void onStorageAccessGranted() {
+        startPlaybackFromApp(getIntent());
     }
 }

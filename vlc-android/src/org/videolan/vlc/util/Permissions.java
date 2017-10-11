@@ -84,18 +84,16 @@ public class Permissions {
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
-    public static void checkReadStoragePermission(FragmentActivity activity, boolean exit) {
+    public static boolean checkReadStoragePermission(FragmentActivity activity, boolean exit) {
         if (AndroidUtil.isMarshMallowOrLater && !canReadStorage()) {
-
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
                 showStoragePermissionDialog(activity, exit);
-
-            } else {
+            } else
                 requestStoragePermission(activity);
-            }
+            return false;
         }
+        return true;
     }
 
     public static void checkDrawOverlaysPermission(FragmentActivity activity) {
@@ -244,6 +242,6 @@ public class Permissions {
 
     private static void requestStoragePermission(FragmentActivity activity) {
         if (activity != null)
-            StoragePermissionsDelegate.AskStoragePermission(activity);
+            StoragePermissionsDelegate.askStoragePermission(activity);
     }
 }
