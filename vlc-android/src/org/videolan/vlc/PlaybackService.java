@@ -1042,6 +1042,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         removePopup();
         if (mMediaPlayer == null)
             return;
+        saveMediaList();
         savePosition();
         final Media media = mMediaPlayer.getMedia();
         if (media != null) {
@@ -1445,7 +1446,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void onMediaListChanged() {
-        saveMediaList();
         determinePrevAndNextIndices();
         executeUpdate();
     }
@@ -1641,33 +1641,32 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private synchronized void saveMediaList() {
         if (getCurrentMedia() == null)
             return;
-        StringBuilder locations = new StringBuilder();
+        final StringBuilder locations = new StringBuilder();
         for (int i = 0; i < mMediaList.size(); i++)
             locations.append(" ").append(Uri.encode(mMediaList.getMRL(i)));
         //We save a concatenated String because putStringSet is APIv11.
-        SharedPreferences.Editor editor = mSettings.edit();
+        final SharedPreferences.Editor editor = mSettings.edit();
         editor.putString(canSwitchToVideo() || !mMediaList.isAudioList() ? "media_list" : "audio_list", locations.toString().trim());
         editor.apply();
     }
 
-    private synchronized void savePosition(){
+    private synchronized void savePosition() {
         if (!hasMedia())
             return;
-        SharedPreferences.Editor editor = mSettings.edit();
-        boolean audio = mMediaList.isAudioList();
+        final SharedPreferences.Editor editor = mSettings.edit();
+        boolean audio = !canSwitchToVideo() && mMediaList.isAudioList();
         editor.putBoolean(audio ? "audio_shuffling" : "media_shuffling", mShuffling);
         editor.putInt(audio ? "audio_repeating" : "media_repeating", mRepeating);
         editor.putInt(audio ? "position_in_audio_list" : "position_in_media_list", mCurrentIndex);
         editor.putLong(audio ? "position_in_song" : "position_in_media", mMediaPlayer.getTime());
-        if(!audio) {
+        if (!audio) {
             editor.putBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
             editor.putFloat(PreferencesActivity.VIDEO_SPEED, getRate());
         }
         editor.apply();
     }
 
-    private boolean validateLocation(String location)
-    {
+    private boolean validateLocation(String location) {
         /* Check if the MRL contains a scheme */
         if (!location.matches("\\w+://.+"))
             location = "file://".concat(location);
@@ -1899,10 +1898,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public void load(List<MediaWrapper> mediaList, int position) {
-        Log.v(TAG, "Loading position " + ((Integer) position).toString() + " in " + mediaList.toString());
+        //Save previous list if any
+        saveMediaList();
+        savePosition();
 
-        if (hasCurrentMedia())
-            savePosition();
+        Log.v(TAG, "Loading position " + ((Integer) position).toString() + " in " + mediaList.toString());
 
         mMediaList.removeEventListener(mListEventListener);
         mMediaList.clear();
@@ -1929,7 +1929,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (mMediaList.isAudioList() && mSettings.getBoolean("audio_save_repeat", false))
             mRepeating = mSettings.getInt(AUDIO_REPEAT_MODE_KEY, REPEAT_NONE);
         playIndex(mCurrentIndex, 0);
-        saveMediaList();
         onMediaChanged();
         updateMediaQueue();
     }
@@ -2243,13 +2242,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     @MainThread
     public void moveItem(int positionStart, int positionEnd) {
         mMediaList.move(positionStart, positionEnd);
-        PlaybackService.this.saveMediaList();
     }
 
     @MainThread
     public void insertItem(int position, MediaWrapper mw) {
         mMediaList.insert(position, mw);
-        saveMediaList();
         determinePrevAndNextIndices();
     }
 
@@ -2257,14 +2254,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     @MainThread
     public void remove(int position) {
         mMediaList.remove(position);
-        saveMediaList();
         determinePrevAndNextIndices();
     }
 
     @MainThread
     public void removeLocation(String location) {
         mMediaList.remove(location);
-        saveMediaList();
         determinePrevAndNextIndices();
     }
 
