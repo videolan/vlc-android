@@ -594,7 +594,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (AndroidDevices.hasPiP) {
             if (AndroidUtil.isOOrLater)
                 try {
-                    enterPictureInPictureMode(new PictureInPictureParams.Builder().setAspectRatio(new Rational(mVideoWidth, mVideoHeight)).build());
+                    final int height = mVideoHeight != 0 ? mVideoHeight : mService.getCurrentMediaWrapper().getHeight();
+                    final int width = Math.min(mVideoWidth != 0 ? mVideoWidth : mService.getCurrentMediaWrapper().getWidth(), (int) (height*2.39f));
+                    enterPictureInPictureMode(new PictureInPictureParams.Builder().setAspectRatio(new Rational(width, height)).build());
                 } catch (IllegalArgumentException e) { // Fallback with default parameters
                     enterPictureInPictureMode();
                 }
