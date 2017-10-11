@@ -591,11 +591,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @TargetApi(Build.VERSION_CODES.N)
     public void switchToPopup() {
+        final MediaWrapper mw = mService.getCurrentMediaWrapper();
+        if (mw == null)
+            return;
         if (AndroidDevices.hasPiP) {
             if (AndroidUtil.isOOrLater)
                 try {
-                    final int height = mVideoHeight != 0 ? mVideoHeight : mService.getCurrentMediaWrapper().getHeight();
-                    final int width = Math.min(mVideoWidth != 0 ? mVideoWidth : mService.getCurrentMediaWrapper().getWidth(), (int) (height*2.39f));
+                    final int height = mVideoHeight != 0 ? mVideoHeight : mw.getHeight();
+                    final int width = Math.min(mVideoWidth != 0 ? mVideoWidth : mw.getWidth(), (int) (height*2.39f));
                     enterPictureInPictureMode(new PictureInPictureParams.Builder().setAspectRatio(new Rational(width, height)).build());
                 } catch (IllegalArgumentException e) { // Fallback with default parameters
                     enterPictureInPictureMode();
@@ -607,9 +610,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (Permissions.canDrawOverlays(this)) {
                 mSwitchingView = true;
                 mSwitchToPopup = true;
-                final MediaWrapper mw = mService.getCurrentMediaWrapper();
-                if (mw == null)
-                    return;
                 if (mService != null && !mService.isPlaying())
                     mw.addFlags(MediaWrapper.MEDIA_PAUSED);
                 cleanUI();
