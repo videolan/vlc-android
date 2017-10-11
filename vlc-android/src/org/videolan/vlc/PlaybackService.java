@@ -978,7 +978,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                             }
                             NotificationManagerCompat.from(ctx).notify(3, notification);
                         }
-                    } catch (IllegalArgumentException e){
+                    } catch (IllegalArgumentException|IllegalStateException e){
                         // On somme crappy firmwares, shit can happen
                         Log.e(TAG, "Failed to display notification", e);
                     }
