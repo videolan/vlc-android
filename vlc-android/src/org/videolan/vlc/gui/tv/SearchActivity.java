@@ -29,6 +29,7 @@ import android.support.v17.leanback.widget.SpeechRecognitionCallback;
 import android.support.v4.app.FragmentActivity;
 
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.Util;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class SearchActivity extends FragmentActivity {
@@ -43,18 +44,21 @@ public class SearchActivity extends FragmentActivity {
 
         mFragment = (SearchFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.search_fragment);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction()) || "com.google.android.gms.actions.SEARCH_ACTION".equals(intent.getAction())) {
             mFragment.onQueryTextSubmit(intent.getStringExtra(SearchManager.QUERY));
         } else {
-            SpeechRecognitionCallback speechRecognitionCallback = new SpeechRecognitionCallback() {
+            final Intent recognitionIntent = mFragment.getRecognizerIntent();
+            if (Util.isCallable(recognitionIntent)) {
+                final SpeechRecognitionCallback speechRecognitionCallback = new SpeechRecognitionCallback() {
 
-                @Override
-                public void recognizeSpeech() {
-                    startActivityForResult(mFragment.getRecognizerIntent(), REQUEST_SPEECH);
-                }
-            };
-            mFragment.setSpeechRecognitionCallback(speechRecognitionCallback);
+                    @Override
+                    public void recognizeSpeech() {
+                        startActivityForResult(recognitionIntent, REQUEST_SPEECH);
+                    }
+                };
+                mFragment.setSpeechRecognitionCallback(speechRecognitionCallback);
+            }
         }
     }
 
