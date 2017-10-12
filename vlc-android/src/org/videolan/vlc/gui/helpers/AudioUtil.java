@@ -138,7 +138,7 @@ public class AudioUtil {
                 CACHE_DIR = context.getExternalCacheDir().getPath();
             else
                 CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
-        } catch (Exception e) { // catch NPE thrown by getExternalCacheDir()
+        } catch (Exception|ExceptionInInitializerError e) { // catch NPE thrown by getExternalCacheDir()
             CACHE_DIR = AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Android/data/" + BuildConfig.APPLICATION_ID + "/cache";
         }
         ART_DIR.set(CACHE_DIR + "/art/");
