@@ -1,4 +1,14 @@
-Changes between 2.5.3 and 2.5.4:
+Changes between 2.5.4 and 2.5.5:
+----------------------------------
+
+Application:
+ * Ask storage permission when launched from another app
+ * Fix PiP with Oreo when ratio values are incorrect
+ * Save current list on playback stop, fixes video saved in audio list
+ * Remove video player activity animations
+ * Crashes fixes
+
+ Changes between 2.5.3 and 2.5.4:
 ----------------------------------
 
 Application:
