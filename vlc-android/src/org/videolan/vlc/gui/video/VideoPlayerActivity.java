@@ -509,6 +509,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     protected void onResume() {
+        overridePendingTransition(0,0);
         super.onResume();
         mShowingDialog = false;
         /*
@@ -571,9 +572,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onPause() {
-        super.onPause();
-        if (!isFinishing())
+        if (isFinishing())
+            overridePendingTransition(0, 0);
+        else
             hideOverlay(true);
+        super.onPause();
         setHudClickListeners(false);
 
         /* Stop the earliest possible to avoid vout error */
