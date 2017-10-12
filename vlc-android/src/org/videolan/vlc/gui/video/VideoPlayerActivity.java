@@ -1788,13 +1788,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         stopLoading();
         updateOverlayPausePlay();
         updateNavStatus();
-        if (!mService.getCurrentMediaWrapper().hasFlag(MediaWrapper.MEDIA_PAUSED))
+        final MediaWrapper mw = mService.getCurrentMediaWrapper();
+        if (!mw.hasFlag(MediaWrapper.MEDIA_PAUSED))
             mHandler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT);
         else {
-            mService.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_PAUSED);
+            mw.removeFlags(MediaWrapper.MEDIA_PAUSED);
             mWasPaused = false;
         }
         setESTracks();
+        if (mTitle != null && mTitle.length() == 0)
+            mTitle.setText(mw.getTitle());
     }
 
     private void endReached() {
