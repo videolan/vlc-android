@@ -34,6 +34,7 @@ import android.support.v4.content.ContextCompat;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
 
 import java.util.Arrays;
@@ -89,10 +90,10 @@ public class RecommendationsService extends IntentService {
 
     private PendingIntent buildPendingIntent(MediaWrapper mediaWrapper, int id) {
         Intent intent = new Intent(RecommendationsService.this, VideoPlayerActivity.class);
-        intent.setAction(VideoPlayerActivity.PLAY_FROM_VIDEOGRID);
-        intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_ITEM_LOCATION, mediaWrapper.getUri());
-        intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_ITEM_TITLE, mediaWrapper.getTitle());
-        intent.putExtra(VideoPlayerActivity.PLAY_EXTRA_FROM_START, false);
+        intent.setAction(Constants.PLAY_FROM_VIDEOGRID);
+        intent.putExtra(Constants.PLAY_EXTRA_ITEM_LOCATION, mediaWrapper.getUri());
+        intent.putExtra(Constants.PLAY_EXTRA_ITEM_TITLE, mediaWrapper.getTitle());
+        intent.putExtra(Constants.PLAY_EXTRA_FROM_START, false);
 
         return PendingIntent.getActivity(this, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }

@@ -45,8 +45,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
@@ -69,6 +67,7 @@ import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Util;
 
@@ -77,15 +76,13 @@ import java.util.List;
 
 public class VideoGridFragment extends SortableFragment<VideoListAdapter> implements MediaUpdatedCb, SwipeRefreshLayout.OnRefreshListener, MediaAddedCb, Filterable, IEventsHandler {
 
-    public final static String TAG = "VLC/VideoListFragment";
+    private final static String TAG = "VLC/VideoListFragment";
 
-    public final static String KEY_GROUP = "key_group";
+    private final static String KEY_GROUP = "key_group";
 
-    protected LinearLayout mLayoutFlipperLoading;
-    protected AutoFitRecyclerView mGridView;
-    protected TextView mTextViewNomedia;
-    protected View mViewNomedia;
-    protected String mGroup;
+    private AutoFitRecyclerView mGridView;
+    private View mViewNomedia;
+    private String mGroup;
     private View mSearchButtonView;
     private DividerItemDecoration mDividerItemDecoration;
 
@@ -116,7 +113,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ml_menu_last_playlist:
-                getActivity().sendBroadcast(new Intent(PlaybackService.ACTION_REMOTE_LAST_VIDEO_PLAYLIST));
+                getActivity().sendBroadcast(new Intent(Constants.ACTION_REMOTE_LAST_VIDEO_PLAYLIST));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -131,8 +128,6 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     @Override
     public void onViewCreated(View v, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(v, savedInstanceState);
-        mLayoutFlipperLoading = v.findViewById(R.id.layout_flipper_loading);
-        mTextViewNomedia = v.findViewById(R.id.textview_nomedia);
         mViewNomedia = v.findViewById(android.R.id.empty);
         mGridView = v.findViewById(android.R.id.list);
         mSwipeRefreshLayout = v.findViewById(R.id.swipeLayout);
@@ -394,7 +389,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     @Override
     public void onRefresh() {
-        getActivity().startService(new Intent(MediaParsingService.ACTION_RELOAD, null, getActivity(), MediaParsingService.class));
+        getActivity().startService(new Intent(Constants.ACTION_RELOAD, null, getActivity(), MediaParsingService.class));
     }
 
     @Override

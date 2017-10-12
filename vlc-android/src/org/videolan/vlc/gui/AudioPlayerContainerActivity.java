@@ -58,14 +58,13 @@ import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IRefreshable;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
-import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.WeakHandler;
 
 public class AudioPlayerContainerActivity extends BaseActivity implements PlaybackService.Client.Callback {
 
     public static final String TAG = "VLC/AudioPlayerContainerActivity";
-    public static final String ACTION_SHOW_PLAYER = Strings.buildPkgString("gui.ShowPlayer");
 
     protected static final String ID_VIDEO = "video";
     protected static final String ID_AUDIO = "audio";
@@ -96,7 +95,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         if (savedInstanceState != null) {
             VLCApplication.setLocale();
             if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage())
-                startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
+                startService(new Intent(Constants.ACTION_INIT, null, this, MediaParsingService.class));
         }
         super.onCreate(savedInstanceState);
     }
@@ -133,12 +132,12 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
 
         /* Prepare the progressBar */
         IntentFilter playerFilter = new IntentFilter();
-        playerFilter.addAction(ACTION_SHOW_PLAYER);
+        playerFilter.addAction(Constants.ACTION_SHOW_PLAYER);
         registerReceiver(messageReceiver, playerFilter);
-        IntentFilter progressFilter = new IntentFilter(MediaParsingService.ACTION_SERVICE_STARTED);
-        progressFilter.addAction(MediaParsingService.ACTION_SERVICE_ENDED);
-        progressFilter.addAction(MediaParsingService.ACTION_PROGRESS);
-        progressFilter.addAction(MediaParsingService.ACTION_NEW_STORAGE);
+        IntentFilter progressFilter = new IntentFilter(Constants.ACTION_SERVICE_STARTED);
+        progressFilter.addAction(Constants.ACTION_SERVICE_ENDED);
+        progressFilter.addAction(Constants.ACTION_PROGRESS);
+        progressFilter.addAction(Constants.ACTION_NEW_STORAGE);
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, progressFilter);
         // super.onStart must be called after receiver registration
         super.onStart();
@@ -356,27 +355,27 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
-            if (ACTION_SHOW_PLAYER.equals(action)) {
+            if (Constants.ACTION_SHOW_PLAYER.equals(action)) {
                 showAudioPlayer();
                 return;
             }
             switch (action) {
-                case MediaParsingService.ACTION_NEW_STORAGE:
-                    UiTools.newStorageDetected(AudioPlayerContainerActivity.this, intent.getStringExtra(MediaParsingService.EXTRA_PATH));
+                case Constants.ACTION_NEW_STORAGE:
+                    UiTools.newStorageDetected(AudioPlayerContainerActivity.this, intent.getStringExtra(Constants.EXTRA_PATH));
                     break;
-                case MediaParsingService.ACTION_SERVICE_STARTED:
+                case Constants.ACTION_SERVICE_STARTED:
                     updateProgressVisibility(View.VISIBLE);
                     break;
-                case MediaParsingService.ACTION_SERVICE_ENDED:
+                case Constants.ACTION_SERVICE_ENDED:
                     mActivityHandler.removeMessages(ACTION_DISPLAY_PROGRESSBAR);
                     updateProgressVisibility(View.GONE);
                     break;
-                case MediaParsingService.ACTION_PROGRESS:
+                case Constants.ACTION_PROGRESS:
                     updateProgressVisibility(View.VISIBLE);
                     if (mScanProgressText != null)
-                        mScanProgressText.setText(intent.getStringExtra(MediaParsingService.ACTION_PROGRESS_TEXT));
+                        mScanProgressText.setText(intent.getStringExtra(Constants.ACTION_PROGRESS_TEXT));
                     if (mScanProgressBar != null)
-                        mScanProgressBar.setProgress(intent.getIntExtra(MediaParsingService.ACTION_PROGRESS_VALUE, 0));
+                        mScanProgressBar.setProgress(intent.getIntExtra(Constants.ACTION_PROGRESS_VALUE, 0));
                     break;
             }
         }

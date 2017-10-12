@@ -59,6 +59,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;
@@ -308,15 +309,15 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     public void initRepeat() {
         switch (mService.getRepeatType()) {
-            case PlaybackService.REPEAT_NONE:
+            case Constants.REPEAT_NONE:
                 mRepeat.setCompoundDrawablesWithIntrinsicBounds(0,
                         UiTools.getResourceFromAttribute(mActivity, R.attr.ic_repeat),
                         0, 0);
                 break;
-            case PlaybackService.REPEAT_ALL:
+            case Constants.REPEAT_ALL:
                 mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_all, 0, 0);
                 break;
-            case PlaybackService.REPEAT_ONE:
+            case Constants.REPEAT_ONE:
                 mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_one, 0, 0);
                 break;
         }
@@ -324,26 +325,26 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     public void setRepeatMode() {
         switch (mService.getRepeatType()) {
-            case PlaybackService.REPEAT_NONE:
+            case Constants.REPEAT_NONE:
                 mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_one, 0, 0);
-                mService.setRepeatType(PlaybackService.REPEAT_ONE);
+                mService.setRepeatType(Constants.REPEAT_ONE);
                 break;
-            case PlaybackService.REPEAT_ONE:
+            case Constants.REPEAT_ONE:
                 if (mService.hasPlaylist()){
                     mRepeat.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_repeat_all, 0, 0);
-                    mService.setRepeatType(PlaybackService.REPEAT_ALL);
+                    mService.setRepeatType(Constants.REPEAT_ALL);
                 } else {
                     mRepeat.setCompoundDrawablesWithIntrinsicBounds(0,
                             UiTools.getResourceFromAttribute(mActivity, R.attr.ic_repeat),
                             0, 0);
-                    mService.setRepeatType(PlaybackService.REPEAT_NONE);
+                    mService.setRepeatType(Constants.REPEAT_NONE);
                 }
                 break;
-            case PlaybackService.REPEAT_ALL:
+            case Constants.REPEAT_ALL:
                 mRepeat.setCompoundDrawablesWithIntrinsicBounds(0,
                         UiTools.getResourceFromAttribute(mActivity, R.attr.ic_repeat),
                         0, 0);
-                mService.setRepeatType(PlaybackService.REPEAT_NONE);
+                mService.setRepeatType(Constants.REPEAT_NONE);
                 break;
         }
     }

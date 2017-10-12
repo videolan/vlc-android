@@ -74,6 +74,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Constants;
 
 public class AudioPlayer extends PlaybackServiceFragment implements PlaybackService.Callback, PlaylistAdapter.IPlayer, TextWatcher {
     public static final String TAG = "VLC/AudioPlayer";
@@ -196,7 +197,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
      */
     public static void start(Context context) {
         final Intent intent = new Intent();
-        intent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
+        intent.setAction(Constants.ACTION_SHOW_PLAYER);
         context.getApplicationContext().sendBroadcast(intent);
     }
 
@@ -238,16 +239,16 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mBinding.shuffle.setImageResource(UiTools.getResourceFromAttribute(act, mService.isShuffling() ? R.attr.ic_shuffle_on : R.attr.ic_shuffle));
         mBinding.shuffle.setContentDescription(getResources().getString(mService.isShuffling() ? R.string.shuffle_on : R.string.shuffle));
         switch(mService.getRepeatType()) {
-            case PlaybackService.REPEAT_NONE:
+            case Constants.REPEAT_NONE:
                 mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat));
                 mBinding.repeat.setContentDescription(getResources().getString(R.string.repeat));
                 break;
-            case PlaybackService.REPEAT_ONE:
+            case Constants.REPEAT_ONE:
                 mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_one));
                 mBinding.repeat.setContentDescription(getResources().getString(R.string.repeat_single));
                 break;
             default:
-            case PlaybackService.REPEAT_ALL:
+            case Constants.REPEAT_ALL:
                 mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(act, R.attr.ic_repeat_all));
                 mBinding.repeat.setContentDescription(getResources().getString(R.string.repeat_all));
                 break;
@@ -421,15 +422,15 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             return;
 
         switch (mService.getRepeatType()) {
-            case PlaybackService.REPEAT_NONE:
-                mService.setRepeatType(PlaybackService.REPEAT_ALL);
+            case Constants.REPEAT_NONE:
+                mService.setRepeatType(Constants.REPEAT_ALL);
                 break;
-            case PlaybackService.REPEAT_ALL:
-                mService.setRepeatType(PlaybackService.REPEAT_ONE);
+            case Constants.REPEAT_ALL:
+                mService.setRepeatType(Constants.REPEAT_ONE);
                 break;
             default:
-            case PlaybackService.REPEAT_ONE:
-                mService.setRepeatType(PlaybackService.REPEAT_NONE);
+            case Constants.REPEAT_ONE:
+                mService.setRepeatType(Constants.REPEAT_NONE);
                 break;
         }
         update();

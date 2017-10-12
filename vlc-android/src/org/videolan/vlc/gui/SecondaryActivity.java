@@ -42,6 +42,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.video.VideoGridFragment;
+import org.videolan.vlc.util.Constants;
 
 public class SecondaryActivity extends ContentActivity {
     public final static String TAG = "VLC/SecondaryActivity";
@@ -107,7 +108,7 @@ public class SecondaryActivity extends ContentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_SECONDARY) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN) {
-                startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
+                startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
             }
         }
     }
@@ -119,7 +120,7 @@ public class SecondaryActivity extends ContentActivity {
             case R.id.ml_menu_refresh:
                 Medialibrary ml = VLCApplication.getMLInstance();
                 if (!ml.isWorking())
-                    startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
+                    startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);

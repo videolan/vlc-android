@@ -79,7 +79,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.SearchAggregate;
 import org.videolan.vlc.extensions.ExtensionsManager;
-import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.helpers.NotificationHelper;
@@ -92,9 +91,9 @@ import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.MediaWrapperList;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
-import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
@@ -126,20 +125,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private static final int SHOW_PROGRESS = 0;
     private static final int SHOW_TOAST = 1;
     private static final int END_MEDIASESSION = 2;
-    public static final String ACTION_REMOTE_GENERIC =  Strings.buildPkgString("remote.");
-    public static final String ACTION_REMOTE_BACKWARD = ACTION_REMOTE_GENERIC+"Backward";
-    public static final String ACTION_REMOTE_PLAY = ACTION_REMOTE_GENERIC+"Play";
-    public static final String ACTION_REMOTE_PLAYPAUSE = ACTION_REMOTE_GENERIC+"PlayPause";
-    public static final String ACTION_REMOTE_PAUSE = ACTION_REMOTE_GENERIC+"Pause";
-    public static final String ACTION_REMOTE_STOP = ACTION_REMOTE_GENERIC+"Stop";
-    public static final String ACTION_REMOTE_FORWARD = ACTION_REMOTE_GENERIC+"Forward";
-    public static final String ACTION_REMOTE_LAST_PLAYLIST = ACTION_REMOTE_GENERIC+"LastPlaylist";
-    public static final String ACTION_REMOTE_LAST_VIDEO_PLAYLIST = ACTION_REMOTE_GENERIC+"LastVideoPlaylist";
-    public static final String ACTION_REMOTE_SWITCH_VIDEO = ACTION_REMOTE_GENERIC+"SwitchToVideo";
-    public static final String ACTION_PLAY_FROM_SEARCH = ACTION_REMOTE_GENERIC+"play_from_search";
-    public static final String ACTION_CAR_MODE_EXIT = "android.app.action.EXIT_CAR_MODE";
-
-    public static final String EXTRA_SEARCH_BUNDLE = ACTION_REMOTE_GENERIC+"extra_search_bundle";
 
     private static final int DELAY_DOUBLE_CLICK = 800;
     private static final int DELAY_LONG_CLICK = 1000;
@@ -201,15 +186,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             | PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID | PlaybackStateCompat.ACTION_PLAY_FROM_URI
             | PlaybackStateCompat.ACTION_PLAY_PAUSE;
 
-    public static final int TYPE_AUDIO = 0;
-    public static final int TYPE_VIDEO = 1;
-
-    public static final int REPEAT_NONE = 0;
-    public static final int REPEAT_ONE = 1;
-    public static final int REPEAT_ALL = 2;
     private boolean mHasWidget;
     private boolean mShuffling = false;
-    private int mRepeating = REPEAT_NONE;
+    private int mRepeating = Constants.REPEAT_NONE;
     private Random mRandom = null; // Used in shuffling process
     private long mSavedTime = 0L;
     private boolean mHasAudioFocus = false;
@@ -273,22 +252,22 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
         final IntentFilter filter = new IntentFilter();
         filter.setPriority(Integer.MAX_VALUE);
-        filter.addAction(ACTION_REMOTE_BACKWARD);
-        filter.addAction(ACTION_REMOTE_PLAYPAUSE);
-        filter.addAction(ACTION_REMOTE_PLAY);
-        filter.addAction(ACTION_REMOTE_PAUSE);
-        filter.addAction(ACTION_REMOTE_STOP);
-        filter.addAction(ACTION_REMOTE_FORWARD);
-        filter.addAction(ACTION_REMOTE_LAST_PLAYLIST);
-        filter.addAction(ACTION_REMOTE_LAST_VIDEO_PLAYLIST);
-        filter.addAction(ACTION_REMOTE_SWITCH_VIDEO);
+        filter.addAction(Constants.ACTION_REMOTE_BACKWARD);
+        filter.addAction(Constants.ACTION_REMOTE_PLAYPAUSE);
+        filter.addAction(Constants.ACTION_REMOTE_PLAY);
+        filter.addAction(Constants.ACTION_REMOTE_PAUSE);
+        filter.addAction(Constants.ACTION_REMOTE_STOP);
+        filter.addAction(Constants.ACTION_REMOTE_FORWARD);
+        filter.addAction(Constants.ACTION_REMOTE_LAST_PLAYLIST);
+        filter.addAction(Constants.ACTION_REMOTE_LAST_VIDEO_PLAYLIST);
+        filter.addAction(Constants.ACTION_REMOTE_SWITCH_VIDEO);
         filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_INIT);
         filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_ENABLED);
         filter.addAction(VLCAppWidgetProvider.ACTION_WIDGET_DISABLED);
         filter.addAction(Intent.ACTION_HEADSET_PLUG);
         filter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
         filter.addAction(VLCApplication.SLEEP_INTENT);
-        filter.addAction(ACTION_CAR_MODE_EXIT);
+        filter.addAction(Constants.ACTION_CAR_MODE_EXIT);
         registerReceiver(mReceiver, filter);
 
         final boolean stealRemoteControl = mSettings.getBoolean("enable_steal_remote_control", false);
@@ -312,7 +291,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (mLibraryReceiver == null) {
             mLibraryReceiver = new MedialibraryReceiver();
             lbm.registerReceiver(mLibraryReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
-            Util.startService(PlaybackService.this, new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
+            Util.startService(PlaybackService.this, new Intent(Constants.ACTION_INIT, null, this, MediaParsingService.class));
         }
         if (action != null)
             mLibraryReceiver.addAction(action);
@@ -333,20 +312,20 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             MediaButtonReceiver.handleIntent(mMediaSession, intent);
             return START_NOT_STICKY;
         }
-        if (ACTION_REMOTE_PLAYPAUSE.equals(action)) {
+        if (Constants.ACTION_REMOTE_PLAYPAUSE.equals(action)) {
             if (hasCurrentMedia())
                 return START_NOT_STICKY;
             else
                 loadLastAudioPlaylist();
-        } else if (ACTION_REMOTE_PLAY.equals(action)) {
+        } else if (Constants.ACTION_REMOTE_PLAY.equals(action)) {
             if (hasCurrentMedia())
                 play();
             else
                 loadLastAudioPlaylist();
-        } else if (ACTION_PLAY_FROM_SEARCH.equals(action)) {
+        } else if (Constants.ACTION_PLAY_FROM_SEARCH.equals(action)) {
             if (mMediaSession == null)
                 initMediaSession();
-            final Bundle extras = intent.getBundleExtra(EXTRA_SEARCH_BUNDLE);
+            final Bundle extras = intent.getBundleExtra(Constants.EXTRA_SEARCH_BUNDLE);
             mMediaSession.getController().getTransportControls()
                     .playFromSearch(extras.getString(SearchManager.QUERY), extras);
         }
@@ -505,7 +484,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             /*
              * Launch the activity if needed
              */
-            if (action.startsWith(ACTION_REMOTE_GENERIC) && !mMediaPlayer.isPlaying() && !hasCurrentMedia()) {
+            if (action.startsWith(Constants.ACTION_REMOTE_GENERIC) && !mMediaPlayer.isPlaying() && !hasCurrentMedia()) {
                 final Intent activityIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
                 if (activityIntent != null)
                     context.startActivity(activityIntent);
@@ -514,31 +493,31 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             /*
              * Remote / headset control events
              */
-            if (action.equalsIgnoreCase(ACTION_REMOTE_PLAYPAUSE)) {
+            if (action.equalsIgnoreCase(Constants.ACTION_REMOTE_PLAYPAUSE)) {
                 if (!hasCurrentMedia())
                     loadLastAudioPlaylist();
                 if (mMediaPlayer.isPlaying())
                     pause();
                 else
                     play();
-            } else if (action.equalsIgnoreCase(ACTION_REMOTE_PLAY)) {
+            } else if (action.equalsIgnoreCase(Constants.ACTION_REMOTE_PLAY)) {
                 if (!mMediaPlayer.isPlaying() && hasCurrentMedia())
                     play();
-            } else if (action.equalsIgnoreCase(ACTION_REMOTE_PAUSE)) {
+            } else if (action.equalsIgnoreCase(Constants.ACTION_REMOTE_PAUSE)) {
                 if (hasCurrentMedia())
                     pause();
-            } else if (action.equalsIgnoreCase(ACTION_REMOTE_BACKWARD)) {
+            } else if (action.equalsIgnoreCase(Constants.ACTION_REMOTE_BACKWARD)) {
                 previous(false);
-            } else if (action.equalsIgnoreCase(ACTION_REMOTE_STOP) ||
+            } else if (action.equalsIgnoreCase(Constants.ACTION_REMOTE_STOP) ||
                     action.equalsIgnoreCase(VLCApplication.SLEEP_INTENT)) {
                 stop();
-            } else if (action.equalsIgnoreCase(ACTION_REMOTE_FORWARD)) {
+            } else if (action.equalsIgnoreCase(Constants.ACTION_REMOTE_FORWARD)) {
                 next();
-            } else if (action.equalsIgnoreCase(ACTION_REMOTE_LAST_PLAYLIST)) {
+            } else if (action.equalsIgnoreCase(Constants.ACTION_REMOTE_LAST_PLAYLIST)) {
                 loadLastAudioPlaylist();
-            } else if (action.equalsIgnoreCase(ACTION_REMOTE_LAST_VIDEO_PLAYLIST)) {
-                loadLastPlaylist(TYPE_VIDEO);
-            } else if (action.equalsIgnoreCase(ACTION_REMOTE_SWITCH_VIDEO)) {
+            } else if (action.equalsIgnoreCase(Constants.ACTION_REMOTE_LAST_VIDEO_PLAYLIST)) {
+                loadLastPlaylist(Constants.PLAYLIST_TYPE_VIDEO);
+            } else if (action.equalsIgnoreCase(Constants.ACTION_REMOTE_SWITCH_VIDEO)) {
                 removePopup();
                 if (hasMedia()) {
                     getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
@@ -564,7 +543,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     if (wasPlaying && hasCurrentMedia() && mSettings.getBoolean("enable_play_on_headset_insertion", false))
                         play();
                 }
-            } else if (action.equalsIgnoreCase(ACTION_CAR_MODE_EXIT))
+            } else if (action.equalsIgnoreCase(Constants.ACTION_CAR_MODE_EXIT))
                 BrowserProvider.unbindExtensionConnection();
         }
     };
@@ -772,7 +751,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void showPlayer() {
-        sendBroadcast(new Intent(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER));
+        sendBroadcast(new Intent(Constants.ACTION_SHOW_PLAYER));
     }
 
     public void saveMediaMeta() {
@@ -886,7 +865,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (isVideoPlaying()) {//Player is already running, just send it an intent
             setVideoTrackEnabled(true);
             LocalBroadcastManager.getInstance(this).sendBroadcast(
-                    VideoPlayerActivity.getIntent(VideoPlayerActivity.PLAY_FROM_SERVICE,
+                    VideoPlayerActivity.getIntent(Constants.PLAY_FROM_SERVICE,
                             media, false, mCurrentIndex));
         } else if (!mSwitchingToVideo) {//Start the video player
             VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
@@ -1041,12 +1020,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             return PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         } if (mVideoBackground || (canSwitchToVideo() && !mMediaList.getMedia(mCurrentIndex).hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO))) { //resume video playback
             /* Resume VideoPlayerActivity from ACTION_REMOTE_SWITCH_VIDEO intent */
-            final Intent notificationIntent = new Intent(ACTION_REMOTE_SWITCH_VIDEO);
+            final Intent notificationIntent = new Intent(Constants.ACTION_REMOTE_SWITCH_VIDEO);
             return PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         } else {
             /* Show audio player */
             final Intent notificationIntent = new Intent(this, StartActivity.class);
-            notificationIntent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
+            notificationIntent.setAction(Constants.ACTION_SHOW_PLAYER);
             notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
             return PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
@@ -1126,7 +1105,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             mShuffling &= size > 2;
 
             // Repeating once doesn't change the index
-            if (mRepeating == REPEAT_ONE) {
+            if (mRepeating == Constants.REPEAT_ONE) {
                 mPrevIndex = mNextIndex = mCurrentIndex;
             } else {
                 if (mShuffling) {
@@ -1144,7 +1123,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     // If we've played all songs already in shuffle, then either
                     // reshuffle or stop (depending on RepeatType).
                     if (mPrevious.size() + 1 == size) {
-                        if(mRepeating == REPEAT_NONE) {
+                        if (mRepeating == Constants.REPEAT_NONE) {
                             mNextIndex = -1;
                             return;
                         } else {
@@ -1165,7 +1144,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     if (mCurrentIndex + 1 < size)
                         mNextIndex = mCurrentIndex + 1;
                     else {
-                        if (mRepeating == REPEAT_NONE) {
+                        if (mRepeating == Constants.REPEAT_NONE) {
                             mNextIndex = -1;
                         } else {
                             mNextIndex = 0;
@@ -1273,15 +1252,15 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 shuffle();
             } else if (TextUtils.equals(action, "repeat")) {
                 switch (getRepeatType()) {
-                    case PlaybackService.REPEAT_NONE:
-                        setRepeatType(PlaybackService.REPEAT_ALL);
+                    case Constants.REPEAT_NONE:
+                        setRepeatType(Constants.REPEAT_ALL);
                         break;
-                    case PlaybackService.REPEAT_ALL:
-                        setRepeatType(PlaybackService.REPEAT_ONE);
+                    case Constants.REPEAT_ALL:
+                        setRepeatType(Constants.REPEAT_ONE);
                         break;
                     default:
-                    case PlaybackService.REPEAT_ONE:
-                        setRepeatType(PlaybackService.REPEAT_NONE);
+                    case Constants.REPEAT_ONE:
+                        setRepeatType(Constants.REPEAT_NONE);
                         break;
                 }
             }
@@ -1477,15 +1456,15 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             }
         }
         pscb.setState(state, time, getRate());
-        if (mRepeating != REPEAT_NONE || hasNext())
+        if (mRepeating != Constants.REPEAT_NONE || hasNext())
             actions |= PlaybackStateCompat.ACTION_SKIP_TO_NEXT;
-        if (mRepeating != REPEAT_NONE || hasPrevious() || isSeekable())
+        if (mRepeating != Constants.REPEAT_NONE || hasPrevious() || isSeekable())
             actions |= PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS;
         if (isSeekable())
             actions |= PlaybackStateCompat.ACTION_FAST_FORWARD | PlaybackStateCompat.ACTION_REWIND;
         actions |= PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM;
         pscb.setActions(actions);
-        final int repeatResId = getRepeatType() == REPEAT_ALL ? R.drawable.ic_auto_repeat_pressed : getRepeatType() == REPEAT_ONE ? R.drawable.ic_auto_repeat_one_pressed : R.drawable.ic_auto_repeat_normal;
+        final int repeatResId = getRepeatType() == Constants.REPEAT_ALL ? R.drawable.ic_auto_repeat_pressed : getRepeatType() == Constants.REPEAT_ONE ? R.drawable.ic_auto_repeat_one_pressed : R.drawable.ic_auto_repeat_normal;
         if (mMediaList.size() > 2)
             pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), isShuffling() ? R.drawable.ic_auto_shuffle_pressed : R.drawable.ic_auto_shuffle_normal);
         pscb.addCustomAction("repeat", getString(R.string.repeat_title), repeatResId);
@@ -1523,7 +1502,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 saveCurrentMedia();
             Log.w(TAG, "Warning: invalid next index, aborted !");
             //Close video player if started
-            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(VideoPlayerActivity.EXIT_PLAYER));
+            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(Constants.EXIT_PLAYER));
             stop();
             return;
         }
@@ -1633,12 +1612,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     private void loadLastAudioPlaylist() {
         if (mMedialibrary.isInitiated() && mLibraryReceiver == null)
-            loadLastPlaylist(TYPE_AUDIO);
+            loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO);
         else
             registerMedialibrary(new Runnable() {
                 @Override
                 public void run() {
-                    loadLastPlaylist(TYPE_AUDIO);
+                    loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO);
                 }
             });
     }
@@ -1650,7 +1629,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final boolean audio = type == TYPE_AUDIO;
+                final boolean audio = type == Constants.PLAYLIST_TYPE_AUDIO;
                 final String[] locations;
                 synchronized (PlaybackService.this) {
                     final String currentMedia = mSettings.getString(audio ? "current_song" : "current_media", "");
@@ -1673,7 +1652,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         final int position;
                         synchronized (PlaybackService.this) {
                             mShuffling = mSettings.getBoolean(audio ? "audio_shuffling" : "media_shuffling", false);
-                            mRepeating = mSettings.getInt(audio ? "audio_repeating" : "media_repeating", REPEAT_NONE);
+                            mRepeating = mSettings.getInt(audio ? "audio_repeating" : "media_repeating", Constants.REPEAT_NONE);
                             position = mSettings.getInt(audio ? "position_in_audio_list" : "position_in_media_list", 0);
                             mSavedTime = mSettings.getLong(audio ? "position_in_song" : "position_in_media", -1);
                         }
@@ -1987,7 +1966,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         mMediaList.addEventListener(mListEventListener);
 
         if (mMediaList.isAudioList() && mSettings.getBoolean("audio_save_repeat", false))
-            mRepeating = mSettings.getInt(AUDIO_REPEAT_MODE_KEY, REPEAT_NONE);
+            mRepeating = mSettings.getInt(AUDIO_REPEAT_MODE_KEY, Constants.REPEAT_NONE);
         playIndex(mCurrentIndex, 0);
         onMediaChanged();
         updateMediaQueue();

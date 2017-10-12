@@ -132,6 +132,7 @@ import org.videolan.vlc.interfaces.IPlaybackSettingsController;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
@@ -156,32 +157,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         OnClickListener, StoragePermissionsDelegate.CustomActionController,
         ScaleGestureDetector.OnScaleGestureListener {
 
-    public final static String TAG = "VLC/VideoPlayerActivity";
+    private final static String TAG = "VLC/VideoPlayerActivity";
 
-    // Internal intent identifier to distinguish between internal launch and
-    // external intent.
-    public final static String PLAY_FROM_VIDEOGRID = Strings.buildPkgString("gui.video.PLAY_FROM_VIDEOGRID");
-    public final static String PLAY_FROM_SERVICE = Strings.buildPkgString("gui.video.PLAY_FROM_SERVICE");
-    public final static String EXIT_PLAYER = Strings.buildPkgString("gui.video.EXIT_PLAYER");
-
-    public final static String PLAY_EXTRA_ITEM_LOCATION = "item_location";
-    public final static String PLAY_EXTRA_SUBTITLES_LOCATION = "subtitles_location";
-    public final static String PLAY_EXTRA_ITEM_TITLE = "title";
-    public final static String PLAY_EXTRA_FROM_START = "from_start";
-    public final static String PLAY_EXTRA_START_TIME = "position";
-    public final static String PLAY_EXTRA_OPENED_POSITION = "opened_position";
-    public final static String PLAY_DISABLE_HARDWARE = "disable_hardware";
-
-    public final static String ACTION_RESULT = Strings.buildPkgString("player.result");
-    public final static String EXTRA_POSITION = "extra_position";
-    public final static String EXTRA_DURATION = "extra_duration";
-    public final static String EXTRA_URI = "extra_uri";
-    public final static int RESULT_CONNECTION_FAILED = RESULT_FIRST_USER + 1;
-    public final static int RESULT_PLAYBACK_ERROR = RESULT_FIRST_USER + 2;
-    public final static int RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 3;
+    private final static String ACTION_RESULT = Strings.buildPkgString("player.result");
+    private final static String EXTRA_POSITION = "extra_position";
+    private final static String EXTRA_DURATION = "extra_duration";
+    private final static String EXTRA_URI = "extra_uri";
+    private final static int RESULT_CONNECTION_FAILED = RESULT_FIRST_USER + 1;
+    private final static int RESULT_PLAYBACK_ERROR = RESULT_FIRST_USER + 2;
+    private final static int RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 3;
     private static final float DEFAULT_FOV = 80f;
-    public static final float MIN_FOV = 20f;
-    public static final float MAX_FOV = 150f;
+    private static final float MIN_FOV = 20f;
+    private static final float MAX_FOV = 150f;
 
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
@@ -521,8 +508,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
         if (mPlaybackStarted && mService.getCurrentMediaWrapper() != null) {
-            Uri uri = intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION) ?
-                    (Uri) intent.getExtras().getParcelable(PLAY_EXTRA_ITEM_LOCATION) : intent.getData();
+            Uri uri = intent.hasExtra(Constants.PLAY_EXTRA_ITEM_LOCATION) ?
+                    (Uri) intent.getExtras().getParcelable(Constants.PLAY_EXTRA_ITEM_LOCATION) : intent.getData();
             if (uri == null || uri.equals(mUri))
                 return;
             if (TextUtils.equals("file", uri.getScheme()) && uri.getPath().startsWith("/sdcard")) {
@@ -660,8 +647,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (brightness != -1f)
                 setWindowBrightness(brightness);
         }
-        final IntentFilter filter = new IntentFilter(PLAY_FROM_SERVICE);
-        filter.addAction(EXIT_PLAYER);
+        final IntentFilter filter = new IntentFilter(Constants.PLAY_FROM_SERVICE);
+        filter.addAction(Constants.EXIT_PLAYER);
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 mServiceReceiver, filter);
         if (mBtReceiver != null) {
@@ -1022,20 +1009,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @NonNull
     public static Intent getIntent(Context context, Uri uri, String title, boolean fromStart, int openedPosition) {
-        return getIntent(PLAY_FROM_VIDEOGRID, context, uri, title, fromStart, openedPosition);
+        return getIntent(Constants.PLAY_FROM_VIDEOGRID, context, uri, title, fromStart, openedPosition);
     }
 
     @NonNull
     public static Intent getIntent(String action, Context context, Uri uri, String title, boolean fromStart, int openedPosition) {
         Intent intent = new Intent(context, VideoPlayerActivity.class);
         intent.setAction(action);
-        intent.putExtra(PLAY_EXTRA_ITEM_LOCATION, uri);
-        intent.putExtra(PLAY_EXTRA_ITEM_TITLE, title);
-        intent.putExtra(PLAY_EXTRA_FROM_START, fromStart);
+        intent.putExtra(Constants.PLAY_EXTRA_ITEM_LOCATION, uri);
+        intent.putExtra(Constants.PLAY_EXTRA_ITEM_TITLE, title);
+        intent.putExtra(Constants.PLAY_EXTRA_FROM_START, fromStart);
 
         if (openedPosition != -1 || !(context instanceof Activity)) {
             if (openedPosition != -1)
-                intent.putExtra(PLAY_EXTRA_OPENED_POSITION, openedPosition);
+                intent.putExtra(Constants.PLAY_EXTRA_OPENED_POSITION, openedPosition);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         return intent;
@@ -1775,7 +1762,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void endReached() {
         if (mService == null)
             return;
-        if (mService.getRepeatType() == PlaybackService.REPEAT_ONE){
+        if (mService.getRepeatType() == Constants.REPEAT_ONE){
             seek(0);
             return;
         }
@@ -1791,7 +1778,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             });
         }
         //Ignore repeat 
-        if (mService.getRepeatType() == PlaybackService.REPEAT_ALL && mService.getMediaListSize() == 1)
+        if (mService.getRepeatType() == Constants.REPEAT_ALL && mService.getMediaListSize() == 1)
             exitOK();
     }
 
@@ -2513,11 +2500,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     public boolean toggleLoop(View v) {
         if (mService == null) return false;
-        if (mService.getRepeatType() == PlaybackService.REPEAT_ONE) {
+        if (mService.getRepeatType() == Constants.REPEAT_ONE) {
             showInfo(getString(R.string.repeat), 1000);
-            mService.setRepeatType(PlaybackService.REPEAT_NONE);
+            mService.setRepeatType(Constants.REPEAT_NONE);
         } else {
-            mService.setRepeatType(PlaybackService.REPEAT_ONE);
+            mService.setRepeatType(Constants.REPEAT_ONE);
             showInfo(getString(R.string.repeat_single), 1000);
         }
         return true;
@@ -3023,7 +3010,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @SuppressWarnings({ "unchecked" })
     private void loadMedia(boolean fromStart) {
         mAskResume = false;
-        getIntent().putExtra(PLAY_EXTRA_FROM_START, fromStart);
+        getIntent().putExtra(Constants.PLAY_EXTRA_FROM_START, fromStart);
         loadMedia();
     }
 
@@ -3065,24 +3052,24 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (intent.getData() != null)
             mUri = intent.getData();
         if (extras != null) {
-            if (intent.hasExtra(PLAY_EXTRA_ITEM_LOCATION))
-                mUri = extras.getParcelable(PLAY_EXTRA_ITEM_LOCATION);
-            fromStart = extras.getBoolean(PLAY_EXTRA_FROM_START, false);
+            if (intent.hasExtra(Constants.PLAY_EXTRA_ITEM_LOCATION))
+                mUri = extras.getParcelable(Constants.PLAY_EXTRA_ITEM_LOCATION);
+            fromStart = extras.getBoolean(Constants.PLAY_EXTRA_FROM_START, false);
             // Consume fromStart option after first use to prevent
             // restarting again when playback is paused.
-            intent.putExtra(PLAY_EXTRA_FROM_START, false);
+            intent.putExtra(Constants.PLAY_EXTRA_FROM_START, false);
             mAskResume &= !fromStart;
-            savedTime = fromStart ? 0L : extras.getLong(PLAY_EXTRA_START_TIME); // position passed in by intent (ms)
+            savedTime = fromStart ? 0L : extras.getLong(Constants.PLAY_EXTRA_START_TIME); // position passed in by intent (ms)
             if (!fromStart && savedTime == 0L)
-                savedTime = extras.getInt(PLAY_EXTRA_START_TIME);
-            positionInPlaylist = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1);
+                savedTime = extras.getInt(Constants.PLAY_EXTRA_START_TIME);
+            positionInPlaylist = extras.getInt(Constants.PLAY_EXTRA_OPENED_POSITION, -1);
 
-            if (intent.hasExtra(PLAY_EXTRA_SUBTITLES_LOCATION))
+            if (intent.hasExtra(Constants.PLAY_EXTRA_SUBTITLES_LOCATION))
                 synchronized (mSubtitleSelectedFiles) {
-                    mSubtitleSelectedFiles.add(extras.getString(PLAY_EXTRA_SUBTITLES_LOCATION));
+                    mSubtitleSelectedFiles.add(extras.getString(Constants.PLAY_EXTRA_SUBTITLES_LOCATION));
                 }
-            if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
-                itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE);
+            if (intent.hasExtra(Constants.PLAY_EXTRA_ITEM_TITLE))
+                itemTitle = extras.getString(Constants.PLAY_EXTRA_ITEM_TITLE);
         }
 
         MediaWrapper openedMedia = null;
@@ -3157,7 +3144,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             if (mWasPaused)
                 media.addFlags(MediaWrapper.MEDIA_PAUSED);
-            if (intent.hasExtra(PLAY_DISABLE_HARDWARE))
+            if (intent.hasExtra(Constants.PLAY_DISABLE_HARDWARE))
                 media.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             media.addFlags(MediaWrapper.MEDIA_VIDEO);
@@ -3191,7 +3178,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (itemTitle == null && !TextUtils.equals(mUri.getScheme(), "content"))
                 title = mUri.getLastPathSegment();
         } else {
-            mService.loadLastPlaylist(PlaybackService.TYPE_VIDEO);
+            mService.loadLastPlaylist(Constants.PLAYLIST_TYPE_VIDEO);
         }
         if (itemTitle != null)
             title = itemTitle;
@@ -3672,9 +3659,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private BroadcastReceiver mServiceReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (TextUtils.equals(intent.getAction(), PLAY_FROM_SERVICE))
+            if (TextUtils.equals(intent.getAction(), Constants.PLAY_FROM_SERVICE))
                 onNewIntent(intent);
-            else if (TextUtils.equals(intent.getAction(), EXIT_PLAYER))
+            else if (TextUtils.equals(intent.getAction(), Constants.EXIT_PLAYER))
                 exitOK();
         }
     };

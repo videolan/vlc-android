@@ -42,6 +42,7 @@ import android.text.TextUtils;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 
@@ -80,7 +81,7 @@ public class ExternalMonitor extends BroadcastReceiver {
 
     private static void checkNewStorages(final Context ctx) {
         if (VLCApplication.getMLInstance().isInitiated())
-            ctx.startService(new Intent(MediaParsingService.ACTION_CHECK_STORAGES, null,ctx, MediaParsingService.class));
+            ctx.startService(new Intent(Constants.ACTION_CHECK_STORAGES, null,ctx, MediaParsingService.class));
     }
 
     static void unregister(Context ctx) {
@@ -141,13 +142,13 @@ public class ExternalMonitor extends BroadcastReceiver {
                         if (!containsDevice(knownDevices, path) && ml.addDevice(uuid, path, true)) {
                             notifyStorageChanges(path);
                         } else {
-                            LocalBroadcastManager.getInstance(appCtx).sendBroadcast(new Intent(MediaParsingService.ACTION_SERVICE_ENDED));
+                            LocalBroadcastManager.getInstance(appCtx).sendBroadcast(new Intent(Constants.ACTION_SERVICE_ENDED));
                         }
                     }
                     break;
                 case ACTION_MEDIA_UNMOUNTED:
                     VLCApplication.getMLInstance().removeDevice(uuid);
-                    LocalBroadcastManager.getInstance(appCtx).sendBroadcast(new Intent(MediaParsingService.ACTION_SERVICE_ENDED));
+                    LocalBroadcastManager.getInstance(appCtx).sendBroadcast(new Intent(Constants.ACTION_SERVICE_ENDED));
                     break;
             }
         }

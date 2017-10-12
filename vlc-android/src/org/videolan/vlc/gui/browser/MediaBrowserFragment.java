@@ -43,13 +43,13 @@ import android.view.View;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.InfoActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 
 import java.util.LinkedList;
@@ -240,8 +240,8 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     }
 
     protected void onMedialibraryReady() {
-        IntentFilter parsingServiceFilter = new IntentFilter(MediaParsingService.ACTION_SERVICE_ENDED);
-        parsingServiceFilter.addAction(MediaParsingService.ACTION_SERVICE_STARTED);
+        IntentFilter parsingServiceFilter = new IntentFilter(Constants.ACTION_SERVICE_ENDED);
+        parsingServiceFilter.addAction(Constants.ACTION_SERVICE_STARTED);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mParsingServiceReceiver, parsingServiceFilter);
     }
 
@@ -262,10 +262,10 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
-                case MediaParsingService.ACTION_SERVICE_ENDED:
+                case Constants.ACTION_SERVICE_ENDED:
                     onParsingServiceFinished();
                     break;
-                case MediaParsingService.ACTION_SERVICE_STARTED:
+                case Constants.ACTION_SERVICE_STARTED:
                     onParsingServiceStarted();
                     break;
             }

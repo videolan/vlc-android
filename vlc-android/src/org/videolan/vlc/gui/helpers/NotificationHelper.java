@@ -35,15 +35,15 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.NotificationCompat;
 
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
 
-import static org.videolan.vlc.MediaParsingService.ACTION_PAUSE_SCAN;
-import static org.videolan.vlc.MediaParsingService.ACTION_RESUME_SCAN;
+import static org.videolan.vlc.util.Constants.ACTION_PAUSE_SCAN;
+import static org.videolan.vlc.util.Constants.ACTION_RESUME_SCAN;
 import static org.videolan.vlc.util.Util.getMediaDescription;
 
 public class NotificationHelper {
@@ -54,10 +54,10 @@ public class NotificationHelper {
                                                           MediaSessionCompat.Token sessionToken,
                                                           PendingIntent spi) {
 
-        final PendingIntent piStop = PendingIntent.getBroadcast(ctx, 0, new Intent(PlaybackService.ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
-        final PendingIntent piBackward = PendingIntent.getBroadcast(ctx, 0, new Intent(PlaybackService.ACTION_REMOTE_BACKWARD), PendingIntent.FLAG_UPDATE_CURRENT);
-        final PendingIntent piPlay = PendingIntent.getBroadcast(ctx, 0, new Intent(PlaybackService.ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
-        final PendingIntent piForward = PendingIntent.getBroadcast(ctx, 0, new Intent(PlaybackService.ACTION_REMOTE_FORWARD), PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent piStop = PendingIntent.getBroadcast(ctx, 0, new Intent(Constants.ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent piBackward = PendingIntent.getBroadcast(ctx, 0, new Intent(Constants.ACTION_REMOTE_BACKWARD), PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent piPlay = PendingIntent.getBroadcast(ctx, 0, new Intent(Constants.ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent piForward = PendingIntent.getBroadcast(ctx, 0, new Intent(Constants.ACTION_REMOTE_FORWARD), PendingIntent.FLAG_UPDATE_CURRENT);
         if (AndroidUtil.isOOrLater) {
             final Notification.Builder builder = new Notification.Builder(ctx, "vlc_playback");
             builder.setSmallIcon(video ? R.drawable.ic_notif_video : R.drawable.ic_notif_audio)

@@ -31,7 +31,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SearchActivity;
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate;
@@ -40,16 +39,13 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 
 public class StartActivity extends FragmentActivity implements StoragePermissionsDelegate.CustomActionController {
 
     public final static String TAG = "VLC/StartActivity";
-
-    private static final String PREF_FIRST_RUN = "first_run";
-    public static final String EXTRA_FIRST_RUN = "extra_first_run";
-    public static final String EXTRA_UPGRADE = "extra_upgrade";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +64,12 @@ public class StartActivity extends FragmentActivity implements StoragePermission
         /* Get the current version from package */
         final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         final int currentVersionNumber = BuildConfig.VERSION_CODE;
-        final int savedVersionNumber = settings.getInt(PREF_FIRST_RUN, -1);
+        final int savedVersionNumber = settings.getInt(Constants.PREF_FIRST_RUN, -1);
         /* Check if it's the first run */
         final boolean firstRun = savedVersionNumber == -1;
         final boolean upgrade = firstRun || savedVersionNumber != currentVersionNumber;
         if (upgrade)
-            settings.edit().putInt(PREF_FIRST_RUN, currentVersionNumber).apply();
+            settings.edit().putInt(Constants.PREF_FIRST_RUN, currentVersionNumber).apply();
         startMedialibrary(firstRun, upgrade);
         // Route search query
         if (Intent.ACTION_SEARCH.equals(action) || "com.google.android.gms.actions.SEARCH_ACTION".equals(action)) {
@@ -81,15 +77,15 @@ public class StartActivity extends FragmentActivity implements StoragePermission
             finish();
             return;
         } else if (MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH.equals(action)) {
-            final Intent serviceInent = new Intent(PlaybackService.ACTION_PLAY_FROM_SEARCH, null, this, PlaybackService.class)
-                    .putExtra(PlaybackService.EXTRA_SEARCH_BUNDLE, intent.getExtras());
+            final Intent serviceInent = new Intent(Constants.ACTION_PLAY_FROM_SEARCH, null, this, PlaybackService.class)
+                    .putExtra(Constants.EXTRA_SEARCH_BUNDLE, intent.getExtras());
             Util.startService(this, serviceInent);
-        } else if (AudioPlayerContainerActivity.ACTION_SHOW_PLAYER.equals(action)) {
+        } else if (Constants.ACTION_SHOW_PLAYER.equals(action)) {
             startActivity(new Intent(this, tv ? AudioPlayerActivity.class : MainActivity.class));
         } else {
             startActivity(new Intent(this, tv ? MainTvActivity.class : MainActivity.class)
-                    .putExtra(EXTRA_FIRST_RUN, firstRun)
-                    .putExtra(EXTRA_UPGRADE, upgrade));
+                    .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
+                    .putExtra(Constants.EXTRA_UPGRADE, upgrade));
         }
         finish();
     }
@@ -104,9 +100,9 @@ public class StartActivity extends FragmentActivity implements StoragePermission
 
     private void startMedialibrary(final boolean firstRun, final boolean upgrade) {
         if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage(StartActivity.this))
-            startService(new Intent(MediaParsingService.ACTION_INIT, null, StartActivity.this, MediaParsingService.class)
-                    .putExtra(EXTRA_FIRST_RUN, firstRun)
-                    .putExtra(EXTRA_UPGRADE, upgrade));
+            startService(new Intent(Constants.ACTION_INIT, null, StartActivity.this, MediaParsingService.class)
+                    .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
+                    .putExtra(Constants.EXTRA_UPGRADE, upgrade));
     }
 
     private boolean showTvUi() {

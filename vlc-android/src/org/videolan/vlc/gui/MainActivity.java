@@ -75,6 +75,7 @@ import org.videolan.vlc.gui.view.HackyDrawerLayout;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -88,7 +89,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
     private static final int ACTIVITY_RESULT_OPEN = 2;
     private static final int ACTIVITY_RESULT_SECONDARY = 3;
-
 
     private Medialibrary mMediaLibrary;
     private ExtensionsManager mExtensionsManager;
@@ -133,7 +133,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             restoreFragmentsStack(savedInstanceState, fm);
             mCurrentFragmentId = savedInstanceState.getInt("current", mSettings.getInt("fragment_id", R.id.nav_video));
         } else {
-            if (getIntent().getBooleanExtra(StartActivity.EXTRA_UPGRADE, false)) {
+            if (getIntent().getBooleanExtra(Constants.EXTRA_UPGRADE, false)) {
             /*
              * The sliding menu is automatically opened when the user closes
              * the info dialog. If (for any reason) the dialog is not shown,
@@ -236,7 +236,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         if (mMediaLibrary.isInitiated()) {
             /* Load media items from database and storage */
             if (mScanNeeded && Permissions.canReadStorage())
-                startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
+                startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
             else if (!currentIdIsExtension())
                 restoreCurrentList();
         }
@@ -477,7 +477,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             if(current != null && current instanceof IRefreshable)
                 ((IRefreshable) current).refresh();
             else
-                startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
+                startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
         }
     }
 
@@ -490,7 +490,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                     for (Fragment fragment : getSupportFragmentManager().getFragments())
                         if (fragment instanceof MediaBrowserFragment)
                             ((MediaBrowserFragment) fragment).clear();
-                    startService(new Intent(MediaParsingService.ACTION_RELOAD, null,this, MediaParsingService.class));
+                    startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
                     break;
                 case PreferencesActivity.RESULT_RESTART:
                 case PreferencesActivity.RESULT_RESTART_APP:

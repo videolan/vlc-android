@@ -73,6 +73,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.BaseAudioBrowser;
 import org.videolan.vlc.gui.browser.SortableFragment;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
 
@@ -388,8 +389,8 @@ public class UiTools {
             return;
         final String uuid = FileUtils.getFileNameFromPath(path);
         final String message = String.format(activity.getString(R.string.ml_external_storage_msg), uuid);
-        final Intent serviceInent = new Intent(MediaParsingService.ACTION_DISCOVER_DEVICE, null, activity, MediaParsingService.class)
-                .putExtra(MediaParsingService.EXTRA_PATH, path);
+        final Intent serviceInent = new Intent(Constants.ACTION_DISCOVER_DEVICE, null, activity, MediaParsingService.class)
+                .putExtra(Constants.EXTRA_PATH, path);
         if (activity instanceof AppCompatActivity) {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                     .setTitle(R.string.ml_external_storage_title)

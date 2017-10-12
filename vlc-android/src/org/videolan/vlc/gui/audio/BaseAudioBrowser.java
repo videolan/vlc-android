@@ -32,7 +32,6 @@ import android.view.View;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.ContentActivity;
 import org.videolan.vlc.gui.browser.SortableFragment;
@@ -41,6 +40,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
 
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public abstract class BaseAudioBrowser extends SortableFragment<AudioBrowserAdap
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ml_menu_last_playlist:
-                getActivity().sendBroadcast(new Intent(PlaybackService.ACTION_REMOTE_LAST_PLAYLIST));
+                getActivity().sendBroadcast(new Intent(Constants.ACTION_REMOTE_LAST_PLAYLIST));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

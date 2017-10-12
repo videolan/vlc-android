@@ -42,6 +42,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.tv.SearchActivity;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -58,7 +59,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity implements 
     protected void onCreate(Bundle savedInstanceState) {
         //Init Medialibrary if KO
         if (savedInstanceState != null && !VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage())
-            startService(new Intent(MediaParsingService.ACTION_INIT, null, this, MediaParsingService.class));
+            startService(new Intent(Constants.ACTION_INIT, null, this, MediaParsingService.class));
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -68,10 +69,10 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity implements 
     protected void onStart() {
         ExternalMonitor.subscribeStorageCb(this);
 
-        final IntentFilter parsingServiceFilter = new IntentFilter(MediaParsingService.ACTION_SERVICE_ENDED);
-        parsingServiceFilter.addAction(MediaParsingService.ACTION_SERVICE_STARTED);
-        parsingServiceFilter.addAction(MediaParsingService.ACTION_PROGRESS);
-        parsingServiceFilter.addAction(MediaParsingService.ACTION_NEW_STORAGE);
+        final IntentFilter parsingServiceFilter = new IntentFilter(Constants.ACTION_SERVICE_ENDED);
+        parsingServiceFilter.addAction(Constants.ACTION_SERVICE_STARTED);
+        parsingServiceFilter.addAction(Constants.ACTION_PROGRESS);
+        parsingServiceFilter.addAction(Constants.ACTION_NEW_STORAGE);
 
         mRegistering = true;
         LocalBroadcastManager.getInstance(this).registerReceiver(mParsingServiceReceiver, parsingServiceFilter);
@@ -108,17 +109,17 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity implements 
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             switch (action) {
-                case MediaParsingService.ACTION_SERVICE_ENDED:
+                case Constants.ACTION_SERVICE_ENDED:
                     onParsingServiceFinished();
                     break;
-                case MediaParsingService.ACTION_SERVICE_STARTED:
+                case Constants.ACTION_SERVICE_STARTED:
                     onParsingServiceStarted();
                     break;
-                case MediaParsingService.ACTION_PROGRESS:
+                case Constants.ACTION_PROGRESS:
                     onParsingServiceProgress();
                     break;
-                case MediaParsingService.ACTION_NEW_STORAGE:
-                    UiTools.newStorageDetected(BaseTvActivity.this, intent.getStringExtra(MediaParsingService.EXTRA_PATH));
+                case Constants.ACTION_NEW_STORAGE:
+                    UiTools.newStorageDetected(BaseTvActivity.this, intent.getStringExtra(Constants.EXTRA_PATH));
                     break;
             }
         }

@@ -27,6 +27,7 @@ import android.view.KeyEvent;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
 
 /**
@@ -72,33 +73,33 @@ public class RemoteControlClientReceiver extends MediaButtonReceiver {
                         case KeyEvent.ACTION_UP:
                             if (AndroidDevices.hasTsp) { //no backward/forward on TV
                                 if (time - mHeadsetDownTime >= 1000) { // long click
-                                    i = new Intent(PlaybackService.ACTION_REMOTE_BACKWARD, null, context, PlaybackService.class);
+                                    i = new Intent(Constants.ACTION_REMOTE_BACKWARD, null, context, PlaybackService.class);
                                     break;
                                 } else if (time - mHeadsetUpTime <= 500) { // double click
-                                    i = new Intent(PlaybackService.ACTION_REMOTE_FORWARD, null, context, PlaybackService.class);
+                                    i = new Intent(Constants.ACTION_REMOTE_FORWARD, null, context, PlaybackService.class);
                                     break;
                                 }
                             }
                             // one click
-                            i = new Intent(PlaybackService.ACTION_REMOTE_PLAYPAUSE, null, context, PlaybackService.class);
+                            i = new Intent(Constants.ACTION_REMOTE_PLAYPAUSE, null, context, PlaybackService.class);
                             mHeadsetUpTime = time;
                             break;
                     }
                     break;
                 case KeyEvent.KEYCODE_MEDIA_PLAY:
-                    i = new Intent(PlaybackService.ACTION_REMOTE_PLAY, null, context, PlaybackService.class);
+                    i = new Intent(Constants.ACTION_REMOTE_PLAY, null, context, PlaybackService.class);
                     break;
                 case KeyEvent.KEYCODE_MEDIA_PAUSE:
-                    i = new Intent(PlaybackService.ACTION_REMOTE_PAUSE, null, context, PlaybackService.class);
+                    i = new Intent(Constants.ACTION_REMOTE_PAUSE, null, context, PlaybackService.class);
                     break;
                 case KeyEvent.KEYCODE_MEDIA_STOP:
-                    i = new Intent(PlaybackService.ACTION_REMOTE_STOP, null, context, PlaybackService.class);
+                    i = new Intent(Constants.ACTION_REMOTE_STOP, null, context, PlaybackService.class);
                     break;
                 case KeyEvent.KEYCODE_MEDIA_NEXT:
-                    i = new Intent(PlaybackService.ACTION_REMOTE_FORWARD, null, context, PlaybackService.class);
+                    i = new Intent(Constants.ACTION_REMOTE_FORWARD, null, context, PlaybackService.class);
                     break;
                 case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
-                    i = new Intent(PlaybackService.ACTION_REMOTE_BACKWARD, null, context, PlaybackService.class);
+                    i = new Intent(Constants.ACTION_REMOTE_BACKWARD, null, context, PlaybackService.class);
                     break;
             }
 
@@ -108,9 +109,9 @@ public class RemoteControlClientReceiver extends MediaButtonReceiver {
                 Util.startService(context, i);
                 return;
             }
-        } else if (action.equals(PlaybackService.ACTION_REMOTE_PLAYPAUSE)) {
+        } else if (action.equals(Constants.ACTION_REMOTE_PLAYPAUSE)) {
             intent = new Intent(context, PlaybackService.class);
-            intent.setAction(PlaybackService.ACTION_REMOTE_PLAYPAUSE);
+            intent.setAction(Constants.ACTION_REMOTE_PLAYPAUSE);
             Util.startService(context, intent);
             return;
         }

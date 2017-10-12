@@ -52,6 +52,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -340,14 +341,14 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         if (mService == null)
             return;
         int type = mService.getRepeatType();
-        if (type == PlaybackService.REPEAT_NONE){
-            mService.setRepeatType(PlaybackService.REPEAT_ALL);
+        if (type == Constants.REPEAT_NONE){
+            mService.setRepeatType(Constants.REPEAT_ALL);
             mBinding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all);
-        } else if (type == PlaybackService.REPEAT_ALL) {
-            mService.setRepeatType(PlaybackService.REPEAT_ONE);
+        } else if (type == Constants.REPEAT_ALL) {
+            mService.setRepeatType(Constants.REPEAT_ONE);
             mBinding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one);
-        } else if (type == PlaybackService.REPEAT_ONE) {
-            mService.setRepeatType(PlaybackService.REPEAT_NONE);
+        } else if (type == Constants.REPEAT_ONE) {
+            mService.setRepeatType(Constants.REPEAT_NONE);
             mBinding.buttonRepeat.setImageResource(R.drawable.ic_repeat_w);
         }
     }

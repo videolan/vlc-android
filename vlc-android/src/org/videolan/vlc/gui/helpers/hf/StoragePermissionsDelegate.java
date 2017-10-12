@@ -38,8 +38,8 @@ import android.support.v4.app.FragmentManager;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaParsingService;
-import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 
 import static org.videolan.vlc.util.Permissions.PERMISSION_STORAGE_TAG;
@@ -59,11 +59,11 @@ public class StoragePermissionsDelegate extends BaseHeadlessFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Intent intent = mActivity == null ? null : mActivity.getIntent();
-        if (intent != null && intent.getBooleanExtra(StartActivity.EXTRA_UPGRADE, false)) {
+        if (intent != null && intent.getBooleanExtra(Constants.EXTRA_UPGRADE, false)) {
             mUpgrade = true;
-            mFirstRun = intent.getBooleanExtra(StartActivity.EXTRA_FIRST_RUN, false);
-            intent.removeExtra(StartActivity.EXTRA_UPGRADE);
-            intent.removeExtra(StartActivity.EXTRA_FIRST_RUN);
+            mFirstRun = intent.getBooleanExtra(Constants.EXTRA_FIRST_RUN, false);
+            intent.removeExtra(Constants.EXTRA_UPGRADE);
+            intent.removeExtra(Constants.EXTRA_FIRST_RUN);
         }
         if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(getActivity())) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
@@ -88,9 +88,9 @@ public class StoragePermissionsDelegate extends BaseHeadlessFragment {
                     if (mActivity instanceof CustomActionController) {
                         ((CustomActionController) mActivity).onStorageAccessGranted();
                     } else {
-                        final Intent serviceIntent = new Intent(MediaParsingService.ACTION_INIT, null, ctx, MediaParsingService.class);
-                        serviceIntent.putExtra(StartActivity.EXTRA_FIRST_RUN, mFirstRun);
-                        serviceIntent.putExtra(StartActivity.EXTRA_UPGRADE, mUpgrade);
+                        final Intent serviceIntent = new Intent(Constants.ACTION_INIT, null, ctx, MediaParsingService.class);
+                        serviceIntent.putExtra(Constants.EXTRA_FIRST_RUN, mFirstRun);
+                        serviceIntent.putExtra(Constants.EXTRA_UPGRADE, mUpgrade);
                         ctx.startService(serviceIntent);
                     }
                     exit();

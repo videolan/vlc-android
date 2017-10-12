@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.util.Constants;
 
 public class MedialibraryUtils {
 
@@ -18,8 +19,8 @@ public class MedialibraryUtils {
     }
 
     public static void addDir(final String path) {
-        Intent intent = new Intent(MediaParsingService.ACTION_DISCOVER, null, VLCApplication.getAppContext(), MediaParsingService.class);
-        intent.putExtra(MediaParsingService.EXTRA_PATH, path);
+        Intent intent = new Intent(Constants.ACTION_DISCOVER, null, VLCApplication.getAppContext(), MediaParsingService.class);
+        intent.putExtra(Constants.EXTRA_PATH, path);
         VLCApplication.getAppContext().startService(intent);
     }
 }
