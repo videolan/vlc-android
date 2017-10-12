@@ -189,11 +189,12 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
                 for (String folder : foldersToReload)
                         mMediaLibrary.reload(folder);
                 if (mService != null && getActivity() != null) {
-                    getActivity().runOnUiThread(new Runnable() {
+                    VLCApplication.runOnMainThread(new Runnable() {
                         @Override
                         public void run() {
-                            for (String path : mediaPaths)
-                                mService.removeLocation(path);
+                            if (mService != null)
+                                for (String path : mediaPaths)
+                                    mService.removeLocation(path);
                             if (refresh)
                                 onRefresh();
                         }
