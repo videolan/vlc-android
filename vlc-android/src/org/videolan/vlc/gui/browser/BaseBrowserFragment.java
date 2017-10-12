@@ -811,7 +811,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             return false;
         }
         boolean single = this instanceof FileBrowserFragment && count == 1;
-        int type = single ? mAdapter.getSelection().get(0).getType() : -1;
+        final ArrayList<MediaWrapper> selection = single ? mAdapter.getSelection() : null;
+        int type = !Util.isListEmpty(selection) ? selection.get(0).getType() : -1;
         menu.findItem(R.id.action_mode_file_info).setVisible(single && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO));
         menu.findItem(R.id.action_mode_file_append).setVisible(mService.hasMedia());
         return true;
