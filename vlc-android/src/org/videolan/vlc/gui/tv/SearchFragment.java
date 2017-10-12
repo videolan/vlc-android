@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.tv;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +40,7 @@ import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
+import android.support.v17.leanback.widget.SpeechRecognitionCallback;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
@@ -47,6 +49,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.SearchAggregate;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.util.Util;
 
 import java.util.Arrays;
 
@@ -54,9 +57,10 @@ import java.util.Arrays;
 public class SearchFragment extends SearchSupportFragment implements SearchSupportFragment.SearchResultProvider {
 
     private static final String TAG = "SearchFragment";
+    private static final int REQUEST_SPEECH = 1;
 
     private ArrayObjectAdapter mRowsAdapter;
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
     private SearchRunnable mDelayedLoad;
     protected Activity mActivity;
 
@@ -69,6 +73,20 @@ public class SearchFragment extends SearchSupportFragment implements SearchSuppo
         setOnItemViewClickedListener(getDefaultItemClickedListener());
         mDelayedLoad = new SearchRunnable();
         mActivity = getActivity();
+        final Intent recognitionIntent = getRecognizerIntent();
+        if (Util.isCallable(recognitionIntent)) {
+            final SpeechRecognitionCallback speechRecognitionCallback = new SpeechRecognitionCallback() {
+                @Override
+                public void recognizeSpeech() {
+                    startActivityForResult(recognitionIntent, REQUEST_SPEECH);
+                }
+            };
+            setSpeechRecognitionCallback(speechRecognitionCallback);
+        }
+        final Intent intent = mActivity.getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())
+                || "com.google.android.gms.actions.SEARCH_ACTION".equals(intent.getAction()))
+            onQueryTextSubmit(intent.getStringExtra(SearchManager.QUERY));
     }
 
     @Override
@@ -101,8 +119,7 @@ public class SearchFragment extends SearchSupportFragment implements SearchSuppo
 
     @Override
     public boolean onQueryTextChange(String newQuery) {
-        queryByWords(newQuery);
-        return true;
+        return false;
     }
 
     @Override
@@ -112,7 +129,7 @@ public class SearchFragment extends SearchSupportFragment implements SearchSuppo
     }
 
     private void loadRows(String query) {
-        SearchAggregate searchAggregate = VLCApplication.getMLInstance().search(query);
+        final SearchAggregate searchAggregate = VLCApplication.getMLInstance().search(query);
         CardPresenter cp = new CardPresenter(mActivity);
         final ArrayObjectAdapter videoAdapter = new ArrayObjectAdapter(cp);
         videoAdapter.addAll(0, Arrays.asList(searchAggregate.getMediaSearchAggregate().getOthers()));
@@ -175,5 +192,11 @@ public class SearchFragment extends SearchSupportFragment implements SearchSuppo
         void setSearchQuery(String value) {
             this.searchQuery = value;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SPEECH && resultCode == Activity.RESULT_OK)
+            setSearchQuery(data, true);
     }
 }
