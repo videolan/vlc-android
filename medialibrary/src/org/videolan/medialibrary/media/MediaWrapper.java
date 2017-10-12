@@ -81,8 +81,6 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     //Various
     public final static int META_APPLICATION_SPECIFIC = 250;
 
-    private static final StringBuilder sb = new StringBuilder();
-
     // threshold lentgh between song and podcast ep, set to 15 minutes
     private static final long PODCAST_THRESHOLD = 900000L;
 
@@ -140,7 +138,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         init(time, length, type, null, title, artist, genre, album, albumArtist, width, height,
                 artworkURL != null ? VLCUtil.UriFromMrl(artworkURL).getPath() : null, audio, spu,
                 trackNumber, discNumber, lastModified, seen, null);
-        sb.setLength(0);
+        final StringBuilder sb = new StringBuilder();
         if (type == TYPE_AUDIO) {
             boolean hasArtistMeta = !TextUtils.isEmpty(artist);
             boolean hasAlbumMeta = !TextUtils.isEmpty(album);
