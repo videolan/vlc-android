@@ -3204,7 +3204,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             MediaWrapper media;
             if (!resumePlaylist) {
                 // restore last position
-                media = mMedialibrary.getMedia("content".equals(mUri.getScheme()) ? FileUtils.getUri(mUri) : mUri);
+                media = mMedialibrary.getMedia(mUri);
                 if (media == null && TextUtils.equals(mUri.getScheme(), "file") &&
                         mUri.getPath() != null && mUri.getPath().startsWith("/sdcard")) {
                     mUri = FileUtils.convertLocalUri(mUri);
