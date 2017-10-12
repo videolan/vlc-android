@@ -1879,11 +1879,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public void loadUri(Uri uri) {
-        String path = uri.toString();
-        if (TextUtils.equals(uri.getScheme(), "content")) {
-            path = "file://"+ FileUtils.getPathFromURI(uri);
-        }
-        loadLocation(path);
+        loadLocation(uri.toString());
     }
 
     @MainThread
