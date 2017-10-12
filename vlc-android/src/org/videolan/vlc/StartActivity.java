@@ -37,6 +37,7 @@ import org.videolan.vlc.gui.SearchActivity;
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Permissions;
@@ -94,7 +95,10 @@ public class StartActivity extends FragmentActivity implements StoragePermission
     }
 
     private void startPlaybackFromApp(Intent intent) {
-        MediaUtils.openMediaNoUi(intent.getData());
+        if (intent.getType() != null && intent.getType().startsWith("video"))
+            startActivity(intent.setClass(this, VideoPlayerActivity.class));
+        else
+            MediaUtils.openMediaNoUi(intent.getData());
         finish();
     }
 
