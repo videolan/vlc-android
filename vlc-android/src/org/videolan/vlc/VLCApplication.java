@@ -159,7 +159,7 @@ public class VLCApplication extends Application {
     }
 
     public static boolean showTvUi() {
-        return sTV || mSettings.getBoolean("tv_ui", false);
+        return sTV || (mSettings != null && mSettings.getBoolean("tv_ui", false));
     }
 
     public static void runBackground(Runnable runnable) {
