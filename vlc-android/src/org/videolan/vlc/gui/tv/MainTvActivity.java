@@ -556,10 +556,12 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     public void updateNowPlayingCard () {
         if (mService == null)
             return;
-        if ((!mService.hasMedia() || mService.canSwitchToVideo()) && mNowPlayingCard != null) {
+        final boolean hasmedia = mService.hasMedia();
+        final boolean canSwitch = mService.canSwitchToVideo();
+        if ((!hasmedia || canSwitch) && mNowPlayingCard != null) {
             mCategoriesAdapter.removeItems(0, 1);
             mNowPlayingCard = null;
-        } else  if (mService.hasMedia()){
+        } else if (hasmedia && !canSwitch){
             final MediaWrapper mw = mService.getCurrentMediaWrapper();
             final String display = MediaUtils.getMediaTitle(mw) + " - " + MediaUtils.getMediaReferenceArtist(MainTvActivity.this, mw);
             VLCApplication.runBackground(new Runnable() {
