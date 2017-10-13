@@ -323,15 +323,15 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null)
-            return START_STICKY;
+            return START_NOT_STICKY;
         final String action = intent.getAction();
         if (Intent.ACTION_MEDIA_BUTTON.equals(action)) {
             MediaButtonReceiver.handleIntent(mMediaSession, intent);
-            return START_STICKY;
+            return START_NOT_STICKY;
         }
         if (ACTION_REMOTE_PLAYPAUSE.equals(action)) {
             if (hasCurrentMedia())
-                return super.onStartCommand(intent, flags, startId);
+                return START_NOT_STICKY;
             else
                 loadLastAudioPlaylist();
         } else if (ACTION_REMOTE_PLAY.equals(action)) {
@@ -346,7 +346,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             mMediaSession.getController().getTransportControls()
                     .playFromSearch(extras.getString(SearchManager.QUERY), extras);
         }
-        return super.onStartCommand(intent, flags, startId);
+        return START_NOT_STICKY;
     }
 
     @Override
