@@ -286,6 +286,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     }
 
     public void browse(MediaWrapper media, int position, boolean save) {
+        if (!isResumed() || isRemoving())
+            return;
         mBrowserHandler.removeCallbacksAndMessages(null);
         final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         final Fragment next = createFragment();
