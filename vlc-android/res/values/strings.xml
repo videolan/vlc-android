@@ -565,4 +565,6 @@
     <string name="unsaved_set_deleted_message">Unsaved equalizer-set deleted.</string>
     <string name="equalizer_new_preset_name">New</string>
     <string name="settings_ml_block_scan">Medialibray is scanning your devices right now</string>
+    <string name="recommendations">Recommendations</string>
+    <string name="recommendations_desc">Recommendations cards on launcher</string>
 </resources>

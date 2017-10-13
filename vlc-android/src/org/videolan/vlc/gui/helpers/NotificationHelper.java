@@ -26,6 +26,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.media.session.MediaSession;
 import android.os.Build;
@@ -172,19 +173,29 @@ public class NotificationHelper {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void createNotificationChannels() {
         final NotificationManager notificationManager = (NotificationManager) VLCApplication.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        final Resources res = VLCApplication.getAppResources();
         // Playback channel
-        CharSequence name = VLCApplication.getAppResources().getString(R.string.playback);
-        String description = VLCApplication.getAppResources().getString(R.string.playback_controls);
+        CharSequence name = res.getString(R.string.playback);
+        String description = res.getString(R.string.playback_controls);
         NotificationChannel channel = new NotificationChannel("vlc_playback", name, NotificationManager.IMPORTANCE_LOW);
         channel.setDescription(description);
         channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
         notificationManager.createNotificationChannel(channel);
         // Scan channel
-        name = VLCApplication.getAppResources().getString(R.string.medialibrary_scan);
-        description = VLCApplication.getAppResources().getString(R.string.Medialibrary_progress);
+        name = res.getString(R.string.medialibrary_scan);
+        description = res.getString(R.string.Medialibrary_progress);
         channel = new NotificationChannel("vlc_medialibrary", name, NotificationManager.IMPORTANCE_LOW);
         channel.setDescription(description);
         channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
         notificationManager.createNotificationChannel(channel);
+        // Recommendations channel
+        if (AndroidDevices.isAndroidTv) {
+            name = res.getString(R.string.recommendations);
+            description = res.getString(R.string.recommendations_desc);
+            channel = new NotificationChannel("vlc_recommendations", name, NotificationManager.IMPORTANCE_LOW);
+            channel.setDescription(description);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
