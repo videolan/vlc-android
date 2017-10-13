@@ -100,7 +100,7 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
     private SeekBar.OnSeekBarChangeListener mSeekBarListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            if (mService == null)
+            if (mService == null || mService.getCurrentMediaWrapper() == null)
                 return;
             if (fromUser) {
                 float rate = (float) Math.pow(4, ((double) progress / (double) 100) - 1);
