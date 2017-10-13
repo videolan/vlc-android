@@ -7,10 +7,12 @@
         <variable name="dialog" type="org.videolan.libvlc.Dialog.LoginDialog"/>
         <variable name="handler" type="org.videolan.vlc.gui.dialogs.VlcLoginDialog"/>
     </data>
-    <ScrollView>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="10dp">
 
             <TextView
@@ -76,6 +78,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/warning"
                 android:layout_toLeftOf="@+id/action"
+                android:layout_toStartOf="@+id/action"
+                android:focusable="true"
                 android:text="@android:string/cancel"
                 android:onClick="@{handler::onCancel}"
                 tools:targetApi="11"
@@ -85,6 +89,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:focusable="true"
                 android:layout_below="@+id/warning"
                 android:text="@android:string/ok"
                 android:onClick="@{handler::onLogin}"
