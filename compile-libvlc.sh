@@ -414,7 +414,7 @@ if [ "${ANDROID_ABI}" = "armeabi-v7a" ];then
     NDK_LIB_UNWIND="-lunwind"
 fi
 
-EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND}"
+EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND} -lc++_static"
 VLC_LDFLAGS="${EXTRA_LDFLAGS}"
 
 # Release or not?
@@ -713,7 +713,7 @@ if [ $ON_WINDOWS -eq 1 ]; then
 fi
 
 $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
-    APP_STL="c++_shared" \
+    APP_STL="c++_static" \
     LOCAL_CPP_FEATURES="rtti exceptions" \
     VLC_SRC_DIR="$VLC_SRC_DIR" \
     VLC_BUILD_DIR="$VLC_SRC_DIR/$VLC_BUILD_DIR" \
@@ -887,10 +887,10 @@ MEDIALIBRARY_LDLIBS="-L$SRC_DIR/libvlc/jni/libs/$ANDROID_ABI -lvlc \
 -L${MEDIALIBRARY_BUILD_DIR}/build-android-$ANDROID_ABI/.libs -lmedialibrary \
 -L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg \
 -L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3 \
--L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND}"
+-L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND} -lc++_static"
 
 $ANDROID_NDK/ndk-build -C medialibrary \
-    APP_STL="c++_shared" \
+    APP_STL="c++_static" \
     ANDROID_SYS_HEADERS="$ANDROID_SYS_HEADERS" \
     APP_BUILD_SCRIPT=jni/Android.mk \
     APP_PLATFORM=android-${ANDROID_API} \
