@@ -1391,7 +1391,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         });
     }
 
-    private volatile boolean mStopped = true;
+    private boolean mStopped = true;
     protected void publishState() {
         if (mMediaSession == null)
             return;
