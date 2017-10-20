@@ -952,7 +952,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         vlcVout.removeCallback(this);
         vlcVout.detachViews();
 
-        if (mService.hasMedia() && mSwitchingView && mService != null) {
+        if (mService.hasMedia() && mSwitchingView) {
             Log.d(TAG, "mLocation = \"" + mUri + "\"");
             if (mSwitchToPopup)
                 mService.switchToPopup(mService.getCurrentMediaPosition());
