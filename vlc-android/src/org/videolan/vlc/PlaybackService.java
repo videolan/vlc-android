@@ -362,21 +362,13 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (!AndroidDevices.hasTsp && !AndroidDevices.hasPlayServices)
             AndroidDevices.setRemoteControlReceiverEnabled(false);
 
-        if (mWakeLock.isHeld())
-            mWakeLock.release();
         unregisterReceiver(mReceiver);
         if (mRemoteControlClientReceiver != null) {
             unregisterReceiver(mRemoteControlClientReceiver);
             mRemoteControlClientReceiver = null;
         }
-        if (isVideoPlaying())
-            mMediaPlayer.getVLCVout().detachViews();
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                mMediaPlayer.release();
-            }
-        });
+
+        mMediaPlayer.release();
     }
 
     @Override
