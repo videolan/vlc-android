@@ -132,7 +132,7 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
         }
         allSets.add(newPresetName);
 
-        mEqualizer = VLCOptions.getEqualizerSetFromSettings(context);
+        mEqualizer = VLCOptions.getEqualizerSetFromSettings(context, true);
 
         // on/off
         binding.equalizerButton.setChecked(VLCOptions.getEqualizerEnabledState(context));

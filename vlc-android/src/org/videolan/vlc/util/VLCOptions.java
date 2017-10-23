@@ -202,9 +202,7 @@ public class VLCOptions {
             media.addOption(":start-paused");
     }
 
-    @MainThread
-    public static MediaPlayer.Equalizer getEqualizerSetFromSettings(Context context) {
-        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+    private static MediaPlayer.Equalizer getEqualizerSetFromSettings(SharedPreferences pref) {
         final float[] bands = Preferences.getFloatArray(pref, "equalizer_values");
         if (bands != null && pref.contains("equalizer_enabled")) {
             final int bandCount = MediaPlayer.Equalizer.getBandCount();
@@ -218,6 +216,19 @@ public class VLCOptions {
             return eq;
         } else
             return MediaPlayer.Equalizer.createFromPreset(0);
+    }
+
+    @MainThread
+    public static MediaPlayer.Equalizer getEqualizerSetFromSettings(Context context, boolean force) {
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        if (!force && !pref.getBoolean("equalizer_enabled", false))
+            return null;
+        return getEqualizerSetFromSettings(pref);
+    }
+
+    @MainThread
+    public static MediaPlayer.Equalizer getEqualizerSetFromSettings(Context context) {
+        return getEqualizerSetFromSettings(context, false);
     }
 
     @MainThread
