@@ -120,8 +120,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (mSettings.getBoolean(PreferencesActivity.AUTO_RESCAN, true) && Permissions.canReadStorage())
-            mMediaLibrary.reload();
 
         if (!VLCInstance.testCompatibleCPU(this)) {
             finish();
