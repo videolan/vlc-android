@@ -386,23 +386,15 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     };
 
     private class AsyncUpdate extends AsyncTask<Void, Void, Void> {
-        boolean showHistory;
-        MediaWrapper[] history, videoList;
+        private boolean showHistory;
+        private MediaWrapper[] history, videoList;
 
         AsyncUpdate() {}
 
         @Override
         protected void onPreExecute() {
             showHistory = mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true);
-            if (mRowsAdapter != null)
-                mRowsAdapter.clear();
-            else
-                mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
             mHandler.sendEmptyMessageDelayed(SHOW_LOADING, 300);
-            mHistoryIndex.clear();
-
-            //Video Section
-            mVideoIndex.clear();
         }
 
         @Override
@@ -425,6 +417,13 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mHandler.sendEmptyMessage(HIDE_LOADING);
             if (!isVisible())
                 return;
+            if (mRowsAdapter != null)
+                mRowsAdapter.clear();
+            else
+                mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+            mHistoryIndex.clear();
+            //Video Section
+            mVideoIndex.clear();
             mVideoAdapter = new ArrayObjectAdapter(
                     new CardPresenter(mContext));
             final HeaderItem videoHeader = new HeaderItem(HEADER_VIDEO, getString(R.string.video));
