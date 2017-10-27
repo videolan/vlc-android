@@ -24,8 +24,6 @@
 #include <medialibrary/Types.h>
 #include <medialibrary/IMediaLibrary.h>
 
-#define VLC_JNI_VERSION JNI_VERSION_1_2
-
 struct fields {
     jint SDK_INT;
     struct IllegalStateException {

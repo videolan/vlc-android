@@ -1,9 +1,25 @@
 LOCAL_PATH := $(call my-dir)
+MEDIALIBRARY_JNI_DIR := $(LOCAL_PATH)/../../medialibrary/jni
 
+# libvlc jni static library
 include $(CLEAR_VARS)
-LOCAL_MODULE := libvlc
-ARCH=$(APP_ABI)
-LOCAL_SRC_FILES += libvlcjni-modules.c libvlcjni-symbols.c dummy.cpp
+LOCAL_MODULE    := vlcjni_static
+LOCAL_SRC_FILES := libvlcjni.c
+LOCAL_SRC_FILES += libvlcjni-mediaplayer.c
+LOCAL_SRC_FILES += libvlcjni-vlcobject.c
+LOCAL_SRC_FILES += libvlcjni-media.c libvlcjni-medialist.c libvlcjni-mediadiscoverer.c
+LOCAL_SRC_FILES += libvlcjni-dialog.c
+LOCAL_SRC_FILES += thumbnailer.c
+LOCAL_SRC_FILES += std_logger.c
+LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include $(MEDIALIBRARY_JNI_DIR) $(LOCAL_PATH)/loader
+
+LOCAL_CFLAGS := -std=c11
+include $(BUILD_STATIC_LIBRARY)
+
+# libvlc dynamic library
+include $(CLEAR_VARS)
+LOCAL_MODULE    := vlcjni
+LOCAL_SRC_FILES := libvlcjni-modules.c libvlcjni-symbols.c
 LOCAL_LDFLAGS := -L$(VLC_CONTRIB)/lib
 LOCAL_LDLIBS := \
 	$(VLC_MODULES) \
@@ -17,31 +33,13 @@ LOCAL_LDLIBS := \
 	-lavcodec -lebml \
 	-llua \
 	-lgcrypt -lgpg-error \
-	$(VLC_LDFLAGS)
+	$(MEDIALIBRARY_LDLIBS) \
+	$(VLC_LDFLAGS) \
+	-llog
 
+LOCAL_WHOLE_STATIC_LIBRARIES := libvlcjni_static libmla
 include $(BUILD_SHARED_LIBRARY)
 
-include $(CLEAR_VARS)
-LOCAL_MODULE    := libvlcjni
-
-LOCAL_SRC_FILES := libvlcjni.c
-LOCAL_SRC_FILES += libvlcjni-mediaplayer.c
-LOCAL_SRC_FILES += libvlcjni-vlcobject.c
-LOCAL_SRC_FILES += libvlcjni-media.c libvlcjni-medialist.c libvlcjni-mediadiscoverer.c
-LOCAL_SRC_FILES += libvlcjni-dialog.c
-LOCAL_SRC_FILES += thumbnailer.c
-LOCAL_SRC_FILES += std_logger.c
-
-LOCAL_LDLIBS := -llog
-LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include
-
-ARCH=$(APP_ABI)
-
-LOCAL_CFLAGS := -std=c11
-ifeq ($(ARCH), armeabi-v7a)
-	LOCAL_CFLAGS += -DHAVE_ARMEABI_V7A
-endif
-
-LOCAL_SHARED_LIBRARIES:= libvlc
-
-include $(BUILD_SHARED_LIBRARY)
+JNILOADER_INCLUDES := $(LOCAL_PATH)/loader
+$(call import-add-path, $(MEDIALIBRARY_JNI_DIR))
+$(call import-module, .)

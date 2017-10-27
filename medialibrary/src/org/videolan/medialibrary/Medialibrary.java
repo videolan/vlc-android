@@ -69,7 +69,6 @@ public class Medialibrary {
 
     static {
         LibVLC.loadLibraries();
-        System.loadLibrary("mla");
     }
 
     private static class MedialibraryHolder {

@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string>
-#include <jni.h>
+#include "jniloader.h"
 #include <medialibrary/IDeviceLister.h>
 #define LOG_TAG "VLC/JNI/MediaLibrary"
 #include "log.h"
@@ -844,14 +844,10 @@ static void jni_detach_thread(void *data)
     myVm->DetachCurrentThread();
 }
 
-jint JNI_OnLoad(JavaVM *vm, void *reserved)
+extern "C" {
+int MediaLibraryJNI_OnLoad(JavaVM *vm, JNIEnv* env)
 {
-    JNIEnv* env = NULL;
-    // Keep a reference on the Java VM.
     myVm = vm;
-
-    if (vm->GetEnv((void**) &env, VLC_JNI_VERSION) != JNI_OK)
-        return -1;
 
 #define GET_CLASS(clazz, str, b_globlal) do { \
     (clazz) = env->FindClass((str)); \
@@ -1080,25 +1076,17 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
 #undef GET_CLASS
 #undef GET_ID
 
-    LOGD("JNI interface loaded.");
-    return VLC_JNI_VERSION;
+    return 0;
 }
 
-void JNI_OnUnload(JavaVM* vm, void* reserved)
+void MediaLibraryJNI_OnUnload(JavaVM *vm, JNIEnv* env)
 {
-    LOGD("JNI interface unloaded.");
-    JNIEnv* env = NULL;
-
-    if (vm->GetEnv((void**) &env, VLC_JNI_VERSION) != JNI_OK)
-        return;
-
     env->DeleteGlobalRef(ml_fields.IllegalArgumentException.clazz);
     env->DeleteGlobalRef(ml_fields.IllegalStateException.clazz);
     env->DeleteGlobalRef(ml_fields.MediaLibrary.clazz);
     env->DeleteGlobalRef(ml_fields.MediaWrapper.clazz);
-
 }
-
+}
 
 static inline void throw_IllegalStateException(JNIEnv *env, const char *p_error)
 {

@@ -408,13 +408,8 @@ NDK_LIB_DIR="${NDK_TOOLCHAIN_DIR}/${TARGET_TUPLE}/lib"
 if [ "${PLATFORM_SHORT_ARCH}" = "x86_64" -o "${PLATFORM_SHORT_ARCH}" = "mips64" ];then
     NDK_LIB_DIR="${NDK_LIB_DIR}64"
 fi
-NDK_LIB_UNWIND=""
-if [ "${ANDROID_ABI}" = "armeabi-v7a" ];then
-    NDK_LIB_DIR="${NDK_LIB_DIR}/armv7-a"
-    NDK_LIB_UNWIND="-lunwind"
-fi
 
-EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND} -lc++_static"
+EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L${NDK_LIB_DIR} -lc++abi -lc++_static"
 VLC_LDFLAGS="${EXTRA_LDFLAGS}"
 
 # Release or not?
@@ -706,45 +701,6 @@ if [ "${CHROME_OS}" != "1" ];then
     LIBANW_LIBS="$LIBANW_LIBS libanw.21"
 fi
 
-echo "Building NDK"
-
-if [ $ON_WINDOWS -eq 1 ]; then
-    OSCMD=.cmd
-fi
-
-$ANDROID_NDK/ndk-build$OSCMD -C libvlc \
-    APP_STL="c++_static" \
-    LOCAL_CPP_FEATURES="rtti exceptions" \
-    VLC_SRC_DIR="$VLC_SRC_DIR" \
-    VLC_BUILD_DIR="$VLC_SRC_DIR/$VLC_BUILD_DIR" \
-    VLC_CONTRIB="$VLC_CONTRIB" \
-    VLC_CONTRIB_LDFLAGS="$VLC_CONTRIB_LDFLAGS" \
-    VLC_MODULES="$VLC_MODULES" \
-    VLC_LDFLAGS="$VLC_LDFLAGS" \
-    APP_BUILD_SCRIPT=jni/Android.mk \
-    APP_PLATFORM=android-${ANDROID_API} \
-    APP_ABI=${ANDROID_ABI} \
-    TARGET_TUPLE=$TARGET_TUPLE \
-    NDK_PROJECT_PATH=jni \
-    NDK_TOOLCHAIN_VERSION=clang \
-    NDK_DEBUG=${NDK_DEBUG}
-
-checkfail "ndk-build failed for libvlc"
-
-$ANDROID_NDK/ndk-build$OSCMD -C libvlc \
-    VLC_SRC_DIR="$VLC_SRC_DIR" \
-    ANDROID_SYS_HEADERS="$ANDROID_SYS_HEADERS" \
-    LIBIOMX_LIBS="$LIBIOMX_LIBS" \
-    LIBANW_LIBS="$LIBANW_LIBS" \
-    APP_BUILD_SCRIPT=private_libs/Android.mk \
-    APP_PLATFORM=android-${ANDROID_API} \
-    APP_ABI=${ANDROID_ABI} \
-    TARGET_TUPLE=$TARGET_TUPLE \
-    NDK_PROJECT_PATH=private_libs \
-    NDK_TOOLCHAIN_VERSION=clang
-
-checkfail "ndk-build failed for private libs"
-
 ################
 # MEDIALIBRARY #
 ################
@@ -881,27 +837,61 @@ checkfail "medialibrary: make failed"
 
 cd ${SRC_DIR}
 
-echo -e "ndk-build medialibrary"
-
-MEDIALIBRARY_LDLIBS="-L$SRC_DIR/libvlc/jni/libs/$ANDROID_ABI -lvlc \
--L${MEDIALIBRARY_BUILD_DIR}/build-android-$ANDROID_ABI/.libs -lmedialibrary \
+MEDIALIBRARY_LDLIBS="-L${MEDIALIBRARY_BUILD_DIR}/build-android-$ANDROID_ABI/.libs -lmedialibrary \
 -L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg \
--L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3 \
--L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND} -lc++_static"
+-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3"
 
-$ANDROID_NDK/ndk-build -C medialibrary \
+if [ $ON_WINDOWS -eq 1 ]; then
+    OSCMD=.cmd
+fi
+
+###########
+# LINKING #
+###########
+
+echo -e "ndk-build vlc"
+
+$ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     APP_STL="c++_static" \
-    ANDROID_SYS_HEADERS="$ANDROID_SYS_HEADERS" \
+    APP_CPPFLAGS="-frtti -fexceptions" \
+    VLC_SRC_DIR="$VLC_SRC_DIR" \
+    VLC_BUILD_DIR="$VLC_SRC_DIR/$VLC_BUILD_DIR" \
+    VLC_CONTRIB="$VLC_CONTRIB" \
+    VLC_CONTRIB_LDFLAGS="$VLC_CONTRIB_LDFLAGS" \
+    VLC_MODULES="$VLC_MODULES" \
+    VLC_LDFLAGS="$VLC_LDFLAGS" \
+    MEDIALIBRARY_LDLIBS="${MEDIALIBRARY_LDLIBS}" \
+    MEDIALIBRARY_INCLUDE_DIR=${MEDIALIBRARY_BUILD_DIR}/include \
     APP_BUILD_SCRIPT=jni/Android.mk \
     APP_PLATFORM=android-${ANDROID_API} \
     APP_ABI=${ANDROID_ABI} \
-    LOCAL_CPP_FEATURES="rtti exceptions" \
-    TARGET_TUPLE=$TARGET_TUPLE \
     NDK_PROJECT_PATH=jni \
     NDK_TOOLCHAIN_VERSION=clang \
-    NDK_DEBUG=${NDK_DEBUG} \
-    MEDIALIBRARY_LDLIBS="${MEDIALIBRARY_LDLIBS}" \
-    MEDIALIBRARY_INCLUDE_DIR=${MEDIALIBRARY_BUILD_DIR}/include
+    NDK_DEBUG=${NDK_DEBUG}
+
+$ANDROID_NDK/ndk-build$OSCMD -C libvlc \
+    APP_BUILD_SCRIPT=jni/loader/Android.mk \
+    APP_PLATFORM=android-${ANDROID_API} \
+    APP_ABI=${ANDROID_ABI} \
+    NDK_PROJECT_PATH=jni/loader \
+    NDK_TOOLCHAIN_VERSION=clang
+
+checkfail "ndk-build failed for libvlc"
+
+$ANDROID_NDK/ndk-build$OSCMD -C libvlc \
+    VLC_SRC_DIR="$VLC_SRC_DIR" \
+    ANDROID_SYS_HEADERS="$ANDROID_SYS_HEADERS" \
+    LIBIOMX_LIBS="$LIBIOMX_LIBS" \
+    LIBANW_LIBS="$LIBANW_LIBS" \
+    APP_BUILD_SCRIPT=private_libs/Android.mk \
+    APP_PLATFORM=android-${ANDROID_API} \
+    APP_ABI=${ANDROID_ABI} \
+    TARGET_TUPLE=$TARGET_TUPLE \
+    NDK_PROJECT_PATH=private_libs \
+    NDK_TOOLCHAIN_VERSION=clang
+
+checkfail "ndk-build failed for private libs"
+
 
 checkfail "ndk-build failed"
 
@@ -913,4 +903,3 @@ OUT_DBG_DIR=.dbg/${ANDROID_ABI}
 mkdir -p $OUT_DBG_DIR
 cp -a libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
 cp -a libvlc/private_libs/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
-cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
