@@ -68,6 +68,9 @@ while [ $# -gt 0 ]; do
         --asan)
             ASAN=1
             ;;
+        --no-ml)
+            NO_ML=1
+            ;;
         *)
             diagnostic "$0: Invalid option '$1'."
             diagnostic "$0: Try --help for more information."
@@ -259,6 +262,9 @@ if [ "$CHROME_OS" = 1 ]; then
 fi
 if [ "$ASAN" = 1 ]; then
     OPTS="$OPTS --asan"
+fi
+if [ "$NO_ML" = 1 ]; then
+    OPTS="$OPTS --no-ml"
 fi
 
 ./compile-libvlc.sh $OPTS

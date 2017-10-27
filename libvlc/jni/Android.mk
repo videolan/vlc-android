@@ -37,9 +37,14 @@ LOCAL_LDLIBS := \
 	$(VLC_LDFLAGS) \
 	-llog
 
-LOCAL_WHOLE_STATIC_LIBRARIES := libvlcjni_static libmla
+LOCAL_WHOLE_STATIC_LIBRARIES := libvlcjni_static
+ifeq ($(BUILD_ML), 1)
+LOCAL_WHOLE_STATIC_LIBRARIES += libmla
+endif
 include $(BUILD_SHARED_LIBRARY)
 
+ifeq ($(BUILD_ML), 1)
 JNILOADER_INCLUDES := $(LOCAL_PATH)/loader
 $(call import-add-path, $(MEDIALIBRARY_JNI_DIR))
 $(call import-module, .)
+endif

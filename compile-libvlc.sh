@@ -18,6 +18,7 @@ checkfail()
 
 MEDIALIBRARY_HASH=6bfe3c19
 
+BUILD_ML=1
 RELEASE=0
 ASAN=0
 while [ $# -gt 0 ]; do
@@ -36,6 +37,9 @@ while [ $# -gt 0 ]; do
             ;;
         --asan)
             ASAN=1
+            ;;
+        --no-ml)
+            BUILD_ML=0
             ;;
         release|--release)
             RELEASE=1
@@ -705,6 +709,8 @@ fi
 # MEDIALIBRARY #
 ################
 
+if [ ${BUILD_ML} = "1" ];then
+
 if [ ! -d "${SRC_DIR}/medialibrary" ]; then
     mkdir "${SRC_DIR}/medialibrary"
 fi
@@ -849,6 +855,8 @@ fi
 # LINKING #
 ###########
 
+fi # ${BUILD_ML} = "1"
+
 echo -e "ndk-build vlc"
 
 $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
@@ -867,7 +875,8 @@ $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     APP_ABI=${ANDROID_ABI} \
     NDK_PROJECT_PATH=jni \
     NDK_TOOLCHAIN_VERSION=clang \
-    NDK_DEBUG=${NDK_DEBUG}
+    NDK_DEBUG=${NDK_DEBUG} \
+    BUILD_ML=${BUILD_ML}
 
 $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     APP_BUILD_SCRIPT=jni/loader/Android.mk \
