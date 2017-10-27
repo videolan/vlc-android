@@ -580,16 +580,16 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     }
 
     private void setDialogDimensions(int offset) {
-    final Dialog dialog = getDialog();
-    if (dialog == null)
-        return;
-    final int dialogWidth = getResources().getDimensionPixelSize(R.dimen.option_width) * SPAN_COUNT + mRecyclerView.getPaddingLeft()+ mRecyclerView.getRight();
-    final int count = mAdapter.getItemCount()-offset;
-    final int rows = offset + (count + SPAN_COUNT-1) / SPAN_COUNT;
-    final int dialogHeight = getResources().getDimensionPixelSize(R.dimen.option_height) * rows + mRecyclerView.getPaddingBottom()+ mRecyclerView.getPaddingTop();
+        final Dialog dialog = getDialog();
+        if (dialog == null)
+            return;
+        final int dialogWidth = getResources().getDimensionPixelSize(R.dimen.option_width) * SPAN_COUNT + mRecyclerView.getPaddingLeft()+ mRecyclerView.getRight();
+        final int count = mAdapter.getItemCount()-offset;
+        final int rows = offset + (count + SPAN_COUNT-1) / SPAN_COUNT;
+        final int dialogHeight = getResources().getDimensionPixelSize(R.dimen.option_height) * rows + mRecyclerView.getPaddingBottom()+ mRecyclerView.getPaddingTop();
 
-    dialog.getWindow().setLayout(dialogWidth, dialogHeight);
-}
+        dialog.getWindow().setLayout(dialogWidth, dialogHeight);
+    }
 
     private class AdvOptionsAdapter extends RecyclerView.Adapter<AdvOptionsAdapter.ViewHolder> {
 
