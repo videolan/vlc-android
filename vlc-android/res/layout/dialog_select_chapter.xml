@@ -3,7 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/default_margin">
 
 
     <LinearLayout
@@ -25,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/half_default_margin"
+            android:layout_marginStart="@dimen/half_default_margin"
             android:text="@string/go_to_chapter"
             android:textSize="20sp"
             android:textStyle="bold" />
