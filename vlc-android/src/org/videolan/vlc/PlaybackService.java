@@ -177,8 +177,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private boolean mDetectHeadset = true;
     private PowerManager.WakeLock mWakeLock;
     private final AtomicBoolean mExpanding = new AtomicBoolean(false);
-    private final ExecutorService mExecutorService = Executors.newSingleThreadExecutor();
-    private final AtomicBoolean mUpdateMeta = new AtomicBoolean(false);
+
+    private static class ExecutorHolder {
+        static final ExecutorService executorService = Executors.newSingleThreadExecutor();
+        static final AtomicBoolean updateMeta = new AtomicBoolean(false);
+    }
 
     // Index management
     /**
@@ -930,7 +933,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             final boolean playing = mMediaPlayer.isPlaying();
             final MediaSessionCompat.Token sessionToken = mMediaSession.getSessionToken();
             final Context ctx = this;
-            mExecutorService.execute(new Runnable() {
+            ExecutorHolder.executorService.execute(new Runnable() {
                 @Override
                 public void run() {
                     if (isPlayingPopup())
@@ -938,10 +941,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     try {
                         Bitmap cover;
                         String title, artist, album;
-                        synchronized (mUpdateMeta) {
+                        synchronized (ExecutorHolder.updateMeta) {
                             try {
-                                while (mUpdateMeta.get())
-                                    mUpdateMeta.wait();
+                                while (ExecutorHolder.updateMeta.get())
+                                    ExecutorHolder.updateMeta.wait();
                             } catch (InterruptedException ignored) {}
                             final MediaMetadataCompat metaData = mMediaSession.getController().getMetadata();
                             title = metaData == null ? mw.getTitle() : metaData.getString(MediaMetadataCompat.METADATA_KEY_TITLE);
@@ -1000,7 +1003,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     private volatile boolean mIsForeground = false;
     private void hideNotification() {
-        mExecutorService.execute(new Runnable() {
+        ExecutorHolder.executorService.execute(new Runnable() {
             @Override
             public void run() {
                 if (!isPlayingPopup() && mIsForeground) {
@@ -1350,11 +1353,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (mMediaSession == null)
             initMediaSession();
         final Context ctx = this;
-        mExecutorService.execute(new Runnable() {
+        ExecutorHolder.executorService.execute(new Runnable() {
             @Override
             public void run() {
-                synchronized (mUpdateMeta) {
-                    mUpdateMeta.set(true);
+                synchronized (ExecutorHolder.updateMeta) {
+                    ExecutorHolder.updateMeta.set(true);
                 }
                 String title = media.getNowPlaying();
                 if (title == null)
@@ -1380,9 +1383,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     @Override
                     public void run() {
                         mMediaSession.setMetadata(bob.build());
-                        synchronized (mUpdateMeta) {
-                            mUpdateMeta.set(false);
-                            mUpdateMeta.notify();
+                        synchronized (ExecutorHolder.updateMeta) {
+                            ExecutorHolder.updateMeta.set(false);
+                            ExecutorHolder.updateMeta.notify();
                         }
                     }
                 });
