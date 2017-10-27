@@ -962,7 +962,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                                 cover, playing, sessionToken, getSessionPendingIntent());
                         if (isPlayingPopup())
                             return;
-                        if (AndroidUtil.isOOrLater || !AndroidUtil.isLolliPopOrLater || playing) {
+                        if (!AndroidUtil.isLolliPopOrLater || playing) {
                             if (!mIsForeground) {
                                 PlaybackService.this.startForeground(3, notification);
                                 mIsForeground = true;
