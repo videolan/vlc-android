@@ -387,7 +387,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     private OnAudioFocusChangeListener createOnAudioFocusChangeListener() {
         return new OnAudioFocusChangeListener() {
+            int audioDuckLevel = -1;
             private boolean mLossTransient = false;
+            private int mLossTransientVolume = -1;
             private boolean wasPlaying = false;
 
             @Override
@@ -410,9 +412,26 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         if (wasPlaying)
                             pause();
                         break;
+                    case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                        Log.i(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
+                        // Lower the volume
+                        if (mMediaPlayer.isPlaying()) {
+                            final int volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                            if (audioDuckLevel == -1)
+                                audioDuckLevel = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)/5;
+                            if (volume > audioDuckLevel) {
+                                mLossTransientVolume = volume;
+                                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioDuckLevel, 0);
+                            }
+                        }
+                        break;
                     case AudioManager.AUDIOFOCUS_GAIN:
                         Log.i(TAG, "AUDIOFOCUS_GAIN: ");
                         // Resume playback
+                        if (mLossTransientVolume != -1) {
+                            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mLossTransientVolume, 0);
+                            mLossTransientVolume = -1;
+                        }
                         if (mLossTransient) {
                             if (wasPlaying && mSettings.getBoolean("resume_playback", true))
                                 mMediaPlayer.play();
@@ -424,24 +443,26 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         };
     }
 
+    AudioManager mAudioManager = null;
     private void changeAudioFocus(boolean acquire) {
-        final AudioManager am = (AudioManager)getSystemService(AUDIO_SERVICE);
-        if (am == null)
+        if (mAudioManager == null)
+            mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        if (mAudioManager == null)
             return;
 
         if (acquire) {
             if (!mHasAudioFocus) {
-                final int result = am.requestAudioFocus(mAudioFocusListener,
+                final int result = mAudioManager.requestAudioFocus(mAudioFocusListener,
                         AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
                 if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                    am.setParameters("bgm_state=true");
+                    mAudioManager.setParameters("bgm_state=true");
                     mHasAudioFocus = true;
                 }
             }
         } else {
             if (mHasAudioFocus) {
-                am.abandonAudioFocus(mAudioFocusListener);
-                am.setParameters("bgm_state=false");
+                mAudioManager.abandonAudioFocus(mAudioFocusListener);
+                mAudioManager.setParameters("bgm_state=false");
                 mHasAudioFocus = false;
             }
         }
