@@ -643,6 +643,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     executeUpdateProgress();
                     previousMediaStats = mMediaPlayer.getMedia().getStats();
                     determinePrevAndNextIndices(true);
+                    if (mNextIndex == -1)
+                        savePosition(true);
                     next();
                     break;
                 case MediaPlayer.Event.EncounteredError:
@@ -1643,14 +1645,18 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private synchronized void savePosition() {
+        savePosition(false);
+    }
+
+    private synchronized void savePosition(boolean reset) {
         if (!hasMedia())
             return;
         final SharedPreferences.Editor editor = mSettings.edit();
         boolean audio = !canSwitchToVideo() && mMediaList.isAudioList();
         editor.putBoolean(audio ? "audio_shuffling" : "media_shuffling", mShuffling);
         editor.putInt(audio ? "audio_repeating" : "media_repeating", mRepeating);
-        editor.putInt(audio ? "position_in_audio_list" : "position_in_media_list", mCurrentIndex);
-        editor.putLong(audio ? "position_in_song" : "position_in_media", mMediaPlayer.getTime());
+        editor.putInt(audio ? "position_in_audio_list" : "position_in_media_list", reset ? 0 : mCurrentIndex);
+        editor.putLong(audio ? "position_in_song" : "position_in_media", reset ? 0L : mMediaPlayer.getTime());
         if (!audio) {
             editor.putBoolean(PreferencesActivity.VIDEO_PAUSED, !isPlaying());
             editor.putFloat(PreferencesActivity.VIDEO_SPEED, getRate());
