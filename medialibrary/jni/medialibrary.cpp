@@ -8,8 +8,8 @@
 #include "AndroidMediaLibrary.h"
 
 static JavaVM *myVm;
-fields ml_fields;
-bool m_IsInitialized = false;
+static fields ml_fields;
+static bool m_IsInitialized = false;
 
 #define CLASSPATHNAME "org/videolan/medialibrary/Medialibrary"
 
