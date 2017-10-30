@@ -49,38 +49,40 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tv_vertical_grid);
-        mContentLoadingProgressBar = (ProgressBar) findViewById(R.id.tv_fragment_progress);
-        mEmptyView = (TextView) findViewById(R.id.tv_fragment_empty);
-        long type = getIntent().getLongExtra(MainTvActivity.BROWSER_TYPE, -1);
-        if (type == MainTvActivity.HEADER_VIDEO)
-            mFragment = new VideoBrowserFragment();
-        else if (type == MainTvActivity.HEADER_CATEGORIES)
-            if (getIntent().getLongExtra(MusicFragment.AUDIO_CATEGORY, MusicFragment.CATEGORY_SONGS) == MusicFragment.CATEGORY_SONGS &&
-                VLCApplication.getMLInstance().getAudioCount() > GRID_LIMIT) {
-                mFragment = new SongsBrowserFragment();
-            } else {
-                mFragment = new MusicFragment();
-                Bundle args = new Bundle();
-                args.putParcelable(MusicFragment.AUDIO_ITEM, getIntent().getParcelableExtra(MusicFragment.AUDIO_ITEM));
-                ((Fragment)mFragment).setArguments(args);
+        mContentLoadingProgressBar = findViewById(R.id.tv_fragment_progress);
+        mEmptyView = findViewById(R.id.tv_fragment_empty);
+        if (savedInstanceState == null) {
+            long type = getIntent().getLongExtra(MainTvActivity.BROWSER_TYPE, -1);
+            if (type == MainTvActivity.HEADER_VIDEO)
+                mFragment = new VideoBrowserFragment();
+            else if (type == MainTvActivity.HEADER_CATEGORIES)
+                if (getIntent().getLongExtra(MusicFragment.AUDIO_CATEGORY, MusicFragment.CATEGORY_SONGS) == MusicFragment.CATEGORY_SONGS &&
+                    VLCApplication.getMLInstance().getAudioCount() > GRID_LIMIT) {
+                    mFragment = new SongsBrowserFragment();
+                } else {
+                    mFragment = new MusicFragment();
+                    Bundle args = new Bundle();
+                    args.putParcelable(MusicFragment.AUDIO_ITEM, getIntent().getParcelableExtra(MusicFragment.AUDIO_ITEM));
+                    ((Fragment)mFragment).setArguments(args);
+                }
+            else if (type == MainTvActivity.HEADER_NETWORK) {
+                Uri uri = getIntent().getData();
+                if (uri == null)
+                    uri = getIntent().getParcelableExtra(SortedBrowserFragment.KEY_URI);
+                if (uri == null)
+                    mFragment = new BrowserGridFragment();
+                else
+                    mFragment = new NetworkBrowserFragment();
+            } else if (type == MainTvActivity.HEADER_DIRECTORIES)
+                mFragment = new DirectoryBrowserFragment();
+            else {
+                finish();
+                return;
             }
-        else if (type == MainTvActivity.HEADER_NETWORK) {
-            Uri uri = getIntent().getData();
-            if (uri == null)
-                uri = getIntent().getParcelableExtra(SortedBrowserFragment.KEY_URI);
-            if (uri == null)
-                mFragment = new BrowserGridFragment();
-            else
-                mFragment = new NetworkBrowserFragment();
-        } else if (type == MainTvActivity.HEADER_DIRECTORIES)
-            mFragment = new DirectoryBrowserFragment();
-        else {
-            finish();
-            return;
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.tv_fragment_placeholder, ((Fragment)mFragment))
+                    .commit();
         }
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.tv_fragment_placeholder, ((Fragment)mFragment))
-                .commit();
     }
 
     @Override
