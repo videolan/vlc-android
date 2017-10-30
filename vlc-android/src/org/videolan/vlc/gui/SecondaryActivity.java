@@ -27,7 +27,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +38,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.video.VideoGridFragment;
@@ -62,15 +62,16 @@ public class SecondaryActivity extends ContentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secondary);
 
+        final View fph = findViewById(R.id.fragment_placeholder);
+        final CoordinatorLayout.LayoutParams params =
+                (CoordinatorLayout.LayoutParams) fph.getLayoutParams();
+
         if (VLCApplication.showTvUi()) {
             TvUtil.applyOverscanMargin(this);
-        } else {
-            final View fph = findViewById(R.id.fragment_placeholder);
-            final CoordinatorLayout.LayoutParams params =
-                    (CoordinatorLayout.LayoutParams) fph.getLayoutParams();
+            params.topMargin = getResources().getDimensionPixelSize(UiTools.getResourceFromAttribute(this, R.attr.actionBarSize));
+        } else
             params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
-            fph.requestLayout();
-        }
+        fph.requestLayout();
 
         initAudioPlayerContainerActivity();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -83,8 +84,8 @@ public class SecondaryActivity extends ContentActivity {
                 return;
             }
             getSupportFragmentManager().beginTransaction()
-            .add(R.id.fragment_placeholder, mFragment)
-            .commit();
+                    .add(R.id.fragment_placeholder, mFragment)
+                    .commit();
         }
     }
 
