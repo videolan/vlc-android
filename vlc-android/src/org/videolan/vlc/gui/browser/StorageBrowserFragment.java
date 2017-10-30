@@ -38,6 +38,7 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -84,8 +85,11 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mRoot && VLCApplication.showTvUi())
+        if (mRoot && VLCApplication.showTvUi()) {
             mSnack = Snackbar.make(view, R.string.tv_settings_hint, Snackbar.LENGTH_INDEFINITE);
+            if (AndroidUtil.isLolliPopOrLater)
+                mSnack.getView().setElevation(view.getResources().getDimensionPixelSize(R.dimen.audio_player_elevation));
+        }
     }
 
     @Override
