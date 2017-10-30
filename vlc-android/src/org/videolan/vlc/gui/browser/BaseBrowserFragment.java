@@ -711,7 +711,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                     MediaLibraryItem item = currentMediaList.get(mCurrentParsedPosition);
                     item.setDescription(holderText);
                     final int position = mCurrentParsedPosition;
-                    VLCApplication.runOnMainThread(new Runnable() {
+                    mRecyclerView.post(new Runnable() {
                         @Override
                         public void run() {
                             mAdapter.notifyItemChanged(position, holderText);
