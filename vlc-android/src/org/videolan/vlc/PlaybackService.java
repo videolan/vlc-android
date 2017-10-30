@@ -753,7 +753,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (media == null || media.getId() == 0)
             return;
         final boolean canSwitchToVideo = canSwitchToVideo();
-        if (canSwitchToVideo || media.isPodcast()) {
+        if (media.getType() == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast()) {
             //Save progress
             final long time = getTime();
             final long length = getLength();
