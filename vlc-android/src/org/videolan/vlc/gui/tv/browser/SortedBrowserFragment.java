@@ -81,9 +81,9 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
     protected ArrayObjectAdapter mAdapter = new ArrayObjectAdapter(new ListRowPresenter());
     protected MediaWrapper mItemSelected;
     protected Map<String, ListItem> mMediaItemMap = new ArrayMap<>();
-    SimpleArrayMap<String, Integer> mMediaIndex = new SimpleArrayMap<>();
+    protected final SimpleArrayMap<String, Integer> mMediaIndex = new SimpleArrayMap<>();
     ArrayList<MediaWrapper> mVideosList = new ArrayList<>();
-    protected BrowserHandler mHandler = new BrowserHandler(this);
+    protected final BrowserHandler mHandler = new BrowserHandler(this);
     private BackgroundManager mBackgroundManager;
 
     abstract protected void browse();
@@ -93,8 +93,10 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null)
             mItemSelected = savedInstanceState.getParcelable(SELECTED_ITEM);
-        setOnItemViewClickedListener(this);
-        setAdapter(mAdapter);
+        else {
+            setOnItemViewClickedListener(this);
+            setAdapter(mAdapter);
+        }
 
         // UI setting
         setHeadersState(HEADERS_ENABLED);
@@ -108,7 +110,7 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
         super.onActivityCreated(savedInstanceState);
         setHeadersState(HEADERS_HIDDEN);
         setOnItemViewSelectedListener(this);
-        if (mAdapter.size() == 0)
+        if (savedInstanceState == null)
             browse();
     }
 
@@ -208,7 +210,7 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
         setAdapter(mAdapter);
         ArrayObjectAdapter adapter;
         HeaderItem header;
-        for (ListItem item : mMediaItemMap.values()){
+        for (ListItem item : mMediaItemMap.values()) {
             adapter = new ArrayObjectAdapter(new CardPresenter(activity));
             header = new HeaderItem(0, item.Letter);
             adapter.addAll(0, item.mediaList);
