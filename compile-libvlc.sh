@@ -878,6 +878,8 @@ $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     NDK_DEBUG=${NDK_DEBUG} \
     BUILD_ML=${BUILD_ML}
 
+checkfail "ndk-build failed"
+
 $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     APP_BUILD_SCRIPT=jni/loader/Android.mk \
     APP_PLATFORM=android-${ANDROID_API} \
@@ -900,9 +902,6 @@ $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     NDK_TOOLCHAIN_VERSION=clang
 
 checkfail "ndk-build failed for private libs"
-
-
-checkfail "ndk-build failed"
 
 echo "Dumping dbg symbols info ${OUT_DBG_DIR}"
 
