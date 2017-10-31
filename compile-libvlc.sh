@@ -768,9 +768,8 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
     echo -e "\e[1m\e[32mmedialibrary source not found, cloning\e[0m"
     git clone http://code.videolan.org/videolan/medialibrary.git "${SRC_DIR}/medialibrary/medialibrary"
     checkfail "medialibrary source: git clone failed"
-    cd ${SRC_DIR}/medialibrary/medialibrary
+    cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
     git submodule update --init libvlcpp
-    cd -
 else
     cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
     if ! git cat-file -e ${MEDIALIBRARY_HASH}; then
@@ -778,9 +777,11 @@ else
       rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/libs
       rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/obj
     fi
-    cd ${SRC_DIR}
 fi
-
+if [ "$RELEASE" = 1 ]; then
+    git reset --hard ${MEDIALIBRARY_HASH}
+fi
+cd ${SRC_DIR}
 echo -e "\e[1m\e[36mCFLAGS:            ${CFLAGS}\e[0m"
 echo -e "\e[1m\e[36mEXTRA_CFLAGS:      ${EXTRA_CFLAGS}\e[0m"
 
