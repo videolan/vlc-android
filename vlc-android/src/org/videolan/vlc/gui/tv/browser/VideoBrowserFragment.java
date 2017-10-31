@@ -45,6 +45,11 @@ public class VideoBrowserFragment extends SortedBrowserFragment implements Media
     private Medialibrary mMediaLibrary;
 
     @Override
+    protected String getKey() {
+        return CURRENT_BROWSER_MAP+"videos";
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();

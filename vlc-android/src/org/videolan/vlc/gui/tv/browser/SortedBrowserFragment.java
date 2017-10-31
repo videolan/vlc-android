@@ -72,6 +72,7 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
     public static final String KEY_URI = "uri";
     public static final String SELECTED_ITEM = "selected";
     public static final String CURRENT_BROWSER_LIST = "CURRENT_BROWSER_LIST";
+    public static final String CURRENT_BROWSER_MAP = "CURRENT_BROWSER_MAP";
 
     public static final int UPDATE_DISPLAY = 1;
     public static final int UPDATE_ITEM = 2;
@@ -80,13 +81,14 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
 
     protected ArrayObjectAdapter mAdapter = new ArrayObjectAdapter(new ListRowPresenter());
     protected MediaWrapper mItemSelected;
-    protected Map<String, ListItem> mMediaItemMap = new ArrayMap<>();
+    protected Map<String, ListItem> mMediaItemMap = new ArrayMap<>(), mTempMap;
     protected final SimpleArrayMap<String, Integer> mMediaIndex = new SimpleArrayMap<>();
     ArrayList<MediaWrapper> mVideosList = new ArrayList<>();
     protected final BrowserHandler mHandler = new BrowserHandler(this);
     private BackgroundManager mBackgroundManager;
 
     abstract protected void browse();
+    abstract protected String getKey();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,6 +114,15 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
         setOnItemViewSelectedListener(this);
         if (savedInstanceState == null)
             browse();
+        else {
+            synchronized (mMediaItemMap) {
+                mMediaItemMap = (Map<String, ListItem>) VLCApplication.getData(getKey());
+            }
+            if (mMediaItemMap != null)
+                sort();
+            else
+                getActivity().finish();
+        }
     }
 
     @Override
@@ -140,12 +151,13 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
         super.onSaveInstanceState(outState);
         if (mItemSelected != null)
             outState.putParcelable(SELECTED_ITEM, mItemSelected);
+        VLCApplication.storeData(getKey(), mMediaItemMap);
     }
 
     public void showDetails() {
         if (mItemSelected == null)
             return;
-        Intent intent = new Intent(getActivity(),
+        final Intent intent = new Intent(getActivity(),
                 DetailsActivity.class);
         // pass the item information
         intent.putExtra("media", mItemSelected);
@@ -190,11 +202,11 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                mMediaItemMap = new TreeMap<>(mMediaItemMap); //sort sections
-                for (ListItem item : mMediaItemMap.values()) {
-                    Collections.sort(item.mediaList, MediaComparators.byFileType);
-                    mVideosList.addAll(item.mediaList);
+                synchronized (mMediaItemMap) {
+                    mTempMap = new TreeMap<>(mMediaItemMap); //sort sections
                 }
+                for (ListItem item : mMediaItemMap.values())
+                    Collections.sort(item.mediaList, MediaComparators.byFileType);
                 mHandler.sendEmptyMessage(UPDATE_DISPLAY);
                 VLCApplication.storeData(CURRENT_BROWSER_LIST, mVideosList);
             }
@@ -210,6 +222,10 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
         setAdapter(mAdapter);
         ArrayObjectAdapter adapter;
         HeaderItem header;
+        synchronized (mMediaItemMap) {
+            if (mTempMap != null)
+                mMediaItemMap = mTempMap;
+        }
         for (ListItem item : mMediaItemMap.values()) {
             adapter = new ArrayObjectAdapter(new CardPresenter(activity));
             header = new HeaderItem(0, item.Letter);

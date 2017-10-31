@@ -26,7 +26,6 @@ package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
@@ -46,8 +45,8 @@ public class SongsBrowserFragment extends SortedBrowserFragment {
     private MediaWrapper[] mSongs;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected String getKey() {
+        return CURRENT_BROWSER_MAP+"songs";
     }
 
     @Override

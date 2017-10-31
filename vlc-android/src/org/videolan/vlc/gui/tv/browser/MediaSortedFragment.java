@@ -59,6 +59,11 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
     abstract protected void browseRoot();
 
     @Override
+    protected String getKey() {
+        return mUri != null ? CURRENT_BROWSER_MAP+mUri.getPath() : CURRENT_BROWSER_MAP;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
