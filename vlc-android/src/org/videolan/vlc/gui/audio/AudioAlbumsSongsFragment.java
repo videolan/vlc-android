@@ -318,12 +318,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     private View.OnTouchListener mSwipeFilter = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            mSwipeRefreshLayout.setEnabled(false);
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_UP:
-                    mSwipeRefreshLayout.setEnabled(true);
-                    break;
-            }
+            mSwipeRefreshLayout.setEnabled(event.getAction() == MotionEvent.ACTION_UP);
             return false;
         }
     };
