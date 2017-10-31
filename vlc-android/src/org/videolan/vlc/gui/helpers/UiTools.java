@@ -414,6 +414,7 @@ public class UiTools {
         if (activity instanceof AppCompatActivity) {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                     .setTitle(R.string.ml_external_storage_title)
+                    .setCancelable(false)
                     .setMessage(message)
                     .setPositiveButton(R.string.ml_external_storage_accept, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -434,6 +435,7 @@ public class UiTools {
         } else {
             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity)
                     .setTitle(R.string.ml_external_storage_title)
+                    .setCancelable(false)
                 .setMessage(message)
                 .setPositiveButton(R.string.ml_external_storage_accept, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
