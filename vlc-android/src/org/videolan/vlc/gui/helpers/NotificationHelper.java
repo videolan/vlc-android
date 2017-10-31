@@ -79,13 +79,11 @@ public class NotificationHelper {
             builder.addAction(R.drawable.ic_widget_next_w, ctx.getString(R.string.next), piForward);
             builder.addAction(R.drawable.ic_widget_close_w, ctx.getString(R.string.stop), piStop);
 
-            if (AndroidDevices.showMediaStyle) {
-                final Notification.MediaStyle ms = new Notification.MediaStyle()
-                        .setShowActionsInCompactView(0,1,2);
-                if (sessionToken != null)
-                    ms.setMediaSession((MediaSession.Token) sessionToken.getToken());
-                builder.setStyle(ms);
-            }
+            final Notification.MediaStyle ms = new Notification.MediaStyle()
+                    .setShowActionsInCompactView(0,1,2);
+            if (sessionToken != null)
+                ms.setMediaSession((MediaSession.Token) sessionToken.getToken());
+            builder.setStyle(ms);
             return builder.build();
         } else {
             final NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx);

@@ -204,9 +204,10 @@ public class AndroidDevices {
     }
 
     private static boolean isManufacturerBannedForMediastyleNotifications() {
-        for (String manufacturer : noMediaStyleManufacturers)
-            if (Build.MANUFACTURER.toLowerCase(Locale.getDefault()).contains(manufacturer))
-                return true;
+        if (!AndroidUtil.isLolliPopOrLater)
+            for (String manufacturer : noMediaStyleManufacturers)
+                if (Build.MANUFACTURER.toLowerCase(Locale.getDefault()).contains(manufacturer))
+                    return true;
         return false;
     }
 
