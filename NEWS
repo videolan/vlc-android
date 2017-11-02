@@ -1,3 +1,20 @@
+Changes between 2.5.6 and 2.5.7:
+----------------------------------
+
+Application:
+ * Restore sound ducking behavior
+ * Fix chatpers display in advances video playback options
+ * Reset current playlist to beginning on end reached
+ * Re-enable media style notification on recent Huawei devices
+ * don't use any equalizer by default
+ * Misc. fixes
+
+TV:
+ * Fix crash on main view refresh
+ * Fix crash when removing usb stick while palying a video on it
+ * Fix crash on ML settings launch while scanning
+ * Fix ML settings display
+
 Changes between 2.5.4 and 2.5.5:
 ----------------------------------
 
