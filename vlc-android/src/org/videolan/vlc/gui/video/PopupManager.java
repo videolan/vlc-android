@@ -291,6 +291,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                 .setContentText(mService.getString(R.string.popup_playback))
                 .setAutoCancel(false)
                 .setOngoing(true)
+                .setContentIntent(mService.getSessionPendingIntent())
                 .setDeleteIntent(piStop);
 
         //Switch

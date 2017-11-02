@@ -1005,7 +1005,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         }
     }
 
-    private PendingIntent getSessionPendingIntent() {
+    public PendingIntent getSessionPendingIntent() {
         if (mMediaPlayer.getVLCVout().areViewsAttached()) { //PIP
             final Intent notificationIntent = new Intent(this, VideoPlayerActivity.class);
             return PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
