@@ -112,6 +112,9 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                     final MediaWrapper podcasts = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI);
                     podcasts.setType(MediaWrapper.TYPE_DIR);
                     devices.add(podcasts);
+                    final MediaWrapper downloads = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI);
+                    downloads.setType(MediaWrapper.TYPE_DIR);
+                    devices.add(downloads);
                 }
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
