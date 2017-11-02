@@ -17,6 +17,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -45,12 +46,12 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Te
         super.onCreate(savedInstanceState);
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("enable_black_theme", false))
             setTheme(R.style.Theme_VLC_Black);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
+        mBinding = DataBindingUtil.setContentView(this, R.layout.search_activity);
+        mBinding.setHandler(mClickHandler);
+        mMedialibrary = VLCApplication.getMLInstance();
         if (Intent.ACTION_SEARCH.equals(intent.getAction()) || "com.google.android.gms.actions.SEARCH_ACTION".equals(intent.getAction())) {
-            mBinding = DataBindingUtil.setContentView(this, R.layout.search_activity);
-            mBinding.setHandler(mClickHandler);
-            mMedialibrary = VLCApplication.getMLInstance();
-            String query = intent.getStringExtra(SearchManager.QUERY);
+            final String query = intent.getStringExtra(SearchManager.QUERY);
             initializeLists();
             if (!TextUtils.isEmpty(query)) {
                 getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -93,10 +94,11 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Te
 
     private void initializeLists() {
         int count = mBinding.resultsContainer.getChildCount();
+        final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         for (int i = 0; i < count; ++i) {
             View v = mBinding.resultsContainer.getChildAt(i);
             if (v instanceof ContextMenuRecyclerView) {
-                ((RecyclerView)v).setAdapter(new SearchResultAdapter());
+                ((RecyclerView)v).setAdapter(new SearchResultAdapter(inflater));
                 ((RecyclerView)v).setLayoutManager(new LinearLayoutManager(this));
                 ((SearchResultAdapter)((RecyclerView)v).getAdapter()).setClickHandler(mClickHandler);
             }
