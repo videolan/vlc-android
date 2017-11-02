@@ -126,7 +126,6 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
 
     public BaseBrowserFragment() {
         mHandler = new BrowserFragmentHandler(this);
-        mAdapter = new BaseBrowserAdapter(this);
         if (mBrowserHandler == null) {
             HandlerThread handlerThread = new HandlerThread("vlc-browser", Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
             handlerThread.start();
@@ -188,6 +187,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mAdapter = new BaseBrowserAdapter(this);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);

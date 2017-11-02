@@ -24,9 +24,11 @@ import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.InputDevice;
@@ -53,7 +55,6 @@ import java.util.StringTokenizer;
 public class AndroidDevices {
     public final static String TAG = "VLC/UiTools/AndroidDevices";
     public final static String EXTERNAL_PUBLIC_DIRECTORY = Environment.getExternalStorageDirectory().getPath();
-
     public final static boolean isPhone;
     public final static boolean hasCombBar;
     public final static boolean hasNavBar;
@@ -217,5 +218,20 @@ public class AndroidDevices {
             return true;
         } catch (PackageManager.NameNotFoundException ignored) {}
         return false;
+    }
+
+    public static class MediaFolders {
+        public final static Uri EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI = getFolderUri(Environment.DIRECTORY_MOVIES);
+        public final static Uri EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI = getFolderUri(Environment.DIRECTORY_MUSIC);
+        public final static Uri EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI = getFolderUri(Environment.DIRECTORY_PODCASTS);
+
+        @NonNull
+        private static Uri getFolderUri(String type) {
+            try {
+                return Uri.parse("file://"+ Environment.getExternalStoragePublicDirectory(type).getCanonicalPath());
+            } catch (IOException ignored) {
+                return Uri.parse("file://"+Environment.getExternalStoragePublicDirectory(type).getPath());
+            }
+        }
     }
 }

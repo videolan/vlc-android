@@ -25,6 +25,8 @@ package org.videolan.vlc.gui.browser;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
@@ -33,6 +35,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
@@ -85,7 +88,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                String storages[] = AndroidDevices.getMediaDirectories();
+                final String storages[] = AndroidDevices.getMediaDirectories();
                 MediaWrapper directory;
                 final ArrayList<MediaLibraryItem> devices = new ArrayList<>(storages.length);
                 for (String mediaDirLocation : storages) {
@@ -97,14 +100,25 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                         directory.setDisplayTitle(VLCApplication.getAppResources().getString(R.string.internal_memory));
                     devices.add(directory);
                 }
+                // Set folders shortcuts
+                devices.add(new DummyItem(getString(R.string.browser_quick_access)));
+                final MediaWrapper movies = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI);
+                movies.setType(MediaWrapper.TYPE_DIR);
+                devices.add(movies);
+                if (!(FileBrowserFragment.this instanceof FilePickerFragment)) {
+                    final MediaWrapper music = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI);
+                    music.setType(MediaWrapper.TYPE_DIR);
+                    devices.add(music);
+                    final MediaWrapper podcasts = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI);
+                    podcasts.setType(MediaWrapper.TYPE_DIR);
+                    devices.add(podcasts);
+                }
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
                         mAdapter.update(devices);
                     }
                 });
-                mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
-                mRoot = true;
             }
         });
     }
