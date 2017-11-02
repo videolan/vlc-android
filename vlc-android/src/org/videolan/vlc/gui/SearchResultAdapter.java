@@ -1,6 +1,5 @@
 package org.videolan.vlc.gui;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -8,6 +7,7 @@ import android.view.ViewGroup;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.databinding.SearchItemBinding;
+import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.gui.helpers.UiTools;
 
 
@@ -15,11 +15,16 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     MediaLibraryItem[] mDataList;
     SearchActivity.ClickHandler mClickHandler;
+    private final LayoutInflater mLayoutInflater;
+
+    SearchResultAdapter(LayoutInflater inflater) {
+        super();
+        mLayoutInflater = inflater;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        return new ViewHolder(SearchItemBinding.inflate(inflater, parent, false));
+        return new ViewHolder(SearchItemBinding.inflate(mLayoutInflater, parent, false));
     }
 
     @Override
@@ -43,13 +48,10 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         return mDataList == null ? 0 : mDataList.length;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        public SearchItemBinding binding;
+    public class ViewHolder extends SelectorViewHolder<SearchItemBinding> {
 
         public ViewHolder(SearchItemBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
+            super(binding);
             binding.setHolder(this);
             binding.setHandler(mClickHandler);
         }
