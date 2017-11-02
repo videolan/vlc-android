@@ -48,7 +48,7 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
             vh.binding.setItem(media);
             vh.binding.setHasContextMenu(false);
             vh.binding.setProtocol(null);
-            vh.binding.setCover(getIcon(media));
+            vh.binding.setCover(getIcon(media, false));
         }
     }
 

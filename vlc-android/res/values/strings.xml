@@ -567,4 +567,5 @@
     <string name="settings_ml_block_scan">Medialibrary is scanning your devices right now</string>
     <string name="recommendations">Recommendations</string>
     <string name="recommendations_desc">Recommendations cards on launcher</string>
+    <string name="browser_quick_access">Quick Access</string>
 </resources>

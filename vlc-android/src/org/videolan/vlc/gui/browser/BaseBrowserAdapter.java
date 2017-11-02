@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.browser;
 import android.databinding.ViewDataBinding;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.support.annotation.MainThread;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -43,6 +44,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.Util;
 
@@ -69,9 +71,13 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
     protected final BaseBrowserFragment fragment;
     private int mTop = 0, mMediaCount = 0, mSelectionCount = 0;
     private ItemFilter mFilter = new ItemFilter();
+    private final boolean mFilesRoot, mNetworkRoot;
 
-    BaseBrowserAdapter(BaseBrowserFragment fragment){
+    BaseBrowserAdapter(BaseBrowserFragment fragment) {
         this.fragment = fragment;
+        final boolean root = fragment.isRootDirectory();
+        mFilesRoot = root && fragment instanceof FileBrowserFragment;
+        mNetworkRoot = root && fragment instanceof NetworkBrowserFragment;
     }
 
     @Override
@@ -109,9 +115,9 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         final MediaWrapper media = (MediaWrapper) getItem(position);
         vh.binding.setItem(media);
         vh.binding.setHasContextMenu(true);
-        if (fragment instanceof NetworkBrowserFragment && fragment.isRootDirectory())
+        if (mNetworkRoot)
             vh.binding.setProtocol(getProtocol(media));
-        vh.binding.setCover(getIcon(media));
+        vh.binding.setCover(getIcon(media, mFilesRoot));
         vh.setContextMenuListener();
         vh.selectView(media.hasStateFlags(FLAG_SELECTED));
     }
@@ -192,7 +198,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         public boolean onLongClick(View v) {
             int position = getLayoutPosition();
             return position < mDataset.size() && position >= 0
-                && fragment.onLongClick(v, position, mDataset.get(position));
+                    && fragment.onLongClick(v, position, mDataset.get(position));
         }
 
         @Override
@@ -289,11 +295,19 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         return mMediaCount;
     }
 
-    BitmapDrawable getIcon(MediaWrapper media) {
+    BitmapDrawable getIcon(MediaWrapper media, boolean specialFolders) {
         switch (media.getType()){
             case MediaWrapper.TYPE_AUDIO:
                 return IMAGE_AUDIO;
             case MediaWrapper.TYPE_DIR:
+                if (specialFolders) {
+                    final Uri uri = media.getUri();
+                    if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI.equals(uri))
+                        return IMAGE_VIDEO;
+                    else if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI.equals(uri)
+                            || AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI.equals(uri))
+                        return IMAGE_AUDIO;
+                }
                 return IMAGE_FOLDER;
             case MediaWrapper.TYPE_VIDEO:
                 return IMAGE_VIDEO;
@@ -304,8 +318,6 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         }
     }
     String getProtocol(MediaWrapper media) {
-        if (!fragment.isRootDirectory() || !(fragment instanceof NetworkBrowserFragment))
-            return null;
         if (media.getType() != MediaWrapper.TYPE_DIR)
             return null;
         return media.getUri().getScheme();
