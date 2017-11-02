@@ -224,6 +224,7 @@ public class AndroidDevices {
         public final static Uri EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI = getFolderUri(Environment.DIRECTORY_MOVIES);
         public final static Uri EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI = getFolderUri(Environment.DIRECTORY_MUSIC);
         public final static Uri EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI = getFolderUri(Environment.DIRECTORY_PODCASTS);
+        public final static Uri EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI = getFolderUri(Environment.DIRECTORY_DOWNLOADS);
 
         @NonNull
         private static Uri getFolderUri(String type) {
