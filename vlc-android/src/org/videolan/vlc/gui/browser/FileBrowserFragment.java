@@ -91,6 +91,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 final String storages[] = AndroidDevices.getMediaDirectories();
                 MediaWrapper directory;
                 final ArrayList<MediaLibraryItem> devices = new ArrayList<>(storages.length);
+                devices.add(new DummyItem(getString(R.string.browser_storages)));
                 for (String mediaDirLocation : storages) {
                     if (!(new File(mediaDirLocation).exists()))
                         continue;
