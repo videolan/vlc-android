@@ -36,6 +36,7 @@ import android.support.v4.util.SimpleArrayMap;
 import android.util.Log;
 
 import org.videolan.libvlc.Dialog;
+import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.gui.DialogActivity;
@@ -74,7 +75,7 @@ public class VLCApplication extends Application {
     public static final ThreadFactory THREAD_FACTORY = new ThreadFactory() {
         @Override
         public Thread newThread(Runnable runnable) {
-            Thread thread = new Thread(runnable);
+            final Thread thread = new Thread(runnable);
             thread.setPriority(Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
             return thread;
         }
@@ -93,9 +94,12 @@ public class VLCApplication extends Application {
 
         setLocale();
 
+        LibVLC.loadLibraries();
+
         runBackground(new Runnable() {
             @Override
             public void run() {
+
                 if (AndroidUtil.isOOrLater)
                     NotificationHelper.createNotificationChannels();
                 // Prepare cache folder constants
@@ -112,6 +116,7 @@ public class VLCApplication extends Application {
                     AndroidDevices.setRemoteControlReceiverEnabled(false);
             }
         });
+
         if (sActivityCbListener != null)
             registerActivityLifecycleCallbacks(sActivityCbListener);
         else
