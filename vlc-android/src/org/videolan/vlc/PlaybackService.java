@@ -2576,13 +2576,13 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         if (isVideoPlaying())
             mMediaPlayer.getVLCVout().detachViews();
         final MediaPlayer mp = mMediaPlayer;
+        mMediaPlayer = newMediaPlayer();
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 mp.release();
             }
         });
-        mMediaPlayer = newMediaPlayer();
     }
 
     public static class Client {
