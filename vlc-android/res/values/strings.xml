@@ -568,4 +568,5 @@
     <string name="recommendations">Recommendations</string>
     <string name="recommendations_desc">Recommendations cards on launcher</string>
     <string name="browser_quick_access">Quick Access</string>
+    <string name="browser_storages">Storages</string>
 </resources>
