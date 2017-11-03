@@ -140,7 +140,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mBinding.songsList);
 
-        setHeaderVisibilities(false, false, true, false, true, false);
+        setHeaderVisibilities(false, false, true, true, true, false);
         mBinding.setFragment(this);
 
         mBinding.next.setOnTouchListener(new LongSeekListener(true,
