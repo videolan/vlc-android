@@ -77,13 +77,12 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
         super.onViewCreated(view, savedInstanceState);
         if (mSwipeRefreshLayout != null)
             mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
+            mFabPlay = getActivity().findViewById(R.id.fab);
     }
 
 
     public void onStart() {
         super.onStart();
-        if (mFabPlay == null)
-            mFabPlay = getActivity().findViewById(R.id.fab);
         if (!isHidden())
             onHiddenChanged(false);
     }

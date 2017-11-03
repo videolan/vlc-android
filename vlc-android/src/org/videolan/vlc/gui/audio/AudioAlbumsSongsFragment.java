@@ -60,6 +60,7 @@ import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, TabLayout.OnTabSelectedListener {
 
@@ -155,7 +156,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
             rv.setLayoutManager(llm);
             rv.setRecycledViewPool(rvp);
         }
-
+        mFabPlay.setImageResource(R.drawable.ic_fab_play);
         mTabLayout.addOnTabSelectedListener(this);
         updateList();
     }
@@ -377,4 +378,16 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         return mViewPager.getCurrentItem() == MODE_SONG;
     }
 
+    @Override
+    public void setFabPlayVisibility(boolean enable) {
+        super.setFabPlayVisibility(enable && mViewPager.getCurrentItem() == 1);
+    }
+
+    @Override
+    public void onFabPlayClick(View view) {
+        if (mService == null) return;
+        @SuppressWarnings("unchecked")
+        final List<MediaWrapper> list = (List<MediaWrapper>)(List<?>) mSongsAdapter.getMediaItems();
+        mService.load(list, 0);
+    }
 }
