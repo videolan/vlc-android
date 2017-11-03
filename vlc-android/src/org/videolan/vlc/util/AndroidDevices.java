@@ -28,7 +28,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.InputDevice;
@@ -221,17 +220,21 @@ public class AndroidDevices {
     }
 
     public static class MediaFolders {
-        public final static Uri EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI = getFolderUri(Environment.DIRECTORY_MOVIES);
-        public final static Uri EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI = getFolderUri(Environment.DIRECTORY_MUSIC);
-        public final static Uri EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI = getFolderUri(Environment.DIRECTORY_PODCASTS);
-        public final static Uri EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI = getFolderUri(Environment.DIRECTORY_DOWNLOADS);
+        public final static File EXTERNAL_PUBLIC_MOVIES_DIRECTORY_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
+        public final static File EXTERNAL_PUBLIC_MUSIC_DIRECTORY_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+        public final static File EXTERNAL_PUBLIC_PODCAST_DIRECTORY_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS);
+        public final static File EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
-        @NonNull
-        private static Uri getFolderUri(String type) {
+        public final static Uri EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_MOVIES_DIRECTORY_FILE);
+        public final static Uri EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_MUSIC_DIRECTORY_FILE);
+        public final static Uri EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_PODCAST_DIRECTORY_FILE);
+        public final static Uri EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_FILE);
+
+        private static Uri getFolderUri(File file) {
             try {
-                return Uri.parse("file://"+ Environment.getExternalStoragePublicDirectory(type).getCanonicalPath());
+                return Uri.parse("file://"+ file.getCanonicalPath());
             } catch (IOException ignored) {
-                return Uri.parse("file://"+Environment.getExternalStoragePublicDirectory(type).getPath());
+                return Uri.parse("file://"+ file.getPath());
             }
         }
     }
