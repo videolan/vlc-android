@@ -67,13 +67,7 @@ public class Medialibrary {
     private final List<EntryPointsEventsCb> entryPointsEventsCbList = new ArrayList<>();
     private static Context sContext;
 
-    static {
-        LibVLC.loadLibraries();
-    }
-
-    private static class MedialibraryHolder {
-        public static final Medialibrary instance = new Medialibrary();
-    }
+    private static final Medialibrary instance = new Medialibrary();
 
     public static Context getContext() {
         return sContext;
@@ -143,7 +137,7 @@ public class Medialibrary {
     }
 
     public static Medialibrary getInstance() {
-        return MedialibraryHolder.instance;
+        return instance;
     }
 
     @WorkerThread
