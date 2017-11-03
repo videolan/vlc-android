@@ -61,6 +61,7 @@ while [ $# -gt 0 ]; do
             ;;
         -l)
             BUILD_LIBVLC=1
+            NO_ML=1
             ;;
         run)
             RUN=1
