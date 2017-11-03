@@ -103,19 +103,27 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 }
                 // Set folders shortcuts
                 devices.add(new DummyItem(getString(R.string.browser_quick_access)));
-                final MediaWrapper movies = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI);
-                movies.setType(MediaWrapper.TYPE_DIR);
-                devices.add(movies);
+                if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_FILE.exists()) {
+                    final MediaWrapper movies = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI);
+                    movies.setType(MediaWrapper.TYPE_DIR);
+                    devices.add(movies);
+                }
                 if (!(FileBrowserFragment.this instanceof FilePickerFragment)) {
-                    final MediaWrapper music = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI);
-                    music.setType(MediaWrapper.TYPE_DIR);
-                    devices.add(music);
-                    final MediaWrapper podcasts = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI);
-                    podcasts.setType(MediaWrapper.TYPE_DIR);
-                    devices.add(podcasts);
-                    final MediaWrapper downloads = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI);
-                    downloads.setType(MediaWrapper.TYPE_DIR);
-                    devices.add(downloads);
+                    if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_FILE.exists()) {
+                        final MediaWrapper music = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI);
+                        music.setType(MediaWrapper.TYPE_DIR);
+                        devices.add(music);
+                    }
+                    if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_FILE.exists()) {
+                        final MediaWrapper podcasts = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI);
+                        podcasts.setType(MediaWrapper.TYPE_DIR);
+                        devices.add(podcasts);
+                    }
+                    if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_FILE.exists()) {
+                        final MediaWrapper downloads = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI);
+                        downloads.setType(MediaWrapper.TYPE_DIR);
+                        devices.add(downloads);
+                    }
                 }
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
