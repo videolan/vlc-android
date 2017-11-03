@@ -1309,14 +1309,16 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     } else if (vsp.isSongFocus) {
                         tracks = mMedialibrary.searchMedia(vsp.song).getTracks();
                     }
-                    if (Tools.isArrayEmpty(tracks)){
-                        SearchAggregate result = mMedialibrary.search(query);
-                        if (!Tools.isArrayEmpty(result.getAlbums()))
-                            tracks = result.getAlbums()[0].getTracks();
-                        else if (!Tools.isArrayEmpty(result.getArtists()))
-                            tracks = result.getArtists()[0].getTracks();
-                        else if (!Tools.isArrayEmpty(result.getGenres()))
-                            tracks = result.getGenres()[0].getTracks();
+                    if (Tools.isArrayEmpty(tracks)) {
+                        final SearchAggregate result = mMedialibrary.search(query);
+                        if (result != null) {
+                            if (!Tools.isArrayEmpty(result.getAlbums()))
+                                tracks = result.getAlbums()[0].getTracks();
+                            else if (!Tools.isArrayEmpty(result.getArtists()))
+                                tracks = result.getArtists()[0].getTracks();
+                            else if (!Tools.isArrayEmpty(result.getGenres()))
+                                tracks = result.getGenres()[0].getTracks();
+                        }
                     }
                     if (tracks == null && !Tools.isArrayEmpty(items))
                         tracks = items[0].getTracks();
@@ -1380,6 +1382,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 synchronized (ExecutorHolder.updateMeta) {
                     ExecutorHolder.updateMeta.set(true);
                 }
+                if (media == null)
+                    return;
                 String title = media.getNowPlaying();
                 if (title == null)
                     title = media.getTitle();
