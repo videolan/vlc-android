@@ -36,6 +36,7 @@ import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -76,7 +77,7 @@ public class CardPresenter extends Presenter {
         public ViewHolder(View view) {
             super(view);
             mCardView = (ImageCardView) view;
-            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
+            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
 
         void updateCardViewImage(MediaLibraryItem mediaLibraryItem) {
@@ -89,6 +90,7 @@ public class CardPresenter extends Presenter {
 
         void updateCardViewImage(Drawable image) {
             mCardView.setMainImage(image);
+            mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
     }
 
@@ -286,10 +288,17 @@ public class CardPresenter extends Presenter {
                         @Override
                         public void run() {
                             ImageCardView cardView = (ImageCardView) target;
-                            if (picture != null && picture.getByteCount() > 4)
+                            if (picture != null && picture.getByteCount() > 4) {
+                                if (mediaLibraryItem.getArtworkMrl() !=null && !mediaLibraryItem.getArtworkMrl().isEmpty())
+                                    cardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                else
+                                    cardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
                                 cardView.setMainImage(new BitmapDrawable(res, picture));
-                            else
+                            }
+                            else {
                                 cardView.setMainImage(sDefaultCardImage);
+                                cardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
+                            }
                         }
                     }
             );
