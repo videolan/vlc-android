@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     packagingOptions {
@@ -199,6 +201,7 @@ dependencies {
     implementation project(':medialibrary')
     implementation project(':api')
     implementation project(':axmlrpc')
+    // AppCompat
     implementation "com.android.support:recyclerview-v7:$rootProject.ext.appCompatVersion"
     implementation "com.android.support:design:$rootProject.ext.appCompatVersion"
     implementation "com.android.support:support-annotations:$rootProject.ext.appCompatVersion"
@@ -207,6 +210,17 @@ dependencies {
     implementation "com.android.support:preference-leanback-v17:$rootProject.ext.appCompatVersion"
     implementation "com.android.support.constraint:constraint-layout:$rootProject.ext.constraintLayoutVersion"
     testImplementation 'junit:junit:4.12'
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    kapt "com.android.databinding:compiler:$rootProject.ext.android_plugin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
 
 static def buildTime() {
