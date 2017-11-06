@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -252,20 +253,27 @@ public class Medialibrary {
         return mIsInitiated && nativeAddToHistory(Tools.encodeVLCMrl(mrl), VLCUtil.encodeVLCString(title));
     }
 
+    @Nullable
     public MediaWrapper getMedia(long id) {
         return mIsInitiated ? nativeGetMedia(id) : null;
     }
 
+    @Nullable
     public MediaWrapper getMedia(Uri uri) {
-        return mIsInitiated ? nativeGetMediaFromMrl(VLCUtil.encodeVLCUri(uri)) : null;
+        final String vlcMrl = VLCUtil.encodeVLCUri(uri);
+        return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeGetMediaFromMrl(vlcMrl) : null;
     }
 
+    @Nullable
     public MediaWrapper getMedia(String mrl) {
-        return mIsInitiated && !TextUtils.isEmpty(mrl) ? nativeGetMediaFromMrl(Tools.encodeVLCMrl(mrl)) : null;
+        final String vlcMrl = Tools.encodeVLCMrl(mrl);
+        return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeGetMediaFromMrl(vlcMrl) : null;
     }
 
+    @Nullable
     public MediaWrapper addMedia(String mrl) {
-        return mIsInitiated && !TextUtils.isEmpty(mrl) ? nativeAddMedia(Tools.encodeVLCMrl(mrl)) : null;
+        final String vlcMrl = Tools.encodeVLCMrl(mrl);
+        return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeAddMedia(vlcMrl) : null;
     }
 
     public long getId() {
