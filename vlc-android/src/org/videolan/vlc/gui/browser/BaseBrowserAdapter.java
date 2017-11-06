@@ -76,13 +76,16 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
     protected final BaseBrowserFragment fragment;
     private int mTop = 0, mMediaCount = 0, mSelectionCount = 0;
     private ItemFilter mFilter = new ItemFilter();
-    private final boolean mFilesRoot, mNetworkRoot;
+    private final boolean mFilesRoot, mNetworkRoot, mSpecialIcons;
 
     BaseBrowserAdapter(BaseBrowserFragment fragment) {
         this.fragment = fragment;
         final boolean root = fragment.isRootDirectory();
-        mFilesRoot = root && fragment instanceof FileBrowserFragment;
+        final boolean fileBrowser = fragment instanceof FileBrowserFragment;
+        mFilesRoot = root && fileBrowser;
         mNetworkRoot = root && fragment instanceof NetworkBrowserFragment;
+        final String mrl = fragment.mMrl;
+        mSpecialIcons = mFilesRoot || fileBrowser && mrl != null && mrl.endsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
     }
 
     @Override
@@ -122,7 +125,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         vh.binding.setHasContextMenu(true);
         if (mNetworkRoot)
             vh.binding.setProtocol(getProtocol(media));
-        vh.binding.setCover(getIcon(media, mFilesRoot));
+        vh.binding.setCover(getIcon(media, mSpecialIcons));
         vh.setContextMenuListener();
         vh.selectView(media.hasStateFlags(FLAG_SELECTED));
     }
