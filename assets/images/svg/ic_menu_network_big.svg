@@ -13,7 +13,7 @@
    height="48"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.92.1 r15371"
    sodipodi:docname="ic_menu_network_big.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -28,16 +28,20 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="-16.217084"
+     inkscape:cx="29.050773"
      inkscape:cy="27.939419"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1056"
-     inkscape:window-x="1920"
-     inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-height="1027"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4483" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4687">
     <rdf:RDF>
@@ -56,8 +60,8 @@
      id="layer1"
      transform="translate(0,-1004.3622)">
     <path
-       style="color:#000000;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 10,1014.3622 c -2.216,0 -3.6357,1.8142 -4,4 l 0,2 0,18 c 0,2.216 1.784,4 4,4 l 14,0 c 0,-9.9412 8.05888,-18 18,-18 l 0,-2 c 0,-2.216 -1.784,-4 -4,-4 l -14,0 -4,-4 -10,0 z m 32,13 c -8.28428,0 -15,6.7158 -15,15 l 3,0 c 0,-6.6274 5.37258,-12 12,-12 l 0,-3 z m 0,6 c -4.97056,0 -9,4.0294 -9,9 l 3,0 c 0,-3.3136 2.6863,-6 6,-6 l 0,-3 z m 0,6 c -1.65686,0 -3,1.3432 -3,3 l 3,0 0,-3 z"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;enable-background:accumulate"
+       d="m 10,1014.3622 c -2.216,0 -3.6357,1.8142 -4,4 v 2 18 c 0,2.216 1.784,4 4,4 h 14 c 0,-9.9412 8.05888,-18 18,-18 v -2 c 0,-2.216 -1.784,-4 -4,-4 H 24 l -4,-4 z m 32,13 c -8.28428,0 -15,6.7158 -15,15 h 3 c 0,-6.6274 5.37258,-12 12,-12 z m 0,6 c -4.97056,0 -9,4.0294 -9,9 h 3 c 0,-3.3136 2.6863,-6 6,-6 z m 0,6 c -1.65686,0 -3,1.3432 -3,3 h 3 z"
        id="path7114-0"
        inkscape:connector-curvature="0" />
   </g>
