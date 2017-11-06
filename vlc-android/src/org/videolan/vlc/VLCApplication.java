@@ -68,7 +68,7 @@ public class VLCApplication extends Application {
 
     public static Calendar sPlayerSleepTime = null;
     private static boolean sTV;
-    private static SharedPreferences mSettings;
+    private static SharedPreferences sSettings;
 
     private static SimpleArrayMap<String, WeakReference<Object>> sDataMap = new SimpleArrayMap<>();
 
@@ -92,7 +92,7 @@ public class VLCApplication extends Application {
     public void onCreate() {
         instance = this;
         super.onCreate();
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        sSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
         setLocale();
 
@@ -159,8 +159,12 @@ public class VLCApplication extends Application {
         return instance.getResources();
     }
 
+    public static SharedPreferences getSettings() {
+        return sSettings;
+    }
+
     public static boolean showTvUi() {
-        return sTV || (mSettings != null && mSettings.getBoolean("tv_ui", false));
+        return sTV || (sSettings != null && sSettings.getBoolean("tv_ui", false));
     }
 
     public static void runBackground(Runnable runnable) {
@@ -244,7 +248,7 @@ public class VLCApplication extends Application {
 
     public static void setLocale(){
         // Are we using advanced debugging - locale?
-        String p = mSettings.getString("set_locale", "");
+        String p = sSettings.getString("set_locale", "");
         if (!p.equals("")) {
             Locale locale;
             // workaround due to region code
