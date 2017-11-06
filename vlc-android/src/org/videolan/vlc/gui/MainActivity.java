@@ -28,7 +28,6 @@ import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -88,7 +87,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
 
     private static final int ACTIVITY_RESULT_PREFERENCES = 1;
     private static final int ACTIVITY_RESULT_OPEN = 2;
-    public static final int ACTIVITY_RESULT_SECONDARY = 3;
+    private static final int ACTIVITY_RESULT_SECONDARY = 3;
 
 
     private Medialibrary mMediaLibrary;
@@ -98,7 +97,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     private ActionBarDrawerToggle mDrawerToggle;
 
     private int mCurrentFragmentId;
-    public Fragment mCurrentFragment = null;
+    private Fragment mCurrentFragment = null;
     private final SimpleArrayMap<String, WeakReference<Fragment>> mFragmentsStack = new SimpleArrayMap<>();
 
     private boolean mScanNeeded = false;
