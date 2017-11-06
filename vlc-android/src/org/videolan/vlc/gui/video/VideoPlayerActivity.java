@@ -73,6 +73,7 @@ import android.view.Display;
 import android.view.GestureDetector;
 import android.view.InputDevice;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -566,6 +567,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             setPlaybackParameters();
             mForcedTime = mLastTime = -1;
             setOverlayProgress();
+            enableSubs();
         }
     }
 
@@ -2422,12 +2424,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             anchor = mTracks;
         }
         final AppCompatActivity context = this;
-        PopupMenu popupMenu = new PopupMenu(this, anchor);
-        popupMenu.getMenuInflater().inflate(R.menu.audiosub_tracks, popupMenu.getMenu());
-        popupMenu.getMenu().findItem(R.id.video_menu_audio_track).setEnabled(mService.getAudioTracksCount() > 0);
-        popupMenu.getMenu().findItem(R.id.video_menu_subtitles).setEnabled(mService.getSpuTracksCount() > 0);
+        final PopupMenu popupMenu = new PopupMenu(this, anchor);
+        final Menu menu = popupMenu.getMenu();
+        popupMenu.getMenuInflater().inflate(R.menu.audiosub_tracks, menu);
         //FIXME network subs cannot be enabled & screen cast display is broken with picker
-        popupMenu.getMenu().findItem(R.id.video_menu_subtitles_picker).setEnabled(mPresentation == null);
+        menu.findItem(R.id.video_menu_subtitles_picker).setEnabled(mPresentation == null && enableSubs);
+        menu.findItem(R.id.video_menu_subtitles_download).setEnabled(enableSubs);
+        menu.findItem(R.id.video_menu_audio_track).setEnabled(mService.getAudioTracksCount() > 0);
+        menu.findItem(R.id.video_menu_subtitles).setEnabled(mService.getSpuTracksCount() > 0);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -2441,7 +2445,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     if (mUri == null)
                         return false;
                     mShowingDialog = true;
-                    Intent filePickerIntent = new Intent(context, FilePickerActivity.class);
+                    final Intent filePickerIntent = new Intent(context, FilePickerActivity.class);
                     filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
                     context.startActivityForResult(filePickerIntent, 0);
                     return true;
@@ -2671,7 +2675,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         if (trackID < -1 || mService == null)
                             return false;
                         mService.setSpuTrack(trackID);
-                        MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
+                        final MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
                         if (mw != null && mw.getId() != 0L)
                             mw.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID);
                         return true;
@@ -3308,6 +3312,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mForcedTime = -1;
             showOverlay(true);
         }
+        enableSubs();
+    }
+
+    private boolean enableSubs = true;
+    private void enableSubs() {
+        if (mUri == null || mUri.getScheme().startsWith("http")) return;
+        final String lastPath = mUri.getLastPathSegment();
+        enableSubs = !TextUtils.isEmpty(lastPath) && !lastPath.endsWith(".ts") && !lastPath.endsWith(".m2ts")
+                && !lastPath.endsWith(".TS") && !lastPath.endsWith(".M2TS");
     }
 
     private SubtitlesGetTask mSubtitlesGetTask = null;
