@@ -9,11 +9,11 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="260"
-   height="260"
+   width="48"
+   height="48"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.92.1 r15371"
    sodipodi:docname="ic_artist_big.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -27,17 +27,32 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="-188.28504"
-     inkscape:cy="217.32902"
+     inkscape:zoom="8"
+     inkscape:cx="34.411925"
+     inkscape:cy="4.2234655"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1056"
-     inkscape:window-x="1920"
-     inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-height="1027"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid822" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4687">
     <rdf:RDF>
@@ -54,12 +69,11 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-792.36218)">
+     transform="translate(0,-1004.3622)">
     <path
-       style="color:#000000;fill:#777777;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 152.31804,822.36217 c -27.60099,0 -50.03465,22.38577 -50.03465,49.99998 0,27.61421 22.43366,49.99998 50.03465,49.99998 27.60098,0 49.91742,-22.38577 49.91742,-49.99998 0,-27.61421 -22.31644,-49.99998 -49.91742,-49.99998 z m -64.610978,77.77775 c -5.096774,0 -9.993554,1.665 -13.882214,5.55555 -7.77744,7.78111 -7.77744,20.6911 0,28.47221 7.77733,7.78111 20.3341,7.78111 28.111542,0 7.77744,-7.78111 7.77744,-20.6911 0,-28.47221 -3.888782,-3.89055 -9.132552,-5.55555 -14.229328,-5.55555 z m -24.640994,21.52777 -31.58209,40.62498 c -5.82078,7.44366 6.86022,19.65699 14.22932,13.88888 l 40.25854,-31.59721 c -5.766,-0.41111 -11.20933,-2.53399 -15.61755,-6.94444 -4.40822,-4.41033 -6.87777,-10.20355 -7.28822,-15.97221 z m 89.251972,22.91665 c -25.58888,0.16667 -53.037762,9.22133 -77.777752,22.22222 l 0,55.55564 155.459712,-10e-5 0,-55.55554 c -27.13454,-13.91855 -51.47609,-22.39322 -77.68196,-22.22222 z"
-       id="path6845"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="sssssssssssccccsccccccc" />
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.98622036;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       d="M 29 6 C 24.029435 6 20 10.0295 20 15 C 20 19.9705 24.029435 24 29 24 C 33.970565 24 38 19.9705 38 15 C 38 10.0295 33.970565 6 29 6 z M 10 13.5 A 3.5 3.5 0 0 0 6.5 17 L 6.5 24 A 3.5 3.5 0 0 0 10 27.5 A 3.5 3.5 0 0 0 13.5 24 L 13.5 17 A 3.5 3.5 0 0 0 10 13.5 z M 2 24 A 8 8 0 0 0 9 31.927734 L 9 42 L 11 42 L 11 31.929688 A 8 8 0 0 0 18 24 L 16 24 A 6 6 0 0 1 10 30 A 6 6 0 0 1 4 24 L 2 24 z M 29 29 C 21 29 14 32 14 37.5 L 14 42 L 44 42 L 44 37.5 C 44 31 37 29 29 29 z "
+       transform="translate(0,1004.3622)"
+       id="path7421-6" />
   </g>
 </svg>

@@ -13,7 +13,7 @@
    height="48"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.1 r15371"
    sodipodi:docname="ic_video_collection_big.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -27,17 +27,31 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="16.4077"
-     inkscape:cy="15.83007"
+     inkscape:zoom="8.0000001"
+     inkscape:cx="0.22273954"
+     inkscape:cy="14.657462"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1056"
-     inkscape:window-x="0"
-     inkscape:window-y="24"
-     inkscape:window-maximized="1">
+     inkscape:window-height="1054"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-nodes="true"
+     inkscape:snap-nodes="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:lockguides="false">
     <inkscape:grid
        type="xygrid"
        id="grid3201" />
@@ -60,18 +74,20 @@
      id="layer1"
      transform="translate(0,-1004.3622)">
     <g
-       id="g3211"
-       transform="matrix(1.6000064,0,0,1.6000064,48.457176,-613.00773)">
+       id="g5111"
+       transform="matrix(2.000017,0,0,2.000017,-56.00085,-1026.3795)"
+       style="fill:#757575;fill-opacity:1">
       <path
+         sodipodi:nodetypes="sssssscccccccccccccccs"
          inkscape:connector-curvature="0"
          style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-         d="m -19.507934,1017.8483 c -0.98489,0 -1.77778,0.7929 -1.77778,1.7778 l 0,8.8889 c 0,0.9849 0.79289,1.7777 1.77778,1.7777 l 12.4444397,0 c 0.98489,0 1.77778,-0.7928 1.77778,-1.7777 l 0,-8.8889 0,-1.7778 -1.77778,0 -1.11111,0 1.55556,3.1111 -2.66667,0 -1.5555597,-3.1111 -1.33333,0 1.55556,3.1111 -2.66667,0 -1.55556,-3.1111 -1.33333,0 1.55556,3.1111 -2.66667,0 -1.55556,-3.1111 -0.66666,0 z"
-         id="path7483-9" />
+         d="m 35.77778,1019.3622 c -0.98489,0 -1.77778,0.7929 -1.77778,1.7778 v 8.9445 c 0,0.9849 0.79289,1.7777 1.77778,1.7777 h 12.44444 c 0.98489,0 1.77778,-0.7928 1.77778,-1.7777 v -8.9445 -1.7778 h -1.77778 -1.11111 l 1.55556,3.1111 H 46 l -1.55556,-3.1111 h -1.33333 l 1.55556,3.1111 H 42 l -1.55556,-3.1111 h -1.33333 l 1.55556,3.1111 H 38 l -1.55556,-3.1111 z"
+         id="path7483-9-6" />
       <path
          sodipodi:nodetypes="cssscccc"
-         style="fill:#777777;fill-opacity:1;stroke:none"
-         d="m -25.285634,1020.8483 0,11.0113 c 0,1.106 0.89192,1.9963 1.99983,1.9963 l 10.999,0 c 1.1079,0 1.99983,-0.8903 1.99983,-1.9963 l -12.99883,0 0,-11.0113 z"
-         id="path6725"
+         style="fill:#757575;fill-opacity:1;stroke:none"
+         d="m 30.00017,1022.3622 v 11 c 0,1.106 0.89192,2.0004 1.99983,2 h 11.00017 c 1.1079,0 1.99983,-0.894 1.99983,-2 H 32 v -11 z"
+         id="path6725-0"
          inkscape:connector-curvature="0" />
     </g>
   </g>
