@@ -979,11 +979,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mRateHasChanged = mSavedRate != 1.0f;
 
         mService.setRate(1.0f, false);
-        if (AndroidDevices.isAndroidTv) {
-            mService.pause();
-            mService.saveMediaMeta();
-        } else
-            mService.stop();
+        mService.stop();
     }
 
     private void cleanUI() {
