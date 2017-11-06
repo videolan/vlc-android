@@ -107,6 +107,7 @@ android {
         signedRelease {
             initWith release
             signingConfig = signingConfigs.release
+            matchingFallbacks = ['release']
         }
         debug {
             applicationIdSuffix ".debug"
@@ -155,12 +156,12 @@ android {
         variant.mergedFlavor.versionCode = variant.productFlavors.get(0).versionCode * 10000000 + defaultConfig.versionCode + variant.productFlavors.get(1).versionCode
 
         //Custom APK name
-        variant.outputs.each { output ->
+        variant.outputs.all { output ->
             def outputName = "VLC-Android-"
             if (variant.productFlavors.get(0).name != "vanilla")
                 outputName += variant.productFlavors.get(0).name.toUpperCase() + "-"
             outputName += variant.versionName + "-" + variant.productFlavors.get(1).name + ".apk"
-            output.outputFile = new File(output.outputFile.parentFile, outputName);
+            outputFileName = outputName
         }
     }
 
@@ -194,18 +195,18 @@ task generateSources (type: Jar) {
 }
 
 dependencies {
-    compile project(':libvlc')
-    compile project(':medialibrary')
-    compile project(':api')
-    compile project(':axmlrpc')
-    compile "com.android.support:recyclerview-v7:$rootProject.ext.appCompatVersion"
-    compile "com.android.support:design:$rootProject.ext.appCompatVersion"
-    compile "com.android.support:support-annotations:$rootProject.ext.appCompatVersion"
-    compile "com.android.support:preference-v7:$rootProject.ext.appCompatVersion"
-    compile "com.android.support:leanback-v17:$rootProject.ext.appCompatVersion"
-    compile "com.android.support:preference-leanback-v17:$rootProject.ext.appCompatVersion"
-    compile "com.android.support.constraint:constraint-layout:$rootProject.ext.constraintLayoutVersion"
-    testCompile 'junit:junit:4.12'
+    implementation project(':libvlc')
+    implementation project(':medialibrary')
+    implementation project(':api')
+    implementation project(':axmlrpc')
+    implementation "com.android.support:recyclerview-v7:$rootProject.ext.appCompatVersion"
+    implementation "com.android.support:design:$rootProject.ext.appCompatVersion"
+    implementation "com.android.support:support-annotations:$rootProject.ext.appCompatVersion"
+    implementation "com.android.support:preference-v7:$rootProject.ext.appCompatVersion"
+    implementation "com.android.support:leanback-v17:$rootProject.ext.appCompatVersion"
+    implementation "com.android.support:preference-leanback-v17:$rootProject.ext.appCompatVersion"
+    implementation "com.android.support.constraint:constraint-layout:$rootProject.ext.constraintLayoutVersion"
+    testImplementation 'junit:junit:4.12'
 }
 
 static def buildTime() {

@@ -35,14 +35,13 @@ android {
         manifestParser = new DefaultManifestParser(file('../vlc-android/AndroidManifest.xml'))
         def androidVersion = manifestParser.getVersionName()
         //Custom APK name
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.aar')) {
-                def fileName = "libvlc-${vlcVersion}-${androidVersion}.aar"
-                output.outputFile = new File(outputFile.parent, fileName)
+        variant.outputs.all { output ->
+            if (outputFileName != null && outputFileName.endsWith('.aar')) {
+                outputFileName = "libvlc-${vlcVersion}-${androidVersion}.aar"
             }
         }
     }
+    buildToolsVersion '26.0.2'
 }
 
 /*
@@ -104,5 +103,5 @@ clean {
 }
 
 dependencies {
-    compile "com.android.support:support-annotations:$rootProject.ext.appCompatVersion"
+    api "com.android.support:support-annotations:$rootProject.ext.appCompatVersion"
 }

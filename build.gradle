@@ -2,10 +2,11 @@
 buildscript {
     repositories {
         flatDir dirs: "gradle/plugins"
+        google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
     }
@@ -13,10 +14,7 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            url 'https://maven.google.com'
-            // Alternative URL is 'https://dl.google.com/dl/android/maven2/'
-        }
+        google()
         jcenter()
     }
 }
@@ -24,7 +22,7 @@ allprojects {
 ext {
     appCompatVersion = '25.2.0'
     constraintLayoutVersion = '1.1.0-beta3'
-    buildToolsVersion = "26.0.1"
+    buildToolsVersion = "27.0.2"
     compileSdkVersion = 26
     minSdkVersion = 9
     targetSdkVersion = 26
