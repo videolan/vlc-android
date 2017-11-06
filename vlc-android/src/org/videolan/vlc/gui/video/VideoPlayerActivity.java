@@ -1605,8 +1605,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case MediaPlayer.Event.EndReached:
                 /* Don't end the activity if the media has subitems since the next child will be
                  * loaded by the PlaybackService */
-                if (!mHasSubItems)
-                    endReached();
+                if (!mHasSubItems) endReached();
                 break;
             case MediaPlayer.Event.EncounteredError:
                 encounteredError();
@@ -1750,17 +1749,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             seek(0);
             return;
         }
-        if (mService.expand(false) == 0) {
-            mHandler.removeMessages(LOADING_ANIMATION);
-            mHandler.sendEmptyMessageDelayed(LOADING_ANIMATION, LOADING_ANIMATION_DELAY);
-            Log.d(TAG, "Found a video playlist, expanding it");
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    loadMedia();
-                }
-            });
-        }
+//        if (mService.expand(false) == 0) {
+//            mHandler.removeMessages(LOADING_ANIMATION);
+//            mHandler.sendEmptyMessageDelayed(LOADING_ANIMATION, LOADING_ANIMATION_DELAY);
+//            Log.d(TAG, "Found a video playlist, expanding it");
+//            mHandler.post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    loadMedia();
+//                }
+//            });
+//        }
         //Ignore repeat 
         if (mService.getRepeatType() == Constants.REPEAT_ALL && mService.getMediaListSize() == 1)
             exitOK();

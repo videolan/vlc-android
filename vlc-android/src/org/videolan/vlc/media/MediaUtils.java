@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Tools;
@@ -24,6 +26,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MediaUtils {
+
+    private static final String TAG = "VLC/MediaUtils";
 
     private static SubtitlesDownloader sSubtitlesDownloader;
 
@@ -272,6 +276,23 @@ public class MediaUtils {
         @Override
         public void onDisconnected() {
             dialog.dismiss();
+        }
+    }
+
+    public static void retrieveMediaTitle(MediaWrapper mw) {
+        Cursor cursor = null;
+        try {
+            cursor = VLCApplication.getAppContext().getContentResolver().query(mw.getUri(), null, null, null, null);
+            if (cursor == null) return;
+            final int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            if (nameIndex > -1 && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                if (!cursor.isNull(nameIndex)) mw.setTitle(cursor.getString(nameIndex));
+            }
+        } catch (SecurityException|IllegalArgumentException e) { // We may not have storage access permission yet
+            Log.w(TAG, "retrieveMediaTitle: fail to resolve file from "+mw.getUri(), e);
+        } finally {
+            if (cursor != null && !cursor.isClosed()) cursor.close();
         }
     }
 }

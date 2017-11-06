@@ -157,9 +157,7 @@ public class MediaWrapperList {
 
     @Nullable
     public MediaWrapper getMedia(int position) {
-        if (!isValid(position))
-            return null;
-        return mInternalList.get(position);
+        return isValid(position) ? mInternalList.get(position) : null;
     }
 
     public List<MediaWrapper> getAll() {

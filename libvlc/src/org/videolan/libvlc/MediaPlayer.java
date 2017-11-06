@@ -578,9 +578,12 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         }
     }
 
-
     public int setRenderer(RendererItem item) {
         return nativeSetRenderer(item);
+    }
+
+    public synchronized boolean hasMedia() {
+        return mMedia != null;
     }
 
     /**

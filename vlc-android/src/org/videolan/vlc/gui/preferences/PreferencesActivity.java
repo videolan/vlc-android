@@ -121,8 +121,7 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
     }
 
     public void restartMediaPlayer(){
-        if (mService != null)
-            mService.restartMediaPlayer();
+        if (mService != null) mService.restartMediaPlayer();
     }
 
     public void exitAndRescan(){
