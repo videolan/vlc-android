@@ -557,18 +557,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     @Override
-    public boolean onQueryTextChange(String filterQueryString) {
-        if (filterQueryString.length() < 3)
-            return false;
-        final Fragment current = getCurrentFragment();
-        if (current instanceof Filterable) {
-            ((Filterable) current).getFilter().filter(filterQueryString);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // This should not happen
         if(item == null)
