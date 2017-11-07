@@ -351,7 +351,12 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             return;
         if (refreshing && !mRoot) {
             refreshing = false;
-            mAdapter.update(refreshList);
+            VLCApplication.runOnMainThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.update(refreshList);
+                }
+            });
         } else
             refreshList = null;
 
