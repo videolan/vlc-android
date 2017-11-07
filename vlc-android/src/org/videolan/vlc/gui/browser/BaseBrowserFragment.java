@@ -187,7 +187,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mAdapter = new BaseBrowserAdapter(this);
+        if (mAdapter == null)
+            mAdapter = new BaseBrowserAdapter(this);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
