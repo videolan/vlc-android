@@ -36,6 +36,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
@@ -61,6 +62,8 @@ public class AsyncImageLoader {
     public static final BitmapDrawable DEFAULT_COVER_ARTIST_DRAWABLE = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.ic_no_artist));
     public static final BitmapDrawable DEFAULT_COVER_ALBUM_DRAWABLE = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.ic_no_album));
 
+    private static final BitmapCache sBitmapCache = BitmapCache.getInstance();
+    private static final Medialibrary sMedialibrary = VLCApplication.getMLInstance();
     /*
      * Custom bindings to trigger image (down)loading
      */
@@ -91,7 +94,7 @@ public class AsyncImageLoader {
         final boolean isMedia = item.getItemType() == MediaLibraryItem.TYPE_MEDIA;
         final boolean isGroup = isMedia && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_GROUP;
         final String cacheKey = isGroup ? "group:"+item.getTitle() : item.getArtworkMrl();
-        final Bitmap bitmap = BitmapCache.getInstance().getBitmapFromMemCache(cacheKey);
+        final Bitmap bitmap = sBitmapCache.getBitmapFromMemCache(cacheKey);
         if (bitmap != null) {
             updateTargetImage(bitmap, v, DataBindingUtil.findBinding(v));
             return;
@@ -100,11 +103,11 @@ public class AsyncImageLoader {
             MediaWrapper mw = (MediaWrapper) item;
             final int type = mw.getType();
             final boolean isMediaFile = type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO;
-            Uri uri = mw.getUri();
+            final Uri uri = mw.getUri();
             if (!isMediaFile && !(type == MediaWrapper.TYPE_DIR && "upnp".equals(uri.getScheme())))
                 return;
             if (isMediaFile && "file".equals(uri.getScheme())) {
-                mw = VLCApplication.getMLInstance().getMedia(uri);
+                mw = sMedialibrary.getMedia(uri);
                 if (mw != null)
                     item = mw;
             }
@@ -153,17 +156,17 @@ public class AsyncImageLoader {
             return;
         if (vdb != null) {
             vdb.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-            vdb.setVariable(BR.cover, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
+            vdb.setVariable(BR.cover, new BitmapDrawable(target.getResources(), bitmap));
             vdb.setVariable(BR.protocol, null);
         } else {
             VLCApplication.runOnMainThread(new Runnable() {
                 @Override
                 public void run() {
                     if (target instanceof ImageView) {
-                        ImageView iv = (ImageView) target;
-                        iv.setVisibility(View.VISIBLE);
+                        final ImageView iv = (ImageView) target;
                         iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
                         iv.setImageBitmap(bitmap);
+                        iv.setVisibility(View.VISIBLE);
                     } else if (target instanceof TextView) {
                         ViewCompat.setBackground(target, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
                         ((TextView) target).setText(null);
