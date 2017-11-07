@@ -57,6 +57,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
+import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_PLAYLIST;
 
 public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
 
@@ -96,10 +97,12 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (viewType == MediaLibraryItem.TYPE_DUMMY) {
-            AudioBrowserSeparatorBinding binding = AudioBrowserSeparatorBinding.inflate(inflater, parent, false);
-            return new ViewHolder(binding);
+            final AudioBrowserSeparatorBinding binding = AudioBrowserSeparatorBinding.inflate(inflater, parent, false);
+            return new ViewHolder<>(binding);
         } else {
-            AudioBrowserItemBinding binding = AudioBrowserItemBinding.inflate(inflater, parent, false);
+            final AudioBrowserItemBinding binding = AudioBrowserItemBinding.inflate(inflater, parent, false);
+            if (mType == TYPE_PLAYLIST && !mMakeSections) // Hide context button for playlist in save playlist dialog
+                binding.itemMore.setVisibility(View.GONE);
             return new MediaItemViewHolder(binding);
         }
     }
