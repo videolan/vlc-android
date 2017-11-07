@@ -155,6 +155,20 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (restart)
+            updateList();
+    }
+
+    private boolean restart = false;
+    @Override
+    public void onPause() {
+        super.onPause();
+        restart = true;
+    }
+
+    @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
