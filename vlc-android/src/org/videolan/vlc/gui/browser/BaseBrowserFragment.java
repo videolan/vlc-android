@@ -318,32 +318,13 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             refreshList.add(mediaWrapper);
             return;
         }
-        final boolean wasEmpty = mAdapter.isEmpty();
         final MediaWrapper mediaWrapper = getMediaWrapper(new MediaWrapper(media));
-        VLCApplication.runOnMainThread(new Runnable() {
-            @Override
-            public void run() {
-                publishMedia(mediaWrapper, wasEmpty);
-            }
-        });
-    }
-
-    private void publishMedia(MediaWrapper mw, boolean wasEmpty) {
-        mAdapter.addItem(mw, false);
-        if (wasEmpty) {
-            updateEmptyView();
-            mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
-        }
+        mAdapter.addItem(mediaWrapper, false);
     }
 
     @Override
     public void onMediaRemoved(int index, final Media media) {
-        VLCApplication.runOnMainThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.removeItem(media.getUri().toString());
-            }
-        });
+        mAdapter.removeItem(media.getUri().toString());
     }
 
     @Override

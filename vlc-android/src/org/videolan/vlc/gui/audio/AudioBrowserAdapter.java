@@ -109,11 +109,11 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (position >= mDataset.size())
+        if (position >= getDataset().size())
             return;
-        holder.binding.setVariable(BR.item, mDataset.get(position));
+        holder.binding.setVariable(BR.item, getDataset().get(position));
         if (holder.getType() == MediaLibraryItem.TYPE_MEDIA) {
-            final boolean isSelected = mDataset.get(position).hasStateFlags(FLAG_SELECTED);
+            final boolean isSelected = getDataset().get(position).hasStateFlags(FLAG_SELECTED);
             ((MediaItemViewHolder)holder).setCoverlay(isSelected);
             holder.selectView(isSelected);
         }
@@ -140,24 +140,24 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
 
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return getDataset().size();
     }
 
     public MediaLibraryItem getItem(int position) {
-        return isPositionValid(position) ? mDataset.get(position) : null;
+        return isPositionValid(position) ? getDataset().get(position) : null;
     }
 
     private boolean isPositionValid(int position) {
-        return position >= 0 || position < mDataset.size();
+        return position >= 0 || position < getDataset().size();
     }
 
     public ArrayList<MediaLibraryItem> getAll() {
-        return mDataset;
+        return getDataset();
     }
 
     ArrayList<MediaLibraryItem> getMediaItems() {
         ArrayList<MediaLibraryItem> list = new ArrayList<>();
-        for (MediaLibraryItem item : mDataset)
+        for (MediaLibraryItem item : getDataset())
             if (!(item.getItemType() == MediaLibraryItem.TYPE_DUMMY)) list.add(item);
         return list;
     }
@@ -165,17 +165,17 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     int getListWithPosition(ArrayList<MediaLibraryItem> list, int position) {
         int offset = 0, count = getItemCount();
         for (int i = 0; i < count; ++i)
-            if (mDataset.get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) {
+            if (getDataset().get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) {
                 if (i < position)
                     ++offset;
             } else
-                list.add(mDataset.get(i));
+                list.add(getDataset().get(i));
         return position-offset;
     }
 
     @Override
     public long getItemId(int position) {
-        return isPositionValid(position) ? mDataset.get(position).getId() : -1;
+        return isPositionValid(position) ? getDataset().get(position).getId() : -1;
     }
 
     @Override
@@ -191,7 +191,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     public String getSectionforPosition(int position) {
         if (mMakeSections)
             for (int i = position; i >= 0; --i)
-                if (mDataset.get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) return mDataset.get(i).getTitle();
+                if (getDataset().get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) return getDataset().get(i).getTitle();
         return "";
     }
 
@@ -201,12 +201,12 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     }
 
     public void clear() {
-        mDataset.clear();
+        getDataset().clear();
         mOriginalDataSet = null;
     }
 
     public void addAll(ArrayList<MediaLibraryItem> items) {
-        mDataset = new ArrayList<>(items);
+        setDataset(new ArrayList<>(items));
     }
 
     private ArrayList<MediaLibraryItem> removeSections(ArrayList<MediaLibraryItem> items) {
@@ -321,7 +321,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     }
 
     public void remove(final MediaLibraryItem item) {
-        final ArrayList<MediaLibraryItem> referenceList = new ArrayList<>(peekLast());
+        final ArrayList<MediaLibraryItem> referenceList = peekLast();
         if (referenceList.size() == 0) return;
         final ArrayList<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
         dataList.remove(item);
@@ -369,7 +369,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     @MainThread
     public List<MediaLibraryItem> getSelection() {
         List<MediaLibraryItem> selection = new LinkedList<>();
-        for (MediaLibraryItem item : mDataset)
+        for (MediaLibraryItem item : getDataset())
             if (item.hasStateFlags(FLAG_SELECTED))
                 selection.add(item);
         return selection;
@@ -428,20 +428,20 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         public void onClick(View v) {
             if (mIEventsHandler != null) {
                 int position = getLayoutPosition();
-                mIEventsHandler.onClick(v, position, mDataset.get(position));
+                mIEventsHandler.onClick(v, position, getDataset().get(position));
             }
         }
 
         public void onMoreClick(View v) {
             if (mIEventsHandler != null) {
                 int position = getLayoutPosition();
-                mIEventsHandler.onCtxClick(v, position, mDataset.get(position));
+                mIEventsHandler.onCtxClick(v, position, getDataset().get(position));
             }
         }
 
         public boolean onLongClick(View view) {
             int position = getLayoutPosition();
-            return mIEventsHandler.onLongClick(view, position, mDataset.get(position));
+            return mIEventsHandler.onLongClick(view, position, getDataset().get(position));
         }
 
         private void setCoverlay(boolean selected) {
@@ -480,10 +480,10 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         @Override
         protected List<MediaLibraryItem> initData() {
             if (mOriginalDataSet == null) {
-                mOriginalDataSet = new ArrayList<>(mDataset);
+                mOriginalDataSet = new ArrayList<>(getDataset());
             }
             if (referenceList == null) {
-                referenceList = new ArrayList<>(mDataset);
+                referenceList = new ArrayList<>(getDataset());
             }
             return referenceList;
         }

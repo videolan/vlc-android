@@ -104,7 +104,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
             onBindMediaViewHolder((MediaViewHolder) holder, position);
         } else {
             SeparatorViewHolder vh = (SeparatorViewHolder) holder;
-            vh.binding.setTitle(mDataset.get(position).getTitle());
+            vh.binding.setTitle(getDataset().get(position).getTitle());
         }
     }
 
@@ -132,11 +132,11 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
 
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return getDataset().size();
     }
 
     public MediaLibraryItem get(int position) {
-        return mDataset.get(position);
+        return getDataset().get(position);
     }
 
     public abstract class ViewHolder<T extends ViewDataBinding> extends SelectorViewHolder<T> {
@@ -192,21 +192,21 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
 
         public void onClick(View v){
             int position = getLayoutPosition();
-            if (position < mDataset.size() && position >= 0)
-                fragment.onClick(v, position, mDataset.get(position));
+            if (position < getDataset().size() && position >= 0)
+                fragment.onClick(v, position, getDataset().get(position));
         }
 
         public void onMoreClick(View v) {
             int position = getLayoutPosition();
-            if (position < mDataset.size() && position >= 0)
-                fragment.onCtxClick(v, position, mDataset.get(position));
+            if (position < getDataset().size() && position >= 0)
+                fragment.onCtxClick(v, position, getDataset().get(position));
         }
 
         @Override
         public boolean onLongClick(View v) {
             int position = getLayoutPosition();
-            return position < mDataset.size() && position >= 0
-                    && fragment.onLongClick(v, position, mDataset.get(position));
+            return position < getDataset().size() && position >= 0
+                    && fragment.onLongClick(v, position, getDataset().get(position));
         }
 
         @Override
@@ -262,13 +262,13 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
     void removeItem(int position) {
         if (position >= getItemCount())
             return;
-        removeItem(mDataset.get(position));
+        removeItem(getDataset().get(position));
     }
 
     void removeItem(MediaLibraryItem item) {
         if (item.getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
             mMediaCount--;
-        ArrayList<MediaLibraryItem> list = new ArrayList<>(peekLast());
+        final ArrayList<MediaLibraryItem> list = new ArrayList<>(peekLast());
         list.remove(item);
         update(list);
     }
@@ -276,7 +276,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
     void removeItem(String path) {
 
         MediaLibraryItem mediaItem = null;
-        for (MediaLibraryItem item : mDataset) {
+        for (MediaLibraryItem item : peekLast()) {
             if (item .getItemType() == TYPE_MEDIA && TextUtils.equals(path, ((MediaWrapper) item).getUri().toString())) {
                 mediaItem = item;
                 break;
@@ -287,13 +287,13 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
     }
 
     public ArrayList<MediaLibraryItem> getAll(){
-        return mDataset;
+        return getDataset();
     }
 
     public MediaLibraryItem getItem(int position){
-        if (position < 0 || position >= mDataset.size())
+        if (position < 0 || position >= getDataset().size())
             return null;
-        return mDataset.get(position);
+        return getDataset().get(position);
     }
 
     public int getItemViewType(int position){
@@ -340,7 +340,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
 
     ArrayList<MediaWrapper> getSelection() {
         ArrayList<MediaWrapper> selection = new ArrayList<>();
-        for (MediaLibraryItem item : mDataset) {
+        for (MediaLibraryItem item : getDataset()) {
             if (item.hasStateFlags(FLAG_SELECTED))
                 selection.add((MediaWrapper) item);
         }
@@ -398,7 +398,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         @Override
         protected List<MediaLibraryItem> initData() {
             if (mOriginalData == null)
-                mOriginalData = new ArrayList<>(mDataset);
+                mOriginalData = new ArrayList<>(getDataset());
             return mOriginalData;
         }
 

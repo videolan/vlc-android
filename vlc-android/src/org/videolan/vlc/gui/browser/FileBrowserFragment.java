@@ -144,12 +144,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                         devices.add(whatsapp);
                     }
                 }
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.update(devices);
-                    }
-                });
+                mAdapter.update(devices);
             }
         });
     }

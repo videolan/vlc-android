@@ -27,7 +27,6 @@ import android.databinding.ViewDataBinding;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -49,6 +48,7 @@ import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
+import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
 
@@ -102,7 +102,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final MediaWrapper media = mDataset.get(position);
+        final MediaWrapper media = getDataset().get(position);
         if (media == null)
             return;
         holder.binding.setVariable(BR.scaleType, ImageView.ScaleType.CENTER_CROP);
@@ -116,7 +116,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         if (payloads.isEmpty())
             onBindViewHolder(holder, position);
         else {
-            final MediaWrapper media = mDataset.get(position);
+            final MediaWrapper media = getDataset().get(position);
             for (Object data : payloads) {
                 switch ((int) data) {
                     case UPDATE_THUMB:
@@ -145,11 +145,11 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
     @Nullable
     public MediaWrapper getItem(int position) {
-        return isPositionValid(position) ? mDataset.get(position) : null;
+        return isPositionValid(position) ? getDataset().get(position) : null;
     }
 
     private boolean isPositionValid(int position) {
-        return position >= 0 && position < mDataset.size();
+        return position >= 0 && position < getDataset().size();
     }
 
     @MainThread
@@ -171,22 +171,22 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
     @MainThread
     public void addAll(Collection<MediaWrapper> items) {
-        mDataset.addAll(items);
+        getDataset().addAll(items);
         mOriginalData = null;
     }
 
     public boolean contains(MediaWrapper mw) {
-        return mDataset.indexOf(mw) != -1;
+        return getDataset().indexOf(mw) != -1;
     }
 
     public ArrayList<MediaWrapper> getAll() {
-        return mDataset;
+        return getDataset();
     }
 
     List<MediaWrapper> getSelection() {
         final List<MediaWrapper> selection = new LinkedList<>();
-        for (int i = 0; i < mDataset.size(); ++i) {
-            MediaWrapper mw = mDataset.get(i);
+        for (int i = 0; i < getDataset().size(); ++i) {
+            MediaWrapper mw = getDataset().get(i);
             if (mw.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
                 if (mw instanceof MediaGroup)
                     selection.addAll(((MediaGroup) mw).getAll());
@@ -215,7 +215,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
     @MainThread
     public void clear() {
-        mDataset.clear();
+        getDataset().clear();
         mOriginalData = null;
     }
 
@@ -272,7 +272,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return getDataset().size();
     }
 
     @Override
@@ -284,7 +284,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         MediaWrapper mw;
         int offset = 0;
         for (int i = 0; i < getItemCount(); ++i) {
-            mw = mDataset.get(i);
+            mw = getDataset().get(i);
             if (mw instanceof MediaGroup) {
                 for (MediaWrapper item : ((MediaGroup) mw).getAll())
                     list.add(item);
@@ -309,7 +309,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         public void onClick(View v) {
             final int position = getLayoutPosition();
             if (isPositionValid(position))
-                mEventsHandler.onClick(v, position, mDataset.get(position));
+                mEventsHandler.onClick(v, position, getDataset().get(position));
         }
 
         public void onMoreClick(View v){
@@ -320,7 +320,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
         public boolean onLongClick(View v) {
             final int position = getLayoutPosition();
-            return isPositionValid(position) && mEventsHandler.onLongClick(v, position, mDataset.get(position));
+            return isPositionValid(position) && mEventsHandler.onLongClick(v, position, getDataset().get(position));
         }
 
         @Override
@@ -331,7 +331,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
         @Override
         protected boolean isSelected() {
-            return mDataset.get(getLayoutPosition()).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
+            return getDataset().get(getLayoutPosition()).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
         }
     }
 
@@ -353,9 +353,9 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         @Override
         protected List<MediaWrapper> initData() {
             if (mOriginalData == null) {
-                mOriginalData = new ArrayList<>(mDataset.size());
-                for (int i = 0; i < mDataset.size(); ++i)
-                    mOriginalData.add(mDataset.get(i));
+                mOriginalData = new ArrayList<>(getDataset().size());
+                for (int i = 0; i < getDataset().size(); ++i)
+                    mOriginalData.add(getDataset().get(i));
             }
             return mOriginalData;
         }
@@ -377,8 +377,8 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
     }
 
     @Override
-    protected DiffUtil.Callback createCB(final ArrayList<MediaWrapper> items) {
-        return new VideoItemDiffCallback(mDataset, items);
+    protected MediaItemDiffCallback<MediaWrapper> createCB() {
+        return new VideoItemDiffCallback();
     }
 
     @Override
@@ -387,22 +387,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         mEventsHandler.onUpdateFinished(null);
     }
 
-    private class VideoItemDiffCallback extends DiffUtil.Callback {
-        ArrayList<MediaWrapper> oldList, newList;
-        VideoItemDiffCallback(ArrayList<MediaWrapper> oldList, ArrayList<MediaWrapper> newList) {
-            this.oldList = new ArrayList<>(oldList);
-            this.newList = new ArrayList<>(newList);
-        }
-
-        @Override
-        public int getOldListSize() {
-            return oldList == null ? 0 : oldList.size();
-        }
-
-        @Override
-        public int getNewListSize() {
-            return newList == null ? 0 : newList.size();
-        }
+    private class VideoItemDiffCallback extends MediaItemDiffCallback<MediaWrapper> {
 
         @Override
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {

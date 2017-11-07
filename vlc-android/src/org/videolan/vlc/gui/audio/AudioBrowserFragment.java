@@ -584,12 +584,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             @Override
             public void run() {
                 final ArrayList<MediaLibraryItem> artists = Util.arrayToMediaArrayList(mMediaLibrary.getArtists());
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mArtistsAdapter.update(artists);
-                    }
-                });
+                mArtistsAdapter.update(artists);
             }
         });
     }
@@ -599,12 +594,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             @Override
             public void run() {
                 final ArrayList<MediaLibraryItem> albums = Util.arrayToMediaArrayList(mMediaLibrary.getAlbums());
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAlbumsAdapter.update(albums);
-                    }
-                });
+                mAlbumsAdapter.update(albums);
             }
         });
     }
@@ -614,12 +604,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             @Override
             public void run() {
                 final ArrayList<MediaLibraryItem> media = Util.arrayToMediaArrayList(mMediaLibrary.getAudio());
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSongsAdapter.update(media);
-                    }
-                });
+                mSongsAdapter.update(media);
             }
         });
     }
@@ -629,12 +614,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             @Override
             public void run() {
                 final ArrayList<MediaLibraryItem> genres = Util.arrayToMediaArrayList(mMediaLibrary.getGenres());
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mGenresAdapter.update(genres);
-                    }
-                });
+                mGenresAdapter.update(genres);
             }
         });
     }
@@ -644,12 +624,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             @Override
             public void run() {
                 final ArrayList<MediaLibraryItem> playlists = Util.arrayToMediaArrayList(mMediaLibrary.getPlaylists());
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mPlaylistAdapter.update(playlists);
-                    }
-                });
+                mPlaylistAdapter.update(playlists);
             }
         });
     }

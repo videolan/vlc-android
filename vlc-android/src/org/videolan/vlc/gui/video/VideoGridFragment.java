@@ -368,12 +368,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
                     for (MediaGroup item : MediaGroup.group(itemList))
                         displayList.add(item.getMedia());
                 }
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.update(displayList);
-                    }
-                });
+                mAdapter.update(displayList);
                 mHandler.sendEmptyMessage(UNSET_REFRESHING);
             }
         });

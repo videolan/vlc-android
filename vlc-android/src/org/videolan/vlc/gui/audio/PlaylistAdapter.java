@@ -28,7 +28,6 @@ import android.databinding.DataBindingUtil;
 import android.os.Message;
 import android.support.annotation.MainThread;
 import android.support.v4.app.Fragment;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,18 +41,16 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.PlaylistItemBinding;
-import org.videolan.vlc.gui.BaseQueuedAdapter;
+import org.videolan.vlc.gui.DiffUtilAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
-public class PlaylistAdapter extends BaseQueuedAdapter<MediaWrapper, PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter, Filterable {
+public class PlaylistAdapter extends DiffUtilAdapter<MediaWrapper, PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter, Filterable {
 
     private static final String TAG = "VLC/PlaylistAdapter";
 
@@ -95,13 +92,13 @@ public class PlaylistAdapter extends BaseQueuedAdapter<MediaWrapper, PlaylistAda
 
     @Override
     public int getItemCount() {
-        return mDataset.size();
+        return getDataset().size();
     }
 
     @MainThread
     public MediaWrapper getItem(int position) {
         if (position >= 0 && position < getItemCount())
-            return mDataset.get(position);
+            return getDataset().get(position);
         else
             return null;
     }
@@ -114,11 +111,6 @@ public class PlaylistAdapter extends BaseQueuedAdapter<MediaWrapper, PlaylistAda
     public String getLocation(int position) {
         MediaWrapper item = getItem(position);
         return item == null ? "" : item.getLocation();
-    }
-
-    @MainThread
-    public void addAll(List<MediaWrapper> playList) {
-        mDataset.addAll(playList);
     }
 
     @Override
@@ -150,7 +142,7 @@ public class PlaylistAdapter extends BaseQueuedAdapter<MediaWrapper, PlaylistAda
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-        Collections.swap(mDataset, fromPosition, toPosition);
+        Collections.swap(getDataset(), fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
         mHandler.obtainMessage(PlaylistHandler.ACTION_MOVE, fromPosition, toPosition).sendToTarget();
     }
@@ -261,7 +253,7 @@ public class PlaylistAdapter extends BaseQueuedAdapter<MediaWrapper, PlaylistAda
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             if (mOriginalDataSet == null)
-                mOriginalDataSet = new ArrayList<>(mDataset);
+                mOriginalDataSet = new ArrayList<>(getDataset());
             final String[] queryStrings = charSequence.toString().trim().toLowerCase().split(" ");
             FilterResults results = new FilterResults();
             ArrayList<MediaWrapper> list = new ArrayList<>();

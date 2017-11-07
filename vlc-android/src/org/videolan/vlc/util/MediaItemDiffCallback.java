@@ -7,11 +7,13 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import java.util.List;
 
 
-public class MediaItemDiffCallback extends DiffUtil.Callback {
+public class MediaItemDiffCallback< T extends MediaLibraryItem> extends DiffUtil.Callback {
     private static final String TAG = "MediaItemDiffCallback";
-    private List<? extends MediaLibraryItem> oldList, newList;
+    public List<T> oldList, newList;
 
-    public MediaItemDiffCallback(List<? extends MediaLibraryItem> oldList, List<? extends MediaLibraryItem> newList) {
+    public MediaItemDiffCallback() {}
+
+    public void update(List<T> oldList, List<T> newList) {
         this.oldList = oldList;
         this.newList = newList;
     }

@@ -300,22 +300,21 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                 for (MediaLibraryItem album : albums) {
                     songs.addAll(Util.arrayToArrayList(album.getTracks()));
                 }
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAlbumsAdapter.update(albums);
-                        mSongsAdapter.update(new ArrayList<>(songs));
-                        mFastScroller.setRecyclerView(getCurrentRV());
-                        mSwipeRefreshLayout.setRefreshing(false);
-                    }
-                });
+                mAlbumsAdapter.update(albums);
+                mSongsAdapter.update(songs);
             }
         });
     }
 
+    @Override
+    public void onUpdateFinished(RecyclerView.Adapter adapter) {
+        mFastScroller.setRecyclerView(getCurrentRV());
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
     /*
-     * Disable Swipe Refresh while scrolling horizontally
-     */
+         * Disable Swipe Refresh while scrolling horizontally
+         */
     private View.OnTouchListener mSwipeFilter = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {

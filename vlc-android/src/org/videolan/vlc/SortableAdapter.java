@@ -3,7 +3,7 @@ package org.videolan.vlc;
 import android.support.v7.widget.RecyclerView;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
-import org.videolan.vlc.gui.BaseQueuedAdapter;
+import org.videolan.vlc.gui.DiffUtilAdapter;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
 import org.videolan.vlc.util.Util;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends RecyclerView.ViewHolder> extends BaseQueuedAdapter<T, VH> {
+public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends RecyclerView.ViewHolder> extends DiffUtilAdapter<T, VH> {
     private static final String TAG = "VLC/SortableAdapter";
 
     public static MediaLibraryItemComparator getComparator() {
@@ -41,7 +41,7 @@ public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends Rec
 
     public void updateIfSortChanged() {
         if (!hasPendingUpdates() && hasSortChanged())
-            update(new ArrayList<>(mDataset));
+            update(new ArrayList<>(getDataset()));
     }
 
     private boolean hasSortChanged() {
@@ -92,12 +92,7 @@ public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends Rec
                         @Override
                         public void run() {
                             Util.insertOrUdpate(list, items);
-                            VLCApplication.runOnMainThread(new Runnable() {
-                                @Override
-                                public void run() {
                                     update(list);
-                                }
-                            });
                         }
                     });
                 }
