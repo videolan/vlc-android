@@ -1,4 +1,13 @@
-Changes between 2.5.6 and 2.5.7:
+Changes between 2.5.7 and 2.5.8:
+----------------------------------
+
+Application:
+ * Fix deadlock at app startup
+ * Quick access shortcuts in file browser
+ * Fix popup player on Android 2.3
+ * Misc. fixes
+
+ Changes between 2.5.6 and 2.5.7:
 ----------------------------------
 
 Application:
