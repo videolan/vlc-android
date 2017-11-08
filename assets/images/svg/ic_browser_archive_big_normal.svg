@@ -13,7 +13,7 @@
    height="48"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.1 r15371"
    sodipodi:docname="ic_browser_archive_big_normal.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -27,16 +27,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="0.61327314"
-     inkscape:cy="27.939419"
+     inkscape:zoom="1.979899"
+     inkscape:cx="-47.982995"
+     inkscape:cy="161.89881"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1056"
-     inkscape:window-x="1920"
-     inkscape:window-y="24"
+     inkscape:window-height="1027"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:snap-global="true"
      inkscape:snap-bbox="true"
@@ -75,10 +75,11 @@
      id="layer1"
      transform="translate(0,-1004.3622)">
     <path
-       sodipodi:nodetypes="cccsccccccccccccccscccccccccccc"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2.25006151;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3.70000005;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       d="M 10,6 C 8.8954305,6 8,6.8954305 8,8 v 3.001953 L 11,11 v 18 l -3,0.002 V 31.75 c 0,0.08572 0.016058,0.166753 0.025391,0.25 H 8 c 0,1.104569 0.8954305,2 2,2 v -0.02539 c 0.08323,0.0092 0.164276,0.02553 0.25,0.02539 H 24 v 3 h -7 v 5 h 18 v -5 h -7 v -3 h 7 c 2.761424,0 5,-2.238576 5,-5 h -5 v 0.002 H 15 v -18 H 35 V 11 h 5 C 40,8.2385763 37.761424,6 35,6 Z m 7,7.001953 v 6 h 19 v -6 z m 0,8 v 6 h 19 v -6 z"
+       transform="translate(0,1004.3622)"
+       id="path6832"
        inkscape:connector-curvature="0"
-       id="path6529-2"
-       d="m 14,1032.3622 0,-16 26,0 c 0,-2.216 -1.784,-4 -4,-4 l -28.0000002,0 0,4 2,0 0,16 -2,0 0,4 16.0000002,0 0,4 -8,0 0,4 22,0 0,-4 -8,0 0,-4 6,0 c 2.216,0 3.91484,-1.7856 4,-4 z m 4,-14 0,5 18,0 0,-5 z m 0,7 0,5 18,0 0,-5 z"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3.70000005;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
+       sodipodi:nodetypes="ssccccscccccccccccccsccccccccsscccccccccc" />
   </g>
 </svg>

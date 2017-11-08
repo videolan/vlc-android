@@ -13,7 +13,7 @@
    height="48"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.92.1 r15371"
    sodipodi:docname="ic_browser_unknown_big_normal.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -28,16 +28,20 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="-26.842084"
+     inkscape:cx="54.140059"
      inkscape:cy="27.939419"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
+     showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1056"
+     inkscape:window-height="1027"
      inkscape:window-x="0"
-     inkscape:window-y="24"
-     inkscape:window-maximized="1" />
+     inkscape:window-y="27"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4483" />
+  </sodipodi:namedview>
   <metadata
      id="metadata4687">
     <rdf:RDF>
@@ -56,8 +60,8 @@
      id="layer1"
      transform="translate(0,-1004.3622)">
     <path
-       style="color:#000000;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="m 23.999999,1012.3622 c -1.1248,0 -2.332818,0.7784 -2.666666,1.7778 l -8.888889,25.7778 -2.6666661,0 c -0.9818321,0 -1.7777781,0.7958 -1.7777781,1.7778 l 0,2.6666 c 10.1818132,-0.038 21.8181872,-0.038 32.0000002,0 l 0,-2.6666 c 0,-0.982 -0.795946,-1.7778 -1.777778,-1.7778 l -2.666667,0 -8.888888,-25.7778 c -0.343486,-0.9962 -1.541868,-1.7778 -2.666668,-1.7778 z m 0,10.7224 c 2.951112,0 5.333334,2.3822 5.333334,5.3332 0,1.1734 -0.457778,2.2356 -1.222222,3 0,0 -0.706668,0.7622 -1.222222,1.2778 -0.853334,0.8532 -1.444446,2.0334 -1.444446,2.8334 l -2.888888,0 c 0,-1.4756 0.831112,-2.7022 1.666666,-3.5556 l 1.666668,-1.6666 c 0.48,-0.48 0.777778,-1.16 0.777778,-1.889 0,-1.4756 -1.191112,-2.6666 -2.666668,-2.6666 -1.475556,0 -2.666666,1.191 -2.666666,2.6666 l -2.666666,0 c 0,-2.951 2.382222,-5.3332 5.333332,-5.3332 z m -1.666666,14.3332 3.333334,0 0,3.3888 -3.333334,0 0,-3.3888 z"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.125;marker:none;enable-background:accumulate"
+       d="m 23.999999,1010.3622 c -1.2654,0 -2.62442,0.8757 -2.999999,2 l -10,29.0001 H 8 c -1.104561,0 -2,0.8952 -2,2 v 2.9999 c 11.45454,-0.043 24.54546,-0.043 36,0 v -2.9999 c 0,-1.1048 -0.895439,-2 -2,-2 H 36.999999 L 27,1012.3622 c -0.386421,-1.1207 -1.734601,-2 -3.000001,-2 z m 0,12.0627 c 3.320001,0 6.000001,2.68 6.000001,5.9999 0,1.32 -0.515001,2.515 -1.375,3.375 0,0 -0.795002,0.8574 -1.375,1.4375 -0.960001,0.9598 -1.625002,2.2876 -1.625002,3.1876 h -3.249999 c 0,-1.6601 0.935001,-3.04 1.875,-4.0001 l 1.875001,-1.8749 c 0.54,-0.54 0.875,-1.305 0.875,-2.1251 0,-1.6601 -1.340001,-3 -3.000001,-3 -1.660001,0 -2.999999,1.3399 -2.999999,3 h -3 c 0,-3.3199 2.68,-5.9999 5.999999,-5.9999 z M 22.125,1038.5498 h 3.75 v 3.8124 h -3.75 z"
        id="path4926"
        inkscape:connector-curvature="0" />
   </g>
