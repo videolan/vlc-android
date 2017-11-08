@@ -464,7 +464,6 @@
             android:name=".gui.video.VideoPlayerActivity"
             android:resizeableActivity="true"
             android:finishOnTaskLaunch="true"
-            android:taskAffinity="vlc.player"
             android:supportsPictureInPicture="true"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"
             android:exported="true"
