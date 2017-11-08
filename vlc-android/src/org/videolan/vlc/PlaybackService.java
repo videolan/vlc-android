@@ -1950,6 +1950,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         playIndex(mCurrentIndex, 0);
         onMediaChanged();
         updateMediaQueue();
+        saveMediaList();
+        savePosition(true);
     }
 
     private void updateMediaQueue() {
