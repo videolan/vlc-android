@@ -596,7 +596,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @TargetApi(Build.VERSION_CODES.N)
     public void switchToPopup() {
-        final MediaWrapper mw = mService.getCurrentMediaWrapper();
+        final MediaWrapper mw = mService != null ? mService.getCurrentMediaWrapper() : null;
         if (mw == null)
             return;
         if (AndroidDevices.hasPiP) {
