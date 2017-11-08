@@ -2,9 +2,13 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="android.view.View" />
         <variable
             name="fragment"
             type="org.videolan.vlc.gui.audio.AudioPlayer" />
+        <variable
+            name="showCover"
+            type="Boolean" />
     </data>
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/content_layout"
@@ -171,6 +175,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_centerHorizontal="true"
             android:clipToPadding="false"
+            android:visibility="@{showCover ? View.GONE : View.VISIBLE}"
             android:layout_gravity="center_horizontal"
             android:background="?attr/background_default"
             android:paddingBottom="@dimen/listview_bottom_padding" />
@@ -189,7 +194,7 @@
             android:paddingEnd="@dimen/audio_player_cover_margin"
             android:layout_marginTop="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
-            android:visibility="gone"
+            android:visibility="@{showCover ? View.VISIBLE : View.GONE}"
             tools:layout_constraintLeft_creator="1" />
 
         <include layout="@layout/shadow_top"
