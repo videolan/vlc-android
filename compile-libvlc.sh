@@ -429,7 +429,7 @@ fi
 
 if [ "${ASAN}" = 1 ];then
     VLC_CFLAGS="${VLC_CFLAGS} -O0 -fno-omit-frame-pointer -fsanitize=address"
-    VLC_CXXFLAGS="${VLC_CXXLAGS} -O0 -fno-omit-frame-pointer -fsanitize=address"
+    VLC_CXXFLAGS="${VLC_CXXFLAGS} -O0 -fno-omit-frame-pointer -fsanitize=address"
     VLC_LDFLAGS="${VLC_LDFLAGS} -ldl -fsanitize=address"
     # ugly, sorry
     if [ "${ANDROID_API}" = "9" ];then
