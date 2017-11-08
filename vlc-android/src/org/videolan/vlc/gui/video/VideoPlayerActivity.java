@@ -3317,10 +3317,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private boolean enableSubs = true;
     private void enableSubs() {
-        if (mUri == null || mUri.getScheme().startsWith("http")) return;
-        final String lastPath = mUri.getLastPathSegment();
-        enableSubs = !TextUtils.isEmpty(lastPath) && !lastPath.endsWith(".ts") && !lastPath.endsWith(".m2ts")
-                && !lastPath.endsWith(".TS") && !lastPath.endsWith(".M2TS");
+        if (mUri == null) return;
+        if (mUri.getScheme() == null || !mUri.getScheme().startsWith("http")) {
+            enableSubs = true;
+        } else {
+            final String lastPath = mUri.getLastPathSegment();
+            enableSubs = !TextUtils.isEmpty(lastPath) && !lastPath.endsWith(".ts") && !lastPath.endsWith(".m2ts")
+                    && !lastPath.endsWith(".TS") && !lastPath.endsWith(".M2TS");
+        }
     }
 
     private SubtitlesGetTask mSubtitlesGetTask = null;
