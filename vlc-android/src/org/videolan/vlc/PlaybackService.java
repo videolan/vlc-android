@@ -1060,7 +1060,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         removePopup();
         if (mMediaPlayer == null)
             return;
-        saveMediaList();
         savePosition();
         final Media media = mMediaPlayer.getMedia();
         if (media != null) {
@@ -1918,7 +1917,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     @MainThread
     public void load(List<MediaWrapper> mediaList, int position) {
         //Save previous list if any
-        saveMediaList();
         savePosition();
 
         Log.v(TAG, "Loading position " + ((Integer) position).toString() + " in " + mediaList.toString());
