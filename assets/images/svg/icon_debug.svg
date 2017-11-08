@@ -14,7 +14,7 @@
    height="48"
    id="svg3075"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.1 r15371"
    sodipodi:docname="icon_debug.svg">
   <defs
      id="defs3077">
@@ -242,16 +242,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.313709"
-     inkscape:cx="-4.2573627"
-     inkscape:cy="29.331293"
+     inkscape:zoom="16.000001"
+     inkscape:cx="15.802476"
+     inkscape:cy="14.417488"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="true"
+     showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1056"
-     inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-height="1054"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:snap-grids="false"
      inkscape:snap-bbox="true"
@@ -304,13 +304,13 @@
         <path
            id="path4795"
            d="m 256,24 c -10,0 -16.56131,4.444363 -22,10 -7.51989,7.681589 -14,30 -14,30 l -84,252 -34,0 c -10.63636,0 -20.71454,9.30699 -24,20 L 43,456 c -4.67669,16.03434 -3,31.99999 19,32 l 194,0 194,0 c 22,-10e-6 23.67669,-15.96566 19,-32 L 434,336 c -3.28546,-10.69301 -13.36364,-20 -24,-20 l -34,0 -84,-252 c 0,0 -6.48011,-22.318411 -14,-30 -5.43869,-5.555637 -12,-10 -22,-10 z"
-           style="fill:#55d400;fill-opacity:1"
+           style="fill:#16dfb1;fill-opacity:1"
            inkscape:connector-curvature="0" />
         <path
            inkscape:connector-curvature="0"
            id="path4790"
            d="m 376,316 c 0,0 5.33596,15.99774 8,24 3.86569,11.61172 5.72158,17.44905 -0.0566,24.10156 C 352.00038,395.99957 301.0881,408.013 256,408 210.88287,407.987 160.2209,395.52936 128,364 l 116,116 -200.46875,0 c 2.987307,4.87249 8.73663,8 18.46875,8 l 194,0 194,0 c 22,-10e-6 23.67669,-15.96566 19,-32 L 434,336 c -3.28546,-10.69301 -13.36364,-20 -24,-20 l -34,0 z"
-           style="fill:#44aa00;fill-opacity:1" />
+           style="fill:#00bfa5;fill-opacity:1" />
         <path
            id="path3151-2-6-0"
            sodipodi:nodetypes="cacccccssacsccacc"
