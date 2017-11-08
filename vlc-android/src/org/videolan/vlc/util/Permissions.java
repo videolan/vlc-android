@@ -85,7 +85,7 @@ public class Permissions {
     }
 
     public static boolean checkReadStoragePermission(FragmentActivity activity, boolean exit) {
-        if (AndroidUtil.isMarshMallowOrLater && !canReadStorage()) {
+        if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(activity)) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 showStoragePermissionDialog(activity, exit);
