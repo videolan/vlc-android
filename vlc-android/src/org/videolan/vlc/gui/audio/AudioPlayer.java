@@ -37,10 +37,8 @@ import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresPermission;
-import android.support.constraint.ConstraintSet;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.Snackbar;
-import android.support.transition.TransitionManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -99,10 +97,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     private boolean mHeaderTimeVisible;
     private int mPlayerState;
     private String mCurrentCoverArt;
-    private final ConstraintSet coverConstraintSet = AndroidUtil.isICSOrLater ? new ConstraintSet() : null;
-    private final ConstraintSet playlistConstraintSet = AndroidUtil.isICSOrLater ? new ConstraintSet() : null;
 
-    SharedPreferences mSettings;
+    private SharedPreferences mSettings;
 
     // Tips
     private static final String PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown";
@@ -130,14 +126,14 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
             DEFAULT_BACKGROUND_ID = UiTools.getResourceFromAttribute(view.getContext(), R.attr.background_default);
         }
         mPlaylistAdapter = new PlaylistAdapter(this);
-        mBinding.songsList.setLayoutManager(new LinearLayoutManager(mBinding.getRoot().getContext()));
+        mBinding.songsList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mBinding.songsList.setAdapter(mPlaylistAdapter);
         mBinding.audioMediaSwitcher.setAudioMediaSwitcherListener(mHeaderMediaSwitcherListener);
         mBinding.coverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener);
         mBinding.playlistSearchText.getEditText().addTextChangedListener(this);
 
-        ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        final ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
+        final ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mBinding.songsList);
 
         setHeaderVisibilities(false, false, true, true, true, false);
@@ -153,12 +149,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         registerForContextMenu(mBinding.songsList);
         getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
         setUserVisibleHint(true);
-        if (playlistConstraintSet != null) {
-            playlistConstraintSet.clone(mBinding.contentLayout);
-            coverConstraintSet.clone(mBinding.contentLayout);
-            coverConstraintSet.setVisibility(R.id.songs_list, View.GONE);
-            coverConstraintSet.setVisibility(R.id.cover_media_switcher, View.VISIBLE);
-        }
+        mBinding.setShowCover(mSettings.getBoolean("audio_player_show_cover", false));
     }
 
     @Override
@@ -203,7 +194,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
      * @param context The context of the activity
      */
     public static void start(Context context) {
-        Intent intent = new Intent();
+        final Intent intent = new Intent();
         intent.setAction(AudioPlayerContainerActivity.ACTION_SHOW_PLAYER);
         context.getApplicationContext().sendBroadcast(intent);
     }
@@ -233,12 +224,12 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         mBinding.audioMediaSwitcher.updateMedia(mService);
         mBinding.coverMediaSwitcher.updateMedia(mService);
 
-        FragmentActivity act = getActivity();
+        final FragmentActivity act = getActivity();
         mBinding.playlistPlayasaudioOff.setVisibility(mService.getVideoTracksCount() > 0 ? View.VISIBLE : View.GONE);
 
         boolean playing = mService.isPlaying();
         int imageResId = UiTools.getResourceFromAttribute(act, playing ? R.attr.ic_pause : R.attr.ic_play);
-        String text = getString(playing ? R.string.pause : R.string.play);
+        final String text = getString(playing ? R.string.pause : R.string.play);
         mBinding.playPause.setImageResource(imageResId);
         mBinding.playPause.setContentDescription(text);
         mBinding.headerPlayPause.setImageResource(imageResId);
@@ -270,8 +261,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     public void updateProgress() {
         if (mService == null)
             return;
-        int time = (int) mService.getTime();
-        int length = (int) mService.getLength();
+        final int time = (int) mService.getTime();
+        final int length = (int) mService.getLength();
 
         mBinding.headerTime.setText(Tools.millisToString(time));
         mBinding.length.setText(Tools.millisToString(length));
@@ -444,17 +435,8 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     public void onPlaylistSwitchClick(View view) {
-        boolean showCover = mBinding.songsList.getVisibility() == View.VISIBLE;
-        if (playlistConstraintSet != null) {
-            TransitionManager.beginDelayedTransition(mBinding.contentLayout);
-            ConstraintSet cs = showCover ? coverConstraintSet : playlistConstraintSet;
-            cs.applyTo(mBinding.contentLayout);
-            mBinding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.getContext(),
-                    showCover ? R.attr.ic_playlist : R.attr.ic_playlist_on));
-        } else {
-            mBinding.songsList.setVisibility(showCover ? View.GONE : View.VISIBLE);
-            mBinding.coverMediaSwitcher.setVisibility(showCover ? View.VISIBLE : View.GONE);
-        }
+        mSettings.edit().putBoolean("audio_player_show_cover", !mBinding.getShowCover()).apply();
+        mBinding.setShowCover(!mBinding.getShowCover());
     }
 
     public void onShuffleClick(View view) {
@@ -474,22 +456,22 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     public void showAdvancedOptions(View v) {
         if (!isVisible())
             return;
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        AdvOptionsDialog advOptionsDialog = new AdvOptionsDialog();
-        Bundle args = new Bundle();
+        final FragmentManager fm = getActivity().getSupportFragmentManager();
+        final AdvOptionsDialog advOptionsDialog = new AdvOptionsDialog();
+        final Bundle args = new Bundle();
         args.putInt(AdvOptionsDialog.MODE_KEY, AdvOptionsDialog.MODE_AUDIO);
         advOptionsDialog.setArguments(args);
         advOptionsDialog.show(fm, "fragment_adv_options");
     }
 
     public void show() {
-        AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
+        final AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
         if (activity != null && activity.isAudioPlayerReady())
             activity.showAudioPlayer();
     }
 
     public void hide() {
-        AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
+       final  AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
         if (activity != null)
             activity.hideAudioPlayer();
     }
@@ -613,7 +595,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         return true;
     }
 
-    Runnable hideSearchRunnable = new Runnable() {
+    final Runnable hideSearchRunnable = new Runnable() {
         @Override
         public void run() {
             hideSearchField();
@@ -741,7 +723,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     public void showPlaylistTips() {
-        AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
+        final AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity)getActivity();
         if (activity != null)
             activity.showTipViewIfNeeded(R.id.audio_playlist_tips, PREF_PLAYLIST_TIPS_SHOWN);
     }
@@ -766,7 +748,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     }
 
     static final int UPDATE = 0;
-    private Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
