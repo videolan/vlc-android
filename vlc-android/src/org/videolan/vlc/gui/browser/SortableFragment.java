@@ -51,7 +51,9 @@ public abstract class SortableFragment<T extends SortableAdapter> extends MediaB
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        getCurrentAdapter().updateIfSortChanged();
+        final T adapter = getCurrentAdapter();
+        if (adapter != null)
+            adapter.updateIfSortChanged();
     }
 
     @Override
