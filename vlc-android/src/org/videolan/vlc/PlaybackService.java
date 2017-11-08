@@ -1995,9 +1995,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             mCurrentIndex = 0;
         }
 
-        final String mrl = mMediaList.getMRL(index);
-        if (mrl == null)
-            return;
         final MediaWrapper mw = mMediaList.getMedia(index);
         if (mw == null)
             return;
