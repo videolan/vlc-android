@@ -282,14 +282,14 @@ VLC_CONTRIB="$VLC_SRC_DIR/contrib/$TARGET_TUPLE"
 # try to detect NDK version
 REL=$(grep -o '^Pkg.Revision.*[0-9]*.*' $ANDROID_NDK/source.properties |cut -d " " -f 3 | cut -d "." -f 1)
 
-if [ "$REL" -ge 13 ]; then
+if [ "$REL" -ge 14 ]; then
     if [ "${HAVE_64}" = 1 ];then
         ANDROID_API=21
     else
         ANDROID_API=9
     fi
 else
-    echo "You need the NDKv13 or later"
+    echo "You need the NDKv14 or later"
     exit 1
 fi
 
