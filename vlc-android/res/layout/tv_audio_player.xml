@@ -31,8 +31,8 @@
             app:layout_constraintBottom_toTopOf="@+id/media_title"
             app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintHorizontal_chainStyle="spread"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_song_big" />
 
         <TextView
             android:id="@+id/media_title"
