@@ -1413,7 +1413,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        mMediaSession.setMetadata(bob.build());
+                        if (mMediaSession != null)
+                            mMediaSession.setMetadata(bob.build());
                         synchronized (ExecutorHolder.updateMeta) {
                             ExecutorHolder.updateMeta.set(false);
                             ExecutorHolder.updateMeta.notify();
