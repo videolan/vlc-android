@@ -30,13 +30,13 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.media.MediaUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> implements View.OnClickListener{
     public static final String TAG = "VLC/PlaylistAdapter";
 
     private AudioPlayerActivity mAudioPlayerActivity;
-    private ArrayList<MediaWrapper> mDataset;
+    private List<MediaWrapper> mDataset;
     private int mSelectedItem = -1;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -49,7 +49,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         }
     }
 
-    public PlaylistAdapter(AudioPlayerActivity audioPlayerActivity, ArrayList<MediaWrapper> myDataset) {
+    public PlaylistAdapter(AudioPlayerActivity audioPlayerActivity, List<MediaWrapper> myDataset) {
         mDataset = myDataset;
         mAudioPlayerActivity = audioPlayerActivity;
     }
@@ -97,7 +97,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         }
     }
 
-    public void updateList(ArrayList<MediaWrapper> list){
+    public void updateList(List<MediaWrapper> list){
         mDataset = list;
         notifyDataSetChanged();
     }

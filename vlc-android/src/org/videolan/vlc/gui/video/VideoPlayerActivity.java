@@ -149,6 +149,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
@@ -3203,18 +3204,18 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private SubtitlesGetTask mSubtitlesGetTask = null;
-    private class SubtitlesGetTask extends AsyncTask<String, Void, ArrayList<String>> {
+    private class SubtitlesGetTask extends AsyncTask<String, Void, List<String>> {
         @Override
-        protected ArrayList<String> doInBackground(String... strings) {
+        protected List<String> doInBackground(String... strings) {
             final String subtitleList_serialized = strings[0];
-            ArrayList<String> prefsList = new ArrayList<>();
+            List<String> prefsList = new ArrayList<>();
 
             if (subtitleList_serialized != null) {
                 final ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
                 ObjectInputStream ois = null;
                 try {
                     ois = new ObjectInputStream(bis);
-                    prefsList = (ArrayList<String>) ois.readObject();
+                    prefsList = (List<String>) ois.readObject();
                 } catch (InterruptedIOException ignored) {
                     return prefsList; /* Task is cancelled */
                 } catch (ClassNotFoundException | IOException ignored) {
@@ -3230,7 +3231,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> prefsList) {
+        protected void onPostExecute(List<String> prefsList) {
             // Add any selected subtitle file from the file picker
             if (prefsList.size() > 0) {
                 for (String file : prefsList) {

@@ -51,6 +51,7 @@ public class VLCOptions {
     public static final int HW_ACCELERATION_DECODING = 1;
     public static final int HW_ACCELERATION_FULL = 2;
 
+    // TODO should return List<String>
     public static ArrayList<String> getLibOptions() {
         final Context context = VLCApplication.getAppContext();
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);

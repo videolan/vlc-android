@@ -196,13 +196,13 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
             return;
         }
 
-        ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
+        List<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
         int newSize = favs.size();
 
         if (newSize == 0 && mFavorites == 0)
             return;
         if (!allowLAN()) {
-            ArrayList<MediaWrapper> toRemove = new ArrayList<>();
+            List<MediaWrapper> toRemove = new ArrayList<>();
             List<String> schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https");
             for (MediaWrapper mw : favs)
                 if (!schemes.contains(mw.getUri().getScheme()))

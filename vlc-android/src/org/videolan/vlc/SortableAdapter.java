@@ -1,7 +1,9 @@
 package org.videolan.vlc;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.gui.DiffUtilAdapter;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
@@ -9,6 +11,7 @@ import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 
 public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends RecyclerView.ViewHolder> extends DiffUtilAdapter<T, VH> {
@@ -74,10 +77,14 @@ public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends Rec
         return hasSortChanged();
     }
 
-    protected ArrayList<T> prepareList(ArrayList<T> list) {
+    @SuppressWarnings("unchecked")
+    @NonNull
+    @NotNull
+    @Override
+    protected List<T> prepareList(@NotNull List<? extends T> list) {
         if (needsSorting())
             Collections.sort(list, getComparator());
-        return list;
+        return (List<T>) list;
     }
 
     public void add(final T[] items) {

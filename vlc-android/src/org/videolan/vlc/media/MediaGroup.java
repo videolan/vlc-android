@@ -34,7 +34,7 @@ public class MediaGroup extends MediaWrapper {
 
     public final static String TAG = "VLC/MediaGroup";
 
-    private ArrayList<MediaWrapper> mMedias;
+    private List<MediaWrapper> mMedias;
 
     private MediaGroup(MediaWrapper media) {
         super(media.getUri(),
@@ -75,7 +75,7 @@ public class MediaGroup extends MediaWrapper {
         return mMedias.get(0);
     }
 
-    public ArrayList<MediaWrapper> getAll() {
+    public List<MediaWrapper> getAll() {
         return mMedias;
     }
 

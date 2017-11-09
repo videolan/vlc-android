@@ -27,13 +27,14 @@ import org.videolan.vlc.VLCApplication;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class CustomDirectories {
 
     public static void addCustomDirectory(String path) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
 
-        ArrayList<String> dirs = new ArrayList<String>(
+        List<String> dirs = new ArrayList<String>(
                 Arrays.asList(CustomDirectories.getCustomDirectories()));
         dirs.add(path);
         StringBuilder builder = new StringBuilder();
@@ -51,7 +52,7 @@ public class CustomDirectories {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
         if (!preferences.getString("custom_paths", "").contains(path))
             return;
-        ArrayList<String> dirs = new ArrayList<String>(
+        List<String> dirs = new ArrayList<String>(
                 Arrays.asList(preferences.getString("custom_paths", "").split(
                         ":")));
         dirs.remove(path);

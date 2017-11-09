@@ -209,7 +209,7 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         switch (item.getItemId()) {
             case R.id.extension_item_view_play_all:
                 List<VLCExtensionItem> items = mAdapter.getAll();
-                ArrayList<MediaWrapper> medias = new ArrayList<>(items.size());
+                List<MediaWrapper> medias = new ArrayList<>(items.size());
                 for (VLCExtensionItem vlcItem : items) {
                     medias.add(Utils.mediawrapperFromExtension(vlcItem));
                 }

@@ -41,7 +41,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public final static String TAG = "VLC/HistoryAdapter";
 
     private IEventsHandler mEventsHandler;
-    private ArrayList<MediaWrapper> mMediaList = new ArrayList<>();
+    private List<MediaWrapper> mMediaList = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
 
     public class ViewHolder extends SelectorViewHolder<HistoryItemBinding> {

@@ -25,8 +25,6 @@ package org.videolan.vlc.gui.browser;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -53,6 +51,7 @@ import org.videolan.vlc.util.Strings;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FileBrowserFragment extends BaseBrowserFragment {
 

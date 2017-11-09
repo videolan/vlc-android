@@ -68,7 +68,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
     private boolean mListMode = false;
     private IEventsHandler mEventsHandler;
-    private ArrayList<MediaWrapper> mOriginalData = null;
+    private List<MediaWrapper> mOriginalData = null;
     private final ItemFilter mFilter = new ItemFilter();
     private int mSelectionCount = 0;
     private int mGridCardWidth = 0;
@@ -154,14 +154,14 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
     @MainThread
     public void add(MediaWrapper item, int position) {
-        final ArrayList<MediaWrapper> list = new ArrayList<>(peekLast());
+        final List<MediaWrapper> list = new ArrayList<>(peekLast());
         list.add(position, item);
         update(list);
     }
 
     @MainThread
     public int remove(MediaWrapper item) {
-        final ArrayList<MediaWrapper> refList = new ArrayList<>(peekLast());
+        final List<MediaWrapper> refList = new ArrayList<>(peekLast());
         final int position = refList.indexOf(item);
         if (position < 0 || position >= refList.size()) return -1;
         refList.remove(position);
@@ -179,7 +179,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         return getDataset().indexOf(mw) != -1;
     }
 
-    public ArrayList<MediaWrapper> getAll() {
+    public List<MediaWrapper> getAll() {
         return getDataset();
     }
 
@@ -280,7 +280,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         return super.getItemViewType(position);
     }
 
-    int getListWithPosition(ArrayList<MediaWrapper>  list, int position) {
+    int getListWithPosition(List<MediaWrapper>  list, int position) {
         MediaWrapper mw;
         int offset = 0;
         for (int i = 0; i < getItemCount(); ++i) {
@@ -363,7 +363,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             //noinspection unchecked
-            update((ArrayList<MediaWrapper>) filterResults.values);
+            update((List<MediaWrapper>) filterResults.values);
         }
     }
 

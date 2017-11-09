@@ -41,11 +41,12 @@ import org.videolan.vlc.gui.helpers.MediaComparators;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class AlbumAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<MediaWrapper> mMediaList;
+    private List<MediaWrapper> mMediaList;
 
     private ContextPopupMenuListener mContextPopupMenuListener;
 

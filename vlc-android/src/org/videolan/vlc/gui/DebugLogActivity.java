@@ -44,7 +44,7 @@ public class DebugLogActivity extends Activity implements DebugLogService.Client
     private Button mClearButton = null;
     private Button mSaveButton = null;
     private ListView mLogView;
-    private ArrayList<String> mLogList = null;
+    private List<String> mLogList = null;
     private ArrayAdapter<String> mLogAdapter;
 
     @Override

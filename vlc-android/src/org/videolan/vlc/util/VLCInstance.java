@@ -58,6 +58,7 @@ public class VLCInstance {
                 throw new IllegalStateException("LibVLC initialisation failed: " + VLCUtil.getErrorMsg());
             }
 
+            // TODO change LibVLC signature to accept a List instead of an ArrayList
             sLibVLC = new LibVLC(context, VLCOptions.getLibOptions());
             VLCApplication.runBackground(sCopyLua);
         }

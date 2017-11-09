@@ -111,7 +111,7 @@ public abstract class BaseAudioBrowser extends SortableFragment<AudioBrowserAdap
         List<MediaLibraryItem> list = getCurrentAdapter().getSelection();
         stopActionMode();
         if (!list.isEmpty()) {
-            ArrayList<MediaWrapper> tracks = new ArrayList<>();
+            List<MediaWrapper> tracks = new ArrayList<>();
             for (MediaLibraryItem mediaItem : list)
                 tracks.addAll(Arrays.asList(mediaItem.getTracks()));
             switch (item.getItemId()) {
@@ -144,7 +144,7 @@ public abstract class BaseAudioBrowser extends SortableFragment<AudioBrowserAdap
     public void onDestroyActionMode(AudioBrowserAdapter adapter) {
         setFabPlayVisibility(true);
         mActionMode = null;
-        ArrayList<? extends MediaLibraryItem> items = adapter.getAll();
+        List<? extends MediaLibraryItem> items = adapter.getAll();
         if (items != null) {
             for (int i = 0; i < items.size(); ++i) {
                 if (items.get(i).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {

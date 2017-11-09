@@ -72,7 +72,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
     private static final BitmapDrawable IMAGE_QA_PODCASTS = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_podcasts_normal));
     private static final BitmapDrawable IMAGE_QA_DOWNLOAD = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_download_normal));
 
-    private ArrayList<MediaLibraryItem> mOriginalData = null;
+    private List<MediaLibraryItem> mOriginalData = null;
     protected final BaseBrowserFragment fragment;
     private int mTop = 0, mMediaCount = 0, mSelectionCount = 0;
     private ItemFilter mFilter = new ItemFilter();
@@ -243,7 +243,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
 
     void addItem(MediaLibraryItem item, boolean top, int positionTo) {
         int position;
-        ArrayList<MediaLibraryItem> list = new ArrayList<>(peekLast());
+        List<MediaLibraryItem> list = new ArrayList<>(peekLast());
         if (positionTo != -1)
             position = positionTo;
         else
@@ -268,7 +268,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
     void removeItem(MediaLibraryItem item) {
         if (item.getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
             mMediaCount--;
-        final ArrayList<MediaLibraryItem> list = new ArrayList<>(peekLast());
+        final List<MediaLibraryItem> list = new ArrayList<>(peekLast());
         list.remove(item);
         update(list);
     }
@@ -286,7 +286,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
             removeItem(mediaItem);
     }
 
-    public ArrayList<MediaLibraryItem> getAll(){
+    public List<MediaLibraryItem> getAll(){
         return getDataset();
     }
 
@@ -338,8 +338,8 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
 
     protected void checkBoxAction(View v, String mrl){}
 
-    ArrayList<MediaWrapper> getSelection() {
-        ArrayList<MediaWrapper> selection = new ArrayList<>();
+    List<MediaWrapper> getSelection() {
+        List<MediaWrapper> selection = new ArrayList<>();
         for (MediaLibraryItem item : getDataset()) {
             if (item.hasStateFlags(FLAG_SELECTED))
                 selection.add((MediaWrapper) item);
@@ -367,8 +367,9 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         return mFilter;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    protected ArrayList<MediaLibraryItem> prepareList(ArrayList<MediaLibraryItem> list) {
+    protected List<MediaLibraryItem> prepareList(List<? extends MediaLibraryItem> list) {
         if (fragment.isSortEnabled() && needsSorting())
             Collections.sort(list, getComparator());
         mMediaCount = 0;
@@ -377,7 +378,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
                     && (((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO|| (AndroidUtil.isHoneycombOrLater && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)))
                 ++mMediaCount;
         }
-        return list;
+        return (List<MediaLibraryItem>) list;
     }
 
     @Override
@@ -404,7 +405,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            update((ArrayList<MediaLibraryItem>) filterResults.values);
+            update((List<MediaLibraryItem>) filterResults.values);
         }
     }
 }

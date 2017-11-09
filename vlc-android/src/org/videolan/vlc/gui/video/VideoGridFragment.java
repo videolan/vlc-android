@@ -142,7 +142,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         if (mAdapter.isListMode())
             mGridView.addItemDecoration(mDividerItemDecoration);
         if (savedInstanceState != null) {
-            final ArrayList<MediaWrapper> list = (ArrayList<MediaWrapper>) VLCApplication.getData("list"+getTitle());
+            final List<MediaWrapper> list = (List<MediaWrapper>) VLCApplication.getData("list"+getTitle());
             if (!Util.isListEmpty(list))
                 mAdapter.addAll(list);
         }
@@ -261,7 +261,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
                 playAudio(media);
                 return true;
             case R.id.video_list_play_all:
-                ArrayList<MediaWrapper> playList = new ArrayList<>();
+                List<MediaWrapper> playList = new ArrayList<>();
                 MediaUtils.openList(getActivity(), playList, mAdapter.getListWithPosition(playList, position));
                 return true;
             case R.id.video_list_info:
@@ -335,7 +335,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     @Override
     public void onFabPlayClick(View view) {
-        ArrayList<MediaWrapper> playList = new ArrayList<>();
+        List<MediaWrapper> playList = new ArrayList<>();
         MediaUtils.openList(getActivity(), playList, mAdapter.getListWithPosition(playList, 0));
     }
 
@@ -357,7 +357,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
             @Override
             public void run() {
                 final MediaWrapper[] itemList = mMediaLibrary.getVideos();
-                final ArrayList<MediaWrapper> displayList = new ArrayList<>();
+                final List<MediaWrapper> displayList = new ArrayList<>();
                 if (mGroup != null) {
                     for (MediaWrapper item : itemList) {
                         String title = item.getTitle().substring(item.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
@@ -491,7 +491,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     public void onDestroyActionMode(ActionMode mode) {
         mActionMode = null;
         setFabPlayVisibility(true);
-        final ArrayList<MediaWrapper> items = mAdapter.getAll();
+        final List<MediaWrapper> items = mAdapter.getAll();
         for (int i = 0; i < items.size(); ++i) {
             MediaWrapper mw = items.get(i);
             if (mw.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
@@ -544,7 +544,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
             if (settings.getBoolean("force_play_all", false)) {
-                final ArrayList<MediaWrapper> playList = new ArrayList<>();
+                final List<MediaWrapper> playList = new ArrayList<>();
                 MediaUtils.openList(activity, playList, mAdapter.getListWithPosition(playList, position));
             } else {
                 playVideo(media, false);

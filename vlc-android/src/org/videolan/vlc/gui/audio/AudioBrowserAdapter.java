@@ -27,6 +27,7 @@ import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,7 +66,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
 
     private boolean mMakeSections = true;
 
-    private ArrayList<MediaLibraryItem> mOriginalDataSet;
+    private List<MediaLibraryItem> mOriginalDataSet;
     private ItemFilter mFilter = new ItemFilter();
     private IEventsHandler mIEventsHandler;
     private int mSelectionCount = 0;
@@ -151,18 +152,18 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         return position >= 0 || position < getDataset().size();
     }
 
-    public ArrayList<MediaLibraryItem> getAll() {
+    public List<MediaLibraryItem> getAll() {
         return getDataset();
     }
 
-    ArrayList<MediaLibraryItem> getMediaItems() {
-        ArrayList<MediaLibraryItem> list = new ArrayList<>();
+    List<MediaLibraryItem> getMediaItems() {
+        List<MediaLibraryItem> list = new ArrayList<>();
         for (MediaLibraryItem item : getDataset())
             if (!(item.getItemType() == MediaLibraryItem.TYPE_DUMMY)) list.add(item);
         return list;
     }
 
-    int getListWithPosition(ArrayList<MediaLibraryItem> list, int position) {
+    int getListWithPosition(List<MediaLibraryItem> list, int position) {
         int offset = 0, count = getItemCount();
         for (int i = 0; i < count; ++i)
             if (getDataset().get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) {
@@ -205,20 +206,20 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         mOriginalDataSet = null;
     }
 
-    public void addAll(ArrayList<MediaLibraryItem> items) {
+    public void addAll(List<MediaLibraryItem> items) {
         setDataset(new ArrayList<>(items));
     }
 
-    private ArrayList<MediaLibraryItem> removeSections(ArrayList<MediaLibraryItem> items) {
-        ArrayList<MediaLibraryItem> newList = new ArrayList<>();
+    private List<MediaLibraryItem> removeSections(List<MediaLibraryItem> items) {
+        List<MediaLibraryItem> newList = new ArrayList<>();
         for (MediaLibraryItem item : items)
             if (item.getItemType() != MediaLibraryItem.TYPE_DUMMY)
                 newList.add(item);
         return newList;
     }
 
-    private ArrayList<MediaLibraryItem> generateSections(ArrayList<? extends MediaLibraryItem> items, int sortby) {
-        ArrayList<MediaLibraryItem> datalist = new ArrayList<>();
+    private List<MediaLibraryItem> generateSections(List<? extends MediaLibraryItem> items, int sortby) {
+        List<MediaLibraryItem> datalist = new ArrayList<>();
         switch(sortby) {
             case MediaLibraryItemComparator.SORT_BY_TITLE:
                 String currentLetter = null;
@@ -321,17 +322,17 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     }
 
     public void remove(final MediaLibraryItem item) {
-        final ArrayList<MediaLibraryItem> referenceList = peekLast();
+        final List<MediaLibraryItem> referenceList = peekLast();
         if (referenceList.size() == 0) return;
-        final ArrayList<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
+        final List<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
         dataList.remove(item);
         update(dataList);
     }
 
 
     public void addItem(final int position, final MediaLibraryItem item) {
-        final ArrayList<MediaLibraryItem> referenceList = peekLast();
-        final ArrayList<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
+        final List<MediaLibraryItem> referenceList = peekLast();
+        final List<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
         dataList.add(position,item);
         update(dataList);
     }
@@ -349,20 +350,23 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
     }
 
-    protected ArrayList<MediaLibraryItem> prepareList(ArrayList<MediaLibraryItem> items) {
+    @SuppressWarnings("unchecked")
+    @NonNull
+    @Override
+    protected List<MediaLibraryItem> prepareList(List<? extends MediaLibraryItem> items) {
         if (!isSortAllowed(getSortBy()))
             getComparator().setSortDefault();
         if (mMakeSections) {
             if (getComparator().sortBy == MediaLibraryItemComparator.SORT_DEFAULT) {
                 return generateSections(items, getDefaultSort());
             } else {
-                ArrayList<MediaLibraryItem> newList = removeSections(items);
+                List<MediaLibraryItem> newList = removeSections((List<MediaLibraryItem>) items);
                 Collections.sort(newList, getComparator());
                 return generateSections(newList, getComparator().sortBy);
             }
         } else {
             Collections.sort(items, getComparator());
-            return items;
+            return (List<MediaLibraryItem>) items;
         }
     }
 
@@ -490,7 +494,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            update((ArrayList<MediaLibraryItem>) filterResults.values);
+            update((List<MediaLibraryItem>) filterResults.values);
         }
 
     }

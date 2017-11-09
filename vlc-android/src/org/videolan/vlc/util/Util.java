@@ -133,20 +133,20 @@ public class Util {
         return false;
     }
 
-    public static <T extends MediaLibraryItem> ArrayList<MediaLibraryItem> arrayToMediaArrayList(T[] array) {
-        ArrayList<MediaLibraryItem> list = new ArrayList<>(array.length);
+    public static <T extends MediaLibraryItem> List<MediaLibraryItem> arrayToMediaArrayList(T[] array) {
+        List<MediaLibraryItem> list = new ArrayList<>(array.length);
         Collections.addAll(list, array);
         return list;
     }
 
-    public static <T> ArrayList<T> arrayToArrayList(T[] array) {
-        ArrayList<T> list = new ArrayList<>(array.length);
+    public static <T> List<T> arrayToArrayList(T[] array) {
+        List<T> list = new ArrayList<>(array.length);
         Collections.addAll(list, array);
         return list;
     }
 
     public static <T> void insertOrUdpate(List<T> dataset, T[] items) {
-        ArrayList<T> newItems = new ArrayList<>();
+        List<T> newItems = new ArrayList<>();
         outer:
         for (T newItem : items) {
             for (T oldItem : dataset) {

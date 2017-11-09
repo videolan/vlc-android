@@ -83,12 +83,12 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
     // Extensions management
     private static ServiceConnection sExtensionServiceConnection = null;
     private static ExtensionManagerService sExtensionManagerService;
-    private static ArrayList<MediaBrowserCompat.MediaItem> extensionItems = new ArrayList<>();
+    private static List<MediaBrowserCompat.MediaItem> extensionItems = new ArrayList<>();
     private static Semaphore extensionLock = new Semaphore(0);
 
     @WorkerThread
     public static List<MediaBrowserCompat.MediaItem> browse(String parentId) {
-        ArrayList<MediaBrowserCompat.MediaItem> results = new ArrayList<>();
+        List<MediaBrowserCompat.MediaItem> results = new ArrayList<>();
         MediaLibraryItem[] list = null;
         boolean limitSize = false;
         Resources res = VLCApplication.getAppResources();

@@ -47,7 +47,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * BenchActivity is a class that overrides VideoPlayerActivity through ShallowVideoPlayer.
@@ -87,7 +87,7 @@ public class BenchActivity extends ShallowVideoPlayer {
     private MediaProjection mMediaProjection = null;
     private ImageReader mImageReader = null;
     private Handler mHandler = null;
-    private ArrayList<Long> mTimestamp;
+    private List<Long> mTimestamp;
     private boolean mIsScreenshot = false;
     private int mScreenshotCount = 0;
     private int mScreenshotNumber = 0;
@@ -145,8 +145,8 @@ public class BenchActivity extends ShallowVideoPlayer {
                 if (!mIsScreenshot) {
                     errorFinish("Missing screenshots timestamps");
                 }
-                if (intent.getSerializableExtra(TIMESTAMPS) instanceof ArrayList) {
-                    mTimestamp = (ArrayList<Long>) intent.getSerializableExtra(TIMESTAMPS);
+                if (intent.getSerializableExtra(TIMESTAMPS) instanceof List) {
+                    mTimestamp = (List<Long>) intent.getSerializableExtra(TIMESTAMPS);
                 } else {
                     errorFinish("Failed to get timestamps");
                 }

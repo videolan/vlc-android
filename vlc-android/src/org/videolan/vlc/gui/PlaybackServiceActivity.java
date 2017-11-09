@@ -29,6 +29,7 @@ import android.support.v4.app.FragmentActivity;
 import org.videolan.vlc.PlaybackService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlaybackServiceActivity extends FragmentActivity implements PlaybackService.Client.Callback {
     final private Helper mHelper = new Helper(this, this);
@@ -61,7 +62,7 @@ public class PlaybackServiceActivity extends FragmentActivity implements Playbac
     }
 
     public static class Helper {
-        private ArrayList<PlaybackService.Client.Callback> mFragmentCallbacks = new ArrayList<PlaybackService.Client.Callback>();
+        private List<PlaybackService.Client.Callback> mFragmentCallbacks = new ArrayList<PlaybackService.Client.Callback>();
         final private PlaybackService.Client.Callback mActivityCallback;
         private PlaybackService.Client mClient;
         protected PlaybackService mService;

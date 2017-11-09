@@ -20,7 +20,7 @@ public abstract class MediaItemFilter extends Filter {
     protected FilterResults performFiltering(CharSequence charSequence) {
         final String[] queryStrings = charSequence.toString().trim().toLowerCase().split(" ");
         FilterResults results = new FilterResults();
-        ArrayList<MediaLibraryItem> list = new ArrayList<>();
+        List<MediaLibraryItem> list = new ArrayList<>();
         for (MediaLibraryItem item : initData()) {
             for (String queryString : queryStrings) {
                 if (queryString.length() < 2)

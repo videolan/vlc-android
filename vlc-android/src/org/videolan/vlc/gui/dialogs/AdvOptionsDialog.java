@@ -64,6 +64,7 @@ import org.videolan.vlc.util.Strings;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener, PlaybackService.Client.Callback, View.OnFocusChangeListener, DialogInterface.OnKeyListener {
 
@@ -594,7 +595,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private class AdvOptionsAdapter extends RecyclerView.Adapter<AdvOptionsAdapter.ViewHolder> {
 
-        private final ArrayList<Option> mList = new ArrayList<>();
+        private final List<Option> mList = new ArrayList<>();
         private int mSelection = 0;
 
         AdvOptionsAdapter() {

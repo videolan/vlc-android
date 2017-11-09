@@ -58,9 +58,9 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class AudioUtil {
@@ -405,7 +405,7 @@ public class AudioUtil {
         return cover;
     }
 
-    public static Bitmap getCover(Context context, ArrayList<MediaWrapper> list, int width, boolean fromMemCache) {
+    public static Bitmap getCover(Context context, List<MediaWrapper> list, int width, boolean fromMemCache) {
         Bitmap cover = null;
         LinkedList<String> testedAlbums = new LinkedList<String>();
         for (MediaWrapper media : list) {
@@ -424,11 +424,11 @@ public class AudioUtil {
         return cover;
     }
 
-    public static Bitmap getCoverFromMemCache(Context context, ArrayList<MediaWrapper> list, int width) {
+    public static Bitmap getCoverFromMemCache(Context context, List<MediaWrapper> list, int width) {
         return getCover(context, list, width, true);
     }
 
-    public static Bitmap getCover(Context context, ArrayList<MediaWrapper> list, int width) {
+    public static Bitmap getCover(Context context, List<MediaWrapper> list, int width) {
         return getCover(context, list, width, false);
     }
 }

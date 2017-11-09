@@ -464,7 +464,7 @@ public class MediaDatabase {
      * @return An array of all the playlist names
      */
     public synchronized String[] getPlaylists() {
-        ArrayList<String> playlists = new ArrayList<String>();
+        List<String> playlists = new ArrayList<String>();
         Cursor c = mDb.query(
                 PLAYLIST_TABLE_NAME,
                 new String[]{PLAYLIST_NAME},
@@ -760,9 +760,9 @@ public class MediaDatabase {
                 new String[]{query + "*"}, null, null, null, null);
     }
 
-    public synchronized ArrayList<String> searchMedia(String filter){
+    public synchronized List<String> searchMedia(String filter){
 
-        ArrayList<String> mediaList = new ArrayList<String>();
+        List<String> mediaList = new ArrayList<String>();
         Cursor cursor = queryMedia(filter);
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -1132,8 +1132,8 @@ public class MediaDatabase {
         mDb.replace(SEARCHHISTORY_TABLE_NAME, null, values);
     }
 
-    public synchronized ArrayList<String> getSearchhistory(int size) {
-        ArrayList<String> history = new ArrayList<String>();
+    public synchronized List<String> getSearchhistory(int size) {
+        List<String> history = new ArrayList<String>();
 
         Cursor cursor = mDb.query(SEARCHHISTORY_TABLE_NAME,
                 new String[]{SEARCHHISTORY_KEY},
@@ -1164,8 +1164,8 @@ public class MediaDatabase {
         mDb.replace(MRL_TABLE_NAME, null, values);
     }
 
-    public synchronized ArrayList<String> getMrlhistory() {
-        ArrayList<String> history = new ArrayList<>();
+    public synchronized List<String> getMrlhistory() {
+        List<String> history = new ArrayList<>();
 
         Cursor cursor = mDb.query(MRL_TABLE_NAME,
                 new String[] { MRL_URI },
@@ -1218,8 +1218,8 @@ public class MediaDatabase {
             return false;
     }
 
-    public synchronized ArrayList<MediaWrapper> getAllNetworkFav() {
-        ArrayList<MediaWrapper> favs = new ArrayList<MediaWrapper>();
+    public synchronized List<MediaWrapper> getAllNetworkFav() {
+        List<MediaWrapper> favs = new ArrayList<MediaWrapper>();
 
         MediaWrapper mw;
         Cursor cursor = mDb.query(NETWORK_FAV_TABLE_NAME,
@@ -1262,7 +1262,7 @@ public class MediaDatabase {
         mDb.replace(EXTERNAL_SUBTITLES_TABLE_NAME, null, values);
     }
 
-    public synchronized ArrayList<String> getSubtitles(String mediaName) {
+    public synchronized List<String> getSubtitles(String mediaName) {
         if (TextUtils.isEmpty(mediaName))
             return new ArrayList<>();
         Cursor cursor = mDb.query(EXTERNAL_SUBTITLES_TABLE_NAME,
@@ -1270,7 +1270,7 @@ public class MediaDatabase {
                 EXTERNAL_SUBTITLES_MEDIA_NAME + "=?",
                 new String[] { mediaName },
                 null, null, null);
-        ArrayList<String> list = new ArrayList<>(cursor.getCount());
+        List<String> list = new ArrayList<>(cursor.getCount());
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 String url = cursor.getString(1);
@@ -1313,13 +1313,13 @@ public class MediaDatabase {
             saveSlave(mw.getLocation(), slave.type, slave.priority, slave.uri);
     }
 
-    public synchronized ArrayList<Media.Slave> getSlaves(String mrl) {
+    public synchronized List<Media.Slave> getSlaves(String mrl) {
         Cursor cursor = mDb.query(SLAVES_TABLE_NAME,
                 new String[] {SLAVES_MEDIA_PATH, SLAVES_TYPE, SLAVES_PRIORITY, SLAVES_URI },
                 SLAVES_MEDIA_PATH + "=?",
                 new String[] { mrl },
                 null, null, null);
-        ArrayList<Media.Slave> list = new ArrayList<>(cursor.getCount());
+        List<Media.Slave> list = new ArrayList<>(cursor.getCount());
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 String uri = cursor.getString(3);

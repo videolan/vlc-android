@@ -42,8 +42,8 @@ public class MediaWrapperList {
     private static final int EVENT_MOVED = 2;
 
     /* TODO: add locking */
-    private ArrayList<MediaWrapper> mInternalList;
-    private ArrayList<EventListener> mEventListenerList;
+    private List<MediaWrapper> mInternalList;
+    private List<EventListener> mEventListenerList;
     private int mVideoCount = 0;
 
     public MediaWrapperList() {

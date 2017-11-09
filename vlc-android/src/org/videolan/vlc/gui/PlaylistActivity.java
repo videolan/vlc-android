@@ -168,7 +168,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     private void updateList() {
         if (mPlaylist != null) {
-            ArrayList<MediaLibraryItem> tracks = Util.arrayToMediaArrayList(mPlaylist.getTracks());
+            List<MediaLibraryItem> tracks = Util.arrayToMediaArrayList(mPlaylist.getTracks());
             mAdapter.addAll(tracks);
         }
     }
@@ -256,7 +256,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         List<MediaLibraryItem> list = mAdapter.getSelection();
-        ArrayList<MediaWrapper> tracks = new ArrayList<>();
+        List<MediaWrapper> tracks = new ArrayList<>();
         for (MediaLibraryItem mediaItem : list)
             tracks.addAll(Arrays.asList(mediaItem.getTracks()));
 
@@ -299,7 +299,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mActionMode = null;
-        ArrayList<MediaLibraryItem> items = mAdapter.getAll();
+        List<MediaLibraryItem> items = mAdapter.getAll();
         if (items != null) {
             for (int i = 0; i < items.size(); ++i) {
                 if (items.get(i).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
@@ -424,7 +424,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     private void removeFromPlaylist(final List<MediaWrapper> list){
-        final ArrayList<MediaLibraryItem> oldAdapter = new ArrayList<>(mAdapter.getAll());
+        final List<MediaLibraryItem> oldAdapter = new ArrayList<>(mAdapter.getAll());
         for (MediaLibraryItem mediaItem : list)
             mAdapter.remove(mediaItem);
         UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.file_deleted), new Runnable() {

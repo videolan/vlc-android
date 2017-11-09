@@ -79,7 +79,6 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -505,7 +504,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
         if (ExternalMonitor.isLan()) {
             try {
-                final ArrayList<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
+                final List<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
                 mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_NETWORK, getString(R.string.network_browsing), R.drawable.ic_menu_network_big));
                 mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_STREAM, getString(R.string.open_mrl), R.drawable.ic_menu_stream_big));
 

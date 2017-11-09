@@ -119,9 +119,9 @@ public class AndroidDevices {
      * hasCombBar test if device has Combined Bar : only for tablet with Honeycomb or ICS
      */
 
-    public static ArrayList<String> getExternalStorageDirectories() {
+    public static List<String> getExternalStorageDirectories() {
         BufferedReader bufReader = null;
-        final ArrayList<String> list = new ArrayList<>();
+        final List<String> list = new ArrayList<>();
         try {
             bufReader = new BufferedReader(new FileReader("/proc/mounts"));
             String line;
@@ -168,7 +168,7 @@ public class AndroidDevices {
     }
 
     public static String[] getMediaDirectories() {
-        final ArrayList<String> list = new ArrayList<>();
+        final List<String> list = new ArrayList<>();
         list.add(EXTERNAL_PUBLIC_DIRECTORY);
         list.addAll(getExternalStorageDirectories());
         list.addAll(Arrays.asList(CustomDirectories.getCustomDirectories()));

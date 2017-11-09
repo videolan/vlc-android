@@ -36,11 +36,12 @@ import org.videolan.vlc.util.CustomDirectories;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 class StorageBrowserAdapter extends BaseBrowserAdapter {
 
-    private static ArrayList<String> mMediaDirsLocation;
-    private static ArrayList<String> mCustomDirsLocation;
+    private static List<String> mMediaDirsLocation;
+    private static List<String> mCustomDirsLocation;
 
     StorageBrowserAdapter(BaseBrowserFragment fragment) {
         super(fragment);

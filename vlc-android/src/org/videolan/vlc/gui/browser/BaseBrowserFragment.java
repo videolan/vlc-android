@@ -81,6 +81,7 @@ import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAdapter> implements IRefreshable, MediaBrowser.EventListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Filterable, IEventsHandler {
@@ -93,7 +94,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     public static final String KEY_POSITION = "key_list";
 
     public volatile boolean refreshing = false;
-    private ArrayList<MediaLibraryItem> refreshList;
+    private List<MediaLibraryItem> refreshList;
 
     protected BrowserFragmentHandler mHandler;
     protected MediaBrowser mMediaBrowser;
@@ -108,7 +109,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     protected boolean goBack = false;
     private final boolean mShowHiddenFiles;
 
-    private SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>> mFoldersContentLists;
+    private SimpleArrayMap<MediaLibraryItem, List<MediaLibraryItem>> mFoldersContentLists;
     public int mCurrentParsedPosition = 0;
 
     protected abstract Fragment createFragment();
@@ -141,7 +142,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             bundle = getArguments();
         if (bundle != null) {
             if (VLCApplication.hasData(KEY_CONTENT_LIST))
-                mFoldersContentLists = (SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>>) VLCApplication.getData(KEY_CONTENT_LIST);
+                mFoldersContentLists = (SimpleArrayMap<MediaLibraryItem, List<MediaLibraryItem>>) VLCApplication.getData(KEY_CONTENT_LIST);
             mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
             if (mCurrentMedia != null)
                 mMrl = mCurrentMedia.getLocation();
@@ -197,11 +198,11 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
 
         VLCApplication.storeData(KEY_CONTENT_LIST+mMrl, mFoldersContentLists);
         @SuppressWarnings("unchecked")
-        final SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>> content = (SimpleArrayMap<MediaLibraryItem, ArrayList<MediaLibraryItem>>) VLCApplication.getData(KEY_CONTENT_LIST + mMrl);
+        final SimpleArrayMap<MediaLibraryItem, List<MediaLibraryItem>> content = (SimpleArrayMap<MediaLibraryItem, List<MediaLibraryItem>>) VLCApplication.getData(KEY_CONTENT_LIST + mMrl);
         if (content != null)
             mFoldersContentLists = content;
         @SuppressWarnings("unchecked")
-        final ArrayList<MediaLibraryItem> mediaList = (ArrayList<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST + mMrl);
+        final List<MediaLibraryItem> mediaList = (List<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST + mMrl);
         if (!Util.isListEmpty(mediaList))
             mAdapter.update(mediaList);
         else
@@ -296,7 +297,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         final Bundle args = new Bundle();
         VLCApplication.storeData(KEY_MEDIA_LIST+mMrl, mAdapter.getAll());
         VLCApplication.storeData(KEY_CONTENT_LIST+ mMrl, mFoldersContentLists);
-        final ArrayList<MediaLibraryItem> list = mFoldersContentLists.get(media);
+        final List<MediaLibraryItem> list = mFoldersContentLists.get(media);
         if (!Util.isListEmpty(list) && !(this instanceof StorageBrowserFragment))
             VLCApplication.storeData(KEY_MEDIA_LIST+ media.getLocation(), list);
         args.putParcelable(KEY_MEDIA, media);
@@ -574,7 +575,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                 }
                 return true;
             case R.id.directory_view_play_folder:
-                ArrayList<MediaWrapper> newMediaList = new ArrayList<>();
+                List<MediaWrapper> newMediaList = new ArrayList<>();
                 for (MediaLibraryItem mediaItem : mFoldersContentLists.get(mAdapter.get(position))){
                     if (((MediaWrapper)mediaItem).getType() == MediaWrapper.TYPE_AUDIO || (AndroidUtil.isHoneycombOrLater && ((MediaWrapper)mediaItem).getType() == MediaWrapper.TYPE_VIDEO))
                         newMediaList.add((MediaWrapper)mediaItem);
@@ -629,7 +630,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         MediaUtils.openList(getActivity(), mediaLocations, positionInPlaylist);
     }
 
-    ArrayList<MediaLibraryItem> currentMediaList = new ArrayList<>();
+    List<MediaLibraryItem> currentMediaList = new ArrayList<>();
     protected void parseSubDirectories() {
         synchronized (currentMediaList) {
             currentMediaList = new ArrayList<>(mAdapter.getAll());
@@ -670,8 +671,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     }
 
     private MediaBrowser.EventListener mFoldersBrowserListener = new MediaBrowser.EventListener(){
-        ArrayList<MediaWrapper> directories = new ArrayList<>();
-        ArrayList<MediaWrapper> files = new ArrayList<>();
+        List<MediaWrapper> directories = new ArrayList<>();
+        List<MediaWrapper> files = new ArrayList<>();
 
         @Override
         public void onMediaAdded(int index, final Media media) {
@@ -803,7 +804,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             return false;
         }
         boolean single = this instanceof FileBrowserFragment && count == 1;
-        final ArrayList<MediaWrapper> selection = single ? mAdapter.getSelection() : null;
+        final List<MediaWrapper> selection = single ? mAdapter.getSelection() : null;
         int type = !Util.isListEmpty(selection) ? selection.get(0).getType() : -1;
         menu.findItem(R.id.action_mode_file_info).setVisible(single && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO));
         menu.findItem(R.id.action_mode_file_append).setVisible(mService.hasMedia());
@@ -812,7 +813,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        ArrayList<MediaWrapper> list = mAdapter.getSelection();
+        List<MediaWrapper> list = mAdapter.getSelection();
         if (!list.isEmpty()) {
             switch (item.getItemId()) {
                 case R.id.action_mode_file_play:

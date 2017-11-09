@@ -51,13 +51,14 @@ import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class BrowserGridFragment extends GridFragment implements MediaBrowser.EventListener, OnItemViewSelectedListener, OnItemViewClickedListener, DetailsFragment {
 
     private MediaBrowser mMediaBrowser;
     private Uri mUri;
-    ArrayList<MediaWrapper> mMediaList = null;
+    List<MediaWrapper> mMediaList = null;
     private MediaWrapper mItemSelected;
     private boolean mShowHiddenFiles = false;
 
@@ -131,7 +132,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     }
 
     public void sortList(){
-        ArrayList<MediaWrapper> files = new ArrayList<MediaWrapper>(), dirs = new ArrayList<MediaWrapper>();
+        List<MediaWrapper> files = new ArrayList<MediaWrapper>(), dirs = new ArrayList<MediaWrapper>();
         for (Object item : mMediaList){
             if (item instanceof MediaWrapper) {
                 MediaWrapper media = (MediaWrapper) item;

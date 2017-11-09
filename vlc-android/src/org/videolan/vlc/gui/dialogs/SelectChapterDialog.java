@@ -41,6 +41,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SelectChapterDialog extends DialogFragment implements PlaybackService.Client.Callback {
@@ -79,7 +80,7 @@ public class SelectChapterDialog extends DialogFragment implements PlaybackServi
             return;
         }
 
-        ArrayList<Map<String, String>> chapterList = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> chapterList = new ArrayList<Map<String, String>>();
 
         for (int i = 0; i < chaptersCount; i++) {
             String name;
@@ -130,8 +131,8 @@ public class SelectChapterDialog extends DialogFragment implements PlaybackServi
         mService = null;
     }
 
-    private HashMap<String, String> putData(String name, String time) {
-        HashMap<String, String> item = new HashMap<String, String>();
+    private Map<String, String> putData(String name, String time) {
+        Map<String, String> item = new HashMap<String, String>();
         item.put("name", name);
         item.put("time", time);
         return item;

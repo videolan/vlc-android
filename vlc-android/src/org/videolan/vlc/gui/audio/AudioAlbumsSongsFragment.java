@@ -259,7 +259,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         }
 
         if (useAllItems) {
-            ArrayList<MediaLibraryItem> items = new ArrayList<>();
+            List<MediaLibraryItem> items = new ArrayList<>();
             startPosition = mSongsAdapter.getListWithPosition(items, position);
             medias = items.toArray(new MediaWrapper[items.size()]);
         } else {
@@ -289,14 +289,14 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final ArrayList<MediaLibraryItem> albums;
+                final List<MediaLibraryItem> albums;
                 if (mItem.getItemType() == MediaLibraryItem.TYPE_ARTIST) {
                     albums = Util.arrayToMediaArrayList(((Artist) mItem).getAlbums());
                 } else if (mItem.getItemType() == MediaLibraryItem.TYPE_GENRE)
                     albums = Util.arrayToMediaArrayList(((Genre) mItem).getAlbums());
                 else
                     return;
-                final ArrayList<MediaLibraryItem> songs = new ArrayList<>();
+                final List<MediaLibraryItem> songs = new ArrayList<>();
                 for (MediaLibraryItem album : albums) {
                     songs.addAll(Util.arrayToArrayList(album.getTracks()));
                 }

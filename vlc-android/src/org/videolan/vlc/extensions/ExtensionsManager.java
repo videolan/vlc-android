@@ -54,7 +54,7 @@ public class ExtensionsManager {
         List<ResolveInfo> resolveInfos = pm.queryIntentServices(
                 new Intent(ACTION_EXTENSION), PackageManager.GET_META_DATA);
 
-        ArrayList<ExtensionListing> extensions = new ArrayList<>();
+        List<ExtensionListing> extensions = new ArrayList<>();
 
         for (ResolveInfo resolveInfo : resolveInfos) {
             ExtensionListing extension = new ExtensionListing();
@@ -120,7 +120,7 @@ public class ExtensionsManager {
 
     private boolean deleteUnusedExtensionPreferences(List<ExtensionListing> list, SharedPreferences settings) {
         boolean extensionMissing = false;
-        ArrayList<String> extensionNames = new ArrayList<>();
+        List<String> extensionNames = new ArrayList<>();
         for (ExtensionListing extension : list)
             extensionNames.add(extension.componentName().getPackageName());
         for (Map.Entry<String, ?> entry : settings.getAll().entrySet())

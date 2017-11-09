@@ -38,13 +38,13 @@ public class MediaUtils {
     }
 
     public static void getSubs(Activity activity, MediaWrapper media, SubtitlesDownloader.Callback cb) {
-        ArrayList<MediaWrapper> mediaList = new ArrayList<>();
+        List<MediaWrapper> mediaList = new ArrayList<>();
         mediaList.add(media);
         getSubs(activity, mediaList, cb);
     }
 
     public static void getSubs(Activity activity, MediaWrapper media) {
-        ArrayList<MediaWrapper> mediaList = new ArrayList<>();
+        List<MediaWrapper> mediaList = new ArrayList<>();
         mediaList.add(media);
         getSubs(activity, mediaList);
     }

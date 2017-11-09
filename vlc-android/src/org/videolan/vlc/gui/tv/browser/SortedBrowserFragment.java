@@ -61,6 +61,7 @@ import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -83,7 +84,7 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
     protected MediaWrapper mItemSelected;
     protected Map<String, ListItem> mMediaItemMap = new ArrayMap<>(), mTempMap;
     protected final SimpleArrayMap<String, Integer> mMediaIndex = new SimpleArrayMap<>();
-    ArrayList<MediaWrapper> mVideosList = new ArrayList<>();
+    List<MediaWrapper> mVideosList = new ArrayList<>();
     protected final BrowserHandler mHandler = new BrowserHandler(this);
     private BackgroundManager mBackgroundManager;
 
@@ -274,7 +275,7 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
 
     public static class ListItem {
         String Letter;
-        public ArrayList<MediaWrapper> mediaList;
+        public List<MediaWrapper> mediaList;
 
         ListItem(String letter, MediaWrapper mediaWrapper) {
             mediaList = new ArrayList<>();

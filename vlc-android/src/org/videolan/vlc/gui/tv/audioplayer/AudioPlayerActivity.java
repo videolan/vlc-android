@@ -56,6 +56,7 @@ import org.videolan.vlc.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class AudioPlayerActivity extends BaseTvActivity implements PlaybackService.Client.Callback,
@@ -68,7 +69,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     private TvAudioPlayerBinding mBinding;
     private PlaylistAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
-    private ArrayList<MediaWrapper> mMediaList;
+    private List<MediaWrapper> mMediaList;
 
     //PAD navigation
     private static final int JOYSTICK_INPUT_DELAY = 300;
@@ -107,7 +108,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         super.onConnected(service);
 
         mService.addCallback(this);
-        ArrayList<MediaWrapper> medias = mService.getMedias();
+        List<MediaWrapper> medias = mService.getMedias();
         if (!mMediaList.isEmpty() && !mMediaList.equals(medias)) {
             mService.load(mMediaList, mCurrentlyPlaying);
         } else {
@@ -327,7 +328,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mShuffling = shuffle;
         mBinding.buttonShuffle.setImageResource(shuffle ? R.drawable.ic_shuffle_on :
                 R.drawable.ic_shuffle_w);
-        ArrayList<MediaWrapper> medias = mService.getMedias();
+        List<MediaWrapper> medias = mService.getMedias();
         if (shuffle)
             Collections.shuffle(medias);
         else

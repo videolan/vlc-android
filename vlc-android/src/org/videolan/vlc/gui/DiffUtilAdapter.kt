@@ -1,6 +1,5 @@
 package org.videolan.vlc.gui
 
-
 import android.support.annotation.WorkerThread
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
@@ -15,10 +14,10 @@ import java.util.*
 
 abstract class DiffUtilAdapter<D : MediaLibraryItem, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
 
-    protected var dataset: ArrayList<D> = java.util.ArrayList()
+    protected var dataset: List<D> = listOf()
     @Volatile private var last = dataset
     private val diffCallback by lazy(LazyThreadSafetyMode.NONE) { createCB() }
-    private val updateActor = actor<ArrayList<D>>(newSingleThreadContext("vlc-updater"), capacity = Channel.CONFLATED) {
+    private val updateActor = actor<List<D>>(newSingleThreadContext("vlc-updater"), capacity = Channel.CONFLATED) {
         for (list in channel) {
             last = list
             internalUpdate(list)
@@ -26,10 +25,10 @@ abstract class DiffUtilAdapter<D : MediaLibraryItem, VH : RecyclerView.ViewHolde
     }
     protected abstract fun onUpdateFinished()
 
-    fun update (list: ArrayList<D>) = updateActor.offer(list)
+    fun update (list: List<D>) = updateActor.offer(list)
 
     @WorkerThread
-    private suspend fun internalUpdate(list: ArrayList<D>) {
+    private suspend fun internalUpdate(list: List<D>) {
         val finalList = prepareList(list)
         val result = DiffUtil.calculateDiff(diffCallback.apply { this.update(dataset, finalList) }, detectMoves())
         launch(UI) {
@@ -39,7 +38,7 @@ abstract class DiffUtilAdapter<D : MediaLibraryItem, VH : RecyclerView.ViewHolde
         }.join()
     }
 
-    open protected fun prepareList(list: java.util.ArrayList<D>) = ArrayList(list)
+    open protected fun prepareList(list: List<D>) : List<D> = ArrayList(list)
 
     fun peekLast() = last
 

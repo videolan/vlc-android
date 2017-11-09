@@ -55,7 +55,7 @@ import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.FileUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MediaItemDetailsFragment extends DetailsFragment implements PlaybackService.Client.Callback {
@@ -121,7 +121,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         mMediaWrapper = media;
         setTitle(media.getTitle());
 
-        final ArrayList<MediaWrapper> mediaList = (ArrayList<MediaWrapper>) VLCApplication.getData(SortedBrowserFragment.CURRENT_BROWSER_LIST);
+        final List<MediaWrapper> mediaList = (List<MediaWrapper>) VLCApplication.getData(SortedBrowserFragment.CURRENT_BROWSER_LIST);
         // Attach your media item details presenter to the row presenter:
         FullWidthDetailsOverviewRowPresenter rowPresenter = new FullWidthDetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
 
