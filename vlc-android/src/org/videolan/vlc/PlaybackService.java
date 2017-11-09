@@ -731,6 +731,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     };
 
     private void onPlaybackStopped() {
+        if (mWakeLock.isHeld())
+            mWakeLock.release();
+        changeAudioFocus(false);
         if (mStopped)
             return;
         mMedialibrary.resumeBackgroundOperations();
@@ -739,9 +742,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         executeUpdate();
         publishState();
         executeUpdateProgress();
-        if (mWakeLock.isHeld())
-            mWakeLock.release();
-        changeAudioFocus(false);
     }
 
     private void showPlayer() {
