@@ -665,7 +665,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 case MediaPlayer.Event.EndReached:
                     saveMediaMeta();
                     executeUpdateProgress();
-                    previousMediaStats = mMediaPlayer.getMedia().getStats();
+                    setPreviousStats();
                     determinePrevAndNextIndices(true);
                     if (mNextIndex == -1)
                         savePosition(true);
@@ -727,6 +727,13 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     }
                 }
             }
+        }
+
+        private void setPreviousStats() {
+            final Media media = mMediaPlayer.getMedia();
+            if (media == null) return;
+            previousMediaStats = media.getStats();
+            media.release();
         }
     };
 
