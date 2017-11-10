@@ -2452,7 +2452,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public int getVideoTracksCount() {
-        return mMediaPlayer.getVideoTracksCount();
+        return hasCurrentMedia() ? mMediaPlayer.getVideoTracksCount() : 0;
     }
 
     @MainThread
