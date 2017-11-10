@@ -963,7 +963,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void showNotification() {
-        if (VLCApplication.showTvUi())
+        if (!AndroidDevices.isAndroidTv && VLCApplication.showTvUi())
             return;
         if (isPlayingPopup() || mMediaPlayer.getVLCVout().areViewsAttached()) {
             hideNotification();
