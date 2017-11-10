@@ -415,7 +415,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                         Log.i(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
                         // Lower the volume
-                        if (mMediaPlayer.isPlaying()) {
+                        if (isPlaying()) {
                             final int volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                             if (audioDuckLevel == -1)
                                 audioDuckLevel = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)/5;
@@ -434,7 +434,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         }
                         if (mLossTransient) {
                             if (wasPlaying && mSettings.getBoolean("resume_playback", true))
-                                mMediaPlayer.play();
+                                play();
                             mLossTransient = false;
                         }
                         break;
@@ -1045,7 +1045,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public void pause() {
-        if (mPausable) {
+        if (hasCurrentMedia() && mPausable) {
             savePosition();
             mMediaPlayer.pause();
         }
@@ -1728,7 +1728,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public boolean isPlaying() {
-        return mMediaPlayer.isPlaying();
+        return hasCurrentMedia() && mMediaPlayer.isPlaying();
     }
 
     @MainThread
