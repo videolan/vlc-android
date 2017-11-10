@@ -165,7 +165,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
                     @Override
                     public void run() {
                         if (cover == null) {
-                            mBinding.albumCover.setImageResource(R.drawable.ic_song_big);
+                            mBinding.albumCover.setImageResource(R.drawable.ic_no_artwork_big);
                             mBinding.background.clearColorFilter();
                             mBinding.background.setImageResource(0);
                         } else {
