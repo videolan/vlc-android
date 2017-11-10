@@ -32,7 +32,7 @@
             app:layout_constraintVertical_chainStyle="spread"
             app:layout_constraintHorizontal_chainStyle="spread"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_song_big" />
+            android:src="@drawable/ic_no_artwork_big" />
 
         <TextView
             android:id="@+id/media_title"
