@@ -46,6 +46,11 @@ public class Medialibrary {
     public static final int FLAG_MEDIA_ADDED_AUDIO_EMPTY    = 1 << 4;
     public static final int FLAG_MEDIA_ADDED_VIDEO          = 1 << 5;
 
+    public static final int ML_INIT_SUCCESS = 0;
+    public static final int ML_INIT_ALREADY_INITIALIZED = 1;
+    public static final int ML_INIT_FAILED = 2;
+    public static final int ML_INIT_DB_RESET = 3;
+
     public static final String ACTION_IDLE = "action_idle";
     public static final String STATE_IDLE = "state_idle";
 
@@ -74,17 +79,18 @@ public class Medialibrary {
         return sContext;
     }
 
-    public boolean init(Context context) {
+    public int init(Context context) {
         if (context == null)
-            return false;
+            return ML_INIT_FAILED;
         sContext = context;
         File extFilesDir = context.getExternalFilesDir(null);
         File dbDirectory = context.getDir("db", Context.MODE_PRIVATE);
         if (extFilesDir == null || !extFilesDir.exists()
                 || dbDirectory == null || !dbDirectory.canWrite())
-            return false;
-        mIsInitiated = nativeInit(dbDirectory+ VLC_MEDIA_DB_NAME, extFilesDir+ THUMBS_FOLDER_NAME);
-        return mIsInitiated;
+            return ML_INIT_FAILED;
+        int initCode = nativeInit(dbDirectory+ VLC_MEDIA_DB_NAME, extFilesDir+ THUMBS_FOLDER_NAME);
+        mIsInitiated = initCode != ML_INIT_FAILED;
+        return initCode;
     }
 
     public void start() {
@@ -585,7 +591,7 @@ public class Medialibrary {
 
 
     // Native methods
-    private native boolean nativeInit(String dbPath, String thumbsPath);
+    private native int nativeInit(String dbPath, String thumbsPath);
     private native void nativeStart();
     private native void nativeRelease();
     private native void nativeBanFolder(String path);

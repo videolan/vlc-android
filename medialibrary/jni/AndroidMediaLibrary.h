@@ -28,7 +28,7 @@ public:
     AndroidMediaLibrary(JavaVM *vm, fields *ref_fields, jobject thiz);
     ~AndroidMediaLibrary();
 
-    bool initML(const std::string& dbPath, const std::string& thumbsPath);
+    medialibrary::InitializeResult initML(const std::string& dbPath, const std::string& thumbsPath);
     void start();
     bool addDevice(const std::string& uuid, const std::string& path, bool removable);
     std::vector<std::tuple<std::string, std::string, bool>> devices();
