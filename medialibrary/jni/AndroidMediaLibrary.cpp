@@ -55,7 +55,7 @@ AndroidMediaLibrary::~AndroidMediaLibrary()
     delete p_ml;
 }
 
-bool
+medialibrary::InitializeResult
 AndroidMediaLibrary::initML(const std::string& dbPath, const std::string& thumbsPath)
 {
     p_DeviceListerCb = p_ml->setDeviceLister(p_lister);

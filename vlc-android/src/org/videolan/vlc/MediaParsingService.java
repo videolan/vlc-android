@@ -215,24 +215,27 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         if (mMedialibrary.isInitiated()) {
             mMedialibrary.resumeBackgroundOperations();
             exitCommand();
-        } else
+        } else {
+            final Context context = getApplicationContext();
             mCallsExecutor.execute(new Runnable() {
                 Handler handler = null;
                 @Override
                 public void run() {
-                    boolean shouldInit = !(new File(MediaParsingService.this.getDir("db", Context.MODE_PRIVATE)+Medialibrary.VLC_MEDIA_DB_NAME).exists());
-                    if (mMedialibrary.init(getApplicationContext())) {
+                    boolean shouldInit = !(new File(MediaParsingService.this.getDir("db", Context.MODE_PRIVATE) + Medialibrary.VLC_MEDIA_DB_NAME).exists());
+                    int initCode = mMedialibrary.init(context);
+                    shouldInit |= initCode == Medialibrary.ML_INIT_DB_RESET;
+                    if (initCode != Medialibrary.ML_INIT_FAILED) {
                         final List<String> devices = new ArrayList<>();
                         devices.add(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                         devices.addAll(AndroidDevices.getExternalStorageDirectories());
-                        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MediaParsingService.this);
+                        final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                         for (final String device : devices) {
                             final boolean isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                             final String uuid = FileUtils.getFileNameFromPath(device);
                             if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid))
                                 continue;
                             final boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : uuid, device, !isMainStorage);
-                            final boolean isIgnored = sharedPreferences.getBoolean("ignore_"+ uuid, false);
+                            final boolean isIgnored = sharedPreferences.getBoolean("ignore_" + uuid, false);
                             if (!isMainStorage && isNew && !isIgnored)
                                 showStorageNotification(device);
                         }
@@ -265,6 +268,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                     }, 2000);
                 }
             });
+        }
     }
 
     private boolean wasWorking;
