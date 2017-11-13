@@ -195,7 +195,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                     exitCommand();
                     return;
                 }
-                mMedialibrary.addDevice(uuid, path, true, true);
+                mMedialibrary.addDevice(uuid, path, true);
                 for (String folder : Medialibrary.getBlackList())
                     mMedialibrary.banFolder(path + folder);
             }
@@ -231,7 +231,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             final String uuid = FileUtils.getFileNameFromPath(device);
                             if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid))
                                 continue;
-                            final boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : uuid, device, !isMainStorage, false);
+                            final boolean isNew = mMedialibrary.addDevice(isMainStorage ? "main-storage" : uuid, device, !isMainStorage);
                             final boolean isIgnored = sharedPreferences.getBoolean("ignore_"+ uuid, false);
                             if (!isMainStorage && isNew && !isIgnored)
                                 showStorageNotification(device);

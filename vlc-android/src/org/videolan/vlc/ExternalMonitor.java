@@ -101,7 +101,7 @@ public class ExternalMonitor extends BroadcastReceiver {
                     if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid)
                             || containsDevice(knownDevices, device))
                         continue;
-                    final boolean isNew = ml.addDevice(uuid, device, true, true);
+                    final boolean isNew = ml.addDevice(uuid, device, true);
                     final boolean isIgnored = sharedPreferences.getBoolean("ignore_"+ uuid, false);
                     if (isNew && !isIgnored)
                         LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(ACTION_NEW_STORAGE).putExtra(EXTRA_PATH, device));
@@ -172,7 +172,7 @@ public class ExternalMonitor extends BroadcastReceiver {
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
                     if (!TextUtils.isEmpty(uuid)
                             && !PreferenceManager.getDefaultSharedPreferences(appCtx).getBoolean("ignore_" + uuid, false)) {
-                        if (VLCApplication.getMLInstance().addDevice(uuid, path, true, true)) {
+                        if (VLCApplication.getMLInstance().addDevice(uuid, path, true)) {
                             notifyStorageChanges(path);
                         } else
                             appCtx.startService(new Intent(MediaParsingService.ACTION_RELOAD, null, appCtx, MediaParsingService.class)
