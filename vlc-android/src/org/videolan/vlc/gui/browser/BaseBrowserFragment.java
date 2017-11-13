@@ -245,7 +245,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     public void onSaveInstanceState(Bundle outState){
         outState.putString(KEY_MRL, mMrl);
         outState.putParcelable(KEY_MEDIA, mCurrentMedia);
-        VLCApplication.storeData(KEY_MEDIA_LIST+mMrl, mAdapter.getAll());
+        if (mAdapter != null)
+            VLCApplication.storeData(KEY_MEDIA_LIST+mMrl, mAdapter.getAll());
         VLCApplication.storeData(KEY_CONTENT_LIST+mMrl, mFoldersContentLists);
         if (mRecyclerView != null)
             outState.putInt(KEY_POSITION, mLayoutManager.findFirstCompletelyVisibleItemPosition());
