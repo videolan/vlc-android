@@ -36,18 +36,26 @@ public class MediaList extends VLCObject<MediaList.Event> {
         public static final int EndReached             = 0x204;
 
         /**
-         * The media can be already released. If it's released, cached attributes are still
-         * available (like media.getMrl()).
-         * You should call {@link Media#retain()} and check the return value
-         * before calling media native methods.
+         * In case of ItemDeleted, the media will be already released. If it's released, cached
+         * attributes are still available (like {@link Media#getUri()}}).
          */
         public final Media media;
+        private final boolean retain;
         public final int index;
 
-        protected Event(int type, Media media, int index) {
+        protected Event(int type, Media media, boolean retain, int index) {
             super(type);
+            if (retain && (media == null || !media.retain()))
+                throw new IllegalStateException("invalid media reference");
             this.media = media;
+            this.retain = retain;
             this.index = index;
+        }
+
+        @Override
+        void release() {
+            if (retain)
+                media.release();
         }
     }
 
@@ -133,18 +141,18 @@ public class MediaList extends VLCObject<MediaList.Event> {
             index = (int) arg1;
             if (index != -1) {
                 final Media media = insertMediaFromEvent(index);
-                event = new Event(eventType, media, index);
+                event = new Event(eventType, media, true, index);
             }
             break;
         case Event.ItemDeleted:
             index = (int) arg1;
             if (index != -1) {
                 final Media media = removeMediaFromEvent(index);
-                event = new Event(eventType, media, index);
+                event = new Event(eventType, media, false, index);
             }
             break;
         case Event.EndReached:
-            event = new Event(eventType, null, -1);
+            event = new Event(eventType, null, false, -1);
             break;
         }
         mLocked = false;
