@@ -142,6 +142,7 @@ public class TvUtil {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static void updateBackground(final BackgroundManager bm, Object item) {
+        if (bm == null) return;
         if (item instanceof MediaLibraryItem) {
             final boolean crop = ((MediaLibraryItem) item).getItemType() != MediaLibraryItem.TYPE_MEDIA
                     || ((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO;
