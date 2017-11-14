@@ -1,3 +1,17 @@
+Changes between 2.5.8 and 2.5.9:
+----------------------------------
+
+Application:
+ * Background/PiP option has been relocated to main preferences pages
+ * VLC now remembers if you want to show the current playlist or cover
+ * Fix crash in Videoplayer
+ * Fix crash in Browsers on device rotation
+ * Misc. fixes
+
+TV:
+ * Reworked icons
+ * Fix audio ducking, VLC now pauses during notifications
+
 Changes between 2.5.7 and 2.5.8:
 ----------------------------------
 
