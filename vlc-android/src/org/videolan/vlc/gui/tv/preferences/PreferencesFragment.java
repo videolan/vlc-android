@@ -33,6 +33,9 @@ import android.widget.Toast;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.util.AndroidDevices;
+
+import static org.videolan.vlc.gui.preferences.PreferencesActivity.KEY_VIDEO_APP_SWITCH;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class PreferencesFragment extends BasePreferenceFragment {
@@ -61,6 +64,7 @@ public class PreferencesFragment extends BasePreferenceFragment {
         super.onCreate(savedInstanceState);
         findPreference("screen_orientation").setVisible(false);
         findPreference("extensions_category").setVisible(false);
+        findPreference(KEY_VIDEO_APP_SWITCH).setVisible(AndroidDevices.hasPiP);
     }
 
     @Override

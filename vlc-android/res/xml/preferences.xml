@@ -30,6 +30,14 @@
             android:entryValues="@array/screen_orientation_values"
             android:key="screen_orientation"
             android:title="@string/screen_orientation" />
+
+        <ListPreference
+            android:key="video_action_switch"
+            android:defaultValue="0"
+            android:entries="@array/video_app_switch_action_titles"
+            android:entryValues="@array/video_app_switch_action_values"
+            android:summary="@string/video_app_switch_summary"
+            android:title="@string/video_app_switch_title" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/history" >
