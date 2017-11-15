@@ -443,6 +443,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             }
 
             private void pausePlayback() {
+                if (mLossTransient) return;
                 mLossTransient = true;
                 wasPlaying = isPlaying();
                 if (wasPlaying)
