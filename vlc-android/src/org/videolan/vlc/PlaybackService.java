@@ -1302,6 +1302,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         onPlayFromSearch(query, extras);
                     }
                 });
+                return;
             }
             mMediaSession.setPlaybackState(new PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, getTime(), 1.0f).build());
             VLCApplication.runBackground(new Runnable() {
