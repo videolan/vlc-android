@@ -2689,21 +2689,22 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             registerMedialibrary(new Runnable() {
                 @Override
                 public void run() {
-                    VLCApplication.runBackground(new Runnable() {
-                        @Override
-                        public void run() {
-                            result.sendResult(BrowserProvider.browse(parentId));
-                        }
-                    });
+                    sendResults(result, parentId);
                 }
             });
         else
-            VLCApplication.runBackground(new Runnable() {
-                @Override
-                public void run() {
+            sendResults(result, parentId);
+    }
+
+    private void sendResults(@NonNull final MediaBrowserServiceCompat.Result result, @NonNull final String parentId) {
+        VLCApplication.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                try {
                     result.sendResult(BrowserProvider.browse(parentId));
-                }
-            });
+                } catch (RuntimeException ignored) {} //bitmap parcelization can fail
+            }
+        });
     }
 
     private class MedialibraryReceiver extends BroadcastReceiver {
