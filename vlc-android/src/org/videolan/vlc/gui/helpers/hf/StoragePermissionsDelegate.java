@@ -65,7 +65,7 @@ public class StoragePermissionsDelegate extends BaseHeadlessFragment {
             intent.removeExtra(StartActivity.EXTRA_UPGRADE);
             intent.removeExtra(StartActivity.EXTRA_FIRST_RUN);
         }
-        if (AndroidUtil.isMarshMallowOrLater && !canReadStorage()) {
+        if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(getActivity())) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
                 Permissions.showStoragePermissionDialog(mActivity, false);
             else
