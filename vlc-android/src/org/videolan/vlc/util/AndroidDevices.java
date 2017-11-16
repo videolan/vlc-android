@@ -129,7 +129,7 @@ public class AndroidDevices {
                 final StringTokenizer tokens = new StringTokenizer(line, " ");
                 final String device = tokens.nextToken();
                 final String mountpoint = tokens.nextToken();
-                final String type = tokens.nextToken();
+                final String type = tokens.hasMoreTokens() ? tokens.nextToken() : null;
 
                 // skip if already in list or if type/mountpoint is blacklisted
                 if (list.contains(mountpoint) || typeBL.contains(type) || Strings.startsWith(mountBL, mountpoint))
