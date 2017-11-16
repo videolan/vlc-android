@@ -74,6 +74,7 @@ import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class VideoGridFragment extends SortableFragment<VideoListAdapter> implements MediaUpdatedCb, SwipeRefreshLayout.OnRefreshListener, MediaAddedCb, Filterable, IEventsHandler {
 
@@ -365,8 +366,11 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
                 if (mGroup != null) {
                     for (MediaWrapper item : itemList) {
                         String title = item.getTitle().substring(item.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
-                        if (mGroup == null || title.toLowerCase().startsWith(mGroup.toLowerCase()))
+                        if (title.toLowerCase().startsWith(mGroup.toLowerCase())) {
+                            //Display title without the group name
+                            item.setDisplayTitle(title.replaceFirst(Pattern.quote(mGroup), "\u2026"));
                             displayList.add(item);
+                        }
                     }
                 } else {
                     for (MediaGroup item : MediaGroup.group(itemList))
