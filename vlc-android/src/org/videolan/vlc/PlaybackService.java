@@ -415,15 +415,20 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         Log.i(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK");
                         // Lower the volume
                         if (isPlaying()) {
-                            if (AndroidDevices.isAndroidTv) {
+                            if (AndroidDevices.isAmazon) {
                                 pausePlayback();
                             } else {
-                                final int volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                                final int volume = AndroidDevices.isAndroidTv ? getVolume()
+                                        : mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                                 if (audioDuckLevel == -1)
-                                    audioDuckLevel = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)/5;
+                                    audioDuckLevel = AndroidDevices.isAndroidTv ? 50
+                                            : mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)/5;
                                 if (volume > audioDuckLevel) {
                                     mLossTransientVolume = volume;
-                                    mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioDuckLevel, 0);
+                                    if (AndroidDevices.isAndroidTv)
+                                        setVolume(audioDuckLevel);
+                                    else
+                                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioDuckLevel, 0);
                                 }
                             }
                         }
@@ -432,7 +437,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         Log.i(TAG, "AUDIOFOCUS_GAIN: ");
                         // Resume playback
                         if (mLossTransientVolume != -1) {
-                            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mLossTransientVolume, 0);
+                            if (AndroidDevices.isAndroidTv)
+                                setVolume(mLossTransientVolume);
+                            else
+                                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mLossTransientVolume, 0);
                             mLossTransientVolume = -1;
                         }
                         if (mLossTransient) {
