@@ -59,6 +59,7 @@ public class AndroidDevices {
     public final static boolean hasNavBar;
     public final static boolean hasTsp;
     public final static boolean isAndroidTv;
+    public final static boolean isAmazon = TextUtils.equals(Build.MANUFACTURER,"Amazon");
     public final static boolean isChromeBook;
     public static final boolean hasPiP;
     public final static boolean showInternalStorage = !TextUtils.equals(Build.BRAND, "Swisscom") && !TextUtils.equals(Build.BOARD, "sprint");
