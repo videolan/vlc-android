@@ -110,7 +110,7 @@ public class FilePickerFragment extends FileBrowserFragment {
             mRoot = true;
             mAdapter.clear();
             browseRoot();
-        } else {
+        } else if (mMrl != null) {
             MediaWrapper mw = new MediaWrapper(Uri.parse(FileUtils.getParent(mMrl)));
             browse(mw, 0, false);
         }

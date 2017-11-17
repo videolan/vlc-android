@@ -28,6 +28,7 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
@@ -85,30 +86,42 @@ public class FileBrowserFragment extends BaseBrowserFragment {
 
     @Override
     protected void browseRoot() {
+        mMrl = null;
+        final FragmentActivity activity = getActivity();
+        if (activity == null) return;
+        activity.setTitle(R.string.directories);
+        final String internalmemoryTitle = getString(R.string.internal_memory);
+        final String browserStorage = getString(R.string.browser_storages);
+        final String quickAccess = getString(R.string.browser_quick_access);
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 final String storages[] = AndroidDevices.getMediaDirectories();
                 MediaWrapper directory;
                 final ArrayList<MediaLibraryItem> devices = new ArrayList<>(storages.length);
-                devices.add(new DummyItem(getString(R.string.browser_storages)));
+                final boolean isFilePicker = FileBrowserFragment.this instanceof FilePickerFragment;
+                if (!isFilePicker) {
+                    devices.add(new DummyItem(browserStorage));
+                }
                 for (String mediaDirLocation : storages) {
                     if (!(new File(mediaDirLocation).exists()))
                         continue;
                     directory = new MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation));
                     directory.setType(MediaWrapper.TYPE_DIR);
                     if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
-                        directory.setDisplayTitle(VLCApplication.getAppResources().getString(R.string.internal_memory));
+                        directory.setDisplayTitle(internalmemoryTitle);
                     devices.add(directory);
                 }
                 // Set folders shortcuts
-                devices.add(new DummyItem(getString(R.string.browser_quick_access)));
+                if (!isFilePicker) {
+                    devices.add(new DummyItem(quickAccess));
+                }
                 if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_FILE.exists()) {
                     final MediaWrapper movies = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI);
                     movies.setType(MediaWrapper.TYPE_DIR);
                     devices.add(movies);
                 }
-                if (!(FileBrowserFragment.this instanceof FilePickerFragment)) {
+                if (!isFilePicker) {
                     if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_FILE.exists()) {
                         final MediaWrapper music = new MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI);
                         music.setType(MediaWrapper.TYPE_DIR);
