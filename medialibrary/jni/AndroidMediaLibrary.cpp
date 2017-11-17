@@ -12,6 +12,7 @@
 
 static pthread_key_t jni_env_key;
 static JavaVM *myVm;
+static bool m_started = false;
 
 static void jni_detach_thread(void *data)
 {
@@ -66,13 +67,14 @@ void
 AndroidMediaLibrary::start()
 {
     p_ml->start();
+    m_started = true;
 }
 
 bool
 AndroidMediaLibrary::addDevice(const std::string& uuid, const std::string& path, bool removable)
 {
     p_lister->addDevice(uuid, path, removable);
-    return p_DeviceListerCb != nullptr && p_DeviceListerCb->onDevicePlugged(uuid, path);
+    return p_DeviceListerCb != nullptr && (m_started ? p_DeviceListerCb->onDevicePlugged(uuid, path) : !p_DeviceListerCb->isDeviceKnown(uuid));
 }
 
 std::vector<std::tuple<std::string, std::string, bool>>
