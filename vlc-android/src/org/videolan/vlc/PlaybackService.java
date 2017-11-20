@@ -754,9 +754,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             return;
         mMedialibrary.resumeBackgroundOperations();
         mStopped = true;
+        // We must publish state before resetting mCurrentIndex
+        publishState();
         mCurrentIndex = -1;
         executeUpdate();
-        publishState();
         executeUpdateProgress();
     }
 
