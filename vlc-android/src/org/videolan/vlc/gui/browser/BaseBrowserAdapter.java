@@ -211,7 +211,8 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
 
         @Override
         protected boolean isSelected() {
-            return getItem(getLayoutPosition()).hasStateFlags(FLAG_SELECTED);
+            final MediaLibraryItem item = getItem(getLayoutPosition());
+            return item != null && item.hasStateFlags(FLAG_SELECTED);
         }
     }
 
