@@ -150,6 +150,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
         getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
         setUserVisibleHint(true);
         mBinding.setShowCover(mSettings.getBoolean("audio_player_show_cover", false));
+        mBinding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.getContext(), mBinding.getShowCover() ? R.attr.ic_playlist : R.attr.ic_playlist_on));
     }
 
     @Override
@@ -437,6 +438,7 @@ public class AudioPlayer extends PlaybackServiceFragment implements PlaybackServ
     public void onPlaylistSwitchClick(View view) {
         mSettings.edit().putBoolean("audio_player_show_cover", !mBinding.getShowCover()).apply();
         mBinding.setShowCover(!mBinding.getShowCover());
+        mBinding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.getContext(), mBinding.getShowCover() ? R.attr.ic_playlist : R.attr.ic_playlist_on));
     }
 
     public void onShuffleClick(View view) {
