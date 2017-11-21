@@ -14,7 +14,9 @@
         android:onClick="onHomeClick"
         tools:targetApi="11"
         android:src="@drawable/ic_browser_home_normal"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        android:focusable="true"
+        android:clickable="true"/>
     <FrameLayout
         android:id="@+id/fragment_placeholder"
         android:layout_width="match_parent"
