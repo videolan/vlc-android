@@ -87,6 +87,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     @Override
     protected void browseRoot() {
         mMrl = null;
+        mRoot = true;
         final FragmentActivity activity = getActivity();
         if (activity == null) return;
         activity.setTitle(R.string.directories);
