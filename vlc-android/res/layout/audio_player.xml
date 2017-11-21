@@ -8,7 +8,7 @@
             type="org.videolan.vlc.gui.audio.AudioPlayer" />
         <variable
             name="showCover"
-            type="Boolean" />
+            type="boolean" />
     </data>
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/content_layout"
