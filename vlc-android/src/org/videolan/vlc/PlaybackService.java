@@ -357,7 +357,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         super.onDestroy();
         stop(true);
         if (mMediaSession != null) {
-            mMediaSession.setActive(false);
             mMediaSession.release();
             mMediaSession = null;
         }
