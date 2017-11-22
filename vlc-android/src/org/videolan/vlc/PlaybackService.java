@@ -1451,16 +1451,19 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             return;
         final PlaybackStateCompat.Builder pscb = new PlaybackStateCompat.Builder();
         long actions = PLAYBACK_BASE_ACTIONS;
+        final boolean hasMedia = hasCurrentMedia();
+        int state;
         if (!mStopped && isPlaying()) {
             actions |= PlaybackStateCompat.ACTION_PAUSE | PlaybackStateCompat.ACTION_STOP;
-            pscb.setState(PlaybackStateCompat.STATE_PLAYING, getTime(), getRate());
-        } else if (!mStopped && hasMedia()) {
+            state = PlaybackStateCompat.STATE_PLAYING;
+        } else if (!mStopped && hasMedia) {
             actions |= PlaybackStateCompat.ACTION_PLAY | PlaybackStateCompat.ACTION_STOP;
-            pscb.setState(PlaybackStateCompat.STATE_PAUSED, getTime(), getRate());
+            state = PlaybackStateCompat.STATE_PAUSED;
         } else {
             actions |= PlaybackStateCompat.ACTION_PLAY;
-            pscb.setState(PlaybackStateCompat.STATE_STOPPED, getTime(), getRate());
+            state = AndroidDevices.isAndroidTv && hasMedia ? PlaybackStateCompat.STATE_PAUSED : PlaybackStateCompat.STATE_STOPPED;
         }
+        pscb.setState(state, getTime(), getRate());
         if (mRepeating != REPEAT_NONE || hasNext())
             actions |= PlaybackStateCompat.ACTION_SKIP_TO_NEXT;
         if (mRepeating != REPEAT_NONE || hasPrevious() || isSeekable())
@@ -1474,7 +1477,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), isShuffling() ? R.drawable.ic_auto_shuffle_pressed : R.drawable.ic_auto_shuffle_normal);
         pscb.addCustomAction("repeat", getString(R.string.repeat_title), repeatResId);
         mMediaSession.setPlaybackState(pscb.build());
-        mMediaSession.setActive(hasMedia());
+        mMediaSession.setActive(state != PlaybackStateCompat.STATE_STOPPED);
         mMediaSession.setQueueTitle(getString(R.string.music_now_playing));
     }
 
