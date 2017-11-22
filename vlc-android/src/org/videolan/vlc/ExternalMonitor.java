@@ -55,9 +55,6 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.videolan.vlc.MediaParsingService.ACTION_NEW_STORAGE;
-import static org.videolan.vlc.MediaParsingService.EXTRA_PATH;
-
 public class ExternalMonitor extends BroadcastReceiver {
     public final static String TAG = "VLC/ExternalMonitor";
     private static volatile boolean connected = true;
@@ -93,28 +90,31 @@ public class ExternalMonitor extends BroadcastReceiver {
             public void run() {
                 final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
                 final List<String> devices = AndroidDevices.getExternalStorageDirectories();
-                if (Util.isListEmpty(devices))
-                    return;
                 final String[] knownDevices = ml.getDevices();
+                final List<String> missingDevices = Util.arrayToArrayList(knownDevices);
+                missingDevices.remove("file://"+AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
+                boolean refresh = false;
                 for (final String device : devices) {
                     final String uuid = FileUtils.getFileNameFromPath(device);
-                    if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid)
-                            || containsDevice(knownDevices, device))
+                    if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid))
                         continue;
+                    if (containsDevice(knownDevices, device)) {
+                        missingDevices.remove("file://"+device);
+                        continue;
+                    }
                     final boolean isNew = ml.addDevice(uuid, device, true);
                     final boolean isIgnored = sharedPreferences.getBoolean("ignore_"+ uuid, false);
-                    if (isNew && !isIgnored)
-                        LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(ACTION_NEW_STORAGE).putExtra(EXTRA_PATH, device));
+                    if (!isIgnored) {
+                        if (isNew)
+                            LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(MediaParsingService.ACTION_NEW_STORAGE).putExtra(MediaParsingService.EXTRA_PATH, device));
+                        else
+                            refresh = true;
+                    }
                 }
-            }
-
-            private boolean containsDevice(String[] devices, String device) {
-                if (Util.isArrayEmpty(devices))
-                    return false;
-                for (String dev : devices)
-                    if (device.startsWith(Strings.removeFileProtocole(dev)))
-                        return true;
-                return false;
+                for (String device : missingDevices)
+                    ml.removeDevice(FileUtils.getFileNameFromPath(device));
+                if (refresh || !missingDevices.isEmpty())
+                    LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(MediaParsingService.ACTION_SERVICE_ENDED));
             }
         });
     }
@@ -172,10 +172,13 @@ public class ExternalMonitor extends BroadcastReceiver {
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
                     if (!TextUtils.isEmpty(uuid)
                             && !PreferenceManager.getDefaultSharedPreferences(appCtx).getBoolean("ignore_" + uuid, false)) {
-                        if (VLCApplication.getMLInstance().addDevice(uuid, path, true)) {
+                        final Medialibrary ml = VLCApplication.getMLInstance();
+                        final String[] knownDevices = ml.getDevices();
+                        if (!containsDevice(knownDevices, path) && ml.addDevice(uuid, path, true)) {
                             notifyStorageChanges(path);
-                        } else
+                        } else {
                             LocalBroadcastManager.getInstance(appCtx).sendBroadcast(new Intent(MediaParsingService.ACTION_SERVICE_ENDED));
+                        }
                     }
                     break;
                 case ACTION_MEDIA_UNMOUNTED:
@@ -191,7 +194,7 @@ public class ExternalMonitor extends BroadcastReceiver {
             obs.onNetworkConnectionChanged(connected);
     }
 
-    private synchronized void notifyStorageChanges(String path) {
+    private static synchronized void notifyStorageChanges(String path) {
         final Activity activity = storageObserver != null ? storageObserver.get() : null;
         if (activity != null)
             UiTools.newStorageDetected(activity, path);
@@ -256,5 +259,14 @@ public class ExternalMonitor extends BroadcastReceiver {
             } catch (SocketException ignored) {}
             return false;
         }
+    }
+
+    private static boolean containsDevice(String[] devices, String device) {
+        if (Util.isArrayEmpty(devices))
+            return false;
+        for (String dev : devices)
+            if (device.startsWith(Strings.removeFileProtocole(dev)))
+                return true;
+        return false;
     }
 }
