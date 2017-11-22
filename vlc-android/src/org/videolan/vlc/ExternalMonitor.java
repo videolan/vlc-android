@@ -175,8 +175,7 @@ public class ExternalMonitor extends BroadcastReceiver {
                         if (VLCApplication.getMLInstance().addDevice(uuid, path, true)) {
                             notifyStorageChanges(path);
                         } else
-                            appCtx.startService(new Intent(MediaParsingService.ACTION_RELOAD, null, appCtx, MediaParsingService.class)
-                                    .putExtra(EXTRA_PATH, path));
+                            LocalBroadcastManager.getInstance(appCtx).sendBroadcast(new Intent(MediaParsingService.ACTION_SERVICE_ENDED));
                     }
                     break;
                 case ACTION_MEDIA_UNMOUNTED:
