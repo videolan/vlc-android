@@ -986,7 +986,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                                 while (ExecutorHolder.updateMeta.get())
                                     ExecutorHolder.updateMeta.wait();
                             } catch (InterruptedException ignored) {}
-                            final MediaMetadataCompat metaData = mMediaSession.getController().getMetadata();
+                            final MediaMetadataCompat metaData = mMediaSession != null ? mMediaSession.getController().getMetadata() : null;
                             title = metaData == null ? mw.getTitle() : metaData.getString(MediaMetadataCompat.METADATA_KEY_TITLE);
                             artist = metaData == null ? mw.getArtist() : metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST);
                             album = metaData == null ? mw.getAlbum() : metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM);
