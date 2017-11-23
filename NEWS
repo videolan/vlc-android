@@ -1,4 +1,13 @@
-Changes between 2.5.9 and 2.5.10:
+Changes between 2.5.10 and 2.5.11:
+----------------------------------
+
+Application:
+ * Improve external storages management
+ * Improve audio ducking on Android TV and Amazon TV
+ * Set a now playing card on Android TV for 15 minutes
+ * misc. fixes
+
+ Changes between 2.5.9 and 2.5.10:
 ----------------------------------
 
 Application:
