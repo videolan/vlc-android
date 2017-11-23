@@ -126,6 +126,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     private static final int SHOW_PROGRESS = 0;
     private static final int SHOW_TOAST = 1;
+    private static final int END_MEDIASESSION = 2;
     public static final String ACTION_REMOTE_GENERIC =  Strings.buildPkgString("remote.");
     public static final String ACTION_REMOTE_BACKWARD = ACTION_REMOTE_GENERIC+"Backward";
     public static final String ACTION_REMOTE_PLAY = ACTION_REMOTE_GENERIC+"Play";
@@ -357,6 +358,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
         stop(true);
         if (mMediaSession != null) {
             mMediaSession.release();
@@ -945,7 +947,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             final PlaybackService service = getOwner();
             if (service == null)
                 return;
-
             switch (msg.what) {
                 case SHOW_PROGRESS:
                     synchronized (service.mCallbacks) {
@@ -961,6 +962,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     final String text = bundle.getString("text");
                     final int duration = bundle.getInt("duration");
                     Toast.makeText(VLCApplication.getAppContext(), text, duration).show();
+                    break;
+                case END_MEDIASESSION:
+                    if (service.mMediaSession != null)
+                        service.mMediaSession.setActive(false);
                     break;
             }
         }
@@ -1449,10 +1454,12 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     protected void publishState() {
         if (mMediaSession == null)
             return;
+        if (AndroidDevices.isAndroidTv) mHandler.removeMessages(END_MEDIASESSION);
         final PlaybackStateCompat.Builder pscb = new PlaybackStateCompat.Builder();
         long actions = PLAYBACK_BASE_ACTIONS;
         final boolean hasMedia = hasCurrentMedia();
-        int state;
+        long time = getTime();
+        int state = PlaybackStateCompat.STATE_STOPPED;
         if (!mStopped && isPlaying()) {
             actions |= PlaybackStateCompat.ACTION_PAUSE | PlaybackStateCompat.ACTION_STOP;
             state = PlaybackStateCompat.STATE_PLAYING;
@@ -1461,9 +1468,18 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             state = PlaybackStateCompat.STATE_PAUSED;
         } else {
             actions |= PlaybackStateCompat.ACTION_PLAY;
-            state = AndroidDevices.isAndroidTv && hasMedia ? PlaybackStateCompat.STATE_PAUSED : PlaybackStateCompat.STATE_STOPPED;
+            final MediaWrapper media = AndroidDevices.isAndroidTv && hasMedia ? getCurrentMedia() : null;
+            if (media != null) {
+                final long length = media.getLength();
+                time = media.getTime();
+                float progress = length <= 0L ? 0f : time / (float)length;
+                if (progress < 0.95f) {
+                    state = PlaybackStateCompat.STATE_PAUSED;
+                    mHandler.sendEmptyMessageDelayed(END_MEDIASESSION, 900_000L);
+                }
+            }
         }
-        pscb.setState(state, getTime(), getRate());
+        pscb.setState(state, time, getRate());
         if (mRepeating != REPEAT_NONE || hasNext())
             actions |= PlaybackStateCompat.ACTION_SKIP_TO_NEXT;
         if (mRepeating != REPEAT_NONE || hasPrevious() || isSeekable())
