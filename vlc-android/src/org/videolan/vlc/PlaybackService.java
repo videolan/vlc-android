@@ -83,7 +83,6 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.helpers.NotificationHelper;
-import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.PopupManager;
@@ -235,7 +234,6 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private MediaPlayer newMediaPlayer() {
-        UiTools.checkMainThread();
         final MediaPlayer mp = new MediaPlayer(LibVLC());
         final String aout = VLCOptions.getAout(mSettings);
         if (aout != null)
