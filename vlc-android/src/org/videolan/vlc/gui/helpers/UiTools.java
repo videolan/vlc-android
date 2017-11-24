@@ -52,8 +52,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -82,11 +80,13 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class UiTools {
+    private static final String TAG = "VLC/UiTools";
 
-    public static final int ITEM_FOCUS_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange500transparent);
-    public static final int ITEM_FOCUS_OFF = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.transparent);
-    public static final int ITEM_SELECTION_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange200transparent);
-    public static final int ITEM_BG_TRANSPARENT = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.transparent);
+    public static class Resources {
+        public static final int ITEM_FOCUS_OFF = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.transparent);
+        public static final int ITEM_FOCUS_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange500transparent);
+        public static final int ITEM_SELECTION_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange200transparent);
+    }
 
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
 
