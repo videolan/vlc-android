@@ -77,7 +77,6 @@ import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class UiTools {
     private static final String TAG = "VLC/UiTools";
@@ -87,8 +86,6 @@ public class UiTools {
         public static final int ITEM_FOCUS_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange500transparent);
         public static final int ITEM_SELECTION_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange200transparent);
     }
-
-    private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
 
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
     public static final int DELETE_DURATION = 3000;
@@ -179,24 +176,6 @@ public class UiTools {
                 t.setMarqueeRepeatLimit(-1);
                 t.setSelected(true);
                 break;
-        }
-    }
-
-    /**
-     * Generate a value suitable for use in {@link #setId(int)}.
-     * This value will not collide with ID values generated at build time by aapt for R.id.
-     *
-     * @return a generated ID value
-     */
-    public static int generateViewId() {
-        for (;;) {
-            final int result = sNextGeneratedId.get();
-            // aapt-generated IDs have the high byte nonzero; clamp to the range under that.
-            int newValue = result + 1;
-            if (newValue > 0x00FFFFFF) newValue = 1; // Roll over to 1, not 0.
-            if (sNextGeneratedId.compareAndSet(result, newValue)) {
-                return result;
-            }
         }
     }
 
