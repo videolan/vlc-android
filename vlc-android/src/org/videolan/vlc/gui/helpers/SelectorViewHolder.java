@@ -43,7 +43,7 @@ public class SelectorViewHolder<T extends ViewDataBinding> extends RecyclerView.
     }
 
     private void setViewBackground(boolean focus, boolean selected) {
-        final int color = focus ? UiTools.ITEM_FOCUS_ON : selected ? UiTools.ITEM_SELECTION_ON : UiTools.ITEM_FOCUS_OFF;
+        final int color = focus ? UiTools.Resources.ITEM_FOCUS_ON : selected ? UiTools.Resources.ITEM_SELECTION_ON : UiTools.Resources.ITEM_FOCUS_OFF;
         binding.setVariable(BR.bgColor, color);
     }
 
