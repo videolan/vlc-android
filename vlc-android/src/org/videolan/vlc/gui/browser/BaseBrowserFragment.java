@@ -503,6 +503,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     @Override
     protected void inflate(Menu menu, int position) {
         MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
+        if (mw == null) return;
         int type = mw.getType();
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(type == MediaWrapper.TYPE_DIR ? R.menu.directory_view_dir : R.menu.directory_view_file, menu);
@@ -510,6 +511,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
 
     protected void setContextMenuItems(Menu menu, int position) {
         final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
+        if (mw == null) return;
         final int type = mw.getType();
         boolean canWrite = this instanceof FileBrowserFragment && FileUtils.canWrite(mw.getUri().getPath());
         if (type == MediaWrapper.TYPE_DIR) {
