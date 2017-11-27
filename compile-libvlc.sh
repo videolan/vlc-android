@@ -110,6 +110,7 @@ VLC_BOOTSTRAP_ARGS="\
     --enable-jpeg \
     --enable-libplacebo \
     --enable-ad-clauses \
+    --disable-srt \
 "
 
 ###########################
