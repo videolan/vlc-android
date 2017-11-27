@@ -42,9 +42,9 @@ public class RemoteControlClientReceiver extends MediaButtonReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
+        final String action = intent.getAction();
 
-        KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+        final KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
         if (event != null && action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
 
             if (event.getKeyCode() != KeyEvent.KEYCODE_HEADSETHOOK &&
@@ -111,7 +111,7 @@ public class RemoteControlClientReceiver extends MediaButtonReceiver {
         } else if (action.equals(PlaybackService.ACTION_REMOTE_PLAYPAUSE)) {
             intent = new Intent(context, PlaybackService.class);
             intent.setAction(PlaybackService.ACTION_REMOTE_PLAYPAUSE);
-            context.startService(intent);
+            Util.startService(context, intent);
             return;
         }
         if (!AndroidUtil.isOOrLater) //We need AppCompat 26+ for Oreo service management
