@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:vlc="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="org.videolan.medialibrary.Tools" />
+        <variable
+            name="progress"
+            type="android.databinding.ObservableInt" />
+        <variable
+            name="length"
+            type="android.databinding.ObservableLong" />
+    </data>
+<RelativeLayout
     android:id="@+id/progress_overlay"
     android:layout_width="800dp"
     android:layout_height="wrap_content"
@@ -22,7 +33,9 @@
         android:progressDrawable="@drawable/po_seekbar"
         android:thumb="@drawable/seekbar_thumb"
         android:splitTrack="false"
-        android:focusable="true"/>
+        android:focusable="true"
+        android:progress="@{progress}"
+        vlc:mediamax="@{length}"/>
 
     <TextView
         android:id="@+id/player_overlay_time"
@@ -30,12 +43,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/player_overlay_seekbar"
         android:layout_alignLeft="@+id/player_overlay_seekbar"
+        android:layout_alignStart="@+id/player_overlay_seekbar"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_marginLeft="@dimen/time_margin_sides"
-        android:gravity="left"
+        android:layout_marginStart="@dimen/time_margin_sides"
+        android:gravity="left|start"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
         android:textColor="@color/orange500"
-        android:textSize="16sp"/>
+        android:text="@{Tools.millisToString(progress)}"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/player_overlay_length"
@@ -45,10 +62,15 @@
         android:layout_alignParentRight="true"
         android:layout_alignRight="@+id/player_overlay_seekbar"
         android:layout_marginRight="@dimen/time_margin_sides"
-        android:gravity="right"
+        android:gravity="right|end"
         android:text="--:--"
+        vlc:time="@{progress}"
+        vlc:length="@{length}"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignEnd="@+id/player_overlay_seekbar"
+        android:layout_marginEnd="@dimen/time_margin_sides" />
 
     <!-- Media control buttons -->
     <LinearLayout
@@ -156,3 +178,4 @@
             android:focusable="true" />
     </LinearLayout>
 </RelativeLayout>
+</layout>
