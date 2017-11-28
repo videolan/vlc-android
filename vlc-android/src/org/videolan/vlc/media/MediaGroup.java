@@ -36,7 +36,7 @@ public class MediaGroup extends MediaWrapper {
 
     private ArrayList<MediaWrapper> mMedias;
 
-    public MediaGroup(MediaWrapper media) {
+    private MediaGroup(MediaWrapper media) {
         super(media.getUri(),
                 media.getTime(),
                 media.getLength(),
@@ -83,13 +83,13 @@ public class MediaGroup extends MediaWrapper {
         return mMedias.size();
     }
 
-    public void merge(MediaWrapper media, String title) {
+    private void merge(MediaWrapper media, String title) {
         mMedias.add(media);
         this.mTitle = title;
     }
 
     public static List<MediaGroup> group(MediaWrapper[] mediaList) {
-        ArrayList<MediaGroup> groups = new ArrayList<>();
+        final ArrayList<MediaGroup> groups = new ArrayList<>();
         for (MediaWrapper media : mediaList)
             if (media != null)
                 insertInto(groups, media);
@@ -97,7 +97,7 @@ public class MediaGroup extends MediaWrapper {
     }
 
     public static List<MediaGroup> group(List<MediaWrapper> mediaList) {
-        ArrayList<MediaGroup> groups = new ArrayList<>();
+        final ArrayList<MediaGroup> groups = new ArrayList<>();
         for (MediaWrapper media : mediaList)
             if (media != null)
                 insertInto(groups, media);
@@ -105,23 +105,23 @@ public class MediaGroup extends MediaWrapper {
     }
 
     private static void insertInto(ArrayList<MediaGroup> groups, MediaWrapper media) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        final int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
         for (MediaGroup mediaGroup : groups) {
-            String group = mediaGroup.getTitle();
-            String title = media.getTitle();
+            final String group = mediaGroup.getTitle().toLowerCase();
+            String title = media.getTitle().toLowerCase();
 
             //Handle titles starting with "The"
-            int groupOffset = group.toLowerCase().startsWith("the") ? 4 : 0;
-            if (title.toLowerCase().startsWith("the"))
+            int groupOffset = group.startsWith("the") ? 4 : 0;
+            if (title.startsWith("the"))
                 title = title.substring(4);
 
             // find common prefix
             int commonLength = 0;
-            String groupTitle = group.substring(groupOffset);
-            int minLength = Math.min(groupTitle.length(), title.length());
+            final String groupTitle = group.substring(groupOffset);
+            final int minLength = Math.min(groupTitle.length(), title.length());
             while (commonLength < minLength
-                    && groupTitle.toLowerCase().charAt(commonLength) == title.toLowerCase().charAt(commonLength))
+                    && groupTitle.charAt(commonLength) == title.charAt(commonLength))
                 ++commonLength;
 
             if (commonLength >= minGroupLengthValue && minGroupLengthValue != 0) {
