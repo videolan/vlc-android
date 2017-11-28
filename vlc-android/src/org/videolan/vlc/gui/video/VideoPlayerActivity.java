@@ -154,7 +154,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         IVLCVout.OnNewVideoLayoutListener, IPlaybackSettingsController,
         PlaybackService.Client.Callback, PlaybackService.Callback,PlaylistAdapter.IPlayer,
         OnClickListener, StoragePermissionsDelegate.CustomActionController,
-        ScaleGestureDetector.OnScaleGestureListener, View.OnLongClickListener {
+        ScaleGestureDetector.OnScaleGestureListener {
 
     public final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -406,7 +406,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mRootView = findViewById(R.id.player_root);
         mActionBarView = (ViewGroup) mActionBar.getCustomView();
 
-        mTitle = (TextView) mActionBarView.findViewById(R.id.player_overlay_title);
+        mTitle = mActionBarView.findViewById(R.id.player_overlay_title);
         if (!AndroidUtil.isJellyBeanOrLater) {
             mSysTime = (TextView) findViewById(R.id.player_overlay_systime);
             mBattery = (TextView) findViewById(R.id.player_overlay_battery);
@@ -441,7 +441,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         sDisplayRemainingTime = mSettings.getBoolean(KEY_REMAINING_TIME_DISPLAY, false);
         // Clear the resume time, since it is only used for resumes in external
         // videos.
-        SharedPreferences.Editor editor = mSettings.edit();
+        final SharedPreferences.Editor editor = mSettings.edit();
         editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
         // Also clear the subs list, because it is supposed to be per session
         // only (like desktop VLC). We don't want the custom subtitle files
@@ -451,7 +451,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         editor.remove(PreferencesActivity.VIDEO_PAUSED);
         editor.apply();
 
-        IntentFilter filter = new IntentFilter();
+        final IntentFilter filter = new IntentFilter();
         if (mBattery != null)
             filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         filter.addAction(VLCApplication.SLEEP_INTENT);
@@ -475,12 +475,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 int hm = getResources().getDimensionPixelSize(R.dimen.tv_overscan_horizontal);
                 int vm = getResources().getDimensionPixelSize(R.dimen.tv_overscan_vertical);
 
-                RelativeLayout uiContainer = (RelativeLayout) findViewById(R.id.player_ui_container);
-                RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) uiContainer.getLayoutParams();
+                final RelativeLayout uiContainer = (RelativeLayout) findViewById(R.id.player_ui_container);
+                final RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) uiContainer.getLayoutParams();
                 lp.setMargins(hm, 0, hm, vm);
                 uiContainer.setLayoutParams(lp);
 
-                LinearLayout.LayoutParams titleParams = (LinearLayout.LayoutParams) mTitle.getLayoutParams();
+                final LinearLayout.LayoutParams titleParams = (LinearLayout.LayoutParams) mTitle.getLayoutParams();
                 titleParams.setMargins(0, vm, 0, 0);
                 mTitle.setLayoutParams(titleParams);
             }
@@ -514,17 +514,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void setHudClickListeners(boolean enabled) {
-        if (mHudBinding != null) {
-            mHudBinding.playerOverlaySeekbar.setOnSeekBarChangeListener(enabled ? mSeekListener : null);
-            mHudBinding.lockOverlayButton.setOnClickListener(enabled ? this : null);
-            mHudBinding.playerOverlayPlay.setOnClickListener(enabled ? this : null);
-            mHudBinding.playerOverlayPlay.setOnLongClickListener(enabled ? this : null);
-            mHudBinding.playerOverlayLength.setOnClickListener(enabled ? this : null);
-            mHudBinding.playerOverlayTime.setOnClickListener(enabled ? this : null);
-            mHudBinding.playerOverlaySize.setOnClickListener(enabled ? this : null);
-            mHudBinding.playerOverlayTracks.setOnClickListener(enabled ? this : null);
-            mHudBinding.playerOverlayAdvFunction.setOnClickListener(enabled ? this : null);
-        }
         if (mNavMenu != null)
             mNavMenu.setOnClickListener(enabled ? this : null);
     }
@@ -590,8 +579,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @TargetApi(Build.VERSION_CODES.N)
     public void switchToPopup() {
         final MediaWrapper mw = mService != null ? mService.getCurrentMediaWrapper() : null;
-        if (mw == null)
-            return;
+        if (mw == null) return;
         if (AndroidDevices.hasPiP) {
             if (AndroidUtil.isOOrLater)
                 try {
@@ -599,11 +587,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     final int width = Math.min(mVideoWidth != 0 ? mVideoWidth : mw.getWidth(), (int) (height*2.39f));
                     enterPictureInPictureMode(new PictureInPictureParams.Builder().setAspectRatio(new Rational(width, height)).build());
                 } catch (IllegalArgumentException e) { // Fallback with default parameters
+                    //noinspection deprecation
                     enterPictureInPictureMode();
                 }
-            else
+            else {
                 //noinspection deprecation
                 enterPictureInPictureMode();
+            }
         } else {
             if (Permissions.canDrawOverlays(this)) {
                 mSwitchingView = true;
@@ -878,8 +868,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mHudBinding.playlistPrevious.setVisibility(View.VISIBLE);
             mHudBinding.playlistNext.setVisibility(View.VISIBLE);
             mPlaylistToggle.setOnClickListener(VideoPlayerActivity.this);
-            mHudBinding.playlistPrevious.setOnClickListener(VideoPlayerActivity.this);
-            mHudBinding.playlistNext.setOnClickListener(VideoPlayerActivity.this);
 
             final ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
             final ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
@@ -970,6 +958,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mService.stop();
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void cleanUI() {
 
         if (mRootView != null)
@@ -1058,10 +1047,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            String action = intent.getAction();
-            if (action.equalsIgnoreCase(Intent.ACTION_BATTERY_CHANGED)) {
-                if (mBattery == null)
-                    return;
+            final String action = intent.getAction();
+            if (Intent.ACTION_BATTERY_CHANGED.equalsIgnoreCase(action)) {
+                if (mBattery == null) return;
                 int batteryLevel = intent.getIntExtra("level", 0);
                 if (batteryLevel >= 50)
                     mBattery.setTextColor(Color.GREEN);
@@ -1070,8 +1058,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 else
                     mBattery.setTextColor(Color.RED);
                 mBattery.setText(String.format("%d%%", batteryLevel));
-            }
-            else if (action.equalsIgnoreCase(VLCApplication.SLEEP_INTENT)) {
+            } else if (VLCApplication.SLEEP_INTENT.equalsIgnoreCase(action)) {
                 exitOK();
             }
         }
@@ -1301,16 +1288,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 else
                     return super.onKeyDown(keyCode, event);
             case KeyEvent.KEYCODE_J:
-                delayAudio(-50000l);
+                delayAudio(-50000L);
                 return true;
             case KeyEvent.KEYCODE_K:
-                delayAudio(50000l);
+                delayAudio(50000L);
                 return true;
             case KeyEvent.KEYCODE_G:
-                delaySubs(-50000l);
+                delaySubs(-50000L);
                 return true;
             case KeyEvent.KEYCODE_H:
-                delaySubs(50000l);
+                delaySubs(50000L);
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 int vol;
@@ -1425,7 +1412,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mBtReceiver != null && mPlaybackSetting == DelayState.AUDIO
                 && (mAudioManager.isBluetoothA2dpOn() || mAudioManager.isBluetoothScoOn())) {
             String msg = getString(R.string.audio_delay) + "\n"
-                    + mService.getAudioDelay() / 1000l
+                    + mService.getAudioDelay() / 1000L
                     + " ms";
             Snackbar sb = Snackbar.make(mInfo, msg, Snackbar.LENGTH_LONG);
             sb.setAction(R.string.save_bluetooth_delay, mBtSaveListener);
@@ -2488,17 +2475,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.player_overlay_play:
-                doPlayPause();
-                break;
             case R.id.playlist_toggle:
                 togglePlaylist();
-                break;
-            case R.id.playlist_next:
-                mService.next();
-                break;
-            case R.id.playlist_previous:
-                mService.previous(false);
                 break;
             case R.id.player_overlay_forward:
                 seekDelta(10000);
@@ -2506,23 +2484,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case R.id.player_overlay_rewind:
                 seekDelta(-10000);
                 break;
-            case R.id.lock_overlay_button:
-                if (mIsLocked)
-                    unlockScreen();
-                else
-                    lockScreen();
-                break;
-            case R.id.player_overlay_size:
-                resizeVideo();
-                break;
             case R.id.player_overlay_navmenu:
                 showNavMenu();
                 break;
             case R.id.player_overlay_length:
             case R.id.player_overlay_time:
-                sDisplayRemainingTime = !sDisplayRemainingTime;
-                showOverlay();
-                mSettings.edit().putBoolean(KEY_REMAINING_TIME_DISPLAY, sDisplayRemainingTime).apply();
+                toggleTimeDisplay();
                 break;
             case R.id.player_delay_minus:
                 if (mPlaybackSetting == DelayState.AUDIO)
@@ -2536,31 +2503,34 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 else if (mPlaybackSetting == DelayState.SUBS)
                     delaySubs(50000);
                 break;
-            case R.id.player_overlay_adv_function:
-                showAdvancedOptions();
-                break;
-            case R.id.player_overlay_tracks:
-                onAudioSubClick(v);
         }
     }
 
-    public boolean onLongClick(View v) {
-        switch (v.getId()){
-            case R.id.player_overlay_play:
-                if (mService == null)
-                    return false;
-                if (mService.getRepeatType() == PlaybackService.REPEAT_ONE) {
-                    showInfo(getString(R.string.repeat), 1000);
-                    mService.setRepeatType(PlaybackService.REPEAT_NONE);
-                } else {
-                    mService.setRepeatType(PlaybackService.REPEAT_ONE);
-                    showInfo(getString(R.string.repeat_single), 1000);
-                }
-                return true;
-            default:
-                return false;
-        }
+    public void toggleTimeDisplay() {
+        sDisplayRemainingTime = !sDisplayRemainingTime;
+        showOverlay();
+        mSettings.edit().putBoolean(KEY_REMAINING_TIME_DISPLAY, sDisplayRemainingTime).apply();
     }
+
+    public void toggleLock() {
+        if (mIsLocked)
+            unlockScreen();
+        else
+            lockScreen();
+    }
+
+    public boolean toggleLoop(View v) {
+        if (mService == null) return false;
+        if (mService.getRepeatType() == PlaybackService.REPEAT_ONE) {
+            showInfo(getString(R.string.repeat), 1000);
+            mService.setRepeatType(PlaybackService.REPEAT_NONE);
+        } else {
+            mService.setRepeatType(PlaybackService.REPEAT_ONE);
+            showInfo(getString(R.string.repeat_single), 1000);
+        }
+        return true;
+    }
+
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
         float diff = DEFAULT_FOV * (1 - detector.getScaleFactor());
@@ -2692,7 +2662,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mHudBinding.playerOverlayPlay.setImageResource(R.drawable.ic_play_circle_disable_o);
     }
 
-    private void doPlayPause() {
+    public void doPlayPause() {
         if (!mService.isPausable())
             return;
 
@@ -2764,7 +2734,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mHudBinding.playerOverlayForward.setOnTouchListener(new OnRepeatListener(this));
     }
 
-    private void resizeVideo() {
+    public void resizeVideo() {
         if (mCurrentSize < SURFACE_ORIGINAL) {
             mCurrentSize++;
         } else {
@@ -2791,7 +2761,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 showInfo(R.string.surface_original, 1000);
                 break;
         }
-        SharedPreferences.Editor editor = mSettings.edit();
+        final SharedPreferences.Editor editor = mSettings.edit();
         editor.putInt(PreferencesActivity.VIDEO_RATIO, mCurrentSize);
         editor.apply();
         showOverlay();
@@ -2874,6 +2844,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mSeekButtons = mSettings.getBoolean("enable_seek_buttons", false);
             vsc.inflate();
             mHudBinding = DataBindingUtil.bind(findViewById(R.id.progress_overlay));
+            mHudBinding.setPlayer(this);
             updateTimeValues();
             mHudBinding.setProgress(mProgress);
             mHudBinding.setLength(mMediaLength);
@@ -3048,6 +3019,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mService.pause();
         if (mRootView != null)
             mRootView.setKeepScreenOn(false);
+    }
+
+    public void next() {
+        if (mService != null) mService.next();
+    }
+
+    public void previous() {
+        if (mService != null) mService.previous(false);
     }
 
     /*
@@ -3707,17 +3686,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     };
 
     @BindingAdapter({"length", "time"})
-    public static void setPlaybackTime(TextView view, ObservableLong length, ObservableInt time) {
-        final int timeValue = time.get();
-        final long lengthValue = length.get();
-        view.setText(sDisplayRemainingTime && lengthValue > 0
-                ? "-" + '\u00A0' + Tools.millisToString(lengthValue - timeValue)
-                : Tools.millisToString(lengthValue));
+    public static void setPlaybackTime(TextView view, long length, int time) {
+        view.setText(sDisplayRemainingTime && length > 0
+                ? "-" + '\u00A0' + Tools.millisToString(length - time)
+                : Tools.millisToString(length));
     }
 
     @BindingAdapter({"mediamax"})
-    public static void setProgressMax(SeekBar view, ObservableLong length) {
-        final int max = (int) length.get();
-        view.setMax(max);
+    public static void setProgressMax(SeekBar view, long length) {
+        view.setMax((int) length);
     }
 }

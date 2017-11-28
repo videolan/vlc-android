@@ -9,6 +9,9 @@
         <variable
             name="length"
             type="android.databinding.ObservableLong" />
+        <variable
+            name="player"
+            type="org.videolan.vlc.gui.video.VideoPlayerActivity" />
     </data>
 <RelativeLayout
     android:id="@+id/progress_overlay"
@@ -52,7 +55,8 @@
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
         android:textColor="@color/orange500"
         android:text="@{Tools.millisToString(progress)}"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:onClick="@{(v) -> player.toggleTimeDisplay()}" />
 
     <TextView
         android:id="@+id/player_overlay_length"
@@ -70,7 +74,8 @@
         android:textSize="16sp"
         android:layout_alignParentEnd="true"
         android:layout_alignEnd="@+id/player_overlay_seekbar"
-        android:layout_marginEnd="@dimen/time_margin_sides" />
+        android:layout_marginEnd="@dimen/time_margin_sides"
+        android:onClick="@{(v) -> player.toggleTimeDisplay()}" />
 
     <!-- Media control buttons -->
     <LinearLayout
@@ -88,6 +93,7 @@
             android:layout_weight="1"
             android:src="@drawable/ic_lock_circle"
             android:scaleType="center"
+            android:onClick="@{(v) -> player.toggleLock()}"
             android:focusable="true"/>
 
         <ImageView
@@ -98,6 +104,7 @@
             android:clickable="true"
             android:src="@drawable/ic_audiosub_circle"
             android:scaleType="center"
+            android:onClick="@{player::onAudioSubClick}"
             android:focusable="true"/>
 
         <ImageView
@@ -109,6 +116,7 @@
             android:focusable="true"
             android:longClickable="true"
             android:scaleType="center"
+            android:onClick="@{(v) -> player.previous()}"
             android:src="@drawable/ic_playlist_previous_circle"
             android:visibility="gone" />
 
@@ -132,7 +140,9 @@
             android:clickable="true"
             android:src="@drawable/ic_pause_circle"
             android:scaleType="fitCenter"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:onClick="@{(v) -> player.doPlayPause()}"
+            android:onLongClick="@{player::toggleLoop}"/>
 
         <ImageView
             android:id="@+id/player_overlay_forward"
@@ -156,6 +166,7 @@
             android:src="@drawable/ic_playlist_next_circle"
             android:scaleType="center"
             android:focusable="true"
+            android:onClick="@{(v) -> player.next()}"
             android:visibility="gone" />
 
         <ImageView
@@ -166,6 +177,7 @@
             android:clickable="true"
             android:src="@drawable/ic_more_circle"
             android:scaleType="center"
+            android:onClick="@{(v) -> player.showAdvancedOptions()}"
             android:focusable="true"/>
 
         <ImageView
@@ -175,6 +187,7 @@
             android:layout_weight="1"
             android:src="@drawable/ic_crop_circle_o"
             android:scaleType="center"
+            android:onClick="@{(v) -> player.resizeVideo()}"
             android:focusable="true" />
     </LinearLayout>
 </RelativeLayout>
