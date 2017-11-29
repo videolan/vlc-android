@@ -782,7 +782,7 @@ else
     fi
 fi
 if [ "$RELEASE" = 1 ]; then
-    git reset --hard ${MEDIALIBRARY_HASH}
+  git checkout 0.2.x
 fi
 cd ${SRC_DIR}
 echo -e "\e[1m\e[36mCFLAGS:            ${CFLAGS}\e[0m"
