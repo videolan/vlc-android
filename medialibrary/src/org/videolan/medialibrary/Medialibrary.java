@@ -569,7 +569,6 @@ public class Medialibrary {
                 "/audio/alarms/",
                 "/audio/ringtones/",
                 "/audio/notifications/",
-                "/WhatsApp/",
         };
     }
 
