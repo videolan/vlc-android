@@ -25,6 +25,7 @@ package org.videolan.vlc.util;
 
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -326,19 +327,20 @@ public class FileUtils {
 
     public static Uri getUri(Uri data) {
         Uri uri = data;
-        if (data != null && TextUtils.equals(data.getScheme(), "content")) {
+        final Context ctx = VLCApplication.getAppContext();
+        if (data != null && ctx != null && TextUtils.equals(data.getScheme(), "content")) {
             // Mail-based apps - download the stream to a temporary file and play it
             if ("com.fsck.k9.attachmentprovider".equals(data.getHost()) || "gmail-ls".equals(data.getHost())) {
                 InputStream is = null;
                 OutputStream os = null;
                 Cursor cursor = null;
                 try {
-                    cursor = VLCApplication.getAppContext().getContentResolver().query(data,
+                    cursor = ctx.getContentResolver().query(data,
                             new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
                     if (cursor != null && cursor.moveToFirst()) {
                         String filename = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME));
                         Log.i(TAG, "Getting file " + filename + " from content:// URI");
-                        is = VLCApplication.getAppContext().getContentResolver().openInputStream(data);
+                        is = ctx.getContentResolver().openInputStream(data);
                         if (is == null)
                             return data;
                         os = new FileOutputStream(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename);
@@ -364,7 +366,8 @@ public class FileUtils {
             } else {
                 ParcelFileDescriptor inputPFD;
                 try {
-                    inputPFD = VLCApplication.getAppContext().getContentResolver().openFileDescriptor(data, "r");
+                    inputPFD = ctx.getContentResolver().openFileDescriptor(data, "r");
+                    if (inputPFD == null) return data;
                     if (AndroidUtil.isHoneycombMr1OrLater)
                         uri = AndroidUtil.LocationToUri("fd://" + inputPFD.getFd());
                     else {
