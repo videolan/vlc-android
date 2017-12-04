@@ -93,6 +93,10 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
             params.height = params.width*10/16;
             binding.getRoot().setLayoutParams(params);
         }
+        final TextView titleView = binding.getRoot().findViewById(R.id.ml_item_title);
+        titleView.setEllipsize(mGroup ? TextUtils.TruncateAt.START : null);
+        titleView.setSingleLine(mGroup);
+        titleView.setMaxLines(mGroup ? 1 : 2);
         return new ViewHolder(binding);
     }
 
@@ -105,10 +109,6 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         fillView(holder, media);
         holder.binding.setVariable(BR.media, media);
         holder.selectView(media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-        final TextView titleView = holder.itemView.findViewById(R.id.ml_item_title);
-        titleView.setMaxLines(mGroup ? 1 : 2);
-        titleView.setEllipsize(mGroup ? TextUtils.TruncateAt.START : null);
-        titleView.setSingleLine(mGroup);
     }
 
     @Override
