@@ -108,6 +108,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         final TextView titleView = holder.itemView.findViewById(R.id.ml_item_title);
         titleView.setMaxLines(mGroup ? 1 : 2);
         titleView.setEllipsize(mGroup ? TextUtils.TruncateAt.START : null);
+        titleView.setSingleLine(mGroup);
     }
 
     @Override
