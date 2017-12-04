@@ -703,6 +703,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     break;
                 case MediaPlayer.Event.PositionChanged:
                     updateWidgetPosition(event.getPositionChanged());
+                    publishState();
                     break;
                 case MediaPlayer.Event.Vout:
                     break;
