@@ -233,7 +233,7 @@ public class Medialibrary {
 
     public void reload(String entryPoint) {
         if (mIsInitiated && !TextUtils.isEmpty(entryPoint))
-            nativeReload(entryPoint);
+            nativeReload(Tools.encodeVLCMrl(entryPoint));
     }
 
     public void forceParserRetry() {
