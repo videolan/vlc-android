@@ -37,12 +37,11 @@ public class CoverMediaSwitcher extends AudioMediaSwitcher {
 
     protected void addMediaView(LayoutInflater inflater, String title, String artist, Bitmap cover) {
 
-        if (cover == null)
-            cover = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
+        if (cover == null) cover = BitmapFactory.decodeResource(getResources(), R.drawable.icon);
 
-        ImageView imageView = new ImageView(getContext());
-        imageView.setImageBitmap(cover);
+        final ImageView imageView = new ImageView(getContext());
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        imageView.setImageBitmap(cover);
         addView(imageView);
     }
 }
