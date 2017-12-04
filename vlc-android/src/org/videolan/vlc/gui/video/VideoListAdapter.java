@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -71,13 +72,15 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
     private final ItemFilter mFilter = new ItemFilter();
     private int mSelectionCount = 0;
     private int mGridCardWidth = 0;
+    final boolean mGroup;
 
     private boolean mIsSeenMediaMarkerVisible = true;
 
-    VideoListAdapter(IEventsHandler eventsHandler) {
+    VideoListAdapter(IEventsHandler eventsHandler, boolean group) {
         super();
         mEventsHandler = eventsHandler;
         mIsSeenMediaMarkerVisible = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("media_seen", true);
+        mGroup = group;
     }
 
     @Override
@@ -102,6 +105,9 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         fillView(holder, media);
         holder.binding.setVariable(BR.media, media);
         holder.selectView(media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
+        final TextView titleView = holder.itemView.findViewById(R.id.ml_item_title);
+        titleView.setMaxLines(mGroup ? 1 : 2);
+        titleView.setEllipsize(mGroup ? TextUtils.TruncateAt.START : null);
     }
 
     @Override
