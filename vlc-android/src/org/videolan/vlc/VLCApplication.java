@@ -105,7 +105,7 @@ public class VLCApplication extends Application {
                 // Prepare cache folder constants
                 AudioUtil.prepareCacheFolder(instance);
 
-                sTV = AndroidDevices.isAndroidTv || !AndroidDevices.hasTsp;
+                sTV = AndroidDevices.isAndroidTv || (!AndroidDevices.isChromeBook && !AndroidDevices.hasTsp);
 
                 if (!VLCInstance.testCompatibleCPU(instance))
                     return;
