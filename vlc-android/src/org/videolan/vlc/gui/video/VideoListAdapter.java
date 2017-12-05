@@ -153,17 +153,20 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
     }
 
     @MainThread
-    public void add(MediaWrapper item) {
+    public void add(MediaWrapper item, int position) {
         final ArrayList<MediaWrapper> list = new ArrayList<>(peekLast());
-        list.add(item);
+        list.add(position, item);
         update(list);
     }
 
     @MainThread
-    public void remove(MediaWrapper item) {
+    public int remove(MediaWrapper item) {
         final ArrayList<MediaWrapper> refList = new ArrayList<>(peekLast());
-        if (refList.remove(item))
-            update(refList);
+        final int position = refList.indexOf(item);
+        if (position < 0 || position >= refList.size()) return -1;
+        refList.remove(position);
+        update(refList);
+        return position;
     }
 
     @MainThread
