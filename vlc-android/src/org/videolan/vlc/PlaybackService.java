@@ -1401,8 +1401,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     protected void updateMetadata() {
         final MediaWrapper media = getCurrentMedia();
-        if (media == null)
-            return;
+        if (media == null) return;
         if (mMediaSession == null)
             initMediaSession();
         final Context ctx = this;
@@ -1412,8 +1411,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 synchronized (ExecutorHolder.updateMeta) {
                     ExecutorHolder.updateMeta.set(true);
                 }
-                if (media == null)
-                    return;
+                if (media == null) return;
                 String title = media.getNowPlaying();
                 if (title == null)
                     title = media.getTitle();
@@ -1426,9 +1424,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, MediaUtils.getMediaArtist(ctx, media))
                         .putString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST, MediaUtils.getMediaReferenceArtist(ctx, media))
                         .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, MediaUtils.getMediaAlbum(ctx, media))
-                        .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, media.getLength());
+                        .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, getLength());
                 if (coverOnLockscreen) {
-                    Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(media.getArtworkMrl()), 512);
+                    final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(media.getArtworkMrl()), 512);
                     if (cover != null && cover.getConfig() != null) //In case of format not supported
                         bob.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, cover.copy(cover.getConfig(), false));
                 }
