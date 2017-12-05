@@ -292,9 +292,10 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     }
 
     private void removeVideo(final MediaWrapper media) {
-        mAdapter.remove(media);
-        if (getView() != null)
-            UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
+        final int position = mAdapter.remove(media);
+        final View view = getView();
+        if (position != -1 && view != null)
+            UiTools.snackerWithCancel(view, getString(R.string.file_deleted), new Runnable() {
                 @Override
                 public void run() {
                     deleteMedia(media, false);
@@ -302,7 +303,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
             }, new Runnable() {
                 @Override
                 public void run() {
-                    mAdapter.add(media);
+                    mAdapter.add(media, position);
                 }
             });
     }
