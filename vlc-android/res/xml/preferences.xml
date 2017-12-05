@@ -17,27 +17,25 @@
 
     <PreferenceCategory android:title="@string/video_prefs_category" >
         <ListPreference
-            android:defaultValue="-1"
-            android:entries="@array/hardware_acceleration_list"
-            android:entryValues="@array/hardware_acceleration_values"
-            android:key="hardware_acceleration"
-            android:summary="@string/hardware_acceleration_summary"
-            android:title="@string/hardware_acceleration" />
-
-        <ListPreference
-            android:defaultValue="99"
-            android:entries="@array/screen_orientation_list"
-            android:entryValues="@array/screen_orientation_values"
-            android:key="screen_orientation"
-            android:title="@string/screen_orientation" />
-
-        <ListPreference
             android:key="video_action_switch"
             android:defaultValue="0"
             android:entries="@array/video_app_switch_action_titles"
             android:entryValues="@array/video_app_switch_action_values"
             android:summary="@string/video_app_switch_summary"
             android:title="@string/video_app_switch_title" />
+        <ListPreference
+            android:defaultValue="-1"
+            android:entries="@array/hardware_acceleration_list"
+            android:entryValues="@array/hardware_acceleration_values"
+            android:key="hardware_acceleration"
+            android:summary="@string/hardware_acceleration_summary"
+            android:title="@string/hardware_acceleration" />
+        <ListPreference
+            android:defaultValue="99"
+            android:entries="@array/screen_orientation_list"
+            android:entryValues="@array/screen_orientation_values"
+            android:key="screen_orientation"
+            android:title="@string/screen_orientation" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/history" >
