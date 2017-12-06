@@ -49,7 +49,7 @@
     <application
         android:name="org.videolan.vlc.VLCApplication"
         android:hardwareAccelerated="true"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:largeHeap="true"
         android:icon="@drawable/icon"
         android:roundIcon="@drawable/roundicon"
