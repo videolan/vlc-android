@@ -22,16 +22,22 @@ package org.videolan.vlc.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.Playlist;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.media.MediaDatabase;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -41,6 +47,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Util {
@@ -181,5 +188,41 @@ public class Util {
             ctx.startService(intent);
         else
             ctx.startForegroundService(intent);
+    }
+
+    public static void recoverPLaylists() {
+        final Context ctx = VLCApplication.getAppContext();
+        if (ctx == null) return;
+        final SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(ctx);
+        final int retryCount = prefs.getInt("playlist_migration_retry_count", 0);
+        try {
+            if (retryCount < 3) {
+                final MediaDatabase database = MediaDatabase.getInstance();
+                final Medialibrary medialibrary = Medialibrary.getInstance();
+                final String[] playlists = database.getPlaylists();
+                if (!isArrayEmpty(playlists)) {
+                    for (String pl : playlists) {
+                        final String[] locations = database.playlistGetItems(pl);
+                        if (!isArrayEmpty(locations)) {
+                            final LinkedList<Long> ids = new LinkedList<>();
+                            for (String mrl : locations) {
+                                MediaWrapper media = medialibrary.getMedia(mrl);
+                                if (media == null) media = medialibrary.addMedia(mrl);
+                                if (media != null) ids.add(media.getId());
+                            }
+                            if (!ids.isEmpty()) {
+                                final boolean playlistExists = !isArrayEmpty(medialibrary.searchPlaylist(pl));
+                                final Playlist playlist = medialibrary.createPlaylist(playlistExists ? pl+"_recovered" : pl);
+                                playlist.append(ids);
+                            }
+                        }
+                        database.playlistDelete(pl);
+                    }
+                }
+                prefs.edit().putInt("playlist_migration_retry_count", 3).apply();
+            }
+        } catch (Throwable ignored) {
+            prefs.edit().putInt("playlist_migration_retry_count", retryCount+1).apply();
+        }
     }
 }

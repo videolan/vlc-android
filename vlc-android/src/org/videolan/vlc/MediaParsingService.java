@@ -27,6 +27,7 @@ import org.videolan.vlc.gui.helpers.NotificationHelper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -341,6 +342,8 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         mParsing = percent;
         if (mParsing != 100)
             showNotification();
+        else
+            Util.recoverPLaylists();
     }
 
     @Override
