@@ -60,6 +60,15 @@ banFolder(JNIEnv* env, jobject thiz, jstring folderPath)
     env->ReleaseStringUTFChars(folderPath, path);
 }
 
+void
+unbanFolder(JNIEnv* env, jobject thiz, jstring folderPath)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    const char *path = env->GetStringUTFChars(folderPath, JNI_FALSE);
+    aml->unbanFolder(path);
+    env->ReleaseStringUTFChars(folderPath, path);
+}
+
 jboolean
 addDevice(JNIEnv* env, jobject thiz, jstring uuid, jstring storagePath, jboolean removable)
 {
@@ -767,6 +776,7 @@ static JNINativeMethod methods[] = {
     {"nativeEntryPoints", "()[Ljava/lang/String;", (void*)entryPoints },
     {"nativeRemoveDevice", "(Ljava/lang/String;)Z", (void*)removeDevice },
     {"nativeBanFolder", "(Ljava/lang/String;)V", (void*)banFolder },
+    {"nativeUnbanFolder", "(Ljava/lang/String;)V", (void*)unbanFolder },
     {"nativeLastMediaPlayed", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)lastMediaPLayed },
     {"nativeLastStreamsPlayed", "()[Lorg/videolan/medialibrary/media/HistoryItem;", (void*)lastStreamsPlayed },
     {"nativeAddToHistory", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)addToHistory },
