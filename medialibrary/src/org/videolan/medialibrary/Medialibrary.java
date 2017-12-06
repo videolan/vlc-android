@@ -102,6 +102,11 @@ public class Medialibrary {
             nativeBanFolder(Tools.encodeVLCMrl(path));
     }
 
+    public void unbanFolder(@NonNull String path) {
+        if (mIsInitiated && new File(path).exists())
+            nativeUnbanFolder(Tools.encodeVLCMrl(path));
+    }
+
     public String[] getDevices() {
         return mIsInitiated ? nativeDevices() : new String[0];
     }
@@ -594,6 +599,7 @@ public class Medialibrary {
     private native void nativeStart();
     private native void nativeRelease();
     private native void nativeBanFolder(String path);
+    private native void nativeUnbanFolder(String path);
     private native boolean nativeAddDevice(String uuid, String path, boolean removable);
     private native String[] nativeDevices();
     private native void nativeDiscover(String path);

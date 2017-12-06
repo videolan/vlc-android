@@ -99,6 +99,12 @@ AndroidMediaLibrary::banFolder(const std::string& path)
 }
 
 void
+AndroidMediaLibrary::unbanFolder(const std::string& path)
+{
+    p_ml->unbanFolder(path);
+}
+
+void
 AndroidMediaLibrary::discover(const std::string& libraryPath)
 {
     p_ml->discover(libraryPath);

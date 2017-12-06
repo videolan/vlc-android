@@ -34,6 +34,7 @@ public:
     std::vector<std::tuple<std::string, std::string, bool>> devices();
     bool removeDevice(const std::string& uuid);
     void banFolder(const std::string& path);
+    void unbanFolder(const std::string& path);
     void discover(const std::string&);
     void removeEntryPoint(const std::string& entryPoint);
     std::vector<medialibrary::FolderPtr> entryPoints();
