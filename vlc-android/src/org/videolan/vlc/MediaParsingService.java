@@ -245,9 +245,10 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                             for (String folder : Medialibrary.getBlackList())
                                 mMedialibrary.banFolder(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + folder);
                             mMedialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
-                        } else if (upgrade)
+                        } else if (upgrade) {
+                            mMedialibrary.unbanFolder(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY+ "/WhatsApp/");
                             mMedialibrary.forceParserRetry();
-                        else if (PreferenceManager.getDefaultSharedPreferences(MediaParsingService.this).getBoolean("auto_rescan", true))
+                        } else if (PreferenceManager.getDefaultSharedPreferences(MediaParsingService.this).getBoolean("auto_rescan", true))
                             reload(null);
                         else
                             exitCommand();
