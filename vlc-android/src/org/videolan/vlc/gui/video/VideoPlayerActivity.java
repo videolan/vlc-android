@@ -175,8 +175,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public final static int RESULT_PLAYBACK_ERROR = RESULT_FIRST_USER + 2;
     public final static int RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 3;
     private static final float DEFAULT_FOV = 80f;
-    public static final float MIN_FOV = 20f;
-    public static final float MAX_FOV = 150f;
+    private static final float MIN_FOV = 20f;
+    private static final float MAX_FOV = 150f;
+
+    private final static String KEY_REMAINING_TIME_DISPLAY = "remaining_time_display";
+    private final static String KEY_BLUETOOTH_DELAY = "key_bluetooth_delay";
 
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
@@ -271,8 +274,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private int mCurrentScreenOrientation;
     private ImageView mLock;
     private ImageView mSize;
-    private String KEY_REMAINING_TIME_DISPLAY = "remaining_time_display";
-    private String KEY_BLUETOOTH_DELAY = "key_bluetooth_delay";
     private long mSpuDelay = 0L;
     private long mAudioDelay = 0L;
     private boolean mRateHasChanged = false;
