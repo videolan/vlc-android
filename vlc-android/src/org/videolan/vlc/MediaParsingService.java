@@ -43,6 +43,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     public final static String ACTION_RELOAD = "medialibrary_reload";
     public final static String ACTION_DISCOVER = "medialibrary_discover";
     public final static String ACTION_DISCOVER_DEVICE = "medialibrary_discover_device";
+    public final static String ACTION_CHECK_STORAGES = "medialibrary_check_storages";
 
     public final static String EXTRA_PATH = "extra_path";
     public final static String EXTRA_UUID = "extra_uuid";
@@ -88,7 +89,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 case Medialibrary.ACTION_IDLE:
                     if (intent.getBooleanExtra(Medialibrary.STATE_IDLE, true)) {
                         if (!mScanPaused) {
-                            stopSelf();
+                            exitCommand();
                             return;
                         }
                     }
@@ -145,6 +146,9 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 break;
             case ACTION_DISCOVER_DEVICE:
                 discoverStorage(intent.getStringExtra(EXTRA_PATH));
+                break;
+            case ACTION_CHECK_STORAGES:
+                updateStorages();
                 break;
             default:
                 exitCommand();
@@ -276,6 +280,39 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         }
     }
 
+    private volatile boolean serviceLock = false;
+    private void updateStorages() {
+        mCallsExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                serviceLock = true;
+                final Context ctx = VLCApplication.getAppContext();
+                final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+                final List<String> devices = AndroidDevices.getExternalStorageDirectories();
+                devices.remove(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
+                final String[] knownDevices = mMedialibrary.getDevices();
+                final List<String> missingDevices = Util.arrayToArrayList(knownDevices);
+                missingDevices.remove("file://"+AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
+                for (final String device : devices) {
+                    final String uuid = FileUtils.getFileNameFromPath(device);
+                    if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid))
+                        continue;
+                    if (ExternalMonitor.containsDevice(knownDevices, device)) {
+                        missingDevices.remove("file://"+device);
+                        continue;
+                    }
+                    final boolean isNew = mMedialibrary.addDevice(uuid, device, true);
+                    final boolean isIgnored = sharedPreferences.getBoolean("ignore_"+ uuid, false);
+                    if (!isIgnored && isNew)
+                        LocalBroadcastManager.getInstance(ctx).sendBroadcast(new Intent(ACTION_NEW_STORAGE).putExtra(EXTRA_PATH, device));
+                }
+                for (String device : missingDevices)
+                    mMedialibrary.removeDevice(FileUtils.getFileNameFromPath(device));
+                serviceLock = false;
+                exitCommand();
+            }
+        });
+    }
     private boolean wasWorking;
     final StringBuilder sb = new StringBuilder();
     private final Intent progessIntent = new Intent(ACTION_PROGRESS);
@@ -365,7 +402,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
     }
 
     private void exitCommand() {
-        if (!mMedialibrary.isWorking())
+        if (!mMedialibrary.isWorking() && !serviceLock)
             stopSelf();
     }
 
