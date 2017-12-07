@@ -226,8 +226,9 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                     shouldInit |= initCode == Medialibrary.ML_INIT_DB_RESET;
                     if (initCode != Medialibrary.ML_INIT_FAILED) {
                         final List<String> devices = new ArrayList<>();
-                        devices.add(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                         devices.addAll(AndroidDevices.getExternalStorageDirectories());
+                        if (!devices.contains(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
+                            devices.add(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                         for (final String device : devices) {
                             final boolean isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
