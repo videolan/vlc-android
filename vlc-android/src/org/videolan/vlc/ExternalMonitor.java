@@ -90,6 +90,7 @@ public class ExternalMonitor extends BroadcastReceiver {
             public void run() {
                 final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
                 final List<String> devices = AndroidDevices.getExternalStorageDirectories();
+                devices.remove(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                 final String[] knownDevices = ml.getDevices();
                 final List<String> missingDevices = Util.arrayToArrayList(knownDevices);
                 missingDevices.remove("file://"+AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
