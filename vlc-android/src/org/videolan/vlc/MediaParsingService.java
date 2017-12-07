@@ -121,8 +121,10 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent == null)
+        if (intent == null) {
+            exitCommand();
             return START_NOT_STICKY;
+        }
         synchronized (MediaParsingService.this) {
             // Set 1s delay before displaying scan icon
             // Except for Android 8+ which expects startForeground immediately
