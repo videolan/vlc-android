@@ -311,7 +311,8 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
             case MediaWrapper.TYPE_DIR:
                 if (specialFolders) {
                     final Uri uri = media.getUri();
-                    if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI.equals(uri))
+                    if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI.equals(uri)
+                            || AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI.equals(uri))
                         return IMAGE_QA_MOVIES;
                     if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI.equals(uri))
                         return IMAGE_QA_MUSIC;
