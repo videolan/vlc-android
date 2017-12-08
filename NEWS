@@ -1,3 +1,16 @@
+Changes between 2.5.12 and 2.5.13:
+----------------------------------
+
+Application:
+ * Fix some Artists/Albums not shown in media library
+ * Restore playlists from old media database
+ * Fix videos not disapearing after deletion
+ * Restore WhatsApp videos for thos who didn't had it anymore
+ * Add WhatsApp videos to quick access shortcuts
+ * Fix 'seen' check on RTL devices
+ * Fix chromebooks showing TV interface
+
+
 Changes between 2.5.10 and 2.5.11:
 ----------------------------------
 
