@@ -15,7 +15,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
-import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb;
@@ -99,12 +98,12 @@ public class Medialibrary {
 
     public void banFolder(@NonNull String path) {
         if (mIsInitiated && new File(path).exists())
-            nativeBanFolder(Tools.encodeVLCMrl(Uri.encode(path, "/")));
+            nativeBanFolder(path);
     }
 
     public void unbanFolder(@NonNull String path) {
         if (mIsInitiated && new File(path).exists())
-            nativeUnbanFolder(Tools.encodeVLCMrl(Uri.encode(path, "/")));
+            nativeUnbanFolder(path);
     }
 
     public String[] getDevices() {
