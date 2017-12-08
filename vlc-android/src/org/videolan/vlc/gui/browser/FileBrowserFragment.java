@@ -138,6 +138,11 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                         downloads.setType(MediaWrapper.TYPE_DIR);
                         devices.add(downloads);
                     }
+                    if (AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE.exists()) {
+                        final MediaWrapper whatsapp = new MediaWrapper(AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI);
+                        whatsapp.setType(MediaWrapper.TYPE_DIR);
+                        devices.add(whatsapp);
+                    }
                 }
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
