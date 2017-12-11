@@ -1643,27 +1643,27 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             });
     }
 
+    private volatile boolean loadingLastPlaylist = false;
     public void loadLastPlaylist(final int type) {
+        if (loadingLastPlaylist) return;
+        loadingLastPlaylist = true;
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 final boolean audio = type == TYPE_AUDIO;
-                String[] locations;
+                final String[] locations;
                 synchronized (PlaybackService.this) {
-                    String currentMedia = mSettings.getString(audio ? "current_song" : "current_media", "");
-                    if (currentMedia.equals(""))
-                        return;
+                    final String currentMedia = mSettings.getString(audio ? "current_song" : "current_media", "");
+                    if ("".equals(currentMedia)) return;
                     locations = mSettings.getString(audio ? "audio_list" : "media_list", "").split(" ");
                 }
-                if (locations.length == 0)
-                    return;
+                if (Util.isArrayEmpty(locations)) return;
 
                 final List<MediaWrapper> playList = new ArrayList<>(locations.length);
                 for (String location : locations) {
                     String mrl = Uri.decode(location);
                     MediaWrapper mw = mMedialibrary.getMedia(mrl);
-                    if (mw == null)
-                        mw = new MediaWrapper(Uri.parse(mrl));
+                    if (mw == null) mw = new MediaWrapper(Uri.parse(mrl));
                     playList.add(mw);
                 }
                 // load playlist
@@ -1680,14 +1680,13 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         if (!audio) {
                             if (position < playList.size()) {
                                 boolean paused = mSettings.getBoolean(PreferencesActivity.VIDEO_PAUSED, false);
-                                if (paused)
-                                    playList.get(position).addFlags(MediaWrapper.MEDIA_PAUSED);
+                                if (paused) playList.get(position).addFlags(MediaWrapper.MEDIA_PAUSED);
                             }
                             float rate = mSettings.getFloat(PreferencesActivity.VIDEO_SPEED, getRate());
-                            if (rate != 1.0f)
-                                setRate(rate, false);
+                            if (rate != 1.0f) setRate(rate, false);
                         }
                         load(playList, position);
+                        loadingLastPlaylist = false;
                     }
                 });
             }
