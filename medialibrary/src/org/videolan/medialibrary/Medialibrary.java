@@ -98,12 +98,12 @@ public class Medialibrary {
 
     public void banFolder(@NonNull String path) {
         if (mIsInitiated && new File(path).exists())
-            nativeBanFolder(path);
+            nativeBanFolder(Tools.encodeVLCMrl(path));
     }
 
     public void unbanFolder(@NonNull String path) {
         if (mIsInitiated && new File(path).exists())
-            nativeUnbanFolder(path);
+            nativeUnbanFolder(Tools.encodeVLCMrl(path));
     }
 
     public String[] getDevices() {
@@ -120,9 +120,8 @@ public class Medialibrary {
     }
 
     public void removeFolder(@NonNull String mrl) {
-        if (!mIsInitiated)
-            return;
-        String[] folders = getFoldersList();
+        if (!mIsInitiated) return;
+        final String[] folders = getFoldersList();
         for (String folder : folders) {
             if (!folder.equals(mrl) && folder.contains(mrl))
                 removeFolder(folder);
