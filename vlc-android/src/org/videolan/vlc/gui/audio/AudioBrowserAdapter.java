@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -425,8 +426,14 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         MediaItemViewHolder(AudioBrowserItemBinding binding) {
             super(binding);
             binding.setHolder(this);
-            if (mDefaultCover != null)
-                binding.setCover(mDefaultCover);
+            if (mDefaultCover != null) binding.setCover(mDefaultCover);
+            if (AndroidUtil.isMarshMallowOrLater) itemView.setOnContextClickListener(new View.OnContextClickListener() {
+                @Override
+                public boolean onContextClick(View v) {
+                    onMoreClick(v);
+                    return true;
+                }
+            });
         }
 
         public void onClick(View v) {
@@ -464,14 +471,6 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         protected boolean isSelected() {
             return getItem(getLayoutPosition()).hasStateFlags(FLAG_SELECTED);
         }
-
-//        private void setViewBackground(boolean focused, boolean selected) {
-//            int selectionColor = selected || focused ? UiTools.ITEM_SELECTION_ON : 0;
-//            if (selectionColor != this.selectionColor) {
-//                itemView.setBackgroundColor(selectionColor);
-//                this.selectionColor = selectionColor;
-//            }
-//        }
     }
 
     @Override

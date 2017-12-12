@@ -168,6 +168,13 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
                     return true;
                 }
             });
+            if (AndroidUtil.isMarshMallowOrLater) itemView.setOnContextClickListener(new View.OnContextClickListener() {
+                @Override
+                public boolean onContextClick(View v) {
+                    onMoreClick(v);
+                    return true;
+                }
+            });
         }
 
         void setContextMenuListener() {
