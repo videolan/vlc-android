@@ -171,8 +171,8 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
     }
 
     @MainThread
-    public void addAll(Collection<MediaWrapper> items) {
-        getDataset().addAll(items);
+    public void setList(List<MediaWrapper> items) {
+        setDataset(items);
         mOriginalData = null;
     }
 
