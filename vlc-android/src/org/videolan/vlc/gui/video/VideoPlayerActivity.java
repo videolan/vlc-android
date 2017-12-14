@@ -713,8 +713,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mSavedTime != -1)
             editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, mSavedTime);
 
-        editor.putFloat(PreferencesActivity.VIDEO_RATE, mSavedRate);
-
         // Save selected subtitles
         String subtitleList_serialized = null;
         if(mSubtitleSelectedFiles.size() > 0) {
@@ -3279,10 +3277,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             else
                 mService.loadUri(mUri);
 
-            if (!resumePlaylist ||!isPlaying || positionInPlaylist != mService.getCurrentMediaPosition()) {
-                final boolean ratePref = mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true);
-                mService.setRate(ratePref || mRateHasChanged ? mSettings.getFloat(PreferencesActivity.VIDEO_RATE, 1.0f) : 1.0F, false);
-            }
             // Get possible subtitles
             getSubtitles();
 

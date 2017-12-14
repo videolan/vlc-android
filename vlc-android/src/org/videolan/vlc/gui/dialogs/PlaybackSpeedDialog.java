@@ -37,7 +37,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.util.Strings;
 
 public class PlaybackSpeedDialog extends DialogFragment implements PlaybackService.Client.Callback {
@@ -104,7 +103,7 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
                 return;
             if (fromUser) {
                 float rate = (float) Math.pow(4, ((double) progress / (double) 100) - 1);
-                mService.setRate(rate, mService.getCurrentMediaWrapper().getType() == MediaWrapper.TYPE_AUDIO);
+                mService.setRate(rate, true);
                 updateInterface();
             }
         }
@@ -122,7 +121,7 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
             if (mService == null || mService.getRate() == 1.0d || mService.getCurrentMediaWrapper() == null)
                 return;
 
-            mService.setRate(1F, mService.getCurrentMediaWrapper().getType() == MediaWrapper.TYPE_AUDIO);
+            mService.setRate(1F, true);
             setRateProgress();
         }
     };
@@ -156,7 +155,7 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
         float rate = Math.round((initialRate + delta) * 100f) / 100f;
         if (rate < 0.25f || rate > 4f || mService.getCurrentMediaWrapper() == null)
             return;
-        mService.setRate(rate, mService.getCurrentMediaWrapper().getType() == MediaWrapper.TYPE_AUDIO);
+        mService.setRate(rate, true);
     }
 
     private void updateInterface() {
