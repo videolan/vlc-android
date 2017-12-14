@@ -2075,8 +2075,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             mMediaPlayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
             changeAudioFocus(true);
             mMediaPlayer.setEventListener(mMediaPlayerListener);
-            if (!isVideoPlaying && mMediaPlayer.getRate() == 1.0F && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true))
-                setRate(mSettings.getFloat(PreferencesActivity.KEY_AUDIO_PLAYBACK_RATE, 1.0F), true);
+            if (mMediaPlayer.getRate() == 1.0F && mSettings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, true))
+                setRate(mSettings.getFloat(PreferencesActivity.KEY_PLAYBACK_RATE, 1.0F), false);
             if (mSavedTime <= 0L && mw.getTime() >= 0L && mw.isPodcast())
                 mSavedTime = mw.getTime();
             mMediaPlayer.play();
@@ -2364,8 +2364,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     @MainThread
     public void setRate(float rate, boolean save) {
         mMediaPlayer.setRate(rate);
-        if (save && mSettings.getBoolean(PreferencesActivity.KEY_AUDIO_PLAYBACK_SPEED_PERSIST, true))
-            mSettings.edit().putFloat(PreferencesActivity.KEY_AUDIO_PLAYBACK_RATE, rate).apply();
+        if (save && mSettings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, true))
+            mSettings.edit().putFloat(PreferencesActivity.KEY_PLAYBACK_RATE, rate).apply();
     }
 
     @MainThread
