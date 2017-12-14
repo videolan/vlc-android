@@ -379,14 +379,21 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     @Override
     public void setFabPlayVisibility(boolean enable) {
-        super.setFabPlayVisibility(enable && mViewPager.getCurrentItem() == 1);
+        super.setFabPlayVisibility(enable);
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void onFabPlayClick(View view) {
         if (mService == null) return;
-        @SuppressWarnings("unchecked")
-        final List<MediaWrapper> list = (List<MediaWrapper>)(List<?>) mSongsAdapter.getMediaItems();
+        final List<MediaWrapper> list ;
+        if (mViewPager.getCurrentItem() == 0) {
+            list = new ArrayList<>();
+            for (MediaLibraryItem item : mAlbumsAdapter.getMediaItems())
+                list.addAll(Util.arrayToArrayList(item.getTracks()));
+        } else {
+            list = (List<MediaWrapper>) (List<?>) mSongsAdapter.getMediaItems();
+        }
         mService.load(list, 0);
     }
 }
