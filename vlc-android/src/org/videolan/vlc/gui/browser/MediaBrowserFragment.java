@@ -92,7 +92,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
         if (!hidden) {
             updateTitle();
             if (mFabPlay != null) {
-                setFabPlayVisibility(false);
+                setFabPlayVisibility(true);
                 mFabPlay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
