@@ -578,6 +578,11 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         }
     }
 
+
+    public int setRenderer(RendererItem item) {
+        return nativeSetRenderer(item);
+    }
+
     /**
      * Get the Media used by this MediaPlayer. This Media should be released with {@link #release()}.
      */
@@ -1130,6 +1135,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private native void nativeSetMedia(Media media);
     private native void nativePlay();
     private native void nativeStop();
+    private native int nativeSetRenderer(RendererItem item);
     private native void nativeSetVideoTitleDisplay(int position, int timeout);
     private native float nativeGetScale();
     private native void nativeSetScale(float scale);

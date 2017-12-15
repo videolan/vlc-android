@@ -92,6 +92,14 @@ struct fields {
         jmethodID createDescriptionFromNativeID;
     } MediaDiscoverer;
     struct {
+        struct {
+            jclass clazz;
+        } Description;
+        jclass clazz;
+        jmethodID createDescriptionFromNativeID;
+        jmethodID createItemFromNativeID;
+    } RendererDiscoverer;
+    struct {
         jclass clazz;
         jmethodID displayErrorFromNativeID;
         jmethodID displayLoginFromNativeID;
