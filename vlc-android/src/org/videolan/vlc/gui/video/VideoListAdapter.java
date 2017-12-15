@@ -387,15 +387,14 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
         @Override
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            final MediaWrapper oldItem = oldList.get(oldItemPosition);
+            final MediaWrapper oldItem = getDataset().get(oldItemPosition);
             final MediaWrapper newItem = newList.get(newItemPosition);
-            return oldItem == newItem || (oldList != null && newList != null
-                    && oldItem.getType() == newItem.getType() && oldItem.equals(newItem));
+            return oldItem == newItem || (oldItem.getType() == newItem.getType() && oldItem.equals(newItem));
         }
 
         @Override
         public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-            final MediaWrapper oldItem = oldList.get(oldItemPosition);
+            final MediaWrapper oldItem = getDataset().get(oldItemPosition);
             final MediaWrapper newItem = newList.get(newItemPosition);
             return oldItem == newItem || (oldItem.getTime() == newItem.getTime()
                     && TextUtils.equals(oldItem.getArtworkMrl(), newItem.getArtworkMrl())
@@ -405,7 +404,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         @Nullable
         @Override
         public Object getChangePayload(int oldItemPosition, int newItemPosition) {
-            final MediaWrapper oldItem = oldList.get(oldItemPosition);
+            final MediaWrapper oldItem = getDataset().get(oldItemPosition);
             final MediaWrapper newItem = newList.get(newItemPosition);
             if (oldItem.getTime() != newItem.getTime())
                 return UPDATE_TIME;

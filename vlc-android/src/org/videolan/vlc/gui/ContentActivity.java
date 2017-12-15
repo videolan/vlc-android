@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui;
 
-
 import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.Intent;
@@ -39,19 +38,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.videolan.libvlc.RendererItem;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.RendererDelegate;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
+import org.videolan.vlc.gui.dialogs.RenderersDialog;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.media.MediaUtils;
 
-public class ContentActivity extends AudioPlayerContainerActivity implements SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
+public class ContentActivity extends AudioPlayerContainerActivity implements SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener, RendererDelegate.RendererListener, RendererDelegate.RendererPlayer {
     public static final String TAG = "VLC/ContentActivity";
 
     protected Menu mMenu;
     private SearchView mSearchView;
+    private boolean showRenderers = !RendererDelegate.INSTANCE.getRenderers().isEmpty();
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -108,7 +111,23 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
         }
         else
             menu.findItem(R.id.ml_menu_filter).setVisible(false);
+         menu.findItem(R.id.ml_menu_renderers).setVisible(showRenderers);
+         menu.findItem(R.id.ml_menu_renderers).setIcon(RendererDelegate.INSTANCE.getSelectedRenderer() == null ? R.drawable.ic_am_renderer_normal_w : R.drawable.ic_am_renderer_on_w);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        RendererDelegate.INSTANCE.addListener(this);
+        RendererDelegate.INSTANCE.addPlayerListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        RendererDelegate.INSTANCE.removeListener(this);
+        RendererDelegate.INSTANCE.removePlayerListener(this);
     }
 
     @Override
@@ -121,6 +140,10 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
                 return true;
             case R.id.ml_menu_search:
                 startActivity(new Intent(Intent.ACTION_SEARCH, null, this, SearchActivity.class));
+                return true;
+            case R.id.ml_menu_renderers:
+                if (getSupportFragmentManager().findFragmentByTag("renderers") == null)
+                    new RenderersDialog().show(getSupportFragmentManager(), "renderers");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -185,5 +208,16 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
         if (current instanceof Filterable) {
             ((Filterable) current).restoreList();
         }
+    }
+
+    @Override
+    public void onRenderersChanged(boolean empty) {
+        showRenderers = !empty;
+        supportInvalidateOptionsMenu();
+    }
+
+    @Override
+    public void onRendererChanged(@Nullable RendererItem renderer) {
+        supportInvalidateOptionsMenu();
     }
 }

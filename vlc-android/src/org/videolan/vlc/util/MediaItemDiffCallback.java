@@ -1,37 +1,29 @@
 package org.videolan.vlc.util;
 
-import android.support.v7.util.DiffUtil;
-
+import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.vlc.gui.DiffUtilAdapter;
 
 import java.util.List;
 
 
-public class MediaItemDiffCallback< T extends MediaLibraryItem> extends DiffUtil.Callback {
+public class MediaItemDiffCallback< T extends MediaLibraryItem> extends DiffUtilAdapter.DiffCallback<T> {
     private static final String TAG = "MediaItemDiffCallback";
-    public List<T> oldList, newList;
-
-    public MediaItemDiffCallback() {}
-
-    public void update(List<T> oldList, List<T> newList) {
-        this.oldList = oldList;
-        this.newList = newList;
-    }
 
     @Override
     public int getOldListSize() {
-        return oldList == null ? 0 :oldList.size();
+        return getOldList().size();
     }
 
     @Override
     public int getNewListSize() {
-        return newList == null ? 0 : newList.size();
+        return newList.size();
     }
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        MediaLibraryItem oldItem = oldList.get(oldItemPosition);
-        MediaLibraryItem newItem = newList.get(newItemPosition);
+        final MediaLibraryItem oldItem = getOldList().get(oldItemPosition);
+        final MediaLibraryItem newItem = newList.get(newItemPosition);
         return oldItem == newItem || ((oldItem == null ) == (newItem == null) && oldItem.equals(newItem));
     }
 

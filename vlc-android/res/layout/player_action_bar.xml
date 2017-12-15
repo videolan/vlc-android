@@ -17,6 +17,15 @@
         android:textColor="@color/white"
         android:textSize="15sp" />
 
+    <ImageView
+        android:id="@+id/video_renderer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_am_renderer_normal_w"
+        android:focusable="true"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/player_overlay_battery"
         android:layout_width="wrap_content"
