@@ -36,6 +36,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
@@ -46,6 +47,7 @@ import org.videolan.vlc.gui.DiffUtilAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
@@ -297,5 +299,11 @@ public class PlaylistAdapter extends DiffUtilAdapter<MediaWrapper, PlaylistAdapt
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
             update((ArrayList<MediaWrapper>) filterResults.values);
         }
+    }
+
+    @NotNull
+    @Override
+    protected DiffCallback<MediaWrapper> createCB() {
+        return new MediaItemDiffCallback();
     }
 }

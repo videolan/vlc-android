@@ -31,7 +31,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 public abstract class PlaybackServiceFragment extends Fragment implements PlaybackService.Client.Callback {
     protected PlaybackService mService;
 
-    private static PlaybackServiceActivity.Helper getHelper(Activity activity) {
+    public static PlaybackServiceActivity.Helper getHelper(Activity activity) {
         if (activity == null)
             return null;
 

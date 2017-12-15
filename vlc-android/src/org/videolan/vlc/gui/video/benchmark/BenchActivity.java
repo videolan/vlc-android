@@ -153,7 +153,7 @@ public class BenchActivity extends ShallowVideoPlayer {
 
                 /* Deactivates secondary displays */
                 mEnableCloneMode = true;
-                mMediaRouter = null;
+                mDisplayManager.release();
         }
 
         // blocking display in landscape orientation

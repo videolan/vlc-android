@@ -25,7 +25,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.PictureInPictureParams;
-import android.app.Presentation;
 import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothHeadset;
 import android.content.BroadcastReceiver;
@@ -44,7 +43,6 @@ import android.databinding.ObservableLong;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
-import android.media.MediaRouter;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -104,9 +102,11 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.Nullable;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.RendererItem;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.Tools;
@@ -114,6 +114,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.RendererDelegate;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.PlayerHudBinding;
 import org.videolan.vlc.gui.MainActivity;
@@ -122,6 +123,7 @@ import org.videolan.vlc.gui.audio.PlaylistAdapter;
 import org.videolan.vlc.gui.browser.FilePickerActivity;
 import org.videolan.vlc.gui.browser.FilePickerFragment;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
+import org.videolan.vlc.gui.dialogs.RenderersDialog;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -156,7 +158,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         IVLCVout.OnNewVideoLayoutListener, IPlaybackSettingsController,
         PlaybackService.Client.Callback, PlaybackService.Callback,PlaylistAdapter.IPlayer,
         OnClickListener, StoragePermissionsDelegate.CustomActionController,
-        ScaleGestureDetector.OnScaleGestureListener {
+        ScaleGestureDetector.OnScaleGestureListener, RendererDelegate.RendererListener, RendererDelegate.RendererPlayer {
 
     private final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -176,12 +178,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private Medialibrary mMedialibrary;
     private SurfaceView mSurfaceView = null;
     private SurfaceView mSubtitlesSurfaceView = null;
+    protected DisplayManager mDisplayManager;
     private View mRootView;
     private FrameLayout mSurfaceFrame;
-    protected MediaRouter mMediaRouter;
-    private MediaRouter.SimpleCallback mMediaRouterCallback;
-    private SecondaryDisplay mPresentation;
-    private int mPresentationDisplayId = -1;
     private Uri mUri;
     private boolean mAskResume = true;
     private boolean mIsRtl;
@@ -243,6 +242,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private ImageView mLoading;
     private ImageView mTipsBackground;
     private ImageView mNavMenu;
+    private ImageView mRendererBtn;
     private ImageView mPlaybackSettingPlus;
     private ImageView mPlaybackSettingMinus;
     protected boolean mEnableCloneMode;
@@ -356,12 +356,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             return;
         }
 
-        if (AndroidUtil.isJellyBeanMR1OrLater) {
-            // Get the media router service (Miracast)
-            mMediaRouter = (MediaRouter) getApplicationContext().getSystemService(Context.MEDIA_ROUTER_SERVICE);
-            Log.d(TAG, "MediaRouter information : " + mMediaRouter);
-        }
-
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (!VLCApplication.showTvUi()) {
@@ -376,8 +370,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         audioBoostEnabled = mSettings.getBoolean("audio_boost", false);
 
         mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
-        createPresentation();
-        setContentView(mPresentation == null ? R.layout.player : R.layout.player_remote_control);
+        mDisplayManager = new DisplayManager(this, mEnableCloneMode);
+        setContentView(mDisplayManager.isPrimary() ? R.layout.player : R.layout.player_remote_control);
 
         /** initialize Views an their Events */
         mActionBar = getSupportActionBar();
@@ -414,7 +408,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         /* Loading view */
         mLoading = (ImageView) findViewById(R.id.player_overlay_loading);
-        if (mPresentation != null)
+        if (!mDisplayManager.isPrimary())
             mTipsBackground = (ImageView) findViewById(R.id.player_remote_tips_background);
         dimStatusBar(true);
         mHandler.sendEmptyMessageDelayed(LOADING_ANIMATION, LOADING_ANIMATION_DELAY);
@@ -446,7 +440,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         // 100 is the value for screen_orientation_start_lock
         setRequestedOrientation(getScreenOrientation(mScreenOrientation));
         // Extra initialization when no secondary display is detected
-        if (mPresentation == null) {
+        if (mDisplayManager.isPrimary()) {
             // Orientation
             // Tips
             if (!BuildConfig.DEBUG && !VLCApplication.showTvUi() && !mSettings.getBoolean(PREF_TIPS_SHOWN, false)) {
@@ -491,18 +485,25 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         /*
          * Set listeners here to avoid NPE when activity is closing
          */
-        setHudClickListeners(true);
+        setListeners(true);
 
         if (mIsLocked && mScreenOrientation == 99)
             setRequestedOrientation(mScreenOrientationLock);
     }
 
-    private void setHudClickListeners(boolean enabled) {
-        if (mHudBinding != null) {
-            mHudBinding.playerOverlaySeekbar.setOnSeekBarChangeListener(enabled ? mSeekListener : null);
+    private void setListeners(boolean enabled) {
+        if (mHudBinding != null) mHudBinding.playerOverlaySeekbar.setOnSeekBarChangeListener(enabled ? mSeekListener : null);
+        if (mNavMenu != null) mNavMenu.setOnClickListener(enabled ? this : null);
+        if (mRendererBtn != null) {
+            if (enabled) {
+                RendererDelegate.INSTANCE.addListener(this);
+                RendererDelegate.INSTANCE.addPlayerListener(this);
+            } else {
+                RendererDelegate.INSTANCE.removeListener(this);
+                RendererDelegate.INSTANCE.removePlayerListener(this);
+            }
+            mRendererBtn.setOnClickListener(enabled ? this : null);
         }
-        if (mNavMenu != null)
-            mNavMenu.setOnClickListener(enabled ? this : null);
     }
 
     @Override
@@ -548,7 +549,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         else
             hideOverlay(true);
         super.onPause();
-        setHudClickListeners(false);
+        setListeners(false);
 
         /* Stop the earliest possible to avoid vout error */
 
@@ -735,43 +736,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         unregisterReceiver(mReceiver);
 
         // Dismiss the presentation when the activity is not visible.
-        if (mPresentation != null) {
-            Log.i(TAG, "Dismissing presentation because the activity is no longer visible.");
-            mPresentation.dismiss();
-            mPresentation = null;
-        }
+        mDisplayManager.release();
         mAudioManager = null;
-    }
-
-    /**
-     * Add or remove MediaRouter callbacks. This is provided for version targeting.
-     *
-     * @param add true to add, false to remove
-     */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void mediaRouterAddCallback(boolean add) {
-        if (!AndroidUtil.isJellyBeanMR1OrLater || mMediaRouter == null
-                || add == (mMediaRouterCallback != null))
-            return;
-
-        if(add) {
-            mMediaRouterCallback = new MediaRouter.SimpleCallback() {
-                @Override
-                public void onRoutePresentationDisplayChanged(
-                        MediaRouter router, MediaRouter.RouteInfo info) {
-                    Log.d(TAG, "onRoutePresentationDisplayChanged: info=" + info);
-                    final Display presentationDisplay = info.getPresentationDisplay();
-                    final int newDisplayId = presentationDisplay != null ? presentationDisplay.getDisplayId() : -1;
-                    if (newDisplayId != mPresentationDisplayId)
-                        removePresentation();
-                }
-            };
-            mMediaRouter.addCallback(MediaRouter.ROUTE_TYPE_LIVE_VIDEO, mMediaRouterCallback);
-        }
-        else {
-            mMediaRouter.removeCallback(mMediaRouterCallback);
-            mMediaRouterCallback = null;
-        }
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -825,15 +791,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             } else
                 vlcVout.detachViews();
         }
-        if (mPresentation == null) {
+        if (mDisplayManager.isPrimary()) {
             vlcVout.setVideoView(mSurfaceView);
             vlcVout.setSubtitlesView(mSubtitlesSurfaceView);
-        } else {
-            vlcVout.setVideoView(mPresentation.mSurfaceView);
-            vlcVout.setSubtitlesView(mPresentation.mSubtitlesSurfaceView);
+            vlcVout.addCallback(this);
+            vlcVout.attachViews(this);
+        } else if (mDisplayManager.getDisplayType() == DisplayManager.DisplayType.PRESENTATION) {
+            vlcVout.setVideoView(mDisplayManager.getPresentation().getSurfaceView());
+            vlcVout.setSubtitlesView(mDisplayManager.getPresentation().getSubtitlesSurfaceView());
+            vlcVout.addCallback(this);
+            vlcVout.attachViews(this);
         }
-        vlcVout.addCallback(this);
-        vlcVout.attachViews(this);
         mService.setVideoTrackEnabled(true);
 
         initUI();
@@ -874,7 +842,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         surfaceFrameAddLayoutListener(true);
 
         /* Listen for changes to media routes. */
-        mediaRouterAddCallback(true);
+        mDisplayManager.mediaRouterAddCallback(true);
 
         if (mRootView != null) mRootView.setKeepScreenOn(true);
     }
@@ -951,7 +919,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
 
         /* Stop listening for changes to media routes. */
-        mediaRouterAddCallback(false);
+        mDisplayManager.mediaRouterAddCallback(false);
 
         surfaceFrameAddLayoutListener(false);
 
@@ -1374,7 +1342,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     public void showDelayControls(){
         mTouchAction = TOUCH_NONE;
-        if (mPresentation != null)
+        if (!mDisplayManager.isPrimary())
             showOverlayTimeout(OVERLAY_INFINITE);
         ViewStubCompat vsc = (ViewStubCompat) findViewById(R.id.player_overlay_settings_stub);
         if (vsc != null) {
@@ -1934,13 +1902,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         int sh;
 
         // get screen size
-        if (mPresentation == null) {
+        if (mDisplayManager.isPrimary()) {
             sw = getWindow().getDecorView().getWidth();
             sh = getWindow().getDecorView().getHeight();
-        } else {
-            sw = mPresentation.getWindow().getDecorView().getWidth();
-            sh = mPresentation.getWindow().getDecorView().getHeight();
-        }
+        } else if (mDisplayManager.getDisplayType() == DisplayManager.DisplayType.PRESENTATION) {
+            sw = mDisplayManager.getPresentation().getWindow().getDecorView().getWidth();
+            sh = mDisplayManager.getPresentation().getWindow().getDecorView().getHeight();
+        } else return;
 
         // sanity check
         if (sw * sh == 0) {
@@ -1956,15 +1924,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         SurfaceView surface;
         SurfaceView subtitlesSurface;
         FrameLayout surfaceFrame;
-        if (mPresentation == null) {
+        if (mDisplayManager.isPrimary()) {
             surface = mSurfaceView;
             subtitlesSurface = mSubtitlesSurfaceView;
             surfaceFrame = mSurfaceFrame;
-        } else {
-            surface = mPresentation.mSurfaceView;
-            subtitlesSurface = mPresentation.mSubtitlesSurfaceView;
-            surfaceFrame = mPresentation.mSurfaceFrame;
-        }
+        } else if (mDisplayManager.getDisplayType() == DisplayManager.DisplayType.PRESENTATION) {
+            surface = mDisplayManager.getPresentation().getSurfaceView();
+            subtitlesSurface = mDisplayManager.getPresentation().getSubtitlesSurfaceView();
+            surfaceFrame = mDisplayManager.getPresentation().getSurfaceFrame();
+        } else return;
         LayoutParams lp = surface.getLayoutParams();
 
         if (mVideoWidth * mVideoHeight == 0 || isInPictureInPictureMode()) {
@@ -1991,7 +1959,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         boolean isPortrait;
 
         // getWindow().getDecorView() doesn't always take orientation into account, we have to correct the values
-        isPortrait = mPresentation == null && mCurrentScreenOrientation == Configuration.ORIENTATION_PORTRAIT;
+        isPortrait = mDisplayManager.isPrimary() && mCurrentScreenOrientation == Configuration.ORIENTATION_PORTRAIT;
 
         if (sw > sh && isPortrait || sw < sh && !isPortrait) {
             dw = sh;
@@ -2145,7 +2113,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 if (mFov == 0f) {
                     // No volume/brightness action if coef < 2 or a secondary display is connected
                     //TODO : Volume action when a secondary display is connected
-                    if (mTouchAction != TOUCH_SEEK && coef > 2 && mPresentation == null) {
+                    if (mTouchAction != TOUCH_SEEK && coef > 2 && mDisplayManager.isPrimary()) {
                         if (Math.abs(y_changed/mSurfaceYDisplayRange) < 0.05)
                             return false;
                         mTouchY = event.getRawY();
@@ -2400,7 +2368,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final Menu menu = popupMenu.getMenu();
         popupMenu.getMenuInflater().inflate(R.menu.audiosub_tracks, menu);
         //FIXME network subs cannot be enabled & screen cast display is broken with picker
-        menu.findItem(R.id.video_menu_subtitles_picker).setEnabled(mPresentation == null && enableSubs);
+        menu.findItem(R.id.video_menu_subtitles_picker).setEnabled(mDisplayManager.isPrimary() && enableSubs);
         menu.findItem(R.id.video_menu_subtitles_download).setEnabled(enableSubs);
         menu.findItem(R.id.video_menu_audio_track).setEnabled(mService.getAudioTracksCount() > 0);
         menu.findItem(R.id.video_menu_subtitles).setEnabled(mService.getSpuTracksCount() > 0);
@@ -2503,6 +2471,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 else if (mPlaybackSetting == DelayState.SUBS)
                     delaySubs(50000);
                 break;
+            case R.id.video_renderer:
+                if (getSupportFragmentManager().findFragmentByTag("renderers") == null)
+                    new RenderersDialog().show(getSupportFragmentManager(), "renderers");
+                break;
         }
     }
 
@@ -2552,6 +2524,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void onStorageAccessGranted() {
         mHandler.sendEmptyMessage(START_PLAYBACK);
+    }
+
+    @Override
+    public void onRenderersChanged(boolean empty) {
+        UiTools.setViewVisibility(mRendererBtn, empty ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public void onRendererChanged(@Nullable RendererItem renderer) {
+        if (mRendererBtn != null) mRendererBtn.setImageResource(renderer == null ? R.drawable.ic_renderer_circle : R.drawable.ic_renderer_on_circle);
     }
 
     private interface TrackSelectedListener {
@@ -2803,7 +2785,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             dimStatusBar(false);
             mHudBinding.progressOverlay.setVisibility(View.VISIBLE);
-            if (mPresentation != null)
+            if (!mDisplayManager.isPrimary())
                 mOverlayBackground.setVisibility(View.VISIBLE);
             updateOverlayPausePlay();
         }
@@ -2853,14 +2835,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mHudBinding.progressOverlay.setLayoutParams(layoutParams);
             mOverlayBackground = findViewById(R.id.player_overlay_background);
             mNavMenu = (ImageView) findViewById(R.id.player_overlay_navmenu);
-            if (mSeekButtons)
-                initSeekButton();
+            mRendererBtn = (ImageView) findViewById(R.id.video_renderer);
+            onRenderersChanged(RendererDelegate.INSTANCE.getRenderers().isEmpty());
+            onRendererChanged(RendererDelegate.INSTANCE.getSelectedRenderer());
+            if (mSeekButtons) initSeekButton();
             resetHudLayout();
             updateOverlayPausePlay();
             updateSeekable(mService.isSeekable());
             updatePausable(mService.isPausable());
             updateNavStatus();
-            setHudClickListeners(true);
+            setListeners(true);
             initPlaylistUi();
         }
     }
@@ -2875,7 +2859,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mHandler.removeMessages(SHOW_PROGRESS);
             Log.i(TAG, "remove View!");
             UiTools.setViewVisibility(mOverlayTips, View.INVISIBLE);
-            if (mPresentation != null) {
+            if (!mDisplayManager.isPrimary()) {
                 mOverlayBackground.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayBackground.setVisibility(View.INVISIBLE);
             }
@@ -3434,99 +3418,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mSettings.edit().putLong(KEY_BLUETOOTH_DELAY, mService.getAudioDelay()).apply();
         }
     };
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void createPresentation() {
-        if (mMediaRouter == null || mEnableCloneMode)
-            return;
-
-        // Get the current route and its presentation display.
-        MediaRouter.RouteInfo route = mMediaRouter.getSelectedRoute(
-                MediaRouter.ROUTE_TYPE_LIVE_VIDEO);
-
-        Display presentationDisplay = route != null ? route.getPresentationDisplay() : null;
-
-        if (presentationDisplay != null) {
-            // Show a new presentation if possible.
-            Log.i(TAG, "Showing presentation on display: " + presentationDisplay);
-            mPresentation = new SecondaryDisplay(this, presentationDisplay);
-            mPresentation.setOnDismissListener(mOnDismissListener);
-            try {
-                mPresentation.show();
-                mPresentationDisplayId = presentationDisplay.getDisplayId();
-            } catch (WindowManager.InvalidDisplayException ex) {
-                Log.w(TAG, "Couldn't show presentation!  Display was removed in "
-                        + "the meantime.", ex);
-                mPresentation = null;
-            }
-        } else
-            Log.i(TAG, "No secondary display detected");
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void removePresentation() {
-        if (mMediaRouter == null)
-            return;
-
-        // Dismiss the current presentation if the display has changed.
-        Log.i(TAG, "Dismissing presentation because the current route no longer "
-                + "has a presentation display.");
-        if (mPresentation != null) mPresentation.dismiss();
-        mPresentation = null;
-        mPresentationDisplayId = -1;
-        stopPlayback();
-
-        recreate();
-    }
-
-    /**
-     * Listens for when presentations are dismissed.
-     */
-    private final DialogInterface.OnDismissListener mOnDismissListener = new DialogInterface.OnDismissListener() {
-        @Override
-        public void onDismiss(DialogInterface dialog) {
-            if (dialog == mPresentation) {
-                Log.i(TAG, "Presentation was dismissed.");
-                mPresentation = null;
-            }
-        }
-    };
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private static final class SecondaryDisplay extends Presentation {
-        public final static String TAG = "VLC/SecondaryDisplay";
-
-        private SurfaceView mSurfaceView;
-        private SurfaceView mSubtitlesSurfaceView;
-        private FrameLayout mSurfaceFrame;
-
-        SecondaryDisplay(Context context, Display display) {
-            super(context, display);
-            if (context instanceof AppCompatActivity) {
-                setOwnerActivity((AppCompatActivity) context);
-            }
-        }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.player_remote);
-
-            mSurfaceView = findViewById(R.id.remote_player_surface);
-            mSubtitlesSurfaceView = findViewById(R.id.remote_subtitles_surface);
-            mSurfaceFrame = findViewById(R.id.remote_player_surface_frame);
-
-            mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
-            mSubtitlesSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-            VideoPlayerActivity activity = (VideoPlayerActivity)getOwnerActivity();
-            if (activity == null) {
-                Log.e(TAG, "Failed to get the VideoPlayerActivity instance, secondary display won't work");
-                return;
-            }
-
-            Log.i(TAG, "Secondary display created");
-        }
-    }
 
     /**
      * Start the video loading animation.

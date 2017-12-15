@@ -4,6 +4,14 @@
 
     <item
         android:orderInCategory="1"
+        android:id="@+id/ml_menu_renderers"
+        android:icon="@drawable/ic_am_renderer_normal_w"
+        android:title="@string/searchable_hint"
+        vlc:showAsAction="always|collapseActionView"
+        android:visible="false"/>
+
+    <item
+        android:orderInCategory="1"
         android:id="@+id/ml_menu_filter"
         android:icon="@drawable/ic_menu_search_normal_w"
         vlc:actionViewClass="android.support.v7.widget.SearchView"
@@ -14,14 +22,14 @@
         android:id="@+id/ml_menu_last_playlist"
         android:icon="@drawable/ic_menu_lastplaylist"
         android:title="@string/last_playlist"
-        vlc:showAsAction="ifRoom"
+        vlc:showAsAction="always|collapseActionView"
         android:visible="false"/>
     <item
         android:orderInCategory="2"
         android:title="@string/sortby"
         android:icon="@drawable/ic_menu_sort"
         android:id="@+id/ml_menu_sortby"
-        vlc:showAsAction="ifRoom"
+        vlc:showAsAction="always|collapseActionView"
         android:visible="false">
         <menu>
             <item

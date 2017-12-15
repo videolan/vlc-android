@@ -66,6 +66,7 @@ import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
+import org.videolan.vlc.gui.dialogs.RenderersDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.network.MRLPanelFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -243,6 +244,12 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         mNavigationView.setNavigationItemSelectedListener(this);
         if (BuildConfig.DEBUG)
             createExtensionServiceConnection();
+//        mActivityHandler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                new RenderersDialog().show(getSupportFragmentManager(), "renderers");
+//            }
+//        });
     }
 
     @Override

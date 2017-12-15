@@ -72,6 +72,7 @@ import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaList;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.RendererItem;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.Tools;
@@ -2078,7 +2079,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
         if (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && mMediaPlayer.getAudioTracksCount() == 0)
             next();
-        else if (mw .getType() != MediaWrapper.TYPE_VIDEO || isVideoPlaying || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
+        else if (mw .getType() != MediaWrapper.TYPE_VIDEO || isVideoPlaying || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)
+                || RendererDelegate.INSTANCE.getSelectedRenderer() != null) {
             mMediaPlayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(this));
             mMediaPlayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0);
             changeAudioFocus(true);
@@ -2547,6 +2549,11 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     @MainThread
+    public int setRenderer(RendererItem item) {
+        return mMediaPlayer.setRenderer(item);
+    }
+
+    @MainThread
     public long getSpuDelay() {
         return mMediaPlayer.getSpuDelay();
     }
@@ -2603,6 +2610,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             mMediaPlayer.getVLCVout().detachViews();
         final MediaPlayer mp = mMediaPlayer;
         mMediaPlayer = newMediaPlayer();
+        mMediaPlayer.setRenderer(RendererDelegate.INSTANCE.getSelectedRenderer());
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {

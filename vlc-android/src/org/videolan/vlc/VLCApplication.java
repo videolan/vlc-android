@@ -23,9 +23,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -290,8 +292,7 @@ public class VLCApplication extends Application {
 
         @Override
         public void onActivityStarted(Activity activity) {
-            if (++sActivitiesCount == 1)
-                ExternalMonitor.register(instance);
+            if (++sActivitiesCount == 1) ExternalMonitor.register(instance);
         }
 
         @Override
@@ -302,8 +303,7 @@ public class VLCApplication extends Application {
 
         @Override
         public void onActivityStopped(Activity activity) {
-            if (--sActivitiesCount == 0)
-                ExternalMonitor.unregister(instance);
+            if (--sActivitiesCount == 0)  ExternalMonitor.unregister(instance);
         }
 
         @Override

@@ -56,7 +56,7 @@ import java.util.List;
 
 public class ExternalMonitor extends BroadcastReceiver {
     public final static String TAG = "VLC/ExternalMonitor";
-    private static volatile boolean connected = true;
+    private static volatile boolean connected = false;
     private static volatile boolean mobile = true;
     private static volatile boolean vpn = false;
     private static final ExternalMonitor instance = new ExternalMonitor();
@@ -103,7 +103,7 @@ public class ExternalMonitor extends BroadcastReceiver {
                     cm = (ConnectivityManager) VLCApplication.getAppContext().getSystemService(
                             Context.CONNECTIVITY_SERVICE);
                 final NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-                final boolean isConnected = networkInfo != null && networkInfo.isConnectedOrConnecting();
+                final boolean isConnected = networkInfo != null && networkInfo.isConnected();
                 mobile = isConnected && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
                 vpn = isConnected && updateVPNStatus();
                 if (isConnected != connected) {
