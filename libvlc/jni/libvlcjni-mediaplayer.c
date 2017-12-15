@@ -210,6 +210,26 @@ Java_org_videolan_libvlc_MediaPlayer_nativeSetMedia(JNIEnv *env,
     libvlc_media_player_set_media(p_obj->u.p_mp, p_m);
 }
 
+jint
+Java_org_videolan_libvlc_MediaPlayer_nativeSetRenderer(JNIEnv *env,
+                                                       jobject thiz,
+                                                       jobject jrenderer)
+{
+    libvlc_renderer_item_t *p_m = NULL;
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+    if (!p_obj)
+        return -1;
+    if (jrenderer)
+    {
+        vlcjni_object *p_m_obj = VLCJniObject_getInstance(env, jrenderer);
+
+        if (!p_m_obj)
+            return -1;
+        p_m = p_m_obj->u.p_r;
+    }
+    return libvlc_media_player_set_renderer(p_obj->u.p_mp, p_m);
+}
+
 void
 Java_org_videolan_libvlc_MediaPlayer_nativeSetVideoTitleDisplay(JNIEnv *env,
                                                                 jobject thiz,

@@ -175,6 +175,10 @@ int VLCJNI_OnLoad(JavaVM *vm, JNIEnv* env)
               "org/videolan/libvlc/MediaDiscoverer", true);
     GET_CLASS(fields.MediaDiscoverer.Description.clazz,
               "org/videolan/libvlc/MediaDiscoverer$Description", true);
+    GET_CLASS(fields.RendererDiscoverer.clazz,
+              "org/videolan/libvlc/RendererDiscoverer", true);
+    GET_CLASS(fields.RendererDiscoverer.Description.clazz,
+              "org/videolan/libvlc/RendererDiscoverer$Description", true);
     GET_CLASS(fields.Dialog.clazz,
               "org/videolan/libvlc/Dialog", true);
 
@@ -276,6 +280,20 @@ int VLCJNI_OnLoad(JavaVM *vm, JNIEnv* env)
            "createDescriptionFromNative",
            "(Ljava/lang/String;Ljava/lang/String;I)"
            "Lorg/videolan/libvlc/MediaDiscoverer$Description;");
+
+    GET_ID(GetStaticMethodID,
+           fields.RendererDiscoverer.createDescriptionFromNativeID,
+           fields.RendererDiscoverer.clazz,
+           "createDescriptionFromNative",
+           "(Ljava/lang/String;Ljava/lang/String;)"
+           "Lorg/videolan/libvlc/RendererDiscoverer$Description;");
+
+    GET_ID(GetStaticMethodID,
+           fields.RendererDiscoverer.createItemFromNativeID,
+           fields.RendererDiscoverer.clazz,
+           "createItemFromNative",
+           "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IJ)"
+           "Lorg/videolan/libvlc/RendererItem;");
 
     GET_ID(GetStaticMethodID,
            fields.Dialog.displayErrorFromNativeID,

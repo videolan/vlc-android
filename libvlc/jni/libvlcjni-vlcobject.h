@@ -27,6 +27,7 @@
 #include <vlc/vlc.h>
 #include <vlc/libvlc_media_list.h>
 #include <vlc/libvlc_media_discoverer.h>
+#include <vlc/libvlc_renderer_discoverer.h>
 
 #include "utils.h"
 #define LOG_TAG "VLC/JNI/VLCObject"
@@ -49,6 +50,8 @@ struct vlcjni_object
         libvlc_media_list_t *p_ml;
         libvlc_media_discoverer_t *p_md;
         libvlc_media_player_t *p_mp;
+        libvlc_renderer_discoverer_t *p_rd;
+        libvlc_renderer_item_t *p_r;
     } u;
     /* Used by vlcobject */
     vlcjni_object_owner *p_owner;
