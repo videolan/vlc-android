@@ -16,30 +16,24 @@ import java.util.List;
 
 public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends RecyclerView.ViewHolder> extends DiffUtilAdapter<T, VH> {
     private static final String TAG = "VLC/SortableAdapter";
-
-    public static MediaLibraryItemComparator getComparator() {
-        return Holder.mediaComparator;
-    }
-
-    private int mCurrentSort = MediaLibraryItemComparator.SORT_DEFAULT, mCurrentDirection = getDefaultDirection();
+    public static final MediaLibraryItemComparator sMediaComparator = new MediaLibraryItemComparator(SortableAdapter.class);
+    private int mCurrentSort = -1, mCurrentDirection = 1;
 
     public int sortDirection(int sortby) {
-        return mCurrentSort == MediaLibraryItemComparator.SORT_DEFAULT ? mCurrentDirection : getComparator().sortDirection(sortby);
+        return sMediaComparator.sortDirection(sortby);
     }
 
     public int getSortDirection() {
-        return getComparator().sortDirection;
+        return sMediaComparator.sortDirection;
     }
 
     public int getSortBy() {
-        return getComparator().sortBy;
+        return sMediaComparator.sortBy;
     }
 
     public void sortBy(int sortby, int direction) {
-        getComparator().sortBy(sortby, direction);
+        sMediaComparator.sortBy(sortby, direction);
         update(new ArrayList<>(peekLast()));
-        mCurrentDirection = getSortDirection();
-        mCurrentSort = getSortBy();
     }
 
     public void updateIfSortChanged() {
@@ -48,17 +42,17 @@ public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends Rec
     }
 
     private boolean hasSortChanged() {
-        return mCurrentSort != MediaLibraryItemComparator.SORT_DEFAULT
-                && (mCurrentSort != getSortBy() || mCurrentDirection != getSortDirection());
+        return mCurrentSort != getSortBy() || mCurrentDirection != getSortDirection();
     }
 
     protected boolean needsSorting() {
-        return mCurrentSort != MediaLibraryItemComparator.SORT_DEFAULT
-                && getComparator().sortBy != MediaLibraryItemComparator.SORT_DEFAULT && isSortAllowed(getComparator().sortBy);
+        return sMediaComparator.sortBy != MediaLibraryItemComparator.SORT_DEFAULT && isSortAllowed(sMediaComparator.sortBy);
     }
 
     @Override
     protected void onUpdateFinished() {
+        mCurrentDirection = getSortDirection();
+        mCurrentSort = getSortBy();
     }
 
     public int getDefaultSort() {
@@ -82,8 +76,7 @@ public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends Rec
     @NotNull
     @Override
     protected List<T> prepareList(@NotNull List<? extends T> list) {
-        if (needsSorting())
-            Collections.sort(list, getComparator());
+        if (needsSorting()) Collections.sort(list, sMediaComparator);
         return (List<T>) list;
     }
 
@@ -93,7 +86,7 @@ public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends Rec
                 @Override
                 public void run() {
                     if (getSortBy() == MediaLibraryItemComparator.SORT_DEFAULT)
-                        getComparator().sortBy(getDefaultSort(), 1);
+                        sMediaComparator.sortBy(getDefaultSort(), 1);
                     final ArrayList<T> list = new ArrayList<>(peekLast());
                     VLCApplication.runBackground(new Runnable() {
                         @Override
@@ -105,9 +98,5 @@ public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends Rec
                 }
             });
         }
-    }
-
-    private static class Holder {
-        private static final MediaLibraryItemComparator mediaComparator = new MediaLibraryItemComparator(SortableAdapter.class);
     }
 }

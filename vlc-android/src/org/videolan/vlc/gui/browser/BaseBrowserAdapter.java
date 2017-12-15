@@ -378,7 +378,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
     @Override
     protected List<MediaLibraryItem> prepareList(List<? extends MediaLibraryItem> list) {
         if (fragment.isSortEnabled() && needsSorting())
-            Collections.sort(list, getComparator());
+            Collections.sort(list, sMediaComparator);
         mMediaCount = 0;
         for (MediaLibraryItem item : list) {
             if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA

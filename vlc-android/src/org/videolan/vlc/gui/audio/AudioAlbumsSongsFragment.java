@@ -91,7 +91,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null)
-            AudioBrowserAdapter.getComparator().setSortDefault();
+            AudioBrowserAdapter.sMediaComparator.setSortDefault();
 
         mMediaLibrary = VLCApplication.getMLInstance();
         mItem = (MediaLibraryItem) (savedInstanceState != null ?

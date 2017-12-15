@@ -356,24 +356,24 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     @Override
     protected List<MediaLibraryItem> prepareList(List<? extends MediaLibraryItem> items) {
         if (!isSortAllowed(getSortBy()))
-            getComparator().setSortDefault();
+            sMediaComparator.setSortDefault();
         if (mMakeSections) {
-            if (getComparator().sortBy == MediaLibraryItemComparator.SORT_DEFAULT) {
+            if (sMediaComparator.sortBy == MediaLibraryItemComparator.SORT_DEFAULT) {
                 return generateSections(items, getDefaultSort());
             } else {
-                List<MediaLibraryItem> newList = removeSections((List<MediaLibraryItem>) items);
-                Collections.sort(newList, getComparator());
-                return generateSections(newList, getComparator().sortBy);
+                final List<MediaLibraryItem> newList = removeSections((List<MediaLibraryItem>) items);
+                Collections.sort(newList, sMediaComparator);
+                return generateSections(newList, sMediaComparator.sortBy);
             }
         } else {
-            Collections.sort(items, getComparator());
+            Collections.sort(items, sMediaComparator);
             return (List<MediaLibraryItem>) items;
         }
     }
 
     @MainThread
     public List<MediaLibraryItem> getSelection() {
-        List<MediaLibraryItem> selection = new LinkedList<>();
+        final List<MediaLibraryItem> selection = new LinkedList<>();
         for (MediaLibraryItem item : getDataset())
             if (item.hasStateFlags(FLAG_SELECTED))
                 selection.add(item);
