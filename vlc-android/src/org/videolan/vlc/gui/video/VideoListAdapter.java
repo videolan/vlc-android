@@ -170,12 +170,6 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         return position;
     }
 
-    @MainThread
-    public void setList(List<MediaWrapper> items) {
-        setDataset(items);
-        mOriginalData = null;
-    }
-
     public boolean contains(MediaWrapper mw) {
         return mDataset.indexOf(mw) != -1;
     }
@@ -216,7 +210,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
     @MainThread
     public void clear() {
-        mDataset.clear();
+        update(new ArrayList<MediaWrapper>());
         mOriginalData = null;
     }
 
