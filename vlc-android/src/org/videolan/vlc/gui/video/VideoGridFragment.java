@@ -144,7 +144,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         if (savedInstanceState != null) {
             final List<MediaWrapper> list = (List<MediaWrapper>) VLCApplication.getData("list"+getTitle());
             if (!Util.isListEmpty(list))
-                mAdapter.setList(list);
+                mAdapter.update(list);
         }
         mGridView.setAdapter(mAdapter);
     }
