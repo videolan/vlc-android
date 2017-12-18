@@ -39,6 +39,13 @@
         android:background="@color/grey850"
         android:fitsSystemWindows="true" >
 
+        <ImageView
+            android:id="@+id/player_remote_tips_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/background_cone" />
+
         <android.support.v7.widget.ViewStubCompat
             android:id="@+id/player_info_stub"
             android:layout_width="wrap_content"
@@ -47,14 +54,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/default_margin"
             android:layout="@layout/player_overlay_info"/>
-
-        <ImageView
-            android:id="@+id/player_remote_tips_background"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/background_cone"
-            android:visibility="invisible" />
 
         <RelativeLayout
             android:layout_width="match_parent"
