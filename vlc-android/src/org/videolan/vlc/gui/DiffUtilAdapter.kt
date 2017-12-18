@@ -18,14 +18,14 @@ abstract class DiffUtilAdapter<D : MediaLibraryItem, VH : RecyclerView.ViewHolde
     @Volatile private var last = dataset
     private val diffCallback by lazy(LazyThreadSafetyMode.NONE) { createCB() }
     private val updateActor = actor<List<D>>(newSingleThreadContext("vlc-updater"), capacity = Channel.CONFLATED) {
-        for (list in channel) {
-            last = list
-            internalUpdate(list)
-        }
+        for (list in channel) internalUpdate(list)
     }
     protected abstract fun onUpdateFinished()
 
-    fun update (list: List<D>) = updateActor.offer(list)
+    fun update (list: List<D>) {
+        last = list
+        updateActor.offer(list)
+    }
 
     @WorkerThread
     private suspend fun internalUpdate(list: List<D>) {
