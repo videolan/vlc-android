@@ -43,6 +43,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ActionMode;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -231,8 +232,10 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     @Override
     protected void onStart() {
         super.onStart();
-        if (mCurrentFragment == null && !currentIdIsExtension())
+        if (mCurrentFragment == null && !currentIdIsExtension()) {
+            mCurrentFragmentId = getIdFromShortcut();
             showFragment(mCurrentFragmentId);
+        }
         if (mMediaLibrary.isInitiated()) {
             /* Load media items from database and storage */
             if (mScanNeeded && Permissions.canReadStorage())
@@ -243,6 +246,27 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         mNavigationView.setNavigationItemSelectedListener(this);
         if (BuildConfig.DEBUG)
             createExtensionServiceConnection();
+    }
+
+    private int getIdFromShortcut() {
+        if (!AndroidUtil.isNougatMr1OrLater) return 0;
+        final Intent intent = getIntent();
+        final String action = intent != null ? intent.getAction() : null;
+        if (!TextUtils.isEmpty(action)) {
+            switch (action) {
+                case "vlc.shortcut.video":
+                    return R.id.nav_video;
+                case "vlc.shortcut.audio":
+                    return R.id.nav_audio;
+                case "vlc.shortcut.browser":
+                    return R.id.nav_directories;
+                case "vlc.shortcut.network":
+                    return R.id.nav_network;
+                default:
+                    return 0;
+            }
+        }
+        return 0;
     }
 
     @Override
@@ -710,7 +734,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     public boolean idIsExtension(int id) {
-        return id <= 100;
+        return id <= 100 && id > 0;
     }
 
     public int getCurrentFragmentId() {
