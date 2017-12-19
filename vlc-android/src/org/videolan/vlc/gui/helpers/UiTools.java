@@ -230,16 +230,22 @@ public class UiTools {
         });
     }
 
+    public static void savePlaylist(FragmentActivity activity, List<MediaWrapper> list) {
+        MediaWrapper[] trackList = new MediaWrapper[list.size()];
+        list.toArray(trackList);
+        addToPlaylist(activity, trackList, SavePlaylistDialog.KEY_TRACKS);
+    }
+
     public static void addToPlaylist(FragmentActivity activity, List<MediaWrapper> list) {
         MediaWrapper[] trackList = new MediaWrapper[list.size()];
         list.toArray(trackList);
-        addToPlaylist(activity, trackList);
+        addToPlaylist(activity, trackList, SavePlaylistDialog.KEY_NEW_TRACKS);
     }
 
-    public static void addToPlaylist(FragmentActivity activity, MediaWrapper[] tracks) {
+    public static void addToPlaylist(FragmentActivity activity, MediaWrapper[] tracks, String key) {
         SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
-        Bundle args = new Bundle();
-        args.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, tracks);
+        final Bundle args = new Bundle();
+        args.putParcelableArray(key, tracks);
         savePlaylistDialog.setArguments(args);
         savePlaylistDialog.show(activity.getSupportFragmentManager(), "fragment_add_to_playlist");
     }

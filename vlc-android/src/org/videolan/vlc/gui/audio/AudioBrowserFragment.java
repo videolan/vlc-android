@@ -54,6 +54,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
@@ -292,7 +293,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         }
 
         if (id == R.id.audio_view_add_playlist) {
-            UiTools.addToPlaylist(getActivity(), mediaItem.getTracks());
+            UiTools.addToPlaylist(getActivity(), mediaItem.getTracks(), SavePlaylistDialog.KEY_NEW_TRACKS);
             return true;
         }
 
