@@ -206,7 +206,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 tag = "equalizer";
                 break;
             case ID_SAVE_PLAYLIST:
-                UiTools.addToPlaylist(getActivity(), mService.getMedias());
+                UiTools.savePlaylist(getActivity(), mService.getMedias());
                 dismiss();
                 return;
             default:

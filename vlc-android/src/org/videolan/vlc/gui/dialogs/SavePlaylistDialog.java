@@ -152,19 +152,17 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
                 Playlist playlist = mMedialibrary.getPlaylist(mPlaylistId);
                 boolean exists = playlist != null;
                 MediaWrapper[] tracks;
-                if (!exists)
-                    playlist = mMedialibrary.createPlaylist(name);
-                if (playlist == null)
-                    return;
+                if (!exists) playlist = mMedialibrary.createPlaylist(name);
+                if (playlist == null) return;
                 if (addTracks) {
                     tracks = mNewTrack;
                 } else {//Save a playlist
-                    for (MediaWrapper mw : playlist.getTracks())
+                    for (MediaWrapper mw : playlist.getTracks()) {
                         playlist.remove(mw.getId());
+                    }
                     tracks = mTracks;
                 }
-                if (tracks == null)
-                    return;
+                if (tracks == null) return;
                 final LinkedList<Long> ids = new LinkedList<>();
                 for (MediaWrapper mw : tracks) {
                     long id = mw.getId();
@@ -181,8 +179,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
                         ids.add(id);
                 }
                 playlist.append(ids);
-                if (mCallBack != null)
-                    mCallBack.run();
+                if (mCallBack != null) mCallBack.run();
             }
         });
         dismiss();
