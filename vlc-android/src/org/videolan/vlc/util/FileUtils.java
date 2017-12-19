@@ -210,15 +210,14 @@ public class FileUtils {
         path = Uri.decode(Strings.removeFileProtocole(path));
         //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
         if (AndroidUtil.isHoneycombOrLater){
-            ContentResolver cr = VLCApplication.getAppContext().getContentResolver();
+            final ContentResolver cr = VLCApplication.getAppContext().getContentResolver();
             try {
                 deleted = cr.delete(MediaStore.Files.getContentUri("external"),
                         MediaStore.Files.FileColumns.DATA + "=?", new String[]{path}) > 0;
-            } catch (IllegalArgumentException ignored) {} // Can happen on some devices...
+            } catch (IllegalArgumentException|SecurityException ignored) {} // Can happen on some devices...
         }
         final File file = new File(path);
-        if (file.exists())
-            deleted |= file.delete();
+        if (file.exists()) deleted |= file.delete();
         return deleted;
     }
 
