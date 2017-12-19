@@ -81,7 +81,6 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
         super.onCreate(savedInstanceState);
         mMedialibrary = VLCApplication.getMLInstance();
         mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, false);
-        mAdapter.addAll(new ArrayList<MediaLibraryItem>(Arrays.asList(mMedialibrary.getPlaylists())));
         mTracks = (MediaWrapper[]) getArguments().getParcelableArray(KEY_TRACKS);
         mNewTrack = (MediaWrapper[]) getArguments().getParcelableArray(KEY_NEW_TRACKS);
     }
@@ -125,7 +124,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
         mEditText.setOnEditorActionListener(this);
         mListView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mListView.setAdapter(mAdapter);
-        updateEmptyView();
+        mAdapter.update(new ArrayList<MediaLibraryItem>(Arrays.asList(mMedialibrary.getPlaylists())));
     }
 
     void updateEmptyView() {
