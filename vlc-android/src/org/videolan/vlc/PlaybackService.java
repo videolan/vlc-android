@@ -186,7 +186,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             | PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID | PlaybackStateCompat.ACTION_PLAY_FROM_URI
             | PlaybackStateCompat.ACTION_PLAY_PAUSE;
 
-    private boolean mHasWidget;
+    private int mWidget = 0;
     private boolean mShuffling = false;
     private int mRepeating = Constants.REPEAT_NONE;
     private Random mRandom = null; // Used in shuffling process
@@ -298,9 +298,10 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void updateHasWidget() {
-        AppWidgetManager manager = AppWidgetManager.getInstance(this);
-        mHasWidget = manager.getAppWidgetIds(new ComponentName(this, VLCAppWidgetProviderWhite.class)).length != 0
-                || manager.getAppWidgetIds(new ComponentName(this, VLCAppWidgetProviderBlack.class)).length != 0;
+        final AppWidgetManager manager = AppWidgetManager.getInstance(this);
+        if (manager.getAppWidgetIds(new ComponentName(this, VLCAppWidgetProviderWhite.class)).length != 0) mWidget = 1;
+        else if (manager.getAppWidgetIds(new ComponentName(this, VLCAppWidgetProviderBlack.class)).length != 0) mWidget = 2;
+        else mWidget = 0;
     }
 
     @Override
@@ -1553,10 +1554,15 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void updateWidget() {
-        if (mHasWidget && !isVideoPlaying()) {
+        if (mWidget != 0 && !isVideoPlaying()) {
             updateWidgetState();
             updateWidgetCover();
         }
+    }
+
+    private void sendWidgetBroadcast(Intent intent) {
+        intent.setComponent(new ComponentName(PlaybackService.this, mWidget == 1 ? VLCAppWidgetProviderWhite.class : VLCAppWidgetProviderBlack.class));
+        sendBroadcast(intent);
     }
 
     private void updateWidgetState() {
@@ -1572,7 +1578,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
             widgetIntent.putExtra("artist", "");
         }
         widgetIntent.putExtra("isplaying", isPlaying());
-        sendBroadcast(widgetIntent);
+        sendWidgetBroadcast(widgetIntent);
     }
 
     private String mCurrentWidgetCover = null;
@@ -1580,20 +1586,20 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
         String newWidgetCover = hasCurrentMedia() ? getCurrentMedia().getArtworkMrl() : null;
         if (!TextUtils.equals(mCurrentWidgetCover, newWidgetCover)) {
             mCurrentWidgetCover = newWidgetCover;
-            sendBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
+            sendWidgetBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
                     .putExtra("artworkMrl", newWidgetCover));
         }
     }
 
     private void updateWidgetPosition(final float pos) {
-        if (!mHasWidget || isVideoPlaying())
+        if (mWidget == 0 || isVideoPlaying())
             return;
         // no more than one widget mUpdateMeta for each 1/50 of the song
         long timestamp = System.currentTimeMillis();
         if (!hasCurrentMedia() || timestamp - mWidgetPositionTimestamp < getCurrentMedia().getLength() / 50)
             return;
         mWidgetPositionTimestamp = timestamp;
-        sendBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_POSITION)
+        sendWidgetBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_POSITION)
                 .putExtra("position", pos));
     }
 
