@@ -244,18 +244,18 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
 
     override fun updateProgress() {
         if (mService === null) return
-        val time = mService.time.toInt()
-        val length = mService.length.toInt()
+        val time = mService.time
+        val length = mService.length
 
-        mBinding.headerTime.text = Tools.millisToString(time.toLong())
-        mBinding.length.text = Tools.millisToString(length.toLong())
-        mBinding.timeline.max = length
-        mBinding.progressBar.max = length
+        mBinding.headerTime.text = Tools.millisToString(time)
+        mBinding.length.text = Tools.millisToString(length)
+        mBinding.timeline.max = length.toInt()
+        mBinding.progressBar.max = length.toInt()
 
         if (!mPreviewingSeek) {
-            mBinding.time.text = Tools.millisToString((if (mShowRemainingTime) time - length else time).toLong())
-            mBinding.timeline.progress = time
-            mBinding.progressBar.progress = time
+            mBinding.time.text = Tools.millisToString((if (mShowRemainingTime) time - length else time))
+            mBinding.timeline.progress = time.toInt()
+            mBinding.progressBar.progress = time.toInt()
         }
     }
 
