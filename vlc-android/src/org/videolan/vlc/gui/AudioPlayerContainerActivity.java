@@ -115,7 +115,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         mBottomSheetBehavior = BottomSheetBehavior.from(mAudioPlayerContainer);
         mBottomSheetBehavior.setPeekHeight(getResources().getDimensionPixelSize(R.dimen.player_peek_height));
         mBottomSheetBehavior.setBottomSheetCallback(mAudioPlayerBottomSheetCallback);
-        showTipViewIfNeeded(R.id.audio_player_tips, AudioPlayer.PREF_AUDIOPLAYER_TIPS_SHOWN);
+        showTipViewIfNeeded(R.id.audio_player_tips, Constants.PREF_AUDIOPLAYER_TIPS_SHOWN);
     }
 
     @Override
