@@ -1220,137 +1220,167 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mShowing || (mFov == 0f && keyCode == KeyEvent.KEYCODE_DPAD_DOWN))
             showOverlayTimeout(OVERLAY_TIMEOUT);
         switch (keyCode) {
-        case KeyEvent.KEYCODE_F:
-        case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-            seekDelta(10000);
-            return true;
-        case KeyEvent.KEYCODE_R:
-        case KeyEvent.KEYCODE_MEDIA_REWIND:
-            seekDelta(-10000);
-            return true;
-        case KeyEvent.KEYCODE_BUTTON_R1:
-            seekDelta(60000);
-            return true;
-        case KeyEvent.KEYCODE_BUTTON_L1:
-            seekDelta(-60000);
-            return true;
-        case KeyEvent.KEYCODE_BUTTON_A:
-            if (mOverlayProgress != null && mOverlayProgress.getVisibility() == View.VISIBLE)
-                return false;
-        case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-        case KeyEvent.KEYCODE_MEDIA_PLAY:
-        case KeyEvent.KEYCODE_MEDIA_PAUSE:
-        case KeyEvent.KEYCODE_SPACE:
-            if (mIsNavMenu)
-                return navigateDvdMenu(keyCode);
-            else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) //prevent conflict with remote control
-                return super.onKeyDown(keyCode, event);
-            else
-                doPlayPause();
-            return true;
-        case KeyEvent.KEYCODE_O:
-        case KeyEvent.KEYCODE_BUTTON_Y:
-        case KeyEvent.KEYCODE_MENU:
-            showAdvancedOptions();
-            return true;
-        case KeyEvent.KEYCODE_V:
-        case KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK:
-        case KeyEvent.KEYCODE_BUTTON_X:
-            onAudioSubClick(mTracks);
-            return true;
-        case KeyEvent.KEYCODE_N:
-            showNavMenu();
-            return true;
-        case KeyEvent.KEYCODE_A:
-            resizeVideo();
-            return true;
-        case KeyEvent.KEYCODE_M:
-        case KeyEvent.KEYCODE_VOLUME_MUTE:
-            updateMute();
-            return true;
-        case KeyEvent.KEYCODE_S:
-        case KeyEvent.KEYCODE_MEDIA_STOP:
-            exitOK();
-            return true;
-        case KeyEvent.KEYCODE_DPAD_LEFT:
-            if (!mShowing) {
-                if (mFov == 0f)
-                    seekDelta(-10000);
+            case KeyEvent.KEYCODE_F:
+            case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+                seekDelta(10000);
+                return true;
+            case KeyEvent.KEYCODE_R:
+            case KeyEvent.KEYCODE_MEDIA_REWIND:
+                seekDelta(-10000);
+                return true;
+            case KeyEvent.KEYCODE_BUTTON_R1:
+                seekDelta(60000);
+                return true;
+            case KeyEvent.KEYCODE_BUTTON_L1:
+                seekDelta(-60000);
+                return true;
+            case KeyEvent.KEYCODE_BUTTON_A:
+                if (mOverlayProgress != null && mOverlayProgress.getVisibility() == View.VISIBLE)
+                    return false;
+            case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+            case KeyEvent.KEYCODE_MEDIA_PLAY:
+            case KeyEvent.KEYCODE_MEDIA_PAUSE:
+            case KeyEvent.KEYCODE_SPACE:
+                if (mIsNavMenu)
+                    return navigateDvdMenu(keyCode);
+                else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) //prevent conflict with remote control
+                    return super.onKeyDown(keyCode, event);
                 else
-                    mService.updateViewpoint(-5f, 0f, 0f, 0f, false);
+                    doPlayPause();
                 return true;
-            }
-        case KeyEvent.KEYCODE_DPAD_RIGHT:
-            if (!mShowing) {
-                if (mFov == 0f)
-                    seekDelta(10000);
-                else
-                    mService.updateViewpoint(5f, 0f, 0f, 0f, false);
+            case KeyEvent.KEYCODE_O:
+            case KeyEvent.KEYCODE_BUTTON_Y:
+            case KeyEvent.KEYCODE_MENU:
+                showAdvancedOptions();
                 return true;
-            }
-        case KeyEvent.KEYCODE_DPAD_UP:
-            if (!mShowing) {
-                if (mFov == 0f)
-                    showAdvancedOptions();
-                else
-                    mService.updateViewpoint(0f, -5f, 0f, 0f, false);
+            case KeyEvent.KEYCODE_V:
+            case KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK:
+            case KeyEvent.KEYCODE_BUTTON_X:
+                onAudioSubClick(mTracks);
                 return true;
-            }
-        case KeyEvent.KEYCODE_DPAD_DOWN:
-            if (!mShowing && mFov != 0f) {
-                mService.updateViewpoint(0f, 5f, 0f, 0f, false);
+            case KeyEvent.KEYCODE_N:
+                showNavMenu();
                 return true;
-            }
-        case KeyEvent.KEYCODE_DPAD_CENTER:
-            if (!mShowing) {
-                doPlayPause();
+            case KeyEvent.KEYCODE_A:
+                resizeVideo();
                 return true;
-            }
-        case KeyEvent.KEYCODE_ENTER:
-            if (mIsNavMenu)
-                return navigateDvdMenu(keyCode);
-            else
-                return super.onKeyDown(keyCode, event);
-        case KeyEvent.KEYCODE_J:
-            delayAudio(-50000l);
-            return true;
-        case KeyEvent.KEYCODE_K:
-            delayAudio(50000l);
-            return true;
-        case KeyEvent.KEYCODE_G:
-            delaySubs(-50000l);
-            return true;
-        case KeyEvent.KEYCODE_H:
-            delaySubs(50000l);
-            return true;
-        case KeyEvent.KEYCODE_VOLUME_DOWN:
-            int vol;
-            if (mService.getVolume() > 100)
-                vol = Math.round(((float)mService.getVolume())*mAudioMax/100 - 1);
-            else
-                vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) - 1;
-            vol = Math.min(Math.max(vol, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
-            mOriginalVol = vol;
-            setAudioVolume(vol);
-            return true;
-        case KeyEvent.KEYCODE_VOLUME_UP:
-            if (mMute) {
+            case KeyEvent.KEYCODE_M:
+            case KeyEvent.KEYCODE_VOLUME_MUTE:
                 updateMute();
-            } else {
-                int volume;
-                if (mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) < mAudioMax)
-                    volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) + 1;
+                return true;
+            case KeyEvent.KEYCODE_S:
+            case KeyEvent.KEYCODE_MEDIA_STOP:
+                exitOK();
+                return true;
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                if (!mShowing) {
+                    if (mFov == 0f)
+                        seekDelta(-10000);
+                    else
+                        mService.updateViewpoint(-5f, 0f, 0f, 0f, false);
+                    return true;
+                }
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                if (!mShowing) {
+                    if (mFov == 0f)
+                        seekDelta(10000);
+                    else
+                        mService.updateViewpoint(5f, 0f, 0f, 0f, false);
+                    return true;
+                }
+            case KeyEvent.KEYCODE_DPAD_UP:
+                if (event.isCtrlPressed()) {
+                    volumeUp();
+                    return true;
+                }
+                if (!mShowing) {
+                    if (mFov == 0f)
+                        showAdvancedOptions();
+                    else
+                        mService.updateViewpoint(0f, -5f, 0f, 0f, false);
+                    return true;
+                }
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+                if (event.isCtrlPressed()) {
+                    volumeDown();
+                    return true;
+                }
+                if (!mShowing && mFov != 0f) {
+                    mService.updateViewpoint(0f, 5f, 0f, 0f, false);
+                    return true;
+                }
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+                if (!mShowing) {
+                    doPlayPause();
+                    return true;
+                }
+            case KeyEvent.KEYCODE_ENTER:
+                if (mIsNavMenu)
+                    return navigateDvdMenu(keyCode);
                 else
-                    volume = Math.round(((float)mService.getVolume())*mAudioMax/100 + 1);
-                volume = Math.min(Math.max(volume, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
-                setAudioVolume(volume);
-            }
-            return true;
-        case KeyEvent.KEYCODE_CAPTIONS:
-            selectSubtitles();
-            return true;
+                    return super.onKeyDown(keyCode, event);
+            case KeyEvent.KEYCODE_J:
+                delayAudio(-50000l);
+                return true;
+            case KeyEvent.KEYCODE_K:
+                delayAudio(50000l);
+                return true;
+            case KeyEvent.KEYCODE_G:
+                delaySubs(-50000l);
+                return true;
+            case KeyEvent.KEYCODE_H:
+                delaySubs(50000l);
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                volumeDown();
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                volumeUp();
+                return true;
+            case KeyEvent.KEYCODE_CAPTIONS:
+                selectSubtitles();
+                return true;case KeyEvent.KEYCODE_PLUS:
+                mService.setRate(mService.getRate()*1.2f, true);
+                return true;
+            case KeyEvent.KEYCODE_EQUALS:
+                if (event.isShiftPressed()) {
+                    mService.setRate(mService.getRate() * 1.2f, true);
+                    return true;
+                }
+                return false;
+            case KeyEvent.KEYCODE_MINUS:
+                mService.setRate(mService.getRate()/1.2f, true);
+                return true;
+            case KeyEvent.KEYCODE_C:
+                resizeVideo();
+                return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void volumeDown() {
+        int vol;
+        if (mService.getVolume() > 100)
+            vol = Math.round(((float)mService.getVolume())*mAudioMax/100 - 1);
+        else
+            vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) - 1;
+        vol = Math.min(Math.max(vol, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
+        mOriginalVol = vol;
+        setAudioVolume(vol);
+    }
+
+    private void volumeUp() {
+        if (mMute) {
+            updateMute();
+        } else {
+            int volume;
+            if (mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) < mAudioMax)
+                volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) + 1;
+            else
+                volume = Math.round(((float)mService.getVolume())*mAudioMax/100 + 1);
+            volume = Math.min(Math.max(volume, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
+            setAudioVolume(volume);
+        }
     }
 
     private boolean navigateDvdMenu(int keyCode) {
