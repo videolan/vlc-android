@@ -34,7 +34,7 @@ abstract class DiffUtilAdapter<D : MediaLibraryItem, VH : RecyclerView.ViewHolde
         launch(UI) {
             dataset = finalList
             result.dispatchUpdatesTo(this@DiffUtilAdapter)
-            if (!updateActor.isFull) onUpdateFinished()
+            onUpdateFinished()
         }.join()
     }
 
@@ -42,7 +42,7 @@ abstract class DiffUtilAdapter<D : MediaLibraryItem, VH : RecyclerView.ViewHolde
 
     fun peekLast() = last
 
-    fun hasPendingUpdates() = last !== dataset
+    fun hasPendingUpdates() = updateActor.isFull
 
     open protected fun detectMoves() = false
 
