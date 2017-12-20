@@ -92,7 +92,7 @@ public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends Rec
                         @Override
                         public void run() {
                             Util.insertOrUdpate(list, items);
-                                    update(list);
+                            update(list);
                         }
                     });
                 }
