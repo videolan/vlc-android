@@ -1249,7 +1249,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     return true;
                 }
             case KeyEvent.KEYCODE_DPAD_UP:
-                if (!mShowing) {
+                if (event.isCtrlPressed()) {
+                    volumeUp();
+                    return true;
+                } else if (!mShowing) {
                     if (mFov == 0f)
                         showAdvancedOptions();
                     else
@@ -1257,7 +1260,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     return true;
                 }
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                if (!mShowing && mFov != 0f) {
+                if (event.isCtrlPressed()) {
+                    volumeDown();
+                    return true;
+                } else if (!mShowing && mFov != 0f) {
                     mService.updateViewpoint(0f, 5f, 0f, 0f, false);
                     return true;
                 }
@@ -1284,33 +1290,56 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 delaySubs(50000L);
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                int vol;
-                if (mService.getVolume() > 100)
-                    vol = Math.round(((float)mService.getVolume())*mAudioMax/100 - 1);
-                else
-                    vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) - 1;
-                vol = Math.min(Math.max(vol, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
-                mOriginalVol = vol;
-                setAudioVolume(vol);
+                volumeDown();
                 return true;
             case KeyEvent.KEYCODE_VOLUME_UP:
-                if (mMute) {
-                    updateMute();
-                } else {
-                    int volume;
-                    if (mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) < mAudioMax)
-                        volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) + 1;
-                    else
-                        volume = Math.round(((float)mService.getVolume())*mAudioMax/100 + 1);
-                    volume = Math.min(Math.max(volume, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
-                    setAudioVolume(volume);
-                }
+                volumeUp();
                 return true;
             case KeyEvent.KEYCODE_CAPTIONS:
                 selectSubtitles();
                 return true;
+            case KeyEvent.KEYCODE_PLUS:
+                mService.setRate(mService.getRate()*1.2f, true);
+                return true;
+            case KeyEvent.KEYCODE_EQUALS:
+                if (event.isShiftPressed()) {
+                    mService.setRate(mService.getRate() * 1.2f, true);
+                    return true;
+                }
+                return false;
+            case KeyEvent.KEYCODE_MINUS:
+                mService.setRate(mService.getRate()/1.2f, true);
+                return true;
+            case KeyEvent.KEYCODE_C:
+                resizeVideo();
+                return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void volumeUp() {
+        if (mMute) {
+            updateMute();
+        } else {
+            int volume;
+            if (mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) < mAudioMax)
+                volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) + 1;
+            else
+                volume = Math.round(((float)mService.getVolume())*mAudioMax/100 + 1);
+            volume = Math.min(Math.max(volume, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
+            setAudioVolume(volume);
+        }
+    }
+
+    private void volumeDown() {
+        int vol;
+        if (mService.getVolume() > 100)
+            vol = Math.round(((float)mService.getVolume())*mAudioMax/100 - 1);
+        else
+            vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) - 1;
+        vol = Math.min(Math.max(vol, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
+        mOriginalVol = vol;
+        setAudioVolume(vol);
     }
 
     private boolean navigateDvdMenu(int keyCode) {
