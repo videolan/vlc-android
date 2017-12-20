@@ -36,11 +36,11 @@
         android:id="@+id/player_overlay_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/grey850"
+        android:background="@color/black"
         android:fitsSystemWindows="true" >
 
         <ImageView
-            android:id="@+id/player_remote_tips_background"
+            android:id="@+id/renderer_background_cone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
