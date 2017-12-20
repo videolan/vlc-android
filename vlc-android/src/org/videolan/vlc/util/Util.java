@@ -149,10 +149,11 @@ public class Util {
         List<T> newItems = new ArrayList<>();
         outer:
         for (T newItem : items) {
-            for (T oldItem : dataset) {
+            for (int i = 0; i < dataset.size(); ++i) {
+                T oldItem = dataset.get(i);
                 if (newItem.equals(oldItem)) {
                     //noinspection UnusedAssignment
-                    oldItem = newItem;
+                    dataset.set(i, newItem);
                     continue outer;
                 }
             }
