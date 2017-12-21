@@ -25,10 +25,15 @@ package org.videolan.vlc.gui;
 
 
 import android.app.SearchManager;
+import android.content.ClipData;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.view.DragAndDropPermissions;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,12 +42,42 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.interfaces.Filterable;
+import org.videolan.vlc.media.MediaUtils;
 
 public class ContentActivity extends AudioPlayerContainerActivity implements SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener {
     public static final String TAG = "VLC/ContentActivity";
 
     protected Menu mMenu;
     private SearchView mSearchView;
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        final View view = getWindow().peekDecorView();
+        if (view != null) view.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                switch (event.getAction()) {
+                    case DragEvent.ACTION_DRAG_STARTED:
+                        return true;
+                    case DragEvent.ACTION_DROP:
+                        final ClipData clipData = event.getClipData();
+                        if (clipData == null) return false;
+                        final int itemsCount = clipData.getItemCount();
+                        for (int i = 0; i < itemsCount; i++) {
+                            final DragAndDropPermissions permissions = requestDragAndDropPermissions(event);
+                            if (permissions != null)  {
+                                MediaUtils.openMediaNoUi(clipData.getItemAt(i).getUri());
+                                return true;
+                            }
+                        }
+                        return false;
+                    default:
+                        return false;
+                }
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
