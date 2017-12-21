@@ -13,8 +13,10 @@ public class Artist extends MediaLibraryItem {
     private String artworkMrl;
     private String musicBrainzId;
 
-    static String UNKNOWN_ARTIST;
-    private static String VARIOUS_ARTISTS;
+    static class SpecialRes {
+        static String UNKNOWN_ARTIST = Medialibrary.getContext().getString(R.string.unknown_artist);
+        static String VARIOUS_ARTISTS = Medialibrary.getContext().getString(R.string.various_artists);
+    }
 
     public Artist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
         super(id, name);
@@ -22,13 +24,9 @@ public class Artist extends MediaLibraryItem {
         this.artworkMrl = artworkMrl != null ? VLCUtil.UriFromMrl(artworkMrl).getPath() : null;
         this.musicBrainzId = musicBrainzId;
         if (id == 1L) {
-            if (UNKNOWN_ARTIST == null)
-                UNKNOWN_ARTIST = Medialibrary.getContext().getString(R.string.unknown_artist);
-            mTitle = UNKNOWN_ARTIST;
+            mTitle = SpecialRes.UNKNOWN_ARTIST;
         } else if (id == 2L) {
-            if (VARIOUS_ARTISTS == null)
-                VARIOUS_ARTISTS = Medialibrary.getContext().getString(R.string.various_artists);
-            mTitle = VARIOUS_ARTISTS;
+            mTitle = SpecialRes.VARIOUS_ARTISTS;
         }
     }
 
