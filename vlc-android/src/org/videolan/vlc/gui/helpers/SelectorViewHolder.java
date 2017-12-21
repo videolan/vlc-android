@@ -49,7 +49,7 @@ public class SelectorViewHolder<T extends ViewDataBinding> extends RecyclerView.
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        setViewBackground(hasFocus, isSelected());
+        if (getLayoutPosition() >= 0) setViewBackground(hasFocus, isSelected());
     }
 
     protected boolean isSelected() {
