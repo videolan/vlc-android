@@ -191,6 +191,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private int mRepeating = Constants.REPEAT_NONE;
     private Random mRandom = null; // Used in shuffling process
     private long mSavedTime = 0L;
+    private boolean mNewMedia;
     private boolean mHasAudioFocus = false;
     // RemoteControlClient-related
     /**
@@ -624,7 +625,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     mStopped = false;
                     final MediaWrapper mw = getCurrentMediaWrapper();
                     loadMediaMeta();
-                    seekToResume(mw);
+                    if (mNewMedia) seekToResume(mw);
+                    mNewMedia = false;
 
                     Log.i(TAG, "MediaPlayer.Event.Playing");
                     executeUpdate();
@@ -712,8 +714,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
         private void seekToResume(MediaWrapper mw) {
             if (mSavedTime > 0L) {
-                if (mSavedTime < 0.95*getLength())
-                    seek(mSavedTime);
+                if (mSavedTime < 0.95*getLength()) seek(mSavedTime);
                 mSavedTime = 0L;
             } else {
                 final long length = getLength();
@@ -721,8 +722,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                     mw = mMedialibrary.findMedia(mw);
                     if (mw.getId() != 0L) {
                         mw.setTime((long) (mw.getMetaLong(MediaWrapper.META_PROGRESS) * (double) length) / 100L);
-                        if (mw.getTime() > 0L)
-                            seek(mw.getTime());
+                        if (mw.getTime() > 0L) seek(mw.getTime());
                     }
                 }
             }
@@ -2085,6 +2085,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 setRate(mSettings.getFloat(PreferencesActivity.KEY_PLAYBACK_RATE, 1.0F), false);
             if (mSavedTime <= 0L && mw.getTime() >= 0L && mw.isPodcast())
                 mSavedTime = mw.getTime();
+            mNewMedia = true;
             mMediaPlayer.play();
 
             determinePrevAndNextIndices();
