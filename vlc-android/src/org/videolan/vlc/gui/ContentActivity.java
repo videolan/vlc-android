@@ -38,6 +38,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
@@ -53,7 +54,7 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        final View view = getWindow().peekDecorView();
+        final View view = AndroidUtil.isNougatOrLater ? getWindow().peekDecorView() : null;
         if (view != null) view.setOnDragListener(new View.OnDragListener() {
             @Override
             public boolean onDrag(View v, DragEvent event) {
