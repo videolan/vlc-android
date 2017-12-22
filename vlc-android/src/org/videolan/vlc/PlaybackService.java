@@ -1646,9 +1646,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
                 final List<MediaWrapper> playList = new ArrayList<>(locations.length);
                 for (String location : locations) {
-                    String mrl = Uri.decode(location);
-                    MediaWrapper mw = mMedialibrary.getMedia(mrl);
-                    if (mw == null) mw = new MediaWrapper(Uri.parse(mrl));
+                    final String mrl = Uri.decode(location);
+                    final MediaWrapper mw = mMedialibrary.findMedia(new MediaWrapper(Uri.parse(mrl)));
                     playList.add(mw);
                 }
                 // load playlist
