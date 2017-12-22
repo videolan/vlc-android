@@ -1,4 +1,23 @@
-Changes between 2.5.12 and 2.5.13:
+Changes between 2.5.13 and 2.5.14:
+----------------------------------
+
+Application:
+ * Show FAB for albums in Artist/Genre view
+ * Fix playback rate not saved for video
+ * Fix file deletion on Oreo (Internal storage only)
+ * Fix saving as playlist appending to an existing one instead of overwriting it
+ * Fix widget updates on Oreo
+ * Fix resume sometimes plays the wrong position
+ * Misc. fixes.
+
+Chromebook:
+ * Implement right-click support on media items
+ * Implement Drag&Drop to play a media
+
+VLC:
+ * Update VLC to VLC 3.0-RC2
+
+ Changes between 2.5.12 and 2.5.13:
 ----------------------------------
 
 Application:
