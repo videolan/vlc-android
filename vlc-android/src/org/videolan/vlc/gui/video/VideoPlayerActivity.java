@@ -862,8 +862,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void initUI() {
 
-        cleanUI();
-
         /* Dispatch ActionBar touch events to the Activity */
         mActionBarView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -878,8 +876,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         /* Listen for changes to media routes. */
         mediaRouterAddCallback(true);
 
-        if (mRootView != null)
-            mRootView.setKeepScreenOn(true);
+        if (mRootView != null) mRootView.setKeepScreenOn(true);
     }
 
     private void setPlaybackParameters() {
@@ -946,8 +943,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void cleanUI() {
 
-        if (mRootView != null)
-            mRootView.setKeepScreenOn(false);
+        if (mRootView != null) mRootView.setKeepScreenOn(false);
 
         if (mDetector != null) {
             mDetector.setOnDoubleTapListener(null);
@@ -958,9 +954,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mediaRouterAddCallback(false);
 
         surfaceFrameAddLayoutListener(false);
-
-        if (AndroidUtil.isICSOrLater)
-            getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(null);
 
         mActionBarView.setOnTouchListener(null);
     }
