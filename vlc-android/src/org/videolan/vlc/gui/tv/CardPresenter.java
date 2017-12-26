@@ -29,14 +29,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -47,7 +44,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.util.HttpImageLoader;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class CardPresenter extends Presenter {
@@ -59,7 +55,6 @@ public class CardPresenter extends Presenter {
     private static final int CARD_WIDTH = VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width);
     private static final int CARD_HEIGHT = VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.tv_grid_card_thumb_height);
     private static Drawable sDefaultCardImage;
-    private static Handler sHandler = new Handler(Looper.getMainLooper());
 
     private boolean mIsSeenMediaMarkerVisible = true;
 
@@ -81,11 +76,49 @@ public class CardPresenter extends Presenter {
         }
 
         void updateCardViewImage(MediaLibraryItem mediaLibraryItem) {
-            if (!TextUtils.isEmpty(mediaLibraryItem.getArtworkMrl()) && mediaLibraryItem.getArtworkMrl().startsWith("http")) {
-                AsyncImageLoader.LoadImage(new HttpImageLoader(mediaLibraryItem.getArtworkMrl()), mCardView);
-            } else {
-                AsyncImageLoader.LoadImage(new CoverFetcher(mediaLibraryItem), mCardView);
+            if (!TextUtils.isEmpty(mediaLibraryItem.getArtworkMrl()))
+                AsyncImageLoader.loadPicture(mCardView, mediaLibraryItem);
+            else {
+                mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
+                mCardView.setMainImage(new BitmapDrawable(mCardView.getResources(), getDefaultImage(mediaLibraryItem)));
             }
+        }
+
+        private Bitmap getDefaultImage(MediaLibraryItem mediaLibraryItem) {
+            Bitmap picture;
+            final Resources res = mCardView.getResources();
+            if (mediaLibraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper) mediaLibraryItem).getType() == MediaWrapper.TYPE_DIR) {
+                MediaWrapper mediaWrapper = (MediaWrapper) mediaLibraryItem;
+                if (TextUtils.equals(mediaWrapper.getUri().getScheme(), "file"))
+                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder_big);
+                else
+                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big);
+            } else
+                picture = AudioUtil.readCoverBitmap(Uri.decode(mediaLibraryItem.getArtworkMrl()), res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width));
+            if (picture == null) {
+                int resId;
+                switch (mediaLibraryItem.getItemType()) {
+                    case MediaLibraryItem.TYPE_ALBUM:
+                        resId = R.drawable.ic_album_big;
+                        break;
+                    case MediaLibraryItem.TYPE_ARTIST:
+                        resId = R.drawable.ic_artist_big;
+                        break;
+                    case MediaLibraryItem.TYPE_GENRE:
+                        resId = R.drawable.ic_genre_big;
+                        break;
+                    case MediaLibraryItem.TYPE_MEDIA:
+                        if (((MediaWrapper)mediaLibraryItem).getType() == MediaWrapper.TYPE_VIDEO)
+                            resId = R.drawable.ic_browser_video_big_normal;
+                        else
+                            resId = R.drawable.ic_song_big;
+                        break;
+                    default:
+                        resId = R.drawable.ic_browser_unknown_big_normal;
+                }
+                picture = BitmapFactory.decodeResource(res, resId);
+            }
+            return picture;
         }
 
         void updateCardViewImage(Drawable image) {
@@ -232,76 +265,6 @@ public class CardPresenter extends Presenter {
 
         public void setName(String name) {
             this.name = name;
-        }
-    }
-
-    private static class CoverFetcher implements AsyncImageLoader.Callbacks{
-        MediaLibraryItem mediaLibraryItem;
-        private static Resources res;
-
-        CoverFetcher(MediaLibraryItem mediaLibraryItem){
-            this.mediaLibraryItem = mediaLibraryItem;
-            res = VLCApplication.getAppResources();
-        }
-
-        @Override
-        public Bitmap getImage() {
-            Bitmap picture = null;
-            if (mediaLibraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper) mediaLibraryItem).getType() == MediaWrapper.TYPE_DIR) {
-                MediaWrapper mediaWrapper = (MediaWrapper) mediaLibraryItem;
-                if (TextUtils.equals(mediaWrapper.getUri().getScheme(), "file"))
-                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder_big);
-                else
-                    picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big);
-            } else
-                picture = AudioUtil.readCoverBitmap(Uri.decode(mediaLibraryItem.getArtworkMrl()), res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width));
-            if (picture == null) {
-                int resId;
-                switch (mediaLibraryItem.getItemType()) {
-                    case MediaLibraryItem.TYPE_ALBUM:
-                        resId = R.drawable.ic_album_big;
-                        break;
-                    case MediaLibraryItem.TYPE_ARTIST:
-                        resId = R.drawable.ic_artist_big;
-                        break;
-                    case MediaLibraryItem.TYPE_GENRE:
-                        resId = R.drawable.ic_genre_big;
-                        break;
-                    case MediaLibraryItem.TYPE_MEDIA:
-                        if (((MediaWrapper)mediaLibraryItem).getType() == MediaWrapper.TYPE_VIDEO)
-                            resId = R.drawable.ic_browser_video_big_normal;
-                        else
-                            resId = R.drawable.ic_song_big;
-                        break;
-                    default:
-                        resId = R.drawable.ic_browser_unknown_big_normal;
-                }
-                picture = BitmapFactory.decodeResource(res, resId);
-            }
-            return picture;
-        }
-
-        @Override
-        public void updateImage(final Bitmap picture, final View target) {
-            sHandler.post(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            ImageCardView cardView = (ImageCardView) target;
-                            if (picture != null && picture.getByteCount() > 4) {
-                                if (mediaLibraryItem.getArtworkMrl() !=null && !mediaLibraryItem.getArtworkMrl().isEmpty())
-                                    cardView.getMainImageView().setScaleType(ImageView.ScaleType.CENTER_CROP);
-                                else
-                                    cardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
-                                cardView.setMainImage(new BitmapDrawable(res, picture));
-                            }
-                            else {
-                                cardView.setMainImage(sDefaultCardImage);
-                                cardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
-                            }
-                        }
-                    }
-            );
         }
     }
 }

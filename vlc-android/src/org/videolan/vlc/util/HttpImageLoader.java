@@ -24,23 +24,16 @@
 
 package org.videolan.vlc.util;
 
-import android.databinding.OnRebindCallback;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v4.util.SimpleArrayMap;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import org.videolan.vlc.BR;
-import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.helpers.AsyncImageLoader.Callbacks;
+import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -49,43 +42,15 @@ import java.lang.ref.SoftReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class HttpImageLoader implements Callbacks {
+public class HttpImageLoader extends AsyncImageLoader.CoverFetcher {
 
     private static SimpleArrayMap<String, SoftReference<Bitmap>> iconsMap = new SimpleArrayMap<>();
     private String mImageLink;
-    private ViewDataBinding mBinding;
-    private boolean bindChanged = false;
-    final OnRebindCallback<ViewDataBinding> rebindCallbacks;
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
 
-    public HttpImageLoader(String imageLink) {
-        mImageLink = imageLink;
-        rebindCallbacks = null;
-    }
-
     public HttpImageLoader(String imageLink, ViewDataBinding binding) {
+        init(binding);
         mImageLink = imageLink;
-        mBinding = binding;
-        mBinding = binding;
-        mBinding.executePendingBindings();
-        rebindCallbacks = new OnRebindCallback<ViewDataBinding>() {
-            @Override
-            public boolean onPreBind(ViewDataBinding binding) {
-                bindChanged = true;
-                return super.onPreBind(binding);
-            }
-
-            @Override
-            public void onCanceled(ViewDataBinding binding) {
-                super.onCanceled(binding);
-            }
-
-            @Override
-            public void onBound(ViewDataBinding binding) {
-                super.onBound(binding);
-            }
-        };
-        mBinding.addOnRebindCallback(rebindCallbacks);
     }
 
     @Override
@@ -97,7 +62,7 @@ public class HttpImageLoader implements Callbacks {
     public static Bitmap getBitmapFromIconCache(String imageUrl) {
         synchronized (iconsMap) {
             if (iconsMap.containsKey(imageUrl)) {
-                Bitmap bd = iconsMap.get(imageUrl).get();
+                final Bitmap bd = iconsMap.get(imageUrl).get();
                 if (bd != null) {
                     return bd;
                 } else
@@ -133,27 +98,6 @@ public class HttpImageLoader implements Callbacks {
 
     @Override
     public void updateImage(final Bitmap bitmap, final View target) {
-        if (bitmap == null || bitmap.getWidth() == 1 || bitmap.getHeight() == 1)
-            return;
-        if (mBinding != null) {
-            mBinding.removeOnRebindCallback(rebindCallbacks);
-            if (bindChanged)
-                return;
-            mBinding.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER);
-            mBinding.setVariable(BR.image, new BitmapDrawable(VLCApplication.getAppResources(), bitmap));
-            mBinding.setVariable(BR.protocol, null);
-        } else {
-            sHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (target instanceof ImageCardView)
-                        ((ImageCardView) target).setMainImage(new BitmapDrawable(target.getResources(), bitmap));
-                    else if (target instanceof ImageView)
-                        ((ImageView) target).setImageBitmap(bitmap);
-                    else if (target instanceof TextView)
-                        target.setBackgroundDrawable(new BitmapDrawable(target.getResources(), bitmap));
-                }
-            });
-        }
+        AsyncImageLoader.updateTargetImage(bitmap, target, binding);
     }
 }
