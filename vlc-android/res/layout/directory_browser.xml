@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/directory_empty"/>
+                android:text="@string/loading"/>
         </FrameLayout>
     </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
