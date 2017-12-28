@@ -21,11 +21,13 @@
 package org.videolan.vlc.gui.audio
 
 import android.Manifest
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.media.AudioManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
@@ -83,20 +85,20 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
 
     private var mShowRemainingTime = false
     private var mPreviewingSeek = false
-    private var mAdvFuncVisible: Boolean = false
-    private var mPlaylistSwitchVisible: Boolean = false
-    private var mSearchVisible: Boolean = false
-    private var mHeaderPlayPauseVisible: Boolean = false
-    private var mProgressBarVisible: Boolean = false
-    private var mHeaderTimeVisible: Boolean = false
-    private var mPlayerState: Int = 0
+    private var mAdvFuncVisible = false
+    private var mPlaylistSwitchVisible = false
+    private var mSearchVisible = false
+    private var mHeaderPlayPauseVisible = false
+    private var mProgressBarVisible = false
+    private var mHeaderTimeVisible = false
+    private var mPlayerState = 0
     private var mCurrentCoverArt: String? = null
 
     companion object {
         val TAG = "VLC/AudioPlayer"
 
-        private var DEFAULT_BACKGROUND_DARKER_ID: Int = 0
-        private var DEFAULT_BACKGROUND_ID: Int = 0
+        private var DEFAULT_BACKGROUND_DARKER_ID = 0
+        private var DEFAULT_BACKGROUND_ID = 0
         private val SEARCH_TIMEOUT_MILLIS = 5000
         /**
          * Show the audio player from an intent
@@ -218,10 +220,6 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
         mBinding.shuffle.setImageResource(UiTools.getResourceFromAttribute(activity, if (mService.isShuffling) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
         mBinding.shuffle.contentDescription = resources.getString(if (mService.isShuffling) R.string.shuffle_on else R.string.shuffle)
         when (mService.repeatType) {
-            Constants.REPEAT_NONE -> {
-                mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat))
-                mBinding.repeat.contentDescription = resources.getString(R.string.repeat)
-            }
             Constants.REPEAT_ONE -> {
                 mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_one))
                 mBinding.repeat.contentDescription = resources.getString(R.string.repeat_single)
@@ -231,8 +229,8 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
                 mBinding.repeat.contentDescription = resources.getString(R.string.repeat_all)
             }
             else -> {
-                mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_all))
-                mBinding.repeat.contentDescription = resources.getString(R.string.repeat_all)
+                mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat))
+                mBinding.repeat.contentDescription = resources.getString(R.string.repeat)
             }
         }
         mBinding.shuffle.visibility = if (mService.canShuffle()) View.VISIBLE else View.INVISIBLE
@@ -267,6 +265,7 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun updateBackground() {
         if (AndroidUtil.isJellyBeanMR1OrLater) {
             launch(UI, CoroutineStart.UNDISPATCHED) {
@@ -317,8 +316,7 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
     }
 
     fun onPlayPauseClick(view: View) {
-        if (mService === null) return
-        if (mService.isPlaying) mService.pause() else mService.play()
+        mService?.run { if (isPlaying) pause() else play() }
     }
 
     fun onStopClick(view: View): Boolean {
@@ -348,15 +346,14 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
         when (mService.repeatType) {
             Constants.REPEAT_NONE -> mService.repeatType = Constants.REPEAT_ALL
             Constants.REPEAT_ALL -> mService.repeatType = Constants.REPEAT_ONE
-            Constants.REPEAT_ONE -> mService.repeatType = Constants.REPEAT_NONE
             else -> mService.repeatType = Constants.REPEAT_NONE
         }
         update()
     }
 
     fun onPlaylistSwitchClick(view: View) {
-        mSettings.edit().putBoolean("audio_player_show_cover", !mBinding.showCover).apply()
         mBinding.showCover = !mBinding.showCover
+        mSettings.edit().putBoolean("audio_player_show_cover", mBinding.showCover).apply()
         mBinding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (mBinding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))
     }
 
@@ -383,8 +380,7 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
 
     fun show() {
         val activity = activity as? AudioPlayerContainerActivity
-        if (activity !== null && activity.isAudioPlayerReady)
-            activity.showAudioPlayer()
+        if (activity?.isAudioPlayerReady == true) activity.showAudioPlayer()
     }
 
     fun hide() {
@@ -440,8 +436,7 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
     }
 
     private fun hideSearchField(): Boolean {
-        if (mBinding.playlistSearchText.visibility != View.VISIBLE)
-            return false
+        if (mBinding.playlistSearchText.visibility != View.VISIBLE) return false
         mBinding.playlistSearchText.editText?.apply {
             removeTextChangedListener(this@AudioPlayer)
             setText("")
@@ -480,10 +475,10 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
     }
 
     private inner class LongSeekListener(internal var forward: Boolean, internal var normal: Int, internal var pressed: Int) : View.OnTouchListener {
-        internal var length: Long = -1L
+        internal var length = -1L
 
-        internal var possibleSeek: Int = 0
-        internal var vibrated: Boolean = false
+        internal var possibleSeek = 0
+        internal var vibrated = false
 
         @RequiresPermission(Manifest.permission.VIBRATE)
         internal var seekRunnable: Runnable = object : Runnable {
@@ -629,8 +624,10 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
         override fun onTouchClick() {}
     }
 
-    private val hideSearchRunnable: Runnable = Runnable {
-        hideSearchField()
-        mPlaylistAdapter.restoreList()
+    private val hideSearchRunnable by lazy(LazyThreadSafetyMode.NONE) {
+        Runnable {
+            hideSearchField()
+            mPlaylistAdapter.restoreList()
+        }
     }
 }
