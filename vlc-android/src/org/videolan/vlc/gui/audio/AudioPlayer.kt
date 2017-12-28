@@ -147,7 +147,6 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
                 R.drawable.ic_previous_pressed))
 
         registerForContextMenu(mBinding.songsList)
-        activity.volumeControlStream = AudioManager.STREAM_MUSIC
         userVisibleHint = true
         mBinding.showCover = mSettings.getBoolean("audio_player_show_cover", false)
         mBinding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (mBinding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))

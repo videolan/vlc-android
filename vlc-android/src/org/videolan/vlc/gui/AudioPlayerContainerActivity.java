@@ -28,6 +28,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -98,6 +99,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
                 startService(new Intent(Constants.ACTION_INIT, null, this, MediaParsingService.class));
         }
         super.onCreate(savedInstanceState);
+        setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
 
     protected void initAudioPlayerContainerActivity() {
