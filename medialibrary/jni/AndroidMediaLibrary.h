@@ -128,8 +128,6 @@ private:
     medialibrary::IMediaLibrary* p_ml;
     std::shared_ptr<AndroidDeviceLister> p_lister;
     medialibrary::IDeviceListerCb* p_DeviceListerCb = nullptr;
-    std::string mainStorage = "";
-    bool discoveryEnded = false;
     bool m_paused = false;
     uint32_t m_nbDiscovery = 0, m_progress = 0, m_mediaAddedType = 0, m_mediaUpdatedType = 0;
 };
