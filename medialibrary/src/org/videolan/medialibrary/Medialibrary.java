@@ -319,46 +319,55 @@ public class Medialibrary {
         return mw;
     }
 
+    @SuppressWarnings("unused")
     public void onMediaAdded(MediaWrapper[] mediaList) {
         if (mediaAddedCb != null)
             mediaAddedCb.onMediaAdded(mediaList);
     }
 
+    @SuppressWarnings("unused")
     public void onMediaUpdated(MediaWrapper[] mediaList) {
         if (mediaUpdatedCb != null)
             mediaUpdatedCb.onMediaUpdated(mediaList);
     }
 
+    @SuppressWarnings("unused")
     public void onMediaDeleted(long[] ids) {
         for (long id : ids)
             Log.d(TAG, "onMediaDeleted: "+id);
     }
 
+    @SuppressWarnings("unused")
     public void onArtistsAdded() {
         if (mArtistsAddedCb != null)
             mArtistsAddedCb.onArtistsAdded();
     }
 
+    @SuppressWarnings("unused")
     public void onArtistsModified() {
         if (mArtistsModifiedCb != null)
             mArtistsModifiedCb.onArtistsModified();
     }
 
+    @SuppressWarnings("unused")
     public void onAlbumsAdded() {
         if (mAlbumsAddedCb != null)
             mAlbumsAddedCb.onAlbumsAdded();
     }
 
+    @SuppressWarnings("unused")
     public void onAlbumsModified() {
         if (mAlbumsModifiedCb != null)
             mAlbumsModifiedCb.onAlbumsModified();
     }
 
+    @SuppressWarnings("unused")
     public void onArtistsDeleted(long[] ids) {
         for (long id : ids)
             Log.d(TAG, "onArtistsDeleted: "+id);
     }
 
+    @SuppressWarnings("unused")
     public void onAlbumsDeleted(long[] ids) {
         for (long id : ids)
             Log.d(TAG, "onAlbumsDeleted: "+id);
@@ -417,6 +426,7 @@ public class Medialibrary {
         LocalBroadcastManager.getInstance(sContext).sendBroadcast(new Intent(ACTION_IDLE).putExtra(STATE_IDLE, isIdle));
     }
 
+    @SuppressWarnings("unused")
     void onReloadStarted(String entryPoint) {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
@@ -424,6 +434,8 @@ public class Medialibrary {
                     cb.onReloadStarted(entryPoint);
         }
     }
+
+    @SuppressWarnings("unused")
     void onReloadCompleted(String entryPoint) {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
@@ -432,6 +444,7 @@ public class Medialibrary {
         }
     }
 
+    @SuppressWarnings("unused")
     void onEntryPointBanned(String entryPoint, boolean success) {
         synchronized (entryPointsEventsCbList) {
             if (!entryPointsEventsCbList.isEmpty())
@@ -439,6 +452,8 @@ public class Medialibrary {
                     cb.onEntryPointBanned(entryPoint, success);
         }
     }
+
+    @SuppressWarnings("unused")
     void onEntryPointUnbanned(String entryPoint, boolean success) {
         synchronized (entryPointsEventsCbList) {
             if (!entryPointsEventsCbList.isEmpty())
@@ -446,6 +461,8 @@ public class Medialibrary {
                     cb.onEntryPointUnbanned(entryPoint, success);
         }
     }
+
+    @SuppressWarnings("unused")
     void onEntryPointRemoved(String entryPoint, boolean success) {
         synchronized (entryPointsEventsCbList) {
             if (!entryPointsEventsCbList.isEmpty())
