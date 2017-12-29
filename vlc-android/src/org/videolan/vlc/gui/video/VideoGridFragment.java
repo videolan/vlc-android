@@ -448,7 +448,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         }
         menu.findItem(R.id.action_video_info).setVisible(count == 1);
         menu.findItem(R.id.action_video_play).setVisible(AndroidUtil.isHoneycombOrLater || count == 1);
-        menu.findItem(R.id.action_video_append).setVisible(mService.hasMedia() && AndroidUtil.isHoneycombOrLater);
+        menu.findItem(R.id.action_video_append).setVisible(mService != null && mService.hasMedia() && AndroidUtil.isHoneycombOrLater);
         return true;
     }
 
