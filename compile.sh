@@ -126,7 +126,7 @@ if [ ! -d "gradle/wrapper" ]; then
 
     cd gradle-${GRADLE_VERSION}
 
-    ./bin/gradle wrapper
+    ./bin/gradle --offline wrapper
     checkfail "gradle: wrapper failed"
 
     ./gradlew -version
