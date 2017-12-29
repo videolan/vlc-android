@@ -614,10 +614,6 @@ void AndroidMediaLibrary::onDiscoveryStarted( const std::string& entryPoint )
     JNIEnv *env = getEnv();
     if (env == NULL)
         return;
-    if (mainStorage.empty()) {
-        discoveryEnded = false;
-        mainStorage = entryPoint;
-    }
     jstring ep = env->NewStringUTF(entryPoint.c_str());
     jobject thiz = getWeakReference(env);
     if (thiz != NULL)
@@ -652,10 +648,6 @@ void AndroidMediaLibrary::onDiscoveryCompleted( const std::string& entryPoint )
     JNIEnv *env = getEnv();
     if (env == NULL)
         return;
-    if (!entryPoint.compare(mainStorage)) {
-        discoveryEnded = true;
-        mainStorage.clear();
-    }
     jstring ep = env->NewStringUTF(entryPoint.c_str());
     jobject thiz = getWeakReference(env);
     if (thiz) {
@@ -688,7 +680,6 @@ void AndroidMediaLibrary::onReloadCompleted( const std::string& entryPoint )
     JNIEnv *env = getEnv();
     if (env == NULL)
         return;
-    discoveryEnded = true;
     jstring ep = env->NewStringUTF(entryPoint.c_str());
     jobject thiz = getWeakReference(env);
     if (thiz) {
@@ -749,8 +740,6 @@ void AndroidMediaLibrary::onEntryPointRemoved( const std::string& entryPoint, bo
 void AndroidMediaLibrary::onParsingStatsUpdated( uint32_t percent)
 {
     m_progress = percent;
-    if (!discoveryEnded)
-        return;
     JNIEnv *env = getEnv();
     if (env == NULL)
         return;
