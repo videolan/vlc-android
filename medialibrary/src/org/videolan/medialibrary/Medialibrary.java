@@ -61,7 +61,7 @@ public class Medialibrary {
 
     private long mInstanceID;
     private volatile boolean mIsInitiated = false;
-    private boolean mIsWorking = false;
+    private volatile boolean mIsWorking = false;
 
     private MediaUpdatedCb mediaUpdatedCb = null;
     private MediaAddedCb mediaAddedCb = null;
@@ -413,8 +413,8 @@ public class Medialibrary {
 
     @SuppressWarnings("unused")
     public void onBackgroundTasksIdleChanged(boolean isIdle) {
-        LocalBroadcastManager.getInstance(sContext).sendBroadcast(new Intent(ACTION_IDLE).putExtra(STATE_IDLE, isIdle));
         mIsWorking = !isIdle;
+        LocalBroadcastManager.getInstance(sContext).sendBroadcast(new Intent(ACTION_IDLE).putExtra(STATE_IDLE, isIdle));
     }
 
     void onReloadStarted(String entryPoint) {
