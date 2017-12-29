@@ -164,10 +164,12 @@ public class Util {
 
     @NonNull
     public static String getMediaDescription(String artist, String album) {
-        StringBuilder contentBuilder = new StringBuilder(artist);
-        if (contentBuilder.length() > 0 && !TextUtils.isEmpty(album))
-            contentBuilder.append(" - ");
-        contentBuilder.append(album);
+        boolean hasArtist = !TextUtils.isEmpty(artist);
+        boolean hasAlbum = !TextUtils.isEmpty(album);
+        if (!hasAlbum && !hasArtist) return "";
+        StringBuilder contentBuilder = new StringBuilder(hasArtist ? artist : "");
+        if (hasArtist && hasAlbum) contentBuilder.append(" - ");
+        if (hasAlbum) contentBuilder.append(album);
         return contentBuilder.toString();
     }
 
