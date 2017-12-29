@@ -152,6 +152,7 @@ public class TvUtil {
                     @Override
                     public void run() {
                         Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512);
+                        if (cover == null) return;
                         if (crop)
                             cover = BitmapUtil.centerCrop(cover, cover.getWidth(), cover.getWidth()*10/16);
                         final Bitmap blurred = UiTools.blurBitmap(cover, 10f);
