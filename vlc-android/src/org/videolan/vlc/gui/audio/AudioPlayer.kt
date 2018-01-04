@@ -25,7 +25,6 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -75,6 +74,7 @@ import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Constants
 
+@Suppress("UNUSED_PARAMETER")
 class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, PlaylistAdapter.IPlayer, TextWatcher {
 
     private lateinit var mBinding: AudioPlayerBinding
@@ -95,11 +95,11 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
     private var mCurrentCoverArt: String? = null
 
     companion object {
-        val TAG = "VLC/AudioPlayer"
+        const val TAG = "VLC/AudioPlayer"
 
         private var DEFAULT_BACKGROUND_DARKER_ID = 0
         private var DEFAULT_BACKGROUND_ID = 0
-        private val SEARCH_TIMEOUT_MILLIS = 5000
+        const private val SEARCH_TIMEOUT_MILLIS = 5000
         /**
          * Show the audio player from an intent
          *
