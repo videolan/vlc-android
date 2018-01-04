@@ -36,7 +36,6 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Tools;
@@ -54,7 +53,6 @@ import org.videolan.vlc.util.MediaItemFilter;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -73,15 +71,13 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
     private final ItemFilter mFilter = new ItemFilter();
     private int mSelectionCount = 0;
     private int mGridCardWidth = 0;
-    final boolean mGroup;
 
     private boolean mIsSeenMediaMarkerVisible = true;
 
-    VideoListAdapter(IEventsHandler eventsHandler, boolean group) {
+    VideoListAdapter(IEventsHandler eventsHandler) {
         super();
         mEventsHandler = eventsHandler;
         mIsSeenMediaMarkerVisible = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("media_seen", true);
-        mGroup = group;
     }
 
     @Override
@@ -94,10 +90,6 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
             params.height = params.width*10/16;
             binding.getRoot().setLayoutParams(params);
         }
-        final TextView titleView = binding.getRoot().findViewById(R.id.ml_item_title);
-        titleView.setEllipsize(mGroup ? TextUtils.TruncateAt.START : null);
-        titleView.setSingleLine(mGroup);
-        titleView.setMaxLines(mGroup ? 1 : 2);
         return new ViewHolder(binding);
     }
 

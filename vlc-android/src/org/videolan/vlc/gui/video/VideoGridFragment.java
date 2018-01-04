@@ -95,7 +95,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new VideoListAdapter(this, mGroup != null);
+        mAdapter = new VideoListAdapter(this);
 
         if (savedInstanceState != null)
             setGroup(savedInstanceState.getString(KEY_GROUP));
