@@ -1,3 +1,15 @@
+Changes between 2.5.15 and 2.5.16:
+----------------------------------
+
+Application:
+ * Fix network videos not resumed
+ * Set delete option back for Oreo devices
+ * Show full name in video groups
+ * Update medialibrary to fix stream item considered as 'unknown'
+ * Update VLC core
+ * Misc. crash fixes
+
+
 Changes between 2.5.13 and 2.5.14:
 ----------------------------------
 
