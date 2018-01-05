@@ -441,7 +441,7 @@
     <string name="audio_delay">Audio delay</string>
     <string name="spu_delay">Subtitle delay</string>
     <string name="sleep_time_not_set">none set</string>
-    <string name="network_shares_discovery">Looking for network shares...</string>
+    <string name="network_shares_discovery">Looking for network shares…</string>
     <string name="network_empty">This directory is empty.</string>
     <string name="network_connection_needed">No connection to local network.</string>
     <string name="search_hint">Search media</string>
@@ -530,7 +530,7 @@
     <string name="browse_folder">Browse folder</string>
     <string name="listen">Listen</string>
     <string name="subtitles_download_title">Subs download</string>
-    <string name="connecting">Connecting...</string>
+    <string name="connecting">Connecting…</string>
     <string name="save_bluetooth_delay">save delay for bluetooth device</string>
     <string name="episodes">episodes</string>
     <string name="movies">movies</string>
@@ -549,13 +549,13 @@
     <string name="ml_external_storage_decline">No</string>
     <string name="last_added_media">last added</string>
     <string name="no">No</string>
-    <string name="loading_medialibrary">Loading Medialibrary...</string>
+    <string name="loading_medialibrary">Loading Medialibrary…</string>
     <string name="yes">Yes</string>
 
     <string name="custom_set_save_title">Unsaved changes</string>
     <string name="custom_set_save_warning">Warning: unsaved changes</string>
-    <string name="existing_custom_set_save_message">Save equalizer-set as...</string>
-    <string name="new_custom_set_save_message">Save new equalizer-set as...</string>
+    <string name="existing_custom_set_save_message">Save equalizer-set as…</string>
+    <string name="new_custom_set_save_message">Save new equalizer-set as…</string>
     <string name="save">Save</string>
     <string name="do_not_save">Do not save</string>
     <string name="custom_set_deleted_message">Custom equalizer-set \"%1$s\" deleted.</string>
