@@ -269,7 +269,7 @@ public class Medialibrary {
 
     @Nullable
     public MediaWrapper getMedia(Uri uri) {
-        final String vlcMrl = VLCUtil.encodeVLCUri(uri);
+        final String vlcMrl = Tools.encodeVLCMrl(uri.toString());
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeGetMediaFromMrl(vlcMrl) : null;
     }
 
