@@ -571,17 +571,18 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             }
             case R.id.directory_view_delete:
                 mAdapter.removeItem(position);
-                UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
-                    @Override
-                    public void run() {
-                        deleteMedia(mw, false);
-                    }
-                }, new Runnable() {
+                final Runnable cancel = new Runnable() {
                     @Override
                     public void run() {
                         mAdapter.addItem(mw, true, position);
                     }
-                });
+                };
+                UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
+                    @Override
+                    public void run() {
+                        deleteMedia(mw, false, cancel);
+                    }
+                }, cancel);
                 return true;
             case  R.id.directory_view_info:
                 showMediaInfo(mw);
@@ -839,10 +840,6 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                     break;
                 case R.id.action_mode_file_append:
                     mService.append(list);
-                    break;
-                case R.id.action_mode_file_delete:
-                    for (MediaWrapper media : list)
-                        deleteMedia(media, true);
                     break;
                 case R.id.action_mode_file_add_playlist:
                     UiTools.addToPlaylist(getActivity(), list);

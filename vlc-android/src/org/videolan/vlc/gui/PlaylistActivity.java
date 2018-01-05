@@ -342,20 +342,21 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             return true;
         } else if (id == R.id.audio_list_browser_delete) {
             mAdapter.remove(media);
+            final Runnable cancel = new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.addItem(position, media);
+                }
+            };
             UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.file_deleted), new Runnable() {
                 @Override
                 public void run() {
                     if (mIsPlaylist)
                         ((Playlist) mPlaylist).remove(media.getId());
                     else
-                        deleteMedia(media);
+                        deleteMedia(media, cancel);
                 }
-            }, new Runnable() {
-                @Override
-                public void run() {
-                    mAdapter.addItem(position, media);
-                }
-            });
+            }, cancel);
             return true;
         } else if (id == R.id.audio_view_info) {
             showInfoDialog(media);
@@ -389,7 +390,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         return info != null && handleContextItemSelected(menu, info.position);
     }
 
-    protected void deleteMedia(final MediaLibraryItem mw) {
+    protected void deleteMedia(final MediaLibraryItem mw, final Runnable cancel) {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
@@ -397,10 +398,11 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 final LinkedList<String> mediaPaths = new LinkedList<>();
                 for (MediaWrapper media : mw.getTracks()) {
                     String path = media.getUri().getPath();
-                    mediaPaths.add(media.getLocation());
                     String parentPath = FileUtils.getParent(path);
-                    if (FileUtils.deleteFile(path) && media.getId() > 0L && !foldersToReload.contains(parentPath))
+                    if (FileUtils.deleteFile(path) && media.getId() > 0L && !foldersToReload.contains(parentPath)) {
                         foldersToReload.add(parentPath);
+                        mediaPaths.add(media.getLocation());
+                    } else UiTools.snacker(mBinding.getRoot(), getString(R.string.msg_delete_failed, media.getTitle()));
                 }
                 for (String folder : foldersToReload)
                     mMediaLibrary.reload(folder);
@@ -408,8 +410,11 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                     VLCApplication.runOnMainThread(new Runnable() {
                         @Override
                         public void run() {
-                            for (String path : mediaPaths)
-                                mService.removeLocation(path);
+                            if (mediaPaths.isEmpty()) cancel.run();
+                            else {
+                                for (String path : mediaPaths)
+                                    mService.removeLocation(path);
+                            }
                         }
                     });
                 }
