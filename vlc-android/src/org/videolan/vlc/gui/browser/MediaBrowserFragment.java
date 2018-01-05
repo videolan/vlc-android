@@ -47,6 +47,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.InfoActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.util.Constants;
@@ -172,35 +173,42 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
         return info != null && handleContextItemSelected(menu, info.position);
     }
 
-    protected void deleteMedia(final MediaLibraryItem mw, final boolean refresh) {
+    protected void deleteMedia(final MediaLibraryItem mw, final boolean refresh, final Runnable failCB) {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
                 final LinkedList<String> foldersToReload = new LinkedList<>();
                 final LinkedList<String> mediaPaths = new LinkedList<>();
                 for (MediaWrapper media : mw.getTracks()) {
-                    String path = media.getUri().getPath();
-                    mediaPaths.add(media.getLocation());
-                    String parentPath = FileUtils.getParent(path);
-                    if (FileUtils.deleteFile(path) && media.getId() > 0L && !foldersToReload.contains(parentPath))
+                    final String path = media.getUri().getPath();
+                    final String parentPath = FileUtils.getParent(path);
+                    if (FileUtils.deleteFile(path) && media.getId() > 0L && !foldersToReload.contains(parentPath)) {
                         foldersToReload.add(parentPath);
+                        mediaPaths.add(media.getLocation());
+                    } else onDeleteFailed(media);
                 }
-                for (String folder : foldersToReload)
-                        mMediaLibrary.reload(folder);
+                for (String folder : foldersToReload) mMediaLibrary.reload(folder);
                 if (mService != null && getActivity() != null) {
                     VLCApplication.runOnMainThread(new Runnable() {
                         @Override
                         public void run() {
+                            if (mediaPaths.isEmpty()) {
+                                if (failCB != null) failCB.run();
+                                return;
+                            }
                             if (mService != null)
                                 for (String path : mediaPaths)
                                     mService.removeLocation(path);
-                            if (refresh)
-                                onRefresh();
+                            if (refresh) onRefresh();
                         }
                     });
                 }
             }
         });
+    }
+
+    private void onDeleteFailed(MediaWrapper media) {
+        UiTools.snacker(getView(), getString(R.string.msg_delete_failed, media.getTitle()));
     }
 
     protected void showInfoDialog(MediaLibraryItem item) {

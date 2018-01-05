@@ -261,22 +261,23 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 };
             } else if (mode == MODE_SONG) {
                 message = getString(R.string.file_deleted);
+                final Runnable cancel = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (separator != null)
+                            adapter.addItem(position-1, separator);
+                        adapter.addItem(position, mediaLibraryItem);
+                    }
+                };
                 action = new Runnable() {
                     @Override
                     public void run() {
-                        deleteMedia(mediaLibraryItem, true);
+                        deleteMedia(mediaLibraryItem, true, cancel);
                     }
                 };
             } else
                 return false;
-            UiTools.snackerWithCancel(getView(), message, action, new Runnable() {
-                @Override
-                public void run() {
-                    if (separator != null)
-                        adapter.addItem(position-1, separator);
-                    adapter.addItem(position, mediaLibraryItem);
-                }
-            });
+            UiTools.snackerWithCancel(getView(), message, action);
             return true;
         }
 
