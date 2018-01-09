@@ -365,6 +365,8 @@
     <string name="aout_summary">Change the method that VLC uses to output audio.</string>
     <string name="aout_audiotrack" translatable="false">AudioTrack</string>
     <string name="aout_opensles" translatable="false">OpenSL ES</string>
+    <string name="audio_ducking_title">Lower VLC volume on notifications</string>
+    <string name="audio_ducking_summary">Helps to hear audio notifications, navigation instructions or assistant talking</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_enable_category">Chose extensions to enable</string>

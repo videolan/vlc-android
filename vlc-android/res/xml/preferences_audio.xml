@@ -45,6 +45,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/advanced_prefs_category">
+        <CheckBoxPreference
+            android:key="audio_ducking"
+            android:defaultValue="true"
+            android:summary="@string/audio_ducking_summary"
+            android:title="@string/audio_ducking_title" />
         <ListPreference
             android:defaultValue="0"
             android:entries="@array/aouts"

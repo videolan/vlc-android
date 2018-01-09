@@ -418,7 +418,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                         if (isPlaying()) {
                             if (AndroidDevices.isAmazon) {
                                 pausePlayback();
-                            } else {
+                            } else if (mSettings.getBoolean("audio_ducking", true)) {
                                 final int volume = AndroidDevices.isAndroidTv ? getVolume()
                                         : mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
                                 if (audioDuckLevel == -1)
