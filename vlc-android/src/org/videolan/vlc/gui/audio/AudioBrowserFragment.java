@@ -447,6 +447,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
 
     @Override
     public void onClick(View v, int position, MediaLibraryItem item) {
+        if (item == null) return;
         if (mActionMode != null) {
             super.onClick(v, position, item);
             return;
