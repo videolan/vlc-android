@@ -333,6 +333,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
 
     public void addItem(final int position, final MediaLibraryItem item) {
         final List<MediaLibraryItem> referenceList = peekLast();
+        if (position < 0 || position >= referenceList.size()) return;
         final List<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
         dataList.add(position,item);
         update(dataList);
