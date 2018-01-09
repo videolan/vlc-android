@@ -208,11 +208,11 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     }
 
     private void onDeleteFailed(MediaWrapper media) {
-        UiTools.snacker(getView(), getString(R.string.msg_delete_failed, media.getTitle()));
+        if (isAdded()) UiTools.snacker(getView(), getString(R.string.msg_delete_failed, media.getTitle()));
     }
 
     protected void showInfoDialog(MediaLibraryItem item) {
-        Intent i = new Intent(getActivity(), InfoActivity.class);
+        final Intent i = new Intent(getActivity(), InfoActivity.class);
         i.putExtra(InfoActivity.TAG_ITEM, item);
         startActivity(i);
     }
