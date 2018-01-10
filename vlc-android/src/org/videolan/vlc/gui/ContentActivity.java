@@ -27,6 +27,7 @@ package org.videolan.vlc.gui;
 import android.app.SearchManager;
 import android.content.ClipData;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
@@ -68,7 +70,14 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
                         for (int i = 0; i < itemsCount; i++) {
                             final DragAndDropPermissions permissions = requestDragAndDropPermissions(event);
                             if (permissions != null)  {
-                                MediaUtils.openMediaNoUi(clipData.getItemAt(i).getUri());
+                                final ClipData.Item item = clipData.getItemAt(i);
+                                if (item.getUri() != null) MediaUtils.openUri(ContentActivity.this, item.getUri());
+                                else if (item.getText() != null) {
+                                    final Uri uri = Uri.parse(item.getText().toString());
+                                    final MediaWrapper media = new MediaWrapper(uri);
+                                    if (!"file".equals(uri.getScheme())) media.setType(MediaWrapper.TYPE_STREAM);
+                                    MediaUtils.openMedia(ContentActivity.this, media);
+                                }
                                 return true;
                             }
                         }
