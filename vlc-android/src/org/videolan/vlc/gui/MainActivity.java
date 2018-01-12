@@ -347,8 +347,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
 
         // If it's the directory view, a "backpressed" action shows a parent.
         final Fragment fragment = getCurrentFragment();
-        if (fragment instanceof BaseBrowserFragment){
-            ((BaseBrowserFragment)fragment).goBack();
+        if (fragment instanceof BaseBrowserFragment && ((BaseBrowserFragment)fragment).goBack()){
             return;
         } else if (fragment instanceof ExtensionBrowser) {
             ((ExtensionBrowser) fragment).goBack();

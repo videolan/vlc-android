@@ -276,15 +276,14 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         return mCurrentMedia != null ? mrl : null;
     }
 
-    public void goBack(){
+    public boolean goBack(){
         final FragmentActivity activity = getActivity();
-        if (activity == null)
-            return;
+        if (activity == null) return false;
         if (!mRoot) {
             if (!activity.getSupportFragmentManager().popBackStackImmediate() && activity instanceof MainActivity)
                 ((MainActivity)activity).showFragment(this instanceof NetworkBrowserFragment ? R.id.nav_network : R.id.nav_directories);
-        } else
-            activity.finish();
+        }
+        return !mRoot;
     }
 
     public void browse(MediaWrapper media, int position, boolean save) {
