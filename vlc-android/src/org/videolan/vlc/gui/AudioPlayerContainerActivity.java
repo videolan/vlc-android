@@ -200,11 +200,10 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Current fragment loaded
-                Fragment current = getCurrentFragment();
-                if (current instanceof StorageBrowserFragment)
-                    ((StorageBrowserFragment) current).goBack();
-                else
-                    finish();
+                final Fragment current = getCurrentFragment();
+                if (current instanceof StorageBrowserFragment && ((StorageBrowserFragment) current).goBack())
+                    return true;
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
