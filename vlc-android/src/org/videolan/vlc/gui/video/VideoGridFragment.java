@@ -293,7 +293,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
             final Runnable revert = new Runnable() {
                 @Override
                 public void run() {
-                    mAdapter.add(media, position);
+                    mAdapter.add(media);
                 }
             };
             UiTools.snackerWithCancel(view, getString(R.string.file_deleted), new Runnable() {

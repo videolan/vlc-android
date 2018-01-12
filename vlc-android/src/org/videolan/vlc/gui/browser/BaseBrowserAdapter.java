@@ -46,6 +46,7 @@ import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.MediaItemFilter;
+import org.videolan.vlc.util.MediaLibraryItemComparator;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
@@ -267,9 +268,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
     }
 
     void removeItem(int position) {
-        if (position >= getItemCount())
-            return;
-        removeItem(getDataset().get(position));
+        if (position < getItemCount()) removeItem(getDataset().get(position));
     }
 
     void removeItem(MediaLibraryItem item) {
@@ -277,6 +276,8 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
             mMediaCount--;
         final List<MediaLibraryItem> list = new ArrayList<>(peekLast());
         list.remove(item);
+        //Force adapter to sort items.
+        if (sMediaComparator.sortBy == MediaLibraryItemComparator.SORT_DEFAULT) sMediaComparator.sortBy = getDefaultSort();
         update(list);
     }
 
@@ -289,8 +290,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
                 break;
             }
         }
-        if (mediaItem != null)
-            removeItem(mediaItem);
+        if (mediaItem != null) removeItem(mediaItem);
     }
 
     public List<MediaLibraryItem> getAll(){

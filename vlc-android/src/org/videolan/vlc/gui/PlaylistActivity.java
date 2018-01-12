@@ -169,7 +169,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     private void updateList() {
         if (mPlaylist != null) {
             List<MediaLibraryItem> tracks = Util.arrayToMediaArrayList(mPlaylist.getTracks());
-            mAdapter.addAll(tracks);
+            mAdapter.update(tracks);
         }
     }
 
@@ -345,7 +345,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             final Runnable cancel = new Runnable() {
                 @Override
                 public void run() {
-                    mAdapter.addItem(position, media);
+                    mAdapter.addItems(media);
                 }
             };
             UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.file_deleted), new Runnable() {

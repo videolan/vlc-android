@@ -207,10 +207,6 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         mOriginalDataSet = null;
     }
 
-    public void addAll(List<MediaLibraryItem> items) {
-        setDataset(new ArrayList<>(items));
-    }
-
     private List<MediaLibraryItem> removeSections(List<MediaLibraryItem> items) {
         List<MediaLibraryItem> newList = new ArrayList<>();
         for (MediaLibraryItem item : items)
@@ -322,20 +318,21 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         return datalist;
     }
 
-    public void remove(final MediaLibraryItem item) {
+    public void remove(final MediaLibraryItem... items) {
         final List<MediaLibraryItem> referenceList = peekLast();
-        if (referenceList.size() == 0) return;
+        if (referenceList.isEmpty()) return;
         final List<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
-        dataList.remove(item);
+        for (MediaLibraryItem item : items) dataList.remove(item);
         update(dataList);
     }
 
 
-    public void addItem(final int position, final MediaLibraryItem item) {
+    public void addItems(final MediaLibraryItem... items) {
         final List<MediaLibraryItem> referenceList = peekLast();
-        if (position < 0 || position >= referenceList.size()) return;
         final List<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
-        dataList.add(position,item);
+        Collections.addAll(dataList, items);
+        //Force adapter to sort items.
+        if (sMediaComparator.sortBy == MediaLibraryItemComparator.SORT_DEFAULT) sMediaComparator.sortBy = getDefaultSort();
         update(dataList);
     }
 

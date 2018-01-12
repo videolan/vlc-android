@@ -245,11 +245,11 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             final MediaLibraryItem next = position < adapter.getItemCount()-1 ? adapter.getItem(position+1) : null;
             String message;
             Runnable action;
+            Runnable cancel = null;
             final MediaLibraryItem separator = previous != null && previous.getItemType() == MediaLibraryItem.TYPE_DUMMY &&
                     (next == null || next.getItemType() == MediaLibraryItem.TYPE_DUMMY) ? previous : null;
-            adapter.remove(mediaLibraryItem);
-            if (separator != null)
-                adapter.remove(separator);
+            if (separator != null) adapter.remove(separator, mediaLibraryItem);
+            else adapter.remove(mediaLibraryItem);
 
             if (mode == MODE_PLAYLIST) {
                 message = getString(R.string.playlist_deleted);
@@ -261,23 +261,23 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 };
             } else if (mode == MODE_SONG) {
                 message = getString(R.string.file_deleted);
-                final Runnable cancel = new Runnable() {
+                cancel = new Runnable() {
                     @Override
                     public void run() {
-                        if (separator != null)
-                            adapter.addItem(position-1, separator);
-                        adapter.addItem(position, mediaLibraryItem);
+                        if (separator != null) adapter.addItems(separator, mediaLibraryItem);
+                        else adapter.addItems(mediaLibraryItem);
                     }
                 };
+                final Runnable finalCancel = cancel;
                 action = new Runnable() {
                     @Override
                     public void run() {
-                        deleteMedia(mediaLibraryItem, true, cancel);
+                        deleteMedia(mediaLibraryItem, true, finalCancel);
                     }
                 };
             } else
                 return false;
-            UiTools.snackerWithCancel(getView(), message, action);
+            UiTools.snackerWithCancel(getView(), message, action, cancel);
             return true;
         }
 

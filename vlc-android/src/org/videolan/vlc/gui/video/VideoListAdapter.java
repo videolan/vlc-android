@@ -146,10 +146,11 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
     }
 
     @MainThread
-    public void add(MediaWrapper item, int position) {
+    public void add(MediaWrapper item) {
         final List<MediaWrapper> list = new ArrayList<>(peekLast());
-        if (position < 0 || position >= list.size()) return;
-        list.add(position, item);
+        list.add(item);
+        //Force adapter to sort items.
+        if (sMediaComparator.sortBy == MediaLibraryItemComparator.SORT_DEFAULT) sMediaComparator.sortBy = getDefaultSort();
         update(list);
     }
 

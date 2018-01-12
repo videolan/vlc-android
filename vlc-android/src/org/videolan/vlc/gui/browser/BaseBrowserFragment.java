@@ -551,11 +551,11 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                 return true;
             }
             case R.id.directory_view_delete:
-                mAdapter.removeItem(position);
+                mAdapter.removeItem(mw);
                 final Runnable cancel = new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter.addItem(mw, true, position);
+                        mAdapter.addItem(mw, true);
                     }
                 };
                 UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
