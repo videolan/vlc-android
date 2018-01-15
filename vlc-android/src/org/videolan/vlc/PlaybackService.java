@@ -1638,6 +1638,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private void loadLastAudioPlaylist() {
+        if (AndroidDevices.isAndroidTv) return;
         if (mMedialibrary.isInitiated() && mLibraryReceiver == null)
             loadLastPlaylist(TYPE_AUDIO);
         else
