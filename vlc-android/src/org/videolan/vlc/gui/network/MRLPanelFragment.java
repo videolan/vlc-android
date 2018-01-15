@@ -53,10 +53,9 @@ public class MRLPanelFragment extends DialogFragment implements View.OnKeyListen
     public MRLPanelFragment(){}
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        int theme = UiTools.isBlackThemeEnabled() ? R.style.Theme_VLC_Black : R.style.Theme_VLC;
-        setStyle(DialogFragment.STYLE_NO_FRAME, theme);
-        View v = inflater.inflate(R.layout.mrl_panel, container, false);
-        mEditText = (TextInputLayout) v.findViewById(R.id.mrl_edit);
+        setStyle(DialogFragment.STYLE_NO_FRAME, 0);
+        final View v = inflater.inflate(R.layout.mrl_panel, container, false);
+        mEditText = v.findViewById(R.id.mrl_edit);
         mEditText.getEditText().setOnKeyListener(this);
         mEditText.getEditText().setOnEditorActionListener(this);
         mEditText.setHint(getString(R.string.open_mrl_dialog_msg));
@@ -84,11 +83,9 @@ public class MRLPanelFragment extends DialogFragment implements View.OnKeyListen
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState == null || mEditText == null)
-            return;
-        String mrl = savedInstanceState.getString(KEY_MRL);
-        if (mEditText != null && mEditText.getEditText() != null)
-            mEditText.getEditText().setText(mrl);
+        if (savedInstanceState == null || mEditText == null) return;
+        final String mrl = savedInstanceState.getString(KEY_MRL);
+        if (mEditText != null && mEditText.getEditText() != null) mEditText.getEditText().setText(mrl);
     }
 
     private void updateHistory() {
@@ -106,7 +103,7 @@ public class MRLPanelFragment extends DialogFragment implements View.OnKeyListen
 
     private boolean processUri() {
         if (mEditText.getEditText() != null && !TextUtils.isEmpty(mEditText.getEditText().getText())) {
-            MediaWrapper mw = new MediaWrapper(Uri.parse(mEditText.getEditText().getText().toString().trim()));
+            final MediaWrapper mw = new MediaWrapper(Uri.parse(mEditText.getEditText().getText().toString().trim()));
             playMedia(mw);
             mEditText.getEditText().getText().clear();
             return true;
@@ -140,8 +137,7 @@ public class MRLPanelFragment extends DialogFragment implements View.OnKeyListen
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Activity activity = getActivity();
-        if (activity != null && activity instanceof DialogActivity)
-            activity.finish();
+        final Activity activity = getActivity();
+        if (activity instanceof DialogActivity) activity.finish();
     }
 }
