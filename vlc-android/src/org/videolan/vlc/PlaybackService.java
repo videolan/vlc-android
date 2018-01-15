@@ -1686,11 +1686,9 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     private synchronized void saveMediaList() {
-        if (getCurrentMedia() == null)
-            return;
+        if (getCurrentMedia() == null) return;
         final StringBuilder locations = new StringBuilder();
-        for (int i = 0; i < mMediaList.size(); i++)
-            locations.append(" ").append(Uri.encode(mMediaList.getMRL(i)));
+        for (MediaWrapper mw : mMediaList.getAll()) locations.append(" ").append(mw.getUri().toString());
         //We save a concatenated String because putStringSet is APIv11.
         mSettings.edit()
                 .putString(canSwitchToVideo() || !mMediaList.isAudioList() ? "media_list" : "audio_list", locations.toString().trim())
