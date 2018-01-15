@@ -576,7 +576,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                         mAdapter.addItem(mw, true, position);
                     }
                 };
-                UiTools.snackerWithCancel(getView(), getString(R.string.file_deleted), new Runnable() {
+                final View v = getView();
+                if (v != null) UiTools.snackerWithCancel(v, getString(R.string.file_deleted), new Runnable() {
                     @Override
                     public void run() {
                         deleteMedia(mw, false, cancel);
