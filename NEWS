@@ -1,3 +1,12 @@
+Changes between 2.5.16 and 2.5.17:
+----------------------------------
+
+Application:
+ * Setting to deactivate audio ducking
+ * Improve drag & drop support from other apps
+ * Fix current playlist modification not saved
+ * Crashes fixes
+
 Changes between 2.5.15 and 2.5.16:
 ----------------------------------
 
