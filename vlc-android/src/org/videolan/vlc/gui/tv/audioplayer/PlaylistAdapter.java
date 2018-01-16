@@ -20,6 +20,7 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv.audioplayer;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,8 +68,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.binding.setMedia(dataset.get(position));
         final int textAppearance = position == selectedItem ? R.style.TextAppearance_AppCompat_Title : R.style.TextAppearance_AppCompat_Medium;
-        holder.binding.artist.setTextAppearance(textAppearance);
-        holder.binding.title.setTextAppearance(textAppearance);
+        final Context ctx = holder.itemView.getContext();
+        holder.binding.artist.setTextAppearance(ctx, textAppearance);
+        holder.binding.title.setTextAppearance(ctx, textAppearance);
     }
 
     @Override
@@ -76,8 +78,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         if (Util.isListEmpty(payloads)) super.onBindViewHolder(holder, position, payloads);
         else {
             final int textAppearance = (boolean) payloads.get(0) ? R.style.TextAppearance_AppCompat_Title : R.style.TextAppearance_AppCompat_Medium;
-            holder.binding.artist.setTextAppearance(textAppearance);
-            holder.binding.title.setTextAppearance(textAppearance);
+            final Context ctx = holder.itemView.getContext();
+            holder.binding.artist.setTextAppearance(ctx, textAppearance);
+            holder.binding.title.setTextAppearance(ctx, textAppearance);
         }
     }
 
