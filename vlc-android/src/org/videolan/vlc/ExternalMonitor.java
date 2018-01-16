@@ -34,6 +34,7 @@ import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
@@ -125,7 +126,7 @@ public class ExternalMonitor extends BroadcastReceiver {
 
     private static final int ACTION_MEDIA_MOUNTED = 1337;
     private static final int ACTION_MEDIA_UNMOUNTED = 1338;
-    private Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(Message msg) {
             final Context appCtx = VLCApplication.getAppContext();
