@@ -1920,7 +1920,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public long getLength() {
-        return  mMediaPlayer.getLength();
+        return  hasMedia() ? mMediaPlayer.getLength() : 0;
     }
 
     /**
