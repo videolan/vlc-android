@@ -111,7 +111,6 @@
             android:clickable="true"
             android:focusable="true"
             android:nextFocusDown="@+id/playlist"
-            android:nextFocusUp="@+id/media_progress"
             android:onClick="onClick"
             android:src="@drawable/ic_repeat_w"
             tools:src="@drawable/ic_repeat" />
@@ -127,7 +126,6 @@
             android:clickable="true"
             android:focusable="true"
             android:nextFocusDown="@+id/playlist"
-            android:nextFocusUp="@+id/media_progress"
             android:onClick="onClick"
             android:src="@drawable/ic_previous_w"
             tools:src="@drawable/ic_previous" />
@@ -143,7 +141,6 @@
             android:clickable="true"
             android:focusable="true"
             android:nextFocusDown="@+id/playlist"
-            android:nextFocusUp="@+id/media_progress"
             android:onClick="onClick"
             android:src="@drawable/ic_play_w"
             tools:src="@drawable/ic_play" >
@@ -161,7 +158,6 @@
             android:clickable="true"
             android:focusable="true"
             android:nextFocusDown="@+id/playlist"
-            android:nextFocusUp="@+id/media_progress"
             android:onClick="onClick"
             android:src="@drawable/ic_next_w"
             tools:src="@drawable/ic_next" />
@@ -176,9 +172,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:clickable="true"
             android:focusable="true"
-            android:nextFocusDown="@+id/playlist"
+            android:nextFocusDown="@+id/button_shuffle"
             android:nextFocusRight="@id/playlist"
-            android:nextFocusUp="@+id/media_progress"
             android:onClick="onClick"
             android:src="@drawable/ic_shuffle_w"
             tools:src="@drawable/ic_shuffle" />
@@ -192,13 +187,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="@+id/background"
             app:layout_constraintLeft_toRightOf="@+id/album_cover"
-            android:focusable="true"
+            android:nextFocusLeft="@+id/button_play"
             android:nextFocusUp="@+id/playlist"
-            android:nextFocusLeft="@+id/button_shuffle"
-            android:nextFocusRight="@+id/button_play"
+            android:nextFocusRight="@+id/playlist"
             android:nextFocusDown="@+id/playlist"
-            android:scrollbars="vertical"
-            android:descendantFocusability="beforeDescendants"
             android:layout_margin="@dimen/half_default_margin" />
     </android.support.constraint.ConstraintLayout>
 </layout>

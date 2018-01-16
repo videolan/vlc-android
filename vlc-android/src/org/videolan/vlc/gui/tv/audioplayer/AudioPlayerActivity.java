@@ -58,7 +58,7 @@ import java.util.Collections;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class AudioPlayerActivity extends BaseTvActivity implements PlaybackService.Client.Callback,
-        PlaybackService.Callback, View.OnFocusChangeListener {
+        PlaybackService.Callback {
     public static final String TAG = "VLC/AudioPlayerActivity";
 
     public static final String MEDIA_LIST = "media_list";
@@ -66,13 +66,12 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
 
     private TvAudioPlayerBinding mBinding;
     private PlaylistAdapter mAdapter;
-    private LinearLayoutManager mLayoutManager;
     private ArrayList<MediaWrapper> mMediaList;
 
     //PAD navigation
     private static final int JOYSTICK_INPUT_DELAY = 300;
     private long mLastMove;
-    private int mCurrentlyPlaying, mPositionSaved = 0;
+    private int mCurrentlyPlaying;
     private boolean mShuffling = false;
     private String mCurrentCoverArt;
 
@@ -82,13 +81,10 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mBinding.setProgress(new Progress());
 
         mMediaList = getIntent().getParcelableArrayListExtra(MEDIA_LIST);
+        if (mMediaList == null) mMediaList = new ArrayList<>();
         mCurrentlyPlaying = getIntent().getIntExtra(MEDIA_POSITION, 0);
-        mLayoutManager = new LinearLayoutManager(this);
-        mBinding.playlist.setLayoutManager(mLayoutManager);
+        mBinding.playlist.setLayoutManager(new LinearLayoutManager(this));
         mBinding.playlist.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        mBinding.playlist.setOnFocusChangeListener(this);
-        if (mMediaList == null)
-            mMediaList = new ArrayList<>();
         mAdapter = new PlaylistAdapter(this, mMediaList);
         mBinding.playlist.setAdapter(mAdapter);
     }
@@ -96,8 +92,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     @Override
     protected void onStop() {
         /* unregister before super.onStop() since mService is set to null from this call */
-        if (mService != null)
-            mService.removeCallback(this);
+        if (mService != null) mService.removeCallback(this);
         super.onStop();
     }
 
@@ -114,8 +109,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             if (mCurrentlyPlaying != mService.getCurrentMediaPosition())
                 mService.playIndex(mCurrentlyPlaying);
             update();
-            mAdapter = new PlaylistAdapter(this, mMediaList);
-            mBinding.playlist.setAdapter(mAdapter);
+            mAdapter.updateList(mMediaList);
         }
 
     }
@@ -132,10 +126,9 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
 
     @Override
     public void update() {
-        if (mService == null || !mService.hasMedia())
-            return;
+        if (mService == null || !mService.hasMedia()) return;
         mBinding.buttonPlay.setImageResource(mService.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
-        SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(this);
         if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
             mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
             mService.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
@@ -147,10 +140,9 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mBinding.mediaArtist.setText(mService.getArtist());
         mBinding.getProgress().update(mService.getTime(), mService.getLength());
         mCurrentlyPlaying = mService.getCurrentMediaPosition();
-        selectItem(mCurrentlyPlaying);
+        mAdapter.setSelection(mCurrentlyPlaying);
         final MediaWrapper mw = mService.getCurrentMediaWrapper();
-        if (TextUtils.equals(mCurrentCoverArt, mw.getArtworkMrl()))
-            return;
+        if (TextUtils.equals(mCurrentCoverArt, mw.getArtworkMrl())) return;
         mCurrentCoverArt = mw.getArtworkMrl();
         updateBackground();
     }
@@ -181,8 +173,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
 
     @Override
     public void updateProgress() {
-        if (mService != null)
-            mBinding.getProgress().updateTime(mService.getTime());
+        if (mService != null) mBinding.getProgress().updateTime(mService.getTime());
     }
 
     @Override
@@ -231,37 +222,15 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             case KeyEvent.KEYCODE_BUTTON_L1:
                 goPrevious();
                 return true;
-            /*
-             * Playlist navigation
-             */
-            case KeyEvent.KEYCODE_DPAD_UP:
-                if (mBinding.playlist.hasFocus()) {
-                    selectPrevious();
-                    return true;
-                } else
-                    return false;
-            case KeyEvent.KEYCODE_DPAD_DOWN:
-                if (mBinding.playlist.hasFocus()) {
-                    selectNext();
-                    return true;
-                } else
-                    return false;
-            case KeyEvent.KEYCODE_DPAD_CENTER:
-                if (mBinding.playlist.hasFocus()) {
-                    playSelection();
-                    return true;
-                } else
-                    return false;
             default:
                 return super.onKeyDown(keyCode, event);
         }
     }
 
     public void playSelection() {
-        if (mService == null)
-            return;
-        mService.playIndex(mAdapter.getmSelectedItem());
-        mCurrentlyPlaying = mAdapter.getmSelectedItem();
+        if (mService == null) return;
+        mService.playIndex(mAdapter.getSelectedItem());
+        mCurrentlyPlaying = mAdapter.getSelectedItem();
     }
 
     public boolean dispatchGenericMotionEvent(MotionEvent event){
@@ -271,32 +240,27 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
                 event.getAction() != MotionEvent.ACTION_MOVE)
             return false;
 
-        InputDevice inputDevice = event.getDevice();
+        final InputDevice inputDevice = event.getDevice();
 
         float dpadx = event.getAxisValue(MotionEvent.AXIS_HAT_X);
         float dpady = event.getAxisValue(MotionEvent.AXIS_HAT_Y);
-        if (inputDevice == null || Math.abs(dpadx) == 1.0f || Math.abs(dpady) == 1.0f)
-            return false;
+        if (inputDevice == null || Math.abs(dpadx) == 1.0f || Math.abs(dpady) == 1.0f) return false;
 
         float x = AndroidDevices.getCenteredAxis(event, inputDevice,
                 MotionEvent.AXIS_X);
 
-        if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY){
-            if (Math.abs(x) > 0.3){
-                seek(x > 0.0f ? 10000 : -10000);
-                mLastMove = System.currentTimeMillis();
-                return true;
-            }
+        if (Math.abs(x) > 0.3 && System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY) {
+            seek(x > 0.0f ? 10000 : -10000);
+            mLastMove = System.currentTimeMillis();
+            return true;
         }
         return true;
     }
 
     private void seek(int delta) {
-        if (mService == null)
-            return;
+        if (mService == null) return;
         int time = (int) mService.getTime()+delta;
-        if (time < 0 || time > mService.getLength())
-            return;
+        if (time < 0 || time > mService.getLength()) return;
         mService.setTime(time);
     }
 
@@ -321,24 +285,20 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     }
 
     private void setShuffleMode(boolean shuffle) {
-        if (mService == null)
-            return;
+        if (mService == null) return;
         mShuffling = shuffle;
         mBinding.buttonShuffle.setImageResource(shuffle ? R.drawable.ic_shuffle_on :
                 R.drawable.ic_shuffle_w);
-        ArrayList<MediaWrapper> medias = mService.getMedias();
-        if (shuffle)
-            Collections.shuffle(medias);
-        else
-            Collections.sort(medias, MediaComparators.byTrackNumber);
+        final ArrayList<MediaWrapper> medias = mService.getMedias();
+        if (shuffle) Collections.shuffle(medias);
+        else Collections.sort(medias, MediaComparators.byTrackNumber);
         mService.load(medias, 0);
         mAdapter.updateList(medias);
         update();
     }
 
     private void updateRepeatMode() {
-        if (mService == null)
-            return;
+        if (mService == null) return;
         int type = mService.getRepeatType();
         if (type == PlaybackService.REPEAT_NONE){
             mService.setRepeatType(PlaybackService.REPEAT_ALL);
@@ -353,69 +313,17 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     }
 
     private void goPrevious() {
-        if (mService != null && mService.hasPrevious()) {
-            mService.previous(false);
-        }
+        if (mService != null && mService.hasPrevious()) mService.previous(false);
     }
 
     private void goNext() {
-        if (mService != null && mService.hasNext()){
-            mService.next();
-        }
+        if (mService != null && mService.hasNext()) mService.next();
     }
 
     private void togglePlayPause() {
-        if (mService == null)
-            return;
-        if (mService.isPlaying())
-            mService.pause();
-        else if (mService.hasMedia())
-            mService.play();
-    }
-
-    private void selectNext() {
-        if (mAdapter.getmSelectedItem() >= mAdapter.getItemCount()-1) {
-            mBinding.mediaProgress.requestFocus();
-            selectItem(-1);
-            return;
-        }
-        selectItem(mAdapter.getmSelectedItem()+1);
-    }
-
-    private void selectPrevious() {
-        if (mAdapter.getmSelectedItem() < 1){
-            mBinding.buttonPlay.requestFocus();
-            selectItem(-1);
-            return;
-        }
-        selectItem(mAdapter.getmSelectedItem()-1);
-    }
-
-    private void selectItem(final int position) {
-        if (position >= mMediaList.size())
-            return;
-        mBinding.playlist.post(new Runnable() {
-            @Override
-            public void run() {
-                if (position != -1 && (position > mLayoutManager.findLastCompletelyVisibleItemPosition()
-                        || position < mLayoutManager.findFirstCompletelyVisibleItemPosition())) {
-                    mBinding.playlist.stopScroll();
-                    mBinding.playlist.smoothScrollToPosition(position);
-                }
-                mAdapter.setSelection(position);
-            }
-        });
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus)
-            selectItem(mPositionSaved);
-        else {
-            if (mAdapter.getmSelectedItem() != -1)
-                mPositionSaved = mAdapter.getmSelectedItem();
-            selectItem(-1);
-        }
+        if (mService == null) return;
+        if (mService.isPlaying()) mService.pause();
+        else if (mService.hasMedia()) mService.play();
     }
 
     public class Progress {
