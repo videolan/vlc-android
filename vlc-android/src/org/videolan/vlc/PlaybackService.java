@@ -828,6 +828,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
             determinePrevAndNextIndices();
             executeUpdate();
+            saveMediaList();
         }
 
         @Override
@@ -849,6 +850,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
                 mCurrentIndex--;
             determinePrevAndNextIndices();
             executeUpdate();
+            saveMediaList();
         }
 
         @Override
@@ -871,6 +873,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
             determinePrevAndNextIndices();
             executeUpdate();
+            saveMediaList();
         }
     };
 
