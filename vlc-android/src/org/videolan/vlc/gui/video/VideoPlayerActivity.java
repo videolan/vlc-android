@@ -240,7 +240,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private boolean mIsLoading;
     private boolean mIsPlaying = false;
     private ImageView mLoading;
-    private ImageView mTipsBackground;
     private ImageView mNavMenu;
     private ImageView mRendererBtn;
     private ImageView mPlaybackSettingPlus;
@@ -408,8 +407,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         /* Loading view */
         mLoading = (ImageView) findViewById(R.id.player_overlay_loading);
-        if (!mDisplayManager.isPrimary())
-            mTipsBackground = (ImageView) findViewById(R.id.player_remote_tips_background);
         dimStatusBar(true);
         mHandler.sendEmptyMessageDelayed(LOADING_ANIMATION, LOADING_ANIMATION_DELAY);
 
@@ -3441,9 +3438,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private void stopLoading() {
         mHandler.removeMessages(LOADING_ANIMATION);
-        UiTools.setViewVisibility(mTipsBackground, View.VISIBLE);
-        if (!mIsLoading)
-            return;
+        if (!mIsLoading) return;
         mIsLoading = false;
         mLoading.setVisibility(View.INVISIBLE);
         mLoading.clearAnimation();
