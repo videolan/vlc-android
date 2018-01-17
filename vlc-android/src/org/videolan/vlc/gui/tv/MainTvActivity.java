@@ -168,6 +168,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     public void onConnected(PlaybackService service) {
         super.onConnected(service);
         mService.addCallback(this);
+        if (!mMediaLibrary.isInitiated()) return;
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
