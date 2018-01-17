@@ -28,6 +28,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import org.videolan.libvlc.Dialog;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -184,5 +185,11 @@ public class Util {
             ctx.startService(intent);
         else
             ctx.startForegroundService(intent);
+    }
+
+    public static void byPassChromecastDialog(Dialog.QuestionDialog dialog) {
+        if ("View certificate".equals(dialog.getAction1Text())) dialog.postAction(1);
+        else if ("Accept permanently".equals(dialog.getAction2Text())) dialog.postAction(2);
+        dialog.dismiss();
     }
 }
