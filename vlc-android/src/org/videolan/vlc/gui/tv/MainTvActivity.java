@@ -57,6 +57,7 @@ import android.widget.ProgressBar;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
@@ -210,7 +211,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     @Override
     protected void onStop() {
         super.onStop();
-        if (AndroidDevices.isAndroidTv) startService(new Intent(this, RecommendationsService.class));
+        if (AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater) startService(new Intent(this, RecommendationsService.class));
         TvUtil.releaseBackgroundManager(mBackgroundManager);
     }
 
