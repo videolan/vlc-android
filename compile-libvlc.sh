@@ -111,7 +111,7 @@ VLC_BOOTSTRAP_ARGS="\
     --enable-ad-clauses \
     --disable-srt \
     --enable-vpx \
-    --disable-x265 --disable-x264 \
+    --disable-x265 \
 "
 
 ###########################
@@ -175,7 +175,6 @@ VLC_CONFIGURE_ARGS="\
     --enable-sout \
     --enable-vorbis \
     --disable-faad \
-    --disable-x264 \
     --disable-schroedinger \
     --disable-vncclient \
     --disable-vnc \
