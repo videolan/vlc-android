@@ -47,6 +47,7 @@ import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.NotificationHelper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.lang.ref.WeakReference;
@@ -163,17 +164,13 @@ public class VLCApplication extends Application {
     }
 
     public static void runBackground(Runnable runnable) {
-        if (Looper.myLooper() != Looper.getMainLooper())
-            runnable.run();
-        else
-            instance.mThreadPool.execute(runnable);
+        if (Looper.myLooper() != Looper.getMainLooper()) runnable.run();
+        else instance.mThreadPool.execute(runnable);
     }
 
     public static void runOnMainThread(Runnable runnable) {
-        if (Looper.myLooper() == Looper.getMainLooper())
-            runnable.run();
-        else
-            instance.mHandler.post(runnable);
+        if (Looper.myLooper() == Looper.getMainLooper()) runnable.run();
+        else instance.mHandler.post(runnable);
     }
 
     public static boolean removeTask(Runnable runnable) {
@@ -205,33 +202,35 @@ public class VLCApplication extends Application {
 
         @Override
         public void onDisplay(Dialog.LoginDialog dialog) {
-            String key = DialogActivity.KEY_LOGIN + sDialogCounter++;
+            final String key = DialogActivity.KEY_LOGIN + sDialogCounter++;
             fireDialog(dialog, key);
         }
 
         @Override
         public void onDisplay(Dialog.QuestionDialog dialog) {
-            String key = DialogActivity.KEY_QUESTION + sDialogCounter++;
-            fireDialog(dialog, key);
+            if ("Insecure site".equals(dialog.getTitle())) {
+                Util.byPassChromecastDialog(dialog);
+            } else {
+                final String key = DialogActivity.KEY_QUESTION + sDialogCounter++;
+                fireDialog(dialog, key);
+            }
         }
 
         @Override
         public void onDisplay(Dialog.ProgressDialog dialog) {
-            String key = DialogActivity.KEY_PROGRESS + sDialogCounter++;
+            final String key = DialogActivity.KEY_PROGRESS + sDialogCounter++;
             fireDialog(dialog, key);
         }
 
         @Override
         public void onCanceled(Dialog dialog) {
-            if (dialog != null && dialog.getContext() != null)
-                ((DialogFragment)dialog.getContext()).dismiss();
+            if (dialog != null && dialog.getContext() != null) ((DialogFragment)dialog.getContext()).dismiss();
         }
 
         @Override
         public void onProgressUpdate(Dialog.ProgressDialog dialog) {
             VlcProgressDialog vlcProgressDialog = (VlcProgressDialog) dialog.getContext();
-            if (vlcProgressDialog != null && vlcProgressDialog.isVisible())
-                vlcProgressDialog.updateProgress();
+            if (vlcProgressDialog != null && vlcProgressDialog.isVisible()) vlcProgressDialog.updateProgress();
         }
     };
 
@@ -251,7 +250,7 @@ public class VLCApplication extends Application {
         if (!p.equals("")) {
             Locale locale;
             // workaround due to region code
-            if(p.equals("zh-TW")) {
+            if (p.equals("zh-TW")) {
                 locale = Locale.TRADITIONAL_CHINESE;
             } else if(p.startsWith("zh")) {
                 locale = Locale.CHINA;
