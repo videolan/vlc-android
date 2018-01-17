@@ -202,10 +202,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     @Override
     protected void onStart() {
         super.onStart();
-        if (!mBackgroundManager.isAttached())
-            mBackgroundManager.attach(getWindow());
-        if (mSelectedItem != null)
-            TvUtil.updateBackground(mBackgroundManager, mSelectedItem);
+        if (!mBackgroundManager.isAttached()) mBackgroundManager.attach(getWindow());
+        if (mSelectedItem != null) TvUtil.updateBackground(mBackgroundManager, mSelectedItem);
     }
 
     @Override
@@ -218,21 +216,16 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     @Override
     protected void onResume() {
         super.onResume();
-        if (mService != null)
-            mService.addCallback(this);
-        if (mMediaLibrary.isInitiated())
-            setmedialibraryListeners();
-        else
-            setupMediaLibraryReceiver();
+        if (mService != null) mService.addCallback(this);
+        if (mMediaLibrary.isInitiated()) setmedialibraryListeners();
+        else setupMediaLibraryReceiver();
     }
 
     @Override
     protected void onPause() {
-        if (mUpdateTask != null)
-            mUpdateTask.cancel(true);
+        if (mUpdateTask != null) mUpdateTask.cancel(true);
         super.onPause();
-        if (mService != null)
-            mService.removeCallback(this);
+        if (mService != null) mService.removeCallback(this);
         mMediaLibrary.removeMediaUpdatedCb();
     }
 
@@ -258,12 +251,11 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y) && mSelectedItem instanceof MediaWrapper) {
+        if ((keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y)
+                && mSelectedItem instanceof MediaWrapper) {
             MediaWrapper media = (MediaWrapper) mSelectedItem;
-            if (media.getType() != MediaWrapper.TYPE_DIR)
-                return false;
-            final Intent intent = new Intent(this,
-                    DetailsActivity.class);
+            if (media.getType() != MediaWrapper.TYPE_DIR) return false;
+            final Intent intent = new Intent(this, DetailsActivity.class);
             // pass the item information
             intent.putExtra("media", (MediaWrapper) mSelectedItem);
             intent.putExtra("item", new MediaItemDetails(media.getTitle(), media.getArtist(), media.getAlbum(), media.getLocation(), media.getArtworkURL()));
@@ -282,20 +274,17 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
     @Override
     public void onMediaUpdated(final MediaWrapper[] mediaList) {
-        if (mVideoAdapter == null || mVideoAdapter.size() > NUM_ITEMS_PREVIEW)
-            return;
+        if (mVideoAdapter == null || mVideoAdapter.size() > NUM_ITEMS_PREVIEW) return;
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                for (MediaWrapper media : mediaList)
-                    updateItem(media);
+                for (MediaWrapper media : mediaList) updateItem(media);
             }
         });
     }
 
     public void updateItem(MediaWrapper item) {
-        if (item == null)
-            return;
+        if (item == null) return;
         if (mVideoAdapter != null) {
             if (mVideoIndex.containsKey(item.getLocation())) {
                 mVideoAdapter.notifyArrayItemRangeChanged(mVideoIndex.get(item.getLocation()), 1);
@@ -326,28 +315,22 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                 startActivity(new Intent(this, AudioPlayerActivity.class));
                 return;
             }
-            CardPresenter.SimpleCard card = (CardPresenter.SimpleCard) item;
-            Intent intent = new Intent(mContext, VerticalGridActivity.class);
+            final CardPresenter.SimpleCard card = (CardPresenter.SimpleCard) item;
+            final Intent intent = new Intent(mContext, VerticalGridActivity.class);
             intent.putExtra(BROWSER_TYPE, HEADER_CATEGORIES);
             intent.putExtra(MusicFragment.AUDIO_CATEGORY, card.getId());
             startActivity(intent);
         } else if (row.getId() == HEADER_MISC) {
             long id = ((CardPresenter.SimpleCard) item).getId();
-            if (id == ID_SETTINGS)
-                startActivityForResult(new Intent(this, org.videolan.vlc.gui.tv.preferences.PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
-            else if (id == ID_ABOUT)
-                startActivity(new Intent(this, org.videolan.vlc.gui.tv.AboutActivity.class));
-            else if (id == ID_LICENCE)
-                startActivity(new Intent(this, org.videolan.vlc.gui.tv.LicenceActivity.class));
-        } else {
-            TvUtil.openMedia(mContext, item, row);
-        }
+            if (id == ID_SETTINGS) startActivityForResult(new Intent(this, org.videolan.vlc.gui.tv.preferences.PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
+            else if (id == ID_ABOUT) startActivity(new Intent(this, org.videolan.vlc.gui.tv.AboutActivity.class));
+            else if (id == ID_LICENCE) startActivity(new Intent(this, org.videolan.vlc.gui.tv.LicenceActivity.class));
+        } else TvUtil.openMedia(mContext, item, row);
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(mContext, SearchActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(mContext, SearchActivity.class));
     }
 
     @Override
@@ -357,8 +340,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
     @Override
     protected void onParsingServiceProgress() {
-        if (mProgressBar.getVisibility() == View.GONE)
-            mHandler.sendEmptyMessage(SHOW_LOADING);
+        if (mProgressBar.getVisibility() == View.GONE) mHandler.sendEmptyMessage(SHOW_LOADING);
     }
 
     @Override
@@ -490,9 +472,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     private void updateBrowsers() {
         if (mBrowserAdapter == null) return;
         mBrowserAdapter.clear();
-        List<MediaWrapper> directories = AndroidDevices.getMediaDirectoriesList();
-        if (!AndroidDevices.showInternalStorage && !directories.isEmpty())
-            directories.remove(0);
+        final List<MediaWrapper> directories = AndroidDevices.getMediaDirectoriesList();
+        if (!AndroidDevices.showInternalStorage && !directories.isEmpty()) directories.remove(0);
         for (MediaWrapper directory : directories)
             mBrowserAdapter.add(new CardPresenter.SimpleCard(HEADER_DIRECTORIES, directory.getTitle(), R.drawable.ic_menu_folder_big, directory.getUri()));
 
@@ -544,8 +525,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     }
 
     public void updateNowPlayingCard () {
-        if (mService == null)
-            return;
+        if (mService == null) return;
         final boolean hasmedia = mService.hasMedia();
         final boolean canSwitch = mService.canSwitchToVideo();
         if ((!hasmedia || canSwitch) && mNowPlayingCard != null) {
@@ -562,18 +542,14 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                         @Override
                         public void run() {
                             if (mNowPlayingCard == null) {
-                                if (cover != null)
-                                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, cover);
-                                else
-                                    mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, R.drawable.ic_default_cone);
+                                if (cover != null) mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, cover);
+                                else mNowPlayingCard = new CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING, display, R.drawable.ic_default_cone);
                                 mCategoriesAdapter.add(0, mNowPlayingCard);
                             } else {
                                 mNowPlayingCard.setId(MusicFragment.CATEGORY_NOW_PLAYING);
                                 mNowPlayingCard.setName(display);
-                                if (cover != null)
-                                    mNowPlayingCard.setImage(cover);
-                                else
-                                    mNowPlayingCard.setImageId(R.drawable.ic_default_cone);
+                                if (cover != null) mNowPlayingCard.setImage(cover);
+                                else mNowPlayingCard.setImageId(R.drawable.ic_default_cone);
                             }
                             mCategoriesAdapter.notifyArrayItemRangeChanged(0,1);
                         }
