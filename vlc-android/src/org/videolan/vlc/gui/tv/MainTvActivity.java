@@ -33,6 +33,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.MainThread;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.app.BrowseSupportFragment;
@@ -192,8 +193,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
     @Override
     public void onDisconnected() {
-        if (mService != null)
-            mService.removeCallback(this);
+        if (mService != null) mService.removeCallback(this);
         super.onDisconnected();
     }
 
@@ -209,8 +209,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     @Override
     protected void onStop() {
         super.onStop();
-        if (AndroidDevices.isAndroidTv)
-            startService(new Intent(this, RecommendationsService.class));
+        if (AndroidDevices.isAndroidTv) startService(new Intent(this, RecommendationsService.class));
         TvUtil.releaseBackgroundManager(mBackgroundManager);
     }
 
@@ -397,11 +396,9 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (isCancelled())
-                return null;
+            if (isCancelled()) return null;
             videoList = mMediaLibrary.getRecentVideos();
-            if (showHistory && !isCancelled())
-                history = VLCApplication.getMLInstance().lastMediaPlayed();
+            if (showHistory && !isCancelled()) history = VLCApplication.getMLInstance().lastMediaPlayed();
             return null;
         }
 
@@ -413,17 +410,13 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         @Override
         protected void onPostExecute(Void result) {
             mHandler.sendEmptyMessage(HIDE_LOADING);
-            if (!isVisible())
-                return;
-            if (mRowsAdapter != null)
-                mRowsAdapter.clear();
-            else
-                mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+            if (!isVisible()) return;
+            if (mRowsAdapter != null) mRowsAdapter.clear();
+            else mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
             mHistoryIndex.clear();
             //Video Section
             mVideoIndex.clear();
-            mVideoAdapter = new ArrayObjectAdapter(
-                    new CardPresenter(mContext));
+            mVideoAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem videoHeader = new HeaderItem(HEADER_VIDEO, getString(R.string.video));
             // Empty item to launch grid activity
             mVideoAdapter.add(new CardPresenter.SimpleCard(0, "All videos", videoList.length+" "+getString(R.string.videos), R.drawable.ic_video_collection_big));
@@ -449,13 +442,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mRowsAdapter.add(new ListRow(musicHeader, mCategoriesAdapter));
 
             //History
-            if (showHistory && !Tools.isArrayEmpty(history)){
-                mHistoryAdapter = new ArrayObjectAdapter(
-                        new CardPresenter(mContext));
-                final HeaderItem historyHeader = new HeaderItem(HEADER_HISTORY, getString(R.string.history));
-                updateHistory(history);
-                mRowsAdapter.add(new ListRow(historyHeader, mHistoryAdapter));
-            }
+            if (showHistory && !Tools.isArrayEmpty(history)) updateHistory(history);
 
             //Browser section
             mBrowserAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
@@ -480,23 +467,26 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         }
     }
 
+    @MainThread
     private void updateHistory(MediaWrapper[] history) {
-        if (mHistoryAdapter == null || history == null)
-            return;
-        mHistoryAdapter.clear();
-        if (!mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true))
-            return;
-        MediaWrapper item;
+        if (history == null) return;
+        final boolean createAdapter = mHistoryAdapter == null;
+        if (createAdapter) mHistoryAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
+        else mHistoryAdapter.clear();
+        if (!mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) return;
         for (int i = 0; i < history.length; ++i) {
-            item = history[i];
+            final MediaWrapper item = history[i];
             mHistoryAdapter.add(item);
             mHistoryIndex.put(item.getLocation(), i);
+        }
+        if (createAdapter) {
+            final HeaderItem historyHeader = new HeaderItem(HEADER_HISTORY, getString(R.string.history));
+            mRowsAdapter.add(Math.min(2, mRowsAdapter.size()), new ListRow(historyHeader, mHistoryAdapter));
         }
     }
 
     private void updateBrowsers() {
-        if (mBrowserAdapter == null)
-            return;
+        if (mBrowserAdapter == null) return;
         mBrowserAdapter.clear();
         List<MediaWrapper> directories = AndroidDevices.getMediaDirectoriesList();
         if (!AndroidDevices.showInternalStorage && !directories.isEmpty())
