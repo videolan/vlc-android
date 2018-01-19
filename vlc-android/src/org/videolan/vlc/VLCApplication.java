@@ -208,9 +208,7 @@ public class VLCApplication extends Application {
 
         @Override
         public void onDisplay(Dialog.QuestionDialog dialog) {
-            if ("Insecure site".equals(dialog.getTitle())) {
-                Util.byPassChromecastDialog(dialog);
-            } else {
+            if (!Util.byPassChromecastDialog(dialog)) {
                 final String key = DialogActivity.KEY_QUESTION + sDialogCounter++;
                 fireDialog(dialog, key);
             }
