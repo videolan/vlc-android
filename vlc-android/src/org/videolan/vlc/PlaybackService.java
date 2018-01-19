@@ -160,6 +160,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private boolean mPausable = false;
     private boolean mSwitchingToVideo = false;
     private boolean mVideoBackground = false;
+    private boolean mOnRenderer = false;
 
     private final List<Callback> mCallbacks = new ArrayList<>();
     private boolean mDetectHeadset = true;
@@ -959,7 +960,7 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     private void showNotification() {
         if (!AndroidDevices.isAndroidTv && VLCApplication.showTvUi())
             return;
-        if (isPlayingPopup() || mMediaPlayer.getVLCVout().areViewsAttached()) {
+        if (isPlayingPopup() || (!hasRenderer() && mMediaPlayer.getVLCVout().areViewsAttached())) {
             hideNotification();
             return;
         }
@@ -2431,10 +2432,8 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
 
     @MainThread
     public void seek(long position, double length) {
-        if (length > 0.0D)
-            setPosition((float) (position/length));
-        else
-            setTime(position);
+        if (length > 0.0D) setPosition((float) (position/length));
+        else setTime(position);
     }
 
     @MainThread
@@ -2549,7 +2548,16 @@ public class PlaybackService extends MediaBrowserServiceCompat implements IVLCVo
     }
 
     @MainThread
+    public boolean hasRenderer() {
+        return mOnRenderer;
+    }
+
+    @MainThread
     public int setRenderer(RendererItem item) {
+        final boolean wasOnRenderer = mOnRenderer;
+        mOnRenderer = item != null;
+        if (wasOnRenderer && !mOnRenderer && canSwitchToVideo()) VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
+                getCurrentMediaWrapper().getUri(), mCurrentIndex);
         return mMediaPlayer.setRenderer(item);
     }
 

@@ -70,6 +70,7 @@ import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.preferences.PreferencesActivity
+import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Constants
@@ -364,7 +365,10 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
     }
 
     fun onResumeToVideoClick(v: View) {
-        if (mService !== null && mService.hasMedia()) {
+        if (mService == null) return
+        if (mService.hasRenderer()) VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
+            mService.currentMediaWrapper.uri, mService.currentMediaPosition)
+        else if (mService.hasMedia()) {
             mService.currentMediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
             mService.switchToVideo()
         }
