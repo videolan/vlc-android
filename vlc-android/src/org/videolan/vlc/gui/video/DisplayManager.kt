@@ -36,6 +36,8 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) : Rende
 
     val isPrimary: Boolean
         get() = displayType == DisplayType.PRIMARY
+    val isOnRenderer: Boolean
+        get() = displayType == DisplayType.RENDERER
 
     /**
      * Listens for when presentations are dismissed.
