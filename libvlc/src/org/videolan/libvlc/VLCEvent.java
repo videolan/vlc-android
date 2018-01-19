@@ -20,7 +20,7 @@
 
 package org.videolan.libvlc;
 
-abstract class VLCEvent {
+public abstract class VLCEvent {
     public final int type;
     protected final long arg1;
     protected final long arg2;
