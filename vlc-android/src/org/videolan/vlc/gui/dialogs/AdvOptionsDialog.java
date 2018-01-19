@@ -70,6 +70,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     public final static String TAG = "VLC/AdvOptionsDialog";
     public static final String MODE_KEY = "mode";
+    public static final String PRIMARY_DISPLAY = "primary_display";
     public static final int MODE_VIDEO = 0;
     public static final int MODE_AUDIO = 1;
 
@@ -94,6 +95,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private Activity mActivity;
     private int mMode = -1;
+    private boolean primary;
 
     AutoFitRecyclerView mRecyclerView;
     private AdvOptionsAdapter mAdapter;
@@ -124,10 +126,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         super.onCreate(savedInstanceState);
         if (VLCApplication.sPlayerSleepTime != null && VLCApplication.sPlayerSleepTime.before(Calendar.getInstance()))
             VLCApplication.sPlayerSleepTime = null;
-        if (getArguments() != null && getArguments().containsKey(MODE_KEY))
-            mMode = getArguments().getInt(MODE_KEY);
-        else
-            mMode = MODE_VIDEO;
+        final Bundle args = getArguments();
+        if (args != null) {
+            mMode = args.containsKey(MODE_KEY) ? args.getInt(MODE_KEY) : MODE_VIDEO;
+            primary = args.containsKey(PRIMARY_DISPLAY) && args.getBoolean(PRIMARY_DISPLAY);
+        }
         setStyle(DialogFragment.STYLE_NO_FRAME, 0);
     }
 
@@ -515,11 +518,11 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mAdapter.addOption(new Option(ID_EQUALIZER, R.attr.ic_equalizer_normal_style, getString(R.string.equalizer)));
 
         if (mMode == MODE_VIDEO) {
-            if (!tvUi && mService.getAudioTracksCount() > 0)
+            if (primary && !tvUi && mService.getAudioTracksCount() > 0)
                 mAdapter.addOption(new Option(ID_PLAY_AS_AUDIO, R.attr.ic_playasaudio_on, getString(R.string.play_as_audio)));
             mAdapter.addOption(new Option(ID_SPU_DELAY, R.attr.ic_subtitledelay, getString(R.string.spu_delay)));
             mAdapter.addOption(new Option(ID_AUDIO_DELAY, R.attr.ic_audiodelay, getString(R.string.audio_delay)));
-            if (!tvUi || AndroidDevices.hasPiP)
+            if (primary && (!tvUi || AndroidDevices.hasPiP))
                 mAdapter.addOption(new Option(ID_POPUP_VIDEO, R.attr.ic_popup_dim, getString(R.string.popup_playback_title)));
             mAdapter.addOption(new Option(ID_REPEAT, R.attr.ic_repeat, getString(R.string.repeat_title)));
             if (mService.canShuffle())
@@ -542,7 +545,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mService = null;
     }
 
-    GridLayoutManager.SpanSizeLookup mSpanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
+    final GridLayoutManager.SpanSizeLookup mSpanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
         @Override
         public int getSpanSize(int position) {
             switch (mAdapter.getItemViewType(position)) {
@@ -583,8 +586,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private void setDialogDimensions(int offset) {
         final Dialog dialog = getDialog();
-        if (dialog == null)
-            return;
+        if (dialog == null) return;
         final int dialogWidth = getResources().getDimensionPixelSize(R.dimen.option_width) * SPAN_COUNT + mRecyclerView.getPaddingLeft()+ mRecyclerView.getRight();
         final int count = mAdapter.getItemCount()-offset;
         final int rows = offset + (count + SPAN_COUNT-1) / SPAN_COUNT;
@@ -606,7 +608,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
         @Override
         public AdvOptionsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(parent.getContext())
+            final View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.adv_option_item, parent, false);
             v.setOnClickListener(AdvOptionsDialog.this);
             v.setOnFocusChangeListener(AdvOptionsDialog.this);
