@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.TwoStatePreference;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -53,6 +54,7 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        findPreference("audio_ducking").setVisible(!AndroidUtil.isOOrLater);
         final HWDecoderUtil.AudioOutput aout = HWDecoderUtil.getAudioOutputFromDevice();
         if (aout != HWDecoderUtil.AudioOutput.ALL) {
             /* no AudioOutput choice */
