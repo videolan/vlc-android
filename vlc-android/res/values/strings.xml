@@ -369,6 +369,15 @@
     <string name="aout_opensles" translatable="false">OpenSL ES</string>
     <string name="audio_ducking_title">Lower VLC volume on notifications</string>
     <string name="audio_ducking_summary">Helps to hear audio notifications, navigation instructions or assistant talking</string>
+    <string name="casting_category">Casting</string>
+    <string name="casting_passthrough_title">Audio Passthrough</string>
+    <string name="casting_passthrough_summary">Let your TV manage audio rendering</string>
+    <string name="casting_conversion_quality_title">Conversion quality</string>
+    <string name="casting_conversion_quality_summary">Select the conversion quality when casting on remote screen</string>
+    <string name="casting_quality_high">High</string>
+    <string name="casting_quality_medium">Medium</string>
+    <string name="casting_quality_low">Low</string>
+    <string name="casting_quality_lowcpu">Lowest</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_enable_category">Chose extensions to enable</string>
