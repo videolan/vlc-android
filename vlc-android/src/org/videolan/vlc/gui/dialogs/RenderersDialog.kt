@@ -36,6 +36,7 @@ import org.videolan.vlc.databinding.ItemRendererBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.PlaybackServiceFragment
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
+import org.videolan.vlc.gui.helpers.UiTools
 
 class RenderersDialog : DialogFragment(), RendererDelegate.RendererListener, PlaybackService.Client.Callback {
 
@@ -117,6 +118,9 @@ class RenderersDialog : DialogFragment(), RendererDelegate.RendererListener, Pla
         fun connect(item: RendererItem?) {
             RendererDelegate.selectRenderer(item)
             mService?.setRenderer(item)
+            if (item !== null) activity?.window?.findViewById<View>(R.id.audio_player_container)?.let {
+                UiTools.snacker(it, getString(R.string.casting_connected_renderer, item.displayName))
+            }
             dismiss()
         }
     }
