@@ -20,7 +20,6 @@
  *****************************************************************************/
 package org.videolan.vlc.media;
 
-import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -51,7 +50,7 @@ public class MediaWrapperList {
         mInternalList = new ArrayList<>();
     }
 
-    public void add(MediaWrapper media) {
+    public synchronized void add(MediaWrapper media) {
         mInternalList.add(media);
         if (media.getType() == MediaWrapper.TYPE_VIDEO)
             ++mVideoCount;
@@ -85,7 +84,7 @@ public class MediaWrapperList {
     /**
      * Clear the media list. (remove all media)
      */
-    public void clear() {
+    public synchronized void clear() {
         // Signal to observers of media being deleted.
         for(int i = 0; i < mInternalList.size(); i++)
             signalEventListeners(EVENT_REMOVED, i, -1, mInternalList.get(i).getLocation());
@@ -93,14 +92,11 @@ public class MediaWrapperList {
         mVideoCount = 0;
     }
 
-    private boolean isValid(int position) {
+    private synchronized boolean isValid(int position) {
         return position >= 0 && position < mInternalList.size();
     }
 
-    public void insert(int position, Uri uri) {
-        insert(position, new MediaWrapper(uri));
-    }
-    public void insert(int position, MediaWrapper media) {
+    public synchronized void insert(int position, MediaWrapper media) {
         mInternalList.add(position, media);
         signalEventListeners(EVENT_ADDED, position, -1, media.getLocation());
         if (media.getType() == MediaWrapper.TYPE_VIDEO)
@@ -114,7 +110,7 @@ public class MediaWrapperList {
      * @param endPosition end position
      * @throws IndexOutOfBoundsException
      */
-    public void move(int startPosition, int endPosition) {
+    public synchronized void move(int startPosition, int endPosition) {
         if (!(isValid(startPosition)
               && endPosition >= 0 && endPosition <= mInternalList.size()))
             throw new IndexOutOfBoundsException("Indexes out of range");
@@ -128,7 +124,7 @@ public class MediaWrapperList {
         signalEventListeners(EVENT_MOVED, startPosition, endPosition, toMove.getLocation());
     }
 
-    public void remove(int position) {
+    public synchronized void remove(int position) {
         if (!isValid(position))
             return;
         if (mInternalList.get(position).getType() == MediaWrapper.TYPE_VIDEO)
@@ -138,7 +134,7 @@ public class MediaWrapperList {
         signalEventListeners(EVENT_REMOVED, position, -1, uri);
     }
 
-    public void remove(String location) {
+    public synchronized void remove(String location) {
         for (int i = 0; i < mInternalList.size(); ++i) {
             String uri = mInternalList.get(i).getLocation();
             if (uri.equals(location)) {
@@ -156,11 +152,11 @@ public class MediaWrapperList {
     }
 
     @Nullable
-    public MediaWrapper getMedia(int position) {
+    public synchronized MediaWrapper getMedia(int position) {
         return isValid(position) ? mInternalList.get(position) : null;
     }
 
-    public List<MediaWrapper> getAll() {
+    public synchronized List<MediaWrapper> getAll() {
         return mInternalList;
     }
 
@@ -168,13 +164,12 @@ public class MediaWrapperList {
      * @param position The index of the media in the list
      * @return null if not found
      */
-    public String getMRL(int position) {
-        if (!isValid(position))
-            return null;
+    public synchronized String getMRL(int position) {
+        if (!isValid(position)) return null;
         return mInternalList.get(position).getLocation();
     }
 
-    public boolean isAudioList() {
+    public synchronized boolean isAudioList() {
         return mVideoCount == 0;
     }
 
