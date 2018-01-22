@@ -64,6 +64,7 @@ public class PreferencesFragment extends BasePreferenceFragment {
         super.onCreate(savedInstanceState);
         findPreference("screen_orientation").setVisible(false);
         findPreference("extensions_category").setVisible(false);
+        findPreference("casting_category").setVisible(false);
         findPreference(KEY_VIDEO_APP_SWITCH).setVisible(AndroidDevices.hasPiP);
     }
 

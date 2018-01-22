@@ -98,6 +98,9 @@ public class PreferencesFragment extends BasePreferenceFragment {
             case "adv_category":
                 loadFragment(new PreferencesAdvanced());
                 break;
+            case "casting_category":
+                loadFragment(new PreferencesCasting());
+                break;
             case PLAYBACK_HISTORY:
                 getActivity().setResult(PreferencesActivity.RESULT_RESTART);
                 return true;

@@ -32,6 +32,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.vlc.R;
+import org.videolan.vlc.RendererDelegate;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.medialibrary.media.MediaWrapper;
 
@@ -184,8 +185,7 @@ public class VLCOptions {
 
         if (!noHardwareAcceleration) {
             try {
-                final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-                hardwareAcceleration = Integer.parseInt(pref.getString("hardware_acceleration", "-1"));
+                hardwareAcceleration = Integer.parseInt(prefs.getString("hardware_acceleration", "-1"));
             } catch (NumberFormatException ignored) {}
         }
         if (hardwareAcceleration == HW_ACCELERATION_DISABLED)
@@ -202,6 +202,11 @@ public class VLCOptions {
         if (paused) media.addOption(":start-paused");
         if (!prefs.getBoolean("subtitles_autoload", true)) media.addOption(":sub-language=none");
         if (prefs.getBoolean("media_fast_seek", false)) media.addOption(":input-fast-seek");
+
+        if (RendererDelegate.INSTANCE.getSelectedRenderer() != null) {
+            media.addOption(":sout-chromecast-audio-passthrough="+pref.getBoolean("casting_passthrough", true));
+            media.addOption(":sout-chromecast-conversion-quality="+pref.getString("casting_quality", "2"));
+        }
     }
 
     private static MediaPlayer.Equalizer getEqualizerSetFromSettings(SharedPreferences pref) {
