@@ -28,7 +28,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     var pausable = false
     var previousMediaStats: Media.Stats? = null
         private set
-    var playbackState = PlaybackStateCompat.STATE_STOPPED
+    @Volatile var playbackState = PlaybackStateCompat.STATE_STOPPED
     private set
 
     fun getVout() = mediaplayer.vlcVout
@@ -90,7 +90,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         if (seekable) mediaplayer.time = time
     }
 
-    fun isPlaying() = mediaplayer.isPlaying
+    fun isPlaying() = playbackState == PlaybackStateCompat.STATE_PLAYING
 
     fun isVideoPlaying() = mediaplayer.vlcVout.areViewsAttached()
 
@@ -154,13 +154,13 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         player.setVideoTrackEnabled(false)
         if (isVideoPlaying()) player.vlcVout.detachViews()
         launch(playerContext) { player.release() }
+        playbackState = PlaybackStateCompat.STATE_STOPPED
     }
 
     fun setSlaves(media: MediaWrapper) = launch {
             val list = MediaDatabase.getInstance().getSlaves(media.location)
             for (slave in list) mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
     }
-
 
     private fun newMediaPlayer() : MediaPlayer {
         return MediaPlayer(VLCInstance.get()).apply {
