@@ -33,6 +33,7 @@ import org.videolan.libvlc.Dialog;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 
 import java.io.BufferedReader;
@@ -195,7 +196,8 @@ public class Util {
             dialog.dismiss();
             return true;
         } else if ("Performance warning".equals(dialog.getTitle())) {
-            Toast.makeText(VLCApplication.getAppContext(), dialog.getText(), Toast.LENGTH_LONG).show();
+            Toast.makeText(VLCApplication.getAppContext(), R.string.cast_performance_warning, Toast.LENGTH_LONG).show();
+            dialog.postAction(1);
             dialog.dismiss();
             return true;
         }
