@@ -32,6 +32,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SnapHelper;
 import android.view.DragAndDropPermissions;
 import android.view.DragEvent;
 import android.view.Menu;
@@ -46,6 +47,7 @@ import org.videolan.vlc.RendererDelegate;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.dialogs.RenderersDialog;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.media.MediaUtils;
 
@@ -111,8 +113,8 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
         }
         else
             menu.findItem(R.id.ml_menu_filter).setVisible(false);
-         menu.findItem(R.id.ml_menu_renderers).setVisible(showRenderers);
-         menu.findItem(R.id.ml_menu_renderers).setIcon(RendererDelegate.INSTANCE.getSelectedRenderer() == null ? R.drawable.ic_am_renderer_normal_w : R.drawable.ic_am_renderer_on_w);
+        menu.findItem(R.id.ml_menu_renderers).setVisible(showRenderers);
+        menu.findItem(R.id.ml_menu_renderers).setIcon(RendererDelegate.INSTANCE.getSelectedRenderer() == null ? R.drawable.ic_am_renderer_normal_w : R.drawable.ic_am_renderer_on_w);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -142,7 +144,14 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
                 startActivity(new Intent(Intent.ACTION_SEARCH, null, this, SearchActivity.class));
                 return true;
             case R.id.ml_menu_renderers:
-                if (getSupportFragmentManager().findFragmentByTag("renderers") == null)
+                if (mService != null && !mService.hasRenderer()
+                        && RendererDelegate.INSTANCE.getRenderers().size() == 1) {
+                    final RendererItem renderer = RendererDelegate.INSTANCE.getRenderers().get(0);
+                    RendererDelegate.INSTANCE.selectRenderer(renderer);
+                    mService.setRenderer(renderer);
+                    final View v = findViewById(R.id.audio_player_container);
+                    if (v != null) UiTools.snacker(v, getString(R.string.casting_connected_renderer, renderer.displayName));
+                } else if (getSupportFragmentManager().findFragmentByTag("renderers") == null)
                     new RenderersDialog().show(getSupportFragmentManager(), "renderers");
                 return true;
             default:
