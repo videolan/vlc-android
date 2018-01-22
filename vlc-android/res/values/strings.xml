@@ -378,6 +378,7 @@
     <string name="casting_quality_medium">Medium</string>
     <string name="casting_quality_low">Low</string>
     <string name="casting_quality_lowcpu">Lowest</string>
+    <string name="cast_performance_warning">Casting this video requires conversion. This conversion can use all the available power and could quickly drain your battery.</string>
 
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_enable_category">Chose extensions to enable</string>
