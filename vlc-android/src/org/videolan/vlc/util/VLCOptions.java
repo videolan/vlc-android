@@ -31,10 +31,10 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.libvlc.util.VLCUtil;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RendererDelegate;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.medialibrary.media.MediaWrapper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -126,7 +126,11 @@ public class VLCOptions {
         options.add("--keystore-file");
         options.add(new File(context.getDir("keystore", Context.MODE_PRIVATE), "file").getAbsolutePath());
 
+        //Chromecast
         options.add(verboseMode ? "-vv" : "-v");
+        if (pref.getBoolean("casting_passthrough", true)) options.add("--sout-chromecast-audio-passthrough");
+        else options.add("--no-sout-chromecast-audio-passthrough");
+        options.add("--sout-chromecast-conversion-quality="+pref.getString("casting_quality", "2"));
 
         return options;
     }
@@ -204,8 +208,8 @@ public class VLCOptions {
         if (prefs.getBoolean("media_fast_seek", true)) media.addOption(":input-fast-seek");
 
         if (RendererDelegate.INSTANCE.getSelectedRenderer() != null) {
-            media.addOption(":sout-chromecast-audio-passthrough="+pref.getBoolean("casting_passthrough", true));
-            media.addOption(":sout-chromecast-conversion-quality="+pref.getString("casting_quality", "2"));
+            media.addOption(":sout-chromecast-audio-passthrough="+prefs.getBoolean("casting_passthrough", true));
+            media.addOption(":sout-chromecast-conversion-quality="+prefs.getString("casting_quality", "2"));
         }
     }
 

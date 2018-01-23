@@ -22,11 +22,28 @@
  */
 package org.videolan.vlc.gui.preferences
 
+import android.content.SharedPreferences
+import android.os.Bundle
 import org.videolan.vlc.R
+import org.videolan.vlc.util.VLCInstance
 
-class PreferencesCasting : BasePreferenceFragment() {
+class PreferencesCasting : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     override fun getTitleId() = R.string.casting_category
 
     override fun getXml() = R.xml.preferences_casting
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        when (key) {
+            "casting_passthrough", "casting_quality" -> {
+                VLCInstance.restart()
+                (activity as? PreferencesActivity)?.restartMediaPlayer()
+            }
+        }
+    }
 }
