@@ -40,9 +40,9 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.ContentActivity;
 import org.videolan.vlc.util.Permissions;
 
-import static org.videolan.vlc.util.Permissions.PERMISSION_STORAGE_TAG;
 import static org.videolan.vlc.util.Permissions.canReadStorage;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -54,7 +54,7 @@ public class StoragePermissionsDelegate extends BaseHeadlessFragment {
 
     public final static String TAG = "VLC/StorageHF";
 
-    private boolean mFirstRun, mUpgrade;
+    private boolean mFirstRun, mUpgrade, mWrite;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,23 +65,29 @@ public class StoragePermissionsDelegate extends BaseHeadlessFragment {
             intent.removeExtra(StartActivity.EXTRA_UPGRADE);
             intent.removeExtra(StartActivity.EXTRA_FIRST_RUN);
         }
+        mWrite = getArguments().getBoolean("write");
         if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(getActivity())) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
-                Permissions.showStoragePermissionDialog(mActivity, false);
+                Permissions.showStoragePermissionDialog(mActivity, false, false);
             else
-                requestStorageAccess();
+                requestStorageAccess(false);
+        } else if (mWrite) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
+                Permissions.showStoragePermissionDialog(mActivity, false, true);
+            else
+                requestStorageAccess(true);
         }
     }
 
-    private void requestStorageAccess() {
-        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                Permissions.PERMISSION_STORAGE_TAG);
+    private void requestStorageAccess(boolean write) {
+        requestPermissions(new String[]{write ? Manifest.permission.WRITE_EXTERNAL_STORAGE : Manifest.permission.READ_EXTERNAL_STORAGE},
+                write ? Permissions.PERMISSION_WRITE_STORAGE_TAG : Permissions.PERMISSION_STORAGE_TAG);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
-            case PERMISSION_STORAGE_TAG:
+            case Permissions.PERMISSION_STORAGE_TAG:
                 // If request is cancelled, the result arrays are empty.
                 final Context ctx = VLCApplication.getAppContext();
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -95,21 +101,29 @@ public class StoragePermissionsDelegate extends BaseHeadlessFragment {
                     }
                     exit();
                 } else if (mActivity != null) {
-                    Permissions.showStoragePermissionDialog(mActivity, false);
+                    Permissions.showStoragePermissionDialog(mActivity, false, mWrite);
                     if (!shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
                         exit();
                 }
                 break;
+            case Permissions.PERMISSION_WRITE_STORAGE_TAG:
+                if (mActivity instanceof ContentActivity) ((ContentActivity) mActivity).onWriteAccessGranted();
+                break;
+
         }
     }
 
-    public static void askStoragePermission(@NonNull FragmentActivity activity) {
+    public static void askStoragePermission(@NonNull FragmentActivity activity, boolean write) {
         if (activity.isFinishing()) return;
         final FragmentManager fm = activity.getSupportFragmentManager();
-        final Fragment fragment = fm.findFragmentByTag(TAG);
-        if (fragment == null)
-            fm.beginTransaction().add(new StoragePermissionsDelegate(), TAG).commitAllowingStateLoss();
-        else
-            ((StoragePermissionsDelegate)fragment).requestStorageAccess();
+        Fragment fragment = fm.findFragmentByTag(TAG);
+        if (fragment == null) {
+            final Bundle args = new Bundle();
+            args.putBoolean("write", write);
+            fragment = new StoragePermissionsDelegate();
+            fragment.setArguments(args);
+            fm.beginTransaction().add(fragment, TAG).commitAllowingStateLoss();
+        } else
+            ((StoragePermissionsDelegate)fragment).requestStorageAccess(write);
     }
 }

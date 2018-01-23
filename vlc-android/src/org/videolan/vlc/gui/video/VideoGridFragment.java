@@ -253,8 +253,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     }
 
     protected boolean handleContextItemSelected(MenuItem menu, final int position) {
-        if (position >= mAdapter.getItemCount())
-            return false;
+        if (position >= mAdapter.getItemCount()) return false;
         final MediaWrapper media = mAdapter.getItem(position);
         if (media == null)
             return false;
@@ -292,6 +291,12 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     }
 
     private void removeVideo(final MediaWrapper media) {
+        if (!checkWritePermission(media, new Runnable() {
+                @Override
+                public void run() {
+                    removeVideo(media);
+                }
+            })) return;
         final int position = mAdapter.remove(media);
         final View view = getView();
         if (position != -1 && view != null) {

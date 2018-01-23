@@ -239,23 +239,21 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         final MediaLibraryItem mediaItem = adapter.getItem(position);
 
         if (id == R.id.audio_list_browser_delete) {
-            final MediaLibraryItem mediaLibraryItem = adapter.getItem(position);
             final MediaLibraryItem previous = position > 0 ? adapter.getItem(position-1) : null;
             final MediaLibraryItem next = position < adapter.getItemCount()-1 ? adapter.getItem(position+1) : null;
-            String message;
-            Runnable action;
+            final String message;
+            final Runnable action;
             final MediaLibraryItem separator = previous != null && previous.getItemType() == MediaLibraryItem.TYPE_DUMMY &&
                     (next == null || next.getItemType() == MediaLibraryItem.TYPE_DUMMY) ? previous : null;
-            adapter.remove(mediaLibraryItem);
-            if (separator != null)
-                adapter.remove(separator);
+            adapter.remove(mediaItem);
+            if (separator != null) adapter.remove(separator);
 
             if (mode == MODE_PLAYLIST) {
                 message = getString(R.string.playlist_deleted);
                 action = new Runnable() {
                     @Override
                     public void run() {
-                        deletePlaylist((Playlist) mediaLibraryItem);
+                        deletePlaylist((Playlist) mediaItem);
                     }
                 };
             } else if (mode == MODE_SONG) {
@@ -265,15 +263,21 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                     public void run() {
                         if (separator != null)
                             adapter.addItem(position-1, separator);
-                        adapter.addItem(position, mediaLibraryItem);
+                        adapter.addItem(position, mediaItem);
                     }
                 };
                 action = new Runnable() {
                     @Override
                     public void run() {
-                        deleteMedia(mediaLibraryItem, true, cancel);
+                        deleteMedia(mediaItem, true, cancel);
                     }
                 };
+                if (!checkWritePermission((MediaWrapper) mediaItem, new Runnable() {
+                    @Override
+                    public void run() {
+                        UiTools.snackerWithCancel(getView(), message, action, cancel);
+                    }
+                })) return false;
             } else
                 return false;
             UiTools.snackerWithCancel(getView(), message, action);

@@ -51,6 +51,7 @@ public class Permissions {
 
     public static final int PERMISSION_STORAGE_TAG = 255;
     public static final int PERMISSION_SETTINGS_TAG = 254;
+    public static final int PERMISSION_WRITE_STORAGE_TAG = 253;
 
 
     public static final int PERMISSION_SYSTEM_RINGTONE = 42;
@@ -84,16 +85,33 @@ public class Permissions {
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
+    public static boolean canWriteStorage() {
+        return canWriteStorage(VLCApplication.getAppContext());
+    }
+
+    public static boolean canWriteStorage(Context context) {
+        return ContextCompat.checkSelfPermission(context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
     public static boolean checkReadStoragePermission(FragmentActivity activity, boolean exit) {
         if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(activity)) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                showStoragePermissionDialog(activity, exit);
+                showStoragePermissionDialog(activity, exit, false);
             } else
-                requestStoragePermission(activity);
+                requestStoragePermission(activity, false);
             return false;
         }
         return true;
+    }
+
+    public static void askWriteStoragePermission(FragmentActivity activity, boolean exit) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            showStoragePermissionDialog(activity, exit, true);
+        } else
+            requestStoragePermission(activity, true);
     }
 
     public static void checkDrawOverlaysPermission(FragmentActivity activity) {
@@ -103,29 +121,23 @@ public class Permissions {
     }
 
     public static void checkWriteSettingsPermission(FragmentActivity activity, int mode) {
-        if (!canWriteSettings(activity)) {
-            showSettingsPermissionDialog(activity, mode);
-        }
+        if (!canWriteSettings(activity)) showSettingsPermissionDialog(activity, mode);
     }
 
     private static Dialog sAlertDialog;
 
-    public static void showSettingsPermissionDialog(final FragmentActivity activity, int mode) {
-        if (activity.isFinishing() || (sAlertDialog != null && sAlertDialog.isShowing()))
-            return;
+    private static void showSettingsPermissionDialog(final FragmentActivity activity, int mode) {
+        if (activity.isFinishing() || (sAlertDialog != null && sAlertDialog.isShowing())) return;
         sAlertDialog = createSettingsDialogCompat(activity, mode);
     }
 
-    public static void showStoragePermissionDialog(final FragmentActivity activity, boolean exit) {
-        if (activity.isFinishing() || (sAlertDialog != null && sAlertDialog.isShowing()))
-            return;
-        if (activity instanceof AppCompatActivity)
-            sAlertDialog = createDialogCompat(activity, exit);
-        else
-            sAlertDialog = createDialog(activity, exit);
+    public static void showStoragePermissionDialog(final FragmentActivity activity, boolean exit, boolean write) {
+        if (activity.isFinishing() || (sAlertDialog != null && sAlertDialog.isShowing())) return;
+        if (activity instanceof AppCompatActivity) sAlertDialog = createDialogCompat(activity, exit, write);
+        else sAlertDialog = createDialog(activity, exit, write);
     }
 
-    private static Dialog createDialog(final FragmentActivity activity, boolean exit) {
+    private static Dialog createDialog(final FragmentActivity activity, boolean exit, boolean write) {
         android.app.AlertDialog.Builder dialogBuilder = new  android.app.AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.allow_storage_access_title))
                 .setMessage(activity.getString(R.string.allow_storage_access_description))
@@ -133,9 +145,9 @@ public class Permissions {
                 .setPositiveButton(activity.getString(R.string.permission_ask_again), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
+                        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
                         if (!settings.getBoolean("user_declined_storage_access", false))
-                            requestStoragePermission(activity);
+                            requestStoragePermission(activity, false);
                         else {
                             final Intent i = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
                             i.addCategory(Intent.CATEGORY_DEFAULT);
@@ -145,9 +157,9 @@ public class Permissions {
                                 activity.startActivity(i);
                             } catch (Exception ignored) {}
                         }
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putBoolean("user_declined_storage_access", true);
-                        editor.apply();
+                        settings.edit()
+                            .putBoolean("user_declined_storage_access", true)
+                            .apply();
                     }
                 });
         if (exit) {
@@ -162,7 +174,7 @@ public class Permissions {
         return dialogBuilder.show();
     }
 
-    private static Dialog createDialogCompat(final FragmentActivity activity, boolean exit) {
+    private static Dialog createDialogCompat(final FragmentActivity activity, boolean exit, boolean write) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.allow_storage_access_title))
                 .setMessage(activity.getString(R.string.allow_storage_access_description))
@@ -170,9 +182,9 @@ public class Permissions {
                 .setPositiveButton(activity.getString(R.string.permission_ask_again), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
+                        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
                         if (!settings.getBoolean("user_declined_storage_access", false))
-                            requestStoragePermission(activity);
+                            requestStoragePermission(activity, false);
                         else {
                             Intent i = new Intent();
                             i.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
@@ -183,9 +195,9 @@ public class Permissions {
                                 activity.startActivity(i);
                             } catch (Exception ignored) {}
                         }
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putBoolean("user_declined_storage_access", true);
-                        editor.apply();
+                        settings.edit()
+                            .putBoolean("user_declined_storage_access", true)
+                            .apply();
                     }
                 });
         if (exit) {
@@ -240,8 +252,7 @@ public class Permissions {
         return dialogBuilder.show();
     }
 
-    private static void requestStoragePermission(FragmentActivity activity) {
-        if (activity != null)
-            StoragePermissionsDelegate.askStoragePermission(activity);
+    private static void requestStoragePermission(FragmentActivity activity, boolean write) {
+        if (activity != null) StoragePermissionsDelegate.askStoragePermission(activity, write);
     }
 }

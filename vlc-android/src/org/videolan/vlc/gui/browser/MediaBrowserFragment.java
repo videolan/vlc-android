@@ -46,12 +46,15 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.ContentActivity;
 import org.videolan.vlc.gui.InfoActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Permissions;
 
 import java.util.LinkedList;
 
@@ -166,10 +169,8 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
 
     @Override
     public boolean onContextItemSelected(MenuItem menu) {
-        if(!getUserVisibleHint())
-            return false;
-        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo) menu.getMenuInfo();
-
+        if(!getUserVisibleHint()) return false;
+        final ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo) menu.getMenuInfo();
         return info != null && handleContextItemSelected(menu, info.position);
     }
 
@@ -197,8 +198,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
                                 return;
                             }
                             if (mService != null)
-                                for (String path : mediaPaths)
-                                    mService.removeLocation(path);
+                                for (String path : mediaPaths) mService.removeLocation(path);
                             if (refresh) onRefresh();
                         }
                     });
@@ -207,6 +207,15 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
         });
     }
 
+    protected boolean checkWritePermission(MediaWrapper media, Runnable callback) {
+        if (media.getUri().getPath().startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) && !Permissions.canWriteStorage()) {
+            final ContentActivity activity = (ContentActivity) getActivity();
+            activity.deleteAction = callback;
+            Permissions.askWriteStoragePermission(getActivity(), false);
+            return false;
+        }
+        return true;
+    }
     private void onDeleteFailed(MediaWrapper media) {
         final View v = getView();
         if (v != null && isAdded()) UiTools.snacker(v, getString(R.string.msg_delete_failed, media.getTitle()));
