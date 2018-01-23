@@ -186,4 +186,10 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
             ((Filterable) current).restoreList();
         }
     }
+
+    public Runnable deleteAction;
+    public void onWriteAccessGranted() {
+        if (deleteAction != null) mActivityHandler.postDelayed(deleteAction, 500);
+        deleteAction = null;
+    }
 }
