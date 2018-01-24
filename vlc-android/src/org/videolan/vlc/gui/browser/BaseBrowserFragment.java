@@ -73,7 +73,6 @@ import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
@@ -494,7 +493,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
         if (mw == null) return;
         final int type = mw.getType();
-        boolean canWrite = this instanceof FileBrowserFragment && FileUtils.canWrite(mw.getUri().getPath());
+        boolean canWrite = this instanceof FileBrowserFragment;
         if (type == MediaWrapper.TYPE_DIR) {
             final boolean isEmpty = Util.isListEmpty(mFoldersContentLists.get(mw));
 //                if (canWrite) {
@@ -537,7 +536,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         int id = item.getItemId();
         if (! (mAdapter.getItem(position) instanceof MediaWrapper))
             return super.onContextItemSelected(item);
-        Uri uri = ((MediaWrapper) mAdapter.getItem(position)).getUri();
+        final Uri uri = ((MediaWrapper) mAdapter.getItem(position)).getUri();
         MediaWrapper mwFromMl = "file".equals(uri.getScheme()) ? mMediaLibrary.getMedia(uri) : null;
         final MediaWrapper mw = mwFromMl != null ? mwFromMl : (MediaWrapper) mAdapter.getItem(position);
         switch (id){
@@ -551,20 +550,12 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                 return true;
             }
             case R.id.directory_view_delete:
-                mAdapter.removeItem(mw);
-                final Runnable cancel = new Runnable() {
+                if (checkWritePermission(mw, new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter.addItem(mw, true);
+                        removeMedia(mw);
                     }
-                };
-                final View v = getView();
-                if (v != null) UiTools.snackerWithCancel(v, getString(R.string.file_deleted), new Runnable() {
-                    @Override
-                    public void run() {
-                        deleteMedia(mw, false, cancel);
-                    }
-                }, cancel);
+                })) removeMedia(mw);
                 return true;
             case  R.id.directory_view_info:
                 showMediaInfo(mw);
@@ -607,6 +598,23 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
 
         }
         return false;
+    }
+
+    private void removeMedia(final MediaWrapper mw) {
+        mAdapter.removeItem(mw);
+        final Runnable cancel = new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.addItem(mw, true);
+            }
+        };
+        final View v = getView();
+        if (v != null) UiTools.snackerWithCancel(v, getString(R.string.file_deleted), new Runnable() {
+            @Override
+            public void run() {
+                deleteMedia(mw, false, cancel);
+            }
+        }, cancel);
     }
 
     private void showMediaInfo(MediaWrapper mw) {

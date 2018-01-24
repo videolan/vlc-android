@@ -216,7 +216,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         if (pos != MODE_SONG && pos != MODE_PLAYLIST)
             menu.findItem(R.id.audio_list_browser_delete).setVisible(false);
         else {
-            MenuItem item = menu.findItem(R.id.audio_list_browser_delete);
+            final MenuItem item = menu.findItem(R.id.audio_list_browser_delete);
             AudioBrowserAdapter adapter = pos == MODE_SONG ? mSongsAdapter : mPlaylistAdapter;
             MediaLibraryItem mediaItem = adapter.getItem(position);
             if (pos == MODE_PLAYLIST )
@@ -277,12 +277,13 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 if (!checkWritePermission((MediaWrapper) mediaItem, new Runnable() {
                     @Override
                     public void run() {
-                        UiTools.snackerWithCancel(getView(), message, action, cancel);
+                        final View v = getView();
+                        if (v != null) UiTools.snackerWithCancel(getView(), message, action, cancel);
                     }
                 })) return false;
-            } else
-                return false;
-            UiTools.snackerWithCancel(getView(), message, action, cancel);
+            } else return false;
+            final View v = getView();
+            if (v != null) UiTools.snackerWithCancel(getView(), message, action, cancel);
             return true;
         }
 

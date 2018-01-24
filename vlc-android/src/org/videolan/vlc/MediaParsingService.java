@@ -32,6 +32,7 @@ import org.videolan.vlc.util.Util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -216,9 +217,7 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                     shouldInit |= initCode == Medialibrary.ML_INIT_DB_RESET;
                     if (initCode != Medialibrary.ML_INIT_FAILED) {
                         final List<String> devices = new ArrayList<>();
-                        devices.addAll(AndroidDevices.getExternalStorageDirectories());
-                        if (!devices.contains(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
-                            devices.add(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
+                        Collections.addAll(devices, AndroidDevices.getMediaDirectories());
                         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                         for (final String device : devices) {
                             final boolean isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
@@ -273,7 +272,6 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
                 final Context ctx = VLCApplication.getAppContext();
                 final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx);
                 final List<String> devices = AndroidDevices.getExternalStorageDirectories();
-                devices.remove(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
                 final String[] knownDevices = mMedialibrary.getDevices();
                 final List<String> missingDevices = Util.arrayToArrayList(knownDevices);
                 missingDevices.remove("file://"+AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);

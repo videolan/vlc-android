@@ -31,7 +31,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -53,6 +55,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.LongBuffer;
 import java.nio.channels.FileChannel;
+import java.util.List;
 
 public class FileUtils {
 
@@ -203,6 +206,11 @@ public class FileUtils {
         }
         return ret;
     }
+    public static boolean deleteFile (Uri uri){
+        if (uri.getPath().startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) return deleteFile(uri.getPath());
+        final DocumentFile docFile = FileUtils.findFile(uri);
+        return docFile != null && docFile.delete();
+    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static boolean deleteFile (String path){
@@ -248,41 +256,52 @@ public class FileUtils {
         });
     }
 
-    public static boolean canSave(MediaWrapper mw){
+    public static boolean canSave(MediaWrapper mw) {
         if (mw == null || mw.getUri() == null)
             return false;
-        String scheme = mw.getUri().getScheme();
-        if (TextUtils.equals(scheme, "file"))
-            return false;
-        return TextUtils.equals(scheme, "smb")   ||
-                TextUtils.equals(scheme, "nfs")  ||
-                TextUtils.equals(scheme, "ftp")  ||
-                TextUtils.equals(scheme, "ftps") ||
-                TextUtils.equals(scheme, "sftp");
+        final String scheme = mw.getUri().getScheme();
+        return !TextUtils.equals(scheme, "file") &&
+                (TextUtils.equals(scheme, "smb")
+                        || TextUtils.equals(scheme, "nfs") || TextUtils.equals(scheme, "ftp")
+                        || TextUtils.equals(scheme, "ftps") || TextUtils.equals(scheme, "sftp"));
     }
 
     public static boolean canWrite(Uri uri) {
-        if (uri == null)
-            return false;
+        if (uri == null) return false;
         if (TextUtils.equals("file", uri.getScheme()))
-            return canWrite(uri.toString());
+            return canWrite(uri.getPath());
         return TextUtils.equals("content", uri.getScheme()) && canWrite(getPathFromURI(uri));
-
     }
 
     public static boolean canWrite(String path){
-        if (TextUtils.isEmpty(path))
-            return false;
-        if (path.startsWith("file://"))
-            path = path.substring(7);
-        if (!path.startsWith("/"))
-            return false;
-        if (path.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
-            return true;
-        if (AndroidUtil.isKitKatOrLater)
-            return false;
-        File file = new File(path);
-        return (file.exists() && file.canWrite());
+        if (TextUtils.isEmpty(path)) return false;
+        if (path.startsWith("file://")) path = path.substring(7);
+        return path.startsWith("/");
+    }
+
+    public static String getMediaStorage(Uri uri) {
+        if (uri == null || !"file".equals(uri.getScheme())) return null;
+        final String path = uri.getPath();
+        if (TextUtils.isEmpty(path)) return null;
+        final List<String> storages = AndroidDevices.getExternalStorageDirectories();
+        for (String storage : storages) if (path.startsWith(storage)) return storage;
+        return null;
+    }
+
+    public static DocumentFile findFile(Uri uri) {
+        final String storage = getMediaStorage(uri);
+        final String treePref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getString("tree_uri_"+ storage, null);
+        if (treePref == null) return null;
+        final Uri treeUri = Uri.parse(treePref);
+        DocumentFile documentFile = DocumentFile.fromTreeUri(VLCApplication.getAppContext(), treeUri);
+        String[] parts = (uri.getPath()).split("/");
+        for (int i = 3; i < parts.length; i++) {
+            if (documentFile != null) documentFile = documentFile.findFile(parts[i]);
+            else return null;
+        }
+        if (documentFile != null) Log.d(TAG, "findFile: write "+documentFile.canWrite());
+        return documentFile;
+
     }
 
     static String computeHash(File file) {

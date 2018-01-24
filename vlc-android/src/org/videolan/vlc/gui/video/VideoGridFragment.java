@@ -68,7 +68,6 @@ import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
@@ -287,11 +286,11 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     private void removeVideo(final MediaWrapper media) {
         if (!checkWritePermission(media, new Runnable() {
-                @Override
-                public void run() {
-                    removeVideo(media);
-                }
-            })) return;
+            @Override
+            public void run() {
+                removeVideo(media);
+            }
+        })) return;
         final int position = mAdapter.remove(media);
         final View view = getView();
         if (position != -1 && view != null) {
@@ -312,13 +311,11 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (menuInfo == null)
-            return;
+        if (menuInfo == null) return;
         // Do not show the menu of media group.
         final ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo)menuInfo;
         final MediaWrapper media = mAdapter.getItem(info.position);
-        if (media == null)
-            return;
+        if (media == null) return;
         final MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(media instanceof MediaGroup ? R.menu.video_group_contextual : R.menu.video_list, menu);
         if (media instanceof MediaGroup) {
@@ -326,14 +323,11 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
                 menu.findItem(R.id.video_list_append).setVisible(false);
                 menu.findItem(R.id.video_group_play).setVisible(false);
             }
-        } else
-            setContextMenuItems(menu, media);
+        } else setContextMenuItems(menu, media);
     }
 
     private void setContextMenuItems(Menu menu, MediaWrapper mediaWrapper) {
         menu.findItem(R.id.video_list_play_from_start).setVisible(mediaWrapper.getTime() > 0);
-        final boolean canWrite = FileUtils.canWrite(mediaWrapper.getLocation());
-        menu.findItem(R.id.video_list_delete).setVisible(canWrite);
         if (!AndroidUtil.isHoneycombOrLater) {
             menu.findItem(R.id.video_list_play_all).setVisible(false);
             menu.findItem(R.id.video_list_append).setVisible(false);

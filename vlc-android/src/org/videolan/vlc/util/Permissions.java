@@ -98,20 +98,20 @@ public class Permissions {
         if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(activity)) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                showStoragePermissionDialog(activity, exit, false);
+                showStoragePermissionDialog(activity, exit);
             } else
-                requestStoragePermission(activity, false);
+                requestStoragePermission(activity, false, null);
             return false;
         }
         return true;
     }
 
-    public static void askWriteStoragePermission(FragmentActivity activity, boolean exit) {
+    public static void askWriteStoragePermission(FragmentActivity activity, boolean exit, Runnable callback) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            showStoragePermissionDialog(activity, exit, true);
+            showStoragePermissionDialog(activity, exit);
         } else
-            requestStoragePermission(activity, true);
+            requestStoragePermission(activity, true, callback);
     }
 
     public static void checkDrawOverlaysPermission(FragmentActivity activity) {
@@ -131,13 +131,13 @@ public class Permissions {
         sAlertDialog = createSettingsDialogCompat(activity, mode);
     }
 
-    public static void showStoragePermissionDialog(final FragmentActivity activity, boolean exit, boolean write) {
+    public static void showStoragePermissionDialog(final FragmentActivity activity, boolean exit) {
         if (activity.isFinishing() || (sAlertDialog != null && sAlertDialog.isShowing())) return;
-        if (activity instanceof AppCompatActivity) sAlertDialog = createDialogCompat(activity, exit, write);
-        else sAlertDialog = createDialog(activity, exit, write);
+        if (activity instanceof AppCompatActivity) sAlertDialog = createDialogCompat(activity, exit);
+        else sAlertDialog = createDialog(activity, exit);
     }
 
-    private static Dialog createDialog(final FragmentActivity activity, boolean exit, boolean write) {
+    private static Dialog createDialog(final FragmentActivity activity, boolean exit) {
         android.app.AlertDialog.Builder dialogBuilder = new  android.app.AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.allow_storage_access_title))
                 .setMessage(activity.getString(R.string.allow_storage_access_description))
@@ -147,7 +147,7 @@ public class Permissions {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
                         if (!settings.getBoolean("user_declined_storage_access", false))
-                            requestStoragePermission(activity, false);
+                            requestStoragePermission(activity, false, null);
                         else {
                             final Intent i = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
                             i.addCategory(Intent.CATEGORY_DEFAULT);
@@ -174,7 +174,7 @@ public class Permissions {
         return dialogBuilder.show();
     }
 
-    private static Dialog createDialogCompat(final FragmentActivity activity, boolean exit, boolean write) {
+    private static Dialog createDialogCompat(final FragmentActivity activity, boolean exit) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity)
                 .setTitle(activity.getString(R.string.allow_storage_access_title))
                 .setMessage(activity.getString(R.string.allow_storage_access_description))
@@ -184,9 +184,9 @@ public class Permissions {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
                         if (!settings.getBoolean("user_declined_storage_access", false))
-                            requestStoragePermission(activity, false);
+                            requestStoragePermission(activity, false, null);
                         else {
-                            Intent i = new Intent();
+                            final Intent i = new Intent();
                             i.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
                             i.addCategory(Intent.CATEGORY_DEFAULT);
                             i.setData(Uri.parse("package:" + VLCApplication.getAppContext().getPackageName()));
@@ -252,7 +252,7 @@ public class Permissions {
         return dialogBuilder.show();
     }
 
-    private static void requestStoragePermission(FragmentActivity activity, boolean write) {
-        if (activity != null) StoragePermissionsDelegate.askStoragePermission(activity, write);
+    private static void requestStoragePermission(FragmentActivity activity, boolean write, Runnable callback) {
+        if (activity != null) StoragePermissionsDelegate.Companion.askStoragePermission(activity, write, callback);
     }
 }

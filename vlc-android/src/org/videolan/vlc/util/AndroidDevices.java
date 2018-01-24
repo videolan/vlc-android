@@ -148,6 +148,7 @@ public class AndroidDevices {
         } finally {
             Util.close(bufReader);
         }
+        list.remove(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
         return list;
     }
 

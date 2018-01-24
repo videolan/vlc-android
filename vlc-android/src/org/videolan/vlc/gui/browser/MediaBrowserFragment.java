@@ -27,6 +27,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -40,15 +41,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.ContentActivity;
 import org.videolan.vlc.gui.InfoActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.util.AndroidDevices;
@@ -169,7 +171,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
 
     @Override
     public boolean onContextItemSelected(MenuItem menu) {
-        if(!getUserVisibleHint()) return false;
+        if (!getUserVisibleHint()) return false;
         final ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo) menu.getMenuInfo();
         return info != null && handleContextItemSelected(menu, info.position);
     }
@@ -183,8 +185,10 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
                 for (MediaWrapper media : mw.getTracks()) {
                     final String path = media.getUri().getPath();
                     final String parentPath = FileUtils.getParent(path);
-                    if (FileUtils.deleteFile(path) && media.getId() > 0L && !foldersToReload.contains(parentPath)) {
-                        foldersToReload.add(parentPath);
+                    if (FileUtils.deleteFile(media.getUri())) {
+                        if (media.getId() > 0L && !foldersToReload.contains(parentPath)) {
+                            foldersToReload.add(parentPath);
+                        }
                         mediaPaths.add(media.getLocation());
                     } else onDeleteFailed(media);
                 }
@@ -208,14 +212,21 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     }
 
     protected boolean checkWritePermission(MediaWrapper media, Runnable callback) {
-        if (media.getUri().getPath().startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) && !Permissions.canWriteStorage()) {
-            final ContentActivity activity = (ContentActivity) getActivity();
-            activity.deleteAction = callback;
-            Permissions.askWriteStoragePermission(getActivity(), false);
+        final Uri uri = media.getUri();
+        if (!"file".equals(uri.getScheme())) return false;
+        if (uri.getPath().startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) {
+            //Check write permission starting Oreo
+            if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage()) {
+                Permissions.askWriteStoragePermission(getActivity(), false, callback);
+                return false;
+            }
+        } else if (AndroidUtil.isLolliPopOrLater && WriteExternalDelegate.Companion.needsWritePermission(uri)) {
+            WriteExternalDelegate.Companion.askForExtWrite(getActivity(), uri, callback);
             return false;
         }
         return true;
     }
+
     private void onDeleteFailed(MediaWrapper media) {
         final View v = getView();
         if (v != null && isAdded()) UiTools.snacker(v, getString(R.string.msg_delete_failed, media.getTitle()));
