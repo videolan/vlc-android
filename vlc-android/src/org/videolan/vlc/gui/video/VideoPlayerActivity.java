@@ -954,8 +954,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private static void start(Context context, Uri uri, String title, boolean fromStart, int openedPosition) {
-        Intent intent = getIntent(context, uri, title, fromStart, openedPosition);
-
+        final Intent intent = getIntent(context, uri, title, fromStart, openedPosition);
         context.startActivity(intent);
     }
 
@@ -2828,9 +2827,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mHudBinding.progressOverlay.setLayoutParams(layoutParams);
             mOverlayBackground = findViewById(R.id.player_overlay_background);
             mNavMenu = (ImageView) findViewById(R.id.player_overlay_navmenu);
-            mRendererBtn = (ImageView) findViewById(R.id.video_renderer);
-            onRenderersChanged(RendererDelegate.INSTANCE.getRenderers().isEmpty());
-            onRendererChanged(RendererDelegate.INSTANCE.getSelectedRenderer());
+            if (AndroidUtil.isJellyBeanMR1OrLater) {
+                mRendererBtn = (ImageView) findViewById(R.id.video_renderer);
+                onRenderersChanged(RendererDelegate.INSTANCE.getRenderers().isEmpty());
+                onRendererChanged(RendererDelegate.INSTANCE.getSelectedRenderer());
+            }
             if (mSeekButtons) initSeekButton();
             resetHudLayout();
             updateOverlayPausePlay();

@@ -51,7 +51,7 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) : Rende
     }
 
     init {
-        presentation = createPresentation(cloneMode)
+        presentation = if (AndroidUtil.isJellyBeanMR1OrLater) createPresentation(cloneMode) else null
         rendererItem = RendererDelegate.selectedRenderer
         displayType = getCurrentType()
         RendererDelegate.addPlayerListener(this)
@@ -69,7 +69,7 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) : Rende
     }
 
     private fun updateDisplayType() {
-        if (getCurrentType() != displayType) activity.recreate()
+        if (getCurrentType() != displayType && activity is VideoPlayerActivity) activity.recreate()
     }
 
     private fun getCurrentType() = when {
