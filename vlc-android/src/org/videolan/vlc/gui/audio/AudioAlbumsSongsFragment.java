@@ -38,7 +38,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 
-import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
 import org.videolan.medialibrary.media.Genre;
@@ -66,7 +65,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     private final static String TAG = "VLC/AudioAlbumsSongsFragment";
 
-    private Medialibrary mMediaLibrary;
     protected Handler mHandler = new Handler(Looper.getMainLooper());
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -93,7 +91,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         if (savedInstanceState == null)
             AudioBrowserAdapter.sMediaComparator.setSortDefault();
 
-        mMediaLibrary = VLCApplication.getMLInstance();
         mItem = (MediaLibraryItem) (savedInstanceState != null ?
                             savedInstanceState.getParcelable(AudioBrowserFragment.TAG_ITEM) :
                             getArguments().getParcelable(AudioBrowserFragment.TAG_ITEM));
