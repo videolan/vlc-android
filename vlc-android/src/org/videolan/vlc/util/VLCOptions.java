@@ -197,10 +197,9 @@ public class VLCOptions {
             }
         } /* else automatic: use default options */
 
-        if (noVideo)
-            media.addOption(":no-video");
-        if (paused)
-            media.addOption(":start-paused");
+        if (noVideo) media.addOption(":no-video");
+        if (paused) media.addOption(":start-paused");
+        if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean("subtitles_autoload", true)) media.addOption(":sub-language=none");
     }
 
     private static MediaPlayer.Equalizer getEqualizerSetFromSettings(SharedPreferences pref) {
