@@ -746,6 +746,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     @MainThread
     public void stop(boolean systemExit) {
+        removePopup();
         playlistManager.stop(systemExit);
     }
 
