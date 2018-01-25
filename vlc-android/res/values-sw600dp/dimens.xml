@@ -11,4 +11,8 @@
 
     <dimen name="file_picker_width">600dip</dimen>
     <dimen name="audio_player_cover_margin">32dp</dimen>
+
+    <!-- pop-Up player -->
+    <dimen name="video_pip_width">512dp</dimen>
+    <dimen name="video_pip_heigth">288dp</dimen>
 </resources>
