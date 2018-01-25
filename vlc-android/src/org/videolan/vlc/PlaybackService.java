@@ -415,7 +415,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
             /*
              * Launch the activity if needed
              */
-            if (action.startsWith(Constants.ACTION_REMOTE_GENERIC) && !playlistManager.getPlayer().isPlaying() && !playlistManager.hasCurrentMedia()) {
+            if (action.startsWith(Constants.ACTION_REMOTE_GENERIC) && !isPlaying() && !playlistManager.hasCurrentMedia()) {
                 final Intent activityIntent = getPackageManager().getLaunchIntentForPackage(getPackageName());
                 if (activityIntent != null)
                     context.startActivity(activityIntent);
@@ -427,10 +427,8 @@ public class PlaybackService extends MediaBrowserServiceCompat{
             if (action.equalsIgnoreCase(Constants.ACTION_REMOTE_PLAYPAUSE)) {
                 if (!playlistManager.hasCurrentMedia())
                     loadLastAudioPlaylist();
-                if (playlistManager.getPlayer().isPlaying())
-                    pause();
-                else
-                    play();
+                if (isPlaying()) pause();
+                else play();
             } else if (action.equalsIgnoreCase(Constants.ACTION_REMOTE_PLAY)) {
                 if (!isPlaying() && playlistManager.hasCurrentMedia())
                     play();
@@ -637,7 +635,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         final MediaWrapper mw = playlistManager.getCurrentMedia();
         if (mw != null) {
             final boolean coverOnLockscreen = mSettings.getBoolean("lockscreen_cover", true);
-            final boolean playing = playlistManager.getPlayer().isPlaying();
+            final boolean playing = isPlaying();
             final MediaSessionCompat.Token sessionToken = mMediaSession.getSessionToken();
             final Context ctx = this;
             ExecutorHolder.executorService.execute(new Runnable() {
@@ -1156,7 +1154,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                 .putExtra("artist", media.getArtist())
                 .putExtra("album", media.getAlbum())
                 .putExtra("duration", media.getLength())
-                .putExtra("playing", playlistManager.getPlayer().isPlaying())
+                .putExtra("playing", isPlaying())
                 .putExtra("package", "org.videolan.vlc"));
     }
 

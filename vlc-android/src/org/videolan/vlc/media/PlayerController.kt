@@ -3,12 +3,10 @@ package org.videolan.vlc.media
 import android.net.Uri
 import android.support.annotation.MainThread
 import android.support.v4.media.session.PlaybackStateCompat
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.newSingleThreadContext
-import org.videolan.libvlc.IVLCVout
-import org.videolan.libvlc.Media
-import org.videolan.libvlc.MediaPlayer
-import org.videolan.libvlc.RendererItem
+import org.videolan.libvlc.*
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.VLCApplication
@@ -23,7 +21,6 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     private val settings by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getSettings() }
 
     private var mediaplayer = newMediaPlayer()
-    @Volatile var expanding = false
     var switchToVideo = false
     var seekable = false
     var pausable = false
@@ -230,12 +227,24 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun setVolume(volume: Int) = mediaplayer.setVolume(volume)
 
+    suspend fun expand(): MediaList? {
+        return mediaplayer.media?.let {
+            mediaplayer.setEventListener(null)
+            val ml = async { it.subItems() }.await()
+            it.release()
+            mediaplayer.setEventListener(this@PlayerController)
+            return ml
+        }
+    }
+
     override fun onEvent(event: MediaPlayer.Event?) {
         if (event === null) return
         when(event.type) {
             MediaPlayer.Event.Playing -> playbackState = PlaybackStateCompat.STATE_PLAYING
             MediaPlayer.Event.Paused -> playbackState = PlaybackStateCompat.STATE_PAUSED
-            MediaPlayer.Event.Stopped -> playbackState = PlaybackStateCompat.STATE_STOPPED
+            MediaPlayer.Event.Stopped,
+            MediaPlayer.Event.EncounteredError,
+            MediaPlayer.Event.EndReached -> playbackState = PlaybackStateCompat.STATE_STOPPED
             MediaPlayer.Event.PausableChanged -> pausable = event.pausable
             MediaPlayer.Event.SeekableChanged -> seekable = event.seekable
         }
