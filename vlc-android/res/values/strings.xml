@@ -586,4 +586,5 @@
     <string name="browser_storages">Storages</string>
     <string name="msg_delete_failed">Failed to delete media %1$s</string>
     <string name="renderer_list_title">Displays</string>
+    <string name="feedback_player_crashed">Sorry, VLC just crashed. Please try again.</string>
 </resources>
