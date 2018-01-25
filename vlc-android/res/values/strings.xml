@@ -300,7 +300,7 @@
     <string name="video_min_group_length_first">First letter only</string>
     <string name="video_min_group_length_short">Short number of letters (6)</string>
     <string name="video_min_group_length_long">Long number of letters (9)</string>
-    <string name="media_fast_seek">Enable experimental fast seek option</string>
+    <string name="media_fast_seek">Enable fast seek option</string>
     <string name="media_seen">Show seen video marker</string>
     <string name="media_seen_summary">Mark a video as seen when you play it until the end</string>
     <string name="force_list_portrait">No grid in portrait mode</string>

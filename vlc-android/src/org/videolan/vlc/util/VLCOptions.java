@@ -201,7 +201,7 @@ public class VLCOptions {
         if (noVideo) media.addOption(":no-video");
         if (paused) media.addOption(":start-paused");
         if (!prefs.getBoolean("subtitles_autoload", true)) media.addOption(":sub-language=none");
-        if (prefs.getBoolean("media_fast_seek", false)) media.addOption(":input-fast-seek");
+        if (prefs.getBoolean("media_fast_seek", true)) media.addOption(":input-fast-seek");
     }
 
     private static MediaPlayer.Equalizer getEqualizerSetFromSettings(SharedPreferences pref) {

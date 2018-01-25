@@ -35,7 +35,7 @@
         android:title="@string/save_audiodelay_title" />
 
     <CheckBoxPreference
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="media_fast_seek"
         android:title="@string/media_fast_seek" />
 
