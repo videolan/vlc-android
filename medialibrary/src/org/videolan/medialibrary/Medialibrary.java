@@ -15,6 +15,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb;
@@ -87,6 +88,7 @@ public class Medialibrary {
         if (extFilesDir == null || !extFilesDir.exists()
                 || dbDirectory == null || !dbDirectory.canWrite())
             return ML_INIT_FAILED;
+        LibVLC.loadLibraries();
         int initCode = nativeInit(dbDirectory+ VLC_MEDIA_DB_NAME, extFilesDir+ THUMBS_FOLDER_NAME);
         mIsInitiated = initCode != ML_INIT_FAILED;
         return initCode;

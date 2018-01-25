@@ -36,7 +36,6 @@ import android.support.v4.util.SimpleArrayMap;
 import android.util.Log;
 
 import org.videolan.libvlc.Dialog;
-import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.gui.DialogActivity;
@@ -94,21 +93,17 @@ public class VLCApplication extends Application {
 
         setLocale();
 
-        LibVLC.loadLibraries();
-
         runBackground(new Runnable() {
             @Override
             public void run() {
 
-                if (AndroidUtil.isOOrLater)
-                    NotificationHelper.createNotificationChannels();
+                if (AndroidUtil.isOOrLater) NotificationHelper.createNotificationChannels();
                 // Prepare cache folder constants
                 AudioUtil.prepareCacheFolder(instance);
 
                 sTV = AndroidDevices.isAndroidTv || (!AndroidDevices.isChromeBook && !AndroidDevices.hasTsp);
 
-                if (!VLCInstance.testCompatibleCPU(instance))
-                    return;
+                if (!VLCInstance.testCompatibleCPU(instance)) return;
                 Dialog.setCallbacks(VLCInstance.get(), mDialogCallbacks);
 
                 // Disable remote control receiver on Fire TV.
@@ -117,10 +112,8 @@ public class VLCApplication extends Application {
             }
         });
 
-        if (sActivityCbListener != null)
-            registerActivityLifecycleCallbacks(sActivityCbListener);
-        else
-            ExternalMonitor.register(instance);
+        if (sActivityCbListener != null) registerActivityLifecycleCallbacks(sActivityCbListener);
+        else ExternalMonitor.register(instance);
     }
 
     @Override
