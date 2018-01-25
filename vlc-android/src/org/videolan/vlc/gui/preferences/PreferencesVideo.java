@@ -22,8 +22,10 @@
 
 package org.videolan.vlc.gui.preferences;
 
+import android.os.Bundle;
 import android.support.v7.preference.Preference;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 
 public class PreferencesVideo extends BasePreferenceFragment {
@@ -36,6 +38,12 @@ public class PreferencesVideo extends BasePreferenceFragment {
     @Override
     protected int getTitleId() {
         return R.string.video_prefs_category;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        findPreference("popup_keepscreen").setVisible(!AndroidUtil.isOOrLater);
     }
 
     @Override
