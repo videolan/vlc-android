@@ -23,13 +23,14 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     private val settings by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getSettings() }
 
     private var mediaplayer = newMediaPlayer()
+    @Volatile var expanding = false
     var switchToVideo = false
     var seekable = false
     var pausable = false
     var previousMediaStats: Media.Stats? = null
         private set
     @Volatile var playbackState = PlaybackStateCompat.STATE_STOPPED
-    private set
+        private set
 
     fun getVout() = mediaplayer.vlcVout
 
@@ -55,14 +56,15 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     }
 
     private var mediaplayerEventListener: MediaPlayer.EventListener? = null
-    internal fun startPlayback(media: Media, listener: MediaPlayer.EventListener) {
-        /* Pausable and seekable are true by default */
+    internal suspend fun startPlayback(media: Media, listener: MediaPlayer.EventListener) {
+        mediaplayer.setEventListener(null)
+        mediaplayerEventListener = listener
         seekable = true
         pausable = true
-        mediaplayer.media = media
-        media.release()
-        mediaplayerEventListener = listener
-        mediaplayer.setEventListener(this)
+        launch(playerContext) {
+            mediaplayer.media = media
+        }.join()
+        mediaplayer.setEventListener(this@PlayerController)
         mediaplayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(VLCApplication.getAppContext()))
         mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)
         if (mediaplayer.rate == 1.0f && settings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, true))
@@ -158,8 +160,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     }
 
     fun setSlaves(media: MediaWrapper) = launch {
-            val list = MediaDatabase.getInstance().getSlaves(media.location)
-            for (slave in list) mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
+        val list = MediaDatabase.getInstance().getSlaves(media.location)
+        for (slave in list) mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
     }
 
     private fun newMediaPlayer() : MediaPlayer {

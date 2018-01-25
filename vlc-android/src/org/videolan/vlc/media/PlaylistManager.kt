@@ -20,9 +20,7 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.*
-
 import java.util.*
-import java.util.concurrent.atomic.AtomicBoolean
 
 
 class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventListener, Media.EventListener {
@@ -43,13 +41,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     var repeating = Constants.REPEAT_NONE
     var shuffling = false
     var videoBackground = false
-    private set
+        private set
     var isBenchmark = false
     var isHardware = false
     private var parsed = false
     var savedTime = 0L
     private var random = Random(System.currentTimeMillis())
-    private val expanding = AtomicBoolean(false)
+    private var newMedia = false
 
     fun hasMedia() = mediaList.size() != 0
     fun hasCurrentMedia() = isValidPosition(currentIndex)
@@ -235,50 +233,51 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && player.getAudioTracksCount() == 0) {
             next()
         } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)
-            || RendererDelegate.selectedRenderer !== null) {
-            val media = Media(VLCInstance.get(), FileUtils.getUri(mw.uri))
-            VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
-            /* keeping only video during benchmark */
-            if (isBenchmark) {
-                media.addOption(":no-audio")
-                media.addOption(":no-spu")
-                if (isHardware) {
-                    media.addOption(":codec=mediacodec_ndk,mediacodec_jni,none")
-                    isHardware = false
-                }
-            }
-            mw.slaves?.let {
-                for (slave in it) media.addSlave(slave)
-                launch { MediaDatabase.getInstance().saveSlaves(mw) }
-            }
-            media.setEventListener(this)
-            player.setSlaves(mw)
-            player.startPlayback(media, mediaplayerEventListener)
-            media.release()
-            if (savedTime <= 0L && mw.time >= 0L && mw.isPodcast) savedTime = mw.time
-            determinePrevAndNextIndices()
-            service.onNewPlayback(mw)
-            if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) launch {
-                var id = mw.id
-                if (id == 0L) {
-                    var internalMedia = medialibrary.findMedia(mw)
-                    if (internalMedia != null && internalMedia.id != 0L)
-                        id = internalMedia.id
-                    else {
-                        internalMedia = medialibrary.addMedia(mw.uri.toString())
-                        if (internalMedia != null)
-                            id = internalMedia.id
+                || RendererDelegate.selectedRenderer !== null) {
+            launch(UI, CoroutineStart.UNDISPATCHED) {
+                val media = Media(VLCInstance.get(), FileUtils.getUri(mw.uri))
+                VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
+                /* keeping only video during benchmark */
+                if (isBenchmark) {
+                    media.addOption(":no-audio")
+                    media.addOption(":no-spu")
+                    if (isHardware) {
+                        media.addOption(":codec=mediacodec_ndk,mediacodec_jni,none")
+                        isHardware = false
                     }
                 }
-                medialibrary.increasePlayCount(id)
+                mw.slaves?.let {
+                    for (slave in it) media.addSlave(slave)
+                    launch { MediaDatabase.getInstance().saveSlaves(mw) }
+                }
+                media.setEventListener(this@PlaylistManager)
+                player.setSlaves(mw)
+                player.startPlayback(media, mediaplayerEventListener)
+                media.release()
+                if (savedTime <= 0L && mw.time >= 0L && mw.isPodcast) savedTime = mw.time
+                determinePrevAndNextIndices()
+                service.onNewPlayback(mw)
+                if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) launch {
+                    var id = mw.id
+                    if (id == 0L) {
+                        var internalMedia = medialibrary.findMedia(mw)
+                        if (internalMedia != null && internalMedia.id != 0L)
+                            id = internalMedia.id
+                        else {
+                            internalMedia = medialibrary.addMedia(mw.uri.toString())
+                            if (internalMedia != null)
+                                id = internalMedia.id
+                        }
+                    }
+                    medialibrary.increasePlayCount(id)
+                }
+                saveCurrentMedia()
+                newMedia = true
             }
-            saveCurrentMedia()
-            newMedia = true
         } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
             VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
         }
     }
-    private var newMedia = false
 
     fun onServiceDestroyed() {
         player.stop()
@@ -317,7 +316,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     override fun onItemAdded(index: Int, mrl: String?) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemAdded")
-        if (currentIndex >= index && !expanding.get()) ++currentIndex
+        if (currentIndex >= index && !player.expanding) ++currentIndex
         determinePrevAndNextIndices()
         executeUpdate()
         saveMediaList()
@@ -325,10 +324,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     override fun onItemRemoved(index: Int, mrl: String?) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemDeleted")
-
-        if (currentIndex >= index && !expanding.get()) --currentIndex
+        if (currentIndex >= index && !player.expanding) --currentIndex
         determinePrevAndNextIndices()
-        if (currentIndex == index && !expanding.get()) {
+        if (currentIndex == index && !player.expanding) {
             when {
                 nextIndex != -1 -> next()
                 currentIndex != -1 -> playIndex(currentIndex, 0)
@@ -419,9 +417,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     private fun determinePrevAndNextIndices(expand: Boolean = false) {
         if (expand) {
-            expanding.set(true)
+            player.expanding = true
             nextIndex = expand(getCurrentMedia()!!.type == MediaWrapper.TYPE_STREAM)
-            expanding.set(false)
+            player.expanding = false
         } else {
             nextIndex = -1
         }
@@ -485,15 +483,16 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      * @return the index of the media was expanded, and -1 if no media was expanded
      */
     @MainThread
-    fun expand(updateHistory: Boolean): Int {
+    private fun expand(updateHistory: Boolean): Int {
         val media = player.getMedia()
         if (media === null) return -1
         val mrl = if (updateHistory) media.uri.toString() else null
         val ml = media.subItems()
         media.release()
+
         var ret = -1
 
-        if (ml.count > 0) {
+        if (ml != null && ml.count > 0) {
             mediaList.remove(currentIndex)
             for (i in ml.count - 1 downTo 0) {
                 val child = ml.getMediaAt(i)
@@ -505,7 +504,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 Medialibrary.getInstance().addToHistory(mrl, mediaList.getMedia(currentIndex)!!.title)
             ret = currentIndex
         }
-        ml.release()
+        ml?.release()
         return ret
     }
 
@@ -648,13 +647,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             MediaPlayer.Event.Paused -> medialibrary.resumeBackgroundOperations()
             MediaPlayer.Event.Stopped -> {
-                medialibrary.resumeBackgroundOperations();
+                medialibrary.resumeBackgroundOperations()
                 currentIndex = -1
                 mediaList.clear()
             }
             MediaPlayer.Event.EndReached -> {
                 saveMediaMeta()
-                player.setPreviousStats()
+                if (isBenchmark) player.setPreviousStats()
                 determinePrevAndNextIndices(true)
                 if (nextIndex == -1) savePosition(true)
                 next()
