@@ -180,6 +180,7 @@ public class VLCOptions {
         boolean noVideo = (flags & MediaWrapper.MEDIA_VIDEO) == 0;
         final boolean paused = (flags & MediaWrapper.MEDIA_PAUSED) != 0;
         int hardwareAcceleration = HW_ACCELERATION_DISABLED;
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (!noHardwareAcceleration) {
             try {
@@ -199,7 +200,8 @@ public class VLCOptions {
 
         if (noVideo) media.addOption(":no-video");
         if (paused) media.addOption(":start-paused");
-        if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean("subtitles_autoload", true)) media.addOption(":sub-language=none");
+        if (!prefs.getBoolean("subtitles_autoload", true)) media.addOption(":sub-language=none");
+        if (prefs.getBoolean("media_fast_seek", false)) media.addOption(":input-fast-seek");
     }
 
     private static MediaPlayer.Equalizer getEqualizerSetFromSettings(SharedPreferences pref) {
