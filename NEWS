@@ -2,6 +2,26 @@ Changes between 2.5.6 and 2.5.7:
 ----------------------------------
 
 Application:
+ * Chromecast experimental support
+ * Playlist files support
+ * Fast-seek
+ * SDCard files delete
+ * Fixed delete on Oreo
+ * Options to disable subs auto-loading
+ * Fixed artists/Album classification
+ * Refactored Playbackservice
+ * Misc. fixes
+
+TV:
+ * Improved navigation in Music Player
+
+VLC:
+ * Update to 3.0.0-RC8
+
+Changes between 2.5.6 and 2.5.7:
+----------------------------------
+
+Application:
  * Restore sound ducking behavior
  * Fix chatpers display in advances video playback options
  * Reset current playlist to beginning on end reached
