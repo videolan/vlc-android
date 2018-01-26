@@ -43,7 +43,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     }
 
     fun pause(): Boolean {
-        if (!mediaplayer.hasMedia() && !pausable) return false
+        if (!mediaplayer.hasMedia() || !pausable) return false
         mediaplayer.pause()
         return true
     }
@@ -155,7 +155,6 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun release(player: MediaPlayer = mediaplayer) {
         player.setEventListener(null)
-        player.setVideoTrackEnabled(false)
         if (isVideoPlaying()) player.vlcVout.detachViews()
         launch(playerContext) { player.release() }
         playbackState = PlaybackStateCompat.STATE_STOPPED
