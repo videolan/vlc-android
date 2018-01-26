@@ -284,7 +284,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     fun onServiceDestroyed() {
-        player.stop()
         player.release()
     }
 
