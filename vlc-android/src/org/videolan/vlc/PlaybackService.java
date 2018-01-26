@@ -520,9 +520,6 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                     executeUpdateProgress();
                     break;
                 case MediaPlayer.Event.EncounteredError:
-                    showToast(getString(
-                            R.string.invalid_location,
-                            playlistManager.getCurrentMedia().getLocation()), Toast.LENGTH_SHORT);
                     executeUpdate();
                     executeUpdateProgress();
                     break;

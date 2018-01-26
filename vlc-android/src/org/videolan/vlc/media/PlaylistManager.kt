@@ -665,7 +665,12 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     next()
                 }
             }
-            MediaPlayer.Event.EncounteredError -> next()
+            MediaPlayer.Event.EncounteredError -> {
+                service.showToast(service.getString(
+                            R.string.invalid_location,
+                            getCurrentMedia()?.getLocation() ?: ""), Toast.LENGTH_SHORT)
+                next()
+            }
         }
         service.onMediaPlayerEvent(event)
     }
