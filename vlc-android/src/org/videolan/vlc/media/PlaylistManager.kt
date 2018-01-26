@@ -174,10 +174,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         previous.clear()
         currentIndex = -1
         mediaList.clear()
-        if (systemExit) player.release() else player.restart()
-        medialibrary.resumeBackgroundOperations()
-        service.onPlaybackStopped()
-        if (!systemExit) service.hideNotification()
+        if (systemExit) player.release()
+        else {
+            player.restart()
+            medialibrary.resumeBackgroundOperations()
+            service.onPlaybackStopped()
+            service.hideNotification()
+        }
     }
 
     @MainThread
