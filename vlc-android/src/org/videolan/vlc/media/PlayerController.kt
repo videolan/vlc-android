@@ -43,9 +43,11 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     }
 
     fun pause(): Boolean {
-        if (!mediaplayer.hasMedia() || !pausable) return false
-        mediaplayer.pause()
-        return true
+        if (isPlaying() && mediaplayer.hasMedia() && pausable) {
+            mediaplayer.pause()
+            return true
+        }
+        return false
     }
 
     fun stop() {
