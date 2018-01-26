@@ -281,8 +281,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     }
 
     private void updateList() {
-        if (mItem == null || getActivity() == null)
-            return;
+        if (mItem == null || getActivity() == null) return;
 
         VLCApplication.runBackground(new Runnable() {
             @Override
@@ -292,12 +291,8 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                     albums = Util.arrayToMediaArrayList(((Artist) mItem).getAlbums());
                 } else if (mItem.getItemType() == MediaLibraryItem.TYPE_GENRE)
                     albums = Util.arrayToMediaArrayList(((Genre) mItem).getAlbums());
-                else
-                    return;
-                final List<MediaLibraryItem> songs = new ArrayList<>();
-                for (MediaLibraryItem album : albums) {
-                    songs.addAll(Util.arrayToArrayList(album.getTracks()));
-                }
+                else return;
+                final List<MediaLibraryItem> songs = Util.arrayToMediaArrayList(mItem.getTracks());
                 mAlbumsAdapter.update(albums);
                 mSongsAdapter.update(songs);
             }
@@ -308,6 +303,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         mFastScroller.setRecyclerView(getCurrentRV());
         mSwipeRefreshLayout.setRefreshing(false);
+        if (mAlbumsAdapter.isEmpty()) mViewPager.setCurrentItem(1);
     }
 
     /*

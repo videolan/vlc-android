@@ -559,12 +559,7 @@ jobjectArray
 getMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    std::vector<medialibrary::AlbumPtr> albumList = aml->albumsFromArtist(id);
-    std::vector<medialibrary::MediaPtr> mediaList;
-    for (medialibrary::AlbumPtr album : albumList) {
-        std::vector<medialibrary::MediaPtr> tracks = album->tracks();
-        mediaList.insert(std::end(mediaList), std::begin(tracks), std::end(tracks));
-    }
+    std::vector<medialibrary::MediaPtr> mediaList = aml->mediaFromArtist(id);
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaList) {

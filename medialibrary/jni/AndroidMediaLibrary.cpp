@@ -339,7 +339,7 @@ std::vector<medialibrary::MediaPtr>
 AndroidMediaLibrary::mediaFromArtist( int64_t artistId )
 {
     auto artist = p_ml->artist(artistId);
-    return artist == nullptr ? std::vector<medialibrary::MediaPtr>() : artist->media();
+    return artist == nullptr ? std::vector<medialibrary::MediaPtr>() : artist->media(medialibrary::SortingCriteria::Album);
 }
 
 std::vector<medialibrary::AlbumPtr>
@@ -353,7 +353,7 @@ std::vector<medialibrary::MediaPtr>
 AndroidMediaLibrary::mediaFromGenre( int64_t genreId )
 {
     auto genre = p_ml->genre(genreId);
-    return genre == nullptr ? std::vector<medialibrary::MediaPtr>() : genre->tracks();
+    return genre == nullptr ? std::vector<medialibrary::MediaPtr>() : genre->tracks(medialibrary::SortingCriteria::Album);
 }
 
 std::vector<medialibrary::AlbumPtr>
