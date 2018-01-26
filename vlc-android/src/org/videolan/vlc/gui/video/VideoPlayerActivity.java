@@ -618,8 +618,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public void resetHudLayout() {
-        if (mHudBinding == null)
-            return;
+        if (mHudBinding == null) return;
         final RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)mHudBinding.playerOverlayButtons.getLayoutParams();
         int orientation = getScreenOrientation(100);
         boolean portrait = orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
@@ -2793,7 +2792,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mHudBinding.playerOverlayRewind.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
                 mHudBinding.playerOverlayForward.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
             }
-            mHudBinding.playerOverlaySize.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+            if (mDisplayManager.isPrimary()) mHudBinding.playerOverlaySize.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
             mHudBinding.playerOverlayTracks.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
             mHudBinding.playerOverlayAdvFunction.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
             if (mHasPlaylist) {
@@ -2840,6 +2839,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             updateNavStatus();
             setListeners(true);
             initPlaylistUi();
+            if (!mDisplayManager.isPrimary()) {
+                mHudBinding.lockOverlayButton.setVisibility(View.GONE);
+                mHudBinding.playerOverlaySize.setVisibility(View.GONE);
+            }
         }
     }
 
