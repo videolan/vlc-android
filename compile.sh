@@ -176,14 +176,20 @@ init_local_props() {
         echo_props > "$1"
         return 0
     fi
+    # escape special chars to get regex that matches string
+    make_regex() {
+        echo "$1" | sed -e 's/\([[\^$.*]\)/\\\1/g' -
+    }
+    android_sdk_regex=`make_regex "${ANDROID_SDK}"`
+    android_ndk_regex=`make_regex "${ANDROID_NDK}"`
     # check for lines setting the SDK directory
     sdk_line_start="^sdk\.dir="
     total_sdk_count=`grep -c "${sdk_line_start}" "$1"`
-    good_sdk_count=`grep -c "${sdk_line_start}${ANDROID_SDK}\$" "$1"`
+    good_sdk_count=`grep -c "${sdk_line_start}${android_sdk_regex}\$" "$1"`
     # check for lines setting the NDK directory
     ndk_line_start="^ndk\.dir="
     total_ndk_count=`grep -c "${ndk_line_start}" "$1"`
-    good_ndk_count=`grep -c "${ndk_line_start}${ANDROID_NDK}\$" "$1"`
+    good_ndk_count=`grep -c "${ndk_line_start}${android_ndk_regex}\$" "$1"`
     # if one of each is found and both match the environment vars, no action needed
     if [ "$total_sdk_count" -eq "1" -a "$good_sdk_count" -eq "1" \
 	    -a "$total_ndk_count" -eq "1" -a "$good_ndk_count" -eq "1" ]
