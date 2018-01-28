@@ -7,10 +7,16 @@
     <string name="sortby">Trier par…</string>
     <string name="sortby_name">Nom</string>
     <string name="sortby_name_desc">Nom (desc)</string>
+    <string name="sortby_artist_name">Nom de l\'artiste</string>
+    <string name="sortby_artist_name_desc">Nom de l\'artiste (desc)</string>
+    <string name="sortby_album_name">Titre de l\'album</string>
+    <string name="sortby_album_name_desc">Titre de l\'album (desc)</string>
     <string name="sortby_length">Durée</string>
     <string name="sortby_length_desc">Durée (desc)</string>
     <string name="sortby_date">Date</string>
     <string name="sortby_date_desc">Date (desc)</string>
+    <string name="sortby_number">Nb pistes</string>
+    <string name="sortby_number_desc">Nb pistes (desc)</string>
     <string name="searchable_hint">Recherche…</string>
     <string name="history">Historique</string>
     <plurals name="search_found_results_quantity">
@@ -18,6 +24,10 @@
         <item quantity="other">%d résultats trouvés</item>
     </plurals>
     <string name="play">Lire</string>
+    <string name="playback">Lecture</string>
+    <string name="playback_controls">Contrôles de la lecture</string>
+    <string name="medialibrary_scan">Analyse de la bibliothèque de médias</string>
+    <string name="Medialibrary_progress">Flux de résultats de l\'analyse de la bibliothèque de médias</string>
     <string name="play_from_start">Lire du début</string>
     <string name="play_as_audio">Lire comme audio</string>
     <string name="play_as_video">Lire comme vidéo</string>
@@ -45,6 +55,7 @@
     <string name="unknown_artist">Artiste inconnu</string>
     <string name="unknown_album">Album inconnu</string>
     <string name="unknown_genre">Genre inconnu</string>
+    <string name="unknown_number">Nombre de pistes inconnu</string>
     <string name="songs">Chansons</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 chanson</item>
@@ -93,7 +104,7 @@
     <string name="directorynotfound">Dossier « %1$s » non trouvé.</string>
     <string name="nohistory">Pas d\'historique de lecture</string>
     <string name="validation">Êtes-vous sûr ?</string>
-    <string name="cover_art">Jaquette</string>
+    <string name="cover_art">Pochette</string>
     <string name="shuffle_title">Mode aléatoire</string>
     <string name="shuffle">Lecture aléatoire désactivée</string>
     <string name="shuffle_on">Lecture aléatoire activée</string>
@@ -128,6 +139,7 @@
     <string name="brightness">Luminosité</string>
     <string name="navmenu">menu de navigation</string>
     <string name="advanced">options avancées</string>
+    <string name="audio_boost_warning">Défilez encore vers le haut pour dépasser 100 %</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
         <item quantity="other">%1$d canaux\n</item>
@@ -167,6 +179,7 @@
     <string name="error_not_compatible">Désolé, mais votre appareil n\'est pas supporté pour l\'instant par cette version de VLC pour Android™.</string>
     <string name="error_problem">Désolé, VLC pour Android a rencontré un problème et a dû s\'arrêter.</string>
     <string name="error_message_is">Le message d\'erreur est (à indiquer en mode debug) :\n</string>
+    <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">Erreur de lecture</string>
     <string name="encountered_error_message">Une erreur est survenue à la lecture de ce média.\nVous devriez peut-être rafraîchir votre bibliothèque multimédia.</string>
     <string name="invalid_location">L\'emplacement « %1$s » ne peut être lu.</string>
@@ -248,6 +261,8 @@
     <string name="video_min_group_length_first">Première lettre seulement</string>
     <string name="video_min_group_length_short">Courte suite de lettre (6)</string>
     <string name="video_min_group_length_long">Longue suite de lettres (9)</string>
+    <string name="media_seen">Afficher le marqueur de vidéo vue</string>
+    <string name="media_seen_summary">Marquer une vidéo comme vue lorsque vous la regardez jusqu\'à la fin</string>
     <string name="force_list_portrait">Pas de grille en mode portrait</string>
     <string name="force_list_portrait_summary">Afficher les vidéos par liste plutôt que par grille en mode portrait</string>
     <string name="force_play_all_summary">Jouer toutes les vidéos en commençant par celle sélectionnée</string>
@@ -276,11 +291,13 @@
     <string name="subtitles_size_huge">Énorme</string>
     <string name="subtitles_color_title">Couleur des sous-titres</string>
     <string name="subtitles_color_white">Blanc</string>
+    <string name="subtitles_color_gray">Gris</string>
     <string name="subtitles_color_pink">Rose</string>
     <string name="subtitles_color_blue">Bleu</string>
     <string name="subtitles_color_yellow">Jaune</string>
     <string name="subtitles_color_green">Vert</string>
     <string name="subtitles_background_title">Arrière-plan des sous-titres</string>
+    <string name="subtitles_bold_title">Sous-titres en gras</string>
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Pochette des albums sur l\'écran de verrouillage</string>
     <string name="lockscreen_cover_summary">Si disponible, la pochette de l\'album sera affichée comme fond d\'écran lorsque l\'appareil est verrouillé</string>
@@ -294,6 +311,8 @@
     <string name="audio_title_alignment_marquee">Texte</string>
     <string name="audio_save_repeat_title">Enregistrer le mode de répétition</string>
     <string name="audio_save_repeat_summary">Restaurer le mode de répétition au chargement de listes de lecture audio</string>
+    <string name="audio_boost_title">Boost audio</string>
+    <string name="audio_boost_summary">Permettre l\'augmentation du volume à 200 %</string>
     <string name="headset_prefs_category">Casque</string>
     <string name="enable_headset_detection">Détecter le casque</string>
     <string name="enable_headset_detection_summary">Détecter l\'insertion et le retrait d\'un micro-casque</string>
@@ -303,6 +322,13 @@
     <string name="enable_steal_remote_control_summary">Évite les conflits en bloquant le contrôle de la télécommande aux autres applis. Cela empêche le double clic de rappeler le dernier numéro sur les téléphones HTC.</string>
     <string name="aout">Sortie audio</string>
     <string name="aout_summary">Modifier le type de sortie audio en cas de dysfonctionnement audio.</string>
+    <string name="extensions_prefs_category">Extensions</string>
+    <string name="extensions_enable_category">Choisissez les extensions à activer</string>
+    <string name="extensions_empty">Aucune extension détectée</string>
+    <string name="extension_permission_title">Activer la nouvelle extension « %1$s » ?</string>
+    <string name="extension_permission_checkbox_title">Afficher dans %1$s</string>
+    <string name="extension_prefs_activation_title">Activer</string>
+    <string name="android_auto">Auto Android</string>
     <string name="controls_prefs_category">Contrôles</string>
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Chroma vidéo</string>
@@ -363,8 +389,7 @@
     <string name="audio_delay">Délai audio</string>
     <string name="spu_delay">Délai du sous-titrage</string>
     <string name="sleep_time_not_set">non défini</string>
-    <string name="network_shares_discovery">Recherche de partages réseau...</string>
-    <string name="network_empty">Ce répertoire est vide.</string>
+    <string name="network_empty">Ce dossier est vide.</string>
     <string name="network_connection_needed">Pas de connexion au réseau local.</string>
     <string name="search_hint">Recherche de média</string>
     <string name="search_list_hint">Rechercher un média dans la liste actuelle</string>
@@ -409,6 +434,7 @@
     <string name="allow_sdraw_overlays_description">VLC a besoin de votre autorisation pour afficher les vidéos dans une popup par dessus les autres applications</string>
     <string name="permission_ask_again">Donner l\'autorisation</string>
     <string name="exit_app">Fermer VLC</string>
+    <string name="exit_app_msg">Voulez-vous vraiment quitter VLC ?</string>
     <!--fast scroller-->
     <string name="fastscroller_track">indicateur de défilement rapide</string>
     <string name="fastscroller_handle">Curseur du défilement rapide</string>
@@ -417,7 +443,7 @@
     <string name="download_on_device">Télécharger</string>
     <string name="extension_empty">Aucun élément à afficher, rendez vous dans les paramètres de votre extension pour en avoir</string>
     <string name="opengl_title">Utilisation de OpenGL ES2</string>
-    <string name="opengl_summary">Par défaut, OpenGL ES2 est utilisé opur le décodage logiciel et le décodage matériel lorsque cela est nécessaire (vidéos 360°).</string>
+    <string name="opengl_summary">Par défaut, OpenGL ES2 est utilisé pour le décodage logiciel et le décodage matériel lorsque cela est nécessaire (vidéos 360°).</string>
     <string name="opengl_automatic">Automatique</string>
     <string name="opengl_on">On (forcé)</string>
     <string name="opengl_off">Off (forcé)</string>
@@ -426,7 +452,7 @@
     <string name="encryption_warning">Avertissement, le chiffrement n\'est pas disponible pour cette version d\'Android, le mot de passe sera stocké dans un espace privé mais de manière non chiffrée</string>
     <string name="store_password">Enregistrer le mot de passe</string>
     <string name="add_to_playlist">Ajouter à la liste de lecture</string>
-    <string name="popup_playback_title">Jouer la vidéo dans une fenêtre popup</string>
+    <string name="popup_playback_title">Lire la vidéo dans une fenêtre popup</string>
     <string name="popup_playback">Lecture dans une fenêtre popup</string>
     <string name="popup_expand">Maximiser la vidéo</string>
     <string name="snack_subloader_sub_found">Sous-titres téléchargés</string>
@@ -436,7 +462,7 @@
     <string name="dialog_subloader_sumup">Téléchargenent terminé</string>
     <string name="download_subtitles">Télécharger des sous-titres</string>
     <string name="preferences_languages_download">Langues des sous-titres</string>
-    <string name="list_languages_download_summary">Langue à télécharger lors de la recherche de sous-titres</string>
+    <string name="list_languages_download_summary">Langues à télécharger lors de la recherche de sous-titres</string>
     <string name="list_languages_download_title">Langues des sous-titres téléchargés</string>
     <string name="service_unavailable">Service injoignable</string>
     <string name="subs_dl_lang_fail">Échec lors de la définition de la langue des sous-titres ; essayez de la définir dans les paramètres de l\'application</string>
@@ -444,23 +470,38 @@
     <string name="browse_folder">Ouvrir le dossier</string>
     <string name="listen">Écouter</string>
     <string name="subtitles_download_title">Téléchargement des sous-titres</string>
-    <string name="connecting">Connexion…</string>
     <string name="save_bluetooth_delay">enregistrer le retard du périphérique bluetooth</string>
     <string name="episodes">épisodes</string>
     <string name="movies">films</string>
     <string name="videos">vidéos</string>
     <string name="clear_playback_history">Supprimer l\'historique de lecture</string>
-    <string name="various_artists">Artistes Divers</string>
+    <string name="various_artists">Artistes dvers</string>
     <string name="ml_scanning">Recherche de fichiers multimédia</string>
-    <string name="ml_parse_media">Analyse des média</string>
+    <string name="ml_parse_media">Analyse des médias</string>
     <string name="ml_discovering">Exploration</string>
     <string name="resume">Reprendre</string>
     <string name="length">durée</string>
     <string name="tv_settings_hint">Appui prolongé sur OK pour cocher/décocher</string>
     <string name="ml_external_storage_title">Nouveau stockage externe détecté</string>
     <string name="ml_external_storage_msg">Souhaitez-vous que VLC ajoute le périphérique %1$s à votre bibliothèque de media ?</string>
+    <string name="ml_external_storage_accept">Oui</string>
+    <string name="ml_external_storage_decline">Non</string>
     <string name="last_added_media">Derniers ajouts</string>
     <string name="no">Non</string>
-    <string name="loading_medialibrary">Chargement de la bibliothèque multimédia</string>
-    <string name="yes">oui</string>
+    <string name="yes">Oui</string>
+    <string name="custom_set_save_title">Changements non enregistrés</string>
+    <string name="custom_set_save_warning">Attention : changements non enregistrés</string>
+    <string name="save">Enregistrer</string>
+    <string name="do_not_save">Ne pas enregistrer</string>
+    <string name="custom_set_deleted_message">Ensemble d\'égaliseurs personnalisé « %1$s » supprimé.</string>
+    <string name="custom_set_wrong_input">Nom invalide.</string>
+    <string name="custom_set_already_exist">Il existe déjà un ensemble d\'égaliseurs portant ce nom</string>
+    <string name="custom_set_restored">Ensemble d\'égaliseurs personnalisé restauré.</string>
+    <string name="unsaved_set_deleted_message">Ensemble d\'égaliseurs non sauvegardé supprimé.</string>
+    <string name="equalizer_new_preset_name">Nouveau</string>
+    <string name="settings_ml_block_scan">La bibliothèque de média explore actuellement vos appareils</string>
+    <string name="recommendations">Recommandations</string>
+    <string name="recommendations_desc">Cartes de recommandation au démarrage</string>
+    <string name="browser_quick_access">Accès rapide</string>
+    <string name="browser_storages">Stockages</string>
 </resources>
