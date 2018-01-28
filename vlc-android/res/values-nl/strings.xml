@@ -7,10 +7,16 @@
     <string name="sortby">Sorteren op…</string>
     <string name="sortby_name">Naam</string>
     <string name="sortby_name_desc">Naam (beschr)</string>
+    <string name="sortby_artist_name">Naam artiest</string>
+    <string name="sortby_artist_name_desc">Naam artiest (beschr)</string>
+    <string name="sortby_album_name">Naam album</string>
+    <string name="sortby_album_name_desc">Naam album (beschr)</string>
     <string name="sortby_length">Lengte</string>
     <string name="sortby_length_desc">Lengte (beschr)</string>
     <string name="sortby_date">Datum</string>
     <string name="sortby_date_desc">Datum (beschr)</string>
+    <string name="sortby_number">Aantal tracks</string>
+    <string name="sortby_number_desc">Aantal tracks (beschr)</string>
     <string name="searchable_hint">Zoeken…</string>
     <string name="history">Geschiedenis</string>
     <plurals name="search_found_results_quantity">
@@ -18,17 +24,21 @@
         <item quantity="other">%d resultaten gevonden</item>
     </plurals>
     <string name="play">Afspelen</string>
+    <string name="playback">Afspelen</string>
+    <string name="playback_controls">Afspeelbesturing</string>
+    <string name="medialibrary_scan">Mediabibliotheek-scan</string>
+    <string name="Medialibrary_progress">Updates voor scanproces van mediabibliotheek</string>
     <string name="play_from_start">Vanaf begin afspelen</string>
     <string name="play_as_audio">Als audio afspelen</string>
     <string name="play_as_video">Als video afspelen</string>
-    <string name="video_app_switch_title">Actie bij wisselen tussen toepassingen</string>
+    <string name="video_app_switch_title">Achtergrond/PiP-modus</string>
     <string name="video_app_switch_summary">Selecteer VLC-gedrag wanneer u naar een andere toepassing wisselt vanuit het afspelen van video</string>
     <string name="play_pip_title">Video\'s afspelen in modus beeld-in-beeld</string>
     <string name="play_as_audio_background">Video\'s op achtergrond afspelen</string>
-    <string name="append">Achteraan toevoegen</string>
+    <string name="append">Toevoegen</string>
     <string name="insert_next">Als volgende invoegen</string>
     <string name="play_all">Alles afspelen</string>
-    <string name="append_all">Alles achteraan toevoegen</string>
+    <string name="append_all">Alles toevoegen</string>
     <string name="last_playlist">Laatste afspeellijst</string>
     <string name="delete">Verwijderen</string>
     <string name="remove">Verwijderen</string>
@@ -45,6 +55,7 @@
     <string name="unknown_artist">Onbekende artiest</string>
     <string name="unknown_album">Onbekend album</string>
     <string name="unknown_genre">Onbekend genre</string>
+    <string name="unknown_number">Onbekend aantal tracks</string>
     <string name="songs">Nummers</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 nummer</item>
@@ -128,6 +139,7 @@
     <string name="brightness">Helderheid</string>
     <string name="navmenu">navigatiemenu</string>
     <string name="advanced">geavanceerde opties</string>
+    <string name="audio_boost_warning">Nogmaals omhoog slepen om boven 100 % te gaan</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanaal\n</item>
         <item quantity="other">%1$d kanalen\n</item>
@@ -161,12 +173,13 @@
     <string name="favorite_added">Opgeslagen in favorieten</string>
     <string name="favorite_removed">Verwijderd uit favorieten</string>
     <string name="open">Openen</string>
-    <string name="open_mrl">MRL openen</string>
+    <string name="open_mrl">Stream</string>
     <string name="open_mrl_dialog_title">Netwerkstream openen</string>
     <string name="open_mrl_dialog_msg">Geef netwerk-MRL op: bijvoorbeeld http://, mms:// of rtsp://</string>
     <string name="error_not_compatible">Sorry, uw toestel wordt op dit moment niet ondersteund door deze versie van VLC voor Android™.</string>
     <string name="error_problem">Sorry, VLC voor Android had een probleem bij het laden en moest afgesloten worden.</string>
     <string name="error_message_is">De foutmelding is (vermeld dit bij het debuggen):\n\n</string>
+    <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">Fout bij afspelen</string>
     <string name="encountered_error_message">VLC heeft een fout aangetroffen bij dit mediabestand.\nProbeer de mediabibliotheek te vernieuwen.</string>
     <string name="invalid_location">De locatie %1$s kan niet afgespeeld worden.</string>
@@ -195,7 +208,7 @@
     <string name="show_playlist">Afspeellijst weergeven</string>
     <string name="hold_to_stop">Inhouden om te stoppen</string>
     <!-- About -->
-    <string name="app_name_full">VLC voor Android™</string>
+    <string name="app_name_full">VLC voor Android</string>
     <string name="licence">Licentie</string>
     <string name="revision">Revisie</string>
     <string name="about">Over</string>
@@ -203,7 +216,7 @@
     <string name="compiled_by">Deze versie van VLC werd gecompileerd door:</string>
     <string name="vlc_authors">VLC-auteurs.</string>
     <!-- Preferences -->
-    <string name="preferences">Voorkeuren</string>
+    <string name="preferences">Instellingen</string>
     <string name="general_prefs_category">Algemeen</string>
     <string name="directories_summary">Selecteer mappen om te integreren in de mediabibliotheek</string>
     <string name="add_custom_path">Aangepast pad toevoegen</string>
@@ -248,6 +261,9 @@
     <string name="video_min_group_length_first">Alleen eerste letter</string>
     <string name="video_min_group_length_short">Klein aantal letters (6)</string>
     <string name="video_min_group_length_long">Groot aantal letters (9)</string>
+    <string name="media_fast_seek">Snelzoeken-optie inschakelen</string>
+    <string name="media_seen">Gezien-videomarker weergeven</string>
+    <string name="media_seen_summary">Een video als gezien markeren als u hem tot het einde afspeelt</string>
     <string name="force_list_portrait">Geen raster in staande modus</string>
     <string name="force_list_portrait_summary">Video\'s in lijst weergeven in plaats van in raster in staande modus</string>
     <string name="force_play_all_summary">Alle video\'s afspelen, beginnend met die waar u op klikte</string>
@@ -276,12 +292,15 @@
     <string name="subtitles_size_huge">Enorm</string>
     <string name="subtitles_color_title">Ondertitelkleur</string>
     <string name="subtitles_color_white">Wit</string>
+    <string name="subtitles_color_gray">Grijs</string>
     <string name="subtitles_color_pink">Roze</string>
     <string name="subtitles_color_blue">Blauw</string>
     <string name="subtitles_color_yellow">Geel</string>
     <string name="subtitles_color_green">Groen</string>
     <string name="subtitles_background_title">Ondertitel-achtergrond</string>
-    <string name="audio_prefs_category">Geluid</string>
+    <string name="subtitles_bold_title">Vette ondertitels</string>
+    <string name="subtitles_autoload_title">Ondertitels automatisch laden</string>
+    <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Media-hoes op vergrendelscherm</string>
     <string name="lockscreen_cover_summary">Wanneer beschikbaar, de huidige media-hoes instellen als achtergrond op vergrendelscherm</string>
     <string name="playlist_animate_scroll_title">Automatisch scrollen van huidige afspeellijst animeren</string>
@@ -294,6 +313,8 @@
     <string name="audio_title_alignment_marquee">Lichtkrant</string>
     <string name="audio_save_repeat_title">Herhaalmodus opslaan</string>
     <string name="audio_save_repeat_summary">Herhaalmodus onthouden bij het laden van audio-afspeellijsten</string>
+    <string name="audio_boost_title">Audio-boost</string>
+    <string name="audio_boost_summary">Volume tot 200 % inschakelen</string>
     <string name="headset_prefs_category">Headset</string>
     <string name="enable_headset_detection">Hoofdtelefoon detecteren</string>
     <string name="enable_headset_detection_summary">Insteken en verwijderen van headset detecteren</string>
@@ -303,6 +324,26 @@
     <string name="enable_steal_remote_control_summary">Vermijd conflicten door de afstandsbediening van andere apps te stelen. Dit voorkomt bellen bij dubbelklikken op HTC-telefoons.</string>
     <string name="aout">Audio-uitvoer</string>
     <string name="aout_summary">Verander de audio-uitvoermethode die VLC gebruikt.</string>
+    <string name="audio_ducking_title">VLC-volume verlagen bij meldingen</string>
+    <string name="audio_ducking_summary">Helpt om audiomeldingen, navigatie-instructies of het praten van de assistent te horen</string>
+    <string name="casting_category">Uitzenden</string>
+    <string name="casting_passthrough_title">Audiodoorvoer</string>
+    <string name="casting_passthrough_summary">Laat uw tv het renderen van audio beheren</string>
+    <string name="casting_conversion_quality_title">Conversiekwaliteit</string>
+    <string name="casting_conversion_quality_summary">Selecteer de conversiekwaliteit bij uitzenden op extern beeldscherm</string>
+    <string name="casting_quality_high">Hoog</string>
+    <string name="casting_quality_medium">Gemiddeld</string>
+    <string name="casting_quality_low">Laag</string>
+    <string name="casting_quality_lowcpu">Laagste</string>
+    <string name="cast_performance_warning">Uitzenden van deze video vereist conversie. Deze conversie kan alle beschikbare energie gebruiken en uw batterij snel leegtrekken.</string>
+    <string name="casting_connected_renderer">Verbonden met renderer \'%1$s\'</string>
+    <string name="extensions_prefs_category">Extensies</string>
+    <string name="extensions_enable_category">Extensies kiezen om in te schakelen</string>
+    <string name="extensions_empty">Geen extensie gedetecteerd</string>
+    <string name="extension_permission_title">Nieuwe extensie \"%1$s\" inschakelen?</string>
+    <string name="extension_permission_checkbox_title">Weergeven in %1$s</string>
+    <string name="extension_prefs_activation_title">Inschakelen</string>
+    <string name="android_auto">Android-auto</string>
     <string name="controls_prefs_category">Besturing</string>
     <string name="performance_prefs_category">Prestaties</string>
     <string name="chroma_format">Chroma forceren</string>
@@ -359,7 +400,7 @@
     <string name="drawer_close">Navigatielade sluiten</string>
     <string name="network_browsing">Lokaal netwerk</string>
     <string name="browsing">Bladeren</string>
-    <string name="file_size">Bestandsgrootte</string>
+    <string name="file_size">Bestandsgrootte:</string>
     <string name="audio_delay">Audiovertraging</string>
     <string name="spu_delay">Ondertitelvertraging</string>
     <string name="sleep_time_not_set">niets ingesteld</string>
@@ -409,6 +450,7 @@
     <string name="allow_sdraw_overlays_description">VLC moet uw toestemming hebben om uw video weer te geven in een popup bovenop andere toepassingen.</string>
     <string name="permission_ask_again">Toegang toestaan</string>
     <string name="exit_app">VLC sluiten</string>
+    <string name="exit_app_msg">Weet u zeker dat u VLC wilt afsluiten?</string>
     <!--fast scroller-->
     <string name="fastscroller_track">FastScroller-track</string>
     <string name="fastscroller_handle">FastScroller-bediening</string>
@@ -425,7 +467,7 @@
     <string name="network_shared_folders">Gedeelde mappen</string>
     <string name="encryption_warning">Waarschuwing: encryptie is niet beschikbaar op deze Android-versie. Het wachtwoord zal opgeslagen worden op een privé-ruimte maar niet versleuteld.</string>
     <string name="store_password">Wachtwoord onthouden</string>
-    <string name="add_to_playlist">Aan afspeellijst toevoegen</string>
+    <string name="add_to_playlist">Toevoegen aan afspeellijst</string>
     <string name="popup_playback_title">Video afspelen in een popup-venster</string>
     <string name="popup_playback">Afspelen in een popup-venster</string>
     <string name="popup_expand">Video uitklappen</string>
@@ -435,7 +477,7 @@
     <string name="dialog_subloader_fails">Ondertitels niet gevonden voor:</string>
     <string name="dialog_subloader_sumup">Download voltooid</string>
     <string name="download_subtitles">Ondertitels downloaden</string>
-    <string name="preferences_languages_download">Taal ondertitels</string>
+    <string name="preferences_languages_download">Taal ondertitel</string>
     <string name="list_languages_download_summary">Talen om te downloaden bij het ophalen van ondertitels</string>
     <string name="list_languages_download_title">Ondertitel-downloadtalen</string>
     <string name="service_unavailable">Dienst niet beschikbaar</string>
@@ -453,14 +495,36 @@
     <string name="various_artists">Diverse artiesten</string>
     <string name="ml_scanning">Zoeken naar mediabestanden</string>
     <string name="ml_parse_media">Media verwerken</string>
-    <string name="ml_discovering">Ontdekken</string>
+    <string name="ml_discovering">Ontdekken van</string>
     <string name="resume">Hervatten</string>
     <string name="length">Lengte</string>
     <string name="tv_settings_hint">De ok-knop lang ingedrukt houden om mappen aan/uit te vinken.</string>
     <string name="ml_external_storage_title">Nieuwe externe opslag gedetecteerd</string>
     <string name="ml_external_storage_msg">Wilt u dat VLC apparaat %1$s aan uw mediabibliotheek toevoegt?</string>
+    <string name="ml_external_storage_accept">Ja</string>
+    <string name="ml_external_storage_decline">Nee</string>
     <string name="last_added_media">laatst toegevoegd</string>
     <string name="no">Nee</string>
     <string name="loading_medialibrary">Mediabibliotheek laden...</string>
-    <string name="yes">ja</string>
+    <string name="yes">Ja</string>
+    <string name="custom_set_save_title">Niet-opgeslagen wijzigingen</string>
+    <string name="custom_set_save_warning">Waarschuwing: niet-opgeslagen wijzigingen</string>
+    <string name="existing_custom_set_save_message">Equalizer-set opslaan als...</string>
+    <string name="new_custom_set_save_message">Nieuwe equalizer-set opslaan als...</string>
+    <string name="save">Opslaan</string>
+    <string name="do_not_save">Niet opslaan</string>
+    <string name="custom_set_deleted_message">Aangepaste equalizer-set \"%1$s\" verwijderd.</string>
+    <string name="custom_set_wrong_input">Ongeldige naam.</string>
+    <string name="custom_set_already_exist">Er bestaat al een equalizer-set met deze naam</string>
+    <string name="custom_set_restored">Aangepaste equalizer-set hersteld.</string>
+    <string name="unsaved_set_deleted_message">Niet-opgeslagen equalizer-set verwijderd.</string>
+    <string name="equalizer_new_preset_name">Nieuw</string>
+    <string name="settings_ml_block_scan">Mediabibliotheek scant uw apparaten op dit moment</string>
+    <string name="recommendations">Aanbevelingen</string>
+    <string name="recommendations_desc">Aanbevelingskaarten op startscherm</string>
+    <string name="browser_quick_access">Snelle toegang</string>
+    <string name="browser_storages">Opslag</string>
+    <string name="msg_delete_failed">Verwijderen van media %1$s mislukt</string>
+    <string name="renderer_list_title">Schermen</string>
+    <string name="feedback_player_crashed">Sorry, VLC is net gecrasht. Probeer het opnieuw.</string>
 </resources>
