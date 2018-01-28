@@ -7,10 +7,16 @@
     <string name="sortby">Сортувати за…</string>
     <string name="sortby_name">назвою</string>
     <string name="sortby_name_desc">Назва (за спад.)</string>
+    <string name="sortby_artist_name">Ім\'я виконавця</string>
+    <string name="sortby_artist_name_desc">Ім\'я виконавця (за спад.)</string>
+    <string name="sortby_album_name">Назва альбому</string>
+    <string name="sortby_album_name_desc">Назва альбому (за спад.)</string>
     <string name="sortby_length">довжиною</string>
     <string name="sortby_length_desc">Довжина (за спад.)</string>
     <string name="sortby_date">Дата</string>
     <string name="sortby_date_desc">Дата (за спад.)</string>
+    <string name="sortby_number">Доріжки Nb</string>
+    <string name="sortby_number_desc">Доріжки Nb (за спад.)</string>
     <string name="searchable_hint">Триває пошук…</string>
     <string name="history">Історія</string>
     <plurals name="search_found_results_quantity">
@@ -19,10 +25,14 @@
         <item quantity="other">знайдено %d результатів</item>
     </plurals>
     <string name="play">Відтворити</string>
+    <string name="playback">Відтворення</string>
+    <string name="playback_controls">Керування відтворенням</string>
+    <string name="medialibrary_scan">Сканувати медіатеку</string>
+    <string name="Medialibrary_progress">Оновлення перебігу сканування медіатеки</string>
     <string name="play_from_start">Відтворити з початку</string>
     <string name="play_as_audio">Відтворити як аудіо</string>
     <string name="play_as_video">Відтворити як відео</string>
-    <string name="video_app_switch_title">Дія при перемиканні програми</string>
+    <string name="video_app_switch_title">Тло/Режим PiP</string>
     <string name="video_app_switch_summary">Виберіть поводження VLC, коли ви перемикаєтеся на іншу програму при відтворенні відео</string>
     <string name="play_pip_title">Відтворювати відео у режимі Картинка в картинці</string>
     <string name="play_as_audio_background">Відтворювати відео у фоні</string>
@@ -31,8 +41,8 @@
     <string name="play_all">Відтворити все</string>
     <string name="append_all">Додати все</string>
     <string name="last_playlist">Останній список</string>
-    <string name="delete">Вилучити</string>
-    <string name="remove">Усунути</string>
+    <string name="delete">Видалити</string>
+    <string name="remove">Видалити</string>
     <string name="set_song">Встановити як мелодію</string>
     <string name="info">Інформація</string>
     <string name="confirm_delete">Видалити файл \'%1$s\'?</string>
@@ -46,6 +56,7 @@
     <string name="unknown_artist">Невідомий виконавець</string>
     <string name="unknown_album">Невідомий альбом</string>
     <string name="unknown_genre">Невідомий жанр</string>
+    <string name="unknown_number">Невідоме число доріжок</string>
     <string name="songs">пісні</string>
     <plurals name="songs_quantity">
         <item quantity="one">%d пісня</item>
@@ -92,7 +103,7 @@
     <string name="loading">Завантажується…</string>
     <string name="please_wait">Будь ласка, зачекайте…</string>
     <string name="nomedia">Не знайдено жодного медіафайлу. Перемістіть частину файлів на пристрій або змініть параметри.</string>
-    <string name="noplaylist">Не знайденого список відтворення.</string>
+    <string name="noplaylist">Не знайдено список відтворення.</string>
     <string name="mediafiles">Медіафайли</string>
     <string name="notavailable">недоступно</string>
     <string name="nosubdirectory">Немає підкаталогів.</string>
@@ -134,6 +145,7 @@
     <string name="brightness">Яскравість</string>
     <string name="navmenu">меню навігації</string>
     <string name="advanced">додаткові параметри</string>
+    <string name="audio_boost_warning">Проведіть вгору, щоби перевищити 100%</string>
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 канал\n</item>
         <item quantity="few">%1$d канали\n</item>
@@ -164,16 +176,17 @@
     <string name="search_no_result">Не знайдено жодний медіафайл</string>
     <string name="favorites_add">Додати до обраного</string>
     <string name="favorites_remove">Вилучити з обраного</string>
-    <string name="favorites_edit">Зміни</string>
+    <string name="favorites_edit">Редагувати</string>
     <string name="favorite_added">Збережено в обраному</string>
     <string name="favorite_removed">Вилучено з обраного</string>
     <string name="open">Відкрити</string>
-    <string name="open_mrl">Відкрити MRL</string>
+    <string name="open_mrl">Потік</string>
     <string name="open_mrl_dialog_title">Відкрити мережевий потік</string>
     <string name="open_mrl_dialog_msg">Уведіть мережеву MRL-адресу, наприклад, http://, mms:// або rtsp://</string>
     <string name="error_not_compatible">На жаль, ваш пристрій на даний час не підтримується цією версією VLC для Android™.</string>
     <string name="error_problem">На жаль, VLC для Android мав проблему при завантаженні і він закрився.</string>
     <string name="error_message_is">Повідомлення про помилку (будь ласка, вкажіть його при налагодженні):\n\n</string>
+    <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">Помилка відтворення</string>
     <string name="encountered_error_message">У VLC сталася помилка з цим медіафайлом.\nБудь ласка, спробуйте оновити медіабібліотеку.</string>
     <string name="invalid_location">Розташування %1$s не можливо відтворити.</string>
@@ -191,7 +204,7 @@
     <string name="resize">Змінити розміри</string>
     <string name="options">Параметри</string>
     <string name="lock">Блокувати</string>
-    <string name="ok_got_it">Зрозумів, відхилити це</string>
+    <string name="ok_got_it">Зрозуміло, закрити це</string>
     <string name="playlist_tips">Поради до списку</string>
     <string name="remove_song">Видалити пісню</string>
     <string name="remove_playlist_item">%1$s вже викинутий зі списку відтворення</string>
@@ -255,6 +268,9 @@
     <string name="video_min_group_length_first">Лише перші букви</string>
     <string name="video_min_group_length_short">Коротке число літер (6)</string>
     <string name="video_min_group_length_long">Довге число літер (9)</string>
+    <string name="media_fast_seek">Увімкнути швидкий пошук</string>
+    <string name="media_seen">Показувати заголовок медіа на початку відтворення</string>
+    <string name="media_seen_summary">Позначте відео, як переглянути, коли ви додивитеся до кінця</string>
     <string name="force_list_portrait">Немає сітки у портретному режимі</string>
     <string name="force_list_portrait_summary">Показувати відео списком замість сітки у портретному режимі</string>
     <string name="force_play_all_summary">Відтворювати усе відео, починаючи з першого, на тицьнули</string>
@@ -283,11 +299,14 @@
     <string name="subtitles_size_huge">Велетенський</string>
     <string name="subtitles_color_title">Колір субтитрів</string>
     <string name="subtitles_color_white">Білий</string>
+    <string name="subtitles_color_gray">Сірий</string>
     <string name="subtitles_color_pink">Рожевий</string>
     <string name="subtitles_color_blue">Блакитний</string>
     <string name="subtitles_color_yellow">Жовтий</string>
     <string name="subtitles_color_green">Зелений</string>
     <string name="subtitles_background_title">Тло субтитрів</string>
+    <string name="subtitles_bold_title">Жирні субтитри</string>
+    <string name="subtitles_autoload_title">Автоматично звантажити субтитри</string>
     <string name="audio_prefs_category">Аудіо</string>
     <string name="lockscreen_cover_title">Обкладинка екрану блокування</string>
     <string name="lockscreen_cover_summary">Якщо доступно, то встановіть обкладинку як шпалери екрану блокування</string>
@@ -301,6 +320,8 @@
     <string name="audio_title_alignment_marquee">Рухливий текст</string>
     <string name="audio_save_repeat_title">Зберегти режим повторення</string>
     <string name="audio_save_repeat_summary">Запам\'ятати режим повторення, коли завантажуються списки відтворення аудіо</string>
+    <string name="audio_boost_title">Наростання звуку</string>
+    <string name="audio_boost_summary">Підвищити гучність до 200%</string>
     <string name="headset_prefs_category">Навушники</string>
     <string name="enable_headset_detection">Виявляти гарнітуру</string>
     <string name="enable_headset_detection_summary">Виявляти під\'єднання і вилучення навушників</string>
@@ -310,6 +331,15 @@
     <string name="enable_steal_remote_control_summary">Уникає конфліктів через перехоплення віддаленого управління іншими програмами. Це запобігає дзвінкам при подвійному натисканні на HTC телефонах.</string>
     <string name="aout">Вивід звуку</string>
     <string name="aout_summary">Змінює метод, який VLC використовує для виведення звуку.</string>
+    <string name="audio_ducking_title">Нижча гучність VLC під час сповіщень</string>
+    <string name="audio_ducking_summary">Допомагає почути звукові сповіщення, навігаційні вказівки та слова асистента</string>
+    <string name="extensions_prefs_category">Розширення</string>
+    <string name="extensions_enable_category">Виберіть розширення для увімкнення</string>
+    <string name="extensions_empty">Жодних розширень не виявлено</string>
+    <string name="extension_permission_title">Активувати нове розширення \"%1$s\"?</string>
+    <string name="extension_permission_checkbox_title">Показати у %1$s</string>
+    <string name="extension_prefs_activation_title">Активувати</string>
+    <string name="android_auto">Android авто</string>
     <string name="controls_prefs_category">Засоби управління</string>
     <string name="performance_prefs_category">Швидкодія</string>
     <string name="chroma_format">ПРИМУСОВА насиченість кольору</string>
@@ -370,9 +400,9 @@
     <string name="audio_delay">Затримка звуку</string>
     <string name="spu_delay">Затримка субтитрів</string>
     <string name="sleep_time_not_set">нічого не задано</string>
-    <string name="network_shares_discovery">Пошук мережних дисків…</string>
+    <string name="network_shares_discovery">Пошук мережевих дисків…</string>
     <string name="network_empty">Цей каталог - порожній.</string>
-    <string name="network_connection_needed">Немає з\'єднання до локальної мережі</string>
+    <string name="network_connection_needed">Немає з\'єднання із локальною мережею.</string>
     <string name="search_hint">Пошук медіа</string>
     <string name="search_list_hint">Пошук медіа у поточному списку</string>
     <string name="search_global">Пошук у всіх бібліотеках</string>
@@ -381,7 +411,7 @@
     <string name="playlist_save">Зберегти список відтворення</string>
     <string name="playlist_name_hint">назва списку відтворення</string>
     <string name="go_to_chapter">Перейти до глави…</string>
-    <string name="chapter">Частина</string>
+    <string name="chapter">Глава</string>
     <string name="resume_from_position">Відновити із останньої позиції</string>
     <string name="confirm_resume">Відновити із останньої позиції?</string>
     <string name="confirm_resume_title">Запитувати підтвердження про відновлення</string>
@@ -398,7 +428,7 @@
     <!--Accessibility-->
     <string name="more_actions">Більше дій</string>
     <string name="move">Перемістити</string>
-    <string name="back_quit_lock">Натисніть знову кнопку Назад для виходу із відео</string>
+    <string name="back_quit_lock">Натисніть знову Назад для виходу із відео</string>
     <string name="playlist_deleted">Список відтворення - вилучений</string>
     <string name="file_deleted">Файл — вилучений</string>
     <string name="no_subs_found">Немає субтитрів у цьому каталозі</string>
@@ -409,13 +439,14 @@
     <string name="allow_storage_access_title">Надати VLC доступ до відео та аудіофайлів</string>
     <string name="allow_storage_access_description">VLV потрібно, щоби ви надали цей доступ для доступу до медіафайлів на відповідному пристрої.</string>
     <string name="allow_settings_access_ringtone_title">Дозволити VLC задавати мелодію дзвінків</string>
-    <string name="allow_settings_access_ringtone_description">VLC потрібно, щоби ви надали цей дозвіл для установки цієї пісні як вашої мелодії.</string>
+    <string name="allow_settings_access_ringtone_description">VLC потрібно, що ви надали цей дозвіл для установки цієї пісні як вашої мелодії.</string>
     <string name="allow_settings_access_brightness_title">Дозволити VLC змінювати режим яскравості</string>
     <string name="allow_settings_access_brightness_description">VLC потрібно, щоби ви надали цей дозвіл для зміни режиму яскравості.</string>
     <string name="allow_draw_overlays_title">Дозволити VLC спливати над іншими програмами</string>
     <string name="allow_sdraw_overlays_description">VLC потрібно, щоби ви надали цей дозвіл для відображення вашого відео у спливному вікні над іншими програмами.</string>
     <string name="permission_ask_again">Надати дозвіл</string>
     <string name="exit_app">Закрити VLC</string>
+    <string name="exit_app_msg">Ви справді хочете вийти із VLC?</string>
     <!--fast scroller-->
     <string name="fastscroller_track">Доріжка FastScroller</string>
     <string name="fastscroller_handle">Держак FastScroller</string>
@@ -449,9 +480,9 @@
     <string name="subs_dl_lang_fail">Не вдалося задати мову субтитрів, спробуйте задати її в налаштуваннях програми</string>
     <string name="downloading_subtitles">Звантаження субтитрів</string>
     <string name="browse_folder">Огляд теки</string>
-    <string name="listen">Слухати</string>
+    <string name="listen">Прослухайте</string>
     <string name="subtitles_download_title">Завантаження субтитрів</string>
-    <string name="connecting">Під\'єднання…</string>
+    <string name="connecting">Під\'єднуємося…</string>
     <string name="save_bluetooth_delay">зберігати затримку для пристрою bluetooth</string>
     <string name="episodes">епізоди</string>
     <string name="movies">фільми</string>
@@ -466,8 +497,28 @@
     <string name="tv_settings_hint">Тривалий натиск на кнопку Гаразд для позначення/зняття позначень каталогів</string>
     <string name="ml_external_storage_title">Виявлено новий зовнішній носій</string>
     <string name="ml_external_storage_msg">Хочете, щоби VLC додала пристрій %1$s до вашої бібліотеки медіа?</string>
+    <string name="ml_external_storage_accept">Так</string>
+    <string name="ml_external_storage_decline">Ні</string>
     <string name="last_added_media">останнє додане</string>
     <string name="no">Ні</string>
     <string name="loading_medialibrary">Завантажується бібліотека медіа…</string>
-    <string name="yes">так</string>
+    <string name="yes">Так</string>
+    <string name="custom_set_save_title">Незбережені зміни</string>
+    <string name="custom_set_save_warning">Попередження: незбережені зміни</string>
+    <string name="existing_custom_set_save_message">Зберегти параметри еквалайзера як…</string>
+    <string name="new_custom_set_save_message">Зберегти нові параметри еквалайзера як…</string>
+    <string name="save">Зберігати</string>
+    <string name="do_not_save">Не зберігати</string>
+    <string name="custom_set_deleted_message">Особливий набір параметрів еквалайзера %1$s вилучений.</string>
+    <string name="custom_set_wrong_input">Неправильна назва.</string>
+    <string name="custom_set_already_exist">Набір параметрів еквалайзера з такою назвою вже існує</string>
+    <string name="custom_set_restored">Особливий набір параметрів еквалайзера відновлений.</string>
+    <string name="unsaved_set_deleted_message">Незбережений набір параметрів еквалайзера вилучений.</string>
+    <string name="equalizer_new_preset_name">Новий</string>
+    <string name="settings_ml_block_scan">Бібліотека медіа тепер правильно сканує ваші пристрої </string>
+    <string name="recommendations">Рекомендації</string>
+    <string name="recommendations_desc">Карти рекомендацій на пускачі</string>
+    <string name="browser_quick_access">Швидкий доступ</string>
+    <string name="browser_storages">Носії пам\'яті</string>
+    <string name="msg_delete_failed">Не вдалося вилучити медіа %1$s</string>
 </resources>
