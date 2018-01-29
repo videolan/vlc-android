@@ -64,6 +64,7 @@ import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.ExternalMonitor;
+import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RecommendationsService;
@@ -79,6 +80,7 @@ import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
 
@@ -235,8 +237,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             switch (resultCode) {
                 case PreferencesActivity.RESULT_RESCAN:
-                    VLCApplication.getMLInstance().reload();
-                    update();
+                    startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));;
                     break;
                 case PreferencesActivity.RESULT_RESTART:
                 case PreferencesActivity.RESULT_RESTART_APP:

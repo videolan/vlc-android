@@ -22,6 +22,7 @@
 
 package org.videolan.vlc.gui.preferences;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
@@ -31,6 +32,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.VLCInstance;
 
 public class PreferencesAudio extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -64,8 +66,7 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
-        if (preference.getKey() == null)
-            return false;
+        if (preference.getKey() == null) return false;
         switch (preference.getKey()){
             case "enable_headset_detection":
                 ((PreferencesActivity)getActivity()).detectHeadset(((TwoStatePreference) preference).isChecked());
@@ -79,11 +80,16 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        final Activity activity = getActivity();
+        if (activity == null) return;
         switch (key){
             case "aout":
                 VLCInstance.restart();
-                if (getActivity() != null )
-                    ((PreferencesActivity)getActivity()).restartMediaPlayer();
+                ((PreferencesActivity)activity).restartMediaPlayer();
+                break;
+            case Constants.KEY_ARTISTS_SHOW_ALL:
+                ((PreferencesActivity)activity).updateArtists();
+                break;
         }
     }
 }

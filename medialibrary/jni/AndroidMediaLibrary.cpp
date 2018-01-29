@@ -287,9 +287,9 @@ AndroidMediaLibrary::album(int64_t albumId)
 }
 
 std::vector<medialibrary::ArtistPtr>
-AndroidMediaLibrary::artists()
+AndroidMediaLibrary::artists(bool includeAll)
 {
-    return p_ml->artists();
+    return p_ml->artists(includeAll);
 }
 
 medialibrary::ArtistPtr

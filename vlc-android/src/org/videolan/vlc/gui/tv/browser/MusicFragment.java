@@ -38,8 +38,10 @@ import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
+import org.videolan.vlc.util.Constants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -141,8 +143,8 @@ public class MusicFragment extends MediaLibBrowserFragment implements OnItemView
         protected String doInBackground(Void... params) {
             String title;
 
-            if (CATEGORY_ARTISTS == mCategory){
-                mDataList = mMediaLibrary.getArtists();
+            if (CATEGORY_ARTISTS == mCategory) {
+                mDataList = mMediaLibrary.getArtists(VLCApplication.getSettings().getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false));
                 title = getString(R.string.artists);
             } else if (CATEGORY_ALBUMS == mCategory){
                 title = mCurrentItem == null ?getString(R.string.albums) :  mCurrentItem.getTitle();

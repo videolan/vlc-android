@@ -65,7 +65,7 @@ public:
     std::vector<medialibrary::MediaPtr> audioFiles( medialibrary::SortingCriteria sort = medialibrary::SortingCriteria::Default, bool desc = false );
     std::vector<medialibrary::AlbumPtr> albums();
     medialibrary::AlbumPtr album(int64_t albumId);
-    std::vector<medialibrary::ArtistPtr> artists();
+    std::vector<medialibrary::ArtistPtr> artists(bool includeAll);
     medialibrary::ArtistPtr artist(int64_t artistId);
     std::vector<medialibrary::GenrePtr> genres();
     medialibrary::GenrePtr genre(int64_t genreId);

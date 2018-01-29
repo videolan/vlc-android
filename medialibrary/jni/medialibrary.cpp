@@ -450,10 +450,10 @@ getAlbum(JNIEnv* env, jobject thiz, jlong id)
 }
 
 jobjectArray
-getArtists(JNIEnv* env, jobject thiz)
+getArtists(JNIEnv* env, jobject thiz, jboolean all)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::ArtistPtr> artists = aml->artists();
+    std::vector<medialibrary::ArtistPtr> artists = aml->artists(all);
     jobjectArray artistRefs = (jobjectArray) env->NewObjectArray(artists.size(), ml_fields.Artist.clazz, NULL);
     int index = -1;
     for(medialibrary::ArtistPtr const& artist : artists) {
@@ -793,7 +793,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetAudioCount", "()I", (void*)getAudioCount },
     {"nativeGetAlbums", "()[Lorg/videolan/medialibrary/media/Album;", (void*)getAlbums },
     {"nativeGetAlbum", "(J)Lorg/videolan/medialibrary/media/Album;", (void*)getAlbum },
-    {"nativeGetArtists", "()[Lorg/videolan/medialibrary/media/Artist;", (void*)getArtists },
+    {"nativeGetArtists", "(Z)[Lorg/videolan/medialibrary/media/Artist;", (void*)getArtists },
     {"nativeGetArtist", "(J)Lorg/videolan/medialibrary/media/Artist;", (void*)getArtist },
     {"nativeGetGenres", "()[Lorg/videolan/medialibrary/media/Genre;", (void*)getGenres },
     {"nativeGetGenre", "(J)Lorg/videolan/medialibrary/media/Genre;", (void*)getGenre },

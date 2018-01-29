@@ -191,8 +191,8 @@ public class Medialibrary {
     }
 
     @WorkerThread
-    public Artist[] getArtists() {
-        return mIsInitiated ? nativeGetArtists() : new Artist[0];
+    public Artist[] getArtists(boolean all) {
+        return mIsInitiated ? nativeGetArtists(all) : new Artist[0];
     }
 
     public Artist getArtist(long artistId) {
@@ -639,7 +639,7 @@ public class Medialibrary {
     private native int nativeGetAudioCount();
     private native Album[] nativeGetAlbums();
     private native Album nativeGetAlbum(long albumtId);
-    private native Artist[] nativeGetArtists();
+    private native Artist[] nativeGetArtists(boolean all);
     private native Artist nativeGetArtist(long artistId);
     private native Genre[] nativeGetGenres();
     private native Genre nativeGetGenre(long genreId);

@@ -82,4 +82,7 @@ public class Constants {
     // AudioPlayer
     public final static String PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown";
     public final static String PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown";
+
+    // Preferences
+    public final static String KEY_ARTISTS_SHOW_ALL = "artists_show_all";
 }

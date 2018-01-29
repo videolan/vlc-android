@@ -493,9 +493,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             switch (resultCode) {
                 case PreferencesActivity.RESULT_RESCAN:
-                    for (Fragment fragment : getSupportFragmentManager().getFragments())
-                        if (fragment instanceof MediaBrowserFragment)
-                            ((MediaBrowserFragment) fragment).clear();
                     startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
                     break;
                 case PreferencesActivity.RESULT_RESTART:
@@ -509,6 +506,9 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                         if (fragment instanceof VideoGridFragment)
                             ((VideoGridFragment) fragment).updateSeenMediaMarker();
                     break;
+                case PreferencesActivity.RESULT_UPDATE_ARTISTS:
+                    final Fragment fragment = getCurrentFragment();
+                    if (fragment instanceof AudioBrowserFragment) ((AudioBrowserFragment) fragment).updateArtists();
             }
         } else if (requestCode == ACTIVITY_RESULT_OPEN && resultCode == RESULT_OK){
             MediaUtils.openUri(this, data.getData());

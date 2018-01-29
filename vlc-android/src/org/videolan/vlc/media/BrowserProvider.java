@@ -51,6 +51,7 @@ import org.videolan.vlc.extensions.ExtensionManagerService;
 import org.videolan.vlc.extensions.ExtensionsManager;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -208,7 +209,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
                     list = VLCApplication.getMLInstance().lastMediaPlayed();
                     break;
                 case ID_ARTISTS:
-                    list = VLCApplication.getMLInstance().getArtists();
+                    list = VLCApplication.getMLInstance().getArtists(VLCApplication.getSettings().getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false));
                     break;
                 case ID_ALBUMS:
                     list = VLCApplication.getMLInstance().getAlbums();

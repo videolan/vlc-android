@@ -588,11 +588,11 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         updatePlaylists();
     }
 
-    private void updateArtists() {
+    public void updateArtists() {
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final List<MediaLibraryItem> artists = Util.arrayToMediaArrayList(mMediaLibrary.getArtists());
+                final List<MediaLibraryItem> artists = Util.arrayToMediaArrayList(mMediaLibrary.getArtists(VLCApplication.getSettings().getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false)));
                 mArtistsAdapter.update(artists);
             }
         });

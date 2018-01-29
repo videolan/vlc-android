@@ -4,6 +4,12 @@
     android:key="audio_category"
     android:title="@string/audio_prefs_category">
 
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="artists_show_all"
+        android:summary="@string/artists_show_all_summary"
+        android:title="@string/artists_show_all_title" />
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="lockscreen_cover"
