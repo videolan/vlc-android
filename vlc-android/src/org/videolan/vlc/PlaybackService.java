@@ -497,10 +497,13 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                     mHandler.sendEmptyMessage(SHOW_PROGRESS);
                     changeAudioFocus(true);
                     if (!mWakeLock.isHeld()) mWakeLock.acquire();
-                    if (!mKeyguardManager.inKeyguardRestrictedInputMode() && !playlistManager.getVideoBackground() && playlistManager.switchToVideo()) {
+                    if (!mKeyguardManager.inKeyguardRestrictedInputMode()
+                            && !playlistManager.getVideoBackground()
+                            && !hasRenderer()
+                            && playlistManager.switchToVideo()) {
                         hideNotification();
                     } else {
-                        showPlayer();
+                        if (!hasRenderer()) showPlayer();
                         showNotification();
                     }
                     break;

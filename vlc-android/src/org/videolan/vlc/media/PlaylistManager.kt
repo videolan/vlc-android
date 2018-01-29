@@ -292,8 +292,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val media = getCurrentMedia()
         if (media === null || media.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || !player.canSwitchToVideo())
             return false
+        val hasRenderer = RendererDelegate.selectedRenderer !== null
         videoBackground = false
-        if (player.isVideoPlaying()) {//Player is already running, just send it an intent
+        if (player.isVideoPlaying() && !hasRenderer) {//Player is already running, just send it an intent
             player.setVideoTrackEnabled(true)
             LocalBroadcastManager.getInstance(service).sendBroadcast(
                     VideoPlayerActivity.getIntent(Constants.PLAY_FROM_SERVICE,
@@ -301,7 +302,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         } else if (!player.switchToVideo) {//Start the video player
             VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
                     media.uri, currentIndex)
-            player.switchToVideo = true
+            if (!hasRenderer) player.switchToVideo = true
         }
         return true
     }
