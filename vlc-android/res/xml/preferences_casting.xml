@@ -6,7 +6,7 @@
     <PreferenceCategory android:title="@string/casting_category">
         <CheckBoxPreference
             android:key="casting_passthrough"
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:summary="@string/casting_passthrough_summary"
             android:title="@string/casting_passthrough_title" />
         <ListPreference
