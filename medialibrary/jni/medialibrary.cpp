@@ -191,6 +191,13 @@ forceParserRetry(JNIEnv* env, jobject thiz)
     aml->forceParserRetry();
 }
 
+void
+forceRescan(JNIEnv* env, jobject thiz)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    aml->forceRescan();
+}
+
 jboolean
 increasePlayCount(JNIEnv* env, jobject thiz, jlong id)
 {
@@ -804,6 +811,7 @@ static JNINativeMethod methods[] = {
     {"nativeReload", "()V", (void*)reload },
     {"nativeReload", "(Ljava/lang/String;)V", (void*)reloadEntryPoint },
     {"nativeForceParserRetry", "()V", (void*)forceParserRetry },
+    {"nativeForceRescan", "()V", (void*)forceRescan },
     {"nativeIncreasePlayCount", "(J)Z", (void*)increasePlayCount },
     {"nativeSetMediaUpdatedCbFlag", "(I)V", (void*)setMediaUpdatedCbFlag },
     {"nativeSetMediaAddedCbFlag", "(I)V", (void*)setMediaAddedCbFlag },

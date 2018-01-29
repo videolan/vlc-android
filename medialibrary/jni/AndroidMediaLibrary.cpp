@@ -166,6 +166,12 @@ AndroidMediaLibrary::forceParserRetry()
     p_ml->forceParserRetry();
 }
 
+void
+AndroidMediaLibrary::forceRescan()
+{
+    p_ml->forceRescan();
+}
+
 bool
 AndroidMediaLibrary::increasePlayCount(int64_t mediaId)
 {

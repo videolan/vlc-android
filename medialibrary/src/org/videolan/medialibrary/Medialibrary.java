@@ -242,8 +242,11 @@ public class Medialibrary {
     }
 
     public void forceParserRetry() {
-        if (mIsInitiated)
-            nativeForceParserRetry();
+        if (mIsInitiated) nativeForceParserRetry();
+    }
+
+    public void forceRescan() {
+        if (mIsInitiated) nativeForceRescan();
     }
 
     @WorkerThread
@@ -651,6 +654,7 @@ public class Medialibrary {
     private native void nativeReload();
     private native void nativeReload(String entryPoint);
     private native void nativeForceParserRetry();
+    private native void nativeForceRescan();
     private native boolean nativeIncreasePlayCount(long mediaId);
     private native void nativeSetMediaUpdatedCbFlag(int flags);
     private native void nativeSetMediaAddedCbFlag(int flags);
