@@ -154,8 +154,6 @@ android {
 
     // make per-variant version code
     applicationVariants.all { variant ->
-        // set the composite code
-        variant.mergedFlavor.versionCode = variant.productFlavors.get(0).versionCode * 10000000 + defaultConfig.versionCode + variant.productFlavors.get(1).versionCode
 
         //Custom APK name
         variant.outputs.all { output ->
@@ -164,6 +162,15 @@ android {
                 outputName += variant.productFlavors.get(0).name.toUpperCase() + "-"
             outputName += variant.versionName + "-" + variant.productFlavors.get(1).name + ".apk"
             outputFileName = outputName
+            output.processManifest.doLast {
+                // set the composite code
+                def generatedCode = variant.productFlavors.get(0).versionCode * 10000000 + defaultConfig.versionCode + variant.productFlavors.get(1).versionCode
+                String manifestPath = "$manifestOutputDirectory/AndroidManifest.xml"
+                def manifestContent = file(manifestPath).getText()
+                manifestContent = manifestContent.replace('android:versionCode="1"',
+                        String.format('android:versionCode="%s"', generatedCode))
+                file(manifestPath).write(manifestContent)
+            }
         }
     }
 
