@@ -9,9 +9,11 @@ import android.os.Bundle
 import android.provider.DocumentsContract
 import android.support.v4.app.FragmentActivity
 import android.support.v4.provider.DocumentFile
+import android.support.v7.app.AlertDialog
 import android.support.v7.preference.PreferenceManager
 import android.text.TextUtils
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.FileUtils
@@ -22,9 +24,30 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
     @TargetApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
-        arguments?.getString(KEY_STORAGE_PATH)?.let { intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse(it)) }
-        startActivityForResult(intent, REQUEST_CODE_STORAGE_ACCES)
+        showDialog()
+    }
+
+    private fun showDialog() {
+        if (!isAdded) return
+        val builder = AlertDialog.Builder(activity)
+        builder.setMessage(R.string.sdcard_permission_dialog_message)
+                .setTitle(R.string.sdcard_permission_dialog_title)
+                .setPositiveButton(R.string.ok, { _, _ ->
+                    val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
+                    arguments?.getString(KEY_STORAGE_PATH)?.let { intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse(it)) }
+                    startActivityForResult(intent, REQUEST_CODE_STORAGE_ACCES)
+                })
+                .setNeutralButton(getString(R.string.dialog_sd_wizard), { _, _ ->
+                    showHelpDialog()
+                }).create().show()
+    }
+
+    private fun showHelpDialog() {
+        if (!isAdded) return
+        val inflater = activity.layoutInflater
+        AlertDialog.Builder(activity).setView(inflater.inflate(R.layout.dialog_sd_write, null))
+                .setOnDismissListener { showDialog() }
+                .create().show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

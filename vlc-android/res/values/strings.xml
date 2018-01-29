@@ -589,4 +589,7 @@
     <string name="msg_delete_failed">Failed to delete media %1$s</string>
     <string name="renderer_list_title">Displays</string>
     <string name="feedback_player_crashed">Sorry, VLC just crashed. Please try again.</string>
+    <string name="sdcard_permission_dialog_title">You have to grant VLC write access to your SD Card</string>
+    <string name="sdcard_permission_dialog_message">VLC cannot delete this file without write access permission.\nPlease go to your SD Card and click on \"Select\".\nYou may have to click on \"Show SD card\" first in the top-right menu</string>
+    <string name="dialog_sd_wizard">Show me</string>
 </resources>
