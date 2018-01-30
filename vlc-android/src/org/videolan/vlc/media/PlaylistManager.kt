@@ -174,7 +174,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (systemExit) player.release()
         else {
             player.restart()
-            medialibrary.resumeBackgroundOperations()
             service.onPlaybackStopped()
             service.hideNotification()
         }
