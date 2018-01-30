@@ -142,7 +142,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun setAudioDelay(delay: Long) = mediaplayer.setAudioDelay(delay)
 
-    fun setEqualizer(equalizer: MediaPlayer.Equalizer) = mediaplayer.setEqualizer(equalizer)
+    fun setEqualizer(equalizer: MediaPlayer.Equalizer?) = mediaplayer.setEqualizer(equalizer)
 
     @MainThread
     fun setVideoScale(scale: Float) {
