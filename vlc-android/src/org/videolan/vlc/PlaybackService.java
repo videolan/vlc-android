@@ -554,6 +554,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     };
 
     public void onPlaybackStopped() {
+        hideNotification();
         if (mWakeLock.isHeld()) mWakeLock.release();
         changeAudioFocus(false);
         mMedialibrary.resumeBackgroundOperations();

@@ -156,7 +156,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             Log.w(TAG, "Warning: invalid next index, aborted !")
             //Close video player if started
             LocalBroadcastManager.getInstance(ctx).sendBroadcast(Intent(Constants.EXIT_PLAYER))
-            player.stop()
+            stop()
             return
         }
         videoBackground = !player.isVideoPlaying() && player.canSwitchToVideo()
@@ -164,8 +164,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     fun stop(systemExit: Boolean = false) {
-        savePosition()
-        if (hasMedia()) saveMediaMeta()
+        if (hasCurrentMedia()) {
+            savePosition()
+            saveMediaMeta()
+        }
         player.releaseMedia()
         mediaList.removeEventListener(this)
         previous.clear()
@@ -175,7 +177,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         else {
             player.restart()
             service.onPlaybackStopped()
-            service.hideNotification()
         }
     }
 
