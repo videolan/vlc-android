@@ -138,9 +138,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     private fun onPlaylistLoaded() {
         service.onPlaylistLoaded()
-        saveMediaList()
-        savePosition(true)
-        saveCurrentMedia()
         launch(UI, CoroutineStart.UNDISPATCHED) { determinePrevAndNextIndices() }
     }
 
@@ -648,6 +645,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     seekToResume(mw)
                     loadMediaMeta(mw)
                     if (mw.type == MediaWrapper.TYPE_STREAM) medialibrary.addToHistory(mw.location, mw.title)
+                    saveMediaList()
+                    savePosition(true)
+                    saveCurrentMedia()
                 }
             }
             MediaPlayer.Event.Paused -> medialibrary.resumeBackgroundOperations()
