@@ -9,13 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="616.00006"
-   height="473.99991"
-   viewBox="0 0 162.98335 125.41247"
+   width="616"
+   height="474"
+   viewBox="0 0 162.98333 125.41249"
    version="1.1"
    id="svg5450"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="img_tips_SDcard.svg">
+   sodipodi:docname="img_tips_sdcard.svg">
   <defs
      id="defs5444" />
   <sodipodi:namedview
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="300.87449"
-     inkscape:cy="250.62104"
+     inkscape:zoom="1.4"
+     inkscape:cx="184.39493"
+     inkscape:cy="139.07923"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -44,8 +44,8 @@
     <inkscape:grid
        type="xygrid"
        id="grid6175"
-       originx="-6.2275391e-06"
-       originy="-4.3236977e-05" />
+       originx="-6.4550782e-06"
+       originy="-4.458396e-05" />
   </sodipodi:namedview>
   <metadata
      id="metadata5447">
@@ -63,7 +63,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-23.056558,-28.901466)">
+     transform="translate(-23.056558,-28.901441)">
     <rect
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#ff8800;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.02419828;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate"
        id="rect4877"
@@ -519,7 +519,7 @@
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ff0000;stroke-width:1.05834126;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate" />
     <g
        id="g4761"
-       transform="matrix(0.26458333,0,0,0.26458333,-355.29762,-526.29024)">
+       transform="matrix(0.26458333,0,0,0.26458333,-355.29762,-509.88601)">
       <circle
          r="22"
          cy="2468.3623"
@@ -563,7 +563,7 @@
        width="49.741611"
        height="11.641591"
        x="27.819061"
-       y="120.97648" />
+       y="137.38071" />
     <rect
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ff0000;stroke-width:1.05827999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate"
        id="rect4774"
