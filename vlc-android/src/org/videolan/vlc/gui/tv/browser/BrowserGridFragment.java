@@ -28,6 +28,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Process;
 import android.support.v17.leanback.widget.OnItemViewClickedListener;
 import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
@@ -62,6 +66,20 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     private MediaWrapper mItemSelected;
     private boolean mShowHiddenFiles = false;
 
+    private Handler mBrowserHandler;
+
+    protected void runOnBrowserThread(Runnable runnable) {
+        if (mBrowserHandler == null) {
+            HandlerThread handlerThread = new HandlerThread("vlc-browser", Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
+            handlerThread.start();
+            mBrowserHandler = new Handler(handlerThread.getLooper());
+        }
+        if (Looper.myLooper() == mBrowserHandler.getLooper())
+            runnable.run();
+        else
+            mBrowserHandler.post(runnable);
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setOnItemViewSelectedListener(this);
@@ -71,64 +89,84 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
 
     public void onResume() {
         super.onResume();
-        if (mAdapter.size() == 0) {
-            mMediaBrowser = new MediaBrowser(VLCInstance.get(), this);
-            if (mMediaBrowser != null) {
-                mMediaList = new ArrayList<>();
+        mMediaList = new ArrayList<>();
+        if (mAdapter.size() == 0) runOnBrowserThread(new Runnable() {
+            @Override
+            public void run() {
+                mMediaBrowser = new MediaBrowser(VLCInstance.get(), BrowserGridFragment.this);
                 if (mUri != null) {
                     int flags = MediaBrowser.Flag.Interact;
-                    if (mShowHiddenFiles)
-                        flags |= MediaBrowser.Flag.ShowHiddenFiles;
-                    mMediaBrowser.browse(mUri, MediaBrowser.Flag.Interact);
+                    if (mShowHiddenFiles) flags |= MediaBrowser.Flag.ShowHiddenFiles;
+                    mMediaBrowser.browse(mUri, flags);
                 } else
                     mMediaBrowser.discoverNetworkShares();
                 ((BrowserActivityInterface)mContext).showProgress(true);
             }
-        }
+        });
     }
 
     public void onPause(){
         super.onPause();
-        if (mMediaBrowser != null) {
-            mMediaBrowser.release();
-            mMediaBrowser = null;
-        }
+        runOnBrowserThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mMediaBrowser != null) mMediaBrowser.release();
+                mMediaBrowser = null;
+            }
+        });
         ((BrowserActivityInterface)mContext).updateEmptyView(false);
     }
     @Override
     public void onMediaAdded(int index, Media media) {
-        MediaWrapper mw = new MediaWrapper(media);
-        int type = mw.getType();
-        if (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO || type == MediaWrapper.TYPE_DIR)
-            mMediaList.add(mw);
-
-        if (mUri == null) { // we are at root level
-            mw.setDescription(mw.getUri().getScheme());
-            mAdapter.add(mw);
-        }
-        ((BrowserActivityInterface)getActivity()).showProgress(false);
+        final MediaWrapper mw = new MediaWrapper(media);
+        final int type = mw.getType();
+        VLCApplication.runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                if (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO || type == MediaWrapper.TYPE_DIR)
+                    mMediaList.add(mw);
+                if (mUri == null) { // we are at root level
+                    mw.setDescription(mw.getUri().getScheme());
+                    mAdapter.add(mw);
+                }
+                ((BrowserActivityInterface)getActivity()).showProgress(false);
+            }
+        });
     }
 
     @Override
     public void onMediaRemoved(int index, Media media) {
-        int position = -1;
-        String uri = media.getUri().toString();
-        for (int i = 0; i < mMediaList.size(); ++i) {
-            if (TextUtils.equals(mMediaList.get(i).getUri().toString(), uri)) {
-                position = i;
-                break;
+        final String uri = media.getUri().toString();
+        VLCApplication.runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                int position = -1;
+                for (int i = 0; i < mMediaList.size(); ++i) {
+                    if (TextUtils.equals(mMediaList.get(i).getUri().toString(), uri)) {
+                        position = i;
+                        break;
+                    }
+                }
+                if (position == -1) return;
+                mAdapter.removeItems(position, 1);
             }
-        }
-        if (position == -1)
-            return;
-        mAdapter.removeItems(position, 1);
+        });
     }
 
     @Override
     public void onBrowseEnd() {
-        ((BrowserActivityInterface)getActivity()).showProgress(false);
-        ((BrowserActivityInterface)getActivity()).updateEmptyView(mMediaList.isEmpty());
-        sortList();
+        if (mMediaBrowser != null) {
+            mMediaBrowser.release();
+            mMediaBrowser = null;
+        }
+        VLCApplication.runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                ((BrowserActivityInterface)getActivity()).showProgress(false);
+                ((BrowserActivityInterface)getActivity()).updateEmptyView(mMediaList.isEmpty());
+                sortList();
+            }
+        });
     }
 
     public void sortList(){
