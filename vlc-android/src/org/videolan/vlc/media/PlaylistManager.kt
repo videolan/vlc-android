@@ -422,9 +422,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     private suspend fun determinePrevAndNextIndices(expand: Boolean = false) {
-        if (expand) {
+        val media = getCurrentMedia()
+        if (expand && media !== null) {
             expanding = true
-            nextIndex = expand(getCurrentMedia()!!.type == MediaWrapper.TYPE_STREAM)
+            nextIndex = expand(media.type == MediaWrapper.TYPE_STREAM)
             expanding = false
         } else {
             nextIndex = -1
