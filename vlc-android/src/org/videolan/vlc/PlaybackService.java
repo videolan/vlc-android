@@ -157,7 +157,6 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     private int mWidget = 0;
     private boolean mHasAudioFocus = false;
-    private boolean mOnRenderer = false;
     // RemoteControlClient-related
     /**
      * RemoteControlClient is for lock screen playback control.
@@ -1760,14 +1759,13 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     @MainThread
     public boolean hasRenderer() {
-        return mOnRenderer;
+        return playlistManager.getPlayer().getHasRenderer();
     }
 
     @MainThread
     public void setRenderer(RendererItem item) {
-        final boolean wasOnRenderer = mOnRenderer;
-        mOnRenderer = item != null;
-        if (wasOnRenderer && !mOnRenderer && canSwitchToVideo()) VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
+        final boolean wasOnRenderer = hasRenderer();
+        if (wasOnRenderer && !hasRenderer() && canSwitchToVideo()) VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
                 playlistManager.getCurrentMedia().getUri(), playlistManager.getCurrentIndex());
         playlistManager.getPlayer().setRenderer(item);
     }

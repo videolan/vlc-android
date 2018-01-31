@@ -233,8 +233,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
         if (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && player.getAudioTracksCount() == 0) {
             next()
-        } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)
-                || RendererDelegate.selectedRenderer !== null) {
+        } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
+                || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
             launch(UI, CoroutineStart.UNDISPATCHED) {
                 val media = Media(VLCInstance.get(), FileUtils.getUri(mw.uri))
                 VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
@@ -289,7 +289,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val media = getCurrentMedia()
         if (media === null || media.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) || !player.canSwitchToVideo())
             return false
-        val hasRenderer = RendererDelegate.selectedRenderer !== null
+        val hasRenderer = player.hasRenderer
         videoBackground = false
         if (player.isVideoPlaying() && !hasRenderer) {//Player is already running, just send it an intent
             player.setVideoTrackEnabled(true)
