@@ -581,12 +581,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
     }
 
-    fun insertNext(media: MediaWrapper) {
-        val arrayList = ArrayList<MediaWrapper>()
-        arrayList.add(media)
-        insertNext(arrayList)
-    }
-
     /**
      * Move an item inside the playlist.
      */
