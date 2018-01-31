@@ -85,4 +85,7 @@ public class Constants {
 
     // Preferences
     public final static String KEY_ARTISTS_SHOW_ALL = "artists_show_all";
+
+    // AUDIO category
+    public final static String KEY_AUDIO_CURRENT_TAB = "key_audio_current_tab";
 }

@@ -137,6 +137,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         };
         mViewPager.setOffscreenPageLimit(MODE_TOTAL - 1);
         mViewPager.setAdapter(new AudioPagerAdapter(mLists, titles));
+        mViewPager.setCurrentItem(VLCApplication.getSettings().getInt(Constants.KEY_AUDIO_CURRENT_TAB, 0));
         final RecyclerView.RecycledViewPool rvp = new RecyclerView.RecycledViewPool();
         for (int i = 0; i< MODE_TOTAL; ++i) {
             final LinearLayoutManager llm = new LinearLayoutManager(getActivity());
@@ -421,6 +422,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     public void onTabSelected(TabLayout.Tab tab) {
         getActivity().supportInvalidateOptionsMenu();
         mFastScroller.setRecyclerView(mLists[tab.getPosition()]);
+        VLCApplication.getSettings().edit().putInt(Constants.KEY_AUDIO_CURRENT_TAB, tab.getPosition()).apply();
     }
 
     @Override
