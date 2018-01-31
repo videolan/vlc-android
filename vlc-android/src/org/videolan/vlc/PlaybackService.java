@@ -1764,12 +1764,12 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     }
 
     @MainThread
-    public int setRenderer(RendererItem item) {
+    public void setRenderer(RendererItem item) {
         final boolean wasOnRenderer = mOnRenderer;
         mOnRenderer = item != null;
         if (wasOnRenderer && !mOnRenderer && canSwitchToVideo()) VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
                 playlistManager.getCurrentMedia().getUri(), playlistManager.getCurrentIndex());
-        return playlistManager.getPlayer().setRenderer(item);
+        playlistManager.getPlayer().setRenderer(item);
     }
 
     @MainThread

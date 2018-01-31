@@ -33,6 +33,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         private set
     @Volatile var playbackState = PlaybackStateCompat.STATE_STOPPED
         private set
+    @Volatile var hasRenderer = false
+        private set
 
     fun getVout() = mediaplayer.vlcVout
 
@@ -153,7 +155,10 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         mediaplayer.aspectRatio = aspect
     }
 
-    fun setRenderer(renderer: RendererItem?) = mediaplayer.setRenderer(renderer)
+    fun setRenderer(renderer: RendererItem?) {
+        mediaplayer.setRenderer(renderer)
+        hasRenderer = renderer !== null
+    }
 
     fun release(player: MediaPlayer = mediaplayer) {
         player.setEventListener(null)
