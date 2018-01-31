@@ -1764,8 +1764,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void encounteredError() {
-        if (isFinishing())
-            return;
+        if (isFinishing() || mService.hasNext()) return;
         /* Encountered Error, exit player with a message */
         mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {
