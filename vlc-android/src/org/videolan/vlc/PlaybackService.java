@@ -721,7 +721,6 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     }
 
     public void onNewPlayback(final MediaWrapper mw) {
-        changeAudioFocus(true);
         mMediaSession.setSessionActivity(getSessionPendingIntent());
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
     }
