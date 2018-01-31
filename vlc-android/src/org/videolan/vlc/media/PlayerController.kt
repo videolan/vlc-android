@@ -61,19 +61,19 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     private var mediaplayerEventListener: MediaPlayer.EventListener? = null
     internal suspend fun startPlayback(media: Media, listener: MediaPlayer.EventListener) {
-        mediaplayer.setEventListener(null)
         mediaplayerEventListener = listener
         seekable = true
         pausable = true
         launch(playerContext+exceptionHandler) {
+            mediaplayer.setEventListener(null)
             mediaplayer.media = media
+            mediaplayer.setEventListener(this@PlayerController)
+            mediaplayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(VLCApplication.getAppContext()))
+            mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)
+            mediaplayer.play()
         }.join()
-        mediaplayer.setEventListener(this@PlayerController)
-        mediaplayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(VLCApplication.getAppContext()))
-        mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)
         if (mediaplayer.rate == 1.0f && settings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, true))
             setRate(settings.getFloat(PreferencesActivity.KEY_PLAYBACK_RATE, 1.0f), false)
-        mediaplayer.play()
     }
 
     @MainThread
@@ -235,11 +235,13 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     suspend fun expand(): MediaList? {
         return mediaplayer.media?.let {
-            mediaplayer.setEventListener(null)
-            val ml = async(playerContext+exceptionHandler) { it.subItems() }.await()
-            it.release()
-            mediaplayer.setEventListener(this@PlayerController)
-            return ml
+            return async(playerContext) {
+                mediaplayer.setEventListener(null)
+                val items = it.subItems()
+                it.release()
+                mediaplayer.setEventListener(this@PlayerController)
+                items
+            }.await()
         }
     }
 
