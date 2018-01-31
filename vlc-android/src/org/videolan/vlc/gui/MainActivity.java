@@ -260,8 +260,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             /* Check for an ongoing scan that needs to be resumed during onResume */
             mScanNeeded = mMediaLibrary.isWorking();
         }
-        /* Save the tab status in pref */
-        mSettings.edit().putInt("fragment_id", mCurrentFragmentId).apply();
         if (mExtensionServiceConnection != null) {
             unbindService(mExtensionServiceConnection);
             mExtensionServiceConnection = null;
@@ -569,7 +567,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             return false;
 
         int id = item.getItemId();
-        Fragment current = getCurrentFragment();
+        final Fragment current = getCurrentFragment();
         if (item.getGroupId() == R.id.extensions_group)  {
             if(mCurrentFragmentId == id) {
                 clearBackstackFromClass(ExtensionBrowser.class);
@@ -609,7 +607,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                     break;
                 case R.id.nav_directories:
                     if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                        final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                         intent.setType("audio/* video/*");
                         startActivityForResult(intent, ACTIVITY_RESULT_OPEN);
                         mDrawerLayout.closeDrawer(mNavigationView);
@@ -627,10 +625,19 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     public void updateCheckedItem(int id) {
-        if (mNavigationView.getMenu().findItem(id) != null) {
-            if (mNavigationView.getMenu().findItem(mCurrentFragmentId) != null)
-                mNavigationView.getMenu().findItem(mCurrentFragmentId).setChecked(false);
-            mNavigationView.getMenu().findItem(id).setChecked(true);
+        switch (id) {
+            case R.id.nav_mrl:
+            case R.id.nav_settings:
+            case R.id.nav_about:
+                return;
+            default:
+                if (id != mCurrentFragmentId && mNavigationView.getMenu().findItem(id) != null) {
+                    if (mNavigationView.getMenu().findItem(mCurrentFragmentId) != null)
+                        mNavigationView.getMenu().findItem(mCurrentFragmentId).setChecked(false);
+                    mNavigationView.getMenu().findItem(id).setChecked(true);
+                    /* Save the tab status in pref */
+                    mSettings.edit().putInt("fragment_id", id).apply();
+                }
         }
     }
 
