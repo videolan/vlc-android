@@ -52,6 +52,7 @@ public class MediaWrapperList {
 
     public synchronized void add(MediaWrapper media) {
         mInternalList.add(media);
+        signalEventListeners(EVENT_ADDED, mInternalList.size()-1, -1, media.getLocation());
         if (media.getType() == MediaWrapper.TYPE_VIDEO)
             ++mVideoCount;
     }
