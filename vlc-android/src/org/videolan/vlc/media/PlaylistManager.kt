@@ -327,10 +327,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     override fun onItemRemoved(index: Int, mrl: String?) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemDeleted")
+        val currentRemoved = currentIndex == index
         if (currentIndex >= index && !expanding) --currentIndex
         launch(UI, CoroutineStart.UNDISPATCHED) {
             determinePrevAndNextIndices()
-            if (currentIndex == index && !expanding) {
+            if (currentRemoved && !expanding) {
                 when {
                     nextIndex != -1 -> next()
                     currentIndex != -1 -> playIndex(currentIndex, 0)
