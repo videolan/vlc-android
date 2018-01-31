@@ -131,6 +131,7 @@ public class VLCOptions {
         if (pref.getBoolean("casting_passthrough", false)) options.add("--sout-chromecast-audio-passthrough");
         else options.add("--no-sout-chromecast-audio-passthrough");
         options.add("--sout-chromecast-conversion-quality="+pref.getString("casting_quality", "2"));
+        options.add("--sout-keep");
 
         return options;
     }
