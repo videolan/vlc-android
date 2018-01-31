@@ -41,14 +41,9 @@ public class MediaWrapperList {
     private static final int EVENT_MOVED = 2;
 
     /* TODO: add locking */
-    private List<MediaWrapper> mInternalList;
-    private List<EventListener> mEventListenerList;
+    private final List<MediaWrapper> mInternalList = new ArrayList<>();
+    private final List<EventListener> mEventListenerList = new ArrayList<>();
     private int mVideoCount = 0;
-
-    public MediaWrapperList() {
-        mEventListenerList = new ArrayList<>();
-        mInternalList = new ArrayList<>();
-    }
 
     public synchronized void add(MediaWrapper media) {
         mInternalList.add(media);
