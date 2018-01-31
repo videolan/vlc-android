@@ -68,7 +68,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         pausable = true
         launch(playerContext+exceptionHandler) {
             mediaplayer.setEventListener(null)
-            mediaplayer.media = media
+            mediaplayer.media = media.apply { if (hasRenderer) parse() }
             mediaplayer.setEventListener(this@PlayerController)
             mediaplayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(VLCApplication.getAppContext()))
             mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)
