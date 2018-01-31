@@ -205,7 +205,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         if (!Util.isListEmpty(mediaList))
             mAdapter.update(mediaList);
         else
-            refresh();
+            mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_REFRESH);
     }
 
     @Override
@@ -457,8 +457,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         @Override
         public void handleMessage(Message msg) {
             final BaseBrowserFragment fragment = getOwner();
-            if (fragment == null)
-                return;
+            if (fragment == null) return;
             switch (msg.what){
                 case MSG_SHOW_LOADING:
                     if (fragment.mSwipeRefreshLayout != null)
@@ -470,8 +469,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                         fragment.mSwipeRefreshLayout.setRefreshing(false);
                     break;
                 case MSG_REFRESH:
-                    if (fragment != null && !fragment.isDetached())
-                        fragment.refresh();
+                    if (!fragment.isDetached()) fragment.refresh();
             }
         }
     }
