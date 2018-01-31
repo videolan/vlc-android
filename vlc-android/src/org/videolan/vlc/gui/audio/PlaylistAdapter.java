@@ -124,8 +124,8 @@ public class PlaylistAdapter extends DiffUtilAdapter<MediaWrapper, PlaylistAdapt
 
     @MainThread
     public void remove(int position) {
-        if (mService == null)
-            return;
+        if (mService == null) return;
+        if (position == mCurrentIndex) mCurrentIndex = -1;
         mService.remove(position);
     }
 
