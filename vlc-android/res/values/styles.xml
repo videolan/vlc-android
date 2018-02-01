@@ -38,7 +38,7 @@
         <item name="playlist_item_drag_shadow">@color/orange500</item>
         <item name="audio_player_header_time">@color/orange500</item>
         <item name="font_default">@color/grey900</item>
-        <item name="font_light">@color/grey600</item>
+        <item name="font_light">@color/grey700</item>
         <item name="font_actionbar">@color/orange200</item>
         <item name="font_actionbar_selected">@color/grey50</item>
         <item name="navigationview_item_color">@color/navigationview_color</item>
