@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <exclude domain="root" path="db"/>
+    <exclude domain="root" path="app_db"/>
+    <exclude domain="root" path="keystore"/>
+    <exclude domain="root" path="app_keystore"/>
+</full-backup-content>
+
