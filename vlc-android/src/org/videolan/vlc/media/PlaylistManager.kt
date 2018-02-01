@@ -15,7 +15,10 @@ import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.vlc.*
+import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.R
+import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -113,11 +116,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val audio = type == Constants.PLAYLIST_TYPE_AUDIO
             val currentMedia = settings.getString(if (audio) "current_song" else "current_media", "")
             if ("" == currentMedia) return@launch
-            val locations = settings.getString(if (audio) "audio_list" else "media_list", "")!!.split(" ".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+            val locations = settings.getString(if (audio) "audio_list" else "media_list", "").split(" ".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
             if (Util.isArrayEmpty(locations)) return@launch
             val playList = async {
-                locations.map { Uri.decode(it) }
-                        .mapTo(ArrayList<MediaWrapper>(locations.size)) { medialibrary.findMedia(MediaWrapper(Uri.parse(it))) }
+                locations.map { Uri.decode(it) }.mapTo(ArrayList<MediaWrapper>(locations.size)) { MediaWrapper(Uri.parse(it)) }
             }.await()
             // load playlist
             shuffling = settings.getBoolean(if (audio) "audio_shuffling" else "media_shuffling", false)
@@ -138,7 +140,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     private fun onPlaylistLoaded() {
         service.onPlaylistLoaded()
-        launch(UI, CoroutineStart.UNDISPATCHED) { determinePrevAndNextIndices() }
+        launch(UI, CoroutineStart.UNDISPATCHED) {
+            determinePrevAndNextIndices()
+            launch { mediaList.updateWithMLMeta() }
+        }
     }
 
     fun play() = player.play()

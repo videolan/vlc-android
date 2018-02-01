@@ -22,10 +22,13 @@ package org.videolan.vlc.media;
 
 import android.support.annotation.Nullable;
 
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.VLCApplication;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class MediaWrapperList {
     private static final String TAG = "VLC/MediaWrapperList";
@@ -167,6 +170,18 @@ public class MediaWrapperList {
 
     public synchronized boolean isAudioList() {
         return mVideoCount == 0;
+    }
+
+    public synchronized void updateWithMLMeta() {
+        final ListIterator<MediaWrapper> iter = mInternalList.listIterator();
+        final Medialibrary ml = VLCApplication.getMLInstance();
+        while (iter.hasNext()) {
+            final MediaWrapper media = iter.next();
+            if (media.getId() == 0L) {
+                final MediaWrapper mw = ml.findMedia(media);
+                if (mw.getId() != 0) iter.set(mw);
+            }
+        }
     }
 
     @Override
