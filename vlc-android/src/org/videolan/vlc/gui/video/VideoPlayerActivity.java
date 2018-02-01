@@ -1889,7 +1889,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mDisplayManager.isPrimary()) {
             sw = getWindow().getDecorView().getWidth();
             sh = getWindow().getDecorView().getHeight();
-        } else if (mDisplayManager.getDisplayType() == DisplayManager.DisplayType.PRESENTATION) {
+        } else if (mDisplayManager.getPresentation() != null) {
             sw = mDisplayManager.getPresentation().getWindow().getDecorView().getWidth();
             sh = mDisplayManager.getPresentation().getWindow().getDecorView().getHeight();
         } else return;
