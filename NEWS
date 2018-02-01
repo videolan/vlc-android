@@ -1,4 +1,17 @@
-Changes between 2.5.6 and 2.5.7:
+Changes between 2.9.0 and 2.9.1:
+----------------------------------
+
+Application:
+ * Re-enable application backup
+ * Save selected audio tab
+ * Misc. fixes
+
+VLC:
+ * Improve Chromecast playback
+ * Send media metadata to Chromecast
+
+
+Changes between 2.5.17 and 2.9.0:
 ----------------------------------
 
 Application:
