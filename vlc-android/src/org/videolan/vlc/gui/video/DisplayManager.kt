@@ -96,6 +96,7 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) : Rende
                 return presentation
             } catch (ex: WindowManager.InvalidDisplayException) {
                 if (BuildConfig.DEBUG) Log.w(TAG, "Couldn't show presentation!  Display was removed in " + "the meantime.", ex)
+                presentationDisplayId = -1
             }
         } else if (BuildConfig.DEBUG) Log.i(TAG, "No secondary display detected")
         return null

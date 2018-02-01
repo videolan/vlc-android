@@ -785,17 +785,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             } else
                 vlcVout.detachViews();
         }
-        if (mDisplayManager.isPrimary()) {
-            vlcVout.setVideoView(mSurfaceView);
-            vlcVout.setSubtitlesView(mSubtitlesSurfaceView);
-            vlcVout.addCallback(this);
-            vlcVout.attachViews(this);
-        } else if (mDisplayManager.getDisplayType() == DisplayManager.DisplayType.PRESENTATION) {
-            vlcVout.setVideoView(mDisplayManager.getPresentation().getSurfaceView());
-            vlcVout.setSubtitlesView(mDisplayManager.getPresentation().getSubtitlesSurfaceView());
-            vlcVout.addCallback(this);
-            vlcVout.attachViews(this);
-        }
+        final DisplayManager.SecondaryDisplay sd = mDisplayManager.getPresentation();
+        vlcVout.setVideoView(sd != null ? sd.getSurfaceView() : mSurfaceView);
+        vlcVout.setSubtitlesView(sd != null ? sd.getSubtitlesSurfaceView() : mSubtitlesSurfaceView);
+        vlcVout.addCallback(this);
+        vlcVout.attachViews(this);
         mService.setVideoTrackEnabled(true);
 
         initUI();
