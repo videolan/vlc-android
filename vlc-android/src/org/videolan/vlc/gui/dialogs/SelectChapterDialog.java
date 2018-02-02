@@ -76,11 +76,9 @@ public class SelectChapterDialog extends DialogFragment implements PlaybackServi
     private void initChapterList() {
         final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
         int chaptersCount = chapters != null ? chapters.length : 0;
-        if (chaptersCount <= 1) {
-            return;
-        }
+        if (chaptersCount <= 1) return;
 
-        List<Map<String, String>> chapterList = new ArrayList<Map<String, String>>();
+        final List<Map<String, String>> chapterList = new ArrayList<Map<String, String>>();
 
         for (int i = 0; i < chaptersCount; i++) {
             String name;

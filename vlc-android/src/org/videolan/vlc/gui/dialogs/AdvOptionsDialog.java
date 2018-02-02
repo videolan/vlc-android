@@ -364,7 +364,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private void initChapters() {
         final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
-
+        if (chapters == null) return;
         int index = mService.getChapterIdx();
         if (chapters[index].name == null || chapters[index].name.equals(""))
             mChaptersTitle.setText(String.format("%s %d", getResources().getString(R.string.chapter), index));

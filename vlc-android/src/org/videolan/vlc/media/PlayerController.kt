@@ -218,9 +218,9 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun navigate(where: Int) = mediaplayer.navigate(where)
 
-    fun getChapters(title: Int) = mediaplayer.getChapters(title)
+    fun getChapters(title: Int): Array<out MediaPlayer.Chapter>? = mediaplayer.getChapters(title)
 
-    fun getTitles() = mediaplayer.titles
+    fun getTitles(): Array<out MediaPlayer.Title>? = mediaplayer.titles
 
     fun getChapterIdx() = mediaplayer.chapter
 
