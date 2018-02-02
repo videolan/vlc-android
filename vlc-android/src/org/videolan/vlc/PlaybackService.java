@@ -515,10 +515,6 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                     mHandler.removeMessages(SHOW_PROGRESS);
                     if (mWakeLock.isHeld()) mWakeLock.release();
                     break;
-                case MediaPlayer.Event.Stopped:
-                    if (BuildConfig.DEBUG) Log.i(TAG, "MediaPlayer.Event.Stopped");
-                    onPlaybackStopped();
-                    break;
                 case MediaPlayer.Event.EndReached:
                     executeUpdateProgress();
                     break;

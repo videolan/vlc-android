@@ -652,11 +652,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
             }
             MediaPlayer.Event.Paused -> medialibrary.resumeBackgroundOperations()
-            MediaPlayer.Event.Stopped -> {
-                medialibrary.resumeBackgroundOperations()
-                currentIndex = -1
-                mediaList.clear()
-            }
             MediaPlayer.Event.EndReached -> {
                 saveMediaMeta()
                 if (isBenchmark) player.setPreviousStats()

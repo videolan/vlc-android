@@ -50,6 +50,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun stop() {
         if (mediaplayer.hasMedia()) mediaplayer.stop()
+        playbackState = PlaybackStateCompat.STATE_STOPPED
     }
 
     fun releaseMedia() = mediaplayer.media?.let {
@@ -249,7 +250,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         when(event.type) {
             MediaPlayer.Event.Playing -> playbackState = PlaybackStateCompat.STATE_PLAYING
             MediaPlayer.Event.Paused -> playbackState = PlaybackStateCompat.STATE_PAUSED
-            MediaPlayer.Event.Stopped,
+            MediaPlayer.Event.Stopped -> return
             MediaPlayer.Event.EncounteredError,
             MediaPlayer.Event.EndReached -> playbackState = PlaybackStateCompat.STATE_STOPPED
             MediaPlayer.Event.PausableChanged -> pausable = event.pausable
