@@ -905,9 +905,7 @@ $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     APP_ABI=${ANDROID_ABI} \
     TARGET_TUPLE=$TARGET_TUPLE \
     NDK_PROJECT_PATH=private_libs \
-    NDK_TOOLCHAIN_VERSION=clang
-
-checkfail "ndk-build failed for private libs"
+    NDK_TOOLCHAIN_VERSION=clang 2>/dev/null
 
 echo "Dumping dbg symbols info ${OUT_DBG_DIR}"
 
@@ -916,4 +914,3 @@ OUT_DBG_DIR=.dbg/${ANDROID_ABI}
 
 mkdir -p $OUT_DBG_DIR
 cp -a libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
-cp -a libvlc/private_libs/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
