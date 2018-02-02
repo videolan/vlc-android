@@ -3,15 +3,11 @@ package org.videolan.vlc.media
 import android.net.Uri
 import android.support.annotation.MainThread
 import android.support.v4.media.session.PlaybackStateCompat
-import android.widget.Toast
-import kotlinx.coroutines.experimental.CoroutineExceptionHandler
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.newSingleThreadContext
 import org.videolan.libvlc.*
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.vlc.R
 import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.preferences.PreferencesActivity
@@ -21,7 +17,7 @@ import org.videolan.vlc.util.VLCOptions
 @Suppress("EXPERIMENTAL_FEATURE_WARNING")
 class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
-    private val exceptionHandler by lazy(LazyThreadSafetyMode.NONE) { CoroutineExceptionHandler { _, _ -> onPlayerError() } }
+//    private val exceptionHandler by lazy(LazyThreadSafetyMode.NONE) { CoroutineExceptionHandler { _, _ -> onPlayerError() } }
     private val playerContext by lazy(LazyThreadSafetyMode.NONE) { newSingleThreadContext("vlc-player") }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getSettings() }
 
@@ -62,18 +58,16 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     }
 
     private var mediaplayerEventListener: MediaPlayer.EventListener? = null
-    internal suspend fun startPlayback(media: Media, listener: MediaPlayer.EventListener) {
+    internal fun startPlayback(media: Media, listener: MediaPlayer.EventListener) {
         mediaplayerEventListener = listener
         seekable = true
         pausable = true
-        launch(playerContext+exceptionHandler) {
-            mediaplayer.setEventListener(null)
-            mediaplayer.media = media.apply { if (hasRenderer) parse() }
-            mediaplayer.setEventListener(this@PlayerController)
-            mediaplayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(VLCApplication.getAppContext()))
-            mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)
-            mediaplayer.play()
-        }.join()
+        mediaplayer.setEventListener(null)
+        mediaplayer.media = media.apply { if (hasRenderer) parse() }
+        mediaplayer.setEventListener(this@PlayerController)
+        mediaplayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(VLCApplication.getAppContext()))
+        mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)
+        mediaplayer.play()
         if (mediaplayer.rate == 1.0f && settings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, true))
             setRate(settings.getFloat(PreferencesActivity.KEY_PLAYBACK_RATE, 1.0f), false)
     }
@@ -264,10 +258,10 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         mediaplayerEventListener?.onEvent(event)
     }
 
-    private fun onPlayerError() {
-        launch(UI) {
-            restart()
-            Toast.makeText(VLCApplication.getAppContext(), VLCApplication.getAppContext().getString(R.string.feedback_player_crashed), Toast.LENGTH_LONG).show()
-        }
-    }
+//    private fun onPlayerError() {
+//        launch(UI) {
+//            restart()
+//            Toast.makeText(VLCApplication.getAppContext(), VLCApplication.getAppContext().getString(R.string.feedback_player_crashed), Toast.LENGTH_LONG).show()
+//        }
+//    }
 }
