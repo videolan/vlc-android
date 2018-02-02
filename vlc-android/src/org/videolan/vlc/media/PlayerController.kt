@@ -36,7 +36,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     @Volatile var hasRenderer = false
         private set
 
-    fun getVout() = mediaplayer.vlcVout
+    fun getVout(): IVLCVout? = mediaplayer.vlcVout
 
     fun getMedia(): Media? = mediaplayer.media
 
@@ -106,15 +106,15 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun getVideoTracksCount() = if (mediaplayer.hasMedia()) mediaplayer.videoTracksCount else 0
 
-    fun getVideoTracks() = mediaplayer.videoTracks
+    fun getVideoTracks(): Array<out MediaPlayer.TrackDescription>? = mediaplayer.videoTracks
 
     fun getVideoTrack() = mediaplayer.videoTrack
 
-    fun getCurrentVideoTrack() = mediaplayer.currentVideoTrack
+    fun getCurrentVideoTrack(): Media.VideoTrack? = mediaplayer.currentVideoTrack
 
     fun getAudioTracksCount() = mediaplayer.audioTracksCount
 
-    fun getAudioTracks() = mediaplayer.audioTracks
+    fun getAudioTracks(): Array<out MediaPlayer.TrackDescription>? = mediaplayer.audioTracks
 
     fun getAudioTrack() = mediaplayer.audioTrack
 
@@ -134,7 +134,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun addSubtitleTrack(uri: Uri, select: Boolean) = mediaplayer.addSlave(Media.Slave.Type.Subtitle, uri, select)
 
-    fun getSpuTracks() = mediaplayer.spuTracks
+    fun getSpuTracks(): Array<out MediaPlayer.TrackDescription>? = mediaplayer.spuTracks
 
     fun getSpuTrack() = mediaplayer.spuTrack
 
