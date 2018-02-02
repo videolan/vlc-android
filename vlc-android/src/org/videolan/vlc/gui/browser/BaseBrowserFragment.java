@@ -381,6 +381,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
 
     @Override
     public void refresh() {
+        if (!isResumed()) return;
         if (isSortEnabled()) {
             refreshList = new ArrayList<>();
             refreshing = true;
