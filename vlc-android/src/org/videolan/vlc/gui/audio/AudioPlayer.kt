@@ -262,7 +262,6 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
         when (event.type) {
             MediaPlayer.Event.Opening -> hideSearchField()
-            MediaPlayer.Event.Stopped -> hide()
         }
     }
 
