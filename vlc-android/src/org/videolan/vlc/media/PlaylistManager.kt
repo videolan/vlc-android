@@ -359,7 +359,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
             //Save progress
             val time = player.getTime()
-            val length = player.getLength()
+            val length = player.length
             var progress = time / length.toFloat()
             if (progress > 0.95f || length - time < 10000) {
                 //increase seen counter if more than 95% of the media have been seen
@@ -528,10 +528,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private fun seekToResume(media: MediaWrapper) {
         var mw = media
         if (savedTime > 0L) {
-            if (savedTime < 0.95 * player.getLength()) player.seek(savedTime)
+            if (savedTime < 0.95 * player.length) player.seek(savedTime)
             savedTime = 0L
         } else {
-            val length = player.getLength()
+            val length = player.length
             if (mw.length <= 0L && length > 0L) {
                 mw = medialibrary.findMedia(mw)
                 if (mw.id != 0L) {

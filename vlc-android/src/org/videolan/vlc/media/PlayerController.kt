@@ -32,7 +32,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         private set
     @Volatile var hasRenderer = false
         private set
-    @Volatile var currentTime = 0L
+    @Volatile private var currentTime = 0L
+    @Volatile var length = 0L
         private set
 
     fun getVout(): IVLCVout? = mediaplayer.vlcVout
@@ -53,8 +54,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun stop() {
         if (mediaplayer.hasMedia()) mediaplayer.stop()
-        playbackState = PlaybackStateCompat.STATE_STOPPED
-        currentTime = 0
+        setPlaybackStopped()
     }
 
     fun releaseMedia() = mediaplayer.media?.let {
@@ -68,6 +68,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         seekable = true
         pausable = true
         currentTime = 0L
+        length = media.duration
         mediaplayer.setEventListener(null)
         mediaplayer.media = media.apply { if (hasRenderer) parse() }
         mediaplayer.setEventListener(this@PlayerController)
@@ -85,7 +86,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         release(mp)
     }
 
-    fun seek(position: Long, length: Double = getLength().toDouble()) {
+    fun seek(position: Long, length: Double = this.length.toDouble()) {
         if (length > 0.0) setPosition((position / length).toFloat())
         else setTime(position)
     }
@@ -172,8 +173,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
                 }
             } else player.release()
         }
-        playbackState = PlaybackStateCompat.STATE_STOPPED
-        currentTime = 0L
+        setPlaybackStopped()
     }
 
     fun setSlaves(media: MediaWrapper) = launch {
@@ -214,8 +214,6 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         mw?.updateMeta(mediaplayer)
         return id != Media.Meta.NowPlaying || mw?.nowPlaying !== null
     }
-
-    fun getLength() = if (mediaplayer.hasMedia()) mediaplayer.length else 0L
 
     fun setPreviousStats() {
         val media = mediaplayer.media ?: return
@@ -264,12 +262,19 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         when(event.type) {
             MediaPlayer.Event.Playing -> playbackState = PlaybackStateCompat.STATE_PLAYING
             MediaPlayer.Event.Paused -> playbackState = PlaybackStateCompat.STATE_PAUSED
-            MediaPlayer.Event.EncounteredError -> playbackState = PlaybackStateCompat.STATE_STOPPED
+            MediaPlayer.Event.EncounteredError -> setPlaybackStopped()
             MediaPlayer.Event.PausableChanged -> pausable = event.pausable
             MediaPlayer.Event.SeekableChanged -> seekable = event.seekable
             MediaPlayer.Event.TimeChanged -> currentTime = event.timeChanged
+            MediaPlayer.Event.LengthChanged -> length = event.lengthChanged
         }
         mediaplayerEventListener?.onEvent(event)
+    }
+
+    private fun setPlaybackStopped() {
+        playbackState = PlaybackStateCompat.STATE_STOPPED
+        currentTime = 0L
+        length = 0L
     }
 
 //    private fun onPlayerError() {
