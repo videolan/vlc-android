@@ -220,7 +220,7 @@
         <item name="background_menu">@color/grey300</item>
         <item name="background_player">@color/grey100</item>
         <item name="font_default">@color/grey900</item>
-        <item name="font_light">@color/grey600</item>
+        <item name="font_light">@color/grey700</item>
         <item name="android:windowBackground">@color/grey200</item>
     </style>
 
@@ -259,6 +259,7 @@
         <item name="ic_trash">@drawable/ic_trash_w</item>
         <item name="ic_reset">@drawable/ic_reset_w</item>
         <item name="ic_save">@drawable/ic_save_w</item>
+        <item name="font_light">@color/grey600</item>
 
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title_last">@color/list_title_last</item>
