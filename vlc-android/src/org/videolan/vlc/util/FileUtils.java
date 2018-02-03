@@ -128,8 +128,7 @@ public class FileUtils {
     static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
         try {
             final String[] files = assetManager.list(fromAssetPath);
-            if (files.length == 0)
-                return false;
+            if (files.length == 0) return false;
             new File(toPath).mkdirs();
             boolean res = true;
             for (String file : files)
@@ -150,11 +149,13 @@ public class FileUtils {
 
     private static boolean copyAsset(AssetManager assetManager,
                                      String fromAssetPath, String toPath) {
+        final File destFile = new File(toPath);
+        if (destFile.exists()) return true;
         InputStream in = null;
         OutputStream out = null;
         try {
             in = assetManager.open(fromAssetPath);
-            new File(toPath).createNewFile();
+            destFile.createNewFile();
             out = new FileOutputStream(toPath);
             copyFile(in, out);
             out.flush();
