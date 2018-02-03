@@ -3,7 +3,6 @@ package org.videolan.vlc.gui
 import android.support.annotation.WorkerThread
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
@@ -14,6 +13,7 @@ import java.util.*
 abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
 
     protected var dataset: List<D> = listOf()
+    private set
     @Volatile private var last = dataset
     private val diffCallback by lazy(LazyThreadSafetyMode.NONE) { createCB() }
     private val updateActor = actor<List<D>>(newSingleThreadContext("vlc-updater"), capacity = Channel.CONFLATED) {
@@ -28,7 +28,6 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
 
     @WorkerThread
     private suspend fun internalUpdate(list: List<D>) {
-        Log.d("dua", "old list ${dataset.size} -> ${list.size}")
         val finalList = prepareList(list)
         val result = DiffUtil.calculateDiff(diffCallback.apply { update(dataset, finalList) }, detectMoves())
         launch(UI) {
