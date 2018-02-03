@@ -19,6 +19,10 @@
  */
 package org.videolan.vlc
 
+import kotlinx.coroutines.experimental.CoroutineStart
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.android.UI
 import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
 import org.videolan.vlc.util.VLCInstance
@@ -48,19 +52,19 @@ object RendererDelegate : RendererDiscoverer.EventListener, ExternalMonitor.Netw
         fun onRendererChanged(renderer: RendererItem?)
     }
 
-    fun start() {
+    suspend fun start() {
         if (started) return
         started = true
-        val libVlc = VLCInstance.get()
+        val libVlc = async { VLCInstance.get() }.await()
         for (discoverer in RendererDiscoverer.list(libVlc)) {
             val rd = RendererDiscoverer(libVlc, discoverer.name)
             mDiscoverers.add(rd)
-            rd.setEventListener(this)
+            rd.setEventListener(this@RendererDelegate)
             rd.start()
         }
     }
 
-    fun stop() {
+    suspend fun stop() {
         if (!started) return
         started = false
         for (discoverer in mDiscoverers) discoverer.stop()
@@ -75,7 +79,9 @@ object RendererDelegate : RendererDiscoverer.EventListener, ExternalMonitor.Netw
         renderers.clear()
     }
 
-    override fun onNetworkConnectionChanged(connected: Boolean) = if (connected) start() else stop()
+    override fun onNetworkConnectionChanged(connected: Boolean) {
+        launch(UI, CoroutineStart.UNDISPATCHED) { if (connected) start() else stop() }
+    }
 
     override fun onEvent(event: RendererDiscoverer.Event?) {
         when (event?.type) {
