@@ -32,6 +32,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         private set
     @Volatile var hasRenderer = false
         private set
+    @Volatile var currentTime = 0L
+        private set
 
     fun getVout(): IVLCVout? = mediaplayer.vlcVout
 
@@ -52,6 +54,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     fun stop() {
         if (mediaplayer.hasMedia()) mediaplayer.stop()
         playbackState = PlaybackStateCompat.STATE_STOPPED
+        currentTime = 0
     }
 
     fun releaseMedia() = mediaplayer.media?.let {
@@ -64,6 +67,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         mediaplayerEventListener = listener
         seekable = true
         pausable = true
+        currentTime = 0L
         mediaplayer.setEventListener(null)
         mediaplayer.media = media.apply { if (hasRenderer) parse() }
         mediaplayer.setEventListener(this@PlayerController)
@@ -169,6 +173,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
             } else player.release()
         }
         playbackState = PlaybackStateCompat.STATE_STOPPED
+        currentTime = 0L
     }
 
     fun setSlaves(media: MediaWrapper) = launch {
@@ -190,7 +195,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         switchToVideo = false
     }
 
-    fun getTime() = if (mediaplayer.hasMedia()) mediaplayer.time else 0L
+    fun getTime() = currentTime
 
     fun setRate(rate: Float, save: Boolean) {
         mediaplayer.rate = rate
@@ -262,6 +267,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
             MediaPlayer.Event.EncounteredError -> playbackState = PlaybackStateCompat.STATE_STOPPED
             MediaPlayer.Event.PausableChanged -> pausable = event.pausable
             MediaPlayer.Event.SeekableChanged -> seekable = event.seekable
+            MediaPlayer.Event.TimeChanged -> currentTime = event.timeChanged
         }
         mediaplayerEventListener?.onEvent(event)
     }
