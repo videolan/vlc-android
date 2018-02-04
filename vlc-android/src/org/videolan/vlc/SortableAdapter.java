@@ -88,13 +88,8 @@ public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends Rec
                     if (getSortBy() == MediaLibraryItemComparator.SORT_DEFAULT)
                         sMediaComparator.sortBy(getDefaultSort(), 1);
                     final ArrayList<T> list = new ArrayList<>(peekLast());
-                    VLCApplication.runBackground(new Runnable() {
-                        @Override
-                        public void run() {
-                            Util.insertOrUdpate(list, items);
-                            update(list);
-                        }
-                    });
+                    Util.insertOrUdpate(list, items);
+                    update(list);
                 }
             });
         }

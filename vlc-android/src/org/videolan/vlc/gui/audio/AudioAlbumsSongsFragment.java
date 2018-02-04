@@ -293,8 +293,13 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                     albums = Util.arrayToMediaArrayList(((Genre) mItem).getAlbums());
                 else return;
                 final List<MediaLibraryItem> songs = Util.arrayToMediaArrayList(mItem.getTracks());
-                mAlbumsAdapter.update(albums);
-                mSongsAdapter.update(songs);
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAlbumsAdapter.update(albums);
+                        mSongsAdapter.update(songs);
+                    }
+                });
             }
         });
     }

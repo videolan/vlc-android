@@ -318,7 +318,12 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             return;
         }
         final MediaWrapper mediaWrapper = getMediaWrapper(new MediaWrapper(media));
-        mAdapter.addItem(mediaWrapper, false);
+        VLCApplication.runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.addItem(mediaWrapper, false);
+            }
+        });
     }
 
     @Override
@@ -385,8 +390,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         if (isSortEnabled()) {
             refreshList = new ArrayList<>();
             refreshing = true;
-        } else
-            mAdapter.clear();
+        }
         mBrowserHandler.removeCallbacksAndMessages(null);
         mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
 

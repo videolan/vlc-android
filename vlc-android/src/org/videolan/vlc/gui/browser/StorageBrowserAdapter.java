@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.support.annotation.MainThread;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -80,6 +81,7 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
         return false;
     }
 
+    @MainThread
     public void addItem(MediaLibraryItem item, boolean top, int position) {
         if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA)
             item = new Storage(((MediaWrapper)item).getUri());

@@ -142,8 +142,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
             mGridView.addItemDecoration(mDividerItemDecoration);
         if (savedInstanceState != null) {
             final List<MediaWrapper> list = (List<MediaWrapper>) VLCApplication.getData("list"+getTitle());
-            if (!Util.isListEmpty(list))
-                mAdapter.update(list);
+            if (!Util.isListEmpty(list)) mAdapter.update(list);
         }
         mGridView.setAdapter(mAdapter);
     }
@@ -369,7 +368,12 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
                     for (MediaGroup item : MediaGroup.group(itemList))
                         displayList.add(item.getMedia());
                 }
-                mAdapter.update(displayList);
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.update(displayList);
+                    }
+                });
                 mHandler.sendEmptyMessage(UNSET_REFRESHING);
             }
         });

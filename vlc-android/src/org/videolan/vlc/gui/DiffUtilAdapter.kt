@@ -1,5 +1,6 @@
 package org.videolan.vlc.gui
 
+import android.support.annotation.MainThread
 import android.support.annotation.WorkerThread
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
@@ -21,6 +22,7 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
     }
     protected abstract fun onUpdateFinished()
 
+    @MainThread
     fun update (list: List<D>) {
         last = list
         updateActor.offer(list)
@@ -37,15 +39,15 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
         }.join()
     }
 
-    open protected fun prepareList(list: List<D>) : List<D> = ArrayList(list)
+    protected open fun prepareList(list: List<D>) : List<D> = ArrayList(list)
 
     fun peekLast() = last
 
     fun hasPendingUpdates() = updateActor.isFull
 
-    open protected fun detectMoves() = false
+    protected open fun detectMoves() = false
 
-    open protected fun createCB() = DiffCallback<D>()
+    protected open fun createCB() = DiffCallback<D>()
 
     open class DiffCallback<D> : DiffUtil.Callback() {
         lateinit var oldList: List<D>

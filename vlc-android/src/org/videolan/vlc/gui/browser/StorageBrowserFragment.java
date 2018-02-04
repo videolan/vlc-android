@@ -128,7 +128,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         String[] storages = AndroidDevices.getMediaDirectories();
         String[] customDirectories = CustomDirectories.getCustomDirectories();
         Storage storage;
-        ArrayList<MediaLibraryItem> storagesList = new ArrayList<>();
+        final ArrayList<MediaLibraryItem> storagesList = new ArrayList<>();
         for (String mediaDirLocation : storages) {
             if (TextUtils.isEmpty(mediaDirLocation))
                 continue;
@@ -148,7 +148,12 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
             storage = new Storage(Uri.parse(customDir));
             storagesList.add(storage);
         }
-        mAdapter.update(storagesList);
+        VLCApplication.runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.update(storagesList);
+            }
+        });
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
     }
 

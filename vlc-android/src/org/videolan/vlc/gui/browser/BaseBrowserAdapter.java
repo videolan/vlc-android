@@ -245,22 +245,26 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         return Util.isListEmpty(peekLast());
     }
 
+    @MainThread
     public void addItem(MediaLibraryItem item, boolean top) {
         addItem(item, top, -1);
     }
 
-    void addItem(MediaLibraryItem item, boolean top, int positionTo) {
-        int position;
-        List<MediaLibraryItem> list = new ArrayList<>(peekLast());
-        if (positionTo != -1)
-            position = positionTo;
-        else
-            position = top ? mTop : list.size();
+    void addItem(final MediaLibraryItem item, final boolean top, final int positionTo) {
+        VLCApplication.runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                int position;
+                final List<MediaLibraryItem> list = new ArrayList<>(peekLast());
+                if (positionTo != -1) position = positionTo;
+                else position = top ? mTop : list.size();
 
-        if (position <= list.size()) {
-            list.add(position, item);
-            update(list);
-        }
+                if (position <= list.size()) {
+                    list.add(position, item);
+                    update(list);
+                }
+            }
+        });
     }
 
     public void setTop (int top) {
