@@ -337,6 +337,8 @@
     <string name="casting_quality_lowcpu">Niedrigste</string>
     <string name="cast_performance_warning">Vor dem Streamen, muss das Video umgewandelt werden. Diese Umwandlung konnte die gesamte verfügbare Energie verbrauchen und den Akku schneller entleeren.</string>
     <string name="casting_connected_renderer">Verbunden mit Renderer \'%1$s\'</string>
+    <string name="artists_show_all_title">Zeige alle Künstler</string>
+    <string name="artists_show_all_summary">Zeige alle Künstler in der Künstlerliste, nicht nur die Künstler der Alben</string>
     <string name="extensions_prefs_category">Erweiterungen</string>
     <string name="extensions_enable_category">Erweiterungen zur Aktivierung auswählen</string>
     <string name="extensions_empty">Keine Erweiterungen gefunden</string>
@@ -527,4 +529,7 @@
     <string name="msg_delete_failed">Fehler beim Löschen von %1$s</string>
     <string name="renderer_list_title">Anzeigen</string>
     <string name="feedback_player_crashed">Entschuldigung, VLC ist soeben abgestürzt. Bitte versuchen Sie es erneut.</string>
+    <string name="sdcard_permission_dialog_title">Sie müssen VLC den Schreibzugriff auf Ihre SD-Karte gewähren</string>
+    <string name="sdcard_permission_dialog_message">VLC kann diese Datei nicht ohne Schreibzugriffsberechtigung löschen.\nBitte wechseln Sie auf Ihre SD-Karte und klicken Sie auf \"Auswählen\".\nSie müssen möglicherweise zuerst auf \"SD-Karte anzeigen\" im Menü oben rechts klicken</string>
+    <string name="dialog_sd_wizard">Zeig es mir</string>
 </resources>
