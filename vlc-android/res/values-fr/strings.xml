@@ -261,6 +261,7 @@
     <string name="video_min_group_length_first">Première lettre seulement</string>
     <string name="video_min_group_length_short">Courte suite de lettre (6)</string>
     <string name="video_min_group_length_long">Longue suite de lettres (9)</string>
+    <string name="media_fast_seek">Activer l\'option de recherche rapide</string>
     <string name="media_seen">Afficher le marqueur de vidéo vue</string>
     <string name="media_seen_summary">Marquer une vidéo comme vue lorsque vous la regardez jusqu\'à la fin</string>
     <string name="force_list_portrait">Pas de grille en mode portrait</string>
@@ -298,6 +299,7 @@
     <string name="subtitles_color_green">Vert</string>
     <string name="subtitles_background_title">Arrière-plan des sous-titres</string>
     <string name="subtitles_bold_title">Sous-titres en gras</string>
+    <string name="subtitles_autoload_title">Chargement automatique des sous-titres</string>
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Pochette des albums sur l\'écran de verrouillage</string>
     <string name="lockscreen_cover_summary">Si disponible, la pochette de l\'album sera affichée comme fond d\'écran lorsque l\'appareil est verrouillé</string>
@@ -322,6 +324,21 @@
     <string name="enable_steal_remote_control_summary">Évite les conflits en bloquant le contrôle de la télécommande aux autres applis. Cela empêche le double clic de rappeler le dernier numéro sur les téléphones HTC.</string>
     <string name="aout">Sortie audio</string>
     <string name="aout_summary">Modifier le type de sortie audio en cas de dysfonctionnement audio.</string>
+    <string name="audio_ducking_title">Baisser le volume de VLC à la réception d\'une notification</string>
+    <string name="audio_ducking_summary">Aide à l\'écoute des notifications audio, instructions de navigation ou assistant vocal</string>
+    <string name="casting_category">Diffusion</string>
+    <string name="casting_passthrough_title">Passerelle audio</string>
+    <string name="casting_passthrough_summary">Laisser votre téléviseur gérer le rendu audio</string>
+    <string name="casting_conversion_quality_title">Qualité de conversion</string>
+    <string name="casting_conversion_quality_summary">Choisissez la qualité de conversion à utiliser lorsque vous diffusez sur un écran distant</string>
+    <string name="casting_quality_high">Haut</string>
+    <string name="casting_quality_medium">Moyen</string>
+    <string name="casting_quality_low">Bas</string>
+    <string name="casting_quality_lowcpu">Le plus bas</string>
+    <string name="cast_performance_warning">Diffuser cette vidéo requiert une conversion. Cette conversion risque d\'utiliser toute la puissance disponible et rapidement vider votre batterie.</string>
+    <string name="casting_connected_renderer">Connecté au moteur de rendu \'%1$s\'</string>
+    <string name="artists_show_all_title">Montrer tout les artistes</string>
+    <string name="artists_show_all_summary">Montrer tout les artistes dans la liste des artistes, pas seulement les artistes de l\'album</string>
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_enable_category">Choisissez les extensions à activer</string>
     <string name="extensions_empty">Aucune extension détectée</string>
@@ -389,6 +406,7 @@
     <string name="audio_delay">Délai audio</string>
     <string name="spu_delay">Délai du sous-titrage</string>
     <string name="sleep_time_not_set">non défini</string>
+    <string name="network_shares_discovery">Recherche de partages réseau...</string>
     <string name="network_empty">Ce dossier est vide.</string>
     <string name="network_connection_needed">Pas de connexion au réseau local.</string>
     <string name="search_hint">Recherche de média</string>
@@ -470,6 +488,7 @@
     <string name="browse_folder">Ouvrir le dossier</string>
     <string name="listen">Écouter</string>
     <string name="subtitles_download_title">Téléchargement des sous-titres</string>
+    <string name="connecting">Connexion...</string>
     <string name="save_bluetooth_delay">enregistrer le retard du périphérique bluetooth</string>
     <string name="episodes">épisodes</string>
     <string name="movies">films</string>
@@ -488,9 +507,12 @@
     <string name="ml_external_storage_decline">Non</string>
     <string name="last_added_media">Derniers ajouts</string>
     <string name="no">Non</string>
+    <string name="loading_medialibrary">Chargement de la bibliothèque multimédia</string>
     <string name="yes">Oui</string>
     <string name="custom_set_save_title">Changements non enregistrés</string>
     <string name="custom_set_save_warning">Attention : changements non enregistrés</string>
+    <string name="existing_custom_set_save_message">Enregistrer le profil d\'égaliseur sous...</string>
+    <string name="new_custom_set_save_message">Enregistrer le nouveau profil d\'égaliseur sous...</string>
     <string name="save">Enregistrer</string>
     <string name="do_not_save">Ne pas enregistrer</string>
     <string name="custom_set_deleted_message">Ensemble d\'égaliseurs personnalisé « %1$s » supprimé.</string>
@@ -504,4 +526,10 @@
     <string name="recommendations_desc">Cartes de recommandation au démarrage</string>
     <string name="browser_quick_access">Accès rapide</string>
     <string name="browser_storages">Stockages</string>
+    <string name="msg_delete_failed">Échec de la suppression du média %1$s</string>
+    <string name="renderer_list_title">Affichages</string>
+    <string name="feedback_player_crashed">Désolé, VLC s\'est arrêté inopinément. Veuillez réessayer.</string>
+    <string name="sdcard_permission_dialog_title">Vous devez donner les droits d\'écriture sur votre carte SD à VLC</string>
+    <string name="sdcard_permission_dialog_message">VLC ne peut pas supprimer ce fichier sans les droits d\'écriture. Veuillez vous rendre dans votre carte SD et cliquez sur \"Sélectionner\".\nVous pourriez avoir besoin de d\'abord cliquer sur \"Montrer la carte SD\" dans le menu en haut à droite.</string>
+    <string name="dialog_sd_wizard">Montrer moi</string>
 </resources>
