@@ -254,6 +254,7 @@
     <string name="video_min_group_length_first">Abjad pertama sahaja</string>
     <string name="video_min_group_length_short">Bilangan abjad pendek (6)</string>
     <string name="video_min_group_length_long">Bilangan abjad panjang (9)</string>
+    <string name="media_fast_seek">Benarkan pilihan jangkau pantas</string>
     <string name="media_seen">Tunjuk penanda video ditonton</string>
     <string name="media_seen_summary">Tanda video yang telah ditonton yang anda telah mainkan sehingga tamat</string>
     <string name="force_list_portrait">Tiada grid dalam mod potret</string>
@@ -291,6 +292,7 @@
     <string name="subtitles_color_green">Hijau</string>
     <string name="subtitles_background_title">Latar Belakang Sarikata</string>
     <string name="subtitles_bold_title">Sarikata tebal</string>
+    <string name="subtitles_autoload_title">Auto muat sarikata</string>
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Muka hadapan media pada Skrin Kunci</string>
     <string name="lockscreen_cover_summary">Bila tersedia, tetapkan seni muka hadapan media semasa sebagai kertas dinding skrin kunci</string>
@@ -317,6 +319,19 @@
     <string name="aout_summary">Ubah kaedah yang VLC gunakan untuk audio output</string>
     <string name="audio_ducking_title">Rendahkan volum VLC ketika pemberitahuan</string>
     <string name="audio_ducking_summary">Bantu mendengar pemberitahuan audio, arahan navigasi atau percakapan pembantu</string>
+    <string name="casting_category">Casting</string>
+    <string name="casting_passthrough_title">Passthrough Audio</string>
+    <string name="casting_passthrough_summary">Biarkan TV anda mengurus penerapan audio</string>
+    <string name="casting_conversion_quality_title">Kualiti penukaran</string>
+    <string name="casting_conversion_quality_summary">Pilih kualiti penukaran ketika casting pada skrin jauh</string>
+    <string name="casting_quality_high">Tinggi</string>
+    <string name="casting_quality_medium">Sederhana</string>
+    <string name="casting_quality_low">Rendah</string>
+    <string name="casting_quality_lowcpu">Paling Rendah</string>
+    <string name="cast_performance_warning">Casting video ini memerlukan penukaran. Penukaran ini boleh gunakan semua kuasa yang ada dan boleh mengeringkan kuasa bateri dengan pantas.</string>
+    <string name="casting_connected_renderer">Bersambung dengan penerap \'%1$s\'</string>
+    <string name="artists_show_all_title">Tunjuk semua artis</string>
+    <string name="artists_show_all_summary">Tunjuk semua artis dalam penyenaraian Artis, bukan sahaja artis album</string>
     <string name="extensions_prefs_category">Sambungan</string>
     <string name="extensions_enable_category">Pilih sambungan untuk dibenarkan</string>
     <string name="extensions_empty">Tiada sambungan dikesan</string>
@@ -505,4 +520,9 @@
     <string name="browser_quick_access">Capaian Pantas</string>
     <string name="browser_storages">Storan</string>
     <string name="msg_delete_failed">Gagal memadam media %1$s</string>
+    <string name="renderer_list_title">Paparan</string>
+    <string name="feedback_player_crashed">Maaf, VLC baru sahaja mengalami kerosakan. Cuba sekali lagi.</string>
+    <string name="sdcard_permission_dialog_title">Anda telah memberi kebenaran VLC capaian tulis ke Kad SD anda</string>
+    <string name="sdcard_permission_dialog_message">VLC tidak dapat memadam fail ini tanpa keizinan capaian tulis.\nSila pergi ke Kad SD anda dan klik pada \"Pilih\".\nAnda boleh klik pada \"Tunjuk kad SD\" dauhlu dalam menu kanan-atas</string>
+    <string name="dialog_sd_wizard">Tunjuk saya</string>
 </resources>
