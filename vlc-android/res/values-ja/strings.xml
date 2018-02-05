@@ -106,15 +106,15 @@
     <string name="repeat">リピートなし</string>
     <string name="repeat_single">1項目をリピート</string>
     <string name="repeat_all">すべてをリピート</string>
-    <string name="previous">前</string>
+    <string name="previous">前へ</string>
     <string name="stop">停止</string>
-    <string name="next">次</string>
+    <string name="next">次へ</string>
     <string name="firstsong">プレイリストの最初の曲</string>
     <string name="lastsong">プレイリストの最後の曲</string>
     <string name="locked">ロック中</string>
     <string name="unlocked">ロック解除</string>
     <string name="surface_best_fit">スクリーンに最適化</string>
-    <string name="surface_fit_screen">画面にあわせる</string>
+    <string name="surface_fit_screen">画面に合わせる</string>
     <string name="surface_fill">画面一杯に合わせる</string>
     <string name="surface_original">センター表示</string>
     <string name="thumbnail">サムネイル</string>
@@ -330,6 +330,8 @@
     <string name="casting_quality_lowcpu">最低</string>
     <string name="cast_performance_warning">このビデオの配信には変換が必要です。変換にはすべてのパワーが必要なため、バッテリーを急速に消費する可能性があります。</string>
     <string name="casting_connected_renderer">レンダラー \'%1$s\' に接続</string>
+    <string name="artists_show_all_title">すべてのアーティストを表示</string>
+    <string name="artists_show_all_summary">アーティスト一覧にアルバムのアーティストだけではなく、すべてのアーティストを表示</string>
     <string name="extensions_prefs_category">拡張機能</string>
     <string name="extensions_enable_category">有効化する拡張機能を選択してください</string>
     <string name="extensions_empty">拡張機能が検出されませんでした</string>
@@ -520,4 +522,6 @@
     <string name="msg_delete_failed">メディアの削除に失敗しました%1$s</string>
     <string name="renderer_list_title">ディスプレイ</string>
     <string name="feedback_player_crashed">VLCがクラッシュしました。再試行してください。</string>
+    <string name="sdcard_permission_dialog_title">SDカードへの書き込み権をVLCに与えてください</string>
+    <string name="sdcard_permission_dialog_message">書き込み権が無いとVLCがこのファイルを削除することができません。\nSDカードで\"選択\"をクリックしてください。\n右上のメニューで”SDカードの表示\"をクリックする必要があるかも知れません。</string>
 </resources>
