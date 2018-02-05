@@ -330,6 +330,8 @@
     <string name="casting_quality_lowcpu">가장 낮음</string>
     <string name="cast_performance_warning">이 비디오는 변환해야 캐스팅할 수 있습니다. 이 변환은 이용 가능한 모든 자원을 사용하며 배터리를 빨리 소모할 수 있습니다.</string>
     <string name="casting_connected_renderer">\'%1$s\' 렌더러에 연결되었습니다</string>
+    <string name="artists_show_all_title">모든 아티스트 보이기</string>
+    <string name="artists_show_all_summary">아티스트 목록에 앨범 아티스트뿐만 아니라 모든 아티스트를 보여줍니다</string>
     <string name="extensions_prefs_category">확장 프로그램</string>
     <string name="extensions_enable_category">사용할 확장 프로그램을 선택하세요</string>
     <string name="extensions_empty">감지한 확장 프로그램이 없습니다</string>
@@ -520,4 +522,7 @@
     <string name="msg_delete_failed">%1$s 미디어 삭제에 실패했습니다</string>
     <string name="renderer_list_title">디스플레이</string>
     <string name="feedback_player_crashed">죄송하지만 VLC가 멈췄습니다. 다시 시도해 보세요.</string>
+    <string name="sdcard_permission_dialog_title">SD 카드에 VLC 쓰기 권한을 부여해야 합니다</string>
+    <string name="sdcard_permission_dialog_message">VLC는 쓰기 권한 없이 이 파일을 삭제할 수 없습니다.\nSD 카드로 이동해서 \"선택\"을 누르세요.\n오른쪽 상단 메뉴에서 \"SD 카드 보이기\"를 눌러야 할 수도 있습니다</string>
+    <string name="dialog_sd_wizard">보여주세요</string>
 </resources>
