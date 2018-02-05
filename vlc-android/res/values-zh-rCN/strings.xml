@@ -330,6 +330,8 @@
     <string name="casting_quality_lowcpu">最低</string>
     <string name="cast_performance_warning">cast 此视频需要进行格式转换。此类转换将令处理器全速运转，可能会迅速耗尽您的电池。</string>
     <string name="casting_connected_renderer">已连接到渲染器「%1$s」</string>
+    <string name="artists_show_all_title">显示所有艺术家</string>
+    <string name="artists_show_all_summary">在「艺术家」列表显示所有艺术家，而不是只显示专辑艺术家</string>
     <string name="extensions_prefs_category">扩展</string>
     <string name="extensions_enable_category">已选中要启用的扩展</string>
     <string name="extensions_empty">未侦测到扩展</string>
@@ -520,4 +522,7 @@
     <string name="msg_delete_failed">无法删除媒体「%1$s」</string>
     <string name="renderer_list_title">显示器</string>
     <string name="feedback_player_crashed">抱歉，VLC 刚才崩溃了。请再试一次。</string>
+    <string name="sdcard_permission_dialog_title">您已授予 VLC 写入 SD 卡的权限</string>
+    <string name="sdcard_permission_dialog_message">VLC 没有写入权限，无法删除该文件。\n请前往「SD 卡」，点击「选择」。\n您可能需要先在右上角菜单中点击「显示 SD 卡」</string>
+    <string name="dialog_sd_wizard">显示</string>
 </resources>
