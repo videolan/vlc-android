@@ -104,7 +104,7 @@
     <string name="directorynotfound">Il percorso della cartella \'%1$s\' non è stato trovato.</string>
     <string name="nohistory">Non hai ancora uno storico delle riproduzioni.</string>
     <string name="validation">Sei sicuro?</string>
-    <string name="cover_art">Copeertina</string>
+    <string name="cover_art">Copertina</string>
     <string name="shuffle_title">Mescola</string>
     <string name="shuffle">Non mescolare</string>
     <string name="shuffle_on">Mescola</string>
@@ -239,7 +239,7 @@
     <string name="screen_orientation_start_lock">Bloccato all\'avvio</string>
     <string name="screen_orientation_portrait">Verticale</string>
     <string name="screen_orientation_landscape">Orizzontale</string>
-    <string name="screen_orientation_reverse_portrait">Vericale inverso</string>
+    <string name="screen_orientation_reverse_portrait">Verticale inverso</string>
     <string name="screen_orientation_reverse_landscape">Orizzontale inverso</string>
     <string name="enable_black_theme">Abilita il tema scuro</string>
     <string name="enable_black_theme_summary">Cambia i colori dell\'interfaccia per un migliore utilizzo in ambienti a bassa luminosità.</string>
@@ -337,6 +337,8 @@
     <string name="casting_quality_lowcpu">Minima</string>
     <string name="cast_performance_warning">La trasmissione di questo video richiede la conversione. Questa conversione può utilizzare tutta la potenza disponibile e scaricare rapidamente la batteria.</string>
     <string name="casting_connected_renderer">Connesso al renderer \'%1$s\'</string>
+    <string name="artists_show_all_title">Mostra tutti gli artisti</string>
+    <string name="artists_show_all_summary">Mostra tutti gli artisti nell\'elenco Artisti, non solo gli artisti dell\'album</string>
     <string name="extensions_prefs_category">Estensioni</string>
     <string name="extensions_enable_category">Scegli le estensioni da abilitare</string>
     <string name="extensions_empty">Nessuna estensione rilevata</string>
@@ -527,4 +529,7 @@
     <string name="msg_delete_failed">Eliminazione media %1$s non riuscita</string>
     <string name="renderer_list_title">Schermi</string>
     <string name="feedback_player_crashed">Spiacenti, VLC si è chiuso in modo inatteso. Prova ancora.</string>
+    <string name="sdcard_permission_dialog_title">Hai accordato a VLC l\'accesso in scrittura alla tua scheda SD </string>
+    <string name="sdcard_permission_dialog_message">VLC non può eliminare questo file senza il permesso di scrittura.\nVai alla tua scheda SD e fai clic su \"Seleziona\".\nPotresti dover fare clic prima su \"Mostra scheda SD\" nel menu in alto a destra,</string>
+    <string name="dialog_sd_wizard">Mostrami</string>
 </resources>
