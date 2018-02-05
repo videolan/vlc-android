@@ -261,6 +261,7 @@
     <string name="video_min_group_length_first">Endast första bokstaven</string>
     <string name="video_min_group_length_short">Litet antal bokstäver (6)</string>
     <string name="video_min_group_length_long">Långt antal bokstäver (9)</string>
+    <string name="media_fast_seek">Aktivera alternativ för snabb sökning</string>
     <string name="media_seen">Visa markör för sedda videor</string>
     <string name="media_seen_summary">Markera en video som sedd när du spelar den till slutet</string>
     <string name="force_list_portrait">Inget rutnät i porträttläge</string>
@@ -298,6 +299,7 @@
     <string name="subtitles_color_green">Grön</string>
     <string name="subtitles_background_title">Undertextbakgrund</string>
     <string name="subtitles_bold_title">Fetstilade undertexter</string>
+    <string name="subtitles_autoload_title">Läs in undertexter automatiskt</string>
     <string name="audio_prefs_category">Ljud</string>
     <string name="lockscreen_cover_title">Mediaomslag på låsskärmen</string>
     <string name="lockscreen_cover_summary">Ändra låsskärmens bakgrundsbild till aktuell mediaomslagbild om ett finns.</string>
@@ -324,6 +326,19 @@
     <string name="aout_summary">Ändra metoden som VLC använder för att mata ut ljud.</string>
     <string name="audio_ducking_title">Sänk VLC:s volym vid meddelande</string>
     <string name="audio_ducking_summary">Hjälper till att höra ljudmeddelanden, navigeringsinstruktioner eller assistenttal</string>
+    <string name="casting_category">Castar</string>
+    <string name="casting_passthrough_title">Passthrough för ljud</string>
+    <string name="casting_passthrough_summary">Låt din TV hantera ljudrendering</string>
+    <string name="casting_conversion_quality_title">Konverteringskvalitet</string>
+    <string name="casting_conversion_quality_summary">Välj konverteringskvaliteten att använda när du castar på fjärrskärmar</string>
+    <string name="casting_quality_high">Hög</string>
+    <string name="casting_quality_medium">Medium</string>
+    <string name="casting_quality_low">Låg</string>
+    <string name="casting_quality_lowcpu">Lägsta</string>
+    <string name="cast_performance_warning">För att casta denna video måste den konverteras. Denna konvertering kan använda all tillgänglig kraft och kan snabbt dränera ditt batteri.</string>
+    <string name="casting_connected_renderer">Ansluten till \"%1$s\"</string>
+    <string name="artists_show_all_title">Visa alla artister</string>
+    <string name="artists_show_all_summary">Visa alla artister i listan över artister, inte bara albumartister</string>
     <string name="extensions_prefs_category">Tillägg</string>
     <string name="extensions_enable_category">Välj tillägg att aktivera</string>
     <string name="extensions_empty">Inga tillägg hittade</string>
@@ -512,4 +527,9 @@
     <string name="browser_quick_access">Snabbåtkomst</string>
     <string name="browser_storages">Lagringsytor</string>
     <string name="msg_delete_failed">Misslyckades att radera mediafilen %1$s</string>
+    <string name="renderer_list_title">Skärmar</string>
+    <string name="feedback_player_crashed">Tyvärr, VLC kraschade precis. Försök igen.</string>
+    <string name="sdcard_permission_dialog_title">Du måste bevilja VLC skrivåtkomst till ditt SD-kort</string>
+    <string name="sdcard_permission_dialog_message">VLC kan inte radera denna fil utan behörighet för skrivåtkomst.\nGå till ditt SD-kort och tryck på \"Välj\".\nDu kanske måste trycka på \"Visa SD-kort\" först i menyn längst upp till höger</string>
+    <string name="dialog_sd_wizard">Visa mig</string>
 </resources>
