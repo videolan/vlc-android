@@ -261,6 +261,7 @@
     <string name="video_min_group_length_first">Prima lettera solu</string>
     <string name="video_min_group_length_short">Numeru cortu di lettere (6)</string>
     <string name="video_min_group_length_long">Numeru longu di lettere (9)</string>
+    <string name="media_fast_seek">Attivà l\'ozzione di pusizione rapida</string>
     <string name="media_seen">Affissà a marca di video vista</string>
     <string name="media_seen_summary">Marcà a video cum\'è vista quandu hè sunata sine à a fine</string>
     <string name="force_list_portrait">Senza quadrittera in modu verticale</string>
@@ -298,6 +299,7 @@
     <string name="subtitles_color_green">Verde</string>
     <string name="subtitles_background_title">Fondu di i Sottutituli</string>
     <string name="subtitles_bold_title">Sottutituli grassi</string>
+    <string name="subtitles_autoload_title">Caricamentu autumaticu di sottutituli</string>
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Cuprendula nant\'à u screnu quandu l\'urdinatore hè bluccatu</string>
     <string name="lockscreen_cover_summary">S\'ellu hè dispunibule, definisce a cuprendula attuale cum\'è tappizzeria di screnu quandu l\'urdinatore hè bluccatu</string>
@@ -322,6 +324,21 @@
     <string name="enable_steal_remote_control_summary">Scarta i cunflitti cù d\'altre appiecazioni blucchendu a telecumanda. Quessu impedisce di richjamà un numeru cù un doppiu-cliccu nant\'à i telefuni HTC.</string>
     <string name="aout">Esciuta audio</string>
     <string name="aout_summary">Cambià u metoda chì VLC impiega per l\'esciuta audio s\'ellu ùn funzioneghja micca.</string>
+    <string name="audio_ducking_title">Diminuisce u vulume di VLC in casu di nutificazione</string>
+    <string name="audio_ducking_summary">Aiuta à stà à sente e nutificazioni aidio, l\'istruzzioni parlate di navigazione o d\'assistenza</string>
+    <string name="casting_category">Trasmissione</string>
+    <string name="casting_passthrough_title">Passthrough audio</string>
+    <string name="casting_passthrough_summary">Lascià a vostra TV urganizà a trasfurmazione audio</string>
+    <string name="casting_conversion_quality_title">Qualità di a cunversione</string>
+    <string name="casting_conversion_quality_summary">Selezziunà a qualità di cunversione quandu si trasmette nant\'à un screnu alluntanatu</string>
+    <string name="casting_quality_high">Alta</string>
+    <string name="casting_quality_medium">Mediana</string>
+    <string name="casting_quality_low">Bassa</string>
+    <string name="casting_quality_lowcpu">A più bassa</string>
+    <string name="cast_performance_warning">Trasmette sta video richiede una cunversione. Sta cunversione pò impiegà tutta a putenza dispunibule è pò viutà a vostra batteria prestu prestu.</string>
+    <string name="casting_connected_renderer">Cunnettu à u trasfurmatore \'%1$s\'</string>
+    <string name="artists_show_all_title">Affissà tutti l\'artisti</string>
+    <string name="artists_show_all_summary">Affissà tutti l\'artisti in a lista Artisti, micca solu l\'artisti di l\'albumu</string>
     <string name="extensions_prefs_category">Stinzioni</string>
     <string name="extensions_enable_category">Sceglie l\'estensioni à attivà</string>
     <string name="extensions_empty">Alcuna estensione avvintata</string>
@@ -510,4 +527,9 @@
     <string name="browser_quick_access">Accessu Prestu</string>
     <string name="browser_storages">Magazini</string>
     <string name="msg_delete_failed">Fiascu per squassà u media %1$s</string>
+    <string name="renderer_list_title">Screni</string>
+    <string name="feedback_player_crashed">Per disgrazia, VLC s\'hè chjosu di manera gattiva. Ci vole à pruvà torna.</string>
+    <string name="sdcard_permission_dialog_title">Ci vole à cuncede à VLC l\'accessu in scrittura à a vostra carta SD</string>
+    <string name="sdcard_permission_dialog_message">VLC ùn pò micca squassà stu schedariu senza permessu d\'accessu in scrittura.\nDa prima, ci vole à andà ver di a vostra carta SD è cliccà nant\'à \\"Affissà carta SD\\" in u listinu insù-diritta</string>
+    <string name="dialog_sd_wizard">Mustrammi</string>
 </resources>
