@@ -336,7 +336,7 @@
     <string name="casting_quality_low">Baxua</string>
     <string name="casting_quality_lowcpu">Baxuena</string>
     <string name="cast_performance_warning">Bideo hau igortzeak bihurketa egitea eskatzen du. Bihurketa honek erabilgarri dagoen energia guztia erabili eta bateria azkar agor lezake.</string>
-    <string name="casting_connected_renderer">Konektatu \'%1$s\' errendatzailera</string>
+    <string name="casting_connected_renderer">\'%1$s\' errendatzailera konektatuta</string>
     <string name="extensions_prefs_category">Gehigarriak</string>
     <string name="extensions_enable_category">Aukeratu gaitu beharreko gehigarriak</string>
     <string name="extensions_empty">Ez da gehigarririk atzeman</string>
