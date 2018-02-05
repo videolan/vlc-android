@@ -337,6 +337,8 @@
     <string name="casting_quality_lowcpu">Legalacsonyabb</string>
     <string name="cast_performance_warning">A videóvetítés átalakítást igényel. Ez az átalakítás az összes erőforrást elhasználhatja, és gyorsan lemerítheti az akkumulátort.</string>
     <string name="casting_connected_renderer">Kapcsolódva a(z) „%1$s” renderelőhöz</string>
+    <string name="artists_show_all_title">Összes előadó megjelenítése</string>
+    <string name="artists_show_all_summary">Az összes előadó megjelenítése az Előadók listában, nem csak az album előadóké</string>
     <string name="extensions_prefs_category">Bővítmények</string>
     <string name="extensions_enable_category">Válassza ki az engedélyezendő bővítményeket</string>
     <string name="extensions_empty">Nincs észlelt bővítmény</string>
@@ -527,4 +529,7 @@
     <string name="msg_delete_failed">A(z) %1$s média törlése meghiúsult</string>
     <string name="renderer_list_title">Kijelzők</string>
     <string name="feedback_player_crashed">Sajnáljuk, a VLC összeomlott. Próbálja újra.</string>
+    <string name="sdcard_permission_dialog_title">Írási engedélyt kell adnia a VLC-nek az SD kártyához hozzáféréshez</string>
+    <string name="sdcard_permission_dialog_message">A VLC írási jogosultság nélkül nem törölheti a fájlt.\nMenjen az SD kártyához és válassza a „Kiválasztás” lehetőséget.\nLehet hogy rá kell kattintania az „SD kártya megjelenítése” lehetőségre a jobb felső menüben.</string>
+    <string name="dialog_sd_wizard">Megjelenítés</string>
 </resources>
