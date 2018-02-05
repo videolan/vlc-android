@@ -337,6 +337,8 @@
     <string name="casting_quality_lowcpu">Laagste</string>
     <string name="cast_performance_warning">Uitzenden van deze video vereist conversie. Deze conversie kan alle beschikbare energie gebruiken en uw batterij snel leegtrekken.</string>
     <string name="casting_connected_renderer">Verbonden met renderer \'%1$s\'</string>
+    <string name="artists_show_all_title">Alle artiesten weergeven</string>
+    <string name="artists_show_all_summary">Alle artiesten weergeven in artiestenlijst, niet alleen albumartiesten</string>
     <string name="extensions_prefs_category">Extensies</string>
     <string name="extensions_enable_category">Extensies kiezen om in te schakelen</string>
     <string name="extensions_empty">Geen extensie gedetecteerd</string>
@@ -527,4 +529,7 @@
     <string name="msg_delete_failed">Verwijderen van media %1$s mislukt</string>
     <string name="renderer_list_title">Schermen</string>
     <string name="feedback_player_crashed">Sorry, VLC is net gecrasht. Probeer het opnieuw.</string>
+    <string name="sdcard_permission_dialog_title">U moet VLC machtiging geven om te schrijven naar uw sd-kaart</string>
+    <string name="sdcard_permission_dialog_message">VLC kan dit bestand niet verwijderen zonder machtiging voor schrijftoegang.\nGa naar uw sd-kaart en klik op \"selecteren\".\nHet kan zijn dat u eerst op \"sd-kaart weergeven\" moet klikken in het menu rechtsboven</string>
+    <string name="dialog_sd_wizard">Toon het mij</string>
 </resources>
