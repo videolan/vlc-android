@@ -333,6 +333,19 @@
     <string name="aout_summary">Змінює метод, який VLC використовує для виведення звуку.</string>
     <string name="audio_ducking_title">Нижча гучність VLC під час сповіщень</string>
     <string name="audio_ducking_summary">Допомагає почути звукові сповіщення, навігаційні вказівки та слова асистента</string>
+    <string name="casting_category">Трансляція</string>
+    <string name="casting_passthrough_title">Аудіо роз\'єм</string>
+    <string name="casting_passthrough_summary">Дозвольте управляти відтворенням аудіо ТБ</string>
+    <string name="casting_conversion_quality_title">Якість перетворення</string>
+    <string name="casting_conversion_quality_summary">Виберіть якість перетворення, коли запустили трансляцію на віддаленому екрані</string>
+    <string name="casting_quality_high">Висока</string>
+    <string name="casting_quality_medium">Середня</string>
+    <string name="casting_quality_low">Низька</string>
+    <string name="casting_quality_lowcpu">Низька</string>
+    <string name="cast_performance_warning">Для трансляції цього відео потрібне перетворення. Воно може використовувати всю наявну потужність і, відповідно, швидко розрядити акумулятор.</string>
+    <string name="casting_connected_renderer">Під\'єднано до відтворювача \'%1$s\'</string>
+    <string name="artists_show_all_title">Показати всіх виконавців</string>
+    <string name="artists_show_all_summary">Показує всіх виконавців у списку, а не лише причетних до альбому</string>
     <string name="extensions_prefs_category">Розширення</string>
     <string name="extensions_enable_category">Виберіть розширення для увімкнення</string>
     <string name="extensions_empty">Жодних розширень не виявлено</string>
@@ -521,4 +534,9 @@
     <string name="browser_quick_access">Швидкий доступ</string>
     <string name="browser_storages">Носії пам\'яті</string>
     <string name="msg_delete_failed">Не вдалося вилучити медіа %1$s</string>
+    <string name="renderer_list_title">Дисплеї</string>
+    <string name="feedback_player_crashed">На жаль, VLC зазнав збою. Будь ласка, спробуйте знову.</string>
+    <string name="sdcard_permission_dialog_title">Ви маєте надати дозвіл VLC на запис до вашої карти SD</string>
+    <string name="sdcard_permission_dialog_message">VLC не може вилучити цей файл без права на запис.\nПерейдіть на свою карту пам\'яті SD та клацніть \"Вибрати\".\nМожливо, вам доведеться натиснути кнопку \"Показати SD-карту\" спочатку в меню праворуч</string>
+    <string name="dialog_sd_wizard">Показати мене</string>
 </resources>
