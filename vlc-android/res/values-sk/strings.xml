@@ -344,6 +344,8 @@
     <string name="casting_quality_lowcpu">Najnižšia</string>
     <string name="cast_performance_warning">Streamovanie tohto videa vyžaduje jeho konverziu. Táto konverzia môže spotrebovať všetku dostupnú energiu a rýchlo môže vybiť batériu.</string>
     <string name="casting_connected_renderer">Pripojené k vykresľovaču \'%1$s\'</string>
+    <string name="artists_show_all_title">Zobraziť všetkých umelcov</string>
+    <string name="artists_show_all_summary">Zobraziť všetkých umelcov v zozname umelcov, nielen umelcov z albumu</string>
     <string name="extensions_prefs_category">Rozšírenia</string>
     <string name="extensions_enable_category">Vyberte rozšírenia, ktoré sa majú zapnúť</string>
     <string name="extensions_empty">Neboli detegované žiadne rozšírenia</string>
@@ -534,4 +536,7 @@
     <string name="msg_delete_failed">Nepodarilo sa vymazať médium %1$s</string>
     <string name="renderer_list_title">Displeje</string>
     <string name="feedback_player_crashed">Prepáčte, aplikácia VLC bola práve ukončená. Prosím skúste to ešte raz.</string>
+    <string name="sdcard_permission_dialog_title">Aplikácii VLC môžete udeliť oprávnenia na zápis na vašu kartu SD</string>
+    <string name="sdcard_permission_dialog_message">Aplikácia VLC nemôže vymazať tento súbor bez oprávnenia na zápis.\nProsím prejdite na kartu SD a kliknite na možnosť \"Vybrať\".\nMožno bude potrebné najskôr kliknúť na voľbu \"Zobraziť kartu SD\" v pravom hornom menu</string>
+    <string name="dialog_sd_wizard">Zobraz mi</string>
 </resources>
