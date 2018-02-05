@@ -298,6 +298,7 @@
     <string name="subtitles_color_green">Verde</string>
     <string name="subtitles_background_title">Fundo das Legendas</string>
     <string name="subtitles_bold_title">Legendas a negrito</string>
+    <string name="subtitles_autoload_title">Carregar legendas automaticamente</string>
     <string name="audio_prefs_category">Áudio</string>
     <string name="lockscreen_cover_title">Imagem no ecrã de bloqueio</string>
     <string name="lockscreen_cover_summary">Se disponível, utilizar a imagem do ficheiro em reprodução como papel de parede</string>
@@ -322,6 +323,13 @@
     <string name="enable_steal_remote_control_summary">Evita conflitos roubando o controlo remoto das outras aplicações. Isto evita a marcação com duplo clique nos telefones HTC.</string>
     <string name="aout">Saída de áudio</string>
     <string name="aout_summary">Alterar o método que o VLC usa para a saída de áudio.</string>
+    <string name="audio_ducking_title">Reduzir o volume do VLC em caso de notificação</string>
+    <string name="casting_conversion_quality_title">Qualidade da conversão</string>
+    <string name="casting_quality_high">Alta</string>
+    <string name="casting_quality_medium">Média</string>
+    <string name="casting_quality_low">Baixa</string>
+    <string name="casting_quality_lowcpu">Baixíssima</string>
+    <string name="artists_show_all_title">Mostrar todos os artistas</string>
     <string name="extensions_prefs_category">Extensões</string>
     <string name="extensions_enable_category">Escolher extensões para ativar</string>
     <string name="extensions_empty">Nenhuma extensão detetada</string>
@@ -470,6 +478,7 @@
     <string name="browse_folder">Explorar pasta</string>
     <string name="listen">Escutar</string>
     <string name="subtitles_download_title">Descarga de legendas</string>
+    <string name="connecting">A conectar...</string>
     <string name="save_bluetooth_delay">atraso para o dispositivo bluetooth</string>
     <string name="episodes">episódios</string>
     <string name="movies">filmes</string>
@@ -504,4 +513,7 @@
     <string name="recommendations_desc">Cartões de recomendações no \'launcher\'</string>
     <string name="browser_quick_access">Acesso rápido</string>
     <string name="browser_storages">Armazenamentos</string>
+    <string name="feedback_player_crashed">Desculpe, o VLC parou de funcionar. Por favor tente novamente.</string>
+    <string name="sdcard_permission_dialog_title">Necessita de dar ao VLC acesso de escrita para o SD Card</string>
+    <string name="dialog_sd_wizard">Mostra-me</string>
 </resources>
