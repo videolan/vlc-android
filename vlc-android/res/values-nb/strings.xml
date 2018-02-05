@@ -298,6 +298,7 @@
     <string name="subtitles_color_green">Grønn</string>
     <string name="subtitles_background_title">Undertekstbakgrunn</string>
     <string name="subtitles_bold_title">Fete undertekster</string>
+    <string name="subtitles_autoload_title">Auto-innlast undertekster</string>
     <string name="audio_prefs_category">Lyd</string>
     <string name="lockscreen_cover_title">Albumomslag på låseskjerm</string>
     <string name="lockscreen_cover_summary">Når tilgjengelig, sett gjeldende albumomslaå som låseskjermsbakgrunn</string>
@@ -322,6 +323,15 @@
     <string name="enable_steal_remote_control_summary">Unngå konflikter ved å stjele fjernkontroller fra andre apper. Dette hindrer oppringing ved dobbeltrykk på HTC-telefoner.</string>
     <string name="aout">Lyd ut</string>
     <string name="aout_summary">Endre metoden VLC bruker for lydutgang.</string>
+    <string name="casting_category">Casting</string>
+    <string name="casting_passthrough_title">Lydgjennomgang</string>
+    <string name="casting_conversion_quality_title">Konverteringskvalitet</string>
+    <string name="casting_quality_high">Høy</string>
+    <string name="casting_quality_medium">Middels</string>
+    <string name="casting_quality_low">Lav</string>
+    <string name="casting_quality_lowcpu">Lavest</string>
+    <string name="casting_connected_renderer">Tilkoblet til opptegneren \'%1$s\'</string>
+    <string name="artists_show_all_title">Vis alle artistene</string>
     <string name="extensions_prefs_category">Utvidelser</string>
     <string name="extensions_enable_category">Velg utvidelser å aktivere</string>
     <string name="extensions_empty">Ingen utvidelser oppdaget</string>
@@ -510,4 +520,7 @@
     <string name="browser_quick_access">Hurtigtilgang</string>
     <string name="browser_storages">Lager</string>
     <string name="msg_delete_failed">Klarte ikke å slette media %1$s</string>
+    <string name="renderer_list_title">Visninger</string>
+    <string name="feedback_player_crashed">Beklager, men VLC har nettopp krasjet. Vennligst prøv igjen.</string>
+    <string name="dialog_sd_wizard">Vis meg</string>
 </resources>
