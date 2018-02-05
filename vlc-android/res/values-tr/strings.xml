@@ -261,6 +261,7 @@
     <string name="video_min_group_length_first">Yalnız ilk harf</string>
     <string name="video_min_group_length_short">Kısa harf sayısı (6)</string>
     <string name="video_min_group_length_long">Uzun harf sayısı (9)</string>
+    <string name="media_fast_seek">Hızlı tarama seçeneği kullanılsın</string>
     <string name="media_seen">Görüldü görüntü işareti görüntülensin</string>
     <string name="media_seen_summary">Bir görüntü sonuna dek oynatılana kadar görüldü olarak işaretlensin</string>
     <string name="force_list_portrait">Dikey konumda tablo olmasın</string>
@@ -325,6 +326,19 @@
     <string name="aout_summary">VLC tarafından kullanılan ses üretme yöntemini değiştirir.</string>
     <string name="audio_ducking_title">Bildirim geldiğinde VLC ses düzeyi azaltılsın</string>
     <string name="audio_ducking_summary">Bildirim seslerinin, yol bulma bilgilendirmelerinin ya da yardımcı konuşmalarının duyulmasını kolaylaştırır</string>
+    <string name="casting_category">Aktarım</string>
+    <string name="casting_passthrough_title">Doğrudan Ses Geçişi</string>
+    <string name="casting_passthrough_summary">Görüntü oluşturmayı TV yönetsin</string>
+    <string name="casting_conversion_quality_title">Dönüşüm kalitesi</string>
+    <string name="casting_conversion_quality_summary">Uzak ekrana aktarım sırasında kullanılacak dönüşüm kalitesini seçin</string>
+    <string name="casting_quality_high">Yüksek</string>
+    <string name="casting_quality_medium">Orta</string>
+    <string name="casting_quality_low">Düşük</string>
+    <string name="casting_quality_lowcpu">En Düşük</string>
+    <string name="cast_performance_warning">Bu görüntünün aktarılabilmesi için dönüştürülmesi gerekli. Dönüşüm işlemi tüm gücü kullanarak pilin hızla bitmesine neden olabilir.</string>
+    <string name="casting_connected_renderer">\'%1$s\' görüntüleyiciye bağlanıldı</string>
+    <string name="artists_show_all_title">Tüm sanatçıları görüntüle</string>
+    <string name="artists_show_all_summary">Albüm listesinde yalnız albüm sanatçısı değil tüm sanatçılar görüntülensin</string>
     <string name="extensions_prefs_category">Eklentiler</string>
     <string name="extensions_enable_category">Kullanılacak eklentileri seçin</string>
     <string name="extensions_empty">Herhangi bir eklenti bulunamadı</string>
@@ -513,4 +527,9 @@
     <string name="browser_quick_access">Hızlı Erişim</string>
     <string name="browser_storages">Depolamalar</string>
     <string name="msg_delete_failed">%1$s ortamı silinemedi</string>
+    <string name="renderer_list_title">Ekranlar</string>
+    <string name="feedback_player_crashed">Maalesef, VLC uygulaması çalışamadı. Lütfen yeniden deneyin.</string>
+    <string name="sdcard_permission_dialog_title">VLC uygulamasına SD Kart yazma izni verin</string>
+    <string name="sdcard_permission_dialog_message">Yazma izni verilmeden VLC uygulaması bu dosyayı silemez.\n\nLütfen SD Kart üzerine giderek \"Seçin\" üzerine tıklayın.\nSağ üst menüdeki birinci öge olan \"SD Kartı Görüntüle\" üzerine tıklamanız gerekebilir</string>
+    <string name="dialog_sd_wizard">Bana görüntülensin</string>
 </resources>
