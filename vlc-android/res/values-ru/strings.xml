@@ -351,6 +351,8 @@
     <string name="casting_quality_lowcpu">Самое низкое</string>
     <string name="cast_performance_warning">Для трансляции этого видео его нужно перекодировать. При перекодировании может использоваться вся доступная мощность и быстро разряжаться батарея.</string>
     <string name="casting_connected_renderer">Подключено к экрану \'%1$s\'</string>
+    <string name="artists_show_all_title">Показывать всех исполнителей</string>
+    <string name="artists_show_all_summary">Показывать всех исполнителей в списке Исполнители, а не только исполнителей альбомов</string>
     <string name="extensions_prefs_category">Расширения</string>
     <string name="extensions_enable_category">Выберите расширения для включения</string>
     <string name="extensions_empty">Расширения не найдены</string>
@@ -541,4 +543,7 @@
     <string name="msg_delete_failed">Ошибка при удалении медиафайла %1$s</string>
     <string name="renderer_list_title">Экраны</string>
     <string name="feedback_player_crashed">К сожалению, в VLC произошёл сбой. Попробуйте ещё раз.</string>
+    <string name="sdcard_permission_dialog_title">Вы должны разрешить VLC запись на SD-карту</string>
+    <string name="sdcard_permission_dialog_message">VLC не может удалить этот файл, не имея разрешения на запись.\nПерейдите к SD-карте и нажмите \"Выбрать\".\nВозможно, сначала вам нужно будет нажать \"Показать SD-карту\" в правом верхнем меню.</string>
+    <string name="dialog_sd_wizard">Показать</string>
 </resources>
