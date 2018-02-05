@@ -351,6 +351,8 @@
     <string name="casting_quality_lowcpu">Najniższa</string>
     <string name="cast_performance_warning">Transmisja tego filmu wymaga konwersji. Ta konwersja może zużyć całą dostępną energię i szybciej wyczerpać baterię.</string>
     <string name="casting_connected_renderer">Połączony z rendererem \'%1$s\'</string>
+    <string name="artists_show_all_title">Pokaż wszystkich wykonawców</string>
+    <string name="artists_show_all_summary">Pokaż wszystkich wykonawców na liście, a nie tylko wykonawców albumów</string>
     <string name="extensions_prefs_category">Rozszerzenia</string>
     <string name="extensions_enable_category">Wybierz włączone rozszerzenia</string>
     <string name="extensions_empty">Nie wykryto rozszerzenia</string>
@@ -541,4 +543,7 @@
     <string name="msg_delete_failed">Nie można usunąć %1$s</string>
     <string name="renderer_list_title">Wyświetlacze</string>
     <string name="feedback_player_crashed">Przepraszamy, VLC właśnie się zawiesił. Proszę spróbuj ponownie.</string>
+    <string name="sdcard_permission_dialog_title">Musisz zezwolić VLC na dostęp do zapisu na karcie SD</string>
+    <string name="sdcard_permission_dialog_message">VLC nie może usunąć tego pliku bez uprawnień do zapisu.\nPrzejdź do karty SD i kliknij \"Wybierz\".\nByć może będziesz musiał kliknąć najpierw na \"Pokaż kartę SD\" w prawym górnym menu</string>
+    <string name="dialog_sd_wizard">Pokaż mi</string>
 </resources>
