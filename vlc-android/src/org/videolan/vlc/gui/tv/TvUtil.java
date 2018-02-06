@@ -151,6 +151,7 @@ public class TvUtil {
                 VLCApplication.runBackground(new Runnable() {
                     @Override
                     public void run() {
+                        if (bm == null) return;
                         Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512);
                         if (cover == null) return;
                         if (crop)
@@ -159,6 +160,7 @@ public class TvUtil {
                         VLCApplication.runOnMainThread(new Runnable() {
                             @Override
                             public void run() {
+                                if (bm == null) return;
                                 bm.setColor(0);
                                 bm.setDrawable(new BitmapDrawable(VLCApplication.getAppResources(), blurred));
                             }
