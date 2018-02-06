@@ -684,11 +684,16 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         }
     }
 
+    private boolean currentMediaHasFlag(int flag) {
+        final MediaWrapper mw = playlistManager.getCurrentMedia();
+        return mw != null && mw.hasFlag(flag);
+    }
+
     public PendingIntent getSessionPendingIntent() {
         if (playlistManager.getPlayer().isVideoPlaying()) { //PIP
             final Intent notificationIntent = new Intent(this, VideoPlayerActivity.class);
             return PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        } if (playlistManager.getVideoBackground() || (canSwitchToVideo() && !playlistManager.getCurrentMedia().hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO))) { //resume video playback
+        } if (playlistManager.getVideoBackground() || (canSwitchToVideo() && !currentMediaHasFlag(MediaWrapper.MEDIA_FORCE_AUDIO))) { //resume video playback
             /* Resume VideoPlayerActivity from ACTION_REMOTE_SWITCH_VIDEO intent */
             final Intent notificationIntent = new Intent(Constants.ACTION_REMOTE_SWITCH_VIDEO);
             return PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -1122,7 +1127,8 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     private String mCurrentWidgetCover = null;
     private void updateWidgetCover() {
-        String newWidgetCover = playlistManager.hasCurrentMedia() ? playlistManager.getCurrentMedia().getArtworkMrl() : null;
+        final MediaWrapper mw = playlistManager.getCurrentMedia();
+        final String newWidgetCover = mw != null ? mw.getArtworkMrl() : null;
         if (!TextUtils.equals(mCurrentWidgetCover, newWidgetCover)) {
             mCurrentWidgetCover = newWidgetCover;
             sendWidgetBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
@@ -1131,11 +1137,12 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     }
 
     private void updateWidgetPosition(final float pos) {
-        if (mWidget == 0 || isVideoPlaying()) return;
+        final MediaWrapper mw = playlistManager.getCurrentMedia();
+        if (mw == null || mWidget == 0 || isVideoPlaying()) return;
         // no more than one widget mUpdateMeta for each 1/50 of the song
         long timestamp = System.currentTimeMillis();
         if (!playlistManager.hasCurrentMedia()
-                || timestamp - mWidgetPositionTimestamp < playlistManager.getCurrentMedia().getLength() / 50)
+                || timestamp - mWidgetPositionTimestamp < mw.getLength() / 50)
             return;
         mWidgetPositionTimestamp = timestamp;
         sendWidgetBroadcast(new Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_POSITION)
@@ -1144,8 +1151,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     private void broadcastMetadata() {
         final MediaWrapper media = playlistManager.getCurrentMedia();
-        if (media == null || isVideoPlaying())
-            return;
+        if (media == null || isVideoPlaying()) return;
         sendBroadcast(new Intent("com.android.music.metachanged")
                 .putExtra("track", media.getTitle())
                 .putExtra("artist", media.getArtist())
