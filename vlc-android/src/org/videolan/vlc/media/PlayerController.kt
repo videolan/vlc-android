@@ -3,11 +3,12 @@ package org.videolan.vlc.media
 import android.net.Uri
 import android.support.annotation.MainThread
 import android.support.v4.media.session.PlaybackStateCompat
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.newSingleThreadContext
+import android.widget.Toast
+import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.UI
 import org.videolan.libvlc.*
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.preferences.PreferencesActivity
@@ -158,7 +159,15 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     fun release(player: MediaPlayer = mediaplayer) {
         player.setEventListener(null)
         if (isVideoPlaying()) player.vlcVout.detachViews()
-        launch(playerContext) { player.release() }
+        launch(newSingleThreadContext("vlc-player-release")) {
+            if (BuildConfig.DEBUG) { // Warn if player release is blocking
+                try {
+                    withTimeout(5000, { player.release() })
+                } catch (exception: TimeoutCancellationException) {
+                    launch(UI) { Toast.makeText(VLCApplication.getAppContext(), "media stop has timeouted!", Toast.LENGTH_LONG).show() }
+                }
+            } else player.release()
+        }
         playbackState = PlaybackStateCompat.STATE_STOPPED
     }
 
