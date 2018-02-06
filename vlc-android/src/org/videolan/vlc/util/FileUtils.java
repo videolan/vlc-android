@@ -405,7 +405,7 @@ public class FileUtils {
 //                        }
 //                        returnCursor.close();
 //                    }
-                } catch (FileNotFoundException e) {
+                } catch (FileNotFoundException|IllegalArgumentException e) {
                     Log.e(TAG, "Couldn't understand the intent");
                     return data;
                 } catch (SecurityException e) {
