@@ -237,8 +237,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
     }
 
     public void clear() {
-        if (!isEmpty())
-            update(new ArrayList<MediaLibraryItem>(0));
+        if (!isEmpty()) update(new ArrayList<MediaLibraryItem>(0));
     }
 
     public boolean isEmpty() {

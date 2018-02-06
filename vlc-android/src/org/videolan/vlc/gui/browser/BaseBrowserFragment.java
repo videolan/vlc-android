@@ -390,7 +390,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         if (isSortEnabled()) {
             refreshList = new ArrayList<>();
             refreshing = true;
-        }
+        } else mAdapter.clear();
         mBrowserHandler.removeCallbacksAndMessages(null);
         mHandler.sendEmptyMessageDelayed(BrowserFragmentHandler.MSG_SHOW_LOADING, 300);
 

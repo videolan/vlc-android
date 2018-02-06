@@ -4,8 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-import org.videolan.medialibrary.Medialibrary;
-
 public abstract class MediaLibraryItem implements Parcelable {
 
     public static final int TYPE_ALBUM    = 1 << 1;
@@ -106,18 +104,15 @@ public abstract class MediaLibraryItem implements Parcelable {
     }
 
     public boolean equals(MediaLibraryItem other) {
-        if (this == other)
-            return true;
-        if (other == null)
-            return false;
-        if (getItemType() != other.getItemType())
-            return false;
-        if (mId != 0)
-            return mId == other.getId();
-        if (getItemType() == TYPE_DUMMY)
-            return TextUtils.equals(getTitle(), other.getTitle());
+        if (this == other) return true;
+        if (other == null) return false;
+        if (getItemType() != other.getItemType()) return false;
+        if (mId != 0) return mId == other.getId();
+        if (getItemType() == TYPE_DUMMY) return TextUtils.equals(getTitle(), other.getTitle());
         if (getItemType() == TYPE_MEDIA)
             return TextUtils.equals(((MediaWrapper)this).getLocation(), ((MediaWrapper)other).getLocation());
+        if (getItemType() == TYPE_STORAGE)
+            return TextUtils.equals(((Storage)this).getName(), ((Storage)other).getName());
         return false;
     }
 }
