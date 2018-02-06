@@ -3096,7 +3096,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                         media = mMedialibrary.getMedia(mUri);
                     }
                     if (media != null && media.getId() != 0L && media.getTime() == 0L)
-                        media.setTime((long) (media.getMetaLong(MediaWrapper.META_PROGRESS) * (double) media.getLength())/100L);
+                        media.setTime(media.getMetaLong(MediaWrapper.META_PROGRESS));
                 } else
                     media = openedMedia;
                 if (media != null) {

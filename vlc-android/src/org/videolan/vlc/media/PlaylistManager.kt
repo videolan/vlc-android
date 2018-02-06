@@ -368,7 +368,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 progress = 0f
             }
             media.time = if (progress == 0f) 0L else time
-            media.setLongMeta(MediaWrapper.META_PROGRESS, (progress * 100).toLong())
+            media.setLongMeta(MediaWrapper.META_PROGRESS, media.time)
         }
         if (canSwitchToVideo) {
             //Save audio delay
@@ -535,7 +535,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             if (mw.length <= 0L && length > 0L) {
                 mw = medialibrary.findMedia(mw)
                 if (mw.id != 0L) {
-                    mw.time = (mw.getMetaLong(MediaWrapper.META_PROGRESS) * length.toDouble()).toLong() / 100L
+                    mw.time = mw.getMetaLong(MediaWrapper.META_PROGRESS)
                     if (mw.time > 0L) player.seek(mw.time)
                 }
             }
