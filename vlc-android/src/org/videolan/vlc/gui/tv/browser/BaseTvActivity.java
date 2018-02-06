@@ -58,7 +58,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Init Medialibrary if KO
-        if (savedInstanceState != null && !VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage())
+        if (savedInstanceState != null && !VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage(this))
             startService(new Intent(Constants.ACTION_INIT, null, this, MediaParsingService.class));
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();

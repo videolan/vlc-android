@@ -131,7 +131,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         }
 
         // Delay access permission dialog prompt to avoid background corruption
-        if (!Permissions.canReadStorage())
+        if (!Permissions.canReadStorage(this))
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -173,7 +173,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
-        if ((mRowsAdapter == null || mRowsAdapter.size() == 0) && Permissions.canReadStorage())
+        if ((mRowsAdapter == null || mRowsAdapter.size() == 0) && Permissions.canReadStorage(this))
             update();
         else {
             updateBrowsers();

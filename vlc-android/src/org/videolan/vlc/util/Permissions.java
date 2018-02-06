@@ -73,11 +73,6 @@ public class Permissions {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public static boolean canReadStorage() {
-        return canReadStorage(VLCApplication.getAppContext());
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public static boolean canReadStorage(Context context) {
         if (!AndroidUtil.isICSOrLater)
             return context.getExternalFilesDir(null) != null;
@@ -89,7 +84,7 @@ public class Permissions {
         return canWriteStorage(VLCApplication.getAppContext());
     }
 
-    public static boolean canWriteStorage(Context context) {
+    private static boolean canWriteStorage(Context context) {
         return ContextCompat.checkSelfPermission(context,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }

@@ -228,7 +228,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     private MedialibraryReceiver mLibraryReceiver = null;
     private void registerMedialibrary(final Runnable action) {
-        if (!Permissions.canReadStorage()) return;
+        if (!Permissions.canReadStorage(this)) return;
         final LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
         if (mLibraryReceiver == null) {
             mLibraryReceiver = new MedialibraryReceiver();
@@ -1864,7 +1864,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     @Nullable
     @Override
     public BrowserRoot onGetRoot(@NonNull String clientPackageName, int clientUid, @Nullable Bundle rootHints) {
-        return Permissions.canReadStorage() ? new BrowserRoot(BrowserProvider.ID_ROOT, null) : null;
+        return Permissions.canReadStorage(PlaybackService.this) ? new BrowserRoot(BrowserProvider.ID_ROOT, null) : null;
     }
 
     @Override

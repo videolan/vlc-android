@@ -95,7 +95,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         //Init Medialibrary if KO
         if (savedInstanceState != null) {
             VLCApplication.setLocale();
-            if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage())
+            if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage(this))
                 startService(new Intent(Constants.ACTION_INIT, null, this, MediaParsingService.class));
         }
         super.onCreate(savedInstanceState);

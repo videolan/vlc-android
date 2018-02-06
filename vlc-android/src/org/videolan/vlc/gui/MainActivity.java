@@ -236,7 +236,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             showFragment(mCurrentFragmentId);
         if (mMediaLibrary.isInitiated()) {
             /* Load media items from database and storage */
-            if (mScanNeeded && Permissions.canReadStorage())
+            if (mScanNeeded && Permissions.canReadStorage(this))
                 startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
             else if (!currentIdIsExtension())
                 restoreCurrentList();
