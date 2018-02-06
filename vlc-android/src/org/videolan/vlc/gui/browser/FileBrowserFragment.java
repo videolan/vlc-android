@@ -196,17 +196,14 @@ public class FileBrowserFragment extends BaseBrowserFragment {
 
     @Override
     protected boolean handleContextItemSelected(MenuItem item, int position) {
-        if (mRoot) {
-            if (item.getItemId() == R.id.directory_remove_custom_path){
+        if (mRoot && item.getItemId() == R.id.directory_remove_custom_path){
                 Storage storage = (Storage) mAdapter.getItem(position);
                 MediaDatabase.getInstance().recursiveRemoveDir(storage.getUri().getPath());
                 CustomDirectories.removeCustomDirectory(storage.getUri().getPath());
                 mAdapter.removeItem(position);
                 ((AudioPlayerContainerActivity)getActivity()).updateLib();
                 return true;
-            } else
-                return false;
-        } else
+        }else
             return super.handleContextItemSelected(item, position);
     }
 

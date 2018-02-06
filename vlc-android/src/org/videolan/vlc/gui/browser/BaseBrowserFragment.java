@@ -508,7 +508,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
 //                    menu.findItem(R.id.directory_view_show_media).setVisible(false);
 //                }
             menu.findItem(R.id.directory_view_play_folder).setVisible(!isEmpty);
-            menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
+            menu.findItem(R.id.directory_view_delete).setVisible(!mRoot && canWrite);
             if (this instanceof NetworkBrowserFragment) {
                 MediaDatabase db = MediaDatabase.getInstance();
                 if (db.networkFavExists(mw.getUri())) {
@@ -570,12 +570,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                 }
                 return true;
             case R.id.directory_view_play_folder:
-                List<MediaWrapper> newMediaList = new ArrayList<>();
-                for (MediaLibraryItem mediaItem : mFoldersContentLists.get(mAdapter.get(position))){
-                    if (((MediaWrapper)mediaItem).getType() == MediaWrapper.TYPE_AUDIO || (AndroidUtil.isHoneycombOrLater && ((MediaWrapper)mediaItem).getType() == MediaWrapper.TYPE_VIDEO))
-                        newMediaList.add((MediaWrapper)mediaItem);
-                }
-                MediaUtils.openList(getActivity(), newMediaList, 0);
+                MediaUtils.openMedia(getActivity(), mw);
                 return true;
             case R.id.directory_view_add_playlist:
                 FragmentManager fm = getActivity().getSupportFragmentManager();
