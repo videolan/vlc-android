@@ -1722,7 +1722,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         updateOverlayPausePlay();
         updateNavStatus();
         final MediaWrapper mw = mService.getCurrentMediaWrapper();
-        mMediaLength.set(mw.getLength());
+        mMediaLength.set(mService.getLength());
         if (!mw.hasFlag(MediaWrapper.MEDIA_PAUSED))
             mHandler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT);
         else {
