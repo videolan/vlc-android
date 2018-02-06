@@ -23,11 +23,9 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -246,7 +244,8 @@ public class VLCApplication extends Application {
         return Medialibrary.getInstance();
     }
 
-    public static void setLocale(){
+    public static void setLocale() {
+        if (sSettings == null) PreferenceManager.getDefaultSharedPreferences(instance);
         // Are we using advanced debugging - locale?
         String p = sSettings.getString("set_locale", "");
         if (!p.equals("")) {
