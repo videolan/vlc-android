@@ -593,9 +593,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                     mDrawerLayout.closeDrawer(mNavigationView);
                     return false;
                 }
-            }
-
-            switch (id) {
+            } else switch (id) {
                 case R.id.nav_about:
                     showSecondaryFragment(SecondaryActivity.ABOUT);
                     break;
