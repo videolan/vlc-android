@@ -3172,6 +3172,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             // Get the title
             if (itemTitle == null && !TextUtils.equals(mUri.getScheme(), "content"))
                 title = mUri.getLastPathSegment();
+        } else if (mService.hasMedia() && mService.hasRenderer()){
+            onPlaying();
         } else {
             mService.loadLastPlaylist(Constants.PLAYLIST_TYPE_VIDEO);
         }
