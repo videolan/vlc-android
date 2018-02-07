@@ -502,7 +502,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                             && playlistManager.switchToVideo()) {
                         hideNotification();
                     } else {
-                        if (!hasRenderer()) showPlayer();
+                        if (!hasRenderer() || !canSwitchToVideo()) showPlayer();
                         showNotification();
                     }
                     break;
