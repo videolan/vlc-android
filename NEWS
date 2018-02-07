@@ -1,3 +1,17 @@
+Changes between 2.9.1 and 3.0.0:
+----------------------------------
+
+Application:
+ * Fix imprecise resume points
+ * Fix video playlist crash
+ * Fix media transition stop/crash
+ * Skip assets copy if flies already exists
+ * Fix storages display
+ * Fix files/network browsers sometimes mixed up
+
+VLC:
+ * Improve Chromecast support
+
 Changes between 2.9.0 and 2.9.1:
 ----------------------------------
 
