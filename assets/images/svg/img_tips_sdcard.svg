@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="184.39493"
-     inkscape:cy="139.07923"
+     inkscape:zoom="11.2"
+     inkscape:cx="65.097039"
+     inkscape:cy="216.81471"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -40,7 +40,18 @@
      inkscape:window-height="1025"
      inkscape:window-x="0"
      inkscape:window-y="27"
-     inkscape:window-maximized="1">
+     inkscape:window-maximized="1"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:object-paths="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-midpoints="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true">
     <inkscape:grid
        type="xygrid"
        id="grid6175"
@@ -55,7 +66,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -212,10 +223,10 @@
        id="rect4943"
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#ff8800;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.0339613;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate" />
     <rect
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.02340641;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.04054109;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate"
        id="rect4945"
        width="76.199997"
-       height="16.933332"
+       height="50.799992"
        x="25.173218"
        y="101.39732" />
     <rect
@@ -271,20 +282,6 @@
          x="39.678436"
          y="112.17908"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#424242;fill-opacity:1;stroke-width:0.26458228px">Recent</tspan></text>
-    <rect
-       y="118.33064"
-       x="25.173218"
-       height="16.933332"
-       width="76.199997"
-       id="rect4969"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.02340641;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate" />
-    <rect
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.02340641;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate"
-       id="rect4973"
-       width="76.199997"
-       height="16.933332"
-       x="25.173218"
-       y="135.26398" />
     <path
        inkscape:connector-curvature="0"
        d="m 33.639887,141.08477 h -2.11666 l -1.58221,1.5875 -0.005,3.175 c 0,0.29104 0.23812,0.52916 0.52917,0.52916 h 3.175 c 0.29104,0 0.52916,-0.23812 0.52916,-0.52916 v -4.23334 c 0,-0.29104 -0.23812,-0.52916 -0.52916,-0.52916 z m -1.5875,1.5875 h -0.52916 v -1.05834 h 0.52916 z m 0.79375,0 h -0.52916 v -1.05834 h 0.52916 z m 0.79375,0 h -0.52916 v -1.05834 h 0.52916 z"
@@ -354,10 +351,10 @@
     <rect
        y="101.39732"
        x="107.72322"
-       height="16.933332"
+       height="50.799992"
        width="76.199997"
        id="rect4999"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.02340641;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate" />
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.04054108;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate" />
     <rect
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#424242;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.02340641;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate"
        id="rect5003"
@@ -372,49 +369,30 @@
        inkscape:connector-curvature="0" />
     <text
        id="text5017"
-       y="112.17908"
+       y="109.33792"
        x="122.22844"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58329105px;line-height:125%;font-family:Raleway;-inkscape-font-specification:'Raleway, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;opacity:1;fill:#424242;fill-opacity:1;stroke:none;stroke-width:0.26458228px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        xml:space="preserve"><tspan
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#424242;fill-opacity:1;stroke-width:0.26458228px"
-         y="112.17908"
+         y="109.33792"
          x="122.22844"
          id="tspan5015"
-         sodipodi:role="line">Recent</tspan></text>
-    <rect
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.02340641;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate"
-       id="rect5019"
-       width="76.199997"
-       height="16.933332"
-       x="107.72322"
-       y="118.33065" />
-    <rect
-       y="135.26398"
-       x="107.72322"
-       height="16.933332"
-       width="76.199997"
-       id="rect5021"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.02340641;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate" />
+         sodipodi:role="line">Android</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58329105px;line-height:50%;font-family:Raleway;-inkscape-font-specification:'Raleway, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;opacity:1;fill:#424242;fill-opacity:1;stroke:none;stroke-width:0.26458228px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="122.22844"
-       y="125.56805"
+       y="122.03793"
        id="text5035"><tspan
-         sodipodi:role="line"
-         id="tspan5029"
-         x="122.22844"
-         y="125.56805"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:50%;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#424242;fill-opacity:1;stroke-width:0.26458228px">Internal Storage</tspan><tspan
          id="tspan5031"
          sodipodi:role="line"
          x="122.22844"
-         y="131.2076"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:50%;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#424242;fill-opacity:1;stroke-width:0.26458228px">12.60 GB free</tspan><tspan
+         y="122.03793"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:50%;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#424242;fill-opacity:1;stroke-width:0.26458228px">Movies</tspan><tspan
          id="tspan5033"
          sodipodi:role="line"
          x="122.22844"
-         y="136.84715"
+         y="127.67747"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:50%;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#424242;fill-opacity:1;stroke-width:0.26458228px" /></text>
     <text
        xml:space="preserve"
@@ -445,11 +423,11 @@
     <path
        style="fill:#424242;fill-opacity:1;stroke-width:0.26458332"
        id="path5069"
-       d="m 114.07323,108.27633 h -1.5875 c -0.29104,0 -0.52652,0.23812 -0.52652,0.52916 l -0.003,3.175 c 0,0.29104 0.23813,0.52917 0.52917,0.52917 h 4.23333 c 0.29104,0 0.52917,-0.23813 0.52917,-0.52917 v -2.64583 c 0,-0.29104 -0.23813,-0.52917 -0.52917,-0.52917 H 114.602 Z"
+       d="m 114.07323,105.63066 h -1.5875 c -0.29104,0 -0.52652,0.23812 -0.52652,0.52916 l -0.003,3.175 c 0,0.29104 0.23813,0.52917 0.52917,0.52917 h 4.23333 c 0.29104,0 0.52917,-0.23813 0.52917,-0.52917 v -2.64583 c 0,-0.29104 -0.23813,-0.52917 -0.52917,-0.52917 H 114.602 Z"
        inkscape:connector-curvature="0" />
     <path
        inkscape:connector-curvature="0"
-       d="m 114.07323,124.6806 h -1.5875 c -0.29104,0 -0.52652,0.23812 -0.52652,0.52917 l -0.003,3.175 c 0,0.29104 0.23813,0.52916 0.52917,0.52916 h 4.23333 c 0.29104,0 0.52917,-0.23812 0.52917,-0.52916 v -2.64584 c 0,-0.29104 -0.23813,-0.52916 -0.52917,-0.52916 H 114.602 Z"
+       d="m 114.07323,118.33066 h -1.5875 c -0.29104,0 -0.52652,0.23812 -0.52652,0.52917 l -0.003,3.175 c 0,0.29104 0.23813,0.52916 0.52917,0.52916 h 4.23333 c 0.29104,0 0.52917,-0.23812 0.52917,-0.52916 v -2.64584 c 0,-0.29104 -0.23813,-0.52916 -0.52917,-0.52916 H 114.602 Z"
        id="path5072"
        style="fill:#424242;fill-opacity:1;stroke-width:0.26458332" />
     <text
@@ -571,5 +549,26 @@
        height="11.64172"
        x="158.52324"
        y="137.38065" />
+    <text
+       id="text915"
+       y="134.73792"
+       x="122.22844"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58329105px;line-height:50%;font-family:Raleway;-inkscape-font-specification:'Raleway, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;opacity:1;fill:#424242;fill-opacity:1;stroke:none;stroke-width:0.26458228px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:50%;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#424242;fill-opacity:1;stroke-width:0.26458228px"
+         y="134.73792"
+         x="122.22844"
+         sodipodi:role="line"
+         id="tspan911">Music</tspan><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:50%;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#424242;fill-opacity:1;stroke-width:0.26458228px"
+         y="140.37747"
+         x="122.22844"
+         sodipodi:role="line"
+         id="tspan913" /></text>
+    <path
+       style="fill:#424242;fill-opacity:1;stroke-width:0.26458332"
+       id="path917"
+       d="m 114.07323,131.03065 h -1.5875 c -0.29104,0 -0.52652,0.23812 -0.52652,0.52917 l -0.003,3.175 c 0,0.29104 0.23813,0.52916 0.52917,0.52916 h 4.23333 c 0.29104,0 0.52917,-0.23812 0.52917,-0.52916 v -2.64584 c 0,-0.29104 -0.23813,-0.52916 -0.52917,-0.52916 H 114.602 Z"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
