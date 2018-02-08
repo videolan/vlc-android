@@ -127,7 +127,6 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         if (mNetworkRoot)
             vh.binding.setProtocol(getProtocol(media));
         vh.binding.setCover(getIcon(media, mSpecialIcons));
-        vh.setContextMenuListener();
         vh.selectView(media.hasStateFlags(FLAG_SELECTED));
     }
 
@@ -148,6 +147,8 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
 
         public void onClick(View v){}
 
+        public boolean onLongClick(View v){ return false; }
+
         public void onCheckBoxClick(View v){}
 
         public void onMoreClick(View v){}
@@ -156,19 +157,11 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
 
     }
 
-    class MediaViewHolder extends ViewHolder<BrowserItemBinding> implements View.OnLongClickListener, View.OnFocusChangeListener {
+    class MediaViewHolder extends ViewHolder<BrowserItemBinding> implements View.OnFocusChangeListener {
 
         MediaViewHolder(final BrowserItemBinding binding) {
             super(binding);
             binding.setHolder(this);
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    binding.browserCheckbox.toggle();
-                    onCheckBoxClick(binding.browserCheckbox);
-                    return true;
-                }
-            });
             if (AndroidUtil.isMarshMallowOrLater) itemView.setOnContextClickListener(new View.OnContextClickListener() {
                 @Override
                 public boolean onContextClick(View v) {
@@ -176,10 +169,6 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
                     return true;
                 }
             });
-        }
-
-        void setContextMenuListener() {
-            itemView.setOnLongClickListener(this);
         }
 
         protected void openStorage() {
@@ -210,9 +199,13 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
                 fragment.onCtxClick(v, position, getDataset().get(position));
         }
 
-        @Override
         public boolean onLongClick(View v) {
             int position = getLayoutPosition();
+            if (getItem(position).getItemType() == TYPE_STORAGE) {
+                binding.browserCheckbox.toggle();
+                onCheckBoxClick(binding.browserCheckbox);
+                return true;
+            }
             return position < getDataset().size() && position >= 0
                     && fragment.onLongClick(v, position, getDataset().get(position));
         }

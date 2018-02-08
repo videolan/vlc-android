@@ -70,8 +70,6 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
         else
             vh.binding.browserCheckbox.setState(ThreeStatesCheckbox.STATE_UNCHECKED);
         vh.binding.setCheckEnabled(!((StorageBrowserFragment) fragment).mScannedDirectory);
-        if (hasContextMenu)
-            vh.setContextMenuListener();
     }
 
     private boolean hasDiscoveredChildren(String path) {
