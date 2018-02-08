@@ -2,7 +2,7 @@
 buildscript {
     ext.android_plugin_version = '3.0.1'
     ext.kotlin_version = '1.2.21'
-    ext.kotlinx_version = '0.21.2'
+    ext.kotlinx_version = '0.22.2'
     repositories {
         flatDir dirs: "gradle/plugins"
         google()
