@@ -1605,6 +1605,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case MediaPlayer.Event.TimeChanged:
                 mProgress.set((int) event.getTimeChanged());
                 break;
+            case MediaPlayer.Event.LengthChanged:
+                mMediaLength.set(event.getLengthChanged());
+                break;
             case MediaPlayer.Event.Vout:
                 updateNavStatus();
                 if (mMenuIdx == -1)
