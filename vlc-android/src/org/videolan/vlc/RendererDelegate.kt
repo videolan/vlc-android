@@ -20,12 +20,13 @@
 package org.videolan.vlc
 
 import kotlinx.coroutines.experimental.CoroutineStart
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.android.UI
 import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
 import org.videolan.vlc.util.VLCInstance
+import org.videolan.vlc.util.retry
 import java.util.*
 
 object RendererDelegate : RendererDiscoverer.EventListener, ExternalMonitor.NetworkObserver {
@@ -60,7 +61,7 @@ object RendererDelegate : RendererDiscoverer.EventListener, ExternalMonitor.Netw
             val rd = RendererDiscoverer(libVlc, discoverer.name)
             mDiscoverers.add(rd)
             rd.setEventListener(this@RendererDelegate)
-            rd.start()
+            retry { rd.start() }
         }
     }
 
