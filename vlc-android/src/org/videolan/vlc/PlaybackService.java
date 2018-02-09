@@ -187,7 +187,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
         // Make sure the audio player will acquire a wake-lock while playing. If we don't do
         // that, the CPU might go to sleep while the song is playing, causing playback to stop.
-        final PowerManager pm = (PowerManager) VLCApplication.getAppContext().getSystemService(Context.POWER_SERVICE);
+        final PowerManager pm = (PowerManager) getApplicationContext().getSystemService(Context.POWER_SERVICE);
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
 
         updateHasWidget();
