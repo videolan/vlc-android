@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.util;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
@@ -74,7 +75,11 @@ public class CustomDirectories {
     }
 
     public static String[] getCustomDirectories() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+        return getCustomDirectories(VLCApplication.getAppContext());
+    }
+
+    public static String[] getCustomDirectories(Context ctx) {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ctx);
         final String custom_paths = preferences.getString("custom_paths", "");
         if (custom_paths.equals(""))
             return new String[0];
