@@ -150,8 +150,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     @Override
     public void onResume() {
         super.onResume();
-        if (restart)
-            updateList();
+        if (restart && !mMediaLibrary.isWorking()) updateList();
     }
 
     private boolean restart = false;
