@@ -32,7 +32,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SnapHelper;
 import android.view.DragAndDropPermissions;
 import android.view.DragEvent;
 import android.view.Menu;
@@ -44,10 +43,13 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RendererDelegate;
+import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
+import org.videolan.vlc.gui.browser.SortableFragment;
 import org.videolan.vlc.gui.dialogs.RenderersDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.media.MediaUtils;
 
@@ -197,9 +199,23 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     }
 
     private void setSearchVisibility(boolean visible) {
-        Fragment current = getCurrentFragment();
-        if (current instanceof Filterable)
+        final Fragment current = getCurrentFragment();
+        if (current instanceof Filterable) {
             ((Filterable) current).setSearchVisibility(visible);
+            makeRoomForSearch(current, visible);
+        }
+    }
+
+    // Hide options menu items to make room for filter EditText
+    protected void makeRoomForSearch(Fragment current, boolean hide) {
+        final Menu menu = mToolbar.getMenu();
+        menu.findItem(R.id.ml_menu_renderers).setVisible(!hide && showRenderers);
+        if (current instanceof SortableFragment) {
+            menu.findItem(R.id.ml_menu_sortby).setVisible(!hide && ((SortableFragment)current).isSortEnabled());
+        }
+        if (current instanceof VideoGridFragment || current instanceof AudioBrowserFragment) {
+            menu.findItem(R.id.ml_menu_last_playlist).setVisible(!hide);
+        }
     }
 
     public void onClick(View v) {
@@ -208,8 +224,7 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     }
 
     public void closeSearchView() {
-        if (mMenu != null)
-            MenuItemCompat.collapseActionView(mMenu.findItem(R.id.ml_menu_filter));
+        if (mMenu != null) MenuItemCompat.collapseActionView(mMenu.findItem(R.id.ml_menu_filter));
     }
 
     public void restoreCurrentList() {
