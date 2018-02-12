@@ -169,10 +169,14 @@ public class AndroidDevices {
     }
 
     public static String[] getMediaDirectories() {
+        return getMediaDirectories(VLCApplication.getAppContext());
+    }
+
+    public static String[] getMediaDirectories(Context ctx) {
         final List<String> list = new ArrayList<>();
         list.add(EXTERNAL_PUBLIC_DIRECTORY);
         list.addAll(getExternalStorageDirectories());
-        list.addAll(Arrays.asList(CustomDirectories.getCustomDirectories()));
+        list.addAll(Arrays.asList(CustomDirectories.getCustomDirectories(ctx)));
         return list.toArray(new String[list.size()]);
     }
 
