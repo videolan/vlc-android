@@ -19,6 +19,7 @@
  */
 package org.videolan.vlc.gui.dialogs
 
+import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
@@ -27,6 +28,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import org.videolan.libvlc.RendererItem
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -56,6 +58,15 @@ class RenderersDialog : DialogFragment(), RendererDelegate.RendererListener, Pla
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
         RendererDelegate.removeListener(this)
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val inflater = LayoutInflater.from(context)
+        mBinding = DialogRenderersBinding.inflate(inflater, null)
+        val dialog = Dialog(context, R.style.ThemeOverlay_AppCompat_Dialog)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(mBinding.root)
+        return dialog
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
