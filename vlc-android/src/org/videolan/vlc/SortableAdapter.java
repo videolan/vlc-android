@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.gui.DiffUtilAdapter;
-import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
 import org.videolan.vlc.util.Util;
 
@@ -38,8 +37,7 @@ public abstract class SortableAdapter<T extends MediaLibraryItem, VH extends Rec
     }
 
     public void updateIfSortChanged() {
-        if (!hasPendingUpdates() && hasSortChanged())
-            update(new ArrayList<>(getDataset()));
+        if (!hasPendingUpdates() && hasSortChanged()) update(new ArrayList<>(peekLast()));
     }
 
     private boolean hasSortChanged() {
