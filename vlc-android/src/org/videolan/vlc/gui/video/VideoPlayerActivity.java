@@ -701,6 +701,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if (mService != null) mService.removeCallback(this);
         mHelper.onStop();
+        // Clear Intent to restore playlist on activity restart
+        setIntent(new Intent());
     }
 
     private void restoreBrightness() {
