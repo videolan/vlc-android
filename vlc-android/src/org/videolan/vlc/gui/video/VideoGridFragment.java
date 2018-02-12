@@ -147,19 +147,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         mGridView.setAdapter(mAdapter);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (restart && !mMediaLibrary.isWorking()) updateList();
-    }
-
     private boolean restart = false;
-    @Override
-    public void onPause() {
-        super.onPause();
-        restart = true;
-    }
-
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -173,10 +161,12 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
             updateViewMode();
             mFabPlay.setImageResource(R.drawable.ic_fab_play);
             setFabPlayVisibility(true);
+            if (restart && !mMediaLibrary.isWorking()) updateList();
         } else {
             mMediaLibrary.removeMediaUpdatedCb();
             mMediaLibrary.removeMediaAddedCb();
             unregisterForContextMenu(mGridView);
+            restart = true;
         }
     }
 
