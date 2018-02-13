@@ -38,8 +38,7 @@ public class Tools {
     }
     public static String getProgressText(MediaWrapper media) {
         long lastTime = media.getTime();
-        if (lastTime == 0L)
-            return "";
+        if (lastTime == 0L) return "";
         return String.format("%s / %s",
                 millisToString(lastTime, true, false),
                 millisToString(media.getLength(), true, false));
@@ -71,10 +70,10 @@ public class Tools {
 
     public static void setMediaDescription (MediaLibraryItem item) {
         if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
-            MediaWrapper mw = (MediaWrapper) item;
+            final MediaWrapper mw = (MediaWrapper) item;
             if (mw.getType() == MediaWrapper.TYPE_VIDEO) {
-                String progress = getProgressText(mw);
-                String resolution = getResolution(mw);
+                final String progress = mw.getLength() == 0L ? null : mw.getTime() == 0L ? Tools.millisToString(mw.getLength()) : getProgressText(mw);
+                final String resolution = getResolution(mw);
                 boolean hasprogress = !TextUtils.isEmpty(progress), hasResolution = !TextUtils.isEmpty(resolution);
                 if (hasprogress && hasResolution)
                     item.setDescription(resolution+" - "+progress);
