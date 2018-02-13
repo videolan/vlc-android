@@ -146,7 +146,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
     }
 
-    fun play() = player.play()
+    fun play() {
+        if (hasMedia()) player.play()
+    }
 
     fun pause() {
         if (player.pause()) savePosition()
@@ -179,10 +181,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         currentIndex = -1
         mediaList.clear()
         if (systemExit) player.release()
-        else {
-            player.restart()
-            service.onPlaybackStopped()
-        }
+        else player.restart()
+        service.onPlaybackStopped()
     }
 
     @MainThread
@@ -670,4 +670,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
         service.onMediaPlayerEvent(event)
     }
+
+    fun isAudioList() = !player.canSwitchToVideo() && mediaList.isAudioList
 }
