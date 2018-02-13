@@ -300,10 +300,10 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     private final OnAudioFocusChangeListener mAudioFocusListener = createOnAudioFocusChangeListener();
 
+    private volatile boolean mLossTransient = false;
     private OnAudioFocusChangeListener createOnAudioFocusChangeListener() {
         return new OnAudioFocusChangeListener() {
             int audioDuckLevel = -1;
-            private boolean mLossTransient = false;
             private int mLossTransientVolume = -1;
             private boolean wasPlaying = false;
 
@@ -369,8 +369,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                 if (mLossTransient) return;
                 mLossTransient = true;
                 wasPlaying = isPlaying();
-                if (wasPlaying)
-                    pause();
+                if (wasPlaying) pause();
             }
         };
     }
@@ -661,7 +660,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                                 mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO), title, artist, album,
                                 cover, playing, sessionToken, getSessionPendingIntent());
                         if (isPlayingPopup()) return;
-                        if (!AndroidUtil.isLolliPopOrLater || playing) {
+                        if (!AndroidUtil.isLolliPopOrLater || playing || mLossTransient) {
                             if (!mIsForeground) {
                                 PlaybackService.this.startForeground(3, notification);
                                 mIsForeground = true;
