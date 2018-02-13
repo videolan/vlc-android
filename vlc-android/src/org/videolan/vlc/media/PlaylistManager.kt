@@ -73,10 +73,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun loadLocations(mediaPathList: List<String>, position: Int) {
         val mediaList = ArrayList<MediaWrapper>()
 
-        for (i in mediaPathList.indices) {
-            val location = mediaPathList[i]
+        for (location in mediaPathList) {
             var mediaWrapper = medialibrary.getMedia(location)
-            if (mediaWrapper == null) {
+            if (mediaWrapper === null) {
                 if (!location.validateLocation()) {
                     Log.w(TAG, "Invalid location " + location)
                     service.showToast(service.resources.getString(R.string.invalid_location, location), Toast.LENGTH_SHORT)
@@ -119,7 +118,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             val locations = settings.getString(if (audio) "audio_list" else "media_list", "").split(" ".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
             if (Util.isArrayEmpty(locations)) return@launch
             val playList = async {
-                locations.map { Uri.decode(it) }.mapTo(ArrayList<MediaWrapper>(locations.size)) { MediaWrapper(Uri.parse(it)) }
+                locations.map { Uri.decode(it) }.mapTo(ArrayList(locations.size)) { MediaWrapper(Uri.parse(it)) }
             }.await()
             // load playlist
             shuffling = settings.getBoolean(if (audio) "audio_shuffling" else "media_shuffling", false)
@@ -210,7 +209,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun setRepeatType(repeatType: Int) {
         repeating = repeatType
-        if (mediaList.isAudioList && settings.getBoolean("audio_save_repeat", false))
+        if (isAudioList() && settings.getBoolean("audio_save_repeat", false))
             settings.edit().putInt(AUDIO_REPEAT_MODE_KEY, repeating).apply()
         savePosition()
         launch(UI, CoroutineStart.UNDISPATCHED) { determinePrevAndNextIndices() }
@@ -302,8 +301,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     VideoPlayerActivity.getIntent(Constants.PLAY_FROM_SERVICE,
                             media, false, currentIndex))
         } else if (!player.switchToVideo) {//Start the video player
-            VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
-                    media.uri, currentIndex)
+            VideoPlayerActivity.startOpened(VLCApplication.getAppContext(), media.uri, currentIndex)
             if (!hasRenderer) player.switchToVideo = true
         }
         return true
@@ -392,18 +390,18 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @Synchronized
     private fun saveCurrentMedia() {
         settings.edit()
-                .putString(if (mediaList.isAudioList) "current_song" else "current_media", mediaList.getMRL(Math.max(currentIndex, 0)))
+                .putString(if (isAudioList()) "current_song" else "current_media", mediaList.getMRL(Math.max(currentIndex, 0)))
                 .apply()
     }
 
     @Synchronized
     private fun saveMediaList() {
-        if (getCurrentMedia() == null) return
+        if (getCurrentMedia() === null) return
         val locations = StringBuilder()
         for (mw in mediaList.all) locations.append(" ").append(mw.uri.toString())
         //We save a concatenated String because putStringSet is APIv11.
         settings.edit()
-                .putString(if (player.canSwitchToVideo() || !mediaList.isAudioList) "media_list" else "audio_list", locations.toString().trim { it <= ' ' })
+                .putString(if (!isAudioList()) "media_list" else "audio_list", locations.toString().trim { it <= ' ' })
                 .apply()
     }
 
@@ -546,7 +544,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private fun savePosition(reset: Boolean = false) {
         if (!hasMedia()) return
         val editor = settings.edit()
-        val audio = !player.canSwitchToVideo() && mediaList.isAudioList
+        val audio = isAudioList()
         editor.putBoolean(if (audio) "audio_shuffling" else "media_shuffling", shuffling)
         editor.putInt(if (audio) "audio_repeating" else "media_repeating", repeating)
         editor.putInt(if (audio) "position_in_audio_list" else "position_in_media_list", if (reset) 0 else currentIndex)
@@ -581,10 +579,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
         val startIndex = currentIndex + 1
 
-        for (i in list.indices) {
-            val mediaWrapper = list[i]
-            mediaList.insert(startIndex + i, mediaWrapper)
-        }
+        for ((index, mw) in list.withIndex()) mediaList.insert(startIndex + index, mw)
     }
 
     /**
@@ -613,7 +608,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun getMediaListSize()= mediaList.size()
 
-    fun getMediaList()= mediaList.all
+    fun getMediaList(): MutableList<MediaWrapper> = mediaList.all
 
     override fun onEvent(event: Media.Event) {
         var update = true
