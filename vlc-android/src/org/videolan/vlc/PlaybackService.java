@@ -287,7 +287,6 @@ public class PlaybackService extends MediaBrowserServiceCompat{
             mRemoteControlClientReceiver = null;
         }
         playlistManager.onServiceDestroyed();
-        updateWidget();
     }
 
     @Override
