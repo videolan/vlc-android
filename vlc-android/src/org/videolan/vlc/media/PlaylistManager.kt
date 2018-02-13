@@ -123,7 +123,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }.await()
             // load playlist
             shuffling = settings.getBoolean(if (audio) "audio_shuffling" else "media_shuffling", false)
-            setRepeatType(settings.getInt(if (audio) "audio_repeating" else "media_repeating", Constants.REPEAT_NONE))
+            repeating = settings.getInt(if (audio) "audio_repeating" else "media_repeating", Constants.REPEAT_NONE)
             val position = settings.getInt(if (audio) "position_in_audio_list" else "position_in_media_list", 0)
             savedTime = settings.getLong(if (audio) "position_in_song" else "position_in_media", -1)
             if (!audio) {
