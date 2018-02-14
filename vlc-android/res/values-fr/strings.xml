@@ -261,7 +261,7 @@
     <string name="video_min_group_length_first">Première lettre seulement</string>
     <string name="video_min_group_length_short">Courte suite de lettre (6)</string>
     <string name="video_min_group_length_long">Longue suite de lettres (9)</string>
-    <string name="media_fast_seek">Activer l\'option de recherche rapide</string>
+    <string name="media_fast_seek">Activer l\'option de chargement rapide</string>
     <string name="media_seen">Afficher le marqueur de vidéo vue</string>
     <string name="media_seen_summary">Marquer une vidéo comme vue lorsque vous la regardez jusqu\'à la fin</string>
     <string name="force_list_portrait">Pas de grille en mode portrait</string>
@@ -337,8 +337,8 @@
     <string name="casting_quality_lowcpu">Le plus bas</string>
     <string name="cast_performance_warning">Diffuser cette vidéo requiert une conversion. Cette conversion risque d\'utiliser toute la puissance disponible et rapidement vider votre batterie.</string>
     <string name="casting_connected_renderer">Connecté au moteur de rendu \'%1$s\'</string>
-    <string name="artists_show_all_title">Montrer tout les artistes</string>
-    <string name="artists_show_all_summary">Montrer tout les artistes dans la liste des artistes, pas seulement les artistes de l\'album</string>
+    <string name="artists_show_all_title">Montrer tous les artistes</string>
+    <string name="artists_show_all_summary">Montrer tous les artistes dans la liste des artistes, pas seulement les artistes de l\'album</string>
     <string name="extensions_prefs_category">Extensions</string>
     <string name="extensions_enable_category">Choisissez les extensions à activer</string>
     <string name="extensions_empty">Aucune extension détectée</string>
