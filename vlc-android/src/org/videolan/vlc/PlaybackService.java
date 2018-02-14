@@ -381,7 +381,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         if (mAudioManager == null)
             return;
 
-        if (acquire) {
+        if (acquire && !hasRenderer()) {
             if (!mHasAudioFocus) {
                 final int result = mAudioManager.requestAudioFocus(mAudioFocusListener,
                         AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
@@ -390,12 +390,10 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                     mHasAudioFocus = true;
                 }
             }
-        } else {
-            if (mHasAudioFocus) {
-                mAudioManager.abandonAudioFocus(mAudioFocusListener);
-                mAudioManager.setParameters("bgm_state=false");
-                mHasAudioFocus = false;
-            }
+        } else if (mHasAudioFocus) {
+            mAudioManager.abandonAudioFocus(mAudioFocusListener);
+            mAudioManager.setParameters("bgm_state=false");
+            mHasAudioFocus = false;
         }
     }
 
@@ -1768,6 +1766,8 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         if (wasOnRenderer && !hasRenderer() && canSwitchToVideo()) VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
                 playlistManager.getCurrentMedia().getUri(), playlistManager.getCurrentIndex());
         playlistManager.getPlayer().setRenderer(item);
+        if (!wasOnRenderer && item != null) changeAudioFocus(false);
+        else if (wasOnRenderer && item == null && isPlaying()) changeAudioFocus(true);
     }
 
     @MainThread
