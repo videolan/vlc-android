@@ -187,8 +187,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (mAdapter == null)
-            mAdapter = new BaseBrowserAdapter(this);
+        if (mAdapter == null) mAdapter = new BaseBrowserAdapter(this);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -202,8 +201,10 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             mFoldersContentLists = content;
         @SuppressWarnings("unchecked")
         final List<MediaLibraryItem> mediaList = mRoot ? null : (List<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST + mMrl);
-        if (!Util.isListEmpty(mediaList)) mAdapter.update(mediaList);
-        else mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_REFRESH);
+        if (!Util.isListEmpty(mediaList)) {
+            mAdapter.update(mediaList);
+            parseSubDirectories();
+        } else mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_REFRESH);
     }
 
     @Override
@@ -329,8 +330,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
 
     @Override
     public void onBrowseEnd() {
-        if (!isAdded())
-            return;
+        if (!isAdded()) return;
         if (refreshing && !mRoot) {
             refreshing = false;
             VLCApplication.runOnMainThread(new Runnable() {
@@ -347,7 +347,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         VLCApplication.runOnMainThread(new Runnable() {
             @Override
             public void run() {
-                onUpdateFinished(mAdapter);
+                parseSubDirectories();
             }
         });
     }
@@ -612,18 +612,17 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     }
 
     private void showMediaInfo(MediaWrapper mw) {
-        Intent i = new Intent(getActivity(), InfoActivity.class);
+        final Intent i = new Intent(getActivity(), InfoActivity.class);
         i.putExtra(InfoActivity.TAG_ITEM, mw);
         startActivity(i);
     }
 
     private void playAll(MediaWrapper mw) {
         int positionInPlaylist = 0;
-        LinkedList<MediaWrapper> mediaLocations = new LinkedList<>();
-        MediaWrapper media;
+        final LinkedList<MediaWrapper> mediaLocations = new LinkedList<>();
         for (Object file : mAdapter.getAll())
             if (file instanceof MediaWrapper) {
-                media = (MediaWrapper) file;
+                final MediaWrapper media = (MediaWrapper) file;
                 if ((AndroidUtil.isHoneycombOrLater && media.getType() == MediaWrapper.TYPE_VIDEO) || media.getType() == MediaWrapper.TYPE_AUDIO) {
                     mediaLocations.add(media);
                     if (mw != null && media.equals(mw))
@@ -633,13 +632,13 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         MediaUtils.openList(getActivity(), mediaLocations, positionInPlaylist);
     }
 
-    List<MediaLibraryItem> currentMediaList = new ArrayList<>();
+    private final List<MediaLibraryItem> currentMediaList = new ArrayList<>();
     protected void parseSubDirectories() {
+        if ((mRoot && this instanceof NetworkBrowserFragment)
+                || mCurrentParsedPosition == -1 ||this instanceof FilePickerFragment) return;
         synchronized (currentMediaList) {
-            currentMediaList = new ArrayList<>(mAdapter.getAll());
-            if ((mRoot && this instanceof NetworkBrowserFragment) || mCurrentParsedPosition == -1 ||
-                    currentMediaList.isEmpty() || this instanceof FilePickerFragment)
-                return;
+            currentMediaList.addAll(mAdapter.peekLast());
+            if (currentMediaList.isEmpty()) return;
         }
         runOnBrowserThread(new Runnable() {
             @Override
@@ -648,10 +647,9 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                     mFoldersContentLists.clear();
                     initMediaBrowser(mFoldersBrowserListener);
                     mCurrentParsedPosition = 0;
-                    MediaLibraryItem item;
-                    MediaWrapper mw;
                     while (mCurrentParsedPosition < currentMediaList.size()) {
-                        item = currentMediaList.get(mCurrentParsedPosition);
+                        final MediaLibraryItem item = currentMediaList.get(mCurrentParsedPosition);
+                        final MediaWrapper mw;
                         if (item.getItemType() == MediaLibraryItem.TYPE_STORAGE) {
                             mw = new MediaWrapper(((Storage) item).getUri());
                             mw.setType(MediaWrapper.TYPE_DIR);
@@ -674,8 +672,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     }
 
     private MediaBrowser.EventListener mFoldersBrowserListener = new MediaBrowser.EventListener(){
-        List<MediaWrapper> directories = new ArrayList<>();
-        List<MediaWrapper> files = new ArrayList<>();
+        final List<MediaWrapper> directories = new ArrayList<>();
+        final List<MediaWrapper> files = new ArrayList<>();
 
         @Override
         public void onMediaAdded(int index, final Media media) {
@@ -702,7 +700,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                 MediaWrapper mw = null;
 
                 if (!TextUtils.equals(holderText, "")) {
-                    MediaLibraryItem item = currentMediaList.get(mCurrentParsedPosition);
+                    final MediaLibraryItem item = currentMediaList.get(mCurrentParsedPosition);
                     item.setDescription(holderText);
                     final int position = mCurrentParsedPosition;
                     mRecyclerView.post(new Runnable() {
@@ -715,7 +713,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                     mFoldersContentLists.put(item, new ArrayList<MediaLibraryItem>(directories));
                 }
                 while (++mCurrentParsedPosition < currentMediaList.size()){ //skip media that are not browsable
-                    MediaLibraryItem item = currentMediaList.get(mCurrentParsedPosition);
+                    final MediaLibraryItem item = currentMediaList.get(mCurrentParsedPosition);
                     if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
                         mw = (MediaWrapper) item;
                         if (mw.getType() == MediaWrapper.TYPE_DIR || mw.getType() == MediaWrapper.TYPE_PLAYLIST)
@@ -732,12 +730,12 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                         browse(mw.getUri(), 0);
                     } else {
                         mCurrentParsedPosition = -1;
-                        currentMediaList = new ArrayList<>();
+                        currentMediaList.clear();
                         releaseBrowser();
                     }
                 } else {
                     releaseBrowser();
-                    currentMediaList = new ArrayList<>();
+                    currentMediaList.clear();
                 }
                 directories .clear();
                 files.clear();
@@ -766,14 +764,12 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     @NonNull
     private MediaWrapper getMediaWrapper(MediaWrapper media) {
         MediaWrapper mw = null;
-        Uri uri = media.getUri();
+        final Uri uri = media.getUri();
         if ((media.getType() == MediaWrapper.TYPE_AUDIO
                 || media.getType() == MediaWrapper.TYPE_VIDEO)
                 && "file".equals(uri.getScheme()))
             mw = mMediaLibrary.getMedia(uri);
-        if (mw == null)
-            return media;
-        return mw;
+        return mw != null ? mw : media;
     }
 
     @Override
@@ -875,9 +871,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     }
 
     public boolean onLongClick(View v, int position, MediaLibraryItem item) {
-        if (mActionMode != null)
-            return false;
-        MediaWrapper mediaWrapper = (MediaWrapper) item;
+        if (mActionMode != null) return false;
+        final MediaWrapper mediaWrapper = (MediaWrapper) item;
         if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO ||
                 mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO ||
                 mediaWrapper.getType() == MediaWrapper.TYPE_DIR) {
@@ -901,14 +896,13 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         updateEmptyView();
         if (!mAdapter.isEmpty()) {
-            parseSubDirectories();
             if (mSavedPosition > 0) {
                 mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
                 mSavedPosition = 0;
             }
+            if (mRoot) parseSubDirectories();
         }
-        if (!mRoot)
-            updateFab();
+        if (!mRoot) updateFab();
     }
 
     private void updateFab() {

@@ -111,8 +111,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
-        if (payloads.isEmpty())
-            onBindViewHolder(holder, position);
+        if (payloads.isEmpty()) onBindViewHolder(holder, position);
         else if (payloads.get(0) instanceof CharSequence){
             ((MediaViewHolder) holder).binding.text.setVisibility(View.VISIBLE);
             ((MediaViewHolder) holder).binding.text.setText((CharSequence) payloads.get(0));
@@ -124,8 +123,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         final MediaWrapper media = (MediaWrapper) getItem(position);
         vh.binding.setItem(media);
         vh.binding.setHasContextMenu(true);
-        if (mNetworkRoot)
-            vh.binding.setProtocol(getProtocol(media));
+        if (mNetworkRoot) vh.binding.setProtocol(getProtocol(media));
         vh.binding.setCover(getIcon(media, mSpecialIcons));
         vh.selectView(media.hasStateFlags(FLAG_SELECTED));
     }
