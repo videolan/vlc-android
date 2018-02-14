@@ -21,10 +21,10 @@
 package org.videolan.vlc.gui.video;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -77,7 +77,8 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
     VideoListAdapter(IEventsHandler eventsHandler) {
         super();
         mEventsHandler = eventsHandler;
-        mIsSeenMediaMarkerVisible = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("media_seen", true);
+        final SharedPreferences settings = VLCApplication.getSettings();
+        mIsSeenMediaMarkerVisible = settings == null || settings.getBoolean("media_seen", true);
     }
 
     @Override
