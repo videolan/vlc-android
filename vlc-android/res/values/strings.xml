@@ -359,6 +359,8 @@
     <string name="headset_prefs_category">Headset</string>
     <string name="enable_headset_detection">Detect headset</string>
     <string name="enable_headset_detection_summary">Detect headset insertion and removal</string>
+    <string name="enable_headset_actions_title">Remote Control shortcuts</string>
+    <string name="enable_headset_actions_summary">Double press on \'Play\' to skip to next and long press on it to skip to previous track</string>
     <string name="enable_play_on_headset_insertion">Resume on headset insertion</string>
     <string name="enable_play_on_headset_insertion_summary">Pause otherwise</string>
     <string name="enable_steal_remote_control">Exclusive headset remote control</string>

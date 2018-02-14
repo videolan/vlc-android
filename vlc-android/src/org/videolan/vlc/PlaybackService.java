@@ -779,6 +779,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
         @Override
         public boolean onMediaButtonEvent(Intent mediaButtonEvent) {
+            if (!mSettings.getBoolean("enable_headset_actions", true) || VLCApplication.showTvUi()) return false;
             final KeyEvent event = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
             if (event != null && !isVideoPlaying()) {
                 final int keyCode = event.getKeyCode();
@@ -828,10 +829,8 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
         @Override
         public void onPlay() {
-            if (hasMedia())
-                play();
-            else
-                loadLastAudioPlaylist();
+            if (hasMedia()) play();
+            else loadLastAudioPlaylist();
         }
 
         @Override
