@@ -24,6 +24,7 @@ package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -674,15 +675,15 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     private MediaBrowser.EventListener mFoldersBrowserListener = new MediaBrowser.EventListener(){
         final List<MediaWrapper> directories = new ArrayList<>();
         final List<MediaWrapper> files = new ArrayList<>();
+        Resources res = null;
+        final StringBuilder sb = new StringBuilder();
 
         @Override
         public void onMediaAdded(int index, final Media media) {
             final int type = media.getType();
             final MediaWrapper mw = getMediaWrapper(new MediaWrapper(media));
-            if (type == Media.Type.Directory)
-                directories.add(mw);
-            else if (type == Media.Type.File)
-                files.add(mw);
+            if (type == Media.Type.Directory) directories.add(mw);
+            else if (type == Media.Type.File) files.add(mw);
         }
 
         @Override
@@ -743,21 +744,20 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         }
 
         private String getDescription(int folderCount, int mediaFileCount) {
-            String holderText = "";
+            if (res == null) res = getResources();
+            sb.setLength(0);
             if (folderCount > 0) {
-                holderText += VLCApplication.getAppResources().getQuantityString(
+                sb.append(res.getQuantityString(
                         R.plurals.subfolders_quantity, folderCount, folderCount
-                );
-                if (mediaFileCount > 0)
-                    holderText += ", ";
+                ));
+                if (mediaFileCount > 0) sb.append(", ");
             }
             if (mediaFileCount > 0)
-                holderText += VLCApplication.getAppResources().getQuantityString(
-                        R.plurals.mediafiles_quantity, mediaFileCount,
-                        mediaFileCount);
+                sb.append(res.getQuantityString(
+                        R.plurals.mediafiles_quantity, mediaFileCount, mediaFileCount));
             else if (folderCount == 0 && mediaFileCount == 0)
-                holderText = getString(R.string.directory_empty);
-            return holderText;
+                sb.append(getString(R.string.directory_empty));
+            return sb.toString();
         }
     };
 
