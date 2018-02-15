@@ -33,7 +33,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.databinding.BindingAdapter;
@@ -620,17 +619,19 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public void resetHudLayout() {
         if (mHudBinding == null) return;
         final RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)mHudBinding.playerOverlayButtons.getLayoutParams();
-        int orientation = getScreenOrientation(100);
-        boolean portrait = orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
+        final int orientation = getScreenOrientation(100);
+        final boolean portrait = orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
                 orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+        final int endOf = AndroidUtil.isJellyBeanMR1OrLater ? RelativeLayout.END_OF : RelativeLayout.RIGHT_OF;
+        final int startOf = AndroidUtil.isJellyBeanMR1OrLater ? RelativeLayout.START_OF : RelativeLayout.LEFT_OF;
         if (portrait) {
             layoutParams.addRule(RelativeLayout.BELOW, R.id.player_overlay_length);
-            layoutParams.addRule(RelativeLayout.RIGHT_OF, 0);
-            layoutParams.addRule(RelativeLayout.LEFT_OF, 0);
+            layoutParams.addRule(endOf, 0);
+            layoutParams.addRule(startOf, 0);
         } else {
             layoutParams.addRule(RelativeLayout.BELOW, R.id.player_overlay_seekbar);
-            layoutParams.addRule(RelativeLayout.RIGHT_OF, R.id.player_overlay_time);
-            layoutParams.addRule(RelativeLayout.LEFT_OF, R.id.player_overlay_length);
+            layoutParams.addRule(endOf, R.id.player_overlay_time);
+            layoutParams.addRule(startOf, R.id.player_overlay_length);
         }
         mHudBinding.playerOverlayButtons.setLayoutParams(layoutParams);
     }
