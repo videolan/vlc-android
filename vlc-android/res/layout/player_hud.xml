@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:vlc="http://schemas.android.com/apk/res-auto">
+    xmlns:vlc="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="org.videolan.medialibrary.Tools" />
         <variable
@@ -20,7 +21,8 @@
     android:background="@drawable/rounded_corners"
     android:paddingTop="@dimen/overlay_padding_top"
     android:paddingBottom="@dimen/overlay_padding_bottom"
-    android:visibility="invisible" >
+    android:visibility="invisible"
+    tools:visibility="visible" >
 
     <SeekBar
         android:id="@+id/player_overlay_seekbar"
