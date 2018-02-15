@@ -34,6 +34,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.WorkerThread;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
@@ -60,6 +61,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -119,11 +121,25 @@ public class SubtitlesDownloader {
             @Override
             public void run() {
                 SUBTITLES_DIRECTORY.mkdirs();
-                if (logIn())
-                    getSubtitles(mediaList, finalLanguages);
+                startDownload(mediaList, finalLanguages);
                 mHandler.sendEmptyMessage(DIALOG_HIDE);
             }
         });
+    }
+
+    @WorkerThread
+    private void startDownload(List<MediaWrapper> mediaList, List<String> finalLanguages) {
+        int loginCount = 3;
+        mHandler.sendEmptyMessage(DIALOG_SHOW);
+        while (--loginCount >= 0) {
+            if (logIn()) {
+                getSubtitles(mediaList, finalLanguages);
+                return;
+            }
+        }
+        showSnackBar(R.string.service_unavailable);
+        mHandler.sendEmptyMessage(DIALOG_HIDE);
+        stop = true;
     }
 
     private void exit() {
@@ -131,24 +147,18 @@ public class SubtitlesDownloader {
     }
 
     @SuppressWarnings("unchecked")
+    @WorkerThread
     private boolean logIn() {
-        mHandler.sendEmptyMessage(DIALOG_SHOW);
         try {
             mClient = new XMLRPCClient(new URL(OpenSubtitlesAPIUrl));
             map = ((Map<String, Object>) mClient.call("LogIn","","","fre",USER_AGENT));
             mToken = (String) map.get("token");
         } catch (XMLRPCException e) {
             if (BuildConfig.DEBUG) Log.e(TAG, "logIn", e);
-            showSnackBar(R.string.service_unavailable);
-            mHandler.sendEmptyMessage(DIALOG_HIDE);
-            stop = true;
             return false;
         } catch (Throwable e){ //for various service outages
             if (BuildConfig.DEBUG) Log.e(TAG, "logIn", e);
             e.printStackTrace();
-            showSnackBar(R.string.service_unavailable);
-            mHandler.sendEmptyMessage(DIALOG_HIDE);
-            stop = true;
             return false;
         }
         map = null;
@@ -171,9 +181,12 @@ public class SubtitlesDownloader {
     @SuppressWarnings("unchecked")
     private void getSubtitles(final List<MediaWrapper> mediaList, List<String> languages) {
         mHandler.obtainMessage(DIALOG_UPDATE_MSG,R.string.downloading_subtitles, 0).sendToTarget();
-        for (String language : languages)
-            //noinspection UnusedAssignment
-            language = getCompliantLanguageID(language);
+        final ListIterator<String> iter = languages.listIterator();
+        while (iter.hasNext()) {
+            final String language = iter.next();
+            final String compliant = getCompliantLanguageID(language);
+            if (!language.equals(compliant)) iter.set(compliant);
+        }
         final boolean single = mediaList.size() == 1;
         final List<MediaWrapper> notFoundFiles = new ArrayList<>();
         final Map<String, String> index = new HashMap<>();
@@ -181,9 +194,15 @@ public class SubtitlesDownloader {
         final Map<String, List<String>> fails = new HashMap<>();
         List<Map<String, String>> videoSearchList = prepareRequestList(mediaList, languages, index, true);
         if (!videoSearchList.isEmpty()) {
-            try {
-                map = (Map<String, Object>) mClient.call("SearchSubtitles", mToken, videoSearchList);
-            } catch (Throwable e) { //for various service outages
+            int retryCount = 3;
+            while (--retryCount >= 0) {
+                try {
+                    map = (Map<String, Object>) mClient.call("SearchSubtitles", mToken, videoSearchList);
+                } catch (Throwable e) { //for various service outages
+                    map = null;
+                }
+            }
+            if (map == null) {
                 stop = true;
                 showSnackBar(R.string.service_unavailable);
                 return;
@@ -286,14 +305,13 @@ public class SubtitlesDownloader {
             if (!success.containsKey(fileName)){
                 final List<String> langs = new ArrayList<>();
                 for (String language : languages)
-                    langs.add(getCompliantLanguageID(language));
+                    langs.add(language);
                 fails.put(fileName, langs);
             } else {
                 final List<String> langs = new ArrayList<>();
                 for (String language : languages) {
-                    final String langID = getCompliantLanguageID(language);
-                    if (!success.get(fileName).contains(langID))
-                        langs.add(langID);
+                    if (!success.get(fileName).contains(language))
+                        langs.add(language);
                 }
                 if (!langs.isEmpty())
                     fails.put(fileName, langs);
@@ -364,17 +382,14 @@ public class SubtitlesDownloader {
                     hash = FileUtils.computeHash(videoFile);
                     fileLength = videoFile.length();
                 } //TODO network files
-                if (hash == null)
-                    continue;
+                if (hash == null) continue;
             } else { //Second pass, search by TAG (filename)
                 tag = mediaUri.getLastPathSegment();
             }
-            for (String item : languages){
-                if (stop)
-                    break;
-                final String languageID = getCompliantLanguageID(item);
+            for (String language : languages){
+                if (stop) break;
                 final Map<String, String> video = new HashMap<>();
-                video.put("sublanguageid", languageID);
+                video.put("sublanguageid", language);
                 if (firstPass) {
                     index.put(hash, mediaUri.getPath());
                     video.put("moviehash", hash);
