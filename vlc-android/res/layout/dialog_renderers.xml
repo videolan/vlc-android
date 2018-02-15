@@ -11,8 +11,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="384dp"
-        android:minHeight="256dp">
+        android:minWidth="384dp">
         <TextView
             android:id="@+id/renderers_title"
             android:layout_width="wrap_content"
@@ -25,6 +24,7 @@
             android:id="@+id/renderers_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layout_constraintHeight_default="wrap"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/renderers_title"
