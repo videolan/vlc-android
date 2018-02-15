@@ -28,7 +28,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -37,7 +36,6 @@ import android.os.Message;
 import android.support.annotation.WorkerThread;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -109,8 +107,7 @@ public class SubtitlesDownloader {
             languages = Collections.singleton(Locale.getDefault().getISO3Language().toLowerCase());
         } catch (MissingResourceException ignored) {}
         if (AndroidUtil.isHoneycombOrLater) {
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-            languages = pref.getStringSet("languages_download_list", languages);
+            languages = VLCApplication.getSettings().getStringSet("languages_download_list", languages);
         }
         if (languages == null) { // In case getDefault().getISO3Language() fails
             Toast.makeText(mContext, R.string.subs_dl_lang_fail, Toast.LENGTH_SHORT).show();
@@ -209,22 +206,19 @@ public class SubtitlesDownloader {
             }
             if(!stop && map.get("data") instanceof Object[]) {
                 final Object[] subtitleMaps = ((Object[]) map.get("data"));
-                if (!single)
-                    mHandler.obtainMessage(DIALOG_UPDATE_PROGRESS, mediaList.size(), 0).sendToTarget();
+                if (!single) mHandler.obtainMessage(DIALOG_UPDATE_PROGRESS, mediaList.size(), 0).sendToTarget();
                 if (subtitleMaps.length > 0){
                     for (Object map : subtitleMaps){
-                        if (stop)
-                            break;
+                        if (stop) break;
                         final String srtFormat = ((Map<String, String>) map).get("SubFormat");
                         final String movieHash = ((Map<String, String>) map).get("MovieHash");
                         final String subLanguageID = ((Map<String, String>) map).get("SubLanguageID");
                         final String subDownloadLink = ((Map<String, String>) map).get("SubDownloadLink");
                         final String fileUrl = index.get(movieHash);
-                        if (fileUrl == null)
-                            return;
+                        if (fileUrl == null) return;
 
                         final String fileName = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
-                        if (success.containsKey(fileName) && success.get(fileName).contains(subLanguageID)){
+                        if (success.containsKey(fileName) && success.get(fileName).contains(subLanguageID)) {
                             continue;
                         } else {
                             if (success.containsKey(fileName))
@@ -246,12 +240,10 @@ public class SubtitlesDownloader {
         }
 
         //Second pass
-        for (MediaWrapper media : mediaList){
-            if (media == null)
-                return;
+        for (MediaWrapper media : mediaList) {
+            if (media == null) return;
             final String fileName = media.getUri().getLastPathSegment();
-            if (!success.containsKey(fileName))
-                notFoundFiles.add(media);
+            if (!success.containsKey(fileName)) notFoundFiles.add(media);
         }
         if (!stop && !notFoundFiles.isEmpty() &&
                 !(videoSearchList = prepareRequestList(notFoundFiles, languages, index, false)).isEmpty()) {
@@ -268,8 +260,7 @@ public class SubtitlesDownloader {
                 if (subtitleMaps.length > 0) {
                     final Object[] paths = index.values().toArray();
                     for (Object subtitleMap : subtitleMaps) {
-                        if (stop)
-                            break;
+                        if (stop) break;
                         final Map<String, Object> resultMap = (Map<String, Object>) subtitleMap;
                         final String srtFormat = (String) resultMap.get("SubFormat");
                         final String queryNumber = (String) resultMap.get("QueryNumber");
@@ -285,24 +276,22 @@ public class SubtitlesDownloader {
                             if (success.containsKey(fileName))
                                 success.get(fileName).add(subLanguageID);
                             else {
-                                List<String> newLanguage = new ArrayList<>();
+                                final List<String> newLanguage = new ArrayList<>();
                                 newLanguage.add(subLanguageID);
                                 success.put(fileName, newLanguage);
                             }
                         }
                         downloadSubtitles(subDownloadLink, fileUrl, fileName, srtFormat, subLanguageID);
-                        if (!single)
-                            mHandler.obtainMessage(DIALOG_UPDATE_PROGRESS, mediaList.size(), success.size()).sendToTarget();
+                        if (!single) mHandler.obtainMessage(DIALOG_UPDATE_PROGRESS, mediaList.size(), success.size()).sendToTarget();
                     }
                 }
             }
         }
         //fill fails list
         for (MediaWrapper media : mediaList) {
-            if (media == null)
-                continue;
+            if (media == null) continue;
             final String fileName = media.getUri().getLastPathSegment();
-            if (!success.containsKey(fileName)){
+            if (!success.containsKey(fileName)) {
                 final List<String> langs = new ArrayList<>();
                 for (String language : languages)
                     langs.add(language);
@@ -335,8 +324,7 @@ public class SubtitlesDownloader {
     }
 
     private void downloadSubtitles(String subUrl, String path, String fileName, String subFormat, String language){
-        if (mToken == null || path == null)
-            return;
+        if (mToken == null || path == null) return;
         final StringBuilder sb = new StringBuilder();
         final String name = fileName.lastIndexOf('.') > 0 ? fileName.substring(0, fileName.lastIndexOf('.')) : fileName;
         sb.append(SUBTITLES_DIRECTORY.getPath()).append('/').append(name).append('.').append(language).append('.').append(subFormat);
@@ -369,10 +357,8 @@ public class SubtitlesDownloader {
     private List<Map<String, String>> prepareRequestList(List<MediaWrapper> mediaList, List<String> languages, Map<String, String> index, boolean firstPass) {
         final List<Map<String, String>> videoSearchList = new ArrayList<>();
         for (MediaWrapper media : mediaList) {
-            if (stop)
-                break;
-            if (media == null)
-                continue;
+            if (stop) break;
+            if (media == null) continue;
             String hash = null, tag = null;
             long fileLength = 0;
             final Uri mediaUri = media.getUri();
@@ -409,8 +395,7 @@ public class SubtitlesDownloader {
     }
 
     private void showSumup(final String displayText) {
-        if (mContext == null)
-            return;
+        if (mContext == null) return;
         VLCApplication.runOnMainThread(new Runnable(){
             public void run() {
                 mSumUpDialog = new AlertDialog.Builder(mContext).setTitle(R.string.dialog_subloader_sumup)
@@ -446,8 +431,7 @@ public class SubtitlesDownloader {
                     if (entry.getValue().size() > 1)
                         textToDisplay.append(" ").append(entry.getValue().toString()).append("\n");
                 }
-            }
-            if (!fails.isEmpty()) {
+            } else if (!fails.isEmpty()) {
                 for (Entry<String, List<String>> entry : fails.entrySet()){
                     textToDisplay.append(VLCApplication.getAppResources().getString(R.string.snack_subloader_sub_not_found));
                     if (entry.getValue().size() > 1)
@@ -455,22 +439,15 @@ public class SubtitlesDownloader {
                 }
             }
         } else { // Text for the dialog box
-            if (!success.isEmpty()){
+            if (!success.isEmpty()) {
                 textToDisplay.append(VLCApplication.getAppResources().getString(R.string.dialog_subloader_success)).append("\n");
-
                 for (Entry<String, List<String>> entry : success.entrySet()){
                     final List<String> langs = entry.getValue();
                     final String filename = entry.getKey();
                     textToDisplay.append("\n- ").append(filename).append(" ").append(langs.toString());
                 }
-
-                if (fails.size()>0)
-                    textToDisplay.append("\n\n");
-            }
-
-            if (!fails.isEmpty()){
+            } else if (!fails.isEmpty()) {
                 textToDisplay.append(VLCApplication.getAppResources().getString(R.string.dialog_subloader_fails)).append("\n");
-
                 for (Entry<String, List<String>> entry : fails.entrySet()){
                     final List<String> langs = entry.getValue();
                     final String filename = entry.getKey();
@@ -484,24 +461,15 @@ public class SubtitlesDownloader {
     // Locale ID Control, because of OpenSubtitle support of ISO639-2 codes
     // e.g. French ID can be 'fra' or 'fre', OpenSubtitles considers 'fre' but Android Java Locale provides 'fra'
     private String getCompliantLanguageID(String language){
-        if (language.equals("system"))
-            return getCompliantLanguageID(Locale.getDefault().getISO3Language());
-        if (language.equals("fra"))
-            return "fre";
-        if (language.equals("deu"))
-            return "ger";
-        if (language.equals("zho"))
-            return "chi";
-        if (language.equals("ces"))
-            return "cze";
-        if (language.equals("fas"))
-            return "per";
-        if (language.equals("nld"))
-            return "dut";
-        if (language.equals("ron"))
-            return "rum";
-        if (language.equals("slk"))
-            return "slo";
+        if (language.equals("system")) return getCompliantLanguageID(Locale.getDefault().getISO3Language());
+        if (language.equals("fra")) return "fre";
+        if (language.equals("deu")) return "ger";
+        if (language.equals("zho")) return "chi";
+        if (language.equals("ces")) return "cze";
+        if (language.equals("fas")) return "per";
+        if (language.equals("nld")) return "dut";
+        if (language.equals("ron")) return "rum";
+        if (language.equals("slk")) return "slo";
         return language;
     }
 
