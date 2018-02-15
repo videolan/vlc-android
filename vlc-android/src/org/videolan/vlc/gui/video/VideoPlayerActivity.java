@@ -3076,7 +3076,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         MediaWrapper openedMedia = null;
         final boolean resumePlaylist = mService.isValidIndex(positionInPlaylist);
-        final boolean continueplayback = resumePlaylist && isPlaying && positionInPlaylist == mService.getCurrentMediaPosition();
+        final boolean continueplayback = restorePlayback && isPlaying && positionInPlaylist == mService.getCurrentMediaPosition();
         if (resumePlaylist) {
             // Provided externally from AudioService
             Log.d(TAG, "Continuing playback from PlaybackService at index " + positionInPlaylist);
