@@ -269,7 +269,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         if (internalMedia != null && internalMedia.id != 0L)
                             id = internalMedia.id
                         else {
-                            internalMedia = medialibrary.addMedia(mw.uri.toString())
+                            internalMedia = medialibrary.addMedia(Uri.decode(mw.uri.toString()))
                             if (internalMedia != null)
                                 id = internalMedia.id
                         }
