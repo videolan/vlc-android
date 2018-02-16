@@ -1,3 +1,20 @@
+Changes between 3.0.0 and 3.0.1:
+----------------------------------
+
+Application:
+ * Show real SDCard/USB storages name
+ * Fix video playlist lost on app switch
+ * Fix renderers dialog
+ * Fix filter/search obstructed by options icons
+ * Fix playback resume after phone calls
+ * Fix shuffle mode being systematically erased
+ * Fix browsing in medialibrary options
+ * Do not stop when other apps play sounds while Chromecasting
+ * New options to disable remote controls shortcuts
+ * Fix video player controls on RTL devices
+ * Fix network media saving in history
+ * Misc. fixes
+
 Changes between 2.9.1 and 3.0.0:
 ----------------------------------
 
