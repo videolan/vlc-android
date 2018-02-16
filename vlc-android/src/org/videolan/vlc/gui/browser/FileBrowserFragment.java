@@ -110,6 +110,10 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                     directory.setType(MediaWrapper.TYPE_DIR);
                     if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
                         directory.setDisplayTitle(internalmemoryTitle);
+                    else {
+                        final String deviceName = FileUtils.getStorageTag(directory.getTitle());
+                        if (deviceName != null) directory.setDisplayTitle(deviceName);
+                    }
                     devices.add(directory);
                 }
                 // Set folders shortcuts

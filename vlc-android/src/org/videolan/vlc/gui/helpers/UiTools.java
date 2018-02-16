@@ -394,7 +394,8 @@ public class UiTools {
         if (activity == null)
             return;
         final String uuid = FileUtils.getFileNameFromPath(path);
-        final String message = String.format(activity.getString(R.string.ml_external_storage_msg), uuid);
+        final String deviceName = FileUtils.getStorageTag(uuid);
+        final String message = String.format(activity.getString(R.string.ml_external_storage_msg), deviceName != null ? deviceName : uuid);
         final Intent serviceInent = new Intent(Constants.ACTION_DISCOVER_DEVICE, null, activity, MediaParsingService.class)
                 .putExtra(Constants.EXTRA_PATH, path);
         if (activity instanceof AppCompatActivity) {

@@ -157,12 +157,15 @@ public class AndroidDevices {
         final LinkedList<MediaWrapper> list = new LinkedList<>();
         MediaWrapper directory;
         for (String mediaDirLocation : storages) {
-            if (!(new File(mediaDirLocation).exists()))
-                continue;
+            if (!(new File(mediaDirLocation).exists())) continue;
             directory = new MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation));
             directory.setType(MediaWrapper.TYPE_DIR);
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
                 directory.setDisplayTitle(VLCApplication.getAppResources().getString(R.string.internal_memory));
+            else {
+                final String deviceName = FileUtils.getStorageTag(directory.getTitle());
+                if (deviceName != null) directory.setDisplayTitle(deviceName);
+            }
             list.add(directory);
         }
         return list;

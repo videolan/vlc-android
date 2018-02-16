@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.util;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -31,6 +32,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
+import android.os.storage.StorageManager;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.provider.DocumentFile;
@@ -51,6 +53,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.LongBuffer;
@@ -415,5 +418,23 @@ public class FileUtils {
             }
         }
         return uri;
+    }
+
+    @SuppressLint("PrivateApi")
+    public static String getStorageTag(final String uuid) {
+        if (!AndroidUtil.isMarshMallowOrLater) return null;
+        String volumeDescription = null;
+        try {
+            final StorageManager storageManager = VLCApplication.getAppContext().getSystemService(StorageManager.class);
+            final Class<?> classType = storageManager.getClass();
+            final Method findVolumeByUuid = classType.getDeclaredMethod("findVolumeByUuid", uuid.getClass());
+            findVolumeByUuid.setAccessible(true);
+            final Object volumeInfo = findVolumeByUuid.invoke(storageManager, uuid);
+            final Class volumeInfoClass = Class.forName("android.os.storage.VolumeInfo");
+            final Method getBestVolumeDescription = classType.getDeclaredMethod("getBestVolumeDescription", volumeInfoClass);
+            getBestVolumeDescription.setAccessible(true);
+            volumeDescription = (String) getBestVolumeDescription.invoke(storageManager, volumeInfo);
+        } catch (Throwable ignored) {}
+        return volumeDescription;
     }
 }
