@@ -402,7 +402,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     protected void onParsingServiceFinished() {
         mMediaLibrary.removeMediaUpdatedCb();
         mMediaLibrary.removeMediaAddedCb();
-        mHandler.sendEmptyMessage(UPDATE_LIST);
+        if (!isHidden()) mHandler.sendEmptyMessage(UPDATE_LIST);
     }
 
     @Override
@@ -417,8 +417,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
 
     @Override
     public void restoreList() {
-        if (mAdapter != null && mGridView != null)
-            mAdapter.restoreList();
+        if (mAdapter != null && mGridView != null) mAdapter.restoreList();
     }
 
     @Override
