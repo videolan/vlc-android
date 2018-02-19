@@ -63,13 +63,14 @@ class RenderersDialog : DialogFragment(), RendererDelegate.RendererListener, Pla
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val inflater = LayoutInflater.from(context)
         mBinding = DialogRenderersBinding.inflate(inflater, null)
-        val dialog = Dialog(context, R.style.ThemeOverlay_AppCompat_Dialog)
+        val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(mBinding.root)
         return dialog
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setStyle(DialogFragment.STYLE_NO_FRAME, 0)
         mBinding = DialogRenderersBinding.inflate(inflater, container, false)
         return mBinding.root
     }
