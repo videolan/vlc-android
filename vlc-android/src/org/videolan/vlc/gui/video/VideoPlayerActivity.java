@@ -3038,7 +3038,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         long savedTime = 0L;
         final boolean hasMedia = mService.hasMedia();
         final boolean isPlaying = mService.isPlaying();
-        final boolean restorePlayback = hasMedia && mService.getCurrentMediaWrapper().getUri().equals(mUri);
         /*
          * If the activity has been paused by pressing the power button, then
          * pressing it again will show the lock screen.
@@ -3073,10 +3072,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             if (intent.hasExtra(Constants.PLAY_EXTRA_ITEM_TITLE))
                 itemTitle = extras.getString(Constants.PLAY_EXTRA_ITEM_TITLE);
         }
+        final boolean restorePlayback = hasMedia && mService.getCurrentMediaWrapper().getUri().equals(mUri);
 
         MediaWrapper openedMedia = null;
         final boolean resumePlaylist = mService.isValidIndex(positionInPlaylist);
-        final boolean continueplayback = restorePlayback && isPlaying && positionInPlaylist == mService.getCurrentMediaPosition();
+        final boolean continueplayback = isPlaying && (restorePlayback || positionInPlaylist == mService.getCurrentMediaPosition());
         if (resumePlaylist) {
             // Provided externally from AudioService
             Log.d(TAG, "Continuing playback from PlaybackService at index " + positionInPlaylist);
@@ -3092,7 +3092,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mService.addCallback(this);
         if (mUri != null) {
             MediaWrapper media = null;
-            if (!restorePlayback) {
+            if (!continueplayback) {
                 if (!resumePlaylist) {
                     // restore last position
                     media = mMedialibrary.getMedia(mUri);
@@ -3153,7 +3153,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             media.addFlags(MediaWrapper.MEDIA_VIDEO);
 
             // Set resume point
-            if (!restorePlayback) {
+            if (!continueplayback) {
                 if (!fromStart && savedTime <= 0L && media.getTime() > 0L)
                     savedTime = media.getTime();
                 if (savedTime > 0L)
