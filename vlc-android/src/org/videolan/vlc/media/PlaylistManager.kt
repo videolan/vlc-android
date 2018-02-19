@@ -284,6 +284,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 newMedia = true
             }
         } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
+            player.stop()
             VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
         }
     }
@@ -304,7 +305,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             LocalBroadcastManager.getInstance(service).sendBroadcast(
                     VideoPlayerActivity.getIntent(Constants.PLAY_FROM_SERVICE,
                             media, false, currentIndex))
-        } else if (!player.switchToVideo) {//Start the video player
+        } else if (!player.switchToVideo) { //Start the video player
             VideoPlayerActivity.startOpened(VLCApplication.getAppContext(), media.uri, currentIndex)
             if (!hasRenderer) player.switchToVideo = true
         }
