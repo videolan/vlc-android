@@ -273,11 +273,12 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     public void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
-        stop(true);
         if (mMediaSession != null) {
             mMediaSession.release();
             mMediaSession = null;
         }
+        //Call it once mMediaSession is null, to not publish playback state
+        stop(true);
 
         if (!AndroidDevices.hasTsp && !AndroidDevices.hasPlayServices)
             AndroidDevices.setRemoteControlReceiverEnabled(false);
