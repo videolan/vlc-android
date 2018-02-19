@@ -62,6 +62,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun isValidPosition(position: Int) = position in 0 until mediaList.size()
 
+    init {
+        if (settings.getBoolean("audio_save_repeat", false)) repeating = settings.getInt(AUDIO_REPEAT_MODE_KEY, Constants.REPEAT_NONE)
+    }
+
     /**
      * Loads a selection of files (a non-user-supplied collection of media)
      * into the primary or "currently playing" playlist.
