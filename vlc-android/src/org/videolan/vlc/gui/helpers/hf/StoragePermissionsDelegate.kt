@@ -33,7 +33,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.MediaParsingService
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.Constants
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Permissions.canReadStorage
@@ -81,7 +80,8 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         when (requestCode) {
             Permissions.PERMISSION_STORAGE_TAG -> {
                 // If request is cancelled, the result arrays are empty.
-                val ctx = VLCApplication.getAppContext()
+                val ctx = activity
+                if (ctx === null) return
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (mActivity is CustomActionController) {
                         (mActivity as CustomActionController).onStorageAccessGranted()
