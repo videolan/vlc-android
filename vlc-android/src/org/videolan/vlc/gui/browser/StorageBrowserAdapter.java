@@ -89,18 +89,17 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
     }
 
     void updateMediaDirs() {
-        if (mMediaDirsLocation != null)
-            mMediaDirsLocation.clear();
-        String folders[] = VLCApplication.getMLInstance().getFoldersList();
+        if (mMediaDirsLocation != null) mMediaDirsLocation.clear();
+        final String folders[] = VLCApplication.getMLInstance().getFoldersList();
         mMediaDirsLocation = new ArrayList<>(folders.length);
         for (String folder : folders) {
-            mMediaDirsLocation.add(folder.substring(7));
+            mMediaDirsLocation.add(folder.startsWith("file://") ? folder.substring(7) : folder);
         }
         mCustomDirsLocation = new ArrayList<>(Arrays.asList(CustomDirectories.getCustomDirectories()));
     }
 
     protected void checkBoxAction(View v, String mrl) {
-        ThreeStatesCheckbox tscb = (ThreeStatesCheckbox) v;
+       final  ThreeStatesCheckbox tscb = (ThreeStatesCheckbox) v;
         int state = tscb.getState();
         if (state == ThreeStatesCheckbox.STATE_CHECKED)
             MedialibraryUtils.addDir(mrl);
