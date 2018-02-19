@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -349,7 +350,9 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        getActivity().supportInvalidateOptionsMenu();
+        final FragmentActivity activity = getActivity();
+        if (activity == null) return;
+        activity.supportInvalidateOptionsMenu();
         mFastScroller.setRecyclerView(mLists[tab.getPosition()]);
     }
 
