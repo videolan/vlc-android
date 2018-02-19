@@ -71,7 +71,7 @@ public class VLCApplication extends Application {
     private static SimpleArrayMap<String, WeakReference<Object>> sDataMap = new SimpleArrayMap<>();
 
     /* Up to 2 threads maximum, inactive threads are killed after 2 seconds */
-    private final int maxThreads = Math.max(AndroidUtil.isJellyBeanMR1OrLater ? Runtime.getRuntime().availableProcessors() : 2, 1);
+    private static final int maxThreads = Math.max(AndroidUtil.isJellyBeanMR1OrLater ? Runtime.getRuntime().availableProcessors() : 2, 1);
     public static final ThreadFactory THREAD_FACTORY = new ThreadFactory() {
         @Override
         public Thread newThread(Runnable runnable) {
@@ -80,9 +80,9 @@ public class VLCApplication extends Application {
             return thread;
         }
     };
-    private final ThreadPoolExecutor mThreadPool = new ThreadPoolExecutor(Math.min(2, maxThreads), maxThreads, 30, TimeUnit.SECONDS,
+    private static final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(Math.min(2, maxThreads), maxThreads, 30, TimeUnit.SECONDS,
             new LinkedBlockingQueue<Runnable>(), THREAD_FACTORY);
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private static final Handler handler = new Handler(Looper.getMainLooper());
 
     private static int sDialogCounter = 0;
 
@@ -167,16 +167,16 @@ public class VLCApplication extends Application {
 
     public static void runBackground(Runnable runnable) {
         if (Looper.myLooper() != Looper.getMainLooper()) runnable.run();
-        else instance.mThreadPool.execute(runnable);
+        else threadPool.execute(runnable);
     }
 
     public static void runOnMainThread(Runnable runnable) {
         if (Looper.myLooper() == Looper.getMainLooper()) runnable.run();
-        else instance.mHandler.post(runnable);
+        else handler.post(runnable);
     }
 
     public static boolean removeTask(Runnable runnable) {
-        return instance.mThreadPool.remove(runnable);
+        return threadPool.remove(runnable);
     }
 
     public static void storeData(String key, Object data) {
