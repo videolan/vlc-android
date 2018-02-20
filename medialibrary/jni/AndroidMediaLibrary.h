@@ -119,12 +119,11 @@ public:
 
 private:
     void jni_detach_thread(void *data);
-    jobject getWeakReference(JNIEnv *env);
     JNIEnv *getEnv();
     void detachCurrentThread();
 
     pthread_once_t key_once = PTHREAD_ONCE_INIT;
-    jweak weak_thiz, weak_compat;
+    jweak weak_thiz;
     fields *p_fields;
     medialibrary::IMediaLibrary* p_ml;
     std::shared_ptr<AndroidDeviceLister> p_lister;

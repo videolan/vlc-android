@@ -957,7 +957,6 @@ int MediaLibraryJNI_OnLoad(JavaVM *vm, JNIEnv* env)
            ml_fields.MediaWrapper.clazz,
            "<init>", "(JLjava/lang/String;JJILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;IIIIJJ)V");
 
-    ///
     GET_CLASS(ml_fields.HistoryItem.clazz,
               "org/videolan/medialibrary/media/HistoryItem", true);
 
@@ -965,7 +964,7 @@ int MediaLibraryJNI_OnLoad(JavaVM *vm, JNIEnv* env)
            ml_fields.HistoryItem.initID,
            ml_fields.HistoryItem.clazz,
            "<init>", "(Ljava/lang/String;Ljava/lang/String;JZ)V");
-///
+
     GET_CLASS(ml_fields.MediaSearchAggregate.clazz, "org/videolan/medialibrary/media/MediaSearchAggregate", true);
 
     GET_ID(GetMethodID,
@@ -985,31 +984,6 @@ int MediaLibraryJNI_OnLoad(JavaVM *vm, JNIEnv* env)
            ml_fields.MediaLibrary.clazz,
            "mInstanceID", "J");
 
-    if (ml_fields.SDK_INT <= 13)
-    {
-        LOGE("fields.SDK_INT is less than 13 (honeycomb_mr2): using compat WeakReference");
-
-        GET_CLASS(ml_fields.WeakReference.clazz,
-                  "java/lang/ref/WeakReference", true);
-        GET_ID(GetMethodID,
-               ml_fields.WeakReference.getID,
-               ml_fields.WeakReference.clazz,
-               "get", "()Ljava/lang/Object;");
-        GET_ID(GetMethodID,
-               ml_fields.MediaLibrary.getWeakReferenceID,
-               ml_fields.MediaLibrary.clazz,
-               "getWeakReference", "()Ljava/lang/Object;");
-    } else
-    {
-        ml_fields.MediaLibrary.getWeakReferenceID = NULL;
-    }
-
-    jmethodID onArtistsAddedId;
-    jmethodID onArtistsModifiedId;
-    jmethodID onArtistsDeletedId;
-    jmethodID onAlbumsAddedId;
-    jmethodID onAlbumsModifiedId;
-    jmethodID onAlbumsDeletedId;
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onMediaAddedId,
            ml_fields.MediaLibrary.clazz,

@@ -35,7 +35,6 @@ struct fields {
     struct MediaLibrary {
         jclass clazz;
         jfieldID instanceID;
-        jmethodID getWeakReferenceID;
         jmethodID onMediaAddedId;
         jmethodID onMediaUpdatedId;
         jmethodID onMediaDeletedId;
@@ -58,10 +57,6 @@ struct fields {
         jmethodID onEntryPointUnbannedId;
         jmethodID onEntryPointRemovedId;
     } MediaLibrary;
-    struct WeakReference {
-        jclass clazz;
-        jmethodID getID;
-    } WeakReference;
     struct Album {
         jclass clazz;
         jmethodID initID;
