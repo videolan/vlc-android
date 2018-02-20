@@ -57,8 +57,8 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             intent.removeExtra(Constants.EXTRA_UPGRADE)
             intent.removeExtra(Constants.EXTRA_FIRST_RUN)
         }
-        mWrite = arguments.getBoolean("write")
-        if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(activity)) {
+        mWrite = arguments?.getBoolean("write") ?: false
+        if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(activity!!)) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
                 Permissions.showStoragePermissionDialog(mActivity, false)
             else

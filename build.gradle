@@ -24,11 +24,12 @@ allprojects {
 }
 
 ext {
-    appCompatVersion = '25.2.0'
+    appCompatVersion = '27.1.0'
     constraintLayoutVersion = '1.1.0-beta6'
+    archVersion = '1.1.0'
     buildToolsVersion = "27.0.2"
     compileSdkVersion = 26
-    minSdkVersion = 9
+    minSdkVersion = 14
     targetSdkVersion = 26
     versionName = '3.0.5'
     versionCode = 3000510

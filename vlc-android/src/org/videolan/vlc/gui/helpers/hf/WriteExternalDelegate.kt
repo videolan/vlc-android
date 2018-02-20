@@ -29,7 +29,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
 
     private fun showDialog() {
         if (!isAdded) return
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(activity!!)
         builder.setMessage(R.string.sdcard_permission_dialog_message)
                 .setTitle(R.string.sdcard_permission_dialog_title)
                 .setPositiveButton(R.string.ok, { _, _ ->
@@ -44,17 +44,19 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
 
     private fun showHelpDialog() {
         if (!isAdded) return
-        val inflater = activity.layoutInflater
-        AlertDialog.Builder(activity).setView(inflater.inflate(R.layout.dialog_sd_write, null))
-                .setOnDismissListener { showDialog() }
-                .create().show()
+        activity?.let {
+            val inflater = it.layoutInflater
+            AlertDialog.Builder(it).setView(inflater.inflate(R.layout.dialog_sd_write, null))
+                    .setOnDismissListener { showDialog() }
+                    .create().show()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data !== null && requestCode == REQUEST_CODE_STORAGE_ACCES) {
             if (resultCode == Activity.RESULT_OK) {
-                val context = context
+                val context = context ?: return
                 val treeUri = data.data
                 PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).edit()
                         .putString("tree_uri_"+ storage, treeUri.toString()).apply()

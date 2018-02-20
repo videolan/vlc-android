@@ -376,9 +376,11 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
 
     fun showAdvancedOptions(v: View) {
         if (!isVisible) return
-        val advOptionsDialog = AdvOptionsDialog()
-        advOptionsDialog.arguments = Bundle().apply { putInt(AdvOptionsDialog.MODE_KEY, AdvOptionsDialog.MODE_AUDIO) }
-        advOptionsDialog.show(activity.supportFragmentManager, "fragment_adv_options")
+        activity?.let {
+            val advOptionsDialog = AdvOptionsDialog()
+            advOptionsDialog.arguments = Bundle().apply { putInt(AdvOptionsDialog.MODE_KEY, AdvOptionsDialog.MODE_AUDIO) }
+            advOptionsDialog.show(it.supportFragmentManager, "fragment_adv_options")
+        }
     }
 
     fun show() {

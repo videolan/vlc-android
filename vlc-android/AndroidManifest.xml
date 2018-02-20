@@ -5,7 +5,7 @@
     android:installLocation="auto">
 
     <uses-sdk
-        tools:overrideLibrary="android.support.v17.leanback, android.support.v14.preference, android.support.v17.preference" />
+        tools:overrideLibrary="android.support.v17.leanback, android.support.v17.preference" />
 
     <uses-permission android:name="android.permission.READ_LOGS"
         android:maxSdkVersion="18" /> <!-- android:maxSdkVersion="15" -->

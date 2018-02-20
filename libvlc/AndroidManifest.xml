@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.videolan" android:versionCode="2" android:versionName="3.0.0">
-    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="24"/>
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="26"/>
 </manifest> 
