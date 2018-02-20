@@ -43,7 +43,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -156,8 +155,6 @@ public class FastScroller extends LinearLayout {
     }
 
     public void setRecyclerView(RecyclerView recyclerView) {
-        if (!AndroidUtil.isHoneycombOrLater)
-            return;
         if (mRecyclerView != null)
             mRecyclerView.removeOnScrollListener(scrollListener);
         setVisibility(INVISIBLE);

@@ -55,7 +55,6 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -511,7 +510,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             }
         } else {
             boolean canPlayInList =  mw.getType() == MediaWrapper.TYPE_AUDIO ||
-                    (mw.getType() == MediaWrapper.TYPE_VIDEO && AndroidUtil.isHoneycombOrLater);
+                    (mw.getType() == MediaWrapper.TYPE_VIDEO);
             menu.findItem(R.id.directory_view_play_all).setVisible(canPlayInList);
             menu.findItem(R.id.directory_view_append).setVisible(canPlayInList);
             menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
@@ -619,7 +618,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         for (Object file : mAdapter.getAll())
             if (file instanceof MediaWrapper) {
                 final MediaWrapper media = (MediaWrapper) file;
-                if ((AndroidUtil.isHoneycombOrLater && media.getType() == MediaWrapper.TYPE_VIDEO) || media.getType() == MediaWrapper.TYPE_AUDIO) {
+                if (media.getType() == MediaWrapper.TYPE_VIDEO || media.getType() == MediaWrapper.TYPE_AUDIO) {
                     mediaLocations.add(media);
                     if (mw != null && media.equals(mw))
                         positionInPlaylist = mediaLocations.size() - 1;

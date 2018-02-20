@@ -42,7 +42,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
@@ -106,9 +105,7 @@ public class SubtitlesDownloader {
         try {
             languages = Collections.singleton(Locale.getDefault().getISO3Language().toLowerCase());
         } catch (MissingResourceException ignored) {}
-        if (AndroidUtil.isHoneycombOrLater) {
-            languages = VLCApplication.getSettings().getStringSet("languages_download_list", languages);
-        }
+        languages = VLCApplication.getSettings().getStringSet("languages_download_list", languages);
         if (languages == null) { // In case getDefault().getISO3Language() fails
             Toast.makeText(mContext, R.string.subs_dl_lang_fail, Toast.LENGTH_SHORT).show();
             return;

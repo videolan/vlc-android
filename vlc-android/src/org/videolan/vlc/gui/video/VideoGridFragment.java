@@ -47,7 +47,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.MediaAddedCb;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
@@ -307,20 +306,11 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         if (media == null) return;
         final MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(media instanceof MediaGroup ? R.menu.video_group_contextual : R.menu.video_list, menu);
-        if (media instanceof MediaGroup) {
-            if (!AndroidUtil.isHoneycombOrLater) {
-                menu.findItem(R.id.video_list_append).setVisible(false);
-                menu.findItem(R.id.video_group_play).setVisible(false);
-            }
-        } else setContextMenuItems(menu, media);
+        if (!(media instanceof MediaGroup)) setContextMenuItems(menu, media);
     }
 
     private void setContextMenuItems(Menu menu, MediaWrapper mediaWrapper) {
         menu.findItem(R.id.video_list_play_from_start).setVisible(mediaWrapper.getTime() > 0);
-        if (!AndroidUtil.isHoneycombOrLater) {
-            menu.findItem(R.id.video_list_play_all).setVisible(false);
-            menu.findItem(R.id.video_list_append).setVisible(false);
-        }
     }
 
     @Override
@@ -443,8 +433,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
             return false;
         }
         menu.findItem(R.id.action_video_info).setVisible(count == 1);
-        menu.findItem(R.id.action_video_play).setVisible(AndroidUtil.isHoneycombOrLater || count == 1);
-        menu.findItem(R.id.action_video_append).setVisible(mService != null && mService.hasMedia() && AndroidUtil.isHoneycombOrLater);
+        menu.findItem(R.id.action_video_append).setVisible(mService != null && mService.hasMedia());
         return true;
     }
 

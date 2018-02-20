@@ -115,8 +115,7 @@ public class VLCApplication extends Application {
             }
         });
 
-        if (sActivityCbListener != null) registerActivityLifecycleCallbacks(sActivityCbListener);
-        else ExternalMonitor.register(instance);
+        registerActivityLifecycleCallbacks(sActivityCbListener);
     }
 
     @Override
@@ -288,7 +287,7 @@ public class VLCApplication extends Application {
     }
 
     private static int sActivitiesCount = 0;
-    private static ActivityLifecycleCallbacks sActivityCbListener = AndroidUtil.isICSOrLater ? new ActivityLifecycleCallbacks() {
+    private static ActivityLifecycleCallbacks sActivityCbListener = new ActivityLifecycleCallbacks() {
         @Override
         public void onActivityCreated(Activity activity, Bundle savedInstanceState) {}
 
@@ -313,5 +312,5 @@ public class VLCApplication extends Application {
 
         @Override
         public void onActivityDestroyed(Activity activity) {}
-    } : null;
+    };
 }

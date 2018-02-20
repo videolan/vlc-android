@@ -97,7 +97,7 @@ public class AndroidDevices {
         devicesWithoutNavBar.add("HTC One S");
         devicesWithoutNavBar.add("HTC One X");
         devicesWithoutNavBar.add("HTC One XL");
-        hasNavBar = AndroidUtil.isICSOrLater && !devicesWithoutNavBar.contains(android.os.Build.MODEL);
+        hasNavBar = !devicesWithoutNavBar.contains(android.os.Build.MODEL);
         final Context ctx = VLCApplication.getAppContext();
         final PackageManager pm = ctx != null ? ctx.getPackageManager() : null;
         hasTsp = pm == null || pm.hasSystemFeature("android.hardware.touchscreen");
@@ -108,8 +108,7 @@ public class AndroidDevices {
         final TelephonyManager tm = ctx != null ? ((TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE)) : null;
         isPhone = tm == null || tm.getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
         // hasCombBar test if device has Combined Bar : only for tablet with Honeycomb or ICS
-        hasCombBar = !AndroidDevices.isPhone && AndroidUtil.isHoneycombOrLater
-                && !AndroidUtil.isJellyBeanMR1OrLater;
+        hasCombBar = !AndroidDevices.isPhone && !AndroidUtil.isJellyBeanMR1OrLater;
     }
 
     public static boolean hasExternalStorage() {

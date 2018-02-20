@@ -25,11 +25,8 @@ package org.videolan.vlc.gui.tv.preferences;
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.os.Bundle;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
-
 import org.videolan.vlc.util.VLCInstance;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -49,12 +46,6 @@ public class PreferencesSubtitles extends BasePreferenceFragment implements Shar
     public void onStart() {
         super.onStart();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        findPreference("languages_download_list").setVisible(AndroidUtil.isHoneycombOrLater);
     }
 
     @Override

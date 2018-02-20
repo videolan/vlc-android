@@ -74,8 +74,6 @@ public class Permissions {
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public static boolean canReadStorage(Context context) {
-        if (!AndroidUtil.isICSOrLater)
-            return context.getExternalFilesDir(null) != null;
         return !AndroidUtil.isMarshMallowOrLater || ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }

@@ -62,7 +62,6 @@ public class ExternalMonitor extends BroadcastReceiver {
     private static final ExternalMonitor instance = new ExternalMonitor();
     private static final List<NetworkObserver> networkObservers = new LinkedList<>();
     private static WeakReference<Activity> storageObserver = null;
-    private static List<Uri> devicesToAdd = AndroidUtil.isICSOrLater ? null : new LinkedList<Uri>();
 
     public interface NetworkObserver {
         void onNetworkConnectionChanged(boolean connected);
@@ -118,8 +117,6 @@ public class ExternalMonitor extends BroadcastReceiver {
             case Intent.ACTION_MEDIA_MOUNTED:
                 if (storageObserver != null && storageObserver.get() != null)
                     mHandler.obtainMessage(ACTION_MEDIA_MOUNTED, intent.getData()).sendToTarget();
-                else if (devicesToAdd != null)
-                    devicesToAdd.add(intent.getData());
                 break;
             case Intent.ACTION_MEDIA_UNMOUNTED:
             case Intent.ACTION_MEDIA_EJECT:
@@ -195,11 +192,7 @@ public class ExternalMonitor extends BroadcastReceiver {
     }
 
     public static synchronized void subscribeStorageCb(Activity observer) {
-        final boolean checkSavedStorages = devicesToAdd != null && storageObserver == null;
         storageObserver = new WeakReference<>(observer);
-        if (checkSavedStorages && !devicesToAdd.isEmpty())
-            for(Uri uri : devicesToAdd)
-                instance.mHandler.obtainMessage(ACTION_MEDIA_MOUNTED, uri).sendToTarget();
     }
 
     public static synchronized void unsubscribeStorageCb(Activity observer) {

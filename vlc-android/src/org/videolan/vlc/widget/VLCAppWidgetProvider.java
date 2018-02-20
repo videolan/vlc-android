@@ -79,21 +79,21 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
         }
 
         final RemoteViews views = new RemoteViews(BuildConfig.APPLICATION_ID, getLayout());
-        final boolean partial = !ACTION_WIDGET_INIT.equals(action) && AndroidUtil.isHoneycombOrLater;
+        final boolean partial = !ACTION_WIDGET_INIT.equals(action);
 
         if (!partial) {
             /* commands */
-            Intent iBackward = new Intent(ACTION_REMOTE_BACKWARD);
-            Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE);
-            Intent iStop = new Intent(ACTION_REMOTE_STOP);
-            Intent iForward = new Intent(ACTION_REMOTE_FORWARD);
-            Intent iVlc = new Intent(VLCApplication.getAppContext(), StartActivity.class);
+            final Intent iBackward = new Intent(ACTION_REMOTE_BACKWARD);
+            final Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE);
+            final Intent iStop = new Intent(ACTION_REMOTE_STOP);
+            final Intent iForward = new Intent(ACTION_REMOTE_FORWARD);
+            final Intent iVlc = new Intent(VLCApplication.getAppContext(), StartActivity.class);
 
-            PendingIntent piBackward = PendingIntent.getBroadcast(context, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
-            PendingIntent piPlay = PendingIntent.getBroadcast(context, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT);
-            PendingIntent piStop = PendingIntent.getBroadcast(context, 0, iStop, PendingIntent.FLAG_UPDATE_CURRENT);
-            PendingIntent piForward = PendingIntent.getBroadcast(context, 0, iForward, PendingIntent.FLAG_UPDATE_CURRENT);
-            PendingIntent piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT);
+            final PendingIntent piBackward = PendingIntent.getBroadcast(context, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
+            final PendingIntent piPlay = PendingIntent.getBroadcast(context, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT);
+            final PendingIntent piStop = PendingIntent.getBroadcast(context, 0, iStop, PendingIntent.FLAG_UPDATE_CURRENT);
+            final PendingIntent piForward = PendingIntent.getBroadcast(context, 0, iForward, PendingIntent.FLAG_UPDATE_CURRENT);
+            final PendingIntent piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT);
 
             views.setOnClickPendingIntent(R.id.backward, piBackward);
             views.setOnClickPendingIntent(R.id.play_pause, piPlay);

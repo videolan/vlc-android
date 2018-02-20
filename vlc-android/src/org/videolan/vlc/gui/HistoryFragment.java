@@ -35,7 +35,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
@@ -86,8 +85,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         mRecyclerView.setNextFocusUpId(R.id.ml_menu_search);
         mRecyclerView.setNextFocusLeftId(android.R.id.list);
         mRecyclerView.setNextFocusRightId(android.R.id.list);
-        if (AndroidUtil.isHoneycombOrLater)
-            mRecyclerView.setNextFocusForwardId(android.R.id.list);
+        mRecyclerView.setNextFocusForwardId(android.R.id.list);
         mRecyclerView.requestFocus();
         registerForContextMenu(mRecyclerView);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -204,8 +202,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
             return false;
         }
         menu.findItem(R.id.action_history_info).setVisible(selectionCount == 1);
-        menu.findItem(R.id.action_history_play).setVisible(AndroidUtil.isHoneycombOrLater || selectionCount == 1);
-        menu.findItem(R.id.action_history_append).setVisible(mService.hasMedia() && AndroidUtil.isHoneycombOrLater);
+        menu.findItem(R.id.action_history_append).setVisible(mService.hasMedia());
         return true;
     }
 

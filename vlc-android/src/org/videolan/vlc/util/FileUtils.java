@@ -224,13 +224,11 @@ public class FileUtils {
         boolean deleted = false;
         path = Uri.decode(Strings.removeFileProtocole(path));
         //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
-        if (AndroidUtil.isHoneycombOrLater){
-            final ContentResolver cr = VLCApplication.getAppContext().getContentResolver();
-            try {
-                deleted = cr.delete(MediaStore.Files.getContentUri("external"),
-                        MediaStore.Files.FileColumns.DATA + "=?", new String[]{path}) > 0;
-            } catch (IllegalArgumentException|SecurityException ignored) {} // Can happen on some devices...
-        }
+        final ContentResolver cr = VLCApplication.getAppContext().getContentResolver();
+        try {
+            deleted = cr.delete(MediaStore.Files.getContentUri("external"),
+                    MediaStore.Files.FileColumns.DATA + "=?", new String[]{path}) > 0;
+        } catch (IllegalArgumentException|SecurityException ignored) {} // Can happen on some devices...
         final File file = new File(path);
         if (file.exists()) deleted |= file.delete();
         return deleted;
@@ -392,12 +390,7 @@ public class FileUtils {
                 try {
                     inputPFD = ctx.getContentResolver().openFileDescriptor(data, "r");
                     if (inputPFD == null) return data;
-                    if (AndroidUtil.isHoneycombMr1OrLater)
-                        uri = AndroidUtil.LocationToUri("fd://" + inputPFD.getFd());
-                    else {
-                        String fdString = inputPFD.getFileDescriptor().toString();
-                        uri = AndroidUtil.LocationToUri("fd://" + fdString.substring(15, fdString.length() - 1));
-                    }
+                    uri = AndroidUtil.LocationToUri("fd://" + inputPFD.getFd());
 //                    Cursor returnCursor =
 //                            getContentResolver().query(data, null, null, null, null);
 //                    if (returnCursor != null) {

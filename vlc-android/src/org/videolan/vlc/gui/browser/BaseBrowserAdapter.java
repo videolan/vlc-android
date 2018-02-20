@@ -376,7 +376,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         mMediaCount = 0;
         for (MediaLibraryItem item : list) {
             if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA
-                    && (((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO|| (AndroidUtil.isHoneycombOrLater && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)))
+                    && (((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO || ((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO))
                 ++mMediaCount;
         }
         return (List<MediaLibraryItem>) list;
