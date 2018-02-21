@@ -205,6 +205,9 @@ dependencies {
     kapt "com.android.databinding:compiler:$rootProject.ext.android_plugin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
+
+    implementation "android.arch.lifecycle:extensions:$rootProject.ext.archVersion"
+    kapt "android.arch.lifecycle:compiler:$rootProject.ext.archVersion"
 }
 
 kotlin {
