@@ -60,7 +60,7 @@
         <item quantity="other">%d sub pastas</item>
     </plurals>
     <plurals name="mediafiles_quantity">
-        <item quantity="one">$d arquivo de mídia</item>
+        <item quantity="one">%d arquivo de mídia</item>
         <item quantity="other">%d arquivos de mídia</item>
     </plurals>
     <plurals name="videos_quantity">
