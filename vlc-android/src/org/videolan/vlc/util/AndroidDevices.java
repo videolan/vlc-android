@@ -24,6 +24,7 @@ import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
@@ -226,6 +227,18 @@ public class AndroidDevices {
             return true;
         } catch (PackageManager.NameNotFoundException ignored) {}
         return false;
+    }
+
+    public static boolean isDex(Context ctx) {
+        if (!AndroidUtil.isNougatOrLater) return false;
+        try {
+            final Configuration config = ctx.getResources().getConfiguration();
+            final Class configClass = config.getClass();
+            return configClass.getField("SEM_DESKTOP_MODE_ENABLED").getInt(configClass)
+                    == configClass.getField("semDesktopModeEnabled").getInt(config);
+        } catch(Exception ignored) {
+            return false;
+        }
     }
 
     public static class MediaFolders {
