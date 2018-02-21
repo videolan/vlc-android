@@ -117,8 +117,7 @@ public class Medialibrary {
     }
 
     public void discover(@NonNull String path) {
-        if (mIsInitiated)
-            nativeDiscover(Tools.encodeVLCMrl(path));
+        if (mIsInitiated) nativeDiscover(Tools.encodeVLCMrl(path));
     }
 
     public void removeFolder(@NonNull String mrl) {
@@ -274,13 +273,13 @@ public class Medialibrary {
 
     @Nullable
     public MediaWrapper getMedia(Uri uri) {
-        final String vlcMrl = Tools.encodeVLCMrl(Uri.decode(uri.toString()));
+        final String vlcMrl = Tools.encodeVLCMrl(uri.toString());
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeGetMediaFromMrl(vlcMrl) : null;
     }
 
     @Nullable
     public MediaWrapper getMedia(String mrl) {
-        final String vlcMrl = Tools.encodeVLCMrl(Uri.decode(mrl));
+        final String vlcMrl = Tools.encodeVLCMrl(mrl);
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeGetMediaFromMrl(vlcMrl) : null;
     }
 

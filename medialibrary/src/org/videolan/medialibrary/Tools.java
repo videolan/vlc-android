@@ -125,8 +125,7 @@ public class Tools {
     }
 
     static String encodeVLCMrl(String mrl) {
-        if (mrl.startsWith("/"))
-            mrl = "file://"+mrl;
-        return VLCUtil.encodeVLCString(Uri.encode(mrl, ":/"));
+        if (mrl.startsWith("/")) mrl = "file://"+mrl;
+        return VLCUtil.encodeVLCString(Uri.encode(Uri.decode(mrl), ":/"));
     }
 }
