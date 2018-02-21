@@ -80,8 +80,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
     public void refresh() {
         if (ExternalMonitor.isConnected())
             super.refresh();
-        else
+        else {
+            updateEmptyView();
             mAdapter.clear();
+        }
     }
 
     @Override
@@ -186,12 +188,12 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
     }
 
     private void updateFavorites() {
+        updateEmptyView();
         if (!ExternalMonitor.isConnected()) {
             if (mFavorites != 0) {
                 mAdapter.clear();
                 mFavorites = 0;
             }
-            updateEmptyView();
             return;
         }
 
@@ -239,7 +241,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
         mFavorites = newSize; //update count
         if (newSize != 0)
             mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
-        updateEmptyView();
     }
 
     public void toggleFavorite() {
