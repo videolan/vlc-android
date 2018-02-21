@@ -1185,7 +1185,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 exitOK();
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                if (!mShowing) {
+                if (mIsNavMenu)
+                    return navigateDvdMenu(keyCode);
+                else if (!mShowing) {
                     if (mFov == 0f)
                         seekDelta(-10000);
                     else
@@ -1193,7 +1195,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     return true;
                 }
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                if (!mShowing) {
+                if (mIsNavMenu)
+                    return navigateDvdMenu(keyCode);
+                else if (!mShowing) {
                     if (mFov == 0f)
                         seekDelta(10000);
                     else
@@ -1201,7 +1205,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     return true;
                 }
             case KeyEvent.KEYCODE_DPAD_UP:
-                if (event.isCtrlPressed()) {
+                if (mIsNavMenu)
+                    return navigateDvdMenu(keyCode);
+                else if (event.isCtrlPressed()) {
                     volumeUp();
                     return true;
                 } else if (!mShowing) {
@@ -1212,7 +1218,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     return true;
                 }
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                if (event.isCtrlPressed()) {
+                if (mIsNavMenu)
+                    return navigateDvdMenu(keyCode);
+                else if (event.isCtrlPressed()) {
                     volumeDown();
                     return true;
                 } else if (!mShowing && mFov != 0f) {
@@ -1220,7 +1228,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     return true;
                 }
             case KeyEvent.KEYCODE_DPAD_CENTER:
-                if (!mShowing) {
+                if (mIsNavMenu)
+                    return navigateDvdMenu(keyCode);
+                else if (!mShowing) {
                     doPlayPause();
                     return true;
                 }
