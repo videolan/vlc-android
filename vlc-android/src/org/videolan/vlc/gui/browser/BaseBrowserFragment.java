@@ -471,6 +471,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                         fragment.mSwipeRefreshLayout.setRefreshing(false);
                     break;
                 case MSG_REFRESH:
+                    removeMessages(MSG_REFRESH);
                     if (!fragment.isDetached()) fragment.refresh();
             }
         }

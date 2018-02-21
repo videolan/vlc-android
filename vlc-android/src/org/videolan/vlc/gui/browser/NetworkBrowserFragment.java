@@ -156,8 +156,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
 
     @Override
     protected void browseRoot() {
-        if (!isAdded())
-            return;
+        if (!isAdded()) return;
         updateFavorites();
         mAdapter.setTop(mAdapter.getItemCount());
         if (allowLAN())
@@ -219,9 +218,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
                 return;
             }
         }
-        if (mFavorites != 0 && !mAdapter.isEmpty())
-            for (int i = 1 ; i <= mFavorites ; ++i) //remove former favorites
+        if (mFavorites != 0 && !mAdapter.getAll().isEmpty())
+            for (int i = 1 ; i <= mFavorites ; ++i) {//remove former favorites
                 mAdapter.removeItem(1);
+            }
 
         if (newSize == 0 && !mAdapter.isEmpty()) {
             mAdapter.removeItem(0); //also remove separator if no more fav
@@ -230,8 +230,9 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
             boolean isEmpty =  mAdapter.isEmpty();
             if (mFavorites == 0 || isEmpty)
                 mAdapter.addItem(new DummyItem(getString(R.string.network_favorites)), false,0); //add header if needed
-            for (int i = 0 ; i < newSize ; )
+            for (int i = 0 ; i < newSize ; ) {
                 mAdapter.addItem(favs.get(i), false, ++i); //add new favorites
+            }
             if (mFavorites == 0 || isEmpty)
                 mAdapter.addItem(new DummyItem(getString(R.string.network_shared_folders)), false, newSize + 1); //add header if needed
         }
@@ -242,7 +243,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
     }
 
     public void toggleFavorite() {
-        MediaDatabase db = MediaDatabase.getInstance();
+        final MediaDatabase db = MediaDatabase.getInstance();
         if (db.networkFavExists(mCurrentMedia.getUri()))
             db.deleteNetworkFav(mCurrentMedia.getUri());
         else
@@ -254,8 +255,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
      * Update views visibility and emptiness info
      */
     protected void updateEmptyView() {
-        if (mEmptyView == null)
-            return;
+        if (mEmptyView == null) return;
         if (ExternalMonitor.isConnected()) {
             if (mAdapter.isEmpty()) {
                 if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) {
@@ -284,17 +284,14 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
 
     @Override
     public void onClick(View v) {
-        if (!isRootDirectory())
-            super.onClick(v);
-        else if (v.getId() == R.id.fab)
-            showAddServerDialog(null);
+        if (!isRootDirectory()) super.onClick(v);
+        else if (v.getId() == R.id.fab) showAddServerDialog(null);
     }
 
     public void showAddServerDialog(MediaWrapper mw) {
-        FragmentManager fm = getFragmentManager();
-        NetworkServerDialog dialog = new NetworkServerDialog();
-        if (mw != null)
-            dialog.setServer(mw);
+        final FragmentManager fm = getFragmentManager();
+        final NetworkServerDialog dialog = new NetworkServerDialog();
+        if (mw != null) dialog.setServer(mw);
         dialog.show(fm, "fragment_add_server");
     }
 
@@ -305,18 +302,16 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
     private BroadcastReceiver mLocalReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (isResumed())
-                goBack();
-            else
-                goBack = true;
+            if (isResumed()) goBack();
+            else goBack = true;
         }
     };
 
     @Override
     public void onNetworkConnectionChanged(boolean connected) {
         final boolean isEmpty = mAdapter.isEmpty();
-        refresh();
-        if (!connected && isEmpty) //update() will trigger updateEmptyView
-            updateEmptyView();
+        mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_REFRESH);
+        //update() will trigger updateEmptyView
+        if (!connected && isEmpty) updateEmptyView();
     }
 }
