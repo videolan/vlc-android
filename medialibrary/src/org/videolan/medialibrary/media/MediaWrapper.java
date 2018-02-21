@@ -186,17 +186,17 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
+        if (this == obj) return true;
         if (!(obj instanceof MediaLibraryItem) || ((MediaLibraryItem) obj).getItemType() != TYPE_MEDIA)
             return false;
-        long otherId = ((MediaWrapper) obj).getId();
-        if (otherId != 0 && getId() != 0 && otherId == getId())
-            return true;
-        Uri otherUri = ((MediaWrapper) obj).getUri();
-        if (mUri == null || otherUri == null)
-            return false;
-        return mUri == otherUri || mUri.equals(otherUri);
+        return equals((MediaWrapper) obj);
+    }
+
+    public boolean equals(MediaWrapper obj) {
+        long otherId = obj.getId();
+        if (otherId != 0L && getId() != 0L && otherId == getId()) return true;
+        final Uri otherUri = obj.getUri();
+        return !(mUri == null || otherUri == null) && (mUri == otherUri || mUri.equals(otherUri));
     }
 
     private void init(Media media) {

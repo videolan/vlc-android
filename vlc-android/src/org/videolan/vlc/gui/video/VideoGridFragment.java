@@ -1,7 +1,7 @@
 /*****************************************************************************
  * VideoListActivity.java
  *****************************************************************************
- * Copyright © 2011-2017 VLC authors and VideoLAN
+ * Copyright © 2011-2018 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,8 @@ package org.videolan.vlc.gui.video;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -47,9 +48,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 
-import org.videolan.medialibrary.Medialibrary;
-import org.videolan.medialibrary.interfaces.MediaAddedCb;
-import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.MediaParsingService;
@@ -58,7 +56,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.gui.browser.SortableFragment;
+import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
@@ -69,21 +67,24 @@ import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.viewmodels.VideosProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoGridFragment extends SortableFragment<VideoListAdapter> implements MediaUpdatedCb, SwipeRefreshLayout.OnRefreshListener, MediaAddedCb, Filterable, IEventsHandler {
+public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefreshLayout.OnRefreshListener, Filterable, IEventsHandler {
 
     private final static String TAG = "VLC/VideoListFragment";
 
     private final static String KEY_GROUP = "key_group";
+    private VideoListAdapter mAdapter;
 
     private AutoFitRecyclerView mGridView;
     private View mViewNomedia;
     private String mGroup;
     private View mSearchButtonView;
     private DividerItemDecoration mDividerItemDecoration;
+    private VideosProvider videosProvider;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public VideoGridFragment() { }
@@ -92,15 +93,15 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAdapter = new VideoListAdapter(this);
-
-        if (savedInstanceState != null)
-            setGroup(savedInstanceState.getString(KEY_GROUP));
+        if (savedInstanceState != null) setGroup(savedInstanceState.getString(KEY_GROUP));
+        videosProvider = ViewModelProviders.of(this, new VideosProvider.Factory(mGroup)).get(VideosProvider.class);
     }
 
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.ml_menu_sortby).setVisible(true);
         menu.findItem(R.id.ml_menu_sortby_artist_name).setVisible(false);
         menu.findItem(R.id.ml_menu_sortby_album_name).setVisible(false);
         menu.findItem(R.id.ml_menu_sortby_length).setVisible(true);
@@ -114,9 +115,25 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
             case R.id.ml_menu_last_playlist:
                 getActivity().sendBroadcast(new Intent(Constants.ACTION_REMOTE_LAST_VIDEO_PLAYLIST));
                 return true;
+            case R.id.ml_menu_sortby_name:
+                sortBy(Constants.SORT_ALPHA);
+                onPrepareOptionsMenu(mMenu);
+                return true;
+            case R.id.ml_menu_sortby_length:
+                sortBy(Constants.SORT_DURATION);
+                onPrepareOptionsMenu(mMenu);
+                return true;
+            case R.id.ml_menu_sortby_date:
+                sortBy(Constants.SORT_RELEASEDATE);
+                onPrepareOptionsMenu(mMenu);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void sortBy(int sortby) {
+        videosProvider.sort(sortby);
     }
 
     @Override
@@ -145,28 +162,25 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
             if (!Util.isListEmpty(list)) mAdapter.update(list);
         }
         mGridView.setAdapter(mAdapter);
+        videosProvider.getVideos().observe(this, new Observer<List<MediaWrapper>>() {
+            @Override
+            public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
+                mAdapter.update(mediaWrappers);
+            }
+        });
     }
 
-    private boolean restart = false;
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            if (mMediaLibrary.isInitiated())
-                onMedialibraryReady();
-            else if (mGroup == null)
-                setupMediaLibraryReceiver();
             registerForContextMenu(mGridView);
             setSearchVisibility(false);
             updateViewMode();
             mFabPlay.setImageResource(R.drawable.ic_fab_play);
             setFabPlayVisibility(true);
-            if (restart && !mMediaLibrary.isWorking()) updateList();
         } else {
-            mMediaLibrary.removeMediaUpdatedCb();
-            mMediaLibrary.removeMediaAddedCb();
             unregisterForContextMenu(mGridView);
-            restart = true;
         }
     }
 
@@ -175,16 +189,6 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         super.onSaveInstanceState(outState);
         outState.putString(KEY_GROUP, mGroup);
         VLCApplication.storeData("list"+getTitle(), mAdapter.getAll());
-    }
-
-    protected void onMedialibraryReady() {
-        super.onMedialibraryReady();
-        if (mGroup == null) {
-            mMediaLibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO);
-            mMediaLibrary.setMediaAddedCb(this, Medialibrary.FLAG_MEDIA_ADDED_VIDEO);
-        }
-        if (!isHidden())
-            mHandler.sendEmptyMessage(UPDATE_LIST);
     }
 
     public String getTitle() {
@@ -279,13 +283,13 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
                 removeVideo(media);
             }
         })) return;
-        final int position = mAdapter.remove(media);
+        videosProvider.remove(media);
         final View view = getView();
-        if (position != -1 && view != null) {
+        if (view != null) {
             final Runnable revert = new Runnable() {
                 @Override
                 public void run() {
-                    mAdapter.add(media);
+                    videosProvider.refresh();
                 }
             };
             UiTools.snackerWithCancel(view, getString(R.string.file_deleted), new Runnable() {
@@ -319,46 +323,10 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
         MediaUtils.openList(getActivity(), playList, mAdapter.getListWithPosition(playList, 0));
     }
 
-    @Override
-    public void onMediaUpdated(final MediaWrapper[] mediaList) {
-        mAdapter.add(mediaList);
-    }
-
-    @Override
-    public void onMediaAdded(final MediaWrapper[] mediaList) {
-        mAdapter.add(mediaList);
-    }
-
     @MainThread
     public void updateList() {
+        videosProvider.refresh();
         mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
-        final Context ctx = getActivity();
-
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                final MediaWrapper[] itemList = mMediaLibrary.getVideos();
-                final List<MediaWrapper> displayList = new ArrayList<>();
-                if (mGroup != null) {
-                    for (MediaWrapper item : itemList) {
-                        String title = item.getTitle().substring(item.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
-                        if (mGroup == null || title.toLowerCase().startsWith(mGroup.toLowerCase()))
-                            displayList.add(item);
-                    }
-                } else {
-                    final SharedPreferences preferences = ctx != null ? PreferenceManager.getDefaultSharedPreferences(ctx) : null;
-                    final int minGroupLengthValue = preferences != null ? Integer.valueOf(preferences.getString("video_min_group_length", "6")) : 6;
-                    for (MediaGroup item : MediaGroup.group(itemList, minGroupLengthValue)) displayList.add(item.getMedia());
-                }
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.update(displayList);
-                    }
-                });
-                mHandler.sendEmptyMessage(UNSET_REFRESHING);
-            }
-        });
     }
 
     void updateEmptyView() {
@@ -384,18 +352,6 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     @Override
     public void setFabPlayVisibility(boolean enable) {
         super.setFabPlayVisibility(!mAdapter.isEmpty() && enable);
-    }
-
-    @Override
-    protected void onParsingServiceStarted() {
-        mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
-    }
-
-    @Override
-    protected void onParsingServiceFinished() {
-        mMediaLibrary.removeMediaUpdatedCb();
-        mMediaLibrary.removeMediaAddedCb();
-        if (!isHidden()) mHandler.sendEmptyMessage(UPDATE_LIST);
     }
 
     @Override

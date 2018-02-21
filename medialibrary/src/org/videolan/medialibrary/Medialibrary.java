@@ -69,6 +69,8 @@ public class Medialibrary {
     private ArtistsModifiedCb mArtistsModifiedCb = null;
     private AlbumsAddedCb mAlbumsAddedCb = null;
     private AlbumsModifiedCb mAlbumsModifiedCb = null;
+    private final List<OnMedialibraryReadyListener> onMedialibraryReadyListeners = new ArrayList<>();
+    private volatile boolean isMedialibraryStarted = false;
     private final List<DevicesDiscoveryCb> devicesDiscoveryCbList = new ArrayList<>();
     private final List<EntryPointsEventsCb> entryPointsEventsCbList = new ArrayList<>();
     private static Context sContext;
@@ -96,6 +98,14 @@ public class Medialibrary {
 
     public void start() {
         nativeStart();
+        isMedialibraryStarted = true;
+        synchronized (onMedialibraryReadyListeners) {
+            for (OnMedialibraryReadyListener listener : onMedialibraryReadyListeners) listener.onMedialibraryReady();
+        }
+    }
+
+    public boolean isStarted() {
+        return isMedialibraryStarted;
     }
 
     public void banFolder(@NonNull String path) {
@@ -431,6 +441,11 @@ public class Medialibrary {
     public void onBackgroundTasksIdleChanged(boolean isIdle) {
         mIsWorking = !isIdle;
         LocalBroadcastManager.getInstance(sContext).sendBroadcast(new Intent(ACTION_IDLE).putExtra(STATE_IDLE, isIdle));
+        if (isIdle) {
+            synchronized (onMedialibraryReadyListeners) {
+                for (OnMedialibraryReadyListener listener : onMedialibraryReadyListeners) listener.onMedialibraryIdle();
+            }
+        }
     }
 
     @SuppressWarnings("unused")
@@ -563,6 +578,19 @@ public class Medialibrary {
         }
     }
 
+    public void addOnMedialibraryReadyListener(OnMedialibraryReadyListener cb) {
+        synchronized (onMedialibraryReadyListeners) {
+            if (!onMedialibraryReadyListeners.contains(cb))
+                onMedialibraryReadyListeners.add(cb);
+        }
+    }
+
+    public void removeOnMedialibraryReadyListener(OnMedialibraryReadyListener cb) {
+        synchronized (onMedialibraryReadyListeners) {
+            onMedialibraryReadyListeners.remove(cb);
+        }
+    }
+
     public void addEntryPointsEventsCb(EntryPointsEventsCb cb) {
         synchronized (entryPointsEventsCbList) {
             if (!entryPointsEventsCbList.contains(cb))
@@ -689,5 +717,10 @@ public class Medialibrary {
 
     public interface AlbumsModifiedCb {
         void onAlbumsModified();
+    }
+
+    public interface OnMedialibraryReadyListener {
+        void onMedialibraryReady();
+        void onMedialibraryIdle();
     }
 }

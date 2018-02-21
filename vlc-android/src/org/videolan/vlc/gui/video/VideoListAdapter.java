@@ -42,21 +42,20 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
-import org.videolan.vlc.SortableAdapter;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.DiffUtilAdapter;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 import org.videolan.vlc.util.MediaItemFilter;
-import org.videolan.vlc.util.MediaLibraryItemComparator;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAdapter.ViewHolder> implements Filterable {
+public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAdapter.ViewHolder> implements Filterable {
 
     public final static String TAG = "VLC/VideoListAdapter";
 
@@ -144,25 +143,6 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
     private boolean isPositionValid(int position) {
         return position >= 0 && position < getDataset().size();
-    }
-
-    @MainThread
-    public void add(MediaWrapper item) {
-        final List<MediaWrapper> list = new ArrayList<>(peekLast());
-        list.add(item);
-        //Force adapter to sort items.
-        if (sMediaComparator.sortBy == MediaLibraryItemComparator.SORT_DEFAULT) sMediaComparator.sortBy = getDefaultSort();
-        update(list);
-    }
-
-    @MainThread
-    public int remove(MediaWrapper item) {
-        final List<MediaWrapper> refList = new ArrayList<>(peekLast());
-        final int position = refList.indexOf(item);
-        if (position < 0 || position >= refList.size()) return -1;
-        refList.remove(position);
-        update(refList);
-        return position;
     }
 
     public boolean contains(MediaWrapper mw) {
@@ -380,7 +360,6 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
     @Override
     protected void onUpdateFinished() {
-        super.onUpdateFinished();
         mEventsHandler.onUpdateFinished(null);
     }
 
@@ -421,14 +400,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
     }
 
     @Override
-    protected boolean isSortAllowed(int sort) {
-        switch (sort) {
-            case MediaLibraryItemComparator.SORT_BY_TITLE:
-            case MediaLibraryItemComparator.SORT_BY_DATE:
-            case MediaLibraryItemComparator.SORT_BY_LENGTH:
-                return true;
-            default:
-                return false;
-        }
+    protected boolean detectMoves() {
+        return true;
     }
 }
