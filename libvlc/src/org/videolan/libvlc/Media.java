@@ -781,6 +781,11 @@ public class Media extends VLCObject<Media.Event> {
         }
         if (!codecOptionSet)
             setHWDecoderEnabled(true, false);
+
+        /* dvdnav need to be explicitly forced for network playbacks */
+        if (mUri != null && mUri.getScheme() != null && !mUri.getScheme().equalsIgnoreCase("file") &&
+                mUri.getLastPathSegment() != null && mUri.getLastPathSegment().toLowerCase().endsWith(".iso"))
+            addOption(":demux=dvdnav,any");
     }
 
     /**
