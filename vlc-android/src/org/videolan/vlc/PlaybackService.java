@@ -35,6 +35,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.audiofx.AudioEffect;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
 import android.net.Uri;
@@ -89,6 +90,7 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.util.VoiceSearchParams;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.widget.VLCAppWidgetProvider;
@@ -373,6 +375,32 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                 if (wasPlaying) pause();
             }
         };
+    }
+
+    private void sendStartSessionIdIntent() {
+        int sessionId = VLCOptions.getAudiotrackSessionId();
+        if (sessionId == 0)
+            return;
+
+        Intent intent = new Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION);
+        intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, sessionId);
+        intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
+        if (isVideoPlaying())
+            intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MOVIE);
+        else
+            intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC);
+        sendBroadcast(intent);
+    }
+
+    private void sendStopSessionIdIntent() {
+        int sessionId = VLCOptions.getAudiotrackSessionId();
+        if (sessionId == 0)
+            return;
+
+        Intent intent = new Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION);
+        intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, sessionId);
+        intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, getPackageName());
+        sendBroadcast(intent);
     }
 
     private AudioManager mAudioManager = null;
@@ -1053,9 +1081,17 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         if (playlistManager.hasPlaylist())
             pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), isShuffling() ? R.drawable.ic_auto_shuffle_pressed : R.drawable.ic_auto_shuffle_normal);
         pscb.addCustomAction("repeat", getString(R.string.repeat_title), repeatResId);
+
+        boolean mediaIsActive = state != PlaybackStateCompat.STATE_STOPPED;
+
         mMediaSession.setPlaybackState(pscb.build());
-        mMediaSession.setActive(state != PlaybackStateCompat.STATE_STOPPED);
+        mMediaSession.setActive(mediaIsActive);
         mMediaSession.setQueueTitle(getString(R.string.music_now_playing));
+
+        if (mediaIsActive)
+            sendStartSessionIdIntent();
+        else
+            sendStopSessionIdIntent();
     }
 
     private void notifyTrackChanged() {
