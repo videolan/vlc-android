@@ -503,20 +503,21 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      */
     @MainThread
     private suspend fun expand(updateHistory: Boolean): Int {
+        val index = currentIndex
         val ml = player.expand()
         var ret = -1
 
         if (ml != null && ml.count > 0) {
             val mrl = if (updateHistory) getCurrentMedia()?.location else null
-            mediaList.remove(currentIndex)
+            mediaList.remove(index)
             for (i in ml.count - 1 downTo 0) {
                 val child = ml.getMediaAt(i)
                 child.parse()
-                mediaList.insert(currentIndex, MediaWrapper(child))
+                mediaList.insert(index, MediaWrapper(child))
                 child.release()
             }
             if (mrl !== null && ml.count == 1) medialibrary.addToHistory(mrl, getCurrentMedia()!!.title)
-            ret = currentIndex
+            ret = index
         }
         ml?.release()
         return ret
