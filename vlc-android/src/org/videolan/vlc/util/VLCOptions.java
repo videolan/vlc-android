@@ -22,6 +22,8 @@ package org.videolan.vlc.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.util.Log;
@@ -52,10 +54,18 @@ public class VLCOptions {
     public static final int HW_ACCELERATION_DECODING = 1;
     public static final int HW_ACCELERATION_FULL = 2;
 
+    private static int AUDIOTRACK_SESSION_ID = 0;
+
     // TODO should return List<String>
     public static ArrayList<String> getLibOptions() {
         final Context context = VLCApplication.getAppContext();
         final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+
+        /* generate an audio session id so as to share audio output with external equalizer */
+        if (Build.VERSION.SDK_INT >= 21 && AUDIOTRACK_SESSION_ID == 0) {
+            AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+            AUDIOTRACK_SESSION_ID = audioManager.generateAudioSessionId();
+        }
 
         ArrayList<String> options = new ArrayList<String>(50);
 
@@ -103,6 +113,7 @@ public class VLCOptions {
         options.add(chroma);
         options.add("--audio-resampler");
         options.add(getResampler());
+        options.add("--audiotrack-session-id=" + AUDIOTRACK_SESSION_ID);
 
         options.add("--freetype-rel-fontsize=" + freetypeRelFontsize);
         if (freetypeBold)
@@ -322,5 +333,9 @@ public class VLCOptions {
     public static boolean getEqualizerEnabledState (Context context){
         return PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean("equalizer_enabled", false);
+    }
+
+    public static int getAudiotrackSessionId() {
+        return AUDIOTRACK_SESSION_ID;
     }
 }
