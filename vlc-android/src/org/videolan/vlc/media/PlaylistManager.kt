@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.support.annotation.MainThread
 import android.support.v4.content.LocalBroadcastManager
+import android.support.v7.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
@@ -34,7 +35,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { Medialibrary.getInstance() }
     val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController() }
-    private val settings by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getSettings() }
+    private val settings by lazy(LazyThreadSafetyMode.NONE) { PreferenceManager.getDefaultSharedPreferences(service) }
     private val ctx by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getAppContext() }
     private val mediaList = MediaWrapperList()
     var currentIndex = -1
@@ -51,7 +52,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     var savedTime = 0L
     private var random = Random(System.currentTimeMillis())
     private var newMedia = false
-    @Volatile var expanding = false
+    @Volatile
+    private var expanding = false
 
     fun hasMedia() = mediaList.size() != 0
     fun hasCurrentMedia() = isValidPosition(currentIndex)
