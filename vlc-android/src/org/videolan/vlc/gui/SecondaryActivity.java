@@ -77,8 +77,8 @@ public class SecondaryActivity extends ContentActivity {
         initAudioPlayerContainerActivity();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (getSupportFragmentManager().getFragments() == null) {
-            String fragmentId = getIntent().getStringExtra(KEY_FRAGMENT);
+        if (getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder) == null) {
+            final String fragmentId = getIntent().getStringExtra(KEY_FRAGMENT);
             fetchSecondaryFragment(fragmentId);
             if (mFragment == null){
                 finish();
