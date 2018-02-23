@@ -277,6 +277,12 @@ getVideos(JNIEnv* env, jobject thiz)
 }
 
 jobjectArray
+getSortedVideos(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
+{
+    return getInternalVideos(env, thiz, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+}
+
+jobjectArray
 getRecentVideos(JNIEnv* env, jobject thiz)
 {
     return getInternalVideos(env, thiz, medialibrary::SortingCriteria::InsertionDate, true);
@@ -784,6 +790,7 @@ static JNINativeMethod methods[] = {
     {"nativeAddToHistory", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)addToHistory },
     {"nativeClearHistory", "()Z", (void*)clearHistory },
     {"nativeGetVideos", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getVideos },
+    {"nativeGetSortedVideos", "(IZ)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getSortedVideos },
     {"nativeGetRecentVideos", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getRecentVideos },
     {"nativeGetAudio", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getAudio },
     {"nativeGetRecentAudio", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getRecentAudio },
