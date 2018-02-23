@@ -32,8 +32,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -49,13 +47,12 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.MediaItemDiffCallback;
-import org.videolan.vlc.util.MediaItemFilter;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAdapter.ViewHolder> implements Filterable {
+public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAdapter.ViewHolder> {
 
     public final static String TAG = "VLC/VideoListAdapter";
 
@@ -66,8 +63,6 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
 
     private boolean mListMode = false;
     private IEventsHandler mEventsHandler;
-    private List<MediaWrapper> mOriginalData = null;
-    private final ItemFilter mFilter = new ItemFilter();
     private int mSelectionCount = 0;
     private int mGridCardWidth = 0;
 
@@ -186,7 +181,6 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
     @MainThread
     public void clear() {
         update(new ArrayList<MediaWrapper>());
-        mOriginalData = null;
     }
 
     private void fillView(ViewHolder holder, MediaWrapper media) {
@@ -309,38 +303,6 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
         @Override
         protected boolean isSelected() {
             return getDataset().get(getLayoutPosition()).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
-        }
-    }
-
-    @Override
-    public Filter getFilter() {
-        return mFilter;
-    }
-
-    @MainThread
-    void restoreList() {
-        if (mOriginalData != null) {
-            update(new ArrayList<>(mOriginalData));
-            mOriginalData = null;
-        }
-    }
-
-    private class ItemFilter extends MediaItemFilter {
-
-        @Override
-        protected List<MediaWrapper> initData() {
-            if (mOriginalData == null) {
-                mOriginalData = new ArrayList<>(getDataset().size());
-                for (int i = 0; i < getDataset().size(); ++i)
-                    mOriginalData.add(getDataset().get(i));
-            }
-            return mOriginalData;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            //noinspection unchecked
-            update((List<MediaWrapper>) filterResults.values);
         }
     }
 

@@ -51,7 +51,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 import android.widget.TextView;
 
 import org.videolan.libvlc.Media;
@@ -771,8 +770,9 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         return !isRootDirectory();
     }
 
-    public Filter getFilter() {
-        return mAdapter.getFilter();
+    @Override
+    public void filter(String query) {
+        mAdapter.getFilter().filter(query);
     }
 
     public void restoreList() {

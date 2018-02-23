@@ -39,7 +39,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 import android.widget.TextView;
 
 import org.videolan.medialibrary.Medialibrary;
@@ -398,8 +397,9 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         return true;
     }
 
-    public Filter getFilter() {
-        return getCurrentAdapter().getFilter();
+    @Override
+    public void filter(String query) {
+        getCurrentAdapter().getFilter().filter(query);
     }
 
     public void restoreList() {

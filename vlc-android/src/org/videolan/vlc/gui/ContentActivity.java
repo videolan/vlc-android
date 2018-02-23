@@ -133,11 +133,10 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     public boolean onQueryTextChange(String filterQueryString) {
         final Fragment current = getCurrentFragment();
         if (current instanceof Filterable) {
-            final Filterable filterable = (Filterable) current;
             if (filterQueryString.length() < 3)
-                filterable.restoreList();
+                ((Filterable) current).restoreList();
             else
-                filterable.getFilter().filter(filterQueryString);
+                ((Filterable) current).filter(filterQueryString);
             return true;
         }
         return false;

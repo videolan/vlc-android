@@ -46,7 +46,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -162,7 +161,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefr
             if (!Util.isListEmpty(list)) mAdapter.update(list);
         }
         mGridView.setAdapter(mAdapter);
-        videosProvider.getVideos().observe(this, new Observer<List<MediaWrapper>>() {
+        videosProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
             @Override
             public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
                 mAdapter.update(mediaWrappers);
@@ -355,18 +354,18 @@ public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefr
     }
 
     @Override
+    public void filter(String query) {
+        videosProvider.filter(query);
+    }
+
+    @Override
     public boolean enableSearchOption() {
         return true;
     }
 
     @Override
-    public Filter getFilter() {
-        return mAdapter.getFilter();
-    }
-
-    @Override
     public void restoreList() {
-        if (mAdapter != null && mGridView != null) mAdapter.restoreList();
+        videosProvider.filter(null);
     }
 
     @Override

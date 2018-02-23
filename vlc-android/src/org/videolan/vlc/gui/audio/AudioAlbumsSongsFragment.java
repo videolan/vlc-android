@@ -37,7 +37,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
@@ -105,8 +104,9 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         return mItem.getTitle();
     }
 
-    public Filter getFilter() {
-        return getCurrentAdapter().getFilter();
+    @Override
+    public void filter(String query) {
+        getCurrentAdapter().getFilter().filter(query);
     }
 
     @Override
