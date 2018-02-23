@@ -1,3 +1,17 @@
+Changes between 3.0.1 and 3.0.2:
+----------------------------------
+
+Application:
+ * Support of external equalizers (for Android 5+)
+ * Fix video player restore from background playback
+ * Deactivate PiP feature in DeX mode
+ * Restore DVD menu navigation on TV
+ * Misc. fixes
+
+VLC:
+ * Improve Chromecast loading and playback
+ * Improve mpeg2 files playback
+
 Changes between 3.0.0 and 3.0.1:
 ----------------------------------
 
