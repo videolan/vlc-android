@@ -29,12 +29,11 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 
 
-abstract class MedialibraryModel<T : MediaLibraryItem> : FilterableModel<T>(), Medialibrary.OnMedialibraryReadyListener, MediaUpdatedCb, MediaAddedCb {
+abstract class MedialibraryModel<T : MediaLibraryItem> : BaseModel<T>(), Medialibrary.OnMedialibraryReadyListener, MediaUpdatedCb, MediaAddedCb {
 
 //    val refreshing = MutableLiveData<Boolean>()
     val medialibrary = Medialibrary.getInstance()!!
 
-    abstract fun refresh()
     override fun fetch() {
         medialibrary.addOnMedialibraryReadyListener(this)
         if (medialibrary.isStarted) onMedialibraryReady()

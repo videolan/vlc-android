@@ -22,46 +22,13 @@ package org.videolan.vlc.viewmodels
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import kotlinx.coroutines.experimental.channels.Channel
-import kotlinx.coroutines.experimental.channels.actor
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.MediaAddedCb
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.media.MediaGroup
-import org.videolan.vlc.util.Constants
 import org.videolan.vlc.util.Util
 
 class VideosProvider(private val group: String?) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
-
-    var sort = Constants.SORT_DEFAULT
-    var desc = false
-
-    private val updateActor = actor<Update>(capacity = Channel.UNLIMITED) {
-        for (update in channel) when(update) {
-            Refresh -> updateList()
-            is MediaUpdate -> updateItems(update.mediaList)
-            is MediaAddition -> addMedia(update.mediaList)
-            is Remove -> removeMedia(update.mw)
-            is Sort -> {
-                if (sort == update.sort) desc = !desc
-                sort = update.sort
-                updateList()
-            }
-            is Filter -> filter(update.query)
-        }
-    }
-
-    override fun refresh() {
-        updateActor.offer(Refresh)
-    }
-
-    fun sort(sort: Int) {
-        updateActor.offer(Sort(sort))
-    }
-
-    fun remove(mw:MediaWrapper) {
-        updateActor.offer(Remove(mw))
-    }
 
     override fun onMediaAdded(mediaList: Array<out MediaWrapper>?) {
         if (!Util.isArrayEmpty<MediaWrapper>(mediaList)) updateActor.offer(MediaAddition(mediaList!!.toList()))
@@ -71,7 +38,7 @@ class VideosProvider(private val group: String?) : MedialibraryModel<MediaWrappe
         if (!Util.isArrayEmpty<MediaWrapper>(mediaList)) updateActor.offer(MediaUpdate(mediaList!!.toList()))
     }
 
-    private fun updateList() {
+    override fun updateList() {
         val list = medialibrary.getVideos(sort, desc)
         val displayList = mutableListOf<MediaWrapper>()
         if (group !== null) {
@@ -84,30 +51,6 @@ class VideosProvider(private val group: String?) : MedialibraryModel<MediaWrappe
             MediaGroup.group(list).mapTo(displayList) { it.media }
         }
         dataset.postValue(displayList)
-    }
-
-    private fun removeMedia(mw: MediaWrapper) {
-        dataset.value?.let {
-            dataset.postValue(it.apply { this.remove(mw) })
-        }
-    }
-
-    private fun addMedia(mediaList: List<MediaWrapper>) {
-        val list = dataset.value ?: mutableListOf<MediaWrapper>()
-        if (list.isEmpty()) dataset.postValue(mediaList.toMutableList())
-        else dataset.postValue(list.apply { this.addAll(mediaList) })
-    }
-
-    private fun updateItems(mediaList: List<MediaWrapper>) {
-        val list = dataset.value?.toMutableList() ?: mutableListOf<MediaWrapper>()
-        val iterator = list.listIterator()
-        for (media in iterator) {
-            for (newItem in mediaList) if (media.equals(newItem)) {
-                iterator.set(newItem)
-                break
-            }
-        }
-        dataset.postValue(list)
     }
 
     override fun onMedialibraryReady() {
@@ -129,11 +72,3 @@ class VideosProvider(private val group: String?) : MedialibraryModel<MediaWrappe
         }
     }
 }
-
-sealed class Update
-object Refresh : Update()
-data class MediaUpdate(val mediaList: List<MediaWrapper>) : Update()
-data class MediaAddition(val mediaList: List<MediaWrapper>) : Update()
-data class Sort(val sort: Int) : Update()
-data class Remove(val mw: MediaWrapper) : Update()
-data class Filter(val query: String?) : Update()
