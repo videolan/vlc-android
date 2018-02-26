@@ -56,21 +56,13 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
         }
     }
 
-    fun refresh() {
-        updateActor.offer(Refresh)
-    }
+    fun refresh() = updateActor.offer(Refresh)
 
-    fun sort(sort: Int) {
-        updateActor.offer(Sort(sort))
-    }
+    fun sort(sort: Int) = updateActor.offer(Sort(sort))
 
-    fun remove(mw: T) {
-        updateActor.offer(Remove(mw))
-    }
+    fun remove(mw: T) = updateActor.offer(Remove(mw))
 
-    fun filter(query: String?) {
-        updateActor.offer(Filter(query))
-    }
+    fun filter(query: String?) = updateActor.offer(Filter(query))
 
     protected open fun removeMedia(media: T) {
         dataset.value?.let {
