@@ -74,11 +74,11 @@ import java.util.Random;
 public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, ViewPager.OnPageChangeListener, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
-    private final AudioBrowserAdapter mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, true);
-    private final AudioBrowserAdapter mArtistsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this, true);
-    private final AudioBrowserAdapter mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, true);
-    private final AudioBrowserAdapter mGenresAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this, true);
-    private final AudioBrowserAdapter mPlaylistAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, true);
+    private AudioBrowserAdapter mSongsAdapter;
+    private AudioBrowserAdapter mArtistsAdapter;
+    private AudioBrowserAdapter mAlbumsAdapter;
+    private AudioBrowserAdapter mGenresAdapter;
+    private AudioBrowserAdapter mPlaylistAdapter;
 
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
@@ -103,6 +103,11 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, true);
+        mArtistsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this, true);
+        mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, true);
+        mGenresAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this, true);
+        mPlaylistAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, true);
         mAdapters = new AudioBrowserAdapter[]{mArtistsAdapter, mAlbumsAdapter, mSongsAdapter, mGenresAdapter, mPlaylistAdapter};
     }
 
