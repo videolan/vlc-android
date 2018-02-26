@@ -22,6 +22,7 @@ package org.videolan.vlc.viewmodels
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import kotlinx.coroutines.experimental.async
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.MediaAddedCb
 import org.videolan.medialibrary.media.MediaWrapper
@@ -31,26 +32,29 @@ import org.videolan.vlc.util.Util
 class VideosProvider(private val group: String?) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
 
     override fun onMediaAdded(mediaList: Array<out MediaWrapper>?) {
-        if (!Util.isArrayEmpty<MediaWrapper>(mediaList)) updateActor.offer(MediaAddition(mediaList!!.toList()))
+        if (!Util.isArrayEmpty<MediaWrapper>(mediaList)) updateActor.offer(MediaListAddition(mediaList!!.toList()))
     }
 
     override fun onMediaUpdated(mediaList: Array<out MediaWrapper>?) {
         if (!Util.isArrayEmpty<MediaWrapper>(mediaList)) updateActor.offer(MediaUpdate(mediaList!!.toList()))
     }
 
-    override fun updateList() {
-        val list = medialibrary.getVideos(sort, desc)
-        val displayList = mutableListOf<MediaWrapper>()
-        if (group !== null) {
-            for (item in list) {
-                val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
-                if (title.toLowerCase().startsWith(group.toLowerCase()))
-                    displayList.add(item)
+    override suspend fun updateList() {
+        dataset.value = async {
+            val list = medialibrary.getVideos(sort, desc)
+            val displayList = mutableListOf<MediaWrapper>()
+            if (group !== null) {
+                for (item in list) {
+                    val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
+                    if (title.toLowerCase().startsWith(group.toLowerCase()))
+                        displayList.add(item)
+                }
+            } else {
+                //TODO get length value from prefs
+                MediaGroup.group(list, 6).mapTo(displayList) { it.media }
             }
-        } else {
-            MediaGroup.group(list).mapTo(displayList) { it.media }
-        }
-        dataset.postValue(displayList)
+            return@async displayList
+        }.await()
     }
 
     override fun onMedialibraryReady() {

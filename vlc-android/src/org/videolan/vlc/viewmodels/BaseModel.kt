@@ -22,8 +22,11 @@ package org.videolan.vlc.viewmodels
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
+import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.Constants
 import org.videolan.vlc.util.FilterDelagate
@@ -36,27 +39,30 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
     private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelagate(dataset) }
 
     val dataset by lazy {
-        fetch()
+        launch(UI) { fetch() }
         MutableLiveData<MutableList<T>>()
     }
 
     @Suppress("UNCHECKED_CAST")
-    protected val updateActor = actor<Update>(capacity = Channel.UNLIMITED) {
-        for (update in channel) when(update) {
-            Refresh -> updateList()
-            is Filter -> doFilter(update.query)
-            is MediaUpdate -> updateItems(update.mediaList as List<T>)
-            is MediaAddition -> addMedia(update.mediaList as List<T>)
-            is Remove -> removeMedia(update.media as T)
-            is Sort -> {
-                desc = if (sort == update.sort) !desc else false
-                sort = update.sort
-                updateList()
+    protected val updateActor by lazy {
+        actor<Update>(UI, capacity = Channel.UNLIMITED) {
+            for (update in channel) when (update) {
+                Refresh -> updateList()
+                is Filter -> filter.filter(update.query)
+                is MediaUpdate -> updateItems(update.mediaList as List<T>)
+                is MediaAddition -> addMedia(update.media as T)
+                is MediaListAddition -> addMedia(update.mediaList as List<T>)
+                is Remove -> removeMedia(update.media as T)
+                is Sort -> {
+                    desc = if (sort == update.sort) !desc else false
+                    sort = update.sort
+                    updateList()
+                }
             }
         }
     }
 
-    fun refresh() = updateActor.offer(Refresh)
+    open fun refresh() = updateActor.offer(Refresh)
 
     fun sort(sort: Int) = updateActor.offer(Sort(sort))
 
@@ -66,39 +72,46 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
 
     protected open fun removeMedia(media: T) {
         dataset.value?.let {
-            dataset.postValue(it.apply { this.remove(media) })
+            dataset.value = it.apply { this.remove(media) }
         }
     }
 
-    protected open fun addMedia(mediaList: List<T>) {
-        val list = dataset.value ?: mutableListOf()
-        if (list.isEmpty()) dataset.postValue(mediaList.toMutableList())
-        else dataset.postValue(list.apply { this.addAll(mediaList) })
+    protected open suspend fun addMedia(media: T) {
+        dataset.value.let {
+            dataset.value = if (it === null) mutableListOf(media) else it.apply { add(media) }
+        }
     }
 
-    protected open fun updateItems(mediaList: List<T>) {
-        val list = dataset.value?.toMutableList() ?: mutableListOf()
-        val iterator = list.listIterator()
-        for (media in iterator) {
-            for (newItem in mediaList) if (media.equals(newItem)) {
-                iterator.set(newItem)
-                break
+    open suspend fun addMedia(mediaList: List<T>) {
+        dataset.value.let {
+            dataset.value = if (it === null) mediaList.toMutableList() else it.apply { addAll(mediaList) }
+        }
+    }
+
+    protected open suspend fun updateItems(mediaList: List<T>) {
+        dataset.value = async {
+            val list = dataset.value ?: mutableListOf()
+            val iterator = list.listIterator()
+            for (media in iterator) {
+                for (newItem in mediaList) if (media.equals(newItem)) {
+                    iterator.set(newItem)
+                    break
+                }
             }
-        }
-        dataset.postValue(list)
+            return@async list
+        }.await()
     }
 
-    protected open fun updateList() {}
+    protected open suspend fun updateList() {}
 
     protected abstract fun fetch()
-
-    private fun doFilter(query: String?) = filter.filter(query)
 }
 
 sealed class Update
 object Refresh : Update()
 data class MediaUpdate(val mediaList: List<MediaLibraryItem>) : Update()
-data class MediaAddition(val mediaList: List<MediaLibraryItem>) : Update()
+data class MediaListAddition(val mediaList: List<MediaLibraryItem>) : Update()
+data class MediaAddition(val media: MediaLibraryItem) : Update()
 data class Sort(val sort: Int) : Update()
 data class Remove(val media: MediaLibraryItem) : Update()
 data class Filter(val query: String?) : Update()

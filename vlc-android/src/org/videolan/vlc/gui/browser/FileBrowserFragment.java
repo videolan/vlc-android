@@ -23,8 +23,11 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
@@ -32,6 +35,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.DummyItem;
@@ -47,6 +51,8 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.Util;
+import org.videolan.vlc.viewmodels.FileBrowserProvider;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,6 +66,16 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     @Override
     protected Fragment createFragment() {
         return new FileBrowserFragment();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupBrowser();
+    }
+
+    protected void setupBrowser() {
+        browser = ViewModelProviders.of(this, new FileBrowserProvider.Factory(mMrl)).get(FileBrowserProvider.class);
     }
 
     public String getTitle() {
@@ -201,11 +217,21 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 Storage storage = (Storage) mAdapter.getItem(position);
                 MediaDatabase.getInstance().recursiveRemoveDir(storage.getUri().getPath());
                 CustomDirectories.removeCustomDirectory(storage.getUri().getPath());
-                mAdapter.removeItem(position);
+                browser.remove(storage);
                 ((AudioPlayerContainerActivity)getActivity()).updateLib();
                 return true;
-        }else
+        } else
             return super.handleContextItemSelected(item, position);
+    }
+
+    @Override
+    public void filter(String query) {
+        browser.filter(query);
+    }
+
+    @Override
+    public void restoreList() {
+        browser.filter(null);
     }
 
     public boolean isSortEnabled() {

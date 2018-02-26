@@ -1,6 +1,7 @@
 package org.videolan.vlc.util
 
 import android.arch.lifecycle.MutableLiveData
+import kotlinx.coroutines.experimental.async
 import org.videolan.medialibrary.media.MediaLibraryItem
 
 
@@ -12,21 +13,21 @@ class FilterDelagate<T : MediaLibraryItem>(private val dataset: MutableLiveData<
         return sourceSet
     }
 
-    fun filter(charSequence: CharSequence?) = publish(filteringJob(charSequence))
+    suspend fun filter(charSequence: CharSequence?) = publish(filteringJob(charSequence))
 
 
-    private fun filteringJob(charSequence: CharSequence?) : MutableList<T> {
+    private suspend fun filteringJob(charSequence: CharSequence?) : MutableList<T> {
         if (charSequence !== null) initSource()?.let {
-            val list = mutableListOf<T>()
-            val queryStrings = charSequence.trim().toString().split(" ").filter { it.length > 2 }
-            for (item in it) {
-                for (query in queryStrings)
-                    if (item.title.contains(query, true)) {
-                        list.add(item)
-                        break
-                    }
-            }
-            return list
+            return async { mutableListOf<T>().apply {
+                val queryStrings = charSequence.trim().toString().split(" ").filter { it.length > 2 }
+                for (item in it) {
+                    for (query in queryStrings)
+                        if (item.title.contains(query, true)) {
+                            this.add(item)
+                            break
+                        }
+                } }
+            }.await()
         }
         return mutableListOf()
     }
@@ -34,9 +35,9 @@ class FilterDelagate<T : MediaLibraryItem>(private val dataset: MutableLiveData<
     private fun publish(list: MutableList<T>?) {
         sourceSet?.let {
             if (list?.isEmpty() == false)
-                dataset.postValue(list)
+                dataset.value = list
             else {
-                dataset.postValue(it)
+                dataset.value = it
                 sourceSet = null
             }
         }

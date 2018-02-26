@@ -65,13 +65,13 @@ public class FilePickerFragment extends FileBrowserFragment {
         super.onCreate(bundle);
         mAdapter = new FilePickerAdapter(this);
         mRoot = defineIsRoot();
-        runOnBrowserThread(new Runnable() {
-            @Override
-            public void run() {
-                initMediaBrowser(FilePickerFragment.this);
-                mMediaBrowser.setIgnoreFileTypes("db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv");
-            }
-        });
+//        runOnBrowserThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                initMediaBrowser(FilePickerFragment.this);
+//                mMediaBrowser.setIgnoreFileTypes("db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv");
+//            }
+//        });
     }
 
     @Override
@@ -90,7 +90,7 @@ public class FilePickerFragment extends FileBrowserFragment {
     public void onClick(View v, int position, MediaLibraryItem item) {
         final MediaWrapper media = (MediaWrapper) item;
         if (media.getType() == MediaWrapper.TYPE_DIR)
-            browse(media, position, true);
+            browse(media, true);
         else
             pickFile(media);
 
@@ -112,7 +112,7 @@ public class FilePickerFragment extends FileBrowserFragment {
             browseRoot();
         } else if (mMrl != null) {
             MediaWrapper mw = new MediaWrapper(Uri.parse(FileUtils.getParent(mMrl)));
-            browse(mw, 0, false);
+            browse(mw, false);
         }
     }
 
@@ -130,10 +130,10 @@ public class FilePickerFragment extends FileBrowserFragment {
             return mMrl.length() < 7;
     }
 
-    @Override
-    protected int getLayoutId(){
-        return R.layout.file_picker_fragment;
-    }
+//    @Override
+//    protected int getLayoutId(){
+//        return R.layout.file_picker_fragment;
+//    }
 
     @Override
     protected int getBrowserFlags() {

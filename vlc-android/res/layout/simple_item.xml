@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="org.videolan.medialibrary.media.MediaLibraryItem"/>
+        <variable
+            name="item"
+            type="MediaLibraryItem"/>
+        <variable
+            name="cover"
+            type="android.graphics.drawable.BitmapDrawable"/>
+        <variable
+            name="handler"
+            type="org.videolan.vlc.gui.SimpleAdapter.FavoritesHandler" />
+    </data>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{(v) -> handler.onClick(item)}">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@{cover}"
+            app:media="@{item}" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="sans-serif-light"
+            android:textColor="?attr/list_title"
+            android:textSize="16sp"
+            android:text="@{item.title}"
+            android:gravity="center_vertical"
+            tools:targetApi="jelly_bean" />
+    </LinearLayout>
+</layout>

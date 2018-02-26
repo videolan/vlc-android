@@ -23,21 +23,19 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.SimpleArrayMap;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.CheckBox;
 
-import org.videolan.libvlc.Media;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -47,18 +45,15 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox;
-import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
-
-import java.io.File;
-import java.util.ArrayList;
+import org.videolan.vlc.viewmodels.StorageProvider;
 
 public class StorageBrowserFragment extends FileBrowserFragment implements EntryPointsEventsCb {
 
     public static final String KEY_IN_MEDIALIB = "key_in_medialib";
 
     boolean mScannedDirectory = false;
-    SimpleArrayMap<String, CheckBox> mProcessingFolders = new SimpleArrayMap<>();
+    private final SimpleArrayMap<String, CheckBox> mProcessingFolders = new SimpleArrayMap<>();
     private Snackbar mSnack;
 
     public boolean isSortEnabled() {
@@ -72,14 +67,10 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
 
     @Override
     public void onCreate(Bundle bundle) {
-        VLCApplication.clearData();
         super.onCreate(bundle);
         mAdapter = new StorageBrowserAdapter(this);
-        if (bundle == null)
-            bundle = getArguments();
-        if (bundle != null){
-            mScannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB);
-        }
+        if (bundle == null) bundle = getArguments();
+        if (bundle != null) mScannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB);
     }
 
     @Override
@@ -87,9 +78,12 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         super.onViewCreated(view, savedInstanceState);
         if (mRoot && VLCApplication.showTvUi()) {
             mSnack = Snackbar.make(view, R.string.tv_settings_hint, Snackbar.LENGTH_INDEFINITE);
-            if (AndroidUtil.isLolliPopOrLater)
-                mSnack.getView().setElevation(view.getResources().getDimensionPixelSize(R.dimen.audio_player_elevation));
+            if (AndroidUtil.isLolliPopOrLater) mSnack.getView().setElevation(view.getResources().getDimensionPixelSize(R.dimen.audio_player_elevation));
         }
+    }
+
+    protected void setupBrowser() {
+        browser = ViewModelProviders.of(this, new StorageProvider.Factory(mMrl)).get(StorageProvider.class);
     }
 
     @Override
@@ -101,8 +95,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
             setFabPlayVisibility(true);
         }
         VLCApplication.getMLInstance().addEntryPointsEventsCb(this);
-        if (mSnack != null)
-            mSnack.show();
+        if (mSnack != null) mSnack.show();
     }
 
     @Override
@@ -113,8 +106,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
             mFabPlay.setOnClickListener(null);
         }
         VLCApplication.getMLInstance().removeEntryPointsEventsCb(this);
-        if (mSnack != null)
-            mSnack.dismiss();
+        if (mSnack != null) mSnack.dismiss();
     }
 
     @Override
@@ -123,51 +115,17 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         outState.putBoolean(KEY_IN_MEDIALIB, mScannedDirectory);
     }
 
-    @Override
-    protected void browseRoot() {
-        String[] storages = AndroidDevices.getMediaDirectories();
-        String[] customDirectories = CustomDirectories.getCustomDirectories();
-        Storage storage;
-        final ArrayList<MediaLibraryItem> storagesList = new ArrayList<>();
-        for (String mediaDirLocation : storages) {
-            if (TextUtils.isEmpty(mediaDirLocation))
-                continue;
-            storage = new Storage(Uri.fromFile(new File(mediaDirLocation)));
-            if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
-                storage.setName(getString(R.string.internal_memory));
-            storagesList.add(storage);
-        }
-        customLoop:
-        for (String customDir : customDirectories) {
-            for (String mediaDirLocation : storages) {
-                if (TextUtils.isEmpty(mediaDirLocation))
-                    continue;
-                if (customDir.startsWith(mediaDirLocation))
-                    continue customLoop;
-            }
-            storage = new Storage(Uri.parse(customDir));
-            storagesList.add(storage);
-        }
-        VLCApplication.runOnMainThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.update(storagesList);
-            }
-        });
-        mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
-    }
-
-    @Override
-    public void onMediaAdded(int index, Media media) {
-        if (media.getType() != Media.Type.Directory)
-            return;
-        super.onMediaAdded(index, media);
-    }
+//    @Override
+//    public void onMediaAdded(int index, Media media) {
+//        if (media.getType() != Media.Type.Directory)
+//            return;
+//        super.onMediaAdded(index, media);
+//    }
 
     public void browse (MediaWrapper media, int position, boolean scanned){
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment next = createFragment();
-        Bundle args = new Bundle();
+        final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        final Fragment next = createFragment();
+        final Bundle args = new Bundle();
         args.putParcelable(KEY_MEDIA, media);
         args.putBoolean(KEY_IN_MEDIALIB, mScannedDirectory || scanned);
         next.setArguments(args);

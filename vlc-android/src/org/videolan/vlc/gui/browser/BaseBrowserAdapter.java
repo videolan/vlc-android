@@ -27,45 +27,34 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.annotation.MainThread;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
-import org.videolan.vlc.SortableAdapter;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
+import org.videolan.vlc.gui.DiffUtilAdapter;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.MediaItemFilter;
-import org.videolan.vlc.util.MediaLibraryItemComparator;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_STORAGE;
 
-public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder> implements Filterable {
+public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder> {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
     private static int FOLDER_RES_ID = R.drawable.ic_menu_folder;
-    private List<MediaLibraryItem> mOriginalData = null;
-    protected final BaseBrowserFragment fragment;
-    private int mTop = 0, mMediaCount = 0, mSelectionCount = 0;
-    private ItemFilter mFilter = new ItemFilter();
-    private final boolean mNetworkRoot, mSpecialIcons;
 
     private static class Images {
         private static final BitmapDrawable IMAGE_FOLDER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), FOLDER_RES_ID));
@@ -78,6 +67,9 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         private static final BitmapDrawable IMAGE_QA_PODCASTS = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_podcasts_normal));
         private static final BitmapDrawable IMAGE_QA_DOWNLOAD = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_download_normal));
     }
+    protected final BaseBrowserFragment fragment;
+    private int mTop = 0, mMediaCount = 0, mSelectionCount = 0;
+    private final boolean mNetworkRoot, mSpecialIcons;
 
     BaseBrowserAdapter(BaseBrowserFragment fragment) {
         this.fragment = fragment;
@@ -172,7 +164,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         protected void openStorage() {
             MediaWrapper mw = new MediaWrapper(((Storage) getItem(getLayoutPosition())).getUri());
             mw.setType(MediaWrapper.TYPE_DIR);
-            fragment.browse(mw, getLayoutPosition(), binding.browserCheckbox.isChecked());
+            fragment.browse(mw, binding.browserCheckbox.isChecked());
         }
 
         public void onCheckBoxClick(View v) {
@@ -235,11 +227,6 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         return Util.isListEmpty(peekLast());
     }
 
-    @MainThread
-    public void addItem(MediaLibraryItem item, boolean top) {
-        addItem(item, top, -1);
-    }
-
     void addItem(final MediaLibraryItem item, final boolean top, final int positionTo) {
         VLCApplication.runOnMainThread(new Runnable() {
             @Override
@@ -255,36 +242,6 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
                 }
             }
         });
-    }
-
-    public void setTop (int top) {
-        mTop = top;
-    }
-
-    void removeItem(int position) {
-        if (position < getItemCount()) removeItem(getDataset().get(position));
-    }
-
-    void removeItem(MediaLibraryItem item) {
-        if (item.getItemType() == TYPE_MEDIA && (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO || ((MediaWrapper) item).getType() == MediaWrapper.TYPE_AUDIO))
-            mMediaCount--;
-        final List<MediaLibraryItem> list = new ArrayList<>(peekLast());
-        list.remove(item);
-        //Force adapter to sort items.
-        if (sMediaComparator.sortBy == MediaLibraryItemComparator.SORT_DEFAULT) sMediaComparator.sortBy = getDefaultSort();
-        update(list);
-    }
-
-    void removeItem(String path) {
-
-        MediaLibraryItem mediaItem = null;
-        for (MediaLibraryItem item : peekLast()) {
-            if (item .getItemType() == TYPE_MEDIA && TextUtils.equals(path, ((MediaWrapper) item).getUri().toString())) {
-                mediaItem = item;
-                break;
-            }
-        }
-        if (mediaItem != null) removeItem(mediaItem);
     }
 
     public List<MediaLibraryItem> getAll(){
@@ -331,7 +288,8 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
                 return Images.IMAGE_UNKNOWN;
         }
     }
-    String getProtocol(MediaWrapper media) {
+
+    private String getProtocol(MediaWrapper media) {
         if (media.getType() != MediaWrapper.TYPE_DIR)
             return null;
         return media.getUri().getScheme();
@@ -363,50 +321,21 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
         mSelectionCount += selected ? 1 : -1;
     }
 
-    @Override
-    public Filter getFilter() {
-        return mFilter;
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     protected List<MediaLibraryItem> prepareList(List<? extends MediaLibraryItem> list) {
-        if (fragment.isSortEnabled() && needsSorting())
-            Collections.sort(list, sMediaComparator);
+        final List<MediaLibraryItem> internalList = new ArrayList<>(list);
         mMediaCount = 0;
-        for (MediaLibraryItem item : list) {
+        for (MediaLibraryItem item : internalList) {
             if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA
                     && (((MediaWrapper)item).getType() == MediaWrapper.TYPE_AUDIO || ((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO))
                 ++mMediaCount;
         }
-        return (List<MediaLibraryItem>) list;
+        return internalList;
     }
 
     @Override
     protected void onUpdateFinished() {
-        super.onUpdateFinished();
-        fragment.onUpdateFinished(null);
-    }
-
-    void restoreList() {
-        if (mOriginalData != null) {
-            update(new ArrayList<>(mOriginalData));
-            mOriginalData = null;
-        }
-    }
-
-    private class ItemFilter extends MediaItemFilter {
-
-        @Override
-        protected List<MediaLibraryItem> initData() {
-            if (mOriginalData == null)
-                mOriginalData = new ArrayList<>(getDataset());
-            return mOriginalData;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            update((List<MediaLibraryItem>) filterResults.values);
-        }
+        fragment.onUpdateFinished(this);
     }
 }

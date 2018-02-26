@@ -23,33 +23,71 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.videolan.medialibrary.media.DummyItem;
+import org.jetbrains.annotations.NotNull;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.SimpleAdapter;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.viewmodels.NetworkProvider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class NetworkBrowserFragment extends BaseBrowserFragment implements ExternalMonitor.NetworkObserver {
+public class NetworkBrowserFragment extends BaseBrowserFragment implements ExternalMonitor.NetworkObserver, SimpleAdapter.FavoritesHandler {
+
+    @Override
+    public void onClick(@NotNull MediaLibraryItem item) {
+        browse((MediaWrapper) item, true);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mBinding.setShowFavorites(mRoot);
+        browser = ViewModelProviders.of(this, new NetworkProvider.Factory(mMrl)).get(NetworkProvider.class);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (mRoot) ((NetworkProvider)browser).getFavorites().observe(this, new Observer<List<MediaLibraryItem>>() {
+            @Override
+            public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {
+                favoritesAdapter.submitList(mediaLibraryItems);
+            }
+        });
+    }
+
+    private SimpleAdapter favoritesAdapter;
+    @Override
+    protected void initFavorites() {
+        if (!mRoot) return;
+        mBinding.favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        favoritesAdapter = new SimpleAdapter(this);
+        mBinding.favoritesList.setAdapter(favoritesAdapter);
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -134,14 +172,19 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
         int id = item.getItemId();
         if (!(mAdapter.getItem(position) instanceof MediaWrapper)) return false;
         final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
+                MediaDatabase db;
         switch (id){
             case R.id.network_add_favorite:
-                MediaDatabase.getInstance().addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
-                if (isRootDirectory()) updateFavorites();
+                db = MediaDatabase.getInstance();
+                db.addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
+                if (isRootDirectory())
+                    //updateFavorites();
                 return true;
             case R.id.network_remove_favorite:
-                MediaDatabase.getInstance().deleteNetworkFav(mw.getUri());
-                if (isRootDirectory()) updateFavorites();
+                db = MediaDatabase.getInstance();
+                db.deleteNetworkFav(mw.getUri());
+                if (isRootDirectory())
+                    //updateFavorites();
                 return true;
             case R.id.network_edit_favorite:
                 showAddServerDialog(mw);
@@ -151,26 +194,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
     }
 
     @Override
-    protected void browseRoot() {
-        if (!isAdded()) return;
-        updateFavorites();
-        mAdapter.setTop(mAdapter.getItemCount());
-        if (allowLAN())
-            runOnBrowserThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (mMediaBrowser == null)
-                        initMediaBrowser(NetworkBrowserFragment.this);
-                    mMediaBrowser.discoverNetworkShares();
-                }
-            });
-        else {
-            int itemCount = mAdapter.getItemCount();
-            if (itemCount > 0)
-                mAdapter.removeItem(itemCount - 1);
-            mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
-        }
-    }
+    protected void browseRoot() {}
 
     private boolean allowLAN() {
         return ExternalMonitor.isLan() || ExternalMonitor.isVPN();
@@ -179,62 +203,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
     @Override
     protected String getCategoryTitle() {
         return getString(R.string.network_browsing);
-    }
-
-    private void updateFavorites() {
-        updateEmptyView();
-        if (!ExternalMonitor.isConnected()) {
-            if (mFavorites != 0) {
-                mAdapter.clear();
-                mFavorites = 0;
-            }
-            return;
-        }
-
-        List<MediaWrapper> favs = MediaDatabase.getInstance().getAllNetworkFav();
-        int newSize = favs.size();
-
-        if (newSize == 0 && mFavorites == 0)
-            return;
-        if (!allowLAN()) {
-            List<MediaWrapper> toRemove = new ArrayList<>();
-            List<String> schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https");
-            for (MediaWrapper mw : favs)
-                if (!schemes.contains(mw.getUri().getScheme()))
-                    toRemove.add(mw);
-            if (!toRemove.isEmpty())
-                for (MediaWrapper mw : toRemove)
-                    favs.remove(mw);
-            newSize = favs.size();
-            if (newSize == 0) {
-                if (mFavorites != 0) {
-                    mAdapter.clear();
-                    mFavorites = 0;
-                }
-                return;
-            }
-        }
-        if (mFavorites != 0 && !mAdapter.getAll().isEmpty())
-            for (int i = 1 ; i <= mFavorites ; ++i) {//remove former favorites
-                mAdapter.removeItem(1);
-            }
-
-        if (newSize == 0 && !mAdapter.isEmpty()) {
-            mAdapter.removeItem(0); //also remove separator if no more fav
-            mAdapter.removeItem(0); //also remove separator if no more fav
-        } else {
-            boolean isEmpty =  mAdapter.isEmpty();
-            if (mFavorites == 0 || isEmpty)
-                mAdapter.addItem(new DummyItem(getString(R.string.network_favorites)), false,0); //add header if needed
-            for (int i = 0 ; i < newSize ; ) {
-                mAdapter.addItem(favs.get(i), false, ++i); //add new favorites
-            }
-            if (mFavorites == 0 || isEmpty)
-                mAdapter.addItem(new DummyItem(getString(R.string.network_shared_folders)), false, newSize + 1); //add header if needed
-        }
-        mFavorites = newSize; //update count
-        if (newSize != 0)
-            mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
     }
 
     public void toggleFavorite() {
@@ -304,9 +272,9 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
 
     @Override
     public void onNetworkConnectionChanged(boolean connected) {
-        final boolean isEmpty = mAdapter.isEmpty();
-        mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_REFRESH);
-        //update() will trigger updateEmptyView
-        if (!connected && isEmpty) updateEmptyView();
+//        final boolean isEmpty = mAdapter.isEmpty();
+//        mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_REFRESH);
+//        //update() will trigger updateEmptyView
+//        if (!connected && isEmpty) updateEmptyView();
     }
 }

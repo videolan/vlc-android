@@ -23,22 +23,12 @@
 
 package org.videolan.vlc.gui.browser;
 
-import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
-
-import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 
 public class FilePickerAdapter extends BaseBrowserAdapter {
 
     public FilePickerAdapter(BaseBrowserFragment fragment) {
         super(fragment);
-    }
-
-    public void addItem(MediaLibraryItem media, boolean top){
-        if (media.getItemType() != TYPE_MEDIA)
-            return;
-        if (filter((MediaWrapper) media))
-            super.addItem(media, top);
     }
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
@@ -50,10 +40,5 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
             vh.binding.setProtocol(null);
             vh.binding.setCover(getIcon(media, false));
         }
-    }
-
-    //TODO update with different filter types in other cases than subtitles selection
-    private boolean filter(MediaWrapper mediaWrapper) {
-        return mediaWrapper.getType() == MediaWrapper.TYPE_DIR || mediaWrapper.getType() == MediaWrapper.TYPE_SUBTITLE;
     }
 }
