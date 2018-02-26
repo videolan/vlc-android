@@ -38,6 +38,12 @@ public interface IVLCVout {
          * LayoutsParams accordingly. If width and height are 0, LayoutParams should be reset to the
          * initial state (MATCH_PARENT).
          *
+         * By default, "android-display" is used when doing HW decoding and if Video and Subtitles
+         * surfaces are correctly attached. You could force "--vout=android-display" from LibVLC
+         * arguments if you want to use this module without subtitles. Otherwise, the "opengles2"
+         * module will be used (for SW and HW decoding) and this callback will always send a size of
+         * 0.
+         *
          * @param vlcVout vlcVout
          * @param width Frame width
          * @param height Frame height
