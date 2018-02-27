@@ -9,6 +9,7 @@ import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.newSingleThreadContext
+import kotlinx.coroutines.experimental.withContext
 import java.util.*
 
 abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
@@ -32,11 +33,11 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
     private suspend fun internalUpdate(list: List<D>) {
         val finalList = prepareList(list)
         val result = DiffUtil.calculateDiff(diffCallback.apply { update(dataset, finalList) }, detectMoves())
-        launch(UI) {
+        withContext(UI) {
             dataset = finalList
             result.dispatchUpdatesTo(this@DiffUtilAdapter)
             onUpdateFinished()
-        }.join()
+        }
     }
 
     protected open fun prepareList(list: List<D>) : List<D> = ArrayList(list)
