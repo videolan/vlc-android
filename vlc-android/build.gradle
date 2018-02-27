@@ -136,6 +136,8 @@ android {
     // make per-variant version code
     applicationVariants.all { variant ->
 
+        def generatedCode = variant.productFlavors.get(0).versionCode * 10000000 + defaultConfig.versionCode + variant.productFlavors.get(1).versionCode
+        variant.mergedFlavor.versionCode = generatedCode
         //Custom APK name
         variant.outputs.all { output ->
             def outputName = "VLC-Android-"
@@ -145,7 +147,6 @@ android {
             outputFileName = outputName
             output.processManifest.doLast {
                 // set the composite code
-                def generatedCode = variant.productFlavors.get(0).versionCode * 10000000 + defaultConfig.versionCode + variant.productFlavors.get(1).versionCode
                 String manifestPath = "$manifestOutputDirectory/AndroidManifest.xml"
                 def manifestContent = file(manifestPath).getText()
                 manifestContent = manifestContent.replace('android:versionCode="1"',
