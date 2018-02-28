@@ -118,8 +118,12 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                                     mBinding.fab.setVisibility(fabVisibility);
                             }
                         });
-                    } else
-                        fabFallback();
+                    } else VLCApplication.runOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            fabFallback();
+                        }
+                    });
                 }
             });
         } else
@@ -130,7 +134,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     private void fabFallback() {
         mBinding.appbar.setExpanded(false);
         ViewCompat.setNestedScrollingEnabled(mBinding.songs, false);
-        CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mBinding.fab.getLayoutParams();
+        final CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mBinding.fab.getLayoutParams();
         lp.setAnchorId(R.id.container_list);
         lp.anchorGravity = Gravity.BOTTOM|Gravity.RIGHT|Gravity.END;
         lp.bottomMargin = getResources().getDimensionPixelSize(R.dimen.default_margin);
