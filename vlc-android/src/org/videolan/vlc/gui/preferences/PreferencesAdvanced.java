@@ -121,34 +121,37 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                 android.os.Process.killProcess(android.os.Process.myPid());
                 return true;
             case "dump_media_db":
-                VLCApplication.runBackground(new Runnable() {
-                    @Override
-                    public void run() {
-                        final Runnable dump = new Runnable() {
-                            @Override
-                            public void run() {
-                                final File db = new File(VLCApplication.getAppContext().getDir("db", Context.MODE_PRIVATE)+ Medialibrary.VLC_MEDIA_DB_NAME);
-                                Medialibrary.getInstance().pauseBackgroundOperations();
-                                if (FileUtils.copyFile(db, new File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY+ Medialibrary.VLC_MEDIA_DB_NAME)))
-                                    VLCApplication.runOnMainThread(new Runnable() {
+                if (VLCApplication.getMLInstance().isWorking())
+                    UiTools.snacker(getView(), getString(R.string.settings_ml_block_scan));
+                else {
+                    VLCApplication.runBackground(new Runnable() {
+                        @Override
+                        public void run() {
+                            final Runnable dump = new Runnable() {
+                                @Override
+                                public void run() {
+                                    final File db = new File(VLCApplication.getAppContext().getDir("db", Context.MODE_PRIVATE)+ Medialibrary.VLC_MEDIA_DB_NAME);
+
+                                    if (FileUtils.copyFile(db, new File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + Medialibrary.VLC_MEDIA_DB_NAME)))
+                                        VLCApplication.runOnMainThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(VLCApplication.getAppContext(), "Database dumped on internal storage root", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    else VLCApplication.runOnMainThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Toast.makeText(VLCApplication.getAppContext(), "Database dumped on internal storage root", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(VLCApplication.getAppContext(), "Failed to dumped database", Toast.LENGTH_LONG).show();
                                         }
                                     });
-                                else VLCApplication.runOnMainThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(VLCApplication.getAppContext(), "Failed to dumped database", Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                                Medialibrary.getInstance().resumeBackgroundOperations();
-                            }
-                        };
-                        if (Permissions.canWriteStorage()) dump.run();
-                        else Permissions.askWriteStoragePermission(getActivity(), false, dump);
-                    }
-                });
+                                }
+                            };
+                            if (Permissions.canWriteStorage()) dump.run();
+                            else Permissions.askWriteStoragePermission(getActivity(), false, dump);
+                        }
+                    });
+                }
                 return true;
         }
         return super.onPreferenceTreeClick(preference);
