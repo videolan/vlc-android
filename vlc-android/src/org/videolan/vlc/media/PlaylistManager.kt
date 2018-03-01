@@ -241,11 +241,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         player.switchToVideo = false
         if (TextUtils.equals(mw.uri.scheme, "content")) MediaUtils.retrieveMediaTitle(mw)
 
-        if (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && player.getAudioTracksCount() == 0) {
-            next()
-        } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
-                || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
-            launch(UI, CoroutineStart.UNDISPATCHED) {
+        launch(UI, CoroutineStart.UNDISPATCHED) {
+            if (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && player.getAudioTracksCount() == 0) {
+                determinePrevAndNextIndices(true)
+                if (currentIndex != nextIndex) next()
+                else stop(false)
+            } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
+                    || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
                 val media = Media(VLCInstance.get(), FileUtils.getUri(mw.uri))
                 VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
                 /* keeping only video during benchmark */
@@ -284,10 +286,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
                 saveCurrentMedia()
                 newMedia = true
+            } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
+                player.stop()
+                VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
             }
-        } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
-            player.stop()
-            VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
         }
     }
 
