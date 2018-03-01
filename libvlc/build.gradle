@@ -32,12 +32,10 @@ android {
         def manifestParser = new DefaultManifestParser(android.sourceSets.main.manifest.srcFile)
         // get the version code of each flavor
         def vlcVersion = manifestParser.getVersionName()
-        manifestParser = new DefaultManifestParser(file('../vlc-android/AndroidManifest.xml'))
-        def androidVersion = manifestParser.getVersionName()
         //Custom APK name
         variant.outputs.all { output ->
             if (outputFileName != null && outputFileName.endsWith('.aar')) {
-                outputFileName = "libvlc-${vlcVersion}-${androidVersion}.aar"
+                outputFileName = "libvlc-${vlcVersion}.aar"
             }
         }
     }
