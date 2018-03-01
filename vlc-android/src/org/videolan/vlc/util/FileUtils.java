@@ -360,11 +360,10 @@ public class FileUtils {
                     cursor = ctx.getContentResolver().query(data,
                             new String[]{MediaStore.MediaColumns.DISPLAY_NAME}, null, null, null);
                     if (cursor != null && cursor.moveToFirst()) {
-                        String filename = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME));
+                        final String filename = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME)).replace("/", "");
                         Log.i(TAG, "Getting file " + filename + " from content:// URI");
                         is = ctx.getContentResolver().openInputStream(data);
-                        if (is == null)
-                            return data;
+                        if (is == null) return data;
                         os = new FileOutputStream(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + "/Download/" + filename);
                         final byte[] buffer = new byte[1024];
                         int bytesRead;
