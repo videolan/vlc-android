@@ -180,7 +180,7 @@ public class FileUtils {
         }
     }
 
-    private static boolean copyFile(File src, File dst){
+    public static boolean copyFile(File src, File dst){
         boolean ret = true;
         if (src.isDirectory()) {
             File[] filesList = src.listFiles();
