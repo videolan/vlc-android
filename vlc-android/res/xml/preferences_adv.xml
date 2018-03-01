@@ -18,6 +18,12 @@
 
     <Preference
         android:enabled="true"
+        android:key="dump_media_db"
+        android:summary="@string/dump_media_db_summary"
+        android:title="@string/dump_media_db" />
+
+    <Preference
+        android:enabled="true"
         android:key="clear_media_db"
         android:summary="@string/clear_media_db_summary"
         android:title="@string/clear_media_db" />

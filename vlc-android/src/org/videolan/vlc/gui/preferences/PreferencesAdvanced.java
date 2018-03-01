@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.preferences;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,14 +35,21 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.Preference;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DebugLogActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
+
+import java.io.File;
 
 public class PreferencesAdvanced extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
@@ -104,13 +112,46 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                         .setNegativeButton(android.R.string.cancel, null).show();
                 return true;
             case "clear_media_db":
-                Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                final Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                 i.addCategory(Intent.CATEGORY_DEFAULT);
                 i.setData(Uri.parse("package:" + VLCApplication.getAppContext().getPackageName()));
                 startActivity(i);
                 return true;
             case "quit_app":
                 android.os.Process.killProcess(android.os.Process.myPid());
+                return true;
+            case "dump_media_db":
+                if (VLCApplication.getMLInstance().isWorking())
+                    UiTools.snacker(getView(), getString(R.string.settings_ml_block_scan));
+                else {
+                    VLCApplication.runBackground(new Runnable() {
+                        @Override
+                        public void run() {
+                            final Runnable dump = new Runnable() {
+                                @Override
+                                public void run() {
+                                    final File db = new File(VLCApplication.getAppContext().getDir("db", Context.MODE_PRIVATE)+ Medialibrary.VLC_MEDIA_DB_NAME);
+
+                                    if (FileUtils.copyFile(db, new File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + Medialibrary.VLC_MEDIA_DB_NAME)))
+                                        VLCApplication.runOnMainThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(VLCApplication.getAppContext(), "Database dumped on internal storage root", Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    else VLCApplication.runOnMainThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(VLCApplication.getAppContext(), "Failed to dumped database", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
+                            };
+                            if (Permissions.canWriteStorage()) dump.run();
+                            else Permissions.askWriteStoragePermission(getActivity(), false, dump);
+                        }
+                    });
+                }
                 return true;
         }
         return super.onPreferenceTreeClick(preference);
