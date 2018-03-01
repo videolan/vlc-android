@@ -128,6 +128,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                             @Override
                             public void run() {
                                 final File db = new File(VLCApplication.getAppContext().getDir("db", Context.MODE_PRIVATE)+ Medialibrary.VLC_MEDIA_DB_NAME);
+                                Medialibrary.getInstance().pauseBackgroundOperations();
                                 if (FileUtils.copyFile(db, new File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY+ Medialibrary.VLC_MEDIA_DB_NAME)))
                                     VLCApplication.runOnMainThread(new Runnable() {
                                         @Override
@@ -141,6 +142,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                                         Toast.makeText(VLCApplication.getAppContext(), "Failed to dumped database", Toast.LENGTH_LONG).show();
                                     }
                                 });
+                                Medialibrary.getInstance().resumeBackgroundOperations();
                             }
                         };
                         if (Permissions.canWriteStorage()) dump.run();
