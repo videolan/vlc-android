@@ -631,7 +631,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
                         positionInPlaylist = mediaLocations.size() - 1;
                 }
             }
-        MediaUtils.openList(getActivity(), mediaLocations, positionInPlaylist);
+        if (getActivity() != null) MediaUtils.openList(getActivity(), mediaLocations, positionInPlaylist);
     }
 
     private final List<MediaLibraryItem> currentMediaList = new ArrayList<>();
