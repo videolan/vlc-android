@@ -210,10 +210,13 @@ public class FileUtils {
         }
         return ret;
     }
-    public static boolean deleteFile (Uri uri){
-        if (uri.getPath().startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) return deleteFile(uri.getPath());
+    public static boolean deleteFile (Uri uri) {
+        if (!AndroidUtil.isLolliPopOrLater || uri.getPath().startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) return deleteFile(uri.getPath());
         final DocumentFile docFile = FileUtils.findFile(uri);
-        return docFile != null && docFile.delete();
+        if (docFile != null) try {
+            return docFile.delete();
+        } catch (Exception ignored) {}
+        return false;
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
