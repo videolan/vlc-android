@@ -27,7 +27,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 
 public class FilePickerAdapter extends BaseBrowserAdapter {
 
-    public FilePickerAdapter(BaseBrowserFragment fragment) {
+    FilePickerAdapter(BaseBrowserFragment fragment) {
         super(fragment);
     }
 

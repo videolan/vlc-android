@@ -68,7 +68,6 @@
                 android:gravity="center"
                 android:text="@string/loading" />
 
-            <include layout="@layout/shadow_top"/>
         </android.support.constraint.ConstraintLayout></LinearLayout>
     </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 </layout>

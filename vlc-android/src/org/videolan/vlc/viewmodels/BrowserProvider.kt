@@ -35,7 +35,7 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
     protected val browserContext by lazy { HandlerContext(browserHandler, "browser-context") }
     internal val medialibrary = Medialibrary.getInstance()
 
-    protected fun initBrowser(listener: EventListener = this) {
+    protected open fun initBrowser(listener: EventListener = this) {
         if (mediabrowser === null) mediabrowser = MediaBrowser(VLCInstance.get(), listener, browserHandler)
         else mediabrowser?.changeEventListener(listener)
     }

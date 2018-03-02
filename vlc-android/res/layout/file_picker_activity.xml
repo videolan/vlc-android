@@ -2,7 +2,8 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="@dimen/file_picker_width"
+    android:orientation="vertical"
+    android:layout_width="@dimen/default_content_width"
     android:layout_height="@dimen/file_picker_height">
     <ImageView
         android:id="@+id/button_home"

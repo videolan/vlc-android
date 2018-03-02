@@ -51,13 +51,11 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.viewmodels.FileBrowserProvider;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FileBrowserFragment extends BaseBrowserFragment {
 
