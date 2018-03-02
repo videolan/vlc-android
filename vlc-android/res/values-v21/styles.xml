@@ -17,7 +17,11 @@
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:navigationBarColor">@color/transparent</item>
     </style>
-
+    <style name="Toolbar.VLC" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textCursorDrawable">@drawable/cursor_w</item>
+        <item name="elevation">0dp</item>
+        <item name="android:elevation">0dp</item>
+    </style>
     <style name="PopupMenuStyle.Light" parent="@style/Widget.AppCompat.Light.PopupMenu">
         <item name="android:overlapAnchor">true</item>
     </style>

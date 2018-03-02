@@ -29,6 +29,4 @@
         android:text="@string/nohistory"
         android:textSize="20sp"
         android:visibility="gone"/>
-
-    <include layout="@layout/shadow_top"/>
 </FrameLayout>

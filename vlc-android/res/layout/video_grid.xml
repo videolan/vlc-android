@@ -99,6 +99,4 @@
             </ViewFlipper>
         </LinearLayout>
     </LinearLayout>
-
-    <include layout="@layout/shadow_top" />
 </RelativeLayout>

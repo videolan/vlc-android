@@ -47,8 +47,10 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.ContentActivity;
 import org.videolan.vlc.gui.InfoActivity;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
+import org.videolan.vlc.gui.audio.BaseAudioBrowser;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
@@ -86,17 +88,16 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
             mFabPlay = getActivity().findViewById(R.id.fab);
     }
 
-
     public void onStart() {
         super.onStart();
-        if (!isHidden())
-            onHiddenChanged(false);
+        if (!isHidden()) onHiddenChanged(false);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
+        setUserVisibleHint(!hidden);
         if (!hidden) {
-            updateTitle();
+            updateActionBar();
             if (mFabPlay != null) {
                 setFabPlayVisibility(true);
                 mFabPlay.setOnClickListener(new View.OnClickListener() {
@@ -107,23 +108,23 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
                 });
             }
         }
-        setUserVisibleHint(!hidden);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (!isHidden())
-            onHiddenChanged(true);
+        if (!isHidden()) onHiddenChanged(true);
     }
 
-    public void updateTitle() {
+    public void updateActionBar() {
         final AppCompatActivity activity = (AppCompatActivity)getActivity();
-        if (activity != null && activity.getSupportActionBar() != null) {
+        if (activity == null) return;
+        if (activity.getSupportActionBar() != null) {
             activity.getSupportActionBar().setTitle(getTitle());
             activity.getSupportActionBar().setSubtitle(getSubTitle());
             activity.supportInvalidateOptionsMenu();
         }
+        if (activity instanceof ContentActivity) ((ContentActivity)activity).toggleAppBarElevation(!(this instanceof BaseAudioBrowser));
     }
 
     @Override

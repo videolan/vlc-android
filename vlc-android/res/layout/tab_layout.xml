@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/background_actionbar"
+    android:elevation="4dp"
     app:tabMode="scrollable"
     app:tabSelectedTextColor="?attr/font_actionbar_selected"
     app:tabTextColor="?attr/font_actionbar"

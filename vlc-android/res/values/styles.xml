@@ -297,7 +297,9 @@
         <item name="color">@color/white</item>
     </style>
 
-    <style name="Toolbar.VLC" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="Toolbar.VLC" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textCursorDrawable">@drawable/cursor_w</item>
+    </style>
 
     <style name="Result.Title" parent="Base.TextAppearance.AppCompat.Subhead">
         <item name="textAllCaps">true</item>

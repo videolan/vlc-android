@@ -24,12 +24,15 @@
 package org.videolan.vlc.gui.audio;
 
 import android.content.Intent;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
@@ -54,8 +57,7 @@ public abstract class BaseAudioBrowser extends SortableFragment<AudioBrowserAdap
     protected AudioBrowserAdapter[] mAdapters;
 
     protected void inflate(Menu menu, int position) {
-        if (getActivity() == null)
-            return;
+        if (getActivity() == null) return;
         getActivity().getMenuInflater().inflate(R.menu.audio_list_browser, menu);
     }
 

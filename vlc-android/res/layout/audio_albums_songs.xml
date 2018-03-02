@@ -40,10 +40,5 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/swipeLayout"
         android:visibility="invisible"/>
-
-    <include layout="@layout/shadow_top"
-        android:layout_width="match_parent"
-        android:layout_height="9dp"
-        android:layout_below="@+id/sliding_tabs" />
 </RelativeLayout>
 

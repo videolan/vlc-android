@@ -25,6 +25,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -74,7 +75,13 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
                     .replace(R.id.fragment_placeholder, new PreferencesFragment())
                     .commit();
         }
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+        mAppBarLayout = findViewById(R.id.appbar);
+        mAppBarLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewCompat.setElevation(mAppBarLayout, getResources().getDimensionPixelSize(R.dimen.default_appbar_elevation));
+            }
+        });
     }
 
     void expandBar() {

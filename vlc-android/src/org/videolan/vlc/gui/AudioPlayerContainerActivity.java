@@ -40,6 +40,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
 import android.view.MenuItem;
@@ -49,6 +50,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.MediaParsingService;
@@ -103,11 +105,23 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     }
 
     protected void initAudioPlayerContainerActivity() {
-        mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+        mAppBarLayout = findViewById(R.id.appbar);
         mAppBarLayout.setExpanded(true);
-        mAudioPlayerContainer = (FrameLayout) findViewById(R.id.audio_player_container);
+        mAudioPlayerContainer = findViewById(R.id.audio_player_container);
+    }
+
+    private float elevation = 0f;
+    public void toggleAppBarElevation(final boolean elevate) {
+        if (!AndroidUtil.isLolliPopOrLater) return;
+        if (elevation == 0f) elevation = getResources().getDimensionPixelSize(R.dimen.default_appbar_elevation);
+        mAppBarLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewCompat.setElevation(mAppBarLayout, elevate ? elevation : 0f);
+            }
+        });
     }
 
     private void initAudioPlayer() {
