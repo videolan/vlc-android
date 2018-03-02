@@ -67,7 +67,6 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     public final static String TAG = "VLC/MediaBrowserFragment";
 
     protected SwipeRefreshLayout mSwipeRefreshLayout;
-    protected volatile boolean mReadyToDisplay = true;
     protected Medialibrary mMediaLibrary;
     protected ActionMode mActionMode;
     public FloatingActionButton mFabPlay;
@@ -141,20 +140,11 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
 
     public void onFabPlayClick(View view) {}
 
-    public void setReadyToDisplay(boolean ready) {
-        if (ready && !mReadyToDisplay)
-            display();
-        else
-            mReadyToDisplay = ready;
-    }
-
-
     public abstract String getTitle();
     public abstract void onRefresh();
 
     protected String getSubTitle() { return null; }
     public void clear() {}
-    protected void display() {}
 
     protected void inflate(Menu menu, int position) {}
     protected void setContextMenuItems(Menu menu, int position) {}

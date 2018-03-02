@@ -341,9 +341,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefr
         getActivity().startService(new Intent(Constants.ACTION_RELOAD, null, getActivity(), MediaParsingService.class));
     }
 
-    @Override
-    public void display() {}
-
     public void clear(){
         mAdapter.clear();
     }

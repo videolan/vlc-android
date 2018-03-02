@@ -158,8 +158,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 final Fragment current = getCurrentFragment();
-                if (current instanceof MediaBrowserFragment)
-                    ((MediaBrowserFragment) current).setReadyToDisplay(true);
             }
 
             // Hack to make navigation drawer browsable with DPAD.

@@ -132,9 +132,6 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     }
 
     @Override
-    public void display() {}
-
-    @Override
     public String getTitle() {
         return getString(R.string.history);
     }

@@ -380,14 +380,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     @Override
-    public void setReadyToDisplay(boolean ready) {
-            mReadyToDisplay = ready;
-    }
-
-    @Override
-    public void display() {}
-
-    @Override
     public String getTitle() {
         return getString(R.string.audio);
     }
