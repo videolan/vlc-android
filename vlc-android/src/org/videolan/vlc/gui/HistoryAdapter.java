@@ -19,7 +19,6 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,17 +30,14 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.Util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
+public class HistoryAdapter extends DiffUtilAdapter<MediaWrapper, HistoryAdapter.ViewHolder> {
 
     public final static String TAG = "VLC/HistoryAdapter";
 
     private IEventsHandler mEventsHandler;
-    private List<MediaWrapper> mMediaList = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
 
     public class ViewHolder extends SelectorViewHolder<HistoryItemBinding> {
@@ -52,19 +48,19 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             binding.setHolder(this);
         }
 
-        public void onClick(View v){
+        public void onClick(View v) {
             int position = getLayoutPosition();
-            mEventsHandler.onClick(v, position, mMediaList.get(position));
+            mEventsHandler.onClick(v, position, getItem(position));
         }
 
         public boolean onLongClick(View v) {
             int position = getLayoutPosition();
-            return mEventsHandler.onLongClick(v, position, mMediaList.get(position));
+            return mEventsHandler.onLongClick(v, position, getItem(position));
         }
 
         @Override
         protected boolean isSelected() {
-            return mMediaList.get(getLayoutPosition()).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
+            return getItem(getLayoutPosition()).hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
         }
     }
 
@@ -72,22 +68,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         mEventsHandler = eventsHandler;
     }
 
-    public void setList(MediaWrapper[] list) {
-        mMediaList = new ArrayList<>(Arrays.asList(list));
-        notifyDataSetChanged();
-    }
-
     List<MediaWrapper> getSelection() {
-        List<MediaWrapper> selection = new LinkedList<>();
-        for (MediaWrapper media : mMediaList) {
+        final List<MediaWrapper> selection = new LinkedList<>();
+        for (MediaWrapper media : getDataset()) {
             if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
                 selection.add(media);
         }
         return selection;
-    }
-
-    List<MediaWrapper> getAll() {
-        return mMediaList;
     }
 
     @Override
@@ -99,7 +86,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final MediaWrapper media = mMediaList.get(position);
+        final MediaWrapper media = getItem(position);
         boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
         holder.binding.setMedia(media);
         holder.selectView(isSelected);
@@ -120,27 +107,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return mMediaList.size();
+        return getDataset().size();
     }
 
     public boolean isEmpty() {
-        return mMediaList.isEmpty();
+        return getDataset().isEmpty();
     }
 
-    public void clear() {
-        mMediaList.clear();
-        notifyDataSetChanged();
-    }
-
-    public void remove(final int position) {
-//        VLCApplication.runBackground(new Runnable() {
-//            @Override
-//            public void run() {
-                //TODO
-                //MediaDatabase.getInstance().deleteHistoryUri(mMediaList.get(position).getUri().toString());
-//            }
-//        });
-        mMediaList.remove(position);
-        notifyItemRemoved(position);
-    }
+    @Override
+    protected void onUpdateFinished() {}
 }

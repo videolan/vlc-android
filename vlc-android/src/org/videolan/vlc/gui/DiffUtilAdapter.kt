@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
-import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.newSingleThreadContext
 import kotlinx.coroutines.experimental.withContext
 import java.util.*
@@ -45,6 +44,8 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
     fun peekLast() = last
 
     fun hasPendingUpdates() = updateActor.isFull
+
+    open fun getItem(position: Int) = dataset[position]
 
     protected open fun detectMoves() = false
 
