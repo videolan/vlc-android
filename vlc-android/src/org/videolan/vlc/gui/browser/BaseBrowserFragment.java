@@ -872,7 +872,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     }
 
     public boolean onLongClick(View v, int position, MediaLibraryItem item) {
-        if (mActionMode != null) return false;
+        if (mActionMode != null || item.getItemType() != MediaLibraryItem.TYPE_MEDIA) return false;
         final MediaWrapper mediaWrapper = (MediaWrapper) item;
         if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO ||
                 mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO ||

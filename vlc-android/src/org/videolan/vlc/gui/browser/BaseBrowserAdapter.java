@@ -199,7 +199,7 @@ public class BaseBrowserAdapter extends SortableAdapter<MediaLibraryItem, BaseBr
 
         public boolean onLongClick(View v) {
             int position = getLayoutPosition();
-            if (getItem(position).getItemType() == TYPE_STORAGE) {
+            if (getItem(position).getItemType() == TYPE_STORAGE && VLCApplication.showTvUi()) {
                 binding.browserCheckbox.toggle();
                 onCheckBoxClick(binding.browserCheckbox);
                 return true;
