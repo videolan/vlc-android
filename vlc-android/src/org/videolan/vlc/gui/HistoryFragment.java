@@ -40,6 +40,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.interfaces.IRefreshable;
@@ -48,7 +49,7 @@ import org.videolan.vlc.viewmodels.HistoryProvider;
 
 import java.util.List;
 
-public class HistoryFragment extends MediaBrowserFragment implements IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
+public class HistoryFragment extends MediaBrowserFragment implements IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Filterable {
 
     public final static String TAG = "VLC/HistoryFragment";
 
@@ -243,4 +244,22 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         invalidateActionMode();
     }
+
+    @Override
+    public boolean enableSearchOption() {
+        return true;
+    }
+
+    @Override
+    public void filter(String query) {
+        provider.filter(query);
+    }
+
+    @Override
+    public void restoreList() {
+        provider.filter(null);
+    }
+
+    @Override
+    public void setSearchVisibility(boolean visible) {}
 }
