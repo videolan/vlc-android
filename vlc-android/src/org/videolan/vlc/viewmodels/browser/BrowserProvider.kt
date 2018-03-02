@@ -1,4 +1,4 @@
-package org.videolan.vlc.viewmodels
+package org.videolan.vlc.viewmodels.browser
 
 import android.arch.lifecycle.MutableLiveData
 import android.net.Uri
@@ -20,6 +20,7 @@ import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.VLCInstance
+import org.videolan.vlc.viewmodels.BaseModel
 import java.util.*
 
 abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>(), EventListener {

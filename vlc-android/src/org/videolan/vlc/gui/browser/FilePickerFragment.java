@@ -39,7 +39,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.viewmodels.FilePickerProvider;
+import org.videolan.vlc.viewmodels.browser.FilePickerProvider;
 
 public class FilePickerFragment extends FileBrowserFragment {
 

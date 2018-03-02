@@ -51,7 +51,7 @@ import org.videolan.vlc.gui.SimpleAdapter;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.media.MediaDatabase;
-import org.videolan.vlc.viewmodels.NetworkProvider;
+import org.videolan.vlc.viewmodels.browser.NetworkProvider;
 
 import java.util.List;
 

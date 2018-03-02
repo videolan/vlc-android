@@ -46,7 +46,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox;
 import org.videolan.vlc.util.CustomDirectories;
-import org.videolan.vlc.viewmodels.StorageProvider;
+import org.videolan.vlc.viewmodels.browser.StorageProvider;
 
 public class StorageBrowserFragment extends FileBrowserFragment implements EntryPointsEventsCb {
 

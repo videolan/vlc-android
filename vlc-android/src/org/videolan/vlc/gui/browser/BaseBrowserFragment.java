@@ -70,7 +70,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.viewmodels.BrowserProvider;
+import org.videolan.vlc.viewmodels.browser.BrowserProvider;
 
 import java.util.LinkedList;
 import java.util.List;

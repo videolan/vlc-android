@@ -51,7 +51,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.viewmodels.FileBrowserProvider;
+import org.videolan.vlc.viewmodels.browser.FileBrowserProvider;
 
 import java.io.File;
 import java.io.IOException;

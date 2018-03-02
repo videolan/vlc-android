@@ -1,4 +1,4 @@
-package org.videolan.vlc.viewmodels
+package org.videolan.vlc.viewmodels.browser
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
