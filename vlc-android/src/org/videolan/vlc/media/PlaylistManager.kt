@@ -407,7 +407,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private fun saveMediaList() {
         if (getCurrentMedia() === null) return
         val locations = StringBuilder()
-        for (mw in mediaList.all) locations.append(" ").append(mw.uri.toString())
+        for (mw in mediaList.all) locations.append(" ").append(Uri.encode(Uri.decode(mw.uri.toString())))
         //We save a concatenated String because putStringSet is APIv11.
         settings.edit()
                 .putString(if (!isAudioList()) "media_list" else "audio_list", locations.toString().trim { it <= ' ' })
