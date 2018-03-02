@@ -172,6 +172,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         } else {
             mMediaLibrary.removeMediaUpdatedCb();
             mMediaLibrary.removeMediaAddedCb();
+            mMediaLibrary.setArtistsAddedCb(null);
+            mMediaLibrary.setAlbumsAddedCb(null);
             for (View rv : mLists)
                 unregisterForContextMenu(rv);
             mViewPager.removeOnPageChangeListener(this);
