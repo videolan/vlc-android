@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.video;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -341,6 +342,7 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
     @MainThread
     public void updateList() {
         mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
+        final Context ctx = getActivity();
 
         VLCApplication.runBackground(new Runnable() {
             @Override
@@ -354,8 +356,9 @@ public class VideoGridFragment extends SortableFragment<VideoListAdapter> implem
                             displayList.add(item);
                     }
                 } else {
-                    for (MediaGroup item : MediaGroup.group(itemList))
-                        displayList.add(item.getMedia());
+                    final SharedPreferences preferences = ctx != null ? PreferenceManager.getDefaultSharedPreferences(ctx) : null;
+                    final int minGroupLengthValue = preferences != null ? Integer.valueOf(preferences.getString("video_min_group_length", "6")) : 6;
+                    for (MediaGroup item : MediaGroup.group(itemList, minGroupLengthValue)) displayList.add(item.getMedia());
                 }
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override

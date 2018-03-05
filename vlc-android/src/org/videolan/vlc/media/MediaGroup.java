@@ -20,11 +20,7 @@
 
 package org.videolan.vlc.media;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
 
 import java.util.ArrayList;
@@ -88,25 +84,19 @@ public class MediaGroup extends MediaWrapper {
         this.mTitle = title;
     }
 
-    public static List<MediaGroup> group(MediaWrapper[] mediaList) {
+    public static List<MediaGroup> group(MediaWrapper[] mediaList, int minGroupLengthValue) {
         final ArrayList<MediaGroup> groups = new ArrayList<>();
-        for (MediaWrapper media : mediaList)
-            if (media != null)
-                insertInto(groups, media);
+        for (MediaWrapper media : mediaList) if (media != null) insertInto(groups, media, minGroupLengthValue);
         return groups;
     }
 
-    public static List<MediaGroup> group(List<MediaWrapper> mediaList) {
+    public static List<MediaGroup> group(List<MediaWrapper> mediaList, int minGroupLengthValue) {
         final ArrayList<MediaGroup> groups = new ArrayList<>();
-        for (MediaWrapper media : mediaList)
-            if (media != null)
-                insertInto(groups, media);
+        for (MediaWrapper media : mediaList) if (media != null) insertInto(groups, media, minGroupLengthValue);
         return groups;
     }
 
-    private static void insertInto(ArrayList<MediaGroup> groups, MediaWrapper media) {
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
-        final int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
+    private static void insertInto(ArrayList<MediaGroup> groups, MediaWrapper media, int minGroupLengthValue) {
         for (MediaGroup mediaGroup : groups) {
             final String group = mediaGroup.getTitle().toLowerCase();
             String title = media.getTitle().toLowerCase();
