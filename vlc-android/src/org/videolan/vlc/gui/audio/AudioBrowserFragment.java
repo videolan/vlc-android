@@ -43,8 +43,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.videolan.medialibrary.interfaces.MediaAddedCb;
-import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -69,13 +67,14 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.viewmodels.audio.AlbumProvider;
 import org.videolan.vlc.viewmodels.audio.ArtistProvider;
+import org.videolan.vlc.viewmodels.audio.TracksProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, ViewPager.OnPageChangeListener, MediaAddedCb, MediaUpdatedCb, TabLayout.OnTabSelectedListener {
+public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private AudioBrowserAdapter mSongsAdapter;
@@ -86,6 +85,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
 
     private ArtistProvider artistProvider;
     private AlbumProvider albumProvider;
+    private TracksProvider tracksProvider;
 
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
@@ -118,6 +118,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
 
         artistProvider = ViewModelProviders.of(this).get(ArtistProvider.class);
         albumProvider = ViewModelProviders.of(this).get(AlbumProvider.class);
+        tracksProvider = ViewModelProviders.of(this).get(TracksProvider.class);
     }
 
     @Override
@@ -177,6 +178,12 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             @Override
             public void onChanged(@Nullable List<Album> albums) {
                 if (albums != null) mAlbumsAdapter.update(albums);
+            }
+        });
+        tracksProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
+            @Override
+            public void onChanged(@Nullable List<MediaWrapper> tracks) {
+                if (tracks != null) mSongsAdapter.update(tracks);
             }
         });
     }
@@ -510,16 +517,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         }
     }
 
-    @Override
-    public void onMediaAdded(MediaWrapper[] mediaList) {
-        updateSongs();
-    }
-
-    @Override
-    public void onMediaUpdated(MediaWrapper[] mediaList) {
-        updateSongs();
-    }
-
     public AudioBrowserAdapter getCurrentAdapter() {
         return (AudioBrowserAdapter) (getCurrentRV()).getAdapter();
     }
@@ -559,28 +556,13 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private void updateLists() {
         mTabLayout.setVisibility(View.VISIBLE);
         mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
-        updateSongs();
+//        updateSongs();
         updateGenres();
         updatePlaylists();
     }
 
     public void updateArtists() {
         artistProvider.refresh();
-    }
-
-    private void updateSongs() {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                final List<MediaLibraryItem> media = Util.arrayToMediaArrayList(mMediaLibrary.getAudio());
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSongsAdapter.update(media);
-                    }
-                });
-            }
-        });
     }
 
     private void updateGenres() {
