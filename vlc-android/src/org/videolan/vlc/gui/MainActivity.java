@@ -66,14 +66,12 @@ import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.browser.FileBrowserFragment;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
-import org.videolan.vlc.gui.dialogs.RenderersDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.network.MRLPanelFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.view.HackyDrawerLayout;
-import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
@@ -197,8 +195,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                         ft.remove(fragment);
                     } else if ((fragment instanceof MediaBrowserFragment)) {
                         mFragmentsStack.put(fragment.getTag(), new WeakReference<>(fragment));
-                        if (fragment != displayed)
-                            ft.hide(fragment);
+                        if (!TextUtils.equals(fragment.getTag(), displayed.getTag())) ft.hide(fragment);
                     }
                 }
             ft.commit();
@@ -211,7 +208,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             MenuItem item = mNavigationView.getMenu().findItem(R.id.nav_directories);
             item.setTitle(R.string.open);
         }
-
         mNavigationView.getMenu().findItem(R.id.nav_history).setVisible(mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true));
     }
 

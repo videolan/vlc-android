@@ -141,21 +141,16 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         if (bundle == null)
             bundle = getArguments();
         if (bundle != null) {
-            if (VLCApplication.hasData(KEY_CONTENT_LIST))
-                mFoldersContentLists = (SimpleArrayMap<MediaLibraryItem, List<MediaLibraryItem>>) VLCApplication.getData(KEY_CONTENT_LIST);
             mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
-            if (mCurrentMedia != null)
-                mMrl = mCurrentMedia.getLocation();
-            else
-                mMrl = bundle.getString(KEY_MRL);
+            if (mCurrentMedia != null) mMrl = mCurrentMedia.getLocation();
+            else mMrl = bundle.getString(KEY_MRL);
             mSavedPosition = bundle.getInt(KEY_POSITION);
         } else if (getActivity().getIntent() != null){
             mMrl = getActivity().getIntent().getDataString();
             getActivity().setIntent(null);
         }
         mRoot = defineIsRoot();
-        if (mFoldersContentLists == null)
-            mFoldersContentLists = new SimpleArrayMap<>();
+        if (mFoldersContentLists == null) mFoldersContentLists = new SimpleArrayMap<>();
     }
 
     @Override
@@ -194,12 +189,9 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         mRecyclerView.setAdapter(mAdapter);
         registerForContextMenu(mRecyclerView);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-
-        VLCApplication.storeData(KEY_CONTENT_LIST+mMrl, mFoldersContentLists);
         @SuppressWarnings("unchecked")
         final SimpleArrayMap<MediaLibraryItem, List<MediaLibraryItem>> content = (SimpleArrayMap<MediaLibraryItem, List<MediaLibraryItem>>) VLCApplication.getData(KEY_CONTENT_LIST + mMrl);
-        if (content != null)
-            mFoldersContentLists = content;
+        if (content != null) mFoldersContentLists = content;
         @SuppressWarnings("unchecked")
         final List<MediaLibraryItem> mediaList = mRoot ? null : (List<MediaLibraryItem>) VLCApplication.getData(KEY_MEDIA_LIST + mMrl);
         if (!Util.isListEmpty(mediaList)) {
@@ -213,10 +205,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         super.onResume();
         if (mCurrentMedia != null)
         setSearchVisibility(false);
-        if (goBack)
-            goBack();
-        else
-            restoreList();
+        if (goBack) goBack();
+        else restoreList();
     }
 
     @Override
@@ -278,8 +268,13 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         final FragmentActivity activity = getActivity();
         if (activity == null) return false;
         if (!mRoot) {
+            final FragmentManager fm = activity.getSupportFragmentManager();
+            final String tag = fm.getBackStackEntryAt(fm.getBackStackEntryCount()-1).getName();
             if (!activity.getSupportFragmentManager().popBackStackImmediate() && activity instanceof MainActivity)
                 ((MainActivity)activity).showFragment(this instanceof NetworkBrowserFragment ? R.id.nav_network : R.id.nav_directories);
+            final Fragment current = fm.findFragmentByTag(tag);
+            final View view = current != null ? current.getView() : null;
+            if (view != null) view.setVisibility(View.VISIBLE);
         }
         return !mRoot;
     }
