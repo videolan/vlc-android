@@ -6,7 +6,6 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 
@@ -126,6 +125,6 @@ public class Tools {
 
     static String encodeVLCMrl(String mrl) {
         if (mrl.startsWith("/")) mrl = "file://"+mrl;
-        return VLCUtil.encodeVLCString(Uri.encode(Uri.decode(mrl), ":/@"));
+        return Uri.encode(Uri.decode(mrl), ".-_~/()&!$*+,;='@:");
     }
 }

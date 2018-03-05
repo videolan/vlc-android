@@ -113,7 +113,7 @@ public class Medialibrary {
     }
 
     public boolean addDevice(@NonNull String uuid, @NonNull String path, boolean removable) {
-        return nativeAddDevice(VLCUtil.encodeVLCString(uuid), Tools.encodeVLCMrl(path), removable);
+        return nativeAddDevice(Tools.encodeVLCMrl(uuid), Tools.encodeVLCMrl(path), removable);
     }
 
     public void discover(@NonNull String path) {
@@ -137,7 +137,7 @@ public class Medialibrary {
     }
 
     public boolean removeDevice(String uuid) {
-        return mIsInitiated && !TextUtils.isEmpty(uuid) && nativeRemoveDevice(VLCUtil.encodeVLCString(uuid));
+        return mIsInitiated && !TextUtils.isEmpty(uuid) && nativeRemoveDevice(Tools.encodeVLCMrl(uuid));
     }
 
     @Override
@@ -263,7 +263,7 @@ public class Medialibrary {
     }
 
     public boolean addToHistory(String mrl, String title) {
-        return mIsInitiated && nativeAddToHistory(Tools.encodeVLCMrl(mrl), VLCUtil.encodeVLCString(title));
+        return mIsInitiated && nativeAddToHistory(Tools.encodeVLCMrl(mrl), Tools.encodeVLCMrl(title));
     }
 
     @Nullable
