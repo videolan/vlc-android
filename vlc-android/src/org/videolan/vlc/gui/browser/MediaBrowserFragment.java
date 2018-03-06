@@ -23,16 +23,12 @@
 package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.view.ContextMenu;
@@ -53,24 +49,32 @@ import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.audio.BaseAudioBrowser;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate;
+import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
+import org.videolan.vlc.viewmodels.BaseModel;
 
 import java.util.LinkedList;
 
-public abstract class MediaBrowserFragment extends PlaybackServiceFragment implements android.support.v7.view.ActionMode.Callback {
+public abstract class MediaBrowserFragment<T extends BaseModel> extends PlaybackServiceFragment implements android.support.v7.view.ActionMode.Callback, Filterable {
 
     public final static String TAG = "VLC/MediaBrowserFragment";
 
+    public View mSearchButtonView;
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected Medialibrary mMediaLibrary;
     protected ActionMode mActionMode;
     public FloatingActionButton mFabPlay;
     protected Menu mMenu;
+    protected T mProvider;
+
+    public T getProvider() {
+        return mProvider;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,8 +86,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mSwipeRefreshLayout != null)
-            mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
+        if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
             mFabPlay = getActivity().findViewById(R.id.fab);
     }
 
@@ -130,12 +133,10 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     public void onPause() {
         super.onPause();
         stopActionMode();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mParsingServiceReceiver);
     }
 
     public void setFabPlayVisibility(boolean enable) {
-        if (mFabPlay != null)
-            mFabPlay.setVisibility(enable ? View.VISIBLE : View.GONE);
+        if (mFabPlay != null) mFabPlay.setVisibility(enable ? View.VISIBLE : View.GONE);
     }
 
     public void onFabPlayClick(View view) {}
@@ -152,11 +153,9 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (menuInfo == null)
-            return;
-        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo)menuInfo;
+        if (menuInfo == null) return;
+        final ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo)menuInfo;
         inflate(menu, info.position);
-
         setContextMenuItems(menu, info.position);
     }
 
@@ -192,8 +191,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
                                 if (failCB != null) failCB.run();
                                 return;
                             }
-                            if (mService != null)
-                                for (String path : mediaPaths) mService.removeLocation(path);
+                            if (mService != null) for (String path : mediaPaths) mService.removeLocation(path);
                             if (refresh) onRefresh();
                         }
                     });
@@ -234,6 +232,46 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
         super.onCreateOptionsMenu(menu, inflater);
         mMenu = menu;
     }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.ml_menu_sortby).setVisible(getProvider().canSortByName());
+        menu.findItem(R.id.ml_menu_sortby_artist_name).setVisible(getProvider().canSortByArtist());
+        menu.findItem(R.id.ml_menu_sortby_album_name).setVisible(getProvider().canSortByAlbum());
+        menu.findItem(R.id.ml_menu_sortby_length).setVisible(getProvider().canSortByDuration());
+        menu.findItem(R.id.ml_menu_sortby_date).setVisible(getProvider().canSortByReleaseDate() || getProvider().canSortByLastModified());
+        menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
+        UiTools.updateSortTitles(this, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ml_menu_sortby_name:
+                sortBy(Medialibrary.SORT_ALPHA);
+                return true;
+            case R.id.ml_menu_sortby_length:
+                sortBy(Medialibrary.SORT_DURATION);
+                return true;
+            case R.id.ml_menu_sortby_date:
+                sortBy(this instanceof VideoGridFragment ? mMediaLibrary.SORT_LASTMODIFICATIONDATE : Medialibrary.SORT_RELEASEDATE);
+                return true;
+            case R.id.ml_menu_sortby_artist_name:
+                sortBy(Medialibrary.SORT_ARTIST);
+                return true;
+            case R.id.ml_menu_sortby_album_name:
+                sortBy(Medialibrary.SORT_ALBUM);
+                return true;
+            case R.id.ml_menu_sortby_number:
+                sortBy(Medialibrary.SORT_FILESIZE); //TODO
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected void sortBy(int sort) {
+        getProvider().sort(sort);
+    }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void startActionMode() {
@@ -250,8 +288,7 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
     }
 
     public void invalidateActionMode() {
-        if (mActionMode != null)
-            mActionMode.invalidate();
+        if (mActionMode != null) mActionMode.invalidate();
     }
 
     @Override
@@ -259,40 +296,22 @@ public abstract class MediaBrowserFragment extends PlaybackServiceFragment imple
         return false;
     }
 
-    protected void onMedialibraryReady() {
-        IntentFilter parsingServiceFilter = new IntentFilter(Constants.ACTION_SERVICE_ENDED);
-        parsingServiceFilter.addAction(Constants.ACTION_SERVICE_STARTED);
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mParsingServiceReceiver, parsingServiceFilter);
+    @Override
+    public void filter(String query) {
+        getProvider().filter(query);
     }
 
-    protected void setupMediaLibraryReceiver() {
-        final BroadcastReceiver libraryReadyReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
-                onMedialibraryReady();
-            }
-        };
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(libraryReadyReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
+    public void restoreList() {
+        getProvider().filter(null);
     }
 
-    protected final BroadcastReceiver mParsingServiceReceiver = new BroadcastReceiver() {
+    @Override
+    public boolean enableSearchOption() {
+        return true;
+    }
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            switch (action) {
-                case Constants.ACTION_SERVICE_ENDED:
-                    onParsingServiceFinished();
-                    break;
-                case Constants.ACTION_SERVICE_STARTED:
-                    onParsingServiceStarted();
-                    break;
-            }
-        }
-    };
-
-    protected void onParsingServiceStarted() {}
-
-    protected void onParsingServiceFinished() {}
+    @Override
+    public void setSearchVisibility(boolean visible) {
+        UiTools.setViewVisibility(mSearchButtonView, visible ? View.VISIBLE : View.GONE);
+    }
 }

@@ -73,7 +73,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     }
 
     protected void setupBrowser() {
-        browser = ViewModelProviders.of(this, new FileBrowserProvider.Factory(mMrl)).get(FileBrowserProvider.class);
+        mProvider = ViewModelProviders.of(this, new FileBrowserProvider.Factory(mMrl)).get(FileBrowserProvider.class);
     }
 
     public String getTitle() {
@@ -215,7 +215,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 Storage storage = (Storage) mAdapter.getItem(position);
                 MediaDatabase.getInstance().recursiveRemoveDir(storage.getUri().getPath());
                 CustomDirectories.removeCustomDirectory(storage.getUri().getPath());
-                browser.remove(storage);
+                mProvider.remove(storage);
                 ((AudioPlayerContainerActivity)getActivity()).updateLib();
                 return true;
         } else
@@ -224,12 +224,12 @@ public class FileBrowserFragment extends BaseBrowserFragment {
 
     @Override
     public void filter(String query) {
-        browser.filter(query);
+        mProvider.filter(query);
     }
 
     @Override
     public void restoreList() {
-        browser.filter(null);
+        mProvider.filter(null);
     }
 
     public boolean isSortEnabled() {

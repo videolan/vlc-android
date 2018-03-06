@@ -12,18 +12,30 @@ public class Genre extends MediaLibraryItem {
     }
 
     public Album[] getAlbums() {
-       Medialibrary ml = Medialibrary.getInstance();
-       return ml != null && ml.isInitiated() ? nativeGetAlbumsFromGenre(ml, mId) : new Album[0];
+        return getAlbums(Medialibrary.SORT_DEFAULT, false);
+    }
+
+    public Album[] getAlbums(int sort, boolean desc) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return ml != null && ml.isInitiated() ? nativeGetAlbumsFromGenre(ml, mId, sort, desc) : new Album[0];
     }
 
     public Artist[] getArtists() {
-        Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetArtistsFromGenre(ml, mId) : new Artist[0];
+        return getArtists(Medialibrary.SORT_DEFAULT, false);
+    }
+
+    public Artist[] getArtists(int sort, boolean desc) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return ml != null && ml.isInitiated() ? nativeGetArtistsFromGenre(ml, mId, sort, desc) : new Artist[0];
     }
 
     public MediaWrapper[] getTracks() {
-        Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetTracksFromGenre(ml, mId) : Medialibrary.EMPTY_COLLECTION;
+        return getTracks(Medialibrary.SORT_DEFAULT, false);
+    }
+
+    public MediaWrapper[] getTracks(int sort, boolean desc) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return ml != null && ml.isInitiated() ? nativeGetTracksFromGenre(ml, mId, sort, desc) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override
@@ -31,9 +43,9 @@ public class Genre extends MediaLibraryItem {
         return TYPE_GENRE;
     }
 
-    private native Album[] nativeGetAlbumsFromGenre(Medialibrary ml, long mId);
-    private native Artist[] nativeGetArtistsFromGenre(Medialibrary ml, long mId);
-    private native MediaWrapper[] nativeGetTracksFromGenre(Medialibrary ml, long mId);
+    private native Album[] nativeGetAlbumsFromGenre(Medialibrary ml, long mId, int sort, boolean desc);
+    private native Artist[] nativeGetArtistsFromGenre(Medialibrary ml, long mId, int sort, boolean desc);
+    private native MediaWrapper[] nativeGetTracksFromGenre(Medialibrary ml, long mId, int sort, boolean desc);
 
     public static Parcelable.Creator<Genre> CREATOR
             = new Parcelable.Creator<Genre>() {

@@ -27,14 +27,24 @@ import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import kotlinx.coroutines.experimental.launch
+import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.util.Constants
 import org.videolan.vlc.util.FilterDelagate
 
 abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
 
-    var sort = Constants.SORT_DEFAULT
+    var sort = Medialibrary.SORT_ALPHA
     var desc = false
+
+    open fun canSortByName() = true
+    open fun canSortByDuration() = false
+    open fun canSortByInsertionDate() = false
+    open fun canSortByLastModified() = false
+    open fun canSortByReleaseDate() = false
+    open fun canSortByFileSize() = false
+    open fun canSortByArtist() = false
+    open fun canSortByAlbum ()= false
+    open fun canSortByPlayCount() = false
 
     private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelagate(dataset) }
 
@@ -54,9 +64,15 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
                 is MediaListAddition -> addMedia(update.mediaList as List<T>)
                 is Remove -> removeMedia(update.media as T)
                 is Sort -> {
-                    desc = if (sort == update.sort) !desc else false
-                    sort = update.sort
-                    updateList()
+                    if (canSortBy(update.sort)) {
+                        desc = when (sort) {
+                            Medialibrary.SORT_DEFAULT -> update.sort == Medialibrary.SORT_ALPHA
+                            update.sort -> !desc
+                            else -> false
+                        }
+                        sort = update.sort
+                        updateList()
+                    }
                 }
             }
         }
@@ -64,7 +80,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
 
     open fun refresh() = updateActor.offer(Refresh)
 
-    fun sort(sort: Int) = updateActor.offer(Sort(sort))
+    open fun sort(sort: Int) = updateActor.offer(Sort(sort))
 
     fun remove(mw: T) = updateActor.offer(Remove(mw))
 
@@ -100,6 +116,20 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
             }
             return@async list
         }.await()
+    }
+
+    fun canSortBy(sort: Int) = when(sort) {
+        Medialibrary.SORT_DEFAULT -> true
+        Medialibrary.SORT_ALPHA -> canSortByName()
+        Medialibrary.SORT_DURATION -> canSortByDuration()
+        Medialibrary.SORT_INSERTIONDATE -> canSortByInsertionDate()
+        Medialibrary.SORT_LASTMODIFICATIONDATE -> canSortByLastModified()
+        Medialibrary.SORT_RELEASEDATE -> canSortByReleaseDate()
+        Medialibrary.SORT_FILESIZE -> canSortByFileSize()
+        Medialibrary.SORT_ARTIST -> canSortByArtist()
+        Medialibrary.SORT_ALBUM -> canSortByAlbum()
+        Medialibrary.SORT_PLAYCOUNT -> canSortByPlayCount()
+        else -> false
     }
 
     protected open suspend fun updateList() {}

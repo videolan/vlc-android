@@ -34,7 +34,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.util.SimpleArrayMap;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,7 +60,6 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
-import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaDatabase;
@@ -77,7 +75,7 @@ import java.util.List;
 
 import kotlin.Pair;
 
-public abstract class BaseBrowserFragment extends MediaBrowserFragment implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, Filterable, IEventsHandler {
+public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserProvider> implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler {
     protected static final String TAG = "VLC/BaseBrowserFragment";
 
     public static final String KEY_MRL = "key_mrl";
@@ -86,7 +84,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     protected final BrowserFragmentHandler mHandler = new BrowserFragmentHandler(this);
     protected ContextMenuRecyclerView mRecyclerView;
-    private View mSearchButtonView;
     protected LinearLayoutManager mLayoutManager;
     protected TextView mEmptyView;
     public String mMrl;
@@ -124,6 +121,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.ml_menu_filter).setVisible(enableSearchOption());
+        menu.findItem(R.id.ml_menu_sortby).setVisible(!mRoot);
     }
 
     protected boolean defineIsRoot() {
@@ -149,14 +147,14 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (mAdapter == null) mAdapter = new BaseBrowserAdapter(this);
-        browser.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
+        mProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {
                 for (MediaLibraryItem item : mediaLibraryItems) Log.d(TAG, "onChanged: "+item.getTitle());
                 mAdapter.update(mediaLibraryItems);
             }
         });
-        browser.getDescriptionUpdate().observe(this, new Observer<Pair<Integer, String>>() {
+        mProvider.getDescriptionUpdate().observe(this, new Observer<Pair<Integer, String>>() {
             @Override
             public void onChanged(@Nullable Pair<Integer, String> pair) {
                 mAdapter.notifyItemChanged(pair.getFirst(), pair.getSecond());
@@ -185,7 +183,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {
-            browser.releaseBrowser();
+            mProvider.releaseBrowser();
         } else if (mFabPlay != null) {
             mFabPlay.setImageResource(R.drawable.ic_fab_play);
             updateFab();
@@ -240,7 +238,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         final FragmentTransaction ft = ctx.getSupportFragmentManager().beginTransaction();
         final Fragment next = createFragment();
         final Bundle args = new Bundle();
-        browser.saveList(media);
+        mProvider.saveList(media);
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
         if (isRootDirectory()) ft.hide(this);
@@ -253,7 +251,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public void onRefresh() {
         mSavedPosition = mLayoutManager.findFirstCompletelyVisibleItemPosition();
-        browser.refresh();
+        mProvider.refresh();
     }
 
     /**
@@ -279,7 +277,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
 
     @Override
     public void refresh() {
-        browser.refresh();
+        mProvider.refresh();
     }
 
     @Override
@@ -347,7 +345,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
         final int type = mw.getType();
         boolean canWrite = this instanceof FileBrowserFragment;
         if (type == MediaWrapper.TYPE_DIR) {
-            final boolean isEmpty = browser.isFolderEmpty(mw);
+            final boolean isEmpty = mProvider.isFolderEmpty(mw);
 //                if (canWrite) {
 //                    boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();
 //                    menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
@@ -448,11 +446,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     }
 
     private void removeMedia(final MediaWrapper mw) {
-        browser.remove(mw);
+        mProvider.remove(mw);
         final Runnable cancel = new Runnable() {
             @Override
             public void run() {
-                browser.refresh();
+                mProvider.refresh();
             }
         };
         final View v = getView();
@@ -488,18 +486,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
     @Override
     public boolean enableSearchOption() {
         return !isRootDirectory();
-    }
-
-    @Override
-    public void filter(String query) {
-        browser.filter(query);
-    }
-
-    public void restoreList() {
-        browser.filter(null);
-    }
-    public void setSearchVisibility(boolean visible) {
-        UiTools.setViewVisibility(mSearchButtonView, visible ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -612,7 +598,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment implement
                 mSavedPosition = 0;
             }
         }
-        if (!mRoot) updateFab();
+        if (!mRoot) {
+            updateFab();
+            UiTools.updateSortTitles(this, mMenu);
+        }
     }
 
     private void updateFab() {

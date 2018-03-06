@@ -1,13 +1,12 @@
 package org.videolan.vlc.viewmodels.audio
 
 import kotlinx.coroutines.experimental.async
-import org.videolan.medialibrary.media.Genre
-import org.videolan.vlc.viewmodels.MedialibraryModel
+import org.videolan.vlc.util.ModelsHelper
 
 
-class Genresprovider: MedialibraryModel<Genre>() {
+class Genresprovider: AudioModel() {
 
     override suspend fun updateList() {
-        dataset.value = async { medialibrary.genres.toMutableList() }.await()
+        dataset.value = async { ModelsHelper.generateSections(sort, medialibrary.getGenres(sort, desc)) }.await()
     }
 }

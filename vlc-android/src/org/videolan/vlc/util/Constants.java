@@ -89,16 +89,4 @@ public class Constants {
     // AUDIO category
     public final static String KEY_AUDIO_CURRENT_TAB = "key_audio_current_tab";
 
-    // Sorting
-
-    public final static int SORT_DEFAULT = 0;
-    public final static int SORT_ALPHA = 1;
-    public final static int SORT_DURATION = 2;
-    public final static int SORT_INSERTIONDATE = 3;
-    public final static int SORT_LASTMODIFICATIONDATE = 4;
-    public final static int SORT_RELEASEDATE = 5;
-    public final static int SORT_FILESIZE = 6;
-    public final static int SORT_ARTIST = 7;
-    public final static int SORT_PLAYCOUNT = 8;
-    public final static int SORT_ALBUM = 9;
 }

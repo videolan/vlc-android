@@ -60,7 +60,6 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
-import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
@@ -71,7 +70,7 @@ import org.videolan.vlc.viewmodels.VideosProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefreshLayout.OnRefreshListener, Filterable, IEventsHandler {
+public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> implements SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
 
     private final static String TAG = "VLC/VideoListFragment";
 
@@ -81,9 +80,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefr
     private AutoFitRecyclerView mGridView;
     private View mViewNomedia;
     private String mGroup;
-    private View mSearchButtonView;
     private DividerItemDecoration mDividerItemDecoration;
-    private VideosProvider videosProvider;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public VideoGridFragment() { }
@@ -93,18 +90,13 @@ public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefr
         super.onCreate(savedInstanceState);
         mAdapter = new VideoListAdapter(this);
         if (savedInstanceState != null) setGroup(savedInstanceState.getString(KEY_GROUP));
-        videosProvider = ViewModelProviders.of(this, new VideosProvider.Factory(mGroup)).get(VideosProvider.class);
+        mProvider = ViewModelProviders.of(this, new VideosProvider.Factory(mGroup)).get(VideosProvider.class);
     }
 
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.ml_menu_sortby).setVisible(true);
-        menu.findItem(R.id.ml_menu_sortby_artist_name).setVisible(false);
-        menu.findItem(R.id.ml_menu_sortby_album_name).setVisible(false);
-        menu.findItem(R.id.ml_menu_sortby_length).setVisible(true);
-        menu.findItem(R.id.ml_menu_sortby_date).setVisible(true);
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(true);
     }
 
@@ -112,27 +104,12 @@ public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefr
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ml_menu_last_playlist:
-                getActivity().sendBroadcast(new Intent(Constants.ACTION_REMOTE_LAST_VIDEO_PLAYLIST));
-                return true;
-            case R.id.ml_menu_sortby_name:
-                sortBy(Constants.SORT_ALPHA);
-                onPrepareOptionsMenu(mMenu);
-                return true;
-            case R.id.ml_menu_sortby_length:
-                sortBy(Constants.SORT_DURATION);
-                onPrepareOptionsMenu(mMenu);
-                return true;
-            case R.id.ml_menu_sortby_date:
-                sortBy(Constants.SORT_RELEASEDATE);
-                onPrepareOptionsMenu(mMenu);
+                final Activity activity = getActivity();
+                if (activity != null) activity.sendBroadcast(new Intent(Constants.ACTION_REMOTE_LAST_VIDEO_PLAYLIST));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void sortBy(int sortby) {
-        videosProvider.sort(sortby);
     }
 
     @Override
@@ -154,14 +131,13 @@ public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefr
         super.onActivityCreated(savedInstanceState);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mDividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-        if (mAdapter.isListMode())
-            mGridView.addItemDecoration(mDividerItemDecoration);
+        if (mAdapter.isListMode()) mGridView.addItemDecoration(mDividerItemDecoration);
         if (savedInstanceState != null) {
             final List<MediaWrapper> list = (List<MediaWrapper>) VLCApplication.getData("list"+getTitle());
             if (!Util.isListEmpty(list)) mAdapter.update(list);
         }
         mGridView.setAdapter(mAdapter);
-        videosProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
+        mProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
             @Override
             public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
                 mAdapter.update(mediaWrappers);
@@ -282,13 +258,13 @@ public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefr
                 removeVideo(media);
             }
         })) return;
-        videosProvider.remove(media);
+        mProvider.remove(media);
         final View view = getView();
         if (view != null) {
             final Runnable revert = new Runnable() {
                 @Override
                 public void run() {
-                    videosProvider.refresh();
+                    mProvider.refresh();
                 }
             };
             UiTools.snackerWithCancel(view, getString(R.string.file_deleted), new Runnable() {
@@ -324,7 +300,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefr
 
     @MainThread
     public void updateList() {
-        videosProvider.refresh();
+        mProvider.refresh();
         mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
     }
 
@@ -338,7 +314,8 @@ public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefr
 
     @Override
     public void onRefresh() {
-        getActivity().startService(new Intent(Constants.ACTION_RELOAD, null, getActivity(), MediaParsingService.class));
+        final Activity activity = getActivity();
+        if (activity != null) activity.startService(new Intent(Constants.ACTION_RELOAD, null, getActivity(), MediaParsingService.class));
     }
 
     public void clear(){
@@ -348,26 +325,6 @@ public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefr
     @Override
     public void setFabPlayVisibility(boolean enable) {
         super.setFabPlayVisibility(!mAdapter.isEmpty() && enable);
-    }
-
-    @Override
-    public void filter(String query) {
-        videosProvider.filter(query);
-    }
-
-    @Override
-    public boolean enableSearchOption() {
-        return true;
-    }
-
-    @Override
-    public void restoreList() {
-        videosProvider.filter(null);
-    }
-
-    @Override
-    public void setSearchVisibility(boolean visible) {
-        mSearchButtonView.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -512,6 +469,7 @@ public class VideoGridFragment extends MediaBrowserFragment implements SwipeRefr
             mHandler.sendEmptyMessage(UNSET_REFRESHING);
         updateEmptyView();
         setFabPlayVisibility(true);
+        UiTools.updateSortTitles(this, mMenu);
     }
 
     public void updateSeenMediaMarker() {

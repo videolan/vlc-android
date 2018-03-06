@@ -27,30 +27,21 @@ import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 
 import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaLibraryItem;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
-import org.videolan.vlc.SortableAdapter;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
+import org.videolan.vlc.gui.DiffUtilAdapter;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
-import org.videolan.vlc.util.MediaItemFilter;
-import org.videolan.vlc.util.MediaLibraryItemComparator;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
@@ -61,23 +52,19 @@ import java.util.List;
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_PLAYLIST;
 
-public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, Filterable {
+public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
-    private boolean mMakeSections = true;
-
     private List<MediaLibraryItem> mOriginalDataSet;
-    private ItemFilter mFilter = new ItemFilter();
     private IEventsHandler mIEventsHandler;
     private int mSelectionCount = 0;
     private int mType;
     private int mParentType = 0;
     private BitmapDrawable mDefaultCover;
 
-    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, boolean sections) {
+    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler) {
         mIEventsHandler = eventsHandler;
-        mMakeSections = sections;
         mType = type;
         mDefaultCover = getIconDrawable();
     }
@@ -103,7 +90,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
             return new ViewHolder<>(binding);
         } else {
             final AudioBrowserItemBinding binding = AudioBrowserItemBinding.inflate(inflater, parent, false);
-            if (mType == TYPE_PLAYLIST && !mMakeSections) // Hide context button for playlist in save playlist dialog
+            if (mType == TYPE_PLAYLIST) // Hide context button for playlist in save playlist dialog
                 binding.itemMore.setVisibility(View.GONE);
             return new MediaItemViewHolder(binding);
         }
@@ -186,14 +173,14 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     }
 
     public boolean hasSections() {
-        return mMakeSections;
+        return false;
     }
 
     @Override
     public String getSectionforPosition(int position) {
-        if (mMakeSections)
-            for (int i = position; i >= 0; --i)
-                if (getDataset().get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) return getDataset().get(i).getTitle();
+//        if (mMakeSections)
+//            for (int i = position; i >= 0; --i)
+//                if (getDataset().get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) return getDataset().get(i).getTitle();
         return "";
     }
 
@@ -215,109 +202,6 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         return newList;
     }
 
-    private List<MediaLibraryItem> generateSections(List<? extends MediaLibraryItem> items, int sortby) {
-        List<MediaLibraryItem> datalist = new ArrayList<>();
-        switch(sortby) {
-            case MediaLibraryItemComparator.SORT_BY_TITLE:
-                String currentLetter = null;
-                for (MediaLibraryItem item : items) {
-                    if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
-                        continue;
-                    String title = item.getTitle();
-                    String letter = (title.isEmpty() || !Character.isLetter(title.charAt(0))) ? "#" : title.substring(0, 1).toUpperCase();
-                    if (currentLetter == null || !TextUtils.equals(currentLetter, letter)) {
-                        currentLetter = letter;
-                        DummyItem sep = new DummyItem(currentLetter);
-                        datalist.add(sep);
-                    }
-                    datalist.add(item);
-                }
-                break;
-            case MediaLibraryItemComparator.SORT_BY_ARTIST:
-                String currentArtist = null;
-                for (MediaLibraryItem item : items) {
-                    if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
-                        continue;
-                    String artist = ((MediaWrapper)item).getArtist();
-                    if (artist == null)
-                        artist = "";
-                    if (currentArtist == null || !TextUtils.equals(currentArtist, artist)) {
-                        currentArtist = artist;
-                        DummyItem sep = new DummyItem(TextUtils.isEmpty(currentArtist)
-                                ? VLCApplication.getAppResources().getString(R.string.unknown_artist)
-                                : currentArtist);
-                        datalist.add(sep);
-                    }
-                    datalist.add(item);
-                }
-                break;
-            case MediaLibraryItemComparator.SORT_BY_ALBUM:
-                String currentAlbum = null;
-                for (MediaLibraryItem item : items) {
-                    if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
-                        continue;
-                    String album = ((MediaWrapper)item).getAlbum();
-                    if (album == null)
-                        album = "";
-                    if (currentAlbum == null || !TextUtils.equals(currentAlbum, album)) {
-                        currentAlbum = album;
-                        DummyItem sep = new DummyItem(TextUtils.isEmpty(currentAlbum)
-                                ? VLCApplication.getAppResources().getString(R.string.unknown_album)
-                                : currentAlbum);
-                        datalist.add(sep);
-                    }
-                    datalist.add(item);
-                }
-                break;
-            case MediaLibraryItemComparator.SORT_BY_LENGTH :
-                String currentLengthCategory = null;
-                for (MediaLibraryItem item : items) {
-                    if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
-                        continue;
-                    int length = MediaLibraryItemComparator.getLength(item);
-                    String lengthCategory = MediaLibraryItemComparator.lengthToCategory(length);
-                    if (currentLengthCategory == null || !TextUtils.equals(currentLengthCategory, lengthCategory)) {
-                        currentLengthCategory = lengthCategory;
-                        DummyItem sep = new DummyItem(currentLengthCategory);
-                        datalist.add(sep);
-                    }
-                    datalist.add(item);
-                }
-                break;
-            case MediaLibraryItemComparator.SORT_BY_DATE :
-                String currentYear = null;
-                for (MediaLibraryItem item : items) {
-                    if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
-                        continue;
-                    String year = MediaLibraryItemComparator.getYear(item);
-                    if (currentYear == null || !TextUtils.equals(currentYear, year)) {
-                        currentYear = year;
-                        DummyItem sep = new DummyItem(currentYear);
-                        datalist.add(sep);
-                    }
-                    datalist.add(item);
-                }
-                break;
-            case MediaLibraryItemComparator.SORT_BY_NUMBER :
-                int currentNumber = 0;
-                for (MediaLibraryItem item : items) {
-                    if (item.getItemType() == MediaLibraryItem.TYPE_DUMMY)
-                        continue;
-                    int number = MediaLibraryItemComparator.getTracksCount(item);
-                    if (currentNumber != number) {
-                        currentNumber = number;
-                        DummyItem sep = new DummyItem(currentNumber == 0
-                                ? VLCApplication.getAppResources().getString(R.string.unknown_number)
-                                : VLCApplication.getAppResources().getQuantityString(R.plurals.songs_quantity, currentNumber, currentNumber));
-                        datalist.add(sep);
-                    }
-                    datalist.add(item);
-                }
-                break;
-        }
-        return datalist;
-    }
-
     public void remove(final MediaLibraryItem... items) {
         final List<MediaLibraryItem> referenceList = peekLast();
         if (referenceList.isEmpty()) return;
@@ -332,7 +216,6 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         final List<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
         Collections.addAll(dataList, items);
         //Force adapter to sort items.
-        if (sMediaComparator.sortBy == MediaLibraryItemComparator.SORT_DEFAULT) sMediaComparator.sortBy = getDefaultSort();
         update(dataList);
     }
 
@@ -345,28 +228,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
 
     @Override
     protected void onUpdateFinished() {
-        super.onUpdateFinished();
         mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
-    }
-
-    @SuppressWarnings("unchecked")
-    @NonNull
-    @Override
-    protected List<MediaLibraryItem> prepareList(List<? extends MediaLibraryItem> items) {
-        if (!isSortAllowed(getSortBy()))
-            sMediaComparator.setSortDefault();
-        if (mMakeSections) {
-            if (sMediaComparator.sortBy == MediaLibraryItemComparator.SORT_DEFAULT) {
-                return generateSections(items, getDefaultSort());
-            } else {
-                final List<MediaLibraryItem> newList = removeSections((List<MediaLibraryItem>) items);
-                Collections.sort(newList, sMediaComparator);
-                return generateSections(newList, sMediaComparator.sortBy);
-            }
-        } else {
-            Collections.sort(items, sMediaComparator);
-            return (List<MediaLibraryItem>) items;
-        }
     }
 
     @MainThread
@@ -471,72 +333,40 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         }
     }
 
-    @Override
-    public Filter getFilter() {
-        return mFilter;
-    }
+//    @Override
+//    public int getDefaultSort() {
+//        switch (mParentType) {
+//            case MediaLibraryItem.TYPE_ARTIST:
+//                return mType == MediaLibraryItem.TYPE_ALBUM ? MediaLibraryItemComparator.SORT_BY_DATE : MediaLibraryItemComparator.SORT_BY_ALBUM;
+//            case MediaLibraryItem.TYPE_GENRE:
+//                return mType == MediaLibraryItem.TYPE_ALBUM ? MediaLibraryItemComparator.SORT_BY_TITLE : MediaLibraryItemComparator.SORT_BY_ALBUM;
+//            default:
+//                return MediaLibraryItemComparator.SORT_BY_TITLE;
+//        }
+//    }
 
-    private class ItemFilter extends MediaItemFilter {
-
-        @Override
-        protected List<MediaLibraryItem> initData() {
-            if (mOriginalDataSet == null) {
-                mOriginalDataSet = new ArrayList<>(getDataset());
-            }
-            if (referenceList == null) {
-                referenceList = new ArrayList<>(getDataset());
-            }
-            return referenceList;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            update((List<MediaLibraryItem>) filterResults.values);
-        }
-
-    }
-
-    public void sortBy(int sortby, int direction) {
-        boolean sort = isSortAllowed(sortby);
-        if (sort) {
-            super.sortBy(sortby, direction);
-        }
-    }
-
-    @Override
-    public int getDefaultSort() {
-        switch (mParentType) {
-            case MediaLibraryItem.TYPE_ARTIST:
-                return mType == MediaLibraryItem.TYPE_ALBUM ? MediaLibraryItemComparator.SORT_BY_DATE : MediaLibraryItemComparator.SORT_BY_ALBUM;
-            case MediaLibraryItem.TYPE_GENRE:
-                return mType == MediaLibraryItem.TYPE_ALBUM ? MediaLibraryItemComparator.SORT_BY_TITLE : MediaLibraryItemComparator.SORT_BY_ALBUM;
-            default:
-                return MediaLibraryItemComparator.SORT_BY_TITLE;
-        }
-    }
-
-    @Override
-    public int getDefaultDirection() {
-        return mParentType == MediaLibraryItem.TYPE_ARTIST ? -1 : 1;
-    }
-
-    @Override
-    protected boolean isSortAllowed(int sort) {
-        switch (sort) {
-            case MediaLibraryItemComparator.SORT_BY_TITLE:
-                return true;
-            case MediaLibraryItemComparator.SORT_BY_DATE:
-                return mType == MediaLibraryItem.TYPE_ALBUM;
-            case MediaLibraryItemComparator.SORT_BY_LENGTH:
-                return mType == MediaLibraryItem.TYPE_ALBUM || mType == MediaLibraryItem.TYPE_MEDIA;
-            case MediaLibraryItemComparator.SORT_BY_NUMBER:
-                return mType == MediaLibraryItem.TYPE_ALBUM || mType == MediaLibraryItem.TYPE_PLAYLIST;
-            case MediaLibraryItemComparator.SORT_BY_ALBUM:
-                return mParentType != 0 && mType == MediaLibraryItem.TYPE_MEDIA;
-            case MediaLibraryItemComparator.SORT_BY_ARTIST:
-                return mParentType == MediaLibraryItem.TYPE_GENRE && mType == MediaLibraryItem.TYPE_MEDIA;
-            default:
-                return false;
-        }
-    }
+//    @Override
+//    public int getDefaultDirection() {
+//        return mParentType == MediaLibraryItem.TYPE_ARTIST ? -1 : 1;
+//    }
+//
+//    @Override
+//    protected boolean isSortAllowed(int sort) {
+//        switch (sort) {
+//            case MediaLibraryItemComparator.SORT_BY_TITLE:
+//                return true;
+//            case MediaLibraryItemComparator.SORT_BY_DATE:
+//                return mType == MediaLibraryItem.TYPE_ALBUM;
+//            case MediaLibraryItemComparator.SORT_BY_LENGTH:
+//                return mType == MediaLibraryItem.TYPE_ALBUM || mType == MediaLibraryItem.TYPE_MEDIA;
+//            case MediaLibraryItemComparator.SORT_BY_NUMBER:
+//                return mType == MediaLibraryItem.TYPE_ALBUM || mType == MediaLibraryItem.TYPE_PLAYLIST;
+//            case MediaLibraryItemComparator.SORT_BY_ALBUM:
+//                return mParentType != 0 && mType == MediaLibraryItem.TYPE_MEDIA;
+//            case MediaLibraryItemComparator.SORT_BY_ARTIST:
+//                return mParentType == MediaLibraryItem.TYPE_GENRE && mType == MediaLibraryItem.TYPE_MEDIA;
+//            default:
+//                return false;
+//        }
+//    }
 }

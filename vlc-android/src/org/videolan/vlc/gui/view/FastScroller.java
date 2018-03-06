@@ -162,7 +162,7 @@ public class FastScroller extends LinearLayout {
         this.mRecyclerView = recyclerView;
         mRecyclerviewTotalHeight = 0;
         recyclerView.addOnScrollListener(scrollListener);
-        mShowBubble = ((SeparatedAdapter)recyclerView.getAdapter()).hasSections();
+        mShowBubble = true;//TODO ((SeparatedAdapter)recyclerView.getAdapter()).hasSections();
     }
 
     @Override

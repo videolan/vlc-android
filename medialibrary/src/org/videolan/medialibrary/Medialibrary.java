@@ -36,8 +36,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Medialibrary {
-
     private static final String TAG = "VLC/JMedialibrary";
+
+    // Sorting
+    public final static int SORT_DEFAULT = 0;
+    public final static int SORT_ALPHA = 1;
+    public final static int SORT_DURATION = 2;
+    public final static int SORT_INSERTIONDATE = 3;
+    public final static int SORT_LASTMODIFICATIONDATE = 4;
+    public final static int SORT_RELEASEDATE = 5;
+    public final static int SORT_FILESIZE = 6;
+    public final static int SORT_ARTIST = 7;
+    public final static int SORT_PLAYCOUNT = 8;
+    public final static int SORT_ALBUM = 9;
 
     public static final int FLAG_MEDIA_UPDATED_AUDIO        = 1 << 0;
     public static final int FLAG_MEDIA_UPDATED_AUDIO_EMPTY  = 1 << 1;
@@ -199,9 +210,15 @@ public class Medialibrary {
         return mIsInitiated ? nativeGetAudioCount() : 0;
     }
 
+
     @WorkerThread
     public Album[] getAlbums() {
-        return mIsInitiated ? nativeGetAlbums() : new Album[0];
+        return getAlbums(Medialibrary.SORT_DEFAULT, false);
+    }
+
+    @WorkerThread
+    public Album[] getAlbums(int sort, boolean desc) {
+        return mIsInitiated ? nativeGetAlbums(sort, desc) : new Album[0];
     }
 
     @WorkerThread
@@ -211,7 +228,12 @@ public class Medialibrary {
 
     @WorkerThread
     public Artist[] getArtists(boolean all) {
-        return mIsInitiated ? nativeGetArtists(all) : new Artist[0];
+        return getArtists(all, Medialibrary.SORT_DEFAULT, false);
+    }
+
+    @WorkerThread
+    public Artist[] getArtists(boolean all, int sort, boolean desc) {
+        return mIsInitiated ? nativeGetArtists(all, sort, desc) : new Artist[0];
     }
 
     public Artist getArtist(long artistId) {
@@ -220,7 +242,12 @@ public class Medialibrary {
 
     @WorkerThread
     public Genre[] getGenres() {
-        return mIsInitiated ? nativeGetGenres() : new Genre[0];
+        return getGenres(Medialibrary.SORT_DEFAULT, false);
+    }
+
+    @WorkerThread
+    public Genre[] getGenres(int sort, boolean desc) {
+        return mIsInitiated ? nativeGetGenres(sort, desc) : new Genre[0];
     }
 
     public Genre getGenre(long genreId) {
@@ -229,7 +256,12 @@ public class Medialibrary {
 
     @WorkerThread
     public Playlist[] getPlaylists() {
-        return mIsInitiated ? nativeGetPlaylists() : new Playlist[0];
+        return getPlaylists(Medialibrary.SORT_DEFAULT, false);
+    }
+
+    @WorkerThread
+    public Playlist[] getPlaylists(int sort, boolean desc) {
+        return mIsInitiated ? nativeGetPlaylists(sort, desc) : new Playlist[0];
     }
 
     public Playlist getPlaylist(long playlistId) {
@@ -679,13 +711,13 @@ public class Medialibrary {
     private native MediaWrapper[] nativeGetRecentAudio();
     private native int nativeGetVideoCount();
     private native int nativeGetAudioCount();
-    private native Album[] nativeGetAlbums();
+    private native Album[] nativeGetAlbums(int sort, boolean desc);
     private native Album nativeGetAlbum(long albumtId);
-    private native Artist[] nativeGetArtists(boolean all);
+    private native Artist[] nativeGetArtists(boolean all, int sort, boolean desc);
     private native Artist nativeGetArtist(long artistId);
-    private native Genre[] nativeGetGenres();
+    private native Genre[] nativeGetGenres(int sort, boolean desc);
     private native Genre nativeGetGenre(long genreId);
-    private native Playlist[] nativeGetPlaylists();
+    private native Playlist[] nativeGetPlaylists(int sort, boolean desc);
     private native Playlist nativeGetPlaylist(long playlistId);
     private native Playlist nativePlaylistCreate(String name);
     private native void nativePauseBackgroundOperations();

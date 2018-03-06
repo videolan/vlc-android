@@ -70,7 +70,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
 
     protected void runOnBrowserThread(Runnable runnable) {
         if (mBrowserHandler == null) {
-            HandlerThread handlerThread = new HandlerThread("vlc-browser", Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
+            HandlerThread handlerThread = new HandlerThread("vlc-mProvider", Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
             handlerThread.start();
             mBrowserHandler = new Handler(handlerThread.getLooper());
         }

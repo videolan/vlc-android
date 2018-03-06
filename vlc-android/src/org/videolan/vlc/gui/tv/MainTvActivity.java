@@ -171,7 +171,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         mService.addCallback(this);
         if (!mMediaLibrary.isInitiated()) return;
         /*
-         * skip browser and show directly Audio Player if a song is playing
+         * skip mProvider and show directly Audio Player if a song is playing
          */
         if (!mMediaLibrary.isWorking() && (mRowsAdapter == null || mRowsAdapter.size() == 0) && Permissions.canReadStorage(this))
             update();

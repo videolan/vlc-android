@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
+import android.support.annotation.MainThread
 import android.support.v4.util.SimpleArrayMap
 import android.text.TextUtils
 import kotlinx.coroutines.experimental.android.HandlerContext
@@ -27,13 +28,13 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
 
     protected var mediabrowser: MediaBrowser? = null
     private val browserHandler by lazy {
-        val handlerThread = HandlerThread("vlc-browser", Process.THREAD_PRIORITY_DEFAULT + Process.THREAD_PRIORITY_LESS_FAVORABLE)
+        val handlerThread = HandlerThread("vlc-mProvider", Process.THREAD_PRIORITY_DEFAULT + Process.THREAD_PRIORITY_LESS_FAVORABLE)
         handlerThread.start()
         Handler(handlerThread.looper)
     }
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
-    protected val browserContext by lazy { HandlerContext(browserHandler, "browser-context") }
+    protected val browserContext by lazy { HandlerContext(browserHandler, "mProvider-context") }
     internal val medialibrary = Medialibrary.getInstance()
 
     protected open fun initBrowser(listener: EventListener = this) {
@@ -61,6 +62,14 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
         return true
     }
 
+    @MainThread
+    override fun sort(sort: Int): Boolean {
+        this.sort = sort
+        desc = !desc
+        dataset.value = dataset.value?.apply { sortWith(if (desc) descComp else ascComp) }
+        return true
+    }
+
     override fun onMediaAdded(index: Int, media: Media?) {
         media?.apply {
             if (refreshing) refreshList.add(MediaWrapper(this@apply))
@@ -69,7 +78,7 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
     }
 
     override fun onMediaRemoved(index: Int, media: Media?) {
-        media?.apply { launch(UI) { remove(MediaWrapper(this@apply)) } }
+        media?.let { launch(UI) { remove(MediaWrapper(it)) } }
     }
 
     override fun onBrowseEnd() {
@@ -241,5 +250,28 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
     companion object {
         const val TAG = "VLC/BrowserProvider"
         val prefectLists = mutableMapOf<String, MutableList<MediaLibraryItem>>()
+
+        val ascComp = Comparator<MediaLibraryItem> { item1, item2 ->
+            if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
+                val type1 = (item1 as MediaWrapper).type
+                val type2 = (item2 as MediaWrapper).type
+                if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR)
+                    return@Comparator -1
+                else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR)
+                    return@Comparator 1
+            }
+            item1?.title?.toLowerCase()?.compareTo(item2?.title?.toLowerCase() ?: "") ?: -1
+        }
+        val descComp = Comparator<MediaLibraryItem> { item1, item2 ->
+            if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
+                val type1 = (item1 as MediaWrapper).type
+                val type2 = (item2 as MediaWrapper).type
+                if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR)
+                    return@Comparator -1
+                else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR)
+                    return@Comparator 1
+            }
+            item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
+        }
     }
 }

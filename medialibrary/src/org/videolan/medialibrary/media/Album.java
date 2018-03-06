@@ -10,8 +10,8 @@ import org.videolan.medialibrary.R;
 
 public class Album extends MediaLibraryItem {
     public static final String TAG = "VLC/Album";
-    static class SpecialRes {
-        static String UNKNOWN_ALBUM = Medialibrary.getContext().getString(R.string.unknown_album);
+    public static class SpecialRes {
+        public static String UNKNOWN_ALBUM = Medialibrary.getContext().getString(R.string.unknown_album);
     }
 
     private int releaseYear;
@@ -68,8 +68,12 @@ public class Album extends MediaLibraryItem {
     }
 
     public MediaWrapper[] getTracks() {
+        return getTracks(Medialibrary.SORT_DEFAULT, false);
+    }
+
+    public MediaWrapper[] getTracks(int sort, boolean desc) {
         Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetTracksFromAlbum(ml, mId) : Medialibrary.EMPTY_COLLECTION;
+        return ml != null && ml.isInitiated() ? nativeGetTracksFromAlbum(ml, mId, sort, desc) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override
@@ -77,7 +81,7 @@ public class Album extends MediaLibraryItem {
         return TYPE_ALBUM;
     }
 
-    private native MediaWrapper[] nativeGetTracksFromAlbum(Medialibrary ml, long mId);
+    private native MediaWrapper[] nativeGetTracksFromAlbum(Medialibrary ml, long mId, int sort, boolean desc);
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {

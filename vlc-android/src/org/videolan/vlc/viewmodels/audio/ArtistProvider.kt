@@ -3,12 +3,11 @@ package org.videolan.vlc.viewmodels.audio
 import kotlinx.coroutines.experimental.async
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.Medialibrary.ArtistsAddedCb
-import org.videolan.medialibrary.media.Artist
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.Constants
-import org.videolan.vlc.viewmodels.MedialibraryModel
+import org.videolan.vlc.util.ModelsHelper
 
-class ArtistProvider: MedialibraryModel<Artist>(), ArtistsAddedCb, Medialibrary.ArtistsModifiedCb {
+class ArtistProvider: AudioModel(), ArtistsAddedCb, Medialibrary.ArtistsModifiedCb {
     override fun onArtistsModified() {
         refresh()
     }
@@ -18,7 +17,7 @@ class ArtistProvider: MedialibraryModel<Artist>(), ArtistsAddedCb, Medialibrary.
     }
 
     override suspend fun updateList() {
-        dataset.value = async { medialibrary.getArtists(VLCApplication.getSettings().getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false)).toMutableList() }.await()
+        dataset.value = async { ModelsHelper.generateSections(sort, medialibrary.getArtists(VLCApplication.getSettings().getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false), sort, desc)) }.await()
     }
 
     override fun onMedialibraryReady() {

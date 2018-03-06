@@ -51,13 +51,21 @@ public class Artist extends MediaLibraryItem {
     }
 
     public Album[] getAlbums() {
-        Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetAlbumsFromArtist(ml, mId) : new Album[0];
+        return getAlbums(Medialibrary.SORT_DEFAULT, false);
+    }
+
+    public Album[] getAlbums(int sort, boolean desc) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return ml != null && ml.isInitiated() ? nativeGetAlbumsFromArtist(ml, mId, sort, desc) : new Album[0];
     }
 
     public MediaWrapper[] getTracks() {
-        Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetMediaFromArtist(ml, mId) : Medialibrary.EMPTY_COLLECTION;
+        return getTracks(Medialibrary.SORT_DEFAULT, false);
+    }
+
+    public MediaWrapper[] getTracks(int sort, boolean desc) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return ml != null && ml.isInitiated() ? nativeGetMediaFromArtist(ml, mId, sort, desc) : Medialibrary.EMPTY_COLLECTION;
     }
 
     @Override
@@ -65,8 +73,8 @@ public class Artist extends MediaLibraryItem {
         return TYPE_ARTIST;
     }
 
-    private native Album[] nativeGetAlbumsFromArtist(Medialibrary ml, long mId);
-    private native MediaWrapper[] nativeGetMediaFromArtist(Medialibrary ml, long mId);
+    private native Album[] nativeGetAlbumsFromArtist(Medialibrary ml, long mId, int sort, boolean desc);
+    private native MediaWrapper[] nativeGetMediaFromArtist(Medialibrary ml, long mId, int sort, boolean desc);
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {

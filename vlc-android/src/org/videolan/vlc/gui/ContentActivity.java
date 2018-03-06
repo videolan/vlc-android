@@ -23,12 +23,12 @@
 
 package org.videolan.vlc.gui;
 
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,14 +40,15 @@ import org.videolan.vlc.RendererDelegate;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
-import org.videolan.vlc.gui.browser.SortableFragment;
+import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.dialogs.RenderersDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.util.AndroidDevices;
 
-public class ContentActivity extends AudioPlayerContainerActivity implements SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener, RendererDelegate.RendererListener, RendererDelegate.RendererPlayer {
+@SuppressLint("Registered")
+public class ContentActivity extends AudioPlayerContainerActivity implements SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener, RendererDelegate.RendererListener, RendererDelegate.RendererPlayer {
     public static final String TAG = "VLC/ContentActivity";
 
     protected Menu mMenu;
@@ -71,11 +72,11 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
             menu.findItem(R.id.ml_menu_sortby).setVisible(false);
         }
         if (getCurrentFragment() instanceof Filterable) {
-            MenuItem searchItem = menu.findItem(R.id.ml_menu_filter);
-            mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            final MenuItem searchItem = menu.findItem(R.id.ml_menu_filter);
+            mSearchView = (SearchView) searchItem.getActionView();
             mSearchView.setQueryHint(getString(R.string.search_list_hint));
             mSearchView.setOnQueryTextListener(this);
-            MenuItemCompat.setOnActionExpandListener(searchItem, this);
+            searchItem.setOnActionExpandListener(this);
         }
         else
             menu.findItem(R.id.ml_menu_filter).setVisible(false);
@@ -133,10 +134,8 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     public boolean onQueryTextChange(String filterQueryString) {
         final Fragment current = getCurrentFragment();
         if (current instanceof Filterable) {
-            if (filterQueryString.length() < 3)
-                ((Filterable) current).restoreList();
-            else
-                ((Filterable) current).filter(filterQueryString);
+            if (filterQueryString.length() < 3) ((Filterable) current).restoreList();
+            else ((Filterable) current).filter(filterQueryString);
             return true;
         }
         return false;
@@ -177,8 +176,8 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     protected void makeRoomForSearch(Fragment current, boolean hide) {
         final Menu menu = mToolbar.getMenu();
         menu.findItem(R.id.ml_menu_renderers).setVisible(!hide && showRenderers);
-        if (current instanceof SortableFragment) {
-            menu.findItem(R.id.ml_menu_sortby).setVisible(!hide && ((SortableFragment)current).isSortEnabled());
+        if (current instanceof MediaBrowserFragment) {
+            menu.findItem(R.id.ml_menu_sortby).setVisible(!hide && ((MediaBrowserFragment) current).getProvider().canSortByName());
         }
         if (current instanceof VideoGridFragment || current instanceof AudioBrowserFragment) {
             menu.findItem(R.id.ml_menu_last_playlist).setVisible(!hide);
@@ -186,16 +185,15 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     }
 
     public void onClick(View v) {
-        if (v.getId() == R.id.searchButton)
-            openSearchActivity();
+        if (v.getId() == R.id.searchButton) openSearchActivity();
     }
 
     public void closeSearchView() {
-        if (mMenu != null) MenuItemCompat.collapseActionView(mMenu.findItem(R.id.ml_menu_filter));
+        if (mMenu != null) mMenu.findItem(R.id.ml_menu_filter).collapseActionView();
     }
 
     public void restoreCurrentList() {
-        Fragment current = getCurrentFragment();
+        final Fragment current = getCurrentFragment();
         if (current instanceof Filterable) {
             ((Filterable) current).restoreList();
         }

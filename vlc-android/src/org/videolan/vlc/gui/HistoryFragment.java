@@ -39,8 +39,8 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
-import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.interfaces.IRefreshable;
@@ -49,14 +49,13 @@ import org.videolan.vlc.viewmodels.HistoryProvider;
 
 import java.util.List;
 
-public class HistoryFragment extends MediaBrowserFragment implements IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Filterable {
+public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> implements IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
 
     public final static String TAG = "VLC/HistoryFragment";
 
     private HistoryAdapter mHistoryAdapter;
     private View mEmptyView;
     private RecyclerView mRecyclerView;
-    private HistoryProvider provider;
 
     /* All subclasses of Fragment must include a public empty constructor. */
     public HistoryFragment() {
@@ -75,8 +74,8 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         mEmptyView = view.findViewById(android.R.id.empty);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
         mRecyclerView = view.findViewById(android.R.id.list);
-        provider = ViewModelProviders.of(this).get(HistoryProvider.class);
-        provider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
+        mProvider = ViewModelProviders.of(this).get(HistoryProvider.class);
+        mProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
             @Override
             public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
                 mHistoryAdapter.update(mediaWrappers);
@@ -96,6 +95,12 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
         mRecyclerView.requestFocus();
         registerForContextMenu(mRecyclerView);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) mProvider.refresh();
     }
 
     @Override
@@ -123,7 +128,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
 
     @Override
     public void refresh() {
-        provider.refresh();
+        mProvider.refresh();
     }
 
     @Override
@@ -155,7 +160,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     @Override
     public void clearHistory() {
         mMediaLibrary.clearHistory();
-        provider.clear();
+        mProvider.clear();
         updateEmptyView();
     }
 
@@ -204,7 +209,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     public void onDestroyActionMode(ActionMode mode) {
         mActionMode = null;
         int index = -1;
-        for (MediaWrapper media : provider.getDataset().getValue()) {
+        for (MediaWrapper media : mProvider.getDataset().getValue()) {
             ++index;
             if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
                 media.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
@@ -221,7 +226,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
             invalidateActionMode();
             return;
         }
-        if (position != 0) provider.moveUp((MediaWrapper) item);
+        if (position != 0) mProvider.moveUp((MediaWrapper) item);
         MediaUtils.openMedia(v.getContext(), (MediaWrapper) item);
     }
 
@@ -240,21 +245,7 @@ public class HistoryFragment extends MediaBrowserFragment implements IRefreshabl
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         invalidateActionMode();
-    }
-
-    @Override
-    public boolean enableSearchOption() {
-        return true;
-    }
-
-    @Override
-    public void filter(String query) {
-        provider.filter(query);
-    }
-
-    @Override
-    public void restoreList() {
-        provider.filter(null);
+        UiTools.updateSortTitles(this, mMenu);
     }
 
     @Override

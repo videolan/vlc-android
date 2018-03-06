@@ -4,14 +4,20 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import kotlinx.coroutines.experimental.async
 import org.videolan.medialibrary.Medialibrary
-import org.videolan.medialibrary.media.Album
 import org.videolan.medialibrary.media.Artist
 import org.videolan.medialibrary.media.Genre
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.viewmodels.MedialibraryModel
+import org.videolan.vlc.util.ModelsHelper
 
 
-class AlbumProvider(val parent: MediaLibraryItem? = null): MedialibraryModel<Album>(), Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb {
+class AlbumProvider(val parent: MediaLibraryItem? = null): AudioModel(), Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb {
+
+    override fun canSortByDuration() = true
+    override fun canSortByReleaseDate() = true
+
+    init {
+        if (parent is Artist) sort = Medialibrary.SORT_RELEASEDATE
+    }
 
     override fun onAlbumsAdded() {
         refresh()
@@ -23,11 +29,11 @@ class AlbumProvider(val parent: MediaLibraryItem? = null): MedialibraryModel<Alb
 
     override suspend fun updateList() {
         dataset.value = async {
-            when (parent) {
-                is Artist -> parent.albums.toMutableList()
-                is Genre -> parent.albums.toMutableList()
-                else -> medialibrary.albums.toMutableList()
-            }
+            ModelsHelper.generateSections(sort, when (parent) {
+                is Artist -> parent.getAlbums(sort, desc)
+                is Genre -> parent.getAlbums(sort, desc)
+                else -> medialibrary.getAlbums(sort, desc)
+            })
         }.await()
     }
 

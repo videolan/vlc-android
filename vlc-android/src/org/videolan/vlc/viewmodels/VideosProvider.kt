@@ -31,6 +31,9 @@ import org.videolan.vlc.util.Util
 
 class VideosProvider(private val group: String?) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
 
+    override fun canSortByDuration() = true
+    override fun canSortByLastModified() = true
+
     override fun onMediaAdded(mediaList: Array<out MediaWrapper>?) {
         if (!Util.isArrayEmpty<MediaWrapper>(mediaList)) updateActor.offer(MediaListAddition(mediaList!!.toList()))
     }

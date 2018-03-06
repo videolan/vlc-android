@@ -74,7 +74,7 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
                 mUri = intent.getData();
         }
         if (sBrowserHandler == null) {
-            HandlerThread handlerThread = new HandlerThread("vlc-browser", Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
+            HandlerThread handlerThread = new HandlerThread("vlc-mProvider", Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
             handlerThread.start();
             sBrowserHandler = new Handler(handlerThread.getLooper());
         }

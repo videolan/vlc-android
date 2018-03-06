@@ -72,7 +72,7 @@ public class FilePickerFragment extends FileBrowserFragment {
 
     @Override
     protected void setupBrowser() {
-        browser = ViewModelProviders.of(this, new FilePickerProvider.Factory(mMrl)).get(FilePickerProvider.class);
+        mProvider = ViewModelProviders.of(this, new FilePickerProvider.Factory(mMrl)).get(FilePickerProvider.class);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class FilePickerFragment extends FileBrowserFragment {
         else if (TextUtils.equals(Strings.removeFileProtocole(mMrl), AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) {
             mMrl = null;
             mRoot = true;
-            browser.browseRoot();
+            mProvider.browseRoot();
         } else if (mMrl != null) {
             final MediaWrapper mw = new MediaWrapper(Uri.parse(FileUtils.getParent(mMrl)));
             browse(mw, false);

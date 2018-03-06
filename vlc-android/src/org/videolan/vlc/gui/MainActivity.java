@@ -580,7 +580,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             }
 
             if (mCurrentFragmentId == id) { /* Already selected */
-                // Go back at root level of current browser
+                // Go back at root level of current mProvider
                 if (current instanceof BaseBrowserFragment && !((BaseBrowserFragment) current).isRootDirectory()) {
                     getSupportFragmentManager().popBackStackImmediate(getTag(id), FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 } else {

@@ -66,13 +66,13 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBinding.setShowFavorites(mRoot);
-        browser = ViewModelProviders.of(this, new NetworkProvider.Factory(mMrl)).get(NetworkProvider.class);
+        mProvider = ViewModelProviders.of(this, new NetworkProvider.Factory(mMrl)).get(NetworkProvider.class);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (mRoot) ((NetworkProvider)browser).getFavorites().observe(this, new Observer<List<MediaLibraryItem>>() {
+        if (mRoot) ((NetworkProvider) mProvider).getFavorites().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {
                 favoritesAdapter.submitList(mediaLibraryItems);

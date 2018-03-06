@@ -101,14 +101,14 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 getIntent().getParcelableExtra(AudioBrowserFragment.TAG_ITEM));
         mIsPlaylist = mPlaylist.getItemType() == MediaLibraryItem.TYPE_PLAYLIST;
         mBinding.setPlaylist(mPlaylist);
-        mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, false);
+        mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this);
 
         mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
         mBinding.songs.setAdapter(mAdapter);
-        tracksProvider = ViewModelProviders.of(this, new TracksProvider.Factory(mPlaylist)).get(TracksProvider.class);
-        tracksProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
+        tracksProvider = ViewModelProviders.of(this, new TracksProvider.Factory(mPlaylist, false)).get(TracksProvider.class);
+        tracksProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
-            public void onChanged(@Nullable List<MediaWrapper> tracks) {
+            public void onChanged(@Nullable List<MediaLibraryItem> tracks) {
                 if (tracks != null) mAdapter.update(tracks);
             }
         });

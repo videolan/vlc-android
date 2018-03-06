@@ -6,6 +6,8 @@ import org.videolan.medialibrary.media.MediaWrapper
 
 class HistoryProvider: BaseModel<MediaWrapper>() {
 
+    override fun canSortByName() = false
+
     override fun fetch() {
         refresh()
     }

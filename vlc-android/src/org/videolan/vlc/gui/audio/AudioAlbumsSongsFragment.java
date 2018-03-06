@@ -59,6 +59,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.viewmodels.audio.AlbumProvider;
+import org.videolan.vlc.viewmodels.audio.AudioModel;
 import org.videolan.vlc.viewmodels.audio.TracksProvider;
 
 import java.util.ArrayList;
@@ -76,6 +77,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     private ViewPager mViewPager;
     TabLayout mTabLayout;
     private ContextMenuRecyclerView[] mLists;
+    private AudioModel[] mProvidersList;
     private AudioBrowserAdapter mSongsAdapter;
     private AudioBrowserAdapter mAlbumsAdapter;
     private FastScroller mFastScroller;
@@ -83,7 +85,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     private final static int MODE_ALBUM = 0;
     private final static int MODE_SONG = 1;
-    private final static int MODE_TOTAL = 2; // Number of audio browser modes
+    private final static int MODE_TOTAL = 2; // Number of audio mProvider modes
 
     private MediaLibraryItem mItem;
 
@@ -93,14 +95,13 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState == null)
-            AudioBrowserAdapter.sMediaComparator.setSortDefault();
 
         mItem = (MediaLibraryItem) (savedInstanceState != null ?
                             savedInstanceState.getParcelable(AudioBrowserFragment.TAG_ITEM) :
                             getArguments().getParcelable(AudioBrowserFragment.TAG_ITEM));
         albumProvider = ViewModelProviders.of(this, new AlbumProvider.Factory(mItem)).get(AlbumProvider.class);
-        tracksProvider = ViewModelProviders.of(this, new TracksProvider.Factory(mItem)).get(TracksProvider.class);
+        tracksProvider = ViewModelProviders.of(this, new TracksProvider.Factory(mItem, true)).get(TracksProvider.class);
+        mProvidersList = new AudioModel[] {albumProvider, tracksProvider};
     }
 
     @Override
@@ -109,8 +110,8 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     }
 
     @Override
-    public void filter(String query) {
-        getCurrentAdapter().getFilter().filter(query);
+    public AudioModel getProvider() {
+        return mProvidersList[mViewPager.getCurrentItem()];
     }
 
     @Override
@@ -124,8 +125,8 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
         mLists = new ContextMenuRecyclerView[]{albumsList, songsList};
         final String[] titles = new String[] {getString(R.string.albums), getString(R.string.songs)};
-        mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, true);
-        mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, true);
+        mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this);
+        mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this);
         mAlbumsAdapter.setParentAdapterType(mItem.getItemType());
         mSongsAdapter.setParentAdapterType(mItem.getItemType());
         mAdapters = new AudioBrowserAdapter[]{mAlbumsAdapter, mSongsAdapter};
@@ -160,15 +161,15 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         }
         mFabPlay.setImageResource(R.drawable.ic_fab_play);
         mTabLayout.addOnTabSelectedListener(this);
-        albumProvider.getDataset().observe(this, new Observer<List<Album>>() {
+        albumProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
-            public void onChanged(@Nullable List<Album> albums) {
+            public void onChanged(@Nullable List<MediaLibraryItem> albums) {
                 if (albums != null) mAlbumsAdapter.update(albums);
             }
         });
-        tracksProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
+        tracksProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
-            public void onChanged(@Nullable List<MediaWrapper> tracks) {
+            public void onChanged(@Nullable List<MediaLibraryItem> tracks) {
                 if (tracks != null) mSongsAdapter.update(tracks);
             }
         });
@@ -292,6 +293,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
+        super.onUpdateFinished(adapter);
         mFastScroller.setRecyclerView(getCurrentRV());
         mSwipeRefreshLayout.setRefreshing(false);
         if (mAlbumsAdapter.isEmpty()) mViewPager.setCurrentItem(1);

@@ -446,10 +446,10 @@ addMedia(JNIEnv* env, jobject thiz, jstring mrl) {
 }
 
 jobjectArray
-getAlbums(JNIEnv* env, jobject thiz)
+getAlbums(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::AlbumPtr> albums = aml->albums();
+    std::vector<medialibrary::AlbumPtr> albums = aml->albums(static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
     jobjectArray albumRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
     int index = -1;
     for(medialibrary::AlbumPtr const& album : albums) {
@@ -469,10 +469,10 @@ getAlbum(JNIEnv* env, jobject thiz, jlong id)
 }
 
 jobjectArray
-getArtists(JNIEnv* env, jobject thiz, jboolean all)
+getArtists(JNIEnv* env, jobject thiz, jboolean all, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::ArtistPtr> artists = aml->artists(all);
+    std::vector<medialibrary::ArtistPtr> artists = aml->artists(all, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
     jobjectArray artistRefs = (jobjectArray) env->NewObjectArray(artists.size(), ml_fields.Artist.clazz, NULL);
     int index = -1;
     for(medialibrary::ArtistPtr const& artist : artists) {
@@ -492,10 +492,10 @@ getArtist(JNIEnv* env, jobject thiz, jlong id)
 }
 
 jobjectArray
-getGenres(JNIEnv* env, jobject thiz)
+getGenres(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::GenrePtr> genres = aml->genres();
+    std::vector<medialibrary::GenrePtr> genres = aml->genres(static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
     jobjectArray genreRefs = (jobjectArray) env->NewObjectArray(genres.size(), ml_fields.Genre.clazz, NULL);
     int index = -1;
     for(medialibrary::GenrePtr const& genre : genres) {
@@ -515,10 +515,10 @@ getGenre(JNIEnv* env, jobject thiz, jlong id)
 }
 
 jobjectArray
-getPlaylists(JNIEnv* env, jobject thiz)
+getPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::PlaylistPtr> playlists = aml->playlists();
+    std::vector<medialibrary::PlaylistPtr> playlists = aml->playlists(static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
     jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
     int index = -1;
     for(medialibrary::PlaylistPtr const& playlist : playlists) {
@@ -553,10 +553,10 @@ playlistCreate(JNIEnv* env, jobject thiz, jstring name)
 
 
 jobjectArray
-getTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+getTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    std::vector<medialibrary::MediaPtr> tracks = aml->tracksFromAlbum(id);
+    std::vector<medialibrary::MediaPtr> tracks = aml->tracksFromAlbum(id, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(tracks.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1, drops = 0;
     jobject item = nullptr;
@@ -575,10 +575,10 @@ getTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
  */
 
 jobjectArray
-getMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+getMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    std::vector<medialibrary::MediaPtr> mediaList = aml->mediaFromArtist(id);
+    std::vector<medialibrary::MediaPtr> mediaList = aml->mediaFromArtist(id, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaList) {
@@ -592,10 +592,10 @@ getMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 }
 
 jobjectArray
-getAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+getAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    std::vector<medialibrary::AlbumPtr> albums = aml->albumsFromArtist(id);
+    std::vector<medialibrary::AlbumPtr> albums = aml->albumsFromArtist(id, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
     jobjectArray albumsRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
     int index = -1;
     for(medialibrary::AlbumPtr const& album : albums) {
@@ -612,10 +612,10 @@ getAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
  */
 
 jobjectArray
-getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    std::vector<medialibrary::MediaPtr> mediaList = aml->mediaFromGenre(id);
+    std::vector<medialibrary::MediaPtr> mediaList = aml->mediaFromGenre(id, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaList) {
@@ -629,10 +629,10 @@ getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 }
 
 jobjectArray
-getAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+getAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    std::vector<medialibrary::AlbumPtr> albums = aml->albumsFromGenre(id);
+    std::vector<medialibrary::AlbumPtr> albums = aml->albumsFromGenre(id, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
     jobjectArray albumRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
     int index = -1;
     for(medialibrary::AlbumPtr const& album : albums) {
@@ -644,10 +644,10 @@ getAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
 }
 
 jobjectArray
-getArtistsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+getArtistsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    std::vector<medialibrary::ArtistPtr> artists = aml->artistsFromGenre(id);
+    std::vector<medialibrary::ArtistPtr> artists = aml->artistsFromGenre(id, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
     jobjectArray artistsRefs = (jobjectArray) env->NewObjectArray(artists.size(), ml_fields.Artist.clazz, NULL);
     int index = -1;
     for(medialibrary::ArtistPtr const& artist : artists) {
@@ -812,13 +812,13 @@ static JNINativeMethod methods[] = {
     {"nativeAddMedia", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)addMedia },
     {"nativeGetVideoCount", "()I", (void*)getVideoCount },
     {"nativeGetAudioCount", "()I", (void*)getAudioCount },
-    {"nativeGetAlbums", "()[Lorg/videolan/medialibrary/media/Album;", (void*)getAlbums },
+    {"nativeGetAlbums", "(IZ)[Lorg/videolan/medialibrary/media/Album;", (void*)getAlbums },
     {"nativeGetAlbum", "(J)Lorg/videolan/medialibrary/media/Album;", (void*)getAlbum },
-    {"nativeGetArtists", "(Z)[Lorg/videolan/medialibrary/media/Artist;", (void*)getArtists },
+    {"nativeGetArtists", "(ZIZ)[Lorg/videolan/medialibrary/media/Artist;", (void*)getArtists },
     {"nativeGetArtist", "(J)Lorg/videolan/medialibrary/media/Artist;", (void*)getArtist },
-    {"nativeGetGenres", "()[Lorg/videolan/medialibrary/media/Genre;", (void*)getGenres },
+    {"nativeGetGenres", "(IZ)[Lorg/videolan/medialibrary/media/Genre;", (void*)getGenres },
     {"nativeGetGenre", "(J)Lorg/videolan/medialibrary/media/Genre;", (void*)getGenre },
-    {"nativeGetPlaylists", "()[Lorg/videolan/medialibrary/media/Playlist;", (void*)getPlaylists },
+    {"nativeGetPlaylists", "(IZ)[Lorg/videolan/medialibrary/media/Playlist;", (void*)getPlaylists },
     {"nativeGetPlaylist", "(J)Lorg/videolan/medialibrary/media/Playlist;", (void*)getPlaylist },
     {"nativePauseBackgroundOperations", "()V", (void*)pauseBackgroundOperations },
     {"nativeResumeBackgroundOperations", "()V", (void*)resumeBackgroundOperations },
@@ -840,18 +840,18 @@ static JNINativeMethod media_methods[] = {
 };
 
 static JNINativeMethod album_methods[] = {
-    {"nativeGetTracksFromAlbum", "(Lorg/videolan/medialibrary/Medialibrary;J)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getTracksFromAlbum },
+    {"nativeGetTracksFromAlbum", "(Lorg/videolan/medialibrary/Medialibrary;JIZ)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getTracksFromAlbum },
 };
 
 static JNINativeMethod artist_methods[] = {
-    {"nativeGetMediaFromArtist", "(Lorg/videolan/medialibrary/Medialibrary;J)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMediaFromArtist },
-    {"nativeGetAlbumsFromArtist", "(Lorg/videolan/medialibrary/Medialibrary;J)[Lorg/videolan/medialibrary/media/Album;", (void*)getAlbumsFromArtist },
+    {"nativeGetMediaFromArtist", "(Lorg/videolan/medialibrary/Medialibrary;JIZ)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMediaFromArtist },
+    {"nativeGetAlbumsFromArtist", "(Lorg/videolan/medialibrary/Medialibrary;JIZ)[Lorg/videolan/medialibrary/media/Album;", (void*)getAlbumsFromArtist },
 };
 
 static JNINativeMethod genre_methods[] = {
-    {"nativeGetTracksFromGenre", "(Lorg/videolan/medialibrary/Medialibrary;J)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMediaFromGenre },
-    {"nativeGetAlbumsFromGenre", "(Lorg/videolan/medialibrary/Medialibrary;J)[Lorg/videolan/medialibrary/media/Album;", (void*)getAlbumsFromGenre },
-    {"nativeGetArtistsFromGenre", "(Lorg/videolan/medialibrary/Medialibrary;J)[Lorg/videolan/medialibrary/media/Artist;", (void*)getArtistsFromGenre },
+    {"nativeGetTracksFromGenre", "(Lorg/videolan/medialibrary/Medialibrary;JIZ)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMediaFromGenre },
+    {"nativeGetAlbumsFromGenre", "(Lorg/videolan/medialibrary/Medialibrary;JIZ)[Lorg/videolan/medialibrary/media/Album;", (void*)getAlbumsFromGenre },
+    {"nativeGetArtistsFromGenre", "(Lorg/videolan/medialibrary/Medialibrary;JIZ)[Lorg/videolan/medialibrary/media/Artist;", (void*)getArtistsFromGenre },
 };
 
 static JNINativeMethod playlist_methods[] = {
