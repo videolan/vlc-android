@@ -173,12 +173,12 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         /*
          * skip browser and show directly Audio Player if a song is playing
          */
-        if ((mRowsAdapter == null || mRowsAdapter.size() == 0) && Permissions.canReadStorage(this))
+        if (!mMediaLibrary.isWorking() && (mRowsAdapter == null || mRowsAdapter.size() == 0) && Permissions.canReadStorage(this))
             update();
         else {
             updateBrowsers();
             updateNowPlayingCard();
-            if (mMediaLibrary.isInitiated()) {
+            if (mRowsAdapter != null && mMediaLibrary.isInitiated()) {
                 VLCApplication.runBackground(new Runnable() {
                     @Override
                     public void run() {
@@ -377,6 +377,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         protected void onPreExecute() {
             showHistory = mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true);
             mHandler.sendEmptyMessageDelayed(SHOW_LOADING, 300);
+            mHistoryAdapter = null;
         }
 
         @Override
@@ -453,8 +454,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     }
 
     @MainThread
-    private void updateHistory(MediaWrapper[] history) {
-        if (history == null) return;
+    private synchronized void updateHistory(MediaWrapper[] history) {
+        if (history == null || mRowsAdapter == null) return;
         final boolean createAdapter = mHistoryAdapter == null;
         if (createAdapter) mHistoryAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
         else mHistoryAdapter.clear();
