@@ -29,7 +29,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -45,6 +44,7 @@ import android.widget.TextView;
 
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
+import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
@@ -67,6 +67,8 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.viewmodels.audio.AlbumProvider;
 import org.videolan.vlc.viewmodels.audio.ArtistProvider;
+import org.videolan.vlc.viewmodels.audio.Genresprovider;
+import org.videolan.vlc.viewmodels.audio.PlaylistsProvider;
 import org.videolan.vlc.viewmodels.audio.TracksProvider;
 
 import java.util.ArrayList;
@@ -86,6 +88,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private ArtistProvider artistProvider;
     private AlbumProvider albumProvider;
     private TracksProvider tracksProvider;
+    private Genresprovider genresprovider;
+    private PlaylistsProvider playlistsProvider;
 
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
@@ -93,7 +97,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private final ContextMenuRecyclerView[] mLists = new ContextMenuRecyclerView[MODE_TOTAL];
     private FastScroller mFastScroller;
 
-    private static final int UPDATE_LIST = 102;
     private static final int SET_REFRESHING = 103;
     private static final int UNSET_REFRESHING = 104;
     private static final int UPDATE_EMPTY_VIEW = 105;
@@ -119,6 +122,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         artistProvider = ViewModelProviders.of(this).get(ArtistProvider.class);
         albumProvider = ViewModelProviders.of(this).get(AlbumProvider.class);
         tracksProvider = ViewModelProviders.of(this).get(TracksProvider.class);
+        genresprovider = ViewModelProviders.of(this).get(Genresprovider.class);
+        playlistsProvider = ViewModelProviders.of(this).get(PlaylistsProvider.class);
     }
 
     @Override
@@ -184,6 +189,18 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             @Override
             public void onChanged(@Nullable List<MediaWrapper> tracks) {
                 if (tracks != null) mSongsAdapter.update(tracks);
+            }
+        });
+        genresprovider.getDataset().observe(this, new Observer<List<Genre>>() {
+            @Override
+            public void onChanged(@Nullable List<Genre> genres) {
+                if (genres != null) mGenresAdapter.update(genres);
+            }
+        });
+        playlistsProvider.getDataset().observe(this, new Observer<List<Playlist>>() {
+            @Override
+            public void onChanged(@Nullable List<Playlist> playlists) {
+                if (playlists != null) mPlaylistAdapter.update(playlists);
             }
         });
     }
@@ -535,10 +552,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         final AudioBrowserFragment fragment = getOwner();
         if (fragment == null) return;
         switch (msg.what) {
-            case UPDATE_LIST:
-                removeMessages(UPDATE_LIST);
-                fragment.updateLists();
-                break;
             case SET_REFRESHING:
                 fragment.mSwipeRefreshLayout.setRefreshing(true);
                 break;
@@ -552,32 +565,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 }
 
-    @MainThread
-    private void updateLists() {
-        mTabLayout.setVisibility(View.VISIBLE);
-        mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
-//        updateSongs();
-        updateGenres();
-        updatePlaylists();
-    }
-
     public void updateArtists() {
         artistProvider.refresh();
-    }
-
-    private void updateGenres() {
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                final List<MediaLibraryItem> genres = Util.arrayToMediaArrayList(mMediaLibrary.getGenres());
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mGenresAdapter.update(genres);
-                    }
-                });
-            }
-        });
     }
 
     private void updatePlaylists() {
