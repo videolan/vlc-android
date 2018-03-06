@@ -12,7 +12,7 @@
             name="item"
             type="org.videolan.vlc.extensions.api.VLCExtensionItem"/>
         <variable
-            name="image"
+            name="cover"
             type="android.graphics.drawable.BitmapDrawable"/>
     </data>
 
@@ -36,6 +36,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:visibility="@{item.imageUri == null || TextUtils.isEmpty(item.imageUri.toString()) ? View.GONE : View.VISIBLE}"
+            android:src="@{cover}"
             tools:src="@drawable/icon"/>
 
         <TextView
@@ -73,7 +74,7 @@
             android:layout_marginTop="2dp"
             vlc:layout_constraintEnd_toStartOf="@id/item_more"
             vlc:layout_constraintTop_toBottomOf="@+id/title"
-            vlc:layout_constraintStart_toEndOf="@id/extension_image"
+            vlc:layout_constraintStart_toStartOf="@id/title"
             vlc:layout_constraintBottom_toBottomOf="parent"
             android:visibility="@{TextUtils.isEmpty(item.subTitle) ? View.GONE : View.VISIBLE}"
             tools:text="Author"
