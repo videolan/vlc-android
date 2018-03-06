@@ -317,6 +317,12 @@ getRecentAudio(JNIEnv* env, jobject thiz)
     return getInternalAudio(env, thiz, medialibrary::SortingCriteria::InsertionDate, true);
 }
 
+jobjectArray
+getSortedAudio(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
+{
+    return getInternalAudio(env, thiz, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+}
+
 jobject
 search(JNIEnv* env, jobject thiz, jstring query)
 {
@@ -793,6 +799,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetSortedVideos", "(IZ)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getSortedVideos },
     {"nativeGetRecentVideos", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getRecentVideos },
     {"nativeGetAudio", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getAudio },
+    {"nativeGetSortedAudio", "(IZ)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getSortedAudio },
     {"nativeGetRecentAudio", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getRecentAudio },
     {"nativeSearch", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/SearchAggregate;", (void*)search},
     {"nativeSearchMedia", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/MediaSearchAggregate;", (void*)searchMedia},
