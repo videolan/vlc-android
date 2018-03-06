@@ -24,6 +24,8 @@
 package org.videolan.vlc.gui;
 
 import android.annotation.TargetApi;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -65,6 +67,7 @@ import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.viewmodels.audio.TracksProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,6 +85,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     private PlaylistActivityBinding mBinding;
     private ActionMode mActionMode;
     private boolean mIsPlaylist;
+    private TracksProvider tracksProvider;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,6 +105,13 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
         mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
         mBinding.songs.setAdapter(mAdapter);
+        tracksProvider = ViewModelProviders.of(this, new TracksProvider.Factory(mPlaylist)).get(TracksProvider.class);
+        tracksProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
+            @Override
+            public void onChanged(@Nullable List<MediaWrapper> tracks) {
+                if (tracks != null) mAdapter.update(tracks);
+            }
+        });
         final int fabVisibility =  savedInstanceState != null ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;
 
         if (!TextUtils.isEmpty(mPlaylist.getArtworkMrl())) {
@@ -152,7 +163,6 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     @Override
     protected void onStart() {
         super.onStart();
-        updateList();
         registerForContextMenu(mBinding.songs);
     }
 
@@ -170,13 +180,6 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         super.onSaveInstanceState(outState);
     }
 
-    private void updateList() {
-        if (mPlaylist != null) {
-            List<MediaLibraryItem> tracks = Util.arrayToMediaArrayList(mPlaylist.getTracks());
-            mAdapter.update(tracks);
-        }
-    }
-
     @Override
     public void onClick(View v, int position, MediaLibraryItem item) {
         if (mActionMode != null) {
@@ -190,8 +193,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     public boolean onLongClick(View v, int position, MediaLibraryItem item) {
-        if (mActionMode != null)
-            return false;
+        if (mActionMode != null) return false;
         item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
         mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
         mAdapter.notifyItemChanged(position, item);
@@ -201,8 +203,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {
-        if (mActionMode == null)
-            mBinding.songs.openContextMenu(position);
+        if (mActionMode == null) mBinding.songs.openContextMenu(position);
     }
 
     @Override

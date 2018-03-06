@@ -1,11 +1,13 @@
 package org.videolan.vlc.viewmodels.audio
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
 import kotlinx.coroutines.experimental.async
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.viewmodels.MedialibraryModel
 
-
-class TracksProvider: MedialibraryModel<MediaWrapper>() {
+class TracksProvider(val parent: MediaLibraryItem? = null): MedialibraryModel<MediaWrapper>() {
 
     override fun onMediaAdded(mediaList: Array<out MediaWrapper>?) {
         refresh()
@@ -15,6 +17,15 @@ class TracksProvider: MedialibraryModel<MediaWrapper>() {
         refresh()
     }
     override suspend fun updateList() {
-        dataset.value = async { medialibrary.audio.toMutableList() }.await()
+        dataset.value = async {
+            parent?.tracks?.toMutableList() ?: medialibrary.audio.toMutableList()
+        }.await()
+    }
+
+    class Factory(val parent: MediaLibraryItem?): ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            @Suppress("UNCHECKED_CAST")
+            return TracksProvider(parent) as T
+        }
     }
 }
