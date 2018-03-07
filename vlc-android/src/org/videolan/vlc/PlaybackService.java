@@ -434,7 +434,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
             final int state = intent.getIntExtra("state", 0);
 
             // skip all headsets events if there is a call
-            final TelephonyManager telManager = (TelephonyManager) VLCApplication.getAppContext().getSystemService(Context.TELEPHONY_SERVICE);
+            final TelephonyManager telManager = (TelephonyManager) PlaybackService.this.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
             if (telManager != null && telManager.getCallState() != TelephonyManager.CALL_STATE_IDLE) return;
 
             /*
