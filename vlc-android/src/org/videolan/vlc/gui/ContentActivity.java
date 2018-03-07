@@ -52,13 +52,14 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.AndroidDevices;
 
 public class ContentActivity extends AudioPlayerContainerActivity implements SearchView.OnQueryTextListener, MenuItemCompat.OnActionExpandListener, RendererDelegate.RendererListener, RendererDelegate.RendererPlayer {
     public static final String TAG = "VLC/ContentActivity";
 
     protected Menu mMenu;
     private SearchView mSearchView;
-    private boolean showRenderers = !RendererDelegate.INSTANCE.getRenderers().isEmpty();
+    private boolean showRenderers = !AndroidDevices.isChromeBook && !RendererDelegate.INSTANCE.getRenderers().isEmpty();
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -123,15 +124,19 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     @Override
     protected void onStart() {
         super.onStart();
-        RendererDelegate.INSTANCE.addListener(this);
-        RendererDelegate.INSTANCE.addPlayerListener(this);
+        if (!AndroidDevices.isChromeBook) {
+            RendererDelegate.INSTANCE.addListener(this);
+            RendererDelegate.INSTANCE.addPlayerListener(this);
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        RendererDelegate.INSTANCE.removeListener(this);
-        RendererDelegate.INSTANCE.removePlayerListener(this);
+        if (!AndroidDevices.isChromeBook) {
+            RendererDelegate.INSTANCE.removeListener(this);
+            RendererDelegate.INSTANCE.removePlayerListener(this);
+        }
     }
 
     @Override
