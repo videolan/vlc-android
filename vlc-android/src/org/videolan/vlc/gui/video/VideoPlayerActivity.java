@@ -2835,7 +2835,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mHudBinding.progressOverlay.setLayoutParams(layoutParams);
             mOverlayBackground = findViewById(R.id.player_overlay_background);
             mNavMenu = (ImageView) findViewById(R.id.player_overlay_navmenu);
-            if (AndroidUtil.isJellyBeanMR1OrLater) {
+            if (!AndroidDevices.isChromeBook && AndroidUtil.isJellyBeanMR1OrLater) {
                 mRendererBtn = (ImageView) findViewById(R.id.video_renderer);
                 onRenderersChanged(RendererDelegate.INSTANCE.getRenderers().isEmpty());
                 onRendererChanged(RendererDelegate.INSTANCE.getSelectedRenderer());

@@ -19,6 +19,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.RendererDelegate
+import org.videolan.vlc.util.AndroidDevices
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 class DisplayManager(private val activity: Activity, cloneMode: Boolean) : RendererDelegate.RendererPlayer {
@@ -52,9 +53,9 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) : Rende
 
     init {
         presentation = if (AndroidUtil.isJellyBeanMR1OrLater) createPresentation(cloneMode) else null
-        rendererItem = RendererDelegate.selectedRenderer
+        rendererItem = if (!AndroidDevices.isChromeBook) RendererDelegate.selectedRenderer else null
         displayType = getCurrentType()
-        RendererDelegate.addPlayerListener(this)
+        if (!AndroidDevices.isChromeBook) RendererDelegate.addPlayerListener(this)
     }
 
     companion object {
