@@ -450,9 +450,8 @@ public class PlaybackService extends MediaBrowserServiceCompat{
              * Remote / headset control events
              */
             if (action.equalsIgnoreCase(Constants.ACTION_REMOTE_PLAYPAUSE)) {
-                if (!playlistManager.hasCurrentMedia())
-                    loadLastAudioPlaylist();
-                if (isPlaying()) pause();
+                if (!playlistManager.hasCurrentMedia()) loadLastAudioPlaylist();
+                else if (isPlaying()) pause();
                 else play();
             } else if (action.equalsIgnoreCase(Constants.ACTION_REMOTE_PLAY)) {
                 if (!isPlaying() && playlistManager.hasCurrentMedia())
