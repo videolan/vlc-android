@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui;
 
+import android.arch.lifecycle.Observer;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -61,6 +62,7 @@ import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IRefreshable;
+import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.WeakHandler;
@@ -102,6 +104,13 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         }
         super.onCreate(savedInstanceState);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        PlaylistManager.Companion.getShowAudioPlayer().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean showPlayer) {
+                if (showPlayer) showAudioPlayer();
+                else hideAudioPlayer();
+            }
+        });
     }
 
     protected void initAudioPlayerContainerActivity() {
@@ -134,21 +143,14 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     }
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        if (mFragmentContainer == null)
-            mFragmentContainer = findViewById(R.id.fragment_placeholder);
-        mOriginalBottomPadding = mFragmentContainer.getPaddingBottom();
-    }
-
-    @Override
     protected void onStart() {
         ExternalMonitor.subscribeStorageCb(this);
+        if (mFragmentContainer == null) {
+            mFragmentContainer = findViewById(R.id.fragment_placeholder);
+            if (mFragmentContainer != null) mOriginalBottomPadding = mFragmentContainer.getPaddingBottom();
+        }
 
         /* Prepare the progressBar */
-        IntentFilter playerFilter = new IntentFilter();
-        playerFilter.addAction(Constants.ACTION_SHOW_PLAYER);
-        registerReceiver(messageReceiver, playerFilter);
         IntentFilter progressFilter = new IntentFilter(Constants.ACTION_SERVICE_STARTED);
         progressFilter.addAction(Constants.ACTION_SERVICE_ENDED);
         progressFilter.addAction(Constants.ACTION_PROGRESS);
@@ -157,6 +159,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         // super.onStart must be called after receiver registration
         super.onStart();
         mHelper.onStart();
+        if (PlaylistManager.Companion.getShowAudioPlayer().getValue()) showAudioPlayer();
     }
 
     @Override
@@ -178,7 +181,6 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     protected void onStop() {
         super.onStop();
         ExternalMonitor.unsubscribeStorageCb(this);
-        unregisterReceiver(messageReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
         mHelper.onStop();
     }
@@ -186,8 +188,6 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     @Override
     public void onConnected(PlaybackService service) {
         mService = service;
-        if (service.hasMedia() && !mService.isVideoPlaying())
-            showAudioPlayer();
     }
 
     @Override
@@ -276,8 +276,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
      * Show the audio player.
      */
     public synchronized void showAudioPlayer() {
-        if (!isAudioPlayerReady())
-            initAudioPlayer();
+        if (!isAudioPlayerReady()) initAudioPlayer();
         if (mAudioPlayerContainer.getVisibility() == View.GONE) {
             mAudioPlayerContainer.setVisibility(View.VISIBLE);
             updateContainerPadding(true);
@@ -369,10 +368,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
-            if (Constants.ACTION_SHOW_PLAYER.equals(action)) {
-                showAudioPlayer();
-                return;
-            }
+            if (action == null) return;
             switch (action) {
                 case Constants.ACTION_NEW_STORAGE:
                     UiTools.newStorageDetected(AudioPlayerContainerActivity.this, intent.getStringExtra(Constants.EXTRA_PATH));

@@ -1,9 +1,11 @@
 package org.videolan.vlc.media
 
+import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
 import android.net.Uri
 import android.support.annotation.MainThread
 import android.support.v4.content.LocalBroadcastManager
+import android.support.v4.media.session.PlaybackStateCompat
 import android.support.v7.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
@@ -14,6 +16,7 @@ import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
+import org.videolan.libvlc.RendererItem
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
@@ -32,6 +35,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private val TAG = "VLC/PlaylistManager"
     private val PREVIOUS_LIMIT_DELAY = 5000L
     private val AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode"
+
+    companion object {
+        val showAudioPlayer = MutableLiveData<Boolean>().apply { value = false }
+    }
 
     private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { Medialibrary.getInstance() }
     val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController() }
@@ -187,6 +194,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         mediaList.clear()
         if (systemExit) player.release()
         else player.restart()
+        showAudioPlayer.value = false
         service.onPlaybackStopped()
     }
 
@@ -219,6 +227,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             settings.edit().putInt(AUDIO_REPEAT_MODE_KEY, repeating).apply()
         savePosition()
         launch(UI, CoroutineStart.UNDISPATCHED) { determinePrevAndNextIndices() }
+    }
+
+    fun setRenderer(item: RendererItem?) {
+        player.setRenderer(item)
+        showAudioPlayer.value = player.playbackState != PlaybackStateCompat.STATE_STOPPED && (item !== null || !player.isVideoPlaying())
     }
 
     fun playIndex(index: Int, flags: Int = 0) {
@@ -655,6 +668,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     savePosition(true)
                     saveCurrentMedia()
                     newMedia = false
+                    if (player.hasRenderer|| !player.isVideoPlaying()) showAudioPlayer.value = true
                 }
             }
             MediaPlayer.Event.Paused -> medialibrary.resumeBackgroundOperations()
@@ -677,5 +691,5 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         service.onMediaPlayerEvent(event)
     }
 
-    fun isAudioList() = !player.canSwitchToVideo() && mediaList.isAudioList
+    private fun isAudioList() = !player.canSwitchToVideo() && mediaList.isAudioList
 }

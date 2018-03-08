@@ -23,7 +23,6 @@ package org.videolan.vlc.gui.audio
 import android.Manifest
 import android.annotation.TargetApi
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
@@ -100,15 +99,7 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
 
         private var DEFAULT_BACKGROUND_DARKER_ID = 0
         private var DEFAULT_BACKGROUND_ID = 0
-        const private val SEARCH_TIMEOUT_MILLIS = 5000
-        /**
-         * Show the audio player from an intent
-         *
-         * @param context The context of the activity
-         */
-        fun start(context: Context) {
-            context.applicationContext.sendBroadcast(Intent(Constants.ACTION_SHOW_PLAYER))
-        }
+        private const val SEARCH_TIMEOUT_MILLIS = 5000
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -192,17 +183,11 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
 
     private fun doUpdate() {
         if (mService === null || activity === null) return
-        if (mService.hasMedia() && !mService.isVideoPlaying) {
-            //Check fragment resumed to not restore video on device turning off
-            if (isVisible && mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
-                mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply()
-                mService.currentMediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                mService.switchToVideo()
-                return
-            } else
-                show()
-        } else {
-            hide()
+        if (mService.hasMedia() && !mService.isVideoPlaying && isVisible
+                && mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
+            mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply()
+            mService.currentMediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+            mService.switchToVideo()
             return
         }
 
@@ -381,16 +366,6 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
             advOptionsDialog.arguments = Bundle().apply { putInt(AdvOptionsDialog.MODE_KEY, AdvOptionsDialog.MODE_AUDIO) }
             advOptionsDialog.show(it.supportFragmentManager, "fragment_adv_options")
         }
-    }
-
-    fun show() {
-        val activity = activity as? AudioPlayerContainerActivity
-        if (activity?.isAudioPlayerReady == true) activity.showAudioPlayer()
-    }
-
-    fun hide() {
-        val activity = activity as? AudioPlayerContainerActivity
-        activity?.hideAudioPlayer()
     }
 
     private fun setHeaderVisibilities(advFuncVisible: Boolean, playlistSwitchVisible: Boolean,

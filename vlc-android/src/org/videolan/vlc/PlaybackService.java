@@ -527,7 +527,6 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                             && playlistManager.switchToVideo()) {
                         hideNotification();
                     } else {
-                        if (!hasRenderer() || !canSwitchToVideo()) showPlayer();
                         showNotification();
                     }
                     break;
@@ -582,10 +581,6 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         publishState();
         executeUpdate();
         executeUpdateProgress();
-    }
-
-    private void showPlayer() {
-        sendBroadcast(new Intent(Constants.ACTION_SHOW_PLAYER));
     }
 
     public boolean canSwitchToVideo() {
@@ -725,8 +720,6 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         } else {
             /* Show audio player */
             final Intent notificationIntent = new Intent(this, StartActivity.class);
-            notificationIntent.setAction(Constants.ACTION_SHOW_PLAYER);
-            notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
             return PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
     }
@@ -1810,7 +1803,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         final boolean wasOnRenderer = hasRenderer();
         if (wasOnRenderer && !hasRenderer() && canSwitchToVideo()) VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
                 playlistManager.getCurrentMedia().getUri(), playlistManager.getCurrentIndex());
-        playlistManager.getPlayer().setRenderer(item);
+        playlistManager.setRenderer(item);
         if (!wasOnRenderer && item != null) changeAudioFocus(false);
         else if (wasOnRenderer && item == null && isPlaying()) changeAudioFocus(true);
     }

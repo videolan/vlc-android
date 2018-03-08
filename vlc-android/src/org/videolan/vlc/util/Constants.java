@@ -47,9 +47,6 @@ public class Constants {
     public static final int REPEAT_ONE = 1;
     public static final int REPEAT_ALL = 2;
 
-    // AudioPlayerContainerActivity
-    public static final String ACTION_SHOW_PLAYER = Strings.buildPkgString("gui.ShowPlayer");
-
     // MediaParsingService
     public final static String ACTION_INIT = "medialibrary_init";
     public final static String ACTION_RELOAD = "medialibrary_reload";
