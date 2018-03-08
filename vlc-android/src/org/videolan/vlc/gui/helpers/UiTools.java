@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.helpers;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import android.content.res.TypedArray;
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -52,6 +54,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.DragAndDropPermissions;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,6 +77,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.BaseAudioBrowser;
 import org.videolan.vlc.gui.browser.SortableFragment;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
@@ -391,8 +396,7 @@ public class UiTools {
     }
 
     public static void newStorageDetected(final Activity activity, final String path) {
-        if (activity == null)
-            return;
+        if (activity == null) return;
         final String uuid = FileUtils.getFileNameFromPath(path);
         final String deviceName = FileUtils.getStorageTag(uuid);
         final String message = String.format(activity.getString(R.string.ml_external_storage_msg), deviceName != null ? deviceName : uuid);
@@ -441,5 +445,39 @@ public class UiTools {
                 });
             builder.show();
         }
+    }
+
+    public static void setOnDragListener(final Activity activity) {
+        final View view = AndroidUtil.isNougatOrLater ? activity.getWindow().peekDecorView() : null;
+        if (view != null) view.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                switch (event.getAction()) {
+                    case DragEvent.ACTION_DRAG_STARTED:
+                        return true;
+                    case DragEvent.ACTION_DROP:
+                        final ClipData clipData = event.getClipData();
+                        if (clipData == null) return false;
+                        final int itemsCount = clipData.getItemCount();
+                        for (int i = 0; i < itemsCount; i++) {
+                            final DragAndDropPermissions permissions = activity.requestDragAndDropPermissions(event);
+                            if (permissions != null)  {
+                                final ClipData.Item item = clipData.getItemAt(i);
+                                if (item.getUri() != null) MediaUtils.openUri(activity, item.getUri());
+                                else if (item.getText() != null) {
+                                    final Uri uri = Uri.parse(item.getText().toString());
+                                    final MediaWrapper media = new MediaWrapper(uri);
+                                    if (!"file".equals(uri.getScheme())) media.setType(MediaWrapper.TYPE_STREAM);
+                                    MediaUtils.openMedia(activity, media);
+                                }
+                                return true;
+                            }
+                        }
+                        return false;
+                    default:
+                        return false;
+                }
+            }
+        });
     }
 }
