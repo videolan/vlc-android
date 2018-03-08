@@ -242,6 +242,10 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     @Override
     public void onRenderersChanged(boolean empty) {
         showRenderers = !empty;
+        if (empty && !AndroidDevices.isChromeBook) {
+            RendererDelegate.INSTANCE.selectRenderer(null);
+            if (mService != null) mService.setRenderer(null);
+        }
         supportInvalidateOptionsMenu();
     }
 
