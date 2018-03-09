@@ -24,6 +24,10 @@
 package org.videolan.vlc;
 
 import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.OnLifecycleEvent;
+import android.arch.lifecycle.ProcessLifecycleOwner;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -54,7 +58,7 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ExternalMonitor extends BroadcastReceiver {
+public class ExternalMonitor extends BroadcastReceiver implements LifecycleObserver {
     public final static String TAG = "VLC/ExternalMonitor";
     private static volatile boolean connected = false;
     private static volatile boolean mobile = true;
@@ -63,11 +67,17 @@ public class ExternalMonitor extends BroadcastReceiver {
     private static final List<NetworkObserver> networkObservers = new LinkedList<>();
     private static WeakReference<Activity> storageObserver = null;
 
+    public ExternalMonitor() {
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
+    }
+
     public interface NetworkObserver {
         void onNetworkConnectionChanged(boolean connected);
     }
 
-    static void register(Context ctx) {
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    static void register() {
+        final Context ctx = VLCApplication.getAppContext();
         final IntentFilter networkFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         final IntentFilter storageFilter = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
         storageFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
@@ -88,7 +98,9 @@ public class ExternalMonitor extends BroadcastReceiver {
             });
     }
 
-    static void unregister(Context ctx) {
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    static void unregister() {
+        final Context ctx = VLCApplication.getAppContext();
         ctx.unregisterReceiver(instance);
     }
 
@@ -102,8 +114,7 @@ public class ExternalMonitor extends BroadcastReceiver {
         final String action = intent.getAction();
         switch (action) {
             case ConnectivityManager.CONNECTIVITY_ACTION:
-                if (cm == null)
-                    cm = (ConnectivityManager) VLCApplication.getAppContext().getSystemService(
+                if (cm == null) cm = (ConnectivityManager) VLCApplication.getAppContext().getSystemService(
                             Context.CONNECTIVITY_SERVICE);
                 final NetworkInfo networkInfo = cm.getActiveNetworkInfo();
                 final boolean isConnected = networkInfo != null && networkInfo.isConnected();

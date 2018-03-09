@@ -19,14 +19,14 @@
  *****************************************************************************/
 package org.videolan.vlc;
 
-import android.app.Activity;
 import android.app.Application;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.ProcessLifecycleOwner;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
@@ -114,8 +114,6 @@ public class VLCApplication extends Application {
                 Dialog.setCallbacks(VLCInstance.get(), mDialogCallbacks);
             }
         });
-
-        registerActivityLifecycleCallbacks(sActivityCbListener);
     }
 
     @Override
@@ -283,34 +281,6 @@ public class VLCApplication extends Application {
      * @return true if an activity is displayed, false if app is in background.
      */
     public static boolean isForeground() {
-        return sActivitiesCount > 0;
+        return ProcessLifecycleOwner.get().getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED);
     }
-
-    private static int sActivitiesCount = 0;
-    private static ActivityLifecycleCallbacks sActivityCbListener = new ActivityLifecycleCallbacks() {
-        @Override
-        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {}
-
-        @Override
-        public void onActivityStarted(Activity activity) {
-            if (++sActivitiesCount == 1) ExternalMonitor.register(instance);
-        }
-
-        @Override
-        public void onActivityResumed(Activity activity) {}
-
-        @Override
-        public void onActivityPaused(Activity activity) {}
-
-        @Override
-        public void onActivityStopped(Activity activity) {
-            if (--sActivitiesCount == 0)  ExternalMonitor.unregister(instance);
-        }
-
-        @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {}
-
-        @Override
-        public void onActivityDestroyed(Activity activity) {}
-    };
 }
