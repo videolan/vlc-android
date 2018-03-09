@@ -32,7 +32,7 @@ class NetworkProvider(url: String?): BrowserProvider(url) {
     }
 
     private suspend fun updateFavorites() {
-        if (!ExternalMonitor.isConnected()) favorites.value = mutableListOf()
+        if (ExternalMonitor.connected?.value != true) favorites.value = mutableListOf()
         val favs: MutableList<MediaLibraryItem> = async { MediaDatabase.getInstance().allNetworkFav }.await().toMutableList()
         if (!allowLAN()) {
             val schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https")

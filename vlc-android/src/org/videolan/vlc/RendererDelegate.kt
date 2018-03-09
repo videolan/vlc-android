@@ -19,17 +19,19 @@
  */
 package org.videolan.vlc
 
+import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
+import org.videolan.vlc.ExternalMonitor.connected
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.retry
 import java.util.*
 
-object RendererDelegate : RendererDiscoverer.EventListener, ExternalMonitor.NetworkObserver {
+object RendererDelegate : RendererDiscoverer.EventListener {
 
     private val TAG = "VLC/RendererDelegate"
     private val mDiscoverers = ArrayList<RendererDiscoverer>()
@@ -42,7 +44,7 @@ object RendererDelegate : RendererDiscoverer.EventListener, ExternalMonitor.Netw
         private set
 
     init {
-        ExternalMonitor.subscribeNetworkCb(this)
+        ExternalMonitor.connected.observeForever { launch(UI, CoroutineStart.UNDISPATCHED) { if (connected?.value == true) start() else stop() } }
     }
 
     interface RendererListener {
@@ -56,7 +58,7 @@ object RendererDelegate : RendererDiscoverer.EventListener, ExternalMonitor.Netw
     suspend fun start() {
         if (started) return
         started = true
-        val libVlc = async { VLCInstance.get() }.await()
+        val libVlc = withContext(CommonPool) { VLCInstance.get() }
         for (discoverer in RendererDiscoverer.list(libVlc)) {
             val rd = RendererDiscoverer(libVlc, discoverer.name)
             mDiscoverers.add(rd)
@@ -65,7 +67,7 @@ object RendererDelegate : RendererDiscoverer.EventListener, ExternalMonitor.Netw
         }
     }
 
-    suspend fun stop() {
+    fun stop() {
         if (!started) return
         started = false
         for (discoverer in mDiscoverers) discoverer.stop()
@@ -78,10 +80,6 @@ object RendererDelegate : RendererDiscoverer.EventListener, ExternalMonitor.Netw
         mDiscoverers.clear()
         for (renderer in renderers) renderer.release()
         renderers.clear()
-    }
-
-    override fun onNetworkConnectionChanged(connected: Boolean) {
-        launch(UI, CoroutineStart.UNDISPATCHED) { if (connected) start() else stop() }
     }
 
     override fun onEvent(event: RendererDiscoverer.Event?) {

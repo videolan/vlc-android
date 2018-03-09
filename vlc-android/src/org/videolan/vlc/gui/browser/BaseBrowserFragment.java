@@ -39,7 +39,6 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -150,7 +149,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
         mProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {
-                for (MediaLibraryItem item : mediaLibraryItems) Log.d(TAG, "onChanged: "+item.getTitle());
                 mAdapter.update(mediaLibraryItems);
             }
         });

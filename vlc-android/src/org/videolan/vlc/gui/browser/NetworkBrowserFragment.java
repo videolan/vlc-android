@@ -55,7 +55,7 @@ import org.videolan.vlc.viewmodels.browser.NetworkProvider;
 
 import java.util.List;
 
-public class NetworkBrowserFragment extends BaseBrowserFragment implements ExternalMonitor.NetworkObserver, SimpleAdapter.FavoritesHandler {
+public class NetworkBrowserFragment extends BaseBrowserFragment implements SimpleAdapter.FavoritesHandler {
 
     @Override
     public void onClick(@NotNull MediaLibraryItem item) {
@@ -76,6 +76,12 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {
                 favoritesAdapter.submitList(mediaLibraryItems);
+            }
+        });
+        ExternalMonitor.connected.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean connected) {
+                refresh(connected);
             }
         });
     }
@@ -116,8 +122,11 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
 
     @Override
     public void refresh() {
-        if (ExternalMonitor.isConnected())
-            super.refresh();
+        refresh(ExternalMonitor.connected.getValue());
+    }
+
+    public void refresh(boolean connected) {
+        if (connected) super.refresh();
         else {
             updateEmptyView();
             mAdapter.clear();
@@ -139,10 +148,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden)
-            ExternalMonitor.unsubscribeNetworkCb(this);
-        else
-            ExternalMonitor.subscribeNetworkCb(this);
         if (!mRoot || mFabPlay == null)
             return;
         if (hidden) {
@@ -219,7 +224,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
      */
     protected void updateEmptyView() {
         if (mEmptyView == null) return;
-        if (ExternalMonitor.isConnected()) {
+        if (ExternalMonitor.connected.getValue()) {
             if (mAdapter.isEmpty()) {
                 if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) {
                     mEmptyView.setText(R.string.loading);
@@ -269,12 +274,4 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Exter
             else goBack = true;
         }
     };
-
-    @Override
-    public void onNetworkConnectionChanged(boolean connected) {
-//        final boolean isEmpty = mAdapter.isEmpty();
-//        mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_REFRESH);
-//        //update() will trigger updateEmptyView
-//        if (!connected && isEmpty) updateEmptyView();
-    }
 }

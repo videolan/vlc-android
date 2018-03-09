@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
+import android.arch.lifecycle.Observer;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 
@@ -46,7 +48,7 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public abstract class BaseTvActivity extends PlaybackServiceActivity implements ExternalMonitor.NetworkObserver {
+public abstract class BaseTvActivity extends PlaybackServiceActivity {
 
     private static final String TAG = "VLC/BaseTvActivity";
 
@@ -63,6 +65,12 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity implements 
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        ExternalMonitor.connected.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean connected) {
+                onNetworkConnectionChanged(connected);
+            }
+        });
     }
 
     @Override
@@ -76,7 +84,6 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity implements 
 
         mRegistering = true;
         LocalBroadcastManager.getInstance(this).registerReceiver(mParsingServiceReceiver, parsingServiceFilter);
-        ExternalMonitor.subscribeNetworkCb(this);
         // super.onStart must be called after receiver registration
         super.onStart();
         mIsVisible = true;
@@ -88,7 +95,6 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity implements 
         ExternalMonitor.unsubscribeStorageCb(this);
         super.onStop();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mParsingServiceReceiver);
-        ExternalMonitor.unsubscribeNetworkCb(this);
     }
 
     @Override

@@ -26,6 +26,7 @@ package org.videolan.vlc;
 import android.app.Activity;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.arch.lifecycle.ProcessLifecycleOwner;
 import android.content.BroadcastReceiver;
@@ -55,24 +56,17 @@ import java.lang.ref.WeakReference;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
-import java.util.LinkedList;
-import java.util.List;
 
 public class ExternalMonitor extends BroadcastReceiver implements LifecycleObserver {
     public final static String TAG = "VLC/ExternalMonitor";
-    private static volatile boolean connected = false;
+    public static volatile MutableLiveData<Boolean> connected = new MutableLiveData<>();
     private static volatile boolean mobile = true;
     private static volatile boolean vpn = false;
     private static final ExternalMonitor instance = new ExternalMonitor();
-    private static final List<NetworkObserver> networkObservers = new LinkedList<>();
     private static WeakReference<Activity> storageObserver = null;
 
     public ExternalMonitor() {
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
-    }
-
-    public interface NetworkObserver {
-        void onNetworkConnectionChanged(boolean connected);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -120,9 +114,8 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
                 final boolean isConnected = networkInfo != null && networkInfo.isConnected();
                 mobile = isConnected && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
                 vpn = isConnected && updateVPNStatus();
-                if (isConnected != connected) {
-                    connected = isConnected;
-                    notifyConnectionChanges();
+                if (connected.getValue() == null || isConnected != connected.getValue()) {
+                    connected.setValue(isConnected);
                 }
                 break;
             case Intent.ACTION_MEDIA_MOUNTED:
@@ -167,19 +160,10 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
         }
     };
 
-    private synchronized void notifyConnectionChanges() {
-        for (NetworkObserver obs : networkObservers)
-            obs.onNetworkConnectionChanged(connected);
-    }
-
     private static synchronized void notifyStorageChanges(String path) {
         final Activity activity = storageObserver != null ? storageObserver.get() : null;
         if (activity != null)
             UiTools.newStorageDetected(activity, path);
-    }
-
-    public static boolean isConnected() {
-        return connected;
     }
 
     public static boolean isMobile() {
@@ -187,19 +171,11 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
     }
 
     public static boolean isLan() {
-        return connected && !mobile;
+        return connected.getValue() && !mobile;
     }
 
     public static boolean isVPN() {
         return vpn;
-    }
-
-    public static synchronized void subscribeNetworkCb(NetworkObserver observer) {
-        networkObservers.add(observer);
-    }
-
-    public static synchronized void unsubscribeNetworkCb(NetworkObserver observer) {
-        networkObservers.remove(observer);
     }
 
     public static synchronized void subscribeStorageCb(Activity observer) {
