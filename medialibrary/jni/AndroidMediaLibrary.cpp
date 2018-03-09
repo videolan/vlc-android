@@ -437,7 +437,7 @@ AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList
         {
             if (weak_thiz)
             {
-                results = filteredArray(env, p_fields, mediaRefs, -1);
+                results = filteredArray(env, mediaRefs, p_fields->MediaWrapper.clazz, -1);
                 env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaAddedId, results);
                 env->DeleteLocalRef(results);
             } else
@@ -478,7 +478,7 @@ void AndroidMediaLibrary::onMediaUpdated( std::vector<medialibrary::MediaPtr> me
         }
         if (index > -1)
         {
-            results = filteredArray(env, p_fields, mediaRefs, -1);
+            results = filteredArray(env, mediaRefs, p_fields->MediaWrapper.clazz, -1);
             if (weak_thiz)
             {
                 env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaUpdatedId, results);
@@ -496,21 +496,17 @@ void AndroidMediaLibrary::onMediaDeleted( std::vector<int64_t> ids )
 
 void AndroidMediaLibrary::onArtistsAdded( std::vector<medialibrary::ArtistPtr> artists )
 {
-    if (m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO)
+    if (m_mediaAddedType & (FLAG_MEDIA_ADDED_AUDIO_EMPTY|FLAG_MEDIA_ADDED_AUDIO))
     {
         JNIEnv *env = getEnv();
-        if (env == NULL)
-            return;
-        if (weak_thiz)
-        {
-            env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onArtistsAddedId);
-        }
+        if (env == NULL) return;
+        if (weak_thiz) env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onArtistsAddedId);
     }
 }
 
 void AndroidMediaLibrary::onArtistsModified( std::vector<medialibrary::ArtistPtr> artist )
 {
-    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
+    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO_EMPTY)
     {
         JNIEnv *env = getEnv();
         if (env == NULL) return;

@@ -2,12 +2,11 @@ package org.videolan.vlc.util
 
 import android.text.TextUtils
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.MediaAddedCb
+import org.videolan.medialibrary.interfaces.MediaUpdatedCb
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
-
-
-
 
 object ModelsHelper {
 
@@ -130,6 +129,13 @@ object ModelsHelper {
             else -> 0
         }
     }
+}
 
-
+object EmptyMLCallbacks : MediaAddedCb, MediaUpdatedCb, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb {
+    override fun onMediaAdded(mediaList: Array<out MediaWrapper>?) {}
+    override fun onMediaUpdated(mediaList: Array<out MediaWrapper>?) {}
+    override fun onArtistsAdded() {}
+    override fun onArtistsModified() {}
+    override fun onAlbumsAdded() {}
+    override fun onAlbumsModified() {}
 }

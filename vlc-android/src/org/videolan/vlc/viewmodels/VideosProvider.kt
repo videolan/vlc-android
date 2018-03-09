@@ -22,7 +22,8 @@ package org.videolan.vlc.viewmodels
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.MediaAddedCb
 import org.videolan.medialibrary.media.MediaWrapper
@@ -43,21 +44,20 @@ class VideosProvider(private val group: String?) : MedialibraryModel<MediaWrappe
     }
 
     override suspend fun updateList() {
-        dataset.value = async {
+        dataset.value = withContext(CommonPool) {
             val list = medialibrary.getVideos(sort, desc)
             val displayList = mutableListOf<MediaWrapper>()
             if (group !== null) {
                 for (item in list) {
                     val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
-                    if (title.toLowerCase().startsWith(group.toLowerCase()))
-                        displayList.add(item)
+                    if (title.toLowerCase().startsWith(group.toLowerCase())) displayList.add(item)
                 }
             } else {
                 //TODO get length value from prefs
                 MediaGroup.group(list, 6).mapTo(displayList) { it.media }
             }
-            return@async displayList
-        }.await()
+            displayList
+        }
     }
 
     override fun onMedialibraryReady() {

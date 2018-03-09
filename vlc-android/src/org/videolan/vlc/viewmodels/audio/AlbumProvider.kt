@@ -2,7 +2,8 @@ package org.videolan.vlc.viewmodels.audio
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Artist
 import org.videolan.medialibrary.media.Genre
@@ -28,13 +29,13 @@ class AlbumProvider(val parent: MediaLibraryItem? = null): AudioModel(), Mediali
     }
 
     override suspend fun updateList() {
-        dataset.value = async {
+        dataset.value = withContext(CommonPool) {
             ModelsHelper.generateSections(sort, when (parent) {
                 is Artist -> parent.getAlbums(sort, desc)
                 is Genre -> parent.getAlbums(sort, desc)
                 else -> medialibrary.getAlbums(sort, desc)
             })
-        }.await()
+        }
     }
 
     override fun onMedialibraryReady() {

@@ -26,10 +26,10 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.MediaAddedCb
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.vlc.util.EmptyMLCallbacks
 
 
-abstract class MedialibraryModel<T : MediaLibraryItem> : BaseModel<T>(), Medialibrary.OnMedialibraryReadyListener, MediaUpdatedCb, MediaAddedCb {
+abstract class MedialibraryModel<T : MediaLibraryItem> : BaseModel<T>(), Medialibrary.OnMedialibraryReadyListener, MediaUpdatedCb by EmptyMLCallbacks, MediaAddedCb by EmptyMLCallbacks {
 
     val medialibrary = Medialibrary.getInstance()!!
 
@@ -45,10 +45,6 @@ abstract class MedialibraryModel<T : MediaLibraryItem> : BaseModel<T>(), Mediali
     override fun onMedialibraryIdle() {
         launch(UI) { refresh() }
     }
-
-    override fun onMediaUpdated(mediaList: Array<out MediaWrapper>?) {}
-
-    override fun onMediaAdded(mediaList: Array<out MediaWrapper>?) {}
 
     override fun onCleared() {
         super.onCleared()

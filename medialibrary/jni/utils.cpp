@@ -195,10 +195,10 @@ convertMediaSearchAggregateObject(JNIEnv* env, fields *fields, medialibrary::Med
         env->DeleteLocalRef(item);
     }
     return env->NewObject(fields->MediaSearchAggregate.clazz, fields->MediaSearchAggregate.initID,
-                          filteredArray(env, fields, episodes, epDrops),
-                          filteredArray(env, fields, movies, movieDrops),
-                          filteredArray(env, fields, others, othersDrops),
-                          filteredArray(env, fields, tracks, tracksDrops));
+                          filteredArray(env, episodes, fields->MediaWrapper.clazz, epDrops),
+                          filteredArray(env, movies, fields->MediaWrapper.clazz, movieDrops),
+                          filteredArray(env, others, fields->MediaWrapper.clazz, othersDrops),
+                          filteredArray(env, tracks, fields->MediaWrapper.clazz, tracksDrops));
 }
 
 jobject
@@ -254,7 +254,7 @@ convertHistoryItemObject(JNIEnv* env, fields *fields, medialibrary::HistoryPtr c
 }
 
 jobjectArray
-filteredArray(JNIEnv* env, fields *fields, jobjectArray array, int removalCount)
+filteredArray(JNIEnv* env, jobjectArray array, jclass clazz, int removalCount)
 {
     int size = -1, index = -1;
     if (removalCount == -1)
@@ -273,7 +273,7 @@ filteredArray(JNIEnv* env, fields *fields, jobjectArray array, int removalCount)
         return array;
     if (size == -1)
         size = env->GetArrayLength(array);
-    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(size-removalCount, fields->MediaWrapper.clazz, NULL);
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(size-removalCount, clazz, NULL);
     for (int i = 0; i<size; ++i)
     {
         jobject item = env->GetObjectArrayElement(array, i);

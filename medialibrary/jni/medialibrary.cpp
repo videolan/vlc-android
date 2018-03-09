@@ -218,7 +218,7 @@ lastMediaPLayed(JNIEnv* env, jobject thiz)
             ++drops;
         env->DeleteLocalRef(item);
     }
-    return filteredArray(env, &ml_fields, mediaRefs, drops);
+    return filteredArray(env, mediaRefs, ml_fields.MediaWrapper.clazz, drops);
 }
 
 jboolean
@@ -267,7 +267,7 @@ getInternalVideos(JNIEnv* env, jobject thiz, medialibrary::SortingCriteria sort 
             ++drops;
         env->DeleteLocalRef(item);
     }
-    return filteredArray(env, &ml_fields, videoRefs, drops);
+    return filteredArray(env, videoRefs, ml_fields.MediaWrapper.clazz, drops);
 }
 
 jobjectArray
@@ -302,7 +302,7 @@ getInternalAudio(JNIEnv* env, jobject thiz, medialibrary::SortingCriteria sort =
             ++drops;
         env->DeleteLocalRef(item);
     }
-    return filteredArray(env, &ml_fields, audioRefs, drops);
+    return filteredArray(env, audioRefs, ml_fields.MediaWrapper.clazz, drops);
 }
 
 jobjectArray
@@ -567,7 +567,7 @@ getTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, ji
             ++drops;
         env->DeleteLocalRef(item);
     }
-    return filteredArray(env, &ml_fields, mediaRefs, drops);
+    return filteredArray(env, mediaRefs, ml_fields.MediaWrapper.clazz, drops);
 }
 
 /*
@@ -588,7 +588,7 @@ getMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, ji
             ++drops;
         env->DeleteLocalRef(item);
     }
-    return filteredArray(env, &ml_fields, mediaRefs, drops);
+    return filteredArray(env, mediaRefs, ml_fields.MediaWrapper.clazz, drops);
 }
 
 jobjectArray
@@ -625,7 +625,7 @@ getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jin
             ++drops;
         env->DeleteLocalRef(item);
     }
-    return filteredArray(env, &ml_fields, mediaRefs, drops);
+    return filteredArray(env, mediaRefs, ml_fields.MediaWrapper.clazz, drops);
 }
 
 jobjectArray
@@ -725,7 +725,7 @@ getMediaFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
             ++drops;
         env->DeleteLocalRef(item);
     }
-    return filteredArray(env, &ml_fields, mediaRefs, drops);
+    return filteredArray(env, mediaRefs, ml_fields.MediaWrapper.clazz, drops);
 }
 
 jboolean

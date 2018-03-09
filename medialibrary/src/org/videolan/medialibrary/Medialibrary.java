@@ -113,6 +113,8 @@ public class Medialibrary {
         synchronized (onMedialibraryReadyListeners) {
             for (OnMedialibraryReadyListener listener : onMedialibraryReadyListeners) listener.onMedialibraryReady();
         }
+        nativeSetMediaAddedCbFlag(FLAG_MEDIA_ADDED_AUDIO|FLAG_MEDIA_ADDED_VIDEO);
+        nativeSetMediaUpdatedCbFlag(FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_VIDEO);
     }
 
     public boolean isStarted() {
@@ -393,8 +395,7 @@ public class Medialibrary {
 
     @SuppressWarnings("unused")
     public void onArtistsAdded() {
-        if (mArtistsAddedCb != null)
-            mArtistsAddedCb.onArtistsAdded();
+        if (mArtistsAddedCb != null) mArtistsAddedCb.onArtistsAdded();
     }
 
     @SuppressWarnings("unused")
@@ -551,31 +552,26 @@ public class Medialibrary {
     }
 
     public void setArtistsAddedCb(ArtistsAddedCb artistsAddedCb) {
-        if (!mIsInitiated)
-            return;
+        if (!mIsInitiated) return;
         this.mArtistsAddedCb = artistsAddedCb;
-        nativeSetMediaAddedCbFlag(artistsAddedCb == null ? 0 : FLAG_MEDIA_ADDED_AUDIO_EMPTY);
     }
 
     public void setArtistsModifiedCb(ArtistsModifiedCb artistsModifiedCb) {
         if (!mIsInitiated)
             return;
         this.mArtistsModifiedCb = artistsModifiedCb;
-        nativeSetMediaUpdatedCbFlag(artistsModifiedCb == null ? 0 : FLAG_MEDIA_UPDATED_AUDIO_EMPTY);
     }
 
     public void setAlbumsAddedCb(AlbumsAddedCb AlbumsAddedCb) {
         if (!mIsInitiated)
             return;
         this.mAlbumsAddedCb = AlbumsAddedCb;
-        nativeSetMediaAddedCbFlag(AlbumsAddedCb == null ? 0 : FLAG_MEDIA_ADDED_AUDIO_EMPTY);
     }
 
     public void setAlbumsModifiedCb(AlbumsModifiedCb AlbumsModifiedCb) {
         if (!mIsInitiated)
             return;
         this.mAlbumsModifiedCb = AlbumsModifiedCb;
-        nativeSetMediaUpdatedCbFlag(AlbumsModifiedCb == null ? 0 : FLAG_MEDIA_UPDATED_AUDIO_EMPTY);
     }
 
     public SearchAggregate search(String query) {

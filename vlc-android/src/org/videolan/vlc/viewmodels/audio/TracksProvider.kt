@@ -2,7 +2,8 @@ package org.videolan.vlc.viewmodels.audio
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.util.ModelsHelper
@@ -28,7 +29,7 @@ class TracksProvider(val parent: MediaLibraryItem? = null, private val separator
         refresh()
     }
     override suspend fun updateList() {
-        dataset.value = async {
+        dataset.value = withContext(CommonPool) {
             val list = when (parent) {
                 is Artist -> parent.getTracks(sort, desc)
                 is Album -> parent.getTracks(sort, desc)
@@ -39,7 +40,7 @@ class TracksProvider(val parent: MediaLibraryItem? = null, private val separator
             @Suppress("UNCHECKED_CAST")
             if (separators) ModelsHelper.generateSections(sort, list)
             else list.toMutableList() as MutableList<MediaLibraryItem>
-        }.await()
+        }
     }
 
     class Factory(val parent: MediaLibraryItem?, private val separators: Boolean): ViewModelProvider.NewInstanceFactory() {
