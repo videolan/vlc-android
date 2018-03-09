@@ -223,14 +223,13 @@ public class UiTools {
     }
 
     public static void setKeyboardVisibility(final View v, final boolean show) {
-        final InputMethodManager inputMethodManager = (InputMethodManager) VLCApplication.getAppContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (v == null) return;
+        final InputMethodManager inputMethodManager = (InputMethodManager) v.getContext().getApplicationContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
         sHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (show)
-                    inputMethodManager.showSoftInput(v, InputMethodManager.SHOW_FORCED);
-                else
-                    inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                if (show) inputMethodManager.showSoftInput(v, InputMethodManager.SHOW_FORCED);
+                else inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
         });
     }
