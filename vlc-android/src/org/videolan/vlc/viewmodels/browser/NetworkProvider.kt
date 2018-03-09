@@ -3,10 +3,11 @@ package org.videolan.vlc.viewmodels.browser
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
@@ -15,7 +16,6 @@ import java.util.*
 
 class NetworkProvider(url: String?): BrowserProvider(url) {
     val favorites by lazy {
-        launch(UI) { updateFavorites() }
         MutableLiveData<MutableList<MediaLibraryItem>>()
     }
     override fun browseRoot() {
@@ -24,22 +24,24 @@ class NetworkProvider(url: String?): BrowserProvider(url) {
             initBrowser()
             mediabrowser?.discoverNetworkShares()
         }
-
-    }
-
-    override fun refresh(): Boolean {
-        return url != null && return super.refresh()
     }
 
     private suspend fun updateFavorites() {
         if (ExternalMonitor.connected?.value != true) favorites.value = mutableListOf()
-        val favs: MutableList<MediaLibraryItem> = async { MediaDatabase.getInstance().allNetworkFav }.await().toMutableList()
+        val favs: MutableList<MediaLibraryItem> = withContext(CommonPool) { MediaDatabase.getInstance().allNetworkFav }.toMutableList()
         if (!allowLAN()) {
             val schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https")
             val toRemove = favs.filterNotTo(mutableListOf()) { schemes.contains((it as MediaWrapper).uri.scheme) }
             if (!toRemove.isEmpty()) for (mw in toRemove) favs.remove(mw)
         }
         favorites.value = favs
+    }
+
+    override fun fetch() {}
+
+    override fun refresh(): Boolean {
+        super.fetch()
+        return true
     }
 
     private fun allowLAN(): Boolean {

@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
@@ -51,6 +52,7 @@ import org.videolan.vlc.gui.SimpleAdapter;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.viewmodels.browser.NetworkProvider;
 
 import java.util.List;
@@ -75,6 +77,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         if (mRoot) ((NetworkProvider) mProvider).getFavorites().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {
+                mBinding.favoritesTitle.setVisibility(Util.isListEmpty(mediaLibraryItems) ? View.GONE : View.VISIBLE);
                 favoritesAdapter.submitList(mediaLibraryItems);
             }
         });
@@ -216,7 +219,8 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
             db.deleteNetworkFav(mCurrentMedia.getUri());
         else
             db.addNetworkFavItem(mCurrentMedia.getUri(), mCurrentMedia.getTitle(), mCurrentMedia.getArtworkURL());
-        getActivity().supportInvalidateOptionsMenu();
+        final Activity activity = getActivity();
+        if (activity!= null) activity.invalidateOptionsMenu();
     }
 
     /**
@@ -225,7 +229,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     protected void updateEmptyView() {
         if (mEmptyView == null) return;
         if (ExternalMonitor.connected.getValue()) {
-            if (mAdapter.isEmpty()) {
+            if (Util.isListEmpty(getProvider().getDataset().getValue())) {
                 if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) {
                     mEmptyView.setText(R.string.loading);
                     mEmptyView.setVisibility(View.VISIBLE);

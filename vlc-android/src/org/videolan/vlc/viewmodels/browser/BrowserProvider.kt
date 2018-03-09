@@ -54,7 +54,8 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
         } else browse(url)
     }
 
-    @Volatile private var refreshing = false
+    @Volatile
+    private var refreshing = false
     private val refreshList = mutableListOf<MediaLibraryItem>()
     override fun refresh(): Boolean {
         refreshing = true

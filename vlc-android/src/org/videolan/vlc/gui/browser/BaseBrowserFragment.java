@@ -146,6 +146,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (mAdapter == null) mAdapter = new BaseBrowserAdapter(this);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+        registerForContextMenu(mRecyclerView);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {
@@ -158,11 +163,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
                 mAdapter.notifyItemChanged(pair.getFirst(), pair.getSecond());
             }
         });
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-        registerForContextMenu(mRecyclerView);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
         initFavorites();
     }
 
@@ -257,7 +257,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
      */
     protected void updateEmptyView() {
         if (mSwipeRefreshLayout == null) return;
-        if (mAdapter.isEmpty()) {
+        if (Util.isListEmpty(getProvider().getDataset().getValue())) {
             if (mSwipeRefreshLayout.isRefreshing()) {
                 mEmptyView.setText(R.string.loading);
                 mEmptyView.setVisibility(View.VISIBLE);
@@ -588,9 +588,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     }
 
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
+        if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setRefreshing(false);
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         updateEmptyView();
-        if (!mAdapter.isEmpty()) {
+        if (!Util.isListEmpty(getProvider().getDataset().getValue())) {
             if (mSavedPosition > 0) {
                 mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
                 mSavedPosition = 0;
