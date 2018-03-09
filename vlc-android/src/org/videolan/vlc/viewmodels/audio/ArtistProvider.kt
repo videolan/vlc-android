@@ -2,14 +2,12 @@ package org.videolan.vlc.viewmodels.audio
 
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
-import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.Medialibrary.ArtistsAddedCb
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.Constants
-import org.videolan.vlc.util.EmptyMLCallbacks
 import org.videolan.vlc.util.ModelsHelper
 
-class ArtistProvider: AudioModel(), ArtistsAddedCb, Medialibrary.ArtistsModifiedCb by EmptyMLCallbacks {
+class ArtistProvider: AudioModel(), ArtistsAddedCb {
     override fun onArtistsAdded() {
         refresh()
     }
@@ -21,12 +19,10 @@ class ArtistProvider: AudioModel(), ArtistsAddedCb, Medialibrary.ArtistsModified
     override fun onMedialibraryReady() {
         super.onMedialibraryReady()
         medialibrary.setArtistsAddedCb(this)
-        medialibrary.setArtistsModifiedCb(this)
     }
 
     override fun onCleared() {
         super.onCleared()
         medialibrary.setArtistsAddedCb(null)
-        medialibrary.setArtistsModifiedCb(null)
     }
 }

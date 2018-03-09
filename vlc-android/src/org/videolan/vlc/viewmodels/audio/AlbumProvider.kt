@@ -11,7 +11,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.ModelsHelper
 
 
-class AlbumProvider(val parent: MediaLibraryItem? = null): AudioModel(), Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb {
+class AlbumProvider(val parent: MediaLibraryItem? = null): AudioModel(), Medialibrary.AlbumsAddedCb {
 
     override fun canSortByDuration() = true
     override fun canSortByReleaseDate() = true
@@ -21,10 +21,6 @@ class AlbumProvider(val parent: MediaLibraryItem? = null): AudioModel(), Mediali
     }
 
     override fun onAlbumsAdded() {
-        refresh()
-    }
-
-    override fun onAlbumsModified() {
         refresh()
     }
 
@@ -41,13 +37,11 @@ class AlbumProvider(val parent: MediaLibraryItem? = null): AudioModel(), Mediali
     override fun onMedialibraryReady() {
         super.onMedialibraryReady()
         medialibrary.setAlbumsAddedCb(this)
-        medialibrary.setAlbumsModifiedCb(this)
     }
 
     override fun onCleared() {
         super.onCleared()
         medialibrary.setAlbumsAddedCb(null)
-        medialibrary.setAlbumsModifiedCb(null)
     }
 
     class Factory(val parent: MediaLibraryItem?): ViewModelProvider.NewInstanceFactory() {

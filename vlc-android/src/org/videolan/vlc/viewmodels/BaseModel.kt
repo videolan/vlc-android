@@ -22,14 +22,15 @@ package org.videolan.vlc.viewmodels
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.util.FilterDelagate
+import org.videolan.vlc.util.FilterDelegate
 
 abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
 
@@ -46,7 +47,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
     open fun canSortByAlbum ()= false
     open fun canSortByPlayCount() = false
 
-    private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelagate(dataset) }
+    private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelegate(dataset) }
 
     val dataset by lazy {
         launch(UI) { fetch() }
@@ -105,7 +106,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
     }
 
     protected open suspend fun updateItems(mediaList: List<T>) {
-        dataset.value = async {
+        dataset.value = withContext(CommonPool) {
             val list = dataset.value ?: mutableListOf()
             val iterator = list.listIterator()
             for (media in iterator) {
@@ -114,8 +115,8 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
                     break
                 }
             }
-            return@async list
-        }.await()
+            list
+        }
     }
 
     fun canSortBy(sort: Int) = when(sort) {

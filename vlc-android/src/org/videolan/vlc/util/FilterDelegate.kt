@@ -1,11 +1,12 @@
 package org.videolan.vlc.util
 
 import android.arch.lifecycle.MutableLiveData
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 
 
-class FilterDelagate<T : MediaLibraryItem>(private val dataset: MutableLiveData<MutableList<T>>) {
+class FilterDelegate<T : MediaLibraryItem>(private val dataset: MutableLiveData<MutableList<T>>) {
     private var sourceSet: MutableList<T>? = null
 
     private fun initSource() : MutableList<T>? {
@@ -18,16 +19,15 @@ class FilterDelagate<T : MediaLibraryItem>(private val dataset: MutableLiveData<
 
     private suspend fun filteringJob(charSequence: CharSequence?) : MutableList<T> {
         if (charSequence !== null) initSource()?.let {
-            return async { mutableListOf<T>().apply {
+            return withContext(CommonPool) { mutableListOf<T>().apply {
                 val queryStrings = charSequence.trim().toString().split(" ").filter { it.length > 2 }
-                for (item in it) {
-                    for (query in queryStrings)
-                        if (item.title.contains(query, true)) {
-                            this.add(item)
-                            break
-                        }
-                } }
-            }.await()
+                for (item in it) for (query in queryStrings)
+                    if (item.title.contains(query, true)) {
+                        this.add(item)
+                        break
+                    }
+                }
+            }
         }
         return mutableListOf()
     }
