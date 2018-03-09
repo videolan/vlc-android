@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.net.Uri;
 import android.support.annotation.MainThread;
 import android.view.View;
 import android.widget.CheckBox;
@@ -57,8 +58,7 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
         if (storage.getItemType() == MediaLibraryItem.TYPE_MEDIA)
             storage = new Storage(((MediaWrapper)storage).getUri());
         String storagePath = ((Storage)storage).getUri().getPath();
-        if (!storagePath.endsWith("/"))
-            storagePath += "/";
+        if (!storagePath.endsWith("/")) storagePath += "/";
         boolean hasContextMenu = mCustomDirsLocation.contains(storagePath);
         boolean checked = ((StorageBrowserFragment) fragment).mScannedDirectory || mMediaDirsLocation.contains(storagePath);
         vh.binding.setItem(storage);
@@ -93,7 +93,7 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
         final String folders[] = VLCApplication.getMLInstance().getFoldersList();
         mMediaDirsLocation = new ArrayList<>(folders.length);
         for (String folder : folders) {
-            mMediaDirsLocation.add(folder.startsWith("file://") ? folder.substring(7) : folder);
+            mMediaDirsLocation.add(Uri.decode(folder.startsWith("file://") ? folder.substring(7) : folder));
         }
         mCustomDirsLocation = new ArrayList<>(Arrays.asList(CustomDirectories.getCustomDirectories()));
     }
