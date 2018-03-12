@@ -654,6 +654,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     saveMediaList()
                     savePosition(true)
                     saveCurrentMedia()
+                    newMedia = false
                 }
             }
             MediaPlayer.Event.Paused -> medialibrary.resumeBackgroundOperations()
