@@ -21,6 +21,7 @@
 package org.videolan.vlc;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.PendingIntent;
@@ -1878,7 +1879,8 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         public void connect() {
             if (mBound) throw new IllegalStateException("already connected");
             final Intent serviceIntent = getServiceIntent(mContext);
-            Util.startService(mContext, serviceIntent);
+            if (mContext instanceof Activity) mContext.startService(serviceIntent);
+            else Util.startService(mContext, serviceIntent);
             mBound = mContext.bindService(serviceIntent, mServiceConnection, BIND_AUTO_CREATE);
         }
 
