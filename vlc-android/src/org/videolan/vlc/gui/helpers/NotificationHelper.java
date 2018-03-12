@@ -37,7 +37,6 @@ import android.support.v7.app.NotificationCompat;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.StartActivity;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
@@ -127,7 +126,7 @@ public class NotificationHelper {
                         .setContentIntent(PendingIntent.getActivity(ctx, 0, new Intent(ctx, StartActivity.class), PendingIntent.FLAG_UPDATE_CURRENT))
                         .setSmallIcon(R.drawable.ic_notif_scan)
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                        .setContentTitle(VLCApplication.getAppResources().getString(R.string.ml_scanning))
+                        .setContentTitle(ctx.getString(R.string.ml_scanning))
                         .setAutoCancel(false)
                         .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                         .setOngoing(true);
@@ -136,9 +135,9 @@ public class NotificationHelper {
 
             if (updateActions) {
                 notificationIntent.setAction(paused ? ACTION_RESUME_SCAN : ACTION_PAUSE_SCAN);
-                final PendingIntent pi = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                final Notification.Action playpause = paused ? new Notification.Action(R.drawable.ic_play, VLCApplication.getAppResources().getString(R.string.resume), pi)
-                        : new Notification.Action(R.drawable.ic_pause, VLCApplication.getAppResources().getString(R.string.pause), pi);
+                final PendingIntent pi = PendingIntent.getBroadcast(ctx.getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                final Notification.Action playpause = paused ? new Notification.Action(R.drawable.ic_play, ctx.getString(R.string.resume), pi)
+                        : new Notification.Action(R.drawable.ic_pause, ctx.getString(R.string.pause), pi);
                 scanBuilder.setActions(playpause);
             }
             return scanBuilder.build();
@@ -149,7 +148,7 @@ public class NotificationHelper {
                         .setContentIntent(PendingIntent.getActivity(ctx, 0, new Intent(ctx, StartActivity.class), PendingIntent.FLAG_UPDATE_CURRENT))
                         .setSmallIcon(R.drawable.ic_notif_scan)
                         .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                        .setContentTitle(VLCApplication.getAppResources().getString(R.string.ml_scanning))
+                        .setContentTitle(ctx.getString(R.string.ml_scanning))
                         .setAutoCancel(false)
                         .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                         .setOngoing(true);
@@ -158,9 +157,9 @@ public class NotificationHelper {
 
             if (updateActions) {
                 notificationIntent.setAction(paused ? ACTION_RESUME_SCAN : ACTION_PAUSE_SCAN);
-                final PendingIntent pi = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                final NotificationCompat.Action playpause = paused ? new NotificationCompat.Action(R.drawable.ic_play, VLCApplication.getAppResources().getString(R.string.resume), pi)
-                        : new NotificationCompat.Action(R.drawable.ic_pause, VLCApplication.getAppResources().getString(R.string.pause), pi);
+                final PendingIntent pi = PendingIntent.getBroadcast(ctx.getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                final NotificationCompat.Action playpause = paused ? new NotificationCompat.Action(R.drawable.ic_play, ctx.getString(R.string.resume), pi)
+                        : new NotificationCompat.Action(R.drawable.ic_pause, ctx.getString(R.string.pause), pi);
                 scanCompatBuilder.mActions.clear();
                 scanCompatBuilder.addAction(playpause);
             }
@@ -169,27 +168,26 @@ public class NotificationHelper {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void createNotificationChannels() {
-        final NotificationManager notificationManager = (NotificationManager) VLCApplication.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        final Resources res = VLCApplication.getAppResources();
+    public static void createNotificationChannels(Context appCtx) {
+        final NotificationManager notificationManager = (NotificationManager) appCtx.getSystemService(Context.NOTIFICATION_SERVICE);
         // Playback channel
-        CharSequence name = res.getString(R.string.playback);
-        String description = res.getString(R.string.playback_controls);
+        CharSequence name = appCtx.getString(R.string.playback);
+        String description = appCtx.getString(R.string.playback_controls);
         NotificationChannel channel = new NotificationChannel("vlc_playback", name, NotificationManager.IMPORTANCE_LOW);
         channel.setDescription(description);
         channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
         notificationManager.createNotificationChannel(channel);
         // Scan channel
-        name = res.getString(R.string.medialibrary_scan);
-        description = res.getString(R.string.Medialibrary_progress);
+        name = appCtx.getString(R.string.medialibrary_scan);
+        description = appCtx.getString(R.string.Medialibrary_progress);
         channel = new NotificationChannel("vlc_medialibrary", name, NotificationManager.IMPORTANCE_LOW);
         channel.setDescription(description);
         channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
         notificationManager.createNotificationChannel(channel);
         // Recommendations channel
         if (AndroidDevices.isAndroidTv) {
-            name = res.getString(R.string.recommendations);
-            description = res.getString(R.string.recommendations_desc);
+            name = appCtx.getString(R.string.recommendations);
+            description = appCtx.getString(R.string.recommendations_desc);
             channel = new NotificationChannel("vlc_recommendations", name, NotificationManager.IMPORTANCE_LOW);
             channel.setDescription(description);
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
