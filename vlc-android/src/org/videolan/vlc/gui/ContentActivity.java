@@ -115,11 +115,11 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
                 startActivity(new Intent(Intent.ACTION_SEARCH, null, this, SearchActivity.class));
                 return true;
             case R.id.ml_menu_renderers:
-                if (mService != null && !mService.hasRenderer()
+                if (RendererDelegate.INSTANCE.getSelectedRenderer() == null
                         && RendererDelegate.INSTANCE.getRenderers().size() == 1) {
                     final RendererItem renderer = RendererDelegate.INSTANCE.getRenderers().get(0);
                     RendererDelegate.INSTANCE.selectRenderer(renderer);
-                    mService.setRenderer(renderer);
+                    //TODO mService.setRenderer(renderer);
                     final View v = findViewById(R.id.audio_player_container);
                     if (v != null) UiTools.snacker(v, getString(R.string.casting_connected_renderer, renderer.displayName));
                 } else if (getSupportFragmentManager().findFragmentByTag("renderers") == null)

@@ -282,13 +282,10 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
             else medias = new MediaWrapper[] {(MediaWrapper) mediaItem};
         }
 
-        if (mService != null) {
-            if (append) mService.append(medias);
-            else if (insert_next) mService.insertNext(medias);
-            else mService.load(medias, startPosition);
-            return true;
-        }
-        return false;
+        if (append) MediaUtils.appendMedia(getActivity(), medias);
+        else if (insert_next) MediaUtils.insertNext(getActivity(), medias);
+        else MediaUtils.openArray(getActivity(), medias, startPosition);
+        return true;
     }
 
     @Override
@@ -374,7 +371,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     @Override
     @SuppressWarnings("unchecked")
     public void onFabPlayClick(View view) {
-        if (mService == null) return;
         final List<MediaWrapper> list ;
         if (mViewPager.getCurrentItem() == 0) {
             list = new ArrayList<>();
@@ -383,6 +379,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         } else {
             list = (List<MediaWrapper>) (List<?>) mSongsAdapter.getMediaItems();
         }
-        mService.load(list, 0);
+        MediaUtils.openList(getActivity(), list, 0);
     }
 }

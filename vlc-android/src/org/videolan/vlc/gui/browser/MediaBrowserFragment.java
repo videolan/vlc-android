@@ -29,6 +29,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.view.ContextMenu;
@@ -45,7 +46,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.ContentActivity;
 import org.videolan.vlc.gui.InfoActivity;
-import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.audio.BaseAudioBrowser;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate;
@@ -60,7 +60,7 @@ import org.videolan.vlc.viewmodels.BaseModel;
 
 import java.util.LinkedList;
 
-public abstract class MediaBrowserFragment<T extends BaseModel> extends PlaybackServiceFragment implements android.support.v7.view.ActionMode.Callback, Filterable {
+public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment implements android.support.v7.view.ActionMode.Callback, Filterable {
 
     public final static String TAG = "VLC/MediaBrowserFragment";
 
@@ -183,7 +183,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Playback
                     } else onDeleteFailed(media);
                 }
                 for (String folder : foldersToReload) mMediaLibrary.reload(folder);
-                if (mService != null && getActivity() != null) {
+                if (getActivity() != null) {
                     VLCApplication.runOnMainThread(new Runnable() {
                         @Override
                         public void run() {
@@ -191,7 +191,8 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Playback
                                 if (failCB != null) failCB.run();
                                 return;
                             }
-                            if (mService != null) for (String path : mediaPaths) mService.removeLocation(path);
+                            // TODO
+//                            if (mService != null) for (String path : mediaPaths) mService.removeLocation(path);
                             if (refresh) onRefresh();
                         }
                     });

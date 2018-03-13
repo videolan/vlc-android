@@ -67,7 +67,7 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.WeakHandler;
 
-public class AudioPlayerContainerActivity extends BaseActivity implements PlaybackService.Client.Callback {
+public class AudioPlayerContainerActivity extends BaseActivity {
 
     public static final String TAG = "VLC/AudioPlayerContainerActivity";
 
@@ -83,11 +83,10 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     protected Toolbar mToolbar;
     protected AudioPlayer mAudioPlayer;
     private FrameLayout mAudioPlayerContainer;
-    private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
     protected BottomSheetBehavior mBottomSheetBehavior;
     protected View mFragmentContainer;
-    private int mOriginalBottomPadding;
+    protected int mOriginalBottomPadding;
     private View mScanProgressLayout;
     private TextView mScanProgressText;
     private ProgressBar mScanProgressBar;
@@ -114,6 +113,8 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     }
 
     protected void initAudioPlayerContainerActivity() {
+        mFragmentContainer = findViewById(R.id.fragment_placeholder);
+        if (mFragmentContainer != null) mOriginalBottomPadding = mFragmentContainer.getPaddingBottom();
         mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
         mAppBarLayout = findViewById(R.id.appbar);
@@ -145,10 +146,6 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     @Override
     protected void onStart() {
         ExternalMonitor.subscribeStorageCb(this);
-        if (mFragmentContainer == null) {
-            mFragmentContainer = findViewById(R.id.fragment_placeholder);
-            if (mFragmentContainer != null) mOriginalBottomPadding = mFragmentContainer.getPaddingBottom();
-        }
 
         /* Prepare the progressBar */
         IntentFilter progressFilter = new IntentFilter(Constants.ACTION_SERVICE_STARTED);
@@ -158,7 +155,6 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, progressFilter);
         // super.onStart must be called after receiver registration
         super.onStart();
-        mHelper.onStart();
         if (PlaylistManager.Companion.getShowAudioPlayer().getValue()) showAudioPlayer();
     }
 
@@ -182,23 +178,11 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         super.onStop();
         ExternalMonitor.unsubscribeStorageCb(this);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
-        mHelper.onStop();
-    }
-
-    @Override
-    public void onConnected(PlaybackService service) {
-        mService = service;
-    }
-
-    @Override
-    public void onDisconnected() {
-        mService = null;
     }
 
     @Override
     public void onBackPressed() {
-        if (slideDownAudioPlayer())
-            return;
+        if (slideDownAudioPlayer()) return;
         super.onBackPressed();
     }
 
@@ -349,7 +333,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
             mScanProgressLayout.setVisibility(View.VISIBLE);
     }
 
-    private void updateContainerPadding(boolean show) {
+    protected void updateContainerPadding(boolean show) {
         int factor = show ? 1 : 0;
         mFragmentContainer.setPadding(mFragmentContainer.getPaddingLeft(),
                 mFragmentContainer.getPaddingTop(), mFragmentContainer.getPaddingRight(),
@@ -448,9 +432,5 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
                     break;
             }
         }
-    }
-
-    public PlaybackServiceActivity.Helper getHelper() {
-        return mHelper;
     }
 }

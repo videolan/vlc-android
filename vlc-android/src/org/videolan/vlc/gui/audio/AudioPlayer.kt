@@ -33,7 +33,7 @@ import android.support.annotation.MainThread
 import android.support.annotation.RequiresPermission
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.Snackbar
-import android.support.v4.app.FragmentActivity
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -63,7 +63,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
-import org.videolan.vlc.gui.PlaybackServiceFragment
+import org.videolan.vlc.gui.PlaybackServiceActivity
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
@@ -75,13 +75,15 @@ import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Constants
 
 @Suppress("UNUSED_PARAMETER")
-class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, PlaylistAdapter.IPlayer, TextWatcher {
+class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlayer, TextWatcher, PlaybackService.Client.Callback {
 
     private lateinit var mBinding: AudioPlayerBinding
     private lateinit var mPlaylistAdapter: PlaylistAdapter
     private lateinit var mSettings: SharedPreferences
     private val mHandler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
     private val updateActor = actor<Unit>(UI, capacity = Channel.CONFLATED) { for (entry in channel) doUpdate() }
+    private lateinit var mHelper: PlaybackServiceActivity.Helper
+    private var mService: PlaybackService? = null
 
     private var mShowRemainingTime = false
     private var mPreviewingSeek = false
@@ -107,6 +109,7 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
         savedInstanceState?.let { mPlayerState = it.getInt("player_state")}
         mPlaylistAdapter = PlaylistAdapter(this)
         mSettings = PreferenceManager.getDefaultSharedPreferences(activity)
+        mHelper = PlaybackServiceActivity.Helper(activity, this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -146,6 +149,17 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
         mBinding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (mBinding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))
     }
 
+    override fun onResume() {
+        super.onResume()
+        mHelper.onStart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mService?.removeCallback(this)
+        mHelper.onStop()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt("player_state", mPlayerState)
@@ -164,12 +178,12 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
 
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
             if (item.itemId == R.id.audio_player_mini_remove) {
-                if (mService != null) {
-                    mService.remove(position)
+                mService?.apply {
+                    remove(position)
                     return@OnMenuItemClickListener true
                 }
             } else if (item.itemId == R.id.audio_player_set_song) {
-                AudioUtil.setRingtone(mw, activity as FragmentActivity)
+                AudioUtil.setRingtone(mw, activity)
                 return@OnMenuItemClickListener true
             }
             false
@@ -182,30 +196,32 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
     }
 
     private fun doUpdate() {
-        if (mService === null || activity === null) return
-        if (mService.hasMedia() && !mService.isVideoPlaying && isVisible
-                && mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
-            mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply()
-            mService.currentMediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-            mService.switchToVideo()
-            return
+        if (activity === null) return
+        mService?.apply {
+            if (hasMedia() && !isVideoPlaying && isVisible
+                    && mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
+                mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply()
+                currentMediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                switchToVideo()
+                return
+            }
         }
 
         mBinding.audioMediaSwitcher.updateMedia(mService)
         mBinding.coverMediaSwitcher.updateMedia(mService)
 
-        mBinding.playlistPlayasaudioOff.visibility = if (mService.videoTracksCount > 0) View.VISIBLE else View.GONE
+        mBinding.playlistPlayasaudioOff.visibility = if (mService?.videoTracksCount ?: 0 > 0) View.VISIBLE else View.GONE
 
-        val playing = mService.isPlaying
+        val playing = mService?.isPlaying ?: false
         val imageResId = UiTools.getResourceFromAttribute(activity, if (playing) R.attr.ic_pause else R.attr.ic_play)
         val text = getString(if (playing) R.string.pause else R.string.play)
         mBinding.playPause.setImageResource(imageResId)
         mBinding.playPause.contentDescription = text
         mBinding.headerPlayPause.setImageResource(imageResId)
         mBinding.headerPlayPause.contentDescription = text
-        mBinding.shuffle.setImageResource(UiTools.getResourceFromAttribute(activity, if (mService.isShuffling) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
-        mBinding.shuffle.contentDescription = resources.getString(if (mService.isShuffling) R.string.shuffle_on else R.string.shuffle)
-        when (mService.repeatType) {
+        mBinding.shuffle.setImageResource(UiTools.getResourceFromAttribute(activity, if (mService?.isShuffling == true) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
+        mBinding.shuffle.contentDescription = resources.getString(if (mService?.isShuffling == true) R.string.shuffle_on else R.string.shuffle)
+        when (mService?.repeatType) {
             Constants.REPEAT_ONE -> {
                 mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_one))
                 mBinding.repeat.contentDescription = resources.getString(R.string.repeat_single)
@@ -219,7 +235,7 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
                 mBinding.repeat.contentDescription = resources.getString(R.string.repeat)
             }
         }
-        mBinding.shuffle.visibility = if (mService.canShuffle()) View.VISIBLE else View.INVISIBLE
+        mBinding.shuffle.visibility = if (mService?.canShuffle() == true) View.VISIBLE else View.INVISIBLE
         mBinding.timeline.setOnSeekBarChangeListener(mTimelineListner)
         updateList()
         updateBackground()
@@ -227,8 +243,8 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
 
     override fun updateProgress() {
         if (mService === null) return
-        val time = mService.time
-        val length = mService.length
+        val time = mService?.time ?: 0L
+        val length = mService?.length ?: 0L
 
         mBinding.headerTime.text = Tools.millisToString(time)
         mBinding.length.text = Tools.millisToString(length)
@@ -254,7 +270,7 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
     private fun updateBackground() {
         if (AndroidUtil.isJellyBeanMR1OrLater) {
             launch(UI, CoroutineStart.UNDISPATCHED) {
-                val mw = mService.currentMediaWrapper
+                val mw = mService?.currentMediaWrapper
                 if (mw === null || TextUtils.equals(mCurrentCoverArt, mw.artworkMrl)) return@launch
                 mCurrentCoverArt = mw.artworkMrl
                 if (TextUtils.isEmpty(mw.artworkMrl)) {
@@ -286,7 +302,7 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
 
     override fun updateList() {
         hideSearchField()
-        if (mService !== null) mPlaylistAdapter.update(mService.medias)
+        mService?.apply { mPlaylistAdapter.update(this.medias) }
     }
 
     override fun onSelectionSet(position: Int) {
@@ -305,33 +321,32 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
     }
 
     fun onStopClick(view: View): Boolean {
-        if (mService === null) return false
-        mService.stop()
+        mService?.stop()
         return true
     }
 
     fun onNextClick(view: View) {
         if (mService === null) return
-        if (mService.hasNext())
-            mService.next()
+        if (mService?.hasNext() == true)
+            mService?.next()
         else
             Snackbar.make(mBinding.root, R.string.lastsong, Snackbar.LENGTH_SHORT).show()
     }
 
     fun onPreviousClick(view: View) {
         if (mService === null) return
-        if (mService.hasPrevious() || mService.isSeekable)
-            mService.previous(false)
+        if (mService?.hasPrevious() == true || mService?.isSeekable == true)
+            mService?.previous(false)
         else
             Snackbar.make(mBinding.root, R.string.firstsong, Snackbar.LENGTH_SHORT).show()
     }
 
     fun onRepeatClick(view: View) {
         if (mService === null) return
-        when (mService.repeatType) {
-            Constants.REPEAT_NONE -> mService.repeatType = Constants.REPEAT_ALL
-            Constants.REPEAT_ALL -> mService.repeatType = Constants.REPEAT_ONE
-            else -> mService.repeatType = Constants.REPEAT_NONE
+        when (mService?.repeatType) {
+            Constants.REPEAT_NONE -> mService?.repeatType = Constants.REPEAT_ALL
+            Constants.REPEAT_ALL -> mService?.repeatType = Constants.REPEAT_ONE
+            else -> mService?.repeatType = Constants.REPEAT_NONE
         }
         update()
     }
@@ -343,18 +358,20 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
     }
 
     fun onShuffleClick(view: View) {
-        if (mService === null) return
-        mService.shuffle()
-        update()
+        mService?.apply {
+            shuffle()
+            update()
+        }
     }
 
     fun onResumeToVideoClick(v: View) {
-        if (mService == null) return
-        if (mService.hasRenderer()) VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
-            mService.currentMediaWrapper.uri, mService.currentMediaPosition)
-        else if (mService.hasMedia()) {
-            mService.currentMediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-            mService.switchToVideo()
+        mService?.apply {
+            if (hasRenderer()) VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
+                    currentMediaWrapper.uri, currentMediaPosition)
+            else if (hasMedia()) {
+                currentMediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                switchToVideo()
+            }
         }
     }
 
@@ -442,16 +459,13 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
     override fun afterTextChanged(editable: Editable) {}
 
     override fun onConnected(service: PlaybackService) {
-        super.onConnected(service)
-        mService.addCallback(this)
+        mService = service
+        service.addCallback(this)
         mPlaylistAdapter.setService(service)
         update()
     }
-
-    override fun onStop() {
-        /* unregister before super.onStop() since mService is set to null from this call */
-        mService?.removeCallback(this)
-        super.onStop()
+    override fun onDisconnected() {
+        mService = null
     }
 
     private inner class LongSeekListener(internal var forward: Boolean, internal var normal: Int, internal var pressed: Int) : View.OnTouchListener {
@@ -488,10 +502,10 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     (if (forward) mBinding.next else mBinding.previous).setImageResource(this.pressed)
-                    possibleSeek = mService.time.toInt()
+                    possibleSeek = mService?.time?.toInt() ?: 0
                     mPreviewingSeek = true
                     vibrated = false
-                    length = mService.length
+                    length = mService?.length ?: 0L
                     mHandler.postDelayed(seekRunnable, 1000)
                     return true
                 }
@@ -504,13 +518,13 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
                         if (forward) onNextClick(v) else onPreviousClick(v)
                     } else {
                         if (forward) {
-                            if (possibleSeek < mService.length)
-                                mService.time = possibleSeek.toLong()
+                            if (possibleSeek < mService?.length ?: 0L)
+                                mService?.time = possibleSeek.toLong()
                             else
                                 onNextClick(v)
                         } else {
                             if (possibleSeek > 0)
-                                mService.time = possibleSeek.toLong()
+                                mService?.time = possibleSeek.toLong()
                             else
                                 onPreviousClick(v)
                         }
@@ -538,7 +552,7 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
                 mBinding.header.setBackgroundResource(0)
                 setHeaderVisibilities(true, true, false, false, false, true)
                 showPlaylistTips()
-                if (mService != null) mPlaylistAdapter.currentIndex = mService.currentMediaPosition
+                mService?.apply { mPlaylistAdapter.currentIndex = currentMediaPosition }
             }
             else -> mBinding.header.setBackgroundResource(0)
         }
@@ -551,9 +565,9 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
         override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
         override fun onProgressChanged(sb: SeekBar, progress: Int, fromUser: Boolean) {
-            if (fromUser && mService !== null) {
-                mService.time = progress.toLong()
-                mBinding.time.text = Tools.millisToString(if (mShowRemainingTime) progress - mService.length else progress.toLong())
+            if (fromUser) mService?.apply {
+                time = progress.toLong()
+                mBinding.time.text = Tools.millisToString(if (mShowRemainingTime) progress - length else progress.toLong())
                 mBinding.headerTime.text = Tools.millisToString(progress.toLong())
             }
         }
@@ -564,11 +578,12 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
         override fun onMediaSwitching() {}
 
         override fun onMediaSwitched(position: Int) {
-            if (mService === null) return
-            when (position) {
-                AudioMediaSwitcherListener.PREVIOUS_MEDIA -> mService.previous(true)
-                AudioMediaSwitcherListener.NEXT_MEDIA ->  mService.next()
-            }
+           mService?.apply {
+               when (position) {
+                   AudioMediaSwitcherListener.PREVIOUS_MEDIA -> previous(true)
+                   AudioMediaSwitcherListener.NEXT_MEDIA ->  next()
+               }
+           }
         }
 
         override fun onTouchDown() {
@@ -590,10 +605,11 @@ class AudioPlayer : PlaybackServiceFragment(), PlaybackService.Callback, Playlis
         override fun onMediaSwitching() {}
 
         override fun onMediaSwitched(position: Int) {
-            if (mService === null) return
-            when (position) {
-                AudioMediaSwitcherListener.PREVIOUS_MEDIA -> mService.previous(true)
-                AudioMediaSwitcherListener.NEXT_MEDIA -> mService.next()
+            mService?.apply {
+                when (position) {
+                    AudioMediaSwitcherListener.PREVIOUS_MEDIA -> previous(true)
+                    AudioMediaSwitcherListener.NEXT_MEDIA -> next()
+                }
             }
         }
 

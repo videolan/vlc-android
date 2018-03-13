@@ -57,6 +57,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
@@ -367,16 +368,10 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             medias = mediaItem.getTracks();
         }
 
-        if (mService != null) {
-            if (append)
-                mService.append(medias);
-            else if (insert_next)
-                mService.insertNext(medias);
-            else
-                mService.load(medias, startPosition);
-            return true;
-        } else
-            return false;
+        if (append) MediaUtils.appendMedia(getActivity(), medias);
+        else if (insert_next) MediaUtils.insertNext(getActivity(), medias);
+        else MediaUtils.openArray(getActivity(), medias, startPosition);
+        return true;
     }
 
     @Override
@@ -386,11 +381,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         if (count > 0) {
             Random rand = new Random();
             int randomSong = rand.nextInt(count);
-            if (mService != null) {
-                mService.load(list, randomSong);
-                if (!mService.isShuffling())
-                    mService.shuffle();
-            }
+            MediaUtils.openList(getActivity(), list, randomSong, true);
         }
     }
 
@@ -493,7 +484,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             return;
         }
         if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
-            mService.load((MediaWrapper) item);
+            MediaUtils.openMedia(getActivity(), (MediaWrapper) item);
             return;
         }
         Intent i;

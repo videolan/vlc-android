@@ -22,6 +22,7 @@
 package org.videolan.vlc.gui.dialogs;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ import android.widget.TextView;
 
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.PlaybackServiceFragment;
+import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Strings;
@@ -49,10 +50,14 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
     private ImageView mPlaybackSpeedPlus;
     private ImageView mPlaybackSpeedMinus;
 
+    private PlaybackServiceActivity.Helper mHelper;
     protected PlaybackService mService;
     protected int mTextColor;
 
-    public PlaybackSpeedDialog() {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mHelper = new PlaybackServiceActivity.Helper(getActivity(), this);
     }
 
     public static PlaybackSpeedDialog newInstance() {
@@ -63,11 +68,11 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_playback_speed, container);
-        mSpeedValue = (TextView) view.findViewById(R.id.playback_speed_value);
-        mSeekSpeed = (SeekBar) view.findViewById(R.id.playback_speed_seek);
-        mPlaybackSpeedIcon = (ImageView) view.findViewById(R.id.playback_speed_icon);
-        mPlaybackSpeedPlus = (ImageView) view.findViewById(R.id.playback_speed_plus);
-        mPlaybackSpeedMinus = (ImageView) view.findViewById(R.id.playback_speed_minus);
+        mSpeedValue = view.findViewById(R.id.playback_speed_value);
+        mSeekSpeed = view.findViewById(R.id.playback_speed_seek);
+        mPlaybackSpeedIcon = view.findViewById(R.id.playback_speed_icon);
+        mPlaybackSpeedPlus = view.findViewById(R.id.playback_speed_plus);
+        mPlaybackSpeedMinus = view.findViewById(R.id.playback_speed_minus);
 
         mSeekSpeed.setOnSeekBarChangeListener(mSeekBarListener);
         mPlaybackSpeedIcon.setOnClickListener(mResetListener);
@@ -174,13 +179,13 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
     @Override
     public void onStart() {
         super.onStart();
-        PlaybackServiceFragment.registerPlaybackService(this, this);
+        mHelper.onStart();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        PlaybackServiceFragment.unregisterPlaybackService(this, this);
+        mHelper.onStop();
     }
 
     @Override

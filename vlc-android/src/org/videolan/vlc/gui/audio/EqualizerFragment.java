@@ -25,6 +25,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ObservableInt;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.text.TextUtils;
@@ -50,7 +51,7 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.EqualizerBinding;
-import org.videolan.vlc.gui.PlaybackServiceFragment;
+import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.EqualizerBar;
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
@@ -67,6 +68,7 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
     public final static String TAG = "VLC/EqualizerFragment";
 
     private MediaPlayer.Equalizer mEqualizer = null;
+    private PlaybackServiceActivity.Helper mHelper;
     private static final int BAND_COUNT = MediaPlayer.Equalizer.getBandCount();
     private int customCount = 0;
     private int presetCount = 0;
@@ -85,6 +87,12 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
     private final static int TYPE_NEW = 2;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mHelper = new PlaybackServiceActivity.Helper(getActivity(), this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = DataBindingUtil.inflate(inflater, R.layout.equalizer, container, false);
@@ -95,13 +103,13 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
     @Override
     public void onStart() {
         super.onStart();
-        PlaybackServiceFragment.registerPlaybackService(this, this);
+        mHelper.onStart();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        PlaybackServiceFragment.unregisterPlaybackService(this, this);
+        mHelper.onStop();
     }
 
     @Override

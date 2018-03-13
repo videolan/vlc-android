@@ -64,9 +64,10 @@ import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.interfaces.IEventsHandler;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.viewmodels.audio.TracksProvider;
 
 import java.util.ArrayList;
@@ -94,6 +95,8 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         mBinding = DataBindingUtil.setContentView(this, R.layout.playlist_activity);
 
         initAudioPlayerContainerActivity();
+        mFragmentContainer = findViewById(R.id.container_list);
+        mOriginalBottomPadding = mFragmentContainer.getPaddingBottom();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mPlaylist = (MediaLibraryItem) (savedInstanceState != null ?
@@ -187,8 +190,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
             mAdapter.notifyItemChanged(position, item);
             invalidateActionMode();
-        } else if (mService != null)
-            mService.load(mPlaylist.getTracks(), position);
+        } else MediaUtils.openArray(this, mPlaylist.getTracks(), position);
     }
 
     @Override
@@ -253,7 +255,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         //menu.findItem(R.id.action_mode_audio_playlist_down).setVisible(isSong && mIsPlaylist);
         menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone && !mIsPlaylist);
         menu.findItem(R.id.action_mode_audio_info).setVisible(isSong);
-        menu.findItem(R.id.action_mode_audio_append).setVisible(mService.hasMedia());
+        menu.findItem(R.id.action_mode_audio_append).setVisible(PlaylistManager.Companion.hasMedia());
         menu.findItem(R.id.action_mode_audio_delete).setVisible(mIsPlaylist);
         return true;
     }
@@ -278,12 +280,12 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         stopActionMode();
         switch (item.getItemId()) {
             case R.id.action_mode_audio_play:
-                mService.load(tracks, 0);
+                MediaUtils.openList(this, tracks, 0);
                 break;
             case R.id.action_mode_audio_append:
-                mService.append(tracks);
+                MediaUtils.appendMedia(this, tracks);
                 break;
-            case R.id.action_mode_audio_add_playlist:;
+            case R.id.action_mode_audio_add_playlist:
                 UiTools.addToPlaylist(this, tracks);
                 break;
             case R.id.action_mode_audio_info:
@@ -340,10 +342,10 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             AudioUtil.setRingtone(media, this);
             return true;
         } else if (id == R.id.audio_list_browser_append) {
-            mService.append(media);
+            MediaUtils.appendMedia(this, media);
             return true;
         } else if (id == R.id.audio_list_browser_insert_next) {
-            mService.insertNext(media);
+            MediaUtils.insertNext(this, media);
             return true;
         } else if (id == R.id.audio_list_browser_delete) {
             mAdapter.remove(media);
@@ -411,15 +413,16 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 }
                 for (String folder : foldersToReload)
                     mMediaLibrary.reload(folder);
-                if (mService != null) {
+                if (PlaylistManager.Companion.hasMedia()) {
                     VLCApplication.runOnMainThread(new Runnable() {
                         @Override
                         public void run() {
                             if (mediaPaths.isEmpty()) cancel.run();
-                            else {
-                                for (String path : mediaPaths)
-                                    mService.removeLocation(path);
-                            }
+                            //TODO
+//                            else {
+//                                for (String path : mediaPaths)
+//                                    mService.removeLocation(path);
+//                            }
                         }
                     });
                 }
@@ -429,8 +432,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     public void onClick(View v) {
-        if (mService != null)
-            mService.load(mPlaylist.getTracks(), 0);
+        MediaUtils.openArray(this, mPlaylist.getTracks(), 0);
     }
 
     private void removeFromPlaylist(final List<MediaWrapper> list){

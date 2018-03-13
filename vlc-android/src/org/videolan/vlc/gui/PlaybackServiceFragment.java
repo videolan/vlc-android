@@ -35,8 +35,6 @@ public abstract class PlaybackServiceFragment extends Fragment implements Playba
         if (activity == null)
             return null;
 
-        if ((activity instanceof AudioPlayerContainerActivity))
-            return ((AudioPlayerContainerActivity) activity).getHelper();
         else if ((activity instanceof PlaybackServiceActivity))
             return ((PlaybackServiceActivity) activity).getHelper();
         else if ((activity instanceof VideoPlayerActivity))

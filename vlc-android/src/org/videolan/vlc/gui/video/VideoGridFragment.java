@@ -50,7 +50,6 @@ import android.view.ViewGroup;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.MediaParsingService;
-import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
@@ -63,6 +62,7 @@ import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.viewmodels.VideosProvider;
@@ -104,8 +104,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ml_menu_last_playlist:
-                final Activity activity = getActivity();
-                if (activity != null) activity.sendBroadcast(new Intent(Constants.ACTION_REMOTE_LAST_VIDEO_PLAYLIST));
+                MediaUtils.loadlastPlaylist(getActivity(), Constants.PLAYLIST_TYPE_VIDEO);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -199,18 +198,13 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
 
 
     protected void playVideo(MediaWrapper media, boolean fromStart) {
-        final Activity activity = getActivity();
-        if (activity instanceof PlaybackService.Callback)
-            mService.removeCallback((PlaybackService.Callback) activity);
         media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
         VideoPlayerActivity.start(getActivity(), media.getUri(), fromStart);
     }
 
     protected void playAudio(MediaWrapper media) {
-        if (mService != null) {
-            media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-            mService.load(media);
-        }
+        media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+        MediaUtils.openMedia(getActivity(), media);
     }
 
     protected boolean handleContextItemSelected(MenuItem menu, final int position) {
@@ -239,10 +233,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
                 MediaUtils.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
                 return true;
             case R.id.video_list_append:
-                if (media instanceof MediaGroup)
-                    mService.append(((MediaGroup)media).getAll());
-                else
-                    mService.append(media);
+                if (media instanceof MediaGroup) MediaUtils.appendMedia(getActivity(), ((MediaGroup)media).getAll());
+                else MediaUtils.appendMedia(getActivity(), media);
                 return true;
             case R.id.video_download_subtitles:
                 MediaUtils.getSubs(getActivity(), media);
@@ -342,7 +334,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
             return false;
         }
         menu.findItem(R.id.action_video_info).setVisible(count == 1);
-        menu.findItem(R.id.action_video_append).setVisible(mService != null && mService.hasMedia());
+        menu.findItem(R.id.action_video_append).setVisible(PlaylistManager.Companion.hasMedia());
         return true;
     }
 

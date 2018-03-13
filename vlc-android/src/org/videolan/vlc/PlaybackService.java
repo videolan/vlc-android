@@ -1242,7 +1242,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     @MainThread
     public boolean hasMedia()  {
-        return playlistManager.hasMedia();
+        return playlistManager.Companion.hasMedia();
     }
 
     @MainThread

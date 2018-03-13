@@ -62,6 +62,7 @@ public class SecondaryActivity extends ContentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secondary);
+        initAudioPlayerContainerActivity();
 
         final View fph = findViewById(R.id.fragment_placeholder);
         final CoordinatorLayout.LayoutParams params =
@@ -74,7 +75,6 @@ public class SecondaryActivity extends ContentActivity {
             params.setBehavior(new AppBarLayout.ScrollingViewBehavior());
         fph.requestLayout();
 
-        initAudioPlayerContainerActivity();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder) == null) {

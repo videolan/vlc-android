@@ -63,6 +63,7 @@ import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
@@ -393,8 +394,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
                 playAll(mw);
                 return true;
             case R.id.directory_view_append: {
-                if (mService != null)
-                    mService.append(mw);
+                MediaUtils.appendMedia(getActivity(), mw);
                 return true;
             }
             case R.id.directory_view_delete:
@@ -409,10 +409,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
                 showMediaInfo(mw);
                 return true;
             case R.id.directory_view_play_audio:
-                if (mService != null) {
-                    mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                    mService.load(mw);
-                }
+                mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+                MediaUtils.openMedia(getActivity(), mw);
                 return true;
             case R.id.directory_view_play_folder:
                 MediaUtils.openMedia(getActivity(), mw);
@@ -503,7 +501,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
         final List<MediaWrapper> selection = single ? mAdapter.getSelection() : null;
         int type = !Util.isListEmpty(selection) ? selection.get(0).getType() : -1;
         menu.findItem(R.id.action_mode_file_info).setVisible(single && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO));
-        menu.findItem(R.id.action_mode_file_append).setVisible(mService.hasMedia());
+        menu.findItem(R.id.action_mode_file_append).setVisible(PlaylistManager.Companion.hasMedia());
         return true;
     }
 
@@ -513,10 +511,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
         if (!list.isEmpty()) {
             switch (item.getItemId()) {
                 case R.id.action_mode_file_play:
-                    mService.load(list, 0);
+                    MediaUtils.openList(getActivity(), list, 0);
                     break;
                 case R.id.action_mode_file_append:
-                    mService.append(list);
+                    MediaUtils.appendMedia(getActivity(), list);
                     break;
                 case R.id.action_mode_file_add_playlist:
                     UiTools.addToPlaylist(getActivity(), list);

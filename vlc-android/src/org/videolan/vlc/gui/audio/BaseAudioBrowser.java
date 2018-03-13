@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui.audio;
 
-import android.content.Intent;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -41,6 +40,8 @@ import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IEventsHandler;
+import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.viewmodels.audio.AudioModel;
@@ -68,7 +69,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ml_menu_last_playlist:
-                getActivity().sendBroadcast(new Intent(Constants.ACTION_REMOTE_LAST_PLAYLIST));
+                MediaUtils.loadlastPlaylist(getActivity(), Constants.PLAYLIST_TYPE_AUDIO);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -94,24 +95,24 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
         boolean isSong = count == 1 && selection.get(0).getItemType() == MediaLibraryItem.TYPE_MEDIA;
         menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone);
         menu.findItem(R.id.action_mode_audio_info).setVisible(count == 1);
-        menu.findItem(R.id.action_mode_audio_append).setVisible(mService.hasMedia());
+        menu.findItem(R.id.action_mode_audio_append).setVisible(PlaylistManager.Companion.hasMedia());
         return true;
     }
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        List<MediaLibraryItem> list = getCurrentAdapter().getSelection();
+        final List<MediaLibraryItem> list = getCurrentAdapter().getSelection();
         stopActionMode();
         if (!list.isEmpty()) {
-            List<MediaWrapper> tracks = new ArrayList<>();
+            final List<MediaWrapper> tracks = new ArrayList<>();
             for (MediaLibraryItem mediaItem : list)
                 tracks.addAll(Arrays.asList(mediaItem.getTracks()));
             switch (item.getItemId()) {
                 case R.id.action_mode_audio_play:
-                    mService.load(tracks, 0);
+                    MediaUtils.openList(getActivity(), tracks, 0);
                     break;
                 case R.id.action_mode_audio_append:
-                    mService.append(tracks);
+                    MediaUtils.appendMedia(getActivity(), tracks);
                     break;
                 case R.id.action_mode_audio_add_playlist:
                     UiTools.addToPlaylist(getActivity(), tracks);

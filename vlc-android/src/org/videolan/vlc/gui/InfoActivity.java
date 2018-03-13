@@ -34,6 +34,7 @@ import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.MediaInfoAdapter;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
@@ -184,7 +185,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        mService.load(mItem.getTracks(), 0);
+        MediaUtils.openArray(this, mItem.getTracks(), 0);
         finish();
     }
 

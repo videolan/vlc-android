@@ -38,13 +38,14 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     companion object {
         val showAudioPlayer = MutableLiveData<Boolean>().apply { value = false }
+        private val mediaList = MediaWrapperList()
+        fun hasMedia() = mediaList.size() != 0
     }
 
     private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { Medialibrary.getInstance() }
     val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController() }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { PreferenceManager.getDefaultSharedPreferences(service) }
     private val ctx by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getAppContext() }
-    private val mediaList = MediaWrapperList()
     var currentIndex = -1
     private var nextIndex = -1
     private var prevIndex = -1
@@ -62,7 +63,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @Volatile
     private var expanding = false
 
-    fun hasMedia() = mediaList.size() != 0
     fun hasCurrentMedia() = isValidPosition(currentIndex)
 
     fun hasPlaylist() = mediaList.size() > 1

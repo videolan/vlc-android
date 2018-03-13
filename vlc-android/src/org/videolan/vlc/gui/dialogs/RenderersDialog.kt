@@ -36,7 +36,7 @@ import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.databinding.DialogRenderersBinding
 import org.videolan.vlc.databinding.ItemRendererBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
-import org.videolan.vlc.gui.PlaybackServiceFragment
+import org.videolan.vlc.gui.PlaybackServiceActivity
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
 
@@ -49,6 +49,7 @@ class RenderersDialog : DialogFragment(), RendererDelegate.RendererListener, Pla
     private lateinit var mBinding: DialogRenderersBinding
     private val mAdapter = RendererAdapter()
     private val mClickHandler = RendererClickhandler()
+    private lateinit var mHelper: PlaybackServiceActivity.Helper
     private var mService: PlaybackService? = null
 
     init {
@@ -61,6 +62,7 @@ class RenderersDialog : DialogFragment(), RendererDelegate.RendererListener, Pla
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        mHelper = PlaybackServiceActivity.Helper(activity, this)
         val inflater = LayoutInflater.from(context)
         mBinding = DialogRenderersBinding.inflate(inflater, null)
         val dialog = Dialog(context)
@@ -86,12 +88,12 @@ class RenderersDialog : DialogFragment(), RendererDelegate.RendererListener, Pla
 
     override fun onStart() {
         super.onStart()
-        PlaybackServiceFragment.getHelper(activity)?.registerFragment(this)
+        mHelper.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        PlaybackServiceFragment.getHelper(activity)?.unregisterFragment(this)
+        mHelper.onStop()
     }
 
     override fun onRenderersChanged(empty: Boolean) {

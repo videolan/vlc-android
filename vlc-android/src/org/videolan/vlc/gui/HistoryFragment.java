@@ -45,6 +45,7 @@ import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.viewmodels.HistoryProvider;
 
 import java.util.List;
@@ -178,7 +179,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
             return false;
         }
         menu.findItem(R.id.action_history_info).setVisible(selectionCount == 1);
-        menu.findItem(R.id.action_history_append).setVisible(mService.hasMedia());
+        menu.findItem(R.id.action_history_append).setVisible(PlaylistManager.Companion.hasMedia());
         return true;
     }
 
