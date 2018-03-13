@@ -19,6 +19,8 @@
  */
 package org.videolan.vlc
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
@@ -26,7 +28,6 @@ import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
-import org.videolan.vlc.ExternalMonitor.connected
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.retry
 import java.util.*
@@ -35,24 +36,13 @@ object RendererDelegate : RendererDiscoverer.EventListener {
 
     private val TAG = "VLC/RendererDelegate"
     private val mDiscoverers = ArrayList<RendererDiscoverer>()
-    val renderers = ArrayList<RendererItem>()
-    private val mListeners = LinkedList<RendererListener>()
-    private val mPlayers = LinkedList<RendererPlayer>()
+    val renderers : LiveData<MutableList<RendererItem>> = MutableLiveData()
 
     @Volatile private var started = false
-    var selectedRenderer: RendererItem? = null
-        private set
+    val selectedRenderer: LiveData<RendererItem> = MutableLiveData()
 
     init {
-        ExternalMonitor.connected.observeForever { launch(UI, CoroutineStart.UNDISPATCHED) { if (connected?.value == true) start() else stop() } }
-    }
-
-    interface RendererListener {
-        fun onRenderersChanged(empty: Boolean)
-    }
-
-    interface RendererPlayer {
-        fun onRendererChanged(renderer: RendererItem?)
+        ExternalMonitor.connected.observeForever { launch(UI, CoroutineStart.UNDISPATCHED) { if (it == true) start() else stop() } }
     }
 
     suspend fun start() {
@@ -72,39 +62,29 @@ object RendererDelegate : RendererDiscoverer.EventListener {
         started = false
         for (discoverer in mDiscoverers) discoverer.stop()
         clear()
-        onRenderersChanged()
-        for (player in mPlayers) player.onRendererChanged(null)
+        (renderers as MutableLiveData).value = mutableListOf()
+        (selectedRenderer as MutableLiveData).value = null
     }
 
     private fun clear() {
         mDiscoverers.clear()
-        for (renderer in renderers) renderer.release()
-        renderers.clear()
+        renderers.value?.apply {
+            for (renderer in this) renderer.release()
+            this.clear()
+        }
     }
 
     override fun onEvent(event: RendererDiscoverer.Event?) {
-        when (event?.type) {
-            RendererDiscoverer.Event.ItemAdded -> { renderers.add(event.item) }
-            RendererDiscoverer.Event.ItemDeleted -> { renderers.remove(event.item); event.item.release() }
-            else -> return
+        (renderers as MutableLiveData).value = when (event?.type) {
+            RendererDiscoverer.Event.ItemAdded -> { (renderers.value ?: mutableListOf()).apply { add(event.item) } }
+            RendererDiscoverer.Event.ItemDeleted -> { renderers.value?.apply { remove(event.item); event.item.release() } }
+            else -> null
         }
-        onRenderersChanged()
-    }
-
-    fun addListener(listener: RendererListener) = mListeners.add(listener)
-
-    fun removeListener(listener: RendererListener) = mListeners.remove(listener)
-
-    private fun onRenderersChanged() {
-        for (listener in mListeners) listener.onRenderersChanged(renderers.isEmpty())
     }
 
     fun selectRenderer(item: RendererItem?) {
-        selectedRenderer = item
-        for (player in mPlayers) player.onRendererChanged(item)
+        (selectedRenderer as MutableLiveData).value = item
     }
 
-    fun addPlayerListener(listener: RendererPlayer) = mPlayers.add(listener)
-
-    fun removePlayerListener(listener: RendererPlayer) = mPlayers.remove(listener)
+    fun hasRenderer() = selectedRenderer.value !== null
 }

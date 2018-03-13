@@ -38,7 +38,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.SimpleArrayMap;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ActionMode;
@@ -520,7 +519,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                 (Build.MANUFACTURER.compareTo("LGE") == 0)) {
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
-            MenuItemCompat.expandActionView(mMenu.findItem(R.id.ml_menu_filter));
+            mToolbar.getMenu().findItem(R.id.ml_menu_filter).expandActionView();
         }
         return super.onKeyDown(keyCode, event);
     }

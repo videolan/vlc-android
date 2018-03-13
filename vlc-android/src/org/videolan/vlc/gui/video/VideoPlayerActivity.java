@@ -25,6 +25,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.PictureInPictureParams;
+import android.arch.lifecycle.Observer;
 import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothHeadset;
 import android.content.BroadcastReceiver;
@@ -157,7 +158,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         IVLCVout.OnNewVideoLayoutListener, IPlaybackSettingsController,
         PlaybackService.Client.Callback, PlaybackService.Callback,PlaylistAdapter.IPlayer,
         OnClickListener, StoragePermissionsDelegate.CustomActionController,
-        ScaleGestureDetector.OnScaleGestureListener, RendererDelegate.RendererListener, RendererDelegate.RendererPlayer {
+        ScaleGestureDetector.OnScaleGestureListener {
 
     private final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -493,16 +494,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void setListeners(boolean enabled) {
         if (mHudBinding != null) mHudBinding.playerOverlaySeekbar.setOnSeekBarChangeListener(enabled ? mSeekListener : null);
         if (mNavMenu != null) mNavMenu.setOnClickListener(enabled ? this : null);
-        if (mRendererBtn != null) {
-            if (enabled) {
-                RendererDelegate.INSTANCE.addListener(this);
-                RendererDelegate.INSTANCE.addPlayerListener(this);
-            } else {
-                RendererDelegate.INSTANCE.removeListener(this);
-                RendererDelegate.INSTANCE.removePlayerListener(this);
-            }
-            mRendererBtn.setOnClickListener(enabled ? this : null);
-        }
+        UiTools.setViewOnClickListener(mRendererBtn, enabled ? this : null);
     }
 
     @Override
@@ -2523,16 +2515,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mHandler.sendEmptyMessage(START_PLAYBACK);
     }
 
-    @Override
-    public void onRenderersChanged(boolean empty) {
-        UiTools.setViewVisibility(mRendererBtn, empty ? View.GONE : View.VISIBLE);
-    }
-
-    @Override
-    public void onRendererChanged(@Nullable RendererItem renderer) {
-        if (mRendererBtn != null) mRendererBtn.setImageResource(renderer == null ? R.drawable.ic_renderer_circle : R.drawable.ic_renderer_on_circle);
-    }
-
     private interface TrackSelectedListener {
         void onTrackSelected(int trackID);
     }
@@ -2826,7 +2808,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private boolean mSeekButtons, mHasPlaylist;
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void initOverlay() {
-        final ViewStubCompat vsc = (ViewStubCompat) findViewById(R.id.player_hud_stub);
+        final ViewStubCompat vsc = findViewById(R.id.player_hud_stub);
         if (vsc != null) {
             mSeekButtons = mSettings.getBoolean("enable_seek_buttons", false);
             vsc.inflate();
@@ -2843,11 +2825,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
             mHudBinding.progressOverlay.setLayoutParams(layoutParams);
             mOverlayBackground = findViewById(R.id.player_overlay_background);
-            mNavMenu = (ImageView) findViewById(R.id.player_overlay_navmenu);
+            mNavMenu = findViewById(R.id.player_overlay_navmenu);
             if (!AndroidDevices.isChromeBook && AndroidUtil.isJellyBeanMR1OrLater) {
-                mRendererBtn = (ImageView) findViewById(R.id.video_renderer);
-                onRenderersChanged(RendererDelegate.INSTANCE.getRenderers().isEmpty());
-                onRendererChanged(RendererDelegate.INSTANCE.getSelectedRenderer());
+                mRendererBtn = findViewById(R.id.video_renderer);
+                RendererDelegate.INSTANCE.getSelectedRenderer().observe(this, new Observer<RendererItem>() {
+                    @Override
+                    public void onChanged(@android.support.annotation.Nullable RendererItem rendererItem) {
+                        if (mRendererBtn != null) mRendererBtn.setImageResource(rendererItem == null ? R.drawable.ic_renderer_circle : R.drawable.ic_renderer_on_circle);
+                    }
+                });
+                RendererDelegate.INSTANCE.getRenderers().observe(this, new Observer<List<RendererItem>>() {
+                    @Override
+                    public void onChanged(@Nullable List<RendererItem> rendererItems) {
+                        UiTools.setViewVisibility(mRendererBtn, Util.isListEmpty(rendererItems) ? View.GONE : View.VISIBLE);
+                    }
+                });
             }
             if (mSeekButtons) initSeekButton();
             resetHudLayout();

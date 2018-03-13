@@ -3,6 +3,7 @@ package org.videolan.vlc.gui.video
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Presentation
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.PixelFormat
@@ -22,7 +23,7 @@ import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.util.AndroidDevices
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-class DisplayManager(private val activity: Activity, cloneMode: Boolean) : RendererDelegate.RendererPlayer {
+class DisplayManager(private val activity: Activity, cloneMode: Boolean) {
 
     enum class DisplayType { PRIMARY, PRESENTATION, RENDERER }
 
@@ -33,7 +34,7 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) : Rende
     var presentation: SecondaryDisplay? = null
     private var presentationDisplayId = -1
     ///Renderers
-    private var rendererItem: RendererItem? = null
+    private var rendererItem: RendererItem? = RendererDelegate.selectedRenderer.value
 
     val isPrimary: Boolean
         get() = displayType == DisplayType.PRIMARY
@@ -50,16 +51,19 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) : Rende
             presentationDisplayId = -1
         }
     }
+    private val rendererObs by lazy(LazyThreadSafetyMode.NONE) { Observer<RendererItem> {
+        rendererItem = it
+        updateDisplayType()
+    }}
 
     init {
         presentation = if (AndroidUtil.isJellyBeanMR1OrLater) createPresentation(cloneMode) else null
-        rendererItem = if (!AndroidDevices.isChromeBook) RendererDelegate.selectedRenderer else null
         displayType = getCurrentType()
-        if (!AndroidDevices.isChromeBook) RendererDelegate.addPlayerListener(this)
+        if (!AndroidDevices.isChromeBook) RendererDelegate.selectedRenderer.observeForever(rendererObs)
     }
 
     companion object {
-        private val TAG = "VLC/DisplayManager"
+        private const val TAG = "VLC/DisplayManager"
     }
 
     fun release() {
@@ -67,6 +71,7 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) : Rende
             presentation?.dismiss()
             presentation = null
         }
+        if (!AndroidDevices.isChromeBook) RendererDelegate.selectedRenderer.removeObserver(rendererObs)
     }
 
     private fun updateDisplayType() {
@@ -88,7 +93,7 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) : Rende
         val presentationDisplay = route?.presentationDisplay
         if (presentationDisplay !== null) {
             // Show a new presentation if possible.
-            if (BuildConfig.DEBUG) Log.i(TAG, "Showing presentation on display: " + presentationDisplay)
+            if (BuildConfig.DEBUG) Log.i(TAG, "Showing presentation on display: $presentationDisplay")
             val presentation = SecondaryDisplay(activity, presentationDisplay)
             presentation.setOnDismissListener(mOnDismissListener)
             try {
@@ -139,11 +144,6 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) : Rende
         if (BuildConfig.DEBUG) Log.i(TAG, "Dismissing presentation because the current route no longer " + "has a presentation display.")
         presentation?.dismiss()
         presentation = null
-        updateDisplayType()
-    }
-
-    override fun onRendererChanged(renderer: RendererItem?) {
-        rendererItem = renderer
         updateDisplayType()
     }
 

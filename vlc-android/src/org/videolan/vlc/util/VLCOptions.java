@@ -229,7 +229,7 @@ public class VLCOptions {
         if (!prefs.getBoolean("subtitles_autoload", true)) media.addOption(":sub-language=none");
         if (prefs.getBoolean("media_fast_seek", true)) media.addOption(":input-fast-seek");
 
-        if (RendererDelegate.INSTANCE.getSelectedRenderer() != null) {
+        if (RendererDelegate.INSTANCE.hasRenderer()) {
             media.addOption(":sout-chromecast-audio-passthrough="+prefs.getBoolean("casting_passthrough", true));
             media.addOption(":sout-chromecast-conversion-quality="+prefs.getString("casting_quality", "2"));
         }

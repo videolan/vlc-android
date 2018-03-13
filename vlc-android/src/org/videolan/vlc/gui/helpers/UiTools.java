@@ -186,8 +186,11 @@ public class UiTools {
     }
 
     public static void setViewVisibility(View v, int visibility) {
-        if (v != null)
-            v.setVisibility(visibility);
+        if (v != null) v.setVisibility(visibility);
+    }
+
+    public static void setViewOnClickListener(View v, View.OnClickListener ocl) {
+        if (v != null) v.setOnClickListener(ocl);
     }
 
     public static boolean isBlackThemeEnabled() {

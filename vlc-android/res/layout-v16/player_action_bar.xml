@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_am_renderer_normal_w"
+        android:src="@drawable/ic_renderer_circle"
         android:focusable="true"
         android:visibility="gone"/>
 

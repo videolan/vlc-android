@@ -20,7 +20,7 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.app.Dialog
-import android.content.DialogInterface
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.content.ContextCompat
@@ -40,29 +40,28 @@ import org.videolan.vlc.gui.PlaybackServiceActivity
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
 
-class RenderersDialog : DialogFragment(), RendererDelegate.RendererListener, PlaybackService.Client.Callback {
+class RenderersDialog : DialogFragment(), PlaybackService.Client.Callback {
 
     companion object {
         private val TAG = "VLC/RenderersDialog"
     }
-    private var mRenderers = RendererDelegate.renderers
+    private var mRenderers = RendererDelegate.renderers.value
     private lateinit var mBinding: DialogRenderersBinding
     private val mAdapter = RendererAdapter()
     private val mClickHandler = RendererClickhandler()
     private lateinit var mHelper: PlaybackServiceActivity.Helper
     private var mService: PlaybackService? = null
 
-    init {
-        RendererDelegate.addListener(this)
-    }
-
-    override fun onDismiss(dialog: DialogInterface?) {
-        super.onDismiss(dialog)
-        RendererDelegate.removeListener(this)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mHelper = PlaybackServiceActivity.Helper(activity, this)
+        RendererDelegate.renderers.observe(this, Observer {
+            mRenderers = RendererDelegate.renderers.value
+            mAdapter.update(mRenderers ?: mutableListOf())
+        })
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        mHelper = PlaybackServiceActivity.Helper(activity, this)
         val inflater = LayoutInflater.from(context)
         mBinding = DialogRenderersBinding.inflate(inflater, null)
         val dialog = Dialog(context)
@@ -81,9 +80,9 @@ class RenderersDialog : DialogFragment(), RendererDelegate.RendererListener, Pla
         mBinding.holder = mClickHandler;
         mBinding.renderersList.layoutManager = LinearLayoutManager(view.context)
         mBinding.renderersList.adapter = mAdapter
-        mBinding.renderersDisconnect.isEnabled = RendererDelegate.selectedRenderer !== null
-        mBinding.renderersDisconnect.setTextColor(ContextCompat.getColor(view.context, if (RendererDelegate.selectedRenderer !== null) R.color.orange800 else R.color.grey400))
-        mAdapter.update(mRenderers)
+        mBinding.renderersDisconnect.isEnabled = RendererDelegate.hasRenderer()
+        mBinding.renderersDisconnect.setTextColor(ContextCompat.getColor(view.context, if (RendererDelegate.hasRenderer()) R.color.orange800 else R.color.grey400))
+        mRenderers?.apply { mAdapter.update(this) }
     }
 
     override fun onStart() {
@@ -94,11 +93,6 @@ class RenderersDialog : DialogFragment(), RendererDelegate.RendererListener, Pla
     override fun onStop() {
         super.onStop()
         mHelper.onStop()
-    }
-
-    override fun onRenderersChanged(empty: Boolean) {
-        mRenderers = RendererDelegate.renderers
-        mAdapter.update(mRenderers)
     }
 
     override fun onConnected(service: PlaybackService) {
@@ -118,9 +112,11 @@ class RenderersDialog : DialogFragment(), RendererDelegate.RendererListener, Pla
         }
 
         override fun onBindViewHolder(holder: SelectorViewHolder<ItemRendererBinding>, position: Int) {
-            holder.binding.renderer = mRenderers[position]
-            if (mRenderers[position] == RendererDelegate.selectedRenderer)
+            mRenderers?.apply {
+                holder.binding.renderer = this[position]
+                if (this[position] == RendererDelegate.selectedRenderer.value)
                 holder.binding.rendererName.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.orange800))
+            }
         }
 
         override fun getItemCount() = dataset.size
