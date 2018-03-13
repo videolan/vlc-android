@@ -28,6 +28,7 @@ import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
+import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.retry
 import java.util.*
@@ -35,8 +36,8 @@ import java.util.*
 object RendererDelegate : RendererDiscoverer.EventListener {
 
     private val TAG = "VLC/RendererDelegate"
-    private val mDiscoverers = ArrayList<RendererDiscoverer>()
-    val renderers : LiveData<MutableList<RendererItem>> = MutableLiveData()
+    private val discoverers = ArrayList<RendererDiscoverer>()
+    val renderers : LiveDataset<RendererItem> = LiveDataset()
 
     @Volatile private var started = false
     val selectedRenderer: LiveData<RendererItem> = MutableLiveData()
@@ -51,7 +52,7 @@ object RendererDelegate : RendererDiscoverer.EventListener {
         val libVlc = withContext(CommonPool) { VLCInstance.get() }
         for (discoverer in RendererDiscoverer.list(libVlc)) {
             val rd = RendererDiscoverer(libVlc, discoverer.name)
-            mDiscoverers.add(rd)
+            discoverers.add(rd)
             rd.setEventListener(this@RendererDelegate)
             retry(5, 1000L) { rd.start() }
         }
@@ -60,25 +61,21 @@ object RendererDelegate : RendererDiscoverer.EventListener {
     fun stop() {
         if (!started) return
         started = false
-        for (discoverer in mDiscoverers) discoverer.stop()
+        for (discoverer in discoverers) discoverer.stop()
+        for (renderer in renderers.value) renderer.release()
         clear()
-        (renderers as MutableLiveData).value = mutableListOf()
-        (selectedRenderer as MutableLiveData).value = null
     }
 
     private fun clear() {
-        mDiscoverers.clear()
-        renderers.value?.apply {
-            for (renderer in this) renderer.release()
-            this.clear()
-        }
+        discoverers.clear()
+        renderers.clear()
+        (selectedRenderer as MutableLiveData).value = null
     }
 
     override fun onEvent(event: RendererDiscoverer.Event?) {
-        (renderers as MutableLiveData).value = when (event?.type) {
-            RendererDiscoverer.Event.ItemAdded -> { (renderers.value ?: mutableListOf()).apply { add(event.item) } }
-            RendererDiscoverer.Event.ItemDeleted -> { renderers.value?.apply { remove(event.item); event.item.release() } }
-            else -> null
+        when (event?.type) {
+            RendererDiscoverer.Event.ItemAdded -> { renderers.add(event.item) }
+            RendererDiscoverer.Event.ItemDeleted -> { renderers.remove(event.item); event.item.release() }
         }
     }
 

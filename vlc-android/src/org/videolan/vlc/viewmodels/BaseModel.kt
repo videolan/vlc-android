@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.viewmodels
 
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
@@ -31,6 +30,7 @@ import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.FilterDelegate
+import org.videolan.vlc.util.LiveDataset
 
 abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
 
@@ -51,7 +51,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
 
     val dataset by lazy {
         launch(UI) { fetch() }
-        MutableLiveData<MutableList<T>>()
+        LiveDataset<T>()
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -87,27 +87,15 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
 
     fun filter(query: String?) = updateActor.offer(Filter(query))
 
-    protected open fun removeMedia(media: T) {
-        dataset.value?.let {
-            dataset.value = it.apply { this.remove(media) }
-        }
-    }
+    protected open fun removeMedia(media: T) = dataset.remove(media)
 
-    protected open suspend fun addMedia(media: T) {
-        dataset.value.let {
-            dataset.value = if (it === null) mutableListOf(media) else it.apply { add(media) }
-        }
-    }
+    protected open suspend fun addMedia(media: T) = dataset.add(media)
 
-    open suspend fun addMedia(mediaList: List<T>) {
-        dataset.value.let {
-            dataset.value = if (it === null) mediaList.toMutableList() else it.apply { addAll(mediaList) }
-        }
-    }
+    open suspend fun addMedia(mediaList: List<T>) = dataset.add(mediaList)
 
     protected open suspend fun updateItems(mediaList: List<T>) {
         dataset.value = withContext(CommonPool) {
-            val list = dataset.value ?: mutableListOf()
+            val list = dataset.value
             val iterator = list.listIterator()
             for (media in iterator) {
                 for (newItem in mediaList) if (media.equals(newItem)) {
@@ -119,7 +107,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
         }
     }
 
-    fun canSortBy(sort: Int) = when(sort) {
+    private fun canSortBy(sort: Int) = when(sort) {
         Medialibrary.SORT_DEFAULT -> true
         Medialibrary.SORT_ALPHA -> canSortByName()
         Medialibrary.SORT_DURATION -> canSortByDuration()

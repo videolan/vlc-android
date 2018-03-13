@@ -45,7 +45,7 @@ class RenderersDialog : DialogFragment(), PlaybackService.Client.Callback {
     companion object {
         private val TAG = "VLC/RenderersDialog"
     }
-    private var mRenderers = RendererDelegate.renderers.value
+    private var renderers = RendererDelegate.renderers.value
     private lateinit var mBinding: DialogRenderersBinding
     private val mAdapter = RendererAdapter()
     private val mClickHandler = RendererClickhandler()
@@ -56,8 +56,10 @@ class RenderersDialog : DialogFragment(), PlaybackService.Client.Callback {
         super.onCreate(savedInstanceState)
         mHelper = PlaybackServiceActivity.Helper(activity, this)
         RendererDelegate.renderers.observe(this, Observer {
-            mRenderers = RendererDelegate.renderers.value
-            mAdapter.update(mRenderers ?: mutableListOf())
+            if (it !== null) {
+                renderers = it
+                mAdapter.update(it)
+            }
         })
     }
 
@@ -82,7 +84,7 @@ class RenderersDialog : DialogFragment(), PlaybackService.Client.Callback {
         mBinding.renderersList.adapter = mAdapter
         mBinding.renderersDisconnect.isEnabled = RendererDelegate.hasRenderer()
         mBinding.renderersDisconnect.setTextColor(ContextCompat.getColor(view.context, if (RendererDelegate.hasRenderer()) R.color.orange800 else R.color.grey400))
-        mRenderers?.apply { mAdapter.update(this) }
+        mAdapter.update(renderers)
     }
 
     override fun onStart() {
@@ -112,11 +114,9 @@ class RenderersDialog : DialogFragment(), PlaybackService.Client.Callback {
         }
 
         override fun onBindViewHolder(holder: SelectorViewHolder<ItemRendererBinding>, position: Int) {
-            mRenderers?.apply {
-                holder.binding.renderer = this[position]
-                if (this[position] == RendererDelegate.selectedRenderer.value)
-                holder.binding.rendererName.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.orange800))
-            }
+            holder.binding.renderer = renderers[position]
+            if (renderers[position] == RendererDelegate.selectedRenderer.value)
+            holder.binding.rendererName.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.orange800))
         }
 
         override fun getItemCount() = dataset.size

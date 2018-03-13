@@ -5,7 +5,6 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 
-
 class FilterDelegate<T : MediaLibraryItem>(private val dataset: MutableLiveData<MutableList<T>>) {
     private var sourceSet: MutableList<T>? = null
 

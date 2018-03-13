@@ -67,7 +67,7 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
     override fun sort(sort: Int): Boolean {
         this.sort = sort
         desc = !desc
-        dataset.value = dataset.value?.apply { sortWith(if (desc) descComp else ascComp) }
+        dataset.value = dataset.value.apply { sortWith(if (desc) descComp else ascComp) }
         return true
     }
 

@@ -28,6 +28,7 @@ class TracksProvider(val parent: MediaLibraryItem? = null, private val separator
     override fun onMediaUpdated(mediaList: Array<out MediaWrapper>?) {
         refresh()
     }
+
     override suspend fun updateList() {
         dataset.value = withContext(CommonPool) {
             val list = when (parent) {
