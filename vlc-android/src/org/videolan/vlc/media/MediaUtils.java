@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
@@ -41,21 +43,30 @@ public class MediaUtils {
         sSubtitlesDownloader.downloadSubs(activity, mediaList, cb);
     }
 
+    public static void loadlastPlaylist(final Context context, final int type){
+        if (context == null) return;
+        new DialogCallback(context, new DialogCallback.Runnable() {
+                @Override
+                public void run(PlaybackService service) {
+                    service.loadLastPlaylist(type);
+                }
+        });
+    }
+
     public static void getSubs(Activity activity, MediaWrapper media, SubtitlesDownloader.Callback cb) {
-        List<MediaWrapper> mediaList = new ArrayList<>();
+        final List<MediaWrapper> mediaList = new ArrayList<>();
         mediaList.add(media);
         getSubs(activity, mediaList, cb);
     }
 
     public static void getSubs(Activity activity, MediaWrapper media) {
-        List<MediaWrapper> mediaList = new ArrayList<>();
+        final List<MediaWrapper> mediaList = new ArrayList<>();
         mediaList.add(media);
         getSubs(activity, mediaList);
     }
 
     public static void appendMedia(final Context context, final List<MediaWrapper> media){
-        if (media == null)
-            return;
+        if (media == null || context == null) return;
         new DialogCallback(context, new DialogCallback.Runnable() {
                 @Override
                 public void run(PlaybackService service) {
@@ -65,8 +76,7 @@ public class MediaUtils {
     }
 
     public static void appendMedia(final Context context, final MediaWrapper media){
-        if (media == null)
-            return;
+        if (media == null || context == null) return;
         new DialogCallback(context, new DialogCallback.Runnable() {
                 @Override
                 public void run(PlaybackService service) {
@@ -75,9 +85,32 @@ public class MediaUtils {
         });
     }
 
+    public static void appendMedia(final Context context, final MediaWrapper[] array){
+        appendMedia(context, Arrays.asList(array));
+    }
+
+    public static void insertNext(final Context context, final MediaWrapper[] media){
+        if (media == null || context == null) return;
+        new DialogCallback(context, new DialogCallback.Runnable() {
+                @Override
+                public void run(PlaybackService service) {
+                    service.insertNext(media);
+                }
+        });
+    }
+
+    public static void insertNext(final Context context, final MediaWrapper media){
+        if (media == null || context == null) return;
+        new DialogCallback(context, new DialogCallback.Runnable() {
+                @Override
+                public void run(PlaybackService service) {
+                    service.insertNext(media);
+                }
+        });
+    }
+
     public static void openMedia(final Context context, final MediaWrapper media){
-        if (media == null)
-            return;
+        if (media == null || context == null) return;
         new DialogCallback(context, new DialogCallback.Runnable() {
                 @Override
                 public void run(PlaybackService service) {
@@ -92,8 +125,7 @@ public class MediaUtils {
     }
 
     public static void openMediaNoUi(final Context context, final MediaWrapper media){
-        if (media == null)
-            return;
+        if (media == null || context == null) return;
         new BaseCallBack(context) {
             @Override
             public void onConnected(PlaybackService service) {
@@ -108,19 +140,22 @@ public class MediaUtils {
     }
 
     public static void openList(final Context context, final List<MediaWrapper> list, final int position){
-        if (Util.isListEmpty(list))
-            return;
+        openList(context, list, position, false);
+    }
+
+    public static void openList(final Context context, final List<MediaWrapper> list, final int position, final boolean shuffle){
+        if (Util.isListEmpty(list) || context == null) return;
         new DialogCallback(context, new DialogCallback.Runnable() {
             @Override
             public void run(PlaybackService service) {
                 service.load(list, position);
+                if (shuffle && !service.isShuffling()) service.shuffle();
             }
         });
     }
 
     public static void openUri(final Context context, final Uri uri){
-        if (uri == null)
-            return;
+        if (uri == null || context == null) return;
         new DialogCallback(context, new DialogCallback.Runnable() {
             @Override
             public void run(PlaybackService service) {
@@ -130,8 +165,7 @@ public class MediaUtils {
     }
 
     public static void openStream(final Context context, final String uri){
-        if (uri == null)
-            return;
+        if (uri == null || context == null) return;
         new DialogCallback(context, new DialogCallback.Runnable() {
             @Override
             public void run(PlaybackService service) {
@@ -237,29 +271,35 @@ public class MediaUtils {
     }
 
     private static class DialogCallback extends BaseCallBack {
-        private final ProgressDialog dialog;
+        private ProgressDialog dialog;
         private final Runnable mRunnable;
+        private final Handler handler = new Handler(Looper.getMainLooper());
 
         private interface Runnable {
             void run(PlaybackService service);
         }
 
-        private DialogCallback(Context context, Runnable runnable) {
+        private DialogCallback(final Context context, Runnable runnable) {
             mClient = new PlaybackService.Client(context, this);
             mRunnable = runnable;
-            this.dialog = ProgressDialog.show(
-                    context,
-                    context.getApplicationContext().getString(R.string.loading) + "…",
-                    context.getApplicationContext().getString(R.string.please_wait), true);
-            dialog.setCancelable(true);
-            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            handler.postDelayed(new java.lang.Runnable() {
                 @Override
-                public void onCancel(DialogInterface dialog) {
-                    synchronized (this) {
-                        mClient.disconnect();
-                    }
+                public void run() {
+                    dialog = ProgressDialog.show(
+                            context,
+                            context.getApplicationContext().getString(R.string.loading) + "…",
+                            context.getApplicationContext().getString(R.string.please_wait), true);
+                    dialog.setCancelable(true);
+                    dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            synchronized (this) {
+                                mClient.disconnect();
+                            }
+                        }
+                    });
                 }
-            });
+            }, 300);
             synchronized (this) {
                 mClient.connect();
             }
@@ -270,7 +310,8 @@ public class MediaUtils {
             synchronized (this) {
                 mRunnable.run(service);
             }
-            dialog.cancel();
+            handler.removeCallbacksAndMessages(null);
+            if (dialog != null) dialog.cancel();
         }
 
         @Override
