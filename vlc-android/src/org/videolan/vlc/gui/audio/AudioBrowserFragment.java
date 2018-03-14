@@ -415,15 +415,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         return true;
     }
 
-    @Override
-    public void filter(String query) {
-        //TODO getCurrentAdapter().getFilter().filter(query);
-    }
-
-    public void restoreList() {
-        if (mViewPager != null) getCurrentAdapter().restoreList();
-    }
-
     private void updateEmptyView(int position) {
         mEmptyView.setVisibility(getCurrentAdapter().isEmpty() ? View.VISIBLE : View.GONE);
         mEmptyView.setText(position == MODE_PLAYLIST ? R.string.noplaylist : R.string.nomedia);

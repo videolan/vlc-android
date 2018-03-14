@@ -15,8 +15,7 @@ class FilterDelegate<T : MediaLibraryItem>(private val dataset: MutableLiveData<
 
     suspend fun filter(charSequence: CharSequence?) = publish(filteringJob(charSequence))
 
-
-    private suspend fun filteringJob(charSequence: CharSequence?) : MutableList<T> {
+    private suspend fun filteringJob(charSequence: CharSequence?) : MutableList<T>? {
         if (charSequence !== null) initSource()?.let {
             return withContext(CommonPool) { mutableListOf<T>().apply {
                 val queryStrings = charSequence.trim().toString().split(" ").filter { it.length > 2 }
@@ -28,12 +27,12 @@ class FilterDelegate<T : MediaLibraryItem>(private val dataset: MutableLiveData<
                 }
             }
         }
-        return mutableListOf()
+        return null
     }
 
     private fun publish(list: MutableList<T>?) {
         sourceSet?.let {
-            if (list?.isEmpty() == false)
+            if (list !== null)
                 dataset.value = list
             else {
                 dataset.value = it
