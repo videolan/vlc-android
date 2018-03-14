@@ -22,6 +22,8 @@ package org.videolan.vlc.gui.audio
 
 import android.Manifest
 import android.annotation.TargetApi
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
@@ -53,8 +55,6 @@ import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import kotlinx.coroutines.experimental.launch
-import org.videolan.libvlc.Media
-import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
@@ -73,28 +73,31 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Constants
+import org.videolan.vlc.viewmodels.PlaybackProgress
+import org.videolan.vlc.viewmodels.PlaylistModel
 
 @Suppress("UNUSED_PARAMETER")
-class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlayer, TextWatcher, PlaybackService.Client.Callback {
+class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackService.Client.Callback {
 
-    private lateinit var mBinding: AudioPlayerBinding
-    private lateinit var mPlaylistAdapter: PlaylistAdapter
-    private lateinit var mSettings: SharedPreferences
-    private val mHandler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
+    private lateinit var binding: AudioPlayerBinding
+    private lateinit var playlistAdapter: PlaylistAdapter
+    private lateinit var settings: SharedPreferences
+    private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
     private val updateActor = actor<Unit>(UI, capacity = Channel.CONFLATED) { for (entry in channel) doUpdate() }
-    private lateinit var mHelper: PlaybackServiceActivity.Helper
-    private var mService: PlaybackService? = null
+    private lateinit var helper: PlaybackServiceActivity.Helper
+    private var service: PlaybackService? = null
+    private lateinit var playlistModel: PlaylistModel
 
-    private var mShowRemainingTime = false
-    private var mPreviewingSeek = false
-    private var mAdvFuncVisible = false
-    private var mPlaylistSwitchVisible = false
-    private var mSearchVisible = false
-    private var mHeaderPlayPauseVisible = false
-    private var mProgressBarVisible = false
-    private var mHeaderTimeVisible = false
-    private var mPlayerState = 0
-    private var mCurrentCoverArt: String? = null
+    private var showRemainingTime = false
+    private var previewingSeek = false
+    private var advFuncVisible = false
+    private var playlistSwitchVisible = false
+    private var searchVisible = false
+    private var headerPlayPauseVisible = false
+    private var progressBarVisible = false
+    private var headerTimeVisible = false
+    private var playerState = 0
+    private var currentCoverArt: String? = null
 
     companion object {
         const val TAG = "VLC/AudioPlayer"
@@ -106,15 +109,15 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        savedInstanceState?.let { mPlayerState = it.getInt("player_state")}
-        mPlaylistAdapter = PlaylistAdapter(this)
-        mSettings = PreferenceManager.getDefaultSharedPreferences(activity)
-        mHelper = PlaybackServiceActivity.Helper(activity, this)
+        savedInstanceState?.let { playerState = it.getInt("player_state")}
+        playlistAdapter = PlaylistAdapter(this)
+        settings = PreferenceManager.getDefaultSharedPreferences(activity)
+        helper = PlaybackServiceActivity.Helper(activity, this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mBinding = AudioPlayerBinding.inflate(inflater)
-        return mBinding.root
+        binding = AudioPlayerBinding.inflate(inflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -123,52 +126,53 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
             DEFAULT_BACKGROUND_DARKER_ID = UiTools.getResourceFromAttribute(view.context, R.attr.background_default_darker)
             DEFAULT_BACKGROUND_ID = UiTools.getResourceFromAttribute(view.context, R.attr.background_default)
         }
-        mBinding.songsList.layoutManager = LinearLayoutManager(view.context)
-        mBinding.songsList.adapter = mPlaylistAdapter
-        mBinding.audioMediaSwitcher.setAudioMediaSwitcherListener(mHeaderMediaSwitcherListener)
-        mBinding.coverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener)
-        mBinding.playlistSearchText.editText?.addTextChangedListener(this)
+        binding.songsList.layoutManager = LinearLayoutManager(view.context)
+        binding.songsList.adapter = playlistAdapter
+        binding.audioMediaSwitcher.setAudioMediaSwitcherListener(mHeaderMediaSwitcherListener)
+        binding.coverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener)
+        binding.playlistSearchText.editText?.addTextChangedListener(this)
 
-        val callback = SwipeDragItemTouchHelperCallback(mPlaylistAdapter)
+        val callback = SwipeDragItemTouchHelperCallback(playlistAdapter)
         val touchHelper = ItemTouchHelper(callback)
-        touchHelper.attachToRecyclerView(mBinding.songsList)
+        touchHelper.attachToRecyclerView(binding.songsList)
 
         setHeaderVisibilities(false, false, true, true, true, false)
-        mBinding.fragment = this
+        binding.fragment = this
 
-        mBinding.next.setOnTouchListener(LongSeekListener(true,
+        binding.next.setOnTouchListener(LongSeekListener(true,
                 UiTools.getResourceFromAttribute(view.context, R.attr.ic_next),
                 R.drawable.ic_next_pressed))
-        mBinding.previous.setOnTouchListener(LongSeekListener(false,
+        binding.previous.setOnTouchListener(LongSeekListener(false,
                 UiTools.getResourceFromAttribute(view.context, R.attr.ic_previous),
                 R.drawable.ic_previous_pressed))
 
-        registerForContextMenu(mBinding.songsList)
+        registerForContextMenu(binding.songsList)
         userVisibleHint = true
-        mBinding.showCover = mSettings.getBoolean("audio_player_show_cover", false)
-        mBinding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (mBinding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))
+        binding.showCover = settings.getBoolean("audio_player_show_cover", false)
+        binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (binding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))
     }
 
     override fun onResume() {
         super.onResume()
-        mHelper.onStart()
+        helper.onStart()
     }
 
     override fun onPause() {
         super.onPause()
-        mService?.removeCallback(this)
-        mHelper.onStop()
+        helper.onStop()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt("player_state", mPlayerState)
+        outState.putInt("player_state", playerState)
     }
 
-    override fun onPopupMenu(anchor: View, position: Int) {
+    override fun onPopupMenu(anchor: View, position: Int, media: MediaWrapper) {
         val activity = activity
-        if (activity === null || position >= mPlaylistAdapter.itemCount) return
-        val mw = mPlaylistAdapter.getItem(position)
+        if (activity === null || position >= playlistAdapter.itemCount) return
+        val pos = playlistModel.getItemPosition(position, media)
+        if (pos == -1) return
+        val mw = playlistAdapter.getItem(pos)
         val popupMenu = PopupMenu(activity, anchor)
         popupMenu.menuInflater.inflate(R.menu.audio_player, popupMenu.menu)
 
@@ -178,8 +182,8 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
 
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
             if (item.itemId == R.id.audio_player_mini_remove) {
-                mService?.apply {
-                    remove(position)
+                service?.apply {
+                    remove(pos)
                     return@OnMenuItemClickListener true
                 }
             } else if (item.itemId == R.id.audio_player_set_song) {
@@ -191,78 +195,76 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
         popupMenu.show()
     }
 
-    override fun update() {
-        if (!updateActor.isClosedForSend) updateActor.offer(Unit)
-    }
-
     private fun doUpdate() {
         if (activity === null) return
-        mService?.apply {
+        service?.apply {
             if (hasMedia() && !isVideoPlaying && isVisible
-                    && mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
-                mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply()
+                    && settings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
+                settings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply()
                 currentMediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                 switchToVideo()
                 return
             }
         }
 
-        mBinding.audioMediaSwitcher.updateMedia(mService)
-        mBinding.coverMediaSwitcher.updateMedia(mService)
+        binding.audioMediaSwitcher.updateMedia(service)
+        binding.coverMediaSwitcher.updateMedia(service)
 
-        mBinding.playlistPlayasaudioOff.visibility = if (mService?.videoTracksCount ?: 0 > 0) View.VISIBLE else View.GONE
+        binding.playlistPlayasaudioOff.visibility = if (service?.videoTracksCount ?: 0 > 0) View.VISIBLE else View.GONE
 
-        val playing = mService?.isPlaying ?: false
-        val imageResId = UiTools.getResourceFromAttribute(activity, if (playing) R.attr.ic_pause else R.attr.ic_play)
-        val text = getString(if (playing) R.string.pause else R.string.play)
-        mBinding.playPause.setImageResource(imageResId)
-        mBinding.playPause.contentDescription = text
-        mBinding.headerPlayPause.setImageResource(imageResId)
-        mBinding.headerPlayPause.contentDescription = text
-        mBinding.shuffle.setImageResource(UiTools.getResourceFromAttribute(activity, if (mService?.isShuffling == true) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
-        mBinding.shuffle.contentDescription = resources.getString(if (mService?.isShuffling == true) R.string.shuffle_on else R.string.shuffle)
-        when (mService?.repeatType) {
-            Constants.REPEAT_ONE -> {
-                mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_one))
-                mBinding.repeat.contentDescription = resources.getString(R.string.repeat_single)
-            }
-            Constants.REPEAT_ALL -> {
-                mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_all))
-                mBinding.repeat.contentDescription = resources.getString(R.string.repeat_all)
-            }
-            else -> {
-                mBinding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat))
-                mBinding.repeat.contentDescription = resources.getString(R.string.repeat)
-            }
-        }
-        mBinding.shuffle.visibility = if (mService?.canShuffle() == true) View.VISIBLE else View.INVISIBLE
-        mBinding.timeline.setOnSeekBarChangeListener(mTimelineListner)
-        updateList()
+        updatePlayPause()
+        updateShuffleMode()
+        updateRepeatMode()
+        binding.timeline.setOnSeekBarChangeListener(mTimelineListner)
         updateBackground()
     }
 
-    override fun updateProgress() {
-        if (mService === null) return
-        val time = mService?.time ?: 0L
-        val length = mService?.length ?: 0L
+    private fun updatePlayPause() {
+        val playing = service?.isPlaying ?: false
+        val imageResId = UiTools.getResourceFromAttribute(activity, if (playing) R.attr.ic_pause else R.attr.ic_play)
+        val text = getString(if (playing) R.string.pause else R.string.play)
+        binding.playPause.setImageResource(imageResId)
+        binding.playPause.contentDescription = text
+        binding.headerPlayPause.setImageResource(imageResId)
+        binding.headerPlayPause.contentDescription = text
+    }
 
-        mBinding.headerTime.text = Tools.millisToString(time)
-        mBinding.length.text = Tools.millisToString(length)
-        mBinding.timeline.max = length.toInt()
-        mBinding.progressBar.max = length.toInt()
-
-        if (!mPreviewingSeek) {
-            mBinding.time.text = Tools.millisToString((if (mShowRemainingTime) time - length else time))
-            mBinding.timeline.progress = time.toInt()
-            mBinding.progressBar.progress = time.toInt()
+    private fun updateShuffleMode() {
+        service?.let {
+            binding.shuffle.setImageResource(UiTools.getResourceFromAttribute(activity, if (it.isShuffling) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
+            binding.shuffle.contentDescription = resources.getString(if (it.isShuffling) R.string.shuffle_on else R.string.shuffle)
+            binding.shuffle.visibility = if (it.canShuffle()) View.VISIBLE else View.INVISIBLE
         }
     }
 
-    override fun onMediaEvent(event: Media.Event) {}
+    private fun updateRepeatMode() {
+        when (service?.repeatType) {
+            Constants.REPEAT_ONE -> {
+                binding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_one))
+                binding.repeat.contentDescription = resources.getString(R.string.repeat_single)
+            }
+            Constants.REPEAT_ALL -> {
+                binding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_all))
+                binding.repeat.contentDescription = resources.getString(R.string.repeat_all)
+            }
+            else -> {
+                binding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat))
+                binding.repeat.contentDescription = resources.getString(R.string.repeat)
+            }
+        }
+    }
 
-    override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
-        when (event.type) {
-            MediaPlayer.Event.Opening -> hideSearchField()
+    private fun updateProgress(progress: PlaybackProgress) {
+        binding.length.text = progress.lengthText
+        binding.timeline.max = progress.length.toInt()
+        binding.progressBar.max = progress.length.toInt()
+
+        if (!previewingSeek) {
+            val displayTime = if (showRemainingTime) Tools.millisToString(progress.time - progress.length) else progress.timeText
+            binding.headerTime.text = displayTime
+            binding.time.text = displayTime
+            binding.timeline.progress = progress.time.toInt()
+            binding.progressBar.progress = progress.time.toInt()
         }
     }
 
@@ -270,21 +272,21 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
     private fun updateBackground() {
         if (AndroidUtil.isJellyBeanMR1OrLater) {
             launch(UI, CoroutineStart.UNDISPATCHED) {
-                val mw = mService?.currentMediaWrapper
-                if (mw === null || TextUtils.equals(mCurrentCoverArt, mw.artworkMrl)) return@launch
-                mCurrentCoverArt = mw.artworkMrl
+                val mw = service?.currentMediaWrapper
+                if (mw === null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return@launch
+                currentCoverArt = mw.artworkMrl
                 if (TextUtils.isEmpty(mw.artworkMrl)) {
                     setDefaultBackground()
                 } else {
-                    val blurredCover = async { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), mBinding.contentLayout.width)) }.await()
+                    val blurredCover = async { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), binding.contentLayout.width)) }.await()
                     if (blurredCover !== null) {
                         val activity = activity as? AudioPlayerContainerActivity
                         if (activity === null) return@launch
-                        mBinding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
-                        mBinding.backgroundView.setImageBitmap(blurredCover)
-                        mBinding.backgroundView.visibility = View.VISIBLE
-                        mBinding.songsList.setBackgroundResource(0)
-                        if (mPlayerState == BottomSheetBehavior.STATE_EXPANDED) mBinding.header.setBackgroundResource(0)
+                        binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
+                        binding.backgroundView.setImageBitmap(blurredCover)
+                        binding.backgroundView.visibility = View.VISIBLE
+                        binding.songsList.setBackgroundResource(0)
+                        if (playerState == BottomSheetBehavior.STATE_EXPANDED) binding.header.setBackgroundResource(0)
                     } else setDefaultBackground()
                 }
             }
@@ -295,77 +297,76 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
 
     @MainThread
     private fun setDefaultBackground() {
-        mBinding.songsList.setBackgroundResource(DEFAULT_BACKGROUND_ID)
-        mBinding.header.setBackgroundResource(DEFAULT_BACKGROUND_ID)
-        mBinding.backgroundView.visibility = View.INVISIBLE
-    }
-
-    override fun updateList() {
-        hideSearchField()
-        mService?.apply { mPlaylistAdapter.update(this.medias) }
+        binding.songsList.setBackgroundResource(DEFAULT_BACKGROUND_ID)
+        binding.header.setBackgroundResource(DEFAULT_BACKGROUND_ID)
+        binding.backgroundView.visibility = View.INVISIBLE
     }
 
     override fun onSelectionSet(position: Int) {
-        if (mPlayerState != BottomSheetBehavior.STATE_COLLAPSED && mPlayerState != BottomSheetBehavior.STATE_HIDDEN) {
-            mBinding.songsList.scrollToPosition(position)
+        if (playerState != BottomSheetBehavior.STATE_COLLAPSED && playerState != BottomSheetBehavior.STATE_HIDDEN) {
+            binding.songsList.scrollToPosition(position)
         }
     }
 
+    override fun playItem(position: Int, item: MediaWrapper) {
+         service?.playIndex(playlistModel.getItemPosition(position, item))
+    }
+
     fun onTimeLabelClick(view: View) {
-        mShowRemainingTime = !mShowRemainingTime
-        update()
+        showRemainingTime = !showRemainingTime
+        playlistModel.progress.value?.let { updateProgress(it) }
     }
 
     fun onPlayPauseClick(view: View) {
-        mService?.run { if (isPlaying) pause() else play() }
+        service?.run { if (isPlaying) pause() else play() }
     }
 
     fun onStopClick(view: View): Boolean {
-        mService?.stop()
+        service?.stop()
         return true
     }
 
     fun onNextClick(view: View) {
-        if (mService === null) return
-        if (mService?.hasNext() == true)
-            mService?.next()
+        if (service === null) return
+        if (service?.hasNext() == true)
+            service?.next()
         else
-            Snackbar.make(mBinding.root, R.string.lastsong, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, R.string.lastsong, Snackbar.LENGTH_SHORT).show()
     }
 
     fun onPreviousClick(view: View) {
-        if (mService === null) return
-        if (mService?.hasPrevious() == true || mService?.isSeekable == true)
-            mService?.previous(false)
+        if (service === null) return
+        if (service?.hasPrevious() == true || service?.isSeekable == true)
+            service?.previous(false)
         else
-            Snackbar.make(mBinding.root, R.string.firstsong, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, R.string.firstsong, Snackbar.LENGTH_SHORT).show()
     }
 
     fun onRepeatClick(view: View) {
-        if (mService === null) return
-        when (mService?.repeatType) {
-            Constants.REPEAT_NONE -> mService?.repeatType = Constants.REPEAT_ALL
-            Constants.REPEAT_ALL -> mService?.repeatType = Constants.REPEAT_ONE
-            else -> mService?.repeatType = Constants.REPEAT_NONE
+        if (service === null) return
+        when (service?.repeatType) {
+            Constants.REPEAT_NONE -> service?.repeatType = Constants.REPEAT_ALL
+            Constants.REPEAT_ALL -> service?.repeatType = Constants.REPEAT_ONE
+            else -> service?.repeatType = Constants.REPEAT_NONE
         }
-        update()
+        updateRepeatMode()
     }
 
     fun onPlaylistSwitchClick(view: View) {
-        mBinding.showCover = !mBinding.showCover
-        mSettings.edit().putBoolean("audio_player_show_cover", mBinding.showCover).apply()
-        mBinding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (mBinding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))
+        binding.showCover = !binding.showCover
+        settings.edit().putBoolean("audio_player_show_cover", binding.showCover).apply()
+        binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (binding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))
     }
 
     fun onShuffleClick(view: View) {
-        mService?.apply {
+        service?.apply {
             shuffle()
-            update()
+            updateShuffleMode()
         }
     }
 
     fun onResumeToVideoClick(v: View) {
-        mService?.apply {
+        service?.apply {
             if (hasRenderer()) VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
                     currentMediaWrapper.uri, currentMediaPosition)
             else if (hasMedia()) {
@@ -388,70 +389,70 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
     private fun setHeaderVisibilities(advFuncVisible: Boolean, playlistSwitchVisible: Boolean,
                                       headerPlayPauseVisible: Boolean, progressBarVisible: Boolean,
                                       headerTimeVisible: Boolean, searchVisible: Boolean) {
-        mAdvFuncVisible = advFuncVisible
-        mPlaylistSwitchVisible = playlistSwitchVisible
-        mHeaderPlayPauseVisible = headerPlayPauseVisible
-        mProgressBarVisible = progressBarVisible
-        mHeaderTimeVisible = headerTimeVisible
-        mSearchVisible = searchVisible
+        this.advFuncVisible = advFuncVisible
+        this.playlistSwitchVisible = playlistSwitchVisible
+        this.headerPlayPauseVisible = headerPlayPauseVisible
+        this.progressBarVisible = progressBarVisible
+        this.headerTimeVisible = headerTimeVisible
+        this.searchVisible = searchVisible
         restoreHeaderButtonVisibilities()
     }
 
     private fun restoreHeaderButtonVisibilities() {
-        mBinding.advFunction.visibility = if (mAdvFuncVisible) View.VISIBLE else View.GONE
-        mBinding.playlistSwitch.visibility = if (mPlaylistSwitchVisible) View.VISIBLE else View.GONE
-        mBinding.playlistSearch.visibility = if (mSearchVisible) View.VISIBLE else View.GONE
-        mBinding.headerPlayPause.visibility = if (mHeaderPlayPauseVisible) View.VISIBLE else View.GONE
-        mBinding.progressBar.visibility = if (mProgressBarVisible) View.VISIBLE else View.GONE
-        mBinding.headerTime.visibility = if (mHeaderTimeVisible) View.VISIBLE else View.GONE
+        binding.advFunction.visibility = if (advFuncVisible) View.VISIBLE else View.GONE
+        binding.playlistSwitch.visibility = if (playlistSwitchVisible) View.VISIBLE else View.GONE
+        binding.playlistSearch.visibility = if (searchVisible) View.VISIBLE else View.GONE
+        binding.headerPlayPause.visibility = if (headerPlayPauseVisible) View.VISIBLE else View.GONE
+        binding.progressBar.visibility = if (progressBarVisible) View.VISIBLE else View.GONE
+        binding.headerTime.visibility = if (headerTimeVisible) View.VISIBLE else View.GONE
     }
 
     private fun hideHeaderButtons() {
-        mBinding.advFunction.visibility = View.GONE
-        mBinding.playlistSwitch.visibility = View.GONE
-        mBinding.playlistSearch.visibility = View.GONE
-        mBinding.headerPlayPause.visibility = View.GONE
-        mBinding.progressBar.visibility = View.GONE
-        mBinding.headerTime.visibility = View.GONE
+        binding.advFunction.visibility = View.GONE
+        binding.playlistSwitch.visibility = View.GONE
+        binding.playlistSearch.visibility = View.GONE
+        binding.headerPlayPause.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
+        binding.headerTime.visibility = View.GONE
     }
 
     fun onSearchClick(v: View) {
-        mBinding.playlistSearch.visibility = View.GONE
-        mBinding.playlistSearchText.visibility = View.VISIBLE
-        if (mBinding.playlistSearchText.editText != null)
-            mBinding.playlistSearchText.editText!!.requestFocus()
+        binding.playlistSearch.visibility = View.GONE
+        binding.playlistSearchText.visibility = View.VISIBLE
+        if (binding.playlistSearchText.editText != null)
+            binding.playlistSearchText.editText!!.requestFocus()
         val imm = VLCApplication.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(mBinding.playlistSearchText.editText, InputMethodManager.SHOW_IMPLICIT)
-        mHandler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS.toLong())
+        imm.showSoftInput(binding.playlistSearchText.editText, InputMethodManager.SHOW_IMPLICIT)
+        handler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS.toLong())
     }
 
     override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {}
 
     fun clearSearch(): Boolean {
-        mPlaylistAdapter.restoreList()
+        playlistModel.filter(null)
         return hideSearchField()
     }
 
     private fun hideSearchField(): Boolean {
-        if (mBinding.playlistSearchText.visibility != View.VISIBLE) return false
-        mBinding.playlistSearchText.editText?.apply {
+        if (binding.playlistSearchText.visibility != View.VISIBLE) return false
+        binding.playlistSearchText.editText?.apply {
             removeTextChangedListener(this@AudioPlayer)
             setText("")
             addTextChangedListener(this@AudioPlayer)
         }
-        UiTools.setKeyboardVisibility(mBinding.playlistSearchText, false)
-        mBinding.playlistSearch.visibility = View.VISIBLE
-        mBinding.playlistSearchText.visibility = View.GONE
+        UiTools.setKeyboardVisibility(binding.playlistSearchText, false)
+        binding.playlistSearch.visibility = View.VISIBLE
+        binding.playlistSearchText.visibility = View.GONE
         return true
     }
 
     override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
         val length = charSequence.length
         if (length > 1) {
-            mPlaylistAdapter.filter.filter(charSequence)
-            mHandler.removeCallbacks(hideSearchRunnable)
+            playlistModel.filter(charSequence)
+            handler.removeCallbacks(hideSearchRunnable)
         } else if (length == 0) {
-            mPlaylistAdapter.restoreList()
+            playlistModel.filter(null)
             hideSearchField()
         }
     }
@@ -459,13 +460,19 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
     override fun afterTextChanged(editable: Editable) {}
 
     override fun onConnected(service: PlaybackService) {
-        mService = service
-        service.addCallback(this)
-        mPlaylistAdapter.setService(service)
-        update()
+        this.service = service
+        playlistModel = ViewModelProviders.of(this, PlaylistModel.Factory(service)).get(PlaylistModel::class.java)
+        playlistModel.progress.observe(this,  Observer { it?.let { updateProgress(it) } })
+        playlistModel.dataset.observe(this, Observer {
+            playlistAdapter.update(it!!)
+            updateActor.offer(Unit)
+        })
+        playlistAdapter.setService(service)
     }
+
     override fun onDisconnected() {
-        mService = null
+        playlistModel.onCleared()
+        service = null
     }
 
     private inner class LongSeekListener(internal var forward: Boolean, internal var normal: Int, internal var pressed: Int) : View.OnTouchListener {
@@ -490,41 +497,41 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
                     else if (possibleSeek <= 4000) possibleSeek = 0
                 }
 
-                mBinding.time.text = Tools.millisToString(if (mShowRemainingTime) possibleSeek - length else possibleSeek.toLong())
-                mBinding.timeline.progress = possibleSeek
-                mBinding.progressBar.progress = possibleSeek
-                mHandler.postDelayed(this, 50)
+                binding.time.text = Tools.millisToString(if (showRemainingTime) possibleSeek - length else possibleSeek.toLong())
+                binding.timeline.progress = possibleSeek
+                binding.progressBar.progress = possibleSeek
+                handler.postDelayed(this, 50)
             }
         }
 
         override fun onTouch(v: View, event: MotionEvent): Boolean {
-            if (mService === null) return false
+            if (service === null) return false
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    (if (forward) mBinding.next else mBinding.previous).setImageResource(this.pressed)
-                    possibleSeek = mService?.time?.toInt() ?: 0
-                    mPreviewingSeek = true
+                    (if (forward) binding.next else binding.previous).setImageResource(this.pressed)
+                    possibleSeek = service?.time?.toInt() ?: 0
+                    previewingSeek = true
                     vibrated = false
-                    length = mService?.length ?: 0L
-                    mHandler.postDelayed(seekRunnable, 1000)
+                    length = service?.length ?: 0L
+                    handler.postDelayed(seekRunnable, 1000)
                     return true
                 }
 
                 MotionEvent.ACTION_UP -> {
-                    (if (forward) mBinding.next else mBinding.previous).setImageResource(this.normal)
-                    mHandler.removeCallbacks(seekRunnable)
-                    mPreviewingSeek = false
+                    (if (forward) binding.next else binding.previous).setImageResource(this.normal)
+                    handler.removeCallbacks(seekRunnable)
+                    previewingSeek = false
                     if (event.eventTime - event.downTime < 1000) {
                         if (forward) onNextClick(v) else onPreviousClick(v)
                     } else {
                         if (forward) {
-                            if (possibleSeek < mService?.length ?: 0L)
-                                mService?.time = possibleSeek.toLong()
+                            if (possibleSeek < service?.length ?: 0L)
+                                service?.time = possibleSeek.toLong()
                             else
                                 onNextClick(v)
                         } else {
                             if (possibleSeek > 0)
-                                mService?.time = possibleSeek.toLong()
+                                service?.time = possibleSeek.toLong()
                             else
                                 onPreviousClick(v)
                         }
@@ -542,19 +549,19 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
     }
 
     fun onStateChanged(newState: Int) {
-        mPlayerState = newState
+        playerState = newState
         when (newState) {
             BottomSheetBehavior.STATE_COLLAPSED -> {
-                mBinding.header.setBackgroundResource(DEFAULT_BACKGROUND_DARKER_ID)
+                binding.header.setBackgroundResource(DEFAULT_BACKGROUND_DARKER_ID)
                 setHeaderVisibilities(false, false, true, true, true, false)
             }
             BottomSheetBehavior.STATE_EXPANDED -> {
-                mBinding.header.setBackgroundResource(0)
+                binding.header.setBackgroundResource(0)
                 setHeaderVisibilities(true, true, false, false, false, true)
                 showPlaylistTips()
-                mService?.apply { mPlaylistAdapter.currentIndex = currentMediaPosition }
+                service?.apply { playlistAdapter.currentIndex = currentMediaPosition }
             }
-            else -> mBinding.header.setBackgroundResource(0)
+            else -> binding.header.setBackgroundResource(0)
         }
     }
 
@@ -565,10 +572,10 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
         override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
         override fun onProgressChanged(sb: SeekBar, progress: Int, fromUser: Boolean) {
-            if (fromUser) mService?.apply {
+            if (fromUser) service?.apply {
                 time = progress.toLong()
-                mBinding.time.text = Tools.millisToString(if (mShowRemainingTime) progress - length else progress.toLong())
-                mBinding.headerTime.text = Tools.millisToString(progress.toLong())
+                binding.time.text = Tools.millisToString(if (showRemainingTime) progress - length else progress.toLong())
+                binding.headerTime.text = Tools.millisToString(progress.toLong())
             }
         }
     }
@@ -578,7 +585,7 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
         override fun onMediaSwitching() {}
 
         override fun onMediaSwitched(position: Int) {
-           mService?.apply {
+           service?.apply {
                when (position) {
                    AudioMediaSwitcherListener.PREVIOUS_MEDIA -> previous(true)
                    AudioMediaSwitcherListener.NEXT_MEDIA ->  next()
@@ -605,7 +612,7 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
         override fun onMediaSwitching() {}
 
         override fun onMediaSwitched(position: Int) {
-            mService?.apply {
+            service?.apply {
                 when (position) {
                     AudioMediaSwitcherListener.PREVIOUS_MEDIA -> previous(true)
                     AudioMediaSwitcherListener.NEXT_MEDIA -> next()
@@ -623,7 +630,7 @@ class AudioPlayer : Fragment(), PlaybackService.Callback, PlaylistAdapter.IPlaye
     private val hideSearchRunnable by lazy(LazyThreadSafetyMode.NONE) {
         Runnable {
             hideSearchField()
-            mPlaylistAdapter.restoreList()
+            playlistModel.filter(null)
         }
     }
 }

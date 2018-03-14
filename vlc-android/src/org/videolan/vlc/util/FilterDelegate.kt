@@ -4,18 +4,21 @@ import android.arch.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.media.MediaUtils
 
-class FilterDelegate<T : MediaLibraryItem>(private val dataset: MutableLiveData<MutableList<T>>) {
-    private var sourceSet: MutableList<T>? = null
+open class FilterDelegate<T : MediaLibraryItem>(protected val dataset: MutableLiveData<out List<T>>) {
+    private var sourceSet: List<T>? = null
 
-    private fun initSource() : MutableList<T>? {
+    protected fun initSource() : List<T>? {
         if (sourceSet === null) sourceSet = (dataset.value)
         return sourceSet
     }
 
     suspend fun filter(charSequence: CharSequence?) = publish(filteringJob(charSequence))
 
-    private suspend fun filteringJob(charSequence: CharSequence?) : MutableList<T>? {
+    protected open suspend fun filteringJob(charSequence: CharSequence?) : MutableList<T>? {
         if (charSequence !== null) initSource()?.let {
             return withContext(CommonPool) { mutableListOf<T>().apply {
                 val queryStrings = charSequence.trim().toString().split(" ").filter { it.length > 2 }
@@ -39,5 +42,37 @@ class FilterDelegate<T : MediaLibraryItem>(private val dataset: MutableLiveData<
                 sourceSet = null
             }
         }
+    }
+}
+
+class PlaylistFilterDelegate(dataset: MutableLiveData<out List<MediaWrapper>>) : FilterDelegate<MediaWrapper>(dataset) {
+
+    override suspend fun filteringJob(charSequence: CharSequence?): MutableList<MediaWrapper>? {
+        if (charSequence !== null) initSource()?.let {
+            return withContext(CommonPool) { mutableListOf<MediaWrapper>().apply {
+                val queryStrings = charSequence.trim().toString().split(" ").filter { it.length > 2 }.map { it.toLowerCase() }
+                for (media in it) {
+                    val title = MediaUtils.getMediaTitle(media).toLowerCase()
+                    val location = media.location.toLowerCase()
+                    val artist = MediaUtils.getMediaArtist(VLCApplication.getAppContext(), media).toLowerCase()
+                    val albumArtist = MediaUtils.getMediaAlbumArtist(VLCApplication.getAppContext(), media).toLowerCase()
+                    val album = MediaUtils.getMediaAlbum(VLCApplication.getAppContext(), media).toLowerCase()
+                    val genre = MediaUtils.getMediaGenre(VLCApplication.getAppContext(), media).toLowerCase()
+                    for (queryString in queryStrings) {
+                        if (title.contains(queryString) ||
+                                location.contains(queryString) ||
+                                artist.contains(queryString) ||
+                                albumArtist.contains(queryString) ||
+                                album.contains(queryString) ||
+                                genre.contains(queryString)) {
+                            this.add(media)
+                            break
+                        }
+                    }
+                }
+            }
+            }
+        }
+        return null
     }
 }

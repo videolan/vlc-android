@@ -222,6 +222,7 @@
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginLeft="@dimen/default_margin"
             android:clickable="true"
+            android:onClick="@{fragment::onTimeLabelClick}"
             android:text="@string/time_0"
             android:textSize="12sp" />
 

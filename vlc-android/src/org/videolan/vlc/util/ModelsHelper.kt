@@ -1,10 +1,13 @@
 package org.videolan.vlc.util
 
 import android.text.TextUtils
+import org.videolan.libvlc.Media
+import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.MediaAddedCb
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb
 import org.videolan.medialibrary.media.*
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 
@@ -138,4 +141,12 @@ object EmptyMLCallbacks : MediaAddedCb, MediaUpdatedCb, Medialibrary.ArtistsAdde
     override fun onArtistsModified() {}
     override fun onAlbumsAdded() {}
     override fun onAlbumsModified() {}
+}
+
+object EmptyPBSCallback : PlaybackService.Callback {
+    override fun update() {}
+    override fun updateProgress() {}
+    override fun onMediaEvent(event: Media.Event?) {}
+    override fun onMediaPlayerEvent(event: MediaPlayer.Event?) {}
+
 }

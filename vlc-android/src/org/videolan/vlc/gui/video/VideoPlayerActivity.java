@@ -1556,12 +1556,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void update() {
-        updateList();
+        if (mService == null || mPlaylistAdapter == null) return;
+        mPlaylistAdapter.update(mService.getMedias());
     }
 
     @Override
-    public void updateProgress() {
-    }
+    public void updateProgress() {}
 
     @Override
     public void onMediaEvent(Media.Event event) {
@@ -2398,7 +2398,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     @Override
-    public void onPopupMenu(View anchor, final int position) {
+    public void onPopupMenu(View anchor, final int position, MediaWrapper media) {
         final PopupMenu popupMenu = new PopupMenu(this, anchor);
         popupMenu.getMenuInflater().inflate(R.menu.audio_player, popupMenu.getMenu());
 
@@ -2419,14 +2419,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     @Override
-    public void updateList() {
-        if (mService == null || mPlaylistAdapter == null) return;
-        mPlaylistAdapter.update(mService.getMedias());
+    public void onSelectionSet(int position) {
+        mPlaylist.scrollToPosition(position);
     }
 
     @Override
-    public void onSelectionSet(int position) {
-        mPlaylist.scrollToPosition(position);
+    public void playItem(int position, MediaWrapper item) {
+        mService.playIndex(position);
     }
 
     @Override
@@ -3390,7 +3389,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         hideOverlay(true);
         mPlaylist.setVisibility(View.VISIBLE);
         mPlaylist.setAdapter(mPlaylistAdapter);
-        updateList();
+        update();
     }
 
     private final BroadcastReceiver mBtReceiver = new BroadcastReceiver() {
