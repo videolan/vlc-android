@@ -313,13 +313,12 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
 
     private void updateProgressVisibility(int visibility) {
         boolean show = visibility == View.VISIBLE;
-        if ((mScanProgressLayout == null && !show) ||
-                (mScanProgressLayout != null && mScanProgressLayout.getVisibility() == visibility))
-            return;
-        if (show)
-            mActivityHandler.sendEmptyMessageDelayed(ACTION_DISPLAY_PROGRESSBAR, 1000);
-        else if (mScanProgressLayout != null)
-            mScanProgressLayout.setVisibility(visibility);
+        if (mScanProgressLayout != null && mScanProgressLayout.getVisibility() == visibility) return;
+        if (show) mActivityHandler.sendEmptyMessageDelayed(ACTION_DISPLAY_PROGRESSBAR, 1000);
+        else {
+            mActivityHandler.removeMessages(ACTION_DISPLAY_PROGRESSBAR);
+            UiTools.setViewVisibility(mScanProgressLayout, visibility);
+        }
     }
 
     private void showProgressBar() {
@@ -333,8 +332,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
                 updateContainerPadding(true);
                 applyMarginToProgressBar(mBottomSheetBehavior.getPeekHeight());
             }
-        } else if (mScanProgressLayout != null)
-            mScanProgressLayout.setVisibility(View.VISIBLE);
+        } else if (mScanProgressLayout != null) mScanProgressLayout.setVisibility(View.VISIBLE);
     }
 
     private void updateContainerPadding(boolean show) {
