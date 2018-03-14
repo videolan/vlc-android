@@ -25,27 +25,26 @@ package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
 import android.arch.lifecycle.Observer;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 
 import org.videolan.medialibrary.Medialibrary;
-import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.ExternalMonitor;
+import org.videolan.vlc.MediaParsingService;
+import org.videolan.vlc.ScanProgress;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.tv.SearchActivity;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
+
+import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public abstract class BaseTvActivity extends PlaybackServiceActivity {
@@ -54,7 +53,6 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
 
     protected Medialibrary mMediaLibrary;
     protected SharedPreferences mSettings;
-    boolean mRegistering = false;
     private volatile boolean mIsVisible = false;
 
     @Override
@@ -65,25 +63,13 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
-        ExternalMonitor.connected.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean connected) {
-                onNetworkConnectionChanged(connected);
-            }
-        });
+        registerLiveData();
     }
 
     @Override
     protected void onStart() {
         ExternalMonitor.subscribeStorageCb(this);
 
-        final IntentFilter parsingServiceFilter = new IntentFilter(Constants.ACTION_SERVICE_ENDED);
-        parsingServiceFilter.addAction(Constants.ACTION_SERVICE_STARTED);
-        parsingServiceFilter.addAction(Constants.ACTION_PROGRESS);
-        parsingServiceFilter.addAction(Constants.ACTION_NEW_STORAGE);
-
-        mRegistering = true;
-        LocalBroadcastManager.getInstance(this).registerReceiver(mParsingServiceReceiver, parsingServiceFilter);
         // super.onStart must be called after receiver registration
         super.onStart();
         mIsVisible = true;
@@ -94,7 +80,6 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
         mIsVisible = false;
         ExternalMonitor.unsubscribeStorageCb(this);
         super.onStop();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mParsingServiceReceiver);
     }
 
     @Override
@@ -109,28 +94,6 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
     protected abstract void refresh();
     public void onNetworkConnectionChanged(boolean connected) {}
 
-    protected final BroadcastReceiver mParsingServiceReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            switch (action) {
-                case Constants.ACTION_SERVICE_ENDED:
-                    onParsingServiceFinished();
-                    break;
-                case Constants.ACTION_SERVICE_STARTED:
-                    onParsingServiceStarted();
-                    break;
-                case Constants.ACTION_PROGRESS:
-                    onParsingServiceProgress();
-                    break;
-                case Constants.ACTION_NEW_STORAGE:
-                    UiTools.newStorageDetected(BaseTvActivity.this, intent.getStringExtra(Constants.EXTRA_PATH));
-                    break;
-            }
-        }
-    };
-
     protected boolean isVisible() {
         return mIsVisible;
     }
@@ -138,4 +101,35 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
     protected void onParsingServiceStarted() {}
     protected void onParsingServiceProgress() {}
     protected void onParsingServiceFinished() {}
+
+    private void registerLiveData() {
+        ExternalMonitor.connected.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean connected) {
+                onNetworkConnectionChanged(connected);
+            }
+        });
+        MediaParsingService.Companion.getProgress().observe(this, new Observer<ScanProgress>() {
+            @Override
+            public void onChanged(@Nullable ScanProgress scanProgress) {
+                if (scanProgress != null) onParsingServiceProgress();
+            }
+        });
+        MediaParsingService.Companion.getStarted().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean started) {
+                if (started == null) return;
+                if (started) onParsingServiceStarted();
+                else onParsingServiceFinished();
+            }
+        });
+        MediaParsingService.Companion.getNewStorages().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(@Nullable List<String> devices) {
+                if (devices == null) return;
+                for (String device : devices) UiTools.newStorageDetected(BaseTvActivity.this, device);
+                MediaParsingService.Companion.getNewStorages().setValue(null);
+            }
+        });
+    }
 }
