@@ -36,11 +36,11 @@ class VideosProvider(private val group: String?) : MedialibraryModel<MediaWrappe
     override fun canSortByLastModified() = true
 
     override fun onMediaAdded(mediaList: Array<out MediaWrapper>?) {
-        if (!Util.isArrayEmpty<MediaWrapper>(mediaList)) updateActor.offer(MediaListAddition(mediaList!!.toList()))
+        if (!Util.isArrayEmpty<MediaWrapper>(mediaList)) updateActor.offer(MediaListAddition(mediaList!!.filter { it.type == MediaWrapper.TYPE_VIDEO }))
     }
 
     override fun onMediaUpdated(mediaList: Array<out MediaWrapper>?) {
-        if (!Util.isArrayEmpty<MediaWrapper>(mediaList)) updateActor.offer(MediaUpdate(mediaList!!.toList()))
+        if (!Util.isArrayEmpty<MediaWrapper>(mediaList)) updateActor.offer(MediaUpdate(mediaList!!.filter { it.type == MediaWrapper.TYPE_VIDEO }))
     }
 
     override suspend fun updateList() {
