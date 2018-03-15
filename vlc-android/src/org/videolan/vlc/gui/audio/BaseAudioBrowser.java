@@ -182,6 +182,6 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
 
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
-        if (adapter == getCurrentAdapter()) onPrepareOptionsMenu(mMenu);
+        if (adapter == getCurrentAdapter()) onPrepareOptionsMenu(getMenu());
     }
 }

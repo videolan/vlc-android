@@ -246,7 +246,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         invalidateActionMode();
-        UiTools.updateSortTitles(this, mMenu);
+        UiTools.updateSortTitles(this);
     }
 
     @Override

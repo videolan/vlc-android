@@ -23,6 +23,7 @@
 package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -44,6 +45,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.ContentActivity;
 import org.videolan.vlc.gui.InfoActivity;
 import org.videolan.vlc.gui.audio.BaseAudioBrowser;
@@ -69,7 +71,6 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     protected Medialibrary mMediaLibrary;
     protected ActionMode mActionMode;
     public FloatingActionButton mFabPlay;
-    protected Menu mMenu;
     protected T mProvider;
 
     public T getProvider() {
@@ -231,8 +232,8 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        mMenu = menu;
     }
+
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
@@ -242,7 +243,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
         menu.findItem(R.id.ml_menu_sortby_length).setVisible(getProvider().canSortByDuration());
         menu.findItem(R.id.ml_menu_sortby_date).setVisible(getProvider().canSortByReleaseDate() || getProvider().canSortByLastModified());
         menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
-        UiTools.updateSortTitles(this, menu);
+        UiTools.updateSortTitles(this);
     }
 
     @Override
@@ -274,9 +275,18 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
         getProvider().sort(sort);
     }
 
+    public Menu getMenu() {
+        final AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity) getActivity();
+        if (activity == null) return null;
+        return activity.getMenu();
+
+    }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void startActionMode() {
-        mActionMode = ((AppCompatActivity)getActivity()).startSupportActionMode(this);
+        final AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity == null) return;
+        mActionMode = activity.startSupportActionMode(this);
         setFabPlayVisibility(false);
     }
 

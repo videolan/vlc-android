@@ -316,7 +316,9 @@ public class UiTools {
         return outBitmap;
     }
 
-    public static void updateSortTitles(MediaBrowserFragment sortable, Menu menu) {
+    public static void updateSortTitles(MediaBrowserFragment sortable) {
+        final Menu menu = sortable.getMenu();
+        if (menu == null) return;
         final BaseModel model = sortable.getProvider();
         final int sort = model.getSort();
         final boolean desc = model.getDesc();

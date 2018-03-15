@@ -40,6 +40,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.ViewStubCompat;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -173,6 +174,10 @@ public class AudioPlayerContainerActivity extends BaseActivity {
 
     protected Fragment getCurrentFragment() {
         return getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
+    }
+
+    public Menu getMenu() {
+        return mToolbar.getMenu();
     }
 
     @Override

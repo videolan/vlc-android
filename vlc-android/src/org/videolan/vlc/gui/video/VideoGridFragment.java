@@ -461,7 +461,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
             mHandler.sendEmptyMessage(UNSET_REFRESHING);
         updateEmptyView();
         setFabPlayVisibility(true);
-        UiTools.updateSortTitles(this, mMenu);
+        UiTools.updateSortTitles(this);
     }
 
     public void updateSeenMediaMarker() {

@@ -141,7 +141,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         switch (item.getItemId()) {
             case R.id.ml_menu_save:
                 toggleFavorite();
-                onPrepareOptionsMenu(mMenu);
+                onPrepareOptionsMenu(getMenu());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
