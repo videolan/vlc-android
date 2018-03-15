@@ -172,37 +172,24 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         genresprovider = ViewModelProviders.of(this).get(Genresprovider.class);
         playlistsProvider = ViewModelProviders.of(this).get(PlaylistsProvider.class);
         mProvidersList = new AudioModel[] {artistProvider, albumProvider, tracksProvider, genresprovider, playlistsProvider};
-
-        artistProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
+        //Register current tab first
+        final int currentTab = mViewPager.getCurrentItem();
+        mProvidersList[currentTab].getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
-            public void onChanged(@Nullable List<MediaLibraryItem> artists) {
-                if (artists != null) mArtistsAdapter.update(artists);
+            public void onChanged(@Nullable List<MediaLibraryItem> items) {
+                if (items != null) mAdapters[currentTab].update(items);
             }
         });
-        albumProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
-            @Override
-            public void onChanged(@Nullable List<MediaLibraryItem> albums) {
-                if (albums != null) mAlbumsAdapter.update(albums);
-            }
-        });
-        tracksProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
-            @Override
-            public void onChanged(@Nullable List<MediaLibraryItem> tracks) {
-                if (tracks != null) mSongsAdapter.update(tracks);
-            }
-        });
-        genresprovider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
-            @Override
-            public void onChanged(@Nullable List<MediaLibraryItem> genres) {
-                if (genres != null) mGenresAdapter.update(genres);
-            }
-        });
-        playlistsProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
-            @Override
-            public void onChanged(@Nullable List<MediaLibraryItem> playlists) {
-                if (playlists != null) mPlaylistAdapter.update(playlists);
-            }
-        });
+        for (int i = 0; i < mProvidersList.length; ++i ) {
+            if (i == currentTab) continue;
+            final int index = i;
+            mProvidersList[i].getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
+                @Override
+                public void onChanged(@Nullable List<MediaLibraryItem> items) {
+                    if (items != null) mAdapters[index].update(items);
+                }
+            });
+        }
     }
 
     private void setupTabLayout() {
