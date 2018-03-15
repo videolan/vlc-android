@@ -86,11 +86,19 @@ public class VLCApplication extends Application {
 
     private static int sDialogCounter = 0;
 
+    public VLCApplication() {
+        super();
+        instance = this;
+    }
+
     @Override
     public void onCreate() {
-        instance = this;
         super.onCreate();
         sSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        sTV = AndroidDevices.isAndroidTv || (!AndroidDevices.isChromeBook && !AndroidDevices.hasTsp);
+
+        // Disable remote control receiver on Fire TV.
+        if (!AndroidDevices.hasTsp) AndroidDevices.setRemoteControlReceiverEnabled(false);
 
         setLocale();
 
@@ -102,14 +110,8 @@ public class VLCApplication extends Application {
                 // Prepare cache folder constants
                 AudioUtil.prepareCacheFolder(instance);
 
-                sTV = AndroidDevices.isAndroidTv || (!AndroidDevices.isChromeBook && !AndroidDevices.hasTsp);
-
                 if (!VLCInstance.testCompatibleCPU(instance)) return;
                 Dialog.setCallbacks(VLCInstance.get(), mDialogCallbacks);
-
-                // Disable remote control receiver on Fire TV.
-                if (!AndroidDevices.hasTsp)
-                    AndroidDevices.setRemoteControlReceiverEnabled(false);
             }
         });
 
