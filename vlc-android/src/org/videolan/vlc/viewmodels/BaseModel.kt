@@ -36,6 +36,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
 
     var sort = Medialibrary.SORT_ALPHA
     var desc = false
+    private var filtering = false
 
     open fun canSortByName() = true
     open fun canSortByDuration() = false
@@ -85,7 +86,15 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
 
     fun remove(mw: T) = updateActor.offer(Remove(mw))
 
-    fun filter(query: String?) = updateActor.offer(Filter(query))
+    fun filter(query: String?) {
+        filtering = true
+        updateActor.offer(Filter(query))
+    }
+
+    fun restore() {
+        if (filtering) updateActor.offer(Filter(null))
+        filtering = false
+    }
 
     protected open fun removeMedia(media: T) = dataset.remove(media)
 

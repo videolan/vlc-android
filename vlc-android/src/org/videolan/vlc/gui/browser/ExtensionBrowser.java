@@ -1,11 +1,13 @@
 package org.videolan.vlc.gui.browser;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.ContextMenu;
@@ -122,25 +124,17 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         }
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        setTitle(mTitle);
-        if (mAddDirectoryFAB != null)
-            mAddDirectoryFAB.setVisibility((!isHidden() && showSettings) ? View.VISIBLE : View.GONE);
-    }
-
     private void setTitle(String title) {
         final AppCompatActivity activity = (AppCompatActivity)getActivity();
         if (activity != null && activity.getSupportActionBar() != null) {
             activity.getSupportActionBar().setTitle(title);
-            getActivity().supportInvalidateOptionsMenu();
+            getActivity().invalidateOptionsMenu();
         }
     }
 
-    public void goBack(){
-        if (!getActivity().getSupportFragmentManager().popBackStackImmediate())
-            getActivity().finish();
+    public void goBack() {
+        final FragmentActivity activity = getActivity();
+        if (activity != null && activity.getSupportFragmentManager().popBackStackImmediate()) getActivity().finish();
     }
 
     public void doRefresh(String title, List<VLCExtensionItem> items) {

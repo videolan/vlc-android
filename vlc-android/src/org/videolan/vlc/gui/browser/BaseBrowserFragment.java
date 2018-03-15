@@ -29,6 +29,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -170,6 +171,15 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     protected void initFavorites() {}
 
     @Override
+    public void onStart() {
+        super.onStart();
+        if (mFabPlay != null) {
+            mFabPlay.setImageResource(R.drawable.ic_fab_play);
+            updateFab();
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         if (mCurrentMedia != null)
@@ -179,17 +189,12 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden) {
-            mProvider.releaseBrowser();
-        } else if (mFabPlay != null) {
-            mFabPlay.setImageResource(R.drawable.ic_fab_play);
-            updateFab();
-        }
+    public void onStop() {
+        super.onStop();
+        mProvider.releaseBrowser();
     }
 
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(@NonNull Bundle outState){
         outState.putString(KEY_MRL, mMrl);
         outState.putParcelable(KEY_MEDIA, mCurrentMedia);
         if (mRecyclerView != null) outState.putInt(KEY_POSITION, mLayoutManager.findFirstCompletelyVisibleItemPosition());
@@ -240,10 +245,8 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
         mProvider.saveList(media);
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
-        if (isRootDirectory()) ft.hide(this);
-        else ft.remove(this);
         if (save) ft.addToBackStack(mRoot ? "root" : mMrl);
-        ft.add(R.id.fragment_placeholder, next, media.getLocation());
+        ft.replace(R.id.fragment_placeholder, next, media.getLocation());
         ft.commit();
     }
 

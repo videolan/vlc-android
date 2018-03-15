@@ -93,30 +93,16 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
 
     public void onStart() {
         super.onStart();
-        if (!isHidden()) onHiddenChanged(false);
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        setUserVisibleHint(!hidden);
-        if (!hidden) {
-            updateActionBar();
-            if (mFabPlay != null) {
-                setFabPlayVisibility(true);
-                mFabPlay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onFabPlayClick(v);
-                    }
-                });
-            }
+        updateActionBar();
+        if (mFabPlay != null) {
+            setFabPlayVisibility(true);
+            mFabPlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onFabPlayClick(v);
+                }
+            });
         }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (!isHidden()) onHiddenChanged(true);
     }
 
     public void updateActionBar() {
@@ -313,7 +299,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     }
 
     public void restoreList() {
-        getProvider().filter(null);
+        getProvider().restore();
     }
 
     @Override

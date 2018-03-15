@@ -118,7 +118,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         mGenresAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this);
         mPlaylistAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this);
         mAdapters = new AudioBrowserAdapter[]{mArtistsAdapter, mAlbumsAdapter, mSongsAdapter, mGenresAdapter, mPlaylistAdapter};
-        setupObservers();
     }
 
     @Override
@@ -140,8 +139,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        for (int i = 0; i < MODE_TOTAL; i++)
-            mLists[i] = (ContextMenuRecyclerView) mViewPager.getChildAt(i);
+        for (int i = 0; i < MODE_TOTAL; i++) mLists[i] = (ContextMenuRecyclerView) mViewPager.getChildAt(i);
 
         final String[] titles = new String[] {
                 getString(R.string.artists),
@@ -164,6 +162,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         mViewPager.setOnTouchListener(mSwipeFilter);
         setupTabLayout();
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        setupObservers();
     }
 
     private void setupObservers() {
@@ -206,25 +205,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         });
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            for (View rv : mLists) registerForContextMenu(rv);
-            mViewPager.addOnPageChangeListener(this);
-            mFabPlay.setImageResource(R.drawable.ic_fab_shuffle);
-            setFabPlayShuffleAllVisibility();
-        } else {
-            mMediaLibrary.removeMediaUpdatedCb();
-            mMediaLibrary.removeMediaAddedCb();
-            mMediaLibrary.setArtistsAddedCb(null);
-            mMediaLibrary.setAlbumsAddedCb(null);
-            for (View rv : mLists)
-                unregisterForContextMenu(rv);
-            mViewPager.removeOnPageChangeListener(this);
-        }
-    }
-
     private void setupTabLayout() {
         mTabLayout.setupWithViewPager(mViewPager);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
@@ -238,9 +218,25 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        for (View rv : mLists) registerForContextMenu(rv);
+        mViewPager.addOnPageChangeListener(this);
+        mFabPlay.setImageResource(R.drawable.ic_fab_shuffle);
+        setFabPlayShuffleAllVisibility();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         setSearchVisibility(false);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        for (View rv : mLists) unregisterForContextMenu(rv);
+        mViewPager.removeOnPageChangeListener(this);
     }
 
     @Override
@@ -592,8 +588,4 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             return false;
         }
     };
-
-    public void clear() {
-        for (AudioBrowserAdapter adapter : mAdapters) adapter.clear();
-    }
 }

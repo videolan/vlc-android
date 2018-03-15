@@ -85,6 +85,12 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        mProvider.refresh();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -96,12 +102,6 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
         mRecyclerView.requestFocus();
         registerForContextMenu(mRecyclerView);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-    }
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) mProvider.refresh();
     }
 
     @Override

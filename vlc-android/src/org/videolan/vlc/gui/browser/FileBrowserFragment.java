@@ -222,16 +222,6 @@ public class FileBrowserFragment extends BaseBrowserFragment {
             return super.handleContextItemSelected(item, position);
     }
 
-    @Override
-    public void filter(String query) {
-        mProvider.filter(query);
-    }
-
-    @Override
-    public void restoreList() {
-        mProvider.filter(null);
-    }
-
     public boolean isSortEnabled() {
         return !mRoot;
     }

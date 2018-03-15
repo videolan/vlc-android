@@ -145,17 +145,19 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            registerForContextMenu(mGridView);
-            setSearchVisibility(false);
-            updateViewMode();
-            mFabPlay.setImageResource(R.drawable.ic_fab_play);
-            setFabPlayVisibility(true);
-        } else {
+    public void onStart() {
+        super.onStart();
+        registerForContextMenu(mGridView);
+        setSearchVisibility(false);
+        updateViewMode();
+        mFabPlay.setImageResource(R.drawable.ic_fab_play);
+        setFabPlayVisibility(true);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
             unregisterForContextMenu(mGridView);
-        }
     }
 
     @Override

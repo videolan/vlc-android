@@ -128,7 +128,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             final FragmentManager fm = getSupportFragmentManager();
             mCurrentFragment = fm.getFragment(savedInstanceState, "current_fragment");
             //Restore fragments stack
-            restoreFragmentsStack(savedInstanceState, fm);
+            restoreFragmentsStack(fm);
             mCurrentFragmentId = savedInstanceState.getInt("current", mSettings.getInt("fragment_id", R.id.nav_video));
         } else {
             if (getIntent().getBooleanExtra(Constants.EXTRA_UPGRADE, false)) {
@@ -181,18 +181,16 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         mMediaLibrary = VLCApplication.getMLInstance();
     }
 
-    private void restoreFragmentsStack(Bundle savedInstanceState, FragmentManager fm) {
+    private void restoreFragmentsStack(FragmentManager fm) {
         final List<Fragment> fragments = fm.getFragments();
         if (fragments != null) {
             final FragmentTransaction ft =  fm.beginTransaction();
-            final Fragment displayed = fm.getFragment(savedInstanceState, "current_fragment_visible");
             for (Fragment fragment : fragments)
                 if (fragment != null) {
                     if (fragment instanceof ExtensionBrowser) {
                         ft.remove(fragment);
                     } else if ((fragment instanceof MediaBrowserFragment)) {
                         mFragmentsStack.put(fragment.getTag(), new WeakReference<>(fragment));
-                        if (!TextUtils.equals(fragment.getTag(), displayed.getTag())) ft.hide(fragment);
                     }
                 }
             ft.commit();
@@ -231,8 +229,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             /* Load media items from database and storage */
             if (mScanNeeded && Permissions.canReadStorage(this))
                 startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
-            else if (!currentIdIsExtension())
-                restoreCurrentList();
         }
         mNavigationView.setNavigationItemSelectedListener(this);
         if (BuildConfig.DEBUG)
@@ -318,7 +314,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             mCurrentFragment = null;
         else {
             getSupportFragmentManager().putFragment(outState, "current_fragment", mCurrentFragment);
-            getSupportFragmentManager().putFragment(outState, "current_fragment_visible", getCurrentFragment());
         }
         super.onSaveInstanceState(outState);
         outState.putInt("current", mCurrentFragmentId);
@@ -643,21 +638,12 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             fragment = getNewFragment(id);
             mFragmentsStack.put(tag, new WeakReference<>(fragment));
         }
-        if (mCurrentFragment != null)
-            if (mCurrentFragment instanceof ExtensionBrowser)
-                fm.beginTransaction().remove(mCurrentFragment).commit();
-            else {
-                if (mCurrentFragment instanceof BaseBrowserFragment
-                        && !((BaseBrowserFragment) getCurrentFragment()).isRootDirectory())
-                    fm.popBackStackImmediate("root", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                fm.beginTransaction().hide(mCurrentFragment).commit();
-            }
-        final FragmentTransaction ft = fm.beginTransaction();
-        if (add)
-            ft.add(R.id.fragment_placeholder, fragment, tag);
-        else
-            ft.show(fragment);
-        ft.commit();
+        if (mCurrentFragment instanceof BaseBrowserFragment
+                && !((BaseBrowserFragment) getCurrentFragment()).isRootDirectory())
+            fm.popBackStackImmediate("root", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fm.beginTransaction()
+                .replace(R.id.fragment_placeholder, fragment, tag)
+                .commit();
         updateCheckedItem(id);
         mCurrentFragment = fragment;
         mCurrentFragmentId = id;
@@ -693,19 +679,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     protected Fragment getCurrentFragment() {
-        return mCurrentFragment instanceof BaseBrowserFragment || currentIdIsExtension()
-                ? getFirstVisibleFragment() : mCurrentFragment;
-    }
-
-    private Fragment getFirstVisibleFragment() {
-        final Fragment frag = getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder);
-        if (frag != null && !frag.isHidden())
-            return frag;
-        final List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        if (fragments != null)
-            for (Fragment fragment : fragments)
-                if (fragment != null && !fragment.isHidden() && fragment.getClass().isInstance(mCurrentFragment))
-                    return fragment;
         return mCurrentFragment;
     }
 

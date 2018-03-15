@@ -119,8 +119,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
 
     public void onStart() {
         super.onStart();
-        if (!mRoot)
-            LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
+        if (!mRoot) LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
+        mFabPlay.setImageResource(R.drawable.ic_fab_add);
+        mFabPlay.setOnClickListener(this);
+        setFabPlayVisibility(true);
     }
 
     @Override
@@ -149,21 +151,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!mRoot || mFabPlay == null)
-            return;
-        if (hidden) {
-            setFabPlayVisibility(false);
-            mFabPlay.setOnClickListener(null);
-        } else {
-            mFabPlay.setImageResource(R.drawable.ic_fab_add);
-            mFabPlay.setOnClickListener(this);
-            setFabPlayVisibility(true);
-        }
-    }
-
-    @Override
     protected Fragment createFragment() {
         return new NetworkBrowserFragment();
     }
@@ -171,8 +158,9 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     @Override
     public void onStop() {
         super.onStop();
-        if (!mRoot)
-            LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
+        setFabPlayVisibility(false);
+        mFabPlay.setOnClickListener(null);
+        if (!mRoot) LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
         goBack = false;
     }
 
