@@ -136,7 +136,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
             if (!Util.isListEmpty(list)) mAdapter.update(list);
         }
         mGridView.setAdapter(mAdapter);
-        mProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
+        mProvider.getDataset().observe(getActivity(), new Observer<List<MediaWrapper>>() {
             @Override
             public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
                 mAdapter.update(mediaWrappers);

@@ -166,11 +166,11 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     private void setupObservers() {
-        artistProvider = ViewModelProviders.of(this).get(ArtistProvider.class);
-        albumProvider = ViewModelProviders.of(this).get(AlbumProvider.class);
-        tracksProvider = ViewModelProviders.of(this).get(TracksProvider.class);
-        genresprovider = ViewModelProviders.of(this).get(Genresprovider.class);
-        playlistsProvider = ViewModelProviders.of(this).get(PlaylistsProvider.class);
+        artistProvider = ViewModelProviders.of(getActivity()).get(ArtistProvider.class);
+        albumProvider = ViewModelProviders.of(getActivity()).get(AlbumProvider.class);
+        tracksProvider = ViewModelProviders.of(getActivity()).get(TracksProvider.class);
+        genresprovider = ViewModelProviders.of(getActivity()).get(Genresprovider.class);
+        playlistsProvider = ViewModelProviders.of(getActivity()).get(PlaylistsProvider.class);
         mProvidersList = new AudioModel[] {artistProvider, albumProvider, tracksProvider, genresprovider, playlistsProvider};
         //Register current tab first
         final int currentTab = mViewPager.getCurrentItem();
