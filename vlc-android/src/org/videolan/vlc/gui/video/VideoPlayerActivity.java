@@ -684,7 +684,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         String subtitleList_serialized = null;
         synchronized (mSubtitleSelectedFiles) {
             if(mSubtitleSelectedFiles.size() > 0) {
-                Log.d(TAG, "Saving selected subtitle files");
+                if (BuildConfig.DEBUG) Log.d(TAG, "Saving selected subtitle files");
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 try {
                     ObjectOutputStream oos = new ObjectOutputStream(bos);
@@ -874,7 +874,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         vlcVout.removeCallback(this);
         vlcVout.detachViews();
         if (mService.hasMedia() && mSwitchingView) {
-            Log.d(TAG, "mLocation = \"" + mUri + "\"");
+            if (BuildConfig.DEBUG) Log.d(TAG, "mLocation = \"" + mUri + "\"");
             if (mSwitchToPopup)
                 mService.switchToPopup(mService.getCurrentMediaPosition());
             else {
@@ -931,8 +931,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     MediaDatabase.getInstance().saveSlave(mService.getCurrentMediaLocation(), Media.Slave.Type.Subtitle, 2, data.getStringExtra(FilePickerFragment.EXTRA_MRL));
                 }
             });
-        } else
-            Log.d(TAG, "Subtitle selection dialog was cancelled");
+        } else if (BuildConfig.DEBUG) Log.d(TAG, "Subtitle selection dialog was cancelled");
     }
 
     public static void start(Context context, Uri uri) {
@@ -3077,7 +3076,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final KeyguardManager km = (KeyguardManager) getApplicationContext().getSystemService(KEYGUARD_SERVICE);
         if (km != null && km.inKeyguardRestrictedInputMode())
             mWasPaused = true;
-        if (mWasPaused)
+        if (mWasPaused && BuildConfig.DEBUG)
             Log.d(TAG, "Video was previously paused, resuming in paused mode");
 
         if (intent.getData() != null) mUri = intent.getData();
@@ -3108,7 +3107,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final boolean continueplayback = isPlaying && (restorePlayback || positionInPlaylist == mService.getCurrentMediaPosition());
         if (resumePlaylist) {
             // Provided externally from AudioService
-            Log.d(TAG, "Continuing playback from PlaybackService at index " + positionInPlaylist);
+            if (BuildConfig.DEBUG) Log.d(TAG, "Continuing playback from PlaybackService at index " + positionInPlaylist);
             openedMedia = mService.getMedias().get(positionInPlaylist);
             if (openedMedia == null) {
                 encounteredError();
