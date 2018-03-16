@@ -228,7 +228,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
             final FragmentManager fm = activity.getSupportFragmentManager();
             final String tag = fm.getBackStackEntryAt(fm.getBackStackEntryCount()-1).getName();
             if (!activity.getSupportFragmentManager().popBackStackImmediate() && activity instanceof MainActivity)
-                ((MainActivity)activity).showFragment(this instanceof NetworkBrowserFragment ? R.id.nav_network : R.id.nav_directories);
+                ((MainActivity)activity).getNavigator().showFragment(this instanceof NetworkBrowserFragment ? R.id.nav_network : R.id.nav_directories);
             final Fragment current = fm.findFragmentByTag(tag);
             final View view = current != null ? current.getView() : null;
             if (view != null) view.setVisibility(View.VISIBLE);

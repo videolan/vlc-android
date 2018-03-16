@@ -427,7 +427,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         final Activity activity = getActivity();
         if (media instanceof MediaGroup) {
             final String title = media.getTitle().substring(media.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
-            ((MainActivity)activity).showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
+            ((MainActivity)activity).getNavigator().showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
         } else {
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());

@@ -2,7 +2,7 @@
  * *************************************************************************
  *  SlidingPaneActivity.java
  * **************************************************************************
- *  Copyright © 2015 VLC authors and VideoLAN
+ *  Copyright © 2015-2018 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -72,14 +72,6 @@ public class AudioPlayerContainerActivity extends BaseActivity {
 
     public static final String TAG = "VLC/AudioPlayerContainerActivity";
 
-    protected static final String ID_VIDEO = "video";
-    protected static final String ID_AUDIO = "audio";
-    protected static final String ID_NETWORK = "network";
-    protected static final String ID_DIRECTORIES = "directories";
-    protected static final String ID_HISTORY = "history";
-    protected static final String ID_MRL = "mrl";
-    protected static final String ID_PREFERENCES = "preferences";
-    protected static final String ID_ABOUT = "about";
     protected AppBarLayout mAppBarLayout;
     protected Toolbar mToolbar;
     protected AudioPlayer mAudioPlayer;

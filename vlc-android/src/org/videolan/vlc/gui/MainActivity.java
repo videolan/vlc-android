@@ -1,7 +1,7 @@
 /*****************************************************************************
  * MainActivity.java
  *****************************************************************************
- * Copyright © 2011-2014 VLC authors and VideoLAN
+ * Copyright © 2011-2018 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,9 +34,6 @@ import android.support.annotation.Nullable;
 import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.util.SimpleArrayMap;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -62,11 +59,8 @@ import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
-import org.videolan.vlc.gui.browser.FileBrowserFragment;
-import org.videolan.vlc.gui.browser.MediaBrowserFragment;
-import org.videolan.vlc.gui.browser.NetworkBrowserFragment;
+import org.videolan.vlc.gui.helpers.Navigator;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.network.MRLPanelFragment;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
@@ -77,26 +71,18 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends ContentActivity implements FilterQueryProvider, NavigationView.OnNavigationItemSelectedListener, ExtensionManagerService.ExtensionManagerActivity {
+public class MainActivity extends ContentActivity implements FilterQueryProvider, ExtensionManagerService.ExtensionManagerActivity {
     public final static String TAG = "VLC/MainActivity";
-
-    private static final int ACTIVITY_RESULT_PREFERENCES = 1;
-    private static final int ACTIVITY_RESULT_OPEN = 2;
-    private static final int ACTIVITY_RESULT_SECONDARY = 3;
 
     private Medialibrary mMediaLibrary;
     private ExtensionsManager mExtensionsManager;
     private HackyDrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private ActionBarDrawerToggle mDrawerToggle;
-
-    private int mCurrentFragmentId;
-    private Fragment mCurrentFragment = null;
-    private final SimpleArrayMap<String, WeakReference<Fragment>> mFragmentsStack = new SimpleArrayMap<>();
+    private Navigator mNavigator;
 
     private boolean mScanNeeded = false;
 
@@ -119,18 +105,13 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
 
         setContentView(R.layout.main);
 
-        mDrawerLayout = (HackyDrawerLayout) findViewById(R.id.root_container);
+        mDrawerLayout = findViewById(R.id.root_container);
         setupNavigationView();
 
         initAudioPlayerContainerActivity();
 
-        if (savedInstanceState != null) {
-            final FragmentManager fm = getSupportFragmentManager();
-            mCurrentFragment = fm.getFragment(savedInstanceState, "current_fragment");
-            //Restore fragments stack
-            restoreFragmentsStack(fm);
-            mCurrentFragmentId = savedInstanceState.getInt("current", mSettings.getInt("fragment_id", R.id.nav_video));
-        } else {
+        mNavigator = new Navigator(this, mSettings, mExtensionManagerService, savedInstanceState);
+        if (savedInstanceState == null) {
             if (getIntent().getBooleanExtra(Constants.EXTRA_UPGRADE, false)) {
             /*
              * The sliding menu is automatically opened when the user closes
@@ -144,7 +125,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                     }
                 }, 500);
             }
-            reloadPreferences();
+            mNavigator.reloadPreferences();
         }
 
         /* Set up the action bar */
@@ -153,11 +134,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         /* Set up the sidebar click listener
          * no need to invalidate menu for now */
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                final Fragment current = getCurrentFragment();
-            }
 
             // Hack to make navigation drawer browsable with DPAD.
             // see https://code.google.com/p/android/issues/detail?id=190975
@@ -181,24 +157,8 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         mMediaLibrary = VLCApplication.getMLInstance();
     }
 
-    private void restoreFragmentsStack(FragmentManager fm) {
-        final List<Fragment> fragments = fm.getFragments();
-        if (fragments != null) {
-            final FragmentTransaction ft =  fm.beginTransaction();
-            for (Fragment fragment : fragments)
-                if (fragment != null) {
-                    if (fragment instanceof ExtensionBrowser) {
-                        ft.remove(fragment);
-                    } else if ((fragment instanceof MediaBrowserFragment)) {
-                        mFragmentsStack.put(fragment.getTag(), new WeakReference<>(fragment));
-                    }
-                }
-            ft.commit();
-        }
-    }
-
     private void setupNavigationView() {
-        mNavigationView = (NavigationView) findViewById(R.id.navigation);
+        mNavigationView = findViewById(R.id.navigation);
         if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
             MenuItem item = mNavigationView.getMenu().findItem(R.id.nav_directories);
             item.setTitle(R.string.open);
@@ -223,22 +183,14 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     @Override
     protected void onStart() {
         super.onStart();
-        if (mCurrentFragment == null && !currentIdIsExtension())
-            showFragment(mCurrentFragmentId);
         if (mMediaLibrary.isInitiated()) {
             /* Load media items from database and storage */
             if (mScanNeeded && Permissions.canReadStorage(this))
                 startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
         }
-        mNavigationView.setNavigationItemSelectedListener(this);
+        mNavigationView.setNavigationItemSelectedListener(mNavigator);
         if (BuildConfig.DEBUG)
             createExtensionServiceConnection();
-//        mActivityHandler.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                new RenderersDialog().show(getSupportFragmentManager(), "renderers");
-//            }
-//        });
     }
 
     @Override
@@ -249,14 +201,18 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             /* Check for an ongoing scan that needs to be resumed during onResume */
             mScanNeeded = mMediaLibrary.isWorking();
         }
-        if (mExtensionServiceConnection != null) {
+        if (isExtensionServiceBinded()) {
             unbindService(mExtensionServiceConnection);
             mExtensionServiceConnection = null;
         }
-        if (currentIdIsExtension())
+        if (mNavigator.currentIdIsExtension())
             mSettings.edit()
-                    .putString("current_extension_name", mExtensionsManager.getExtensions(getApplication(), false).get(mCurrentFragmentId).componentName().getPackageName())
+                    .putString("current_extension_name", mExtensionsManager.getExtensions(getApplication(), false).get(mNavigator.getCurrentFragmentId()).componentName().getPackageName())
                     .apply();
+    }
+
+    public boolean isExtensionServiceBinded() {
+        return mExtensionServiceConnection != null;
     }
 
     private void loadPlugins() {
@@ -285,11 +241,11 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     private void onPluginsLoaded() {
-        if (mCurrentFragment == null && currentIdIsExtension())
+        if (mNavigator.getCurrentFragment() == null && mNavigator.currentIdIsExtension())
             if (mExtensionsManager.previousExtensionIsEnabled(getApplication()))
-                mExtensionManagerService.openExtension(mCurrentFragmentId);
+                mExtensionManagerService.openExtension(mNavigator.getCurrentFragmentId());
             else
-                showFragment(R.id.nav_video);
+                mNavigator.showFragment(R.id.nav_video);
     }
 
     private void createExtensionServiceConnection() {
@@ -310,20 +266,17 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     protected void onSaveInstanceState(Bundle outState) {
-        if (mCurrentFragment instanceof ExtensionBrowser)
-            mCurrentFragment = null;
-        else {
-            getSupportFragmentManager().putFragment(outState, "current_fragment", mCurrentFragment);
-        }
+        final Fragment current = mNavigator.getCurrentFragment();
+        if (!(current instanceof ExtensionBrowser)) getSupportFragmentManager().putFragment(outState, "current_fragment", current);
         super.onSaveInstanceState(outState);
-        outState.putInt("current", mCurrentFragmentId);
+        outState.putInt("current", mNavigator.getCurrentFragmentId());
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         /* Reload the latest preferences */
-        reloadPreferences();
+        mNavigator.reloadPreferences();
     }
 
     @Override
@@ -353,79 +306,35 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         finish();
     }
 
-    @NonNull
-    private Fragment getNewFragment(int id) {
-        switch (id) {
-            case R.id.nav_audio:
-                return new AudioBrowserFragment();
-            case R.id.nav_directories:
-                return new FileBrowserFragment();
-            case R.id.nav_history:
-                return new HistoryFragment();
-            case R.id.nav_network:
-                return new NetworkBrowserFragment();
-            default:
-                return new VideoGridFragment();
-        }
-    }
-
     @Override
     public void displayExtensionItems(int extensionId, String title, List<VLCExtensionItem> items, boolean showParams, boolean refresh) {
         if (refresh && getCurrentFragment() instanceof ExtensionBrowser) {
-            ExtensionBrowser browser = (ExtensionBrowser) getCurrentFragment();
+            final ExtensionBrowser browser = (ExtensionBrowser) getCurrentFragment();
             browser.doRefresh(title, items);
         } else {
-            ExtensionBrowser fragment = new ExtensionBrowser();
-            ArrayList<VLCExtensionItem> list = new ArrayList<>(items);
-            Bundle args = new Bundle();
+            final ExtensionBrowser fragment = new ExtensionBrowser();
+            final ArrayList<VLCExtensionItem> list = new ArrayList<>(items);
+            final Bundle args = new Bundle();
             args.putParcelableArrayList(ExtensionBrowser.KEY_ITEMS_LIST, list);
             args.putBoolean(ExtensionBrowser.KEY_SHOW_FAB, showParams);
             args.putString(ExtensionBrowser.KEY_TITLE, title);
             fragment.setArguments(args);
             fragment.setExtensionService(mExtensionManagerService);
 
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            if (!(mCurrentFragment instanceof ExtensionBrowser)) {
+            if (!(mNavigator.getCurrentFragment() instanceof ExtensionBrowser)) {
                 //case: non-extension to extension root
-                if (mCurrentFragment != null)
-                    ft.hide(mCurrentFragment);
-                ft.add(R.id.fragment_placeholder, fragment, title);
-                mCurrentFragment = fragment;
-            } else if (mCurrentFragmentId == extensionId) {
+                mNavigator.showFragment(fragment, extensionId, title, null);
+            } else if (mNavigator.getCurrentFragmentId() == extensionId) {
                 //case: extension root to extension sub dir
-                ft.hide(mCurrentFragment);
-                ft.add(R.id.fragment_placeholder, fragment, title);
-                ft.addToBackStack(getTag(mCurrentFragmentId));
+                mNavigator.showFragment(fragment, extensionId, title, mNavigator.getTag(mNavigator.getCurrentFragmentId()));
             } else {
                 //case: extension to other extension root
-                clearBackstackFromClass(ExtensionBrowser.class);
-                while (getSupportFragmentManager().popBackStackImmediate());
-                ft.remove(mCurrentFragment);
-                ft.add(R.id.fragment_placeholder, fragment, title);
-                mCurrentFragment = fragment;
+                mNavigator.clearBackstackFromClass(ExtensionBrowser.class);
+                mNavigator.showFragment(fragment, extensionId, title, null);
             }
-            ft.commit();
             mNavigationView.getMenu().findItem(extensionId).setCheckable(true);
             updateCheckedItem(extensionId);
-            mCurrentFragmentId = extensionId;
         }
-    }
-
-    /**
-     * Show a secondary fragment.
-     */
-    public void showSecondaryFragment(String fragmentTag) {
-        showSecondaryFragment(fragmentTag, null);
-    }
-
-    public void showSecondaryFragment(String fragmentTag, String param) {
-        Intent i = new Intent(this, SecondaryActivity.class);
-        i.putExtra("fragment", fragmentTag);
-        if (param != null)
-            i.putExtra("param", param);
-        startActivityForResult(i, ACTIVITY_RESULT_SECONDARY);
-        // Slide down the audio player if needed.
-        slideDownAudioPlayer();
     }
 
     @Nullable
@@ -476,7 +385,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
+        if (requestCode == Constants.ACTIVITY_RESULT_PREFERENCES) {
             switch (resultCode) {
                 case PreferencesActivity.RESULT_RESCAN:
                     startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
@@ -496,9 +405,9 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                     final Fragment fragment = getCurrentFragment();
                     if (fragment instanceof AudioBrowserFragment) ((AudioBrowserFragment) fragment).updateArtists();
             }
-        } else if (requestCode == ACTIVITY_RESULT_OPEN && resultCode == RESULT_OK){
+        } else if (requestCode == Constants.ACTIVITY_RESULT_OPEN && resultCode == RESULT_OK){
             MediaUtils.openUri(this, data.getData());
-        } else if (requestCode == ACTIVITY_RESULT_SECONDARY) {
+        } else if (requestCode == Constants.ACTIVITY_RESULT_SECONDARY) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN) {
                 forceRefresh(getCurrentFragment());
             }
@@ -533,10 +442,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         return super.onKeyUp(keyCode, event);
     }
 
-    private void reloadPreferences() {
-        mCurrentFragmentId = mSettings.getInt("fragment_id", R.id.nav_video);
-    }
-
     @Override
     public Cursor runQuery(final CharSequence constraint) {
         return null;
@@ -548,66 +453,8 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         return false;
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // This should not happen
-        if(item == null)
-            return false;
-
-        int id = item.getItemId();
-        final Fragment current = getCurrentFragment();
-        if (item.getGroupId() == R.id.extensions_group)  {
-            if(mCurrentFragmentId == id) {
-                clearBackstackFromClass(ExtensionBrowser.class);
-                mDrawerLayout.closeDrawer(mNavigationView);
-                return false;
-            }
-            else
-                mExtensionManagerService.openExtension(id);
-        } else {
-            if (mExtensionServiceConnection != null)
-                mExtensionManagerService.disconnect();
-
-            if (current == null) {
-                mDrawerLayout.closeDrawer(mNavigationView);
-                return false;
-            }
-
-            if (mCurrentFragmentId == id) { /* Already selected */
-                // Go back at root level of current mProvider
-                if (current instanceof BaseBrowserFragment && !((BaseBrowserFragment) current).isRootDirectory()) {
-                    getSupportFragmentManager().popBackStackImmediate(getTag(id), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                } else {
-                    mDrawerLayout.closeDrawer(mNavigationView);
-                    return false;
-                }
-            } else switch (id) {
-                case R.id.nav_about:
-                    showSecondaryFragment(SecondaryActivity.ABOUT);
-                    break;
-                case R.id.nav_settings:
-                    startActivityForResult(new Intent(this, PreferencesActivity.class), ACTIVITY_RESULT_PREFERENCES);
-                    break;
-                case R.id.nav_mrl:
-                    new MRLPanelFragment().show(getSupportFragmentManager(), "fragment_mrl");
-                    break;
-                case R.id.nav_directories:
-                    if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
-                        final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("audio/* video/*");
-                        startActivityForResult(intent, ACTIVITY_RESULT_OPEN);
-                        mDrawerLayout.closeDrawer(mNavigationView);
-                        return true;
-                    }
-                default:
-                /* Slide down the audio player */
-                    slideDownAudioPlayer();
-                /* Switch the fragment */
-                    showFragment(id);
-            }
-        }
+    public void closeDrawer() {
         mDrawerLayout.closeDrawer(mNavigationView);
-        return true;
     }
 
     public void updateCheckedItem(int id) {
@@ -617,9 +464,10 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             case R.id.nav_about:
                 return;
             default:
-                if (id != mCurrentFragmentId && mNavigationView.getMenu().findItem(id) != null) {
-                    if (mNavigationView.getMenu().findItem(mCurrentFragmentId) != null)
-                        mNavigationView.getMenu().findItem(mCurrentFragmentId).setChecked(false);
+                final int currentId = mNavigator.getCurrentFragmentId();
+                if (id != currentId && mNavigationView.getMenu().findItem(id) != null) {
+                    if (mNavigationView.getMenu().findItem(currentId) != null)
+                        mNavigationView.getMenu().findItem(currentId).setChecked(false);
                     mNavigationView.getMenu().findItem(id).setChecked(true);
                     /* Save the tab status in pref */
                     mSettings.edit().putInt("fragment_id", id).apply();
@@ -627,75 +475,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         }
     }
 
-    public void showFragment(int id) {
-        final FragmentManager fm = getSupportFragmentManager();
-        final String tag = getTag(id);
-        //Get new fragment
-        Fragment fragment = null;
-        final WeakReference<Fragment> wr = mFragmentsStack.get(tag);
-        final boolean add = wr == null || (fragment = wr.get()) == null;
-        if (add) {
-            fragment = getNewFragment(id);
-            mFragmentsStack.put(tag, new WeakReference<>(fragment));
-        }
-        if (mCurrentFragment instanceof BaseBrowserFragment
-                && !((BaseBrowserFragment) getCurrentFragment()).isRootDirectory())
-            fm.popBackStackImmediate("root", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        fm.beginTransaction()
-                .replace(R.id.fragment_placeholder, fragment, tag)
-                .commit();
-        updateCheckedItem(id);
-        mCurrentFragment = fragment;
-        mCurrentFragmentId = id;
+    public Navigator getNavigator() {
+        return mNavigator;
     }
-
-    private void clearBackstackFromClass(Class clazz) {
-        final FragmentManager fm = getSupportFragmentManager();
-        while (clazz.isInstance(getCurrentFragment())) {
-            if (!fm.popBackStackImmediate())
-                break;
-        }
-    }
-
-    private String getTag(int id){
-        switch (id){
-            case R.id.nav_about:
-                return ID_ABOUT;
-            case R.id.nav_settings:
-                return ID_PREFERENCES;
-            case R.id.nav_audio:
-                return ID_AUDIO;
-            case R.id.nav_directories:
-                return ID_DIRECTORIES;
-            case R.id.nav_history:
-                return ID_HISTORY;
-            case R.id.nav_mrl:
-                return ID_MRL;
-            case R.id.nav_network:
-                return ID_NETWORK;
-            default:
-                return ID_VIDEO;
-        }
-    }
-
-    protected Fragment getCurrentFragment() {
-        return mCurrentFragment;
-    }
-
-    public boolean currentIdIsExtension() {
-        return idIsExtension(mCurrentFragmentId);
-    }
-
-    public boolean idIsExtension(int id) {
-        return id <= 100;
-    }
-
-    public int getCurrentFragmentId() {
-        return mCurrentFragmentId;
-    }
-
-    public void setCurrentFragmentId(int id) {
-        mCurrentFragmentId = id;
-    }
-
 }

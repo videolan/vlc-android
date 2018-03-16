@@ -1,7 +1,7 @@
 /*****************************************************************************
  * VideoPlayerActivity.java
  *****************************************************************************
- * Copyright © 2017 VLC authors and VideoLAN
+ * Copyright © 2017-2018 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,20 @@ public class Constants {
     public static final String PREF_FIRST_RUN = "first_run";
     public static final String EXTRA_FIRST_RUN = "extra_first_run";
     public static final String EXTRA_UPGRADE = "extra_upgrade";
+
+    //UI Navigation
+    public static final String ID_VIDEO = "video";
+    public static final String ID_AUDIO = "audio";
+    public static final String ID_NETWORK = "network";
+    public static final String ID_DIRECTORIES = "directories";
+    public static final String ID_HISTORY = "history";
+    public static final String ID_MRL = "mrl";
+    public static final String ID_PREFERENCES = "preferences";
+    public static final String ID_ABOUT = "about";
+
+    public static final int ACTIVITY_RESULT_PREFERENCES = 1;
+    public static final int ACTIVITY_RESULT_OPEN = 2;
+    public static final int ACTIVITY_RESULT_SECONDARY = 3;
 
     // PlaybackService
     public static final String ACTION_REMOTE_GENERIC =  Strings.buildPkgString("remote.");
@@ -57,12 +71,6 @@ public class Constants {
     public final static String EXTRA_UUID = "extra_uuid";
     public final static String ACTION_RESUME_SCAN = "action_resume_scan";
     public final static String ACTION_PAUSE_SCAN = "action_pause_scan";
-    public final static String ACTION_SERVICE_STARTED = "action_service_started";
-    public final static String ACTION_SERVICE_ENDED = "action_service_ended";
-    public final static String ACTION_NEW_STORAGE = "action_new_storage";
-    public final static String ACTION_PROGRESS = "action_progress";
-    public final static String ACTION_PROGRESS_TEXT = "action_progress_text";
-    public final static String ACTION_PROGRESS_VALUE = "action_progress_value";
 
     // VideoPlayerActivity
     public final static String PLAY_FROM_VIDEOGRID = Strings.buildPkgString("gui.video.PLAY_FROM_VIDEOGRID");
