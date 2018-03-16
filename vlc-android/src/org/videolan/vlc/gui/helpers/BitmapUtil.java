@@ -100,8 +100,8 @@ public class BitmapUtil {
     private static Bitmap fetchPicture(MediaWrapper media) {
         final BitmapCache cache = BitmapCache.getInstance();
 
-        Bitmap picture = readCoverBitmap(media.getArtworkURL());
-        cache.addBitmapToMemCache(media.getLocation(), picture);
+        final Bitmap picture = readCoverBitmap(media.getArtworkURL());
+        if (picture != null) cache.addBitmapToMemCache(media.getLocation(), picture);
         return picture;
     }
 
@@ -114,12 +114,12 @@ public class BitmapUtil {
     }
 
     private static Bitmap readCoverBitmap(String path) {
-        if (path == null)
-            return null;
-        Resources res = VLCApplication.getAppResources();
+        if (path == null) return null;
+        final Context ctx = VLCApplication.getAppContext();
+        if (ctx == null) return null;
+        final Resources res = ctx.getResources();
         String uri = Uri.decode(path);
-        if (uri.startsWith("file://"))
-            uri = uri.substring(7);
+        if (uri.startsWith("file://")) uri = uri.substring(7);
         Bitmap cover = null;
         BitmapFactory.Options options = new BitmapFactory.Options();
         int height = res.getDimensionPixelSize(R.dimen.grid_card_thumb_height);
