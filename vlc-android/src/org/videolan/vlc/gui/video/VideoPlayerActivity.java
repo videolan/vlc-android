@@ -311,6 +311,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     // Tracks & Subtitles
     private MediaPlayer.TrackDescription[] mAudioTracksList;
+    private MediaPlayer.TrackDescription[] mVideoTracksList;
     private MediaPlayer.TrackDescription[] mSubtitleTracksList;
     /**
      * Used to store a selected subtitle; see onActivityResult.
@@ -2370,6 +2371,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         //FIXME network subs cannot be enabled & screen cast display is broken with picker
         menu.findItem(R.id.video_menu_subtitles_picker).setEnabled(mDisplayManager.isPrimary() && enableSubs);
         menu.findItem(R.id.video_menu_subtitles_download).setEnabled(enableSubs);
+        menu.findItem(R.id.video_menu_video_track).setVisible(mService.getVideoTracksCount() > 2);
         menu.findItem(R.id.video_menu_audio_track).setEnabled(mService.getAudioTracksCount() > 0);
         menu.findItem(R.id.video_menu_subtitles).setEnabled(mService.getSpuTracksCount() > 0);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -2377,6 +2379,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.video_menu_audio_track) {
                     selectAudioTrack();
+                    return true;
+                } else if (item.getItemId() == R.id.video_menu_video_track) {
+                    selectVideoTrack();
                     return true;
                 } else if (item.getItemId() == R.id.video_menu_subtitles) {
                     selectSubtitles();
@@ -2584,14 +2589,26 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     }
 
+    private void selectVideoTrack() {
+        setESTrackLists();
+        selectTrack(mVideoTracksList, mService.getVideoTrack(), R.string.track_video,
+                new TrackSelectedListener() {
+                    @Override
+                    public void onTrackSelected(int trackID) {
+                        if (trackID < -1 || mService == null) return;
+                        mService.setVideoTrack(trackID);
+                        seek(mService.getTime());
+                    }
+                });
+    }
+
     private void selectAudioTrack() {
         setESTrackLists();
         selectTrack(mAudioTracksList, mService.getAudioTrack(), R.string.track_audio,
                 new TrackSelectedListener() {
                     @Override
                     public void onTrackSelected(int trackID) {
-                        if (trackID < -1 || mService == null)
-                            return;
+                        if (trackID < -1 || mService == null) return;
                         mService.setAudioTrack(trackID);
                         MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
                         if (mw != null && mw.getId() != 0L)
@@ -2986,6 +3003,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mAudioTracksList = mService.getAudioTracks();
         if (mSubtitleTracksList == null && mService.getSpuTracksCount() > 0)
             mSubtitleTracksList = mService.getSpuTracks();
+        if (mVideoTracksList == null && mService.getVideoTracksCount() > 0)
+            mVideoTracksList = mService.getVideoTracks();
     }
 
 

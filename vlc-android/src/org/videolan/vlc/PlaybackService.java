@@ -1727,6 +1727,11 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     }
 
     @MainThread
+    public boolean setVideoTrack(int index) {
+        return playlistManager.getPlayer().setVideoTrack(index);
+    }
+
+    @MainThread
     public int getVideoTracksCount() {
         return hasMedia() ? playlistManager.getPlayer().getVideoTracksCount() : 0;
     }
