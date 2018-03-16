@@ -238,8 +238,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
                 }
                 val isNew = mMedialibrary.addDevice(uuid, device, true)
                 val isIgnored = sharedPreferences.getBoolean("ignore_$uuid", false)
-                if (!isIgnored && isNew)
-                    LocalBroadcastManager.getInstance(ctx).sendBroadcast(Intent(Constants.ACTION_NEW_STORAGE).putExtra(Constants.EXTRA_PATH, device))
+                if (!isIgnored && isNew) showStorageNotification(device)
             }
             for (device in missingDevices) mMedialibrary.removeDevice(FileUtils.getFileNameFromPath(device))
             serviceLock = false

@@ -41,7 +41,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 
@@ -147,14 +146,12 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
                         final String[] knownDevices = ml.getDevices();
                         if (!containsDevice(knownDevices, path) && ml.addDevice(uuid, path, true)) {
                             notifyStorageChanges(path);
-                        } else {
-                            LocalBroadcastManager.getInstance(appCtx).sendBroadcast(new Intent(Constants.ACTION_SERVICE_ENDED));
-                        }
+                        } else MediaParsingService.Companion.getStarted().setValue(false);
                     }
                     break;
                 case ACTION_MEDIA_UNMOUNTED:
                     VLCApplication.getMLInstance().removeDevice(uuid);
-                    LocalBroadcastManager.getInstance(appCtx).sendBroadcast(new Intent(Constants.ACTION_SERVICE_ENDED));
+                    MediaParsingService.Companion.getStarted().setValue(false);
                     break;
             }
         }
