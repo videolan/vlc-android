@@ -27,15 +27,21 @@ import java.util.*
 abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>() {
 
     protected var mediabrowser: MediaBrowser? = null
+    private val refreshList by lazy(LazyThreadSafetyMode.NONE) { mutableListOf<MediaLibraryItem>() }
+
+    private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
+    private val currentMediaList = mutableListOf<MediaLibraryItem>()
+    private var currentParsedPosition = 0
+
+    val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
+    protected val browserContext by lazy { HandlerContext(browserHandler, "provider-context") }
+    internal val medialibrary = Medialibrary.getInstance()
+
     private val browserHandler by lazy {
         val handlerThread = HandlerThread("vlc-mProvider", Process.THREAD_PRIORITY_DEFAULT + Process.THREAD_PRIORITY_LESS_FAVORABLE)
         handlerThread.start()
         Handler(handlerThread.looper)
     }
-
-    val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
-    protected val browserContext by lazy { HandlerContext(browserHandler, "provider-context") }
-    internal val medialibrary = Medialibrary.getInstance()
 
 
     protected open fun initBrowser(listener: EventListener = browserListener) {
@@ -44,23 +50,20 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
     }
 
     override fun fetch() {
-        val prefetchList = prefetchLists[url]
-        if (!refreshing && prefetchList !== null && !prefetchList.isEmpty()) {
+        val prefetchList by lazy(LazyThreadSafetyMode.NONE) { prefetchLists[url] }
+        if (url === null) {
+            browseRoot()
+            parseSubDirectories()
+        } else if (prefetchList !== null && !prefetchList.isEmpty()) {
             dataset.value = prefetchList
             prefetchLists.remove(url)
             parseSubDirectories()
-        } else if (url === null) {
-            browseRoot()
-            parseSubDirectories()
-        } else browse(url)
+        } else browse(url, browserListener)
     }
 
-    @Volatile
-    private var refreshing = false
-    private val refreshList = mutableListOf<MediaLibraryItem>()
     override fun refresh(): Boolean {
-        refreshing = true
-        fetch()
+        if (url === null) return false
+        browse(url, refreshListener)
         return true
     }
 
@@ -80,9 +83,6 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
     }
 
     //TODO Show hidden files
-    private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
-    private val currentMediaList = mutableListOf<MediaLibraryItem>()
-    private var currentParsedPosition = 0
     private fun parseSubDirectories() {
         synchronized(currentMediaList) {
             currentMediaList.addAll(dataset.value)
@@ -96,14 +96,15 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
                 while (currentParsedPosition < currentMediaList.size) {
                     val item = currentMediaList[currentParsedPosition]
                     val mw: MediaWrapper?
-                    if (item.itemType == MediaLibraryItem.TYPE_STORAGE) {
-                        mw = MediaWrapper((item as Storage).uri)
-                        mw.type = MediaWrapper.TYPE_DIR
-                    } else if (item.itemType == MediaLibraryItem.TYPE_MEDIA) {
-                        mw = item as MediaWrapper
-                    } else
-                        mw = null
-                    if (mw != null) {
+                    when {
+                        item.itemType == MediaLibraryItem.TYPE_STORAGE -> {
+                            mw = MediaWrapper((item as Storage).uri)
+                            mw.type = MediaWrapper.TYPE_DIR
+                        }
+                        item.itemType == MediaLibraryItem.TYPE_MEDIA -> mw = item as MediaWrapper
+                        else -> mw = null
+                    }
+                    if (mw !== null) {
                         if (mw.type == MediaWrapper.TYPE_DIR || mw.type == MediaWrapper.TYPE_PLAYLIST) {
                             val uri = mw.uri
                             mediabrowser?.browse(uri, 0)
@@ -118,7 +119,7 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
 
     private val browserListener by lazy { object : EventListener {
         override fun onMediaAdded(index: Int, media: Media?) {
-            media?.run { launch(UI) { addMedia(MediaWrapper(this@run)) } }
+            media?.run { launch(UI) { addMedia(getMediaWrapper(MediaWrapper(this@run))) } }
         }
         override fun onMediaRemoved(index: Int, media: Media?) {}
         override fun onBrowseEnd() {
@@ -128,11 +129,10 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
 
     private val refreshListener by lazy { object : EventListener{
         override fun onMediaAdded(index: Int, media: Media?) {
-            media?.run { refreshList.add(MediaWrapper(this@run)) }
+            media?.run { refreshList.add(getMediaWrapper(MediaWrapper(this@run))) }
         }
         override fun onMediaRemoved(index: Int, media: Media?) {}
         override fun onBrowseEnd() {
-            refreshing = false
             val list = refreshList.toMutableList()
             refreshList.clear()
             launch(UI) {
@@ -175,7 +175,7 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
                         descriptionUpdate.value = Pair(position, holderText)
                     }
                     directories.addAll(files)
-                    foldersContentMap.put(item, ArrayList<MediaLibraryItem>(directories))
+                    foldersContentMap.put(item, directories.toMutableList())
                 }
                 while (++currentParsedPosition < currentMediaList.size) { //skip media that are not browsable
                     val item = currentMediaList[currentParsedPosition]
@@ -186,11 +186,8 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
                     } else if (item.itemType == MediaLibraryItem.TYPE_STORAGE) {
                         mw = MediaWrapper((item as Storage).uri)
                         break
-                    } else {
-                        mw = null
-                    }
+                    } else mw = null
                 }
-
                 if (mw != null) {
                     if (currentParsedPosition < currentMediaList.size) {
                         mediabrowser?.browse(mw.uri, 0)
@@ -237,9 +234,9 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
     abstract fun browseRoot()
     open fun getFlags() = MediaBrowser.Flag.Interact or MediaBrowser.Flag.NoSlavesAutodetect
 
-    fun browse(url: String) {
+    fun browse(url: String, listener: EventListener) {
         launch(browserContext) {
-            initBrowser(if (refreshing) refreshListener else browserListener)
+            initBrowser(listener)
             mediabrowser?.browse(Uri.parse(url), getFlags()) }
     }
 
