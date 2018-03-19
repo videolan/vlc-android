@@ -607,8 +607,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        if (!AndroidUtil.isHoneycombOrLater)
-            changeSurfaceLayout();
+        if (!AndroidUtil.isHoneycombOrLater) changeSurfaceLayout();
         super.onConfigurationChanged(newConfig);
         getWindowManager().getDefaultDisplay().getMetrics(mScreen);
         mCurrentScreenOrientation = newConfig.orientation;
@@ -617,6 +616,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         resetHudLayout();
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void resetHudLayout() {
         if (mHudBinding == null) return;
         final RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)mHudBinding.playerOverlayButtons.getLayoutParams();
@@ -625,15 +625,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
         final int endOf = AndroidUtil.isJellyBeanMR1OrLater ? RelativeLayout.END_OF : RelativeLayout.RIGHT_OF;
         final int startOf = AndroidUtil.isJellyBeanMR1OrLater ? RelativeLayout.START_OF : RelativeLayout.LEFT_OF;
-        if (portrait) {
-            layoutParams.addRule(RelativeLayout.BELOW, R.id.player_overlay_length);
-            layoutParams.addRule(endOf, 0);
-            layoutParams.addRule(startOf, 0);
-        } else {
-            layoutParams.addRule(RelativeLayout.BELOW, R.id.player_overlay_seekbar);
-            layoutParams.addRule(endOf, R.id.player_overlay_time);
-            layoutParams.addRule(startOf, R.id.player_overlay_length);
-        }
+        final int endAlign = AndroidUtil.isJellyBeanMR1OrLater ? RelativeLayout.ALIGN_PARENT_END : RelativeLayout.ALIGN_PARENT_RIGHT;
+        final int startAlign = AndroidUtil.isJellyBeanMR1OrLater ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_LEFT;
+        layoutParams.addRule(startAlign, portrait ? 1 : 0);
+        layoutParams.addRule(endAlign, portrait ? 1 : 0);
+        layoutParams.addRule(RelativeLayout.BELOW, portrait ? R.id.player_overlay_length : R.id.player_overlay_seekbar);
+        layoutParams.addRule(endOf, portrait ? 0 : R.id.player_overlay_time);
+        layoutParams.addRule(startOf, portrait ? 0 : R.id.player_overlay_length);
         mHudBinding.playerOverlayButtons.setLayoutParams(layoutParams);
     }
 
