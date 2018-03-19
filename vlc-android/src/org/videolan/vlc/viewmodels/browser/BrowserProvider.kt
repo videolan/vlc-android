@@ -24,7 +24,7 @@ import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.viewmodels.BaseModel
 import java.util.*
 
-abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>(), EventListener {
+abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>() {
 
     protected var mediabrowser: MediaBrowser? = null
     private val browserHandler by lazy {
@@ -34,19 +34,20 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
     }
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
-    protected val browserContext by lazy { HandlerContext(browserHandler, "mProvider-context") }
+    protected val browserContext by lazy { HandlerContext(browserHandler, "provider-context") }
     internal val medialibrary = Medialibrary.getInstance()
 
-    protected open fun initBrowser(listener: EventListener = this) {
+
+    protected open fun initBrowser(listener: EventListener = browserListener) {
         if (mediabrowser === null) mediabrowser = MediaBrowser(VLCInstance.get(), listener, browserHandler)
         else mediabrowser?.changeEventListener(listener)
     }
 
     override fun fetch() {
-        val prefetchList = prefectLists[url]
+        val prefetchList = prefetchLists[url]
         if (!refreshing && prefetchList !== null && !prefetchList.isEmpty()) {
             dataset.value = prefetchList
-            prefectLists.remove(url)
+            prefetchLists.remove(url)
             parseSubDirectories()
         } else if (url === null) {
             browseRoot()
@@ -71,27 +72,6 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
         return true
     }
 
-    override fun onMediaAdded(index: Int, media: Media?) {
-        media?.apply {
-            if (refreshing) refreshList.add(MediaWrapper(this@apply))
-            else launch(UI) { addMedia(MediaWrapper(this@apply)) }
-        }
-    }
-
-    override fun onMediaRemoved(index: Int, media: Media?) {
-        media?.let { launch(UI) { remove(MediaWrapper(it)) } }
-    }
-
-    override fun onBrowseEnd() {
-        if (refreshing) {
-            refreshing = false
-            val list = refreshList.toMutableList();
-            refreshList.clear()
-            launch(UI) { dataset.value = list }
-        }
-        launch(UI) { parseSubDirectories() }
-    }
-
     fun releaseBrowser() {
         launch(browserContext) {
             mediabrowser?.release()
@@ -105,7 +85,7 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
     private var currentParsedPosition = 0
     private fun parseSubDirectories() {
         synchronized(currentMediaList) {
-            currentMediaList.addAll(dataset.value ?: mutableListOf())
+            currentMediaList.addAll(dataset.value)
             if (currentMediaList.isEmpty()) return
         }
         launch(browserContext) {
@@ -135,6 +115,32 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
             }
         }
     }
+
+    private val browserListener by lazy { object : EventListener {
+        override fun onMediaAdded(index: Int, media: Media?) {
+            media?.run { launch(UI) { addMedia(MediaWrapper(this@run)) } }
+        }
+        override fun onMediaRemoved(index: Int, media: Media?) {}
+        override fun onBrowseEnd() {
+            launch(UI) { parseSubDirectories() }
+        }
+    } }
+
+    private val refreshListener by lazy { object : EventListener{
+        override fun onMediaAdded(index: Int, media: Media?) {
+            media?.run { refreshList.add(MediaWrapper(this@run)) }
+        }
+        override fun onMediaRemoved(index: Int, media: Media?) {}
+        override fun onBrowseEnd() {
+            refreshing = false
+            val list = refreshList.toMutableList()
+            refreshList.clear()
+            launch(UI) {
+                dataset.value = list
+                parseSubDirectories()
+            }
+        }
+    } }
 
     private val parserListener by lazy { object: EventListener {
         private val directories: MutableList<MediaWrapper> = ArrayList()
@@ -216,7 +222,7 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
             if (mediaFileCount > 0) sb.append(", ")
         }
         if (mediaFileCount > 0) sb.append(res.getQuantityString(
-                    R.plurals.mediafiles_quantity, mediaFileCount, mediaFileCount))
+                R.plurals.mediafiles_quantity, mediaFileCount, mediaFileCount))
         else if (folderCount == 0 && mediaFileCount == 0) sb.append(res.getString(R.string.directory_empty))
         return sb.toString()
     }
@@ -233,7 +239,7 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
 
     fun browse(url: String) {
         launch(browserContext) {
-            initBrowser()
+            initBrowser(if (refreshing) refreshListener else browserListener)
             mediabrowser?.browse(Uri.parse(url), getFlags()) }
     }
 
@@ -243,36 +249,40 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
     }
 
     fun saveList(media: MediaWrapper) {
-        foldersContentMap[media]?.let { if (!it.isEmpty()) prefectLists[media.location] = it }
+        foldersContentMap[media]?.let { if (!it.isEmpty()) prefetchLists[media.location] = it }
     }
 
     fun isFolderEmpty(mw: MediaWrapper) = foldersContentMap[mw]?.isEmpty() ?: true
 
     companion object {
         const val TAG = "VLC/BrowserProvider"
-        val prefectLists = mutableMapOf<String, MutableList<MediaLibraryItem>>()
+        private val prefetchLists = mutableMapOf<String, MutableList<MediaLibraryItem>>()
 
-        val ascComp = Comparator<MediaLibraryItem> { item1, item2 ->
-            if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
-                val type1 = (item1 as MediaWrapper).type
-                val type2 = (item2 as MediaWrapper).type
-                if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR)
-                    return@Comparator -1
-                else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR)
-                    return@Comparator 1
+        private val ascComp by lazy {
+            Comparator<MediaLibraryItem> { item1, item2 ->
+                if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
+                    val type1 = (item1 as MediaWrapper).type
+                    val type2 = (item2 as MediaWrapper).type
+                    if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR)
+                        return@Comparator -1
+                    else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR)
+                        return@Comparator 1
+                }
+                item1?.title?.toLowerCase()?.compareTo(item2?.title?.toLowerCase() ?: "") ?: -1
             }
-            item1?.title?.toLowerCase()?.compareTo(item2?.title?.toLowerCase() ?: "") ?: -1
         }
-        val descComp = Comparator<MediaLibraryItem> { item1, item2 ->
-            if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
-                val type1 = (item1 as MediaWrapper).type
-                val type2 = (item2 as MediaWrapper).type
-                if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR)
-                    return@Comparator -1
-                else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR)
-                    return@Comparator 1
+        private val descComp by lazy {
+            Comparator<MediaLibraryItem> { item1, item2 ->
+                if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
+                    val type1 = (item1 as MediaWrapper).type
+                    val type2 = (item2 as MediaWrapper).type
+                    if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR)
+                        return@Comparator -1
+                    else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR)
+                        return@Comparator 1
+                }
+                item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
             }
-            item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
         }
     }
 }
