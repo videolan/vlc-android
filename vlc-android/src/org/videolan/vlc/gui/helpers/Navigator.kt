@@ -38,6 +38,7 @@ import android.view.MenuItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionManagerService
+import org.videolan.vlc.extensions.api.VLCExtensionItem
 import org.videolan.vlc.gui.HistoryFragment
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.SecondaryActivity
@@ -93,7 +94,7 @@ class Navigator(private val activity: MainActivity,
         showFragment(fragment, id, tag)
     }
 
-    fun showFragment(fragment: Fragment, id: Int, tag: String = getTag(id), backTag: String? = null) {
+    private fun showFragment(fragment: Fragment, id: Int, tag: String = getTag(id), backTag: String? = null) {
         val fm = activity.supportFragmentManager
         if (currentFragment is BaseBrowserFragment && !(currentFragment as BaseBrowserFragment).isRootDirectory)
             fm.popBackStackImmediate("root", FragmentManager.POP_BACK_STACK_INCLUSIVE)
@@ -140,7 +141,7 @@ class Navigator(private val activity: MainActivity,
 
     private fun idIsExtension(id: Int) = id <= 100
 
-    fun clearBackstackFromClass(clazz: Class<*>) {
+    private fun clearBackstackFromClass(clazz: Class<*>) {
         val fm = activity.supportFragmentManager
         while (clazz.isInstance(currentFragment)) {
             if (!fm.popBackStackImmediate())
@@ -215,5 +216,29 @@ class Navigator(private val activity: MainActivity,
         }
         activity.closeDrawer()
         return true
+    }
+
+    fun displayExtensionItems(extensionId: Int, title: String, items: List<VLCExtensionItem>, showParams: Boolean, refresh: Boolean) {
+        if (refresh && currentFragment is ExtensionBrowser) {
+            (currentFragment as ExtensionBrowser).doRefresh(title, items)
+        } else {
+            val fragment = ExtensionBrowser()
+            fragment.arguments =  Bundle().apply {
+                putParcelableArrayList(ExtensionBrowser.KEY_ITEMS_LIST, ArrayList(items))
+                putBoolean(ExtensionBrowser.KEY_SHOW_FAB, showParams)
+                putString(ExtensionBrowser.KEY_TITLE, title)
+            }
+            fragment.setExtensionService(extensionsService)
+            when {
+                currentFragment !is ExtensionBrowser -> //case: non-extension to extension root
+                    showFragment(fragment, extensionId, title, null)
+                currentFragmentId == extensionId -> //case: extension root to extension sub dir
+                    showFragment(fragment, extensionId, title, getTag(currentFragmentId))
+                else -> { //case: extension to other extension root
+                    clearBackstackFromClass(ExtensionBrowser::class.java)
+                    showFragment(fragment, extensionId, title, null)
+                }
+            }
+        }
     }
 }

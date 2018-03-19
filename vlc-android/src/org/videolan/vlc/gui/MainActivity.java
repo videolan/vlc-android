@@ -31,7 +31,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.internal.NavigationMenuView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -41,8 +40,6 @@ import android.support.v7.view.ActionMode;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FilterQueryProvider;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -71,7 +68,6 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends ContentActivity implements FilterQueryProvider, ExtensionManagerService.ExtensionManagerActivity {
@@ -93,23 +89,16 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (!VLCInstance.testCompatibleCPU(this)) {
             finish();
             return;
         }
-
         Permissions.checkReadStoragePermission(this, false);
-
         /*** Start initializing the UI ***/
-
         setContentView(R.layout.main);
-
         mDrawerLayout = findViewById(R.id.root_container);
         setupNavigationView();
-
         initAudioPlayerContainerActivity();
-
         mNavigator = new Navigator(this, mSettings, mExtensionManagerService, savedInstanceState);
         if (savedInstanceState == null) {
             if (getIntent().getBooleanExtra(Constants.EXTRA_UPGRADE, false)) {
@@ -131,24 +120,8 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         /* Set up the action bar */
         prepareActionBar();
 
-        /* Set up the sidebar click listener
-         * no need to invalidate menu for now */
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close) {
-
-            // Hack to make navigation drawer browsable with DPAD.
-            // see https://code.google.com/p/android/issues/detail?id=190975
-            // and http://stackoverflow.com/a/34658002/3485324
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                if (mNavigationView.requestFocus())
-                    ((NavigationMenuView) mNavigationView.getFocusedChild()).setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
-            }
-        };
-
-        // Set the drawer toggle as the DrawerListener
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        // set a custom shadow that overlays the main content when the drawer opens
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         /* Reload the latest preferences */
@@ -175,7 +148,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void prepareActionBar() {
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
@@ -216,26 +189,25 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     }
 
     private void loadPlugins() {
-        List<ExtensionListing> plugins = mExtensionsManager.getExtensions(this, true);
+        final List<ExtensionListing> plugins = mExtensionsManager.getExtensions(this, true);
         if (plugins.isEmpty()) {
             unbindService(mExtensionServiceConnection);
             mExtensionServiceConnection = null;
             mExtensionManagerService.stopSelf();
             return;
         }
-        MenuItem extensionGroup = mNavigationView.getMenu().findItem(R.id.extensions_group);
+        final MenuItem extensionGroup = mNavigationView.getMenu().findItem(R.id.extensions_group);
         extensionGroup.getSubMenu().clear();
         for (int id = 0; id < plugins.size(); ++id) {
             final ExtensionListing extension = plugins.get(id);
-            String key = "extension_" + extension.componentName().getPackageName();
+            final String key = "extension_" + extension.componentName().getPackageName();
             if (mSettings.contains(key)) {
                 mExtensionsManager.displayPlugin(this, id, extension, mSettings.getBoolean(key, false));
             } else {
                 mExtensionsManager.showExtensionPermissionDialog(this, id, extension, key);
             }
         }
-        if (extensionGroup.getSubMenu().size() == 0)
-            extensionGroup.setVisible(false);
+        if (extensionGroup.getSubMenu().size() == 0) extensionGroup.setVisible(false);
         onPluginsLoaded();
         mNavigationView.invalidate();
     }
@@ -283,7 +255,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     public void onBackPressed() {
         /* Close the menu first */
         if (mDrawerLayout.isDrawerOpen(mNavigationView)) {
-            mDrawerLayout.closeDrawer(mNavigationView);
+            closeDrawer();
             return;
         }
 
@@ -308,33 +280,9 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
 
     @Override
     public void displayExtensionItems(int extensionId, String title, List<VLCExtensionItem> items, boolean showParams, boolean refresh) {
-        if (refresh && getCurrentFragment() instanceof ExtensionBrowser) {
-            final ExtensionBrowser browser = (ExtensionBrowser) getCurrentFragment();
-            browser.doRefresh(title, items);
-        } else {
-            final ExtensionBrowser fragment = new ExtensionBrowser();
-            final ArrayList<VLCExtensionItem> list = new ArrayList<>(items);
-            final Bundle args = new Bundle();
-            args.putParcelableArrayList(ExtensionBrowser.KEY_ITEMS_LIST, list);
-            args.putBoolean(ExtensionBrowser.KEY_SHOW_FAB, showParams);
-            args.putString(ExtensionBrowser.KEY_TITLE, title);
-            fragment.setArguments(args);
-            fragment.setExtensionService(mExtensionManagerService);
-
-            if (!(mNavigator.getCurrentFragment() instanceof ExtensionBrowser)) {
-                //case: non-extension to extension root
-                mNavigator.showFragment(fragment, extensionId, title, null);
-            } else if (mNavigator.getCurrentFragmentId() == extensionId) {
-                //case: extension root to extension sub dir
-                mNavigator.showFragment(fragment, extensionId, title, mNavigator.getTag(mNavigator.getCurrentFragmentId()));
-            } else {
-                //case: extension to other extension root
-                mNavigator.clearBackstackFromClass(ExtensionBrowser.class);
-                mNavigator.showFragment(fragment, extensionId, title, null);
-            }
-            mNavigationView.getMenu().findItem(extensionId).setCheckable(true);
-            updateCheckedItem(extensionId);
-        }
+        mNavigator.displayExtensionItems(extensionId, title, items, showParams, refresh);
+        mNavigationView.getMenu().findItem(extensionId).setCheckable(true);
+        updateCheckedItem(extensionId);
     }
 
     @Nullable
@@ -349,7 +297,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        mDrawerLayout.closeDrawer(mNavigationView);
+        closeDrawer();
         UiTools.setKeyboardVisibility(mDrawerLayout, false);
 
         // Handle item selection
@@ -359,11 +307,8 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                 forceRefresh();
                 return true;
             case android.R.id.home:
-                // Slide down the audio player.
-                if (slideDownAudioPlayer())
-                    return true;
-                /* Toggle the sidebar */
-                return mDrawerToggle.onOptionsItemSelected(item);
+                // Slide down the audio player or toggle the sidebar
+                return slideDownAudioPlayer() || mDrawerToggle.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
         }
