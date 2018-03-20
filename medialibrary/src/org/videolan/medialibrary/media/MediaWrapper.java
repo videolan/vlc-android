@@ -615,10 +615,17 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         return mId != 0;
     }
 
+    public void setThumbnail(String mrl) {
+        mArtworkURL = mrl;
+        final Medialibrary ml = Medialibrary.getInstance();
+        if (mId != 0 && ml.isInitiated()) nativeSetMediaThumbnail(ml, mId, Tools.encodeVLCMrl(mrl));
+    }
+
     private native long nativeGetMediaLongMetadata(Medialibrary ml, long id, int metaDataType);
     private native String nativeGetMediaStringMetadata(Medialibrary ml, long id, int metaDataType);
     private native void nativeSetMediaStringMetadata(Medialibrary ml, long id, int metaDataType, String metadataValue);
     private native void nativeSetMediaLongMetadata(Medialibrary ml, long id, int metaDataType, long metadataValue);
+    private native void nativeSetMediaThumbnail(Medialibrary ml, long id, String mrl);
 
     @Nullable
     public Media.Slave[] getSlaves() {

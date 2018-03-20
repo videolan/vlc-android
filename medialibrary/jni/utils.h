@@ -56,6 +56,7 @@ struct fields {
         jmethodID onEntryPointBannedId;
         jmethodID onEntryPointUnbannedId;
         jmethodID onEntryPointRemovedId;
+        jmethodID onMediaThumbnailReadyId;
     } MediaLibrary;
     struct Album {
         jclass clazz;

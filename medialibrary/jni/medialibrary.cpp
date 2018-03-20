@@ -679,8 +679,7 @@ getMediaStringMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::MediaPtr media = aml->media(id);
-    if (media == nullptr)
-        return 0L;
+    if (media == nullptr) return 0L;
     const medialibrary::IMediaMetadata& metadata = media->metadata((medialibrary::IMedia::MetadataType)metadataType);
     return metadata.isSet() ? env->NewStringUTF(metadata.str().c_str()) : nullptr;
 }
@@ -689,10 +688,9 @@ void
 setMediaStringMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint metadataType, jstring meta)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    const char *char_meta = env->GetStringUTFChars(meta, JNI_FALSE);
     medialibrary::MediaPtr media = aml->media(id);
-    if (media == nullptr)
-        return;
+    if (media == nullptr) return;
+    const char *char_meta = env->GetStringUTFChars(meta, JNI_FALSE);
     media->setMetadata((medialibrary::IMedia::MetadataType)metadataType, char_meta);
     env->ReleaseStringUTFChars(meta, char_meta);
 }
@@ -702,9 +700,19 @@ setMediaLongMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, 
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::MediaPtr media = aml->media(id);
-    if (media == nullptr)
-        return;
+    if (media == nullptr) return;
     media->setMetadata((medialibrary::IMedia::MetadataType)metadataType, meta);
+}
+
+void
+setMediaThumbnail(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring mrl)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return;
+    const char *char_mrl = env->GetStringUTFChars(mrl, JNI_FALSE);
+    media->setThumbnail(char_mrl);
+    env->ReleaseStringUTFChars(mrl, char_mrl);
 }
 
 /*
@@ -837,6 +845,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeGetMediaStringMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JI)Ljava/lang/String;", (void*)getMediaStringMetadata },
     {"nativeSetMediaStringMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JILjava/lang/String;)V", (void*)setMediaStringMetadata },
     {"nativeSetMediaLongMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JIJ)V", (void*)setMediaLongMetadata },
+    {"nativeSetMediaThumbnail", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)V", (void*)setMediaThumbnail },
 };
 
 static JNINativeMethod album_methods[] = {
@@ -1074,6 +1083,10 @@ int MediaLibraryJNI_OnLoad(JavaVM *vm, JNIEnv* env)
            ml_fields.MediaLibrary.onEntryPointRemovedId,
            ml_fields.MediaLibrary.clazz,
            "onEntryPointRemoved", "(Ljava/lang/String;Z)V");
+    GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onMediaThumbnailReadyId,
+           ml_fields.MediaLibrary.clazz,
+           "onMediaThumbnailReady", "(Lorg/videolan/medialibrary/media/MediaWrapper;Z)V");
 
 #undef GET_CLASS
 #undef GET_ID

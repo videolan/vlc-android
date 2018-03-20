@@ -1,6 +1,8 @@
 package org.videolan.medialibrary;
 
 import android.Manifest;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,7 +18,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
-import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb;
 import org.videolan.medialibrary.interfaces.MediaAddedCb;
@@ -93,8 +94,7 @@ public class Medialibrary {
     }
 
     public int init(Context context) {
-        if (context == null)
-            return ML_INIT_FAILED;
+        if (context == null) return ML_INIT_FAILED;
         sContext = context;
         File extFilesDir = context.getExternalFilesDir(null);
         File dbDirectory = context.getDir("db", Context.MODE_PRIVATE);
@@ -529,6 +529,12 @@ public class Medialibrary {
                 for (EntryPointsEventsCb cb : entryPointsEventsCbList)
                     cb.onEntryPointRemoved(entryPoint, success);
         }
+    }
+
+    public static LiveData<MediaWrapper> lastThumb = new MutableLiveData<>();
+    @SuppressWarnings({"unused", "unchecked"})
+    void onMediaThumbnailReady(MediaWrapper media, boolean success) {
+        if (success) ((MutableLiveData)lastThumb).postValue(media);
     }
 
     public void setMediaUpdatedCb(MediaUpdatedCb mediaUpdatedCb, int flags) {

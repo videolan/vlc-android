@@ -123,7 +123,7 @@ public class Tools {
         return sb.toString();
     }
 
-    static String encodeVLCMrl(String mrl) {
+    public static String encodeVLCMrl(String mrl) {
         if (mrl.startsWith("/")) mrl = "file://"+mrl;
         return Uri.encode(Uri.decode(mrl), ".-_~/()&!$*+,;='@:");
     }

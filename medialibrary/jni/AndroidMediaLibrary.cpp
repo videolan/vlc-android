@@ -402,6 +402,13 @@ AndroidMediaLibrary::PlaylistDelete( int64_t playlistId )
 }
 
 void
+AndroidMediaLibrary::requestThumbnail( int64_t media_id )
+{
+    medialibrary::MediaPtr media = p_ml->media(media_id);
+    if (media != nullptr) p_ml->requestThumbnail(media);
+}
+
+void
 AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList )
 {
     if (m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO || m_mediaAddedType & FLAG_MEDIA_ADDED_VIDEO
@@ -702,6 +709,16 @@ void AndroidMediaLibrary::onBackgroundTasksIdleChanged( bool isIdle )
     if (weak_thiz)
     {
         env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onBackgroundTasksIdleChangedId, isIdle);
+    }
+}
+
+void AndroidMediaLibrary::onMediaThumbnailReady( medialibrary::MediaPtr media, bool success )
+{
+    JNIEnv *env = getEnv();
+    if (env != NULL && weak_thiz)
+    {
+        auto item = mediaToMediaWrapper(env, p_fields, media);
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaThumbnailReadyId, item, success);
     }
 }
 
