@@ -33,7 +33,6 @@ import android.net.Uri;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v4.util.Pools;
 import android.support.v4.view.ViewCompat;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -44,7 +43,6 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.HttpImageLoader;
 import org.videolan.vlc.util.ThumbnailsProvider;
 
@@ -79,14 +77,14 @@ public class AsyncImageLoader {
 
     @BindingAdapter({"media"})
     public static void loadPicture(View v, MediaLibraryItem item) {
-        if (item == null || TextUtils.isEmpty(item.getArtworkMrl())
+        if (item == null
                 || item.getItemType() == MediaLibraryItem.TYPE_GENRE
                 || item.getItemType() == MediaLibraryItem.TYPE_PLAYLIST)
             return;
         final boolean isMedia = item.getItemType() == MediaLibraryItem.TYPE_MEDIA;
         final boolean isGroup = isMedia && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_GROUP;
-        final String cacheKey = isGroup ? "group:"+item.getTitle() : item.getArtworkMrl();
-        final Bitmap bitmap = sBitmapCache.getBitmapFromMemCache(cacheKey);
+        final String cacheKey = isGroup ? "group:"+item.getTitle() : ThumbnailsProvider.getMediaCacheKey(isMedia, item);
+        final Bitmap bitmap = cacheKey != null ? sBitmapCache.getBitmapFromMemCache(cacheKey) : null;
         if (bitmap != null) {
             updateTargetImage(bitmap, v, DataBindingUtil.findBinding(v));
             return;
@@ -143,8 +141,7 @@ public class AsyncImageLoader {
         @Override
         public Bitmap getImage() {
             if (bindChanged) return null;
-            if (item instanceof MediaGroup)
-                return ThumbnailsProvider.getComposedImage((MediaGroup) item);
+            if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) return ThumbnailsProvider.getMediaThumbnail((MediaWrapper) item);
             return AudioUtil.readCoverBitmap(Uri.decode(item.getArtworkMrl()), width);
         }
 
