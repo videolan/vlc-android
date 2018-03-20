@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.annotation.WorkerThread;
 import android.text.TextUtils;
 
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
@@ -74,7 +75,7 @@ public class ThumbnailsProvider {
                         saveOnDisk(bitmap, thumbPath);
                     }
                 });
-        }
+        } else if (media.getId() != 0L) Medialibrary.getInstance().requestThumbnail(media.getId());
         return bitmap;
     }
 

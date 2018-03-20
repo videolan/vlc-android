@@ -285,8 +285,7 @@ public class Medialibrary {
     }
 
     public void reload() {
-        if (mIsInitiated && !isWorking())
-            nativeReload();
+        if (mIsInitiated && !isWorking()) nativeReload();
     }
 
     public void reload(String entryPoint) {
@@ -341,6 +340,10 @@ public class Medialibrary {
     public MediaWrapper addMedia(String mrl) {
         final String vlcMrl = Tools.encodeVLCMrl(mrl);
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeAddMedia(vlcMrl) : null;
+    }
+
+    public void requestThumbnail(long id) {
+        if (mIsInitiated) nativeRequestThumbnail(id);
     }
 
     public long getId() {
@@ -737,6 +740,7 @@ public class Medialibrary {
     private native Album[] nativeSearchAlbum(String query);
     private native Genre[] nativeSearchGenre(String query);
     private native Playlist[] nativeSearchPlaylist(String query);
+    private native void nativeRequestThumbnail(long mediaId);
 
     private boolean canReadStorage(Context context) {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || ContextCompat.checkSelfPermission(context,

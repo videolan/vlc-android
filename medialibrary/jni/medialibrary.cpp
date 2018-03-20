@@ -547,6 +547,13 @@ playlistCreate(JNIEnv* env, jobject thiz, jstring name)
     return playlist != nullptr ? convertPlaylistObject(env, &ml_fields, playlist) : nullptr;
 }
 
+void
+requestThumbnail(JNIEnv* env, jobject thiz, jlong mediaId)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    aml->requestThumbnail(mediaId);
+}
+
 /*
  * Album methods
  */
@@ -838,6 +845,7 @@ static JNINativeMethod methods[] = {
     {"nativeSetMediaUpdatedCbFlag", "(I)V", (void*)setMediaUpdatedCbFlag },
     {"nativeSetMediaAddedCbFlag", "(I)V", (void*)setMediaAddedCbFlag },
     {"nativePlaylistCreate", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/Playlist;", (void*)playlistCreate },
+    {"nativeRequestThumbnail", "(J)V", (void*)requestThumbnail },
 };
 
 static JNINativeMethod media_methods[] = {
