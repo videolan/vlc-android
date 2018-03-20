@@ -20,7 +20,7 @@ class LiveDataset<T> : MutableLiveData<MutableList<T>>() {
     }
 
     fun add(items: List<T>) {
-        value = value.apply { addAll(items) }
+        value = value.apply { addAll(items.filter { !this.contains(it) }) }
     }
 
     fun remove(item: T) {
