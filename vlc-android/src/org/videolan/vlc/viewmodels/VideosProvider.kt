@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.viewmodels
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import kotlinx.coroutines.experimental.CommonPool
@@ -34,6 +35,12 @@ class VideosProvider(private val group: String?) : MedialibraryModel<MediaWrappe
 
     override fun canSortByDuration() = true
     override fun canSortByLastModified() = true
+
+    private val thumbObs = Observer<MediaWrapper> { media -> updateActor.offer(MediaUpdate(listOf(media!!))) }
+
+    init {
+        Medialibrary.lastThumb.observeForever(thumbObs)
+    }
 
     override fun onMediaAdded(mediaList: Array<out MediaWrapper>?) {
         if (!Util.isArrayEmpty<MediaWrapper>(mediaList)) updateActor.offer(MediaListAddition(mediaList!!.filter { it.type == MediaWrapper.TYPE_VIDEO }))
@@ -70,6 +77,7 @@ class VideosProvider(private val group: String?) : MedialibraryModel<MediaWrappe
         super.onCleared()
         medialibrary.removeMediaAddedCb()
         medialibrary.removeMediaUpdatedCb()
+        Medialibrary.lastThumb.removeObserver(thumbObs)
     }
 
     class Factory(val group: String?): ViewModelProvider.NewInstanceFactory() {
