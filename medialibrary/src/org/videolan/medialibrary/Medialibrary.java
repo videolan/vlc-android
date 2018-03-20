@@ -170,6 +170,7 @@ public class Medialibrary {
         super.finalize();
     }
 
+    @NonNull
     public static Medialibrary getInstance() {
         return instance;
     }

@@ -31,7 +31,7 @@ import org.videolan.vlc.util.EmptyMLCallbacks
 
 abstract class MedialibraryModel<T : MediaLibraryItem> : BaseModel<T>(), Medialibrary.OnMedialibraryReadyListener, MediaUpdatedCb by EmptyMLCallbacks, MediaAddedCb by EmptyMLCallbacks {
 
-    val medialibrary = Medialibrary.getInstance()!!
+    val medialibrary = Medialibrary.getInstance()
 
     override fun fetch() {
         medialibrary.addOnMedialibraryReadyListener(this)
