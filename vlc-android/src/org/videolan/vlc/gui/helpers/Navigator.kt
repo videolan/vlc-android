@@ -56,21 +56,21 @@ class Navigator(private val activity: MainActivity,
         state: Bundle?
 ): NavigationView.OnNavigationItemSelectedListener, LifecycleObserver {
 
+    private val fragmentsStack = SimpleArrayMap<String, WeakReference<Fragment>>()
+    var currentFragmentId = 0
+    var currentFragment: Fragment? = null
+        private set
+
     init {
         activity.lifecycle.addObserver(this)
         state?.let {
             val fm = activity.supportFragmentManager
             currentFragment = fm.getFragment(it, "current_fragment")
+            currentFragmentId = it.getInt("current", settings.getInt("fragment_id", R.id.nav_video))
             //Restore fragments stack
             restoreFragmentsStack(fm)
-            currentFragmentId = it.getInt("current", settings.getInt("fragment_id", R.id.nav_video))
         }
     }
-
-    var currentFragmentId = 0
-    var currentFragment: Fragment? = null
-    private set
-    private val fragmentsStack = SimpleArrayMap<String, WeakReference<Fragment>>()
 
     private fun getNewFragment(id: Int): Fragment {
         return when (id) {
