@@ -144,6 +144,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         });
     }
 
+    private boolean restart = false;
     @Override
     public void onStart() {
         super.onStart();
@@ -152,12 +153,14 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         updateViewMode();
         mFabPlay.setImageResource(R.drawable.ic_fab_play);
         setFabPlayVisibility(true);
+        if (restart) mProvider.refresh();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-            unregisterForContextMenu(mGridView);
+        unregisterForContextMenu(mGridView);
+        restart = true;
     }
 
     @Override
