@@ -3154,10 +3154,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
             // Set resume point
             if (!continueplayback) {
-                if (!fromStart && savedTime <= 0L && media.getTime() > 0L)
-                    savedTime = media.getTime();
-                if (savedTime > 0L)
-                    mService.saveTimeToSeek(savedTime);
+                if (!fromStart && savedTime <= 0L && media.getTime() > 0L) savedTime = media.getTime();
+                if (savedTime > 0L) mService.saveStartTime(savedTime);
             }
 
             // Handle playback

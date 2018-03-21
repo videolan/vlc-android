@@ -10,10 +10,8 @@ import android.support.v7.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import kotlinx.coroutines.experimental.CoroutineStart
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -262,6 +260,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
                     || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
                 val media = Media(VLCInstance.get(), FileUtils.getUri(mw.uri))
+                setStartTime(media, mw)
                 VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
                 /* keeping only video during benchmark */
                 if (isBenchmark) {
@@ -280,7 +279,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 player.setSlaves(mw)
                 player.startPlayback(media, mediaplayerEventListener)
                 media.release()
-                if (savedTime <= 0L && mw.time >= 0L && mw.isPodcast) savedTime = mw.time
                 determinePrevAndNextIndices()
                 service.onNewPlayback(mw)
                 if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) launch {
@@ -546,21 +544,16 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun getMedia(position: Int) = mediaList.getMedia(position)
 
-    private fun seekToResume(media: MediaWrapper) {
-        var mw = media
-        if (savedTime > 0L) {
-            if (savedTime < 0.95 * player.length) player.seek(savedTime)
-            savedTime = 0L
-        } else {
-            val length = player.length
-            if (mw.length <= 0L && length > 0L) {
-                mw = medialibrary.findMedia(mw)
-                if (mw.id != 0L) {
-                    mw.time = mw.getMetaLong(MediaWrapper.META_PROGRESS)
-                    if (mw.time > 0L) player.seek(mw.time)
-                }
-            }
+    private suspend fun setStartTime(media: Media, mw: MediaWrapper) {
+        if (savedTime <= 0L ) {
+            if (mw.time >= 0L) savedTime = mw.time
+            else if (mw.time == 0L && mw.type == MediaWrapper.TYPE_VIDEO || mw.isPodcast) savedTime = withContext(CommonPool) { medialibrary.findMedia(mw).getMetaLong(MediaWrapper.META_PROGRESS) }
+
         }
+        if (savedTime <= 0L) return
+        val mediaLength = mw.length
+        if (mediaLength > 0 && savedTime < 0.95 * mediaLength) media.addOption(":start-time=${savedTime/1000L}")
+        savedTime = 0L
     }
 
     @Synchronized
@@ -661,7 +654,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 videoBackground = false
                 val mw = medialibrary.findMedia(getCurrentMedia())
                 if (newMedia) {
-                    seekToResume(mw)
                     loadMediaMeta(mw)
                     if (mw.type == MediaWrapper.TYPE_STREAM) medialibrary.addToHistory(mw.location, mw.title)
                     saveMediaList()

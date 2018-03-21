@@ -1689,7 +1689,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     }
 
     @MainThread
-    public void saveTimeToSeek(long time) {
+    public void saveStartTime(long time) {
         playlistManager.setSavedTime(time);
     }
 
