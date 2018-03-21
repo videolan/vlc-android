@@ -23,7 +23,6 @@ package org.videolan.vlc.gui.audio
 import android.Manifest
 import android.annotation.TargetApi
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
@@ -461,7 +460,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
 
     override fun onConnected(service: PlaybackService) {
         this.service = service
-        playlistModel = ViewModelProviders.of(this, PlaylistModel.Factory(service)).get(PlaylistModel::class.java)
+        playlistModel = PlaylistModel.get(this, service).apply { setup() }
         playlistModel.progress.observe(this,  Observer { it?.let { updateProgress(it) } })
         playlistModel.dataset.observe(this, Observer {
             playlistAdapter.update(it!!)

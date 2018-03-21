@@ -3,7 +3,8 @@ package org.videolan.vlc.viewmodels
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import android.util.Log
+import android.arch.lifecycle.ViewModelProviders
+import android.support.v4.app.Fragment
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -14,7 +15,6 @@ import org.videolan.vlc.util.EmptyPBSCallback
 import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.PlaylistFilterDelegate
 
-
 class PlaylistModel(private val service: PlaybackService) : ViewModel(), PlaybackService.Callback by EmptyPBSCallback {
 
     val dataset = LiveDataset<MediaWrapper>()
@@ -22,13 +22,12 @@ class PlaylistModel(private val service: PlaybackService) : ViewModel(), Playbac
 
     private val filter by lazy(LazyThreadSafetyMode.NONE) { PlaylistFilterDelegate(dataset) }
 
-    init {
+    fun setup() {
         service.addCallback(this)
         update()
     }
 
     override fun update() {
-        Log.d("PlaylistModel", "update")
         dataset.value = service.medias
     }
 
@@ -42,18 +41,22 @@ class PlaylistModel(private val service: PlaybackService) : ViewModel(), Playbac
         service.removeCallback(this)
     }
 
-    class Factory(val service: PlaybackService): ViewModelProvider.NewInstanceFactory() {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            @Suppress("UNCHECKED_CAST")
-            return PlaylistModel(service) as T
-        }
-    }
-
     fun getItemPosition(position: Int, media: MediaWrapper): Int {
         val list = dataset.value
         if (list[position] == media) return position
         else for ((index, item) in list.withIndex()) if (item == media) return index
         return -1
+    }
+
+    companion object {
+        fun get(fragment: Fragment, service: PlaybackService) = ViewModelProviders.of(fragment, PlaylistModel.Factory(service)).get(PlaylistModel::class.java)
+    }
+
+    class Factory(val service: PlaybackService): ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            @Suppress("UNCHECKED_CAST")
+            return PlaylistModel(service) as T
+        }
     }
 }
 
