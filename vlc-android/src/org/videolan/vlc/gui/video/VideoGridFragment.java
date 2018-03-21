@@ -90,7 +90,9 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         super.onCreate(savedInstanceState);
         mAdapter = new VideoListAdapter(this);
         if (savedInstanceState != null) setGroup(savedInstanceState.getString(KEY_GROUP));
-        mProvider = ViewModelProviders.of(this, new VideosProvider.Factory(mGroup)).get(VideosProvider.class);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        final int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
+        mProvider = ViewModelProviders.of(this, new VideosProvider.Factory(mGroup, minGroupLengthValue)).get(VideosProvider.class);
     }
 
 
@@ -129,17 +131,17 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mDividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        mDividerItemDecoration = new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL);
         if (mAdapter.isListMode()) mGridView.addItemDecoration(mDividerItemDecoration);
         if (savedInstanceState != null) {
             final List<MediaWrapper> list = (List<MediaWrapper>) VLCApplication.getData("list"+getTitle());
             if (!Util.isListEmpty(list)) mAdapter.update(list);
         }
         mGridView.setAdapter(mAdapter);
-        mProvider.getDataset().observe(getActivity(), new Observer<List<MediaWrapper>>() {
+        mProvider.getDataset().observe(requireActivity(), new Observer<List<MediaWrapper>>() {
             @Override
             public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
-                mAdapter.update(mediaWrappers);
+                if (mediaWrappers != null) mAdapter.update(mediaWrappers);
             }
         });
     }

@@ -31,7 +31,7 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.media.MediaGroup
 import org.videolan.vlc.util.Util
 
-class VideosProvider(private val group: String?) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
+class VideosProvider(private val group: String?, private val minGroupLen: Int) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
 
     override fun canSortByDuration() = true
     override fun canSortByLastModified() = true
@@ -60,8 +60,7 @@ class VideosProvider(private val group: String?) : MedialibraryModel<MediaWrappe
                     if (title.toLowerCase().startsWith(group.toLowerCase())) displayList.add(item)
                 }
             } else {
-                //TODO get length value from prefs
-                MediaGroup.group(list, 6).mapTo(displayList) { it.media }
+                MediaGroup.group(list, minGroupLen).mapTo(displayList) { it.media }
             }
             displayList
         }
@@ -80,10 +79,10 @@ class VideosProvider(private val group: String?) : MedialibraryModel<MediaWrappe
         Medialibrary.lastThumb.removeObserver(thumbObs)
     }
 
-    class Factory(val group: String?): ViewModelProvider.NewInstanceFactory() {
+    class Factory(val group: String?, private val minGroupLen : Int): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return VideosProvider(group) as T
+            return VideosProvider(group, minGroupLen) as T
         }
     }
 }
