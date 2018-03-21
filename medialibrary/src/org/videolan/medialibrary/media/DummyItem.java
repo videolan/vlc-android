@@ -8,6 +8,11 @@ import org.videolan.medialibrary.Medialibrary;
 
 public class DummyItem extends MediaLibraryItem {
 
+    public DummyItem(long id, String title, String description) {
+        super(id, title);
+        mDescription = description;
+    }
+
     public DummyItem(String title) {
         super(0, title);
     }

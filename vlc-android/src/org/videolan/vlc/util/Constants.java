@@ -94,4 +94,23 @@ public class Constants {
     // AUDIO category
     public final static String KEY_AUDIO_CURRENT_TAB = "key_audio_current_tab";
 
+    //TV
+    public static final long HEADER_VIDEO = 0L;
+    public static final long HEADER_CATEGORIES = 1L;
+    public static final long HEADER_HISTORY = 2L;
+    public static final long HEADER_NETWORK = 3L;
+    public static final long HEADER_DIRECTORIES = 4L;
+    public static final long HEADER_MISC = 5L;
+    public static final long HEADER_STREAM = 6L;
+    public static final long ID_SETTINGS = 10L;
+    public static final long ID_ABOUT_TV = 11L;
+    public static final long ID_LICENCE = 12L;
+    public static final long CATEGORY_NOW_PLAYING = 20L;
+    public static final long CATEGORY_ARTISTS = 21L;
+    public static final long CATEGORY_ALBUMS = 22L;
+    public static final long CATEGORY_GENRES = 23L;
+    public static final long CATEGORY_SONGS = 24L;
+
+    public static final String AUDIO_CATEGORY = "category";
+    public static final String AUDIO_ITEM = "item";
 }

@@ -29,13 +29,16 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v17.leanback.app.BackgroundManager;
+import android.support.v17.leanback.widget.DiffCallback;
 import android.support.v17.leanback.widget.Row;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.LruCache;
 import android.text.TextUtils;
 
+import org.videolan.medialibrary.media.DummyItem;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
@@ -47,15 +50,16 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.Constants;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static org.videolan.vlc.gui.tv.browser.MusicFragment.AUDIO_CATEGORY;
-import static org.videolan.vlc.gui.tv.browser.MusicFragment.AUDIO_ITEM;
-import static org.videolan.vlc.gui.tv.browser.MusicFragment.CATEGORY_ALBUMS;
+import static org.videolan.vlc.util.Constants.AUDIO_CATEGORY;
+import static org.videolan.vlc.util.Constants.AUDIO_ITEM;
+import static org.videolan.vlc.util.Constants.CATEGORY_ALBUMS;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TvUtil {
@@ -66,7 +70,7 @@ public class TvUtil {
         activity.findViewById(android.R.id.content).setPadding(hm, vm, hm, vm);
     }
 
-    public static void playMedia(Activity activity, MediaWrapper media){
+    static void playMedia(Activity activity, MediaWrapper media){
         if (media.getType() == MediaWrapper.TYPE_AUDIO) {
             ArrayList<MediaWrapper> tracks = new ArrayList<>();
             tracks.add(media);
@@ -84,26 +88,25 @@ public class TvUtil {
                 showMediaDetail(activity, mediaWrapper);
             } else if (mediaWrapper.getType() == MediaWrapper.TYPE_DIR){
                 Intent intent = new Intent(activity, VerticalGridActivity.class);
-                intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_NETWORK);
+                intent.putExtra(MainTvActivity.BROWSER_TYPE, Constants.HEADER_NETWORK);
                 intent.setData(mediaWrapper.getUri());
                 activity.startActivity(intent);
             } else {
                 MediaUtils.openMedia(activity, mediaWrapper);
             }
-        } else if (item instanceof CardPresenter.SimpleCard){
-            if (((CardPresenter.SimpleCard) item).getId() == MainTvActivity.HEADER_STREAM) {
+        } else if (item instanceof DummyItem){
+            if (((DummyItem) item).getId() == Constants.HEADER_STREAM) {
                 activity.startActivity(new Intent(activity, DialogActivity.class).setAction(DialogActivity.KEY_STREAM)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             } else {
                 Intent intent = new Intent(activity, VerticalGridActivity.class);
-                intent.putExtra(MainTvActivity.BROWSER_TYPE, ((CardPresenter.SimpleCard) item).getId());
-                intent.setData(((CardPresenter.SimpleCard) item).getUri());
+                intent.putExtra(MainTvActivity.BROWSER_TYPE, ((DummyItem) item).getId());
                 activity.startActivity(intent);
             }
         }
     }
 
-    public static void showMediaDetail(Context activity, MediaWrapper mediaWrapper) {
+    static void showMediaDetail(Context activity, MediaWrapper mediaWrapper) {
         Intent intent = new Intent(activity, DetailsActivity.class);
         intent.putExtra("media", mediaWrapper);
         intent.putExtra("item", new MediaItemDetails(mediaWrapper.getTitle(), mediaWrapper.getArtist(), mediaWrapper.getAlbum(), mediaWrapper.getLocation(), mediaWrapper.getArtworkURL()));
@@ -121,7 +124,7 @@ public class TvUtil {
         playAudioList(activity, new ArrayList<>(Arrays.asList(array)), position);
     }
 
-    public static void playAudioList(Activity activity, ArrayList<MediaWrapper> list, int position) {
+    private static void playAudioList(Activity activity, ArrayList<MediaWrapper> list, int position) {
         Intent intent = new Intent(activity, AudioPlayerActivity.class);
         intent.putExtra(AudioPlayerActivity.MEDIA_LIST, list);
         intent.putExtra(AudioPlayerActivity.MEDIA_POSITION, position);
@@ -135,11 +138,12 @@ public class TvUtil {
             Intent intent = new Intent(context, VerticalGridActivity.class);
             intent.putExtra(AUDIO_ITEM, mediaLibraryItem);
             intent.putExtra(AUDIO_CATEGORY, CATEGORY_ALBUMS);
-            intent.putExtra(MainTvActivity.BROWSER_TYPE, MainTvActivity.HEADER_CATEGORIES);
+            intent.putExtra(MainTvActivity.BROWSER_TYPE, Constants.HEADER_CATEGORIES);
             context.startActivity(intent);
         }
     }
 
+    private static final String TAG = "VLC/TvUtil";
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static void updateBackground(final BackgroundManager bm, Object item) {
         if (bm == null) return;
@@ -173,7 +177,7 @@ public class TvUtil {
         clearBackground(bm);
     }
 
-    public static void clearBackground(BackgroundManager bm) {
+    private static void clearBackground(BackgroundManager bm) {
         bm.setColor(ContextCompat.getColor(VLCApplication.getAppContext(), R.color.tv_bg));
         bm.setDrawable(null);
     }
@@ -186,8 +190,7 @@ public class TvUtil {
         ValueAnimator valueAnimator = null;
         if (ref != null) {
             valueAnimator = ref.get();
-            if (valueAnimator == null)
-                refCache.remove(backgroundManager);
+            if (valueAnimator == null) refCache.remove(backgroundManager);
         }
         if (valueAnimator == null) {
             try {
@@ -197,8 +200,59 @@ public class TvUtil {
                 refCache.put(backgroundManager, new WeakReference<>(valueAnimator));
             } catch (Exception ignored) {}
         }
-        if (valueAnimator != null && valueAnimator.isStarted())
-            valueAnimator.cancel();
+        if (valueAnimator != null && valueAnimator.isStarted()) valueAnimator.cancel();
         backgroundManager.release();
     }
+    
+    static int getIconRes(MediaLibraryItem mediaLibraryItem) {
+        switch (mediaLibraryItem.getItemType()) {
+            case MediaLibraryItem.TYPE_ALBUM:
+                return R.drawable.ic_album_big;
+            case MediaLibraryItem.TYPE_ARTIST:
+                return R.drawable.ic_artist_big;
+            case MediaLibraryItem.TYPE_GENRE:
+                return R.drawable.ic_genre_big;
+            case MediaLibraryItem.TYPE_MEDIA:
+                if (((MediaWrapper)mediaLibraryItem).getType() == MediaWrapper.TYPE_VIDEO)
+                    return R.drawable.ic_browser_video_big_normal;
+                else
+                    return R.drawable.ic_song_big;
+            case MediaLibraryItem.TYPE_DUMMY:
+                final long id = mediaLibraryItem.getId();
+                if (id == Constants.HEADER_VIDEO) {
+                    return R.drawable.ic_video_collection_big;
+                } else if (id == Constants.HEADER_NETWORK) {
+                    return R.drawable.ic_menu_network_big;
+                } else if (id == Constants.HEADER_STREAM) {
+                    return R.drawable.ic_menu_stream_big;
+                } else if (id == Constants.ID_SETTINGS) {
+                    return R.drawable.ic_menu_preferences_big;
+                } else if (id == Constants.ID_ABOUT_TV
+                        || id == Constants.ID_LICENCE) {
+                    return R.drawable.ic_default_cone;
+                } else if (id == Constants.CATEGORY_ARTISTS) {
+                    return R.drawable.ic_artist_big;
+                } else if (id == Constants.CATEGORY_ALBUMS) {
+                    return R.drawable.ic_album_big;
+                } else if (id == Constants.CATEGORY_GENRES) {
+                    return R.drawable.ic_genre_big;
+                } else if (id == Constants.CATEGORY_SONGS) {
+                    return R.drawable.ic_song_big;
+                }
+            default:
+                return R.drawable.ic_browser_unknown_big_normal;
+        }
+    }
+
+    public static DiffCallback<MediaLibraryItem> diffCallback = new DiffCallback<MediaLibraryItem>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull MediaLibraryItem oldItem, @NonNull MediaLibraryItem newItem) {
+            return oldItem.equals(newItem);
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull MediaLibraryItem oldItem, @NonNull MediaLibraryItem newItem) {
+            return true;
+        }
+    };
 }

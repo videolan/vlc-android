@@ -23,6 +23,8 @@ package org.videolan.vlc.viewmodels
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
+import android.support.v4.app.Fragment
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
@@ -31,7 +33,7 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.media.MediaGroup
 import org.videolan.vlc.util.Util
 
-class VideosProvider(private val group: String?, private val minGroupLen: Int) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
+class VideosProvider(private val group: String?, private val minGroupLen: Int, customSort : Int) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
 
     override fun canSortByDuration() = true
     override fun canSortByLastModified() = true
@@ -39,6 +41,7 @@ class VideosProvider(private val group: String?, private val minGroupLen: Int) :
     private val thumbObs = Observer<MediaWrapper> { media -> updateActor.offer(MediaUpdate(listOf(media!!))) }
 
     init {
+        if (customSort != Medialibrary.SORT_DEFAULT) sort = customSort
         Medialibrary.lastThumb.observeForever(thumbObs)
     }
 
@@ -80,10 +83,16 @@ class VideosProvider(private val group: String?, private val minGroupLen: Int) :
         Medialibrary.lastThumb.removeObserver(thumbObs)
     }
 
-    class Factory(val group: String?, private val minGroupLen : Int): ViewModelProvider.NewInstanceFactory() {
+    class Factory(val group: String?, private val minGroupLen : Int, private val sort : Int): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return VideosProvider(group, minGroupLen) as T
+            return VideosProvider(group, minGroupLen, sort) as T
+        }
+    }
+
+    companion object {
+        fun get(fragment: Fragment, group: String?, minGroupLen : Int, sort : Int) : VideosProvider {
+            return ViewModelProviders.of(fragment, Factory(group, minGroupLen, sort)).get(VideosProvider::class.java)
         }
     }
 }

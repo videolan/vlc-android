@@ -46,11 +46,11 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.DetailsActivity;
-import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.MediaItemDetails;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.util.ArrayList;
@@ -212,7 +212,7 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
         MediaWrapper media = (MediaWrapper) item;
         if (media.getType() == MediaWrapper.TYPE_DIR)
-            TvUtil.browseFolder(getActivity(), MainTvActivity.HEADER_NETWORK, ((MediaWrapper) item).getUri());
+            TvUtil.browseFolder(getActivity(), Constants.HEADER_NETWORK, ((MediaWrapper) item).getUri());
         else
             TvUtil.openMedia(getActivity(), item, null);
     }

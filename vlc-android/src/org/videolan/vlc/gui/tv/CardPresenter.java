@@ -93,31 +93,8 @@ public class CardPresenter extends Presenter {
                     picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder_big);
                 else
                     picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big);
-            } else
-                picture = AudioUtil.readCoverBitmap(Uri.decode(mediaLibraryItem.getArtworkMrl()), res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width));
-            if (picture == null) {
-                int resId;
-                switch (mediaLibraryItem.getItemType()) {
-                    case MediaLibraryItem.TYPE_ALBUM:
-                        resId = R.drawable.ic_album_big;
-                        break;
-                    case MediaLibraryItem.TYPE_ARTIST:
-                        resId = R.drawable.ic_artist_big;
-                        break;
-                    case MediaLibraryItem.TYPE_GENRE:
-                        resId = R.drawable.ic_genre_big;
-                        break;
-                    case MediaLibraryItem.TYPE_MEDIA:
-                        if (((MediaWrapper)mediaLibraryItem).getType() == MediaWrapper.TYPE_VIDEO)
-                            resId = R.drawable.ic_browser_video_big_normal;
-                        else
-                            resId = R.drawable.ic_song_big;
-                        break;
-                    default:
-                        resId = R.drawable.ic_browser_unknown_big_normal;
-                }
-                picture = BitmapFactory.decodeResource(res, resId);
-            }
+            } else picture = AudioUtil.readCoverBitmap(Uri.decode(mediaLibraryItem.getArtworkMrl()), res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width));
+            if (picture == null) picture = BitmapFactory.decodeResource(res, TvUtil.getIconRes(mediaLibraryItem));
             return picture;
         }
 

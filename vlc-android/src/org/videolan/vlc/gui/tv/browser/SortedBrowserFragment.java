@@ -51,12 +51,12 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.CardPresenter;
 import org.videolan.vlc.gui.tv.DetailsActivity;
-import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.MediaItemDetails;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
@@ -185,9 +185,9 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
 
     private long getCategoryId() {
         if (this instanceof NetworkBrowserFragment)
-            return MainTvActivity.HEADER_NETWORK;
+            return Constants.HEADER_NETWORK;
         else if (this instanceof DirectoryBrowserFragment)
-            return MainTvActivity.HEADER_DIRECTORIES;
+            return Constants.HEADER_DIRECTORIES;
         return -1;
     }
 

@@ -49,18 +49,7 @@ import java.util.List;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MusicFragment extends MediaLibBrowserFragment implements OnItemViewClickedListener {
 
-    public static final String MEDIA_SECTION = "section";
-    public static final String AUDIO_CATEGORY = "category";
-    public static final String AUDIO_ITEM = "item";
-
-    public static final long FILTER_ARTIST = 3;
-    public static final long FILTER_GENRE = 4;
-
-    public static final int CATEGORY_NOW_PLAYING = 0;
-    public static final long CATEGORY_ARTISTS = 1;
-    public static final long CATEGORY_ALBUMS = 2;
-    public static final long CATEGORY_GENRES = 3;
-    public static final long CATEGORY_SONGS = 4;
+    private static final String MEDIA_SECTION = "section";
 
     private volatile AsyncAudioUpdate mUpdater = null;
     MediaLibraryItem[] mDataList;
@@ -73,12 +62,12 @@ public class MusicFragment extends MediaLibBrowserFragment implements OnItemView
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null){
             mType = savedInstanceState.getLong(MEDIA_SECTION);
-            mCategory = savedInstanceState.getLong(AUDIO_CATEGORY);
-            mCurrentItem = savedInstanceState.getParcelable(AUDIO_ITEM);
+            mCategory = savedInstanceState.getLong(Constants.AUDIO_CATEGORY);
+            mCurrentItem = savedInstanceState.getParcelable(Constants.AUDIO_ITEM);
         } else {
             mType = getActivity().getIntent().getLongExtra(MEDIA_SECTION, -1);
-            mCategory = getActivity().getIntent().getLongExtra(AUDIO_CATEGORY, 0);
-            mCurrentItem = getActivity().getIntent().getParcelableExtra(AUDIO_ITEM);
+            mCategory = getActivity().getIntent().getLongExtra(Constants.AUDIO_CATEGORY, 0);
+            mCurrentItem = getActivity().getIntent().getParcelableExtra(Constants.AUDIO_ITEM);
         }
     }
 
@@ -99,7 +88,7 @@ public class MusicFragment extends MediaLibBrowserFragment implements OnItemView
 
     public void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
-        outState.putLong(AUDIO_CATEGORY, mCategory);
+        outState.putLong(Constants.AUDIO_CATEGORY, mCategory);
         outState.putLong(MEDIA_SECTION, mType);
     }
 
@@ -143,10 +132,10 @@ public class MusicFragment extends MediaLibBrowserFragment implements OnItemView
         protected String doInBackground(Void... params) {
             String title;
 
-            if (CATEGORY_ARTISTS == mCategory) {
+            if (Constants.CATEGORY_ARTISTS == mCategory) {
                 mDataList = mMediaLibrary.getArtists(VLCApplication.getSettings().getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false));
                 title = getString(R.string.artists);
-            } else if (CATEGORY_ALBUMS == mCategory){
+            } else if (Constants.CATEGORY_ALBUMS == mCategory){
                 title = mCurrentItem == null ?getString(R.string.albums) :  mCurrentItem.getTitle();
                 if (mCurrentItem == null)
                     mDataList = mMediaLibrary.getAlbums();
@@ -156,10 +145,10 @@ public class MusicFragment extends MediaLibBrowserFragment implements OnItemView
                     mDataList = ((Genre)mCurrentItem).getAlbums();
                 else
                     return null;
-            } else if (CATEGORY_GENRES == mCategory){
+            } else if (Constants.CATEGORY_GENRES == mCategory){
                 title = getString(R.string.genres);
                 mDataList = mMediaLibrary.getGenres();
-            } else if (CATEGORY_SONGS == mCategory){
+            } else if (Constants.CATEGORY_SONGS == mCategory){
                 title = getString(R.string.songs);
                 mDataList = mMediaLibrary.getAudio();
             } else {

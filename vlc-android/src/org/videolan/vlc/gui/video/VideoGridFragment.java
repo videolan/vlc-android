@@ -47,6 +47,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.MediaParsingService;
@@ -92,7 +93,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         if (savedInstanceState != null) setGroup(savedInstanceState.getString(KEY_GROUP));
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         final int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
-        mProvider = ViewModelProviders.of(this, new VideosProvider.Factory(mGroup, minGroupLengthValue)).get(VideosProvider.class);
+        mProvider = ViewModelProviders.of(this, new VideosProvider.Factory(mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosProvider.class);
     }
 
 

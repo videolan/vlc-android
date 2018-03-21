@@ -27,12 +27,11 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.*
 import java.util.*
 
+private const val TAG = "VLC/PlaylistManager"
+private const val PREVIOUS_LIMIT_DELAY = 5000L
+private const val AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode"
 
 class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventListener, Media.EventListener {
-
-    private val TAG = "VLC/PlaylistManager"
-    private val PREVIOUS_LIMIT_DELAY = 5000L
-    private val AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode"
 
     companion object {
         val showAudioPlayer = MutableLiveData<Boolean>().apply { value = false }
