@@ -55,7 +55,6 @@ import java.util.List;
 public class ContentActivity extends AudioPlayerContainerActivity implements SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
     public static final String TAG = "VLC/ContentActivity";
 
-    protected Menu mMenu;
     private SearchView mSearchView;
     private boolean showRenderers = !AndroidDevices.isChromeBook && !Util.isListEmpty(RendererDelegate.INSTANCE.getRenderers().getValue());
 
@@ -66,8 +65,10 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
             RendererDelegate.INSTANCE.getSelectedRenderer().observe(this, new Observer<RendererItem>() {
                 @Override
                 public void onChanged(@Nullable RendererItem rendererItem) {
-                    mMenu.findItem(R.id.ml_menu_renderers).setVisible(showRenderers);
-                    mToolbar.getMenu().findItem(R.id.ml_menu_renderers).setIcon(!RendererDelegate.INSTANCE.hasRenderer() ? R.drawable.ic_am_renderer_normal_w : R.drawable.ic_am_renderer_on_w);
+                    final MenuItem item = mToolbar.getMenu().findItem(R.id.ml_menu_renderers);
+                    if (item == null) return;
+                    item.setVisible(showRenderers);
+                    item.setIcon(!RendererDelegate.INSTANCE.hasRenderer() ? R.drawable.ic_am_renderer_normal_w : R.drawable.ic_am_renderer_on_w);
                 }
             });
             RendererDelegate.INSTANCE.getRenderers().observe(this, new Observer<List<RendererItem>>() {
@@ -89,7 +90,6 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        mMenu = menu;
         if (getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder) instanceof AboutFragment)
             return true;
         getMenuInflater().inflate(R.menu.activity_option, menu);
