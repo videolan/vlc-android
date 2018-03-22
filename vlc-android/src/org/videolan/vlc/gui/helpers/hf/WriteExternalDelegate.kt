@@ -92,7 +92,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
             if (activity === null) return
             val fragment = WriteExternalDelegate()
             callback = cb
-            storage = FileUtils.getMediaStorage(uri)
+            storage = FileUtils.getMediaStorage(uri) ?: return
             fragment.arguments = Bundle(1).apply { putString(KEY_STORAGE_PATH, storage) }
             activity.supportFragmentManager.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
         }
