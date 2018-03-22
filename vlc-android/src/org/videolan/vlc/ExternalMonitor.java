@@ -168,7 +168,8 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
     }
 
     public static boolean isLan() {
-        return connected.getValue() && !mobile;
+        final Boolean status = connected.getValue();
+        return status != null && status && !mobile;
     }
 
     public static boolean isVPN() {
