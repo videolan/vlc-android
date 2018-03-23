@@ -322,7 +322,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     }
 
     override fun onDestroy() {
-        progress.value = null
+        progress.postValue(null)
         started.value = false
         hideNotification()
         mMedialibrary.removeDeviceDiscoveryCb(this)
