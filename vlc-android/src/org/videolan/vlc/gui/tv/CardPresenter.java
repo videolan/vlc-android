@@ -76,12 +76,10 @@ public class CardPresenter extends Presenter {
         }
 
         void updateCardViewImage(MediaLibraryItem mediaLibraryItem) {
-            if (!TextUtils.isEmpty(mediaLibraryItem.getArtworkMrl()))
-                AsyncImageLoader.loadPicture(mCardView, mediaLibraryItem);
-            else {
+            if (mediaLibraryItem.getItemType() == MediaLibraryItem.TYPE_DUMMY) {
                 mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
                 mCardView.setMainImage(new BitmapDrawable(mCardView.getResources(), getDefaultImage(mediaLibraryItem)));
-            }
+            } else AsyncImageLoader.loadPicture(mCardView, mediaLibraryItem);
         }
 
         private Bitmap getDefaultImage(MediaLibraryItem mediaLibraryItem) {
