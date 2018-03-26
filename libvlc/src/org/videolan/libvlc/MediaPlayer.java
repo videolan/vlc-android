@@ -369,6 +369,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private String mAudioOutputDevice = null;
 
     private boolean mAudioPlugRegistered = false;
+    private boolean mAudioDigitalOutputEnabled = false;
     private String mAudioPlugOutputDevice = "stereo";
 
     private final AWindow mWindow = new AWindow(new AWindow.SurfaceCallback() {
@@ -400,8 +401,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         }
     });
 
-    private void updateAudioOutputDevice(long encodingFlags, String defaultDevice) {
-        final String newDeviceId = encodingFlags != 0 ? "encoded:" + encodingFlags : defaultDevice;
+    private synchronized void updateAudioOutputDevice(long encodingFlags, String defaultDevice) {
+        final String newDeviceId = mAudioDigitalOutputEnabled && encodingFlags != 0 ? "encoded:" + encodingFlags : defaultDevice;
         if (!newDeviceId.equals(mAudioPlugOutputDevice)) {
             mAudioPlugOutputDevice = newDeviceId;
             setAudioOutputDeviceInternal(mAudioPlugOutputDevice, false);
@@ -740,6 +741,27 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
             registerAudioPlug(true);
 
         return ret;
+    }
+
+    /**
+     * Enable or disable Digital Output
+     *
+     * Works only with AudioTrack AudioOutput.
+     * If {@link #setAudioOutputDevice} was previously called, this method won't have any effects.
+     *
+     * @param enabled true to enable Digital Output
+     * @return true on success
+     */
+    public synchronized boolean setAudioDigitalOutputEnabled(boolean enabled) {
+        if (enabled == mAudioDigitalOutputEnabled)
+            return true;
+        if (!mListenAudioPlug || !isAudioTrack())
+            return false;
+
+        registerAudioPlug(false);
+        mAudioDigitalOutputEnabled = enabled;
+        registerAudioPlug(true);
+        return true;
     }
 
     private synchronized boolean setAudioOutputDeviceInternal(String id, boolean fromUser) {
