@@ -764,6 +764,28 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         return true;
     }
 
+    /** Convenient method for {@link #setAudioOutputDevice}
+     *
+     * @param encodings list of encodings to play via passthrough (see AudioFormat.ENCODING_*),
+     *                  null to don't force any.
+     * @return true on success
+     */
+    public synchronized boolean forceAudioDigitalEncodings(int []encodings) {
+        if (!isAudioTrack())
+            return false;
+
+        if (encodings.length == 0)
+            setAudioOutputDeviceInternal(null, true);
+        else {
+            final String newDeviceId = "encoded:" + getEncodingFlags(encodings);
+            if (!newDeviceId.equals(mAudioPlugOutputDevice)) {
+                mAudioPlugOutputDevice = newDeviceId;
+                setAudioOutputDeviceInternal(mAudioPlugOutputDevice, true);
+            }
+        }
+        return true;
+    }
+
     private synchronized boolean setAudioOutputDeviceInternal(String id, boolean fromUser) {
         mAudioOutputDevice = id;
         if (fromUser) {
