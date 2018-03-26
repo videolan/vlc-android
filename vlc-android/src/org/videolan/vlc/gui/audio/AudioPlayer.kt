@@ -75,6 +75,9 @@ import org.videolan.vlc.util.Constants
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
 
+private const val TAG = "VLC/AudioPlayer"
+private const val SEARCH_TIMEOUT_MILLIS = 5000
+
 @Suppress("UNUSED_PARAMETER")
 class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackService.Client.Callback {
 
@@ -99,11 +102,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     private var currentCoverArt: String? = null
 
     companion object {
-        const val TAG = "VLC/AudioPlayer"
-
         private var DEFAULT_BACKGROUND_DARKER_ID = 0
         private var DEFAULT_BACKGROUND_ID = 0
-        private const val SEARCH_TIMEOUT_MILLIS = 5000
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -151,13 +151,13 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (binding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         helper.onStart()
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         helper.onStop()
     }
 
