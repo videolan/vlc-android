@@ -187,6 +187,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     private fun newMediaPlayer() : MediaPlayer {
         return MediaPlayer(VLCInstance.get()).apply {
+            setAudioDigitalOutputEnabled(VLCOptions.isAudioDigitalOutputEnabled(VLCApplication.getSettings()));
             VLCOptions.getAout(VLCApplication.getSettings())?.let { setAudioOutput(it) }
             setRenderer(RendererDelegate.selectedRenderer)
             this.vlcVout.addCallback(this@PlayerController)

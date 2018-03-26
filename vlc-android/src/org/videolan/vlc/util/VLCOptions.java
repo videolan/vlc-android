@@ -147,6 +147,16 @@ public class VLCOptions {
         return options;
     }
 
+    public static boolean isAudioDigitalOutputEnabled(SharedPreferences pref) {
+        return pref.getBoolean("audio_digital_output", false);
+    }
+
+    public static void setAudioDigitalOutputEnabled(SharedPreferences pref, boolean enabled) {
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("audio_digital_output",enabled);
+        editor.apply();
+    }
+
     public static String getAout(SharedPreferences pref) {
         int aout = -1;
         try {
