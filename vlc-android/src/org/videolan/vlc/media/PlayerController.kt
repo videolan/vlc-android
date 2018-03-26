@@ -123,6 +123,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun setAudioTrack(index: Int) = mediaplayer.setAudioTrack(index)
 
+    fun setAudioDigitalOutputEnabled(enabled: Boolean) = mediaplayer.setAudioDigitalOutputEnabled(enabled)
+
     fun getAudioDelay() = mediaplayer.audioDelay
 
     fun getSpuDelay() = mediaplayer.spuDelay
