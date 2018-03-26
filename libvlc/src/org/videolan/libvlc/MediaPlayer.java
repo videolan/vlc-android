@@ -362,7 +362,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private Media mMedia = null;
     private boolean mPlaying = false;
     private boolean mPlayRequested = false;
-    private boolean mAudioDeviceFromUser = false;
+    private boolean mListenAudioPlug = true;
     private int mVoutCount = 0;
     private boolean mAudioReset = false;
     private String mAudioOutput = "android_audiotrack";
@@ -615,7 +615,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                         nativeSetAudioOutputDevice(mAudioOutputDevice);
                     mAudioReset = false;
                 }
-                if (!mAudioDeviceFromUser)
+                if (mListenAudioPlug)
                     registerAudioPlug(true);
                 mPlayRequested = true;
                 if (mWindow.areSurfacesWaiting())
@@ -723,7 +723,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
             synchronized (this) {
                 mAudioOutput = aout;
                 /* The user forced an output, don't listen to audio plug events and let the user decide */
-                mAudioDeviceFromUser = true;
+                mListenAudioPlug = false;
                 registerAudioPlug(false);
             }
         }
@@ -737,7 +737,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                 mAudioOutputDevice = id;
                 if (fromUser) {
                     /* The user forced a device, don't listen to audio plug events and let the user decide */
-                    mAudioDeviceFromUser = true;
+                    mListenAudioPlug = false;
                     registerAudioPlug(false);
                 }
             }
