@@ -1727,6 +1727,11 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     }
 
     @MainThread
+    public boolean setAudioDigitalOutputEnabled(boolean enabled) {
+        return playlistManager.getPlayer().setAudioDigitalOutputEnabled(enabled);
+    }
+
+    @MainThread
     public boolean setVideoTrack(int index) {
         return playlistManager.getPlayer().setVideoTrack(index);
     }
