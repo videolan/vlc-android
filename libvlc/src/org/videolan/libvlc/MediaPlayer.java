@@ -690,6 +690,10 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         nativeSetAspectRatio(aspect);
     }
 
+    private boolean isAudioTrack() {
+        return mAudioOutput != null && mAudioOutput.equals("android_audiotrack");
+    }
+
     /**
      * Update the video viewpoint information
      *
@@ -717,31 +721,46 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @return true on success.
      */
-    public boolean setAudioOutput(String aout) {
+    public synchronized boolean setAudioOutput(String aout) {
+        mAudioOutput = aout;
+        /* If The user forced an output different than AudioTrack, don't listen to audio
+         * plug events and let the user decide */
+        mListenAudioPlug = isAudioTrack();
+        if (!mListenAudioPlug)
+            registerAudioPlug(false);
+
         final boolean ret = nativeSetAudioOutput(aout);
-        if (ret) {
-            synchronized (this) {
-                mAudioOutput = aout;
-                /* The user forced an output, don't listen to audio plug events and let the user decide */
-                mListenAudioPlug = false;
-                registerAudioPlug(false);
-            }
+
+        if (!ret) {
+            mAudioOutput = null;
+            mListenAudioPlug = false;
         }
+
+        if (mListenAudioPlug)
+            registerAudioPlug(true);
+
         return ret;
     }
 
-    private boolean setAudioOutputDeviceInternal(String id, boolean fromUser) {
-        final boolean ret = nativeSetAudioOutputDevice(id);
-        if (ret) {
-            synchronized (this) {
-                mAudioOutputDevice = id;
-                if (fromUser) {
-                    /* The user forced a device, don't listen to audio plug events and let the user decide */
-                    mListenAudioPlug = false;
-                    registerAudioPlug(false);
-                }
-            }
+    private synchronized boolean setAudioOutputDeviceInternal(String id, boolean fromUser) {
+        mAudioOutputDevice = id;
+        if (fromUser) {
+            /* The user forced a device, don't listen to audio plug events and let the user decide */
+            mListenAudioPlug = mAudioOutputDevice == null && isAudioTrack();
+            if (!mListenAudioPlug)
+                registerAudioPlug(false);
         }
+
+        final boolean ret = nativeSetAudioOutputDevice(id);
+
+        if (!ret) {
+            mAudioOutputDevice = null;
+            mListenAudioPlug = false;
+        }
+
+        if (mListenAudioPlug)
+            registerAudioPlug(true);
+
         return ret;
     }
 
