@@ -61,6 +61,7 @@ import org.videolan.vlc.interfaces.IPlaybackSettingsController;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.VLCOptions;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -92,6 +93,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
     private static final int ID_POPUP_VIDEO = 9 ;
     private static final int ID_REPEAT = 10 ;
     private static final int ID_SHUFFLE = 11 ;
+    private static final int ID_PASSTHROUGH = 12 ;
 
     private Activity mActivity;
     private int mMode = -1;
@@ -102,6 +104,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     private TextView mPlaybackSpeed;
     private TextView mSleep;
+    private TextView mPassThrough;
 
     private TextView mJumpTitle;
 
@@ -466,14 +469,26 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                 mService.shuffle();
                 initShuffle();
                 break;
+            case ID_PASSTHROUGH: {
+                togglePassthrough();
+                break;
+            }
         }
+    }
+
+    private void togglePassthrough() {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AdvOptionsDialog.this.getContext());
+        boolean enabled = !VLCOptions.isAudioDigitalOutputEnabled(prefs);
+        if (mService.setAudioDigitalOutputEnabled(enabled)) {
+            VLCOptions.setAudioDigitalOutputEnabled(prefs, enabled);
+            mToast.setText(enabled ? getString(R.string.audio_digital_output_enabled) : getString(R.string.audio_digital_output_disabled));
+        } else mToast.setText(R.string.audio_digital_failed);
+        mToast.show();
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (v instanceof TextView)
-            ((TextView) v).setTextColor(v.hasFocus() ?
-                    UiTools.Resources.ITEM_FOCUS_ON : mTextColor);
+        if (v instanceof TextView) ((TextView) v).setTextColor(v.hasFocus() ? UiTools.Resources.ITEM_FOCUS_ON : mTextColor);
         mToast.setText(mAdapter.getSelectedAdvOptionHelp());
         mToast.show();
     }
@@ -511,6 +526,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         mService = service;
         boolean tvUi = VLCApplication.showTvUi();
         int large_items = 0;
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AdvOptionsDialog.this.getContext());
 
         mAdapter.addOption(new Option(ID_SLEEP, R.attr.ic_sleep_normal_style, getString(R.string.sleep_title)));
         mAdapter.addOption(new Option(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, getString(R.string.playback_speed)));
@@ -537,6 +553,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         } else {
             mAdapter.addOption(new Option(ID_SAVE_PLAYLIST, R.attr.ic_save, getString(R.string.playlist_save)));
         }
+        if ("0".equals(prefs.getString("aout", "0"))) mAdapter.addOption(new Option(ID_PASSTHROUGH, R.attr.ic_popup_dim, getString(R.string.audio_digital_title)));
         setDialogDimensions(large_items);
     }
 
@@ -619,8 +636,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         public void onBindViewHolder(ViewHolder holder, int position) {
             final Option option = mList.get(position);
             final TextView tv = (TextView) holder.itemView;
-            if (mSelection == position)
-                tv.requestFocus();
+            if (mSelection == position) tv.requestFocus();
             tv.setId(option.id);
             final int icon = UiTools.getResourceFromAttribute(mActivity, option.icon);
             if (option.id == ID_CHAPTER_TITLE)

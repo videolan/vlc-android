@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.preferences;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.preference.CheckBoxPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.TwoStatePreference;
 
@@ -48,12 +49,6 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         findPreference("audio_ducking").setVisible(!AndroidUtil.isOOrLater);
@@ -62,6 +57,20 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
             /* no AudioOutput choice */
             findPreference("aout").setVisible(false);
         }
+        updatePassThroughSummary();
+        final boolean opensles = "1".equals(getPreferenceManager().getSharedPreferences().getString("aout", "0"));
+        if (opensles) findPreference("audio_digital_output").setVisible(false);
+    }
+
+    private void updatePassThroughSummary() {
+        final boolean pt = getPreferenceManager().getSharedPreferences().getBoolean("audio_digital_output", false);
+        findPreference("audio_digital_output").setSummary(pt ? R.string.audio_digital_output_enabled : R.string.audio_digital_output_disabled);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -86,9 +95,15 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
             case "aout":
                 VLCInstance.restart();
                 ((PreferencesActivity)activity).restartMediaPlayer();
+                final boolean opensles = "1".equals(getPreferenceManager().getSharedPreferences().getString("aout", "0"));
+                if (opensles) ((CheckBoxPreference)findPreference("audio_digital_output")).setChecked(false);
+                findPreference("audio_digital_output").setVisible(!opensles);
                 break;
             case Constants.KEY_ARTISTS_SHOW_ALL:
                 ((PreferencesActivity)activity).updateArtists();
+                break;
+            case "audio_digital_output":
+                updatePassThroughSummary();
                 break;
         }
     }
