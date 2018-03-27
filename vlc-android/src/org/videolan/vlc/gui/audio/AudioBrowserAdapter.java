@@ -150,7 +150,7 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     }
 
     private boolean isPositionValid(int position) {
-        return position >= 0 || position < getDataset().size();
+        return position >= 0 && position < getDataset().size();
     }
 
     public List<MediaLibraryItem> getAll() {
