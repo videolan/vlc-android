@@ -33,6 +33,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.widget.DiffCallback;
+import android.support.v17.leanback.widget.ListRow;
 import android.support.v17.leanback.widget.Row;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.LruCache;
@@ -56,6 +57,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static org.videolan.vlc.util.Constants.AUDIO_CATEGORY;
 import static org.videolan.vlc.util.Constants.AUDIO_ITEM;
@@ -252,6 +254,18 @@ public class TvUtil {
 
         @Override
         public boolean areContentsTheSame(@NonNull MediaLibraryItem oldItem, @NonNull MediaLibraryItem newItem) {
+            return true;
+        }
+    };
+
+    public static DiffCallback<ListRow> listDiffCallback = new DiffCallback<ListRow>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull ListRow oldItem, @NonNull ListRow newItem) {
+            return Objects.equals(oldItem.getContentDescription(), newItem.getContentDescription());
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull ListRow oldItem, @NonNull ListRow newItem) {
             return true;
         }
     };

@@ -1,11 +1,13 @@
 package org.videolan.vlc.util
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProviders
+import android.support.v4.app.Fragment
 import kotlinx.coroutines.experimental.delay
 import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
-
 
 fun String.validateLocation(): Boolean {
     var location = this
@@ -25,6 +27,8 @@ fun String.validateLocation(): Boolean {
     }
     return true
 }
+
+inline fun <reified T : ViewModel> Fragment.getModel() = ViewModelProviders.of(this).get(T::class.java)
 
 suspend fun retry (
         times: Int = 3,

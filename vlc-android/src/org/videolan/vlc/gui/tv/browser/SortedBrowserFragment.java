@@ -113,16 +113,13 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
         super.onActivityCreated(savedInstanceState);
         setHeadersState(HEADERS_HIDDEN);
         setOnItemViewSelectedListener(this);
-        if (savedInstanceState == null)
-            browse();
+        if (savedInstanceState == null) browse();
         else {
             synchronized (mMediaItemMap) {
                 mMediaItemMap = (Map<String, ListItem>) VLCApplication.getData(getKey());
             }
-            if (mMediaItemMap != null)
-                sort();
-            else
-                getActivity().finish();
+            if (mMediaItemMap != null) sort();
+            else getActivity().finish();
         }
     }
 
@@ -206,8 +203,7 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
                 synchronized (mMediaItemMap) {
                     mTempMap = new TreeMap<>(mMediaItemMap); //sort sections
                 }
-                for (ListItem item : mMediaItemMap.values())
-                    Collections.sort(item.mediaList, MediaComparators.byFileType);
+                for (ListItem item : mMediaItemMap.values()) Collections.sort(item.mediaList, MediaComparators.byFileType);
                 mHandler.sendEmptyMessage(UPDATE_DISPLAY);
                 VLCApplication.storeData(CURRENT_BROWSER_LIST, mVideosList);
             }
@@ -216,9 +212,8 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
 
     @Override
     public void updateList() {
-        Activity activity = getActivity();
-        if (activity == null)
-            return;
+        final Activity activity = getActivity();
+        if (activity == null) return;
         mAdapter = new ArrayObjectAdapter(new ListRowPresenter());
         setAdapter(mAdapter);
         ArrayObjectAdapter adapter;

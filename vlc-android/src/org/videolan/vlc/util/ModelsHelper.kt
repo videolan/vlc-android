@@ -8,13 +8,21 @@ import org.videolan.medialibrary.interfaces.MediaAddedCb
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
-import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 
 object ModelsHelper {
 
     fun generateSections(sort: Int, items: Array<out MediaLibraryItem>) : MutableList<MediaLibraryItem> {
+        val array = splitList(sort, items)
         val datalist = mutableListOf<MediaLibraryItem>()
+        for ((key, list) in array) {
+            datalist.add(DummyItem(key))
+            datalist.addAll(list)
+        }
+        return datalist
+    }
+
+    public fun splitList(sort: Int, items: Array<out MediaLibraryItem>) : Map<String, List<MediaLibraryItem>> {
+        val array = mutableMapOf<String, MutableList<MediaLibraryItem>>()
         when (sort) {
             Medialibrary.SORT_DEFAULT,
             Medialibrary.SORT_ALPHA -> {
@@ -22,40 +30,37 @@ object ModelsHelper {
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
                     val title = item.title
-                    val letter = if (title.isEmpty() || !Character.isLetter(title[0]) || isSpecialItem(item)) "#" else title.substring(0, 1).toUpperCase()
+                    val letter = if (title.isEmpty() || !Character.isLetter(title[0]) || ModelsHelper.isSpecialItem(item)) "#" else title.substring(0, 1).toUpperCase()
                     if (currentLetter === null || !TextUtils.equals(currentLetter, letter)) {
                         currentLetter = letter
-                        val sep = DummyItem(currentLetter)
-                        datalist.add(sep)
+                        array[letter] = mutableListOf()
                     }
-                    datalist.add(item)
+                    array[letter]?.add(item)
                 }
             }
             Medialibrary.SORT_DURATION -> {
                 var currentLengthCategory: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
-                    val length = getLength(item)
-                    val lengthCategory = lengthToCategory(length)
+                    val length = ModelsHelper.getLength(item)
+                    val lengthCategory = ModelsHelper.lengthToCategory(length)
                     if (currentLengthCategory == null || !TextUtils.equals(currentLengthCategory, lengthCategory)) {
                         currentLengthCategory = lengthCategory
-                        val sep = DummyItem(currentLengthCategory)
-                        datalist.add(sep)
+                        array[currentLengthCategory] = mutableListOf()
                     }
-                    datalist.add(item)
+                    array[currentLengthCategory]?.add(item)
                 }
             }
             Medialibrary.SORT_RELEASEDATE -> {
                 var currentYear: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
-                    val year = getYear(item)
+                    val year = ModelsHelper.getYear(item)
                     if (currentYear === null || !TextUtils.equals(currentYear, year)) {
                         currentYear = year
-                        val sep = DummyItem(currentYear)
-                        datalist.add(sep)
+                        array[currentYear] = mutableListOf()
                     }
-                    datalist.add(item)
+                    array[currentYear]?.add(item)
                 }
             }
             Medialibrary.SORT_ARTIST -> {
@@ -65,10 +70,9 @@ object ModelsHelper {
                     val artist = (item as MediaWrapper).artist ?: ""
                     if (currentArtist === null || !TextUtils.equals(currentArtist, artist)) {
                         currentArtist = artist
-                        val sep = DummyItem(if (TextUtils.isEmpty(currentArtist)) VLCApplication.getAppResources().getString(R.string.unknown_artist) else currentArtist)
-                        datalist.add(sep)
+                        array[currentArtist] = mutableListOf()
                     }
-                    datalist.add(item)
+                    array[currentArtist]?.add(item)
                 }
             }
             Medialibrary.SORT_ALBUM -> {
@@ -78,14 +82,13 @@ object ModelsHelper {
                     val album = (item as MediaWrapper).album ?: ""
                     if (currentAlbum === null || !TextUtils.equals(currentAlbum, album)) {
                         currentAlbum = album
-                        val sep = DummyItem(if (TextUtils.isEmpty(currentAlbum)) VLCApplication.getAppResources().getString(R.string.unknown_album) else currentAlbum)
-                        datalist.add(sep)
+                        array[currentAlbum] = mutableListOf()
                     }
-                    datalist.add(item)
+                    array[currentAlbum]?.add(item)
                 }
             }
         }
-        return datalist
+        return array
     }
 
     private fun isSpecialItem(item: MediaLibraryItem) = item.itemType == MediaLibraryItem.TYPE_ARTIST

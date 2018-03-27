@@ -1,6 +1,5 @@
 package org.videolan.vlc.viewmodels.audio
 
-import android.util.Log
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary.ArtistsAddedCb

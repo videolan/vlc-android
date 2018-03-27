@@ -361,8 +361,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
                     showInfoDialog(list.get(0));
                     break;
                 //            case R.id.action_video_delete:
-                //                for (int position : mAdapter.getSelectedPositions())
-                //                    removeVideo(position, mAdapter.getItem(position));
+                //                for (int position : rowsAdapter.getSelectedPositions())
+                //                    removeVideo(position, rowsAdapter.getItem(position));
                 //                break;
                 case R.id.action_video_download_subtitles:
                     MediaUtils.getSubs(getActivity(), list);
