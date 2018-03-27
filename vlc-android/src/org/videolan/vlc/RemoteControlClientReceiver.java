@@ -49,8 +49,7 @@ public class RemoteControlClientReceiver extends MediaButtonReceiver {
         if (event != null && action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
 
             if (event.getKeyCode() != KeyEvent.KEYCODE_HEADSETHOOK &&
-                    event.getKeyCode() != KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE &&
-                    event.getAction() != KeyEvent.ACTION_DOWN) {
+                    event.getKeyCode() != KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
                 super.onReceive(context, intent);
                 return;
             }
@@ -103,8 +102,7 @@ public class RemoteControlClientReceiver extends MediaButtonReceiver {
                     break;
             }
 
-            if (isOrderedBroadcast())
-                abortBroadcast();
+            if (isOrderedBroadcast()) abortBroadcast();
             if (i != null) {
                 Util.startService(context, i);
                 return;

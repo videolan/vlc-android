@@ -115,8 +115,8 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     private static final int SHOW_TOAST = 1;
     private static final int END_MEDIASESSION = 2;
 
-    private static final int DELAY_DOUBLE_CLICK = 800;
-    private static final int DELAY_LONG_CLICK = 1000;
+    private static final long DELAY_DOUBLE_CLICK = 800L;
+    private static final long DELAY_LONG_CLICK = 1000L;
 
     public interface Callback {
         void update();
@@ -803,8 +803,8 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     }
 
     private final class MediaSessionCallback extends MediaSessionCompat.Callback {
-        private long mHeadsetDownTime = 0;
-        private long mHeadsetUpTime = 0;
+        private long mHeadsetDownTime = 0L;
+        private long mHeadsetUpTime = 0L;
 
         @Override
         public boolean onMediaButtonEvent(Intent mediaButtonEvent) {
@@ -817,8 +817,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                     final long time = SystemClock.uptimeMillis();
                     switch (event.getAction()) {
                         case KeyEvent.ACTION_DOWN:
-                            if (event.getRepeatCount() <= 0)
-                                mHeadsetDownTime = time;
+                            if (event.getRepeatCount() <= 0) mHeadsetDownTime = time;
                             if (!hasMedia()) {
                                 loadLastAudioPlaylist();
                                 return true;
