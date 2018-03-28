@@ -51,6 +51,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 
 import java.lang.ref.WeakReference;
@@ -215,14 +216,20 @@ public class TvUtil {
             case MediaLibraryItem.TYPE_GENRE:
                 return R.drawable.ic_genre_big;
             case MediaLibraryItem.TYPE_MEDIA:
-                if (((MediaWrapper)mediaLibraryItem).getType() == MediaWrapper.TYPE_VIDEO)
+                final MediaWrapper mw = (MediaWrapper) mediaLibraryItem;
+                if (mw.getType() == MediaWrapper.TYPE_VIDEO)
                     return R.drawable.ic_browser_video_big_normal;
+                if (mw.getType() == MediaWrapper.TYPE_DIR
+                        && TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mw.getLocation()))
+                    return R.drawable.ic_menu_folder_big;
                 else
                     return R.drawable.ic_song_big;
             case MediaLibraryItem.TYPE_DUMMY:
                 final long id = mediaLibraryItem.getId();
                 if (id == Constants.HEADER_VIDEO) {
                     return R.drawable.ic_video_collection_big;
+                } else if (id == Constants.HEADER_DIRECTORIES) {
+                    return R.drawable.ic_menu_folder_big;
                 } else if (id == Constants.HEADER_NETWORK) {
                     return R.drawable.ic_menu_network_big;
                 } else if (id == Constants.HEADER_STREAM) {

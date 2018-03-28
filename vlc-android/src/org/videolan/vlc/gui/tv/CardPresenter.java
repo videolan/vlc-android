@@ -76,7 +76,7 @@ public class CardPresenter extends Presenter {
         }
 
         void updateCardViewImage(MediaLibraryItem mediaLibraryItem) {
-            if (mediaLibraryItem.getItemType() == MediaLibraryItem.TYPE_DUMMY) {
+            if (TextUtils.isEmpty(mediaLibraryItem.getArtworkMrl())) {
                 mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
                 mCardView.setMainImage(new BitmapDrawable(mCardView.getResources(), getDefaultImage(mediaLibraryItem)));
             } else AsyncImageLoader.loadPicture(mCardView, mediaLibraryItem);
@@ -86,7 +86,7 @@ public class CardPresenter extends Presenter {
             Bitmap picture;
             final Resources res = mCardView.getResources();
             if (mediaLibraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper) mediaLibraryItem).getType() == MediaWrapper.TYPE_DIR) {
-                MediaWrapper mediaWrapper = (MediaWrapper) mediaLibraryItem;
+                final MediaWrapper mediaWrapper = (MediaWrapper) mediaLibraryItem;
                 if (TextUtils.equals(mediaWrapper.getUri().getScheme(), "file"))
                     picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder_big);
                 else

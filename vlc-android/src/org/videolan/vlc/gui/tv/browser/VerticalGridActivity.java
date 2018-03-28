@@ -54,26 +54,22 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
         mEmptyView = findViewById(R.id.tv_fragment_empty);
         if (savedInstanceState == null) {
             long type = getIntent().getLongExtra(MainTvActivity.BROWSER_TYPE, -1);
-            if (type == Constants.HEADER_VIDEO)
-                mFragment = new VideoBrowserFragment();
-            else if (type == Constants.HEADER_CATEGORIES)
+            if (type == Constants.HEADER_VIDEO) mFragment = new VideoBrowserFragment();
+            else if (type == Constants.HEADER_CATEGORIES) {
                 if (getIntent().getLongExtra(Constants.AUDIO_CATEGORY, Constants.CATEGORY_SONGS) == Constants.CATEGORY_SONGS &&
-                    VLCApplication.getMLInstance().getAudioCount() > GRID_LIMIT) {
+                        VLCApplication.getMLInstance().getAudioCount() > GRID_LIMIT) {
                     mFragment = new SongsBrowserFragment();
                 } else {
                     mFragment = new MusicFragment();
                     Bundle args = new Bundle();
                     args.putParcelable(Constants.AUDIO_ITEM, getIntent().getParcelableExtra(Constants.AUDIO_ITEM));
-                    ((Fragment)mFragment).setArguments(args);
+                    ((Fragment) mFragment).setArguments(args);
                 }
-            else if (type == Constants.HEADER_NETWORK) {
+            } else if (type == Constants.HEADER_NETWORK) {
                 Uri uri = getIntent().getData();
-                if (uri == null)
-                    uri = getIntent().getParcelableExtra(SortedBrowserFragment.KEY_URI);
-                if (uri == null)
-                    mFragment = new BrowserGridFragment();
-                else
-                    mFragment = new NetworkBrowserFragment();
+                if (uri == null) uri = getIntent().getParcelableExtra(SortedBrowserFragment.KEY_URI);
+                if (uri == null) mFragment = new BrowserGridFragment();
+                else mFragment = new NetworkBrowserFragment();
             } else if (type == Constants.HEADER_DIRECTORIES)
                 mFragment = new DirectoryBrowserFragment();
             else {
