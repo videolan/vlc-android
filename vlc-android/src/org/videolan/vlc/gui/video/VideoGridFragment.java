@@ -93,7 +93,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         if (savedInstanceState != null) setGroup(savedInstanceState.getString(KEY_GROUP));
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         final int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
-        mProvider = ViewModelProviders.of(this, new VideosProvider.Factory(mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosProvider.class);
+        mProvider = ViewModelProviders.of(requireActivity(), new VideosProvider.Factory(mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosProvider.class);
     }
 
 
@@ -139,7 +139,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
             if (!Util.isListEmpty(list)) mAdapter.update(list);
         }
         mGridView.setAdapter(mAdapter);
-        mProvider.getDataset().observe(requireActivity(), new Observer<List<MediaWrapper>>() {
+        mProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
             @Override
             public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
                 if (mediaWrappers != null) mAdapter.update(mediaWrappers);
