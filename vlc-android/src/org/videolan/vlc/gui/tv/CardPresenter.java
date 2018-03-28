@@ -44,7 +44,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.media.MediaGroup;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class CardPresenter extends Presenter {
@@ -119,11 +118,6 @@ public class CardPresenter extends Presenter {
         if (item instanceof MediaWrapper) {
             final MediaWrapper mw = (MediaWrapper) item;
             holder.mCardView.setTitleText(mw.getTitle());
-            if (mw.getType() == MediaWrapper.TYPE_GROUP) {
-                MediaGroup mediaGroup = (MediaGroup) mw;
-                final int size = mediaGroup.size();
-                mediaGroup.setDescription(VLCApplication.getAppResources().getQuantityString(R.plurals.videos_quantity, size, size));
-            }
             holder.mCardView.setContentText(mw.getDescription());
             holder.updateCardViewImage(mw);
             if (mIsSeenMediaMarkerVisible

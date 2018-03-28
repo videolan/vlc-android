@@ -191,9 +191,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
         long seen = 0L;
 
         if (media.getType() == MediaWrapper.TYPE_GROUP) {
-            MediaGroup mediaGroup = (MediaGroup) media;
-            final int size = mediaGroup.size();
-            text = VLCApplication.getAppResources().getQuantityString(R.plurals.videos_quantity, size, size);
+            text = media.getDescription();
         } else {
             /* Time / Duration */
             if (media.getLength() > 0) {

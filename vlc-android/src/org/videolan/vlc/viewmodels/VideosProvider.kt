@@ -30,6 +30,8 @@ import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.MediaAddedCb
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.vlc.R
+import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.media.MediaGroup
 import org.videolan.vlc.util.Util
 
@@ -37,6 +39,7 @@ open class VideosProvider(private val group: String?, private val minGroupLen: I
 
     override fun canSortByDuration() = true
     override fun canSortByLastModified() = true
+    private val res by lazy { VLCApplication.getAppResources() }
 
     private val thumbObs = Observer<MediaWrapper> { media -> updateActor.offer(MediaUpdate(listOf(media!!))) }
 
@@ -65,7 +68,10 @@ open class VideosProvider(private val group: String?, private val minGroupLen: I
                         if (title.startsWith(loGroup)) displayList.add(item)
                     }
                 }
-                minGroupLen > 0 -> MediaGroup.group(list, minGroupLen).mapTo(displayList) { it.media }
+                minGroupLen > 0 -> MediaGroup.group(list, minGroupLen).mapTo(displayList) {
+                    if (it.size() > 1 && res !== null) { it.description = res.getQuantityString(R.plurals.videos_quantity, it.size(), it.size()) }
+                    it.media
+                }
                 else -> displayList.addAll(list)
             }
             displayList
