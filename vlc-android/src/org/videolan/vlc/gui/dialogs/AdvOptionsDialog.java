@@ -362,7 +362,15 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                         ? R.drawable.ic_shuffle_on
                         : UiTools.getResourceFromAttribute(mActivity, R.attr.ic_shuffle),
                 0, 0);
+    }
 
+    public void initPassthrough(){
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AdvOptionsDialog.this.getContext());
+        mPassThrough.setCompoundDrawablesWithIntrinsicBounds(0,
+                VLCOptions.isAudioDigitalOutputEnabled(prefs)
+                        ? R.drawable.ic_passthrough_on
+                        : UiTools.getResourceFromAttribute(mActivity, R.attr.ic_passthrough),
+                0, 0);
     }
 
     private void initChapters() {
@@ -417,6 +425,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             case ID_SHUFFLE:
                 mShuffle = tv;
                 initShuffle();
+                break;
+            case ID_PASSTHROUGH:
+                mPassThrough = tv;
+                initPassthrough();
                 break;
         }
     }
@@ -480,6 +492,10 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AdvOptionsDialog.this.getContext());
         boolean enabled = !VLCOptions.isAudioDigitalOutputEnabled(prefs);
         if (mService.setAudioDigitalOutputEnabled(enabled)) {
+            mPassThrough.setCompoundDrawablesWithIntrinsicBounds(0,
+                    enabled ? R.drawable.ic_passthrough_on
+                            : UiTools.getResourceFromAttribute(mActivity, R.attr.ic_passthrough)
+                    , 0, 0);
             VLCOptions.setAudioDigitalOutputEnabled(prefs, enabled);
             mToast.setText(enabled ? getString(R.string.audio_digital_output_enabled) : getString(R.string.audio_digital_output_disabled));
         } else mToast.setText(R.string.audio_digital_failed);
@@ -553,7 +569,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         } else {
             mAdapter.addOption(new Option(ID_SAVE_PLAYLIST, R.attr.ic_save, getString(R.string.playlist_save)));
         }
-        if ("0".equals(prefs.getString("aout", "0"))) mAdapter.addOption(new Option(ID_PASSTHROUGH, R.attr.ic_popup_dim, getString(R.string.audio_digital_title)));
+        if ("0".equals(prefs.getString("aout", "0")))
+            mAdapter.addOption(new Option(ID_PASSTHROUGH, R.attr.ic_passthrough, getString(R.string.audio_digital_title)));
         setDialogDimensions(large_items);
     }
 

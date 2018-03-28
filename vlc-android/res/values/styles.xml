@@ -83,6 +83,7 @@
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer</item>
         <item name="ic_audiodelay">@drawable/ic_audiodelay</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay</item>
+        <item name="ic_passthrough">@drawable/ic_passthrough</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.AppCompat.Light.Dialog">
@@ -179,6 +180,7 @@
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
         <item name="ic_audiodelay">@drawable/ic_audiodelay_w</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
+        <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
     </style>
    <style name="Theme.VLC.TV" parent="Theme.Leanback">
        <item name="colorPrimary">@color/orange800</item>
@@ -254,6 +256,7 @@
         <item name="ic_equalizer_normal_style">@drawable/ic_equalizer_w</item>
         <item name="ic_audiodelay">@drawable/ic_audiodelay_w</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
+        <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
         <item name="ic_repeat">@drawable/ic_repeat_w</item>
         <item name="ic_shuffle">@drawable/ic_shuffle_w</item>
         <item name="ic_trash">@drawable/ic_trash_w</item>
