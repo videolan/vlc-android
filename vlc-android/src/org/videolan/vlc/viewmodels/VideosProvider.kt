@@ -33,7 +33,7 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.media.MediaGroup
 import org.videolan.vlc.util.Util
 
-class VideosProvider(private val group: String?, private val minGroupLen: Int, customSort : Int) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
+open class VideosProvider(private val group: String?, private val minGroupLen: Int, customSort : Int) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
 
     override fun canSortByDuration() = true
     override fun canSortByLastModified() = true

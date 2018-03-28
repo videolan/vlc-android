@@ -3,6 +3,7 @@ package org.videolan.vlc.util
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import kotlinx.coroutines.experimental.delay
 import java.io.File
 import java.net.URI
@@ -28,7 +29,9 @@ fun String.validateLocation(): Boolean {
     return true
 }
 
+inline fun <reified T : ViewModel> Fragment.getModelWithActivity() = ViewModelProviders.of(requireActivity()).get(T::class.java)
 inline fun <reified T : ViewModel> Fragment.getModel() = ViewModelProviders.of(this).get(T::class.java)
+inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProviders.of(this).get(T::class.java)
 
 suspend fun retry (
         times: Int = 3,

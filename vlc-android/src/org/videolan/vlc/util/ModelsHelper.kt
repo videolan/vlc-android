@@ -12,7 +12,7 @@ import org.videolan.vlc.PlaybackService
 object ModelsHelper {
 
     fun generateSections(sort: Int, items: Array<out MediaLibraryItem>) : MutableList<MediaLibraryItem> {
-        val array = splitList(sort, items)
+        val array = splitList(sort, items.toList())
         val datalist = mutableListOf<MediaLibraryItem>()
         for ((key, list) in array) {
             datalist.add(DummyItem(key))
@@ -21,7 +21,7 @@ object ModelsHelper {
         return datalist
     }
 
-    public fun splitList(sort: Int, items: Array<out MediaLibraryItem>) : Map<String, List<MediaLibraryItem>> {
+    internal fun splitList(sort: Int, items: Collection<MediaLibraryItem>) : Map<String, List<MediaLibraryItem>> {
         val array = mutableMapOf<String, MutableList<MediaLibraryItem>>()
         when (sort) {
             Medialibrary.SORT_DEFAULT,

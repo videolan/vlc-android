@@ -27,15 +27,15 @@ import android.annotation.TargetApi
 import android.arch.lifecycle.Observer
 import android.os.Build
 import android.os.Bundle
-import org.videolan.vlc.util.getModel
-import org.videolan.vlc.viewmodels.tv.VideosTvProvider
+import org.videolan.medialibrary.Medialibrary
+import org.videolan.vlc.viewmodels.VideosProvider
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class VideoBrowserFragment : CategoriesFragment<VideosTvProvider>() {
+class VideoBrowserFragment : CategoriesFragment<VideosProvider>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        provider = getModel()
-        provider.dataset.observe(this, Observer { update(it) })
+        provider = VideosProvider.get(this, null, 0, Medialibrary.SORT_ALPHA)
+        provider.categories.observe(this, Observer { update(it) })
     }
 }

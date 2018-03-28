@@ -20,8 +20,10 @@
 
 package org.videolan.vlc.viewmodels
 
+import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
@@ -31,8 +33,9 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.FilterDelegate
 import org.videolan.vlc.util.LiveDataset
+import org.videolan.vlc.util.ModelsHelper
 
-abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
+abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
 
     var sort = Medialibrary.SORT_ALPHA
     var desc = false
@@ -53,6 +56,14 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
     val dataset by lazy {
         launch(UI) { fetch() }
         LiveDataset<T>()
+    }
+
+    val categories by lazy(LazyThreadSafetyMode.NONE) {
+        MediatorLiveData<Map<String, List<MediaLibraryItem>>>().apply {
+            addSource(dataset, {
+                launch(UI, CoroutineStart.UNDISPATCHED) { value = withContext(CommonPool) { ModelsHelper.splitList(sort, it!!) } }
+            })
+        }
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -80,7 +91,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel() {
         }
     }
 
-    open fun refresh() = updateActor.offer(Refresh)
+    override fun refresh() = updateActor.offer(Refresh)
 
     open fun sort(sort: Int) = updateActor.offer(Sort(sort))
 
@@ -143,3 +154,7 @@ data class MediaAddition(val media: MediaLibraryItem) : Update()
 data class Sort(val sort: Int) : Update()
 data class Remove(val media: MediaLibraryItem) : Update()
 data class Filter(val query: String?) : Update()
+
+interface RefreshModel {
+    fun refresh() : Boolean
+}

@@ -35,12 +35,12 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.CardPresenter
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
-import org.videolan.vlc.viewmodels.tv.TvModel
+import org.videolan.vlc.viewmodels.RefreshModel
 
 private const val TAG = "VLC/CategoriesFragment"
 private const val SELECTED_ITEM = "selected"
 
-open class CategoriesFragment<T : TvModel> : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener, BrowserFragmentInterface {
+open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener, BrowserFragmentInterface {
     private lateinit var selecteditem: MediaLibraryItem
     private lateinit var backgroundManager: BackgroundManager
     private val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
