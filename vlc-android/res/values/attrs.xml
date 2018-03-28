@@ -65,6 +65,7 @@
     <attr name="ic_playasaudio_on" format="reference" />
     <attr name="ic_popup_expand" format="reference" />
     <attr name="ic_popup_dim" format="reference" />
+    <attr name="ic_passthrough" format="reference" />
 
     <attr name="shadow_top_9patch" format="reference"/>
     <attr name="shadow_bottom_9patch" format="reference"/>
