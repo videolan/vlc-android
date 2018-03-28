@@ -34,8 +34,8 @@ import org.videolan.vlc.viewmodels.VideosProvider
 class VideoBrowserFragment : CategoriesFragment<VideosProvider>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         provider = VideosProvider.get(this, null, 0, Medialibrary.SORT_ALPHA)
         provider.categories.observe(this, Observer { update(it) })
+        super.onCreate(savedInstanceState)
     }
 }

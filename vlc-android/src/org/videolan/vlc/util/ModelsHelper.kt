@@ -8,6 +8,7 @@ import org.videolan.medialibrary.interfaces.MediaAddedCb
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.viewmodels.BaseModel
 
 object ModelsHelper {
 
@@ -151,5 +152,22 @@ object EmptyPBSCallback : PlaybackService.Callback {
     override fun updateProgress() {}
     override fun onMediaEvent(event: Media.Event?) {}
     override fun onMediaPlayerEvent(event: MediaPlayer.Event?) {}
+}
 
+interface RefreshModel {
+    fun refresh() : Boolean
+}
+
+fun <T : MediaLibraryItem> BaseModel<T>.canSortBy(sort: Int) = when(sort) {
+    Medialibrary.SORT_DEFAULT -> true
+    Medialibrary.SORT_ALPHA -> canSortByName()
+    Medialibrary.SORT_DURATION -> canSortByDuration()
+    Medialibrary.SORT_INSERTIONDATE -> canSortByInsertionDate()
+    Medialibrary.SORT_LASTMODIFICATIONDATE -> canSortByLastModified()
+    Medialibrary.SORT_RELEASEDATE -> canSortByReleaseDate()
+    Medialibrary.SORT_FILESIZE -> canSortByFileSize()
+    Medialibrary.SORT_ARTIST -> canSortByArtist()
+    Medialibrary.SORT_ALBUM -> canSortByAlbum()
+    Medialibrary.SORT_PLAYCOUNT -> canSortByPlayCount()
+    else -> false
 }

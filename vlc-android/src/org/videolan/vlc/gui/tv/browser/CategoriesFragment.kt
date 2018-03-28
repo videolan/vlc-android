@@ -35,7 +35,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.CardPresenter
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
-import org.videolan.vlc.viewmodels.RefreshModel
+import org.videolan.vlc.util.RefreshModel
 
 private const val TAG = "VLC/CategoriesFragment"
 private const val SELECTED_ITEM = "selected"
@@ -46,6 +46,7 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
     private val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
     private lateinit var categoryRows: Map<String, ListRow>
     lateinit var provider: T
+    private var restart = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +68,8 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
     override fun onStart() {
         super.onStart()
         if (this::selecteditem.isInitialized) TvUtil.updateBackground(backgroundManager, selecteditem)
-        refresh()
+        if (restart) refresh()
+        restart = true
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -88,7 +90,7 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
     }
 
     override fun refresh() {
-        provider.refresh()
+        if (this::provider.isInitialized) provider.refresh()
     }
 
     override fun updateList() {}

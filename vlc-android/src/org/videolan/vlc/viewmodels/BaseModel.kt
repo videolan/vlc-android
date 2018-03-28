@@ -31,9 +31,7 @@ import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.util.FilterDelegate
-import org.videolan.vlc.util.LiveDataset
-import org.videolan.vlc.util.ModelsHelper
+import org.videolan.vlc.util.*
 
 abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
 
@@ -127,20 +125,6 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
         }
     }
 
-    private fun canSortBy(sort: Int) = when(sort) {
-        Medialibrary.SORT_DEFAULT -> true
-        Medialibrary.SORT_ALPHA -> canSortByName()
-        Medialibrary.SORT_DURATION -> canSortByDuration()
-        Medialibrary.SORT_INSERTIONDATE -> canSortByInsertionDate()
-        Medialibrary.SORT_LASTMODIFICATIONDATE -> canSortByLastModified()
-        Medialibrary.SORT_RELEASEDATE -> canSortByReleaseDate()
-        Medialibrary.SORT_FILESIZE -> canSortByFileSize()
-        Medialibrary.SORT_ARTIST -> canSortByArtist()
-        Medialibrary.SORT_ALBUM -> canSortByAlbum()
-        Medialibrary.SORT_PLAYCOUNT -> canSortByPlayCount()
-        else -> false
-    }
-
     protected open suspend fun updateList() {}
 
     protected abstract fun fetch()
@@ -154,7 +138,3 @@ data class MediaAddition(val media: MediaLibraryItem) : Update()
 data class Sort(val sort: Int) : Update()
 data class Remove(val media: MediaLibraryItem) : Update()
 data class Filter(val query: String?) : Update()
-
-interface RefreshModel {
-    fun refresh() : Boolean
-}
