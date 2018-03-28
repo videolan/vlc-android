@@ -71,6 +71,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var otherAdapter: ArrayObjectAdapter
     private lateinit var settings: SharedPreferences
     private var selectedItem: Any? = null
+    private var restart = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,7 +137,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     override fun onStart() {
         super.onStart()
-        historyProvider.refresh()
+        if (restart) {
+            historyProvider.refresh()
+            videoProvider.refresh()
+        } else restart = true
         if (selectedItem is MediaWrapper) TvUtil.updateBackground(backgroundManager, selectedItem)
     }
 

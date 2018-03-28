@@ -46,6 +46,7 @@ import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 
 import java.util.ArrayList;
@@ -55,11 +56,6 @@ import java.util.List;
 public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAdapter.ViewHolder> {
 
     public final static String TAG = "VLC/VideoListAdapter";
-
-    final static int UPDATE_SELECTION = 0;
-    final static int UPDATE_THUMB = 1;
-    final static int UPDATE_TIME = 2;
-    final static int UPDATE_SEEN = 3;
 
     private boolean mListMode = false;
     private IEventsHandler mEventsHandler;
@@ -101,20 +97,19 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
-        if (payloads.isEmpty())
-            onBindViewHolder(holder, position);
+        if (payloads.isEmpty()) onBindViewHolder(holder, position);
         else {
             final MediaWrapper media = getDataset().get(position);
             for (Object data : payloads) {
                 switch ((int) data) {
-                    case UPDATE_THUMB:
+                    case Constants.UPDATE_THUMB:
                         AsyncImageLoader.loadPicture(holder.thumbView, media);
                         break;
-                    case UPDATE_TIME:
-                    case UPDATE_SEEN:
+                    case Constants.UPDATE_TIME:
+                    case Constants.UPDATE_SEEN:
                         fillView(holder, media);
                         break;
-                    case UPDATE_SELECTION:
+                    case Constants.UPDATE_SELECTION:
                         holder.selectView(media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
                         break;
                 }
@@ -347,11 +342,11 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
             final MediaWrapper oldItem = oldList.get(oldItemPosition);
             final MediaWrapper newItem = newList.get(newItemPosition);
             if (oldItem.getTime() != newItem.getTime())
-                return UPDATE_TIME;
+                return Constants.UPDATE_TIME;
             if (!TextUtils.equals(oldItem.getArtworkMrl(), newItem.getArtworkMrl()))
-                return UPDATE_THUMB;
+                return Constants.UPDATE_THUMB;
             else
-                return UPDATE_SEEN;
+                return Constants.UPDATE_SEEN;
         }
     }
 

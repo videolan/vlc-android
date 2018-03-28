@@ -390,7 +390,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
             if (mw.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
                 mw.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
                 mAdapter.resetSelectionCount();
-                mAdapter.notifyItemChanged(i, VideoListAdapter.UPDATE_SELECTION);
+                mAdapter.notifyItemChanged(i, Constants.UPDATE_SELECTION);
             }
         }
     }
@@ -425,7 +425,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         if (mActionMode != null) {
             item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
             mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-            mAdapter.notifyItemChanged(position, VideoListAdapter.UPDATE_SELECTION);
+            mAdapter.notifyItemChanged(position, Constants.UPDATE_SELECTION);
             invalidateActionMode();
             return;
         }
@@ -451,7 +451,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
             return false;
         item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
         mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-        mAdapter.notifyItemChanged(position, VideoListAdapter.UPDATE_SELECTION);
+        mAdapter.notifyItemChanged(position, Constants.UPDATE_SELECTION);
         startActionMode();
         return true;
     }
@@ -473,6 +473,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
 
     public void updateSeenMediaMarker() {
         mAdapter.setSeenMediaMarkerVisible(PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("media_seen", true));
-        mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount()-1, VideoListAdapter.UPDATE_SEEN);
+        mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount()-1, Constants.UPDATE_SEEN);
     }
 }

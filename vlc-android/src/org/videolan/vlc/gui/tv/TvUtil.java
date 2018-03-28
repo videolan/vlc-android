@@ -267,7 +267,22 @@ public class TvUtil {
 
         @Override
         public boolean areContentsTheSame(@NonNull MediaLibraryItem oldItem, @NonNull MediaLibraryItem newItem) {
-            return true;
+            if (oldItem.getItemType() == MediaLibraryItem.TYPE_DUMMY) return TextUtils.equals(oldItem.getDescription(), newItem.getDescription());
+            if (oldItem.getItemType() != MediaLibraryItem.TYPE_MEDIA) return true;
+            final MediaWrapper oldMedia = (MediaWrapper) oldItem;
+            final MediaWrapper newMedia = (MediaWrapper) newItem;
+            return oldMedia == newMedia || (oldMedia.getTime() == newMedia.getTime()
+                    && TextUtils.equals(oldMedia.getArtworkMrl(), newMedia.getArtworkMrl())
+                    && oldMedia.getSeen() == newMedia.getSeen());
+        }
+
+        public Object getChangePayload(@NonNull MediaLibraryItem oldItem, @NonNull MediaLibraryItem newItem) {
+            if (oldItem.getItemType() == MediaLibraryItem.TYPE_DUMMY) return Constants.UPDATE_DESCRIPTION;
+            final MediaWrapper oldMedia = (MediaWrapper) oldItem;
+            final MediaWrapper newMedia = (MediaWrapper) newItem;
+            if (oldMedia.getTime() != newMedia.getTime()) return Constants.UPDATE_TIME;
+            if (!TextUtils.equals(oldMedia.getArtworkMrl(), newMedia.getArtworkMrl())) return Constants.UPDATE_THUMB;
+            else return Constants.UPDATE_SEEN;
         }
     };
 

@@ -114,4 +114,11 @@ public class Constants {
     public static final String AUDIO_CATEGORY = "category";
     public static final String AUDIO_ITEM = "item";
     public final static String KEY_GROUP = "key_group";
+
+    // Items updates
+    public final static int UPDATE_SELECTION = 0;
+    public final static int UPDATE_THUMB = 1;
+    public final static int UPDATE_TIME = 2;
+    public final static int UPDATE_SEEN = 3;
+    public final static int UPDATE_DESCRIPTION = 4;
 }

@@ -38,12 +38,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.util.Constants;
+
+import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class CardPresenter extends Presenter {
@@ -146,6 +150,36 @@ public class CardPresenter extends Presenter {
             holder.mCardView.setTitleText((String) item);
             holder.mCardView.setContentText("");
             holder.updateCardViewImage(sDefaultCardImage);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item, List<Object> payloads) {
+        if (payloads.isEmpty()) onBindViewHolder(viewHolder, item);
+        else {
+            final ViewHolder holder = ((ViewHolder) viewHolder);
+            final MediaLibraryItem media = (MediaLibraryItem) item;
+            for (Object data : payloads) {
+                switch ((int) data) {
+                    case Constants.UPDATE_DESCRIPTION:
+                        holder.mCardView.setContentText(media.getDescription());
+                        break;
+                    case Constants.UPDATE_THUMB:
+                        AsyncImageLoader.loadPicture(holder.mCardView, media);
+                        break;
+                    case Constants.UPDATE_TIME:
+                        final MediaWrapper mediaWrapper = (MediaWrapper) item;
+                        Tools.setMediaDescription(mediaWrapper);
+                        holder.mCardView.setContentText(mediaWrapper.getDescription());
+                        if (mediaWrapper.getTime() > 0) break; //update seen check if time is reset to 0
+                    case Constants.UPDATE_SEEN:
+                        final MediaWrapper mw = (MediaWrapper) item;
+                        if (mIsSeenMediaMarkerVisible && mw.getType() == MediaWrapper.TYPE_VIDEO
+                                && mw.getSeen() > 0L)
+                            holder.mCardView.setBadgeImage(ContextCompat.getDrawable(mContext, R.drawable.ic_seen_tv_normal));
+                        break;
+                }
+            }
         }
     }
 
