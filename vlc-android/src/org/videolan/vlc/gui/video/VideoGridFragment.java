@@ -75,7 +75,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
 
     private final static String TAG = "VLC/VideoListFragment";
 
-    private final static String KEY_GROUP = "key_group";
     private VideoListAdapter mAdapter;
 
     private AutoFitRecyclerView mGridView;
@@ -90,7 +89,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAdapter = new VideoListAdapter(this);
-        if (savedInstanceState != null) setGroup(savedInstanceState.getString(KEY_GROUP));
+        if (savedInstanceState != null) setGroup(savedInstanceState.getString(Constants.KEY_GROUP));
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         final int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
         mProvider = ViewModelProviders.of(requireActivity(), new VideosProvider.Factory(mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosProvider.class);
@@ -169,7 +168,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(KEY_GROUP, mGroup);
+        outState.putString(Constants.KEY_GROUP, mGroup);
         VLCApplication.storeData("list"+getTitle(), mAdapter.getAll());
     }
 

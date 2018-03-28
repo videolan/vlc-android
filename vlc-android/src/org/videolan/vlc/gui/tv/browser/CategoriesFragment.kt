@@ -23,7 +23,9 @@
 
 package org.videolan.vlc.gui.tv.browser
 
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v17.leanback.app.BackgroundManager
 import android.support.v17.leanback.app.BrowseSupportFragment
 import android.support.v17.leanback.widget.*
@@ -47,6 +49,7 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
     private lateinit var categoryRows: Map<String, ListRow>
     lateinit var provider: T
     private var restart = false
+    protected val preferences: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(requireContext()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

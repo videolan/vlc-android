@@ -44,6 +44,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.media.MediaGroup;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class CardPresenter extends Presenter {
@@ -75,11 +76,11 @@ public class CardPresenter extends Presenter {
             mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
         }
 
-        void updateCardViewImage(MediaLibraryItem mediaLibraryItem) {
-            if (TextUtils.isEmpty(mediaLibraryItem.getArtworkMrl())) {
+        void updateCardViewImage(MediaLibraryItem item) {
+            if (TextUtils.isEmpty(item.getArtworkMrl()) && !(item.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_GROUP)) {
                 mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
-                mCardView.setMainImage(new BitmapDrawable(mCardView.getResources(), getDefaultImage(mediaLibraryItem)));
-            } else AsyncImageLoader.loadPicture(mCardView, mediaLibraryItem);
+                mCardView.setMainImage(new BitmapDrawable(mCardView.getResources(), getDefaultImage(item)));
+            } else AsyncImageLoader.loadPicture(mCardView, item);
         }
 
         private Bitmap getDefaultImage(MediaLibraryItem mediaLibraryItem) {
@@ -104,7 +105,6 @@ public class CardPresenter extends Presenter {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
-
         ImageCardView cardView = new ImageCardView(mContext);
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
@@ -115,24 +115,25 @@ public class CardPresenter extends Presenter {
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, final Object item) {
-        ViewHolder holder = ((ViewHolder) viewHolder);
+        final ViewHolder holder = ((ViewHolder) viewHolder);
         if (item instanceof MediaWrapper) {
-            final MediaWrapper mediaWrapper = (MediaWrapper) item;
-            holder.mCardView.setTitleText(mediaWrapper.getTitle());
-            holder.mCardView.setContentText(mediaWrapper.getDescription());
-            if (mediaWrapper.getType() == MediaWrapper.TYPE_GROUP)
-                holder.updateCardViewImage(ContextCompat.getDrawable(mContext, R.drawable.ic_video_collection_big));
-            else {
-                holder.updateCardViewImage(mediaWrapper);
-                if (mIsSeenMediaMarkerVisible
-                        && mediaWrapper.getType() == MediaWrapper.TYPE_VIDEO
-                        && mediaWrapper.getSeen() > 0L)
-                    holder.mCardView.setBadgeImage(ContextCompat.getDrawable(mContext, R.drawable.ic_seen_tv_normal));
+            final MediaWrapper mw = (MediaWrapper) item;
+            holder.mCardView.setTitleText(mw.getTitle());
+            if (mw.getType() == MediaWrapper.TYPE_GROUP) {
+                MediaGroup mediaGroup = (MediaGroup) mw;
+                final int size = mediaGroup.size();
+                mediaGroup.setDescription(VLCApplication.getAppResources().getQuantityString(R.plurals.videos_quantity, size, size));
             }
+            holder.mCardView.setContentText(mw.getDescription());
+            holder.updateCardViewImage(mw);
+            if (mIsSeenMediaMarkerVisible
+                    && mw.getType() == MediaWrapper.TYPE_VIDEO
+                    && mw.getSeen() > 0L)
+                holder.mCardView.setBadgeImage(ContextCompat.getDrawable(mContext, R.drawable.ic_seen_tv_normal));
             holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    TvUtil.showMediaDetail(v.getContext(), mediaWrapper);
+                    TvUtil.showMediaDetail(v.getContext(), mw);
                     return true;
                 }
             });

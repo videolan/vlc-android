@@ -113,4 +113,5 @@ public class Constants {
 
     public static final String AUDIO_CATEGORY = "category";
     public static final String AUDIO_ITEM = "item";
+    public final static String KEY_GROUP = "key_group";
 }

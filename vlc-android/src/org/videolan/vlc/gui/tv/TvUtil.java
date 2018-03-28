@@ -86,16 +86,22 @@ public class TvUtil {
 
     public static void openMedia(Activity activity, Object item , Row row){
         if (item instanceof MediaWrapper) {
-            MediaWrapper mediaWrapper = (MediaWrapper) item;
-            if (mediaWrapper.getType() == MediaWrapper.TYPE_AUDIO) {
-                showMediaDetail(activity, mediaWrapper);
-            } else if (mediaWrapper.getType() == MediaWrapper.TYPE_DIR){
-                Intent intent = new Intent(activity, VerticalGridActivity.class);
+            MediaWrapper mw = (MediaWrapper) item;
+            if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
+                showMediaDetail(activity, mw);
+            } else if (mw.getType() == MediaWrapper.TYPE_DIR) {
+                final Intent intent = new Intent(activity, VerticalGridActivity.class);
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, Constants.HEADER_NETWORK);
-                intent.setData(mediaWrapper.getUri());
+                intent.setData(mw.getUri());
+                activity.startActivity(intent);
+            } else if (mw.getType() == MediaWrapper.TYPE_GROUP) {
+                final Intent intent = new Intent(activity, VerticalGridActivity.class);
+                intent.putExtra(MainTvActivity.BROWSER_TYPE, Constants.HEADER_VIDEO);
+                final String title = mw.getTitle().substring(mw.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
+                intent.putExtra(Constants.KEY_GROUP, title);
                 activity.startActivity(intent);
             } else {
-                MediaUtils.openMedia(activity, mediaWrapper);
+                MediaUtils.openMedia(activity, mw);
             }
         } else if (item instanceof DummyItem){
             if (((DummyItem) item).getId() == Constants.HEADER_STREAM) {

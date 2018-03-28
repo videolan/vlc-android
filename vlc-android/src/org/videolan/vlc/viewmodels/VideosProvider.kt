@@ -57,14 +57,16 @@ open class VideosProvider(private val group: String?, private val minGroupLen: I
         dataset.value = withContext(CommonPool) {
             val list = medialibrary.getVideos(sort, desc)
             val displayList = mutableListOf<MediaWrapper>()
-            if (group !== null) {
-                val loGroup = group.toLowerCase()
-                for (item in list) {
-                    val title = item.title.toLowerCase().let { if (it.startsWith("the")) it.substring(4) else it }
-                    if (title.startsWith(loGroup)) displayList.add(item)
+            when {
+                group !== null -> {
+                    val loGroup = group.toLowerCase()
+                    for (item in list) {
+                        val title = item.title.toLowerCase().let { if (it.startsWith("the")) it.substring(4) else it }
+                        if (title.startsWith(loGroup)) displayList.add(item)
+                    }
                 }
-            } else {
-                MediaGroup.group(list, minGroupLen).mapTo(displayList) { it.media }
+                minGroupLen > 0 -> MediaGroup.group(list, minGroupLen).mapTo(displayList) { it.media }
+                else -> displayList.addAll(list)
             }
             displayList
         }
