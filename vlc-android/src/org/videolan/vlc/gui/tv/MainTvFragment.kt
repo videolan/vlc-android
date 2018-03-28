@@ -36,7 +36,6 @@ import android.support.v4.content.ContextCompat
 import android.view.View
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
-import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -244,19 +243,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private fun setupProviders(showHistory: Boolean) {
         videoProvider = VideosProvider.get(this, null, 0, Medialibrary.SORT_INSERTIONDATE)
         videoProvider.dataset.observe(this, Observer {
-            it?.let {
-                val list = mutableListOf<Any>()
-                list.add(DummyItem(Constants.HEADER_VIDEO, "All videos", "${it.size} ${getString(R.string.videos)}"))
-                // Update video section
-                if (!it.isEmpty()) {
-                    for ((index, video) in it.withIndex()) {
-                        if (index == NUM_ITEMS_PREVIEW) break
-                        Tools.setMediaDescription(video)
-                        list.add(video)
-                    }
-                }
-                videoAdapter.setItems(list, diffCallback)
-            }
+            updateVideos(it)
             (requireActivity() as MainTvActivity).hideLoading()
         })
         if (showHistory) {
@@ -264,5 +251,17 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             historyProvider.dataset.observe(this, Observer { historyAdapter.setItems(it!!, diffCallback) })
         }
         ExternalMonitor.connected.observe(this, Observer { updateBrowsers() })
+    }
+
+    private fun updateVideos(videos: List<MediaWrapper>?) {
+        videos?.let {
+            val list = mutableListOf<Any>()
+            list.add(DummyItem(Constants.HEADER_VIDEO, getString(R.string.videos_all), resources.getQuantityString(R.plurals.videos_quantity, it.size, it.size)))
+            if (!it.isEmpty()) for ((index, video) in it.withIndex()) {
+                if (index == NUM_ITEMS_PREVIEW) break
+                list.add(video)
+            }
+            videoAdapter.setItems(list, diffCallback)
+        }
     }
 }
