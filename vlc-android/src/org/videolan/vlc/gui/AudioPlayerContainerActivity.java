@@ -113,7 +113,6 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     private void initAudioPlayer() {
         ((ViewStubCompat)findViewById(R.id.audio_player_stub)).inflate();
         mAudioPlayer = (AudioPlayer) getSupportFragmentManager().findFragmentById(R.id.audio_player);
-        mAudioPlayer.setUserVisibleHint(false);
         mBottomSheetBehavior = BottomSheetBehavior.from(mAudioPlayerContainer);
         mBottomSheetBehavior.setPeekHeight(getResources().getDimensionPixelSize(R.dimen.player_peek_height));
         mBottomSheetBehavior.setBottomSheetCallback(mAudioPlayerBottomSheetCallback);
