@@ -122,7 +122,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     }
 
     private void initAudioPlayer() {
-        ((ViewStubCompat)findViewById(R.id.audio_player_stub)).inflate();
+        findViewById(R.id.audio_player_stub).setVisibility(View.VISIBLE);
         mAudioPlayer = (AudioPlayer) getSupportFragmentManager().findFragmentById(R.id.audio_player);
         mBottomSheetBehavior = BottomSheetBehavior.from(mAudioPlayerContainer);
         mBottomSheetBehavior.setPeekHeight(getResources().getDimensionPixelSize(R.dimen.player_peek_height));

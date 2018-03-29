@@ -428,7 +428,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {}
 
     fun clearSearch(): Boolean {
-        playlistModel.filter(null)
+        if (this::playlistModel.isInitialized) playlistModel.filter(null)
         return hideSearchField()
     }
 
