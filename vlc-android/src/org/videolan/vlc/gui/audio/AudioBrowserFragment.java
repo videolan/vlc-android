@@ -167,7 +167,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
 
     private void setupObservers() {
         artistProvider = ViewModelProviders.of(requireActivity()).get(ArtistProvider.class);
-        albumProvider = ViewModelProviders.of(requireActivity()).get(AlbumProvider.class);
+        albumProvider = ViewModelProviders.of(requireActivity(), new AlbumProvider.Factory(true, null)).get(AlbumProvider.class);
         tracksProvider = ViewModelProviders.of(requireActivity()).get(TracksProvider.class);
         genresprovider = ViewModelProviders.of(requireActivity()).get(Genresprovider.class);
         playlistsProvider = ViewModelProviders.of(requireActivity()).get(PlaylistsProvider.class);

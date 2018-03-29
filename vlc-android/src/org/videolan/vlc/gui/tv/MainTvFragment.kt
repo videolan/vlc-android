@@ -103,7 +103,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         // Audio
         categoriesAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val musicHeader = HeaderItem(Constants.HEADER_CATEGORIES, getString(R.string.audio))
-        categoriesAdapter.add(DummyItem(Constants.CATEGORY_ARTISTS, getString(R.string.artists), "Hello"))
+        categoriesAdapter.add(DummyItem(Constants.CATEGORY_ARTISTS, getString(R.string.artists), ""))
         categoriesAdapter.add(DummyItem(Constants.CATEGORY_ALBUMS, getString(R.string.albums), ""))
         categoriesAdapter.add(DummyItem(Constants.CATEGORY_GENRES, getString(R.string.genres), ""))
         categoriesAdapter.add(DummyItem(Constants.CATEGORY_SONGS, getString(R.string.songs), ""))

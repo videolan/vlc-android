@@ -99,7 +99,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         mItem = (MediaLibraryItem) (savedInstanceState != null ?
                             savedInstanceState.getParcelable(AudioBrowserFragment.TAG_ITEM) :
                             getArguments().getParcelable(AudioBrowserFragment.TAG_ITEM));
-        albumProvider = ViewModelProviders.of(this, new AlbumProvider.Factory(mItem)).get(AlbumProvider.class);
+        albumProvider = ViewModelProviders.of(this, new AlbumProvider.Factory(true, mItem)).get(AlbumProvider.class);
         tracksProvider = ViewModelProviders.of(this, new TracksProvider.Factory(mItem, true)).get(TracksProvider.class);
         mProvidersList = new AudioModel[] {albumProvider, tracksProvider};
     }

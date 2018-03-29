@@ -171,9 +171,9 @@ public class SearchFragment extends SearchSupportFragment implements SearchSuppo
             @Override
             public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
                 if (item instanceof MediaWrapper)
-                    TvUtil.openMedia(mActivity, item, row);
+                    TvUtil.INSTANCE.openMedia(mActivity, item, row);
                 else
-                    TvUtil.openAudioCategory(mActivity, (MediaLibraryItem) item);
+                    TvUtil.INSTANCE.openAudioCategory(mActivity, (MediaLibraryItem) item);
                 getActivity().finish();
             }
         };

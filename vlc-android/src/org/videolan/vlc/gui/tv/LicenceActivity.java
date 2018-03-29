@@ -19,6 +19,6 @@ public class LicenceActivity extends FragmentActivity {
         licence.loadData(Util.readAsset("licence.htm", "").replace("!COMMITID!", revision), "text/html", "UTF8");
         setContentView(licence);
         ((View)licence.getParent()).setBackgroundColor(Color.LTGRAY);
-        TvUtil.applyOverscanMargin(this);
+        TvUtil.INSTANCE.applyOverscanMargin(this);
     }
 }

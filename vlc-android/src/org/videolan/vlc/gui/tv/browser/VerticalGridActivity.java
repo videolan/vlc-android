@@ -41,6 +41,7 @@ import org.videolan.vlc.util.Constants;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class VerticalGridActivity extends BaseTvActivity implements BrowserActivityInterface {
 
+    private static final String TAG = "VLC/VerticalGridActivity";
     private static final int GRID_LIMIT = 24;
     BrowserFragmentInterface mFragment;
     ProgressBar mContentLoadingProgressBar;
@@ -64,23 +65,27 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
                 }
             }
             else if (type == Constants.HEADER_CATEGORIES) {
-                if (getIntent().getLongExtra(Constants.AUDIO_CATEGORY, Constants.CATEGORY_SONGS) == Constants.CATEGORY_SONGS &&
+                final long audioCategory = getIntent().getLongExtra(Constants.AUDIO_CATEGORY, Constants.CATEGORY_SONGS);
+                if (audioCategory == Constants.CATEGORY_SONGS &&
                         VLCApplication.getMLInstance().getAudioCount() > GRID_LIMIT) {
                     mFragment = new SongsBrowserFragment();
                 } else {
-                    mFragment = new MusicFragment();
-                    Bundle args = new Bundle();
+                    if (audioCategory == Constants.CATEGORY_ARTISTS) mFragment = new ArtistsFragment();
+                    else if (audioCategory == Constants.CATEGORY_ALBUMS) mFragment = new AlbumsFragment();
+                    else if (audioCategory == Constants.CATEGORY_GENRES) mFragment = new GenresFragment();
+                    else mFragment = new MusicFragment();
+                    final Bundle args = new Bundle();
                     args.putParcelable(Constants.AUDIO_ITEM, getIntent().getParcelableExtra(Constants.AUDIO_ITEM));
                     ((Fragment) mFragment).setArguments(args);
                 }
             } else if (type == Constants.HEADER_NETWORK) {
                 Uri uri = getIntent().getData();
-                if (uri == null) uri = getIntent().getParcelableExtra(SortedBrowserFragment.KEY_URI);
+                if (uri == null) uri = getIntent().getParcelableExtra(Constants.KEY_URI);
                 if (uri == null) mFragment = new BrowserGridFragment();
                 else mFragment = new NetworkBrowserFragment();
-            } else if (type == Constants.HEADER_DIRECTORIES)
+            } else if (type == Constants.HEADER_DIRECTORIES) {
                 mFragment = new DirectoryBrowserFragment();
-            else {
+            }  else {
                 finish();
                 return;
             }

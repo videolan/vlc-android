@@ -24,22 +24,54 @@
 package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 
-import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
+import org.videolan.vlc.viewmodels.browser.NetworkProvider;
+
+import java.util.List;
+import java.util.Map;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class NetworkBrowserFragment extends MediaSortedFragment {
+public class NetworkBrowserFragment extends MediaSortedFragment<NetworkProvider> {
 
     public static final String TAG = "VLC/NetworkBrowserFragment";
     boolean goBack = false;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        provider = ViewModelProviders.of(this, new NetworkProvider.Factory(mUri.toString())).get(NetworkProvider.class);
+        provider.getCategories().observe(this, new Observer<Map<String, List<MediaLibraryItem>>>() {
+            @Override
+            public void onChanged(@Nullable Map<String, List<MediaLibraryItem>> stringListMap) {
+                if (stringListMap != null) update(stringListMap);
+            }
+        });
+        ExternalMonitor.connected.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean connected) {
+                refresh(connected);
+            }
+        });
+    }
+
+    public void refresh(boolean connected) {
+        if (connected) refresh();
+        //TODO Disconnected view
+    }
 
     @Override
     public void onStart() {
@@ -50,8 +82,7 @@ public class NetworkBrowserFragment extends MediaSortedFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (goBack)
-            getActivity().finish();
+        if (goBack) requireActivity().finish();
     }
 
     @Override
@@ -60,32 +91,10 @@ public class NetworkBrowserFragment extends MediaSortedFragment {
         LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
     }
 
-    protected void browseRoot() {
-        runOnBrowserThread(new Runnable() {
-            @Override
-            public void run() {
-                mMediaBrowser.discoverNetworkShares();
-            }
-        });
-    }
-
-    protected void addMedia(MediaWrapper mw){
-        if (mUri == null)
-            mw.setDescription(mw.getUri().getScheme());
-        String letter = mw.getTitle().substring(0, 1).toUpperCase();
-        if (mMediaItemMap.containsKey(letter)) {
-            mMediaItemMap.get(letter).mediaList.add(mw);
-        } else {
-            ListItem item = new ListItem(letter, mw);
-            mMediaItemMap.put(letter, item);
-        }
-    }
-
     private BroadcastReceiver mLocalReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (!isResumed())
-                goBack = true;
+            if (!isResumed()) goBack = true;
         }
     };
 }

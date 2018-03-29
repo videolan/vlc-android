@@ -212,8 +212,8 @@ public class BrowserGridFragment extends GridFragment implements MediaBrowser.Ev
     public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item, RowPresenter.ViewHolder rowViewHolder, Row row) {
         MediaWrapper media = (MediaWrapper) item;
         if (media.getType() == MediaWrapper.TYPE_DIR)
-            TvUtil.browseFolder(getActivity(), Constants.HEADER_NETWORK, ((MediaWrapper) item).getUri());
+            TvUtil.INSTANCE.browseFolder(getActivity(), Constants.HEADER_NETWORK, ((MediaWrapper) item).getUri());
         else
-            TvUtil.openMedia(getActivity(), item, null);
+            TvUtil.INSTANCE.openMedia(getActivity(), item, null);
     }
 }

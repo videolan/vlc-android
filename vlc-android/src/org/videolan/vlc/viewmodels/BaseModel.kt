@@ -33,6 +33,7 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.*
 
+private const val TAG = "VLC/BaseModel"
 abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
 
     var sort = Medialibrary.SORT_ALPHA
@@ -59,7 +60,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
     val categories by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<Map<String, List<MediaLibraryItem>>>().apply {
             addSource(dataset, {
-                launch(UI, CoroutineStart.UNDISPATCHED) { value = withContext(CommonPool) { ModelsHelper.splitList(sort, it!!) } }
+                launch(UI, CoroutineStart.UNDISPATCHED) { value = withContext(CommonPool) { ModelsHelper.splitList(sort, it!!.toList()) } }
             })
         }
     }

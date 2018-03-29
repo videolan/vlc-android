@@ -121,4 +121,9 @@ public class Constants {
     public final static int UPDATE_TIME = 2;
     public final static int UPDATE_SEEN = 3;
     public final static int UPDATE_DESCRIPTION = 4;
+
+    public static final String KEY_URI = "uri";
+    public static final String SELECTED_ITEM = "selected";
+    public static final String CURRENT_BROWSER_LIST = "CURRENT_BROWSER_LIST";
+    public static final String CURRENT_BROWSER_MAP = "CURRENT_BROWSER_MAP";
 }

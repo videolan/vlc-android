@@ -69,7 +69,7 @@ public class SecondaryActivity extends ContentActivity {
                 (CoordinatorLayout.LayoutParams) fph.getLayoutParams();
 
         if (VLCApplication.showTvUi()) {
-            TvUtil.applyOverscanMargin(this);
+            TvUtil.INSTANCE.applyOverscanMargin(this);
             params.topMargin = getResources().getDimensionPixelSize(UiTools.getResourceFromAttribute(this, R.attr.actionBarSize));
         } else
             params.setBehavior(new AppBarLayout.ScrollingViewBehavior());

@@ -96,7 +96,7 @@ public class CardPresenter extends Presenter {
                 else
                     picture = BitmapFactory.decodeResource(res, R.drawable.ic_menu_network_big);
             } else picture = AudioUtil.readCoverBitmap(Uri.decode(mediaLibraryItem.getArtworkMrl()), res.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width));
-            if (picture == null) picture = BitmapFactory.decodeResource(res, TvUtil.getIconRes(mediaLibraryItem));
+            if (picture == null) picture = BitmapFactory.decodeResource(res, TvUtil.INSTANCE.getIconRes(mediaLibraryItem));
             return picture;
         }
 
@@ -131,7 +131,7 @@ public class CardPresenter extends Presenter {
             holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    TvUtil.showMediaDetail(v.getContext(), mw);
+                    TvUtil.INSTANCE.showMediaDetail(v.getContext(), mw);
                     return true;
                 }
             });

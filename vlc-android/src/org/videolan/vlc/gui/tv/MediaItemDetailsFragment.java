@@ -49,10 +49,10 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
-import org.videolan.vlc.gui.tv.browser.SortedBrowserFragment;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 
 import java.util.List;
@@ -92,7 +92,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     }
 
     public void onPause() {
-        TvUtil.releaseBackgroundManager(mBackgroundManager);
+        TvUtil.INSTANCE.releaseBackgroundManager(mBackgroundManager);
         super.onPause();
         if (mService != null && mService.isPlaying())
             mService.stop();
@@ -121,7 +121,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         mMediaWrapper = media;
         setTitle(media.getTitle());
 
-        final List<MediaWrapper> mediaList = (List<MediaWrapper>) VLCApplication.getData(SortedBrowserFragment.CURRENT_BROWSER_LIST);
+        final List<MediaWrapper> mediaList = (List<MediaWrapper>) VLCApplication.getData(Constants.CURRENT_BROWSER_LIST);
         // Attach your media item details presenter to the row presenter:
         FullWidthDetailsOverviewRowPresenter rowPresenter = new FullWidthDetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
 
@@ -140,7 +140,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         PlaybackServiceFragment.registerPlaybackService(MediaItemDetailsFragment.this, MediaItemDetailsFragment.this);
                         break;
                     case ID_PLAY:
-                        TvUtil.playMedia(getActivity(), media);
+                        TvUtil.INSTANCE.playMedia(getActivity(), media);
                         getActivity().finish();
                         break;
                     case ID_FAVORITE_ADD:
@@ -158,7 +158,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         Toast.makeText(VLCApplication.getAppContext(), R.string.favorite_removed, Toast.LENGTH_SHORT).show();
                         break;
                     case ID_BROWSE:
-                        TvUtil.openMedia(getActivity(), media, null);
+                        TvUtil.INSTANCE.openMedia(getActivity(), media, null);
                         break;
                     case ID_DL_SUBS:
                         MediaUtils.getSubs(getActivity(), media);

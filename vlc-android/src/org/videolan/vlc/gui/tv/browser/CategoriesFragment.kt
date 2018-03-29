@@ -37,10 +37,11 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.CardPresenter
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
+import org.videolan.vlc.util.Constants
+import org.videolan.vlc.util.Constants.SELECTED_ITEM
 import org.videolan.vlc.util.RefreshModel
 
 private const val TAG = "VLC/CategoriesFragment"
-private const val SELECTED_ITEM = "selected"
 
 open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener, BrowserFragmentInterface {
     private lateinit var selecteditem: MediaLibraryItem
@@ -88,8 +89,8 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
 
     override fun onItemClicked(viewHolder: Presenter.ViewHolder, item: Any, viewHolder1: RowPresenter.ViewHolder, row: Row) {
         val media = item as MediaWrapper
-        if (media.type == MediaWrapper.TYPE_DIR) TvUtil.browseFolder(activity, getCategoryId(), item.uri)
-        else TvUtil.openMedia(activity, item, null)
+        if (media.type == MediaWrapper.TYPE_DIR) TvUtil.browseFolder(requireActivity(), getCategoryId(), item.uri)
+        else TvUtil.openMedia(requireActivity(), item, null)
     }
 
     override fun refresh() {
@@ -115,11 +116,9 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
         return fromCache ?: ListRow(HeaderItem(0, key), ArrayObjectAdapter(CardPresenter(activity)))
     }
 
-    private fun getCategoryId(): Long {
-//        if (this is NetworkBrowserFragment)
-//            return Constants.HEADER_NETWORK
-//        else if (this is DirectoryBrowserFragment)
-//            return Constants.HEADER_DIRECTORIES
-        return -1
+    private fun getCategoryId() = when(this) {
+        is NetworkBrowserFragment ->  Constants.HEADER_NETWORK
+        is DirectoryBrowserFragment -> Constants.HEADER_DIRECTORIES
+        else -> -1
     }
 }

@@ -25,59 +25,38 @@
 package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.text.TextUtils;
 
+import org.jetbrains.annotations.Nullable;
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.tv.TvUtil;
+import org.videolan.vlc.viewmodels.audio.TracksProvider;
 
-import java.util.Collections;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class SongsBrowserFragment extends SortedBrowserFragment {
-
-    private MediaWrapper[] mSongs;
+public class SongsBrowserFragment extends CategoriesFragment<TracksProvider> {
 
     @Override
-    protected String getKey() {
-        return CURRENT_BROWSER_MAP+"songs";
-    }
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    @Override
-    protected void browse() {
-        VLCApplication.runBackground(new Runnable() {
+        provider = ViewModelProviders.of(this, new TracksProvider.Factory(null, false)).get(TracksProvider.class);
+        provider.getCategories().observe(this, new Observer<Map<String, List<MediaLibraryItem>>>() {
             @Override
-            public void run() {
-                mSongs = VLCApplication.getMLInstance().getAudio();
-                VLCApplication.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (int i = 0 ; i < mSongs.length ; ++i) {
-                            addMedia(mSongs[i]);
-                            mMediaIndex.put(mSongs[i].getLocation(), i);
-                        }
-                        sort();
-                    }
-                });
-            }
-        });
-    }
-
-    protected void sort(){
-        VLCApplication.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                mMediaItemMap = new TreeMap<>(mMediaItemMap); //sort sections
-                for (ListItem item : mMediaItemMap.values()) {
-                    Collections.sort(item.mediaList, MediaComparators.byName);
-                }
-                mHandler.sendEmptyMessage(UPDATE_DISPLAY);
+            public void onChanged(@Nullable Map<String, List<MediaLibraryItem>> stringListMap) {
+                if (stringListMap != null) update(stringListMap);
             }
         });
     }
@@ -89,13 +68,14 @@ public class SongsBrowserFragment extends SortedBrowserFragment {
             public void run() {
                 int position = 0;
                 String location = ((MediaWrapper)item).getLocation();
-                for (int i = 0; i < mSongs.length; ++i) {
-                    if (TextUtils.equals(location, mSongs[i].getLocation())) {
+                final ArrayList<MediaWrapper> songs = (ArrayList<MediaWrapper>)(ArrayList<?>)provider.getDataset().getValue();
+                for (int i = 0; i < songs.size(); ++i) {
+                    if (TextUtils.equals(location, songs.get(i).getLocation())) {
                         position = i;
                         break;
                     }
                 }
-                TvUtil.playAudioList(getActivity(), mSongs, position);
+                TvUtil.INSTANCE.playAudioList(getActivity(), songs, position);
             }
         });
     }

@@ -11,7 +11,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.ModelsHelper
 
 
-class AlbumProvider(val parent: MediaLibraryItem? = null): AudioModel(), Medialibrary.AlbumsAddedCb {
+class AlbumProvider(private val sections: Boolean, val parent: MediaLibraryItem? = null): AudioModel(), Medialibrary.AlbumsAddedCb {
 
     override fun canSortByDuration() = true
     override fun canSortByReleaseDate() = true
@@ -26,11 +26,12 @@ class AlbumProvider(val parent: MediaLibraryItem? = null): AudioModel(), Mediali
 
     override suspend fun updateList() {
         dataset.value = withContext(CommonPool) {
-            ModelsHelper.generateSections(sort, when (parent) {
+            val array = when (parent) {
                 is Artist -> parent.getAlbums(sort, desc)
                 is Genre -> parent.getAlbums(sort, desc)
                 else -> medialibrary.getAlbums(sort, desc)
-            })
+            }
+            (if (sections) ModelsHelper.generateSections(sort, array) else array.toList()).toMutableList()
         }
     }
 
@@ -44,10 +45,10 @@ class AlbumProvider(val parent: MediaLibraryItem? = null): AudioModel(), Mediali
         medialibrary.setAlbumsAddedCb(null)
     }
 
-    class Factory(val parent: MediaLibraryItem?): ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val sections: Boolean, val parent: MediaLibraryItem?): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return AlbumProvider(parent) as T
+            return AlbumProvider(sections, parent) as T
         }
     }
 }
