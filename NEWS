@@ -1,3 +1,18 @@
+Changes between 3.0.4 and 3.0.5:
+----------------------------------
+
+Application:
+ * Audio digital output (passthrough) is now disabled by default
+ * Fix video seek at wrong time on playback resume
+ * Fix renderer staying 'connected' when wifi is turned off
+ * Video tracks selector in video player
+ * Fix load last playlist from headset on Android 2-4
+ * Misc. fixes
+
+ VLC:
+  * Chromecast improvements
+  * stabilization
+
 Changes between 3.0.2 and 3.0.4:
 ----------------------------------
 
