@@ -168,19 +168,14 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         int id = item.getItemId();
         if (!(mAdapter.getItem(position) instanceof MediaWrapper)) return false;
         final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
-                MediaDatabase db;
         switch (id){
             case R.id.network_add_favorite:
-                db = MediaDatabase.getInstance();
-                db.addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
-                if (isRootDirectory())
-                    //updateFavorites();
+                MediaDatabase.getInstance().addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
+                if (isRootDirectory()) ((NetworkProvider)getProvider()).updateFavs();
                 return true;
             case R.id.network_remove_favorite:
-                db = MediaDatabase.getInstance();
-                db.deleteNetworkFav(mw.getUri());
-                if (isRootDirectory())
-                    //updateFavorites();
+                MediaDatabase.getInstance().deleteNetworkFav(mw.getUri());
+                if (isRootDirectory()) ((NetworkProvider)getProvider()).updateFavs();
                 return true;
             case R.id.network_edit_favorite:
                 showAddServerDialog(mw);

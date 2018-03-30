@@ -26,6 +26,8 @@ class NetworkProvider(url: String? = null, showHiddenFiles: Boolean): BrowserPro
         }
     }
 
+    fun updateFavs() = launch(UI, CoroutineStart.UNDISPATCHED) { updateFavorites() }
+
     private suspend fun updateFavorites() {
         if (ExternalMonitor.connected?.value != true) favorites.value = mutableListOf()
         val favs: MutableList<MediaLibraryItem> = withContext(CommonPool) { MediaDatabase.getInstance().allNetworkFav }.toMutableList()
