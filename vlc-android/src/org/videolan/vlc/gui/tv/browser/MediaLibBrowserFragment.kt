@@ -24,15 +24,17 @@
 package org.videolan.vlc.gui.tv.browser
 
 import android.annotation.TargetApi
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.preference.PreferenceManager
 import android.support.annotation.RequiresApi
 import android.support.v17.leanback.app.BackgroundManager
 import android.support.v17.leanback.widget.*
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.TvUtil
+import org.videolan.vlc.media.MediaGroup
 import org.videolan.vlc.util.Constants
 import org.videolan.vlc.util.RefreshModel
 
@@ -42,12 +44,12 @@ abstract class MediaLibBrowserFragment<T : RefreshModel> : GridFragment(), OnIte
     private var mSelectedItem: Any? = null
     lateinit var provider: T
     protected var currentItem: MediaLibraryItem? = null
+    protected val preferences: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(requireContext()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currentItem = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(Constants.AUDIO_ITEM) as? MediaLibraryItem
         else requireActivity().intent.getParcelableExtra<Parcelable>(Constants.AUDIO_ITEM) as? MediaLibraryItem
-        title = currentItem?.title ?: getString(R.string.app_name_full)
         mBackgroundManager = BackgroundManager.getInstance(requireActivity())
     }
 
@@ -82,7 +84,6 @@ abstract class MediaLibBrowserFragment<T : RefreshModel> : GridFragment(), OnIte
 
     override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?,
                                rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
-        val mediaLibraryItem = item as MediaLibraryItem
 //        if (mediaLibraryItem.itemType == MediaLibraryItem.TYPE_MEDIA) {
 //            var position = 0
 //            for (i in mDataList.indices) {
@@ -93,6 +94,7 @@ abstract class MediaLibBrowserFragment<T : RefreshModel> : GridFragment(), OnIte
 //            }
 //            TvUtil.playAudioList(mContext, mDataList as Array<MediaWrapper>, position)
 //        } else
-            TvUtil.openAudioCategory(mContext, mediaLibraryItem)
+        if (item is MediaGroup) TvUtil.openMedia(mContext, item, row)
+        else TvUtil.openAudioCategory(mContext, item as MediaLibraryItem)
     }
 }

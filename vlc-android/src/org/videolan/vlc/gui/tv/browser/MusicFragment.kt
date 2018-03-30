@@ -26,13 +26,15 @@ package org.videolan.vlc.gui.tv.browser
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import org.videolan.vlc.R
 import org.videolan.vlc.viewmodels.audio.TracksProvider
 
-class MusicFragment : MediaLibBrowserFragment<TracksProvider>() {
+    class MusicFragment : MediaLibBrowserFragment<TracksProvider>() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        provider = ViewModelProviders.of(this, TracksProvider.Factory(currentItem)).get(TracksProvider::class.java)
-        provider.dataset.observe(this, Observer { update(it!!) })
-    }
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            title = currentItem?.title ?: getString(R.string.tracks)
+            provider = ViewModelProviders.of(this, TracksProvider.Factory(currentItem)).get(TracksProvider::class.java)
+            provider.dataset.observe(this, Observer { update(it!!) })
+        }
 }

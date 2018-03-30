@@ -92,7 +92,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     }
 
     public void onPause() {
-        TvUtil.INSTANCE.releaseBackgroundManager(mBackgroundManager);
+        mBackgroundManager.release();
         super.onPause();
         if (mService != null && mService.isPlaying())
             mService.stop();

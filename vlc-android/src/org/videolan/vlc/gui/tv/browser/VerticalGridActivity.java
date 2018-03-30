@@ -56,13 +56,14 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
         if (savedInstanceState == null) {
             long type = getIntent().getLongExtra(MainTvActivity.BROWSER_TYPE, -1);
             if (type == Constants.HEADER_VIDEO) {
-                mFragment = new VideoBrowserFragment();
                 final String group = getIntent().getStringExtra(Constants.KEY_GROUP);
                 if (group != null) {
+                    mFragment = new VideosFragment();
                     final Bundle args = new Bundle(1);
                     args.putString(Constants.KEY_GROUP, group);
                     ((Fragment)mFragment).setArguments(args);
-                }
+                } else if (VLCApplication.getMLInstance().getVideoCount() > GRID_LIMIT) mFragment = new VideoBrowserFragment();
+                else mFragment = new VideosFragment();
             }
             else if (type == Constants.HEADER_CATEGORIES) {
                 final long audioCategory = getIntent().getLongExtra(Constants.AUDIO_CATEGORY, Constants.CATEGORY_SONGS);
