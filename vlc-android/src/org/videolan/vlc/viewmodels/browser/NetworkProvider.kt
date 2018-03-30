@@ -14,7 +14,7 @@ import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.media.MediaDatabase
 import java.util.*
 
-class NetworkProvider(url: String?): BrowserProvider(url) {
+class NetworkProvider(url: String? = null): BrowserProvider(url) {
     val favorites by lazy {
         MutableLiveData<MutableList<MediaLibraryItem>>()
     }
