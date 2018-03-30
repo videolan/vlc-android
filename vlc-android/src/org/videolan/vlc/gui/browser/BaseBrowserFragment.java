@@ -92,7 +92,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     protected int mSavedPosition = -1;
     public boolean mRoot;
     protected boolean goBack = false;
-    private boolean mShowHiddenFiles;
+    protected boolean mShowHiddenFiles;
     protected BaseBrowserAdapter mAdapter;
 
     protected abstract Fragment createFragment();

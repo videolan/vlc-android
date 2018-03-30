@@ -15,7 +15,7 @@ import java.io.File
 import java.util.*
 
 
-class StorageProvider(url: String?): FileBrowserProvider(url) {
+class StorageProvider(url: String?, showHiddenFiles: Boolean): FileBrowserProvider(url, false, showHiddenFiles) {
 
     override fun browseRoot() {
         val storages = AndroidDevices.getMediaDirectories()
@@ -48,10 +48,10 @@ class StorageProvider(url: String?): FileBrowserProvider(url) {
         super.addMedia(media)
     }
 
-    class Factory(val url: String?): ViewModelProvider.NewInstanceFactory() {
+    class Factory(val url: String?, private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return StorageProvider(url) as T
+            return StorageProvider(url, showHiddenFiles) as T
         }
     }
 }

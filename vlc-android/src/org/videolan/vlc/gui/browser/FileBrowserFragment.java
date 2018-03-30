@@ -73,8 +73,8 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     }
 
     protected void setupBrowser() {
-        if (mRoot) mProvider = ViewModelProviders.of(requireActivity(), new FileBrowserProvider.Factory(null)).get(FileBrowserProvider.class);
-        else mProvider = ViewModelProviders.of(this, new FileBrowserProvider.Factory(mMrl)).get(FileBrowserProvider.class);
+        if (mRoot) mProvider = ViewModelProviders.of(requireActivity(), new FileBrowserProvider.Factory(null, mShowHiddenFiles)).get(FileBrowserProvider.class);
+        else mProvider = ViewModelProviders.of(this, new FileBrowserProvider.Factory(mMrl, mShowHiddenFiles)).get(FileBrowserProvider.class);
     }
 
     public String getTitle() {

@@ -68,7 +68,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBinding.setShowFavorites(mRoot);
-        mProvider = ViewModelProviders.of(this, new NetworkProvider.Factory(mMrl)).get(NetworkProvider.class);
+        mProvider = ViewModelProviders.of(this, new NetworkProvider.Factory(mMrl, mShowHiddenFiles)).get(NetworkProvider.class);
     }
 
     @Override

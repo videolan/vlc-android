@@ -40,7 +40,6 @@ import android.support.v7.preference.PreferenceManager;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.ExternalMonitor;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.tv.DetailsActivity;
 import org.videolan.vlc.gui.tv.MediaItemDetails;
 import org.videolan.vlc.gui.tv.TvUtil;
@@ -55,15 +54,14 @@ import java.util.List;
 public class BrowserGridFragment extends GridFragment implements OnItemViewSelectedListener, OnItemViewClickedListener, DetailsFragment {
 
     private MediaWrapper mItemSelected;
-    private boolean mShowHiddenFiles = false;
     private NetworkProvider provider;
+    protected boolean mShowHiddenFiles;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setOnItemViewSelectedListener(this);
-        setOnItemViewClickedListener(this);
-        mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("browser_show_hidden_files", false);
-        provider = ViewModelProviders.of(this).get(NetworkProvider.class);
+        setOnItemViewClickedListener(this); mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("browser_show_hidden_files", false);
+        provider = ViewModelProviders.of(this, new NetworkProvider.Factory(null, mShowHiddenFiles)).get(NetworkProvider.class);
         provider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {

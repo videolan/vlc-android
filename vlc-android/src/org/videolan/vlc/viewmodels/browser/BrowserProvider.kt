@@ -24,7 +24,7 @@ import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.viewmodels.BaseModel
 import java.util.*
 
-abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>() {
+abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Boolean) : BaseModel<MediaLibraryItem>() {
 
     protected var mediabrowser: MediaBrowser? = null
     private val refreshList by lazy(LazyThreadSafetyMode.NONE) { mutableListOf<MediaLibraryItem>() }
@@ -232,7 +232,11 @@ abstract class BrowserProvider(val url: String?) : BaseModel<MediaLibraryItem>()
     }
 
     abstract fun browseRoot()
-    open fun getFlags() = MediaBrowser.Flag.Interact or MediaBrowser.Flag.NoSlavesAutodetect
+    open fun getFlags() : Int {
+        var flags = MediaBrowser.Flag.Interact or MediaBrowser.Flag.NoSlavesAutodetect
+        if (showHiddenFiles) flags = flags or MediaBrowser.Flag.ShowHiddenFiles
+        return flags
+    }
 
     fun browse(url: String, listener: EventListener) {
         launch(browserContext) {

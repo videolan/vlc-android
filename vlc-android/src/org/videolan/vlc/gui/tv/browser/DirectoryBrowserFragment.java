@@ -44,7 +44,7 @@ public class DirectoryBrowserFragment extends MediaSortedFragment<FileBrowserPro
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        provider = ViewModelProviders.of(this, new FileBrowserProvider.Factory(mUri.toString())).get(FileBrowserProvider.class);
+        provider = ViewModelProviders.of(this, new FileBrowserProvider.Factory(mUri.toString(), mShowHiddenFiles)).get(FileBrowserProvider.class);
         provider.getCategories().observe(this, new Observer<Map<String, List<MediaLibraryItem>>>() {
             @Override
             public void onChanged(@Nullable Map<String, List<MediaLibraryItem>> stringListMap) {

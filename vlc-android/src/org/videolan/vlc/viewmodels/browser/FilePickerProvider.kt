@@ -5,7 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import org.videolan.libvlc.util.MediaBrowser
 
 
-class FilePickerProvider(url: String?) : FileBrowserProvider(url, true) {
+class FilePickerProvider(url: String?) : FileBrowserProvider(url, true, false) {
 
     override fun getFlags(): Int {
         return MediaBrowser.Flag.Interact or MediaBrowser.Flag.NoSlavesAutodetect

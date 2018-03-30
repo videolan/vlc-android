@@ -53,7 +53,7 @@ public class NetworkBrowserFragment extends MediaSortedFragment<NetworkProvider>
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        provider = ViewModelProviders.of(this, new NetworkProvider.Factory(mUri.toString())).get(NetworkProvider.class);
+        provider = ViewModelProviders.of(this, new NetworkProvider.Factory(mUri.toString(), mShowHiddenFiles)).get(NetworkProvider.class);
         provider.getCategories().observe(this, new Observer<Map<String, List<MediaLibraryItem>>>() {
             @Override
             public void onChanged(@Nullable Map<String, List<MediaLibraryItem>> stringListMap) {

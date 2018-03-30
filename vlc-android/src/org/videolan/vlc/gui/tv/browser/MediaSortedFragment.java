@@ -38,7 +38,7 @@ import org.videolan.vlc.util.RefreshModel;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public abstract class MediaSortedFragment<T extends RefreshModel> extends CategoriesFragment<T> {
     protected Uri mUri;
-    private boolean mShowHiddenFiles = false;
+    protected boolean mShowHiddenFiles = false;
 
 
     protected String getKey() {

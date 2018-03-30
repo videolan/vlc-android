@@ -83,7 +83,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     }
 
     protected void setupBrowser() {
-        mProvider = ViewModelProviders.of(this, new StorageProvider.Factory(mMrl)).get(StorageProvider.class);
+        mProvider = ViewModelProviders.of(this, new StorageProvider.Factory(mMrl, mShowHiddenFiles)).get(StorageProvider.class);
     }
 
     @Override

@@ -14,7 +14,7 @@ import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.media.MediaDatabase
 import java.util.*
 
-class NetworkProvider(url: String? = null): BrowserProvider(url) {
+class NetworkProvider(url: String? = null, showHiddenFiles: Boolean): BrowserProvider(url, showHiddenFiles) {
     val favorites by lazy {
         MutableLiveData<MutableList<MediaLibraryItem>>()
     }
@@ -48,10 +48,10 @@ class NetworkProvider(url: String? = null): BrowserProvider(url) {
         return ExternalMonitor.isLan() || ExternalMonitor.isVPN()
     }
 
-    class Factory(val url: String?): ViewModelProvider.NewInstanceFactory() {
+    class Factory(val url: String?, private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return NetworkProvider(url) as T
+            return NetworkProvider(url, showHiddenFiles) as T
         }
     }
 }
