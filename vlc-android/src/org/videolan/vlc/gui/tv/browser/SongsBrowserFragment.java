@@ -52,7 +52,7 @@ public class SongsBrowserFragment extends CategoriesFragment<TracksProvider> {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        provider = ViewModelProviders.of(this, new TracksProvider.Factory(null, false)).get(TracksProvider.class);
+        provider = ViewModelProviders.of(this).get(TracksProvider.class);
         provider.getCategories().observe(this, new Observer<Map<String, List<MediaLibraryItem>>>() {
             @Override
             public void onChanged(@Nullable Map<String, List<MediaLibraryItem>> stringListMap) {

@@ -5,20 +5,23 @@ import android.arch.lifecycle.ViewModelProvider
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary.ArtistsAddedCb
-import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.util.Constants
-import org.videolan.vlc.util.ModelsHelper
+import org.videolan.medialibrary.media.MediaLibraryItem
 
-class ArtistProvider(private val sections: Boolean = true): AudioModel(), ArtistsAddedCb {
+class ArtistProvider(private var showAll: Boolean = false): AudioModel(), ArtistsAddedCb {
 
     override fun onArtistsAdded() {
         refresh()
     }
 
+    fun showAll(show: Boolean) {
+        showAll = show
+    }
+
+    //VLCApplication.getSettings().getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false)
+    @Suppress("UNCHECKED_CAST")
     override suspend fun updateList() {
         dataset.value = withContext(CommonPool) {
-            val list = medialibrary.getArtists(VLCApplication.getSettings().getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false), sort, desc)
-            (if (sections) ModelsHelper.generateSections(sort, list) else list.toList()).toMutableList()
+            medialibrary.getArtists(showAll, sort, desc).toMutableList() as MutableList<MediaLibraryItem>
         }
     }
 
@@ -32,10 +35,10 @@ class ArtistProvider(private val sections: Boolean = true): AudioModel(), Artist
         medialibrary.setArtistsAddedCb(null)
     }
 
-    class Factory(private val sections: Boolean): ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val showAll: Boolean): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return ArtistProvider(sections) as T
+            return ArtistProvider(showAll) as T
         }
     }
 }

@@ -108,7 +108,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
         mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
         mBinding.songs.setAdapter(mAdapter);
-        tracksProvider = ViewModelProviders.of(this, new TracksProvider.Factory(mPlaylist, false)).get(TracksProvider.class);
+        tracksProvider = ViewModelProviders.of(this, new TracksProvider.Factory(mPlaylist)).get(TracksProvider.class);
         tracksProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> tracks) {

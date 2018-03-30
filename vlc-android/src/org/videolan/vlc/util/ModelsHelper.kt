@@ -12,8 +12,8 @@ import org.videolan.vlc.viewmodels.BaseModel
 
 object ModelsHelper {
 
-    fun generateSections(sort: Int, items: Array<out MediaLibraryItem>) : MutableList<MediaLibraryItem> {
-        val array = splitList(sort, items.toList())
+    fun generateSections(sort: Int, items: List<MediaLibraryItem>) : MutableList<MediaLibraryItem> {
+        val array = splitList(sort, items)
         val datalist = mutableListOf<MediaLibraryItem>()
         for ((key, list) in array) {
             datalist.add(DummyItem(key))

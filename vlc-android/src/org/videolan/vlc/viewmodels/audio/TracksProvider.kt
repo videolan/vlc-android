@@ -6,9 +6,8 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.*
-import org.videolan.vlc.util.ModelsHelper
 
-class TracksProvider(val parent: MediaLibraryItem? = null, private val separators: Boolean = true): AudioModel() {
+class TracksProvider(val parent: MediaLibraryItem? = null): AudioModel() {
 
     override fun canSortByDuration() = true
     override fun canSortByAlbum() = parent !== null
@@ -29,25 +28,22 @@ class TracksProvider(val parent: MediaLibraryItem? = null, private val separator
         refresh()
     }
 
+    @Suppress("UNCHECKED_CAST")
     override suspend fun updateList() {
-        dataset.value = withContext(CommonPool) {
-            val list = when (parent) {
-                is Artist -> parent.getTracks(sort, desc)
-                is Album -> parent.getTracks(sort, desc)
-                is Genre -> parent.getTracks(sort, desc)
-                is Playlist -> parent.getTracks()
-                else -> medialibrary.getAudio(sort, desc)
-            }
-            @Suppress("UNCHECKED_CAST")
-            if (separators) ModelsHelper.generateSections(sort, list)
-            else list.toMutableList() as MutableList<MediaLibraryItem>
+        dataset.value = withContext(CommonPool) { when (parent) {
+            is Artist -> parent.getTracks(sort, desc)
+            is Album -> parent.getTracks(sort, desc)
+            is Genre -> parent.getTracks(sort, desc)
+            is Playlist -> parent.getTracks()
+            else -> medialibrary.getAudio(sort, desc)
+        }.toMutableList() as MutableList<MediaLibraryItem>
         }
     }
 
-    class Factory(val parent: MediaLibraryItem?, private val separators: Boolean): ViewModelProvider.NewInstanceFactory() {
+    class Factory(val parent: MediaLibraryItem?): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return TracksProvider(parent, separators) as T
+            return TracksProvider(parent) as T
         }
     }
 }

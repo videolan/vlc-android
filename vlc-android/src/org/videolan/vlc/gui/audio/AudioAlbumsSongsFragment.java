@@ -99,8 +99,8 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         mItem = (MediaLibraryItem) (savedInstanceState != null ?
                             savedInstanceState.getParcelable(AudioBrowserFragment.TAG_ITEM) :
                             getArguments().getParcelable(AudioBrowserFragment.TAG_ITEM));
-        albumProvider = ViewModelProviders.of(this, new AlbumProvider.Factory(true, mItem)).get(AlbumProvider.class);
-        tracksProvider = ViewModelProviders.of(this, new TracksProvider.Factory(mItem, true)).get(TracksProvider.class);
+        albumProvider = ViewModelProviders.of(this, new AlbumProvider.Factory(mItem)).get(AlbumProvider.class);
+        tracksProvider = ViewModelProviders.of(this, new TracksProvider.Factory(mItem)).get(TracksProvider.class);
         mProvidersList = new AudioModel[] {albumProvider, tracksProvider};
     }
 
@@ -161,13 +161,13 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         }
         mFabPlay.setImageResource(R.drawable.ic_fab_play);
         mTabLayout.addOnTabSelectedListener(this);
-        albumProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
+        albumProvider.getSections().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> albums) {
                 if (albums != null) mAlbumsAdapter.update(albums);
             }
         });
-        tracksProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
+        tracksProvider.getSections().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> tracks) {
                 if (tracks != null) mSongsAdapter.update(tracks);

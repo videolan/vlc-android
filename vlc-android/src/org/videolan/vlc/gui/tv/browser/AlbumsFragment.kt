@@ -9,7 +9,7 @@ import org.videolan.vlc.viewmodels.audio.AlbumProvider
 class AlbumsFragment : MediaLibBrowserFragment<AlbumProvider>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        provider = ViewModelProviders.of(this, AlbumProvider.Factory(false, currentItem)).get(AlbumProvider::class.java)
+        provider = ViewModelProviders.of(this, AlbumProvider.Factory(currentItem)).get(AlbumProvider::class.java)
         provider.dataset.observe(this, Observer { update(it!!) })
     }
 }

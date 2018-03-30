@@ -32,7 +32,7 @@ class MusicFragment : MediaLibBrowserFragment<TracksProvider>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        provider = ViewModelProviders.of(this, TracksProvider.Factory(currentItem, false)).get(TracksProvider::class.java)
+        provider = ViewModelProviders.of(this, TracksProvider.Factory(currentItem)).get(TracksProvider::class.java)
         provider.dataset.observe(this, Observer { update(it!!) })
     }
 }

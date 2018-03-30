@@ -65,6 +65,14 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
         }
     }
 
+    val sections by lazy(LazyThreadSafetyMode.NONE) {
+        MediatorLiveData<List<MediaLibraryItem>>().apply {
+            addSource(dataset, {
+                launch(UI, CoroutineStart.UNDISPATCHED) { value = withContext(CommonPool) { ModelsHelper.generateSections(sort, it!!.toList()) } }
+            })
+        }
+    }
+
     @Suppress("UNCHECKED_CAST")
     protected val updateActor by lazy {
         actor<Update>(UI, capacity = Channel.UNLIMITED) {

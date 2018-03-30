@@ -25,10 +25,12 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -166,15 +168,16 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     private void setupObservers() {
-        artistProvider = ViewModelProviders.of(requireActivity()).get(ArtistProvider.class);
-        albumProvider = ViewModelProviders.of(requireActivity(), new AlbumProvider.Factory(true, null)).get(AlbumProvider.class);
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        artistProvider = ViewModelProviders.of(requireActivity(), new ArtistProvider.Factory(prefs.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false))).get(ArtistProvider.class);
+        albumProvider = ViewModelProviders.of(requireActivity()).get(AlbumProvider.class);
         tracksProvider = ViewModelProviders.of(requireActivity()).get(TracksProvider.class);
         genresprovider = ViewModelProviders.of(requireActivity()).get(Genresprovider.class);
         playlistsProvider = ViewModelProviders.of(requireActivity()).get(PlaylistsProvider.class);
         mProvidersList = new AudioModel[] {artistProvider, albumProvider, tracksProvider, genresprovider, playlistsProvider};
         //Register current tab first
         final int currentTab = mViewPager.getCurrentItem();
-        mProvidersList[currentTab].getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
+        mProvidersList[currentTab].getSections().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> items) {
                 if (items != null) mAdapters[currentTab].update(items);
@@ -183,7 +186,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         for (int i = 0; i < mProvidersList.length; ++i ) {
             if (i == currentTab) continue;
             final int index = i;
-            mProvidersList[i].getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
+            mProvidersList[i].getSections().observe(this, new Observer<List<MediaLibraryItem>>() {
                 @Override
                 public void onChanged(@Nullable List<MediaLibraryItem> items) {
                     if (items != null) mAdapters[index].update(items);
@@ -558,6 +561,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     public void updateArtists() {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        artistProvider.showAll(prefs.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false));
         artistProvider.refresh();
     }
 
