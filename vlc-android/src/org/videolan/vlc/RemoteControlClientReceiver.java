@@ -25,6 +25,7 @@ import android.os.SystemClock;
 import android.support.v4.media.session.MediaButtonReceiver;
 import android.view.KeyEvent;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
