@@ -44,13 +44,20 @@ public class RemoteControlClientReceiver extends MediaButtonReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
+        if (action == null) return;
 
         final KeyEvent event = intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
         if (event != null && action.equalsIgnoreCase(Intent.ACTION_MEDIA_BUTTON)) {
 
             if (event.getKeyCode() != KeyEvent.KEYCODE_HEADSETHOOK &&
                     event.getKeyCode() != KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                super.onReceive(context, intent);
+                if (!AndroidUtil.isOOrLater || VLCApplication.isForeground()) super.onReceive(context, intent);
+                else if (event.getAction() == KeyEvent.ACTION_DOWN &&
+                         event.getKeyCode() == KeyEvent.KEYCODE_MEDIA_PLAY) {
+                    intent = new Intent(context, PlaybackService.class);
+                    intent.setAction(Constants.ACTION_REMOTE_PLAYPAUSE);
+                    Util.startService(context, intent);
+                }
                 return;
             }
 
