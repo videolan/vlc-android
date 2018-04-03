@@ -13,7 +13,6 @@ android {
     }
 
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     flavorDimensions "target", "abi"
 
@@ -191,7 +190,6 @@ dependencies {
     implementation project(':api')
     implementation project(':axmlrpc')
     // AppCompat
-    kapt 'com.android.databinding:compiler:3.0.1'
     implementation "com.android.support:recyclerview-v7:$rootProject.ext.appCompatVersion"
     implementation "com.android.support:design:$rootProject.ext.appCompatVersion"
     implementation "com.android.support:support-annotations:$rootProject.ext.appCompatVersion"

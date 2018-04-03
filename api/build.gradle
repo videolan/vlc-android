@@ -27,7 +27,6 @@ apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         versionCode 1

@@ -4,7 +4,6 @@ import com.android.builder.core.DefaultManifestParser
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     sourceSets {
     main {
