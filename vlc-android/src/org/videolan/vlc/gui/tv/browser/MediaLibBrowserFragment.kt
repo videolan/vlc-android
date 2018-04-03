@@ -34,7 +34,6 @@ import android.support.v17.leanback.app.BackgroundManager
 import android.support.v17.leanback.widget.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.tv.TvUtil
-import org.videolan.vlc.media.MediaGroup
 import org.videolan.vlc.util.Constants
 import org.videolan.vlc.util.RefreshModel
 
@@ -94,7 +93,6 @@ abstract class MediaLibBrowserFragment<T : RefreshModel> : GridFragment(), OnIte
 //            }
 //            TvUtil.playAudioList(mContext, mDataList as Array<MediaWrapper>, position)
 //        } else
-        if (item is MediaGroup) TvUtil.openMedia(mContext, item, row)
-        else TvUtil.openAudioCategory(mContext, item as MediaLibraryItem)
+        TvUtil.openMedia(mContext, item, row)
     }
 }

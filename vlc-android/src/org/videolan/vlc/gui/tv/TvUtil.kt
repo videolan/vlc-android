@@ -120,7 +120,7 @@ object TvUtil {
     fun openMedia(activity: Activity, item: Any?, row: Row?) {
         if (item is MediaWrapper) {
             when {
-                item.type == MediaWrapper.TYPE_AUDIO -> showMediaDetail(activity, item)
+                item.type == MediaWrapper.TYPE_AUDIO -> openAudioCategory(activity, item)
                 item.type == MediaWrapper.TYPE_DIR -> {
                     Log.d(TAG, "openMedia: " + item.uri)
                     val intent = Intent(activity, VerticalGridActivity::class.java)
