@@ -58,7 +58,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     api "com.android.support:appcompat-v7:$rootProject.ext.appCompatVersion"
-    testApi 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 }
 
 def properties = new Properties()
