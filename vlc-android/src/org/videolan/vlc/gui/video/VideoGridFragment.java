@@ -65,7 +65,6 @@ import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.viewmodels.VideosProvider;
 
 import java.util.ArrayList;
@@ -133,10 +132,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mDividerItemDecoration = new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL);
         if (mAdapter.isListMode()) mGridView.addItemDecoration(mDividerItemDecoration);
-        if (savedInstanceState != null) {
-            final List<MediaWrapper> list = (List<MediaWrapper>) VLCApplication.getData("list"+getTitle());
-            if (!Util.isListEmpty(list)) mAdapter.update(list);
-        }
         mGridView.setAdapter(mAdapter);
         mProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
             @Override
@@ -169,7 +164,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(Constants.KEY_GROUP, mGroup);
-        VLCApplication.storeData("list"+getTitle(), mAdapter.getAll());
     }
 
     public String getTitle() {

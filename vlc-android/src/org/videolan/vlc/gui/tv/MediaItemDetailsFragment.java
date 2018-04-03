@@ -52,7 +52,6 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WorkersKt;
 
@@ -122,7 +121,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         mMediaWrapper = media;
         setTitle(media.getTitle());
 
-        final List<MediaWrapper> mediaList = (List<MediaWrapper>) VLCApplication.getData(Constants.CURRENT_BROWSER_LIST);
+        final List<MediaWrapper> mediaList = null;
         // Attach your media item details presenter to the row presenter:
         FullWidthDetailsOverviewRowPresenter rowPresenter = new FullWidthDetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
 
