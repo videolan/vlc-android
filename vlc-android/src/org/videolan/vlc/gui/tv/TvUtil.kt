@@ -246,7 +246,7 @@ object TvUtil {
                     Constants.CATEGORY_ARTISTS -> R.drawable.ic_artist_big
                     Constants.CATEGORY_ALBUMS -> R.drawable.ic_album_big
                     Constants.CATEGORY_GENRES -> R.drawable.ic_genre_big
-                    Constants.CATEGORY_SONGS -> R.drawable.ic_song_big
+                    Constants.CATEGORY_SONGS, Constants.CATEGORY_NOW_PLAYING -> R.drawable.ic_song_big
                     else -> R.drawable.ic_browser_unknown_big_normal
                 }
             }

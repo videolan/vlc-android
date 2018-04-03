@@ -1844,12 +1844,10 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         private final ServiceConnection mServiceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder iBinder) {
-                if (!mBound)
-                    return;
+                if (!mBound) return;
 
                 final PlaybackService service = PlaybackService.getService(iBinder);
-                if (service != null)
-                    mCallback.onConnected(service);
+                if (service != null) mCallback.onConnected(service);
             }
 
             @Override

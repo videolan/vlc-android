@@ -8,6 +8,8 @@ import org.videolan.medialibrary.Medialibrary;
 
 public class DummyItem extends MediaLibraryItem {
 
+    private String mArtWork = null;
+
     public DummyItem(long id, String title, String description) {
         super(id, title);
         mDescription = description;
@@ -25,6 +27,15 @@ public class DummyItem extends MediaLibraryItem {
     @Override
     public int getItemType() {
         return TYPE_DUMMY;
+    }
+
+    @Override
+    public String getArtworkMrl() {
+        return mArtWork;
+    }
+
+    public void setArtWork(String artWork) {
+        mArtWork = artWork;
     }
 
     @Override

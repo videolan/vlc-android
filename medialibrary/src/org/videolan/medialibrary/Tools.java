@@ -74,21 +74,19 @@ public class Tools {
                 final String progress = mw.getLength() == 0L ? null : mw.getTime() == 0L ? Tools.millisToString(mw.getLength()) : getProgressText(mw);
                 final String resolution = getResolution(mw);
                 boolean hasprogress = !TextUtils.isEmpty(progress), hasResolution = !TextUtils.isEmpty(resolution);
-                if (hasprogress && hasResolution)
-                    item.setDescription(resolution+" - "+progress);
-                else if (hasprogress)
-                    item.setDescription(progress);
-                else
-                    item.setDescription(resolution);
+                final StringBuilder sb = new StringBuilder();
+                if (hasprogress && hasResolution) sb.append(resolution).append(" - ").append(progress);
+                else if (hasprogress) sb.append(progress);
+                else sb.append(resolution);
+                item.setDescription(sb.toString());
             } else if (mw.getType() == MediaWrapper.TYPE_AUDIO) {
-                String artist = mw.getReferenceArtist(), album = mw.getAlbum();
+                final String artist = mw.getReferenceArtist(), album = mw.getAlbum();
+                final StringBuilder sb = new StringBuilder();
                 boolean hasArtist = !TextUtils.isEmpty(artist), hasAlbum = !TextUtils.isEmpty(album);
-                if (hasArtist && hasAlbum)
-                    item.setDescription(album+" - "+artist);
-                else if (hasArtist)
-                    item.setDescription(artist);
-                else
-                    item.setDescription(album);
+                if (hasArtist && hasAlbum) sb.append(album).append(" - ").append(artist);
+                else if (hasArtist) sb.append(artist);
+                else sb.append(album);
+                item.setDescription(sb.toString());
             }
         }
     }

@@ -70,6 +70,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var browserAdapter: ArrayObjectAdapter
     private lateinit var otherAdapter: ArrayObjectAdapter
     private lateinit var settings: SharedPreferences
+    private lateinit var nowPlayingDelegate: NowPlayingDelegate
     private var selectedItem: Any? = null
     private var restart = false
 
@@ -89,6 +90,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         }
         brandColor = ContextCompat.getColor(requireContext(), R.color.orange800)
         backgroundManager = BackgroundManager.getInstance(requireActivity()).apply { attach(requireActivity().window) }
+        nowPlayingDelegate = NowPlayingDelegate(this)
 
     }
 
@@ -103,10 +105,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         // Audio
         categoriesAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val musicHeader = HeaderItem(Constants.HEADER_CATEGORIES, getString(R.string.audio))
-        categoriesAdapter.add(DummyItem(Constants.CATEGORY_ARTISTS, getString(R.string.artists), ""))
-        categoriesAdapter.add(DummyItem(Constants.CATEGORY_ALBUMS, getString(R.string.albums), ""))
-        categoriesAdapter.add(DummyItem(Constants.CATEGORY_GENRES, getString(R.string.genres), ""))
-        categoriesAdapter.add(DummyItem(Constants.CATEGORY_SONGS, getString(R.string.songs), ""))
+        updateAudioCategories()
         rowsAdapter.add(ListRow(musicHeader, categoriesAdapter))
         //History
         val showHistory = settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)
@@ -135,6 +134,17 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         onItemViewSelectedListener = this
     }
 
+    fun updateAudioCategories(current: DummyItem? = null) {
+        val list = mutableListOf<MediaLibraryItem>(
+                DummyItem(Constants.CATEGORY_ARTISTS, getString(R.string.artists), ""),
+                DummyItem(Constants.CATEGORY_ALBUMS, getString(R.string.albums), ""),
+                DummyItem(Constants.CATEGORY_GENRES, getString(R.string.genres), ""),
+                DummyItem(Constants.CATEGORY_SONGS, getString(R.string.songs), "")
+        )
+        if (current !== null) list.add(0, current)
+        categoriesAdapter.setItems(list.toList(), diffCallback)
+    }
+
     override fun onStart() {
         super.onStart()
         if (restart) {
@@ -147,6 +157,11 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     override fun onStop() {
         super.onStop()
         if (AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater) requireActivity().startService(Intent(requireActivity(), RecommendationsService::class.java))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        nowPlayingDelegate.onClear()
     }
 
     override fun onClick(v: View?) = requireActivity().startActivity(Intent(requireContext(), SearchActivity::class.java))

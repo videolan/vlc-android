@@ -136,7 +136,7 @@ public class CardPresenter extends Presenter {
                 }
             });
         } else if (item instanceof MediaLibraryItem) {
-            MediaLibraryItem mediaLibraryItem = (MediaLibraryItem) item;
+            final MediaLibraryItem mediaLibraryItem = (MediaLibraryItem) item;
             holder.mCardView.setTitleText(mediaLibraryItem.getTitle());
             holder.mCardView.setContentText(mediaLibraryItem.getDescription());
             holder.updateCardViewImage(mediaLibraryItem);
