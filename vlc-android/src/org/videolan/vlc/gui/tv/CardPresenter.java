@@ -80,7 +80,7 @@ public class CardPresenter extends Presenter {
         }
 
         void updateCardViewImage(MediaLibraryItem item) {
-            if (TextUtils.isEmpty(item.getArtworkMrl()) && !(item.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_GROUP)) {
+            if (TextUtils.isEmpty(item.getArtworkMrl()) && item.getItemType() != MediaLibraryItem.TYPE_MEDIA) {
                 mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
                 mCardView.setMainImage(new BitmapDrawable(mCardView.getResources(), getDefaultImage(item)));
             } else AsyncImageLoader.loadPicture(mCardView, item);
