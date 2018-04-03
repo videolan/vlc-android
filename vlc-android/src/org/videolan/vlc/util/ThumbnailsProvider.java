@@ -68,7 +68,7 @@ public class ThumbnailsProvider {
         if (bitmap != null) {
             BitmapCache.getInstance().addBitmapToMemCache(thumbPath, bitmap);
             if (hasCache)
-                VLCApplication.runBackground(new Runnable() {
+                WorkersKt.runBackground(new Runnable() {
                     @Override
                     public void run() {
                         media.setThumbnail(thumbPath);

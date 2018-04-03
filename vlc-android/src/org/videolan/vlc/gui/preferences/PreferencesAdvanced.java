@@ -48,6 +48,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.WorkersKt;
 
 import java.io.File;
 
@@ -124,7 +125,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                 if (VLCApplication.getMLInstance().isWorking())
                     UiTools.snacker(getView(), getString(R.string.settings_ml_block_scan));
                 else {
-                    VLCApplication.runBackground(new Runnable() {
+                    WorkersKt.runBackground(new Runnable() {
                         @Override
                         public void run() {
                             final Runnable dump = new Runnable() {
@@ -133,13 +134,13 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                                     final File db = new File(VLCApplication.getAppContext().getDir("db", Context.MODE_PRIVATE)+ Medialibrary.VLC_MEDIA_DB_NAME);
 
                                     if (FileUtils.copyFile(db, new File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + Medialibrary.VLC_MEDIA_DB_NAME)))
-                                        VLCApplication.runOnMainThread(new Runnable() {
+                                        WorkersKt.runOnMainThread(new Runnable() {
                                             @Override
                                             public void run() {
                                                 Toast.makeText(VLCApplication.getAppContext(), "Database dumped on internal storage root", Toast.LENGTH_LONG).show();
                                             }
                                         });
-                                    else VLCApplication.runOnMainThread(new Runnable() {
+                                    else WorkersKt.runOnMainThread(new Runnable() {
                                         @Override
                                         public void run() {
                                             Toast.makeText(VLCApplication.getAppContext(), "Failed to dumped database", Toast.LENGTH_LONG).show();

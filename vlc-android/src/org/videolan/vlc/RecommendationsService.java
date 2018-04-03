@@ -36,6 +36,7 @@ import org.videolan.vlc.gui.helpers.BitmapUtil;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WorkersKt;
 
 import java.util.Arrays;
 import java.util.List;
@@ -100,7 +101,7 @@ public class RecommendationsService extends IntentService {
 
     private void doRecommendations() {
         mNotificationManager.cancelAll();
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 int id = 0;

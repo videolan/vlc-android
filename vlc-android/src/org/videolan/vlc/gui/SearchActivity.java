@@ -32,6 +32,7 @@ import org.videolan.vlc.databinding.SearchActivityBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.WorkersKt;
 
 public class SearchActivity extends AppCompatActivity implements TextWatcher, TextView.OnEditorActionListener {
 
@@ -68,13 +69,13 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Te
     }
 
     private void performSearh(final String query) {
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 final SearchAggregate searchAggregate = mMedialibrary.search(query);
                 mBinding.setSearchAggregate(searchAggregate);
                 if (searchAggregate != null) {
-                    VLCApplication.runOnMainThread(new Runnable() {
+                    WorkersKt.runOnMainThread(new Runnable() {
                         @Override
                         public void run() {
                             ((SearchResultAdapter)mBinding.albumsResults.getAdapter()).add(searchAggregate.getAlbums());

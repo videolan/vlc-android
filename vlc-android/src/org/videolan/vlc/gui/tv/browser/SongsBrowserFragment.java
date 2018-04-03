@@ -37,8 +37,8 @@ import android.text.TextUtils;
 import org.jetbrains.annotations.Nullable;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.tv.TvUtil;
+import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.audio.TracksProvider;
 
 import java.util.ArrayList;
@@ -63,7 +63,7 @@ public class SongsBrowserFragment extends CategoriesFragment<TracksProvider> {
 
     @Override
     public void onItemClicked(Presenter.ViewHolder viewHolder, final Object item, RowPresenter.ViewHolder viewHolder1, Row row) {
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 int position = 0;

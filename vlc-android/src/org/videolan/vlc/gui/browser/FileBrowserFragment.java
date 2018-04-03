@@ -51,6 +51,7 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.browser.FileBrowserProvider;
 
 import java.io.File;
@@ -108,7 +109,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         final String internalmemoryTitle = getString(R.string.internal_memory);
         final String browserStorage = getString(R.string.browser_storages);
         final String quickAccess = getString(R.string.browser_quick_access);
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 final String storages[] = AndroidDevices.getMediaDirectories();
@@ -162,7 +163,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                         devices.add(whatsapp);
                     }
                 }
-                VLCApplication.runOnMainThread(new Runnable() {
+                WorkersKt.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
                         mAdapter.update(devices);

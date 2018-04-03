@@ -68,6 +68,7 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.audio.TracksProvider;
 
 import java.util.ArrayList;
@@ -118,13 +119,13 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         final int fabVisibility =  savedInstanceState != null ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;
 
         if (!TextUtils.isEmpty(mPlaylist.getArtworkMrl())) {
-            VLCApplication.runBackground(new Runnable() {
+            WorkersKt.runBackground(new Runnable() {
                 @Override
                 public void run() {
                     final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mPlaylist.getArtworkMrl()), 0);
                     if (cover != null) {
                         mBinding.setCover(new BitmapDrawable(PlaylistActivity.this.getResources(), cover));
-                        VLCApplication.runOnMainThread(new Runnable() {
+                        WorkersKt.runOnMainThread(new Runnable() {
                             @Override
                             public void run() {
                                 mBinding.appbar.setExpanded(true, true);
@@ -132,7 +133,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                                     mBinding.fab.setVisibility(fabVisibility);
                             }
                         });
-                    } else VLCApplication.runOnMainThread(new Runnable() {
+                    } else WorkersKt.runOnMainThread(new Runnable() {
                         @Override
                         public void run() {
                             fabFallback();
@@ -398,7 +399,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     protected void deleteMedia(final MediaLibraryItem mw, final Runnable cancel) {
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 final LinkedList<String> foldersToReload = new LinkedList<>();
@@ -414,7 +415,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 for (String folder : foldersToReload)
                     mMediaLibrary.reload(folder);
                 if (PlaylistManager.Companion.hasMedia()) {
-                    VLCApplication.runOnMainThread(new Runnable() {
+                    WorkersKt.runOnMainThread(new Runnable() {
                         @Override
                         public void run() {
                             if (mediaPaths.isEmpty()) cancel.run();

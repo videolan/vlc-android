@@ -27,9 +27,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Process;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.util.SimpleArrayMap;
@@ -47,14 +44,11 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.WorkersKt;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public class VLCApplication extends Application {
     public final static String TAG = "VLC/VLCApplication";
@@ -69,20 +63,6 @@ public class VLCApplication extends Application {
     private static SharedPreferences sSettings;
 
     private static SimpleArrayMap<String, WeakReference<Object>> sDataMap = new SimpleArrayMap<>();
-
-    /* Up to 2 threads maximum, inactive threads are killed after 2 seconds */
-    private static final int maxThreads = Math.max(AndroidUtil.isJellyBeanMR1OrLater ? Runtime.getRuntime().availableProcessors() : 2, 1);
-    public static final ThreadFactory THREAD_FACTORY = new ThreadFactory() {
-        @Override
-        public Thread newThread(Runnable runnable) {
-            final Thread thread = new Thread(runnable);
-            thread.setPriority(Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
-            return thread;
-        }
-    };
-    private static final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(Math.min(2, maxThreads), maxThreads, 30, TimeUnit.SECONDS,
-            new LinkedBlockingQueue<Runnable>(), THREAD_FACTORY);
-    private static final Handler handler = new Handler(Looper.getMainLooper());
 
     private static int sDialogCounter = 0;
 
@@ -102,7 +82,7 @@ public class VLCApplication extends Application {
 
         setLocale();
 
-        runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
 
@@ -162,20 +142,6 @@ public class VLCApplication extends Application {
 
     public static boolean showTvUi() {
         return sTV || (sSettings != null && sSettings.getBoolean("tv_ui", false));
-    }
-
-    public static void runBackground(Runnable runnable) {
-        if (Looper.myLooper() != Looper.getMainLooper()) runnable.run();
-        else threadPool.execute(runnable);
-    }
-
-    public static void runOnMainThread(Runnable runnable) {
-        if (Looper.myLooper() == Looper.getMainLooper()) runnable.run();
-        else handler.post(runnable);
-    }
-
-    public static boolean removeTask(Runnable runnable) {
-        return threadPool.remove(runnable);
     }
 
     public static void storeData(String key, Object data) {

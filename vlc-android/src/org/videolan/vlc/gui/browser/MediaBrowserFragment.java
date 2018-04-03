@@ -23,7 +23,6 @@
 package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -58,6 +57,7 @@ import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
+import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.BaseModel;
 
 import java.util.LinkedList;
@@ -154,7 +154,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     }
 
     protected void deleteMedia(final MediaLibraryItem mw, final boolean refresh, final Runnable failCB) {
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 final LinkedList<String> foldersToReload = new LinkedList<>();
@@ -171,7 +171,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
                 }
                 for (String folder : foldersToReload) mMediaLibrary.reload(folder);
                 if (getActivity() != null) {
-                    VLCApplication.runOnMainThread(new Runnable() {
+                    WorkersKt.runOnMainThread(new Runnable() {
                         @Override
                         public void run() {
                             if (mediaPaths.isEmpty()) {

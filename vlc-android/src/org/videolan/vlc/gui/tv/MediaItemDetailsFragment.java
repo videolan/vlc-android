@@ -54,6 +54,7 @@ import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.WorkersKt;
 
 import java.util.List;
 
@@ -187,12 +188,12 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         selector.addClassPresenter(ListRow.class,
                 new ListRowPresenter());
         mRowsAdapter = new ArrayObjectAdapter(selector);
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 final Bitmap cover = media.getType() == MediaWrapper.TYPE_AUDIO || media.getType() == MediaWrapper.TYPE_VIDEO
                 ? AudioUtil.readCoverBitmap(mMedia.getArtworkUrl(), 512) : null;
-                VLCApplication.runOnMainThread(new Runnable() {
+                WorkersKt.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
                         if (isDetached())

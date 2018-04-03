@@ -43,6 +43,7 @@ import org.videolan.vlc.gui.DiffUtilAdapter;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WorkersKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -228,7 +229,7 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
     }
 
     void addItem(final MediaLibraryItem item, final boolean top, final int positionTo) {
-        VLCApplication.runOnMainThread(new Runnable() {
+        WorkersKt.runOnMainThread(new Runnable() {
             @Override
             public void run() {
                 int position;

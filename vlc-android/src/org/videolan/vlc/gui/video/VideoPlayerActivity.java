@@ -141,6 +141,7 @@ import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.SubtitlesDownloader;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.WorkersKt;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -910,7 +911,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if(data.hasExtra(FilePickerFragment.EXTRA_MRL)) {
             mService.addSubtitleTrack(Uri.parse(data.getStringExtra(FilePickerFragment.EXTRA_MRL)), true);
-            VLCApplication.runBackground(new Runnable() {
+            WorkersKt.runBackground(new Runnable() {
                 @Override
                 public void run() {
                     MediaDatabase.getInstance().saveSlave(mService.getCurrentMediaLocation(), Media.Slave.Type.Subtitle, 2, data.getStringExtra(FilePickerFragment.EXTRA_MRL));

@@ -38,6 +38,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioPagerAdapter;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WorkersKt;
 
 public class AboutFragment extends Fragment {
     public final static String TAG = "VLC/AboutActivity";
@@ -78,11 +79,11 @@ public class AboutFragment extends Fragment {
 
         mTabLayout = v.findViewById(R.id.sliding_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 final String asset = Util.readAsset("licence.htm", "").replace("!COMMITID!",revision);
-                VLCApplication.runOnMainThread(new Runnable() {
+                WorkersKt.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
                         UiTools.fillAboutView(v);

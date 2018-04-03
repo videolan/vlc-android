@@ -44,7 +44,6 @@ import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.TvAudioPlayerBinding;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
@@ -53,6 +52,7 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.WorkersKt;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -150,12 +150,12 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     }
 
     private void updateBackground() {
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mCurrentCoverArt), mBinding.albumCover.getWidth());
                 final Bitmap blurredCover = cover != null ? UiTools.blurBitmap(cover) : null;
-                VLCApplication.runOnMainThread(new Runnable() {
+                WorkersKt.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
                         if (cover == null) {

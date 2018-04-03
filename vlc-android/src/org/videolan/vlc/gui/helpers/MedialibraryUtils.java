@@ -6,11 +6,12 @@ import android.content.Intent;
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.WorkersKt;
 
 public class MedialibraryUtils {
 
     public static void removeDir(final String path) {
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 VLCApplication.getMLInstance().removeFolder(path);

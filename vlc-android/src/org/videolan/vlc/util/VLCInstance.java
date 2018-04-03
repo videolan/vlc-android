@@ -60,7 +60,7 @@ public class VLCInstance {
 
             // TODO change LibVLC signature to accept a List instead of an ArrayList
             sLibVLC = new LibVLC(context, VLCOptions.getLibOptions());
-            VLCApplication.runBackground(sCopyLua);
+            WorkersKt.runBackground(sCopyLua);
         }
         return sLibVLC;
     }

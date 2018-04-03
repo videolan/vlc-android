@@ -243,7 +243,7 @@ public class FileUtils {
     }
 
     private static void asyncRecursiveDelete(final File fileOrDirectory, final Callback callback) {
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             public void run() {
                 if (!fileOrDirectory.exists() || !fileOrDirectory.canWrite())
                     return;

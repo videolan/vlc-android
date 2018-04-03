@@ -50,6 +50,7 @@ import org.videolan.medialibrary.media.SearchAggregate;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WorkersKt;
 
 import java.util.Arrays;
 
@@ -101,7 +102,7 @@ public class SearchFragment extends SearchSupportFragment implements SearchSuppo
         if (!TextUtils.isEmpty(words) && words.length() > 2) {
             mDelayedLoad.setSearchQuery(words);
             if (VLCApplication.getMLInstance().isInitiated())
-                VLCApplication.runBackground(mDelayedLoad);
+                WorkersKt.runBackground(mDelayedLoad);
             else
                 setupMediaLibraryReceiver();
         }
@@ -111,7 +112,7 @@ public class SearchFragment extends SearchSupportFragment implements SearchSuppo
             @Override
             public void onReceive(Context context, Intent intent) {
                 LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
-                VLCApplication.runBackground(mDelayedLoad);
+                WorkersKt.runBackground(mDelayedLoad);
             }
         };
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(libraryReadyReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));

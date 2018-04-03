@@ -50,6 +50,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
 import org.videolan.vlc.interfaces.IEventsHandler;
+import org.videolan.vlc.util.WorkersKt;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -144,7 +145,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
     }
 
     private void savePlaylist() {
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             public void run() {
                 final String name = mEditText.getText().toString().trim();
                 final boolean addTracks = !Tools.isArrayEmpty(mNewTrack);

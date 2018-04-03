@@ -41,6 +41,7 @@ import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.util.Strings;
+import org.videolan.vlc.util.WorkersKt;
 
 import java.util.Locale;
 
@@ -118,11 +119,11 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
         } else if (ACTION_WIDGET_UPDATE_COVER.equals(action)) {
             final String artworkMrl = intent.getStringExtra("artworkMrl");
             if (!TextUtils.isEmpty(artworkMrl)) {
-                VLCApplication.runBackground(new Runnable() {
+                WorkersKt.runBackground(new Runnable() {
                     @Override
                     public void run() {
                         final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 320);
-                        VLCApplication.runOnMainThread(new Runnable() {
+                        WorkersKt.runOnMainThread(new Runnable() {
                             @Override
                             public void run() {
                                 if (cover != null)

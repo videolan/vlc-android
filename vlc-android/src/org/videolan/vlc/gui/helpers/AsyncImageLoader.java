@@ -45,6 +45,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.HttpImageLoader;
 import org.videolan.vlc.util.ThumbnailsProvider;
+import org.videolan.vlc.util.WorkersKt;
 
 public class AsyncImageLoader {
 
@@ -105,7 +106,7 @@ public class AsyncImageLoader {
     }
 
     private static void loadImage(final Callbacks cbs, final View target){
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 cbs.updateImage(cbs.getImage(), target);
@@ -159,7 +160,7 @@ public class AsyncImageLoader {
             vdb.setVariable(BR.cover, new BitmapDrawable(target.getResources(), bitmap));
             vdb.setVariable(BR.protocol, null);
         } else {
-            VLCApplication.runOnMainThread(new Runnable() {
+            WorkersKt.runOnMainThread(new Runnable() {
                 @Override
                 public void run() {
                     if (target instanceof ImageView) {

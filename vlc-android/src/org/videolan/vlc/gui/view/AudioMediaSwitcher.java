@@ -27,8 +27,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 
 import org.videolan.vlc.PlaybackService;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.util.WorkersKt;
 
 
 public abstract class AudioMediaSwitcher extends FlingViewGroup {
@@ -48,13 +48,13 @@ public abstract class AudioMediaSwitcher extends FlingViewGroup {
         final String artMrl = service.getCoverArt();
         final String prevArtMrl = service.getPrevCoverArt();
         final String nextArtMrl = service.getNextCoverArt();
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 final Bitmap coverCurrent = AudioUtil.readCoverBitmap(Uri.decode(artMrl), 512);
                 final Bitmap coverPrev = AudioUtil.readCoverBitmap(Uri.decode(prevArtMrl), 512);
                 final Bitmap coverNext = AudioUtil.readCoverBitmap(Uri.decode(nextArtMrl), 512);
-                VLCApplication.runOnMainThread(new Runnable() {
+                WorkersKt.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
                         removeAllViews();

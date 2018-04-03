@@ -111,7 +111,7 @@ public class SubtitlesDownloader {
             return;
         }
         final List<String> finalLanguages = new ArrayList<>(languages);
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 SUBTITLES_DIRECTORY.mkdirs();
@@ -304,7 +304,7 @@ public class SubtitlesDownloader {
             }
         }
         if (mCallback != null)
-            VLCApplication.runOnMainThread(new Runnable() {
+            WorkersKt.runOnMainThread(new Runnable() {
                 @Override
                 public void run() {
                     mCallback.onRequestEnded(!success.isEmpty());
@@ -393,7 +393,7 @@ public class SubtitlesDownloader {
 
     private void showSumup(final String displayText) {
         if (mContext == null) return;
-        VLCApplication.runOnMainThread(new Runnable(){
+        WorkersKt.runOnMainThread(new Runnable(){
             public void run() {
                 mSumUpDialog = new AlertDialog.Builder(mContext).setTitle(R.string.dialog_subloader_sumup)
                         .setMessage(displayText)
@@ -476,7 +476,7 @@ public class SubtitlesDownloader {
 
     private void showSnackBar(final String text) {
         if (mContext instanceof AppCompatActivity && !(mContext instanceof VideoPlayerActivity) && !mContext.isFinishing()) {
-            VLCApplication.runOnMainThread(new Runnable() {
+            WorkersKt.runOnMainThread(new Runnable() {
                 @Override
                 public void run() {
                     View v = mContext.findViewById(R.id.fragment_placeholder);
@@ -486,7 +486,7 @@ public class SubtitlesDownloader {
                 }
             });
         } else {
-            VLCApplication.runOnMainThread(new Runnable() {
+            WorkersKt.runOnMainThread(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(VLCApplication.getAppContext(), text, Toast.LENGTH_SHORT).show();

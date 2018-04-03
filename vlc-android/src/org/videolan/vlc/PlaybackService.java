@@ -94,6 +94,7 @@ import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.util.VoiceSearchParams;
 import org.videolan.vlc.util.WeakHandler;
+import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.widget.VLCAppWidgetProvider;
 import org.videolan.vlc.widget.VLCAppWidgetProviderBlack;
 import org.videolan.vlc.widget.VLCAppWidgetProviderWhite;
@@ -907,7 +908,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                 return;
             }
             mMediaSession.setPlaybackState(new PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, getTime(), 1.0f).build());
-            VLCApplication.runBackground(new Runnable() {
+            WorkersKt.runBackground(new Runnable() {
                 @Override
                 public void run() {
                     final VoiceSearchParams vsp = new VoiceSearchParams(query, extras);
@@ -1019,7 +1020,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                 }
                 bob.putLong("shuffle", 1L);
                 bob.putLong("repeat", getRepeatType());
-                VLCApplication.runOnMainThread(new Runnable() {
+                WorkersKt.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
                         if (mMediaSession != null)
@@ -1923,7 +1924,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     }
 
     private void sendResults(@NonNull final MediaBrowserServiceCompat.Result result, @NonNull final String parentId) {
-        VLCApplication.runBackground(new Runnable() {
+        WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
                 try {
