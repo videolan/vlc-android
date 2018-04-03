@@ -107,7 +107,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     protected int mSavedPosition = -1, mFavorites = 0;
     public boolean mRoot;
     protected boolean goBack = false;
-    private final boolean mShowHiddenFiles;
+    private boolean mShowHiddenFiles;
 
     private SimpleArrayMap<MediaLibraryItem, List<MediaLibraryItem>> mFoldersContentLists;
     public int mCurrentParsedPosition = 0;
@@ -132,14 +132,12 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             handlerThread.start();
             mBrowserHandler = new Handler(handlerThread.getLooper());
         }
-        mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("browser_show_hidden_files", false);
     }
 
     @SuppressWarnings("unchecked")
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        if (bundle == null)
-            bundle = getArguments();
+        if (bundle == null) bundle = getArguments();
         if (bundle != null) {
             mCurrentMedia = bundle.getParcelable(KEY_MEDIA);
             if (mCurrentMedia != null) mMrl = mCurrentMedia.getLocation();
@@ -149,6 +147,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
             mMrl = getActivity().getIntent().getDataString();
             getActivity().setIntent(null);
         }
+        mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("browser_show_hidden_files", false);
         mRoot = defineIsRoot();
         if (mFoldersContentLists == null) mFoldersContentLists = new SimpleArrayMap<>();
     }
