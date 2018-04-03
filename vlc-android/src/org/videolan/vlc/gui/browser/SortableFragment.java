@@ -58,7 +58,8 @@ public abstract class SortableFragment<T extends SortableAdapter> extends MediaB
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.ml_menu_sortby).setVisible(isSortEnabled());
+        final MenuItem item = menu.findItem(R.id.ml_menu_sortby);
+        if (item != null) item.setVisible(isSortEnabled());
         UiTools.updateSortTitles(this, menu);
     }
 
