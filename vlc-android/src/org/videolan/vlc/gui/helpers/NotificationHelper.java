@@ -31,7 +31,9 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.StartActivity;
@@ -45,36 +47,51 @@ import static org.videolan.vlc.util.Util.getMediaDescription;
 public class NotificationHelper {
     public final static String TAG = "VLC/NotificationHelper";
 
+    private final static StringBuilder sb = new StringBuilder();
+
     public static Notification createPlaybackNotification(Context ctx, boolean video, String title, String artist,
                                                           String album, Bitmap cover, boolean playing,
                                                           MediaSessionCompat.Token sessionToken,
                                                           PendingIntent spi) {
 
-        final PendingIntent piStop = PendingIntent.getBroadcast(ctx, 0, new Intent(Constants.ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
-        final PendingIntent piBackward = PendingIntent.getBroadcast(ctx, 0, new Intent(Constants.ACTION_REMOTE_BACKWARD), PendingIntent.FLAG_UPDATE_CURRENT);
-        final PendingIntent piPlay = PendingIntent.getBroadcast(ctx, 0, new Intent(Constants.ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
-        final PendingIntent piForward = PendingIntent.getBroadcast(ctx, 0, new Intent(Constants.ACTION_REMOTE_FORWARD), PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent piStop = MediaButtonReceiver.buildMediaButtonPendingIntent(ctx, PlaybackStateCompat.ACTION_STOP);
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(ctx, "vlc_playback");
+        sb.setLength(0);
+        sb.append(title).append(" - ").append(artist);
         builder.setSmallIcon(video ? R.drawable.ic_notif_video : R.drawable.ic_notif_audio)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(title)
                 .setContentText(getMediaDescription(artist, album))
                 .setLargeIcon(cover)
-                .setTicker(title + " - " + artist)
+                .setTicker(sb.toString())
                 .setAutoCancel(!playing)
                 .setOngoing(playing)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setDeleteIntent(piStop)
                 .setContentIntent(spi)
-                .addAction(R.drawable.ic_widget_previous_w, ctx.getString(R.string.previous), piBackward);
-        if (playing) builder.addAction(R.drawable.ic_widget_pause_w, ctx.getString(R.string.pause), piPlay);
-        else builder.addAction(R.drawable.ic_widget_play_w, ctx.getString(R.string.play), piPlay);
-        builder.addAction(R.drawable.ic_widget_next_w, ctx.getString(R.string.next), piForward);
-        builder.addAction(R.drawable.ic_widget_close_w, ctx.getString(R.string.stop), piStop);
+                .addAction(new NotificationCompat.Action(
+                R.drawable.ic_widget_previous_w, ctx.getString(R.string.previous),
+                MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
+                        PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)));
+        if (playing) builder.addAction(new NotificationCompat.Action(
+                R.drawable.ic_widget_pause_w, ctx.getString(R.string.pause),
+                MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
+                        PlaybackStateCompat.ACTION_PLAY_PAUSE)));
+        else builder.addAction(new NotificationCompat.Action(
+                R.drawable.ic_widget_play_w, ctx.getString(R.string.play),
+                MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
+                        PlaybackStateCompat.ACTION_PLAY_PAUSE)));
+        builder.addAction(new NotificationCompat.Action(
+                R.drawable.ic_widget_next_w, ctx.getString(R.string.next),
+                MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
+                        PlaybackStateCompat.ACTION_SKIP_TO_NEXT)));
+        builder.addAction(new NotificationCompat.Action(
+                R.drawable.ic_widget_close_w, ctx.getString(R.string.stop), piStop));
+
         if (AndroidDevices.showMediaStyle) {
             builder.setStyle(new android.support.v4.media.app.NotificationCompat.MediaStyle()
                     .setMediaSession(sessionToken)
-                    .setShowActionsInCompactView(0,1,2)
+                    .setShowActionsInCompactView(0)
                     .setShowCancelButton(true)
                     .setCancelButtonIntent(piStop)
             );
@@ -83,7 +100,6 @@ public class NotificationHelper {
     }
 
     private static android.support.v4.app.NotificationCompat.Builder scanCompatBuilder;
-    private static Notification.Builder scanBuilder;
     private static final Intent notificationIntent = new Intent();
     public static Notification createScanNotification(Context ctx, String progressText, boolean updateActions, boolean paused) {
         if (scanCompatBuilder == null) {

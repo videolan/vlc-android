@@ -53,6 +53,17 @@ public class MediaUtils {
         });
     }
 
+    public static void loadlastPlaylistNoUi(final Context context, final int type){
+        if (context == null) return;
+        new BaseCallBack(context) {
+            @Override
+            public void onConnected(PlaybackService service) {
+                service.loadLastPlaylist(type);
+                mClient.disconnect();
+            }
+        };
+    }
+
     public static void getSubs(Activity activity, MediaWrapper media, SubtitlesDownloader.Callback cb) {
         final List<MediaWrapper> mediaList = new ArrayList<>();
         mediaList.add(media);

@@ -52,7 +52,6 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
 
         findPreference("enable_headset_detection").setVisible(false);
         findPreference("enable_play_on_headset_insertion").setVisible(false);
-        findPreference("enable_steal_remote_control").setVisible(false);
         findPreference("headset_prefs_category").setVisible(false);
         findPreference("lockscreen_cover").setVisible(false);
         findPreference("enable_headset_actions").setVisible(false);

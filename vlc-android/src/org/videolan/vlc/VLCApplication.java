@@ -77,9 +77,6 @@ public class VLCApplication extends Application {
         sSettings = PreferenceManager.getDefaultSharedPreferences(this);
         sTV = AndroidDevices.isAndroidTv || (!AndroidDevices.isChromeBook && !AndroidDevices.hasTsp);
 
-        // Disable remote control receiver on Fire TV.
-        if (!AndroidDevices.hasTsp) AndroidDevices.setRemoteControlReceiverEnabled(false);
-
         setLocale();
 
         WorkersKt.runBackground(new Runnable() {

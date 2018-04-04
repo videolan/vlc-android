@@ -80,9 +80,6 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
             case "enable_headset_detection":
                 ((PreferencesActivity)getActivity()).detectHeadset(((TwoStatePreference) preference).isChecked());
                 return true;
-            case "enable_steal_remote_control":
-                PlaybackService.Client.restartService(getActivity());
-                return true;
         }
         return super.onPreferenceTreeClick(preference);
     }

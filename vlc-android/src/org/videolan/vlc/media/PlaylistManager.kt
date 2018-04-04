@@ -192,7 +192,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (systemExit) player.release()
         else player.restart()
         showAudioPlayer.value = false
-        service.onPlaybackStopped()
+        service.onPlaybackStopped(systemExit)
     }
 
     @MainThread

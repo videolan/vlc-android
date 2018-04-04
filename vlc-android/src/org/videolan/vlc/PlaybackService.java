@@ -53,6 +53,7 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.ServiceCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaBrowserServiceCompat;
@@ -161,11 +162,6 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     private int mWidget = 0;
     private boolean mHasAudioFocus = false;
-    // RemoteControlClient-related
-    /**
-     * RemoteControlClient is for lock screen playback control.
-     */
-    private RemoteControlClientReceiver mRemoteControlClientReceiver = null;
     /**
      * Last widget position update timestamp
      */
@@ -184,8 +180,6 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
         mMedialibrary = VLCApplication.getMLInstance();
         if (!mMedialibrary.isInitiated()) registerMedialibrary(null);
-        if (!AndroidDevices.hasTsp && !AndroidDevices.hasPlayServices)
-            AndroidDevices.setRemoteControlReceiverEnabled(true);
 
         mDetectHeadset = mSettings.getBoolean("enable_headset_detection", true);
 
@@ -217,16 +211,6 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         filter.addAction(Constants.ACTION_CAR_MODE_EXIT);
         registerReceiver(mReceiver, filter);
 
-        final boolean stealRemoteControl = mSettings.getBoolean("enable_steal_remote_control", false);
-
-        if (stealRemoteControl) {
-            /* Backward compatibility for API 7 */
-            final IntentFilter stealFilter = new IntentFilter();
-            stealFilter.setPriority(Integer.MAX_VALUE);
-            stealFilter.addAction(Intent.ACTION_MEDIA_BUTTON);
-            mRemoteControlClientReceiver = new RemoteControlClientReceiver();
-            registerReceiver(mRemoteControlClientReceiver, stealFilter);
-        }
         mKeyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
     }
 
@@ -253,7 +237,8 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null) return START_NOT_STICKY;
         final String action = intent.getAction();
-        if (Intent.ACTION_MEDIA_BUTTON.equals(action)) {
+        if (Intent.ACTION_MEDIA_BUTTON.equals(action)
+                && (AndroidDevices.hasTsp || AndroidDevices.hasPlayServices)) {
             MediaButtonReceiver.handleIntent(mMediaSession, intent);
             return START_NOT_STICKY;
         }
@@ -264,8 +249,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
             if (playlistManager.hasCurrentMedia()) play();
             else loadLastAudioPlaylist();
         } else if (Constants.ACTION_PLAY_FROM_SEARCH.equals(action)) {
-            if (mMediaSession == null)
-                initMediaSession();
+            if (mMediaSession == null) initMediaSession();
             final Bundle extras = intent.getBundleExtra(Constants.EXTRA_SEARCH_BUNDLE);
             mMediaSession.getController().getTransportControls()
                     .playFromSearch(extras.getString(SearchManager.QUERY), extras);
@@ -284,13 +268,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         //Call it once mMediaSession is null, to not publish playback state
         stop(true);
 
-        if (!AndroidDevices.hasTsp && !AndroidDevices.hasPlayServices)
-            AndroidDevices.setRemoteControlReceiverEnabled(false);
         unregisterReceiver(mReceiver);
-        if (mRemoteControlClientReceiver != null) {
-            unregisterReceiver(mRemoteControlClientReceiver);
-            mRemoteControlClientReceiver = null;
-        }
         playlistManager.onServiceDestroyed();
     }
 
@@ -526,7 +504,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                             && !playlistManager.getVideoBackground()
                             && !hasRenderer()
                             && playlistManager.switchToVideo()) {
-                        hideNotification();
+                        hideNotification(true);
                     } else {
                         showNotification();
                     }
@@ -573,8 +551,8 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         }
     };
 
-    public void onPlaybackStopped() {
-        hideNotification();
+    public void onPlaybackStopped(boolean systemExit) {
+        if (!systemExit) hideNotification(false);
         if (mWakeLock.isHeld()) mWakeLock.release();
         changeAudioFocus(false);
         mMedialibrary.resumeBackgroundOperations();
@@ -647,7 +625,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     public void showNotification() {
         if (!AndroidDevices.isAndroidTv && VLCApplication.showTvUi()) return;
         if (isPlayingPopup() || !hasRenderer() && playlistManager.getPlayer().isVideoPlaying()) {
-            hideNotification();
+            hideNotification(true);
             return;
         }
         final MediaWrapper mw = playlistManager.getCurrentMedia();
@@ -691,7 +669,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                                 NotificationManagerCompat.from(ctx).notify(3, notification);
                         } else {
                             if (mIsForeground) {
-                                PlaybackService.this.stopForeground(false);
+                                ServiceCompat.stopForeground(PlaybackService.this, ServiceCompat.STOP_FOREGROUND_DETACH);
                                 mIsForeground = false;
                             }
                             NotificationManagerCompat.from(ctx).notify(3, notification);
@@ -726,12 +704,12 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     }
 
     private volatile boolean mIsForeground = false;
-    public void hideNotification() {
+    public void hideNotification(final boolean remove) {
         ExecutorHolder.executorService.execute(new Runnable() {
             @Override
             public void run() {
                 if (!isPlayingPopup() && mIsForeground) {
-                    PlaybackService.this.stopForeground(true);
+                    ServiceCompat.stopForeground(PlaybackService.this, remove ? ServiceCompat.STOP_FOREGROUND_REMOVE : ServiceCompat.STOP_FOREGROUND_DETACH);
                     mIsForeground = false;
                 }
                 NotificationManagerCompat.from(PlaybackService.this).cancel(3);
@@ -773,9 +751,9 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     private void initMediaSession() {
         final Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
 
-        mediaButtonIntent.setClass(this, RemoteControlClientReceiver.class);
+        mediaButtonIntent.setClass(this, MediaButtonReceiver.class);
         final PendingIntent mbrIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0);
-        final ComponentName mbrName = new ComponentName(this, RemoteControlClientReceiver.class);
+        final ComponentName mbrName = new ComponentName(this, MediaButtonReceiver.class);
 
         mSessionCallback = new MediaSessionCallback();
         mMediaSession = new MediaSessionCompat(this, "VLC", mbrName, mbrIntent);
@@ -813,7 +791,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                         case KeyEvent.ACTION_DOWN:
                             if (event.getRepeatCount() <= 0) mHeadsetDownTime = time;
                             if (!hasMedia()) {
-                                loadLastAudioPlaylist();
+                                MediaUtils.loadlastPlaylistNoUi(PlaybackService.this, Constants.PLAYLIST_TYPE_AUDIO);
                                 return true;
                             }
                             break;
@@ -852,7 +830,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         @Override
         public void onPlay() {
             if (hasMedia()) play();
-            else loadLastAudioPlaylist();
+            else MediaUtils.loadlastPlaylistNoUi(PlaybackService.this, Constants.PLAYLIST_TYPE_AUDIO);
         }
 
         @Override
@@ -1001,8 +979,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                 }
                 if (media == null) return;
                 String title = media.getNowPlaying();
-                if (title == null)
-                    title = media.getTitle();
+                if (title == null) title = media.getTitle();
                 boolean coverOnLockscreen = mSettings.getBoolean("lockscreen_cover", true);
                 final MediaMetadataCompat.Builder bob = new MediaMetadataCompat.Builder();
                 bob.putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
@@ -1496,7 +1473,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     public void showPopup() {
         if (mPopupManager == null) mPopupManager = new PopupManager(this);
         mPopupManager.showPopup();
-        hideNotification();
+        hideNotification(true);
     }
 
     /**

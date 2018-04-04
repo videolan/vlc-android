@@ -21,7 +21,6 @@
 package org.videolan.vlc.util;
 
 import android.annotation.TargetApi;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -37,7 +36,6 @@ import android.view.MotionEvent;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.RemoteControlClientReceiver;
 import org.videolan.vlc.VLCApplication;
 
 import java.io.BufferedReader;
@@ -202,14 +200,6 @@ public class AndroidDevices {
             }
         }
         return 0;
-    }
-
-    public static void setRemoteControlReceiverEnabled(boolean enabled) {
-        VLCApplication.getAppContext().getPackageManager().setComponentEnabledSetting(
-                new ComponentName(VLCApplication.getAppContext(), RemoteControlClientReceiver.class),
-                enabled ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED :
-                        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP);
     }
 
     private static boolean isManufacturerBannedForMediastyleNotifications() {
