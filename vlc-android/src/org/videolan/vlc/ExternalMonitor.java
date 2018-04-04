@@ -82,7 +82,7 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
     }
 
     private static void checkNewStorages(final Context ctx) {
-        if (AndroidUtil.isICSOrLater && VLCApplication.getMLInstance().isInitiated())
+        if (VLCApplication.getMLInstance().isInitiated())
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {

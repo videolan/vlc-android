@@ -124,9 +124,4 @@ public class FilePickerFragment extends FileBrowserFragment {
             return true;
         } else return mMrl.length() < 7;
     }
-
-    @Override
-    protected int getBrowserFlags() {
-        return MediaBrowser.Flag.Interact|MediaBrowser.Flag.NoSlavesAutodetect;
-    }
 }

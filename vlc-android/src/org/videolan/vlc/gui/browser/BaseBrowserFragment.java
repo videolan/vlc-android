@@ -110,11 +110,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
             if (mCurrentMedia != null) mMrl = mCurrentMedia.getLocation();
             else mMrl = bundle.getString(KEY_MRL);
             mSavedPosition = bundle.getInt(KEY_POSITION);
-        } else if (getActivity().getIntent() != null){
-            mMrl = getActivity().getIntent().getDataString();
-            getActivity().setIntent(null);
+        } else if (requireActivity().getIntent() != null){
+            mMrl = requireActivity().getIntent().getDataString();
+            requireActivity().setIntent(null);
         }
-        mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("browser_show_hidden_files", false);
+        mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("browser_show_hidden_files", false);
         mRoot = defineIsRoot();
     }
 
@@ -162,7 +162,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
         mProvider.getDescriptionUpdate().observe(this, new Observer<Pair<Integer, String>>() {
             @Override
             public void onChanged(@Nullable Pair<Integer, String> pair) {
-                mAdapter.notifyItemChanged(pair.getFirst(), pair.getSecond());
+                if (pair != null) mAdapter.notifyItemChanged(pair.getFirst(), pair.getSecond());
             }
         });
         initFavorites();
@@ -288,13 +288,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
             case R.id.fab:
                 playAll(null);
         }
-    }
-
-    protected int getBrowserFlags() {
-        int flags = MediaBrowser.Flag.Interact;
-        if (mShowHiddenFiles)
-            flags |= MediaBrowser.Flag.ShowHiddenFiles;
-        return flags;
     }
 
     static class BrowserFragmentHandler extends WeakHandler<BaseBrowserFragment> {

@@ -82,7 +82,6 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
         }
     }
 
-    //TODO Show hidden files
     private fun parseSubDirectories() {
         synchronized(currentMediaList) {
             currentMediaList.addAll(dataset.value)
