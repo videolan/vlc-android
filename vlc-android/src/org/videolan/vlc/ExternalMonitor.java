@@ -76,13 +76,17 @@ public class ExternalMonitor extends BroadcastReceiver {
         storageFilter.addDataScheme("file");
         ctx.registerReceiver(instance, networkFilter);
         ctx.registerReceiver(instance, storageFilter);
-        if (AndroidUtil.isICSOrLater)
-            checkNewStorages(ctx);
+        checkNewStorages(ctx);
     }
 
     private static void checkNewStorages(final Context ctx) {
-        if (VLCApplication.getMLInstance().isInitiated())
-            ctx.startService(new Intent(Constants.ACTION_CHECK_STORAGES, null,ctx, MediaParsingService.class));
+        if (AndroidUtil.isICSOrLater && VLCApplication.getMLInstance().isInitiated())
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    ctx.startService(new Intent(Constants.ACTION_CHECK_STORAGES, null,ctx, MediaParsingService.class));
+                }
+            });
     }
 
     static void unregister(Context ctx) {
