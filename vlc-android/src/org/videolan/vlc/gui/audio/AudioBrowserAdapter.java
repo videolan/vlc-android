@@ -38,8 +38,8 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.DiffUtilAdapter;
-import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.Util;
@@ -258,11 +258,11 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
     private BitmapDrawable getIconDrawable() {
         switch (mType) {
             case MediaLibraryItem.TYPE_ALBUM:
-                return AsyncImageLoader.DEFAULT_COVER_ALBUM_DRAWABLE;
+                return UiTools.Resources.DEFAULT_COVER_ALBUM_DRAWABLE;
             case MediaLibraryItem.TYPE_ARTIST:
-                return AsyncImageLoader.DEFAULT_COVER_ARTIST_DRAWABLE;
+                return UiTools.Resources.DEFAULT_COVER_ARTIST_DRAWABLE;
             case MediaLibraryItem.TYPE_MEDIA:
-                return AsyncImageLoader.DEFAULT_COVER_AUDIO_DRAWABLE;
+                return UiTools.Resources.DEFAULT_COVER_AUDIO_DRAWABLE;
             default:
                 return null;
         }

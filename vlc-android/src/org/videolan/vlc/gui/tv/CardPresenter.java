@@ -43,8 +43,8 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.helpers.ImageLoaderKt;
 import org.videolan.vlc.util.Constants;
 
 import java.util.List;
@@ -83,7 +83,7 @@ public class CardPresenter extends Presenter {
             if (TextUtils.isEmpty(item.getArtworkMrl()) && item.getItemType() != MediaLibraryItem.TYPE_MEDIA) {
                 mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
                 mCardView.setMainImage(new BitmapDrawable(mCardView.getResources(), getDefaultImage(item)));
-            } else AsyncImageLoader.loadPicture(mCardView, item);
+            } else ImageLoaderKt.loadImage(mCardView, item);
         }
 
         private Bitmap getDefaultImage(MediaLibraryItem mediaLibraryItem) {
@@ -165,7 +165,7 @@ public class CardPresenter extends Presenter {
                         holder.mCardView.setContentText(media.getDescription());
                         break;
                     case Constants.UPDATE_THUMB:
-                        AsyncImageLoader.loadPicture(holder.mCardView, media);
+                        ImageLoaderKt.loadImage(holder.mCardView, media);
                         break;
                     case Constants.UPDATE_TIME:
                         final MediaWrapper mediaWrapper = (MediaWrapper) item;

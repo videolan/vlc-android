@@ -42,8 +42,9 @@ import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DiffUtilAdapter;
-import org.videolan.vlc.gui.helpers.AsyncImageLoader;
+import org.videolan.vlc.gui.helpers.ImageLoaderKt;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.Constants;
@@ -103,7 +104,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
             for (Object data : payloads) {
                 switch ((int) data) {
                     case Constants.UPDATE_THUMB:
-                        AsyncImageLoader.loadPicture(holder.thumbView, media);
+                        ImageLoaderKt.loadImage(holder.thumbView, media);
                         break;
                     case Constants.UPDATE_TIME:
                     case Constants.UPDATE_SEEN:
@@ -119,7 +120,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
 
     @Override
     public void onViewRecycled(ViewHolder holder) {
-        holder.binding.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE);
+        holder.binding.setVariable(BR.cover, UiTools.Resources.DEFAULT_COVER_VIDEO_DRAWABLE);
     }
 
     public boolean isEmpty() {
@@ -260,7 +261,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
             super(binding);
             thumbView = itemView.findViewById(R.id.ml_item_thumbnail);
             binding.setVariable(BR.holder, this);
-            binding.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE);
+            binding.setVariable(BR.cover, UiTools.Resources.DEFAULT_COVER_VIDEO_DRAWABLE);
             if (AndroidUtil.isMarshMallowOrLater) itemView.setOnContextClickListener(new View.OnContextClickListener() {
                 @Override
                 public boolean onContextClick(View v) {

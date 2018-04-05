@@ -282,15 +282,14 @@ public class AudioUtil {
         return COVER_DIR.get() + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
     }
 
-    public static Bitmap getCoverFromMemCache(Context context, MediaWrapper media, int width) {
+    private static Bitmap getCoverFromMemCache(Context context, MediaWrapper media, int width) {
         Bitmap cover = null;
-
+        final BitmapCache cache = BitmapCache.getInstance();
         if (media != null && media.getArtist() != null && media.getAlbum() != null) {
-            final BitmapCache cache = BitmapCache.getInstance();
             cover = cache.getBitmapFromMemCache(getCoverCachePath(context, media, width));
         }
         if (cover == null && media != null && !TextUtils.isEmpty(media.getArtworkURL()) && media.getArtworkURL().startsWith("http")) {
-            cover = HttpImageLoader.getBitmapFromIconCache(media.getArtworkURL());
+            cover = cache.getBitmapFromMemCache(media.getArtworkURL());
         }
         return cover;
     }
@@ -375,12 +374,9 @@ public class AudioUtil {
 
     @WorkerThread
     public static Bitmap readCoverBitmap(String path, int width) {
-        if (path == null)
-            return null;
-        if (path.startsWith("http"))
-            return HttpImageLoader.downloadBitmap(path);
-        if (path.startsWith("file"))
-            path = path.substring(7);
+        if (path == null) return null;
+        if (path.startsWith("http")) return HttpImageLoader.downloadBitmap(path);
+        if (path.startsWith("file")) path = path.substring(7);
         Bitmap cover = null;
         BitmapFactory.Options options = new BitmapFactory.Options();
 

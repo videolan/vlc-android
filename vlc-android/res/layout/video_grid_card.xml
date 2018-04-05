@@ -63,7 +63,7 @@
         android:paddingTop="@dimen/top_bottom_1610_margin"
         android:background="@{bgColor}" >
 
-        <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
+        <!-- Image loading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
         <ImageView
             android:id="@+id/ml_item_thumbnail"
             android:layout_width="0dp"

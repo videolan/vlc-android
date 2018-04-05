@@ -53,7 +53,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="@{item.getItemType() == MediaLibraryItem.TYPE_STORAGE ? View.VISIBLE : View.GONE, default=gone}" />
 
-        <!-- Image downloading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.downloadIcon() -->
+        <!-- Image downloading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
         <TextView
             android:id="@+id/dvi_icon"
             android:layout_width="48dp"

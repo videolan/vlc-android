@@ -34,7 +34,7 @@
         android:onLongClick="@{holder::onLongClick}"
         android:background="@{bgColor}" >
 
-        <!-- Image loading is handled by org.videolan.vlc.gui.helpers.AsyncImageLoader.loadPicture() -->
+        <!-- Image loading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
         <ImageView
             android:id="@+id/media_cover"
             android:layout_width="@dimen/audio_browser_item_size"
