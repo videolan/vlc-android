@@ -39,6 +39,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
     var sort = Medialibrary.SORT_ALPHA
     var desc = false
     private var filtering = false
+    protected open val sortKey = this.javaClass.simpleName!!
 
     open fun canSortByName() = true
     open fun canSortByDuration() = false
@@ -100,7 +101,17 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
 
     override fun refresh() = updateActor.offer(Refresh)
 
-    open fun sort(sort: Int) = updateActor.offer(Sort(sort))
+    open fun sort(sort: Int) {
+        if (canSortBy(sort)) {
+            desc = when (this.sort) {
+                Medialibrary.SORT_DEFAULT -> sort == Medialibrary.SORT_ALPHA
+                sort -> !desc
+                else -> false
+            }
+            this.sort = sort
+        }
+        refresh()
+    }
 
     fun remove(mw: T) = updateActor.offer(Remove(mw))
 
@@ -137,6 +148,10 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
     protected open suspend fun updateList() {}
 
     protected abstract fun fetch()
+
+    fun getKey() : String {
+        return sortKey
+    }
 }
 
 sealed class Update

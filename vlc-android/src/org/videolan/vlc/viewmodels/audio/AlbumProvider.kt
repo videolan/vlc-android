@@ -8,15 +8,19 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Artist
 import org.videolan.medialibrary.media.Genre
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.VLCApplication
 
 
 class AlbumProvider(val parent: MediaLibraryItem? = null): AudioModel(), Medialibrary.AlbumsAddedCb {
 
+    override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
     override fun canSortByReleaseDate() = true
 
     init {
-        if (parent is Artist) sort = Medialibrary.SORT_RELEASEDATE
+        sort = VLCApplication.getSettings().getInt(sortKey, Medialibrary.SORT_ALPHA)
+        desc = VLCApplication.getSettings().getBoolean("${sortKey}_desc", false)
+        if (sort == Medialibrary.SORT_ALPHA && parent is Artist) sort = Medialibrary.SORT_RELEASEDATE
     }
 
     override fun onAlbumsAdded() {

@@ -92,6 +92,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
         final int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
         mProvider = ViewModelProviders.of(requireActivity(), new VideosProvider.Factory(mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosProvider.class);
+        Log.d(TAG, "onCreate: "+mProvider.getKey());
     }
 
 

@@ -242,7 +242,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
                 sortBy(Medialibrary.SORT_DURATION);
                 return true;
             case R.id.ml_menu_sortby_date:
-                sortBy(this instanceof VideoGridFragment ? mMediaLibrary.SORT_LASTMODIFICATIONDATE : Medialibrary.SORT_RELEASEDATE);
+                sortBy(this instanceof VideoGridFragment ? Medialibrary.SORT_LASTMODIFICATIONDATE : Medialibrary.SORT_RELEASEDATE);
                 return true;
             case R.id.ml_menu_sortby_artist_name:
                 sortBy(Medialibrary.SORT_ARTIST);
@@ -258,7 +258,13 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     }
 
     protected void sortBy(int sort) {
-        getProvider().sort(sort);
+        final T provider = getProvider();
+        provider.sort(sort);
+        final String key = provider.getKey();
+        VLCApplication.getSettings().edit()
+                .putInt(key, sort)
+                .putBoolean(key+"_desc", provider.getDesc())
+                .apply();
     }
 
     public Menu getMenu() {

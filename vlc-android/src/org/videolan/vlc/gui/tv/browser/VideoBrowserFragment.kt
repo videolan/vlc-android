@@ -36,7 +36,7 @@ class VideoBrowserFragment : CategoriesFragment<VideosProvider>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"))
-        provider = VideosProvider.get(this, arguments?.getString(Constants.KEY_GROUP), minGroupLengthValue, Medialibrary.SORT_ALPHA)
+        provider = VideosProvider.get(this, arguments?.getString(Constants.KEY_GROUP), minGroupLengthValue, Medialibrary.SORT_DEFAULT)
         provider.categories.observe(this, Observer { update(it) })
         super.onCreate(savedInstanceState)
     }

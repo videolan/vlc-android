@@ -37,6 +37,7 @@ import org.videolan.vlc.util.Util
 
 open class VideosProvider(private val group: String?, private val minGroupLen: Int, customSort : Int) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
 
+    override val sortKey = "${super.sortKey}_$group"
     override fun canSortByDuration() = true
     override fun canSortByLastModified() = true
     private val res by lazy { VLCApplication.getAppResources() }
@@ -44,7 +45,9 @@ open class VideosProvider(private val group: String?, private val minGroupLen: I
     private val thumbObs = Observer<MediaWrapper> { media -> updateActor.offer(MediaUpdate(listOf(media!!))) }
 
     init {
-        if (customSort != Medialibrary.SORT_DEFAULT) sort = customSort
+        sort = if (customSort != Medialibrary.SORT_DEFAULT) customSort
+        else VLCApplication.getSettings().getInt(sortKey, Medialibrary.SORT_ALPHA)
+        desc = VLCApplication.getSettings().getBoolean(sortKey+"_desc", false)
         Medialibrary.lastThumb.observeForever(thumbObs)
     }
 

@@ -4,10 +4,17 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
+import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.Medialibrary.ArtistsAddedCb
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.VLCApplication
 
 class ArtistProvider(private var showAll: Boolean = false): AudioModel(), ArtistsAddedCb {
+
+    init {
+        sort = VLCApplication.getSettings().getInt(sortKey, Medialibrary.SORT_ALPHA)
+        desc = VLCApplication.getSettings().getBoolean("${sortKey}_desc", false)
+    }
 
     override fun onArtistsAdded() {
         refresh()

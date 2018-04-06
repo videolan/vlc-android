@@ -6,14 +6,18 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.*
+import org.videolan.vlc.VLCApplication
 
 class TracksProvider(val parent: MediaLibraryItem? = null): AudioModel() {
 
+    override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
     override fun canSortByAlbum() = parent !== null
 
     init {
-        sort = when (parent) {
+        sort = VLCApplication.getSettings().getInt(sortKey, Medialibrary.SORT_ALPHA)
+        desc = VLCApplication.getSettings().getBoolean("${sortKey}_desc", false)
+        if (sort == Medialibrary.SORT_ALPHA) sort = when (parent) {
             is Artist -> Medialibrary.SORT_ALBUM
             is Album -> Medialibrary.SORT_DEFAULT
             else -> Medialibrary.SORT_ALPHA

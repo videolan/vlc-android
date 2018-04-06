@@ -65,7 +65,6 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.util.WorkersKt;
-import org.videolan.vlc.viewmodels.BaseModel;
 import org.videolan.vlc.viewmodels.audio.AlbumProvider;
 import org.videolan.vlc.viewmodels.audio.ArtistProvider;
 import org.videolan.vlc.viewmodels.audio.AudioModel;
@@ -537,28 +536,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                     fragment.updateEmptyView(fragment.mViewPager.getCurrentItem());
             }
         }
-    }
-
-    @Override
-    public void sortBy(int newSortby) {
-        final BaseModel provider;
-        switch (mViewPager.getCurrentItem()) {
-            case MODE_ALBUM:
-                provider = albumProvider;
-                break;
-            case MODE_ARTIST:
-                provider = artistProvider;
-                break;
-            case MODE_GENRE:
-                provider = genresprovider;
-                break;
-            case MODE_PLAYLIST:
-                provider = playlistsProvider;
-                break;
-            default:
-                provider = tracksProvider;
-        }
-        provider.sort(newSortby);
     }
 
     public void updateArtists() {
