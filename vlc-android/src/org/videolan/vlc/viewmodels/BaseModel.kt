@@ -84,17 +84,6 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
                 is MediaAddition -> addMedia(update.media as T)
                 is MediaListAddition -> addMedia(update.mediaList as List<T>)
                 is Remove -> removeMedia(update.media as T)
-                is Sort -> {
-                    if (canSortBy(update.sort)) {
-                        desc = when (sort) {
-                            Medialibrary.SORT_DEFAULT -> update.sort == Medialibrary.SORT_ALPHA
-                            update.sort -> !desc
-                            else -> false
-                        }
-                        sort = update.sort
-                        updateList()
-                    }
-                }
             }
         }
     }
@@ -109,8 +98,8 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
                 else -> false
             }
             this.sort = sort
+            refresh()
         }
-        refresh()
     }
 
     fun remove(mw: T) = updateActor.offer(Remove(mw))
@@ -159,6 +148,5 @@ object Refresh : Update()
 data class MediaUpdate(val mediaList: List<MediaLibraryItem>) : Update()
 data class MediaListAddition(val mediaList: List<MediaLibraryItem>) : Update()
 data class MediaAddition(val media: MediaLibraryItem) : Update()
-data class Sort(val sort: Int) : Update()
 data class Remove(val media: MediaLibraryItem) : Update()
 data class Filter(val query: String?) : Update()
