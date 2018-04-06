@@ -26,7 +26,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -38,7 +37,6 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import org.videolan.vlc.R;
 import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Constants;
 
 import static org.videolan.vlc.util.Constants.ACTION_PAUSE_SCAN;
 import static org.videolan.vlc.util.Constants.ACTION_RESUME_SCAN;
@@ -91,7 +89,7 @@ public class NotificationHelper {
         if (AndroidDevices.showMediaStyle) {
             builder.setStyle(new android.support.v4.media.app.NotificationCompat.MediaStyle()
                     .setMediaSession(sessionToken)
-                    .setShowActionsInCompactView(0)
+                    .setShowActionsInCompactView(0,1,2)
                     .setShowCancelButton(true)
                     .setCancelButtonIntent(piStop)
             );
