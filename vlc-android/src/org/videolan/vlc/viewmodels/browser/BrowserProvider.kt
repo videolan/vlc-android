@@ -46,11 +46,6 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
         Handler(handlerThread.looper)
     }
 
-    init {
-        sort = VLCApplication.getSettings().getInt(sortKey, Medialibrary.SORT_ALPHA)
-        desc = VLCApplication.getSettings().getBoolean("${sortKey}_desc", false)
-    }
-
     protected open fun initBrowser(listener: EventListener = browserListener) {
         if (mediabrowser === null) mediabrowser = MediaBrowser(VLCInstance.get(), listener, browserHandler)
         else mediabrowser?.changeEventListener(listener)

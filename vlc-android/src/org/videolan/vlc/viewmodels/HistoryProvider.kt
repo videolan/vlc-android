@@ -18,7 +18,7 @@ class HistoryProvider: BaseModel<MediaWrapper>() {
     }
 
     fun moveUp(media: MediaWrapper) {
-        dataset.value = dataset.value?.apply {
+        dataset.value = dataset.value.apply {
             remove(media)
             add(0, media)
         }
