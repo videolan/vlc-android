@@ -8,9 +8,12 @@ import android.os.Process
 import android.support.annotation.MainThread
 import android.support.v4.util.SimpleArrayMap
 import android.text.TextUtils
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.HandlerContext
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
@@ -73,9 +76,11 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
 
     @MainThread
     override fun sort(sort: Int) {
-        this.sort = sort
-        desc = !desc
-        dataset.value = dataset.value.apply { sortWith(if (desc) descComp else ascComp) }
+        launch(UI, CoroutineStart.UNDISPATCHED) {
+            this@BrowserProvider.sort = sort
+            desc = !desc
+            dataset.value = withContext(CommonPool) { dataset.value.apply { sortWith(if (desc) descComp else ascComp) } }
+        }
     }
 
     fun releaseBrowser() {
