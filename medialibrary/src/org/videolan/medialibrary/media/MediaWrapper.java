@@ -100,6 +100,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     private String mEncodedBy;
     private String mTrackID;
     private String mArtworkURL;
+    private boolean mThumbnailGenerated;
 
     private final Uri mUri;
     private String mFilename;
@@ -126,10 +127,9 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     public MediaWrapper(long id, String mrl, long time, long length, int type, String title,
                         String artist, String genre, String album, String albumArtist, int width,
                         int height, String artworkURL, int audio, int spu, int trackNumber,
-                        int discNumber, long lastModified, long seen) {
+                        int discNumber, long lastModified, long seen, boolean isThumbnailGenerated) {
         super();
-        if (TextUtils.isEmpty(mrl))
-            throw new IllegalArgumentException("uri was empty");
+        if (TextUtils.isEmpty(mrl)) throw new IllegalArgumentException("uri was empty");
 
         if (mrl.charAt(0) == '/')
             mrl = "file://"+mrl;
@@ -156,6 +156,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         if (sb.length() > 0)
             mDescription = sb.toString();
         defineType();
+        mThumbnailGenerated = isThumbnailGenerated;
     }
 
     /**
@@ -550,6 +551,10 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
 
     public String getArtworkURL() {
         return mArtworkURL;
+    }
+
+    public boolean isThumbnailGenerated() {
+        return mThumbnailGenerated;
     }
 
     public String getArtworkMrl() {
