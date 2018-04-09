@@ -37,12 +37,9 @@ public class ThumbnailsProvider {
 
     @WorkerThread
     public static Bitmap getMediaThumbnail(final MediaWrapper item) {
-        if (item.getType() == MediaWrapper.TYPE_GROUP)
-            return ThumbnailsProvider.getComposedImage((MediaGroup) item);
-        if (item.getType() == MediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.getArtworkMrl()))
-            return getVideoThumbnail(item);
-        else
-            return AudioUtil.readCoverBitmap(Uri.decode(item.getArtworkMrl()), sImageWidth);
+        if (item.getType() == MediaWrapper.TYPE_GROUP) return ThumbnailsProvider.getComposedImage((MediaGroup) item);
+        if (item.getType() == MediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.getArtworkMrl())) return getVideoThumbnail(item);
+        else return AudioUtil.readCoverBitmap(Uri.decode(item.getArtworkMrl()), sImageWidth);
     }
 
     public static String getMediaCacheKey(boolean isMedia, MediaLibraryItem item) {
@@ -67,20 +64,18 @@ public class ThumbnailsProvider {
         final Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND);
         if (bitmap != null) {
             BitmapCache.getInstance().addBitmapToMemCache(thumbPath, bitmap);
-            if (hasCache)
-                WorkersKt.runBackground(new Runnable() {
-                    @Override
-                    public void run() {
-                        media.setThumbnail(thumbPath);
-                        saveOnDisk(bitmap, thumbPath);
-                    }
-                });
-        } else if (media.getId() != 0L) Medialibrary.getInstance().requestThumbnail(media.getId());
+            if (hasCache) {
+                media.setThumbnail(thumbPath);
+                saveOnDisk(bitmap, thumbPath);
+            }
+        } else if (media.getId() != 0L && !media.isThumbnailGenerated()) {
+            Medialibrary.getInstance().requestThumbnail(media.getId());
+        }
         return bitmap;
     }
 
     @WorkerThread
-    public static Bitmap getComposedImage(MediaGroup group) {
+    private static Bitmap getComposedImage(MediaGroup group) {
         final BitmapCache bmc = BitmapCache.getInstance();
         final String key = "group:"+group.getTitle();
         Bitmap composedImage = bmc.getBitmapFromMemCache(key);
