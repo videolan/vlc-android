@@ -61,6 +61,7 @@ public class ThumbnailsProvider {
         final Bitmap cacheBM = hasCache ? BitmapCache.getInstance().getBitmapFromMemCache(thumbPath) : null;
         if (cacheBM != null) return cacheBM;
         if (hasCache && new File(thumbPath).exists()) return readCoverBitmap(thumbPath, sImageWidth);
+        if (media.isThumbnailGenerated()) return null;
         final Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND);
         if (bitmap != null) {
             BitmapCache.getInstance().addBitmapToMemCache(thumbPath, bitmap);
@@ -68,7 +69,7 @@ public class ThumbnailsProvider {
                 media.setThumbnail(thumbPath);
                 saveOnDisk(bitmap, thumbPath);
             }
-        } else if (media.getId() != 0L && !media.isThumbnailGenerated()) {
+        } else if (media.getId() != 0L) {
             Medialibrary.getInstance().requestThumbnail(media.getId());
         }
         return bitmap;
