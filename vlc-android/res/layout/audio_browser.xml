@@ -51,11 +51,14 @@
         android:visibility="gone" />
 
     <org.videolan.vlc.gui.view.FastScroller
+        android:fitsSystemWindows="true"
         android:id="@+id/songs_fast_scroller"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/default_margin"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/swipeLayout"
+        android:layout_alignBottom="@+id/swipeLayout"
         android:visibility="invisible"/>
 </RelativeLayout>
