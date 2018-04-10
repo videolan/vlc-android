@@ -40,7 +40,6 @@ import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.DiffUtilAdapter;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.Util;
 
@@ -52,16 +51,15 @@ import java.util.List;
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_PLAYLIST;
 
-public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter {
+public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
 
     private List<MediaLibraryItem> mOriginalDataSet;
-    private IEventsHandler mIEventsHandler;
+    private final IEventsHandler mIEventsHandler;
+    private final int mType;
+    private final BitmapDrawable mDefaultCover;
     private int mSelectionCount = 0;
-    private int mType;
-    private int mParentType = 0;
-    private BitmapDrawable mDefaultCover;
 
     public AudioBrowserAdapter(int type, IEventsHandler eventsHandler) {
         mIEventsHandler = eventsHandler;
@@ -69,37 +67,23 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
         mDefaultCover = getIconDrawable();
     }
 
-    public int getAdapterType() {
-        return mType;
-    }
-
-    public void setParentAdapterType(int type) {
-        mParentType = type;
-    }
-
-    public int getParentAdapterType() {
-        return mParentType;
-    }
-
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (viewType == MediaLibraryItem.TYPE_DUMMY) {
             final AudioBrowserSeparatorBinding binding = AudioBrowserSeparatorBinding.inflate(inflater, parent, false);
             return new ViewHolder<>(binding);
         } else {
             final AudioBrowserItemBinding binding = AudioBrowserItemBinding.inflate(inflater, parent, false);
-            if (mType == TYPE_PLAYLIST) // Hide context button for playlist in save playlist dialog
-                binding.itemMore.setVisibility(View.GONE);
+            // Hide context button for playlist in save playlist dialog
+            if (mType == TYPE_PLAYLIST) binding.itemMore.setVisibility(View.GONE);
             return new MediaItemViewHolder(binding);
         }
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (position >= getDataset().size())
-            return;
+        if (position >= getDataset().size()) return;
         holder.binding.setVariable(BR.item, getDataset().get(position));
         if (holder.getType() == MediaLibraryItem.TYPE_MEDIA) {
             final boolean isSelected = getDataset().get(position).hasStateFlags(FLAG_SELECTED);
@@ -110,11 +94,10 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
-        if (Util.isListEmpty(payloads))
-            onBindViewHolder(holder, position);
+        if (Util.isListEmpty(payloads)) onBindViewHolder(holder, position);
         else {
             final boolean isSelected = ((MediaLibraryItem)payloads.get(0)).hasStateFlags(FLAG_SELECTED);
-            MediaItemViewHolder miv = (MediaItemViewHolder) holder;
+            final MediaItemViewHolder miv = (MediaItemViewHolder) holder;
             miv.setCoverlay(isSelected);
             miv.selectView(isSelected);
         }
@@ -123,8 +106,7 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
 
     @Override
     public void onViewRecycled(ViewHolder holder) {
-        if (mDefaultCover != null)
-            holder.binding.setVariable(BR.cover, mDefaultCover);
+        if (mDefaultCover != null) holder.binding.setVariable(BR.cover, mDefaultCover);
     }
 
     @Override
@@ -145,9 +127,8 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
     }
 
     List<MediaLibraryItem> getMediaItems() {
-        List<MediaLibraryItem> list = new ArrayList<>();
-        for (MediaLibraryItem item : getDataset())
-            if (!(item.getItemType() == MediaLibraryItem.TYPE_DUMMY)) list.add(item);
+        final List<MediaLibraryItem> list = new ArrayList<>();
+        for (MediaLibraryItem item : getDataset()) if (!(item.getItemType() == MediaLibraryItem.TYPE_DUMMY)) list.add(item);
         return list;
     }
 
@@ -172,18 +153,6 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
         return getItem(position).getItemType();
     }
 
-    public boolean hasSections() {
-        return false;
-    }
-
-    @Override
-    public String getSectionforPosition(int position) {
-//        if (mMakeSections)
-//            for (int i = position; i >= 0; --i)
-//                if (getDataset().get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) return getDataset().get(i).getTitle();
-        return "";
-    }
-
     @MainThread
     public boolean isEmpty() {
         return (peekLast().size() == 0);
@@ -192,14 +161,6 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
     public void clear() {
         getDataset().clear();
         mOriginalDataSet = null;
-    }
-
-    private List<MediaLibraryItem> removeSections(List<MediaLibraryItem> items) {
-        List<MediaLibraryItem> newList = new ArrayList<>();
-        for (MediaLibraryItem item : items)
-            if (item.getItemType() != MediaLibraryItem.TYPE_DUMMY)
-                newList.add(item);
-        return newList;
     }
 
     public void remove(final MediaLibraryItem... items) {
@@ -234,9 +195,7 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
     @MainThread
     public List<MediaLibraryItem> getSelection() {
         final List<MediaLibraryItem> selection = new LinkedList<>();
-        for (MediaLibraryItem item : getDataset())
-            if (item.hasStateFlags(FLAG_SELECTED))
-                selection.add(item);
+        for (MediaLibraryItem item : getDataset()) if (item.hasStateFlags(FLAG_SELECTED)) selection.add(item);
         return selection;
     }
 
@@ -332,41 +291,4 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
             return getItem(getLayoutPosition()).hasStateFlags(FLAG_SELECTED);
         }
     }
-
-//    @Override
-//    public int getDefaultSort() {
-//        switch (mParentType) {
-//            case MediaLibraryItem.TYPE_ARTIST:
-//                return mType == MediaLibraryItem.TYPE_ALBUM ? MediaLibraryItemComparator.SORT_BY_DATE : MediaLibraryItemComparator.SORT_BY_ALBUM;
-//            case MediaLibraryItem.TYPE_GENRE:
-//                return mType == MediaLibraryItem.TYPE_ALBUM ? MediaLibraryItemComparator.SORT_BY_TITLE : MediaLibraryItemComparator.SORT_BY_ALBUM;
-//            default:
-//                return MediaLibraryItemComparator.SORT_BY_TITLE;
-//        }
-//    }
-
-//    @Override
-//    public int getDefaultDirection() {
-//        return mParentType == MediaLibraryItem.TYPE_ARTIST ? -1 : 1;
-//    }
-//
-//    @Override
-//    protected boolean isSortAllowed(int sort) {
-//        switch (sort) {
-//            case MediaLibraryItemComparator.SORT_BY_TITLE:
-//                return true;
-//            case MediaLibraryItemComparator.SORT_BY_DATE:
-//                return mType == MediaLibraryItem.TYPE_ALBUM;
-//            case MediaLibraryItemComparator.SORT_BY_LENGTH:
-//                return mType == MediaLibraryItem.TYPE_ALBUM || mType == MediaLibraryItem.TYPE_MEDIA;
-//            case MediaLibraryItemComparator.SORT_BY_NUMBER:
-//                return mType == MediaLibraryItem.TYPE_ALBUM || mType == MediaLibraryItem.TYPE_PLAYLIST;
-//            case MediaLibraryItemComparator.SORT_BY_ALBUM:
-//                return mParentType != 0 && mType == MediaLibraryItem.TYPE_MEDIA;
-//            case MediaLibraryItemComparator.SORT_BY_ARTIST:
-//                return mParentType == MediaLibraryItem.TYPE_GENRE && mType == MediaLibraryItem.TYPE_MEDIA;
-//            default:
-//                return false;
-//        }
-//    }
 }
