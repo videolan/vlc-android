@@ -624,7 +624,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void showNotification() {
         if (!AndroidDevices.isAndroidTv && VLCApplication.showTvUi()) return;
-        if (isPlayingPopup() || !hasRenderer() && playlistManager.getPlayer().isVideoPlaying()) {
+        if (isPlayingPopup() || !hasRenderer() && isVideoPlaying()) {
             hideNotification(true);
             return;
         }
@@ -1440,6 +1440,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         if (BuildConfig.DEBUG) Log.v(TAG, "Showing index " + index + " with playing URI " + media.getUri());
         playlistManager.setCurrentIndex(index);
         notifyTrackChanged();
+        PlaylistManager.Companion.getShowAudioPlayer().setValue(!isVideoPlaying());
         showNotification();
     }
 
