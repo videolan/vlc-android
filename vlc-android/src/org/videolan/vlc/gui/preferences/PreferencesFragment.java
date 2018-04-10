@@ -24,18 +24,25 @@
 package org.videolan.vlc.gui.preferences;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
+import android.text.TextUtils;
 import android.view.View;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.util.Permissions;
 
-public class PreferencesFragment extends BasePreferenceFragment {
+public class PreferencesFragment extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public final static String TAG = "VLC/PreferencesFragment";
 
@@ -54,6 +61,13 @@ public class PreferencesFragment extends BasePreferenceFragment {
     @Override
     public void onStart() {
         super.onStart();
+        getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -62,7 +76,7 @@ public class PreferencesFragment extends BasePreferenceFragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         findPreference("extensions_category").setVisible(BuildConfig.DEBUG);
     }
@@ -74,10 +88,11 @@ public class PreferencesFragment extends BasePreferenceFragment {
                 if (VLCApplication.getMLInstance().isWorking())
                     UiTools.snacker(getView(), getString(R.string.settings_ml_block_scan));
                 else {
+                    final FragmentActivity activity = getActivity();
                     final Intent intent = new Intent(VLCApplication.getAppContext(), SecondaryActivity.class);
                     intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER);
                     startActivity(intent);
-                    getActivity().setResult(PreferencesActivity.RESULT_RESTART);
+                    if (activity != null) activity.setResult(PreferencesActivity.RESULT_RESTART);
                 }
                 return true;
             case "ui_category":
@@ -102,11 +117,24 @@ public class PreferencesFragment extends BasePreferenceFragment {
                 loadFragment(new PreferencesCasting());
                 break;
             case PLAYBACK_HISTORY:
-                getActivity().setResult(PreferencesActivity.RESULT_RESTART);
+                final FragmentActivity activity = getActivity();
+                if (activity != null) activity.setResult(PreferencesActivity.RESULT_RESTART);
                 return true;
             default:
                 return super.onPreferenceTreeClick(preference);
         }
         return true;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        final FragmentActivity activity = getActivity();
+        if (activity == null) return;
+        switch (key) {
+            case "video_action_switch":
+                if (!AndroidUtil.isOOrLater && TextUtils.equals(((ListPreference)findPreference(key)).getValue(), "2")
+                        && !Permissions.canDrawOverlays(activity)) Permissions.checkDrawOverlaysPermission(activity);
+                break;
+        }
     }
 }
