@@ -48,14 +48,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.DirectoryBrowserBinding;
 import org.videolan.vlc.gui.InfoActivity;
-import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
@@ -224,15 +221,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     public boolean goBack(){
         final FragmentActivity activity = getActivity();
         if (activity == null) return false;
-        if (!mRoot) {
-            final FragmentManager fm = activity.getSupportFragmentManager();
-            final String tag = fm.getBackStackEntryAt(fm.getBackStackEntryCount()-1).getName();
-            if (!activity.getSupportFragmentManager().popBackStackImmediate() && activity instanceof MainActivity)
-                ((MainActivity)activity).getNavigator().showFragment(this instanceof NetworkBrowserFragment ? R.id.nav_network : R.id.nav_directories);
-            final Fragment current = fm.findFragmentByTag(tag);
-            final View view = current != null ? current.getView() : null;
-            if (view != null) view.setVisibility(View.VISIBLE);
-        }
+        if (!mRoot) activity.getSupportFragmentManager().popBackStack();
         return !mRoot;
     }
 
