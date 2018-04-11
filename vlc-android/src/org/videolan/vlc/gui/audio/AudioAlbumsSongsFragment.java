@@ -288,7 +288,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
-        super.onUpdateFinished(adapter);
         mFastScroller.setRecyclerView(getCurrentRV());
         mSwipeRefreshLayout.setRefreshing(false);
         if (mAlbumsAdapter.isEmpty()) mViewPager.setCurrentItem(1);

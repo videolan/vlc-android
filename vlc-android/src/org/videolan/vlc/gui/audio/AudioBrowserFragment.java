@@ -492,7 +492,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
 
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
-        super.onUpdateFinished(adapter);
         if (adapter == getCurrentAdapter()) {
             if (!mMediaLibrary.isWorking())
                 mHandler.sendEmptyMessage(UNSET_REFRESHING);
