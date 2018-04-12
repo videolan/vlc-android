@@ -250,6 +250,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (AndroidUtil.isOOrLater && !VLCApplication.isForeground()) forceForeground();
         if (intent == null) return START_NOT_STICKY;
         final String action = intent.getAction();
         if (Intent.ACTION_MEDIA_BUTTON.equals(action)) {
@@ -263,8 +264,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
             if (playlistManager.hasCurrentMedia()) play();
             else loadLastAudioPlaylist();
         } else if (Constants.ACTION_PLAY_FROM_SEARCH.equals(action)) {
-            if (mMediaSession == null)
-                initMediaSession();
+            if (mMediaSession == null) initMediaSession();
             final Bundle extras = intent.getBundleExtra(Constants.EXTRA_SEARCH_BUNDLE);
             mMediaSession.getController().getTransportControls()
                     .playFromSearch(extras.getString(SearchManager.QUERY), extras);
@@ -1194,13 +1194,40 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     private void loadLastAudioPlaylist() {
         if (AndroidDevices.isAndroidTv) return;
-        if (mMedialibrary.isInitiated() && mLibraryReceiver == null) playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO);
-        else registerMedialibrary(new Runnable() {
-                @Override
-                public void run() {
-                    playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO);
-                }
-            });
+        if (mMedialibrary.isInitiated() && mLibraryReceiver == null) {
+            if (!playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO)) stopSelf();
+        } else registerMedialibrary(new Runnable() {
+            @Override
+            public void run() {
+                if (!playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO)) stopSelf();
+            }
+        });
+    }
+
+    private void forceForeground() {
+        final Context ctx = PlaybackService.this;
+        final MediaSessionCompat.Token sessionToken = mMediaSession.getSessionToken();
+        final Notification notification = NotificationHelper.createPlaybackNotification(ctx,
+                false, ctx.getResources().getString(R.string.loading), "", "",
+                null, false, sessionToken, getSessionPendingIntent());
+        PlaybackService.this.startForeground(3, notification);
+        mIsForeground = true;
+        ExecutorHolder.executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                final Bitmap cover = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.ic_no_media);
+                VLCApplication.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Notification notification = NotificationHelper.createPlaybackNotification(ctx,
+                                false, ctx.getResources().getString(R.string.loading), "", "",
+                                cover, false, sessionToken, getSessionPendingIntent());
+                        PlaybackService.this.startForeground(3, notification);
+                        mIsForeground = true;
+                    }
+                });
+            }
+        });
     }
 
     public void loadLastPlaylist(int type) {

@@ -26,12 +26,11 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.*
 import java.util.*
 
+private const val TAG = "VLC/PlaylistManager"
+private const val PREVIOUS_LIMIT_DELAY = 5000L
+private const val AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode"
 
 class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventListener, Media.EventListener {
-
-    private val TAG = "VLC/PlaylistManager"
-    private val PREVIOUS_LIMIT_DELAY = 5000L
-    private val AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode"
 
     private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { Medialibrary.getInstance() }
     val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController() }
@@ -83,11 +82,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             var mediaWrapper = medialibrary.getMedia(location)
             if (mediaWrapper === null) {
                 if (!location.validateLocation()) {
-                    Log.w(TAG, "Invalid location " + location)
+                    Log.w(TAG, "Invalid location $location")
                     service.showToast(service.resources.getString(R.string.invalid_location, location), Toast.LENGTH_SHORT)
                     continue
                 }
-                Log.v(TAG, "Creating on-the-fly Media object for " + location)
+                Log.v(TAG, "Creating on-the-fly Media object for $location")
                 mediaWrapper = MediaWrapper(Uri.parse(location))
             }
             mediaList.add(mediaWrapper)
@@ -114,15 +113,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @Volatile
     private var loadingLastPlaylist = false
-    fun loadLastPlaylist(type: Int) {
-        if (loadingLastPlaylist) return
+    fun loadLastPlaylist(type: Int) : Boolean {
+        if (loadingLastPlaylist) return false
         loadingLastPlaylist = true
+        val audio = type == Constants.PLAYLIST_TYPE_AUDIO
+        val currentMedia = settings.getString(if (audio) "current_song" else "current_media", "")
+        if ("" == currentMedia) return false
+        val locations = settings.getString(if (audio) "audio_list" else "media_list", "").split(" ".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+        if (Util.isArrayEmpty(locations)) return false
         launch(UI, CoroutineStart.UNDISPATCHED) {
-            val audio = type == Constants.PLAYLIST_TYPE_AUDIO
-            val currentMedia = settings.getString(if (audio) "current_song" else "current_media", "")
-            if ("" == currentMedia) return@launch
-            val locations = settings.getString(if (audio) "audio_list" else "media_list", "").split(" ".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-            if (Util.isArrayEmpty(locations)) return@launch
             val playList = async {
                 locations.map { Uri.decode(it) }.mapTo(ArrayList(locations.size)) { MediaWrapper(Uri.parse(it)) }
             }.await()
@@ -141,6 +140,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             load(playList, position)
             loadingLastPlaylist = false
         }
+        return true
     }
 
     private fun onPlaylistLoaded() {
@@ -274,12 +274,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     var id = mw.id
                     if (id == 0L) {
                         var internalMedia = medialibrary.findMedia(mw)
-                        if (internalMedia != null && internalMedia.id != 0L)
-                            id = internalMedia.id
+                        if (internalMedia != null && internalMedia.id != 0L) id = internalMedia.id
                         else {
                             internalMedia = medialibrary.addMedia(Uri.decode(mw.uri.toString()))
-                            if (internalMedia != null)
-                                id = internalMedia.id
+                            if (internalMedia != null) id = internalMedia.id
                         }
                     }
                     medialibrary.increasePlayCount(id)
