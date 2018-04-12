@@ -54,12 +54,16 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
     override fun fetch() {
         val prefetchList by lazy(LazyThreadSafetyMode.NONE) { prefetchLists[url] }
         if (url === null) {
-            browseRoot()
-            parseSubDirectories()
+            launch(UI) {
+                browseRoot()
+                parseSubDirectories()
+            }
         } else if (prefetchList !== null && !prefetchList.isEmpty()) {
-            dataset.value = prefetchList
-            prefetchLists.remove(url)
-            parseSubDirectories()
+            launch(UI) {
+                dataset.value = prefetchList
+                prefetchLists.remove(url)
+                parseSubDirectories()
+            }
         } else browse(url, browserListener)
     }
 

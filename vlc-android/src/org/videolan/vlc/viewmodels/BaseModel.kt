@@ -54,7 +54,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
     private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelegate(dataset) }
 
     val dataset by lazy {
-        launch(UI) { fetch() }
+        fetch()
         LiveDataset<T>()
     }
 

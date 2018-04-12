@@ -27,6 +27,7 @@ import org.videolan.medialibrary.interfaces.MediaAddedCb
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.EmptyMLCallbacks
+import org.videolan.vlc.util.uiStart
 
 
 abstract class MedialibraryModel<T : MediaLibraryItem> : BaseModel<T>(), Medialibrary.OnMedialibraryReadyListener, MediaUpdatedCb by EmptyMLCallbacks, MediaAddedCb by EmptyMLCallbacks {
@@ -39,11 +40,11 @@ abstract class MedialibraryModel<T : MediaLibraryItem> : BaseModel<T>(), Mediali
     }
 
     override fun onMedialibraryReady() {
-        launch(UI) { refresh() }
+        launch(UI, uiStart()) { refresh() }
     }
 
     override fun onMedialibraryIdle() {
-        launch(UI) { refresh() }
+        launch(UI, uiStart()) { refresh() }
     }
 
     override fun onCleared() {
