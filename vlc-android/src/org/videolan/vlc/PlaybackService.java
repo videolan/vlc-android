@@ -114,6 +114,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     private static final int SHOW_PROGRESS = 0;
     private static final int SHOW_TOAST = 1;
     private static final int END_MEDIASESSION = 2;
+    private static final int PUBLISH_STATE = 3;
 
     private static final long DELAY_DOUBLE_CLICK = 800L;
     private static final long DELAY_LONG_CLICK = 1000L;
@@ -551,7 +552,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                     break;
                 case MediaPlayer.Event.PositionChanged:
                     updateWidgetPosition(event.getPositionChanged());
-                    publishState();
+                    mHandler.sendEmptyMessage(PUBLISH_STATE);
                     break;
                 case MediaPlayer.Event.Vout:
                     break;
@@ -616,6 +617,8 @@ public class PlaybackService extends MediaBrowserServiceCompat{
     private final Handler mHandler = new PlaybackServiceHandler(this);
 
     private static class PlaybackServiceHandler extends WeakHandler<PlaybackService> {
+        private long lastPublicationDate = 0L;
+
         PlaybackServiceHandler(PlaybackService fragment) {
             super(fragment);
         }
@@ -642,6 +645,13 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                     break;
                 case END_MEDIASESSION:
                     if (service.mMediaSession != null) service.mMediaSession.setActive(false);
+                    break;
+                case PUBLISH_STATE:
+                    final long time = System.currentTimeMillis();
+                    if (time - lastPublicationDate > 1000L) {
+                        service.publishState();
+                        lastPublicationDate = time;
+                    }
                     break;
             }
         }
@@ -1082,15 +1092,18 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         pscb.addCustomAction("repeat", getString(R.string.repeat_title), repeatResId);
 
         boolean mediaIsActive = state != PlaybackStateCompat.STATE_STOPPED;
+        boolean update = mMediaSession.isActive() != mediaIsActive;
 
         mMediaSession.setPlaybackState(pscb.build());
         mMediaSession.setActive(mediaIsActive);
         mMediaSession.setQueueTitle(getString(R.string.music_now_playing));
 
-        if (mediaIsActive)
-            sendStartSessionIdIntent();
-        else
-            sendStopSessionIdIntent();
+        if (update) {
+            if (mediaIsActive)
+                sendStartSessionIdIntent();
+            else
+                sendStopSessionIdIntent();
+        }
     }
 
     private void notifyTrackChanged() {
