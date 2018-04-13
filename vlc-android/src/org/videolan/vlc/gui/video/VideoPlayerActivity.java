@@ -296,6 +296,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private static final int TOUCH_BRIGHTNESS = 2;
     private static final int TOUCH_MOVE = 3;
     private static final int TOUCH_SEEK = 4;
+    private static final int TOUCH_IGNORE = 5;
     private int mTouchAction = TOUCH_NONE;
     private int mSurfaceYDisplayRange, mSurfaceXDisplayRange;
     private float mFov;
@@ -2058,6 +2059,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 endPlaybackSetting();
             return true;
         } else if (mPlaylist.getVisibility() == View.VISIBLE) {
+            mTouchAction = TOUCH_IGNORE;
             togglePlaylist();
             return true;
         }
@@ -2107,6 +2109,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 sendMouseEvent(MotionEvent.ACTION_DOWN, xTouch, yTouch);
                 break;
             case MotionEvent.ACTION_MOVE:
+                if (mTouchAction == TOUCH_IGNORE) break;
+
                 // Mouse events for the core
                 sendMouseEvent(MotionEvent.ACTION_MOVE, xTouch, yTouch);
 
@@ -2133,6 +2137,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                if (mTouchAction == TOUCH_IGNORE) mTouchAction = TOUCH_NONE;
                 // Mouse events for the core
                 sendMouseEvent(MotionEvent.ACTION_UP, xTouch, yTouch);
                 // Seek
