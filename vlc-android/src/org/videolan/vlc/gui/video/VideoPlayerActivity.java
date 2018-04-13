@@ -768,11 +768,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSavedTime = -1;
         mPlaybackStarted = true;
 
-        IVLCVout vlcVout = mService.getVLCVout();
+        IVLCVout vlcVout = mService.getVout();
         if (vlcVout.areViewsAttached()) {
             if (mService.isPlayingPopup()) {
                 mService.stop();
-                vlcVout = mService.getVLCVout();
+                vlcVout = mService.getVout();
             } else
                 vlcVout.detachViews();
         }
@@ -857,7 +857,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mService.removeCallback(this);
 
         mHandler.removeCallbacksAndMessages(null);
-        final IVLCVout vlcVout = mService.getVLCVout();
+        final IVLCVout vlcVout = mService.getVout();
         vlcVout.removeCallback(this);
         vlcVout.detachViews();
         if (mService.hasMedia() && mSwitchingView) {
@@ -1796,7 +1796,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void handleVout(int voutCount) {
         mHandler.removeCallbacks(mSwitchAudioRunnable);
 
-        final IVLCVout vlcVout = mService.getVLCVout();
+        final IVLCVout vlcVout = mService.getVout();
         if (vlcVout.areViewsAttached() && voutCount == 0) {
             mHandler.postDelayed(mSwitchAudioRunnable, 4000);
         }
@@ -1904,7 +1904,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
 
         if (mService != null) {
-            final IVLCVout vlcVout = mService.getVLCVout();
+            final IVLCVout vlcVout = mService.getVout();
             vlcVout.setWindowSize(sw, sh);
         }
 
@@ -2022,7 +2022,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void sendMouseEvent(int action, int x, int y) {
         if (mService == null)
             return;
-        final IVLCVout vlcVout = mService.getVLCVout();
+        final IVLCVout vlcVout = mService.getVout();
         vlcVout.sendMouseEvent(action, 0, x, y);
     }
 

@@ -28,7 +28,7 @@ class PlaylistModel(private val service: PlaybackService) : ViewModel(), Playbac
     }
 
     override fun update() {
-        dataset.value = service.medias
+        dataset.value = service.medias.toMutableList()
     }
 
     override fun updateProgress() {

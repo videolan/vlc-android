@@ -78,10 +78,9 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     public void removePopup() {
         hideNotification();
-        if (mRootView == null)
-            return;
+        if (mRootView == null) return;
         mService.removeCallback(this);
-        final IVLCVout vlcVout = mService.getVLCVout();
+        final IVLCVout vlcVout = mService.getVout();
         vlcVout.detachViews();
         mRootView.close();
         mRootView = null;
@@ -104,7 +103,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         gestureDetector.setOnDoubleTapListener(this);
         mRootView.setGestureDetector(gestureDetector);
 
-        final IVLCVout vlcVout = mService.getVLCVout();
+        final IVLCVout vlcVout = mService.getVout();
         vlcVout.setVideoView((SurfaceView) mRootView.findViewById(R.id.player_surface));
         vlcVout.addCallback(this);
         vlcVout.attachViews(this);

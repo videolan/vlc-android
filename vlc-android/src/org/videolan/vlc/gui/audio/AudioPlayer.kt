@@ -200,7 +200,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
             if (hasMedia() && !isVideoPlaying && isVisible
                     && settings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
                 settings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply()
-                currentMediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                currentMediaWrapper?.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                 switchToVideo()
                 return
             }
@@ -366,11 +366,13 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
 
     fun onResumeToVideoClick(v: View) {
         service?.apply {
-            if (hasRenderer()) VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
-                    currentMediaWrapper.uri, currentMediaPosition)
-            else if (hasMedia()) {
-                currentMediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                switchToVideo()
+            currentMediaWrapper?.let {
+                if (hasRenderer()) VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
+                        it.uri, currentMediaPosition)
+                else if (hasMedia()) {
+                    it.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                    switchToVideo()
+                }
             }
         }
     }

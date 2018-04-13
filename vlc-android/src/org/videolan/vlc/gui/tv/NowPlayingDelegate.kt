@@ -32,8 +32,8 @@ class NowPlayingDelegate(private val fragment: MainTvFragment): PlaybackService.
         PlaylistManager.showAudioPlayer.removeObserver(observer)
     }
 
-    override fun onMediaPlayerEvent(event: MediaPlayer.Event?) {
-        when (event?.type) {
+    override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
+        when (event.type) {
             MediaPlayer.Event.MediaChanged -> updateCurrent()
         }
     }
@@ -44,10 +44,10 @@ class NowPlayingDelegate(private val fragment: MainTvFragment): PlaybackService.
         })
     }
 
-    override fun onConnected(service: PlaybackService?) {
+    override fun onConnected(service: PlaybackService) {
         this.service = service
         updateCurrent()
-        service?.addCallback(this)
+        service.addCallback(this)
     }
 
     override fun onDisconnected() {
