@@ -83,12 +83,12 @@ class PlaybackService : MediaBrowserServiceCompat() {
     private val callbacks = ArrayList<Callback>()
     private var detectHeadset = true
     private lateinit var wakeLock: PowerManager.WakeLock
+    private val audioFocusHelper by lazy { VLCAudioFocusHelper(this) }
 
     // Playback management
     internal lateinit var mediaSession: MediaSessionCompat
 
     private var widget = 0
-    private var hasAudioFocus = false
     /**
      * Last widget position update timestamp
      */
@@ -96,13 +96,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
     private var popupManager: PopupManager? = null
 
     internal var libraryReceiver: MedialibraryReceiver? = null
-
-    private val audioFocusListener = createOnAudioFocusChangeListener()
-
-    @Volatile
-    private var lossTransient = false
-
-    private lateinit var audioManager: AudioManager
 
     private val receiver = object : BroadcastReceiver() {
         private var wasPlaying = false
@@ -171,7 +164,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
                 if (BuildConfig.DEBUG) Log.i(TAG, "MediaPlayer.Event.Playing")
                 executeUpdate()
                 publishState()
-                changeAudioFocus(true)
+                audioFocusHelper.changeAudioFocus(true)
                 if (!wakeLock.isHeld) wakeLock.acquire()
                 if (!keyguardManager.inKeyguardRestrictedInputMode()
                         && !playlistManager.videoBackground
@@ -567,83 +560,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
             return playlistManager.player.getVout()
         }
 
-
-    private fun createOnAudioFocusChangeListener(): OnAudioFocusChangeListener {
-        return object : OnAudioFocusChangeListener {
-            internal var audioDuckLevel = -1
-            private var mLossTransientVolume = -1
-            private var wasPlaying = false
-
-            override fun onAudioFocusChange(focusChange: Int) {
-                /*
-                 * Pause playback during alerts and notifications
-                 */
-                when (focusChange) {
-                    AudioManager.AUDIOFOCUS_LOSS -> {
-                        if (BuildConfig.DEBUG) Log.i(TAG, "AUDIOFOCUS_LOSS")
-                        // Pause playback
-                        changeAudioFocus(false)
-                        pause()
-                    }
-                    AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
-                        if (BuildConfig.DEBUG) Log.i(TAG, "AUDIOFOCUS_LOSS_TRANSIENT")
-                        // Pause playback
-                        pausePlayback()
-                    }
-                    AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                        if (BuildConfig.DEBUG) Log.i(TAG, "AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK")
-                        // Lower the volume
-                        if (isPlaying) {
-                            if (AndroidDevices.isAmazon) {
-                                pausePlayback()
-                            } else if (settings.getBoolean("audio_ducking", true)) {
-                                val volume = if (AndroidDevices.isAndroidTv)
-                                    volume
-                                else
-                                    audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
-                                if (audioDuckLevel == -1)
-                                    audioDuckLevel = if (AndroidDevices.isAndroidTv)
-                                        50
-                                    else
-                                        audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 5
-                                if (volume > audioDuckLevel) {
-                                    mLossTransientVolume = volume
-                                    if (AndroidDevices.isAndroidTv)
-                                        setVolume(audioDuckLevel)
-                                    else
-                                        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioDuckLevel, 0)
-                                }
-                            }
-                        }
-                    }
-                    AudioManager.AUDIOFOCUS_GAIN -> {
-                        if (BuildConfig.DEBUG) Log.i(TAG, "AUDIOFOCUS_GAIN: ")
-                        // Resume playback
-                        if (mLossTransientVolume != -1) {
-                            if (AndroidDevices.isAndroidTv)
-                                setVolume(mLossTransientVolume)
-                            else
-                                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mLossTransientVolume, 0)
-                            mLossTransientVolume = -1
-                        }
-                        if (lossTransient) {
-                            if (wasPlaying && settings.getBoolean("resume_playback", true))
-                                play()
-                            lossTransient = false
-                        }
-                    }
-                }
-            }
-
-            private fun pausePlayback() {
-                if (lossTransient) return
-                lossTransient = true
-                wasPlaying = isPlaying
-                if (wasPlaying) pause()
-            }
-        }
-    }
-
     private fun sendStartSessionIdIntent() {
         val sessionId = VLCOptions.getAudiotrackSessionId()
         if (sessionId == 0) return
@@ -666,26 +582,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
         sendBroadcast(intent)
     }
 
-    private fun changeAudioFocus(acquire: Boolean) {
-        if (!this::audioManager.isInitialized)
-            audioManager = getSystemService(Context.AUDIO_SERVICE) as? AudioManager ?: return
-
-        if (acquire && !hasRenderer()) {
-            if (!hasAudioFocus) {
-                val result = audioManager.requestAudioFocus(audioFocusListener,
-                        AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
-                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                    audioManager.setParameters("bgm_state=true")
-                    hasAudioFocus = true
-                }
-            }
-        } else if (hasAudioFocus) {
-            audioManager.abandonAudioFocus(audioFocusListener)
-            audioManager.setParameters("bgm_state=false")
-            hasAudioFocus = false
-        }
-    }
-
     fun setBenchmark() {
         playlistManager.isBenchmark = true
     }
@@ -701,7 +597,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     fun onPlaybackStopped(systemExit: Boolean) {
         if (!systemExit) hideNotification(VLCApplication.isForeground())
         if (wakeLock.isHeld) wakeLock.release()
-        changeAudioFocus(false)
+        audioFocusHelper.changeAudioFocus(false)
         medialibrary.resumeBackgroundOperations()
         // We must publish state before resetting mCurrentIndex
         publishState()
@@ -786,7 +682,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
                             mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO), title, artist, album,
                             cover, playing, sessionToken, sessionPendingIntent)
                     if (isPlayingPopup) return@launch
-                    if (!AndroidUtil.isLolliPopOrLater || playing || lossTransient) {
+                    if (!AndroidUtil.isLolliPopOrLater || playing || audioFocusHelper.lossTransient) {
                         if (!isForeground) {
                             this@PlaybackService.startForeground(3, notification)
                             isForeground = true
@@ -1415,9 +1311,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
             VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
                     playlistManager.getCurrentMedia()!!.uri, playlistManager.currentIndex)
         playlistManager.setRenderer(item)
-        if (!wasOnRenderer && item != null)
-            changeAudioFocus(false)
-        else if (wasOnRenderer && item == null && isPlaying) changeAudioFocus(true)
+        if (!wasOnRenderer && item != null) audioFocusHelper.changeAudioFocus(false)
+        else if (wasOnRenderer && item == null && isPlaying) audioFocusHelper.changeAudioFocus(true)
     }
 
     @MainThread
