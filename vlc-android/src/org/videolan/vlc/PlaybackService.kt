@@ -44,7 +44,6 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Log
-import android.view.KeyEvent
 import android.widget.Toast
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
@@ -58,10 +57,7 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
-import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
@@ -80,16 +76,16 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     private lateinit var playlistManager: PlaylistManager
     private lateinit var keyguardManager: KeyguardManager
-    private lateinit var settings: SharedPreferences
+    internal lateinit var settings: SharedPreferences
     private val mBinder = LocalBinder()
-    private lateinit var medialibrary: Medialibrary
+    internal lateinit var medialibrary: Medialibrary
 
     private val callbacks = ArrayList<Callback>()
     private var detectHeadset = true
     private lateinit var wakeLock: PowerManager.WakeLock
 
     // Playback management
-    private lateinit var mediaSession: MediaSessionCompat
+    internal lateinit var mediaSession: MediaSessionCompat
 
     private var widget = 0
     private var hasAudioFocus = false
@@ -99,7 +95,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     private var widgetPositionTimestamp = System.currentTimeMillis()
     private var popupManager: PopupManager? = null
 
-    private var libraryReceiver: MedialibraryReceiver? = null
+    internal var libraryReceiver: MedialibraryReceiver? = null
 
     private val audioFocusListener = createOnAudioFocusChangeListener()
 
@@ -508,7 +504,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
     }
 
-    private fun registerMedialibrary(action: Runnable?) {
+    internal fun registerMedialibrary(action: Runnable?) {
         if (!Permissions.canReadStorage(this)) return
         val lbm = LocalBroadcastManager.getInstance(this)
         if (libraryReceiver == null) {
@@ -866,7 +862,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
         mediaSession = MediaSessionCompat(this, "VLC", mbrName, mbrIntent)
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
-        mediaSession.setCallback(MediaSessionCallback())
+        mediaSession.setCallback(MediaSessionCallback(this))
         try {
             mediaSession.isActive = true
         } catch (e: NullPointerException) {
@@ -880,165 +876,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
         }
 
         sessionToken = mediaSession.sessionToken
-    }
-
-    private inner class MediaSessionCallback : MediaSessionCompat.Callback() {
-        private var mHeadsetDownTime = 0L
-        private var mHeadsetUpTime = 0L
-
-        override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
-            if (!settings.getBoolean("enable_headset_actions", true) || VLCApplication.showTvUi()) return false
-            val event = mediaButtonEvent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
-            if (event != null && !isVideoPlaying) {
-                val keyCode = event.keyCode
-                if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE
-                        || keyCode == KeyEvent.KEYCODE_HEADSETHOOK || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                    val time = SystemClock.uptimeMillis()
-                    when (event.action) {
-                        KeyEvent.ACTION_DOWN -> {
-                            if (event.repeatCount <= 0) mHeadsetDownTime = time
-                            if (!hasMedia()) {
-                                MediaUtils.loadlastPlaylistNoUi(this@PlaybackService, Constants.PLAYLIST_TYPE_AUDIO)
-                                return true
-                            }
-                        }
-                        KeyEvent.ACTION_UP -> if (AndroidDevices.hasTsp) { //no backward/forward on TV
-                            when {
-                                time - mHeadsetDownTime >= DELAY_LONG_CLICK -> { // long click
-                                    mHeadsetUpTime = time
-                                    previous(false)
-                                    return true
-                                }
-                                time - mHeadsetUpTime <= DELAY_DOUBLE_CLICK -> { // double click
-                                    mHeadsetUpTime = time
-                                    next()
-                                    return true
-                                }
-                                else -> {
-                                    mHeadsetUpTime = time
-                                    return false
-                                }
-                            }
-                        }
-                    }
-                    return false
-                } else if (!AndroidUtil.isLolliPopOrLater) {
-                    when (keyCode) {
-                        KeyEvent.KEYCODE_MEDIA_NEXT -> {
-                            onSkipToNext()
-                            return true
-                        }
-                        KeyEvent.KEYCODE_MEDIA_PREVIOUS -> {
-                            onSkipToPrevious()
-                            return true
-                        }
-                    }
-                }
-            }
-            return false
-        }
-
-        override fun onPlay() {
-            if (hasMedia()) play()
-            else MediaUtils.loadlastPlaylistNoUi(this@PlaybackService, Constants.PLAYLIST_TYPE_AUDIO)
-        }
-
-        override fun onCustomAction(action: String?, extras: Bundle?) {
-            when (action) {
-                "shuffle" -> shuffle()
-                "repeat" -> repeatType = when (repeatType) {
-                    Constants.REPEAT_NONE -> Constants.REPEAT_ALL
-                    Constants.REPEAT_ALL -> Constants.REPEAT_ONE
-                    Constants.REPEAT_ONE -> Constants.REPEAT_NONE
-                    else -> Constants.REPEAT_NONE
-                }
-            }
-        }
-
-        override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
-            when {
-                mediaId.startsWith(BrowserProvider.ALBUM_PREFIX) -> load(medialibrary.getAlbum(java.lang.Long.parseLong(mediaId.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]))!!.tracks, 0)
-                mediaId.startsWith(BrowserProvider.PLAYLIST_PREFIX) -> load(medialibrary.getPlaylist(java.lang.Long.parseLong(mediaId.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]))!!.tracks, 0)
-                mediaId.startsWith(ExtensionsManager.EXTENSION_PREFIX) -> onPlayFromUri(Uri.parse(mediaId.replace(ExtensionsManager.EXTENSION_PREFIX + "_" + mediaId.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1] + "_", "")), null)
-                else -> try {
-                    medialibrary.getMedia(mediaId.toLong())?.let { load(it) }
-                } catch (e: NumberFormatException) {
-                    loadLocation(mediaId)
-                }
-            }
-
-        }
-
-        override fun onPlayFromUri(uri: Uri?, extras: Bundle?) {
-            loadUri(uri)
-        }
-
-        override fun onPlayFromSearch(query: String?, extras: Bundle?) {
-            if (!medialibrary.isInitiated || libraryReceiver != null) {
-                registerMedialibrary(Runnable { onPlayFromSearch(query, extras) })
-                return
-            }
-            mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, time, 1.0f).build())
-            launch {
-                val vsp = VoiceSearchParams(query, extras)
-                var items: Array<out MediaLibraryItem>? = null
-                var tracks: Array<MediaWrapper>? = null
-                when {
-                    vsp.isAny -> {
-                        items = medialibrary.audio
-                        if (!isShuffling) shuffle()
-                    }
-                    vsp.isArtistFocus -> items = medialibrary.searchArtist(vsp.artist)
-                    vsp.isAlbumFocus -> items = medialibrary.searchAlbum(vsp.album)
-                    vsp.isGenreFocus -> items = medialibrary.searchGenre(vsp.genre)
-                    vsp.isSongFocus -> tracks = medialibrary.searchMedia(vsp.song)!!.tracks
-                }
-                if (Tools.isArrayEmpty(tracks)) {
-                    val result = medialibrary.search(query)
-                    if (result != null) {
-                        when {
-                            !Tools.isArrayEmpty(result.albums) -> tracks = result.albums[0].tracks
-                            !Tools.isArrayEmpty(result.artists) -> tracks = result.artists[0].tracks
-                            !Tools.isArrayEmpty(result.genres) -> tracks = result.genres[0].tracks
-                        }
-                    }
-                }
-                if (tracks == null && !Tools.isArrayEmpty(items)) tracks = items!![0].tracks
-                if (!Tools.isArrayEmpty(tracks)) load(tracks, 0)
-            }
-        }
-
-        override fun onPause() {
-            pause()
-        }
-
-        override fun onStop() {
-            stop()
-        }
-
-        override fun onSkipToNext() {
-            next()
-        }
-
-        override fun onSkipToPrevious() {
-            previous(false)
-        }
-
-        override fun onSeekTo(pos: Long) {
-            seek(pos)
-        }
-
-        override fun onFastForward() {
-            seek(Math.min(length, time + 5000))
-        }
-
-        override fun onRewind() {
-            seek(Math.max(0, time - 5000))
-        }
-
-        override fun onSkipToQueueItem(id: Long) {
-            playIndex(id.toInt())
-        }
     }
 
     private fun updateMetadata() {
@@ -1688,8 +1525,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
         }
     }
 
-    private val pendingActions = LinkedList<Runnable>()
-    private inner class MedialibraryReceiver : BroadcastReceiver() {
+    private val pendingActions by lazy(LazyThreadSafetyMode.NONE) { LinkedList<Runnable>() }
+    internal inner class MedialibraryReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             libraryReceiver = null
             LocalBroadcastManager.getInstance(this@PlaybackService).unregisterReceiver(this)
@@ -1728,8 +1565,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
         private const val END_MEDIASESSION = 2
         private const val PUBLISH_STATE = 3
 
-        private const val DELAY_DOUBLE_CLICK = 800L
-        private const val DELAY_LONG_CLICK = 1000L
+        internal const val DELAY_DOUBLE_CLICK = 800L
+        internal const val DELAY_LONG_CLICK = 1000L
         fun getService(iBinder: IBinder): PlaybackService? {
             val binder = iBinder as LocalBinder
             return binder.service
