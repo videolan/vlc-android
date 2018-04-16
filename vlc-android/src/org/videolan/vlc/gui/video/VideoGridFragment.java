@@ -34,6 +34,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
@@ -70,7 +71,7 @@ import org.videolan.vlc.viewmodels.VideosProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> implements SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
+public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> implements SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<List<MediaWrapper>> {
 
     private final static String TAG = "VLC/VideoListFragment";
 
@@ -81,18 +82,17 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     private String mGroup;
     private DividerItemDecoration mDividerItemDecoration;
 
-    /* All subclasses of Fragment must include a public empty constructor. */
-    public VideoGridFragment() { }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new VideoListAdapter(this);
+        if (mAdapter == null) {
+            mAdapter = new VideoListAdapter(this);
+            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+            final int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
+            mProvider = ViewModelProviders.of(requireActivity(), new VideosProvider.Factory(mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosProvider.class);
+            mProvider.getDataset().observe(this, this);
+        }
         if (savedInstanceState != null) setGroup(savedInstanceState.getString(Constants.KEY_GROUP));
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
-        final int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
-        mProvider = ViewModelProviders.of(requireActivity(), new VideosProvider.Factory(mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosProvider.class);
-        Log.d(TAG, "onCreate: "+mProvider.getKey());
     }
 
 
@@ -134,12 +134,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         mDividerItemDecoration = new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL);
         if (mAdapter.isListMode()) mGridView.addItemDecoration(mDividerItemDecoration);
         mGridView.setAdapter(mAdapter);
-        mProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
-            @Override
-            public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
-                if (mediaWrappers != null) mAdapter.update(mediaWrappers);
-            }
-        });
     }
 
     private boolean restart = false;
@@ -162,9 +156,14 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(Constants.KEY_GROUP, mGroup);
+    }
+
+    @Override
+    public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
+        if (mediaWrappers != null) mAdapter.update(mediaWrappers);
     }
 
     public String getTitle() {
@@ -190,10 +189,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         }
         mGridView.setNumColumns(listMode ? 1 : -1);
         if (mAdapter.isListMode() != listMode) {
-            if (listMode)
-                mGridView.addItemDecoration(mDividerItemDecoration);
-            else
-                mGridView.removeItemDecoration(mDividerItemDecoration);
+            if (listMode) mGridView.addItemDecoration(mDividerItemDecoration);
+            else mGridView.removeItemDecoration(mDividerItemDecoration);
             mAdapter.setListMode(listMode);
         }
     }
@@ -212,8 +209,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     protected boolean handleContextItemSelected(MenuItem menu, final int position) {
         if (position >= mAdapter.getItemCount()) return false;
         final MediaWrapper media = mAdapter.getItem(position);
-        if (media == null)
-            return false;
+        if (media == null) return false;
         switch (menu.getItemId()){
             case R.id.video_list_play_from_start:
                 playVideo(media, true);
@@ -381,7 +377,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         setFabPlayVisibility(true);
         final List<MediaWrapper> items = mAdapter.getAll();
         for (int i = 0; i < items.size(); ++i) {
-            MediaWrapper mw = items.get(i);
+            final MediaWrapper mw = items.get(i);
             if (mw.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
                 mw.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
                 mAdapter.resetSelectionCount();
@@ -442,8 +438,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
 
     @Override
     public boolean onLongClick(View v, int position, MediaLibraryItem item) {
-        if (mActionMode != null)
-            return false;
+        if (mActionMode != null) return false;
         item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
         mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
         mAdapter.notifyItemChanged(position, Constants.UPDATE_SELECTION);
@@ -453,14 +448,12 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
 
     @Override
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
-        if (mActionMode == null)
-            mGridView.openContextMenu(position);
+        if (mActionMode == null) mGridView.openContextMenu(position);
     }
 
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
-        if (!mMediaLibrary.isWorking())
-            mHandler.sendEmptyMessage(UNSET_REFRESHING);
+        if (!mMediaLibrary.isWorking()) mHandler.sendEmptyMessage(UNSET_REFRESHING);
         updateEmptyView();
         setFabPlayVisibility(true);
         UiTools.updateSortTitles(this);
