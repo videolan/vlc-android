@@ -59,6 +59,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GestureDetectorCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -158,8 +159,7 @@ import java.util.Locale;
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
         IVLCVout.OnNewVideoLayoutListener, IPlaybackSettingsController,
         PlaybackService.Client.Callback, PlaybackService.Callback,PlaylistAdapter.IPlayer,
-        OnClickListener, StoragePermissionsDelegate.CustomActionController,
-        ScaleGestureDetector.OnScaleGestureListener {
+        OnClickListener, StoragePermissionsDelegate.CustomActionController {
 
     private final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -198,6 +198,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private static final int SURFACE_16_9 = 3;
     private static final int SURFACE_4_3 = 4;
     private static final int SURFACE_ORIGINAL = 5;
+    private static final int SURFACE_SIZE_COUNT = 6;
     private int mCurrentSize;
 
     private SharedPreferences mSettings;
@@ -2032,17 +2033,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mService == null)
-            return false;
+        if (mService == null) return false;
         if (mDetector == null) {
             mDetector = new GestureDetectorCompat(this, mGestureListener);
             mDetector.setOnDoubleTapListener(mGestureListener);
         }
-        if (mFov != 0f && mScaleGestureDetector == null)
-            mScaleGestureDetector = new ScaleGestureDetector(this, this);
+        if (mScaleGestureDetector == null)
+            mScaleGestureDetector = new ScaleGestureDetector(this, mScaleListener);
         if (mPlaybackSetting != DelayState.OFF) {
-            if (event.getAction() == MotionEvent.ACTION_UP)
-                endPlaybackSetting();
+            if (event.getAction() == MotionEvent.ACTION_UP) endPlaybackSetting();
             return true;
         } else if (mPlaylist.getVisibility() == View.VISIBLE) {
             mTouchAction = TOUCH_IGNORE;
@@ -2060,11 +2059,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
             return false;
         }
-        if (mFov != 0f && mScaleGestureDetector != null)
-            mScaleGestureDetector.onTouchEvent(event);
+        mScaleGestureDetector.onTouchEvent(event);
         if ((mScaleGestureDetector != null && mScaleGestureDetector.isInProgress()) ||
-                (mDetector != null && mDetector.onTouchEvent(event)))
+                (mDetector != null && mDetector.onTouchEvent(event))) {
+            mTouchAction = TOUCH_IGNORE;
             return true;
+        }
 
         final float x_changed = mTouchX != -1f && mTouchY != -1f ? event.getRawX() - mTouchX : 0f;
         final float y_changed = x_changed != 0f ? event.getRawY() - mTouchY : 0f;
@@ -2498,24 +2498,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     @Override
-    public boolean onScale(ScaleGestureDetector detector) {
-        float diff = DEFAULT_FOV * (1 - detector.getScaleFactor());
-        if (mService.updateViewpoint(0, 0, 0, diff, false)) {
-            mFov = Math.min(Math.max(MIN_FOV, mFov + diff), MAX_FOV);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onScaleBegin(ScaleGestureDetector detector) {
-        return mSurfaceXDisplayRange!= 0 && mFov != 0f;
-    }
-
-    @Override
-    public void onScaleEnd(ScaleGestureDetector detector) {}
-
-    @Override
     public void onStorageAccessGranted() {
         mHandler.sendEmptyMessage(START_PLAYBACK);
     }
@@ -2709,11 +2691,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public void resizeVideo() {
-        if (mCurrentSize < SURFACE_ORIGINAL) {
-            mCurrentSize++;
-        } else {
-            mCurrentSize = 0;
-        }
+        setVideoSurfacesize((mCurrentSize+1)%SURFACE_SIZE_COUNT);
+    }
+
+    private void setVideoSurfacesize(int size) {
+        mCurrentSize = size;
         changeSurfaceLayout();
         switch (mCurrentSize) {
             case SURFACE_BEST_FIT:
@@ -2735,9 +2717,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 showInfo(R.string.surface_original, 1000);
                 break;
         }
-        final SharedPreferences.Editor editor = mSettings.edit();
-        editor.putInt(PreferencesActivity.VIDEO_RATIO, mCurrentSize);
-        editor.apply();
+        mSettings.edit()
+                .putInt(PreferencesActivity.VIDEO_RATIO, mCurrentSize)
+                .apply();
         showOverlay();
     }
 
@@ -3133,8 +3115,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                                 return;
                             } else {
                                 mSettings.edit()
-                                    .putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1)
-                                    .apply();
+                                        .putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1)
+                                        .apply();
                                 savedTime = rTime;
                             }
                         }
@@ -3496,6 +3478,39 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         supportInvalidateOptionsMenu();
     }
 
+    private ScaleGestureDetector.SimpleOnScaleGestureListener mScaleListener = new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+
+        private int savedSize = -1;
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
+            return mSurfaceXDisplayRange != 0 || mFov == 0f;
+        }
+
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            if (mFov != 0f) {
+                float diff = DEFAULT_FOV * (1 - detector.getScaleFactor());
+                if (mService.updateViewpoint(0, 0, 0, diff, false)) {
+                    mFov = Math.min(Math.max(MIN_FOV, mFov + diff), MAX_FOV);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public void onScaleEnd(ScaleGestureDetector detector) {
+            final boolean grow = detector.getScaleFactor() > 1.0f;
+            if (grow && mCurrentSize != SURFACE_FIT_SCREEN) {
+                savedSize = mCurrentSize;
+                setVideoSurfacesize(SURFACE_FIT_SCREEN);
+            } else if (!grow && savedSize != -1) {
+                setVideoSurfacesize(savedSize);
+                savedSize = -1;
+            }
+        }
+    };
+
     private GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
 
         @Override
@@ -3509,8 +3524,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mHandler.removeMessages(HIDE_INFO);
             mHandler.removeMessages(SHOW_INFO);
             float range = mCurrentScreenOrientation == Configuration.ORIENTATION_LANDSCAPE ? mSurfaceXDisplayRange : mSurfaceYDisplayRange;
-            if (mService == null)
-                return false;
+            if (mService == null) return false;
             if (!mIsLocked) {
                 if ((mTouchControls & TOUCH_FLAG_SEEK) == 0) {
                     doPlayPause();
