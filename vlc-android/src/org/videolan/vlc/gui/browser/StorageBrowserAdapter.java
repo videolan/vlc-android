@@ -77,15 +77,6 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
         return false;
     }
 
-    @MainThread
-    public void addItem(MediaLibraryItem item, boolean top, int position) {
-        if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA)
-            item = new Storage(((MediaWrapper)item).getUri());
-        else if (item.getItemType() != MediaLibraryItem.TYPE_STORAGE)
-            return;
-        super.addItem(item, top, position);
-    }
-
     void updateMediaDirs() {
         if (mMediaDirsLocation != null) mMediaDirsLocation.clear();
         final String folders[] = VLCApplication.getMLInstance().getFoldersList();

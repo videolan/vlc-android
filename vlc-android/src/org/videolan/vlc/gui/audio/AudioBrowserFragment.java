@@ -65,6 +65,7 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.util.WorkersKt;
+import org.videolan.vlc.viewmodels.BaseModel;
 import org.videolan.vlc.viewmodels.audio.AlbumProvider;
 import org.videolan.vlc.viewmodels.audio.ArtistProvider;
 import org.videolan.vlc.viewmodels.audio.AudioModel;
@@ -279,13 +280,14 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         if (id == R.id.audio_list_browser_delete) {
             final MediaLibraryItem previous = position > 0 ? adapter.getItem(position-1) : null;
             final MediaLibraryItem next = position < adapter.getItemCount()-1 ? adapter.getItem(position+1) : null;
+            final AudioModel provider = getProvider();
             final String message;
             final Runnable action;
             final Runnable cancel;
             final MediaLibraryItem separator = previous != null && previous.getItemType() == MediaLibraryItem.TYPE_DUMMY &&
                     (next == null || next.getItemType() == MediaLibraryItem.TYPE_DUMMY) ? previous : null;
-            if (separator != null) adapter.remove(separator, mediaItem);
-            else adapter.remove(mediaItem);
+            if (separator != null) provider.remove(separator);
+            provider.remove(mediaItem);
 
             if (mode == MODE_PLAYLIST) {
                 cancel = null;
@@ -301,8 +303,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 cancel = new Runnable() {
                     @Override
                     public void run() {
-                        if (separator != null) adapter.addItems(separator, mediaItem);
-                        else adapter.addItems(mediaItem);
+                        provider.refresh();
                     }
                 };
                 action = new Runnable() {

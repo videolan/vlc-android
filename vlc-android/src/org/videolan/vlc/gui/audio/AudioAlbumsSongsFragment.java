@@ -226,6 +226,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         int id = item.getItemId();
         final AudioBrowserAdapter adapter = mViewPager.getCurrentItem() == MODE_ALBUM ? mAlbumsAdapter : mSongsAdapter;
         final MediaLibraryItem mediaItem = adapter.getItem(position);
+        final AudioModel provider = getProvider();
 
         boolean useAllItems = id == R.id.audio_list_browser_play_all;
         boolean append = id == R.id.audio_list_browser_append;
@@ -233,12 +234,12 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
         if (id == R.id.audio_list_browser_delete) {
 
-            adapter.remove(mediaItem);
+            provider.remove(mediaItem);
 
             final Runnable cancel = new Runnable() {
                 @Override
                 public void run() {
-                    adapter.addItems(mediaItem);
+                    provider.refresh();
                 }
             };
             UiTools.snackerWithCancel(mViewPager, getString(R.string.file_deleted), new Runnable() {
@@ -256,7 +257,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         }
 
         if (id == R.id.audio_view_info) {
-            showInfoDialog((MediaWrapper) mediaItem);
+            showInfoDialog(mediaItem);
             return true;
         }
 

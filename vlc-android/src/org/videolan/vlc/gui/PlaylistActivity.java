@@ -349,20 +349,18 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             MediaUtils.insertNext(this, media);
             return true;
         } else if (id == R.id.audio_list_browser_delete) {
-            mAdapter.remove(media);
+            tracksProvider.remove(media);
             final Runnable cancel = new Runnable() {
                 @Override
                 public void run() {
-                    mAdapter.addItems(media);
+                    tracksProvider.refresh();
                 }
             };
             UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.file_deleted), new Runnable() {
                 @Override
                 public void run() {
-                    if (mIsPlaylist)
-                        ((Playlist) mPlaylist).remove(media.getId());
-                    else
-                        deleteMedia(media, cancel);
+                    if (mIsPlaylist) ((Playlist) mPlaylist).remove(media.getId());
+                    else deleteMedia(media, cancel);
                 }
             }, cancel);
             return true;
@@ -437,21 +435,17 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     private void removeFromPlaylist(final List<MediaWrapper> list){
-        final List<MediaLibraryItem> oldAdapter = new ArrayList<>(mAdapter.getAll());
-        for (MediaLibraryItem mediaItem : list)
-            mAdapter.remove(mediaItem);
+        for (MediaLibraryItem mediaItem : list) tracksProvider.remove(mediaItem);
         UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.file_deleted), new Runnable() {
             @Override
             public void run() {
-                for (MediaLibraryItem mediaItem : list)
-                    ((Playlist) mPlaylist).remove(mediaItem.getId());
-                if (mPlaylist.getTracks().length == 0)
-                    ((Playlist) mPlaylist).delete();
+                for (MediaLibraryItem mediaItem : list) ((Playlist) mPlaylist).remove(mediaItem.getId());
+                if (mPlaylist.getTracks().length == 0) ((Playlist) mPlaylist).delete();
             }
         }, new Runnable() {
             @Override
             public void run() {
-                mAdapter.update(oldAdapter);
+                tracksProvider.refresh();
             }
         });
     }

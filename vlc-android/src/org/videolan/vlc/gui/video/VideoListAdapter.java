@@ -123,10 +123,6 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
         holder.binding.setVariable(BR.cover, UiTools.Resources.DEFAULT_COVER_VIDEO_DRAWABLE);
     }
 
-    public boolean isEmpty() {
-        return peekLast().size() == 0;
-    }
-
     @Nullable
     public MediaWrapper getItem(int position) {
         return isPositionValid(position) ? getDataset().get(position) : null;

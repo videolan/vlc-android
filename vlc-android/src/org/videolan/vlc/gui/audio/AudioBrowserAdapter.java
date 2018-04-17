@@ -153,31 +153,9 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
         return getItem(position).getItemType();
     }
 
-    @MainThread
-    public boolean isEmpty() {
-        return (peekLast().size() == 0);
-    }
-
     public void clear() {
         getDataset().clear();
         mOriginalDataSet = null;
-    }
-
-    public void remove(final MediaLibraryItem... items) {
-        final List<MediaLibraryItem> referenceList = peekLast();
-        if (referenceList.isEmpty()) return;
-        final List<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
-        for (MediaLibraryItem item : items) dataList.remove(item);
-        update(dataList);
-    }
-
-
-    public void addItems(final MediaLibraryItem... items) {
-        final List<MediaLibraryItem> referenceList = peekLast();
-        final List<MediaLibraryItem> dataList = new ArrayList<>(referenceList);
-        Collections.addAll(dataList, items);
-        //Force adapter to sort items.
-        update(dataList);
     }
 
     public void restoreList() {

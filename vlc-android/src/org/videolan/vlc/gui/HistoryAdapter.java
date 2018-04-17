@@ -110,10 +110,6 @@ public class HistoryAdapter extends DiffUtilAdapter<MediaWrapper, HistoryAdapter
         return getDataset().size();
     }
 
-    public boolean isEmpty() {
-        return getDataset().isEmpty();
-    }
-
     @Override
     protected void onUpdateFinished() {}
 }

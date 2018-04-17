@@ -15,7 +15,6 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
 
     protected var dataset: List<D> = listOf()
     private set
-    @Volatile private var last = dataset
     private val diffCallback by lazy(LazyThreadSafetyMode.NONE) { createCB() }
     private val updateActor = actor<List<D>>(newSingleThreadContext("vlc-updater"), capacity = Channel.CONFLATED) {
         for (list in channel) internalUpdate(list)
@@ -24,7 +23,6 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
 
     @MainThread
     fun update (list: List<D>) {
-        last = list
         updateActor.offer(list)
     }
 
@@ -41,9 +39,8 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
 
     protected open fun prepareList(list: List<D>) : List<D> = ArrayList(list)
 
-    fun peekLast() = last
-
-    fun hasPendingUpdates() = updateActor.isFull
+    @MainThread
+    fun isEmpty() = dataset.isEmpty()
 
     open fun getItem(position: Int) = dataset[position]
 

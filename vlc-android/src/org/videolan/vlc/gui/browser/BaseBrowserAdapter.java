@@ -22,10 +22,12 @@
  */
 package org.videolan.vlc.gui.browser;
 
+import android.annotation.TargetApi;
 import android.databinding.ViewDataBinding;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.MainThread;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +71,7 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
         private static final BitmapDrawable IMAGE_QA_DOWNLOAD = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_download_normal));
     }
     protected final BaseBrowserFragment fragment;
-    private int mTop = 0, mMediaCount = 0, mSelectionCount = 0;
+    private int mMediaCount = 0, mSelectionCount = 0;
     private final boolean mNetworkRoot, mSpecialIcons;
 
     BaseBrowserAdapter(BaseBrowserFragment fragment) {
@@ -150,6 +152,7 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
 
     class MediaViewHolder extends ViewHolder<BrowserItemBinding> implements View.OnFocusChangeListener {
 
+        @TargetApi(Build.VERSION_CODES.M)
         MediaViewHolder(final BrowserItemBinding binding) {
             super(binding);
             binding.setHolder(this);
@@ -222,27 +225,6 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
 
     public void clear() {
         if (!isEmpty()) update(new ArrayList<MediaLibraryItem>(0));
-    }
-
-    public boolean isEmpty() {
-        return Util.isListEmpty(peekLast());
-    }
-
-    void addItem(final MediaLibraryItem item, final boolean top, final int positionTo) {
-        WorkersKt.runOnMainThread(new Runnable() {
-            @Override
-            public void run() {
-                int position;
-                final List<MediaLibraryItem> list = new ArrayList<>(peekLast());
-                if (positionTo != -1) position = positionTo;
-                else position = top ? mTop : list.size();
-
-                if (position <= list.size()) {
-                    list.add(position, item);
-                    update(list);
-                }
-            }
-        });
     }
 
     public List<MediaLibraryItem> getAll(){
