@@ -59,6 +59,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GestureDetectorCompat;
+import android.support.v4.view.ScaleGestureDetectorCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -2038,8 +2039,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mDetector = new GestureDetectorCompat(this, mGestureListener);
             mDetector.setOnDoubleTapListener(mGestureListener);
         }
-        if (mScaleGestureDetector == null)
+        if (mScaleGestureDetector == null) {
             mScaleGestureDetector = new ScaleGestureDetector(this, mScaleListener);
+            ScaleGestureDetectorCompat.setQuickScaleEnabled(mScaleGestureDetector, false);
+        }
         if (mPlaybackSetting != DelayState.OFF) {
             if (event.getAction() == MotionEvent.ACTION_UP) endPlaybackSetting();
             return true;
