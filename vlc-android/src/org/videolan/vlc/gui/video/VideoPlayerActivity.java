@@ -52,7 +52,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -71,7 +70,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Rational;
 import android.view.Display;
-import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -177,7 +175,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private FrameLayout mSurfaceFrame;
     private Uri mUri;
     private boolean mAskResume = true;
-    private boolean mIsRtl;
 
     private ImageView mPlaylistToggle;
     private RecyclerView mPlaylist;
@@ -242,7 +239,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private String KEY_BLUETOOTH_DELAY = "key_bluetooth_delay";
     private long mSpuDelay = 0L;
     private long mAudioDelay = 0L;
-    private boolean mRateHasChanged = false;
     private int mCurrentAudioTrack = -2, mCurrentSpuTrack = -2;
 
     private boolean mIsLocked = false;
@@ -254,8 +250,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     boolean mWasPaused = false;
     private long mSavedTime = -1;
     private float mSavedRate = 1.f;
-
-    private float mSavedBrightness = -1f;
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -439,7 +433,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mCurrentSize = mSettings.getInt(PreferencesActivity.VIDEO_RATIO, SURFACE_BEST_FIT);
         }
         mMedialibrary = VLCApplication.getMLInstance();
-        mIsRtl = AndroidUtil.isJellyBeanMR1OrLater && TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
         final int touch;
         if (!VLCApplication.showTvUi()) {
             touch = (mSettings.getBoolean("enable_volume_gesture", true) ? VideoTouchDelegateKt.TOUCH_FLAG_AUDIO_VOLUME : 0)
@@ -448,12 +441,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         } else touch = 0;
         mCurrentScreenOrientation = getResources().getConfiguration().orientation;
         if (touch != 0) {
+            boolean isRtl = AndroidUtil.isJellyBeanMR1OrLater && TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
             final DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
             int yRange = Math.min(dm.widthPixels, dm.heightPixels);
             int xRange = Math.max(dm.widthPixels, dm.heightPixels);
             final ScreenConfig sc = new ScreenConfig(dm, xRange, yRange, mCurrentScreenOrientation);
-            mTouchDelegate = new VideoTouchDelegate(this, touch, sc, mIsRtl);
+            mTouchDelegate = new VideoTouchDelegate(this, touch, sc, isRtl);
         }
     }
 
@@ -467,8 +461,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
          */
         setListeners(true);
 
-        if (mIsLocked && mScreenOrientation == 99)
-            setRequestedOrientation(mScreenOrientationLock);
+        if (mIsLocked && mScreenOrientation == 99) setRequestedOrientation(mScreenOrientationLock);
     }
 
     private void setListeners(boolean enabled) {
@@ -619,11 +612,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     protected void onStart() {
         super.onStart();
         mHelper.onStart();
-        if (mSettings.getBoolean("save_brightness", false)) {
-            float brightness = mSettings.getFloat("brightness_value", -1f);
-            if (brightness != -1f)
-                setWindowBrightness(brightness);
-        }
+        restoreBrightness();
         final IntentFilter filter = new IntentFilter(Constants.PLAY_FROM_SERVICE);
         filter.addAction(Constants.EXIT_PLAYER);
         LocalBroadcastManager.getInstance(this).registerReceiver(
@@ -670,7 +659,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
         editor.apply();
 
-        restoreBrightness();
+        saveBrightness();
 
         if (mSubtitlesGetTask != null)
             mSubtitlesGetTask.cancel(true);
@@ -681,17 +670,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         setIntent(new Intent());
     }
 
-    private void restoreBrightness() {
-        if (mSavedBrightness != -1f) {
-            int brightness = (int) (mSavedBrightness *255f);
-            Settings.System.putInt(getContentResolver(),
-                    Settings.System.SCREEN_BRIGHTNESS,
-                    brightness);
-            Settings.System.putInt(getContentResolver(),
-                    Settings.System.SCREEN_BRIGHTNESS_MODE,
-                    Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
-            mSavedBrightness = -1f;
-        }
+    private void saveBrightness() {
         // Save brightness if user wants to
         if (mSettings.getBoolean("save_brightness", false)) {
             float brightness = getWindow().getAttributes().screenBrightness;
@@ -700,6 +679,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 editor.putFloat("brightness_value", brightness);
                 editor.apply();
             }
+        }
+    }
+
+    private void restoreBrightness() {
+        if (mSettings.getBoolean("save_brightness", false)) {
+            float brightness = mSettings.getFloat("brightness_value", -1f);
+            if (brightness != -1f) setWindowBrightness(brightness);
         }
     }
 
@@ -2070,7 +2056,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     void changeBrightness(float delta) {
         // Estimate and adjust Brightness
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        final WindowManager.LayoutParams lp = getWindow().getAttributes();
         float brightness =  Math.min(Math.max(lp.screenBrightness + delta, 0.01f), 1f);
         setWindowBrightness(brightness);
         brightness = Math.round(brightness * 100);
@@ -2078,8 +2064,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     void setWindowBrightness(float brightness) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.screenBrightness =  brightness;
+        final WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = brightness;
         // Set Brightness
         getWindow().setAttributes(lp);
     }

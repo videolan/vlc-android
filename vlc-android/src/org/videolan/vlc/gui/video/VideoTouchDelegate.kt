@@ -2,7 +2,6 @@ package org.videolan.vlc.gui.video
 
 import android.content.res.Configuration
 import android.media.AudioManager
-import android.provider.Settings
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v4.view.ScaleGestureDetectorCompat
 import android.util.DisplayMetrics
@@ -11,7 +10,6 @@ import org.videolan.medialibrary.Tools
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.Permissions
 
 const val TOUCH_FLAG_AUDIO_VOLUME = 1
 const val TOUCH_FLAG_BRIGHTNESS = 1 shl 1
@@ -259,38 +257,19 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
     private fun initBrightnessTouch() {
         val lp = player.window.attributes
-        var brightnesstemp = if (lp.screenBrightness != -1f) lp.screenBrightness else 0.6f
-        // Initialize the layoutParams screen brightness
-        try {
-            val cr = player.contentResolver
-            if (Settings.System.getInt(cr, Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
-                if (!Permissions.canWriteSettings(player)) {
-                    Permissions.checkWriteSettingsPermission(player, Permissions.PERMISSION_SYSTEM_BRIGHTNESS)
-                    return
-                }
-                Settings.System.putInt(cr,
-                        Settings.System.SCREEN_BRIGHTNESS_MODE,
-                        Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL)
-                player.setSavedBrightness(android.provider.Settings.System.getInt(cr,
-                        android.provider.Settings.System.SCREEN_BRIGHTNESS) / 255.0f)
-            } else if (brightnesstemp == 0.6f) {
-                brightnesstemp = android.provider.Settings.System.getInt(cr,
-                        android.provider.Settings.System.SCREEN_BRIGHTNESS) / 255.0f
-            }
-        } catch (e: Settings.SettingNotFoundException) {}
-
+        val brightnesstemp = if (lp.screenBrightness != -1f) lp.screenBrightness else 0.6f
         lp.screenBrightness = brightnesstemp
         player.window.attributes = lp
         mIsFirstBrightnessGesture = false
     }
 
-    private fun doBrightnessTouch(y_changed: Float) {
+    private fun doBrightnessTouch(ychanged: Float) {
         if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_BRIGHTNESS) return
         if (mIsFirstBrightnessGesture) initBrightnessTouch()
         mTouchAction = TOUCH_BRIGHTNESS
 
         // Set delta : 2f is arbitrary for now, it possibly will change in the future
-        val delta = -y_changed / screenConfig.yRange
+        val delta = -ychanged / screenConfig.yRange
 
         player.changeBrightness(delta)
     }
@@ -314,13 +293,15 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         }
 
         override fun onScaleEnd(detector: ScaleGestureDetector) {
-            val grow = detector.scaleFactor > 1.0f
-            if (grow && player.currentSize != VideoPlayerActivity.SURFACE_FIT_SCREEN) {
-                savedSize = player.currentSize
-                player.setVideoSurfacesize(VideoPlayerActivity.SURFACE_FIT_SCREEN)
-            } else if (!grow && savedSize != -1) {
-                player.setVideoSurfacesize(savedSize)
-                savedSize = -1
+            if (player.fov == 0f) {
+                val grow = detector.scaleFactor > 1.0f
+                if (grow && player.currentSize != VideoPlayerActivity.SURFACE_FIT_SCREEN) {
+                    savedSize = player.currentSize
+                    player.setVideoSurfacesize(VideoPlayerActivity.SURFACE_FIT_SCREEN)
+                } else if (!grow && savedSize != -1) {
+                    player.setVideoSurfacesize(savedSize)
+                    savedSize = -1
+                }
             }
         }
     }
