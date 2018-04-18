@@ -25,7 +25,6 @@ import android.appwidget.AppWidgetManager
 import android.content.*
 import android.graphics.BitmapFactory
 import android.media.AudioManager
-import android.media.AudioManager.OnAudioFocusChangeListener
 import android.media.audiofx.AudioEffect
 import android.net.Uri
 import android.os.*
@@ -74,13 +73,14 @@ import java.util.*
 
 class PlaybackService : MediaBrowserServiceCompat() {
 
-    private lateinit var playlistManager: PlaylistManager
+    lateinit var playlistManager: PlaylistManager
+        private set
     private lateinit var keyguardManager: KeyguardManager
     internal lateinit var settings: SharedPreferences
     private val mBinder = LocalBinder()
     internal lateinit var medialibrary: Medialibrary
 
-    private val callbacks = ArrayList<Callback>()
+    private val callbacks = mutableListOf<Callback>()
     private var detectHeadset = true
     private lateinit var wakeLock: PowerManager.WakeLock
     private val audioFocusHelper by lazy { VLCAudioFocusHelper(this) }
@@ -345,14 +345,12 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     val medias: List<MediaWrapper>
         @MainThread
-        get() = ArrayList(playlistManager.getMediaList())
+        get() = playlistManager.getMediaList().toList()
 
     val mediaLocations: List<String>
         @MainThread
         get() {
-            val medias = ArrayList<String>()
-            for (mw in playlistManager.getMediaList()) medias.add(mw.location)
-            return medias
+            return mutableListOf<String>().apply { for (mw in playlistManager.getMediaList()) add(mw.location) }
         }
 
     val currentMediaLocation: String?
@@ -1034,7 +1032,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     @MainThread
     fun load(mediaList: Array<MediaWrapper>?, position: Int) {
-        load(Arrays.asList(*mediaList!!), position)
+        mediaList?.let { load(it.toList(), position) }
     }
 
     @MainThread
@@ -1140,7 +1138,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     @MainThread
     fun append(mediaList: Array<MediaWrapper>) {
-        append(Arrays.asList(*mediaList))
+        append(mediaList.toList())
     }
 
     @MainThread
@@ -1150,20 +1148,14 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     @MainThread
-    fun append(media: MediaWrapper) {
-        val arrayList = ArrayList<MediaWrapper>()
-        arrayList.add(media)
-        append(arrayList)
-    }
+    fun append(media: MediaWrapper) = append(listOf(media))
 
     /**
      * Insert into the current existing playlist
      */
 
     @MainThread
-    fun insertNext(mediaList: Array<MediaWrapper>) {
-        insertNext(Arrays.asList(*mediaList))
-    }
+    fun insertNext(mediaList: Array<MediaWrapper>) = insertNext(mediaList.toList())
 
     @MainThread
     private fun insertNext(mediaList: List<MediaWrapper>) {
@@ -1172,11 +1164,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     @MainThread
-    fun insertNext(media: MediaWrapper) {
-        val arrayList = ArrayList<MediaWrapper>()
-        arrayList.add(media)
-        insertNext(arrayList)
-    }
+    fun insertNext(media: MediaWrapper) = insertNext(listOf(media))
 
     /**
      * Move an item inside the playlist.
