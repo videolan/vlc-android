@@ -138,7 +138,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
         mRecyclerView = view.findViewById(R.id.network_list);
         mEmptyView = view.findViewById(R.id.empty);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
-        mSearchButtonView = view.findViewById(R.id.searchButton);
     }
 
     @Override

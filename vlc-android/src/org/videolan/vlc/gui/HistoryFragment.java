@@ -248,7 +248,4 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
         invalidateActionMode();
         UiTools.updateSortTitles(this);
     }
-
-    @Override
-    public void setSearchVisibility(boolean visible) {}
 }

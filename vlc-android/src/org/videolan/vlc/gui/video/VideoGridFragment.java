@@ -124,7 +124,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         mViewNomedia = v.findViewById(android.R.id.empty);
         mGridView = v.findViewById(android.R.id.list);
         mSwipeRefreshLayout = v.findViewById(R.id.swipeLayout);
-        mSearchButtonView = v.findViewById(R.id.searchButton);
     }
 
     @Override

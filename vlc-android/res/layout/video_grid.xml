@@ -3,7 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/button_search" />
+    <include layout="@layout/button_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
 
     <org.videolan.vlc.gui.view.SwipeRefreshLayout
                 android:id="@+id/swipeLayout"

@@ -142,7 +142,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
         mSwipeRefreshLayout = v.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSearchButtonView = v.findViewById(R.id.searchButton);
         return v;
     }
 

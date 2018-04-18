@@ -28,7 +28,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.design.widget.FloatingActionButton;
+import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -67,7 +70,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
 
     public final static String TAG = "VLC/MediaBrowserFragment";
 
-    public View mSearchButtonView;
+    private View mSearchButtonView;
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected Medialibrary mMediaLibrary;
     protected ActionMode mActionMode;
@@ -88,6 +91,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mSearchButtonView = view.findViewById(R.id.searchButton);
         if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
             mFabPlay = getActivity().findViewById(R.id.fab);
     }
@@ -320,6 +324,14 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
 
     @Override
     public void setSearchVisibility(boolean visible) {
-        UiTools.setViewVisibility(mSearchButtonView, visible ? View.VISIBLE : View.GONE);
+        if ((mSearchButtonView.getVisibility() == View.VISIBLE) == visible) return;
+        if (mSearchButtonView.getParent() instanceof ConstraintLayout) {
+            final ConstraintLayout cl = (ConstraintLayout) mSearchButtonView.getParent();
+            final ConstraintSet cs = new ConstraintSet();
+            cs.clone(cl);
+            cs.setVisibility(R.id.searchButton, visible ? ConstraintSet.VISIBLE : ConstraintSet.GONE);
+            TransitionManager.beginDelayedTransition(cl);
+            cs.applyTo(cl);
+        } else UiTools.setViewVisibility(mSearchButtonView, visible ? View.VISIBLE : View.GONE);
     }
 }
