@@ -42,6 +42,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
     protected open val sortKey = this.javaClass.simpleName!!
 
     open fun canSortByName() = true
+    open fun canSortByFileNameName() = false
     open fun canSortByDuration() = false
     open fun canSortByInsertionDate() = false
     open fun canSortByLastModified() = false

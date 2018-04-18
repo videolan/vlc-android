@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.audio;
 
 import android.support.v7.view.ActionMode;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -175,4 +176,9 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
 
     @Override
     public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {}
+
+    @Override
+    public void onUpdateFinished(RecyclerView.Adapter adapter) {
+        UiTools.updateSortTitles(this);
+    }
 }

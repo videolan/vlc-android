@@ -38,6 +38,7 @@ import org.videolan.vlc.util.Util
 open class VideosProvider(private val group: String?, private val minGroupLen: Int, customSort : Int) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
 
     override val sortKey = "${super.sortKey}_$group"
+    override fun canSortByFileNameName() = true
     override fun canSortByDuration() = true
     override fun canSortByLastModified() = true
     private val res by lazy { VLCApplication.getAppResources() }

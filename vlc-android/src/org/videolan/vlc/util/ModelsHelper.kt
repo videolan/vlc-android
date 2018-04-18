@@ -161,6 +161,7 @@ interface RefreshModel {
 fun <T : MediaLibraryItem> BaseModel<T>.canSortBy(sort: Int) = when(sort) {
     Medialibrary.SORT_DEFAULT -> true
     Medialibrary.SORT_ALPHA -> canSortByName()
+    Medialibrary.SORT_FILENAME -> canSortByFileNameName()
     Medialibrary.SORT_DURATION -> canSortByDuration()
     Medialibrary.SORT_INSERTIONDATE -> canSortByInsertionDate()
     Medialibrary.SORT_LASTMODIFICATIONDATE -> canSortByLastModified()

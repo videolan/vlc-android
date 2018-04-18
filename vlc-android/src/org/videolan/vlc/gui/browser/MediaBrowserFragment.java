@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.view.ContextMenu;
@@ -224,6 +225,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.ml_menu_sortby).setVisible(getProvider().canSortByName());
+        menu.findItem(R.id.ml_menu_sortby_filename).setVisible(getProvider().canSortByFileNameName());
         menu.findItem(R.id.ml_menu_sortby_artist_name).setVisible(getProvider().canSortByArtist());
         menu.findItem(R.id.ml_menu_sortby_album_name).setVisible(getProvider().canSortByAlbum());
         menu.findItem(R.id.ml_menu_sortby_length).setVisible(getProvider().canSortByDuration());
@@ -237,6 +239,9 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
         switch (item.getItemId()) {
             case R.id.ml_menu_sortby_name:
                 sortBy(Medialibrary.SORT_ALPHA);
+                return true;
+            case R.id.ml_menu_sortby_filename:
+                sortBy(Medialibrary.SORT_FILENAME);
                 return true;
             case R.id.ml_menu_sortby_length:
                 sortBy(Medialibrary.SORT_DURATION);
@@ -268,9 +273,9 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     }
 
     public Menu getMenu() {
-        final AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity) getActivity();
-        if (activity == null) return null;
-        return activity.getMenu();
+        final FragmentActivity activity = getActivity();
+        if (!(activity instanceof AudioPlayerContainerActivity)) return null;
+        return ((AudioPlayerContainerActivity)activity).getMenu();
 
     }
 

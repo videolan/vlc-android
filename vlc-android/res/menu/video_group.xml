@@ -11,6 +11,9 @@
                 android:id="@+id/ml_menu_sortby_name"
                 android:title="@string/sortby_name" />
             <item
+                android:id="@+id/ml_menu_sortby_filename"
+                android:title="@string/sortby_filename" />
+            <item
                 android:id="@+id/ml_menu_sortby_length"
                 android:title="@string/sortby_length" />
             <item

@@ -330,6 +330,8 @@ public class UiTools {
         final boolean desc = model.getDesc();
         MenuItem item = menu.findItem(R.id.ml_menu_sortby_name);
         if (item != null) item.setTitle(sort == Medialibrary.SORT_ALPHA && !desc ? R.string.sortby_name_desc : R.string.sortby_name);
+        item = menu.findItem(R.id.ml_menu_sortby_filename);
+        if (item != null) item.setTitle(sort == Medialibrary.SORT_FILENAME && !desc ? R.string.sortby_filename_desc : R.string.sortby_filename);
         item = menu.findItem(R.id.ml_menu_sortby_artist_name);
         if (item != null) item.setTitle(sort == Medialibrary.SORT_ARTIST && !desc ? R.string.sortby_artist_name_desc : R.string.sortby_artist_name);
         item = menu.findItem(R.id.ml_menu_sortby_album_name);

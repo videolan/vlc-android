@@ -38,6 +38,10 @@
                 android:title="@string/sortby_name" />
             <item
                 android:orderInCategory="2"
+                android:id="@+id/ml_menu_sortby_filename"
+                android:title="@string/sortby_filename" />
+            <item
+                android:orderInCategory="2"
                 android:id="@+id/ml_menu_sortby_artist_name"
                 android:title="@string/sortby_artist_name"
                 android:visible="false" />

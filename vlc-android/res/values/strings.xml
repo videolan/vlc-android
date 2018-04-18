@@ -9,6 +9,8 @@
     <string name="sortby">Sort by&#8230;</string>
     <string name="sortby_name">Name</string>
     <string name="sortby_name_desc">Name (desc)</string>
+    <string name="sortby_filename">File name</string>
+    <string name="sortby_filename_desc">File name (desc)</string>
     <string name="sortby_artist_name">Artist name</string>
     <string name="sortby_artist_name_desc">Artist name (desc)</string>
     <string name="sortby_album_name">Album name</string>

@@ -65,7 +65,6 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.util.WorkersKt;
-import org.videolan.vlc.viewmodels.BaseModel;
 import org.videolan.vlc.viewmodels.audio.AlbumProvider;
 import org.videolan.vlc.viewmodels.audio.ArtistProvider;
 import org.videolan.vlc.viewmodels.audio.AudioModel;
@@ -498,6 +497,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
 
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
+        super.onUpdateFinished(adapter);
         if (adapter == getCurrentAdapter()) {
             if (!mMediaLibrary.isWorking()) mHandler.sendEmptyMessage(UNSET_REFRESHING);
             mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)getCurrentRV().getLayoutManager()).findFirstVisibleItemPosition() <= 0);

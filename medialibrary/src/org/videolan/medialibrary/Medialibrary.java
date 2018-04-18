@@ -50,6 +50,7 @@ public class Medialibrary {
     public final static int SORT_ARTIST = 7;
     public final static int SORT_PLAYCOUNT = 8;
     public final static int SORT_ALBUM = 9;
+    public final static int SORT_FILENAME = 10;
 
     public static final int FLAG_MEDIA_UPDATED_AUDIO        = 1 << 0;
     public static final int FLAG_MEDIA_UPDATED_AUDIO_EMPTY  = 1 << 1;
