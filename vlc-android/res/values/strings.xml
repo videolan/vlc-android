@@ -279,7 +279,7 @@
     <string name="screen_orientation_landscape">Landscape</string>
     <string name="screen_orientation_reverse_portrait">Reverse portrait</string>
     <string name="screen_orientation_reverse_landscape">Reverse landscape</string>
-    <string name="enable_black_theme">Enable the black theme</string>
+    <string name="enable_black_theme">Black theme</string>
     <string name="enable_black_theme_summary">Change the interface colors for better comfort in low light environments.</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
     <string name="daynight_title">DayNight mode</string>
@@ -318,7 +318,7 @@
     <string name="enable_brightness_gesture_summary">Control brightness by gesture during video playback</string>
     <string name="enable_volume_gesture_title">Volume gesture</string>
     <string name="enable_volume_gesture_summary">Control volume by gesture during video playback</string>
-    <string name="enable_seek_buttons">Enable seek buttons</string>
+    <string name="enable_seek_buttons">Seek buttons</string>
     <string name="enable_seek_buttons_summary">Show rewind and forward buttons on the video interface</string>
     <string name="enable_double_tap_seek_title">Double tap to seek</string>
     <string name="enable_double_tap_seek_summary">Double tap on screen edges to seek by 10 seconds</string>
@@ -358,7 +358,7 @@
     <string name="audio_save_repeat_title">Save repeat mode</string>
     <string name="audio_save_repeat_summary">Remember repeat mode when loading audio playlists</string>
     <string name="audio_boost_title">Audio-boost</string>
-    <string name="audio_boost_summary">Enable volume up to 200%</string>
+    <string name="audio_boost_summary">Allow volume up to 200%</string>
     <string name="headset_prefs_category">Headset</string>
     <string name="enable_headset_detection">Detect headset</string>
     <string name="enable_headset_detection_summary">Detect headset insertion and removal</string>
@@ -407,7 +407,7 @@
     <string name="deblocking_nonref">Medium deblocking</string>
     <string name="deblocking_nonkey">Low deblocking</string>
     <string name="deblocking_all">No deblocking (fastest)</string>
-    <string name="enable_frame_skip">Enable frame skip</string>
+    <string name="enable_frame_skip">Frame skip</string>
     <string name="enable_frame_skip_summary">Speed up decoding but could lower video quality.</string>
     <string name="enable_time_stretching_audio">Time-stretching audio</string>
     <string name="enable_time_stretching_audio_summary">Speed up and slow down audio without changing the pitch (requires a fast device).</string>
@@ -482,10 +482,6 @@
     <string name="confirm_resume_title">Ask confirmation to resume</string>
     <string name="confirm_resume_summary">if activated you will be asked to confirm when a video can be resumed from last position</string>
     <string name="directory_empty">Directory is empty</string>
-    <string name="player_touch_title">Touch controls for Video</string>
-    <string name="player_touch_enable_all">Enable Touch controls</string>
-    <string name="player_touch_disable_brightness">Disable brightness control</string>
-    <string name="player_touch_disable_all">Disable all Touch controls</string>
     <string name="tv_ui_title">Android TV interface</string>
     <string name="tv_ui_summary">Change UI to TV adapted theme</string>
     <string name="medialibrary">Media library</string>
