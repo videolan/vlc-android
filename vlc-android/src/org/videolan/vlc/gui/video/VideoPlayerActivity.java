@@ -853,7 +853,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
 
         mSavedRate = mService.getRate();
-        mRateHasChanged = mSavedRate != 1.0f;
 
         mService.setRate(1.0f, false);
         mService.stop();
@@ -1184,10 +1183,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    void setSavedBrightness(float brightness) {
-        mSavedBrightness = brightness;
     }
 
     int getAudioMax() {
