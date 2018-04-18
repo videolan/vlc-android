@@ -45,6 +45,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.ImageLoaderKt;
+import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.Constants;
 
 import java.util.List;
@@ -80,7 +81,7 @@ public class CardPresenter extends Presenter {
         }
 
         void updateCardViewImage(MediaLibraryItem item) {
-            if (TextUtils.isEmpty(item.getArtworkMrl()) && item.getItemType() != MediaLibraryItem.TYPE_MEDIA) {
+            if (TextUtils.isEmpty(item.getArtworkMrl()) && !(item instanceof MediaGroup)) {
                 mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
                 mCardView.setMainImage(new BitmapDrawable(mCardView.getResources(), getDefaultImage(item)));
             } else ImageLoaderKt.loadImage(mCardView, item);
