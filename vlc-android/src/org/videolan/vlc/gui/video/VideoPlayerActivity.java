@@ -249,7 +249,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private boolean mLockBackButton = false;
     boolean mWasPaused = false;
     private long mSavedTime = -1;
-    private float mSavedRate = 1.f;
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -310,8 +309,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private OnLayoutChangeListener mOnLayoutChangeListener;
     private AlertDialog mAlertDialog;
-
-    private final DisplayMetrics mScreen = new DisplayMetrics();
 
     protected boolean mIsBenchmark = false;
 
@@ -735,7 +732,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mPlaybackStarted || mService == null)
             return;
 
-        mSavedRate = 1.0f;
         mSavedTime = -1;
         mPlaybackStarted = true;
 
@@ -846,13 +842,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mSavedTime = getTime();
             long length = mService.getLength();
             //remove saved position if in the last 5 seconds
-            if (length - mSavedTime < 5000)
-                mSavedTime = 0;
-            else
-                mSavedTime -= 2000; // go back 2 seconds, to compensate loading time
+            if (length - mSavedTime < 5000) mSavedTime = 0;
+            else mSavedTime -= 2000; // go back 2 seconds, to compensate loading time
         }
-
-        mSavedRate = mService.getRate();
 
         mService.setRate(1.0f, false);
         mService.stop();
@@ -1094,20 +1086,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 if (mIsNavMenu)
                     return navigateDvdMenu(keyCode);
                 else if (!mShowing) {
-                    if (mFov == 0f)
-                        seekDelta(-10000);
-                    else
-                        mService.updateViewpoint(-5f, 0f, 0f, 0f, false);
+                    if (mFov == 0f) seekDelta(-10000);
+                    else mService.updateViewpoint(-5f, 0f, 0f, 0f, false);
                     return true;
                 }
             case KeyEvent.KEYCODE_DPAD_RIGHT:
                 if (mIsNavMenu)
                     return navigateDvdMenu(keyCode);
                 else if (!mShowing) {
-                    if (mFov == 0f)
-                        seekDelta(10000);
-                    else
-                        mService.updateViewpoint(5f, 0f, 0f, 0f, false);
+                    if (mFov == 0f) seekDelta(10000);
+                    else mService.updateViewpoint(5f, 0f, 0f, 0f, false);
                     return true;
                 }
             case KeyEvent.KEYCODE_DPAD_UP:
@@ -1117,10 +1105,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     volumeUp();
                     return true;
                 } else if (!mShowing) {
-                    if (mFov == 0f)
-                        showAdvancedOptions();
-                    else
-                        mService.updateViewpoint(0f, -5f, 0f, 0f, false);
+                    if (mFov == 0f) showAdvancedOptions();
+                    else mService.updateViewpoint(0f, -5f, 0f, 0f, false);
                     return true;
                 }
             case KeyEvent.KEYCODE_DPAD_DOWN:
@@ -1985,8 +1971,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         return mService != null && mTouchDelegate.onTouchEvent(event);
     }
 
-    boolean updateViewpoint(float yaw, float pitch) {
-        return mService.updateViewpoint(yaw, pitch, 0, 0, false);
+    boolean updateViewpoint(float yaw, float pitch, float fov) {
+        return mService.updateViewpoint(yaw, pitch, 0, fov, false);
     }
 
     void initAudioVolume() {

@@ -95,30 +95,29 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 player.sendMouseEvent(MotionEvent.ACTION_DOWN, xTouch, yTouch)
             }
             MotionEvent.ACTION_MOVE -> {
-                if (mTouchAction != TOUCH_IGNORE) {// Mouse events for the core
-                    player.sendMouseEvent(MotionEvent.ACTION_MOVE, xTouch, yTouch)
+                if (mTouchAction == TOUCH_IGNORE) return false
+                // Mouse events for the core
+                player.sendMouseEvent(MotionEvent.ACTION_MOVE, xTouch, yTouch)
 
-                    if (player.fov == 0f) {
-                        // No volume/brightness action if coef < 2 or a secondary display is connected
-                        //TODO : Volume action when a secondary display is connected
-                        if (mTouchAction != TOUCH_SEEK && coef > 2 && player.isOnPrimaryDisplay) {
-                            if (Math.abs(yChanged / screenConfig.yRange) < 0.05)
-                                return false
-                            mTouchY = event.rawY
-                            mTouchX = event.rawX
-                            doVerticalTouchAction(yChanged)
-                        } else {
-                            // Seek (Right or Left move)
-                            doSeekTouch(Math.round(deltaY), if (rtl) -xgesturesize else xgesturesize, false)
-                        }
-                    } else {
+                if (player.fov == 0f) {
+                    // No volume/brightness action if coef < 2 or a secondary display is connected
+                    //TODO : Volume action when a secondary display is connected
+                    if (mTouchAction != TOUCH_SEEK && coef > 2 && player.isOnPrimaryDisplay) {
+                        if (Math.abs(yChanged / screenConfig.yRange) < 0.05) return false
                         mTouchY = event.rawY
                         mTouchX = event.rawX
-                        mTouchAction = TOUCH_MOVE
-                        val yaw = player.fov * -xChanged / screenConfig.xRange.toFloat()
-                        val pitch = player.fov * -yChanged / screenConfig.xRange.toFloat()
-                        player.updateViewpoint(yaw, pitch)
+                        doVerticalTouchAction(yChanged)
+                    } else {
+                        // Seek (Right or Left move)
+                        doSeekTouch(Math.round(deltaY), if (rtl) -xgesturesize else xgesturesize, false)
                     }
+                } else {
+                    mTouchY = event.rawY
+                    mTouchX = event.rawX
+                    mTouchAction = TOUCH_MOVE
+                    val yaw = player.fov * -xChanged / screenConfig.xRange.toFloat()
+                    val pitch = player.fov * -yChanged / screenConfig.xRange.toFloat()
+                    player.updateViewpoint(yaw, pitch, 0f)
                 }
             }
             MotionEvent.ACTION_UP -> {
@@ -284,7 +283,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         override fun onScale(detector: ScaleGestureDetector): Boolean {
             if (player.fov != 0f) {
                 val diff = VideoPlayerActivity.DEFAULT_FOV * (1 - detector.scaleFactor)
-                if (player.updateViewpoint(0f, 0f)) {
+                if (player.updateViewpoint(0f, 0f, diff)) {
                     player.fov = Math.min(Math.max(MIN_FOV, player.fov + diff), MAX_FOV)
                     return true
                 }
