@@ -972,7 +972,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public boolean dispatchGenericMotionEvent(MotionEvent event) {
-        return !mIsLoading && mTouchDelegate.dispatchGenericMotionEvent(event);
+        return !mIsLoading && mTouchDelegate != null && mTouchDelegate.dispatchGenericMotionEvent(event);
     }
 
     @Override
@@ -1262,7 +1262,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public void showDelayControls(){
-        mTouchDelegate.clearTouchAction();
+        if (mTouchDelegate != null) mTouchDelegate.clearTouchAction();
         if (!mDisplayManager.isPrimary()) showOverlayTimeout(OVERLAY_INFINITE);
         ViewStubCompat vsc = findViewById(R.id.player_overlay_settings_stub);
         if (vsc != null) {
@@ -1594,7 +1594,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 if (event.getBuffering() == 100f)
                     stopLoading();
                 else if (!mHandler.hasMessages(LOADING_ANIMATION) && !mIsLoading
-                        && !mTouchDelegate.isSeeking() && !mDragging)
+                        && (mTouchDelegate == null || !mTouchDelegate.isSeeking()) && !mDragging)
                     mHandler.sendEmptyMessageDelayed(LOADING_ANIMATION, LOADING_ANIMATION_DELAY);
                 break;
         }
@@ -1968,7 +1968,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return mService != null && mTouchDelegate.onTouchEvent(event);
+        return mService != null && mTouchDelegate != null && mTouchDelegate.onTouchEvent(event);
     }
 
     boolean updateViewpoint(float yaw, float pitch, float fov) {
@@ -2563,7 +2563,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mHudBinding.progressOverlay.setLayoutParams(layoutParams);
             mOverlayBackground = findViewById(R.id.player_overlay_background);
             mNavMenu = findViewById(R.id.player_overlay_navmenu);
-            if (!AndroidDevices.isChromeBook && AndroidUtil.isJellyBeanMR1OrLater) {
+            if (!AndroidDevices.isChromeBook && AndroidUtil.isJellyBeanMR1OrLater && !VLCApplication.showTvUi()) {
                 mRendererBtn = findViewById(R.id.video_renderer);
                 RendererDelegate.INSTANCE.getSelectedRenderer().observe(this, new Observer<RendererItem>() {
                     @Override
