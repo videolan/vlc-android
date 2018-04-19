@@ -58,19 +58,28 @@ import org.videolan.vlc.viewmodels.VideosProvider
 private const val NUM_ITEMS_PREVIEW = 5
 private const val TAG = "VLC/MainTvFragment"
 
-class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener, View.OnClickListener {
+class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener, View.OnClickListener, Observer<MutableList<MediaWrapper>> {
 
     private var backgroundManager: BackgroundManager? = null
     private lateinit var videoProvider: VideosProvider
     private lateinit var historyProvider: HistoryProvider
+
     private lateinit var rowsAdapter: ArrayObjectAdapter
     private lateinit var videoAdapter: ArrayObjectAdapter
     private lateinit var categoriesAdapter: ArrayObjectAdapter
     private lateinit var historyAdapter: ArrayObjectAdapter
     private lateinit var browserAdapter: ArrayObjectAdapter
     private lateinit var otherAdapter: ArrayObjectAdapter
+
+    private lateinit var videoRow: ListRow
+    private lateinit var audioRow: ListRow
+    private lateinit var historyRow: ListRow
+    private lateinit var browsersRow: ListRow
+    private lateinit var miscRow: ListRow
+
     private lateinit var settings: SharedPreferences
     private lateinit var nowPlayingDelegate: NowPlayingDelegate
+    private var displayHistory = false
     private var selectedItem: Any? = null
     private var restart = false
 
@@ -91,7 +100,6 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         brandColor = ContextCompat.getColor(requireContext(), R.color.orange800)
         backgroundManager = BackgroundManager.getInstance(requireActivity()).apply { attach(requireActivity().window) }
         nowPlayingDelegate = NowPlayingDelegate(this)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -101,24 +109,22 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         // Video
         videoAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val videoHeader = HeaderItem(0, getString(R.string.video))
-        rowsAdapter.add(ListRow(videoHeader, videoAdapter))
+        videoRow = ListRow(videoHeader, videoAdapter)
+        rowsAdapter.add(videoRow)
         // Audio
         categoriesAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val musicHeader = HeaderItem(Constants.HEADER_CATEGORIES, getString(R.string.audio))
         updateAudioCategories()
-        rowsAdapter.add(ListRow(musicHeader, categoriesAdapter))
+        audioRow = ListRow(musicHeader, categoriesAdapter)
+        rowsAdapter.add(audioRow)
         //History
-        val showHistory = settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)
-        if (showHistory) {
-            historyAdapter = ArrayObjectAdapter(CardPresenter(ctx))
-            val historyHeader = HeaderItem(Constants.HEADER_HISTORY, getString(R.string.history))
-            rowsAdapter.add(ListRow(historyHeader, historyAdapter))
-        }
+
         //Browser section
         browserAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val browserHeader = HeaderItem(Constants.HEADER_NETWORK, getString(R.string.browsing))
         updateBrowsers()
-        rowsAdapter.add(ListRow(browserHeader, browserAdapter))
+        browsersRow = ListRow(browserHeader, browserAdapter)
+        rowsAdapter.add(browsersRow)
         //Misc. section
         otherAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val miscHeader = HeaderItem(Constants.HEADER_MISC, getString(R.string.other))
@@ -126,10 +132,16 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         otherAdapter.add(DummyItem(Constants.ID_SETTINGS, getString(R.string.preferences), ""))
         otherAdapter.add(DummyItem(Constants.ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VERSION_NAME}"))
         otherAdapter.add(DummyItem(Constants.ID_LICENCE, getString(R.string.licence), ""))
-        rowsAdapter.add(ListRow(miscHeader, otherAdapter))
+        miscRow = ListRow(miscHeader, otherAdapter)
+        rowsAdapter.add(miscRow)
 
         adapter = rowsAdapter
-        setupProviders(showHistory)
+        videoProvider = VideosProvider.get(this, null, 0, Medialibrary.SORT_INSERTIONDATE)
+        videoProvider.dataset.observe(this, Observer {
+            updateVideos(it)
+            (requireActivity() as MainTvActivity).hideLoading()
+        })
+        ExternalMonitor.connected.observe(this, Observer { updateBrowsers() })
         onItemViewClickedListener = this
         onItemViewSelectedListener = this
     }
@@ -152,6 +164,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             videoProvider.refresh()
         } else restart = true
         if (selectedItem is MediaWrapper) TvUtil.updateBackground(backgroundManager, selectedItem)
+        setHistoryProvider()
     }
 
     override fun onStop() {
@@ -200,34 +213,6 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         browserAdapter.setItems(list, diffCallback)
     }
 
-    // TODO
-//    fun updateNowPlayingCard() = launch(UI, CoroutineStart.UNDISPATCHED) {
-//        if (mService == null) return
-//        val hasmedia = mService.hasMedia()
-//        val canSwitch = mService.canSwitchToVideo()
-//        if ((!hasmedia || canSwitch) && mNowPlayingCard != null) {
-//            mCategoriesAdapter.removeItems(0, 1)
-//            mNowPlayingCard = null
-//        } else if (hasmedia && !canSwitch) {
-//            val mw = mService.getCurrentMediaWrapper()
-//            val display = MediaUtils.getMediaTitle(mw) + " - " + MediaUtils.getMediaReferenceArtist(this@MainTvActivity, mw)
-//            val cover = withContext(CommonPool) {AudioUtil.readCoverBitmap(Uri.decode(mw.getArtworkMrl()), VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.grid_card_thumb_width)) }
-//            if (mNowPlayingCard == null) {
-//                mNowPlayingCard = if (cover != null)
-//                    CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING.toLong(), display, cover)
-//                else
-//                    CardPresenter.SimpleCard(MusicFragment.CATEGORY_NOW_PLAYING.toLong(), display, R.drawable.ic_default_cone)
-//                mCategoriesAdapter.add(0, mNowPlayingCard)
-//            } else {
-//                mNowPlayingCard.setId(MusicFragment.CATEGORY_NOW_PLAYING.toLong())
-//                mNowPlayingCard.setName(display)
-//                if (cover != null) mNowPlayingCard.setImage(cover)
-//                else mNowPlayingCard.setImageId(R.drawable.ic_default_cone)
-//            }
-//            mCategoriesAdapter.notifyArrayItemRangeChanged(0, 1)
-//        }
-//    }
-
     override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
         val activity = requireActivity()
         when(row?.id) {
@@ -258,18 +243,38 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         TvUtil.updateBackground(backgroundManager, item)
     }
 
-    //TODO video groups
-    private fun setupProviders(showHistory: Boolean) {
-        videoProvider = VideosProvider.get(this, null, 0, Medialibrary.SORT_INSERTIONDATE)
-        videoProvider.dataset.observe(this, Observer {
-            updateVideos(it)
-            (requireActivity() as MainTvActivity).hideLoading()
-        })
-        if (showHistory) {
+    private fun setHistoryProvider() {
+        val historyEnabled = settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)
+        if (historyEnabled == displayHistory) return
+        if (historyEnabled) {
             historyProvider = ViewModelProviders.of(this).get(HistoryProvider::class.java)
-            historyProvider.dataset.observe(this, Observer { historyAdapter.setItems(it!!, diffCallback) })
+            historyProvider.dataset.observe(this, this)
+        } else {
+            displayHistory = false
+            historyProvider.dataset.removeObserver(this)
         }
-        ExternalMonitor.connected.observe(this, Observer { updateBrowsers() })
+    }
+
+    override fun onChanged(list: MutableList<MediaWrapper>?) {
+        list?.let {
+            if (!it.isEmpty()) {
+                if (!displayHistory) {
+                    displayHistory = true
+                    if (!this::historyRow.isInitialized) {
+                        historyAdapter = ArrayObjectAdapter(CardPresenter(requireActivity()))
+                        val historyHeader = HeaderItem(Constants.HEADER_HISTORY, getString(R.string.history))
+                        historyRow = ListRow(historyHeader, historyAdapter)
+                    }
+                }
+                historyAdapter.setItems(it, diffCallback)
+                val adapters = listOf(videoRow, audioRow, historyRow, browsersRow, miscRow)
+                rowsAdapter.setItems(adapters, TvUtil.listDiffCallback)
+            } else if (displayHistory) {
+                displayHistory = false
+                val adapters = listOf(videoRow, audioRow, browsersRow, miscRow)
+                rowsAdapter.setItems(adapters, TvUtil.listDiffCallback)
+            }
+        }
     }
 
     private fun updateVideos(videos: List<MediaWrapper>?) {
