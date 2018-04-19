@@ -1,6 +1,11 @@
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    android:name="org.videolan.vlc.gui.tv.MediaItemDetailsFragment"
-    android:id="@+id/details_fragment"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-/>
+    android:layout_height="match_parent" >
+    <fragment
+        android:id="@+id/details_fragment"
+        android:name="org.videolan.vlc.gui.tv.MediaItemDetailsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+    <include layout="@layout/tv_time" />
+</FrameLayout>

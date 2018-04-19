@@ -29,18 +29,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
+import android.widget.TextView;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.MediaParsingService;
+import org.videolan.vlc.R;
 import org.videolan.vlc.ScanProgress;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.tv.SearchActivity;
+import org.videolan.vlc.gui.tv.TimeUpdaterKt;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 
@@ -64,6 +68,12 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
         mMediaLibrary = VLCApplication.getMLInstance();
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         registerLiveData();
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                TimeUpdaterKt.registerTimeView(BaseTvActivity.this, (TextView) findViewById(R.id.tv_time));
+            }
+        });
     }
 
     @Override

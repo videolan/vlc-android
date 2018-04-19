@@ -108,4 +108,5 @@
 
     </LinearLayout>
 
+    <include layout="@layout/tv_time" />
 </ScrollView>
