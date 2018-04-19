@@ -54,11 +54,11 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.databinding.VideoGridBinding;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IEventsHandler;
@@ -76,9 +76,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     private final static String TAG = "VLC/VideoListFragment";
 
     private VideoListAdapter mAdapter;
-
-    private AutoFitRecyclerView mGridView;
-    private View mViewNomedia;
+    private VideoGridBinding mBinding;
     private String mGroup;
     private DividerItemDecoration mDividerItemDecoration;
 
@@ -115,15 +113,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        return inflater.inflate(R.layout.video_grid, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View v, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(v, savedInstanceState);
-        mViewNomedia = v.findViewById(android.R.id.empty);
-        mGridView = v.findViewById(android.R.id.list);
-        mSwipeRefreshLayout = v.findViewById(R.id.swipeLayout);
+        mBinding = VideoGridBinding.inflate(inflater, container, false);
+        return mBinding.getRoot();
     }
 
     @Override
@@ -131,15 +122,15 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         super.onActivityCreated(savedInstanceState);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mDividerItemDecoration = new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL);
-        if (mAdapter.isListMode()) mGridView.addItemDecoration(mDividerItemDecoration);
-        mGridView.setAdapter(mAdapter);
+        if (mAdapter.isListMode()) mBinding.videoGrid.addItemDecoration(mDividerItemDecoration);
+        mBinding.videoGrid.setAdapter(mAdapter);
     }
 
     private boolean restart = false;
     @Override
     public void onStart() {
         super.onStart();
-        registerForContextMenu(mGridView);
+        registerForContextMenu(mBinding.videoGrid);
         setSearchVisibility(false);
         updateViewMode();
         mFabPlay.setImageResource(R.drawable.ic_fab_play);
@@ -150,7 +141,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     @Override
     public void onStop() {
         super.onStop();
-        unregisterForContextMenu(mGridView);
+        unregisterForContextMenu(mBinding.videoGrid);
         restart = true;
     }
 
@@ -183,13 +174,13 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         if (!listMode) {
             final int thumbnailWidth = res.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
             final int margin = res.getDimensionPixelSize(R.dimen.default_margin);
-            mGridView.setColumnWidth(mGridView.getPerfectColumnWidth(thumbnailWidth, margin));
-            mAdapter.setGridCardWidth(mGridView.getColumnWidth());
+            mBinding.videoGrid.setColumnWidth(mBinding.videoGrid.getPerfectColumnWidth(thumbnailWidth, margin));
+            mAdapter.setGridCardWidth(mBinding.videoGrid.getColumnWidth());
         }
-        mGridView.setNumColumns(listMode ? 1 : -1);
+        mBinding.videoGrid.setNumColumns(listMode ? 1 : -1);
         if (mAdapter.isListMode() != listMode) {
-            if (listMode) mGridView.addItemDecoration(mDividerItemDecoration);
-            else mGridView.removeItemDecoration(mDividerItemDecoration);
+            if (listMode) mBinding.videoGrid.addItemDecoration(mDividerItemDecoration);
+            else mBinding.videoGrid.removeItemDecoration(mDividerItemDecoration);
             mAdapter.setListMode(listMode);
         }
     }
@@ -294,7 +285,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     }
 
     void updateEmptyView() {
-        mViewNomedia.setVisibility(mAdapter.getItemCount() > 0 ? View.GONE : View.VISIBLE);
+        mBinding.setEmpty(mAdapter.isEmpty());
     }
 
     public void setGroup(String prefix) {
@@ -447,7 +438,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
 
     @Override
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
-        if (mActionMode == null) mGridView.openContextMenu(position);
+        if (mActionMode == null) mBinding.videoGrid.openContextMenu(position);
     }
 
     @Override

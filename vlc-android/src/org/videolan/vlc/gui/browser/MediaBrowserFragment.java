@@ -92,6 +92,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mSearchButtonView = view.findViewById(R.id.searchButton);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
         if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
             mFabPlay = getActivity().findViewById(R.id.fab);
     }

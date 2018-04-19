@@ -131,7 +131,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         mViewPager = view.findViewById(R.id.pager);
         mFastScroller = view.findViewById(R.id.songs_fast_scroller);
         mTabLayout = view.findViewById(R.id.sliding_tabs);
-        mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
     }
 
     @Override

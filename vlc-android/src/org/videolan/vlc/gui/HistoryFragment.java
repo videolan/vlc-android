@@ -73,7 +73,6 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mEmptyView = view.findViewById(android.R.id.empty);
-        mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
         mRecyclerView = view.findViewById(android.R.id.list);
         mProvider = ViewModelProviders.of(requireActivity()).get(HistoryProvider.class);
         mProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
