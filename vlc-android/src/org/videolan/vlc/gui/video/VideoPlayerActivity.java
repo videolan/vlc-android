@@ -3105,6 +3105,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final AdvOptionsDialog advOptionsDialog = new AdvOptionsDialog();
         final Bundle args = new Bundle(1);
         args.putBoolean(AdvOptionsDialog.PRIMARY_DISPLAY, mDisplayManager.isPrimary());
+        args.putBoolean(AdvOptionsDialog.PASSTHROUGH, mService.getPlaylistManager().getPlayer().canDoPassthrough());
         advOptionsDialog.setArguments(args);
         advOptionsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

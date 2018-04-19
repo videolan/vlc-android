@@ -38,6 +38,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun getVout(): IVLCVout? = mediaplayer.vlcVout
 
+    fun canDoPassthrough() = mediaplayer.canDoPassthrough()
+
     fun getMedia(): Media? = mediaplayer.media
 
     fun play() {
