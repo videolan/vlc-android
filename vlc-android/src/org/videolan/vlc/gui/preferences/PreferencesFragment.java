@@ -87,13 +87,13 @@ public class PreferencesFragment extends BasePreferenceFragment implements Share
             case "directories":
                 if (VLCApplication.getMLInstance().isWorking())
                     UiTools.snacker(getView(), getString(R.string.settings_ml_block_scan));
-                else {
-                    final FragmentActivity activity = getActivity();
-                    final Intent intent = new Intent(VLCApplication.getAppContext(), SecondaryActivity.class);
+                else if (Permissions.canReadStorage(requireContext())) {
+                    final FragmentActivity activity = requireActivity();
+                    final Intent intent = new Intent(activity.getApplicationContext(), SecondaryActivity.class);
                     intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER);
                     startActivity(intent);
-                    if (activity != null) activity.setResult(PreferencesActivity.RESULT_RESTART);
-                }
+                    activity.setResult(PreferencesActivity.RESULT_RESTART);
+                } else Permissions.showStoragePermissionDialog(requireActivity(), false);
                 return true;
             case "ui_category":
                 loadFragment(new PreferencesUi());

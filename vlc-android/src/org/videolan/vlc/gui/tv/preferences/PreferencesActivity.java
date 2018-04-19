@@ -24,12 +24,12 @@
 package org.videolan.vlc.gui.tv.preferences;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
 import org.videolan.vlc.PlaybackService;
@@ -37,7 +37,7 @@ import org.videolan.vlc.R;
 
 @SuppressWarnings("deprecation")
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class PreferencesActivity extends Activity implements PlaybackService.Client.Callback {
+public class PreferencesActivity extends FragmentActivity implements PlaybackService.Client.Callback {
 
     public final static String TAG = "VLC/PreferencesActivity";
 
