@@ -44,7 +44,7 @@ public class AWindow implements IVLCVout {
     private static final int ID_SUBTITLES = 1;
     private static final int ID_MAX = 2;
 
-    interface SurfaceCallback {
+    public interface SurfaceCallback {
         @MainThread
         void onSurfacesCreated(AWindow vout);
         @MainThread
