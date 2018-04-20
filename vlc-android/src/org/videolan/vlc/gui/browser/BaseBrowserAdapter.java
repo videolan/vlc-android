@@ -44,8 +44,6 @@ import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.gui.DiffUtilAdapter;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.WorkersKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,9 +70,13 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
     }
     protected final BaseBrowserFragment fragment;
     private int mMediaCount = 0, mSelectionCount = 0;
-    private final boolean mNetworkRoot, mSpecialIcons;
+    private final boolean mNetworkRoot, mSpecialIcons, mFavorites;
 
     BaseBrowserAdapter(BaseBrowserFragment fragment) {
+        this(fragment, false);
+    }
+
+    BaseBrowserAdapter(BaseBrowserFragment fragment, boolean favorites) {
         this.fragment = fragment;
         final boolean root = fragment.isRootDirectory();
         final boolean fileBrowser = fragment instanceof FileBrowserFragment;
@@ -82,6 +84,7 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
         mNetworkRoot = root && fragment instanceof NetworkBrowserFragment;
         final String mrl = fragment.mMrl;
         mSpecialIcons = filesRoot || fileBrowser && mrl != null && mrl.endsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
+        mFavorites = favorites;
     }
 
     @Override
@@ -117,7 +120,7 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
     private void onBindMediaViewHolder(final MediaViewHolder vh, int position) {
         final MediaWrapper media = (MediaWrapper) getItem(position);
         vh.binding.setItem(media);
-        vh.binding.setHasContextMenu(true);
+        vh.binding.setHasContextMenu(!mNetworkRoot || mFavorites);
         if (mNetworkRoot) vh.binding.setProtocol(getProtocol(media));
         vh.binding.setCover(getIcon(media, mSpecialIcons));
         vh.selectView(media.hasStateFlags(FLAG_SELECTED));

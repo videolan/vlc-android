@@ -38,6 +38,8 @@
                 android:id="@+id/favorites_list"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/favorites_title"
                 android:visibility="@{showFavorites ? View.VISIBLE : View.GONE}" />
             <TextView

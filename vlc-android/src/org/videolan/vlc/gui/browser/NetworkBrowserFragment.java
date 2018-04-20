@@ -37,6 +37,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -78,7 +79,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {
                 mBinding.setShowFavorites(!Util.isListEmpty(mediaLibraryItems));
-                favoritesAdapter.submitList(mediaLibraryItems);
+                favoritesAdapter.update(mediaLibraryItems);
             }
         });
         ExternalMonitor.connected.observe(this, new Observer<Boolean>() {
@@ -89,12 +90,22 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         });
     }
 
-    private SimpleAdapter favoritesAdapter;
+    protected void setContextMenuItems(Menu menu, int position) {
+        if (mRoot) {
+            menu.findItem(R.id.directory_view_play_folder).setVisible(false);
+            menu.findItem(R.id.directory_view_delete).setVisible(false);
+            final MediaWrapper mw = (MediaWrapper) favoritesAdapter.get(position);
+            menu.findItem(R.id.network_remove_favorite).setVisible(true);
+            menu.findItem(R.id.network_edit_favorite).setVisible(!TextUtils.equals(mw.getUri().getScheme(), "upnp"));
+        } else super.setContextMenuItems(menu, position);
+    }
+
+    private BaseBrowserAdapter favoritesAdapter;
     @Override
     protected void initFavorites() {
         if (!mRoot) return;
         mBinding.favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        favoritesAdapter = new SimpleAdapter(this);
+        favoritesAdapter = new BaseBrowserAdapter(this, true);
         mBinding.favoritesList.setAdapter(favoritesAdapter);
     }
 
@@ -167,7 +178,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     protected boolean handleContextItemSelected(MenuItem item, final int position) {
         int id = item.getItemId();
         if (!(mAdapter.getItem(position) instanceof MediaWrapper)) return false;
-        final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
+        final MediaWrapper mw = (MediaWrapper) (mRoot ? favoritesAdapter.getItem(position) : mAdapter.getItem(position));
         switch (id){
             case R.id.network_add_favorite:
                 MediaDatabase.getInstance().addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
@@ -175,7 +186,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
                 return true;
             case R.id.network_remove_favorite:
                 MediaDatabase.getInstance().deleteNetworkFav(mw.getUri());
-                if (isRootDirectory()) ((NetworkProvider)getProvider()).updateFavs();
+                if (mRoot) ((NetworkProvider)getProvider()).updateFavs();
                 return true;
             case R.id.network_edit_favorite:
                 showAddServerDialog(mw);
