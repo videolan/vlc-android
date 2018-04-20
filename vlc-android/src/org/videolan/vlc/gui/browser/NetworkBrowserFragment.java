@@ -77,7 +77,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         if (mRoot) ((NetworkProvider) mProvider).getFavorites().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {
-                mBinding.favoritesTitle.setVisibility(Util.isListEmpty(mediaLibraryItems) ? View.GONE : View.VISIBLE);
+                mBinding.setShowFavorites(!Util.isListEmpty(mediaLibraryItems));
                 favoritesAdapter.submitList(mediaLibraryItems);
             }
         });
@@ -210,30 +210,29 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
      * Update views visibility and emptiness info
      */
     protected void updateEmptyView() {
-        if (mEmptyView == null) return;
+        if (mBinding == null) return;
         if (ExternalMonitor.connected.getValue()) {
             if (Util.isListEmpty(getProvider().getDataset().getValue())) {
                 if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) {
-                    mEmptyView.setText(R.string.loading);
-                    mEmptyView.setVisibility(View.VISIBLE);
-                    mRecyclerView.setVisibility(View.GONE);
+                    mBinding.empty.setText(R.string.loading);
+                    mBinding.empty.setVisibility(View.VISIBLE);
+                    mBinding.networkList.setVisibility(View.GONE);
                 } else {
-                    if (mRoot)
-                        mEmptyView.setText(allowLAN() ? R.string.network_shares_discovery : R.string.network_connection_needed);
-                    else
-                        mEmptyView.setText(R.string.network_empty);
-                    mEmptyView.setVisibility(View.VISIBLE);
-                    mRecyclerView.setVisibility(View.GONE);
+                    if (mRoot) mBinding.empty.setText(allowLAN() ? R.string.network_shares_discovery : R.string.network_connection_needed);
+                    else mBinding.empty.setText(R.string.network_empty);
+                    mBinding.empty.setVisibility(View.VISIBLE);
+                    mBinding.networkList.setVisibility(View.GONE);
                     mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
                 }
-            } else if (mEmptyView.getVisibility() == View.VISIBLE) {
-                    mEmptyView.setVisibility(View.GONE);
-                    mRecyclerView.setVisibility(View.VISIBLE);
+            } else if (mBinding.empty.getVisibility() == View.VISIBLE) {
+                    mBinding.empty.setVisibility(View.GONE);
+                    mBinding.networkList.setVisibility(View.VISIBLE);
             }
         } else {
-            mEmptyView.setText(R.string.network_connection_needed);
-            mEmptyView.setVisibility(View.VISIBLE);
-            mRecyclerView.setVisibility(View.GONE);
+            mBinding.empty.setText(R.string.network_connection_needed);
+            mBinding.empty.setVisibility(View.VISIBLE);
+            mBinding.networkList.setVisibility(View.GONE);
+            mBinding.setShowFavorites(false);
         }
     }
 
