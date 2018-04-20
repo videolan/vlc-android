@@ -32,7 +32,6 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 
-import org.videolan.libvlc.util.MediaBrowser;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
@@ -78,7 +77,7 @@ public class FilePickerFragment extends FileBrowserFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mEmptyView.setText(R.string.no_subs_found);
+        mBinding.empty.setText(R.string.no_subs_found);
     }
 
     @Override

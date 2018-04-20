@@ -46,7 +46,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -55,7 +54,6 @@ import org.videolan.vlc.databinding.DirectoryBrowserBinding;
 import org.videolan.vlc.gui.InfoActivity;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.interfaces.IRefreshable;
@@ -81,9 +79,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     public static final String KEY_POSITION = "key_list";
 
     protected final BrowserFragmentHandler mHandler = new BrowserFragmentHandler(this);
-    protected ContextMenuRecyclerView mRecyclerView;
     protected LinearLayoutManager mLayoutManager;
-    protected TextView mEmptyView;
     public String mMrl;
     protected MediaWrapper mCurrentMedia;
     protected int mSavedPosition = -1;
@@ -133,20 +129,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mRecyclerView = view.findViewById(R.id.network_list);
-        mEmptyView = view.findViewById(R.id.empty);
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (mAdapter == null) mAdapter = new BaseBrowserAdapter(this);
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-        registerForContextMenu(mRecyclerView);
+        mBinding.networkList.setLayoutManager(mLayoutManager);
+        mBinding.networkList.setAdapter(mAdapter);
+        registerForContextMenu(mBinding.networkList);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
@@ -192,7 +181,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     public void onSaveInstanceState(@NonNull Bundle outState){
         outState.putString(KEY_MRL, mMrl);
         outState.putParcelable(KEY_MEDIA, mCurrentMedia);
-        if (mRecyclerView != null) outState.putInt(KEY_POSITION, mLayoutManager.findFirstCompletelyVisibleItemPosition());
+        if (mBinding.networkList != null) outState.putInt(KEY_POSITION, mLayoutManager.findFirstCompletelyVisibleItemPosition());
         super.onSaveInstanceState(outState);
     }
 
@@ -250,17 +239,17 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
         if (mSwipeRefreshLayout == null) return;
         if (Util.isListEmpty(getProvider().getDataset().getValue())) {
             if (mSwipeRefreshLayout.isRefreshing()) {
-                mEmptyView.setText(R.string.loading);
-                mEmptyView.setVisibility(View.VISIBLE);
-                mRecyclerView.setVisibility(View.GONE);
+                mBinding.empty.setText(R.string.loading);
+                mBinding.empty.setVisibility(View.VISIBLE);
+                mBinding.networkList.setVisibility(View.GONE);
             } else {
-                mEmptyView.setText(R.string.directory_empty);
-                mEmptyView.setVisibility(View.VISIBLE);
-                mRecyclerView.setVisibility(View.GONE);
+                mBinding.empty.setText(R.string.directory_empty);
+                mBinding.empty.setVisibility(View.VISIBLE);
+                mBinding.networkList.setVisibility(View.GONE);
             }
-        } else if (mEmptyView.getVisibility() == View.VISIBLE) {
-            mEmptyView.setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.VISIBLE);
+        } else if (mBinding.empty.getVisibility() == View.VISIBLE) {
+            mBinding.empty.setVisibility(View.GONE);
+            mBinding.networkList.setVisibility(View.VISIBLE);
         }
     }
 
@@ -361,7 +350,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void openContextMenu(final int position) {
-        mRecyclerView.openContextMenu(position);
+        mBinding.networkList.openContextMenu(position);
     }
 
     protected boolean handleContextItemSelected(MenuItem item, final int position) {
@@ -559,13 +548,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
             mAdapter.updateSelectionCount(mediaWrapper.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
             mAdapter.notifyItemChanged(position, item);
             startActionMode();
-        } else mRecyclerView.openContextMenu(position);
+        } else mBinding.networkList.openContextMenu(position);
         return true;
     }
 
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
         if (mActionMode == null && item.getItemType() == MediaLibraryItem.TYPE_MEDIA)
-            mRecyclerView.openContextMenu(position);
+            mBinding.networkList.openContextMenu(position);
     }
 
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
