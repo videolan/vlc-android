@@ -122,11 +122,11 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) {
             mediaRouterCallback = object : MediaRouter.SimpleCallback() {
                 override fun onRoutePresentationDisplayChanged(
                         router: MediaRouter, info: MediaRouter.RouteInfo) {
-                    if (BuildConfig.DEBUG) Log.d(TAG, "onRoutePresentationDisplayChanged: info=" + info)
+                    if (BuildConfig.DEBUG) Log.d(TAG, "onRoutePresentationDisplayChanged: info=$info")
                     val newDisplayId = info.presentationDisplay?.displayId ?: -1
                     if (newDisplayId == presentationDisplayId) return
                     presentationDisplayId = newDisplayId
-                    if (presentationDisplayId != -1) removePresentation() else updateDisplayType()
+                    if (newDisplayId == -1) removePresentation() else updateDisplayType()
                 }
             }
             mediaRouter?.addCallback(MediaRouter.ROUTE_TYPE_LIVE_VIDEO, mediaRouterCallback)
