@@ -13,7 +13,6 @@ import android.support.v4.view.ViewCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -24,6 +23,7 @@ import org.videolan.vlc.BR
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.HttpImageLoader
 import org.videolan.vlc.util.ThumbnailsProvider
+import org.videolan.vlc.util.VLCIO
 
 private val sBitmapCache = BitmapCache.getInstance()
 private val sMedialibrary = VLCApplication.getMLInstance()
@@ -47,7 +47,7 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
 @BindingAdapter("imageUri")
 fun downloadIcon(v: View, imageUri: Uri?) {
     if (imageUri != null && imageUri.scheme == "http") launch(UI, CoroutineStart.UNDISPATCHED) {
-        val image = withContext(CommonPool) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
+        val image = withContext(VLCIO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
         updateImageView(image, v, DataBindingUtil.findBinding(v))
     }
 }
@@ -70,7 +70,7 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
 }
 
 private suspend fun obtainBitmap(item: MediaLibraryItem, width: Int) : Bitmap? {
-    return withContext(CommonPool) {
+    return withContext(VLCIO) {
         if (item.itemType == MediaLibraryItem.TYPE_MEDIA) ThumbnailsProvider.getMediaThumbnail(item as MediaWrapper)
         else AudioUtil.readCoverBitmap(Uri.decode(item.artworkMrl), width)
     }
@@ -107,7 +107,7 @@ private suspend fun findInLibrary(item: MediaLibraryItem, isMedia: Boolean, isGr
         val isMediaFile = type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO
         val uri = mw.uri
         if (!isMediaFile && !(type == MediaWrapper.TYPE_DIR && "upnp" == uri.scheme)) return item
-        if (isMediaFile && "file" == uri.scheme) return withContext(CommonPool) { sMedialibrary.getMedia(uri) } ?: item
+        if (isMediaFile && "file" == uri.scheme) return withContext(VLCIO) { sMedialibrary.getMedia(uri) } ?: item
     }
     return item
 }

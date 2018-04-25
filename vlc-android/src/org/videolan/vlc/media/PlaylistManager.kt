@@ -151,7 +151,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         service.onPlaylistLoaded()
         launch(UI, CoroutineStart.UNDISPATCHED) {
             determinePrevAndNextIndices()
-            launch { mediaList.updateWithMLMeta() }
+            launch(VLCIO) { mediaList.updateWithMLMeta() }
         }
     }
 
@@ -546,7 +546,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private suspend fun setStartTime(media: Media, mw: MediaWrapper) {
         if (savedTime <= 0L ) {
             if (mw.time >= 0L) savedTime = mw.time
-            else if (mw.time == 0L && mw.type == MediaWrapper.TYPE_VIDEO || mw.isPodcast) savedTime = withContext(CommonPool) { medialibrary.findMedia(mw).getMetaLong(MediaWrapper.META_PROGRESS) }
+            else if (mw.time == 0L && mw.type == MediaWrapper.TYPE_VIDEO || mw.isPodcast) savedTime = withContext(VLCIO) { medialibrary.findMedia(mw).getMetaLong(MediaWrapper.META_PROGRESS) }
 
         }
         if (savedTime <= 0L) return

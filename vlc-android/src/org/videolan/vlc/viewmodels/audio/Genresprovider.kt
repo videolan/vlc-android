@@ -1,10 +1,10 @@
 package org.videolan.vlc.viewmodels.audio
 
-import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.util.VLCIO
 
 
 class Genresprovider: AudioModel() {
@@ -16,7 +16,7 @@ class Genresprovider: AudioModel() {
 
     @Suppress("UNCHECKED_CAST")
     override suspend fun updateList() {
-        dataset.value = withContext(CommonPool) {
+        dataset.value = withContext(VLCIO) {
             medialibrary.getGenres(sort, desc).toMutableList() as MutableList<MediaLibraryItem>
         }
     }

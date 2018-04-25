@@ -1,9 +1,9 @@
 package org.videolan.vlc.viewmodels
 
-import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.vlc.util.VLCIO
 
 class HistoryProvider: BaseModel<MediaWrapper>() {
 
@@ -14,7 +14,7 @@ class HistoryProvider: BaseModel<MediaWrapper>() {
     }
 
     override suspend fun updateList() {
-        dataset.value = withContext(CommonPool) { Medialibrary.getInstance().lastMediaPlayed().toMutableList() }
+        dataset.value = withContext(VLCIO) { Medialibrary.getInstance().lastMediaPlayed().toMutableList() }
     }
 
     fun moveUp(media: MediaWrapper) {

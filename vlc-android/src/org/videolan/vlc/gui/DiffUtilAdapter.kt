@@ -7,8 +7,7 @@ import android.support.v7.widget.RecyclerView
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
-import kotlinx.coroutines.experimental.newSingleThreadContext
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.experimental.launch
 import java.util.*
 
 abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
@@ -16,7 +15,7 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
     protected var dataset: List<D> = listOf()
     private set
     private val diffCallback by lazy(LazyThreadSafetyMode.NONE) { createCB() }
-    private val updateActor = actor<List<D>>(newSingleThreadContext("vlc-updater"), capacity = Channel.CONFLATED) {
+    private val updateActor = actor<List<D>>(capacity = Channel.CONFLATED) {
         for (list in channel) internalUpdate(list)
     }
     protected abstract fun onUpdateFinished()
@@ -30,11 +29,11 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
     private suspend fun internalUpdate(list: List<D>) {
         val finalList = prepareList(list)
         val result = DiffUtil.calculateDiff(diffCallback.apply { update(dataset, finalList) }, detectMoves())
-        withContext(UI) {
+        launch(UI) {
             dataset = finalList
             result.dispatchUpdatesTo(this@DiffUtilAdapter)
             onUpdateFinished()
-        }
+        }.join()
     }
 
     protected open fun prepareList(list: List<D>) : List<D> = ArrayList(list)
