@@ -125,7 +125,8 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
         dataset.value = withContext(CommonPool) {
             val list = dataset.value
             val iterator = list.listIterator()
-            for (media in iterator) {
+            while (iterator.hasNext()) {
+                val media = iterator.next()
                 for (newItem in mediaList) if (media.equals(newItem)) {
                     iterator.set(newItem)
                     break
