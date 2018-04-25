@@ -1,4 +1,4 @@
-package org.videolan.vlc.util
+package videolan.org.commontools
 
 import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.MutableLiveData

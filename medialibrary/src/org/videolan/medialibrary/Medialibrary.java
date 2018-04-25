@@ -36,6 +36,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import videolan.org.commontools.LiveEvent;
+
 public class Medialibrary {
     private static final String TAG = "VLC/JMedialibrary";
 
@@ -536,7 +538,7 @@ public class Medialibrary {
         }
     }
 
-    public static LiveData<MediaWrapper> lastThumb = new MutableLiveData<>();
+    public static LiveData<MediaWrapper> lastThumb = new LiveEvent<>();
     @SuppressWarnings({"unused", "unchecked"})
     void onMediaThumbnailReady(MediaWrapper media, boolean success) {
         if (success) ((MutableLiveData)lastThumb).postValue(media);
