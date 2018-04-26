@@ -42,7 +42,10 @@ class NetworkProvider(url: String? = null, showHiddenFiles: Boolean): BrowserPro
     override fun fetch() {}
 
     override fun refresh(): Boolean {
-        super.fetch()
+        if (url == null) {
+            dataset.value = mutableListOf()
+            browseRoot()
+        } else super.refresh()
         return true
     }
 
