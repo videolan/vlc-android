@@ -1208,7 +1208,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case KeyEvent.KEYCODE_DPAD_UP:
                 if (mIsNavMenu)
                     return navigateDvdMenu(keyCode);
-                else if (event.isCtrlPressed()) {
+                else if (AndroidUtil.isHoneycombOrLater && event.isCtrlPressed()) {
                     volumeUp();
                     return true;
                 } else if (!mShowing) {
@@ -1221,7 +1221,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case KeyEvent.KEYCODE_DPAD_DOWN:
                 if (mIsNavMenu)
                     return navigateDvdMenu(keyCode);
-                else if (event.isCtrlPressed()) {
+                else if (AndroidUtil.isHoneycombOrLater && event.isCtrlPressed()) {
                     volumeDown();
                     return true;
                 } else if (!mShowing && mFov != 0f) {
