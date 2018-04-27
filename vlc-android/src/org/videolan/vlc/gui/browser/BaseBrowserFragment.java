@@ -114,8 +114,10 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.ml_menu_filter).setVisible(enableSearchOption());
-        menu.findItem(R.id.ml_menu_sortby).setVisible(!mRoot);
+        final MenuItem item = menu.findItem(R.id.ml_menu_filter);
+        if (item != null) item.setVisible(enableSearchOption());
+        final MenuItem sortItem = menu.findItem(R.id.ml_menu_sortby);
+        if (sortItem != null) sortItem.setVisible(!mRoot);
     }
 
     protected boolean defineIsRoot() {
