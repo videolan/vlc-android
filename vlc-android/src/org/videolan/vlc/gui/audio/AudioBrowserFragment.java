@@ -248,6 +248,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         final MediaLibraryItem mediaItem = adapter.getItem(position);
 
         if (id == R.id.audio_list_browser_delete) {
+            if (mediaItem.getItemType() != MediaLibraryItem.TYPE_MEDIA) return false;
             final MediaLibraryItem previous = position > 0 ? adapter.getItem(position-1) : null;
             final MediaLibraryItem next = position < adapter.getItemCount()-1 ? adapter.getItem(position+1) : null;
             final String message;
