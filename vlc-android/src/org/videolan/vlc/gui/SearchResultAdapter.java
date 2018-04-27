@@ -30,7 +30,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (TextUtils.isEmpty(mDataList[position].getArtworkMrl()))
-            holder.binding.setCover(UiTools.getDefaultCover(mDataList[position]));
+            holder.binding.setCover(UiTools.getDefaultCover(holder.itemView.getResources(), mDataList[position]));
         holder.binding.setItem(mDataList[position]);
     }
 

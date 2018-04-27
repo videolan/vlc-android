@@ -504,7 +504,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        if (v instanceof TextView) ((TextView) v).setTextColor(v.hasFocus() ? UiTools.Resources.ITEM_FOCUS_ON : mTextColor);
+        if (v instanceof TextView) ((TextView) v).setTextColor(v.hasFocus() ? UiTools.Resources.getFocusOnColor(v.getContext()) : mTextColor);
         mToast.setText(mAdapter.getSelectedAdvOptionHelp());
         mToast.show();
     }

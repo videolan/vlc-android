@@ -20,11 +20,13 @@
 
 package org.videolan.vlc.gui.video;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.os.Build;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -46,6 +48,7 @@ import org.videolan.vlc.SortableAdapter;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.MediaItemDiffCallback;
@@ -130,7 +133,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
 
     @Override
     public void onViewRecycled(ViewHolder holder) {
-        holder.binding.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE);
+        holder.binding.setVariable(BR.cover, UiTools.Resources.getVideo(holder.itemView.getResources()));
     }
 
     public boolean isEmpty() {
@@ -289,11 +292,12 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
     public class ViewHolder extends SelectorViewHolder<ViewDataBinding> implements View.OnFocusChangeListener {
         private ImageView thumbView;
 
+        @TargetApi(Build.VERSION_CODES.M)
         public ViewHolder(ViewDataBinding binding) {
             super(binding);
             thumbView = itemView.findViewById(R.id.ml_item_thumbnail);
             binding.setVariable(BR.holder, this);
-            binding.setVariable(BR.cover, AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE);
+            binding.setVariable(BR.cover, UiTools.Resources.getVideo(binding.getRoot().getResources()));
             if (AndroidUtil.isMarshMallowOrLater) itemView.setOnContextClickListener(new View.OnContextClickListener() {
                 @Override
                 public boolean onContextClick(View v) {

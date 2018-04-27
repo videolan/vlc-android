@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.audio;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.MainThread;
@@ -47,6 +48,7 @@ import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.helpers.AsyncImageLoader;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.MediaItemFilter;
@@ -75,11 +77,11 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
     private int mParentType = 0;
     private BitmapDrawable mDefaultCover;
 
-    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, boolean sections) {
+    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, boolean sections, Resources res) {
         mIEventsHandler = eventsHandler;
         mMakeSections = sections;
         mType = type;
-        mDefaultCover = getIconDrawable();
+        mDefaultCover = getIconDrawable(res);
     }
 
     public int getAdapterType() {
@@ -393,14 +395,14 @@ public class AudioBrowserAdapter extends SortableAdapter<MediaLibraryItem, Audio
         mSelectionCount += selected ? 1 : -1;
     }
 
-    private BitmapDrawable getIconDrawable() {
+    private BitmapDrawable getIconDrawable(Resources res) {
         switch (mType) {
             case MediaLibraryItem.TYPE_ALBUM:
-                return AsyncImageLoader.DEFAULT_COVER_ALBUM_DRAWABLE;
+                return UiTools.Resources.getAlbum(res);
             case MediaLibraryItem.TYPE_ARTIST:
-                return AsyncImageLoader.DEFAULT_COVER_ARTIST_DRAWABLE;
+                return UiTools.Resources.getArtist(res);
             case MediaLibraryItem.TYPE_MEDIA:
-                return AsyncImageLoader.DEFAULT_COVER_AUDIO_DRAWABLE;
+                return UiTools.Resources.getAudio(res);
             default:
                 return null;
         }

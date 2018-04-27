@@ -30,6 +30,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
@@ -44,6 +45,7 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -88,9 +90,64 @@ public class UiTools {
     private static final String TAG = "VLC/UiTools";
 
     public static class Resources {
-        public static final int ITEM_FOCUS_OFF = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.transparent);
-        public static final int ITEM_FOCUS_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange500transparent);
-        public static final int ITEM_SELECTION_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange200transparent);
+        private static int ITEM_FOCUS_OFF = 0;
+        private static int ITEM_FOCUS_ON = 0;
+        private static int ITEM_SELECTION_ON = 0;
+
+        private static BitmapDrawable DEFAULT_COVER_VIDEO_DRAWABLE;
+        private static BitmapDrawable DEFAULT_COVER_AUDIO_DRAWABLE;
+        private static BitmapDrawable DEFAULT_COVER_ARTIST_DRAWABLE;
+        private static BitmapDrawable DEFAULT_COVER_ALBUM_DRAWABLE;
+
+        public static int getFocusOnColor(Context ctx) {
+            if (ITEM_FOCUS_ON == 0) ITEM_FOCUS_ON = ContextCompat.getColor(ctx, R.color.orange500transparent);
+            return ITEM_FOCUS_ON;
+        }
+
+        @MainThread
+        public static int getItemBgColor(Context ctx, boolean focus, boolean selected) {
+            if (focus) {
+                return getFocusOnColor(ctx);
+            } else if (selected) {
+                if (ITEM_SELECTION_ON == 0) ITEM_SELECTION_ON = ContextCompat.getColor(ctx, R.color.orange200transparent);
+                return ITEM_SELECTION_ON;
+            } else {
+                if (ITEM_FOCUS_OFF == 0) ITEM_FOCUS_OFF = ContextCompat.getColor(ctx, R.color.transparent);
+                return ITEM_FOCUS_OFF;
+            }
+        }
+
+        @MainThread
+        public static BitmapDrawable getVideo(android.content.res.Resources res) {
+            if (DEFAULT_COVER_VIDEO_DRAWABLE == null) {
+                DEFAULT_COVER_VIDEO_DRAWABLE = new BitmapDrawable(res, BitmapCache.getFromResource(res, R.drawable.ic_no_thumbnail_1610));
+            }
+            return DEFAULT_COVER_VIDEO_DRAWABLE;
+        }
+
+        @MainThread
+        public static BitmapDrawable getAudio(android.content.res.Resources res) {
+            if (DEFAULT_COVER_AUDIO_DRAWABLE == null) {
+                DEFAULT_COVER_AUDIO_DRAWABLE = new BitmapDrawable(res, BitmapCache.getFromResource(res, R.drawable.ic_no_song));
+            }
+            return DEFAULT_COVER_AUDIO_DRAWABLE;
+        }
+
+        @MainThread
+        public static BitmapDrawable getArtist(android.content.res.Resources res) {
+            if (DEFAULT_COVER_ARTIST_DRAWABLE == null) {
+                DEFAULT_COVER_ARTIST_DRAWABLE = new BitmapDrawable(res, BitmapCache.getFromResource(res, R.drawable.ic_no_artist));
+            }
+            return DEFAULT_COVER_ARTIST_DRAWABLE;
+        }
+
+        @MainThread
+        public static BitmapDrawable getAlbum(android.content.res.Resources res) {
+            if (DEFAULT_COVER_ALBUM_DRAWABLE == null) {
+                DEFAULT_COVER_ALBUM_DRAWABLE = new BitmapDrawable(res, BitmapCache.getFromResource(res, R.drawable.ic_no_album));
+            }
+            return DEFAULT_COVER_ALBUM_DRAWABLE;
+        }
     }
 
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
@@ -259,17 +316,17 @@ public class UiTools {
             throw new IllegalThreadStateException();
     }
 
-    public static BitmapDrawable getDefaultCover(MediaLibraryItem item) {
+    public static BitmapDrawable getDefaultCover(android.content.res.Resources res, MediaLibraryItem item) {
         switch (item.getItemType()) {
             case MediaLibraryItem.TYPE_ARTIST:
-                return AsyncImageLoader.DEFAULT_COVER_ARTIST_DRAWABLE;
+                return Resources.getArtist(res);
             case MediaLibraryItem.TYPE_ALBUM:
-                return AsyncImageLoader.DEFAULT_COVER_ALBUM_DRAWABLE;
+                return Resources.getAlbum(res);
             case MediaLibraryItem.TYPE_MEDIA:
                 if (((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)
-                    return AsyncImageLoader.DEFAULT_COVER_VIDEO_DRAWABLE;
+                    return Resources.getVideo(res);
             default:
-                return AsyncImageLoader.DEFAULT_COVER_AUDIO_DRAWABLE;
+                return Resources.getAudio(res);
         }
     }
 
