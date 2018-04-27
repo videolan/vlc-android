@@ -102,11 +102,6 @@ android {
             dimension "target"
             versionCode = 1
         }
-        chrome {
-            minSdkVersion 19
-            dimension "target"
-            versionCode = 2
-        }
         ARMv7 {
             dimension "abi"
             versionCode = 4
@@ -173,10 +168,6 @@ android {
     }
     sourceSets.test {
         java.srcDirs = ['test']
-    }
-    sourceSets.chrome {
-        manifest.srcFile 'flavors/chrome/AndroidManifest.xml'
-        res.srcDirs = ['flavors/chrome/res']
     }
 }
 
