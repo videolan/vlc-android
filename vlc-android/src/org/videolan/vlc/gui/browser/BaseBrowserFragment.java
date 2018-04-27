@@ -155,7 +155,8 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.ml_menu_filter).setVisible(enableSearchOption());
+        final MenuItem item = menu.findItem(R.id.ml_menu_filter);
+        if (item != null) item.setVisible(enableSearchOption());
     }
 
     protected int getLayoutId(){
