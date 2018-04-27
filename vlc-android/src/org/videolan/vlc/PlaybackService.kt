@@ -516,6 +516,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (AndroidUtil.isOOrLater && !VLCApplication.isForeground()) forceForeground()
         when (intent?.action) {
             Intent.ACTION_MEDIA_BUTTON -> {
                 if (AndroidDevices.hasTsp || AndroidDevices.hasPlayServices) MediaButtonReceiver.handleIntent(mediaSession, intent)
@@ -557,6 +558,15 @@ class PlaybackService : MediaBrowserServiceCompat() {
         get() {
             return playlistManager.player.getVout()
         }
+
+    private fun forceForeground() {
+        val ctx = this@PlaybackService
+        val notification = NotificationHelper.createPlaybackNotification(ctx,false,
+                ctx.resources.getString(R.string.loading), "", "",null,
+                false, mediaSession.sessionToken, sessionPendingIntent)
+        startForeground(3, notification)
+        isForeground = true
+    }
 
     private fun sendStartSessionIdIntent() {
         val sessionId = VLCOptions.getAudiotrackSessionId()
