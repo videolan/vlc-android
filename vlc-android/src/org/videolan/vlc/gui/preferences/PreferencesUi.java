@@ -62,6 +62,7 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         findPreference("tv_ui").setVisible(AndroidUtil.isJellyBeanMR1OrLater);
+        findPreference("blurred_cover_background").setVisible(AndroidUtil.isJellyBeanMR1OrLater);
     }
 
     @Override

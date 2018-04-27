@@ -269,7 +269,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun updateBackground() {
-        if (AndroidUtil.isJellyBeanMR1OrLater) {
+        if (AndroidUtil.isJellyBeanMR1OrLater && settings.getBoolean("blurred_cover_background", true)) {
             launch(UI, CoroutineStart.UNDISPATCHED) {
                 val mw = service?.currentMediaWrapper
                 if (mw === null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return@launch

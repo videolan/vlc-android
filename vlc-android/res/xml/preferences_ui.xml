@@ -41,6 +41,12 @@
         android:summary="@string/resume_playback_summary"
         android:title="@string/resume_playback_title" />
 
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="blurred_cover_background"
+        android:summary="@string/blurred_cover_background_summary"
+        android:title="@string/blurred_cover_background_title" />
+
     <PreferenceCategory
         android:title="@string/interface_secondary_display_category_title"
         android:key="secondary_display_category">

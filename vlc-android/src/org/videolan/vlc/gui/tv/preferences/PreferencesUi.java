@@ -55,6 +55,7 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
         findPreference("secondary_display_category").setVisible(false);
         findPreference("secondary_display_category_summary").setVisible(false);
         findPreference("daynight").setVisible(false);
+        findPreference("blurred_cover_background").setVisible(false);
     }
 
     @Override
