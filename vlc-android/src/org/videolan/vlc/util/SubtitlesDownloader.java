@@ -363,7 +363,7 @@ public class SubtitlesDownloader {
             long fileLength = 0;
             final Uri mediaUri = media.getUri();
             if (firstPass) {
-                if (FileUtils.canWrite(mediaUri)) {
+                if ("file".equals(mediaUri.getScheme())) {
                     File videoFile = new File(mediaUri.getPath());
                     hash = FileUtils.computeHash(videoFile);
                     fileLength = videoFile.length();
