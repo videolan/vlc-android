@@ -1,3 +1,15 @@
+Changes between 3.0.5 and 3.0.6:
+----------------------------------
+
+Application:
+ * Improve Oreo compliance for playback service
+ * Filter accidental touch events in video player
+ * Subtitles: search by hash even for media on SD Card
+ * Crash fixes
+
+ VLC:
+  * Upgrade to libvlc 3.0.2
+
 Changes between 3.0.5 and 3.0.5-2:
 ----------------------------------
 
