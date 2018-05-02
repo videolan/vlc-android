@@ -82,7 +82,7 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
-import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.Util;
 
 import java.util.List;
 
@@ -125,10 +125,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!VLCInstance.testCompatibleCPU(this)) {
-            finish();
-            return;
-        }
+        Util.checkCpuCompatibility(this);
 
         // Delay access permission dialog prompt to avoid background corruption
         if (!Permissions.canReadStorage(this))

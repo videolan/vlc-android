@@ -36,9 +36,9 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.audiofx.AudioEffect;
 import android.media.AudioManager;
 import android.media.AudioManager.OnAudioFocusChangeListener;
+import android.media.audiofx.AudioEffect;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
@@ -90,7 +90,6 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.VLCOptions;
 import org.videolan.vlc.util.VoiceSearchParams;
 import org.videolan.vlc.util.WeakHandler;
@@ -177,10 +176,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         super.onCreate();
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
         playlistManager = new PlaylistManager(this);
-        if (!VLCInstance.testCompatibleCPU(this)) {
-            stopSelf();
-            return;
-        }
+        Util.checkCpuCompatibility(this);
 
         mMedialibrary = VLCApplication.getMLInstance();
         if (!mMedialibrary.isInitiated()) registerMedialibrary(null);

@@ -304,7 +304,7 @@ public class BenchActivity extends ShallowVideoPlayer {
      * @param resultCode VideoPlayerActivity's resultCode
      */
     @Override
-    protected void exit (int resultCode) {
+    public void exit (int resultCode) {
         if (resultCode != RESULT_OK) {
             mVLCFailed = true;
         }

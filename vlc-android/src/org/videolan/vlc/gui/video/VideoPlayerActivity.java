@@ -351,10 +351,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!VLCInstance.testCompatibleCPU(this)) {
-            exit(RESULT_CANCELED);
-            return;
-        }
+        Util.checkCpuCompatibility(this);
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -1001,7 +998,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     };
 
-    protected void exit(int resultCode){
+    public void exit(int resultCode){
         if (isFinishing())
             return;
         Intent resultIntent = new Intent(ACTION_RESULT);
