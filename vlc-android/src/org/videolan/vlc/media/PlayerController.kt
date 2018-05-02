@@ -182,8 +182,14 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         setPlaybackStopped()
     }
 
-    fun setSlaves(media: MediaWrapper) = launch {
-        val list = MediaDatabase.getInstance().getSlaves(media.location)
+    suspend fun setSlaves(media: Media, mw: MediaWrapper) {
+        val list = withContext(CommonPool) {
+            mw.slaves?.let {
+                for (slave in it) media.addSlave(slave)
+                MediaDatabase.getInstance().saveSlaves(mw)
+            }
+            MediaDatabase.getInstance().getSlaves(mw.location)
+        }
         for (slave in list) mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
     }
 
