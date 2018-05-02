@@ -37,7 +37,6 @@ import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -78,7 +77,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     private VideoListAdapter mAdapter;
     private VideoGridBinding mBinding;
     private String mGroup;
-    private DividerItemDecoration mDividerItemDecoration;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,8 +119,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mDividerItemDecoration = new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL);
-        if (mAdapter.isListMode()) mBinding.videoGrid.addItemDecoration(mDividerItemDecoration);
         mBinding.videoGrid.setAdapter(mAdapter);
     }
 
@@ -178,11 +174,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
             mAdapter.setGridCardWidth(mBinding.videoGrid.getColumnWidth());
         }
         mBinding.videoGrid.setNumColumns(listMode ? 1 : -1);
-        if (mAdapter.isListMode() != listMode) {
-            if (listMode) mBinding.videoGrid.addItemDecoration(mDividerItemDecoration);
-            else mBinding.videoGrid.removeItemDecoration(mDividerItemDecoration);
-            mAdapter.setListMode(listMode);
-        }
+        if (mAdapter.isListMode() != listMode) mAdapter.setListMode(listMode);
     }
 
 

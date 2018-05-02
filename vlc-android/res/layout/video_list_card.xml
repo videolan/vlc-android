@@ -66,8 +66,8 @@
             android:layout_height="75dp"
             vlc:layout_constraintStart_toStartOf="parent"
             vlc:media="@{media}"
-            android:scaleType="fitXY"
-            android:background="@{cover}" />
+            android:scaleType="centerCrop"
+            android:src="@{cover}" />
 
         <ImageView
             android:id="@+id/ml_item_seen"
@@ -87,7 +87,6 @@
             vlc:layout_constraintEnd_toStartOf="@+id/item_more"
             vlc:layout_constraintBottom_toTopOf="@+id/ml_item_resolution"
             android:ellipsize="end"
-            android:fontFamily="sans-serif-light"
             android:gravity="center_vertical"
             android:maxLines="2"
             android:paddingLeft="@dimen/half_default_margin"
@@ -116,13 +115,13 @@
             android:layout_height="wrap_content"
             vlc:layout_constraintStart_toEndOf="@+id/ml_item_thumbnail"
             vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
-            android:fontFamily="sans-serif-light"
             android:gravity="start"
             android:paddingLeft="@dimen/half_default_margin"
             android:paddingStart="@dimen/half_default_margin"
             android:text="@{time}"
+            android:fontFamily="sans-serif-light"
             android:layout_alignWithParentIfMissing="true"
-            android:textColor="?attr/list_subtitle"
+            android:textColor="?attr/list_title"
             android:textSize="14sp"
             tools:targetApi="jelly_bean" />
 
@@ -133,13 +132,13 @@
             vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
             vlc:layout_constraintStart_toEndOf="@+id/ml_item_time"
             vlc:layout_constraintEnd_toEndOf="parent"
-            android:paddingRight="@dimen/half_default_margin"
-            android:paddingEnd="@dimen/half_default_margin"
             android:layout_alignWithParentIfMissing="true"
+            android:paddingRight="12dp"
+            android:paddingEnd="12dp"
             android:fontFamily="sans-serif-light"
             android:gravity="end"
             android:text="@{resolution}"
-            android:textColor="?attr/list_subtitle"
+            android:textColor="?attr/list_title"
             android:textSize="14sp"
             tools:targetApi="jelly_bean" />
 
