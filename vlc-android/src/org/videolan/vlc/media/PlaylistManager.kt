@@ -8,10 +8,8 @@ import android.support.v7.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import kotlinx.coroutines.experimental.CoroutineStart
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Medialibrary
@@ -114,7 +112,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @Volatile
     private var loadingLastPlaylist = false
     fun loadLastPlaylist(type: Int) : Boolean {
-        if (loadingLastPlaylist) return false
+        if (loadingLastPlaylist) return true
         loadingLastPlaylist = true
         val audio = type == Constants.PLAYLIST_TYPE_AUDIO
         val currentMedia = settings.getString(if (audio) "current_song" else "current_media", "")
@@ -122,9 +120,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val locations = settings.getString(if (audio) "audio_list" else "media_list", "").split(" ".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
         if (Util.isArrayEmpty(locations)) return false
         launch(UI, CoroutineStart.UNDISPATCHED) {
-            val playList = async {
+            val playList = withContext(CommonPool) {
                 locations.map { Uri.decode(it) }.mapTo(ArrayList(locations.size)) { MediaWrapper(Uri.parse(it)) }
-            }.await()
+            }
             // load playlist
             shuffling = settings.getBoolean(if (audio) "audio_shuffling" else "media_shuffling", false)
             repeating = settings.getInt(if (audio) "audio_repeating" else "media_repeating", Constants.REPEAT_NONE)
