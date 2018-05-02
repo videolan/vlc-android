@@ -76,7 +76,7 @@ public class VLCApplication extends Application {
         @Override
         public Thread newThread(Runnable runnable) {
             final Thread thread = new Thread(runnable);
-            thread.setPriority(Process.THREAD_PRIORITY_DEFAULT+Process.THREAD_PRIORITY_LESS_FAVORABLE);
+            thread.setPriority(Thread.NORM_PRIORITY+Process.THREAD_PRIORITY_LESS_FAVORABLE);
             return thread;
         }
     };
