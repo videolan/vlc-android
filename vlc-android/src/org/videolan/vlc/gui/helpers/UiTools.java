@@ -59,6 +59,8 @@ import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
@@ -445,5 +447,14 @@ public class UiTools {
                 }
             }
         });
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public static void setRotationAnimation(Activity activity) {
+        if (!AndroidUtil.isJellyBeanMR2OrLater) return;
+        final Window win = activity.getWindow();
+        final WindowManager.LayoutParams winParams = win.getAttributes();
+        winParams.rotationAnimation = AndroidUtil.isOOrLater ? WindowManager.LayoutParams.ROTATION_ANIMATION_SEAMLESS : WindowManager.LayoutParams.ROTATION_ANIMATION_JUMPCUT;
+        win.setAttributes(winParams);
     }
 }

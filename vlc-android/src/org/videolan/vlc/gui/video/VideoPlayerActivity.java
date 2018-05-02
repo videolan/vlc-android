@@ -446,6 +446,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             final ScreenConfig sc = new ScreenConfig(dm, xRange, yRange, mCurrentScreenOrientation);
             mTouchDelegate = new VideoTouchDelegate(this, touch, sc, isRtl);
         }
+        UiTools.setRotationAnimation(this);
     }
 
     @Override
