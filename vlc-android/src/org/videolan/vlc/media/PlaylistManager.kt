@@ -263,12 +263,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         isHardware = false
                     }
                 }
-                mw.slaves?.let {
-                    for (slave in it) media.addSlave(slave)
-                    launch { MediaDatabase.getInstance().saveSlaves(mw) }
-                }
                 media.setEventListener(this@PlaylistManager)
-                player.setSlaves(mw)
+                player.setSlaves(media, mw)
                 player.startPlayback(media, mediaplayerEventListener)
                 media.release()
                 if (savedTime <= 0L && mw.time >= 0L && mw.isPodcast) savedTime = mw.time
