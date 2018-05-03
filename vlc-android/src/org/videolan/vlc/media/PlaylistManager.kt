@@ -254,11 +254,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         launch(UI, CoroutineStart.UNDISPATCHED) {
             if (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && player.getAudioTracksCount() == 0) {
                 determinePrevAndNextIndices(true)
-                if (currentIndex != nextIndex) next()
-                else stop(false)
+                skipMedia()
             } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
                     || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
-                val media = Media(VLCInstance.get(), FileUtils.getUri(mw.uri))
+                val uri = FileUtils.getUri(mw.uri)
+                if (uri == null) {
+                    skipMedia()
+                    return@launch
+                }
+                val media = Media(VLCInstance.get(), uri)
                 setStartTime(media, mw)
                 VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
                 /* keeping only video during benchmark */
@@ -297,6 +301,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
             }
         }
+    }
+
+    private fun skipMedia() {
+        if (currentIndex != nextIndex) next()
+        else stop(false)
     }
 
     fun onServiceDestroyed() {
@@ -670,8 +679,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             MediaPlayer.Event.EncounteredError -> {
                 service.showToast(service.getString(
-                            R.string.invalid_location,
-                            getCurrentMedia()?.getLocation() ?: ""), Toast.LENGTH_SHORT)
+                        R.string.invalid_location,
+                        getCurrentMedia()?.getLocation() ?: ""), Toast.LENGTH_SHORT)
                 next()
             }
         }
