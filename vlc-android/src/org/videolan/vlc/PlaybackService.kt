@@ -959,9 +959,9 @@ class PlaybackService : MediaBrowserServiceCompat() {
     private fun loadLastAudioPlaylist() {
         if (AndroidDevices.isAndroidTv) return
         if (medialibrary.isInitiated && libraryReceiver == null)
-            playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO)
+            if (!playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO)) stopSelf()
         else
-            registerMedialibrary(Runnable { playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO) })
+            registerMedialibrary(Runnable { if (!playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO)) stopSelf() })
     }
 
     fun loadLastPlaylist(type: Int) {

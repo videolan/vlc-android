@@ -20,6 +20,7 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.R.string.audio
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.preferences.PreferencesFragment
@@ -118,18 +119,24 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @Volatile
     private var loadingLastPlaylist = false
-    fun loadLastPlaylist(type: Int) {
-        if (loadingLastPlaylist) return
+    fun loadLastPlaylist(type: Int) : Boolean {
+        if (loadingLastPlaylist) return true
         loadingLastPlaylist = true
+        val audio = type == Constants.PLAYLIST_TYPE_AUDIO
+        val currentMedia = settings.getString(if (audio) "current_song" else "current_media", "")
+        if (currentMedia.isEmpty()) {
+            loadingLastPlaylist = false
+            return false
+        }
+        val locations = settings.getString(if (audio) "audio_list" else "media_list", "").split(" ".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+        if (Util.isArrayEmpty(locations)) {
+            loadingLastPlaylist = false
+            return false
+        }
         launch(UI, CoroutineStart.UNDISPATCHED) {
-            val audio = type == Constants.PLAYLIST_TYPE_AUDIO
-            val currentMedia = settings.getString(if (audio) "current_song" else "current_media", "")
-            if ("" == currentMedia) return@launch
-            val locations = settings.getString(if (audio) "audio_list" else "media_list", "").split(" ".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-            if (Util.isArrayEmpty(locations)) return@launch
-            val playList = async {
+            val playList = withContext(CommonPool) {
                 locations.map { Uri.decode(it) }.mapTo(ArrayList(locations.size)) { MediaWrapper(Uri.parse(it)) }
-            }.await()
+            }
             // load playlist
             shuffling = settings.getBoolean(if (audio) "audio_shuffling" else "media_shuffling", false)
             repeating = settings.getInt(if (audio) "audio_repeating" else "media_repeating", Constants.REPEAT_NONE)
@@ -145,6 +152,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             load(playList, position)
             loadingLastPlaylist = false
         }
+        return true
     }
 
     private fun onPlaylistLoaded() {
