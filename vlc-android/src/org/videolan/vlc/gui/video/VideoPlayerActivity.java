@@ -134,7 +134,6 @@ import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.SubtitlesDownloader;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WorkersKt;
 
 import java.io.ByteArrayInputStream;
@@ -317,10 +316,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!VLCInstance.testCompatibleCPU(this)) {
-            exit(RESULT_CANCELED);
-            return;
-        }
+        Util.checkCpuCompatibility(this);
 
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -945,15 +941,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     };
 
-    protected void exit(int resultCode){
-        if (isFinishing())
-            return;
-        Intent resultIntent = new Intent(ACTION_RESULT);
+    public void exit(int resultCode){
+        if (isFinishing()) return;
+        final Intent resultIntent = new Intent(ACTION_RESULT);
         if (mUri != null && mService != null) {
-            if (AndroidUtil.isNougatOrLater)
-                resultIntent.putExtra(EXTRA_URI, mUri.toString());
-            else
-                resultIntent.setData(mUri);
+            if (AndroidUtil.isNougatOrLater) resultIntent.putExtra(EXTRA_URI, mUri.toString());
+            else resultIntent.setData(mUri);
             resultIntent.putExtra(EXTRA_POSITION, mService.getTime());
             resultIntent.putExtra(EXTRA_DURATION, mService.getLength());
         }

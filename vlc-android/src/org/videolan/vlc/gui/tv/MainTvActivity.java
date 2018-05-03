@@ -37,7 +37,7 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
-import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.Util;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MainTvActivity extends BaseTvActivity {
@@ -55,10 +55,7 @@ public class MainTvActivity extends BaseTvActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!VLCInstance.testCompatibleCPU(this)) {
-            finish();
-            return;
-        }
+        Util.checkCpuCompatibility(this);
 
         // Delay access permission dialog prompt to avoid background corruption
         if (!Permissions.canReadStorage(this))

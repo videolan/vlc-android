@@ -20,6 +20,8 @@
 
 package org.videolan.vlc.util;
 
+import android.app.Activity;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,6 +37,7 @@ import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -202,5 +205,21 @@ public class Util {
             return true;
         }
         return false;
+    }
+
+    public static void checkCpuCompatibility(final Context ctx) {
+        WorkersKt.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                if (!VLCInstance.testCompatibleCPU(ctx)) WorkersKt.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (ctx instanceof Service) ((Service) ctx).stopSelf();
+                        else if (ctx instanceof VideoPlayerActivity) ((VideoPlayerActivity) ctx).exit(Activity.RESULT_CANCELED);
+                        else if (ctx instanceof Activity) ((Activity) ctx).finish();
+                    }
+                });
+            }
+        });
     }
 }

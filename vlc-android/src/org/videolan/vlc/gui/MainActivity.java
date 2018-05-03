@@ -66,7 +66,7 @@ import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
-import org.videolan.vlc.util.VLCInstance;
+import org.videolan.vlc.util.Util;
 
 import java.util.List;
 
@@ -89,10 +89,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!VLCInstance.testCompatibleCPU(this)) {
-            finish();
-            return;
-        }
+        Util.checkCpuCompatibility(this);
         Permissions.checkReadStoragePermission(this, false);
         /*** Start initializing the UI ***/
         setContentView(R.layout.main);

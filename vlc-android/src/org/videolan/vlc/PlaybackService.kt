@@ -453,10 +453,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         super.onCreate()
         settings = PreferenceManager.getDefaultSharedPreferences(this)
         playlistManager = PlaylistManager(this)
-        if (!VLCInstance.testCompatibleCPU(this)) {
-            stopSelf()
-            return
-        }
+        Util.checkCpuCompatibility(this)
 
         medialibrary = VLCApplication.getMLInstance()
         if (!medialibrary.isInitiated) registerMedialibrary(null)
