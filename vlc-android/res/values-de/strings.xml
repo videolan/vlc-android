@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
     <string name="other">Andere</string>
     <string name="sortby">Sortieren nach …</string>
     <string name="sortby_name">Name</string>
-    <string name="sortby_name_desc">Name (Beschreibung)</string>
+    <string name="sortby_name_desc">Name (absteigend)</string>
+    <string name="sortby_filename">Dateiname</string>
+    <string name="sortby_filename_desc">Dateiname (absteigend)</string>
     <string name="sortby_artist_name">Künstlername</string>
-    <string name="sortby_artist_name_desc">Künstlername (Beschreibung)</string>
-    <string name="sortby_album_name">Album-Name</string>
-    <string name="sortby_album_name_desc">Album-Name (Beschreibung)</string>
+    <string name="sortby_artist_name_desc">Künstlername (absteigend)</string>
+    <string name="sortby_album_name">Albumname</string>
+    <string name="sortby_album_name_desc">Albumname (absteigend)</string>
     <string name="sortby_length">Laufzeit</string>
-    <string name="sortby_length_desc">Laufzeit (Beschreibung)</string>
+    <string name="sortby_length_desc">Laufzeit (absteigend)</string>
     <string name="sortby_date">Datum</string>
-    <string name="sortby_date_desc">Datum (Beschreibung)</string>
+    <string name="sortby_date_desc">Datum (absteigend)</string>
     <string name="sortby_number">Titelnummern</string>
-    <string name="sortby_number_desc">Titelnummern (Beschreibung)</string>
+    <string name="sortby_number_desc">Titelnummern (absteigend)</string>
     <string name="searchable_hint">Suchen …</string>
     <string name="history">Verlauf</string>
     <plurals name="search_found_results_quantity">
@@ -31,10 +34,10 @@
     <string name="play_from_start">Vom Anfang wiedergeben</string>
     <string name="play_as_audio">Als Audio wiedergeben</string>
     <string name="play_as_video">Als Video wiedergeben</string>
-    <string name="video_app_switch_title">Hintergrund/PiP-Modus</string>
-    <string name="video_app_switch_summary">VLC-Verhalten definierenaus, wenn Sie von der Videowiedergabe auf eine andere Anwendung wechseln</string>
-    <string name="play_pip_title">Videos im Bild-in-Bild Modus wiedergeben</string>
-    <string name="play_as_audio_background">Videos im Hintergrund abspielen</string>
+    <string name="video_app_switch_title">Hintergrund-/PiP-Modus</string>
+    <string name="video_app_switch_summary">VLC-Verhalten auswählen, wenn Sie von der Filmwiedergabe zu einer anderen Anwendung wechseln</string>
+    <string name="play_pip_title">Videos im Bild-in-Bild-Modus wiedergeben</string>
+    <string name="play_as_audio_background">Videos im Hintergrund wiedergeben</string>
     <string name="append">Anhängen</string>
     <string name="insert_next">Als nächsten einfügen</string>
     <string name="play_all">Alle wiedergeben</string>
@@ -44,10 +47,10 @@
     <string name="remove">Entfernen</string>
     <string name="set_song">Als Klingelton festlegen</string>
     <string name="info">Information</string>
-    <string name="confirm_delete">Die Datei „%1$s“ löschen?</string>
+    <string name="confirm_delete">Die Datei »%1$s« löschen?</string>
     <string name="confirm_delete_folder">Den Ordner »%1$s« mit dem gesamten Inhalt löschen?</string>
     <string name="confirm_delete_playlist">Wiedergabeliste »%1$s« löschen?</string>
-    <string name="ringtone_set">Die Datei „%1$s“ wurde als Klingelton eingestellt.</string>
+    <string name="ringtone_set">Die Datei »%1$s« wurde als Klingelton eingestellt.</string>
     <string name="ringtone_error">Beim Einstellen des Klingeltons trat ein Fehler auf.</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Diese Nachricht nicht mehr anzeigen.</string>
@@ -182,14 +185,14 @@
     <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">Wiedergabefehler</string>
     <string name="encountered_error_message">VLC stellte einen Fehler mit diesem Medium fest.\nBitte versuchen Sie die Medienbibliothek zu aktualisieren.</string>
-    <string name="invalid_location">Ort %1$s kann nicht abgespielt werden.</string>
+    <string name="invalid_location">Ort »%1$s« kann nicht abgespielt werden.</string>
     <string name="search">Suchen</string>
     <string name="search_history">Suchverlauf</string>
     <string name="playback_history_title">Wiedergabeverlauf</string>
     <string name="playback_history_summary">Alle abgespielten Medien im Verlaufsbereich speichern</string>
     <string name="playback_speed_title">Wiedergabegeschwindigkeit speichern</string>
     <string name="playback_speed_summary">Wiedergabegeschwindigkeit merken</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">Filmwiedergabetipps:</string>
     <string name="seek">Suchen</string>
     <string name="subtitles">Untertitel</string>
@@ -200,7 +203,7 @@
     <string name="ok_got_it">Verstanden und weiter</string>
     <string name="playlist_tips">Wiedergabelistentipps</string>
     <string name="remove_song">Lied entfernen</string>
-    <string name="remove_playlist_item">%1$s wurde aus der Wiedergabeliste entfernt</string>
+    <string name="remove_playlist_item">»%1$s« wurde aus der Wiedergabeliste entfernt</string>
     <string name="rearrange_order">Reihenfolge umorganisieren</string>
     <string name="hold_to_seek">Zum Suchen gedrückt halten</string>
     <string name="audio_player_tips">Audiowiedergabetipps</string>
@@ -214,7 +217,7 @@
     <string name="about">Über</string>
     <string name="about_text">VLC für Android™ ist eine Portierung des VLC media players, dem beliebten quelloffenen Mediaplayer. Die Android™-Version kann die meisten Dateien und Netzwerk-Streams lesen.</string>
     <string name="compiled_by">Diese Version von VLC wurde kompiliert von:</string>
-    <string name="vlc_authors">VLC-Autoren.</string>
+    <string name="vlc_authors">und VLC-Autoren.</string>
     <!-- Preferences -->
     <string name="preferences">Einstellungen</string>
     <string name="general_prefs_category">Allgemein</string>
@@ -241,7 +244,7 @@
     <string name="screen_orientation_landscape">Querformat</string>
     <string name="screen_orientation_reverse_portrait">Hochformat gedreht</string>
     <string name="screen_orientation_reverse_landscape">Querformat gedreht</string>
-    <string name="enable_black_theme">Schwarzes Design aktivieren</string>
+    <string name="enable_black_theme">Schwarzes Design</string>
     <string name="enable_black_theme_summary">Die Schnittstellenfarben ändern, um eine bessere Annehmlichkeit in lichtschwachen Umgebungen zu erreichen.</string>
     <string name="subtitle_text_encoding">Untertiteltextkodierung</string>
     <string name="daynight_title">Tag-/Nachtmodus</string>
@@ -261,7 +264,8 @@
     <string name="video_min_group_length_first">Nur erster Buchstabe</string>
     <string name="video_min_group_length_short">Mind. Anzahl der Buchstaben (6)</string>
     <string name="video_min_group_length_long">Max. Anzahl der Buchstaben (9)</string>
-    <string name="media_fast_seek">Schnelle Suchoption aktivieren</string>
+    <string name="media_fast_seek">Schnelles durchsuchen</string>
+    <string name="media_fast_seek_summary">Durchsuchen in einem Medium ist schneller, aber weniger genau</string>
     <string name="media_seen">\"Markierung gesehen\" einblenden</string>
     <string name="media_seen_summary">Ein Video als gesehen markieren, wenn es bis zum Ende wiedergegeben wurde</string>
     <string name="force_list_portrait">Kein Gitter im Portraitmodus</string>
@@ -276,14 +280,14 @@
     <string name="enable_brightness_gesture_summary">Die Helligkeit durch Gesten während der Videowiedergabe kontrollieren</string>
     <string name="enable_volume_gesture_title">Lautstärkengeste</string>
     <string name="enable_volume_gesture_summary">Die Lautstärke durch Gesten während der Videowiedergabe kontrollieren</string>
-    <string name="enable_seek_buttons">Suchen-Knöpfe aktivieren</string>
+    <string name="enable_seek_buttons">Suchen-Knöpfe</string>
     <string name="enable_seek_buttons_summary">Rückwärts- und Vorwärtsknöpfe im Videomodus anzeigen</string>
     <string name="enable_double_tap_seek_title">Zum springen doppelt antippen</string>
     <string name="enable_double_tap_seek_summary">Für einen 10 Sekunden Sprung, in den Bildschirmecken doppelt antippen</string>
     <string name="popup_keepscreen_title">Im Pop-Up Modus Anzeige eingeschaltet lassen</string>
     <string name="popup_keepscreen_summary">Anzeige während einer Pop-Up Wiedergabe immer eingeschaltet lassen, auch wenn das Video angehalten wird.</string>
-    <string name="browser_show_hidden_files_title">Zeige versteckte Dateien</string>
-    <string name="browser_show_hidden_files_summary">Zeige versteckte Dateien in Browsern</string>
+    <string name="browser_show_hidden_files_title">Versteckte Dateien anzeigen</string>
+    <string name="browser_show_hidden_files_summary">Versteckte Dateien in Browsern anzeigen</string>
     <string name="subtitles_prefs_category">Untertitel</string>
     <string name="subtitles_size_title">Untertitelgröße</string>
     <string name="subtitles_size_small">Klein</string>
@@ -314,10 +318,12 @@
     <string name="audio_save_repeat_title">Wiederholen-Modus speichern</string>
     <string name="audio_save_repeat_summary">Wiederholen-Modus merken wenn Audio-Wiedergabelisten geladen werden</string>
     <string name="audio_boost_title">Audio-Boost</string>
-    <string name="audio_boost_summary">Lautstärke bis zu 200% aktivieren</string>
+    <string name="audio_boost_summary">Lautstärke bis zu 200% erlauben</string>
     <string name="headset_prefs_category">Kopfhörer</string>
     <string name="enable_headset_detection">Kopfhörer erkennen</string>
     <string name="enable_headset_detection_summary">An- und Abstecken des Kopfhörers erkennen</string>
+    <string name="enable_headset_actions_title">Tastenkombinationen für die Fernbedienung</string>
+    <string name="enable_headset_actions_summary">Drücken Sie zweimal auf \'Wiedergabe\', um zum nächsten Titel zu springen und drücken Sie länger darauf, um zum vorherigen Titel zu springen.</string>
     <string name="enable_play_on_headset_insertion">Fortsetzen wenn Kopfhörer angesteckt</string>
     <string name="enable_play_on_headset_insertion_summary">Andernfalls pausieren</string>
     <string name="enable_steal_remote_control">Exklusive Kopfhörerfernbedienung</string>
@@ -336,14 +342,14 @@
     <string name="casting_quality_low">Niedrig</string>
     <string name="casting_quality_lowcpu">Niedrigste</string>
     <string name="cast_performance_warning">Vor dem Streamen, muss das Video umgewandelt werden. Diese Umwandlung konnte die gesamte verfügbare Energie verbrauchen und den Akku schneller entleeren.</string>
-    <string name="casting_connected_renderer">Verbunden mit Renderer \'%1$s\'</string>
-    <string name="artists_show_all_title">Zeige alle Künstler</string>
-    <string name="artists_show_all_summary">Zeige alle Künstler in der Künstlerliste, nicht nur die Künstler der Alben</string>
+    <string name="casting_connected_renderer">Mit Renderer »%1$s« verbunden</string>
+    <string name="artists_show_all_title">Alle Künstler anzeigen</string>
+    <string name="artists_show_all_summary">Alle Künstler in der Künstlerliste anzeigen, nicht nur die Künstler der Alben</string>
     <string name="extensions_prefs_category">Erweiterungen</string>
     <string name="extensions_enable_category">Erweiterungen zur Aktivierung auswählen</string>
     <string name="extensions_empty">Keine Erweiterungen gefunden</string>
-    <string name="extension_permission_title">Neue Erweiterung \"%1$s\" aktivieren?</string>
-    <string name="extension_permission_checkbox_title">In %1$s anzeigen</string>
+    <string name="extension_permission_title">Neue Erweiterung »%1$s« aktivieren?</string>
+    <string name="extension_permission_checkbox_title">In »%1$s« anzeigen</string>
     <string name="extension_prefs_activation_title">Aktivieren</string>
     <string name="android_auto">Android Auto</string>
     <string name="controls_prefs_category">Steuerungen</string>
@@ -356,7 +362,7 @@
     <string name="deblocking_nonref">Mittlere Entblockung</string>
     <string name="deblocking_nonkey">Niedrige Entblockung</string>
     <string name="deblocking_all">Keine Entblockung (am schnellsten)</string>
-    <string name="enable_frame_skip">Bildsprung aktivieren</string>
+    <string name="enable_frame_skip">Bildsprung</string>
     <string name="enable_frame_skip_summary">Beschleunigt das Dekodieren, führt aber zu niedriger Videoqualität.</string>
     <string name="enable_time_stretching_audio">Audio-Zeitdehnung</string>
     <string name="enable_time_stretching_audio_summary">Beschleunigt und verlangsamt den Ton, ohne dabei die Tonhöhe zu verändern  (erfordert ein schnelles Gerät).</string>
@@ -366,6 +372,8 @@
     <string name="save_video_always">Geschwindigkeit über mehrere Sitzungen hinweg speichern</string>
     <string name="auto_rescan">Automatisch durchsuchen</string>
     <string name="auto_rescan_summary">Gerät beim Start der Anwendung automatisch nach neuen oder gelöschten Medien durchsuchen</string>
+    <string name="dump_media_db">Mediendatenbank erstellen</string>
+    <string name="dump_media_db_summary">Datenbank in den internen Speicherstammordner kopieren</string>
     <string name="clear_media_db">Mediendatenbank leeren</string>
     <string name="clear_media_db_summary">Android-VLC-Informationen zum Löschen der Daten öffnen</string>
     <string name="clear_history">Suchverlauf löschen</string>
@@ -391,7 +399,7 @@
     <string name="copy_to_clipboard">In die Zwischenablage kopieren</string>
     <string name="copied_to_clipboard">Protokoll in die Zwischenablage kopiert.</string>
     <string name="dump_logcat">logcat-Protokoll erstellen</string>
-    <string name="dump_logcat_success">Logcat-Auszug wurde erfolgreich unter %1$s erstellt!</string>
+    <string name="dump_logcat_success">Logcat-Auszug wurde erfolgreich unter »%1$s« erstellt!</string>
     <string name="dump_logcat_failure">Erstellen des Logcat-Auszugs fehlgeschlagen.</string>
     <string name="serious_crash">Leider ist ein schwerwiegender Fehler aufgetreten und VLC musste geschlossen werden.</string>
     <string name="help_us_send_log">Helfen Sie uns bei der Verbesserung des VLC, durch das Übersenden des folgenden Fehlerberichtes:</string>
@@ -406,7 +414,7 @@
     <string name="audio_delay">Audioverzögerung</string>
     <string name="spu_delay">Untertitelverzögerung</string>
     <string name="sleep_time_not_set">nichts eingestellt</string>
-    <string name="network_shares_discovery">Nach Netzwerkfreigaben wird gesucht…</string>
+    <string name="network_shares_discovery">Nach Netzwerkfreigaben wird gesucht …</string>
     <string name="network_empty">Das Verzeichnis ist leer.</string>
     <string name="network_connection_needed">Keine Verbindung zum lokalen Netzwerk.</string>
     <string name="search_hint">Medien suchen</string>
@@ -423,15 +431,11 @@
     <string name="confirm_resume_title">Nach Bestätigung zum Fortsetzen fragen</string>
     <string name="confirm_resume_summary">Wenn aktiviert, werden Sie nach einer Bestätigung gefragt, wenn ein Video von der letzten Position fortgesetzt werden kann</string>
     <string name="directory_empty">Verzeichnis ist leer</string>
-    <string name="player_touch_title">Touch-Steuerungen für Videos</string>
-    <string name="player_touch_enable_all">Touch-Steuerungen aktivieren</string>
-    <string name="player_touch_disable_brightness">Helligkeitskontrolle deaktivieren</string>
-    <string name="player_touch_disable_all">Alle Touch-Steuerungen deaktivieren</string>
     <string name="tv_ui_title">Android-TV-Schnittstelle</string>
     <string name="tv_ui_summary">Benutzeroberfläche zum TV angepassten Thema ändern</string>
     <string name="medialibrary">Medienbibliothek</string>
     <string name="medialibrary_directories">Ordner der Medienbibliothek</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">Weitere Aktionen</string>
     <string name="move">Verschieben</string>
     <string name="back_quit_lock">Zum Verlassen des Videos Zurück nochmals drücken</string>
@@ -439,7 +443,7 @@
     <string name="file_deleted">Datei gelöscht</string>
     <string name="no_subs_found">Keine Untertitel in diesem Verzeichnis</string>
     <string name="music_now_playing">Gerade läuft</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">VLC weißes Widget</string>
     <string name="widget_name_b">VLC dunkles Widget</string>
     <string name="allow_storage_access_title">VLC Zugriff auf Video- und Audio-Dateien erlauben</string>
@@ -453,10 +457,10 @@
     <string name="permission_ask_again">Genehmigung erteilen</string>
     <string name="exit_app">VLC schließen</string>
     <string name="exit_app_msg">Möchten Sie VLC wirklich verlassen?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">Schneller Bildlauf für Titel</string>
     <string name="fastscroller_handle">Bedienung des Schnellen Bildlaufs</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">Module</string>
     <string name="download_on_device">Herunterladen</string>
     <string name="extension_empty">Kein Element zum Anzeigen,  gehen Sie in die Erweiterungseinstellungen um einige zu erhalten.</string>
@@ -488,11 +492,12 @@
     <string name="browse_folder">Ordner durchsuchen</string>
     <string name="listen">Hören</string>
     <string name="subtitles_download_title">Untertitel herunterladen</string>
-    <string name="connecting">Verbindung wird aufgebaut…</string>
+    <string name="connecting">Verbindung wird aufgebaut …</string>
     <string name="save_bluetooth_delay">Verzögerung des Bluetooth-Gerätes speichern</string>
     <string name="episodes">Episoden</string>
     <string name="movies">Filme</string>
     <string name="videos">Videos</string>
+    <string name="videos_all">Alle Videos</string>
     <string name="clear_playback_history">Wiedergabeverlauf löschen</string>
     <string name="various_artists">Verschiedene Künstler</string>
     <string name="ml_scanning">Nach Mediadateien suchen</string>
@@ -502,20 +507,20 @@
     <string name="length">Laufzeit</string>
     <string name="tv_settings_hint">Langes betätigen des OK-Buttons zur An- und Abwahl von Verzeichnissen</string>
     <string name="ml_external_storage_title">Neuen externen Speicher gefunden</string>
-    <string name="ml_external_storage_msg">Möchten Sie, dass VLC das Gerät %1$s zu Ihrer Medienbibliothek hinzufügt?</string>
+    <string name="ml_external_storage_msg">Möchten Sie, dass VLC das Gerät »%1$s« zu Ihrer Medienbibliothek hinzufügt?</string>
     <string name="ml_external_storage_accept">Ja</string>
     <string name="ml_external_storage_decline">Nein</string>
     <string name="last_added_media">Zuletzt hinzugefügt</string>
     <string name="no">Nein</string>
-    <string name="loading_medialibrary">Lade Medienbibliothek…</string>
+    <string name="loading_medialibrary">Medienbibliothek wird geladen …</string>
     <string name="yes">Ja</string>
     <string name="custom_set_save_title">Nicht gespeicherte Änderungen</string>
     <string name="custom_set_save_warning">Warnung: Nicht gespeicherte Änderungen</string>
-    <string name="existing_custom_set_save_message">Equalizer-Einstellung speichern als…</string>
-    <string name="new_custom_set_save_message">Neue Equalizer-Einstellung speichern als…</string>
+    <string name="existing_custom_set_save_message">Equalizer-Einstellung speichern als …</string>
+    <string name="new_custom_set_save_message">Neue Equalizer-Einstellung speichern als …</string>
     <string name="save">Speichern</string>
     <string name="do_not_save">Nicht speichern</string>
-    <string name="custom_set_deleted_message">Eigene Equalizer-Einstellung \"%1$s\" gelöscht.</string>
+    <string name="custom_set_deleted_message">Eigene Equalizer-Einstellung »%1$s« gelöscht.</string>
     <string name="custom_set_wrong_input">Ungültiger Name.</string>
     <string name="custom_set_already_exist">Equalizer-Einstellung mit diesem Namen existiert bereits.</string>
     <string name="custom_set_restored">Eigene Equalizer-Einstellung wiederhergestellt.</string>
@@ -526,10 +531,15 @@
     <string name="recommendations_desc">Empfehlungen im Launcher</string>
     <string name="browser_quick_access">Schnellzugriff</string>
     <string name="browser_storages">Speicher</string>
-    <string name="msg_delete_failed">Fehler beim Löschen von %1$s</string>
+    <string name="msg_delete_failed">Fehler beim Löschen von »%1$s«</string>
     <string name="renderer_list_title">Anzeigen</string>
-    <string name="feedback_player_crashed">Entschuldigung, VLC ist soeben abgestürzt. Bitte versuchen Sie es erneut.</string>
+    <string name="feedback_player_crashed">Leider ist VLC gerade abgestürzt. Bitte versuchen Sie es erneut.</string>
     <string name="sdcard_permission_dialog_title">Sie müssen VLC den Schreibzugriff auf Ihre SD-Karte gewähren</string>
-    <string name="sdcard_permission_dialog_message">VLC kann diese Datei nicht ohne Schreibzugriffsberechtigung löschen.\nBitte wechseln Sie auf Ihre SD-Karte und klicken Sie auf \"Auswählen\".\nSie müssen möglicherweise zuerst auf \"SD-Karte anzeigen\" im Menü oben rechts klicken</string>
-    <string name="dialog_sd_wizard">Zeig es mir</string>
+    <string name="sdcard_permission_dialog_message">VLC kann diese Datei nicht ohne Schreibzugriffsberechtigung löschen.\nBitte wechseln Sie auf Ihre SD-Karte und klicken Sie auf »Auswählen«.\nSie müssen möglicherweise zuerst auf »SD-Karte anzeigen« im Menü oben rechts klicken.</string>
+    <string name="dialog_sd_wizard">Mir anzeigen</string>
+    <string name="renderers_disconnect">Trennen</string>
+    <string name="audio_digital_failed">Änderung des Audio-Digital-Ausgabestatus fehlgeschlagen</string>
+    <string name="audio_digital_output_enabled">Audio-Digital-Ausgabe aktiviert</string>
+    <string name="audio_digital_output_disabled">Audio-Digital-Ausgabe deaktiviert</string>
+    <string name="audio_digital_title">Audio-Digital-Ausgabe (Passthrough)</string>
 </resources>
