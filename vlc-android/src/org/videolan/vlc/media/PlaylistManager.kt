@@ -10,8 +10,11 @@ import android.support.v7.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -20,7 +23,6 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.R.string.audio
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.preferences.PreferencesFragment
@@ -119,7 +121,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @Volatile
     private var loadingLastPlaylist = false
-    fun loadLastPlaylist(type: Int) : Boolean {
+    fun loadLastPlaylist(type: Int = Constants.PLAYLIST_TYPE_AUDIO) : Boolean {
         if (loadingLastPlaylist) return true
         loadingLastPlaylist = true
         val audio = type == Constants.PLAYLIST_TYPE_AUDIO

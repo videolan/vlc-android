@@ -32,7 +32,6 @@ import android.preference.PreferenceManager
 import android.support.annotation.MainThread
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.app.ServiceCompat
-import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserServiceCompat
 import android.support.v4.media.MediaDescriptionCompat
@@ -95,7 +94,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     private var widgetPositionTimestamp = System.currentTimeMillis()
     private var popupManager: PopupManager? = null
 
-    internal var libraryReceiver: MedialibraryReceiver? = null
+    internal var libraryReceiver: PBSMedialibraryReceiver? = null
 
     private val receiver = object : BroadcastReceiver() {
         private var wasPlaying = false
@@ -192,7 +191,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
                 /* CbAction notification content intent: resume video or resume audio activity */
                 updateMetadata()
             }
-            MediaPlayer.Event.MediaChanged -> Log.d(TAG, "onEvent: MediaChanged")
+            MediaPlayer.Event.MediaChanged -> if (BuildConfig.DEBUG) Log.d(TAG, "onEvent: MediaChanged")
         }
         cbActor.offer(CbMediaPlayerEvent(event))
     }
@@ -492,17 +491,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
         keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
     }
 
-    internal fun registerMedialibrary(action: Runnable?) {
-        if (!Permissions.canReadStorage(this)) return
-        val lbm = LocalBroadcastManager.getInstance(this)
-        if (libraryReceiver == null) {
-            libraryReceiver = MedialibraryReceiver()
-            lbm.registerReceiver(libraryReceiver!!, IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY))
-            Util.startService(this@PlaybackService, Intent(Constants.ACTION_INIT, null, this, MediaParsingService::class.java))
-        }
-        if (action != null) libraryReceiver!!.addAction(action)
-    }
-
     private fun updateHasWidget() {
         val manager = AppWidgetManager.getInstance(this)
         widget = when {
@@ -518,11 +506,9 @@ class PlaybackService : MediaBrowserServiceCompat() {
             Intent.ACTION_MEDIA_BUTTON -> {
                 if (AndroidDevices.hasTsp || AndroidDevices.hasPlayServices) MediaButtonReceiver.handleIntent(mediaSession, intent)
             }
-            Constants.ACTION_REMOTE_PLAYPAUSE -> {
-                if (playlistManager.hasCurrentMedia()) return Service.START_NOT_STICKY
-                else loadLastAudioPlaylist()
-            }
-            Constants.ACTION_REMOTE_PLAY -> {
+            Constants.ACTION_REMOTE_PLAYPAUSE,
+            Constants.ACTION_REMOTE_PLAY,
+            Constants.ACTION_REMOTE_LAST_PLAYLIST -> {
                 if (playlistManager.hasCurrentMedia()) play()
                 else loadLastAudioPlaylist()
             }
@@ -946,14 +932,11 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     private fun loadLastAudioPlaylist() {
         if (AndroidDevices.isAndroidTv) return
-        if (medialibrary.isInitiated && libraryReceiver == null)
-            if (!playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO)) stopSelf()
-            else
-                registerMedialibrary(Runnable { if (!playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO)) stopSelf() })
+        runOnceReady(Runnable { if (!playlistManager.loadLastPlaylist()) stopSelf() })
     }
 
     fun loadLastPlaylist(type: Int) {
-        playlistManager.loadLastPlaylist(type)
+        runOnceReady(Runnable { playlistManager.loadLastPlaylist(type) })
     }
 
     fun showToast(text: String, duration: Int) {
@@ -1282,7 +1265,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         companion object {
             const val TAG = "PlaybackService.Client"
 
-            private fun getServiceIntent(context: Context): Intent {
+            fun getServiceIntent(context: Context): Intent {
                 return Intent(context, PlaybackService::class.java)
             }
 
@@ -1324,16 +1307,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
         }
     }
 
-    private val pendingActions by lazy(LazyThreadSafetyMode.NONE) { LinkedList<Runnable>() }
-    internal inner class MedialibraryReceiver : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            libraryReceiver = null
-            LocalBroadcastManager.getInstance(this@PlaybackService).unregisterReceiver(this)
-            cbActor.offer(MLActionsExecute)
-        }
-
-        fun addAction(r: Runnable) = cbActor.offer(MLActionAdd(r))
-    }
 
     private val cbActor by lazy {
         actor<CbAction>(UI, capacity = Channel.UNLIMITED) {
@@ -1347,8 +1320,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
                     callbacks.add(update.cb)
                     if (playlistManager.hasCurrentMedia()) executeUpdateProgress()
                 }
-                is MLActionAdd -> pendingActions.add(update.runnable)
-                MLActionsExecute -> for (r in pendingActions) r.run()
                 ShowNotification -> showNotificationInternal()
                 is HideNotification -> hideNotificationInternal(update.remove)
                 UpdateMeta -> updateMetadataInternal()
@@ -1371,6 +1342,12 @@ class PlaybackService : MediaBrowserServiceCompat() {
             return binder.service
         }
 
+        fun loadLastAudio(context: Context) {
+            val i = PlaybackService.Client.getServiceIntent(context)
+            i.action = Constants.ACTION_REMOTE_LAST_PLAYLIST
+            Util.startService(context, i)
+        }
+
         private const val PLAYBACK_BASE_ACTIONS = (PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH
                 or PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID or PlaybackStateCompat.ACTION_PLAY_FROM_URI
                 or PlaybackStateCompat.ACTION_PLAY_PAUSE)
@@ -1385,8 +1362,6 @@ private data class CbMediaEvent(val event : Media.Event) : CbAction()
 private data class CbMediaPlayerEvent(val event : MediaPlayer.Event) : CbAction()
 private data class CbAdd(val cb : PlaybackService.Callback) : CbAction()
 private data class CbRemove(val cb : PlaybackService.Callback) : CbAction()
-private data class MLActionAdd(val runnable: Runnable) : CbAction()
-private object MLActionsExecute : CbAction()
 private object ShowNotification : CbAction()
 private data class HideNotification(val remove: Boolean) : CbAction()
 private object UpdateMeta : CbAction()

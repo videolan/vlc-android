@@ -14,10 +14,10 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.media.BrowserProvider
-import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Constants
 import org.videolan.vlc.util.VoiceSearchParams
+import org.videolan.vlc.util.registerMedialibrary
 
 internal class MediaSessionCallback(private val playbackService: PlaybackService) : MediaSessionCompat.Callback() {
     private var mHeadsetDownTime = 0L
@@ -35,7 +35,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     KeyEvent.ACTION_DOWN -> {
                         if (event.repeatCount <= 0) mHeadsetDownTime = time
                         if (!playbackService.hasMedia()) {
-                            MediaUtils.loadlastPlaylistNoUi(playbackService, Constants.PLAYLIST_TYPE_AUDIO)
+                            PlaybackService.loadLastAudio(playbackService)
                             return true
                         }
                     }
@@ -77,7 +77,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onPlay() {
         if (playbackService.hasMedia()) playbackService.play()
-        else MediaUtils.loadlastPlaylistNoUi(playbackService, Constants.PLAYLIST_TYPE_AUDIO)
+        else PlaybackService.loadLastAudio(playbackService)
     }
 
     override fun onCustomAction(action: String?, extras: Bundle?) {
@@ -106,9 +106,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     }
 
-    override fun onPlayFromUri(uri: Uri?, extras: Bundle?) {
-        playbackService.loadUri(uri)
-    }
+    override fun onPlayFromUri(uri: Uri?, extras: Bundle?) = playbackService.loadUri(uri)
 
     override fun onPlayFromSearch(query: String?, extras: Bundle?) {
         if (!playbackService.medialibrary.isInitiated || playbackService.libraryReceiver != null) {
@@ -145,35 +143,19 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         }
     }
 
-    override fun onPause() {
-        playbackService.pause()
-    }
+    override fun onPause() = playbackService.pause()
 
-    override fun onStop() {
-        playbackService.stop()
-    }
+    override fun onStop() = playbackService.stop()
 
-    override fun onSkipToNext() {
-        playbackService.next()
-    }
+    override fun onSkipToNext() = playbackService.next()
 
-    override fun onSkipToPrevious() {
-        playbackService.previous(false)
-    }
+    override fun onSkipToPrevious() = playbackService.previous(false)
 
-    override fun onSeekTo(pos: Long) {
-        playbackService.seek(pos)
-    }
+    override fun onSeekTo(pos: Long) = playbackService.seek(pos)
 
-    override fun onFastForward() {
-        playbackService.seek(Math.min(playbackService.length, playbackService.time + 5000))
-    }
+    override fun onFastForward() = playbackService.seek(Math.min(playbackService.length, playbackService.time + 5000))
 
-    override fun onRewind() {
-        playbackService.seek(Math.max(0, playbackService.time - 5000))
-    }
+    override fun onRewind() = playbackService.seek(Math.max(0, playbackService.time - 5000))
 
-    override fun onSkipToQueueItem(id: Long) {
-        playbackService.playIndex(id.toInt())
-    }
+    override fun onSkipToQueueItem(id: Long) = playbackService.playIndex(id.toInt())
 }
