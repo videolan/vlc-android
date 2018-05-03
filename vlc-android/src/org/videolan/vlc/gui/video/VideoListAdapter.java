@@ -222,7 +222,7 @@ public class VideoListAdapter extends SortableAdapter<MediaWrapper, VideoListAda
         if (media.getType() == MediaWrapper.TYPE_GROUP) {
             MediaGroup mediaGroup = (MediaGroup) media;
             final int size = mediaGroup.size();
-            text = VLCApplication.getAppResources().getQuantityString(R.plurals.videos_quantity, size, size);
+            text = holder.itemView.getResources().getQuantityString(R.plurals.videos_quantity, size, size);
         } else {
             /* Time / Duration */
             if (media.getLength() > 0) {
