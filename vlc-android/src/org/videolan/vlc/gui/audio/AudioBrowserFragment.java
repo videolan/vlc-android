@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.audio;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -144,7 +146,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         };
         mViewPager.setOffscreenPageLimit(MODE_TOTAL - 1);
         mViewPager.setAdapter(new AudioPagerAdapter(mLists, titles));
-        mViewPager.setCurrentItem(VLCApplication.getSettings().getInt(Constants.KEY_AUDIO_CURRENT_TAB, 0));
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        mViewPager.setCurrentItem(prefs.getInt(Constants.KEY_AUDIO_CURRENT_TAB, 0));
         final RecyclerView.RecycledViewPool rvp = new RecyclerView.RecycledViewPool();
         for (int i = 0; i< MODE_TOTAL; ++i) {
             final LinearLayoutManager llm = new LinearLayoutManager(getActivity());
