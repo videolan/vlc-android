@@ -7,6 +7,8 @@
     <string name="sortby">Sortuj według…</string>
     <string name="sortby_name">Nazwa</string>
     <string name="sortby_name_desc">Nazwa (malejąco)</string>
+    <string name="sortby_filename">Nazwa pliku</string>
+    <string name="sortby_filename_desc">Nazwa pliku (malejąco)</string>
     <string name="sortby_artist_name">Nazwa wykonawcy</string>
     <string name="sortby_artist_name_desc">Nazwa wykonawcy (malejąco)</string>
     <string name="sortby_album_name">Nazwa albumu</string>
@@ -203,7 +205,7 @@
     <string name="playback_history_summary">Zapisz wszystkie media odtwarzane w sekcji Historia</string>
     <string name="playback_speed_title">Zapisz prędkość odtwarzania</string>
     <string name="playback_speed_summary">Zapamiętaj ustawioną prędkość odtwarzania</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">Porady odtwarzacza wideo:</string>
     <string name="seek">Szukaj</string>
     <string name="subtitles">Napisy</string>
@@ -228,7 +230,7 @@
     <string name="about">O VLC</string>
     <string name="about_text">VLC dla Androida™ jest portem VLC Media Player, popularnego odtwarzacza multimedialnego o otwartym kodzie źródłowym. Wersja systemu Android™ może odczytać większość plików i strumieni sieciowych.</string>
     <string name="compiled_by">Ta wersja VLC została skompilowana przez:</string>
-    <string name="vlc_authors">Autorzy VLC.</string>
+    <string name="vlc_authors">i autorów VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Ustawienia</string>
     <string name="general_prefs_category">Ogólne</string>
@@ -255,7 +257,7 @@
     <string name="screen_orientation_landscape">Pejzaż</string>
     <string name="screen_orientation_reverse_portrait">Odwrócony portret</string>
     <string name="screen_orientation_reverse_landscape">Odwrócony pejzaż</string>
-    <string name="enable_black_theme">Włącz czarny motyw</string>
+    <string name="enable_black_theme">Czarny motyw</string>
     <string name="enable_black_theme_summary">Zmień kolory interfejsu dla lepszego komfortu w trudnych warunkach oświetleniowych.</string>
     <string name="subtitle_text_encoding">Kodowanie tekstu napisów</string>
     <string name="daynight_title">Tryb dzień/noc</string>
@@ -275,7 +277,8 @@
     <string name="video_min_group_length_first">Tylko pierwsza litera</string>
     <string name="video_min_group_length_short">Krótka liczba liter (6)</string>
     <string name="video_min_group_length_long">Długa liczba liter (9)</string>
-    <string name="media_fast_seek">Włącz opcję szybkiego przeszukiwania</string>
+    <string name="media_fast_seek">Szybkie przeszukiwanie</string>
+    <string name="media_fast_seek_summary">Przeszukiwanie w mediach jest szybsze, ale mniej dokładne</string>
     <string name="media_seen">Pokaż znacznik obejrzanego filmu</string>
     <string name="media_seen_summary">Oznacz film jako obejrzany, gdy odtworzysz go do końca</string>
     <string name="force_list_portrait">Brak kratki w trybie portretowym</string>
@@ -290,7 +293,7 @@
     <string name="enable_brightness_gesture_summary">Regulacja jasności gestem podczas odtwarzania wideo</string>
     <string name="enable_volume_gesture_title">Gesty głośności</string>
     <string name="enable_volume_gesture_summary">Regulacja głośności gestem podczas odtwarzania wideo</string>
-    <string name="enable_seek_buttons">Włącz przyciski przeszukiwania</string>
+    <string name="enable_seek_buttons">Przyciski przeszukiwania</string>
     <string name="enable_seek_buttons_summary">Pokaż przyciski przewijania do przodu i do tyłu w interfejsie widea</string>
     <string name="enable_double_tap_seek_title">Dotknij dwukrotnie, aby przeszukiwać</string>
     <string name="enable_double_tap_seek_summary">Dotknij dwukrotnie na krawędziach ekranu, aby przeszukiwać co 10 sekund</string>
@@ -328,10 +331,12 @@
     <string name="audio_save_repeat_title">Zapisz tryb powtórz</string>
     <string name="audio_save_repeat_summary">Zapamiętaj tryb powtórz podczas ładowania list odtwarzania dźwięku</string>
     <string name="audio_boost_title">Wzmacniacz dźwięku</string>
-    <string name="audio_boost_summary">Włącz głośność do 200%</string>
+    <string name="audio_boost_summary">Zezwól na głośność do 200%</string>
     <string name="headset_prefs_category">Słuchawki</string>
     <string name="enable_headset_detection">Wykrywanie słuchawek</string>
     <string name="enable_headset_detection_summary">Wykrywanie wkładania i wyjmowania zestawu słuchawkowego</string>
+    <string name="enable_headset_actions_title">Skróty zdalnego sterowania</string>
+    <string name="enable_headset_actions_summary">Dwukrotnie naciśnij przycisk \'Odtwórz\', aby przejść do następnego utworu lub naciśnij dłużnej, aby przejść do poprzedniego.</string>
     <string name="enable_play_on_headset_insertion">Wznowienie po włożeniu słuchawek</string>
     <string name="enable_play_on_headset_insertion_summary">Pauzuj inaczej</string>
     <string name="enable_steal_remote_control">Ekskluzywny pilot słuchawek</string>
@@ -370,7 +375,7 @@
     <string name="deblocking_nonref">Średni filtr usuwania bloków</string>
     <string name="deblocking_nonkey">Niski filtr usuwania bloków</string>
     <string name="deblocking_all">Usuwanie bloków wyłączone (najszybciej)</string>
-    <string name="enable_frame_skip">Włącz pominięcie ramek</string>
+    <string name="enable_frame_skip">Pominięcie ramek</string>
     <string name="enable_frame_skip_summary">Przyspiesza dekodowanie, ale może pogorszyć jakość obrazu.</string>
     <string name="enable_time_stretching_audio">Rozciąganie czasu dźwięku</string>
     <string name="enable_time_stretching_audio_summary">Przyspieszenie i spowolnienie dźwięku bez zmiany tonacji (wymaga szybkiego urządzenia).</string>
@@ -380,6 +385,8 @@
     <string name="save_video_always">Zapisz prędkość między sesjami</string>
     <string name="auto_rescan">Automatyczne przeszukiwanie</string>
     <string name="auto_rescan_summary">Automatycznie przeszukuj urządzenie za nowymi lub usuniętymi plikami podczas uruchomienia programu</string>
+    <string name="dump_media_db">Zrób zrzut bazy danych mediów</string>
+    <string name="dump_media_db_summary">Kopiuj bazę danych do katalogu głównego pamięci wewnętrznej</string>
     <string name="clear_media_db">Wyczyść bazę danych mediów</string>
     <string name="clear_media_db_summary">Otwórz systemowe informacje VLC w celu usunięcia danych</string>
     <string name="clear_history">Wyczyść historię wyszukiwania</string>
@@ -437,15 +444,11 @@
     <string name="confirm_resume_title">Wyświetl potwierdzenie, aby wznowić</string>
     <string name="confirm_resume_summary">jeśli włączone, będziesz proszony o potwierdzenie, czy wideo ma zostać wznowione z ostatniej pozycji</string>
     <string name="directory_empty">Katalog jest pusty</string>
-    <string name="player_touch_title">Sterowanie dotykowe dla widea</string>
-    <string name="player_touch_enable_all">Włącz sterowanie dotykowe</string>
-    <string name="player_touch_disable_brightness">Wyłącz regulację jasności</string>
-    <string name="player_touch_disable_all">Wyłącz wszystkie przyciski dotykowe</string>
     <string name="tv_ui_title">Interfejs Android TV</string>
     <string name="tv_ui_summary">Zmień interfejs użytkownika do dopasowanego przez TV</string>
     <string name="medialibrary">Biblioteka mediów</string>
     <string name="medialibrary_directories">Foldery biblioteki mediów</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">Więcej operacji</string>
     <string name="move">Przenieś</string>
     <string name="back_quit_lock">Naciśnij ponownie z powrotem, aby wyjść z widea</string>
@@ -453,7 +456,7 @@
     <string name="file_deleted">Plik został usunięty</string>
     <string name="no_subs_found">Brak napisów w tym katalogu</string>
     <string name="music_now_playing">Teraz odtwarzane</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">Biały widżet VLC</string>
     <string name="widget_name_b">Ciemny widżet VLC</string>
     <string name="allow_storage_access_title">Zezwól VLC na dostęp do plików audio i wideo</string>
@@ -467,10 +470,10 @@
     <string name="permission_ask_again">Udzielenie pozwolenia</string>
     <string name="exit_app">Zamknij VLC</string>
     <string name="exit_app_msg">Czy na pewno chcesz zamknąć VLC?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">Szybkie przewijanie tytułów</string>
     <string name="fastscroller_handle">Zachowanie szybkiego przewijania</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">Wtyczki</string>
     <string name="download_on_device">Pobieranie</string>
     <string name="extension_empty">Brak elementu do wyświetlenia, przejdź do ustawień rozszerzeń, aby je pobrać.</string>
@@ -507,6 +510,7 @@
     <string name="episodes">odcinki</string>
     <string name="movies">filmy</string>
     <string name="videos">klipy wideo</string>
+    <string name="videos_all">Wszystkie klipy wideo</string>
     <string name="clear_playback_history">Wyczyść historię odtwarzania</string>
     <string name="various_artists">Różni wykonawcy</string>
     <string name="ml_scanning">Skanowanie w poszukiwaniu plików multimedialnych</string>
@@ -546,4 +550,9 @@
     <string name="sdcard_permission_dialog_title">Musisz zezwolić VLC na dostęp do zapisu na karcie SD</string>
     <string name="sdcard_permission_dialog_message">VLC nie może usunąć tego pliku bez uprawnień do zapisu.\nPrzejdź do karty SD i kliknij \"Wybierz\".\nByć może będziesz musiał kliknąć najpierw na \"Pokaż kartę SD\" w prawym górnym menu</string>
     <string name="dialog_sd_wizard">Pokaż mi</string>
+    <string name="renderers_disconnect">Rozłącz</string>
+    <string name="audio_digital_failed">Nie udało się zmienić stanu wyjścia dźwięku cyfrowego</string>
+    <string name="audio_digital_output_enabled">Wyjście dźwięku cyfrowego włączone</string>
+    <string name="audio_digital_output_disabled">Wyjście dźwięku cyfrowego wyłączone</string>
+    <string name="audio_digital_title">Cyfrowe wyjście dźwiękowe (przejściówka)</string>
 </resources>
