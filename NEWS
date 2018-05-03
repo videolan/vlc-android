@@ -1,3 +1,10 @@
+Changes between 3.0.6 and 3.0.7:
+----------------------------------
+
+Application:
+ * Fix Crash loading last playlist from wired headset
+ * Misc. fixes
+
 Changes between 3.0.5 and 3.0.6:
 ----------------------------------
 
