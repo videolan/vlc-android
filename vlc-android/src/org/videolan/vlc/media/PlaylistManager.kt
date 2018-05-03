@@ -8,8 +8,11 @@ import android.support.v7.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Medialibrary
@@ -116,9 +119,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         loadingLastPlaylist = true
         val audio = type == Constants.PLAYLIST_TYPE_AUDIO
         val currentMedia = settings.getString(if (audio) "current_song" else "current_media", "")
-        if ("" == currentMedia) return false
+        if ("" == currentMedia) {
+            loadingLastPlaylist = false
+            return false
+        }
         val locations = settings.getString(if (audio) "audio_list" else "media_list", "").split(" ".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-        if (Util.isArrayEmpty(locations)) return false
+        if (Util.isArrayEmpty(locations)) {
+            loadingLastPlaylist = false
+            return false
+        }
         launch(UI, CoroutineStart.UNDISPATCHED) {
             val playList = withContext(CommonPool) {
                 locations.map { Uri.decode(it) }.mapTo(ArrayList(locations.size)) { MediaWrapper(Uri.parse(it)) }
