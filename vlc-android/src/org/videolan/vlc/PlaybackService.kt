@@ -595,9 +595,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         playlistManager.isHardware = true
     }
 
-    fun onMediaPlayerEvent(event: MediaPlayer.Event) {
-        mediaPlayerListener.onEvent(event)
-    }
+    fun onMediaPlayerEvent(event: MediaPlayer.Event) = mediaPlayerListener.onEvent(event)
 
     fun onPlaybackStopped(systemExit: Boolean) {
         if (!systemExit) hideNotification(VLCApplication.isForeground())
@@ -609,13 +607,9 @@ class PlaybackService : MediaBrowserServiceCompat() {
         executeUpdate()
     }
 
-    private fun canSwitchToVideo(): Boolean {
-        return playlistManager.player.canSwitchToVideo()
-    }
+    private fun canSwitchToVideo() = playlistManager.player.canSwitchToVideo()
 
-    fun onMediaEvent(event: Media.Event) {
-        cbActor.offer(CbMediaEvent(event))
-    }
+    fun onMediaEvent(event: Media.Event) = cbActor.offer(CbMediaEvent(event))
 
     fun executeUpdate() {
         cbActor.offer(CbUpdate)
@@ -625,7 +619,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         executeUpdateProgress()
     }
 
-    private fun executeUpdateProgress() {
+    private fun executeUpdateProgress() : Unit {
         cbActor.offer(CbProgress)
     }
 
@@ -660,7 +654,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     private fun showNotificationInternal() {
         if (!AndroidDevices.isAndroidTv && VLCApplication.showTvUi()) return
         if (isPlayingPopup || !hasRenderer() && isVideoPlaying) {
-            hideNotification(true)
+            hideNotificationInternal(true)
             return
         }
         val mw = playlistManager.getCurrentMedia()
@@ -715,9 +709,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         return mw != null && mw.hasFlag(flag)
     }
 
-    private fun hideNotification(remove: Boolean) {
-        cbActor.offer(HideNotification(remove))
-    }
+    private fun hideNotification(remove: Boolean) = cbActor.offer(HideNotification(remove))
 
     private fun hideNotificationInternal(remove: Boolean) {
         if (!isPlayingPopup && isForeground) {
@@ -738,14 +730,10 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     @MainThread
-    fun pause() {
-        playlistManager.pause()
-    }
+    fun pause() = playlistManager.pause()
 
     @MainThread
-    fun play() {
-        playlistManager.play()
-    }
+    fun play() = playlistManager.play()
 
     @MainThread
     @JvmOverloads
@@ -960,8 +948,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
         if (AndroidDevices.isAndroidTv) return
         if (medialibrary.isInitiated && libraryReceiver == null)
             if (!playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO)) stopSelf()
-        else
-            registerMedialibrary(Runnable { if (!playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO)) stopSelf() })
+            else
+                registerMedialibrary(Runnable { if (!playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_AUDIO)) stopSelf() })
     }
 
     fun loadLastPlaylist(type: Int) {
@@ -969,51 +957,36 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     fun showToast(text: String, duration: Int) {
-        val msg = Message()
-        val bundle = Bundle()
-        bundle.putString("text", text)
-        bundle.putInt("duration", duration)
-        msg.data = bundle
-        msg.what = SHOW_TOAST
+        val msg = Message().apply {
+            what = SHOW_TOAST
+            data = Bundle(2).apply {
+                putString("text", text)
+                putInt("duration", duration)
+            }
+        }
         handler.sendMessage(msg)
     }
 
     @MainThread
-    fun canShuffle(): Boolean {
-        return playlistManager.canShuffle()
-    }
+    fun canShuffle() = playlistManager.canShuffle()
 
     @MainThread
-    fun hasMedia(): Boolean {
-        return PlaylistManager.hasMedia()
-    }
+    fun hasMedia() = PlaylistManager.hasMedia()
 
     @MainThread
-    fun hasPlaylist(): Boolean {
-        return playlistManager.hasPlaylist()
-    }
+    fun hasPlaylist() = playlistManager.hasPlaylist()
 
     @MainThread
-    fun addCallback(cb: Callback) {
-        cbActor.offer(CbAdd(cb))
-    }
+    fun addCallback(cb: Callback) = cbActor.offer(CbAdd(cb))
 
     @MainThread
-    fun removeCallback(cb: Callback) {
-        cbActor.offer(CbRemove(cb))
-    }
+    fun removeCallback(cb: Callback) = cbActor.offer(CbRemove(cb))
 
-    fun restartMediaPlayer() {
-        playlistManager.player.restart()
-    }
+    fun restartMediaPlayer() = playlistManager.player.restart()
 
-    fun saveMediaMeta() {
-        playlistManager.saveMediaMeta()
-    }
+    fun saveMediaMeta() = playlistManager.saveMediaMeta()
 
-    fun isValidIndex(positionInPlaylist: Int): Boolean {
-        return playlistManager.isValidPosition(positionInPlaylist)
-    }
+    fun isValidIndex(positionInPlaylist: Int) = playlistManager.isValidPosition(positionInPlaylist)
 
     /**
      * Loads a selection of files (a non-user-supplied collection of media)
@@ -1023,19 +996,13 @@ class PlaybackService : MediaBrowserServiceCompat() {
      * @param position The position to start playing at
      */
     @MainThread
-    private fun loadLocations(mediaPathList: List<String>, position: Int) {
-        playlistManager.loadLocations(mediaPathList, position)
-    }
+    private fun loadLocations(mediaPathList: List<String>, position: Int) = playlistManager.loadLocations(mediaPathList, position)
 
     @MainThread
-    fun loadUri(uri: Uri?) {
-        loadLocation(uri!!.toString())
-    }
+    fun loadUri(uri: Uri?) = loadLocation(uri!!.toString())
 
     @MainThread
-    fun loadLocation(mediaPath: String) {
-        loadLocations(listOf(mediaPath), 0)
-    }
+    fun loadLocation(mediaPath: String) = loadLocations(listOf(mediaPath), 0)
 
     @MainThread
     fun load(mediaList: Array<MediaWrapper>?, position: Int) {
@@ -1043,9 +1010,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     @MainThread
-    fun load(mediaList: List<MediaWrapper>, position: Int) {
-        playlistManager.load(mediaList, position)
-    }
+    fun load(mediaList: List<MediaWrapper>, position: Int) = playlistManager.load(mediaList, position)
 
     private fun updateMediaQueue() {
         val queue = LinkedList<MediaSessionCompat.QueueItem>()
@@ -1065,9 +1030,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     @MainThread
-    fun load(media: MediaWrapper) {
-        load(listOf(media), 0)
-    }
+    fun load(media: MediaWrapper) = load(listOf(media), 0)
 
     /**
      * Play a media from the media list (playlist)
@@ -1076,9 +1039,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
      * @param flags LibVLC.MEDIA_* flags
      */
     @JvmOverloads
-    fun playIndex(index: Int, flags: Int = 0) {
-        playlistManager.playIndex(index, flags)
-    }
+    fun playIndex(index: Int, flags: Int = 0) = playlistManager.playIndex(index, flags)
 
     @MainThread
     fun flush() {
@@ -1111,13 +1072,9 @@ class PlaybackService : MediaBrowserServiceCompat() {
         showNotification()
     }
 
-    fun setVideoTrackEnabled(enabled: Boolean) {
-        playlistManager.setVideoTrackEnabled(enabled)
-    }
+    fun setVideoTrackEnabled(enabled: Boolean) = playlistManager.setVideoTrackEnabled(enabled)
 
-    fun switchToVideo() {
-        playlistManager.switchToVideo()
-    }
+    fun switchToVideo() = playlistManager.switchToVideo()
 
     @MainThread
     fun switchToPopup(index: Int) {
@@ -1144,9 +1101,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
      */
 
     @MainThread
-    fun append(mediaList: Array<MediaWrapper>) {
-        append(mediaList.toList())
-    }
+    fun append(mediaList: Array<MediaWrapper>) = append(mediaList.toList())
 
     @MainThread
     fun append(mediaList: List<MediaWrapper>) {
@@ -1177,35 +1132,23 @@ class PlaybackService : MediaBrowserServiceCompat() {
      * Move an item inside the playlist.
      */
     @MainThread
-    fun moveItem(positionStart: Int, positionEnd: Int) {
-        playlistManager.moveItem(positionStart, positionEnd)
-    }
+    fun moveItem(positionStart: Int, positionEnd: Int) = playlistManager.moveItem(positionStart, positionEnd)
 
     @MainThread
-    fun insertItem(position: Int, mw: MediaWrapper) {
-        playlistManager.insertItem(position, mw)
-    }
+    fun insertItem(position: Int, mw: MediaWrapper) = playlistManager.insertItem(position, mw)
 
 
     @MainThread
-    fun remove(position: Int) {
-        playlistManager.remove(position)
-    }
+    fun remove(position: Int)  = playlistManager.remove(position)
 
     @MainThread
-    fun removeLocation(location: String) {
-        playlistManager.removeLocation(location)
-    }
+    fun removeLocation(location: String) = playlistManager.removeLocation(location)
 
     @MainThread
-    operator fun hasNext(): Boolean {
-        return playlistManager.hasNext()
-    }
+    operator fun hasNext() = playlistManager.hasNext()
 
     @MainThread
-    fun hasPrevious(): Boolean {
-        return playlistManager.hasPrevious()
-    }
+    fun hasPrevious() = playlistManager.hasPrevious()
 
     @MainThread
     fun detectHeadset(enable: Boolean) {
@@ -1213,24 +1156,16 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     @MainThread
-    fun setRate(rate: Float, save: Boolean) {
-        playlistManager.player.setRate(rate, save)
-    }
+    fun setRate(rate: Float, save: Boolean) = playlistManager.player.setRate(rate, save)
 
     @MainThread
-    fun navigate(where: Int) {
-        playlistManager.player.navigate(where)
-    }
+    fun navigate(where: Int) = playlistManager.player.navigate(where)
 
     @MainThread
-    fun getChapters(title: Int): Array<out MediaPlayer.Chapter>? {
-        return playlistManager.player.getChapters(title)
-    }
+    fun getChapters(title: Int) = playlistManager.player.getChapters(title)
 
     @MainThread
-    fun setVolume(volume: Int): Int {
-        return playlistManager.player.setVolume(volume)
-    }
+    fun setVolume(volume: Int) = playlistManager.player.setVolume(volume)
 
     @MainThread
     @JvmOverloads
@@ -1250,54 +1185,34 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     @MainThread
-    private fun setPosition(pos: Float) {
-        playlistManager.player.setPosition(pos)
-    }
+    private fun setPosition(pos: Float) = playlistManager.player.setPosition(pos)
 
     @MainThread
-    fun setAudioTrack(index: Int): Boolean {
-        return playlistManager.player.setAudioTrack(index)
-    }
+    fun setAudioTrack(index: Int) = playlistManager.player.setAudioTrack(index)
 
     @MainThread
-    fun setAudioDigitalOutputEnabled(enabled: Boolean): Boolean {
-        return playlistManager.player.setAudioDigitalOutputEnabled(enabled)
-    }
+    fun setAudioDigitalOutputEnabled(enabled: Boolean) = playlistManager.player.setAudioDigitalOutputEnabled(enabled)
 
     @MainThread
-    fun setVideoTrack(index: Int): Boolean {
-        return playlistManager.player.setVideoTrack(index)
-    }
+    fun setVideoTrack(index: Int) = playlistManager.player.setVideoTrack(index)
 
     @MainThread
-    fun addSubtitleTrack(path: String, select: Boolean): Boolean {
-        return playlistManager.player.addSubtitleTrack(path, select)
-    }
+    fun addSubtitleTrack(path: String, select: Boolean) = playlistManager.player.addSubtitleTrack(path, select)
 
     @MainThread
-    fun addSubtitleTrack(uri: Uri, select: Boolean): Boolean {
-        return playlistManager.player.addSubtitleTrack(uri, select)
-    }
+    fun addSubtitleTrack(uri: Uri, select: Boolean) = playlistManager.player.addSubtitleTrack(uri, select)
 
     @MainThread
-    fun setSpuTrack(index: Int): Boolean {
-        return playlistManager.player.setSpuTrack(index)
-    }
+    fun setSpuTrack(index: Int) = playlistManager.player.setSpuTrack(index)
 
     @MainThread
-    fun setAudioDelay(delay: Long): Boolean {
-        return playlistManager.player.setAudioDelay(delay)
-    }
+    fun setAudioDelay(delay: Long) = playlistManager.player.setAudioDelay(delay)
 
     @MainThread
-    fun setSpuDelay(delay: Long): Boolean {
-        return playlistManager.player.setSpuDelay(delay)
-    }
+    fun setSpuDelay(delay: Long) = playlistManager.player.setSpuDelay(delay)
 
     @MainThread
-    fun hasRenderer(): Boolean {
-        return playlistManager.player.hasRenderer
-    }
+    fun hasRenderer() = playlistManager.player.hasRenderer
 
     @MainThread
     fun setRenderer(item: RendererItem?) {
@@ -1311,19 +1226,13 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     @MainThread
-    fun setEqualizer(equalizer: MediaPlayer.Equalizer) {
-        playlistManager.player.setEqualizer(equalizer)
-    }
+    fun setEqualizer(equalizer: MediaPlayer.Equalizer) = playlistManager.player.setEqualizer(equalizer)
 
     @MainThread
-    fun setVideoScale(scale: Float) {
-        playlistManager.player.setVideoScale(scale)
-    }
+    fun setVideoScale(scale: Float) = playlistManager.player.setVideoScale(scale)
 
     @MainThread
-    fun setVideoAspectRatio(aspect: String?) {
-        playlistManager.player.setVideoAspectRatio(aspect)
-    }
+    fun setVideoAspectRatio(aspect: String?) = playlistManager.player.setVideoAspectRatio(aspect)
 
     class Client(private val mContext: Context?, private val mCallback: Callback?) {
 
@@ -1439,7 +1348,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
                     if (playlistManager.hasCurrentMedia()) executeUpdateProgress()
                 }
                 is MLActionAdd -> pendingActions.add(update.runnable)
-                is MLActionsExecute -> for (r in pendingActions) r.run()
+                MLActionsExecute -> for (r in pendingActions) r.run()
                 ShowNotification -> showNotificationInternal()
                 is HideNotification -> hideNotificationInternal(update.remove)
                 UpdateMeta -> updateMetadataInternal()
