@@ -149,7 +149,6 @@ object EmptyMLCallbacks : MediaAddedCb, MediaUpdatedCb, Medialibrary.ArtistsAdde
 
 object EmptyPBSCallback : PlaybackService.Callback {
     override fun update() {}
-    override fun updateProgress() {}
     override fun onMediaEvent(event: Media.Event) {}
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {}
 }
