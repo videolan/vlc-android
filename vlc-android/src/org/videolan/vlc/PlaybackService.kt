@@ -185,7 +185,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
             MediaPlayer.Event.EncounteredError -> executeUpdate()
             MediaPlayer.Event.PositionChanged -> {
                 updateWidgetPosition(event.positionChanged)
-                handler.sendEmptyMessage(PUBLISH_STATE)
+                handler.sendEmptyMessage(PUBLISH_PROGRESS)
             }
             MediaPlayer.Event.ESAdded -> if (event.esChangedType == Media.Track.Type.Video && (playlistManager.videoBackground || !playlistManager.switchToVideo())) {
                 /* CbAction notification content intent: resume video or resume audio activity */
@@ -622,10 +622,9 @@ class PlaybackService : MediaBrowserServiceCompat() {
                     Toast.makeText(VLCApplication.getAppContext(), text, duration).show()
                 }
                 END_MEDIASESSION -> if (service::mediaSession.isInitialized) service.mediaSession.isActive = false
-                PUBLISH_STATE -> {
+                PUBLISH_PROGRESS -> {
                     val time = System.currentTimeMillis()
                     if (time - lastPublicationDate > 1000L) {
-                        service.publishState()
                         service.executeUpdateProgress()
                         lastPublicationDate = time
                     }
@@ -1333,7 +1332,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
         private const val SHOW_TOAST = 1
         private const val END_MEDIASESSION = 2
-        private const val PUBLISH_STATE = 3
+        private const val PUBLISH_PROGRESS = 3
 
         internal const val DELAY_DOUBLE_CLICK = 800L
         internal const val DELAY_LONG_CLICK = 1000L
