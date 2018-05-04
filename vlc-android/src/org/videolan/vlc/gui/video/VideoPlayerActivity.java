@@ -1494,9 +1494,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     @Override
-    public void updateProgress() {}
-
-    @Override
     public void onMediaEvent(Media.Event event) {
         switch (event.type) {
             case Media.Event.ParsedChanged:

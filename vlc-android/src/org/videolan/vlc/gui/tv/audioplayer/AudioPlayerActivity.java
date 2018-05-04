@@ -21,10 +21,9 @@
 package org.videolan.vlc.gui.tv.audioplayer;
 
 import android.annotation.TargetApi;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -40,7 +39,6 @@ import android.view.View;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
-import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
@@ -53,6 +51,7 @@ import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.WorkersKt;
+import org.videolan.vlc.viewmodels.PlaylistModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,11 +75,11 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     private int mCurrentlyPlaying;
     private boolean mShuffling = false;
     private String mCurrentCoverArt;
+    private PlaylistModel model;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.tv_audio_player);
-        mBinding.setProgress(new Progress());
 
         mMediaList = getIntent().getParcelableArrayListExtra(MEDIA_LIST);
         if (mMediaList == null) mMediaList = new ArrayList<>();
@@ -89,6 +88,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         mBinding.playlist.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mAdapter = new PlaylistAdapter(this, mMediaList);
         mBinding.playlist.setAdapter(mAdapter);
+        mBinding.setLifecycleOwner(this);
     }
 
     @Override
@@ -113,7 +113,15 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
             update();
             mAdapter.updateList(mMediaList);
         }
+        model = ViewModelProviders.of(this, new PlaylistModel.Factory(service)).get(PlaylistModel.class);
+        model.setup();
+        mBinding.setProgress(model.getProgress());
+    }
 
+    @Override
+    public void onDisconnected() {
+        mBinding.setProgress(null);
+        super.onDisconnected();
     }
 
     @Override
@@ -140,7 +148,6 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         }
         mBinding.mediaTitle.setText(mService.getTitle());
         mBinding.mediaArtist.setText(mService.getArtist());
-        mBinding.getProgress().update(mService.getTime(), mService.getLength());
         mCurrentlyPlaying = mService.getCurrentMediaPosition();
         mAdapter.setSelection(mCurrentlyPlaying);
         final MediaWrapper mw = mService.getCurrentMediaWrapper();
@@ -171,11 +178,6 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
                 });
             }
         });
-    }
-
-    @Override
-    public void updateProgress() {
-        if (mService != null) mBinding.getProgress().updateTime(mService.getTime());
     }
 
     @Override
@@ -326,23 +328,5 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         if (mService == null) return;
         if (mService.isPlaying()) mService.pause();
         else if (mService.hasMedia()) mService.play();
-    }
-
-    public class Progress {
-        public ObservableInt time = new ObservableInt(0);
-        public ObservableInt length = new ObservableInt(0);
-        public ObservableField<String> strTime = new ObservableField<>("");
-        public ObservableField<String> strLength = new ObservableField<>("");
-
-        void updateTime(long time) {
-            strTime.set(Tools.millisToString(time));
-            this.time.set((int) time);
-        }
-
-        void update(long time, long length) {
-            updateTime(time);
-            this.length.set((int) length);
-            strLength.set(Tools.millisToString(length));
-        }
     }
 }

@@ -181,12 +181,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
                 showNotification()
                 if (wakeLock.isHeld) wakeLock.release()
             }
-            MediaPlayer.Event.EndReached -> executeUpdateProgress()
             MediaPlayer.Event.EncounteredError -> executeUpdate()
-            MediaPlayer.Event.PositionChanged -> {
-                updateWidgetPosition(event.positionChanged)
-                handler.sendEmptyMessage(PUBLISH_STATE)
-            }
+            MediaPlayer.Event.PositionChanged -> if (widget != 0) updateWidgetPosition(event.positionChanged)
             MediaPlayer.Event.ESAdded -> if (event.esChangedType == Media.Track.Type.Video && (playlistManager.videoBackground || !playlistManager.switchToVideo())) {
                 /* CbAction notification content intent: resume video or resume audio activity */
                 updateMetadata()
@@ -438,7 +434,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     interface Callback {
         fun update()
-        fun updateProgress()
         fun onMediaEvent(event: Media.Event)
         fun onMediaPlayerEvent(event: MediaPlayer.Event)
     }
@@ -602,11 +597,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
         updateWidget()
         updateMetadata()
         broadcastMetadata()
-        executeUpdateProgress()
-    }
-
-    private fun executeUpdateProgress() : Unit {
-        cbActor.offer(CbProgress)
     }
 
     private class PlaybackServiceHandler(owner: PlaybackService) : WeakHandler<PlaybackService>(owner) {
@@ -622,14 +612,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
                     Toast.makeText(VLCApplication.getAppContext(), text, duration).show()
                 }
                 END_MEDIASESSION -> if (service::mediaSession.isInitialized) service.mediaSession.isActive = false
-                PUBLISH_STATE -> {
-                    val time = System.currentTimeMillis()
-                    if (time - lastPublicationDate > 1000L) {
-                        service.publishState()
-                        service.executeUpdateProgress()
-                        lastPublicationDate = time
-                    }
-                }
             }
         }
     }
@@ -707,7 +689,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     fun onNewPlayback(mw: MediaWrapper) {
         mediaSession.setSessionActivity(sessionPendingIntent)
-        executeUpdateProgress()
     }
 
     fun onPlaylistLoaded() {
@@ -839,7 +820,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     private fun notifyTrackChanged() {
-        executeUpdateProgress()
         updateMetadata()
         updateWidget()
         broadcastMetadata()
@@ -851,15 +831,10 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     @MainThread
-    operator fun next() {
-        playlistManager.next()
-        executeUpdateProgress()
-    }
+    fun next() = playlistManager.next()
 
     @MainThread
-    fun previous(force: Boolean) {
-        playlistManager.previous(force)
-    }
+    fun previous(force: Boolean) = playlistManager.previous(force)
 
     @MainThread
     fun shuffle() {
@@ -1311,15 +1286,11 @@ class PlaybackService : MediaBrowserServiceCompat() {
     private val cbActor by lazy {
         actor<CbAction>(UI, capacity = Channel.UNLIMITED) {
             for (update in channel) when (update) {
-                CbProgress -> for (callback in callbacks) callback.updateProgress()
                 CbUpdate -> for (callback in callbacks) callback.update()
                 is CbMediaEvent -> for (callback in callbacks) callback.onMediaEvent(update.event)
                 is CbMediaPlayerEvent -> for (callback in callbacks) callback.onMediaPlayerEvent(update.event)
                 is CbRemove -> callbacks.remove(update.cb)
-                is CbAdd -> {
-                    callbacks.add(update.cb)
-                    if (playlistManager.hasCurrentMedia()) executeUpdateProgress()
-                }
+                is CbAdd -> callbacks.add(update.cb)
                 ShowNotification -> showNotificationInternal()
                 is HideNotification -> hideNotificationInternal(update.remove)
                 UpdateMeta -> updateMetadataInternal()
@@ -1333,7 +1304,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
         private const val SHOW_TOAST = 1
         private const val END_MEDIASESSION = 2
-        private const val PUBLISH_STATE = 3
 
         internal const val DELAY_DOUBLE_CLICK = 800L
         internal const val DELAY_LONG_CLICK = 1000L
@@ -1356,7 +1326,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
 // Actor actions sealed classes
 private sealed class CbAction
-private object CbProgress : CbAction()
 private object CbUpdate : CbAction()
 private data class CbMediaEvent(val event : Media.Event) : CbAction()
 private data class CbMediaPlayerEvent(val event : MediaPlayer.Event) : CbAction()

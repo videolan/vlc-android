@@ -204,9 +204,6 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     public void update() {}
 
     @Override
-    public void updateProgress() {}
-
-    @Override
     public void onMediaEvent(Media.Event event) {}
 
     @Override

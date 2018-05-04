@@ -3,7 +3,7 @@
     <data>
         <variable
             name="progress"
-            type="org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity.Progress" />
+            type="android.arch.lifecycle.LiveData&lt;org.videolan.vlc.viewmodels.PlaybackProgress>" />
     </data>
     <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -66,7 +66,7 @@
             app:layout_constraintTop_toTopOf="@+id/media_progress"
             app:layout_constraintRight_toLeftOf="@+id/media_progress"
             app:layout_constraintBottom_toBottomOf="@+id/media_progress"
-            android:text="@{progress.strTime}"
+            android:text="@{progress.timeText}"
             tools:text="0:30" />
 
         <ProgressBar
@@ -79,8 +79,8 @@
             app:layout_constraintTop_toBottomOf="@+id/media_artist"
             app:layout_constraintRight_toLeftOf="@+id/media_length"
             app:layout_constraintBottom_toTopOf="@+id/button_play"
-            android:progress="@{progress.time}"
-            android:max="@{progress.length}"
+            android:progress="@{(int)progress.time}"
+            android:max="@{(int)progress.length}"
             android:focusable="true"
             android:indeterminate="false"
             android:nextFocusDown="@+id/button_play"
@@ -96,7 +96,7 @@
             app:layout_constraintTop_toTopOf="@+id/media_progress"
             app:layout_constraintRight_toRightOf="@+id/album_cover"
             app:layout_constraintBottom_toBottomOf="@+id/media_progress"
-            android:text="@{progress.strLength}"
+            android:text="@{progress.lengthText}"
             tools:text="3:52" />
 
         <ImageView

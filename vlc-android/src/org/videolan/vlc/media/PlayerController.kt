@@ -1,5 +1,6 @@
 package org.videolan.vlc.media
 
+import android.arch.lifecycle.MutableLiveData
 import android.net.Uri
 import android.support.annotation.MainThread
 import android.support.v4.media.session.PlaybackStateCompat
@@ -21,6 +22,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 //    private val exceptionHandler by lazy(LazyThreadSafetyMode.NONE) { CoroutineExceptionHandler { _, _ -> onPlayerError() } }
     private val playerContext by lazy(LazyThreadSafetyMode.NONE) { newSingleThreadContext("vlc-player") }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getSettings() }
+    val currentTime by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Long>() }
 
     private var mediaplayer = newMediaPlayer()
     var switchToVideo = false
@@ -32,7 +34,6 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         private set
     @Volatile var hasRenderer = false
         private set
-    @Volatile private var currentTime = 0L
     @Volatile var length = 0L
         private set
 
@@ -69,7 +70,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         mediaplayerEventListener = listener
         seekable = true
         pausable = true
-        currentTime = 0L
+        currentTime.value = 0L
+        lastTime = 0L
         length = media.duration
         mediaplayer.setEventListener(null)
         mediaplayer.media = media.apply { if (hasRenderer) parse() }
@@ -208,7 +210,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         switchToVideo = false
     }
 
-    fun getTime() = currentTime
+    fun getTime() = currentTime.value ?: 0L
 
     fun setRate(rate: Float, save: Boolean) {
         mediaplayer.rate = rate
@@ -270,6 +272,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         }
     }
 
+    private var lastTime = 0L
     override fun onEvent(event: MediaPlayer.Event?) {
         if (event === null) return
         when(event.type) {
@@ -278,15 +281,22 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
             MediaPlayer.Event.EncounteredError -> setPlaybackStopped()
             MediaPlayer.Event.PausableChanged -> pausable = event.pausable
             MediaPlayer.Event.SeekableChanged -> seekable = event.seekable
-            MediaPlayer.Event.TimeChanged -> currentTime = event.timeChanged
             MediaPlayer.Event.LengthChanged -> length = event.lengthChanged
+            MediaPlayer.Event.TimeChanged -> {
+                val time = event.timeChanged
+                if (time - lastTime > 950L) {
+                    currentTime.value = time
+                    lastTime = time
+                }
+            }
         }
         mediaplayerEventListener?.onEvent(event)
     }
 
     private fun setPlaybackStopped() {
         playbackState = PlaybackStateCompat.STATE_STOPPED
-        currentTime = 0L
+        currentTime.value = 0L
+        lastTime = 0L
         length = 0L
     }
 
