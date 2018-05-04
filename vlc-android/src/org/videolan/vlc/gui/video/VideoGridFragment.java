@@ -408,7 +408,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
             ((MainActivity)activity).getNavigator().showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
         } else {
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-            final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+            final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(v.getContext());
             if (settings.getBoolean("force_play_all", false)) {
                 final List<MediaWrapper> playList = new ArrayList<>();
                 MediaUtils.openList(activity, playList, mAdapter.getListWithPosition(playList, position));
