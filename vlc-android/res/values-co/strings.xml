@@ -56,13 +56,11 @@
     <string name="unknown_album">Albumu Scunnisciutu</string>
     <string name="unknown_genre">Generu Scunnisciutu</string>
     <string name="unknown_number">Numeru scunnisciutu di Traccie</string>
-    <string name="songs">Canzone</string>
     <plurals name="songs_quantity">
         <item quantity="one">Una canzona</item>
         <item quantity="other">%d canzone</item>
     </plurals>
     <string name="artists">Artisti</string>
-    <string name="albums">Albumi</string>
     <string name="tracks">Traccie</string>
     <plurals name="albums_quantity">
         <item quantity="one">Un albumu</item>
@@ -189,7 +187,7 @@
     <string name="playback_history_summary">Arregistrà tutti i media sunati in a sezzione Crunulogia</string>
     <string name="playback_speed_title">Arregistrà a Vitezza di Ripruduzzione</string>
     <string name="playback_speed_summary">Cunservà a vitezza di ripruduzzione d\'una video à l\'altra</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">Minichichje di u lettore video :</string>
     <string name="seek">Pusiziunà</string>
     <string name="subtitles">Sottutituli</string>
@@ -214,7 +212,6 @@
     <string name="about">Apprupositu</string>
     <string name="about_text">VLC per Android™ hè una purtera di VLC media player, u lettore media pupulare in \'open source\'. A versione Android™ pò leghje a maiò parte di i schedarii è di flussi di reta.</string>
     <string name="compiled_by">Sta versione di VLC hè cumpilata da :</string>
-    <string name="vlc_authors">Autori di VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Preferenze</string>
     <string name="general_prefs_category">Generale</string>
@@ -241,7 +238,6 @@
     <string name="screen_orientation_landscape">Orizuntale</string>
     <string name="screen_orientation_reverse_portrait">Verticale invertitu</string>
     <string name="screen_orientation_reverse_landscape">Orizuntale invertitu</string>
-    <string name="enable_black_theme">Attivà u temu scuru</string>
     <string name="enable_black_theme_summary">Cambia i culori di l\'interfaccia per un benestà in ambienti à bassa luminescenza.</string>
     <string name="subtitle_text_encoding">Cudificazione di u testu di i sottutituli</string>
     <string name="daynight_title">Modu Ghjornu-Notte</string>
@@ -261,7 +257,6 @@
     <string name="video_min_group_length_first">Prima lettera solu</string>
     <string name="video_min_group_length_short">Numeru cortu di lettere (6)</string>
     <string name="video_min_group_length_long">Numeru longu di lettere (9)</string>
-    <string name="media_fast_seek">Attivà l\'ozzione di pusizione rapida</string>
     <string name="media_seen">Affissà a marca di video vista</string>
     <string name="media_seen_summary">Marcà a video cum\'è vista quandu hè sunata sine à a fine</string>
     <string name="force_list_portrait">Senza quadrittera in modu verticale</string>
@@ -276,7 +271,6 @@
     <string name="enable_brightness_gesture_summary">Cuntrollà a lucidezza cù gesti durante a ripruduzzione video</string>
     <string name="enable_volume_gesture_title">Vulume sunoru à tastu</string>
     <string name="enable_volume_gesture_summary">Cuntrollà u vulume sunoru cù gesti durante a ripruduzzione video</string>
-    <string name="enable_seek_buttons">Attivà i buttoni per pusiziunà</string>
     <string name="enable_seek_buttons_summary">Affissà i buttoni ritrusà è avanzà nant\'à l\'interfaccia video</string>
     <string name="enable_double_tap_seek_title">Picchichjà duie volte per pusiziunà</string>
     <string name="enable_double_tap_seek_summary">Picchichjà duie volte nant\'à i bordi di u screnu per pusiziunà da 10 seconde</string>
@@ -314,7 +308,6 @@
     <string name="audio_save_repeat_title">Arregistrà u modu di ripetizione</string>
     <string name="audio_save_repeat_summary">Arricurdassi di u modu di ripetizione quandu si caricheghja e liste di lettura audio</string>
     <string name="audio_boost_title">Aizzu-Auto</string>
-    <string name="audio_boost_summary">Permette d\'accresce u vulume sin\'à 200%</string>
     <string name="headset_prefs_category">Elmu</string>
     <string name="enable_headset_detection">Avvintà l\'elmu</string>
     <string name="enable_headset_detection_summary">Avvintà l\'inserzione è a cacciatura di l\'elmu</string>
@@ -356,7 +349,6 @@
     <string name="deblocking_nonref">Sbluccà medianu</string>
     <string name="deblocking_nonkey">Sbluccà legeru</string>
     <string name="deblocking_all">Senza filtru (u più rapidu)</string>
-    <string name="enable_frame_skip">Permette u saltu di sequenza</string>
     <string name="enable_frame_skip_summary">Accelera a discudificazione ma pò diminuì a qualità video.</string>
     <string name="enable_time_stretching_audio">Stinzata di tempu audio</string>
     <string name="enable_time_stretching_audio_summary">Accelera è frena l\'audio senza cambià a tunalità (richiede un apparechju rapida).</string>
@@ -423,15 +415,11 @@
     <string name="confirm_resume_title">Dumandà a cunfirmazione per riprincipià</string>
     <string name="confirm_resume_summary">s\'è attivatu, vi serà dumandatu di cunfirmà quandu una video po esse riprincipiata da l\'ultima pusizione</string>
     <string name="directory_empty">U cartulare hè viotu</string>
-    <string name="player_touch_title">Cuntrolli tattili per Video</string>
-    <string name="player_touch_enable_all">Attivà i cuntrolli tattili</string>
-    <string name="player_touch_disable_brightness">Disattivà u cuntrollu di lucidezza</string>
-    <string name="player_touch_disable_all">Disattivà tutti i cuntrolli tattili</string>
     <string name="tv_ui_title">Interfaccia Android TV</string>
     <string name="tv_ui_summary">Cambia l\'interfaccia ver di u temu adattatu à a TV</string>
     <string name="medialibrary">Bibliuteca di media</string>
     <string name="medialibrary_directories">Cartulari di a bibliuteca di media</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">Più d\'Azzioni</string>
     <string name="move">Dispiazzà</string>
     <string name="back_quit_lock">Preme Precedente torna per chità a video</string>
@@ -439,7 +427,7 @@
     <string name="file_deleted">Schedariu squassatu</string>
     <string name="no_subs_found">Alcunu sottutitulu in stu cartulare</string>
     <string name="music_now_playing">Ripruduzzione in Corsu</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">Widget VLC Biancu</string>
     <string name="widget_name_b">Widget VLC Scuru</string>
     <string name="allow_storage_access_title">Permette à VLC d\'accede à i schedarii video è audio</string>
@@ -453,10 +441,10 @@
     <string name="permission_ask_again">Cunsente u permessu</string>
     <string name="exit_app">Chjode VLC</string>
     <string name="exit_app_msg">Site sicuru di vulè chità VLC ?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">Strisciata di a SfilarataInFuria</string>
     <string name="fastscroller_handle">Manighjà a SfilarataInFuria</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">Estensioni</string>
     <string name="download_on_device">Scaricà</string>
     <string name="extension_empty">Alcunu elementu à affissà, andate puru in e preferenze d\'estensione per truvane.</string>
