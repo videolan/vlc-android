@@ -56,13 +56,11 @@
     <string name="unknown_album">Ukjent album</string>
     <string name="unknown_genre">Ukjent sjanger</string>
     <string name="unknown_number">Slett antall spor</string>
-    <string name="songs">Sanger</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 sang</item>
         <item quantity="other">%d sanger</item>
     </plurals>
     <string name="artists">Artister</string>
-    <string name="albums">Album</string>
     <string name="tracks">Spor</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
@@ -178,10 +176,10 @@
     <string name="open_mrl_dialog_msg">Skriv inn nettverksadresse: f.eks. http://, mms:// eller rtsp://</string>
     <string name="error_not_compatible">Beklager. Din enhet er for øyeblikket ikke støttet av denne versjonen VLC for Android™.</string>
     <string name="error_problem">Beklager. VLC for Android hadde et problem med lasting og måtte lukkes.</string>
-    <string name="error_message_is">Feilmeldingen er (vennligst nevn dette på engelsk når du rapporterer en feil):\n\n</string>
+    <string name="error_message_is">Feilmeldingen er (vennligst nevn dette på engelsk når du rapporterer en feil):\n</string>
     <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">Avspillingsfeil</string>
-    <string name="encountered_error_message">VLC støtte på et problem med dette mediet.\n\nVennligst prøv å oppdatere mediebiblioteket.</string>
+    <string name="encountered_error_message">VLC støtte på et problem med dette mediet.\nVennligst prøv å oppdatere mediebiblioteket.</string>
     <string name="invalid_location">Plasseringen %1$s kan ikke avspilles.</string>
     <string name="search">Søk</string>
     <string name="search_history">Søk i historien</string>
@@ -189,7 +187,7 @@
     <string name="playback_history_summary">Lagre alle avspilte medier i Historikk-seksjonen</string>
     <string name="playback_speed_title">Lagre avspillingshastighet</string>
     <string name="playback_speed_summary">Husk avspillingshastigheten du valgte</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">Videospiller-tips:</string>
     <string name="seek">Søk</string>
     <string name="subtitles">Undertitler</string>
@@ -214,7 +212,6 @@
     <string name="about">Om</string>
     <string name="about_text">VLC for Android™ er en port av VLC mediespiller, den populære åpen kildekode multimediaspilleren. Android™-versjonen kan lese de fleste filer og nettverkstrømmer.</string>
     <string name="compiled_by">Denne versjonen av VLC ble kompilert av:</string>
-    <string name="vlc_authors">VLC forfattere.</string>
     <!-- Preferences -->
     <string name="preferences">Innstillinger</string>
     <string name="general_prefs_category">Generelt</string>
@@ -223,7 +220,7 @@
     <string name="add_custom_path_description">Legg til en ekstra mappe å sjekke:</string>
     <string name="remove_custom_path">Fjern egendefinert bane</string>
     <string name="hardware_acceleration">Maskinvareakselerasjon</string>
-    <string name="hardware_acceleration_summary">Avslått: bedre stabilitet.\n\nDekoding: kan forbedre ytelsen.\n\nFull: kan forbedre ytelsen ytterligere.</string>
+    <string name="hardware_acceleration_summary">Avslått: bedre stabilitet.\nDekoding: kan forbedre ytelsen.\nFull: kan forbedre ytelsen ytterligere.</string>
     <string name="hardware_acceleration_disabled">Avslått</string>
     <string name="hardware_acceleration_decoding">Dekoder aksellerasjon</string>
     <string name="hardware_acceleration_full">Full akselerasjon</string>
@@ -241,7 +238,6 @@
     <string name="screen_orientation_landscape">Landskap</string>
     <string name="screen_orientation_reverse_portrait">Opp-ned portrett</string>
     <string name="screen_orientation_reverse_landscape">Opp-ned landskap</string>
-    <string name="enable_black_theme">Aktiver svart tema</string>
     <string name="enable_black_theme_summary">Endre grensesnittets farger, for økt komfort i miljø med lite lys.</string>
     <string name="subtitle_text_encoding">Undertekstkoding</string>
     <string name="daynight_title">Dag/Natt-modus</string>
@@ -275,7 +271,6 @@
     <string name="enable_brightness_gesture_summary">Kontroller lysstyrken med bevegelse i en videoavspilling.</string>
     <string name="enable_volume_gesture_title">Lydstyrkebevegelse</string>
     <string name="enable_volume_gesture_summary">Kontroller volum med bevegelser under videoavspilling</string>
-    <string name="enable_seek_buttons">Aktiver spoleknapper</string>
     <string name="enable_seek_buttons_summary">Vis tilbake- og forover-spolingsknapper på videogrensesnittet</string>
     <string name="enable_double_tap_seek_title">Dobbelttrykk for å søke</string>
     <string name="enable_double_tap_seek_summary">Dobbelttrykk på skjermkantene for å søke 10 sekunder</string>
@@ -313,7 +308,6 @@
     <string name="audio_save_repeat_title">Lagre gjentagelsesmodus</string>
     <string name="audio_save_repeat_summary">Husk gjentagelsesmodus når lydspillelister lastes</string>
     <string name="audio_boost_title">Lyd-forøkning (boost)</string>
-    <string name="audio_boost_summary">Aktiver lydstyrke opptil 200%</string>
     <string name="headset_prefs_category">Hodetelefoner</string>
     <string name="enable_headset_detection">Oppdag hodetelefon</string>
     <string name="enable_headset_detection_summary">Oppdag hodetelefon-innplugging og -fjerning</string>
@@ -349,7 +343,6 @@
     <string name="deblocking_nonref">Middels deblocking</string>
     <string name="deblocking_nonkey">Lite deblocking</string>
     <string name="deblocking_all">Ingen deblocking (raskest)</string>
-    <string name="enable_frame_skip">Tillat å hoppe over rammer</string>
     <string name="enable_frame_skip_summary">Øker dekoding men kan senke videokvaliteten.</string>
     <string name="enable_time_stretching_audio">Aktiver strekking av lyd</string>
     <string name="enable_time_stretching_audio_summary">Øk og senk lydhastigheten uten å endre tonehøyde (krever en rask enhet)</string>
@@ -416,15 +409,11 @@
     <string name="confirm_resume_title">Spør om bekreftelse for å fortsette</string>
     <string name="confirm_resume_summary">Hvis dette er påskrudd, vil du bli spurt om å bekrefte dersom en video kan fortsette der den sluttet sist.</string>
     <string name="directory_empty">Mappen er tom</string>
-    <string name="player_touch_title">Berøringskontroller for video</string>
-    <string name="player_touch_enable_all">Skru på berøringskontroller</string>
-    <string name="player_touch_disable_brightness">Skru av lysstyrkejustering</string>
-    <string name="player_touch_disable_all">Skru av alle berøringskontroller</string>
     <string name="tv_ui_title">Grensesnitt for Android TV</string>
     <string name="tv_ui_summary">Endre grensesnittet til en TV-tilpasset drakt</string>
     <string name="medialibrary">Mediabibliotek</string>
     <string name="medialibrary_directories">Mediebiblioteksmapper</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">Flere handlinger</string>
     <string name="move">Flytt</string>
     <string name="back_quit_lock">Trykk Tilbake igjen for å avslutte videoen</string>
@@ -432,7 +421,7 @@
     <string name="file_deleted">Fil slettet</string>
     <string name="no_subs_found">Ingen undertekster i denne mappen</string>
     <string name="music_now_playing">Spilles nå</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">Lys VLC-modul</string>
     <string name="widget_name_b">Mørk VLC-modul</string>
     <string name="allow_storage_access_title">Gi VLC tilgang til video- og lyd-filer</string>
@@ -446,10 +435,10 @@
     <string name="permission_ask_again">Gi tillatelse</string>
     <string name="exit_app">Lukk VLC</string>
     <string name="exit_app_msg">Er du sikker på at du vil avslutte VLC?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller-spor</string>
     <string name="fastscroller_handle">FastScroller-håndtering</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">Programtillegg</string>
     <string name="download_on_device">Last ned</string>
     <string name="extension_empty">Ingen elementer å vise, gå gjennom utvidelsesinnstillingene for å finne noen.</string>
