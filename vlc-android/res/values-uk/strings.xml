@@ -7,6 +7,8 @@
     <string name="sortby">Сортувати за…</string>
     <string name="sortby_name">назвою</string>
     <string name="sortby_name_desc">Назва (за спад.)</string>
+    <string name="sortby_filename">Назва файлу</string>
+    <string name="sortby_filename_desc">Назва файлу (за спад.)</string>
     <string name="sortby_artist_name">Ім\'я виконавця</string>
     <string name="sortby_artist_name_desc">Ім\'я виконавця (за спад.)</string>
     <string name="sortby_album_name">Назва альбому</string>
@@ -57,7 +59,7 @@
     <string name="unknown_album">Невідомий альбом</string>
     <string name="unknown_genre">Невідомий жанр</string>
     <string name="unknown_number">Невідоме число доріжок</string>
-    <string name="songs">пісні</string>
+    <string name="songs">Пісні</string>
     <plurals name="songs_quantity">
         <item quantity="one">%d пісня</item>
         <item quantity="few">%d пісні</item>
@@ -185,7 +187,7 @@
     <string name="open_mrl_dialog_msg">Уведіть мережеву MRL-адресу, наприклад, http://, mms:// або rtsp://</string>
     <string name="error_not_compatible">На жаль, ваш пристрій на даний час не підтримується цією версією VLC для Android™.</string>
     <string name="error_problem">На жаль, VLC для Android мав проблему при завантаженні і він закрився.</string>
-    <string name="error_message_is">Повідомлення про помилку (будь ласка, вкажіть його при налагодженні):\n\n</string>
+    <string name="error_message_is">Повідомлення про помилку (будь ласка, вкажіть його при налагодженні):\n</string>
     <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">Помилка відтворення</string>
     <string name="encountered_error_message">У VLC сталася помилка з цим медіафайлом.\nБудь ласка, спробуйте оновити медіабібліотеку.</string>
@@ -196,11 +198,11 @@
     <string name="playback_history_summary">Зберігати усі відтворені медіафайли у Історії</string>
     <string name="playback_speed_title">Зберігати швидкість відтворення</string>
     <string name="playback_speed_summary">Запам\'ятати швидкість відтворення, задану вами</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">Поради для відеопрогравача:</string>
     <string name="seek">Шукати</string>
     <string name="subtitles">Субтитри</string>
-    <string name="audio_sub">звукові доріжки\n\nта субтитри</string>
+    <string name="audio_sub">звукові доріжки\nта субтитри</string>
     <string name="resize">Змінити розміри</string>
     <string name="options">Параметри</string>
     <string name="lock">Блокувати</string>
@@ -221,7 +223,7 @@
     <string name="about">Про програму</string>
     <string name="about_text">VLC для Android™ ­— це порт медіаплеєра VLC, відомого плеєра з відкритим вихідним кодом. Версія для Android™ може відтворювати більшість файлів і мережевих потоків.</string>
     <string name="compiled_by">Цю версію VLC скомпільовано:</string>
-    <string name="vlc_authors">VLC Автори.</string>
+    <string name="vlc_authors">та автори VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Параметри</string>
     <string name="general_prefs_category">Загальне</string>
@@ -248,7 +250,7 @@
     <string name="screen_orientation_landscape">Альбомна</string>
     <string name="screen_orientation_reverse_portrait">Перевернута книжкова</string>
     <string name="screen_orientation_reverse_landscape">Перевернута альбомна</string>
-    <string name="enable_black_theme">Увімкнути чорну тему</string>
+    <string name="enable_black_theme">Чорна тема</string>
     <string name="enable_black_theme_summary">Змінити кольори інтерфейсу для більшої зручності при поганому освітленні.</string>
     <string name="subtitle_text_encoding">Кодування тексту субтитрів</string>
     <string name="daynight_title">Режим день-ніч</string>
@@ -268,7 +270,8 @@
     <string name="video_min_group_length_first">Лише перші букви</string>
     <string name="video_min_group_length_short">Коротке число літер (6)</string>
     <string name="video_min_group_length_long">Довге число літер (9)</string>
-    <string name="media_fast_seek">Увімкнути швидкий пошук</string>
+    <string name="media_fast_seek">Швидкий пошук</string>
+    <string name="media_fast_seek_summary">Пошук медіа стає швидшим, але менш точним</string>
     <string name="media_seen">Показувати заголовок медіа на початку відтворення</string>
     <string name="media_seen_summary">Позначте відео, як переглянути, коли ви додивитеся до кінця</string>
     <string name="force_list_portrait">Немає сітки у портретному режимі</string>
@@ -283,7 +286,7 @@
     <string name="enable_brightness_gesture_summary">Управляти яскравістю через жести під час відтворення відео</string>
     <string name="enable_volume_gesture_title">Жест гучності</string>
     <string name="enable_volume_gesture_summary">Управляти гучністю через жести під час відтворення відео</string>
-    <string name="enable_seek_buttons">Увімкнути кнопки пошуку</string>
+    <string name="enable_seek_buttons">Кнопки пошуку</string>
     <string name="enable_seek_buttons_summary">Показувати кнопки перемотування та переходу вперед на відеоінтерфейсі</string>
     <string name="enable_double_tap_seek_title">Подвійний натиск для пошуку</string>
     <string name="enable_double_tap_seek_summary">Подвійний натиск по краях екрану, щоб шукати за 10 секунд</string>
@@ -321,10 +324,12 @@
     <string name="audio_save_repeat_title">Зберегти режим повторення</string>
     <string name="audio_save_repeat_summary">Запам\'ятати режим повторення, коли завантажуються списки відтворення аудіо</string>
     <string name="audio_boost_title">Наростання звуку</string>
-    <string name="audio_boost_summary">Підвищити гучність до 200%</string>
+    <string name="audio_boost_summary">Дозволити зростання гучності до 200%</string>
     <string name="headset_prefs_category">Навушники</string>
     <string name="enable_headset_detection">Виявляти гарнітуру</string>
     <string name="enable_headset_detection_summary">Виявляти під\'єднання і вилучення навушників</string>
+    <string name="enable_headset_actions_title">Скорочення клавіш для віддаленого управління</string>
+    <string name="enable_headset_actions_summary">Двічі натисніть на «Відтворити», щоб перейти до наступної і довго натисніть на ній, щоб перейти до попередньої доріжки</string>
     <string name="enable_play_on_headset_insertion">Відновлювати при під\'єднанні навушників</string>
     <string name="enable_play_on_headset_insertion_summary">Інакше - призупиняти </string>
     <string name="enable_steal_remote_control">Виняткове віддалене управління гарнітурою</string>
@@ -363,7 +368,7 @@
     <string name="deblocking_nonref">Середнє деблокування</string>
     <string name="deblocking_nonkey">Низьке деблокування</string>
     <string name="deblocking_all">Без деблокування (найшвидше)</string>
-    <string name="enable_frame_skip">Увімкнути пропуск кадрів</string>
+    <string name="enable_frame_skip">Пропуск кадрів</string>
     <string name="enable_frame_skip_summary">Прискорює декодування, але зменшує якість відео.</string>
     <string name="enable_time_stretching_audio">Увімнути часове розтягнення звуку</string>
     <string name="enable_time_stretching_audio_summary">Прискорює та уповільнює звук без зміни висоти тону (вимагає швидкого пристрою).</string>
@@ -373,6 +378,8 @@
     <string name="save_video_always">Зберігати швидкість між сеансами</string>
     <string name="auto_rescan">Автоматично сканувати повторно</string>
     <string name="auto_rescan_summary">Автоматично перевіряти пристрій на наявність нових або вилучених носіїв під час запуску програми</string>
+    <string name="dump_media_db">Знімок бази даних медіа</string>
+    <string name="dump_media_db_summary">Копіювати базу даних у внутрішній каталог root</string>
     <string name="clear_media_db">Очистити медіабазу</string>
     <string name="clear_media_db_summary">Доступ до відомостей VLC Android для очищення даних</string>
     <string name="clear_history">Очистити історію пошуку</string>
@@ -430,15 +437,11 @@
     <string name="confirm_resume_title">Запитувати підтвердження про відновлення</string>
     <string name="confirm_resume_summary">якщо задіяно, то вас запитуватимуть про підтвердження, коли відтворення відео можна відновити із останньої позиції</string>
     <string name="directory_empty">Каталог - порожній</string>
-    <string name="player_touch_title">Сенсорне керування для відео</string>
-    <string name="player_touch_enable_all">Увімкнути сенсорне керування</string>
-    <string name="player_touch_disable_brightness">Вимкнути керування яскравістю</string>
-    <string name="player_touch_disable_all">Вимкнути сенсорне керування</string>
     <string name="tv_ui_title">Інтерфейс ТБ Андроїд</string>
     <string name="tv_ui_summary">Змінити інтерфейс на тему під ТБ</string>
     <string name="medialibrary">Медіа бібліотека</string>
     <string name="medialibrary_directories">Теки медіа бібліотеки</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">Більше дій</string>
     <string name="move">Перемістити</string>
     <string name="back_quit_lock">Натисніть знову Назад для виходу із відео</string>
@@ -446,7 +449,7 @@
     <string name="file_deleted">Файл — вилучений</string>
     <string name="no_subs_found">Немає субтитрів у цьому каталозі</string>
     <string name="music_now_playing">Зараз відтворюється</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">Білий віджет VLC</string>
     <string name="widget_name_b">Темний віджет VLC</string>
     <string name="allow_storage_access_title">Надати VLC доступ до відео та аудіофайлів</string>
@@ -460,10 +463,10 @@
     <string name="permission_ask_again">Надати дозвіл</string>
     <string name="exit_app">Закрити VLC</string>
     <string name="exit_app_msg">Ви справді хочете вийти із VLC?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">Доріжка FastScroller</string>
     <string name="fastscroller_handle">Держак FastScroller</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">Модулі</string>
     <string name="download_on_device">Завантажити</string>
     <string name="extension_empty">Відсутні елементи для показу. Перейдіть у налаштування розширення, щоби їх отримати.</string>
@@ -500,6 +503,7 @@
     <string name="episodes">епізоди</string>
     <string name="movies">фільми</string>
     <string name="videos">відео</string>
+    <string name="videos_all">Усі відео</string>
     <string name="clear_playback_history">Очистити журнал відтворення</string>
     <string name="various_artists">Різні виконавці</string>
     <string name="ml_scanning">Сканування на медіафайли</string>
@@ -539,4 +543,9 @@
     <string name="sdcard_permission_dialog_title">Ви маєте надати дозвіл VLC на запис до вашої карти SD</string>
     <string name="sdcard_permission_dialog_message">VLC не може вилучити цей файл без права на запис.\nПерейдіть на свою карту пам\'яті SD та клацніть \"Вибрати\".\nМожливо, вам доведеться натиснути кнопку \"Показати SD-карту\" спочатку в меню праворуч</string>
     <string name="dialog_sd_wizard">Показати мене</string>
+    <string name="renderers_disconnect">Від’єднатися</string>
+    <string name="audio_digital_failed">Не вдалося змінити стан цифрового виводу аудіо</string>
+    <string name="audio_digital_output_enabled">Цифровий вивід аудіо ввімкнено</string>
+    <string name="audio_digital_output_disabled">Цифровий вивід аудіо вимкнено</string>
+    <string name="audio_digital_title">Цифровий вивід аудіо (роз\'єм)</string>
 </resources>
