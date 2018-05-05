@@ -487,7 +487,7 @@
     <string name="medialibrary">Media library</string>
     <string name="medialibrary_directories">Media library folders</string>
 
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">More Actions</string>
     <string name="move">Move</string>
     <string name="back_quit_lock">Press Back again to quit video</string>
@@ -496,7 +496,7 @@
     <string name="no_subs_found">No subtitles in this directory</string>
     <string name="music_now_playing">Now Playing</string>
 
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_default_text" translatable="false">VLC mini player</string>
     <string name="widget_name_w">VLC White Widget</string>
     <string name="widget_name_b">VLC Dark Widget</string>
