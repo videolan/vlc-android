@@ -329,6 +329,7 @@
     <string name="enable_headset_actions_title">Comenzi rapide de la distanță</string>
     <string name="enable_headset_actions_summary">Apasă de două ori pe butonul \"Redare\" pentru a trece la piesa următoare și apasă o singură dată mai mult pentru a trece la piesa anterioară</string>
     <string name="enable_play_on_headset_insertion">Revine la introducerea căștilor</string>
+    <string name="enable_play_on_headset_insertion_summary">Pauză</string>
     <string name="enable_steal_remote_control">Control exclusiv asupra căștilor la distanță</string>
     <string name="enable_steal_remote_control_summary">Evită conflictele prin furarea controlului de la celelalte aplicații. Astfel se previne apelarea prin clic dublu pe telefoanele HTC.</string>
     <string name="aout">Ieșire audio</string>
@@ -406,6 +407,8 @@
     <string name="restart_vlc">Repornește VLC</string>
     <string name="send_log">Trimite jurnalul</string>
     <string name="sending_log">Se trimite jurnalul...</string>
+    <string name="drawer_open">Deschide sertarul de navigare</string>
+    <string name="drawer_close">Inchide sertarul de navigare</string>
     <string name="network_browsing">Rețea locală</string>
     <string name="browsing">Răsfoire</string>
     <string name="file_size">Marime fisier</string>
@@ -457,6 +460,7 @@
     <string name="exit_app_msg">Sigur doriți să închideți aplicația VLC?</string>
     <!-- fast scroller -->
     <string name="fastscroller_track">Pista de derulare rapidă</string>
+    <string name="fastscroller_handle">Mâner derulare rapidă</string>
     <!-- Plugins -->
     <string name="plugins">Module</string>
     <string name="download_on_device">Descarcare</string>
@@ -473,6 +477,7 @@
     <string name="add_to_playlist">Adaugare la playlist</string>
     <string name="popup_playback_title">Redare videoclip într-o fereastră Pop-Up</string>
     <string name="popup_playback">Redare într-o fereastră Pop-Up</string>
+    <string name="popup_expand">Extindeți videoclipul</string>
     <string name="snack_subloader_sub_found">Subtitre descarcate</string>
     <string name="snack_subloader_sub_not_found">Nu se gasesc subtitre</string>
     <string name="dialog_subloader_success">Subtitrări găsite pentru:</string>
@@ -536,4 +541,5 @@
     <string name="audio_digital_failed">Eroare la modificarea stării de ieșire Audio Digital</string>
     <string name="audio_digital_output_enabled">Ieșirea Audio Digital activată</string>
     <string name="audio_digital_output_disabled">Ieșirea Audio Digital dezactivată</string>
+    <string name="audio_digital_title">Ieșire audio digitală (passthrough)</string>
 </resources>
