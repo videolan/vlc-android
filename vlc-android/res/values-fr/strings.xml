@@ -214,7 +214,7 @@
     <string name="licence">Licence</string>
     <string name="revision">Révision</string>
     <string name="about">À propos</string>
-    <string name="about_text">VLC pour Android™ est un portage de VLC media player, le célèbre lecteur multimedia open source. La version Android™ peut lire la plupart des fichiers et flux réseaux.</string>
+    <string name="about_text">VLC pour Android™ est un portage du lecteur multimédia VLC, le célèbre lecteur multimédia libre. La version Android™ peut lire la plupart des fichiers et flux réseaux.</string>
     <string name="compiled_by">Cette version de VLC est compilée par :</string>
     <string name="vlc_authors">et les auteurs de VLC</string>
     <!-- Preferences -->
