@@ -194,13 +194,12 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             savePosition()
             saveMediaMeta()
         }
-        player.releaseMedia()
         mediaList.removeEventListener(this)
         previous.clear()
         currentIndex = -1
-        mediaList.clear()
         if (systemExit) player.release()
         else player.restart()
+        mediaList.clear()
         showAudioPlayer.value = false
         service.onPlaybackStopped(systemExit)
     }

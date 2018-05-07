@@ -60,7 +60,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         setPlaybackStopped()
     }
 
-    fun releaseMedia() = mediaplayer.media?.let {
+    private fun releaseMedia() = mediaplayer.media?.let {
         it.setEventListener(null)
         it.release()
     }
@@ -172,6 +172,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     fun release(player: MediaPlayer = mediaplayer) {
         player.setEventListener(null)
         if (isVideoPlaying()) player.vlcVout.detachViews()
+        releaseMedia()
         launch(newSingleThreadContext("vlc-player-release")) {
             if (BuildConfig.DEBUG) { // Warn if player release is blocking
                 try {
