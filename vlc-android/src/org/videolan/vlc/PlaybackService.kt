@@ -320,7 +320,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     var time: Long
         @MainThread
-        get() = playlistManager.player.getTime()
+        get() = playlistManager.player.getCurrentTime()
         @MainThread
         set(time) = playlistManager.player.setTime(time)
 

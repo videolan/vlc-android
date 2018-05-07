@@ -207,7 +207,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @MainThread
     fun previous(force : Boolean) {
         if (hasPrevious() && currentIndex > 0 &&
-                (force || !player.seekable || player.getTime() < PREVIOUS_LIMIT_DELAY)) {
+                (force || !player.seekable || player.getCurrentTime() < PREVIOUS_LIMIT_DELAY)) {
             val size = mediaList.size()
             currentIndex = prevIndex
             if (previous.size > 0) previous.pop()
@@ -389,7 +389,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val canSwitchToVideo = player.canSwitchToVideo()
         if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
             //Save progress
-            val time = player.getTime()
+            val time = player.getCurrentTime()
             val length = player.length
             var progress = time / length.toFloat()
             if (progress > 0.95f || length - time < 10000) {
@@ -577,7 +577,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         editor.putBoolean(if (audio) "audio_shuffling" else "media_shuffling", shuffling)
         editor.putInt(if (audio) "audio_repeating" else "media_repeating", repeating)
         editor.putInt(if (audio) "position_in_audio_list" else "position_in_media_list", if (reset) 0 else currentIndex)
-        editor.putLong(if (audio) "position_in_song" else "position_in_media", if (reset) 0L else player.getTime())
+        editor.putLong(if (audio) "position_in_song" else "position_in_media", if (reset) 0L else player.getCurrentTime())
         if (!audio) {
             editor.putBoolean(PreferencesActivity.VIDEO_PAUSED, !player.isPlaying())
             editor.putFloat(PreferencesActivity.VIDEO_SPEED, player.getRate())

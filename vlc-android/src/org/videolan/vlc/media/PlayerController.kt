@@ -211,7 +211,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         switchToVideo = false
     }
 
-    fun getTime() = currentTime.value ?: 0L
+    fun getCurrentTime() = currentTime.value ?: 0L
 
     fun setRate(rate: Float, save: Boolean) {
         mediaplayer.rate = rate
