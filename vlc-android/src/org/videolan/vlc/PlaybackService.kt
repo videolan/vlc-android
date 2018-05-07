@@ -1305,8 +1305,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
         private const val SHOW_TOAST = 1
         private const val END_MEDIASESSION = 2
 
-        internal const val DELAY_DOUBLE_CLICK = 800L
-        internal const val DELAY_LONG_CLICK = 1000L
         fun getService(iBinder: IBinder): PlaybackService? {
             val binder = iBinder as LocalBinder
             return binder.service

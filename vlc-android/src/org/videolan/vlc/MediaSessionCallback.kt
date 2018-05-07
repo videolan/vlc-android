@@ -1,14 +1,10 @@
 package org.videolan.vlc
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.SystemClock
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.view.KeyEvent
 import kotlinx.coroutines.experimental.launch
-import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -20,64 +16,10 @@ import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.registerMedialibrary
 
 internal class MediaSessionCallback(private val playbackService: PlaybackService) : MediaSessionCompat.Callback() {
-    private var mHeadsetDownTime = 0L
-    private var mHeadsetUpTime = 0L
-
-    override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
-        if (!playbackService.settings.getBoolean("enable_headset_actions", true) || VLCApplication.showTvUi()) return false
-        val event = mediaButtonEvent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
-        if (event != null && !playbackService.isVideoPlaying) {
-            val keyCode = event.keyCode
-            if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE
-                    || keyCode == KeyEvent.KEYCODE_HEADSETHOOK || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE) {
-                val time = SystemClock.uptimeMillis()
-                when (event.action) {
-                    KeyEvent.ACTION_DOWN -> {
-                        if (event.repeatCount <= 0) mHeadsetDownTime = time
-                        if (!playbackService.hasMedia()) {
-                            PlaybackService.loadLastAudio(playbackService)
-                            return true
-                        }
-                    }
-                    KeyEvent.ACTION_UP -> if (AndroidDevices.hasTsp) { //no backward/forward on TV
-                        when {
-                            time - mHeadsetDownTime >= PlaybackService.DELAY_LONG_CLICK -> { // long click
-                                mHeadsetUpTime = time
-                                playbackService.previous(false)
-                                return true
-                            }
-                            time - mHeadsetUpTime <= PlaybackService.DELAY_DOUBLE_CLICK -> { // double click
-                                mHeadsetUpTime = time
-                                playbackService.next()
-                                return true
-                            }
-                            else -> {
-                                mHeadsetUpTime = time
-                                return false
-                            }
-                        }
-                    }
-                }
-                return false
-            } else if (!AndroidUtil.isLolliPopOrLater) {
-                when (keyCode) {
-                    KeyEvent.KEYCODE_MEDIA_NEXT -> {
-                        onSkipToNext()
-                        return true
-                    }
-                    KeyEvent.KEYCODE_MEDIA_PREVIOUS -> {
-                        onSkipToPrevious()
-                        return true
-                    }
-                }
-            }
-        }
-        return false
-    }
 
     override fun onPlay() {
         if (playbackService.hasMedia()) playbackService.play()
-        else PlaybackService.loadLastAudio(playbackService)
+        else if (!AndroidDevices.isAndroidTv) PlaybackService.loadLastAudio(playbackService)
     }
 
     override fun onCustomAction(action: String?, extras: Bundle?) {
