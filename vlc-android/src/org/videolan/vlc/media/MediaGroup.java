@@ -120,7 +120,7 @@ public class MediaGroup extends MediaWrapper {
                     mediaGroup.add(media);
                 } else {
                     // not the same prefix, but close : merge
-                    mediaGroup.merge(media, group.substring(0, commonLength+groupOffset));
+                    mediaGroup.merge(media, mediaGroup.getTitle().substring(0, commonLength+groupOffset));
                 }
                 return;
             }
