@@ -28,9 +28,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Message
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.preference.PreferenceManager
 import android.support.v7.view.ActionMode
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -126,6 +129,23 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         viewModel.dataset.observe(this, Observer<MutableList<MediaLibraryItem>> { mediaLibraryItems -> adapter.update(mediaLibraryItems!!) })
         viewModel.getDescriptionUpdate().observe(this, Observer { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
         initFavorites()
+
+        val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane)
+        currentMedia?.let {
+            ariane.visibility = View.VISIBLE
+            ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            ariane.adapter = PathAdapter(this, Uri.decode(it.uri.path))
+            if (ariane.itemDecorationCount == 0) {
+                val did = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL)
+                did.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider_grey_50_18dp)!!)
+                ariane.addItemDecoration(did)
+            }
+            ariane.scrollToPosition(ariane.adapter.itemCount -1)
+        } ?: run { ariane.visibility = View.GONE }
+    }
+
+    fun backTo(tag: String) {
+        requireActivity().supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
     protected open fun initFavorites() {}
@@ -191,8 +211,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         viewModel.saveList(media)
         args.putParcelable(KEY_MEDIA, media)
         next.arguments = args
-        if (save) ft.addToBackStack(if (isRootDirectory) "root" else mrl)
-        ft.replace(R.id.fragment_placeholder, next, media.location)
+        if (save) ft.addToBackStack(if (isRootDirectory) "root" else FileUtils.getFileNameFromPath(mrl))
+        ft.replace(R.id.fragment_placeholder, next, media.title)
         ft.commit()
     }
 
