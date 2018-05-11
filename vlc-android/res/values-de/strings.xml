@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
@@ -47,10 +46,10 @@
     <string name="remove">Entfernen</string>
     <string name="set_song">Als Klingelton festlegen</string>
     <string name="info">Information</string>
-    <string name="confirm_delete">Die Datei »%1$s« löschen?</string>
-    <string name="confirm_delete_folder">Den Ordner »%1$s« mit dem gesamten Inhalt löschen?</string>
-    <string name="confirm_delete_playlist">Wiedergabeliste »%1$s« löschen?</string>
-    <string name="ringtone_set">Die Datei »%1$s« wurde als Klingelton eingestellt.</string>
+    <string name="confirm_delete">Die Datei \'%1$s\' löschen?</string>
+    <string name="confirm_delete_folder">Den Ordner \'%1$s\' mit dem gesamten Inhalt löschen?</string>
+    <string name="confirm_delete_playlist">Wiedergabeliste \'%1$s\' löschen?</string>
+    <string name="ringtone_set">Die Datei \'%1$s\' wurde als Klingelton eingestellt.</string>
     <string name="ringtone_error">Beim Einstellen des Klingeltons trat ein Fehler auf.</string>
     <string name="pause">Pause</string>
     <string name="not_show_again">Diese Nachricht nicht mehr anzeigen.</string>
@@ -104,7 +103,7 @@
     <string name="mediafiles">Mediendateien</string>
     <string name="notavailable">nicht verfügbar</string>
     <string name="nosubdirectory">Keine Unterverzeichnisse</string>
-    <string name="directorynotfound">Der Verzeichnispfad »%1$s« wurde nicht gefunden.</string>
+    <string name="directorynotfound">Der Verzeichnispfad \'%1$s\' wurde nicht gefunden.</string>
     <string name="nohistory">Sie haben noch keinen Wiedergabeverlauf.</string>
     <string name="validation">Sind Sie sicher?</string>
     <string name="cover_art">Titelbild</string>
@@ -185,7 +184,7 @@
     <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">Wiedergabefehler</string>
     <string name="encountered_error_message">VLC stellte einen Fehler mit diesem Medium fest.\nBitte versuchen Sie die Medienbibliothek zu aktualisieren.</string>
-    <string name="invalid_location">Ort »%1$s« kann nicht abgespielt werden.</string>
+    <string name="invalid_location">Pfad %1$s kann nicht abgespielt werden.</string>
     <string name="search">Suchen</string>
     <string name="search_history">Suchverlauf</string>
     <string name="playback_history_title">Wiedergabeverlauf</string>
@@ -203,7 +202,7 @@
     <string name="ok_got_it">Verstanden und weiter</string>
     <string name="playlist_tips">Wiedergabelistentipps</string>
     <string name="remove_song">Lied entfernen</string>
-    <string name="remove_playlist_item">»%1$s« wurde aus der Wiedergabeliste entfernt</string>
+    <string name="remove_playlist_item">%1$s wurde aus der Wiedergabeliste entfernt</string>
     <string name="rearrange_order">Reihenfolge umorganisieren</string>
     <string name="hold_to_seek">Zum Suchen gedrückt halten</string>
     <string name="audio_player_tips">Audiowiedergabetipps</string>
@@ -284,7 +283,7 @@
     <string name="enable_seek_buttons_summary">Rückwärts- und Vorwärtsknöpfe im Videomodus anzeigen</string>
     <string name="enable_double_tap_seek_title">Zum springen doppelt antippen</string>
     <string name="enable_double_tap_seek_summary">Für einen 10 Sekunden Sprung, in den Bildschirmecken doppelt antippen</string>
-    <string name="popup_keepscreen_title">Im Pop-Up Modus Anzeige eingeschaltet lassen</string>
+    <string name="popup_keepscreen_title">Im Pop-Up Modus Anzeige nicht ausschalten</string>
     <string name="popup_keepscreen_summary">Anzeige während einer Pop-Up Wiedergabe immer eingeschaltet lassen, auch wenn das Video angehalten wird.</string>
     <string name="browser_show_hidden_files_title">Versteckte Dateien anzeigen</string>
     <string name="browser_show_hidden_files_summary">Versteckte Dateien in Browsern anzeigen</string>
@@ -330,8 +329,8 @@
     <string name="enable_steal_remote_control_summary">Vermeidet Konflikte, durch die Übernahme der Fernbedienung, von anderen Anwendungen. Dies verhindert auf HTC-Handys Anrufe bei Doppelklicks.</string>
     <string name="aout">Audioausgabe</string>
     <string name="aout_summary">Die Methode ändern, die VLC zur Tonausgabe benutzt.</string>
-    <string name="audio_ducking_title">VLC-Lautstärke bei Benachrichtigungen verringern</string>
-    <string name="audio_ducking_summary">Hilft, Audio-Benachrichtigungen, Navigationsanweisungen oder den Assistenten besser zu hören</string>
+    <string name="audio_ducking_title">VLC-Lautstärke bei Benachrichtigungen</string>
+    <string name="audio_ducking_summary">Verringert die VLC-Lautstärke, um Audio-Benachrichtigungen, Navigationsanweisungen oder den Assistenten besser zu hören</string>
     <string name="casting_category">Streaming</string>
     <string name="casting_passthrough_title">Audio-Passthrough</string>
     <string name="casting_passthrough_summary">Lassen Sie Ihren Fernseher das Audio-Rendering verwalten</string>
@@ -342,26 +341,26 @@
     <string name="casting_quality_low">Niedrig</string>
     <string name="casting_quality_lowcpu">Niedrigste</string>
     <string name="cast_performance_warning">Vor dem Streamen, muss das Video umgewandelt werden. Diese Umwandlung konnte die gesamte verfügbare Energie verbrauchen und den Akku schneller entleeren.</string>
-    <string name="casting_connected_renderer">Mit Renderer »%1$s« verbunden</string>
+    <string name="casting_connected_renderer">Mit Renderer \'%1$s\' verbunden</string>
     <string name="artists_show_all_title">Alle Künstler anzeigen</string>
     <string name="artists_show_all_summary">Alle Künstler in der Künstlerliste anzeigen, nicht nur die Künstler der Alben</string>
     <string name="extensions_prefs_category">Erweiterungen</string>
     <string name="extensions_enable_category">Erweiterungen zur Aktivierung auswählen</string>
     <string name="extensions_empty">Keine Erweiterungen gefunden</string>
-    <string name="extension_permission_title">Neue Erweiterung »%1$s« aktivieren?</string>
-    <string name="extension_permission_checkbox_title">In »%1$s« anzeigen</string>
+    <string name="extension_permission_title">Neue Erweiterung \"%1$s\" aktivieren?</string>
+    <string name="extension_permission_checkbox_title">In %1$s anzeigen</string>
     <string name="extension_prefs_activation_title">Aktivieren</string>
     <string name="android_auto">Android Auto</string>
     <string name="controls_prefs_category">Steuerungen</string>
     <string name="performance_prefs_category">Leistung</string>
     <string name="chroma_format">Farbsättigung erzwingen</string>
     <string name="chroma_format_summary">RGB 32-Bit: Standardfarbsättigung\nRGB 16-bit: Bessere Leistung aber schlechtere Qualität\nYUV: Beste Leistung, funktioniert aber nicht auf allen Geräten. Nur für Android 2.3 und später.</string>
-    <string name="deblocking">Entblockungsfiltereinstellungen</string>
-    <string name="deblocking_summary">Entblockungsfiltereinstellungen ändern. Verbessert möglicherweise die Videoqualität. Nur für fortgeschrittene Anwender.</string>
-    <string name="deblocking_always">Vollständige Entblockung (am langsamsten)</string>
-    <string name="deblocking_nonref">Mittlere Entblockung</string>
-    <string name="deblocking_nonkey">Niedrige Entblockung</string>
-    <string name="deblocking_all">Keine Entblockung (am schnellsten)</string>
+    <string name="deblocking">Einstellungen für Anti-Klötzchenfilter</string>
+    <string name="deblocking_summary">Einstellungen des Anti-Klötzchenfilter ändern. Verbessert möglicherweise die Videoqualität. Nur für fortgeschrittene Anwender.</string>
+    <string name="deblocking_always">Vollständiges Klötzchen entfernen (am langsamsten)</string>
+    <string name="deblocking_nonref">Mittleres Klötzchen entfernen</string>
+    <string name="deblocking_nonkey">Niedriges Klötzchen entfernen</string>
+    <string name="deblocking_all">Kein Klötzchen entfernen (am schnellsten)</string>
     <string name="enable_frame_skip">Bildsprung</string>
     <string name="enable_frame_skip_summary">Beschleunigt das Dekodieren, führt aber zu niedriger Videoqualität.</string>
     <string name="enable_time_stretching_audio">Audio-Zeitdehnung</string>
@@ -381,7 +380,7 @@
     <string name="set_locale">Landessprache einstellen</string>
     <string name="set_locale_detail">Leer lassen, um zurückzusetzen</string>
     <string name="set_locale_popup">VLC beenden und zurücksetzen, damit die Änderungen wirksam werden.</string>
-    <string name="network_caching">Netzwerkzwischenspeicherwert</string>
+    <string name="network_caching">Wert zum Zwischenspeichern im Netzwerk</string>
     <string name="network_caching_summary">Der Zeitwert, um das Netzwerkmedium zu puffern (in ms). Funktioniert nicht in Verbindung mit Hardware-Dekodierung. Zum Zurückzusetzen leer lassen.</string>
     <string name="resume_playback_title">Wiedergabe nach Anruf fortsetzen</string>
     <string name="resume_playback_summary">Andernfalls im Pausieren verbleiben</string>
@@ -399,7 +398,7 @@
     <string name="copy_to_clipboard">In die Zwischenablage kopieren</string>
     <string name="copied_to_clipboard">Protokoll in die Zwischenablage kopiert.</string>
     <string name="dump_logcat">logcat-Protokoll erstellen</string>
-    <string name="dump_logcat_success">Logcat-Auszug wurde erfolgreich unter »%1$s« erstellt!</string>
+    <string name="dump_logcat_success">Logcat-Auszug wurde erfolgreich unter %1$s erstellt!</string>
     <string name="dump_logcat_failure">Erstellen des Logcat-Auszugs fehlgeschlagen.</string>
     <string name="serious_crash">Leider ist ein schwerwiegender Fehler aufgetreten und VLC musste geschlossen werden.</string>
     <string name="help_us_send_log">Helfen Sie uns bei der Verbesserung des VLC, durch das Übersenden des folgenden Fehlerberichtes:</string>
@@ -507,7 +506,7 @@
     <string name="length">Laufzeit</string>
     <string name="tv_settings_hint">Langes betätigen des OK-Buttons zur An- und Abwahl von Verzeichnissen</string>
     <string name="ml_external_storage_title">Neuen externen Speicher gefunden</string>
-    <string name="ml_external_storage_msg">Möchten Sie, dass VLC das Gerät »%1$s« zu Ihrer Medienbibliothek hinzufügt?</string>
+    <string name="ml_external_storage_msg">Möchten Sie, dass VLC das Gerät %1$s zu Ihrer Medienbibliothek hinzufügt?</string>
     <string name="ml_external_storage_accept">Ja</string>
     <string name="ml_external_storage_decline">Nein</string>
     <string name="last_added_media">Zuletzt hinzugefügt</string>
@@ -520,7 +519,7 @@
     <string name="new_custom_set_save_message">Neue Equalizer-Einstellung speichern als …</string>
     <string name="save">Speichern</string>
     <string name="do_not_save">Nicht speichern</string>
-    <string name="custom_set_deleted_message">Eigene Equalizer-Einstellung »%1$s« gelöscht.</string>
+    <string name="custom_set_deleted_message">Eigene Equalizer-Einstellung \"%1$s\" gelöscht.</string>
     <string name="custom_set_wrong_input">Ungültiger Name.</string>
     <string name="custom_set_already_exist">Equalizer-Einstellung mit diesem Namen existiert bereits.</string>
     <string name="custom_set_restored">Eigene Equalizer-Einstellung wiederhergestellt.</string>
@@ -531,7 +530,7 @@
     <string name="recommendations_desc">Empfehlungen im Launcher</string>
     <string name="browser_quick_access">Schnellzugriff</string>
     <string name="browser_storages">Speicher</string>
-    <string name="msg_delete_failed">Fehler beim Löschen von »%1$s«</string>
+    <string name="msg_delete_failed">Fehler beim Löschen von %1$s</string>
     <string name="renderer_list_title">Anzeigen</string>
     <string name="feedback_player_crashed">Leider ist VLC gerade abgestürzt. Bitte versuchen Sie es erneut.</string>
     <string name="sdcard_permission_dialog_title">Sie müssen VLC den Schreibzugriff auf Ihre SD-Karte gewähren</string>
