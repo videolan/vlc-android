@@ -680,11 +680,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             MediaPlayer.Event.EndReached -> {
                 saveMediaMeta()
                 if (isBenchmark) player.setPreviousStats()
-                launch(UI, CoroutineStart.UNDISPATCHED) {
-                    determinePrevAndNextIndices(true)
-                    if (nextIndex == -1) savePosition(true)
-                    next()
-                }
+                if (nextIndex == -1) savePosition(true)
+                next()
             }
             MediaPlayer.Event.EncounteredError -> {
                 service.showToast(service.getString(
