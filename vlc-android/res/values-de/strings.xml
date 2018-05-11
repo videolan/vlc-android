@@ -184,7 +184,7 @@
     <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">Wiedergabefehler</string>
     <string name="encountered_error_message">VLC stellte einen Fehler mit diesem Medium fest.\nBitte versuchen Sie die Medienbibliothek zu aktualisieren.</string>
-    <string name="invalid_location">Pfad %1$s kann nicht abgespielt werden.</string>
+    <string name="invalid_location">Ort %1$s kann nicht abgespielt werden.</string>
     <string name="search">Suchen</string>
     <string name="search_history">Suchverlauf</string>
     <string name="playback_history_title">Wiedergabeverlauf</string>
