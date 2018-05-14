@@ -1519,9 +1519,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case MediaPlayer.Event.Paused:
                 updateOverlayPausePlay();
                 break;
-            case MediaPlayer.Event.Stopped:
-                exitOK();
-                break;
             case MediaPlayer.Event.EncounteredError:
                 encounteredError();
                 break;
