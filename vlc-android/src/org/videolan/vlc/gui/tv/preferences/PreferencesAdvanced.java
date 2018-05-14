@@ -134,6 +134,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                 // No break because need VLCInstance.restart();
             case "opengl":
             case "chroma_format":
+            case "custom_libvlc_options":
             case "deblocking":
             case "enable_frame_skip":
             case "enable_time_stretching_audio":

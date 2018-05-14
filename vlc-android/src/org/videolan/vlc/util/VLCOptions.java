@@ -40,6 +40,7 @@ import org.videolan.vlc.VLCApplication;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class VLCOptions {
@@ -143,6 +144,9 @@ public class VLCOptions {
         else options.add("--no-sout-chromecast-audio-passthrough");
         options.add("--sout-chromecast-conversion-quality="+pref.getString("casting_quality", "2"));
         options.add("--sout-keep");
+
+        final String customOptions[] = pref.getString("custom_libvlc_options", "").split("\\r?\\n", -1);
+        if (!Util.isArrayEmpty(customOptions)) Collections.addAll(options, customOptions);
 
         return options;
     }
