@@ -683,7 +683,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     if (isBenchmark) player.setPreviousStats()
                     if (nextIndex == -1) savePosition(true)
                 }
-                next()
+                launch(UI, CoroutineStart.UNDISPATCHED) {
+                    determinePrevAndNextIndices(true)
+                    next()
+                }
             }
             MediaPlayer.Event.EncounteredError -> {
                 service.showToast(service.getString(
