@@ -257,7 +257,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         mediaplayer.title = title
     }
 
-    fun getVolume() = mediaplayer.volume
+    fun getVolume() = if (mediaplayer.hasMedia()) mediaplayer.volume else 100
 
     fun setVolume(volume: Int) = mediaplayer.setVolume(volume)
 
