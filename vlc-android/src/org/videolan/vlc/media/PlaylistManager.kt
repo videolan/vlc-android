@@ -674,7 +674,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     if (isBenchmark) player.setPreviousStats()
                     if (nextIndex == -1) savePosition(true)
                 }
-                next()
+                launch(UI, CoroutineStart.UNDISPATCHED) {
+                    determinePrevAndNextIndices(true)
+                    next()
+                }
             }
             MediaPlayer.Event.EncounteredError -> {
                 service.showToast(service.getString(
@@ -686,5 +689,5 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         service.onMediaPlayerEvent(event)
     }
 
-    fun isAudioList() = !player.canSwitchToVideo() && mediaList.isAudioList
+    private fun isAudioList() = !player.canSwitchToVideo() && mediaList.isAudioList
 }

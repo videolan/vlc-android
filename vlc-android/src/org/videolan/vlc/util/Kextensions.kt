@@ -1,11 +1,11 @@
 package org.videolan.vlc.util
 
 import kotlinx.coroutines.experimental.delay
+import org.videolan.libvlc.Media
 import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
-
 
 fun String.validateLocation(): Boolean {
     var location = this
@@ -37,3 +37,5 @@ suspend fun retry (
     }
     return block() // last attempt
 }
+
+fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
