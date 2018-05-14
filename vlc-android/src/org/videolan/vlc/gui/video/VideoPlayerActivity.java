@@ -139,7 +139,6 @@ import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.SubtitlesDownloader;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.VLCInstance;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -1601,9 +1600,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 break;
             case MediaPlayer.Event.Paused:
                 updateOverlayPausePlay();
-                break;
-            case MediaPlayer.Event.Stopped:
-                exitOK();
                 break;
             case MediaPlayer.Event.EncounteredError:
                 encounteredError();
