@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Main VLC Interface -->
-    <string name="ok">Aceptarrce on\nModo de lista de reproducciónd e vídeo</string>
+    <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="other">Otro</string>
     <string name="sortby">Ordenar por…</string>
