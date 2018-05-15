@@ -326,7 +326,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     val length: Long
         @MainThread
-        get() = playlistManager.player.length
+        get() = playlistManager.player.getLength()
 
     val lastStats: Media.Stats?
         get() = playlistManager.player.previousMediaStats
@@ -742,6 +742,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         val media = playlistManager.getCurrentMedia() ?: return
         if (!this::mediaSession.isInitialized) initMediaSession()
         val ctx = this
+        val length = length
         val bob = withContext(CommonPool) {
             val title = media.nowPlaying ?: media.title
             val coverOnLockscreen = settings.getBoolean("lockscreen_cover", true)

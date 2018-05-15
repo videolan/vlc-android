@@ -6,10 +6,7 @@
         <import type="org.videolan.medialibrary.Tools" />
         <variable
             name="progress"
-            type="android.databinding.ObservableInt" />
-        <variable
-            name="length"
-            type="android.databinding.ObservableLong" />
+            type="android.arch.lifecycle.LiveData&lt;org.videolan.vlc.media.Progress>" />
         <variable
             name="player"
             type="org.videolan.vlc.gui.video.VideoPlayerActivity" />
@@ -39,8 +36,8 @@
         android:thumb="@drawable/seekbar_thumb"
         android:splitTrack="false"
         android:focusable="true"
-        android:progress="@{progress}"
-        vlc:mediamax="@{length}"/>
+        android:progress="@{(int)progress.time}"
+        vlc:mediamax="@{(int)progress.length}"/>
 
     <TextView
         android:id="@+id/player_overlay_time"
@@ -56,7 +53,7 @@
         android:gravity="left|start"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
         android:textColor="@color/orange500"
-        android:text="@{Tools.millisToString(progress)}"
+        android:text="@{Tools.millisToString(progress.time)}"
         android:textSize="16sp"
         android:onClick="@{(v) -> player.toggleTimeDisplay()}" />
 
@@ -69,9 +66,8 @@
         android:layout_alignRight="@+id/player_overlay_seekbar"
         android:layout_marginRight="@dimen/time_margin_sides"
         android:gravity="right|end"
-        android:text="--:--"
-        vlc:time="@{progress}"
-        vlc:length="@{length}"
+        vlc:time="@{progress.time}"
+        vlc:length="@{progress.length}"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
         android:textSize="16sp"
         android:layout_alignParentEnd="true"

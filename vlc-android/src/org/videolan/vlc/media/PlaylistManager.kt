@@ -390,7 +390,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
             //Save progress
             val time = player.getCurrentTime()
-            val length = player.length
+            val length = player.getLength()
             var progress = time / length.toFloat()
             if (progress > 0.95f || length - time < 10000) {
                 //increase seen counter if more than 95% of the media have been seen

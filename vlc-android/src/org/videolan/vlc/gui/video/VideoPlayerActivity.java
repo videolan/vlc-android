@@ -38,8 +38,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
-import android.databinding.ObservableInt;
-import android.databinding.ObservableLong;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
@@ -489,14 +487,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             initUI();
             setPlaybackParameters();
             mForcedTime = mLastTime = -1;
-            updateTimeValues();
             enableSubs();
         }
-    }
-
-    private void updateTimeValues() {
-        mProgress.set((int) getTime());
-        mMediaLength.set(mService.getLength());
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -1522,12 +1514,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case MediaPlayer.Event.EncounteredError:
                 encounteredError();
                 break;
-            case MediaPlayer.Event.TimeChanged:
-                mProgress.set((int) event.getTimeChanged());
-                break;
-            case MediaPlayer.Event.LengthChanged:
-                mMediaLength.set(event.getLengthChanged());
-                break;
             case MediaPlayer.Event.Vout:
                 updateNavStatus();
                 if (mMenuIdx == -1)
@@ -1645,7 +1631,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         updateOverlayPausePlay();
         updateNavStatus();
         final MediaWrapper mw = mService.getCurrentMediaWrapper();
-        mMediaLength.set(mService.getLength());
         if (!mw.hasFlag(MediaWrapper.MEDIA_PAUSED))
             mHandler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT);
         else {
@@ -2377,7 +2362,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mForcedTime = position;
         mLastTime = mService.getTime();
         mService.seek(position, length);
-        mProgress.set((int) position);
     }
 
     void seekDelta(int delta) {
@@ -2500,8 +2484,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private PlayerHudBinding mHudBinding;
-    private ObservableInt mProgress = new ObservableInt(0);
-    private ObservableLong mMediaLength = new ObservableLong(0L);
     private boolean mSeekButtons, mHasPlaylist;
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void initOverlay() {
@@ -2511,9 +2493,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             vsc.inflate();
             mHudBinding = DataBindingUtil.bind(findViewById(R.id.progress_overlay));
             mHudBinding.setPlayer(this);
-            updateTimeValues();
-            mHudBinding.setProgress(mProgress);
-            mHudBinding.setLength(mMediaLength);
+            mHudBinding.setProgress(mService.getPlaylistManager().getPlayer().getProgress());
+            mHudBinding.setLifecycleOwner(this);
             final RelativeLayout.LayoutParams layoutParams =
                     (RelativeLayout.LayoutParams)mHudBinding.progressOverlay.getLayoutParams();
             if (AndroidDevices.isPhone || !AndroidDevices.hasNavBar)
@@ -3246,7 +3227,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     };
 
     @BindingAdapter({"length", "time"})
-    public static void setPlaybackTime(TextView view, long length, int time) {
+    public static void setPlaybackTime(TextView view, long length, long time) {
         view.setText(sDisplayRemainingTime && length > 0
                 ? "-" + '\u00A0' + Tools.millisToString(length - time)
                 : Tools.millisToString(length));

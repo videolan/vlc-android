@@ -17,6 +17,7 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.VLCOptions
+import kotlin.math.abs
 
 @Suppress("EXPERIMENTAL_FEATURE_WARNING")
 class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
@@ -24,7 +25,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 //    private val exceptionHandler by lazy(LazyThreadSafetyMode.NONE) { CoroutineExceptionHandler { _, _ -> onPlayerError() } }
     private val playerContext by lazy(LazyThreadSafetyMode.NONE) { newSingleThreadContext("vlc-player") }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getSettings() }
-    val currentTime by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Long>() }
+    val progress by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Progress>().apply { value = Progress() } }
 
     private var mediaplayer = newMediaPlayer()
     var switchToVideo = false
@@ -35,8 +36,6 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     @Volatile var playbackState = PlaybackStateCompat.STATE_STOPPED
         private set
     @Volatile var hasRenderer = false
-        private set
-    @Volatile var length = 0L
         private set
 
     fun getVout(): IVLCVout? = mediaplayer.vlcVout
@@ -72,9 +71,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         mediaplayerEventListener = listener
         seekable = true
         pausable = true
-        currentTime.value = 0L
         lastTime = 0L
-        length = media.duration
+        updateProgress(0L, media.duration)
         mediaplayer.setEventListener(null)
         mediaplayer.media = media.apply { if (hasRenderer) parse() }
         mediaplayer.setEventListener(this@PlayerController)
@@ -92,7 +90,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         release(mp)
     }
 
-    fun seek(position: Long, length: Double = this.length.toDouble()) {
+    fun seek(position: Long, length: Double = getLength().toDouble()) {
         if (length > 0.0) setPosition((position / length).toFloat())
         else setTime(position)
     }
@@ -213,7 +211,9 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         switchToVideo = false
     }
 
-    fun getCurrentTime() = currentTime.value ?: 0L
+    fun getCurrentTime() = progress.value?.time ?: 0L
+
+    fun getLength() = progress.value?.length ?: 0L
 
     fun setRate(rate: Float, save: Boolean) {
         mediaplayer.rate = rate
@@ -284,11 +284,11 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
                 MediaPlayer.Event.EncounteredError -> setPlaybackStopped()
                 MediaPlayer.Event.PausableChanged -> pausable = event.pausable
                 MediaPlayer.Event.SeekableChanged -> seekable = event.seekable
-                MediaPlayer.Event.LengthChanged -> length = event.lengthChanged
+                MediaPlayer.Event.LengthChanged -> updateProgress(newLength = event.lengthChanged)
                 MediaPlayer.Event.TimeChanged -> {
                     val time = event.timeChanged
-                    if (time - lastTime > 950L) {
-                        currentTime.value = time
+                    if (abs(time - lastTime) > 950L) {
+                        updateProgress(newTime = time)
                         lastTime = time
                     }
                 }
@@ -297,15 +297,18 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         }
     }
 
+    private fun updateProgress(newTime: Long = progress.value?.time ?: 0L, newLength: Long = progress.value?.length ?: 0L) {
+        progress.value = progress.value?.apply { time = newTime; length = newLength }
+    }
+
     override fun onEvent(event: MediaPlayer.Event?) {
         if (event != null) eventActor.offer(event)
     }
 
     private fun setPlaybackStopped() {
         playbackState = PlaybackStateCompat.STATE_STOPPED
-        currentTime.value = 0L
+        updateProgress(0L, 0L)
         lastTime = 0L
-        length = 0L
     }
 
 //    private fun onPlayerError() {
@@ -315,6 +318,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 //        }
 //    }
 }
+
+class Progress(var time: Long = 0L, var length: Long = 0L)
 
 internal interface MediaPLayerEventListener {
     suspend fun onEvent(event: MediaPlayer.Event)
