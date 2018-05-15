@@ -7,6 +7,8 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.Toast
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.experimental.channels.actor
 import org.videolan.libvlc.*
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
@@ -65,8 +67,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         it.release()
     }
 
-    private var mediaplayerEventListener: MediaPlayer.EventListener? = null
-    internal fun startPlayback(media: Media, listener: MediaPlayer.EventListener) {
+    private var mediaplayerEventListener: MediaPLayerEventListener? = null
+    internal fun startPlayback(media: Media, listener: MediaPLayerEventListener) {
         mediaplayerEventListener = listener
         seekable = true
         pausable = true
@@ -274,24 +276,29 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     }
 
     private var lastTime = 0L
-    override fun onEvent(event: MediaPlayer.Event?) {
-        if (event === null) return
-        when(event.type) {
-            MediaPlayer.Event.Playing -> playbackState = PlaybackStateCompat.STATE_PLAYING
-            MediaPlayer.Event.Paused -> playbackState = PlaybackStateCompat.STATE_PAUSED
-            MediaPlayer.Event.EncounteredError -> setPlaybackStopped()
-            MediaPlayer.Event.PausableChanged -> pausable = event.pausable
-            MediaPlayer.Event.SeekableChanged -> seekable = event.seekable
-            MediaPlayer.Event.LengthChanged -> length = event.lengthChanged
-            MediaPlayer.Event.TimeChanged -> {
-                val time = event.timeChanged
-                if (time - lastTime > 950L) {
-                    currentTime.value = time
-                    lastTime = time
+    private val eventActor = actor<MediaPlayer.Event>(UI, Channel.UNLIMITED) {
+        for (event in channel) {
+            when (event.type) {
+                MediaPlayer.Event.Playing -> playbackState = PlaybackStateCompat.STATE_PLAYING
+                MediaPlayer.Event.Paused -> playbackState = PlaybackStateCompat.STATE_PAUSED
+                MediaPlayer.Event.EncounteredError -> setPlaybackStopped()
+                MediaPlayer.Event.PausableChanged -> pausable = event.pausable
+                MediaPlayer.Event.SeekableChanged -> seekable = event.seekable
+                MediaPlayer.Event.LengthChanged -> length = event.lengthChanged
+                MediaPlayer.Event.TimeChanged -> {
+                    val time = event.timeChanged
+                    if (time - lastTime > 950L) {
+                        currentTime.value = time
+                        lastTime = time
+                    }
                 }
             }
+            mediaplayerEventListener?.onEvent(event)
         }
-        mediaplayerEventListener?.onEvent(event)
+    }
+
+    override fun onEvent(event: MediaPlayer.Event?) {
+        if (event != null) eventActor.offer(event)
     }
 
     private fun setPlaybackStopped() {
@@ -307,4 +314,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 //            Toast.makeText(VLCApplication.getAppContext(), VLCApplication.getAppContext().getString(R.string.feedback_player_crashed), Toast.LENGTH_LONG).show()
 //        }
 //    }
+}
+
+internal interface MediaPLayerEventListener {
+    suspend fun onEvent(event: MediaPlayer.Event)
 }
