@@ -528,6 +528,7 @@
     <string name="feedback_player_crashed">VLCがクラッシュしました。再試行してください。</string>
     <string name="sdcard_permission_dialog_title">SDカードへの書き込み権をVLCに与えてください</string>
     <string name="sdcard_permission_dialog_message">書き込み権が無いとVLCがこのファイルを削除することができません。\nSDカードで\"選択\"をクリックしてください。\n右上のメニューで”SDカードの表示\"をクリックする必要があるかも知れません。</string>
+    <string name="dialog_sd_wizard">SDカードへのアクセスを許可</string>
     <string name="renderers_disconnect">切断</string>
     <string name="audio_digital_failed">オーディオデジタル出力状態の変更に失敗しました。</string>
     <string name="audio_digital_output_enabled">オーディオデジタル出力を有効化</string>
