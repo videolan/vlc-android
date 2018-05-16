@@ -10,7 +10,6 @@ import android.support.annotation.WorkerThread;
 import android.text.TextUtils;
 
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
@@ -28,21 +27,20 @@ public class ThumbnailsProvider {
 
     private static final String TAG = "VLC/ThumbnailsProvider";
 
-    private static final int sImageWidth = VLCApplication.getAppResources().getDimensionPixelSize(VLCApplication.showTvUi() ? R.dimen.tv_grid_card_thumb_width : R.dimen.grid_card_thumb_width);
     private static final int MAX_IMAGES = 4;
 
     @WorkerThread
-    public static Bitmap getMediaThumbnail(final MediaWrapper item) {
+    public static Bitmap getMediaThumbnail(final MediaWrapper item, int width) {
         if (item.getType() == MediaWrapper.TYPE_GROUP)
-            return ThumbnailsProvider.getComposedImage((MediaGroup) item);
+            return ThumbnailsProvider.getComposedImage((MediaGroup) item, width);
         if (item.getType() == MediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.getArtworkMrl()))
-            return getVideoThumbnail(item.getUri().getPath());
+            return getVideoThumbnail(item.getUri().getPath(), width);
         else
-            return AudioUtil.readCoverBitmap(Uri.decode(item.getArtworkMrl()), sImageWidth);
+            return AudioUtil.readCoverBitmap(Uri.decode(item.getArtworkMrl()), width);
     }
 
     @WorkerThread
-    private static Bitmap getVideoThumbnail(final String filePath) {
+    private static Bitmap getVideoThumbnail(final String filePath, int width) {
         final File appDir = VLCApplication.getAppContext().getExternalFilesDir(null);
         final boolean hasCache = appDir != null && appDir.exists();
         final String thumbPath = hasCache ? appDir.getAbsolutePath()+ THUMBS_FOLDER_NAME
@@ -51,7 +49,7 @@ public class ThumbnailsProvider {
         if (cacheBM != null)
             return cacheBM;
         if (hasCache && new File(thumbPath).exists())
-            return readCoverBitmap(thumbPath, sImageWidth);
+            return readCoverBitmap(thumbPath, width);
         final Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND);
         if (bitmap != null) {
             if (hasCache)
@@ -66,12 +64,12 @@ public class ThumbnailsProvider {
     }
 
     @WorkerThread
-    public static Bitmap getComposedImage(MediaGroup group) {
+    public static Bitmap getComposedImage(MediaGroup group, int width) {
         final BitmapCache bmc = BitmapCache.getInstance();
         final String key = "group:"+group.getTitle();
         Bitmap composedImage = bmc.getBitmapFromMemCache(key);
         if (composedImage == null) {
-            composedImage = composeImage(group);
+            composedImage = composeImage(group, width);
             if (composedImage != null)
                 bmc.addBitmapToMemCache(key, composedImage);
         }
@@ -82,11 +80,11 @@ public class ThumbnailsProvider {
      * @param group The MediaGroup instance
      * @return a Bitmap object
      */
-    private static Bitmap composeImage(MediaGroup group) {
+    private static Bitmap composeImage(MediaGroup group, int imageWidth) {
         final Bitmap[] sourcesImages = new Bitmap[Math.min(MAX_IMAGES, group.size())];
         int count = 0, minWidth = Integer.MAX_VALUE, minHeight = Integer.MAX_VALUE;
         for (MediaWrapper media : group.getAll()) {
-            final Bitmap bm = readCoverBitmap(Uri.decode(media.getArtworkMrl()), sImageWidth);
+            final Bitmap bm = readCoverBitmap(Uri.decode(media.getArtworkMrl()), imageWidth);
             if (bm != null) {
                 int width = bm.getWidth();
                 int height = bm.getHeight();

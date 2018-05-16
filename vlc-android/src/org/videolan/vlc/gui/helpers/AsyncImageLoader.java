@@ -136,7 +136,7 @@ public class AsyncImageLoader {
         public Bitmap getImage() {
             if (bindChanged) return null;
             if (item instanceof MediaGroup)
-                return ThumbnailsProvider.getComposedImage((MediaGroup) item);
+                return ThumbnailsProvider.getComposedImage((MediaGroup) item, width);
             return AudioUtil.readCoverBitmap(Uri.decode(item.getArtworkMrl()), width);
         }
 
