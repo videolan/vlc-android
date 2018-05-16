@@ -7,11 +7,13 @@
     <string name="sortby">Сортировка…</string>
     <string name="sortby_name">по имени</string>
     <string name="sortby_name_desc">Название (по убыв.)</string>
+    <string name="sortby_filename">Имя файла</string>
+    <string name="sortby_filename_desc">Имя файла (по убыв.)</string>
     <string name="sortby_artist_name">Имя исполнителя</string>
     <string name="sortby_artist_name_desc">Имя исполнителя (по убыв.)</string>
     <string name="sortby_album_name">Название альбома</string>
     <string name="sortby_album_name_desc">Название альбома (по убыв.)</string>
-    <string name="sortby_length">по размеру</string>
+    <string name="sortby_length">Длительность</string>
     <string name="sortby_length_desc">Длительность (по убыв.)</string>
     <string name="sortby_date">Дата</string>
     <string name="sortby_date_desc">Дата (по убыв.)</string>
@@ -192,10 +194,10 @@
     <string name="open_mrl_dialog_msg">Сетевой адрес MRL: http://, mms:// или rtsp://</string>
     <string name="error_not_compatible">Жаль, эта версия VLC для Android™ не работает на вашем устройстве.</string>
     <string name="error_problem">К сожалению, VLC для Android не смог загрузиться и его пришлось закрыть.</string>
-    <string name="error_message_is">Сообщение об ошибке (оно будет полезно нам при отладке):\n\n</string>
+    <string name="error_message_is">Сообщение об ошибке (оно будет полезно нам при отладке):\n</string>
     <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">Ошибка воспроизведения</string>
-    <string name="encountered_error_message">При воспроизведении этого медиаисточника произошла ошибка.\n\nПопробуйте обновить медиатеку.</string>
+    <string name="encountered_error_message">При воспроизведении этого медиаисточника произошла ошибка.\nПопробуйте обновить медиатеку.</string>
     <string name="invalid_location">Воспроизвести %1$s нельзя.</string>
     <string name="search">Искать</string>
     <string name="search_history">Искать в истории</string>
@@ -203,11 +205,11 @@
     <string name="playback_history_summary">Сохранять всё воспроизведённое в Истории</string>
     <string name="playback_speed_title">Сохранять скорость воспроизведения</string>
     <string name="playback_speed_summary">Запоминать последнюю установленную скорость воспроизведения</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">Подсказки для видеоплеера:</string>
     <string name="seek">Переход</string>
     <string name="subtitles">Субтитры</string>
-    <string name="audio_sub">Звуковые дорожки\n\nи субтитры</string>
+    <string name="audio_sub">Звуковые дорожки\nи субтитры</string>
     <string name="resize">Изменение размера</string>
     <string name="options">Параметры</string>
     <string name="lock">Блокировка</string>
@@ -228,7 +230,7 @@
     <string name="about">О программе</string>
     <string name="about_text">VLC для Android™ - порт медиаплеера VLC (популярного плеера с открытым исходным кодом). Версия для Android™ может воспроизводить большинство файлов и сетевых потоков.</string>
     <string name="compiled_by">Эту версию VLC скомпилировал:</string>
-    <string name="vlc_authors">Разработчики VLC.</string>
+    <string name="vlc_authors">и авторы VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Настройки</string>
     <string name="general_prefs_category">Общие</string>
@@ -237,7 +239,7 @@
     <string name="add_custom_path_description">Включить в сканирование дополнительный каталог:</string>
     <string name="remove_custom_path">Удалить дополнительный путь</string>
     <string name="hardware_acceleration">Аппаратное ускорение</string>
-    <string name="hardware_acceleration_summary">Отключено: наибольшая стабильность.\n\nДекодирование: может увеличить быстродействие.\n\nПолное: позволяет достичь макс. быстродействия.</string>
+    <string name="hardware_acceleration_summary">Отключено: наибольшая стабильность.\nДекодирование: может увеличить быстродействие.\nПолное: позволяет достичь макс. быстродействия.</string>
     <string name="hardware_acceleration_disabled">Отключено</string>
     <string name="hardware_acceleration_decoding">Ускорение декодирования</string>
     <string name="hardware_acceleration_full">Полное ускорение</string>
@@ -255,7 +257,7 @@
     <string name="screen_orientation_landscape">Книжная</string>
     <string name="screen_orientation_reverse_portrait">Альбомная перевёрнутая</string>
     <string name="screen_orientation_reverse_landscape">Книжная перевёрнутая</string>
-    <string name="enable_black_theme">Включить тёмное оформление</string>
+    <string name="enable_black_theme">Чёрная тема</string>
     <string name="enable_black_theme_summary">Изменить цвета интерфейса для большего комфорта при низкой освещённости.</string>
     <string name="subtitle_text_encoding">Кодировка текста субтитров</string>
     <string name="daynight_title">Режим День/Ночь</string>
@@ -275,7 +277,8 @@
     <string name="video_min_group_length_first">Только по первой букве</string>
     <string name="video_min_group_length_short">По короткому началу (6 букв)</string>
     <string name="video_min_group_length_long">По длинному началу (9 букв)</string>
-    <string name="media_fast_seek">Включить быструю перемотку</string>
+    <string name="media_fast_seek">Быстрая перемотка</string>
+    <string name="media_fast_seek_summary">Перемотка выполняется быстрее, но менее точно</string>
     <string name="media_seen">Отмечать просмотренное видео</string>
     <string name="media_seen_summary">Помечать видео как просмотренное, когда оно воспроизводится до конца</string>
     <string name="force_list_portrait">Не показывать сетку вертикально</string>
@@ -290,7 +293,7 @@
     <string name="enable_brightness_gesture_summary">Управление яркостью жестами во время воспроизведения видео</string>
     <string name="enable_volume_gesture_title">Изменение громкости жестом</string>
     <string name="enable_volume_gesture_summary">Управление громкостью жестами во время воспроизведения видео</string>
-    <string name="enable_seek_buttons">Включить кнопки перемотки</string>
+    <string name="enable_seek_buttons">Кнопки перемотки</string>
     <string name="enable_seek_buttons_summary">Показывать кнопки перемотки назад и вперёд поверх видео</string>
     <string name="enable_double_tap_seek_title">Промотка при двойном нажатии</string>
     <string name="enable_double_tap_seek_summary">Двойное нажатие у краёв экрана для промотки на 10 секунд</string>
@@ -328,10 +331,12 @@
     <string name="audio_save_repeat_title">Сохранять режим повтора</string>
     <string name="audio_save_repeat_summary">Запоминать режим повтора при загрузке плейлистов с аудиозаписями</string>
     <string name="audio_boost_title">Усиление звука</string>
-    <string name="audio_boost_summary">Допустить увеличение громкости до 200%</string>
+    <string name="audio_boost_summary">Позволить увеличивать громкость до 200%</string>
     <string name="headset_prefs_category">Наушники</string>
     <string name="enable_headset_detection">Отслеживание гарнитуры</string>
     <string name="enable_headset_detection_summary">Обнаружение подключения и отключения наушников</string>
+    <string name="enable_headset_actions_title">Действия с пульта управления</string>
+    <string name="enable_headset_actions_summary">Двойное нажатие кнопки \'Play\' — переход к следующей позиции, длинное нажатие — к предыдущей</string>
     <string name="enable_play_on_headset_insertion">Запуск воспроизведения при подключении наушников</string>
     <string name="enable_play_on_headset_insertion_summary">В противном случае — пауза</string>
     <string name="enable_steal_remote_control">Захват управления с гарнитуры</string>
@@ -363,14 +368,14 @@
     <string name="controls_prefs_category">Параметры</string>
     <string name="performance_prefs_category">Производительность</string>
     <string name="chroma_format">Принудительный формат цветности</string>
-    <string name="chroma_format_summary">RGB 32 бита: формат по умолчанию\n\nRGB 16 бит: выше скорость, но ниже качество\n\nYUV: максимальная скорость, но работает на на всех устройствах; поддерживает только Android 2.3 и новее.</string>
+    <string name="chroma_format_summary">RGB 32 бита: формат по умолчанию\nRGB 16 бит: выше скорость, но ниже качество\nYUV: максимальная скорость, но работает на на всех устройствах; поддерживает только Android 2.3 и новее.</string>
     <string name="deblocking">Параметры устранения блочности</string>
     <string name="deblocking_summary">Устранение блочности может улучшить качество видео. Предназначено только для опытных пользователей.</string>
     <string name="deblocking_always">Полное устранение (самое медленное)</string>
     <string name="deblocking_nonref">Среднее устранение</string>
     <string name="deblocking_nonkey">Минимальное устранение</string>
     <string name="deblocking_all">Без устранения (быстрее всего)</string>
-    <string name="enable_frame_skip">Допускать пропуски кадров</string>
+    <string name="enable_frame_skip">Пропуск кадров</string>
     <string name="enable_frame_skip_summary">Ускоряет декодирование, но может повлиять на качество видео.</string>
     <string name="enable_time_stretching_audio">Изменение скорости звука</string>
     <string name="enable_time_stretching_audio_summary">Ускорение/замедление звука без изменения его высоты (требуется мощное устройство).</string>
@@ -380,6 +385,8 @@
     <string name="save_video_always">Запоминать скорость после выхода</string>
     <string name="auto_rescan">Автосканирование</string>
     <string name="auto_rescan_summary">Автоматически сканировать устройство и выявлять новые или удалённые медиафайлы при запуске приложения</string>
+    <string name="dump_media_db">Скопировать базу данных мультимедиа</string>
+    <string name="dump_media_db_summary">Копировать базу данных в корень внутреннего хранилища</string>
     <string name="clear_media_db">Очистить базу метаданных</string>
     <string name="clear_media_db_summary">Стирать информацию в базе данных Android VLC</string>
     <string name="clear_history">Очистить историю поиска</string>
@@ -437,15 +444,11 @@
     <string name="confirm_resume_title">Предлагать продолжить воспроизведение</string>
     <string name="confirm_resume_summary">Вам будет предлагаться продолжить воспроизведение с последней позиции, если это возможно.</string>
     <string name="directory_empty">Каталог пуст</string>
-    <string name="player_touch_title">Управление касаниями для видео</string>
-    <string name="player_touch_enable_all">Включить управление касаниями</string>
-    <string name="player_touch_disable_brightness">Отключить управление яркостью</string>
-    <string name="player_touch_disable_all">Отключить всё управление касаниями</string>
     <string name="tv_ui_title">Интерфейс Android TV</string>
     <string name="tv_ui_summary">Сменить интерфейс на тему для TV</string>
     <string name="medialibrary">Медиатека</string>
     <string name="medialibrary_directories">Папки медиатеки</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">Другие действия</string>
     <string name="move">Переместить</string>
     <string name="back_quit_lock">Нажмите Назад ещё раз, чтобы закрыть видео</string>
@@ -453,7 +456,7 @@
     <string name="file_deleted">Файл удалён</string>
     <string name="no_subs_found">В этом каталоге нет субтитров</string>
     <string name="music_now_playing">Сейчас играет</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">VLC в светлом оформлении</string>
     <string name="widget_name_b">VLC в тёмном оформлении</string>
     <string name="allow_storage_access_title">Разрешить VLC обращаться к аудио- и видеофайлам</string>
@@ -467,10 +470,10 @@
     <string name="permission_ask_again">Дать разрешение</string>
     <string name="exit_app">Закрыть VLC</string>
     <string name="exit_app_msg">Вы действительно хотите закрыть VLC?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">Быстрая прокрутка</string>
     <string name="fastscroller_handle">Быстрая прокрутка</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">Модули</string>
     <string name="download_on_device">Загрузить</string>
     <string name="extension_empty">Список расширений пуст, перейдите в настройки расширений, чтобы они появились.</string>
@@ -507,6 +510,7 @@
     <string name="episodes">эпизоды</string>
     <string name="movies">фильмы</string>
     <string name="videos">видео</string>
+    <string name="videos_all">Все видео</string>
     <string name="clear_playback_history">Очистить историю воспроизведения</string>
     <string name="various_artists">Различные исполнители</string>
     <string name="ml_scanning">Поиск медиафайлов</string>
@@ -546,4 +550,9 @@
     <string name="sdcard_permission_dialog_title">Вы должны разрешить VLC запись на SD-карту</string>
     <string name="sdcard_permission_dialog_message">VLC не может удалить этот файл, не имея разрешения на запись.\nПерейдите к SD-карте и нажмите \"Выбрать\".\nВозможно, сначала вам нужно будет нажать \"Показать SD-карту\" в правом верхнем меню.</string>
     <string name="dialog_sd_wizard">Показать</string>
+    <string name="renderers_disconnect">Отключить</string>
+    <string name="audio_digital_failed">Не удалось изменить состояние вывода цифрового вывода звука</string>
+    <string name="audio_digital_output_enabled">Цифровой вывод звука включён</string>
+    <string name="audio_digital_output_disabled">Цифровой вывод звука отключён</string>
+    <string name="audio_digital_title">Цифровой вывод звука (сквозной)</string>
 </resources>

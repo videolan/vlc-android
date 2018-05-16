@@ -7,6 +7,8 @@
     <string name="sortby">並び替え…</string>
     <string name="sortby_name">名前</string>
     <string name="sortby_name_desc">名前 (降順)</string>
+    <string name="sortby_filename">ファイル名</string>
+    <string name="sortby_filename_desc">ファイル名 (降順)</string>
     <string name="sortby_artist_name">アーティスト名</string>
     <string name="sortby_artist_name_desc">アーティスト名 (降順)</string>
     <string name="sortby_album_name">アルバム名</string>
@@ -169,7 +171,7 @@
     <string name="open_mrl">ストリーム</string>
     <string name="open_mrl_dialog_title">ネットワークストリームを開く</string>
     <string name="open_mrl_dialog_msg">ネットワークMRLを入力: 例 http://, mms:// または rtsp://</string>
-    <string name="error_not_compatible">申し訳ありませんが、あなたのデバイスはこのバージョンのAndroid™用VLCではサポートされていません。\n\nエラーメッセージ(デバッグの際にはこちらをお伝えください):\n</string>
+    <string name="error_not_compatible">申し訳ありませんが、あなたのデバイスはこのバージョンのAndroid™用VLCではサポートされていません。</string>
     <string name="error_problem">VLC for Androidはローディングで問題が発生したため、クローズします。</string>
     <string name="error_message_is">エラーメッセージ (デバッグ時はこのメッセージをお知らせください):\n</string>
     <string name="empty" translatable="false"></string>
@@ -182,7 +184,7 @@
     <string name="playback_history_summary">履歴にあるすべての再生済みメディアを保存</string>
     <string name="playback_speed_title">再生速度を保存</string>
     <string name="playback_speed_summary">設定した再生速度を保存</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">ビデオプレイヤーのTips:</string>
     <string name="seek">シーク</string>
     <string name="subtitles">字幕</string>
@@ -207,7 +209,7 @@
     <string name="about">VLCについて</string>
     <string name="about_text">VLC for Android™ はポピュラーなオープンソースのメディアプレイヤーであるVLCメディアプレイヤーの移植版です。Android™ 版は多くのファイルとネットワークストリームを読み込むことが可能です。</string>
     <string name="compiled_by">このバージョンのVLCのコンパイラ:</string>
-    <string name="vlc_authors">VLCの著作者</string>
+    <string name="vlc_authors">およびVLCの著作者。</string>
     <!-- Preferences -->
     <string name="preferences">設定</string>
     <string name="general_prefs_category">全般設定</string>
@@ -234,7 +236,7 @@
     <string name="screen_orientation_landscape">ランドスケープ</string>
     <string name="screen_orientation_reverse_portrait">反転ポートレート</string>
     <string name="screen_orientation_reverse_landscape">反転ランドスケープ</string>
-    <string name="enable_black_theme">ブラックテーマの有効化</string>
+    <string name="enable_black_theme">ブラックテーマ</string>
     <string name="enable_black_theme_summary">低照度の環境で最適な表示のためにインターフェースの色を変更します。</string>
     <string name="subtitle_text_encoding">字幕テキストのエンコード</string>
     <string name="daynight_title">昼夜モード</string>
@@ -254,7 +256,8 @@
     <string name="video_min_group_length_first">最初一文字のみ</string>
     <string name="video_min_group_length_short">短い文字列 (6)</string>
     <string name="video_min_group_length_long">長い文字列 (9)</string>
-    <string name="media_fast_seek">高速シークオプションの有効化</string>
+    <string name="media_fast_seek">高速シーク</string>
+    <string name="media_fast_seek_summary">メディアを高速にシークしますが、正確でない可能性があります</string>
     <string name="media_seen">ビデオの再生記録マーカー</string>
     <string name="media_seen_summary">ビデオを終わりまで再生した場合に再生済みとマーク</string>
     <string name="force_list_portrait">ポートレートモードでグリッド表示しない</string>
@@ -269,7 +272,7 @@
     <string name="enable_brightness_gesture_summary">ビデオ再生中のジェスチャーによる輝度調整を有効にします。</string>
     <string name="enable_volume_gesture_title">ジェスチャーで音量変更</string>
     <string name="enable_volume_gesture_summary">ビデオ再生中のジェスチャーによる音量調整</string>
-    <string name="enable_seek_buttons">シークボタンの有効化</string>
+    <string name="enable_seek_buttons">シークボタン</string>
     <string name="enable_seek_buttons_summary">ビデオインターフェース上に進む・戻るボタンを表示する</string>
     <string name="enable_double_tap_seek_title">ダブルタップでシーク</string>
     <string name="enable_double_tap_seek_summary">スクリーン端をダブルタップすると10秒間シークします</string>
@@ -311,6 +314,8 @@
     <string name="headset_prefs_category">ヘッドセット</string>
     <string name="enable_headset_detection">ヘッドセットの検出</string>
     <string name="enable_headset_detection_summary">ヘッドセットの着脱を検出</string>
+    <string name="enable_headset_actions_title">リモートコントロールショートカット</string>
+    <string name="enable_headset_actions_summary">\'再生\' を2回押すと次へスキップ、長押しで前のトラックを再生</string>
     <string name="enable_play_on_headset_insertion">ヘッドセットの装着で再開</string>
     <string name="enable_play_on_headset_insertion_summary">それ以外では一時停止</string>
     <string name="enable_steal_remote_control">ヘッドセットのリモートコントロールを除外</string>
@@ -349,7 +354,7 @@
     <string name="deblocking_nonref">ブロック化抑止中間</string>
     <string name="deblocking_nonkey">ブロック化抑止最小</string>
     <string name="deblocking_all">ブロック化抑止なし (高速)</string>
-    <string name="enable_frame_skip">フレームスキップの有効化</string>
+    <string name="enable_frame_skip">フレームスキップ</string>
     <string name="enable_frame_skip_summary">デコーディング速度を向上しますが、ビデオ品質は低くなります。</string>
     <string name="enable_time_stretching_audio">タイムストレッチングオーディオを有効化</string>
     <string name="enable_time_stretching_audio_summary">ピッチを変更することなく、速度を変更する (高速なデバイスが必要)</string>
@@ -359,6 +364,8 @@
     <string name="save_video_always">セッションをまたがって速度を保存</string>
     <string name="auto_rescan">自動再スキャン</string>
     <string name="auto_rescan_summary">アプリケーションの起動時に自動的にデバイスをスキャンし、新しいメディア、および削除されたメディアを検出します。</string>
+    <string name="dump_media_db">メディアデータベースをダンプ</string>
+    <string name="dump_media_db_summary">データベースを内部ストレージのrootへコピー</string>
     <string name="clear_media_db">メディアデータベースをクリア</string>
     <string name="clear_media_db_summary">データをクリアするために、Android VLCのInfoにアクセス</string>
     <string name="clear_history">検索履歴をクリア</string>
@@ -416,15 +423,11 @@
     <string name="confirm_resume_title">再開を確認する</string>
     <string name="confirm_resume_summary">このオプションを有効にすると、ビデオ再生時に前回再生を終了した位置から再生するかどうか確認します。</string>
     <string name="directory_empty">ディレクトリは空です。</string>
-    <string name="player_touch_title">ビデオのタッチコントロール</string>
-    <string name="player_touch_enable_all">タッチコントロールを有効化</string>
-    <string name="player_touch_disable_brightness">輝度のコントロールを無効化</string>
-    <string name="player_touch_disable_all">すべてのタッチコントロールを無効化</string>
     <string name="tv_ui_title">Android TVインターフェース</string>
     <string name="tv_ui_summary">TVのテーマにUIを変更</string>
     <string name="medialibrary">メディアライブラリ</string>
     <string name="medialibrary_directories">メディアライブラリフォルダー</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">他のアクション</string>
     <string name="move">移動</string>
     <string name="back_quit_lock">もう一度Backボタンを押すとビデオを終了します</string>
@@ -432,7 +435,7 @@
     <string name="file_deleted">ファイルが削除されました</string>
     <string name="no_subs_found">ディレクトリに字幕がありません</string>
     <string name="music_now_playing">再生中</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">VLC白色ウィジェット</string>
     <string name="widget_name_b">VLCダークウィジェット</string>
     <string name="allow_storage_access_title">VLCがビデオとオーディオファイルにアクセスすることを許可</string>
@@ -446,10 +449,10 @@
     <string name="permission_ask_again">許可する</string>
     <string name="exit_app">VLCを閉じる</string>
     <string name="exit_app_msg">本当にVLCを終了してもいいですか?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller トラック</string>
     <string name="fastscroller_handle">FastScroller ハンドル</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">プラグイン</string>
     <string name="download_on_device">ダウンロード</string>
     <string name="extension_empty">再生する項目がありません、拡張設定を見直してみてください</string>
@@ -486,6 +489,7 @@
     <string name="episodes">エピソード</string>
     <string name="movies">映画</string>
     <string name="videos">ビデオ</string>
+    <string name="videos_all">すべてのビデオ</string>
     <string name="clear_playback_history">再生履歴をクリア</string>
     <string name="various_artists">複数アーティスト</string>
     <string name="ml_scanning">メディアファイルをスキャン中</string>
@@ -524,4 +528,10 @@
     <string name="feedback_player_crashed">VLCがクラッシュしました。再試行してください。</string>
     <string name="sdcard_permission_dialog_title">SDカードへの書き込み権をVLCに与えてください</string>
     <string name="sdcard_permission_dialog_message">書き込み権が無いとVLCがこのファイルを削除することができません。\nSDカードで\"選択\"をクリックしてください。\n右上のメニューで”SDカードの表示\"をクリックする必要があるかも知れません。</string>
+    <string name="dialog_sd_wizard">SDカードへのアクセスを許可</string>
+    <string name="renderers_disconnect">切断</string>
+    <string name="audio_digital_failed">オーディオデジタル出力状態の変更に失敗しました。</string>
+    <string name="audio_digital_output_enabled">オーディオデジタル出力を有効化</string>
+    <string name="audio_digital_output_disabled">オーディオデジタル出力を無効化</string>
+    <string name="audio_digital_title">デジタルオーディオ出力 (パススルー)</string>
 </resources>

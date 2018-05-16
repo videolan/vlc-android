@@ -7,6 +7,8 @@
     <string name="sortby">Sıralama…</string>
     <string name="sortby_name">Ad</string>
     <string name="sortby_name_desc">Ad (azalan)</string>
+    <string name="sortby_filename">Dosya adı</string>
+    <string name="sortby_filename_desc">Dosya adı (azalan)</string>
     <string name="sortby_artist_name">Sanatçı adı</string>
     <string name="sortby_artist_name_desc">Sanatçı adı (azalan)</string>
     <string name="sortby_album_name">Albüm adı</string>
@@ -176,7 +178,7 @@
     <string name="open_mrl">Akış</string>
     <string name="open_mrl_dialog_title">Ağ akışı aç</string>
     <string name="open_mrl_dialog_msg">Ağ adresini yazın: örneğin http://, mms:// or rtsp://</string>
-    <string name="error_not_compatible">Malesef, bu Android™ için VLC sürümü aygıtınızı desteklemiyor.\n\nHata iletisi (hata ayıklama raporunda bu iletiyi belirtin):\n</string>
+    <string name="error_not_compatible">Malesef, bu Android™ için VLC sürümü aygıtınızı desteklemiyor.</string>
     <string name="error_problem">Android için VLC yüklenirken bir sorun çıktı ve kapatılması gerekti.</string>
     <string name="error_message_is">Hata iletisi (hata ayıklarken bu iletiyi aktarın):\n</string>
     <string name="empty" translatable="false"></string>
@@ -189,7 +191,7 @@
     <string name="playback_history_summary">Oynatılan tüm ortamlar geçmiş bölümüne kaydedilir</string>
     <string name="playback_speed_title">Oynatma Hızını Kaydet</string>
     <string name="playback_speed_summary">Ayarlanan oynatma hızı hatırlansın</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">Görüntü oynatıcı ipuçları:</string>
     <string name="seek">Arama</string>
     <string name="subtitles">Alt yazılar</string>
@@ -214,7 +216,7 @@
     <string name="about">Hakkında</string>
     <string name="about_text">Android™ için VLC, çok kullanılan açık kaynaklı VLC ortam oynatıcının bir sürümüdür. Android™ sürümü çoğu dosya ve ağ akışlarını okuyabilir.</string>
     <string name="compiled_by">Bu VLC sürümü şu kişiler tarafından oluşturulmuştur:</string>
-    <string name="vlc_authors">VLC Yazarları.</string>
+    <string name="vlc_authors">ve VLC Geliştiricileri.</string>
     <!-- Preferences -->
     <string name="preferences">Ayarlar</string>
     <string name="general_prefs_category">Genel</string>
@@ -241,7 +243,7 @@
     <string name="screen_orientation_landscape">Yatay</string>
     <string name="screen_orientation_reverse_portrait">Ters dikey</string>
     <string name="screen_orientation_reverse_landscape">Ters yatay</string>
-    <string name="enable_black_theme">Siyah tema kullanılsın</string>
+    <string name="enable_black_theme">Siyah tema</string>
     <string name="enable_black_theme_summary">Düşük aydınlatmalı ortamlarda daha konforlu kullanım için arayüz renklerini değiştirir.</string>
     <string name="subtitle_text_encoding">Alt yazı metin kodlaması</string>
     <string name="daynight_title">Gündüz/Gece kipi</string>
@@ -261,7 +263,8 @@
     <string name="video_min_group_length_first">Yalnız ilk harf</string>
     <string name="video_min_group_length_short">Kısa harf sayısı (6)</string>
     <string name="video_min_group_length_long">Uzun harf sayısı (9)</string>
-    <string name="media_fast_seek">Hızlı tarama seçeneği kullanılsın</string>
+    <string name="media_fast_seek">Hızlı arama</string>
+    <string name="media_fast_seek_summary">Bu işlem daha hızlı ancak daha az hassastır</string>
     <string name="media_seen">Görüldü görüntü işareti görüntülensin</string>
     <string name="media_seen_summary">Bir görüntü sonuna dek oynatılana kadar görüldü olarak işaretlensin</string>
     <string name="force_list_portrait">Dikey konumda tablo olmasın</string>
@@ -276,7 +279,7 @@
     <string name="enable_brightness_gesture_summary">Görüntü oynatılırken parlaklık el hareketi ile ayarlanabilir</string>
     <string name="enable_volume_gesture_title">Ses el hareketi</string>
     <string name="enable_volume_gesture_summary">Görüntü oynatılırken ses el hareketi ile ayarlanabilsin</string>
-    <string name="enable_seek_buttons">Tarama düğmeleri görüntülensin</string>
+    <string name="enable_seek_buttons">Arama düğmeleri</string>
     <string name="enable_seek_buttons_summary">Bu seçenek etkinleştirildiğinde, görüntü arayüzünde ileri ve geri tarama düğmeleri görüntülenir</string>
     <string name="enable_double_tap_seek_title">Taramak için çift dokunun</string>
     <string name="enable_double_tap_seek_summary">10 saniye ileri ya da geri atlamak için ekran kenarlarına çift dokunun</string>
@@ -314,10 +317,12 @@
     <string name="audio_save_repeat_title">Yineleme kipini kaydet</string>
     <string name="audio_save_repeat_summary">Ses oynatma listeleri yüklenirken yineleme kipi hatırlansın</string>
     <string name="audio_boost_title">Ses güçlendirme</string>
-    <string name="audio_boost_summary">Ses %200 olana kadar arttırılabilsin</string>
+    <string name="audio_boost_summary">Ses %200 arttırılabilsin</string>
     <string name="headset_prefs_category">Kulaklık</string>
     <string name="enable_headset_detection">Kulaklık algılansın</string>
     <string name="enable_headset_detection_summary">Kulaklığın takıldığı ve çıkarıldığı algılansın</string>
+    <string name="enable_headset_actions_title">Uzaktan Denetim Kısayolları</string>
+    <string name="enable_headset_actions_summary">\'Oynat\' üzerine çift dokunarak sonraki ize, uzun basarak önceki ize geçebilirsiniz</string>
     <string name="enable_play_on_headset_insertion">Kulaklık takıldığında sürdürülsün</string>
     <string name="enable_play_on_headset_insertion_summary">Yoksa duraklatılsın</string>
     <string name="enable_steal_remote_control">Özel kulaklık kumandası</string>
@@ -356,7 +361,7 @@
     <string name="deblocking_nonref">Orta engel kaldırma</string>
     <string name="deblocking_nonkey">Düşük engel kaldırma</string>
     <string name="deblocking_all">Engel kaldırma yok (en hızlı)</string>
-    <string name="enable_frame_skip">Kare atlama kullanılsın</string>
+    <string name="enable_frame_skip">Kare atlama</string>
     <string name="enable_frame_skip_summary">Kod çözmeyi hızlandırır ancak görüntü kalitesini düşürür.</string>
     <string name="enable_time_stretching_audio">Zamana yaymalı ses</string>
     <string name="enable_time_stretching_audio_summary">Tonu değiştirmeden sesi hızlandırır ya da yavaşlatır (hızlı bir aygıt gerekir)</string>
@@ -366,6 +371,8 @@
     <string name="save_video_always">Farklı oturumlardaki hızlar kaydedilsin</string>
     <string name="auto_rescan">Otomatik yeniden tarama</string>
     <string name="auto_rescan_summary">Uygulama başlatıldığında aygıt otomatik olarak yeni ya da silinmiş ortamlar için taranır</string>
+    <string name="dump_media_db">Ortam veritabanını boşalt</string>
+    <string name="dump_media_db_summary">Veritabanını iç depolama köküne kopyala</string>
     <string name="clear_media_db">Ortam veritabanını temizle</string>
     <string name="clear_media_db_summary">Verileri temizlemek için Android VLC bilgilerine bakın</string>
     <string name="clear_history">Arama geçmişini temizle</string>
@@ -423,15 +430,11 @@
     <string name="confirm_resume_title">Sürdürme onayı istensin</string>
     <string name="confirm_resume_summary">Bu seçenek etkinlleştirildiğinde, oynatılan bir görüntünün kalınan konumdan sürdürülmesi için onay istenir</string>
     <string name="directory_empty">Klasör boş</string>
-    <string name="player_touch_title">Görüntü için dokunma denetimleri</string>
-    <string name="player_touch_enable_all">Dokunma denetimleri kullanılsın</string>
-    <string name="player_touch_disable_brightness">Parlaklık denetimi devre dışı bırakılsın</string>
-    <string name="player_touch_disable_all">Tüm dokunma denetimleri devre dışı bırakılsın</string>
     <string name="tv_ui_title">Android TV arayüzü</string>
     <string name="tv_ui_summary">Kullanıcı arayüzünü TV uyumlu temaya dönüştür</string>
     <string name="medialibrary">Ortam kitaplığı</string>
     <string name="medialibrary_directories">Ortam kitaplığı klasörleri</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">Diğer İşlemler</string>
     <string name="move">Taşı</string>
     <string name="back_quit_lock">Görüntüden çıkmak için yeniden geriye basın</string>
@@ -439,7 +442,7 @@
     <string name="file_deleted">Dosya silindi</string>
     <string name="no_subs_found">Bu klasörde herhangi bir alt yazı yok</string>
     <string name="music_now_playing">Şimdi Oynatılan</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">Açık VLC Gereci</string>
     <string name="widget_name_b">Koyu VLC Gereci</string>
     <string name="allow_storage_access_title">VLC görüntü ve ses dosyalarına erişebilsin</string>
@@ -453,10 +456,10 @@
     <string name="permission_ask_again">İzin ver</string>
     <string name="exit_app">Kapat</string>
     <string name="exit_app_msg">VLC uygulamasından çıkmak istediğinize emin misiniz?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">HızlıKaydırıcı izi</string>
     <string name="fastscroller_handle">HızlıKaydırıcı tutmacı</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">Uygulama Ekleri</string>
     <string name="download_on_device">İndir</string>
     <string name="extension_empty">Görüntülenecek bir öge yok. Edinmek için eklenti ayarları bölümüne bakın.</string>
@@ -493,6 +496,7 @@
     <string name="episodes">bölümler</string>
     <string name="movies">filmler</string>
     <string name="videos">görüntüler</string>
+    <string name="videos_all">Tüm görüntüler</string>
     <string name="clear_playback_history">Oynatma geçmişini temizle</string>
     <string name="various_artists">Çeşitli Sanatçılar</string>
     <string name="ml_scanning">Ortam dosyaları taranıyor</string>
@@ -532,4 +536,9 @@
     <string name="sdcard_permission_dialog_title">VLC uygulamasına SD Kart yazma izni verin</string>
     <string name="sdcard_permission_dialog_message">Yazma izni verilmeden VLC uygulaması bu dosyayı silemez.\n\nLütfen SD Kart üzerine giderek \"Seçin\" üzerine tıklayın.\nSağ üst menüdeki birinci öge olan \"SD Kartı Görüntüle\" üzerine tıklamanız gerekebilir</string>
     <string name="dialog_sd_wizard">Bana görüntülensin</string>
+    <string name="renderers_disconnect">Bağlantıyı Kes</string>
+    <string name="audio_digital_failed">Sayısal Ses Çıkışı durumu değiştirilemedi</string>
+    <string name="audio_digital_output_enabled">Sayısal Ses Çıkışı etkinleştirildi</string>
+    <string name="audio_digital_output_disabled">Sayısal Ses Çıkışı devre dışı bırakıldı</string>
+    <string name="audio_digital_title">Sayısal Ses Çıkışı (geçiş)</string>
 </resources>

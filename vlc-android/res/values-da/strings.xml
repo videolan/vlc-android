@@ -7,6 +7,8 @@
     <string name="sortby">Sortér efter …</string>
     <string name="sortby_name">Navn</string>
     <string name="sortby_name_desc">Navn (fald)</string>
+    <string name="sortby_filename">Filnavn</string>
+    <string name="sortby_filename_desc">Filnavn (fald)</string>
     <string name="sortby_artist_name">Kunstnernavn</string>
     <string name="sortby_artist_name_desc">Kunstnernavn (fald)</string>
     <string name="sortby_album_name">Albumnavn</string>
@@ -189,7 +191,7 @@
     <string name="playback_history_summary">Gem alle afspillede medier i Historik</string>
     <string name="playback_speed_title">Gem afspilningshastighed</string>
     <string name="playback_speed_summary">Husk den afspilningshastighed du har sat</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">Tips til videoafspilleren:</string>
     <string name="seek">Søg</string>
     <string name="subtitles">Undertekster</string>
@@ -214,7 +216,7 @@
     <string name="about">Om</string>
     <string name="about_text">VLC til Android™ er en portering af VLC-medieafspilleren, den populære open source-medieafspiller. Android™-udgaven kan læse de fleste filer og netværksstrømme.</string>
     <string name="compiled_by">Denne version af VLC er kompileret af:</string>
-    <string name="vlc_authors">VLC-forfattere.</string>
+    <string name="vlc_authors">og VLC-forfattere.</string>
     <!-- Preferences -->
     <string name="preferences">Indstillinger</string>
     <string name="general_prefs_category">Generelt</string>
@@ -241,7 +243,7 @@
     <string name="screen_orientation_landscape">Landskab</string>
     <string name="screen_orientation_reverse_portrait">Vend portrættet om</string>
     <string name="screen_orientation_reverse_landscape">Vend landskabet om</string>
-    <string name="enable_black_theme">Slå sort tema til</string>
+    <string name="enable_black_theme">Sort tema</string>
     <string name="enable_black_theme_summary">Skift brugerfladens farver for bedre komfort i miljøer med svagt lys.</string>
     <string name="subtitle_text_encoding">Tekstkodning for undertekster</string>
     <string name="daynight_title">Dag-nat-tilstand</string>
@@ -261,7 +263,8 @@
     <string name="video_min_group_length_first">Kun første bogstav</string>
     <string name="video_min_group_length_short">Korte antal tegn (6)</string>
     <string name="video_min_group_length_long">Lange antal tegn (9)</string>
-    <string name="media_fast_seek">Aktivér hurtig søgning-indstilling</string>
+    <string name="media_fast_seek">Hurtig søgning</string>
+    <string name="media_fast_seek_summary">Søgning i et medie er hurtigere men mindre præcist</string>
     <string name="media_seen">Vis set video-markør</string>
     <string name="media_seen_summary">Mærk en video som set når du afspiller den til slutningen</string>
     <string name="force_list_portrait">Intet gitter i portræt-tilstand</string>
@@ -276,7 +279,7 @@
     <string name="enable_brightness_gesture_summary">Tilpas lysstyrke via gestus under videoafspilning</string>
     <string name="enable_volume_gesture_title">Lydstyrke-gestus</string>
     <string name="enable_volume_gesture_summary">Styr lydstyrke med gestus under videoafspilning</string>
-    <string name="enable_seek_buttons">Aktivér søgeknapper</string>
+    <string name="enable_seek_buttons">Søge-knapper</string>
     <string name="enable_seek_buttons_summary">Vis bagud- og forlæns-knapper på videobrugerfladen</string>
     <string name="enable_double_tap_seek_title">Dobbelttryk for at søge</string>
     <string name="enable_double_tap_seek_summary">Dobbelttryk på skærmkanterne for at søge med 10 sekunder</string>
@@ -314,10 +317,12 @@
     <string name="audio_save_repeat_title">Gem gentagtilstand</string>
     <string name="audio_save_repeat_summary">Husk gentagtilstand ved indlæsning af lydspillelister</string>
     <string name="audio_boost_title">Lydforstærkning</string>
-    <string name="audio_boost_summary">Aktivér lydstyrke op til 200%</string>
+    <string name="audio_boost_summary">Tillad lydstyrke op til 200 %</string>
     <string name="headset_prefs_category">Hovedtelefoner</string>
     <string name="enable_headset_detection">Detektér hovedtelefoner</string>
     <string name="enable_headset_detection_summary">Registrér indsættes og fjernelse af hovedtelefoner</string>
+    <string name="enable_headset_actions_title">Genveje til fjernstyring</string>
+    <string name="enable_headset_actions_summary">Tryk to gange på \'Afspil\' for at springe til næste spor, og tryk længe for at springe til forrige spor</string>
     <string name="enable_play_on_headset_insertion">Genoptag ved indsættelse af hovedtelefoner</string>
     <string name="enable_play_on_headset_insertion_summary">Ellers sæt på pause</string>
     <string name="enable_steal_remote_control">Udeluk hovedtelefoner fjernbetjening</string>
@@ -335,6 +340,8 @@
     <string name="casting_quality_medium">Medium</string>
     <string name="casting_quality_low">Lav</string>
     <string name="casting_quality_lowcpu">Lavest</string>
+    <string name="cast_performance_warning">Udsendelsen af denne video kræver konvertering. Konverteringen kan bruge al den tilgængelige strøm og kan hurtigt dræne dit batteri.</string>
+    <string name="casting_connected_renderer">Forbundet til optegneren \'%1$s\'</string>
     <string name="artists_show_all_title">Vis alle kunstnere</string>
     <string name="artists_show_all_summary">Vis alle kunstnere i Kunstnere-listning, ikke kun albumkunstnere</string>
     <string name="extensions_prefs_category">Udvidelser</string>
@@ -354,7 +361,7 @@
     <string name="deblocking_nonref">Medium blokdeling</string>
     <string name="deblocking_nonkey">Lav blokdeling</string>
     <string name="deblocking_all">Ingen blokdeling (hurtigst)</string>
-    <string name="enable_frame_skip">Aktivér billedoverspring</string>
+    <string name="enable_frame_skip">Spring billede over</string>
     <string name="enable_frame_skip_summary">Øger hastigheden for afkodning, men kan forringe videokvaliteten.</string>
     <string name="enable_time_stretching_audio">Slå tidsudstrækning af lyd til</string>
     <string name="enable_time_stretching_audio_summary">Øger og sænker lydhastigheden uden at ændre tonelejet (kræver en hurtig enhed).</string>
@@ -364,6 +371,8 @@
     <string name="save_video_always">Gem hastighed mellem sessioner</string>
     <string name="auto_rescan">Automatisk genskan</string>
     <string name="auto_rescan_summary">Automatisk skanning af enhed efter nye eller slettede medier ved opstart af program</string>
+    <string name="dump_media_db">Dump medie-database</string>
+    <string name="dump_media_db_summary">Kopiér database til roden af internt lager</string>
     <string name="clear_media_db">Ryd medie-database</string>
     <string name="clear_media_db_summary">Tilgå Android VLC info for at rydde data</string>
     <string name="clear_history">Ryd søgehistorik</string>
@@ -421,15 +430,11 @@
     <string name="confirm_resume_title">Spørg om bekræftelse til at genoptage afspilningen</string>
     <string name="confirm_resume_summary">Hvis den aktiveres vil du blive spurgt om videoen skal genoptage afspilningen fra sidste position</string>
     <string name="directory_empty">Mappen er tom</string>
-    <string name="player_touch_title">Berøringskontrolelementer for video</string>
-    <string name="player_touch_enable_all">Aktivér berøringskontrolelementer</string>
-    <string name="player_touch_disable_brightness">Deaktivér lysstyrkekontrolelement</string>
-    <string name="player_touch_disable_all">Deaktivér alle berøringskontrolelementer</string>
     <string name="tv_ui_title">Android TV-grænseflade</string>
     <string name="tv_ui_summary">Skift brugerflade til tema som er tilpasset TV</string>
     <string name="medialibrary">Mediebibliotek</string>
     <string name="medialibrary_directories">Mediebiblioteksmapper</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">Flere handlinger</string>
     <string name="move">Flyt</string>
     <string name="back_quit_lock">Tryk på Tilbage igen for at afslutte videoen</string>
@@ -437,7 +442,7 @@
     <string name="file_deleted">Fil slettet</string>
     <string name="no_subs_found">Ingen undertekster i denne mappe</string>
     <string name="music_now_playing">Afspiller nu</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">VLC hvid widget</string>
     <string name="widget_name_b">VLC mørk widget</string>
     <string name="allow_storage_access_title">Tillad at VLC tilgår video- og lydfiler</string>
@@ -451,10 +456,10 @@
     <string name="permission_ask_again">Tildel rettighed</string>
     <string name="exit_app">Luk VLC</string>
     <string name="exit_app_msg">Er du sikker på, at du vil afslutte VLC?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">Hurtig ruller-spor</string>
     <string name="fastscroller_handle">Hurtig ruller-håndtag</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">Plugins</string>
     <string name="download_on_device">Download</string>
     <string name="extension_empty">Intet at vise, gå til dine udvidelsesindstillinger for at hente noget.</string>
@@ -491,6 +496,7 @@
     <string name="episodes">episoder</string>
     <string name="movies">vidoer</string>
     <string name="videos">videoer</string>
+    <string name="videos_all">Alle videoer</string>
     <string name="clear_playback_history">Ryd afspilningshistorik</string>
     <string name="various_artists">Diverse kunstnere</string>
     <string name="ml_scanning">Skanner efter mediefiler</string>
@@ -525,7 +531,14 @@
     <string name="browser_quick_access">Hurtig adgang</string>
     <string name="browser_storages">Lagre</string>
     <string name="msg_delete_failed">Kunne ikke slette mediet %1$s</string>
+    <string name="renderer_list_title">Viser</string>
     <string name="feedback_player_crashed">Beklager, VLC holdt op med at virke. Prøv venligst igen.</string>
     <string name="sdcard_permission_dialog_title">Du skal give VLC skriveadgang til dit SD-kort</string>
+    <string name="sdcard_permission_dialog_message">VLC kan ikke slette filen uden skriveadgangstilladelse.\nGå venligst til dit SD-kort og klik på \"Vælg\".\nDet kan være du først skal klikke på \"Vis SD-kort\" i menuen øverst til højre</string>
     <string name="dialog_sd_wizard">Vis mig</string>
+    <string name="renderers_disconnect">Afbryd forbindelsen</string>
+    <string name="audio_digital_failed">Kunne ikke ændre Audio Digital Output-tilstand</string>
+    <string name="audio_digital_output_enabled">Audio Digital Output aktiveret</string>
+    <string name="audio_digital_output_disabled">Audio Digital Output deaktiveret</string>
+    <string name="audio_digital_title">Digital audio output (gennemsendelse)</string>
 </resources>

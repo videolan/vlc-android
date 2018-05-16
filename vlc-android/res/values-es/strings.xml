@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Main VLC Interface -->
-    <string name="ok">Aceptarrce on\nModo de lista de reproducciónd e vídeo</string>
+    <string name="ok">Aceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="other">Otro</string>
     <string name="sortby">Ordenar por…</string>
     <string name="sortby_name">Nombre</string>
     <string name="sortby_name_desc">Nombre (desc)</string>
+    <string name="sortby_filename">Nombre de archivo</string>
+    <string name="sortby_filename_desc">Nombre de archivo (desc)</string>
     <string name="sortby_artist_name">Nombre de artista</string>
     <string name="sortby_artist_name_desc">Nombre de artista (desc)</string>
     <string name="sortby_album_name">Nombre de álbum</string>
@@ -146,7 +148,7 @@
     </plurals>
     <string name="track_samplerate_info">Tasa de muestreo: %1$d Hz\n</string>
     <string name="track_resolution_info">Resolución: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">Tasa de fotogramas: %1$.3f\n\n</string>
+    <string name="track_framerate_info">Tasa de fotogramas: %1$.3f\n</string>
     <string name="tools">Herramientas</string>
     <string name="playback_speed">Velocidad de reproducción</string>
     <string name="sleep_title">Temporizador de apagado</string>
@@ -178,7 +180,7 @@
     <string name="open_mrl_dialog_msg">Ingrese dirección de red: p.e. http://, mms:// o rtsp://</string>
     <string name="error_not_compatible">Su dispositivo no está soportado actualmente por esta versión de VLC para Android™.</string>
     <string name="error_problem">VLC para Android ha tenido un problema al cargarse y se ha cerrado.</string>
-    <string name="error_message_is">El mensaje de error es (mencione esto al depurar):\n\n</string>
+    <string name="error_message_is">El mensaje de error es (mencione esto al depurar):\n</string>
     <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">Error de reproducción</string>
     <string name="encountered_error_message">VLC ha encontrado un error con este medio.\nIntente refrescar la librería de medios.</string>
@@ -189,7 +191,7 @@
     <string name="playback_history_summary">Guardar los medios reproducidos en la sección de historial</string>
     <string name="playback_speed_title">Guardar velocidad de reproducción</string>
     <string name="playback_speed_summary">Recordar la velocidad de reproducción establecida</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">Consejos del reproductor de vídeo:</string>
     <string name="seek">Buscar</string>
     <string name="subtitles">Subtítulos</string>
@@ -214,7 +216,7 @@
     <string name="about">Acerca de</string>
     <string name="about_text">VLC para Android™ es una reescritura del Reproductor multimedia VLC, el popular reproductor multimedia de código abierto. La versión de Android™ puede leer la mayoría de archivos y flujos de red.</string>
     <string name="compiled_by">Esta versión de VLC está compilada por:</string>
-    <string name="vlc_authors">Autores de VLC.</string>
+    <string name="vlc_authors">y autores VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Preferencias</string>
     <string name="general_prefs_category">General</string>
@@ -241,7 +243,7 @@
     <string name="screen_orientation_landscape">Apaisado</string>
     <string name="screen_orientation_reverse_portrait">Invertir vertical</string>
     <string name="screen_orientation_reverse_landscape">Invertir apaisado</string>
-    <string name="enable_black_theme">Habilitar el tema negro</string>
+    <string name="enable_black_theme">Tema oscuro</string>
     <string name="enable_black_theme_summary">Cambiar los colores de la interfaz para una mayor comodidad en entornos de poca luz.</string>
     <string name="subtitle_text_encoding">Codificación de texto de subtítulos</string>
     <string name="daynight_title">Modo DiaNoche</string>
@@ -261,7 +263,8 @@
     <string name="video_min_group_length_first">Solo primera letra</string>
     <string name="video_min_group_length_short">Número corto de letras (6)</string>
     <string name="video_min_group_length_long">Número largo de letras (9)</string>
-    <string name="media_fast_seek">Habiitar opción de búsqueda rápida</string>
+    <string name="media_fast_seek">Búsqueda rápida</string>
+    <string name="media_fast_seek_summary">La búsqueda en un medio es más rápido pero menos preciso</string>
     <string name="media_seen">Mostrar en creador de vídeos</string>
     <string name="media_seen_summary">Marcar vídeo como visto al reproducirlo hasta el final</string>
     <string name="force_list_portrait">Sin rejilla en modo retrato</string>
@@ -276,7 +279,7 @@
     <string name="enable_brightness_gesture_summary">Controlar el brillo mediante gestos durante la reproducción del vídeo</string>
     <string name="enable_volume_gesture_title">Gesto de volumen</string>
     <string name="enable_volume_gesture_summary">Controlar el volumen mediante gestos durante la reproducción del vídeo</string>
-    <string name="enable_seek_buttons">Habilitar botones de búsqueda</string>
+    <string name="enable_seek_buttons">Botones de búsqueda</string>
     <string name="enable_seek_buttons_summary">Mostrar los botones rebobinar y avanzar en la interfaz de vídeo</string>
     <string name="enable_double_tap_seek_title">Doble toque para buscar</string>
     <string name="enable_double_tap_seek_summary">Doble toque en los bordes de la pantalla para buscar 10 segundos</string>
@@ -314,10 +317,12 @@
     <string name="audio_save_repeat_title">Guardar modo repetición</string>
     <string name="audio_save_repeat_summary">Recordar modo repetición al cargar listas de reproducción de audio</string>
     <string name="audio_boost_title">Apoyo de audio</string>
-    <string name="audio_boost_summary">Habilitar subida de audio hasta 200%</string>
+    <string name="audio_boost_summary">Permitir subir el volumen hasta el 200%</string>
     <string name="headset_prefs_category">Auriculares</string>
     <string name="enable_headset_detection">Detectar auriculares</string>
     <string name="enable_headset_detection_summary">Detectar inserción y extracción de auriculares</string>
+    <string name="enable_headset_actions_title">Atajos de control remoto</string>
+    <string name="enable_headset_actions_summary">Doble presión en «Reproducir» para saltar a la siguiente y presión larga para saltar a la pista previa</string>
     <string name="enable_play_on_headset_insertion">Continuar al insertar auriculares</string>
     <string name="enable_play_on_headset_insertion_summary">Pausar de otra manera</string>
     <string name="enable_steal_remote_control">Control remoto de auriculares exclusivo</string>
@@ -356,7 +361,7 @@
     <string name="deblocking_nonref">Desbloqueo medio</string>
     <string name="deblocking_nonkey">Desbloqueo bajo</string>
     <string name="deblocking_all">Sin desbloqueo (el más rápido)</string>
-    <string name="enable_frame_skip">Habilitar salto de fotogramas</string>
+    <string name="enable_frame_skip">Salto de fotogramas</string>
     <string name="enable_frame_skip_summary">Aumenta la decodificación pero puede disminuir la calidad del vídeo.</string>
     <string name="enable_time_stretching_audio">Habilitar audio «time-stretching»</string>
     <string name="enable_time_stretching_audio_summary">Aumentar y reducir la velocidad del audio sin cambiar el tono (requiere un dispositivo rápido)</string>
@@ -366,6 +371,8 @@
     <string name="save_video_always">Guardar la velocidad entre sesiones</string>
     <string name="auto_rescan">Autoescanear</string>
     <string name="auto_rescan_summary">Escanear automáticamente el dispositivo en busca de medios nuevos o eliminados al iniciar la aplicación</string>
+    <string name="dump_media_db">Volvar base de datos de medios</string>
+    <string name="dump_media_db_summary">Copiar base de datos a almacenamiento interno root</string>
     <string name="clear_media_db">Limpiar base de datos de medios</string>
     <string name="clear_media_db_summary">Acceder a información de Android VLC para limpiar datos</string>
     <string name="clear_history">Limpiar historial de búsqueda</string>
@@ -423,15 +430,11 @@
     <string name="confirm_resume_title">Solicitar confirmación para continuar</string>
     <string name="confirm_resume_summary">si se activa se solicitará confirmación por cuando un vídeo puede ser continuado desde la última posición</string>
     <string name="directory_empty">La carpeta está vacía</string>
-    <string name="player_touch_title">Controles táctiles para vídeo</string>
-    <string name="player_touch_enable_all">Habilitar controles táctiles</string>
-    <string name="player_touch_disable_brightness">Deshabilitar control de brillo</string>
-    <string name="player_touch_disable_all">Deshabilitar todos los controles táctiles</string>
     <string name="tv_ui_title">Interfaz Android TV</string>
     <string name="tv_ui_summary">Cambiar interfaz a tema adaptado a TV</string>
     <string name="medialibrary">Biblioteca de medios</string>
     <string name="medialibrary_directories">Carpetas de biblioteca de medios</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">Más acciones</string>
     <string name="move">Mover</string>
     <string name="back_quit_lock">Pulsar atrás otra vez para salir de vídeo</string>
@@ -439,7 +442,7 @@
     <string name="file_deleted">Archivo eliminado</string>
     <string name="no_subs_found">No hay subtítulos en esta carpeta</string>
     <string name="music_now_playing">Reproduciendo ahora</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">Tema blanco de VLC</string>
     <string name="widget_name_b">Tema negro de VLC</string>
     <string name="allow_storage_access_title">Permitir a VLC acceder a archivos de vídeo y audio</string>
@@ -453,10 +456,10 @@
     <string name="permission_ask_again">Conceder permiso</string>
     <string name="exit_app">Salir de VLC</string>
     <string name="exit_app_msg">¿Desea salir de VLC?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">Seguimiento FastScroller</string>
     <string name="fastscroller_handle">Manejador FastScroller</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">Complementos</string>
     <string name="download_on_device">Descargar</string>
     <string name="extension_empty">No hay elementos, vaya a las preferencias de complementos para obtener alguno.</string>
@@ -493,6 +496,7 @@
     <string name="episodes">episodios</string>
     <string name="movies">películas</string>
     <string name="videos">vídeos</string>
+    <string name="videos_all">Todos los vídeos</string>
     <string name="clear_playback_history">Limpiar historial de reproducción</string>
     <string name="various_artists">Varios artístas</string>
     <string name="ml_scanning">Buscando archivos de medios</string>
@@ -532,4 +536,9 @@
     <string name="sdcard_permission_dialog_title">Ha concedido a VLC acceso de escritura a su tarjeta SD</string>
     <string name="sdcard_permission_dialog_message">VLC no puede borrar este archivo sin permiso de acceso de escritura.\nVaya a su tarjeta SD y haga clic en «Seleccionar».\nPuede que tenga que hacer clic primero en «Mostrar tarjeta SD» en el menú superior de la derecha</string>
     <string name="dialog_sd_wizard">Mostrarme</string>
+    <string name="renderers_disconnect">Desconectar</string>
+    <string name="audio_digital_failed">Fallo al cambiar estado de salida de audio digital</string>
+    <string name="audio_digital_output_enabled">Habilitado salida de audio digital</string>
+    <string name="audio_digital_output_disabled">Deshabillitado salida de audio digital</string>
+    <string name="audio_digital_title">Salida de audio digital (passthrough)</string>
 </resources>

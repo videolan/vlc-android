@@ -7,6 +7,8 @@
     <string name="sortby">排序条件</string>
     <string name="sortby_name">名称</string>
     <string name="sortby_name_desc">名称 (倒序)</string>
+    <string name="sortby_filename">文件名</string>
+    <string name="sortby_filename_desc">文件名称 (倒序)</string>
     <string name="sortby_artist_name">艺术家名称</string>
     <string name="sortby_artist_name_desc">艺术家名称 (倒序)</string>
     <string name="sortby_album_name">专辑名称</string>
@@ -55,7 +57,7 @@
     <string name="unknown_album">未知专辑</string>
     <string name="unknown_genre">未知流派</string>
     <string name="unknown_number">未知轨道编号</string>
-    <string name="songs">歌曲</string>
+    <string name="songs">曲目</string>
     <plurals name="songs_quantity">
         <item quantity="other">%d 首歌曲</item>
     </plurals>
@@ -166,7 +168,7 @@
     <string name="favorite_added">已保存到收藏夹</string>
     <string name="favorite_removed">已从收藏夹移除</string>
     <string name="open">打开</string>
-    <string name="open_mrl">流</string>
+    <string name="open_mrl">串流</string>
     <string name="open_mrl_dialog_title">打开网络流</string>
     <string name="open_mrl_dialog_msg">请输入网络地址: 如 http://、mms:// 或 rtsp://</string>
     <string name="error_not_compatible">抱歉，该版本的 VLC for Android™ 尚不支持您的设备。</string>
@@ -182,7 +184,7 @@
     <string name="playback_history_summary">在“历史记录”下保留所有播放过的媒体</string>
     <string name="playback_speed_title">保存回放速度</string>
     <string name="playback_speed_summary">记住您所设置的回放速度</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">视频播放器小提示:</string>
     <string name="seek">定位</string>
     <string name="subtitles">字幕</string>
@@ -207,7 +209,7 @@
     <string name="about">关于</string>
     <string name="about_text">VLC for Android™ 是广受欢迎的开源媒体播放器 VLC media player 的移植版本。Android™ 版本可以读取大多数文件及网络流。</string>
     <string name="compiled_by">此版本 VLC 的编译者为:</string>
-    <string name="vlc_authors">VLC 全体作者。</string>
+    <string name="vlc_authors">及 VLC 全体作者。</string>
     <!-- Preferences -->
     <string name="preferences">设置</string>
     <string name="general_prefs_category">常规</string>
@@ -234,7 +236,7 @@
     <string name="screen_orientation_landscape">横向</string>
     <string name="screen_orientation_reverse_portrait">纵向翻转</string>
     <string name="screen_orientation_reverse_landscape">横向翻转</string>
-    <string name="enable_black_theme">启用关灯模式</string>
+    <string name="enable_black_theme">黑色主题</string>
     <string name="enable_black_theme_summary">更改界面颜色，使得在较暗环境更为舒适。</string>
     <string name="subtitle_text_encoding">字幕文本编码</string>
     <string name="daynight_title">自动切换夜间模式</string>
@@ -254,7 +256,8 @@
     <string name="video_min_group_length_first">仅首个字母相同</string>
     <string name="video_min_group_length_short">少量字母相同 (6)</string>
     <string name="video_min_group_length_long">大量字母相同 (9)</string>
-    <string name="media_fast_seek">启用快速定位功能</string>
+    <string name="media_fast_seek">快速定位</string>
+    <string name="media_fast_seek_summary">更快地定位播放进度，代价是降低精确度</string>
     <string name="media_seen">显示视频已看过标记</string>
     <string name="media_seen_summary">当视频播放到底时标记为已经看过</string>
     <string name="force_list_portrait">竖屏模式不显示网格</string>
@@ -269,7 +272,7 @@
     <string name="enable_brightness_gesture_summary">在视频回放过程中，通过手势控制显示亮度</string>
     <string name="enable_volume_gesture_title">音量手势</string>
     <string name="enable_volume_gesture_summary">在视频回放过程中，通过手势控制音量</string>
-    <string name="enable_seek_buttons">启用定位按钮</string>
+    <string name="enable_seek_buttons">定位按钮</string>
     <string name="enable_seek_buttons_summary">在视频界面显示倒退与前进按钮</string>
     <string name="enable_double_tap_seek_title">双击可进退</string>
     <string name="enable_double_tap_seek_summary">双击屏幕边缘可按十秒快进／快退</string>
@@ -311,6 +314,8 @@
     <string name="headset_prefs_category">耳机</string>
     <string name="enable_headset_detection">启用耳机侦测</string>
     <string name="enable_headset_detection_summary">检测耳机的插入和拔出</string>
+    <string name="enable_headset_actions_title">远程控制快捷键</string>
+    <string name="enable_headset_actions_summary">双击「播放」可跳到下一项，长按「播放」可跳到上一项</string>
     <string name="enable_play_on_headset_insertion">在插入耳机后继续播放</string>
     <string name="enable_play_on_headset_insertion_summary">否则暂停</string>
     <string name="enable_steal_remote_control">独占耳机远程控制</string>
@@ -319,16 +324,16 @@
     <string name="aout_summary">更改 VLC 输出音频的方式。</string>
     <string name="audio_ducking_title">收到通知时降低 VLC 音量</string>
     <string name="audio_ducking_summary">有助于听清通知声音、导航语音或辅助功能讲解</string>
-    <string name="casting_category">cast</string>
-    <string name="casting_passthrough_title">音频呈递</string>
+    <string name="casting_category">投影</string>
+    <string name="casting_passthrough_title">音频直通</string>
     <string name="casting_passthrough_summary">让 TV 全权负责音频渲染</string>
     <string name="casting_conversion_quality_title">转换质量</string>
-    <string name="casting_conversion_quality_summary">选择 cast 到远程屏幕时的转换质量</string>
+    <string name="casting_conversion_quality_summary">选择投影到远程屏幕时的转换质量</string>
     <string name="casting_quality_high">高</string>
     <string name="casting_quality_medium">中</string>
     <string name="casting_quality_low">低</string>
     <string name="casting_quality_lowcpu">最低</string>
-    <string name="cast_performance_warning">cast 此视频需要进行格式转换。此类转换将令处理器全速运转，可能会迅速耗尽您的电池。</string>
+    <string name="cast_performance_warning">投影此视频需要进行格式转换。此类转换将令处理器全速运转，可能会迅速耗尽您的电池。</string>
     <string name="casting_connected_renderer">已连接到渲染器「%1$s」</string>
     <string name="artists_show_all_title">显示所有艺术家</string>
     <string name="artists_show_all_summary">在「艺术家」列表显示所有艺术家，而不是只显示专辑艺术家</string>
@@ -349,7 +354,7 @@
     <string name="deblocking_nonref">中度去块</string>
     <string name="deblocking_nonkey">低级去块</string>
     <string name="deblocking_all">不去块 (最快)</string>
-    <string name="enable_frame_skip">启用跳帧</string>
+    <string name="enable_frame_skip">跳帧</string>
     <string name="enable_frame_skip_summary">加速解码，但可能降低画质。</string>
     <string name="enable_time_stretching_audio">启用音频的时间伸缩</string>
     <string name="enable_time_stretching_audio_summary">可加速与减慢音频播放而不改变音调 (需要较快设备支持)。</string>
@@ -359,6 +364,8 @@
     <string name="save_video_always">跨会话保存速度</string>
     <string name="auto_rescan">自动重新扫描</string>
     <string name="auto_rescan_summary">应用启动时，自动扫描设备中新增或删除的媒体文件</string>
+    <string name="dump_media_db">转储媒体数据库</string>
+    <string name="dump_media_db_summary">将数据库复制到内部存储根目录</string>
     <string name="clear_media_db">清除媒体数据库</string>
     <string name="clear_media_db_summary">前往 Android 系统的应用管理页，查看 VLC 的信息，清空数据</string>
     <string name="clear_history">清除搜索历史记录</string>
@@ -416,15 +423,11 @@
     <string name="confirm_resume_title">确认是否继续播放</string>
     <string name="confirm_resume_summary">若启用，在视频可以从上次播放到的位置继续播放时，将会征求您的意见</string>
     <string name="directory_empty">目录为空</string>
-    <string name="player_touch_title">视频的手势控制</string>
-    <string name="player_touch_enable_all">启用手势控制</string>
-    <string name="player_touch_disable_brightness">禁用亮度控制</string>
-    <string name="player_touch_disable_all">禁用所有手势控制</string>
     <string name="tv_ui_title">Android TV 界面</string>
     <string name="tv_ui_summary">将 UI 改为适应 TV 的主题</string>
     <string name="medialibrary">媒体库</string>
     <string name="medialibrary_directories">媒体库文件夹</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">更多操作</string>
     <string name="move">移动</string>
     <string name="back_quit_lock">再次按「返回」可退出视频</string>
@@ -432,7 +435,7 @@
     <string name="file_deleted">文件已删除</string>
     <string name="no_subs_found">该目录下无字幕文件</string>
     <string name="music_now_playing">正在播放</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">VLC 白色小挂件</string>
     <string name="widget_name_b">VLC 深色小挂件</string>
     <string name="allow_storage_access_title">允许 VLC 访问视频与音频文件</string>
@@ -446,10 +449,10 @@
     <string name="permission_ask_again">授予权限</string>
     <string name="exit_app">关闭 VLC</string>
     <string name="exit_app_msg">是否确定要退出 VLC?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller 轨道</string>
     <string name="fastscroller_handle">FastScroller 句柄</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">插件</string>
     <string name="download_on_device">下载</string>
     <string name="extension_empty">没有可以显示的项目，请到“扩展设置”添加。</string>
@@ -486,6 +489,7 @@
     <string name="episodes">集</string>
     <string name="movies">影片</string>
     <string name="videos">视频</string>
+    <string name="videos_all">所有视频</string>
     <string name="clear_playback_history">清除回放历史记录</string>
     <string name="various_artists">群星</string>
     <string name="ml_scanning">正在扫描媒体文件</string>
@@ -525,4 +529,9 @@
     <string name="sdcard_permission_dialog_title">您已授予 VLC 写入 SD 卡的权限</string>
     <string name="sdcard_permission_dialog_message">VLC 没有写入权限，无法删除该文件。\n请前往「SD 卡」，点击「选择」。\n您可能需要先在右上角菜单中点击「显示 SD 卡」</string>
     <string name="dialog_sd_wizard">显示</string>
+    <string name="renderers_disconnect">断开连接</string>
+    <string name="audio_digital_failed">无法更改音频数字输出状态</string>
+    <string name="audio_digital_output_enabled">音频数字输出已启用</string>
+    <string name="audio_digital_output_disabled">音频数字输出已禁用</string>
+    <string name="audio_digital_title">数字音频输出 (直通)</string>
 </resources>

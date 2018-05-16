@@ -5,18 +5,20 @@
     <string name="cancel">Storno</string>
     <string name="other">Iné</string>
     <string name="sortby">Zoradiť podľa…</string>
-    <string name="sortby_name">názvu</string>
-    <string name="sortby_name_desc">Názov (popis)</string>
+    <string name="sortby_name">Názov</string>
+    <string name="sortby_name_desc">Názov (zostupne)</string>
+    <string name="sortby_filename">Názov súboru</string>
+    <string name="sortby_filename_desc">Názov súboru (zostupne)</string>
     <string name="sortby_artist_name">Meno umelca</string>
-    <string name="sortby_artist_name_desc">Meno umelca (popis)</string>
+    <string name="sortby_artist_name_desc">Meno umelca (zostupne)</string>
     <string name="sortby_album_name">Názov albumu</string>
-    <string name="sortby_album_name_desc">Názov albumu (popis)</string>
-    <string name="sortby_length">dĺžky</string>
-    <string name="sortby_length_desc">Dĺžka (popis)</string>
+    <string name="sortby_album_name_desc">Názov albumu (zostupne)</string>
+    <string name="sortby_length">Dĺžka</string>
+    <string name="sortby_length_desc">Dĺžka (zostupne)</string>
     <string name="sortby_date">Dátum</string>
-    <string name="sortby_date_desc">Dátum (popis)</string>
-    <string name="sortby_number">Č. stôp</string>
-    <string name="sortby_number_desc">Č. stôp (opis)</string>
+    <string name="sortby_date_desc">Dátum (zostupne)</string>
+    <string name="sortby_number">Čísel stôp</string>
+    <string name="sortby_number_desc">Čísel stôp (zostupne)</string>
     <string name="searchable_hint">Vyhľadávať…</string>
     <string name="history">História</string>
     <plurals name="search_found_results_quantity">
@@ -196,7 +198,7 @@
     <string name="playback_history_summary">Ukladať všetky médiá do sekcie História</string>
     <string name="playback_speed_title">Uložiť rýchlosť prehrávania</string>
     <string name="playback_speed_summary">Pamätať si vami nastavenú rýchlosť prehrávania</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">Tipy pre prehrávač videa:</string>
     <string name="seek">Vyhľadať</string>
     <string name="subtitles">Titulky</string>
@@ -221,7 +223,7 @@
     <string name="about">O programe</string>
     <string name="about_text">VLC for Android™ je portom programu VLC media player, populárneho open-source prehrávača médií. Verzia pre systém Android™ dokáže prečítať väčšinu súborov a sieťových streamov.</string>
     <string name="compiled_by">Túto verziu VLC skompiloval:</string>
-    <string name="vlc_authors">Autori programu VLC.</string>
+    <string name="vlc_authors">a autori VLC</string>
     <!-- Preferences -->
     <string name="preferences">Nastavenia</string>
     <string name="general_prefs_category">Všeobecné</string>
@@ -248,7 +250,7 @@
     <string name="screen_orientation_landscape">Na šírku</string>
     <string name="screen_orientation_reverse_portrait">Na výšku, obrátene</string>
     <string name="screen_orientation_reverse_landscape">Na šírku, obrátene</string>
-    <string name="enable_black_theme">Zapnúť čiernu tému</string>
+    <string name="enable_black_theme">Čierna téma</string>
     <string name="enable_black_theme_summary">Zmeniť farby rozhrania pre lepší komfort v prostrediach so slabým osvetlením</string>
     <string name="subtitle_text_encoding">Kódovanie textu titulkov</string>
     <string name="daynight_title">Režim deň/noc</string>
@@ -268,7 +270,8 @@
     <string name="video_min_group_length_first">Len prvé písmeno</string>
     <string name="video_min_group_length_short">Krátke čísla písmen (6)</string>
     <string name="video_min_group_length_long">Dlhé čísla písmen (9)</string>
-    <string name="media_fast_seek">Zapnúť možnosť rýchleho vyhľadávania</string>
+    <string name="media_fast_seek">Rýchle vyhľadávanie</string>
+    <string name="media_fast_seek_summary">Vyhľadávanie v médiu je rýchlejšie, ale menej presné</string>
     <string name="media_seen">Zobraziť značku pre už videné video</string>
     <string name="media_seen_summary">Pri prehratí videa až do konca ho označiť ako videné</string>
     <string name="force_list_portrait">Bez mriežky v režime portrétov</string>
@@ -283,7 +286,7 @@
     <string name="enable_brightness_gesture_summary">Ovládať jas gestom, počas prehrávania videa</string>
     <string name="enable_volume_gesture_title">Gesto pre hlasitosť</string>
     <string name="enable_volume_gesture_summary">Počas prehrávania videa ovládať hlasitosť gestom</string>
-    <string name="enable_seek_buttons">Zapnúť tlačidlá pre vyhľadávanie</string>
+    <string name="enable_seek_buttons">Tlačidlá pre vyhľadávanie</string>
     <string name="enable_seek_buttons_summary">Zobraziť tlačidlá na posúvanie dopredu/dozadu v rozhraní s videom</string>
     <string name="enable_double_tap_seek_title">Pre hľadanie/posun sa 2x dotknite</string>
     <string name="enable_double_tap_seek_summary">Pre posun o 10 sekúnd sa 2x dotknite rohov obrazovky</string>
@@ -321,10 +324,12 @@
     <string name="audio_save_repeat_title">Uložiť režim opakovania</string>
     <string name="audio_save_repeat_summary">Pamätať si režim opakovania pri načítavaní zvukových playlistov</string>
     <string name="audio_boost_title">Zosilnenie zvuku</string>
-    <string name="audio_boost_summary">Aktivovať hlasitosť až do 200 %</string>
+    <string name="audio_boost_summary">Umožniť hlasitosť až do 200 %</string>
     <string name="headset_prefs_category">Slúchadlá</string>
     <string name="enable_headset_detection">Detegovať headset</string>
     <string name="enable_headset_detection_summary">Detegovať pripojenie a odpojenie headsetu</string>
+    <string name="enable_headset_actions_title">Skratky diaľkového ovládania</string>
+    <string name="enable_headset_actions_summary">Dvojitým stlačením voľby \'Prehrať\' prejdete na ďalšiu stopu, dlhým stlačením prejdete na predchádzajúcu stopu.</string>
     <string name="enable_play_on_headset_insertion">Pokračovať pri pripojení headsetu</string>
     <string name="enable_play_on_headset_insertion_summary">V iných prípadoch pozastaviť</string>
     <string name="enable_steal_remote_control">Výhradné vzdialené ovládanie headsetu</string>
@@ -363,7 +368,7 @@
     <string name="deblocking_nonref">Stredné odblokovanie</string>
     <string name="deblocking_nonkey">Nízka miera odblokovania</string>
     <string name="deblocking_all">Žiadne odblokovanie (najrýchlejšie)</string>
-    <string name="enable_frame_skip">Zapnúť preskočenie snímkov</string>
+    <string name="enable_frame_skip">Preskočenie snímky</string>
     <string name="enable_frame_skip_summary">Urýchliť dekódovanie na úkor nižšej kvality videa.</string>
     <string name="enable_time_stretching_audio">Zapnúť časové úpravy zvuku</string>
     <string name="enable_time_stretching_audio_summary">Zrýchliť a spomaliť zvuk bez zmeny výšky tónu (vyžaduje rýchle zariadenie).</string>
@@ -373,8 +378,10 @@
     <string name="save_video_always">Ukladať rýchlosť naprieč reláciami</string>
     <string name="auto_rescan">Automatické opätovné skenovanie</string>
     <string name="auto_rescan_summary">Pri spustení aplikácie automaticky vyhľadať v zariadení nové alebo vymazané médiá</string>
+    <string name="dump_media_db">Analyzovať databázu médií</string>
+    <string name="dump_media_db_summary">Kopírovať databázu do interného hlavného úložiska</string>
     <string name="clear_media_db">Vyprázdniť databázu médií</string>
-    <string name="clear_media_db_summary">Prístup k informáciám Android VLC kvôli čisteniu</string>
+    <string name="clear_media_db_summary">Prístup k informáciám Android VLC kvôli čisteniu</string>
     <string name="clear_history">Vyčistiť históriu vyhľadávania</string>
     <string name="media_db_cleared">Databáza médií bola vyprázdnená!</string>
     <string name="set_locale">Nastaviť lokálne</string>
@@ -430,15 +437,11 @@
     <string name="confirm_resume_title">Vyžiadať potvrdenie pre pokračovanie</string>
     <string name="confirm_resume_summary">ak je táto voľba aktívna, budete požiadaní o potvrdenie pokračovania od poslednej pozície vo videu</string>
     <string name="directory_empty">Priečinok je prázdny</string>
-    <string name="player_touch_title">Dotykové ovládače pre video</string>
-    <string name="player_touch_enable_all">Zapnúť dotykové ovládače</string>
-    <string name="player_touch_disable_brightness">Vypnúť kontrolu jasu</string>
-    <string name="player_touch_disable_all">Zablokovať všetky dotykové ovládače</string>
     <string name="tv_ui_title">Rozhranie Android TV</string>
     <string name="tv_ui_summary">Zmeniť UI na tému prispôsobenú TV</string>
     <string name="medialibrary">Knižnica médií</string>
     <string name="medialibrary_directories">Priečinky knižnice médií</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">Viac akcií</string>
     <string name="move">Presunúť</string>
     <string name="back_quit_lock">Video prerušíte opätovným stlačením tlačidla pre návrat</string>
@@ -446,7 +449,7 @@
     <string name="file_deleted">Súbor bol vymazaný</string>
     <string name="no_subs_found">V tomto priečinku nie sú žiadne titulky</string>
     <string name="music_now_playing">Práve sa prehráva</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">Widget pre biely VLC</string>
     <string name="widget_name_b">Widget pre tmavý VLC</string>
     <string name="allow_storage_access_title">Povoliť VLC pristupovať k zvukovým a video-súborom</string>
@@ -460,10 +463,10 @@
     <string name="permission_ask_again">Udeliť oprávnenie</string>
     <string name="exit_app">Zavrieť VLC</string>
     <string name="exit_app_msg">Naozaj chcete ukončiť aplikáciu VLC?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">Rýchle rolovanie stopy</string>
     <string name="fastscroller_handle">Ovládanie rýchleho rolovania</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">Prídavné moduly</string>
     <string name="download_on_device">Stiahnutie</string>
     <string name="extension_empty">Žiadna položka na zobrazenie, ak chcete nejakú získať, prejdite na nastavenia rozšírenia.</string>
@@ -500,6 +503,7 @@
     <string name="episodes">epizódy</string>
     <string name="movies">filmy</string>
     <string name="videos">videá</string>
+    <string name="videos_all">Všetky videá</string>
     <string name="clear_playback_history">Vyčistiť históriu prehrávania</string>
     <string name="various_artists">Rôzni umelci</string>
     <string name="ml_scanning">Skenovanie súborov s médiami</string>
@@ -539,4 +543,9 @@
     <string name="sdcard_permission_dialog_title">Aplikácii VLC môžete udeliť oprávnenia na zápis na vašu kartu SD</string>
     <string name="sdcard_permission_dialog_message">Aplikácia VLC nemôže vymazať tento súbor bez oprávnenia na zápis.\nProsím prejdite na kartu SD a kliknite na možnosť \"Vybrať\".\nMožno bude potrebné najskôr kliknúť na voľbu \"Zobraziť kartu SD\" v pravom hornom menu</string>
     <string name="dialog_sd_wizard">Zobraz mi</string>
+    <string name="renderers_disconnect">Odpojiť</string>
+    <string name="audio_digital_failed">Nepodarilo sa zmeniť stav zvukového digitálneho výstupu</string>
+    <string name="audio_digital_output_enabled">Zvukový digitálny výstup zapnutý</string>
+    <string name="audio_digital_output_disabled">Zvukový digitálny výstup vypnutý</string>
+    <string name="audio_digital_title">Zvukový digitálny výstup (prechod)</string>
 </resources>
