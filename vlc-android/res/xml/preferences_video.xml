@@ -37,7 +37,8 @@
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="media_fast_seek"
-        android:title="@string/media_fast_seek" />
+        android:title="@string/media_fast_seek"
+        android:summary="@string/media_fast_seek_summary"/>
 
     <PreferenceCategory android:title="@string/controls_prefs_category">
         <CheckBoxPreference
