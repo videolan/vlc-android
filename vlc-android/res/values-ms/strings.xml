@@ -7,6 +7,8 @@
     <string name="sortby">Isih dengan...</string>
     <string name="sortby_name">Nama</string>
     <string name="sortby_name_desc">Nama (turun)</string>
+    <string name="sortby_filename">Nama fail</string>
+    <string name="sortby_filename_desc">Nama fail (turun)</string>
     <string name="sortby_artist_name">Nama artis</string>
     <string name="sortby_artist_name_desc">Nama artis (turun)</string>
     <string name="sortby_album_name">Nama album</string>
@@ -182,7 +184,7 @@
     <string name="playback_history_summary">Simpan semua media telah dimain dalam seksyen Sejarah</string>
     <string name="playback_speed_title">Simpan Kelajuan Main Balik</string>
     <string name="playback_speed_summary">Ingat kelajuan main balik yang anda tetapkan</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">Petua pemain video:</string>
     <string name="seek">Jangkau</string>
     <string name="subtitles">Sarikata</string>
@@ -207,7 +209,7 @@
     <string name="about">Perihal</string>
     <string name="about_text">VLC untuk Android™ adalah port pemain media VLC, pemain media sumber terbuka yang popular. Versi Android™ boleh membaca kebanyakan fail dan strim rangkaian.</string>
     <string name="compiled_by">Versi VLC ini dikompil oleh:</string>
-    <string name="vlc_authors">Pengarang VLC.</string>
+    <string name="vlc_authors">dan Pengarang VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Tetapan</string>
     <string name="general_prefs_category">Am</string>
@@ -234,7 +236,7 @@
     <string name="screen_orientation_landscape">Landskap</string>
     <string name="screen_orientation_reverse_portrait">Potret balikan</string>
     <string name="screen_orientation_reverse_landscape">Landskap balikan</string>
-    <string name="enable_black_theme">Benarkan tema hitam</string>
+    <string name="enable_black_theme">Tema gelap</string>
     <string name="enable_black_theme_summary">Ubah warna antaramuka supaya mesra mata dalam persekitaran kurang cahaya.</string>
     <string name="subtitle_text_encoding">Pengekodan teks sarikata</string>
     <string name="daynight_title">Mod SiangMalam</string>
@@ -254,7 +256,8 @@
     <string name="video_min_group_length_first">Abjad pertama sahaja</string>
     <string name="video_min_group_length_short">Bilangan abjad pendek (6)</string>
     <string name="video_min_group_length_long">Bilangan abjad panjang (9)</string>
-    <string name="media_fast_seek">Benarkan pilihan jangkau pantas</string>
+    <string name="media_fast_seek">Jangkau pantas</string>
+    <string name="media_fast_seek_summary">Menjangkau media lebih pantas tetapi kurang tepat</string>
     <string name="media_seen">Tunjuk penanda video ditonton</string>
     <string name="media_seen_summary">Tanda video yang telah ditonton yang anda telah mainkan sehingga tamat</string>
     <string name="force_list_portrait">Tiada grid dalam mod potret</string>
@@ -269,7 +272,7 @@
     <string name="enable_brightness_gesture_summary">Kawal kecerahan menggunakan gerak isyarat semasa mainbalik video</string>
     <string name="enable_volume_gesture_title">Gerak isyarat volum</string>
     <string name="enable_volume_gesture_summary">Kawal volum mengikut gerak isyarat ketika main balik video</string>
-    <string name="enable_seek_buttons">Benarkan butang jangkau</string>
+    <string name="enable_seek_buttons">Butang jangkau</string>
     <string name="enable_seek_buttons_summary">Tunjuk butang mandir dan maju pada antaramuka video</string>
     <string name="enable_double_tap_seek_title">Ketik dua kali untuk jangkau</string>
     <string name="enable_double_tap_seek_summary">Ketik dua kali pada pinggir skrin untuk menjangkau sebanyak 10 saat</string>
@@ -307,10 +310,12 @@
     <string name="audio_save_repeat_title">Simpan mod ulang</string>
     <string name="audio_save_repeat_summary">Ingat mod ulang ketika memuatkan senarai main audio</string>
     <string name="audio_boost_title">Galak-audio</string>
-    <string name="audio_boost_summary">Benarkan volum sehingga 200%</string>
+    <string name="audio_boost_summary">Benarkan volum naik sehingga 200%</string>
     <string name="headset_prefs_category">Set Kepala</string>
     <string name="enable_headset_detection">Kesan set kepala</string>
     <string name="enable_headset_detection_summary">Kesan pemasangan dan penanggalan set kepala</string>
+    <string name="enable_headset_actions_title">Pintasan Kawalan Jauh</string>
+    <string name="enable_headset_actions_summary">Dwi-klik pada \'Main\' untuk langkau ke berikutnya dan tahan lama padanya untuk langkau trek terdahulu</string>
     <string name="enable_play_on_headset_insertion">Sambung semula ketika pemasangan set kepala</string>
     <string name="enable_play_on_headset_insertion_summary">Jeda jika sebaliknya</string>
     <string name="enable_steal_remote_control">Kawalan jauh set kepala ekslusif</string>
@@ -349,7 +354,7 @@
     <string name="deblocking_nonref">Menyahsekat sederhana</string>
     <string name="deblocking_nonkey">Menyahsekat rendah</string>
     <string name="deblocking_all">Tiada menyahsekat (terpantas)</string>
-    <string name="enable_frame_skip">Benarkan langkau bingkai</string>
+    <string name="enable_frame_skip">Langkau bingkai</string>
     <string name="enable_frame_skip_summary">Percepatkan menyahkod tetapi menyebabkan kualiti video rendah.</string>
     <string name="enable_time_stretching_audio">Audio diregang-masa</string>
     <string name="enable_time_stretching_audio_summary">Lajukan dan perlahankan audio tanpa mengubah pic (memerlukan peranti pantas).</string>
@@ -359,6 +364,8 @@
     <string name="save_video_always">Simpan kelajuan merentasi sesi</string>
     <string name="auto_rescan">Auto imbas semula</string>
     <string name="auto_rescan_summary">Imbas peranti secara automatik untuk media baharu atau dipadam ketika permulaan aplikasi</string>
+    <string name="dump_media_db">Longgok pangkalan data media</string>
+    <string name="dump_media_db_summary">Salin pangkalan data ke dalam root storan dalaman</string>
     <string name="clear_media_db">Kosongkan pangkalan data media</string>
     <string name="clear_media_db_summary">Capai maklumat VLC Android untuk kosongkan data</string>
     <string name="clear_history">Kosongkan sejarah gelintar</string>
@@ -416,15 +423,11 @@
     <string name="confirm_resume_title">Tanya pengesahan untuk sambung semula</string>
     <string name="confirm_resume_summary">jika diaktifkan anda akan ditanya untuk sahkan sama ada video boleh disambung semula dari kedudukan terakhirnya</string>
     <string name="directory_empty">Direktori kosong</string>
-    <string name="player_touch_title">Kawalan sentuh untuk Video</string>
-    <string name="player_touch_enable_all">Benarkan kawalan Sentuh</string>
-    <string name="player_touch_disable_brightness">Lumpuhkan kawalan kecerahan</string>
-    <string name="player_touch_disable_all">Lumpuhkan semua kawalan Sentuh</string>
     <string name="tv_ui_title">Antaramuka Android TV</string>
     <string name="tv_ui_summary">Ubah UI ke tema tersuai TV</string>
     <string name="medialibrary">Pustaka media</string>
     <string name="medialibrary_directories">Folder pustaka media</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">Lagi Tindakan</string>
     <string name="move">Alih</string>
     <string name="back_quit_lock">Ketik Undur sekali lagi untuk tutup video</string>
@@ -432,7 +435,7 @@
     <string name="file_deleted">Fail dipadam</string>
     <string name="no_subs_found">Tiada sarikata dalam direktori ini</string>
     <string name="music_now_playing">Kini Dimainkan</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">Widjet Putih VLC</string>
     <string name="widget_name_b">Widjet Gelap VLC</string>
     <string name="allow_storage_access_title">Benarkan VLC mencapai fail video dan audio</string>
@@ -446,10 +449,10 @@
     <string name="permission_ask_again">Beri keizinan</string>
     <string name="exit_app">Tutup VLC</string>
     <string name="exit_app_msg">Anda pasti mahu menutup VLC?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">Trek PenatalPantas</string>
     <string name="fastscroller_handle">Pemegang PenatalPantas</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">Pemalam</string>
     <string name="download_on_device">Muat Turun</string>
     <string name="extension_empty">Tiada item dipaparkan, pergi ke tetapan sambungan anda untuk dapatkannya.</string>
@@ -486,6 +489,7 @@
     <string name="episodes">episod</string>
     <string name="movies">cereka</string>
     <string name="videos">video</string>
+    <string name="videos_all">Semua video</string>
     <string name="clear_playback_history">Kosongkan sejarah main balik</string>
     <string name="various_artists">Pelbagai Artis</string>
     <string name="ml_scanning">Mengimbas fail media</string>
@@ -525,4 +529,9 @@
     <string name="sdcard_permission_dialog_title">Anda telah memberi kebenaran VLC capaian tulis ke Kad SD anda</string>
     <string name="sdcard_permission_dialog_message">VLC tidak dapat memadam fail ini tanpa keizinan capaian tulis.\nSila pergi ke Kad SD anda dan klik pada \"Pilih\".\nAnda boleh klik pada \"Tunjuk kad SD\" dauhlu dalam menu kanan-atas</string>
     <string name="dialog_sd_wizard">Tunjuk saya</string>
+    <string name="renderers_disconnect">Terputus</string>
+    <string name="audio_digital_failed">Gagal mengubah keadaan Output Digital Audio</string>
+    <string name="audio_digital_output_enabled">Output Digital Audio dibenarkan</string>
+    <string name="audio_digital_output_disabled">Output Digital Audio dilumpuhkan</string>
+    <string name="audio_digital_title">Output audio digital (passthrough)</string>
 </resources>

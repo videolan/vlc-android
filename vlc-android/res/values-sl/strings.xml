@@ -51,7 +51,7 @@
     <string name="confirm_delete_playlist">Ali želite izbrisati seznam predvajanja »%1$s«?</string>
     <string name="ringtone_set">Datoteka »%1$s« je nastavljena kot zvok zvonjenja.</string>
     <string name="ringtone_error">Pri nastavljanju zvoka za zvonjenje je prišlo do napake.</string>
-    <string name="pause">Prekini</string>
+    <string name="pause">Premor</string>
     <string name="not_show_again">Tega sporočila ne pokaži več.</string>
     <string name="info_title">VLC</string>
     <string name="unknown_artist">Neznan izvajalec</string>
@@ -203,7 +203,7 @@
     <string name="playback_history_summary">Shrani vse posnetke, predvajane iz odseka Zgodovine</string>
     <string name="playback_speed_title">Shrani hitrost predvajanja</string>
     <string name="playback_speed_summary">Program si zapomni nastavljeno hitrost predvajanja</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">Namigi predvajalnika:</string>
     <string name="seek">Išči</string>
     <string name="subtitles">Podnapisi</string>
@@ -228,7 +228,6 @@
     <string name="about">O programu</string>
     <string name="about_text">VLC za Android™ je prilagojena različica VLC predvajalnika predstavnih vsebin, priljubljenega odprto-kodnega predvajalnika. Različica za Android™ omogoča predvajanje večine vrst predstavnih datotek in omrežnih pretokov.</string>
     <string name="compiled_by">Kodni prevod različice VLC:</string>
-    <string name="vlc_authors">Razvijalci predvajalnika VLC</string>
     <!-- Preferences -->
     <string name="preferences">Nastavitve</string>
     <string name="general_prefs_category">Splošno</string>
@@ -255,7 +254,6 @@
     <string name="screen_orientation_landscape">Ležeča postavitev</string>
     <string name="screen_orientation_reverse_portrait">Obratno pokončno</string>
     <string name="screen_orientation_reverse_landscape">Obratno ležeče</string>
-    <string name="enable_black_theme">Omogoči črno temo</string>
     <string name="enable_black_theme_summary">Spremeni barve vmesnika za prijetnejše delo v slabše osvetljenih okoljih.</string>
     <string name="subtitle_text_encoding">Kodiranje besedila podnapisov</string>
     <string name="daynight_title">Dnevno/Nočni način</string>
@@ -289,7 +287,6 @@
     <string name="enable_brightness_gesture_summary">Nastavitev svetlosti z gesto med predvajanjem videa</string>
     <string name="enable_volume_gesture_title">Poteza za glasnost</string>
     <string name="enable_volume_gesture_summary">Nadzor glasnosti s potezo med predvajanjem videa</string>
-    <string name="enable_seek_buttons">Omogoči gumbe za iskanje po posnetku</string>
     <string name="enable_seek_buttons_summary">Program pokaže gumba naprej in nazaj v vmesniku za predvajanje videa</string>
     <string name="enable_double_tap_seek_title">Dvakratni pritisk omogoči za iskanje</string>
     <string name="enable_double_tap_seek_summary">Dvakratni pritisk na robove zaslona premakne predvajanje za 10 sekund.</string>
@@ -326,7 +323,6 @@
     <string name="audio_save_repeat_title">Shrani način ponavljanja</string>
     <string name="audio_save_repeat_summary">Program si zapomni izbiro načina ponavljanja med nalaganjem seznamov predvajanja.</string>
     <string name="audio_boost_title">Povečaj glasnost čez omejitev</string>
-    <string name="audio_boost_summary">Omogoči glasnost do 200 %.</string>
     <string name="headset_prefs_category">Slušalke</string>
     <string name="enable_headset_detection">Zaznaj slušalke</string>
     <string name="enable_headset_detection_summary">Program zazna priklop in odklop slušalk.</string>
@@ -338,6 +334,13 @@
     <string name="aout_summary">Spreminjanje načina odvoda zvoka med predvajanjem v predvajalniku VLC.</string>
     <string name="audio_ducking_title">Zmanjšaj glasnost ob prejemu sporočila</string>
     <string name="audio_ducking_summary">Možnost omogoča prilagajanje glasnosti obvestil, navigacijskega vodenja in drugih zvokov.</string>
+    <string name="casting_conversion_quality_title">Kakovost pretvorbe</string>
+    <string name="casting_conversion_quality_summary">Izbor kakovosti pretvorbe med pošiljanjem slike na oddaljen zaslon</string>
+    <string name="casting_quality_high">Visoka</string>
+    <string name="casting_quality_medium">Srednja</string>
+    <string name="casting_quality_low">Nizka</string>
+    <string name="casting_quality_lowcpu">Najnižja</string>
+    <string name="artists_show_all_title">Pokaži vse izvajalce</string>
     <string name="extensions_prefs_category">Razširitve</string>
     <string name="extensions_enable_category">Izbor razširitev za uporabo</string>
     <string name="extensions_empty">Ni najdenih programskih razširitev</string>
@@ -355,7 +358,6 @@
     <string name="deblocking_nonref">Srednje odstranjevanje kock</string>
     <string name="deblocking_nonkey">Nizko odstranjevanje kock</string>
     <string name="deblocking_all">Brez odstranjevanja kock (najhitrejše)</string>
-    <string name="enable_frame_skip">Omogoči izpuščanje sličic</string>
     <string name="enable_frame_skip_summary">Pohitri odkodiranje, vendar lahko zniža kakovost slike.</string>
     <string name="enable_time_stretching_audio">Časovno raztegovanje zvoka</string>
     <string name="enable_time_stretching_audio_summary">Pohitri ali upočasni zvok brez spremembe višine tona (zahteva zmogljivo napravo).</string>
@@ -422,15 +424,11 @@
     <string name="confirm_resume_title">Zahtevaj potrditev za nadaljevanje</string>
     <string name="confirm_resume_summary">Če je možnost omogočena, bo program pred začetkom predvajanja zahteval potrditev za nadaljevanje pri nazadnje ustavljenem mestu.</string>
     <string name="directory_empty">Mapa je prazna</string>
-    <string name="player_touch_title">Upravljanje videa z dotikom</string>
-    <string name="player_touch_enable_all">Omogoči upravljanje z dotikom</string>
-    <string name="player_touch_disable_brightness">Onemogoči spreminjanje svetlosti</string>
-    <string name="player_touch_disable_all">Onemogoči upravljanje z dotikom</string>
     <string name="tv_ui_title">Vmesnik Android TV</string>
     <string name="tv_ui_summary">Spremeni vmesnik na temo Android TV</string>
     <string name="medialibrary">Knjižnica predstavnih vsebin</string>
     <string name="medialibrary_directories">Mape zbirke predstavnih datotek</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">Več dejanj</string>
     <string name="move">Premakni</string>
     <string name="back_quit_lock">Ponovno pritisnite gumb za nazaj za končanje videa</string>
@@ -438,7 +436,7 @@
     <string name="file_deleted">Datoteka je izbrisana</string>
     <string name="no_subs_found">V tej mapi ni datotek s podnapisi</string>
     <string name="music_now_playing">Trenutno se predvaja</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">Svetla tema VLC</string>
     <string name="widget_name_b">Temna tema VLC</string>
     <string name="allow_storage_access_title">Dovoli programu dostop do datotek videa in zvoka</string>
@@ -452,10 +450,10 @@
     <string name="permission_ask_again">Odobri dovoljenje</string>
     <string name="exit_app">Končaj VLC</string>
     <string name="exit_app_msg">Ali res želite končati program VLC?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">Hitri drsnik</string>
     <string name="fastscroller_handle">Ročnik hitrega drsnika</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">Vstavki</string>
     <string name="download_on_device">Prejmi</string>
     <string name="extension_empty">Ni predmetov za prikaz. Med nastavitvami razširitev jih je mogoče dodati.</string>
@@ -526,4 +524,6 @@
     <string name="browser_quick_access">Hitri dostop</string>
     <string name="browser_storages">Shrambe</string>
     <string name="msg_delete_failed">Brisanje nosilca %1$s je spodletelo.</string>
+    <string name="renderer_list_title">Zasloni</string>
+    <string name="dialog_sd_wizard">Pokaži</string>
 </resources>

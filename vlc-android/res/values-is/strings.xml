@@ -6,17 +6,19 @@
     <string name="other">Annað</string>
     <string name="sortby">Raða eftir…</string>
     <string name="sortby_name">Heiti</string>
-    <string name="sortby_name_desc">Heiti (lýsandi)</string>
+    <string name="sortby_name_desc">Heiti (lækkandi)</string>
+    <string name="sortby_filename">Skráarheiti</string>
+    <string name="sortby_filename_desc">Skráarheiti (lækkandi)</string>
     <string name="sortby_artist_name">Nafn flytjanda</string>
-    <string name="sortby_artist_name_desc">Nafn flytjanda (lýsandi)</string>
-    <string name="sortby_album_name">Heiti albúms</string>
-    <string name="sortby_album_name_desc">Nafn flytjanda (lýsandi)</string>
+    <string name="sortby_artist_name_desc">Nafn flytjanda (lækkandi)</string>
+    <string name="sortby_album_name">Nafn hljómplötu</string>
+    <string name="sortby_album_name_desc">Nafn hljómplötu (lækkandi)</string>
     <string name="sortby_length">Lengd</string>
-    <string name="sortby_length_desc">Lengd (lýsandi)</string>
+    <string name="sortby_length_desc">Lengd (lækkandi)</string>
     <string name="sortby_date">Dagsetning</string>
-    <string name="sortby_date_desc">Dagsetning (lýsandi)</string>
+    <string name="sortby_date_desc">Dagsetning (lækkandi)</string>
     <string name="sortby_number">Fjöldi laga</string>
-    <string name="sortby_number_desc">Fjöldi laga (lýsandi)</string>
+    <string name="sortby_number_desc">Fjöldi laga (lækkandi)</string>
     <string name="searchable_hint">Leita…</string>
     <string name="history">Ferill</string>
     <plurals name="search_found_results_quantity">
@@ -32,7 +34,7 @@
     <string name="play_as_audio">Spila sem hljóð</string>
     <string name="play_as_video">Spila sem myndskeið</string>
     <string name="video_app_switch_title">Bakgrunns/Mynd-í-mynd-hamur</string>
-    <string name="video_app_switch_summary">Velduhegðun VLC þegar skipt er í annað forrit úr afspilun myndskeiðs</string>
+    <string name="video_app_switch_summary">Veldu hegðun VLC þegar skipt er í annað forrit úr afspilun myndskeiðs</string>
     <string name="play_pip_title">Spila myndskeið í mynd-í-mynd (PiP) ham</string>
     <string name="play_as_audio_background">Spila myndskeið í bakgrunni</string>
     <string name="append">Bæta við</string>
@@ -53,7 +55,7 @@
     <string name="not_show_again">Ekki sýna þessi skilaboð aftur.</string>
     <string name="info_title">VLC</string>
     <string name="unknown_artist">Óþekktur flytjandi</string>
-    <string name="unknown_album">Óþekkt albúm</string>
+    <string name="unknown_album">Óþekkt hljómplata</string>
     <string name="unknown_genre">Óþekkt tegund</string>
     <string name="unknown_number">Óþekktur fjöldi laga</string>
     <string name="songs">Lög</string>
@@ -62,11 +64,11 @@
         <item quantity="other">%d lög</item>
     </plurals>
     <string name="artists">Flytjendur</string>
-    <string name="albums">Albúm</string>
+    <string name="albums">Hljómplötur</string>
     <string name="tracks">Lög</string>
     <plurals name="albums_quantity">
-        <item quantity="one">1 albúm</item>
-        <item quantity="other">%d albúm</item>
+        <item quantity="one">1 hljómplata</item>
+        <item quantity="other">%d hljómplötur</item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">1 undirmappa</item>
@@ -86,12 +88,12 @@
     <string name="video">Vídeó</string>
     <string name="bookmarks">Bókamerki</string>
     <string name="equalizer">Tónjafnari</string>
-    <string name="all_albums">Öll albúm</string>
+    <string name="all_albums">Allar hljómplötur</string>
     <string name="genres">Tegundir</string>
     <string name="playlists">Spilunarlistar</string>
     <string name="title">Titill</string>
     <string name="artist">Flytjandi</string>
-    <string name="album">Albúm</string>
+    <string name="album">Hljómplata</string>
     <string name="directory">Mappa</string>
     <string name="directories">Möppur</string>
     <string name="loading">Hleð inn</string>
@@ -124,12 +126,12 @@
     <string name="surface_fill">Fylla</string>
     <string name="surface_original">Miðjað</string>
     <string name="thumbnail">Smámynd</string>
-    <string name="unseekable_stream">Straumur sem ekki er hægt að leita í</string>
+    <string name="unseekable_stream">Streymi sem ekki er hægt að leita í</string>
     <string name="refresh">Hressa</string>
     <string name="track_audio">Hljóðspor</string>
     <string name="track_video">Myndspor</string>
     <string name="track_text">Skjátextaspor</string>
-    <string name="track_unknown">Óþekkt spor</string>
+    <string name="track_unknown">Óþekkt lag</string>
     <string name="track_bitrate_info">Bitahraði: %1$s/s\n</string>
     <string name="track_codec_info">Kóðunarlykill: %1$s\n</string>
     <string name="track_language_info">Tungumál: %1$s\n</string>
@@ -174,7 +176,7 @@
     <string name="favorite_removed">Fjarlægt úr eftirlætum</string>
     <string name="open">Opna</string>
     <string name="open_mrl">Streymi</string>
-    <string name="open_mrl_dialog_title">Opna straum af neti</string>
+    <string name="open_mrl_dialog_title">Opna streymi af neti</string>
     <string name="open_mrl_dialog_msg">Settu inn netslóð: t.d. http://, mms:// eða rtsp://</string>
     <string name="error_not_compatible">Því miður, tækið þitt er ekki ennþá stutt af þessari útgáfu VLC fyrir Android™.</string>
     <string name="error_problem">Því miður, VLC fyrir Android átti í vandræðum með að ræsast og varð því að hætta.</string>
@@ -189,7 +191,7 @@
     <string name="playback_history_summary">Vista alla spilaða gagnamiðla í ferilskrá</string>
     <string name="playback_speed_title">Vista afspilunarhraða</string>
     <string name="playback_speed_summary">Muna afspilunarhraðann sem þú stilltir</string>
-    <!--Tips-->
+    <!-- Tips -->
     <string name="video_player_tips">Ábendingar myndskeiðaspilara:</string>
     <string name="seek">Leita</string>
     <string name="subtitles">Skjátextar</string>
@@ -212,9 +214,9 @@
     <string name="licence">Notkunarleyfi</string>
     <string name="revision">Útgáfuauðkenni</string>
     <string name="about">Um</string>
-    <string name="about_text">VLC fyrir Android™ er yfirfærð útgáfa af VLC margmiðlunarspilaranum, eins vinsælasta oppna/frjálsa margmiðlunarspilarans. Android™ útgáfan getur lesið flestar skrár og netstrauma.</string>
-    <string name="compiled_by">Þessi útgáfa af VLC var vistþýdd af:\n</string>
-    <string name="vlc_authors">Höfundar VLC.</string>
+    <string name="about_text">VLC fyrir Android™ er yfirfærð útgáfa af VLC margmiðlunarspilaranum, eins vinsælasta oppna/frjálsa margmiðlunarspilarans. Android™ útgáfan getur lesið flestar skrár og netstreymi.</string>
+    <string name="compiled_by">Þessi útgáfa af VLC var vistþýdd af:</string>
+    <string name="vlc_authors">og höfundar VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Stillingar</string>
     <string name="general_prefs_category">Almennt</string>
@@ -241,7 +243,7 @@
     <string name="screen_orientation_landscape">Lárétt</string>
     <string name="screen_orientation_reverse_portrait">Speglað lóðrétt</string>
     <string name="screen_orientation_reverse_landscape">Speglað lárétt</string>
-    <string name="enable_black_theme">Virkja svart þema</string>
+    <string name="enable_black_theme">Svart þema</string>
     <string name="enable_black_theme_summary">Skipta yfir í liti á viðmóti sem eru þægilegri í umhverfi með lítilli birtu.</string>
     <string name="subtitle_text_encoding">Kóðun skjátexta</string>
     <string name="daynight_title">DagsNætur-hamur</string>
@@ -261,6 +263,8 @@
     <string name="video_min_group_length_first">Einungis fyrsti stafur</string>
     <string name="video_min_group_length_short">Lítill fjöldi stafa (6)</string>
     <string name="video_min_group_length_long">Meiri fjöldi stafa (9)</string>
+    <string name="media_fast_seek">Hraðleit</string>
+    <string name="media_fast_seek_summary">Leit í efni er hraðari en ekki eins nákvæm</string>
     <string name="media_seen">Birta merkingu um áhorf</string>
     <string name="media_seen_summary">Merkja myndskeið sem séð þegar þú ert búinn að spila það til enda</string>
     <string name="force_list_portrait">Ekki reitir í lóðréttri stöðu</string>
@@ -275,7 +279,7 @@
     <string name="enable_brightness_gesture_summary">Stýra birtustigi með hreyfingu á meðan myndskeið er í gangi</string>
     <string name="enable_volume_gesture_title">Hljóðstyrksbending</string>
     <string name="enable_volume_gesture_summary">Stýra hljóðstyrk með hreyfingu á meðan myndskeið er í gangi</string>
-    <string name="enable_seek_buttons">Virkja leitarhnappa</string>
+    <string name="enable_seek_buttons">Leitarhnappar</string>
     <string name="enable_seek_buttons_summary">Birta afturábak- og áfram-hnappa á myndmerkisviðmótinu</string>
     <string name="enable_double_tap_seek_title">Tvíbanka til að leita</string>
     <string name="enable_double_tap_seek_summary">Tvíbanka á skjájaðra til að leita áfram um 10 sekúndur</string>
@@ -298,6 +302,7 @@
     <string name="subtitles_color_green">Grænt</string>
     <string name="subtitles_background_title">Bakgrunnur skjátexta</string>
     <string name="subtitles_bold_title">Feitletra skjátexta</string>
+    <string name="subtitles_autoload_title">Hlaða sjálfvirkt inn skjátextum</string>
     <string name="audio_prefs_category">Hljóð</string>
     <string name="lockscreen_cover_title">Mynd á læsiskjá</string>
     <string name="lockscreen_cover_summary">Þegar það er hægt, setja umslagsmynd núverandi gagnamiðils sem bakgrunn á læsiskjá</string>
@@ -316,12 +321,29 @@
     <string name="headset_prefs_category">Heyrnartól</string>
     <string name="enable_headset_detection">Finna heyrnartól</string>
     <string name="enable_headset_detection_summary">Skynja þegar heyrnartól eru tengd eða aftengd</string>
+    <string name="enable_headset_actions_title">Flýtileiðir á fjarstýringu</string>
+    <string name="enable_headset_actions_summary">Ýttu tvisvar á \'Spila\' til að hoppa í næsta spor og ýttu lengi á það til að hoppa í fyrra spor</string>
     <string name="enable_play_on_headset_insertion">Halda áfram þegar heyrnartól eru tengd</string>
     <string name="enable_play_on_headset_insertion_summary">Annars setja í bið</string>
     <string name="enable_steal_remote_control">Sérstök fjarstýring heyrnartóla</string>
     <string name="enable_steal_remote_control_summary">Forðast árekstra við að stela fjarstýringu frá öðrum forritum. Þetta kemur í veg fyrir að hringt sé við tvíslátt á HTC-símum.</string>
     <string name="aout">Hljóðúttak</string>
     <string name="aout_summary">Breyttu aðferðinni sem VLC notar til að senda út hljóð.</string>
+    <string name="audio_ducking_title">Lækka hljóðstyrk VLC við tilkynningar</string>
+    <string name="audio_ducking_summary">Gerir auðveldara að heyra raddtilkynningar, leiðbeiningar við leiðsögn eða aðra raddaðstoð</string>
+    <string name="casting_category">Útvörpun (casting)</string>
+    <string name="casting_passthrough_title">Gegnumstreymi hljóðs</string>
+    <string name="casting_passthrough_summary">Láttu sjónvarpið sjá um hljóðmeðhöndlun</string>
+    <string name="casting_conversion_quality_title">Gæði umbreytingar</string>
+    <string name="casting_conversion_quality_summary">Veldu gæði umkóðunar þegar myndmerki er útvarpað á fjartengdan skjá</string>
+    <string name="casting_quality_high">Mikil</string>
+    <string name="casting_quality_medium">Miðlungs</string>
+    <string name="casting_quality_low">Lítil</string>
+    <string name="casting_quality_lowcpu">Lægstu</string>
+    <string name="cast_performance_warning">Útvörpun þessa myndskeiðs krefst umkóðunar. Þessi umbreyting getur notað allt það afl sem býðst og gæti tæmt rafhlöðina þína mjög fljótt.</string>
+    <string name="casting_connected_renderer">Tengt við myndgerðarþjóninn \'%1$s\'</string>
+    <string name="artists_show_all_title">Sýna alla flytjendur</string>
+    <string name="artists_show_all_summary">Sýna alla flytjendur í listanum, ekki bara flytjendur á hljómplötu</string>
     <string name="extensions_prefs_category">Forritsaukar</string>
     <string name="extensions_enable_category">Veldu forritsauka sem á að virkja</string>
     <string name="extensions_empty">Engir forritsaukar fundust</string>
@@ -339,7 +361,7 @@
     <string name="deblocking_nonref">Miðlungs afblokkun</string>
     <string name="deblocking_nonkey">Lítil afblokkun</string>
     <string name="deblocking_all">Engin afblokkun (hraðast)</string>
-    <string name="enable_frame_skip">Virkja rammasleppingu</string>
+    <string name="enable_frame_skip">Rammaslepping</string>
     <string name="enable_frame_skip_summary">Hraðari afkóðun en gæti minnkað gæði myndmerkis.</string>
     <string name="enable_time_stretching_audio">Tímaaðlögun hljóðs (time streching)</string>
     <string name="enable_time_stretching_audio_summary">Hraða og hægja hljóð án þess að breyta tónhæð (krefst hraðvirks tækis).</string>
@@ -349,6 +371,8 @@
     <string name="save_video_always">Vista hraða á milli seta</string>
     <string name="auto_rescan">Sjálfvirk endurskönnun</string>
     <string name="auto_rescan_summary">Skanna tækið sjálfvirkt við ræsingu forritsins eftir nýjum eða eyddum margmiðlunargögnum</string>
+    <string name="dump_media_db">Demba gagnagrunni yfir margmiðlunarefni</string>
+    <string name="dump_media_db_summary">Afrita gagnagrunn á rót innri gagnageymslu</string>
     <string name="clear_media_db">Hreinsa gagnagrunn yfir margmiðlunarefni</string>
     <string name="clear_media_db_summary">Fá aðgang að upplýsingum Android VLC til að hreinsa út gögn</string>
     <string name="clear_history">Hreinsa leitarferil</string>
@@ -389,6 +413,7 @@
     <string name="audio_delay">Hljóðtöf</string>
     <string name="spu_delay">Töf skjátexta</string>
     <string name="sleep_time_not_set">ekkert stillt</string>
+    <string name="network_shares_discovery">Leita að netsameignum…</string>
     <string name="network_empty">Þessi mappa er tóm.</string>
     <string name="network_connection_needed">Engin tenging við staðarnet.</string>
     <string name="search_hint">Leita á miðlum</string>
@@ -405,15 +430,11 @@
     <string name="confirm_resume_title">Biðja um staðfestingu á að halda áfram</string>
     <string name="confirm_resume_summary">ef þetta er virkt verður spurt um staðfestingu þegar hægt er að halda áfram með myndskeið frá síðustu þekktu staðsetningu</string>
     <string name="directory_empty">Mappa er tóm</string>
-    <string name="player_touch_title">Snertistýringar fyrir myndskeið</string>
-    <string name="player_touch_enable_all">Virkja snertistýringar</string>
-    <string name="player_touch_disable_brightness">Gera birtustigsstýringu óvirka</string>
-    <string name="player_touch_disable_all">Gera allar snertistýringar óvirkar</string>
     <string name="tv_ui_title">Android TV-viðmót</string>
     <string name="tv_ui_summary">Skipta í viðmótsþema fyrir sjónvörp</string>
     <string name="medialibrary">Margmiðlunarsafn</string>
     <string name="medialibrary_directories">Möppur fyrir margmiðlunarsöfn</string>
-    <!--Accessibility-->
+    <!-- Accessibility -->
     <string name="more_actions">Fleiri aðgerðir</string>
     <string name="move">Færa</string>
     <string name="back_quit_lock">Ýttu aftur á til baka til að fara út úr myndskeiði</string>
@@ -421,7 +442,7 @@
     <string name="file_deleted">Skrá eytt</string>
     <string name="no_subs_found">Engir skjátextar í þessari möppu</string>
     <string name="music_now_playing">Í afspilun núna</string>
-    <!--Widget-->
+    <!-- Widget -->
     <string name="widget_name_w">Hvítir VLC-viðmótshlutar</string>
     <string name="widget_name_b">Dökkir VLC-viðmótshlutar</string>
     <string name="allow_storage_access_title">Leyfa VLC að fá aðgang að hljóð- og myndskeiðaskrám</string>
@@ -435,10 +456,10 @@
     <string name="permission_ask_again">Gefa heimild</string>
     <string name="exit_app">Loka VLC</string>
     <string name="exit_app_msg">Ertu viss um að þú viljir hætta í VLC?</string>
-    <!--fast scroller-->
+    <!-- fast scroller -->
     <string name="fastscroller_track">FastScroller spor</string>
     <string name="fastscroller_handle">FastScroller haldfang</string>
-    <!--Plugins-->
+    <!-- Plugins -->
     <string name="plugins">Viðbætur</string>
     <string name="download_on_device">Sækja</string>
     <string name="extension_empty">Ekkert atriði til birtingar, farðu í stillingar viðbótarinnar til að sjá eitthvað.</string>
@@ -470,10 +491,12 @@
     <string name="browse_folder">Flakka í möppu</string>
     <string name="listen">Hlusta</string>
     <string name="subtitles_download_title">Niðurhal skjátexta</string>
+    <string name="connecting">Tengist…</string>
     <string name="save_bluetooth_delay">töf á vistun fyrir bluetooth-tæki</string>
     <string name="episodes">þættir</string>
     <string name="movies">kvikmyndir</string>
     <string name="videos">myndskeið</string>
+    <string name="videos_all">Öll myndskeið</string>
     <string name="clear_playback_history">Hreinsa feril afspilunar</string>
     <string name="various_artists">Ýmsir flytjendur</string>
     <string name="ml_scanning">Leita að margmiðlunarskrám</string>
@@ -488,9 +511,12 @@
     <string name="ml_external_storage_decline">Nei</string>
     <string name="last_added_media">síðast bætt við</string>
     <string name="no">Nei</string>
+    <string name="loading_medialibrary">Hleð inn margmiðunarsafni…</string>
     <string name="yes">Já</string>
     <string name="custom_set_save_title">Óvistaðar breytingar</string>
     <string name="custom_set_save_warning">Aðvörun: óvistaðar breytingar</string>
+    <string name="existing_custom_set_save_message">Vista hljóðjöfnunarsett sem…</string>
+    <string name="new_custom_set_save_message">Vista nýtt hljóðjöfnunarsett sem…</string>
     <string name="save">Vista</string>
     <string name="do_not_save">Ekki vista</string>
     <string name="custom_set_deleted_message">Sérsniðnu hljóðjöfnunarsetti \"%1$s\" eytt.</string>
@@ -504,4 +530,15 @@
     <string name="recommendations_desc">Meðmælaspjöld á ræsi</string>
     <string name="browser_quick_access">Flýtiaðgangur</string>
     <string name="browser_storages">Gagnageymslur</string>
+    <string name="msg_delete_failed">Mistókst að eyða gögnum %1$s</string>
+    <string name="renderer_list_title">Skjáir</string>
+    <string name="feedback_player_crashed">Því miður, VLC var að hrynja. Prófaðu aftur.</string>
+    <string name="sdcard_permission_dialog_title">Þú þarft að gefa VLC skrifaðgang að minniskortinu þínu</string>
+    <string name="sdcard_permission_dialog_message">VLC getur ekki eytt þessari skrá án skrifheimilda.\nFarðu í minniskortið og smelltu á \"Velja\".\nÞú gætir fyrst þurft að smella á \"Birta minniskort\" í valmyndinni efst til hægri</string>
+    <string name="dialog_sd_wizard">Sýna mér</string>
+    <string name="renderers_disconnect">Aftengjast</string>
+    <string name="audio_digital_failed">Mistókst að breyta stöðu stafræns hljóðúttaks</string>
+    <string name="audio_digital_output_enabled">Stafrænt hljóðúttak virkt</string>
+    <string name="audio_digital_output_disabled">Stafrænt hljóðúttak óvirkt</string>
+    <string name="audio_digital_title">Stafrænt hljóðúttak (gegnumstreymi)</string>
 </resources>

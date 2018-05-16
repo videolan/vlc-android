@@ -230,7 +230,7 @@
     <string name="about">O VLC</string>
     <string name="about_text">VLC dla Androida™ jest portem VLC Media Player, popularnego odtwarzacza multimedialnego o otwartym kodzie źródłowym. Wersja systemu Android™ może odczytać większość plików i strumieni sieciowych.</string>
     <string name="compiled_by">Ta wersja VLC została skompilowana przez:</string>
-    <string name="vlc_authors">i autorów VLC.</string>
+    <string name="vlc_authors">i autorzy VLC.</string>
     <!-- Preferences -->
     <string name="preferences">Ustawienia</string>
     <string name="general_prefs_category">Ogólne</string>
@@ -297,7 +297,7 @@
     <string name="enable_seek_buttons_summary">Pokaż przyciski przewijania do przodu i do tyłu w interfejsie widea</string>
     <string name="enable_double_tap_seek_title">Dotknij dwukrotnie, aby przeszukiwać</string>
     <string name="enable_double_tap_seek_summary">Dotknij dwukrotnie na krawędziach ekranu, aby przeszukiwać co 10 sekund</string>
-    <string name="popup_keepscreen_title">Pozostaw ekran włączony w trybie pop-up</string>
+    <string name="popup_keepscreen_title">Ekran włączony w trybie pop-up</string>
     <string name="popup_keepscreen_summary">Zawsze pozostaw ekran włączony podczas wyświetlania w trybie pop-up, nawet jeśli film został wstrzymany.</string>
     <string name="browser_show_hidden_files_title">Pokaż ukryte pliki</string>
     <string name="browser_show_hidden_files_summary">Pokaż ukryte pliki w przeglądarkach</string>
@@ -338,13 +338,13 @@
     <string name="enable_headset_actions_title">Skróty zdalnego sterowania</string>
     <string name="enable_headset_actions_summary">Dwukrotnie naciśnij przycisk \'Odtwórz\', aby przejść do następnego utworu lub naciśnij dłużnej, aby przejść do poprzedniego.</string>
     <string name="enable_play_on_headset_insertion">Wznowienie po włożeniu słuchawek</string>
-    <string name="enable_play_on_headset_insertion_summary">Pauzuj inaczej</string>
+    <string name="enable_play_on_headset_insertion_summary">Przerwij w przeciwnym razie</string>
     <string name="enable_steal_remote_control">Ekskluzywny pilot słuchawek</string>
     <string name="enable_steal_remote_control_summary">Unikanie konfliktów poprzez zapożyczenie pilota z innych aplikacji. Zapobiega to wybieraniu numeru przy podwójnym kliknięciu na telefonach firmy HTC.</string>
     <string name="aout">Wyjście dźwiękowe</string>
     <string name="aout_summary">Zmiana metody, której VLC używa do wyjścia dźwięku.</string>
-    <string name="audio_ducking_title">Zmniejsz głośność VLC przy powiadomieniach</string>
-    <string name="audio_ducking_summary">Pomaga usłyszeć powiadomienia dźwiękowe, instrukcje nawigacyjne lub rozmowę asystenta</string>
+    <string name="audio_ducking_title">Głośność VLC przy powiadomieniach</string>
+    <string name="audio_ducking_summary">Zmniejsza głośność VLC, aby lepiej usłyszeć powiadomienia dźwiękowe, instrukcje nawigacyjne lub mowę asystenta</string>
     <string name="casting_category">Transmisja</string>
     <string name="casting_passthrough_title">Przekazywanie dźwięku</string>
     <string name="casting_passthrough_summary">Zezwól swojemu telewizorowi zarządzać renderowaniem dźwięku</string>
@@ -396,8 +396,8 @@
     <string name="set_locale_popup">Zamknij i uruchom ponowne VLC, aby zastosować zmiany.</string>
     <string name="network_caching">Wartość buforowania sieci</string>
     <string name="network_caching_summary">Ilość czasu, dla buforowania pliku sieciowego (w milisekundach). Nie działa ze sprzętowym dekodowaniem. Pozostaw puste, aby zresetować.</string>
-    <string name="resume_playback_title">Wznowienie odtwarzania po zakończeniu połączenia</string>
-    <string name="resume_playback_summary">Lub pozostanie w pauzie</string>
+    <string name="resume_playback_title">Wznów odtwarzanie po połączeniu</string>
+    <string name="resume_playback_summary">Lub pozostań w pauzie po zakończeniu połączenia</string>
     <string name="network_caching_popup">Ta wartość musi być w zakresie od 0 a 6000 ms</string>
     <string name="quit">Zamknij i uruchom ponownie aplikację</string>
     <string name="developer_prefs_category">Programisty</string>
@@ -553,6 +553,6 @@
     <string name="renderers_disconnect">Rozłącz</string>
     <string name="audio_digital_failed">Nie udało się zmienić stanu wyjścia dźwięku cyfrowego</string>
     <string name="audio_digital_output_enabled">Wyjście dźwięku cyfrowego włączone</string>
-    <string name="audio_digital_output_disabled">Wyjście dźwięku cyfrowego wyłączone</string>
-    <string name="audio_digital_title">Cyfrowe wyjście dźwiękowe (przejściówka)</string>
+    <string name="audio_digital_output_disabled">Wyjście dźwięku cyfrowego (przejściówka) wyłączone</string>
+    <string name="audio_digital_title">Cyfrowe wyjście dźwiękowe</string>
 </resources>
