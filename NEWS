@@ -1,4 +1,12 @@
-Changes between 3.0.6 and 3.0.7:
+Changes between 3.0.8 and 3.0.9:
+----------------------------------
+
+Application:
+ * Fix crash in video transitions/repeat
+ * Update translations
+ * Misc. fixes
+
+Changes between 3.0.7 and 3.0.8:
 ----------------------------------
 
 Application:
