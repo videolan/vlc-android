@@ -564,8 +564,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
         }
         if (savedTime <= 0L) return
-        val mediaLength = mw.length
-        if (mediaLength > 0 && savedTime < 0.95 * mediaLength) media.addOption(":start-time=${savedTime/1000L}")
+        media.addOption(":start-time=${savedTime/1000L}")
         savedTime = 0L
     }
 
