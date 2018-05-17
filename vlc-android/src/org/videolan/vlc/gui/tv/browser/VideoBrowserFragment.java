@@ -37,6 +37,7 @@ import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.Util;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class VideoBrowserFragment extends SortedBrowserFragment implements MediaUpdatedCb, MediaAddedCb {
@@ -89,6 +90,7 @@ public class VideoBrowserFragment extends SortedBrowserFragment implements Media
     @Override
     public void onPause() {
         super.onPause();
+        if (mVideos != null) VLCApplication.storeData(CURRENT_BROWSER_LIST, Util.arrayToArrayList(mVideos));
         mMediaLibrary.removeMediaUpdatedCb();
         mMediaLibrary.removeMediaAddedCb();
     }

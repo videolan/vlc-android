@@ -84,7 +84,6 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
     protected MediaWrapper mItemSelected;
     protected Map<String, ListItem> mMediaItemMap = new ArrayMap<>(), mTempMap;
     protected final SimpleArrayMap<String, Integer> mMediaIndex = new SimpleArrayMap<>();
-    List<MediaWrapper> mVideosList = new ArrayList<>();
     protected final BrowserHandler mHandler = new BrowserHandler(this);
     private BackgroundManager mBackgroundManager;
 
@@ -136,7 +135,6 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
     @Override
     public void onResume() {
         super.onResume();
-        VLCApplication.storeData(CURRENT_BROWSER_LIST, mVideosList);
         if (!mBackgroundManager.isAttached())
             mBackgroundManager.attachToView(getView());
     }
@@ -209,7 +207,6 @@ public abstract class SortedBrowserFragment extends BrowseSupportFragment implem
                 for (ListItem item : mMediaItemMap.values())
                     Collections.sort(item.mediaList, MediaComparators.byFileType);
                 mHandler.sendEmptyMessage(UPDATE_DISPLAY);
-                VLCApplication.storeData(CURRENT_BROWSER_LIST, mVideosList);
             }
         });
     }
