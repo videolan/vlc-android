@@ -1071,7 +1071,8 @@ public class PlaybackService extends MediaBrowserServiceCompat{
                 }
             }
         }
-        pscb.setState(state, time, playlistManager.getPlayer().getRate());
+        final float rate = state == PlaybackStateCompat.STATE_STOPPED ? 1f : playlistManager.getPlayer().getRate();
+        pscb.setState(state, time, rate);
         final int repeatType = playlistManager.getRepeating();
         if (repeatType != Constants.REPEAT_NONE || hasNext())
             actions |= PlaybackStateCompat.ACTION_SKIP_TO_NEXT;
