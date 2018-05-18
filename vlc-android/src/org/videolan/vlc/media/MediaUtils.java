@@ -289,7 +289,7 @@ public class MediaUtils {
                 cursor.moveToFirst();
                 if (!cursor.isNull(nameIndex)) mw.setTitle(cursor.getString(nameIndex));
             }
-        } catch (SecurityException|IllegalArgumentException e) { // We may not have storage access permission yet
+        } catch (SecurityException|IllegalArgumentException|UnsupportedOperationException e) { // We may not have storage access permission yet
             Log.w(TAG, "retrieveMediaTitle: fail to resolve file from "+mw.getUri(), e);
         } finally {
             if (cursor != null && !cursor.isClosed()) cursor.close();
