@@ -36,6 +36,7 @@ import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment;
+import org.videolan.vlc.interfaces.Sortable;
 import org.videolan.vlc.util.Constants;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -133,5 +134,9 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
                 mEmptyView.setVisibility(empty ? View.VISIBLE : View.GONE);
             }
         });
+    }
+    
+    public void sort(View v) {
+        ((Sortable)mFragment).sort(v);
     }
 }

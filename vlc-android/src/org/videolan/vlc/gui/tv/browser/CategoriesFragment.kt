@@ -31,18 +31,21 @@ import android.support.v17.leanback.app.BrowseSupportFragment
 import android.support.v17.leanback.widget.*
 import android.support.v4.content.ContextCompat
 import android.view.View
+import android.widget.ImageView
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.CardPresenter
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
+import org.videolan.vlc.interfaces.Sortable
 import org.videolan.vlc.util.Constants
-import org.videolan.vlc.util.RefreshModel
+import org.videolan.vlc.viewmodels.BaseModel
 
 private const val TAG = "VLC/CategoriesFragment"
 
-open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener, BrowserFragmentInterface {
+open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSupportFragment(), Sortable, OnItemViewSelectedListener, OnItemViewClickedListener, BrowserFragmentInterface {
+
     private lateinit var selecteditem: MediaLibraryItem
     private lateinit var backgroundManager: BackgroundManager
     private val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
@@ -54,9 +57,10 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // UI setting
-        headersState = BrowseSupportFragment.HEADERS_HIDDEN
+        headersState = BrowseSupportFragment.HEADERS_DISABLED
         brandColor = ContextCompat.getColor(activity!!, R.color.orange800)
         if (savedInstanceState == null) backgroundManager = BackgroundManager.getInstance(requireActivity())
+        setOnSearchClickedListener { sort(requireActivity().findViewById(R.id.title_orb)) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,6 +69,8 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
         onItemViewClickedListener = this
         onItemViewSelectedListener = this
         backgroundManager.attachToView(view)
+        searchAffordanceColor = ContextCompat.getColor(requireContext(), R.color.orange500)
+        requireActivity().findViewById<ImageView>(R.id.icon).setImageResource(R.drawable.ic_menu_sort)
     }
 
     override fun onStart() {
@@ -98,7 +104,8 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
             (row.adapter as ArrayObjectAdapter).setItems(list, TvUtil.diffCallback)
             rows[key] = row
         }
-        rowsAdapter.setItems(rows.values.toList(), TvUtil.listDiffCallback)
+        //TODO  Activate animations once IndexOutOfRange Exception is fixed
+        rowsAdapter.setItems(rows.values.toList(), null /*TvUtil.listDiffCallback*/)
         categoryRows = rows
     }
 
@@ -112,4 +119,6 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
         is DirectoryBrowserFragment -> Constants.HEADER_DIRECTORIES
         else -> -1
     }
+
+    override fun getVM() = provider
 }

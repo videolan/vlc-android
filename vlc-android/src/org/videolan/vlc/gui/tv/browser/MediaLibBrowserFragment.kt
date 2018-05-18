@@ -32,13 +32,17 @@ import android.preference.PreferenceManager
 import android.support.annotation.RequiresApi
 import android.support.v17.leanback.app.BackgroundManager
 import android.support.v17.leanback.widget.*
+import android.support.v4.content.ContextCompat
+import android.widget.ImageView
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.TvUtil
+import org.videolan.vlc.interfaces.Sortable
 import org.videolan.vlc.util.Constants
-import org.videolan.vlc.util.RefreshModel
+import org.videolan.vlc.viewmodels.BaseModel
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-abstract class MediaLibBrowserFragment<T : RefreshModel> : GridFragment(), OnItemViewSelectedListener, OnItemViewClickedListener {
+abstract class MediaLibBrowserFragment<T : BaseModel<out MediaLibraryItem>> : GridFragment(), OnItemViewSelectedListener, OnItemViewClickedListener, Sortable {
     private var mBackgroundManager: BackgroundManager? = null
     private var mSelectedItem: Any? = null
     lateinit var provider: T
@@ -50,6 +54,7 @@ abstract class MediaLibBrowserFragment<T : RefreshModel> : GridFragment(), OnIte
         currentItem = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(Constants.AUDIO_ITEM) as? MediaLibraryItem
         else requireActivity().intent.getParcelableExtra<Parcelable>(Constants.AUDIO_ITEM) as? MediaLibraryItem
         mBackgroundManager = BackgroundManager.getInstance(requireActivity())
+        setOnSearchClickedListener { sort(requireActivity().findViewById(R.id.title_orb)) }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -57,6 +62,8 @@ abstract class MediaLibBrowserFragment<T : RefreshModel> : GridFragment(), OnIte
         setOnItemViewSelectedListener(this)
         onItemViewClickedListener = this
         mBackgroundManager?.attachToView(view)
+        searchAffordanceColor = ContextCompat.getColor(requireContext(), R.color.orange500)
+        requireActivity().findViewById<ImageView>(R.id.icon).setImageResource(R.drawable.ic_menu_sort)
     }
 
     override fun onStart() {
@@ -93,4 +100,6 @@ abstract class MediaLibBrowserFragment<T : RefreshModel> : GridFragment(), OnIte
 //        } else
         TvUtil.openMedia(mContext, item, row)
     }
+
+    override fun getVM(): BaseModel<out MediaLibraryItem> = this.provider
 }

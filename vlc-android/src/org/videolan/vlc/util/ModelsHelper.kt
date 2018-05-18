@@ -26,6 +26,7 @@ object ModelsHelper {
         val array = mutableMapOf<String, MutableList<MediaLibraryItem>>()
         when (sort) {
             Medialibrary.SORT_DEFAULT,
+            Medialibrary.SORT_FILENAME,
             Medialibrary.SORT_ALPHA -> {
                 var currentLetter: String? = null
                 for (item in items) {

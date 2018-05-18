@@ -35,7 +35,6 @@ import android.support.v17.leanback.widget.ListRow
 import android.support.v17.leanback.widget.Row
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineStart
@@ -90,14 +89,9 @@ object TvUtil {
         }
     }
 
-    var listDiffCallback: DiffCallback<ListRow> = object : DiffCallback<ListRow>() {
-        override fun areItemsTheSame(oldItem: ListRow, newItem: ListRow): Boolean {
-            return oldItem.contentDescription == newItem.contentDescription
-        }
-
-        override fun areContentsTheSame(oldItem: ListRow, newItem: ListRow): Boolean {
-            return true
-        }
+    val listDiffCallback: DiffCallback<ListRow> = object : DiffCallback<ListRow>() {
+        override fun areItemsTheSame(oldItem: ListRow, newItem: ListRow) = oldItem.contentDescription == newItem.contentDescription
+        override fun areContentsTheSame(oldItem: ListRow, newItem: ListRow) = true
     }
 
     fun applyOverscanMargin(activity: Activity) {
@@ -122,7 +116,6 @@ object TvUtil {
             when {
                 item.type == MediaWrapper.TYPE_AUDIO -> openAudioCategory(activity, item)
                 item.type == MediaWrapper.TYPE_DIR -> {
-                    Log.d(TAG, "openMedia: " + item.uri)
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) Constants.HEADER_DIRECTORIES else Constants.HEADER_NETWORK)
                     intent.data = item.uri
