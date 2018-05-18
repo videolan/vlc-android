@@ -70,6 +70,8 @@ import org.videolan.vlc.widget.VLCAppWidgetProviderBlack
 import org.videolan.vlc.widget.VLCAppWidgetProviderWhite
 import java.util.*
 
+private const val TAG = "VLC/PlaybackService"
+
 class PlaybackService : MediaBrowserServiceCompat() {
 
     lateinit var playlistManager: PlaylistManager
@@ -1301,7 +1303,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     companion object {
 
-        private const val TAG = "VLC/PlaybackService"
 
         private const val SHOW_TOAST = 1
         private const val END_MEDIASESSION = 2
