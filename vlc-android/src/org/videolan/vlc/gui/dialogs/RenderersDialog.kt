@@ -128,12 +128,12 @@ class RenderersDialog : DialogFragment(), RendererDelegate.RendererListener, Pla
 
     inner class RendererClickhandler {
         fun connect(item: RendererItem?) {
-            RendererDelegate.selectRenderer(item)
             mService?.setRenderer(item)
+            dismissAllowingStateLoss()
+            RendererDelegate.selectRenderer(item)
             if (item !== null) activity?.window?.findViewById<View>(R.id.audio_player_container)?.let {
                 UiTools.snacker(it, getString(R.string.casting_connected_renderer, item.displayName))
             }
-            dismiss()
         }
     }
 }
