@@ -70,6 +70,8 @@ import org.videolan.vlc.widget.VLCAppWidgetProviderBlack
 import org.videolan.vlc.widget.VLCAppWidgetProviderWhite
 import java.util.*
 
+private const val TAG = "VLC/PlaybackService"
+
 class PlaybackService : MediaBrowserServiceCompat() {
 
     lateinit var playlistManager: PlaylistManager
@@ -320,13 +322,13 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     var time: Long
         @MainThread
-        get() = playlistManager.player.getTime()
+        get() = playlistManager.player.getCurrentTime()
         @MainThread
         set(time) = playlistManager.player.setTime(time)
 
     val length: Long
         @MainThread
-        get() = playlistManager.player.length
+        get() = playlistManager.player.getLength()
 
     val lastStats: Media.Stats?
         get() = playlistManager.player.previousMediaStats
@@ -742,6 +744,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         val media = playlistManager.getCurrentMedia() ?: return
         if (!this::mediaSession.isInitialized) initMediaSession()
         val ctx = this
+        val length = length
         val bob = withContext(CommonPool) {
             val title = media.nowPlaying ?: media.title
             val coverOnLockscreen = settings.getBoolean("lockscreen_cover", true)
@@ -1300,13 +1303,10 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     companion object {
 
-        private const val TAG = "VLC/PlaybackService"
 
         private const val SHOW_TOAST = 1
         private const val END_MEDIASESSION = 2
 
-        internal const val DELAY_DOUBLE_CLICK = 800L
-        internal const val DELAY_LONG_CLICK = 1000L
         fun getService(iBinder: IBinder): PlaybackService? {
             val binder = iBinder as LocalBinder
             return binder.service

@@ -69,11 +69,9 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
     binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
 
-private suspend fun obtainBitmap(item: MediaLibraryItem, width: Int) : Bitmap? {
-    return withContext(VLCIO) {
-        if (item.itemType == MediaLibraryItem.TYPE_MEDIA) ThumbnailsProvider.getMediaThumbnail(item as MediaWrapper)
-        else AudioUtil.readCoverBitmap(Uri.decode(item.artworkMrl), width)
-    }
+private suspend fun obtainBitmap(item: MediaLibraryItem, width: Int) = withContext(VLCIO) {
+    if (item.itemType == MediaLibraryItem.TYPE_MEDIA) ThumbnailsProvider.getMediaThumbnail(item as MediaWrapper, width)
+    else AudioUtil.readCoverBitmap(Uri.decode(item.artworkMrl), width)
 }
 
 @MainThread

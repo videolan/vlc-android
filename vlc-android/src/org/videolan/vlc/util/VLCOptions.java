@@ -40,6 +40,7 @@ import org.videolan.vlc.VLCApplication;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class VLCOptions {
@@ -144,6 +145,9 @@ public class VLCOptions {
         options.add("--sout-chromecast-conversion-quality="+pref.getString("casting_quality", "2"));
         options.add("--sout-keep");
 
+        final String customOptions[] = pref.getString("custom_libvlc_options", "").split("\\r?\\n", -1);
+        if (!Util.isArrayEmpty(customOptions)) Collections.addAll(options, customOptions);
+
         return options;
     }
 
@@ -199,7 +203,7 @@ public class VLCOptions {
 
     private static String getResampler() {
         final VLCUtil.MachineSpecs m = VLCUtil.getMachineSpecs();
-        return (m == null || m.processors > 2) ? "soxr" : "ugly";
+        return (m == null || m.processors >= 2) ? "soxr" : "ugly";
     }
 
     public static void setMediaOptions(Media media, Context context, int flags) {

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.delay
+import org.videolan.libvlc.Media
 import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
@@ -48,3 +49,6 @@ suspend fun retry (
 }
 
 fun uiStart() = if (Looper.getMainLooper() == Looper.myLooper()) CoroutineStart.UNDISPATCHED else CoroutineStart.DEFAULT
+
+fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
+

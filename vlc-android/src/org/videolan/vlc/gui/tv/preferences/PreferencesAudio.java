@@ -54,7 +54,6 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
         findPreference("enable_play_on_headset_insertion").setVisible(false);
         findPreference("headset_prefs_category").setVisible(false);
         findPreference("lockscreen_cover").setVisible(false);
-        findPreference("enable_headset_actions").setVisible(false);
         findPreference("audio_ducking").setVisible(!AndroidUtil.isOOrLater);
 
         final HWDecoderUtil.AudioOutput aout = HWDecoderUtil.getAudioOutputFromDevice();

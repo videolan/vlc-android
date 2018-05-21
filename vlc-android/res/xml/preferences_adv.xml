@@ -81,6 +81,13 @@
         <PreferenceScreen
             android:key="debug_logs"
             android:title="@string/debug_logs" />
+
+        <EditTextPreference
+            android:defaultValue=""
+            android:inputType="textMultiLine"
+            android:key="custom_libvlc_options"
+            android:singleLine="false"
+            android:title="@string/custom_libvlc_options" />
     </PreferenceCategory>
 
 </PreferenceScreen>

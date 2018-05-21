@@ -23,8 +23,10 @@
 
 package org.videolan.vlc;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -53,10 +55,19 @@ public class StartActivity extends FragmentActivity implements StoragePermission
         final boolean tv =  showTvUi();
         final String action = intent != null ? intent.getAction(): null;
 
-        if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null) {
-            if (Permissions.checkReadStoragePermission(this, true))
+        if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null
+                && Permissions.checkReadStoragePermission(this, true)) {
                 startPlaybackFromApp(intent);
-            return;
+                return;
+        } else if (Intent.ACTION_SEND.equals(action)) {
+            final ClipData cd = intent.getClipData();
+            final ClipData.Item item = cd != null && cd.getItemCount() > 0 ? cd.getItemAt(0) : null;
+            final String mrl = item != null ? item.getText().toString() : null;
+            if (mrl != null) {
+                MediaUtils.openMediaNoUi(Uri.parse(mrl));
+                finish();
+                return;
+            }
         }
 
         // Start application

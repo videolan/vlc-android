@@ -20,8 +20,8 @@ class PlaylistModel(private val service: PlaybackService) : ViewModel(), Playbac
     val dataset = LiveDataset<MediaWrapper>()
     val progress by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<PlaybackProgress>().apply {
-            addSource(service.playlistManager.player.currentTime, {
-                value = PlaybackProgress(it ?: 0L, service.length)
+            addSource(service.playlistManager.player.progress, {
+                value = PlaybackProgress(it?.time ?: 0L, it?.length ?: 0L)
             })
         }
     }
