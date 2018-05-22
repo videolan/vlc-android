@@ -582,6 +582,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     fun onPlaybackStopped(systemExit: Boolean) {
         if (!systemExit) hideNotification(VLCApplication.isForeground())
+        removePopup()
         if (wakeLock.isHeld) wakeLock.release()
         audioFocusHelper.changeAudioFocus(false)
         medialibrary.resumeBackgroundOperations()
@@ -707,7 +708,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
     @MainThread
     @JvmOverloads
     fun stop(systemExit: Boolean = false) {
-        removePopup()
         playlistManager.stop(systemExit)
     }
 
@@ -1046,7 +1046,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     @MainThread
     fun removePopup() {
-        if (popupManager != null) popupManager!!.removePopup()
+        popupManager?.removePopup()
         popupManager = null
     }
 
