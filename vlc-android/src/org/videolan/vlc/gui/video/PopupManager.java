@@ -78,8 +78,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     public void removePopup() {
         hideNotification();
-        if (mRootView == null)
-            return;
+        if (mRootView == null) return;
         mService.removeCallback(this);
         final IVLCVout vlcVout = mService.getVLCVout();
         vlcVout.detachViews();
@@ -213,9 +212,6 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     @Override
     public void onMediaPlayerEvent(MediaPlayer.Event event) {
         switch (event.type) {
-            case MediaPlayer.Event.Stopped:
-                removePopup();
-                break;
             case MediaPlayer.Event.Playing:
                 if (!mAlwaysOn)
                     mRootView.setKeepScreenOn(true);

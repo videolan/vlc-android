@@ -571,6 +571,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     public void onPlaybackStopped() {
         hideNotification();
+        removePopup();
         if (mWakeLock.isHeld()) mWakeLock.release();
         changeAudioFocus(false);
         mMedialibrary.resumeBackgroundOperations();
@@ -777,7 +778,6 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     @MainThread
     public void stop(boolean systemExit) {
-        removePopup();
         playlistManager.stop(systemExit);
     }
 
