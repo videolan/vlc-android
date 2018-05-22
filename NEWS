@@ -1,3 +1,12 @@
+Changes between 3.0.9 and 3.0.10:
+----------------------------------
+
+Application:
+ * TV: Restore 'Play All' option in details view
+ * Fix Chromecast switch on Android P
+ * Fix playlist progression in popup mode
+ * Misc. fixes
+
 Changes between 3.0.8 and 3.0.9:
 ----------------------------------
 
