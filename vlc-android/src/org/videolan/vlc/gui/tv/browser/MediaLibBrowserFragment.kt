@@ -68,8 +68,6 @@ abstract class MediaLibBrowserFragment<T : RefreshModel> : GridFragment(), OnIte
         provider.refresh()
     }
 
-    override fun updateList() {}
-
     protected fun update(list: List<MediaLibraryItem>) {
         mAdapter.setItems(list, TvUtil.diffCallback)
     }

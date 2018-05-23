@@ -90,8 +90,6 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
         if (this::provider.isInitialized) provider.refresh()
     }
 
-    override fun updateList() {}
-
     protected fun update(map: Map<String, List<MediaLibraryItem>>?) {
         if (map === null) return
         val rows = mutableMapOf<String, ListRow>()

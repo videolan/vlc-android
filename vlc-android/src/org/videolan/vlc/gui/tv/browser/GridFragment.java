@@ -51,6 +51,4 @@ public class GridFragment extends VerticalGridSupportFragment implements Browser
     }
 
     public void refresh() {}
-
-    public void updateList() {}
 }
