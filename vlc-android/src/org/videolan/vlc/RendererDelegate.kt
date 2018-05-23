@@ -22,6 +22,8 @@ package org.videolan.vlc
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.experimental.channels.actor
 import kotlinx.coroutines.experimental.launch
 import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
@@ -34,8 +36,8 @@ object RendererDelegate : RendererDiscoverer.EventListener, ExternalMonitor.Netw
     private val TAG = "VLC/RendererDelegate"
     private val mDiscoverers = ArrayList<RendererDiscoverer>()
     val renderers = ArrayList<RendererItem>()
-    private val mListeners = LinkedList<RendererListener>()
-    private val mPlayers = LinkedList<RendererPlayer>()
+    private val listeners = LinkedList<RendererListener>()
+    private val players = LinkedList<RendererPlayer>()
 
     @Volatile private var started = false
     var selectedRenderer: RendererItem? = null
@@ -65,13 +67,13 @@ object RendererDelegate : RendererDiscoverer.EventListener, ExternalMonitor.Netw
         }
     }
 
-    suspend fun stop() {
+    fun stop() {
         if (!started) return
         started = false
         for (discoverer in mDiscoverers) discoverer.stop()
         clear()
         onRenderersChanged()
-        for (player in mPlayers) player.onRendererChanged(null)
+        cbActor.offer(RendererChanged(null))
     }
 
     private fun clear() {
@@ -93,20 +95,37 @@ object RendererDelegate : RendererDiscoverer.EventListener, ExternalMonitor.Netw
         onRenderersChanged()
     }
 
-    fun addListener(listener: RendererListener) = mListeners.add(listener)
+    fun addListener(listener: RendererListener) = cbActor.offer(AddListener(listener))
 
-    fun removeListener(listener: RendererListener) = mListeners.remove(listener)
+    fun removeListener(listener: RendererListener) = cbActor.offer(RemoveListener(listener))
 
-    private fun onRenderersChanged() {
-        for (listener in mListeners) listener.onRenderersChanged(renderers.isEmpty())
-    }
+    private fun onRenderersChanged() = cbActor.offer(RenderersChanged())
 
     fun selectRenderer(item: RendererItem?) {
         selectedRenderer = item
-        for (player in mPlayers) player.onRendererChanged(item)
+        cbActor.offer(RendererChanged(item))
     }
 
-    fun addPlayerListener(listener: RendererPlayer) = mPlayers.add(listener)
+    fun addPlayerListener(player: RendererPlayer) = cbActor.offer(AddPlayer(player))
 
-    fun removePlayerListener(listener: RendererPlayer) = mPlayers.remove(listener)
+    fun removePlayerListener(player: RendererPlayer) = cbActor.offer(RemovePlayer(player))
+
+    private val cbActor = actor<CbAction>(UI, Channel.UNLIMITED) {
+        for (action in channel) when (action) {
+            is AddPlayer -> players.add(action.player)
+            is RemovePlayer -> players.remove(action.player)
+            is RendererChanged -> for (player in players) player.onRendererChanged(action.renderer)
+            is AddListener -> listeners.add(action.listener)
+            is RemoveListener -> listeners.remove(action.listener)
+            is RenderersChanged -> for (listener in listeners) listener.onRenderersChanged(renderers.isEmpty())
+        }
+    }
 }
+
+sealed class CbAction
+private class AddPlayer(val player: RendererDelegate.RendererPlayer) : CbAction()
+private class RemovePlayer(val player: RendererDelegate.RendererPlayer) : CbAction()
+private class RendererChanged(val renderer: RendererItem?) : CbAction()
+private class AddListener(val listener: RendererDelegate.RendererListener) : CbAction()
+private class RemoveListener(val listener: RendererDelegate.RendererListener) : CbAction()
+private class RenderersChanged : CbAction()
