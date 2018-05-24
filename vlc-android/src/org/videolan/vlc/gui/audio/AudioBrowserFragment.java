@@ -141,7 +141,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         final String[] titles = new String[] {
                 getString(R.string.artists),
                 getString(R.string.albums),
-                getString(R.string.songs),
+                getString(R.string.tracks),
                 getString(R.string.genres),
                 getString(R.string.playlists),
         };

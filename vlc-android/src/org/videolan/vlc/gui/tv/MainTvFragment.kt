@@ -151,7 +151,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                 DummyItem(Constants.CATEGORY_ARTISTS, getString(R.string.artists), ""),
                 DummyItem(Constants.CATEGORY_ALBUMS, getString(R.string.albums), ""),
                 DummyItem(Constants.CATEGORY_GENRES, getString(R.string.genres), ""),
-                DummyItem(Constants.CATEGORY_SONGS, getString(R.string.songs), "")
+                DummyItem(Constants.CATEGORY_SONGS, getString(R.string.tracks), "")
         )
         if (current !== null) list.add(0, current)
         categoriesAdapter.setItems(list.toList(), diffCallback)
