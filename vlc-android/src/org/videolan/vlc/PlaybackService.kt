@@ -690,9 +690,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         NotificationManagerCompat.from(this@PlaybackService).cancel(3)
     }
 
-    fun onNewPlayback(mw: MediaWrapper) {
-        mediaSession.setSessionActivity(sessionPendingIntent)
-    }
+    fun onNewPlayback() = mediaSession.setSessionActivity(sessionPendingIntent)
 
     fun onPlaylistLoaded() {
         notifyTrackChanged()
@@ -1327,10 +1325,10 @@ class PlaybackService : MediaBrowserServiceCompat() {
 // Actor actions sealed classes
 private sealed class CbAction
 private object CbUpdate : CbAction()
-private data class CbMediaEvent(val event : Media.Event) : CbAction()
-private data class CbMediaPlayerEvent(val event : MediaPlayer.Event) : CbAction()
-private data class CbAdd(val cb : PlaybackService.Callback) : CbAction()
-private data class CbRemove(val cb : PlaybackService.Callback) : CbAction()
+private class CbMediaEvent(val event : Media.Event) : CbAction()
+private class CbMediaPlayerEvent(val event : MediaPlayer.Event) : CbAction()
+private class CbAdd(val cb : PlaybackService.Callback) : CbAction()
+private class CbRemove(val cb : PlaybackService.Callback) : CbAction()
 private object ShowNotification : CbAction()
-private data class HideNotification(val remove: Boolean) : CbAction()
+private class HideNotification(val remove: Boolean) : CbAction()
 private object UpdateMeta : CbAction()

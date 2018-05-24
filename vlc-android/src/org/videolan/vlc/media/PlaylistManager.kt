@@ -288,7 +288,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 player.startPlayback(media, mediaplayerEventListener)
                 media.release()
                 determinePrevAndNextIndices()
-                service.onNewPlayback(mw)
+                service.onNewPlayback()
                 if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) launch {
                     var id = mw.id
                     if (id == 0L) {
