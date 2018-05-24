@@ -38,7 +38,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -85,7 +84,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(!AndroidDevices.isAndroidTv);
     }
 
     @Override
@@ -219,11 +218,6 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
         final Intent i = new Intent(getActivity(), InfoActivity.class);
         i.putExtra(InfoActivity.TAG_ITEM, item);
         startActivity(i);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
