@@ -45,7 +45,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.ImageLoaderKt;
-import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.Constants;
 
 import java.util.List;
@@ -81,7 +80,17 @@ public class CardPresenter extends Presenter {
         }
 
         void updateCardViewImage(MediaLibraryItem item) {
-            if (TextUtils.isEmpty(item.getArtworkMrl()) && !(item instanceof MediaGroup)) {
+            final boolean noArt = TextUtils.isEmpty(item.getArtworkMrl());
+            if (item instanceof MediaWrapper) {
+                final MediaWrapper media = (MediaWrapper) item;
+                final boolean group = media.getType() == MediaWrapper.TYPE_GROUP;
+                final boolean folder = media.getType() == MediaWrapper.TYPE_DIR;
+                if (!folder && (group || !media.isThumbnailGenerated())) {
+                     ImageLoaderKt.loadImage(mCardView, item);
+                     return;
+                }
+            }
+            if (noArt) {
                 mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
                 mCardView.setMainImage(new BitmapDrawable(mCardView.getResources(), getDefaultImage(item)));
             } else ImageLoaderKt.loadImage(mCardView, item);
@@ -141,12 +150,6 @@ public class CardPresenter extends Presenter {
             holder.mCardView.setTitleText(mediaLibraryItem.getTitle());
             holder.mCardView.setContentText(mediaLibraryItem.getDescription());
             holder.updateCardViewImage(mediaLibraryItem);
-        } else if (item instanceof SimpleCard){
-            SimpleCard card = (SimpleCard) item;
-            Bitmap image = card.getImage();
-            holder.mCardView.setTitleText(card.getName());
-            holder.mCardView.setContentText(card.getDescription());
-            holder.updateCardViewImage(image != null ? new BitmapDrawable(mRes, image) : ContextCompat.getDrawable(mContext, card.getImageId()));
         } else if (item instanceof String){
             holder.mCardView.setTitleText((String) item);
             holder.mCardView.setContentText("");
@@ -191,85 +194,5 @@ public class CardPresenter extends Presenter {
     @Override
     public void onViewAttachedToWindow(Presenter.ViewHolder viewHolder) {
         // TODO?
-    }
-
-    static class SimpleCard {
-        long id;
-        int imageId;
-        String name;
-        String description;
-        Bitmap image;
-
-        Uri uri;
-
-        SimpleCard(long id, String name, Bitmap image){
-            this.id = id;
-            this.name = name;
-            this.image = image;
-        }
-
-        SimpleCard(long id, String name, int imageId){
-            this.id = id;
-            this.name = name;
-            this.description = "";
-            this.imageId = imageId;
-        }
-
-        SimpleCard(long id, String name, String description, int imageId){
-            this.id = id;
-            this.name = name;
-            this.description = description;
-            this.imageId = imageId;
-        }
-
-        SimpleCard(long id, String name, int imageId, Uri uri){
-            this(id, name, imageId);
-            this.uri = uri;
-        }
-
-        public Uri getUri() {
-            return uri;
-        }
-
-        public void setUri(Uri uri) {
-            this.uri = uri;
-        }
-
-        public long getId() {
-            return id;
-        }
-
-        public void setId(long id) {
-            this.id = id;
-        }
-
-        public int getImageId() {
-            return imageId;
-        }
-
-        public void setImageId(int imageId) {
-            this.image = null;
-            this.imageId = imageId;
-        }
-
-        public Bitmap getImage() {
-            return image;
-        }
-
-        public void setImage(Bitmap image) {
-            this.image = image;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
     }
 }
