@@ -38,7 +38,6 @@ import org.videolan.vlc.gui.tv.CardPresenter
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.util.Constants
-import org.videolan.vlc.util.Constants.SELECTED_ITEM
 import org.videolan.vlc.util.RefreshModel
 
 private const val TAG = "VLC/CategoriesFragment"
@@ -57,8 +56,7 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
         // UI setting
         headersState = BrowseSupportFragment.HEADERS_HIDDEN
         brandColor = ContextCompat.getColor(activity!!, R.color.orange800)
-        if (savedInstanceState !== null) selecteditem = savedInstanceState.getParcelable<MediaWrapper>(SELECTED_ITEM)
-        else backgroundManager = BackgroundManager.getInstance(requireActivity())
+        if (savedInstanceState == null) backgroundManager = BackgroundManager.getInstance(requireActivity())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,11 +72,6 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
         if (this::selecteditem.isInitialized) TvUtil.updateBackground(backgroundManager, selecteditem)
         if (restart) refresh()
         restart = true
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (this::selecteditem.isInitialized) outState.putParcelable(SELECTED_ITEM, selecteditem)
     }
 
     override fun onItemSelected(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
