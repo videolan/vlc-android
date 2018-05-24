@@ -61,7 +61,7 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     @Override
     protected void initAudioPlayerContainerActivity() {
         super.initAudioPlayerContainerActivity();
-        if (!AndroidDevices.isChromeBook) {
+        if (!AndroidDevices.isChromeBook && !AndroidDevices.isAndroidTv) {
             RendererDelegate.INSTANCE.getSelectedRenderer().observe(this, new Observer<RendererItem>() {
                 @Override
                 public void onChanged(@Nullable RendererItem rendererItem) {
