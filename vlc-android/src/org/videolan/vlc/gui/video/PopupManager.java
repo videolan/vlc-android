@@ -163,6 +163,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     @Override
     public void onNewVideoLayout(IVLCVout vlcVout, int width, int height,
                                  int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
+        if (mRootView == null) return;
         int displayW = mRootView.getWidth(), displayH = mRootView.getHeight();
 
         // sanity check
