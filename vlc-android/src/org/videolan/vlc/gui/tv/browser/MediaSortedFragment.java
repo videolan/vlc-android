@@ -43,6 +43,8 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.util.VLCInstance;
 
+import java.util.ArrayList;
+
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public abstract class MediaSortedFragment extends SortedBrowserFragment implements MediaBrowser.EventListener {
     protected Uri mUri;
@@ -103,6 +105,18 @@ public abstract class MediaSortedFragment extends SortedBrowserFragment implemen
     public void onPause(){
         super.onPause();
         ((BrowserActivityInterface)getActivity()).updateEmptyView(false);
+        saveCurrentList();
+    }
+
+    private void saveCurrentList() {
+        final ArrayList<MediaWrapper> list = new ArrayList<>();
+        for (ListItem listItem: mMediaItemMap.values()) {
+            for (MediaWrapper mw : listItem.mediaList) {
+                if (mw.getType() == MediaWrapper.TYPE_AUDIO
+                        || mw.getType() == MediaWrapper.TYPE_VIDEO) list.add(mw);
+            }
+        }
+        if (!list.isEmpty()) VLCApplication.storeData(CURRENT_BROWSER_LIST, list);
     }
 
     @Override
