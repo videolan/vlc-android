@@ -63,7 +63,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
     private int mSelectionCount = 0;
     private int mGridCardWidth = 0;
 
-    private boolean mIsSeenMediaMarkerVisible = true;
+    private boolean mIsSeenMediaMarkerVisible;
 
     VideoListAdapter(IEventsHandler eventsHandler) {
         super();
@@ -77,7 +77,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
         final LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final ViewDataBinding binding = DataBindingUtil.inflate(inflater, mListMode ? R.layout.video_list_card : R.layout.video_grid_card, parent, false);
         if (!mListMode) {
-            GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) binding.getRoot().getLayoutParams();
+            final GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) binding.getRoot().getLayoutParams();
             params.width = mGridCardWidth;
             params.height = params.width*10/16;
             binding.getRoot().setLayoutParams(params);
@@ -186,21 +186,19 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
             text = media.getDescription();
         } else {
             /* Time / Duration */
+            resolution = Tools.getResolution(media);
             if (media.getLength() > 0) {
                 final long lastTime = media.getTime();
                 if (lastTime > 0) {
-                    text = Tools.getProgressText(media);
                     max = (int) (media.getLength() / 1000);
                     progress = (int) (lastTime / 1000);
-                } else {
-                    text = Tools.millisToText(media.getLength());
                 }
-            }
-            resolution = Tools.getResolution(media);
+                if (TextUtils.isEmpty(resolution)) text = Tools.millisToText(media.getLength());
+                else text = Tools.millisToText(media.getLength())+"  |  "+resolution;
+            } else text = resolution;
             seen = mIsSeenMediaMarkerVisible ? media.getSeen() : 0L;
         }
 
-        holder.binding.setVariable(BR.resolution, resolution);
         holder.binding.setVariable(BR.time, text);
         holder.binding.setVariable(BR.max, max);
         holder.binding.setVariable(BR.progress, progress);
