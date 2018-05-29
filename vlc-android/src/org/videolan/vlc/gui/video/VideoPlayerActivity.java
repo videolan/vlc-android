@@ -324,7 +324,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         audioBoostEnabled = mSettings.getBoolean("audio_boost", false);
 
         mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
-        mDisplayManager = new DisplayManager(this, mEnableCloneMode || mIsBenchmark);
+        mDisplayManager = new DisplayManager(this, mEnableCloneMode, mIsBenchmark);
         setContentView(mDisplayManager.isPrimary() ? R.layout.player : R.layout.player_remote_control);
 
         /** initialize Views an their Events */

@@ -23,7 +23,7 @@ import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.util.AndroidDevices
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-class DisplayManager(private val activity: Activity, cloneMode: Boolean) {
+class DisplayManager(private val activity: Activity, cloneMode: Boolean, benchmark: Boolean) {
 
     enum class DisplayType { PRIMARY, PRESENTATION, RENDERER }
 
@@ -57,8 +57,8 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) {
     }}
 
     init {
-        presentation = if (AndroidUtil.isJellyBeanMR1OrLater && !cloneMode) createPresentation() else null
-        displayType = if (cloneMode) DisplayType.PRIMARY else getCurrentType()
+        presentation = if (AndroidUtil.isJellyBeanMR1OrLater && !(cloneMode || benchmark)) createPresentation() else null
+        displayType = if (benchmark) DisplayType.PRIMARY else getCurrentType()
         if (!AndroidDevices.isChromeBook) RendererDelegate.selectedRenderer.observeForever(rendererObs)
     }
 
