@@ -57,8 +57,8 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) {
     }}
 
     init {
-        presentation = if (AndroidUtil.isJellyBeanMR1OrLater) createPresentation(cloneMode) else null
-        displayType = getCurrentType()
+        presentation = if (AndroidUtil.isJellyBeanMR1OrLater && !cloneMode) createPresentation() else null
+        displayType = if (cloneMode) DisplayType.PRIMARY else getCurrentType()
         if (!AndroidDevices.isChromeBook) RendererDelegate.selectedRenderer.observeForever(rendererObs)
     }
 
@@ -85,8 +85,8 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean) {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private fun createPresentation(cloneMode: Boolean): SecondaryDisplay? {
-        if (mediaRouter === null || cloneMode) return null
+    private fun createPresentation(): SecondaryDisplay? {
+        if (mediaRouter === null) return null
 
         // Get the current route and its presentation display.
         val route = mediaRouter?.getSelectedRoute(MediaRouter.ROUTE_TYPE_LIVE_VIDEO)
