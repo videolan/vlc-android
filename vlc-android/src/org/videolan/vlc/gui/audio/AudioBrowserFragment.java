@@ -88,6 +88,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private TextView mEmptyView;
     private final ContextMenuRecyclerView[] mLists = new ContextMenuRecyclerView[MODE_TOTAL];
     private FastScroller mFastScroller;
+    private SharedPreferences mSettings;
 
     private static final int REFRESH = 101;
     private static final int UPDATE_LIST = 102;
@@ -107,6 +108,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Resources res = getResources();
+        mSettings = PreferenceManager.getDefaultSharedPreferences(getActivity());
         mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, true, res);
         mArtistsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this, true, res);
         mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, true, res);
@@ -435,7 +437,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     public void onTabSelected(TabLayout.Tab tab) {
         getActivity().supportInvalidateOptionsMenu();
         mFastScroller.setRecyclerView(mLists[tab.getPosition()]);
-        VLCApplication.getSettings().edit().putInt(Constants.KEY_AUDIO_CURRENT_TAB, tab.getPosition()).apply();
+        mSettings.edit().putInt(Constants.KEY_AUDIO_CURRENT_TAB, tab.getPosition()).apply();
     }
 
     @Override
@@ -607,7 +609,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         VLCApplication.runBackground(new Runnable() {
             @Override
             public void run() {
-                final List<MediaLibraryItem> artists = Util.arrayToMediaArrayList(mMediaLibrary.getArtists(VLCApplication.getSettings().getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false)));
+                final List<MediaLibraryItem> artists = Util.arrayToMediaArrayList(mMediaLibrary.getArtists(mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false)));
                 VLCApplication.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
