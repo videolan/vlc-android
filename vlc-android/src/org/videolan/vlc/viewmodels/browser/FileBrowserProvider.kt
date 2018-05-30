@@ -21,9 +21,7 @@ open class FileBrowserProvider(url: String?, private val filePicker: Boolean = f
         val quickAccess = VLCApplication.getAppResources().getString(R.string.browser_quick_access)
         val storages = AndroidDevices.getMediaDirectories()
         val devices = mutableListOf<MediaLibraryItem>()
-        if (!filePicker) {
-            devices.add(DummyItem(browserStorage))
-        }
+        if (!filePicker) devices.add(DummyItem(browserStorage))
         for (mediaDirLocation in storages) {
             if (!File(mediaDirLocation).exists()) continue
             val directory = MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation))
