@@ -7,7 +7,6 @@ import android.os.HandlerThread
 import android.os.Process
 import android.support.annotation.MainThread
 import android.support.v4.util.SimpleArrayMap
-import android.text.TextUtils
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.HandlerContext
@@ -110,37 +109,55 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
         }
     }
 
-    private fun parseSubDirectories() {
-        synchronized(currentMediaList) {
-            currentMediaList.addAll(dataset.value)
-            if (currentMediaList.isEmpty()) return
-        }
+    private lateinit var parserChannel: Channel<Media>
+    private suspend fun parseSubDirectories() {
+        currentMediaList.addAll(dataset.value)
+        if (currentMediaList.isEmpty()) return
         launch(browserContext) {
-            synchronized(currentMediaList) {
-                foldersContentMap.clear()
-                initBrowser(parserListener)
-                currentParsedPosition = 0
-                while (currentParsedPosition < currentMediaList.size) {
-                    val item = currentMediaList[currentParsedPosition]
-                    val mw: MediaWrapper?
-                    when {
-                        item.itemType == MediaLibraryItem.TYPE_STORAGE -> {
-                            mw = MediaWrapper((item as Storage).uri)
-                            mw.type = MediaWrapper.TYPE_DIR
-                        }
-                        item.itemType == MediaLibraryItem.TYPE_MEDIA -> mw = item as MediaWrapper
-                        else -> mw = null
+            val directories: MutableList<MediaWrapper> = ArrayList()
+            val files: MutableList<MediaWrapper> = ArrayList()
+            foldersContentMap.clear()
+            initBrowser(parserListener)
+            currentParsedPosition = -1
+            loop@ while (++currentParsedPosition < currentMediaList.size) {
+                //skip media that are not browsable
+                val item = currentMediaList[currentParsedPosition]
+                val current = when {
+                    item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
+                        val mw = item as MediaWrapper
+                        if (mw.type != MediaWrapper.TYPE_DIR && mw.type != MediaWrapper.TYPE_PLAYLIST) continue@loop
+                        mw
                     }
-                    if (mw !== null) {
-                        if (mw.type == MediaWrapper.TYPE_DIR || mw.type == MediaWrapper.TYPE_PLAYLIST) {
-                            val uri = mw.uri
-                            mediabrowser?.browse(uri, 0)
-                            return@launch
-                        }
-                    }
-                    ++currentParsedPosition
+                    item.itemType == MediaLibraryItem.TYPE_STORAGE -> MediaWrapper((item as Storage).uri).apply { type = MediaWrapper.TYPE_DIR }
+                    else -> continue@loop
                 }
+                // browse media
+                parserChannel = Channel(Channel.UNLIMITED)
+                mediabrowser?.browse(current.uri, 0)
+                // retrieve subitems
+                for (media in parserChannel) {
+                    val type = media.type
+                    val mw = findMedia(media)
+                    if (type == Media.Type.Directory) directories.add(mw)
+                    else if (type == Media.Type.File) files.add(mw)
+                }
+                // all subitems are in
+                val holderText = getDescription(directories.size, files.size)
+                if (holderText != "") {
+                    val item = currentMediaList[currentParsedPosition]
+                    val position = currentParsedPosition
+                    launch(UI) {
+                        item.description = holderText
+                        descriptionUpdate.value = Pair(position, holderText)
+                    }
+                    directories.addAll(files)
+                    foldersContentMap.put(item, directories.toMutableList())
+                }
+                directories.clear()
+                files.clear()
             }
+            currentMediaList.clear()
+            releaseBrowser()
         }
     }
 
@@ -153,75 +170,15 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
 
     protected lateinit var refreshChannel : Channel<MediaWrapper>
     private val refreshListener by lazy { object : EventListener{
-        override fun onMediaAdded(index: Int, media: Media) {
-            refreshChannel.offer(findMedia(media))
-        }
+        override fun onMediaAdded(index: Int, media: Media) { refreshChannel.offer(findMedia(media)) }
         override fun onMediaRemoved(index: Int, media: Media?) {}
         override fun onBrowseEnd() { refreshChannel.close() }
     } }
 
     private val parserListener by lazy { object: EventListener {
-        private val directories: MutableList<MediaWrapper> = ArrayList()
-        private val files: MutableList<MediaWrapper> = ArrayList()
-
-        override fun onMediaAdded(index: Int, media: Media) {
-                val type = media.type
-                val mw = findMedia(media)
-                if (type == Media.Type.Directory) directories.add(mw)
-                else if (type == Media.Type.File) files.add(mw)
-        }
-
+        override fun onMediaAdded(index: Int, media: Media) { parserChannel.offer(media) }
         override fun onMediaRemoved(index: Int, media: Media?) {}
-
-        override fun onBrowseEnd() {
-            synchronized(currentMediaList) {
-                if (currentMediaList.isEmpty()) {
-                    currentParsedPosition = -1
-                    releaseBrowser()
-                    return
-                }
-                val holderText = getDescription(directories.size, files.size)
-                var mw: MediaWrapper? = null
-
-                if (!TextUtils.equals(holderText, "")) {
-                    val item = currentMediaList[currentParsedPosition]
-                    val position = currentParsedPosition
-                    launch(UI) {
-                        item.description = holderText
-                        descriptionUpdate.value = Pair(position, holderText)
-                    }
-                    directories.addAll(files)
-                    foldersContentMap.put(item, directories.toMutableList())
-                }
-                while (++currentParsedPosition < currentMediaList.size) { //skip media that are not browsable
-                    val item = currentMediaList[currentParsedPosition]
-                    if (item.itemType == MediaLibraryItem.TYPE_MEDIA) {
-                        mw = item as MediaWrapper
-                        if (mw.type == MediaWrapper.TYPE_DIR || mw.type == MediaWrapper.TYPE_PLAYLIST)
-                            break
-                    } else if (item.itemType == MediaLibraryItem.TYPE_STORAGE) {
-                        mw = MediaWrapper((item as Storage).uri)
-                        break
-                    } else mw = null
-                }
-                if (mw != null) {
-                    if (currentParsedPosition < currentMediaList.size) {
-                        mediabrowser?.browse(mw.uri, 0)
-                    } else {
-                        currentParsedPosition = -1
-                        currentMediaList.clear()
-                        releaseBrowser()
-                    }
-                } else {
-                    releaseBrowser()
-                    currentMediaList.clear()
-                }
-                directories.clear()
-                files.clear()
-            }
-        }
-
-
+        override fun onBrowseEnd() { parserChannel.close() }
     } }
 
     private val sb = StringBuilder()
