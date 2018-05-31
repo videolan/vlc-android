@@ -26,6 +26,7 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
+import android.text.TextUtils;
 import android.util.Log;
 
 import org.videolan.libvlc.Media;
@@ -145,8 +146,11 @@ public class VLCOptions {
         options.add("--sout-chromecast-conversion-quality="+pref.getString("casting_quality", "2"));
         options.add("--sout-keep");
 
-        final String customOptions[] = pref.getString("custom_libvlc_options", "").split("\\r?\\n", -1);
-        if (!Util.isArrayEmpty(customOptions)) Collections.addAll(options, customOptions);
+        final String customOptions = pref.getString("custom_libvlc_options", null);
+        if (!TextUtils.isEmpty(customOptions)) {
+            final String optionsArray[] = customOptions.split("\\r?\\n", -1);
+            if (!Util.isArrayEmpty(optionsArray)) Collections.addAll(options, optionsArray);
+        }
 
         return options;
     }
