@@ -177,7 +177,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     @Override
     public void onStop() {
         super.onStop();
-        mProvider.releaseBrowser();
+        mProvider.stop();
     }
 
     public void onSaveInstanceState(@NonNull Bundle outState){

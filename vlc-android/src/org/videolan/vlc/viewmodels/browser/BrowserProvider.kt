@@ -7,13 +7,10 @@ import android.os.HandlerThread
 import android.os.Process
 import android.support.annotation.MainThread
 import android.support.v4.util.SimpleArrayMap
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.CoroutineStart
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.HandlerContext
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
@@ -23,34 +20,26 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.viewmodels.BaseModel
 import java.util.*
 
 const val TAG = "VLC/BrowserProvider"
 
-abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Boolean) : BaseModel<MediaLibraryItem>() {
+abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Boolean) : BaseModel<MediaLibraryItem>(), EventListener {
 
-    protected var mediabrowser: MediaBrowser? = null
-    private val refreshList by lazy(LazyThreadSafetyMode.NONE) { mutableListOf<MediaLibraryItem>() }
+    protected lateinit var mediabrowser: MediaBrowser
 
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
-    private val currentMediaList = mutableListOf<MediaLibraryItem>()
-    private var currentParsedPosition = 0
+    private lateinit var browserChannel : Channel<Media>
+    private var job : Job? = null
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
-    protected val browserContext by lazy { HandlerContext(browserHandler, "provider-context") }
     internal val medialibrary = Medialibrary.getInstance()
 
-    private val browserHandler by lazy {
-        val handlerThread = HandlerThread("vlc-mProvider", Process.THREAD_PRIORITY_DEFAULT + Process.THREAD_PRIORITY_LESS_FAVORABLE)
-        handlerThread.start()
-        Handler(handlerThread.looper)
-    }
-
-    protected open fun initBrowser(listener: EventListener = browserListener) {
-        if (mediabrowser === null) mediabrowser = MediaBrowser(VLCInstance.get(), listener, browserHandler)
-        else mediabrowser?.changeEventListener(listener)
+    protected open fun initBrowser() {
+        if (!this::mediabrowser.isInitialized) mediabrowser = MediaBrowser(VLCInstance.get(), this, browserHandler)
     }
 
     override fun fetch() {
@@ -69,25 +58,23 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
         }
     }
 
-    private fun browse(url: String) {
+    protected fun browse(url: String? = null) {
         browserChannel = Channel(Channel.UNLIMITED)
-        requestBrowsing(url, browserListener)
-        listenBrowsing()
-    }
-
-    protected fun listenBrowsing() = launch(UI, CoroutineStart.UNDISPATCHED) {
-        for (mw in browserChannel) addMedia(mw)
-        parseSubDirectories()
+        requestBrowsing(url)
+        job = launch(UI, CoroutineStart.UNDISPATCHED) {
+            for (media in browserChannel) addMedia(findMedia(media))
+            parseSubDirectories()
+        }
     }
 
     override fun refresh(): Boolean {
         if (url === null) return false
-        refreshChannel = Channel(Channel.UNLIMITED)
-        requestBrowsing(url, refreshListener)
-        launch(UI, CoroutineStart.UNDISPATCHED) {
-            for (mw in refreshChannel) refreshList.add(mw)
-            dataset.value = refreshList.toMutableList()
-            refreshList.clear()
+        browserChannel = Channel(Channel.UNLIMITED)
+        val refreshList = mutableListOf<MediaLibraryItem>()
+        requestBrowsing(url)
+        job = launch(UI, CoroutineStart.UNDISPATCHED) {
+            for (media in browserChannel) refreshList.add(findMedia(media))
+            dataset.value = refreshList
             parseSubDirectories()
         }
         return true
@@ -102,24 +89,20 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
         }
     }
 
-    fun releaseBrowser() {
-        launch(browserContext) {
-            mediabrowser?.release()
-            mediabrowser = null
-        }
-    }
-
-    private lateinit var parserChannel: Channel<Media>
     private suspend fun parseSubDirectories() {
-        currentMediaList.addAll(dataset.value)
-        if (currentMediaList.isEmpty()) return
-        launch(browserContext) {
+        if (dataset.value.isEmpty()) return
+        val currentMediaList = dataset.value.toList()
+        launch(browserContext, parent = job) {
             val directories: MutableList<MediaWrapper> = ArrayList()
             val files: MutableList<MediaWrapper> = ArrayList()
             foldersContentMap.clear()
-            initBrowser(parserListener)
-            currentParsedPosition = -1
+            initBrowser()
+            var currentParsedPosition = -1
             loop@ while (++currentParsedPosition < currentMediaList.size) {
+                if (!isActive) {
+                    browserChannel.close()
+                    return@launch
+                }
                 //skip media that are not browsable
                 val item = currentMediaList[currentParsedPosition]
                 val current = when {
@@ -131,11 +114,11 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
                     item.itemType == MediaLibraryItem.TYPE_STORAGE -> MediaWrapper((item as Storage).uri).apply { type = MediaWrapper.TYPE_DIR }
                     else -> continue@loop
                 }
-                // browse media
-                parserChannel = Channel(Channel.UNLIMITED)
-                mediabrowser?.browse(current.uri, 0)
+                // request parsing
+                browserChannel = Channel(Channel.UNLIMITED)
+                mediabrowser.browse(current.uri, 0)
                 // retrieve subitems
-                for (media in parserChannel) {
+                for (media in browserChannel) {
                     val type = media.type
                     val mw = findMedia(media)
                     if (type == Media.Type.Directory) directories.add(mw)
@@ -144,7 +127,6 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
                 // all subitems are in
                 val holderText = getDescription(directories.size, files.size)
                 if (holderText != "") {
-                    val item = currentMediaList[currentParsedPosition]
                     val position = currentParsedPosition
                     launch(UI) {
                         item.description = holderText
@@ -156,52 +138,31 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
                 directories.clear()
                 files.clear()
             }
-            currentMediaList.clear()
-            releaseBrowser()
         }
     }
 
-    protected lateinit var browserChannel : Channel<MediaWrapper>
-    private val browserListener by lazy { object : EventListener {
-        override fun onMediaAdded(index: Int, media: Media) { browserChannel.offer(findMedia(media)) }
-        override fun onMediaRemoved(index: Int, media: Media?) {}
-        override fun onBrowseEnd() { browserChannel.close() }
-    } }
-
-    protected lateinit var refreshChannel : Channel<MediaWrapper>
-    private val refreshListener by lazy { object : EventListener{
-        override fun onMediaAdded(index: Int, media: Media) { refreshChannel.offer(findMedia(media)) }
-        override fun onMediaRemoved(index: Int, media: Media?) {}
-        override fun onBrowseEnd() { refreshChannel.close() }
-    } }
-
-    private val parserListener by lazy { object: EventListener {
-        override fun onMediaAdded(index: Int, media: Media) { parserChannel.offer(media) }
-        override fun onMediaRemoved(index: Int, media: Media?) {}
-        override fun onBrowseEnd() { parserChannel.close() }
-    } }
+    override fun onMediaAdded(index: Int, media: Media) { browserChannel.offer(media) }
+    override fun onBrowseEnd() { browserChannel.close() }
+    override fun onMediaRemoved(index: Int, media: Media){}
 
     private val sb = StringBuilder()
     private fun getDescription(folderCount: Int, mediaFileCount: Int): String {
         val res = VLCApplication.getAppResources()
         sb.setLength(0)
         if (folderCount > 0) {
-            sb.append(res.getQuantityString(
-                    R.plurals.subfolders_quantity, folderCount, folderCount
-            ))
+            sb.append(res.getQuantityString(R.plurals.subfolders_quantity, folderCount, folderCount))
             if (mediaFileCount > 0) sb.append(", ")
         }
-        if (mediaFileCount > 0) sb.append(res.getQuantityString(
-                R.plurals.mediafiles_quantity, mediaFileCount, mediaFileCount))
+        if (mediaFileCount > 0) sb.append(res.getQuantityString(R.plurals.mediafiles_quantity, mediaFileCount, mediaFileCount))
         else if (folderCount == 0 && mediaFileCount == 0) sb.append(res.getString(R.string.directory_empty))
         return sb.toString()
     }
 
-    private fun findMedia(media: Media): MediaWrapper {
+    private suspend fun findMedia(media: Media): MediaWrapper {
         val mw = MediaWrapper(media)
         val uri = mw.uri
-        if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO) && "file" == uri.scheme)
-            medialibrary.getMedia(uri)?.apply { return this }
+        if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)
+                && "file" == uri.scheme) return withContext(VLCIO) { medialibrary.getMedia(uri) ?: mw }
         return mw
     }
 
@@ -212,14 +173,16 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
         return flags
     }
 
-    private fun requestBrowsing(url: String, listener: EventListener) = launch(browserContext) {
-        initBrowser(listener)
-        mediabrowser?.browse(Uri.parse(url), getFlags())
+    private fun requestBrowsing(url: String?) = launch(browserContext) {
+        initBrowser()
+        if (url != null) mediabrowser.browse(Uri.parse(url), getFlags())
+        else mediabrowser.discoverNetworkShares()
     }
 
+    fun stop() = job?.cancel()
+
     override fun onCleared() {
-        super.onCleared()
-        releaseBrowser()
+        launch(browserContext) { mediabrowser.release() }
     }
 
     fun saveList(media: MediaWrapper) {
@@ -229,7 +192,13 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
     fun isFolderEmpty(mw: MediaWrapper) = foldersContentMap[mw]?.isEmpty() ?: true
 
     companion object {
+        private val browserHandler by lazy {
+            val handlerThread = HandlerThread("vlc-mProvider", Process.THREAD_PRIORITY_DEFAULT + Process.THREAD_PRIORITY_LESS_FAVORABLE)
+            handlerThread.start()
+            Handler(handlerThread.looper)
+        }
         private val prefetchLists = mutableMapOf<String, MutableList<MediaLibraryItem>>()
+        private val browserContext by lazy { HandlerContext(browserHandler, "provider-context") }
     }
 }
 
@@ -238,10 +207,8 @@ private val ascComp by lazy {
         if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
             val type1 = (item1 as MediaWrapper).type
             val type2 = (item2 as MediaWrapper).type
-            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR)
-                return@Comparator -1
-            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR)
-                return@Comparator 1
+            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
         }
         item1?.title?.toLowerCase()?.compareTo(item2?.title?.toLowerCase() ?: "") ?: -1
     }
@@ -251,10 +218,8 @@ private val descComp by lazy {
         if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
             val type1 = (item1 as MediaWrapper).type
             val type2 = (item2 as MediaWrapper).type
-            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR)
-                return@Comparator -1
-            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR)
-                return@Comparator 1
+            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
+            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
         }
         item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
     }

@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProvider
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -21,12 +20,7 @@ class NetworkProvider(url: String? = null, showHiddenFiles: Boolean): BrowserPro
     }
     override fun browseRoot() {
         launch(UI, CoroutineStart.UNDISPATCHED) { updateFavorites() }
-        if (allowLAN()) launch(browserContext) {
-            initBrowser()
-            browserChannel = Channel(Channel.UNLIMITED)
-            mediabrowser?.discoverNetworkShares()
-            listenBrowsing()
-        }
+        if (allowLAN()) browse()
     }
 
     fun updateFavs() = launch(UI, CoroutineStart.UNDISPATCHED) { updateFavorites() }

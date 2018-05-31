@@ -13,9 +13,9 @@ class FilePickerProvider(url: String?) : FileBrowserProvider(url, true, false) {
         return MediaBrowser.Flag.Interact or MediaBrowser.Flag.NoSlavesAutodetect
     }
 
-    override fun initBrowser(listener: MediaBrowser.EventListener) {
-        super.initBrowser(listener)
-        mediabrowser?.setIgnoreFileTypes("db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv")
+    override fun initBrowser() {
+        super.initBrowser()
+        mediabrowser.setIgnoreFileTypes("db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv")
     }
 
     override suspend fun addMedia(media: MediaLibraryItem) {

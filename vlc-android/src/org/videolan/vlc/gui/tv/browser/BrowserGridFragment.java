@@ -77,12 +77,6 @@ public class BrowserGridFragment extends GridFragment implements OnItemViewSelec
         });
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        provider.releaseBrowser();
-    }
-
     public void onPause() {
         super.onPause();
         ((BrowserActivityInterface)mContext).updateEmptyView(false);
