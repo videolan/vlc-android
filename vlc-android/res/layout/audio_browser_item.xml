@@ -58,16 +58,16 @@
             vlc:layout_constraintTop_toTopOf="parent"
             vlc:layout_constraintStart_toEndOf="@+id/media_cover"
             vlc:layout_constraintEnd_toStartOf="@+id/item_more"
-            android:layout_marginStart="@dimen/half_default_margin"
-            android:layout_marginLeft="@dimen/half_default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginLeft="@dimen/default_margin"
             vlc:layout_constraintBottom_toTopOf="@+id/subtitle"
             android:maxLines="2"
             android:gravity="center_vertical"
             vlc:alignMode="@{alignMode}"
             android:text="@{item.title}"
-            android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_title"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:lineSpacingMultiplier="1.2" />
 
         <TextView
             android:id="@+id/subtitle"
@@ -81,8 +81,8 @@
             android:maxLines="1"
             android:ellipsize="middle"
             android:text="@{item.description}"
-            android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_subtitle"
+            android:textSize="12sp"
             android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE}"/>
 
         <ImageView
