@@ -88,7 +88,7 @@
             android:text="@{item.title}"
             android:textColor="?attr/list_title"
             android:textSize="16sp"
-            android:lineSpacingMultiplier="1.2" />
+            android:lineSpacingMultiplier="1.1" />
 
         <TextView
             android:id="@+id/text"

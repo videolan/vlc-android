@@ -89,7 +89,7 @@
             android:text="@{media.title}"
             android:textColor="?attr/list_title"
             android:textSize="16sp"
-            android:lineSpacingMultiplier="1.2"
+            android:lineSpacingMultiplier="1.1"
             tools:targetApi="jelly_bean" />
 
         <ImageView
