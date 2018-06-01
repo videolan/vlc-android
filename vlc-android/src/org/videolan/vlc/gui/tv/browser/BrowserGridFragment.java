@@ -46,7 +46,7 @@ import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.viewmodels.browser.NetworkProvider;
+import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
 import java.util.List;
 
@@ -54,14 +54,14 @@ import java.util.List;
 public class BrowserGridFragment extends GridFragment implements OnItemViewSelectedListener, OnItemViewClickedListener, DetailsFragment {
 
     private MediaWrapper mItemSelected;
-    private NetworkProvider provider;
+    private NetworkModel provider;
     protected boolean mShowHiddenFiles;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setOnItemViewSelectedListener(this);
         setOnItemViewClickedListener(this); mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("browser_show_hidden_files", false);
-        provider = ViewModelProviders.of(this, new NetworkProvider.Factory(null, mShowHiddenFiles)).get(NetworkProvider.class);
+        provider = ViewModelProviders.of(this, new NetworkModel.Factory(null, mShowHiddenFiles)).get(NetworkModel.class);
         provider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {

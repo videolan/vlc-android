@@ -1,7 +1,5 @@
-package org.videolan.vlc.viewmodels.browser
+package org.videolan.vlc.providers
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
 import android.text.TextUtils
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.media.DummyItem
@@ -11,9 +9,10 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.LiveDataset
 import java.io.File
 
-open class FileBrowserProvider(url: String?, private val filePicker: Boolean = false, showHiddenFiles: Boolean) : BrowserProvider(url, showHiddenFiles) {
+open class FileBrowserProvider(dataset: LiveDataset<MediaLibraryItem>, url: String?, private val filePicker: Boolean = false, showHiddenFiles: Boolean) : BrowserProvider(dataset, url, showHiddenFiles) {
 
     override fun browseRoot() {
         val internalmemoryTitle = VLCApplication.getAppResources().getString(R.string.internal_memory)
@@ -66,12 +65,5 @@ open class FileBrowserProvider(url: String?, private val filePicker: Boolean = f
             }
         }
         dataset.value = devices
-    }
-
-    class Factory(val url: String?, private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            @Suppress("UNCHECKED_CAST")
-            return FileBrowserProvider(url, false, showHiddenFiles) as T
-        }
     }
 }

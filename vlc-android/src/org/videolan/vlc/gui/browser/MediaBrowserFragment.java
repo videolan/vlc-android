@@ -74,10 +74,10 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     protected Medialibrary mMediaLibrary;
     protected ActionMode mActionMode;
     public FloatingActionButton mFabPlay;
-    protected T mProvider;
+    protected T viewModel;
 
-    public T getProvider() {
-        return mProvider;
+    public T getViewModel() {
+        return viewModel;
     }
 
     @Override
@@ -223,12 +223,12 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.ml_menu_sortby).setVisible(getProvider().canSortByName());
-        menu.findItem(R.id.ml_menu_sortby_filename).setVisible(getProvider().canSortByFileNameName());
-        menu.findItem(R.id.ml_menu_sortby_artist_name).setVisible(getProvider().canSortByArtist());
-        menu.findItem(R.id.ml_menu_sortby_album_name).setVisible(getProvider().canSortByAlbum());
-        menu.findItem(R.id.ml_menu_sortby_length).setVisible(getProvider().canSortByDuration());
-        menu.findItem(R.id.ml_menu_sortby_date).setVisible(getProvider().canSortByReleaseDate() || getProvider().canSortByLastModified());
+        menu.findItem(R.id.ml_menu_sortby).setVisible(getViewModel().canSortByName());
+        menu.findItem(R.id.ml_menu_sortby_filename).setVisible(getViewModel().canSortByFileNameName());
+        menu.findItem(R.id.ml_menu_sortby_artist_name).setVisible(getViewModel().canSortByArtist());
+        menu.findItem(R.id.ml_menu_sortby_album_name).setVisible(getViewModel().canSortByAlbum());
+        menu.findItem(R.id.ml_menu_sortby_length).setVisible(getViewModel().canSortByDuration());
+        menu.findItem(R.id.ml_menu_sortby_date).setVisible(getViewModel().canSortByReleaseDate() || getViewModel().canSortByLastModified());
         menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
         UiTools.updateSortTitles(this);
     }
@@ -262,7 +262,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     }
 
     protected void sortBy(int sort) {
-        final T provider = getProvider();
+        final T provider = getViewModel();
         provider.sort(sort);
         final String key = provider.getKey();
         VLCApplication.getSettings().edit()
@@ -305,11 +305,11 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
 
     @Override
     public void filter(String query) {
-        getProvider().filter(query);
+        getViewModel().filter(query);
     }
 
     public void restoreList() {
-        getProvider().restore();
+        getViewModel().restore();
     }
 
     @Override

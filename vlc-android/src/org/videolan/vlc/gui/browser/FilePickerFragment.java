@@ -38,7 +38,8 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.viewmodels.browser.FilePickerProvider;
+import org.videolan.vlc.viewmodels.browser.BrowserModel;
+import org.videolan.vlc.viewmodels.browser.BrowserModelKt;
 
 public class FilePickerFragment extends FileBrowserFragment {
 
@@ -71,7 +72,7 @@ public class FilePickerFragment extends FileBrowserFragment {
 
     @Override
     protected void setupBrowser() {
-        mProvider = ViewModelProviders.of(this, new FilePickerProvider.Factory(mMrl)).get(FilePickerProvider.class);
+        viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(mMrl, BrowserModelKt.TYPE_PICKER, false)).get(BrowserModel.class);
     }
 
     @Override
@@ -105,7 +106,7 @@ public class FilePickerFragment extends FileBrowserFragment {
         else if (TextUtils.equals(Strings.removeFileProtocole(mMrl), AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) {
             mMrl = null;
             mRoot = true;
-            mProvider.browseRoot();
+            viewModel.fetch();
         } else if (mMrl != null) {
             final MediaWrapper mw = new MediaWrapper(Uri.parse(FileUtils.getParent(mMrl)));
             browse(mw, false);

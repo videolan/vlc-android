@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import android.view.KeyEvent
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Tools
@@ -31,6 +32,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         if (!playbackService.hasMedia() && keyEvent != null
                 && (keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE)) {
             return if (keyEvent.action == KeyEvent.ACTION_DOWN) {
+                Log.d(TAG, KeyEvent.keyCodeToString(keyEvent.keyCode))
                 PlaybackService.loadLastAudio(playbackService)
                 true
             } else false

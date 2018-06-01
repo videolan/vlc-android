@@ -46,7 +46,8 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox;
 import org.videolan.vlc.util.CustomDirectories;
-import org.videolan.vlc.viewmodels.browser.StorageProvider;
+import org.videolan.vlc.viewmodels.browser.BrowserModel;
+import org.videolan.vlc.viewmodels.browser.BrowserModelKt;
 
 public class StorageBrowserFragment extends FileBrowserFragment implements EntryPointsEventsCb {
 
@@ -83,7 +84,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     }
 
     protected void setupBrowser() {
-        mProvider = ViewModelProviders.of(this, new StorageProvider.Factory(mMrl, mShowHiddenFiles)).get(StorageProvider.class);
+        viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(mMrl, BrowserModelKt.TYPE_STORAGE, mShowHiddenFiles)).get(BrowserModel.class);
     }
 
     @Override

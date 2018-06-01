@@ -54,7 +54,7 @@ import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.viewmodels.browser.NetworkProvider;
+import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
 import java.util.List;
 
@@ -69,13 +69,13 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mBinding.setShowFavorites(mRoot);
-        mProvider = ViewModelProviders.of(this, new NetworkProvider.Factory(mMrl, mShowHiddenFiles)).get(NetworkProvider.class);
+        viewModel = ViewModelProviders.of(this, new NetworkModel.Factory(mMrl, mShowHiddenFiles)).get(NetworkModel.class);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (mRoot) ((NetworkProvider) mProvider).getFavorites().observe(this, new Observer<List<MediaLibraryItem>>() {
+        if (mRoot) ((NetworkModel) viewModel).getFavorites().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {
                 mBinding.setShowFavorites(!Util.isListEmpty(mediaLibraryItems));
@@ -182,11 +182,11 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         switch (id){
             case R.id.network_add_favorite:
                 MediaDatabase.getInstance().addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
-                if (isRootDirectory()) ((NetworkProvider)getProvider()).updateFavs();
+                if (isRootDirectory()) ((NetworkModel) getViewModel()).updateFavs();
                 return true;
             case R.id.network_remove_favorite:
                 MediaDatabase.getInstance().deleteNetworkFav(mw.getUri());
-                if (mRoot) ((NetworkProvider)getProvider()).updateFavs();
+                if (mRoot) ((NetworkModel) getViewModel()).updateFavs();
                 return true;
             case R.id.network_edit_favorite:
                 showAddServerDialog(mw);
@@ -223,7 +223,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     protected void updateEmptyView() {
         if (mBinding == null) return;
         if (ExternalMonitor.connected.getValue()) {
-            if (Util.isListEmpty(getProvider().getDataset().getValue())) {
+            if (Util.isListEmpty(getViewModel().getDataset().getValue())) {
                 if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) {
                     mBinding.empty.setText(R.string.loading);
                     mBinding.empty.setVisibility(View.VISIBLE);

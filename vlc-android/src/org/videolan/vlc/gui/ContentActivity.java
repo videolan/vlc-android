@@ -183,7 +183,7 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
         final Menu menu = mToolbar.getMenu();
         menu.findItem(R.id.ml_menu_renderers).setVisible(!hide && showRenderers);
         if (current instanceof MediaBrowserFragment) {
-            menu.findItem(R.id.ml_menu_sortby).setVisible(!hide && ((MediaBrowserFragment) current).getProvider().canSortByName());
+            menu.findItem(R.id.ml_menu_sortby).setVisible(!hide && ((MediaBrowserFragment) current).getViewModel().canSortByName());
         }
         if (current instanceof VideoGridFragment || current instanceof AudioBrowserFragment) {
             menu.findItem(R.id.ml_menu_last_playlist).setVisible(!hide);

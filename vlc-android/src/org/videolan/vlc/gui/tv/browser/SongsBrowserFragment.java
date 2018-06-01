@@ -52,8 +52,8 @@ public class SongsBrowserFragment extends CategoriesFragment<TracksProvider> {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        provider = ViewModelProviders.of(this).get(TracksProvider.class);
-        provider.getCategories().observe(this, new Observer<Map<String, List<MediaLibraryItem>>>() {
+        viewModel = ViewModelProviders.of(this).get(TracksProvider.class);
+        viewModel.getCategories().observe(this, new Observer<Map<String, List<MediaLibraryItem>>>() {
             @Override
             public void onChanged(@Nullable Map<String, List<MediaLibraryItem>> stringListMap) {
                 if (stringListMap != null) update(stringListMap);
@@ -68,7 +68,7 @@ public class SongsBrowserFragment extends CategoriesFragment<TracksProvider> {
             public void run() {
                 int position = 0;
                 String location = ((MediaWrapper)item).getLocation();
-                final ArrayList<MediaWrapper> songs = (ArrayList<MediaWrapper>)(ArrayList<?>)provider.getDataset().getValue();
+                final ArrayList<MediaWrapper> songs = (ArrayList<MediaWrapper>)(ArrayList<?>) viewModel.getDataset().getValue();
                 for (int i = 0; i < songs.size(); ++i) {
                     if (TextUtils.equals(location, songs.get(i).getLocation())) {
                         position = i;

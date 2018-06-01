@@ -1,16 +1,18 @@
-package org.videolan.vlc.viewmodels.browser
+package org.videolan.vlc.providers
 
 import android.arch.lifecycle.MutableLiveData
 import android.net.Uri
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
-import android.support.annotation.MainThread
 import android.support.v4.util.SimpleArrayMap
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.CoroutineStart
+import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.HandlerContext
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
@@ -20,15 +22,18 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.VLCInstance
-import org.videolan.vlc.viewmodels.BaseModel
 import java.util.*
 
 const val TAG = "VLC/BrowserProvider"
 
-abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Boolean) : BaseModel<MediaLibraryItem>(), EventListener {
+abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private val showHiddenFiles: Boolean) : EventListener {
 
+    init {
+        fetch()
+    }
     protected lateinit var mediabrowser: MediaBrowser
 
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
@@ -42,8 +47,8 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
         if (!this::mediabrowser.isInitialized) mediabrowser = MediaBrowser(VLCInstance.get(), this, browserHandler)
     }
 
-    override fun fetch() {
-        val prefetchList by lazy(LazyThreadSafetyMode.NONE) { prefetchLists[url] }
+    open fun fetch() {
+        val prefetchList by lazy(LazyThreadSafetyMode.NONE) { BrowserProvider.prefetchLists[url] }
         when {
             url === null -> launch(UI) {
                 browseRoot()
@@ -51,7 +56,7 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
             }
             prefetchList?.isEmpty() == false -> launch(UI) {
                 dataset.value = prefetchList
-                prefetchLists.remove(url)
+                BrowserProvider.prefetchLists.remove(url)
                 parseSubDirectories()
             }
             else -> browse(url)
@@ -67,7 +72,9 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
         }
     }
 
-    override fun refresh(): Boolean {
+    protected open fun addMedia(media: MediaLibraryItem) = dataset.add(media)
+
+    open fun refresh(): Boolean {
         if (url === null) return false
         browserChannel = Channel(Channel.UNLIMITED)
         val refreshList = mutableListOf<MediaLibraryItem>()
@@ -78,15 +85,6 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
             parseSubDirectories()
         }
         return true
-    }
-
-    @MainThread
-    override fun sort(sort: Int) {
-        launch(UI, CoroutineStart.UNDISPATCHED) {
-            this@BrowserProvider.sort = sort
-            desc = !desc
-            dataset.value = withContext(CommonPool) { dataset.value.apply { sortWith(if (desc) descComp else ascComp) } }
-        }
     }
 
     private suspend fun parseSubDirectories() {
@@ -167,6 +165,7 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
     }
 
     abstract fun browseRoot()
+
     open fun getFlags() : Int {
         var flags = MediaBrowser.Flag.Interact or MediaBrowser.Flag.NoSlavesAutodetect
         if (showHiddenFiles) flags = flags or MediaBrowser.Flag.ShowHiddenFiles
@@ -181,13 +180,9 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
 
     fun stop() = job?.cancel()
 
-    override fun onCleared() {
-        launch(browserContext) { mediabrowser.release() }
-    }
+    fun release() = launch(BrowserProvider.browserContext) { mediabrowser.release() }
 
-    fun saveList(media: MediaWrapper) {
-        foldersContentMap[media]?.let { if (!it.isEmpty()) prefetchLists[media.location] = it }
-    }
+    fun saveList(media: MediaWrapper) = foldersContentMap[media]?.let { if (!it.isEmpty()) prefetchLists[media.location] = it }
 
     fun isFolderEmpty(mw: MediaWrapper) = foldersContentMap[mw]?.isEmpty() ?: true
 
@@ -199,28 +194,5 @@ abstract class BrowserProvider(val url: String?, private val showHiddenFiles: Bo
         }
         private val prefetchLists = mutableMapOf<String, MutableList<MediaLibraryItem>>()
         private val browserContext by lazy { HandlerContext(browserHandler, "provider-context") }
-    }
-}
-
-private val ascComp by lazy {
-    Comparator<MediaLibraryItem> { item1, item2 ->
-        if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
-            val type1 = (item1 as MediaWrapper).type
-            val type2 = (item2 as MediaWrapper).type
-            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
-            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        }
-        item1?.title?.toLowerCase()?.compareTo(item2?.title?.toLowerCase() ?: "") ?: -1
-    }
-}
-private val descComp by lazy {
-    Comparator<MediaLibraryItem> { item1, item2 ->
-        if (item1?.itemType == MediaLibraryItem.TYPE_MEDIA) {
-            val type1 = (item1 as MediaWrapper).type
-            val type2 = (item2 as MediaWrapper).type
-            if (type1 == MediaWrapper.TYPE_DIR && type2 != MediaWrapper.TYPE_DIR) return@Comparator -1
-            else if (type1 != MediaWrapper.TYPE_DIR && type2 == MediaWrapper.TYPE_DIR) return@Comparator 1
-        }
-        item2?.title?.toLowerCase()?.compareTo(item1?.title?.toLowerCase() ?: "") ?: -1
     }
 }

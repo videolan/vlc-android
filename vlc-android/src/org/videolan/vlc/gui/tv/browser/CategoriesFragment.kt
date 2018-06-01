@@ -50,7 +50,7 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
     private lateinit var backgroundManager: BackgroundManager
     private val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
     private lateinit var categoryRows: Map<String, ListRow>
-    lateinit var provider: T
+    lateinit var viewModel: T
     private var restart = false
     protected val preferences: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(requireContext()) }
 
@@ -93,7 +93,7 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
     }
 
     override fun refresh() {
-        if (this::provider.isInitialized) provider.refresh()
+        if (this::viewModel.isInitialized) viewModel.refresh()
     }
 
     protected fun update(map: Map<String, List<MediaLibraryItem>>?) {
@@ -120,5 +120,5 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
         else -> -1
     }
 
-    override fun getVM() = provider
+    override fun getVM() = viewModel
 }

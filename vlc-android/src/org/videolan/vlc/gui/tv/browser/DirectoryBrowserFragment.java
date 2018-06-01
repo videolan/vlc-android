@@ -31,21 +31,22 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
-import org.videolan.vlc.viewmodels.browser.FileBrowserProvider;
+import org.videolan.vlc.viewmodels.browser.BrowserModel;
+import org.videolan.vlc.viewmodels.browser.BrowserModelKt;
 
 import java.util.List;
 import java.util.Map;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class DirectoryBrowserFragment extends MediaSortedFragment<FileBrowserProvider> {
+public class DirectoryBrowserFragment extends MediaSortedFragment<BrowserModel> {
 
     public static final String TAG = "VLC/DirectoryBrowserFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        provider = ViewModelProviders.of(this, new FileBrowserProvider.Factory(mUri.toString(), mShowHiddenFiles)).get(FileBrowserProvider.class);
-        provider.getCategories().observe(this, new Observer<Map<String, List<MediaLibraryItem>>>() {
+        viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(mUri.toString(), BrowserModelKt.TYPE_FILE, mShowHiddenFiles)).get(BrowserModel.class);
+        viewModel.getCategories().observe(this, new Observer<Map<String, List<MediaLibraryItem>>>() {
             @Override
             public void onChanged(@Nullable Map<String, List<MediaLibraryItem>> stringListMap) {
                 if (stringListMap != null) update(stringListMap);

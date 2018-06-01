@@ -43,7 +43,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaDatabase;
@@ -52,7 +51,8 @@ import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.WorkersKt;
-import org.videolan.vlc.viewmodels.browser.FileBrowserProvider;
+import org.videolan.vlc.viewmodels.browser.BrowserModel;
+import org.videolan.vlc.viewmodels.browser.BrowserModelKt;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,13 +74,12 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     }
 
     protected void setupBrowser() {
-        if (mRoot) mProvider = ViewModelProviders.of(requireActivity(), new FileBrowserProvider.Factory(null, mShowHiddenFiles)).get(FileBrowserProvider.class);
-        else mProvider = ViewModelProviders.of(this, new FileBrowserProvider.Factory(mMrl, mShowHiddenFiles)).get(FileBrowserProvider.class);
+        if (mRoot) viewModel = ViewModelProviders.of(requireActivity(), new BrowserModel.Factory(null, BrowserModelKt.TYPE_FILE, mShowHiddenFiles)).get(BrowserModel.class);
+        else viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(mMrl, BrowserModelKt.TYPE_FILE, mShowHiddenFiles)).get(BrowserModel.class);
     }
 
     public String getTitle() {
-        if (mRoot)
-            return getCategoryTitle();
+        if (mRoot) return getCategoryTitle();
         else {
             String title;
             if (mCurrentMedia != null) {
@@ -217,7 +216,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 Storage storage = (Storage) mAdapter.getItem(position);
                 MediaDatabase.getInstance().recursiveRemoveDir(storage.getUri().getPath());
                 CustomDirectories.removeCustomDirectory(storage.getUri().getPath());
-                mProvider.remove(storage);
+                viewModel.remove(storage);
                 ((AudioPlayerContainerActivity)getActivity()).updateLib();
                 return true;
         } else

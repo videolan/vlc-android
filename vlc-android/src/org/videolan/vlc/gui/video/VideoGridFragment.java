@@ -85,8 +85,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
             mAdapter = new VideoListAdapter(this);
             final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
             final int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
-            mProvider = ViewModelProviders.of(requireActivity(), new VideosProvider.Factory(mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosProvider.class);
-            mProvider.getDataset().observe(this, this);
+            viewModel = ViewModelProviders.of(requireActivity(), new VideosProvider.Factory(mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosProvider.class);
+            viewModel.getDataset().observe(this, this);
         }
         if (savedInstanceState != null) setGroup(savedInstanceState.getString(Constants.KEY_GROUP));
     }
@@ -131,7 +131,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
         updateViewMode();
         mFabPlay.setImageResource(R.drawable.ic_fab_play);
         setFabPlayVisibility(true);
-        if (restart) mProvider.refresh();
+        if (restart) viewModel.refresh();
     }
 
     @Override
@@ -230,13 +230,13 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
                 removeVideo(media);
             }
         })) return;
-        mProvider.remove(media);
+        viewModel.remove(media);
         final View view = getView();
         if (view != null) {
             final Runnable revert = new Runnable() {
                 @Override
                 public void run() {
-                    mProvider.refresh();
+                    viewModel.refresh();
                 }
             };
             UiTools.snackerWithCancel(view, getString(R.string.file_deleted), new Runnable() {
@@ -272,7 +272,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
 
     @MainThread
     public void updateList() {
-        mProvider.refresh();
+        viewModel.refresh();
         mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
     }
 

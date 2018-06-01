@@ -64,14 +64,14 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.viewmodels.browser.BrowserProvider;
+import org.videolan.vlc.viewmodels.browser.BrowserModel;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import kotlin.Pair;
 
-public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserProvider> implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler {
+public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserModel> implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler {
     protected static final String TAG = "VLC/BaseBrowserFragment";
 
     public static final String KEY_MRL = "key_mrl";
@@ -91,8 +91,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     protected abstract Fragment createFragment();
     protected abstract void browseRoot();
     protected abstract String getCategoryTitle();
-
-    protected BrowserProvider browser;
 
     @SuppressWarnings("unchecked")
     public void onCreate(Bundle bundle) {
@@ -139,13 +137,13 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
         mBinding.networkList.setAdapter(mAdapter);
         registerForContextMenu(mBinding.networkList);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
+        viewModel.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {
                 mAdapter.update(mediaLibraryItems);
             }
         });
-        mProvider.getDescriptionUpdate().observe(this, new Observer<Pair<Integer, String>>() {
+        viewModel.getDescriptionUpdate().observe(this, new Observer<Pair<Integer, String>>() {
             @Override
             public void onChanged(@Nullable Pair<Integer, String> pair) {
                 if (pair != null) mAdapter.notifyItemChanged(pair.getFirst(), pair.getSecond());
@@ -177,7 +175,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     @Override
     public void onStop() {
         super.onStop();
-        mProvider.stop();
+        viewModel.stop();
     }
 
     public void onSaveInstanceState(@NonNull Bundle outState){
@@ -220,7 +218,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
         final FragmentTransaction ft = ctx.getSupportFragmentManager().beginTransaction();
         final Fragment next = createFragment();
         final Bundle args = new Bundle();
-        mProvider.saveList(media);
+        viewModel.saveList(media);
         args.putParcelable(KEY_MEDIA, media);
         next.setArguments(args);
         if (save) ft.addToBackStack(mRoot ? "root" : mMrl);
@@ -231,7 +229,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     @Override
     public void onRefresh() {
         mSavedPosition = mLayoutManager.findFirstCompletelyVisibleItemPosition();
-        mProvider.refresh();
+        viewModel.refresh();
     }
 
     /**
@@ -239,7 +237,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
      */
     protected void updateEmptyView() {
         if (mSwipeRefreshLayout == null) return;
-        if (Util.isListEmpty(getProvider().getDataset().getValue())) {
+        if (Util.isListEmpty(getViewModel().getDataset().getValue())) {
             if (mSwipeRefreshLayout.isRefreshing()) {
                 mBinding.empty.setText(R.string.loading);
                 mBinding.empty.setVisibility(View.VISIBLE);
@@ -257,7 +255,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
 
     @Override
     public void refresh() {
-        mProvider.refresh();
+        viewModel.refresh();
     }
 
     @Override
@@ -318,7 +316,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
         final int type = mw.getType();
         boolean canWrite = this instanceof FileBrowserFragment;
         if (type == MediaWrapper.TYPE_DIR) {
-            final boolean isEmpty = mProvider.isFolderEmpty(mw);
+            final boolean isEmpty = viewModel.isFolderEmpty(mw);
 //                if (canWrite) {
 //                    boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();
 //                    menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
@@ -416,11 +414,11 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
     }
 
     private void removeMedia(final MediaWrapper mw) {
-        mProvider.remove(mw);
+        viewModel.remove(mw);
         final Runnable cancel = new Runnable() {
             @Override
             public void run() {
-                mProvider.refresh();
+                viewModel.refresh();
             }
         };
         final View v = getView();
@@ -563,7 +561,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserPr
         if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setRefreshing(false);
         mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
         updateEmptyView();
-        if (!Util.isListEmpty(getProvider().getDataset().getValue())) {
+        if (!Util.isListEmpty(getViewModel().getDataset().getValue())) {
             if (mSavedPosition > 0) {
                 mLayoutManager.scrollToPositionWithOffset(mSavedPosition, 0);
                 mSavedPosition = 0;

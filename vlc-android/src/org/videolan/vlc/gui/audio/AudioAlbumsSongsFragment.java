@@ -110,7 +110,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     }
 
     @Override
-    public AudioModel getProvider() {
+    public AudioModel getViewModel() {
         return mProvidersList[mViewPager.getCurrentItem()];
     }
 
@@ -225,7 +225,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         int id = item.getItemId();
         final AudioBrowserAdapter adapter = mViewPager.getCurrentItem() == MODE_ALBUM ? mAlbumsAdapter : mSongsAdapter;
         final MediaLibraryItem mediaItem = adapter.getItem(position);
-        final AudioModel provider = getProvider();
+        final AudioModel provider = getViewModel();
 
         boolean useAllItems = id == R.id.audio_list_browser_play_all;
         boolean append = id == R.id.audio_list_browser_append;

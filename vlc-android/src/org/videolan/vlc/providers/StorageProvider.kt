@@ -1,7 +1,5 @@
-package org.videolan.vlc.viewmodels.browser
+package org.videolan.vlc.providers
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
 import android.net.Uri
 import android.text.TextUtils
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -11,11 +9,11 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.CustomDirectories
+import org.videolan.vlc.util.LiveDataset
 import java.io.File
 import java.util.*
 
-
-class StorageProvider(url: String?, showHiddenFiles: Boolean): FileBrowserProvider(url, false, showHiddenFiles) {
+class StorageProvider(dataset: LiveDataset<MediaLibraryItem>, url: String?, showHiddenFiles: Boolean): FileBrowserProvider(dataset, url, false, showHiddenFiles) {
 
     override fun browseRoot() {
         val storages = AndroidDevices.getMediaDirectories()
@@ -40,18 +38,11 @@ class StorageProvider(url: String?, showHiddenFiles: Boolean): FileBrowserProvid
         dataset.value = storagesList
     }
 
-    override suspend fun addMedia(media: MediaLibraryItem) {
+    override fun addMedia(media: MediaLibraryItem) {
         if (media.itemType == MediaLibraryItem.TYPE_MEDIA) {
             if ((media as MediaWrapper).type == MediaWrapper.TYPE_DIR) super.addMedia(Storage(media.uri))
             return
         } else if (media.itemType != MediaLibraryItem.TYPE_STORAGE) return
         super.addMedia(media)
-    }
-
-    class Factory(val url: String?, private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            @Suppress("UNCHECKED_CAST")
-            return StorageProvider(url, showHiddenFiles) as T
-        }
     }
 }

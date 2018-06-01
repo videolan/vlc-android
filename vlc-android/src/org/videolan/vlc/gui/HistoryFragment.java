@@ -74,8 +74,8 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
         super.onViewCreated(view, savedInstanceState);
         mEmptyView = view.findViewById(android.R.id.empty);
         mRecyclerView = view.findViewById(android.R.id.list);
-        mProvider = ViewModelProviders.of(requireActivity()).get(HistoryProvider.class);
-        mProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
+        viewModel = ViewModelProviders.of(requireActivity()).get(HistoryProvider.class);
+        viewModel.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
             @Override
             public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
                 if (mediaWrappers != null) mHistoryAdapter.update(mediaWrappers);
@@ -86,7 +86,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
     @Override
     public void onStart() {
         super.onStart();
-        mProvider.refresh();
+        viewModel.refresh();
     }
 
     @Override
@@ -128,7 +128,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
 
     @Override
     public void refresh() {
-        mProvider.refresh();
+        viewModel.refresh();
     }
 
     @Override
@@ -160,7 +160,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
     @Override
     public void clearHistory() {
         mMediaLibrary.clearHistory();
-        mProvider.clear();
+        viewModel.clear();
         updateEmptyView();
     }
 
@@ -209,7 +209,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
     public void onDestroyActionMode(ActionMode mode) {
         mActionMode = null;
         int index = -1;
-        for (MediaWrapper media : mProvider.getDataset().getValue()) {
+        for (MediaWrapper media : viewModel.getDataset().getValue()) {
             ++index;
             if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
                 media.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
@@ -226,7 +226,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
             invalidateActionMode();
             return;
         }
-        if (position != 0) mProvider.moveUp((MediaWrapper) item);
+        if (position != 0) viewModel.moveUp((MediaWrapper) item);
         MediaUtils.openMedia(v.getContext(), (MediaWrapper) item);
     }
 
