@@ -57,8 +57,8 @@
         <!-- Image loading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
         <ImageView
             android:id="@+id/ml_item_thumbnail"
-            android:layout_width="144dp"
-            android:layout_height="90dp"
+            android:layout_width="128dp"
+            android:layout_height="80dp"
             vlc:layout_constraintStart_toStartOf="parent"
             vlc:media="@{media}"
             android:scaleType="centerCrop"
