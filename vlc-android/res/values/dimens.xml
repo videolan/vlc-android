@@ -1,6 +1,6 @@
 <resources>
     <dimen name="shadow_width">6px</dimen>
-    <dimen name="widget_margin">10dp</dimen>
+    <dimen name="widget_margin">0dp</dimen>
     <dimen name="audio_browser_item_size">50dp</dimen>
     <dimen name="directory_browser_item_size">40dp</dimen>
     <dimen name="listview_bottom_padding">10dp</dimen>
