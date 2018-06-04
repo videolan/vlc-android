@@ -83,14 +83,10 @@
             vlc:layout_constraintBottom_toTopOf="@+id/ml_item_time"
             android:ellipsize="end"
             android:gravity="center_vertical"
-            android:maxLines="2"
-            android:paddingLeft="16dp"
-            android:paddingStart="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:text="@{media.title}"
-            android:textColor="?attr/list_title"
-            android:textSize="16sp"
-            android:lineSpacingMultiplier="1.1"
-            tools:targetApi="jelly_bean" />
+            style="@style/VLC.TextViewTitle" />
 
         <ImageView
             android:id="@+id/item_more"
@@ -111,14 +107,11 @@
             android:layout_height="wrap_content"
             vlc:layout_constraintStart_toEndOf="@+id/ml_item_thumbnail"
             vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
+            vlc:layout_constraintStart_toStartOf="@+id/ml_item_title"
+            style="@style/VLC.TextViewDescription"
             android:gravity="start"
-            android:paddingLeft="16dp"
-            android:paddingStart="16dp"
             android:text="@{time}"
-            android:layout_alignWithParentIfMissing="true"
-            android:textColor="?attr/list_subtitle"
-            android:textSize="12sp"
-            tools:targetApi="jelly_bean" />
+            android:layout_alignWithParentIfMissing="true"  />
 
         <ProgressBar
             android:id="@+id/ml_item_progress"

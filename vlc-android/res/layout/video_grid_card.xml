@@ -90,13 +90,11 @@
             vlc:layout_constraintEnd_toStartOf="@+id/item_more"
             vlc:layout_constraintBottom_toTopOf="@+id/ml_item_time"
             android:layout_marginBottom="1dp"
-            android:fontFamily="sans-serif"
-            android:maxLines="2"
-            android:paddingLeft="@dimen/very_small_margin"
-            android:paddingStart="@dimen/half_default_margin"
-            android:text="@{media.title}"
+            style="@style/VLC.TextViewTitle"
             android:textColor="@color/grey50"
-            android:textSize="@dimen/grid_card_title_text_size"
+            android:layout_marginLeft="@dimen/very_small_margin"
+            android:layout_marginStart="@dimen/half_default_margin"
+            android:text="@{media.title}"
             tools:targetApi="jelly_bean" />
 
         <TextView
@@ -105,16 +103,12 @@
             android:layout_height="wrap_content"
             vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
             vlc:layout_constraintEnd_toStartOf="@+id/item_more"
-            vlc:layout_constraintStart_toStartOf="parent"
+            vlc:layout_constraintStart_toStartOf="@+id/ml_item_title"
             android:layout_marginBottom="2dp"
             android:gravity="start"
-            android:paddingLeft="@dimen/half_default_margin"
-            android:paddingStart="@dimen/half_default_margin"
-            android:maxLines="1"
-            android:text="@{time}"
-            android:textColor="@color/grey200"
-            android:textSize="@dimen/grid_card_subtitle_text_size"
-            tools:targetApi="jelly_bean" />
+            style="@style/VLC.TextViewDescription"
+            android:textColor="@color/grey50"
+            android:text="@{time}" />
 
         <ImageView
             android:id="@+id/item_more"
