@@ -24,15 +24,10 @@
 package org.videolan.vlc.gui.browser;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatEditText;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,7 +39,6 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
-import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.CustomDirectories;
@@ -55,12 +49,9 @@ import org.videolan.vlc.viewmodels.browser.BrowserModel;
 import org.videolan.vlc.viewmodels.browser.BrowserModelKt;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class FileBrowserFragment extends BaseBrowserFragment {
-
-    private AlertDialog mAlertDialog;
 
     @Override
     protected Fragment createFragment() {
@@ -170,44 +161,6 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 });
             }
         });
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAlertDialog != null && mAlertDialog.isShowing())
-            mAlertDialog.dismiss();
-    }
-
-    public void showAddDirectoryDialog() {
-        final Context context = getActivity();
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        final AppCompatEditText input = new AppCompatEditText(context);
-        input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        builder.setTitle(R.string.add_custom_path);
-        builder.setMessage(R.string.add_custom_path_description);
-        builder.setView(input);
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {}
-        });
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String path = input.getText().toString().trim();
-                File f = new File(path);
-                if (!f.exists() || !f.isDirectory()) {
-                    UiTools.snacker(getView(), getString(R.string.directorynotfound, path));
-                    return;
-                }
-
-                try {
-                    CustomDirectories.addCustomDirectory(f.getCanonicalPath());
-                    ((AudioPlayerContainerActivity)getActivity()).updateLib();
-                } catch (IOException ignored) {}
-            }
-        });
-        mAlertDialog = builder.show();
     }
 
     @Override
