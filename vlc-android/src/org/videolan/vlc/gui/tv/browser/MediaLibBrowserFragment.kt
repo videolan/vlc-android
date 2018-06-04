@@ -88,16 +88,6 @@ abstract class MediaLibBrowserFragment<T : BaseModel<out MediaLibraryItem>> : Gr
 
     override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?,
                                rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
-//        if (mediaLibraryItem.itemType == MediaLibraryItem.TYPE_MEDIA) {
-//            var position = 0
-//            for (i in mDataList.indices) {
-//                if (mediaLibraryItem.equals(mDataList[i])) {
-//                    position = i
-//                    break
-//                }
-//            }
-//            TvUtil.playAudioList(mContext, mDataList as Array<MediaWrapper>, position)
-//        } else
         TvUtil.openMedia(mContext, item, row)
     }
 

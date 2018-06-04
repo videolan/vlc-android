@@ -112,8 +112,8 @@ object TvUtil {
     }
 
     fun openMedia(activity: Activity, item: Any?, row: Row?) {
-        if (item is MediaWrapper) {
-            when {
+        when (item) {
+            is MediaWrapper -> when {
                 item.type == MediaWrapper.TYPE_AUDIO -> openAudioCategory(activity, item)
                 item.type == MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
@@ -130,8 +130,7 @@ object TvUtil {
                 }
                 else -> MediaUtils.openMedia(activity, item)
             }
-        } else if (item is DummyItem) {
-            if (item.id == Constants.HEADER_STREAM) {
+            is DummyItem -> if (item.id == Constants.HEADER_STREAM) {
                 activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_STREAM)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             } else {
@@ -139,6 +138,7 @@ object TvUtil {
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)
                 activity.startActivity(intent)
             }
+            is MediaLibraryItem -> openAudioCategory(activity, item)
         }
     }
 
