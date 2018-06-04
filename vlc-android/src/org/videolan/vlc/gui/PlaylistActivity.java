@@ -69,7 +69,7 @@ import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WorkersKt;
-import org.videolan.vlc.viewmodels.audio.TracksProvider;
+import org.videolan.vlc.viewmodels.audio.TracksModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,7 +87,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     private PlaylistActivityBinding mBinding;
     private ActionMode mActionMode;
     private boolean mIsPlaylist;
-    private TracksProvider tracksProvider;
+    private TracksModel tracksModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,8 +109,8 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
         mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
         mBinding.songs.setAdapter(mAdapter);
-        tracksProvider = ViewModelProviders.of(this, new TracksProvider.Factory(mPlaylist)).get(TracksProvider.class);
-        tracksProvider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
+        tracksModel = ViewModelProviders.of(this, new TracksModel.Factory(mPlaylist)).get(TracksModel.class);
+        tracksModel.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> tracks) {
                 if (tracks != null) mAdapter.update(tracks);
@@ -349,11 +349,11 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             MediaUtils.insertNext(this, media);
             return true;
         } else if (id == R.id.audio_list_browser_delete) {
-            tracksProvider.remove(media);
+            tracksModel.remove(media);
             final Runnable cancel = new Runnable() {
                 @Override
                 public void run() {
-                    tracksProvider.refresh();
+                    tracksModel.refresh();
                 }
             };
             UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.file_deleted), new Runnable() {
@@ -435,7 +435,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     private void removeFromPlaylist(final List<MediaWrapper> list){
-        for (MediaLibraryItem mediaItem : list) tracksProvider.remove(mediaItem);
+        for (MediaLibraryItem mediaItem : list) tracksModel.remove(mediaItem);
         UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.file_deleted), new Runnable() {
             @Override
             public void run() {
@@ -445,7 +445,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         }, new Runnable() {
             @Override
             public void run() {
-                tracksProvider.refresh();
+                tracksModel.refresh();
             }
         });
     }

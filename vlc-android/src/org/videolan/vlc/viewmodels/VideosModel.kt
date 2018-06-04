@@ -1,5 +1,5 @@
 /*****************************************************************************
- * VideosProvider.kt
+ * VideosModel.kt
  *****************************************************************************
  * Copyright © 2018 VLC authors and VideoLAN
  *
@@ -35,7 +35,7 @@ import org.videolan.vlc.media.MediaGroup
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.VLCIO
 
-open class VideosProvider(private val group: String?, private val minGroupLen: Int, customSort : Int) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
+open class VideosModel(private val group: String?, private val minGroupLen: Int, customSort : Int) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
 
     override val sortKey = "${super.sortKey}_$group"
     override fun canSortByFileNameName() = true
@@ -98,13 +98,13 @@ open class VideosProvider(private val group: String?, private val minGroupLen: I
     class Factory(val group: String?, private val minGroupLen : Int, private val sort : Int): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return VideosProvider(group, minGroupLen, sort) as T
+            return VideosModel(group, minGroupLen, sort) as T
         }
     }
 
     companion object {
-        fun get(fragment: Fragment, group: String?, minGroupLen : Int, sort : Int) : VideosProvider {
-            return ViewModelProviders.of(fragment, Factory(group, minGroupLen, sort)).get(VideosProvider::class.java)
+        fun get(fragment: Fragment, group: String?, minGroupLen : Int, sort : Int) : VideosModel {
+            return ViewModelProviders.of(fragment, Factory(group, minGroupLen, sort)).get(VideosModel::class.java)
         }
     }
 }

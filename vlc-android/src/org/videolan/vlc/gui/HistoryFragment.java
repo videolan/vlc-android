@@ -46,11 +46,11 @@ import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.PlaylistManager;
-import org.videolan.vlc.viewmodels.HistoryProvider;
+import org.videolan.vlc.viewmodels.HistoryModel;
 
 import java.util.List;
 
-public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> implements IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
+public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implements IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
 
     public final static String TAG = "VLC/HistoryFragment";
 
@@ -74,7 +74,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
         super.onViewCreated(view, savedInstanceState);
         mEmptyView = view.findViewById(android.R.id.empty);
         mRecyclerView = view.findViewById(android.R.id.list);
-        viewModel = ViewModelProviders.of(requireActivity()).get(HistoryProvider.class);
+        viewModel = ViewModelProviders.of(requireActivity()).get(HistoryModel.class);
         viewModel.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
             @Override
             public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {

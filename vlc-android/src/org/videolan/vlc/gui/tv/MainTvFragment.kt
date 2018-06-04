@@ -52,8 +52,8 @@ import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.media.MediaDatabase
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Constants
-import org.videolan.vlc.viewmodels.HistoryProvider
-import org.videolan.vlc.viewmodels.VideosProvider
+import org.videolan.vlc.viewmodels.HistoryModel
+import org.videolan.vlc.viewmodels.VideosModel
 
 private const val NUM_ITEMS_PREVIEW = 5
 private const val TAG = "VLC/MainTvFragment"
@@ -61,8 +61,8 @@ private const val TAG = "VLC/MainTvFragment"
 class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener, View.OnClickListener, Observer<MutableList<MediaWrapper>> {
 
     private var backgroundManager: BackgroundManager? = null
-    private lateinit var videoProvider: VideosProvider
-    private lateinit var historyProvider: HistoryProvider
+    private lateinit var videoModel: VideosModel
+    private lateinit var historyModel: HistoryModel
 
     private lateinit var rowsAdapter: ArrayObjectAdapter
     private lateinit var videoAdapter: ArrayObjectAdapter
@@ -136,8 +136,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         rowsAdapter.add(miscRow)
 
         adapter = rowsAdapter
-        videoProvider = VideosProvider.get(this, null, 0, Medialibrary.SORT_INSERTIONDATE)
-        videoProvider.dataset.observe(this, Observer {
+        videoModel = VideosModel.get(this, null, 0, Medialibrary.SORT_INSERTIONDATE)
+        videoModel.dataset.observe(this, Observer {
             updateVideos(it)
             (requireActivity() as MainTvActivity).hideLoading()
         })
@@ -160,11 +160,11 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     override fun onStart() {
         super.onStart()
         if (restart) {
-            historyProvider.refresh()
-            videoProvider.refresh()
+            historyModel.refresh()
+            videoModel.refresh()
         } else restart = true
         if (selectedItem is MediaWrapper) TvUtil.updateBackground(backgroundManager, selectedItem)
-        setHistoryProvider()
+        setHistoryModel()
     }
 
     override fun onStop() {
@@ -243,15 +243,15 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         TvUtil.updateBackground(backgroundManager, item)
     }
 
-    private fun setHistoryProvider() {
+    private fun setHistoryModel() {
         val historyEnabled = settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)
         if (historyEnabled == displayHistory) return
         if (historyEnabled) {
-            historyProvider = ViewModelProviders.of(this).get(HistoryProvider::class.java)
-            historyProvider.dataset.observe(this, this)
+            historyModel = ViewModelProviders.of(this).get(HistoryModel::class.java)
+            historyModel.dataset.observe(this, this)
         } else {
             displayHistory = false
-            historyProvider.dataset.removeObserver(this)
+            historyModel.dataset.removeObserver(this)
         }
     }
 

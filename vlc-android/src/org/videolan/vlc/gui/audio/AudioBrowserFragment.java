@@ -65,12 +65,12 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.util.WorkersKt;
-import org.videolan.vlc.viewmodels.audio.AlbumProvider;
-import org.videolan.vlc.viewmodels.audio.ArtistProvider;
+import org.videolan.vlc.viewmodels.audio.AlbumModel;
+import org.videolan.vlc.viewmodels.audio.ArtistModel;
 import org.videolan.vlc.viewmodels.audio.AudioModel;
-import org.videolan.vlc.viewmodels.audio.Genresprovider;
-import org.videolan.vlc.viewmodels.audio.PlaylistsProvider;
-import org.videolan.vlc.viewmodels.audio.TracksProvider;
+import org.videolan.vlc.viewmodels.audio.GenresModel;
+import org.videolan.vlc.viewmodels.audio.PlaylistsModel;
+import org.videolan.vlc.viewmodels.audio.TracksModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,11 +86,11 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private AudioBrowserAdapter mGenresAdapter;
     private AudioBrowserAdapter mPlaylistAdapter;
 
-    private ArtistProvider artistProvider;
-    private AlbumProvider albumProvider;
-    private TracksProvider tracksProvider;
-    private Genresprovider genresprovider;
-    private PlaylistsProvider playlistsProvider;
+    private ArtistModel artistModel;
+    private AlbumModel albumModel;
+    private TracksModel tracksModel;
+    private GenresModel genresModel;
+    private PlaylistsModel playlistsModel;
 
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
@@ -164,26 +164,26 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private void setupAdapters(final int currentTab) {
         if (mArtistsAdapter == null) {
             mArtistsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this);
-            artistProvider = ViewModelProviders.of(requireActivity(), new ArtistProvider.Factory(mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false))).get(ArtistProvider.class);
+            artistModel = ViewModelProviders.of(requireActivity(), new ArtistModel.Factory(mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false))).get(ArtistModel.class);
         }
         if (mAlbumsAdapter == null) {
             mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this);
-            albumProvider = ViewModelProviders.of(requireActivity()).get(AlbumProvider.class);
+            albumModel = ViewModelProviders.of(requireActivity()).get(AlbumModel.class);
         }
         if (mSongsAdapter == null) {
             mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this);
-            tracksProvider = ViewModelProviders.of(requireActivity()).get(TracksProvider.class);
+            tracksModel = ViewModelProviders.of(requireActivity()).get(TracksModel.class);
         }
         if (mGenresAdapter == null) {
             mGenresAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this);
-            genresprovider = ViewModelProviders.of(requireActivity()).get(Genresprovider.class);
+            genresModel = ViewModelProviders.of(requireActivity()).get(GenresModel.class);
         }
         if (mPlaylistAdapter == null) {
             mPlaylistAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this);
-            playlistsProvider = ViewModelProviders.of(requireActivity()).get(PlaylistsProvider.class);
+            playlistsModel = ViewModelProviders.of(requireActivity()).get(PlaylistsModel.class);
         }
         mAdapters = new AudioBrowserAdapter[] {mArtistsAdapter, mAlbumsAdapter, mSongsAdapter, mGenresAdapter, mPlaylistAdapter};
-        mProvidersList = new AudioModel[] {artistProvider, albumProvider, tracksProvider, genresprovider, playlistsProvider};
+        mProvidersList = new AudioModel[] {artistModel, albumModel, tracksModel, genresModel, playlistsModel};
         //Register current tab first
         mProvidersList[currentTab].getSections().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
@@ -278,14 +278,14 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             if (mediaItem.getItemType() != MediaLibraryItem.TYPE_MEDIA) return false;
             final MediaLibraryItem previous = position > 0 ? adapter.getItem(position-1) : null;
             final MediaLibraryItem next = position < adapter.getItemCount()-1 ? adapter.getItem(position+1) : null;
-            final AudioModel provider = getViewModel();
+            final AudioModel model = getViewModel();
             final String message;
             final Runnable action;
             final Runnable cancel;
             final MediaLibraryItem separator = previous != null && previous.getItemType() == MediaLibraryItem.TYPE_DUMMY &&
                     (next == null || next.getItemType() == MediaLibraryItem.TYPE_DUMMY) ? previous : null;
-            if (separator != null) provider.remove(separator);
-            provider.remove(mediaItem);
+            if (separator != null) model.remove(separator);
+            model.remove(mediaItem);
 
             if (mode == MODE_PLAYLIST) {
                 cancel = null;
@@ -301,7 +301,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 cancel = new Runnable() {
                     @Override
                     public void run() {
-                        provider.refresh();
+                        model.refresh();
                     }
                 };
                 action = new Runnable() {
@@ -542,8 +542,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     public void updateArtists() {
-        artistProvider.showAll(mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false));
-        artistProvider.refresh();
+        artistModel.showAll(mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false));
+        artistModel.refresh();
     }
 
     protected boolean playlistModeSelected() {

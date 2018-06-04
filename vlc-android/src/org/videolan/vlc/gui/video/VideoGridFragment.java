@@ -65,12 +65,12 @@ import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.viewmodels.VideosProvider;
+import org.videolan.vlc.viewmodels.VideosModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> implements SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<List<MediaWrapper>> {
+public class VideoGridFragment extends MediaBrowserFragment<VideosModel> implements SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<List<MediaWrapper>> {
 
     private final static String TAG = "VLC/VideoListFragment";
 
@@ -85,7 +85,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosProvider> impl
             mAdapter = new VideoListAdapter(this);
             final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
             final int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
-            viewModel = ViewModelProviders.of(requireActivity(), new VideosProvider.Factory(mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosProvider.class);
+            viewModel = ViewModelProviders.of(requireActivity(), new VideosModel.Factory(mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosModel.class);
             viewModel.getDataset().observe(this, this);
         }
         if (savedInstanceState != null) setGroup(savedInstanceState.getString(Constants.KEY_GROUP));
