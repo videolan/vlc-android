@@ -51,8 +51,11 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
+import org.videolan.vlc.gui.dialogs.ContextSheetKt;
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.viewmodels.browser.BrowserModel;
 import org.videolan.vlc.viewmodels.browser.BrowserModelKt;
@@ -148,12 +151,21 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         ft.commit();
     }
 
-    protected void setContextMenuItems(MenuInflater inflater, Menu menu, int position) {
+    public void onCtxClick(View v, int position, MediaLibraryItem item) {
         if (mRoot) {
             final Storage storage = (Storage) mAdapter.getItem(position);
             boolean isCustom = CustomDirectories.contains(storage.getUri().getPath());
-            if (isCustom) inflater.inflate(R.menu.directory_custom_dir, menu);
-        } else super.setContextMenuItems(menu, position);
+            if (isCustom) ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), Constants.CTX_CUSTOM_REMOVE);
+        }
+    }
+
+    @Override
+    public void onCtxAction(int position, int option) {
+        final Storage storage = (Storage) mAdapter.getItem(position);
+        MediaDatabase.getInstance().recursiveRemoveDir(storage.getUri().getPath());
+        CustomDirectories.removeCustomDirectory(storage.getUri().getPath());
+        viewModel.remove(storage);
+        ((AudioPlayerContainerActivity)getActivity()).updateLib();
     }
 
     @Override

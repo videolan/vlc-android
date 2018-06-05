@@ -53,6 +53,7 @@ import org.videolan.vlc.gui.SimpleAdapter;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
@@ -90,16 +91,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         });
     }
 
-    protected void setContextMenuItems(Menu menu, int position) {
-        if (mRoot) {
-            menu.findItem(R.id.directory_view_play_folder).setVisible(false);
-            menu.findItem(R.id.directory_view_delete).setVisible(false);
-            final MediaWrapper mw = (MediaWrapper) favoritesAdapter.get(position);
-            menu.findItem(R.id.network_remove_favorite).setVisible(true);
-            menu.findItem(R.id.network_edit_favorite).setVisible(!TextUtils.equals(mw.getUri().getScheme(), "upnp"));
-        } else super.setContextMenuItems(menu, position);
-    }
-
     private BaseBrowserAdapter favoritesAdapter;
     @Override
     protected void initFavorites() {
@@ -118,7 +109,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        MenuItem item = menu.findItem(R.id.ml_menu_save);
+        final MenuItem item = menu.findItem(R.id.ml_menu_save);
         item.setVisible(isSortEnabled());
 
         boolean isFavorite = mMrl != null && MediaDatabase.getInstance().networkFavExists(Uri.parse(mMrl));
@@ -175,24 +166,24 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         goBack = false;
     }
 
-    protected boolean handleContextItemSelected(MenuItem item, final int position) {
-        int id = item.getItemId();
-        if (!(mAdapter.getItem(position) instanceof MediaWrapper)) return false;
+    @Override
+    public void onCtxAction(int position, int option) {
         final MediaWrapper mw = (MediaWrapper) (mRoot ? favoritesAdapter.getItem(position) : mAdapter.getItem(position));
-        switch (id){
-            case R.id.network_add_favorite:
+        switch (option) {
+            case Constants.CTX_NETWORK_ADD:
                 MediaDatabase.getInstance().addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
                 if (isRootDirectory()) ((NetworkModel) getViewModel()).updateFavs();
-                return true;
-            case R.id.network_remove_favorite:
+                break;
+            case Constants.CTX_NETWORK_EDIT:
+                showAddServerDialog(mw);
+                break;
+            case Constants.CTX_NETWORK_REMOVE:
                 MediaDatabase.getInstance().deleteNetworkFav(mw.getUri());
                 if (mRoot) ((NetworkModel) getViewModel()).updateFavs();
-                return true;
-            case R.id.network_edit_favorite:
-                showAddServerDialog(mw);
-                return true;
+                break;
+            default:
+                super.onCtxAction(position, option);
         }
-        return super.handleContextItemSelected(item, position);
     }
 
     @Override

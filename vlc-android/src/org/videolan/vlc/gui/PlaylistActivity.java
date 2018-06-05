@@ -58,6 +58,8 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.PlaylistActivityBinding;
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
+import org.videolan.vlc.gui.dialogs.ContextSheetKt;
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior;
@@ -67,6 +69,7 @@ import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.audio.TracksModel;
@@ -76,7 +79,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PlaylistActivity extends AudioPlayerContainerActivity implements IEventsHandler, ActionMode.Callback, View.OnClickListener {
+public class PlaylistActivity extends AudioPlayerContainerActivity implements IEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver {
 
     public final static String TAG = "VLC/PlaylistActivity";
     public final static String TAG_FAB_VISIBILITY= "FAB";
@@ -165,16 +168,9 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        registerForContextMenu(mBinding.songs);
-    }
-
-    @Override
     protected void onStop() {
         super.onStop();
         stopActionMode();
-        unregisterForContextMenu(mBinding.songs);
     }
 
     @Override
@@ -206,7 +202,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {
-        if (mActionMode == null) mBinding.songs.openContextMenu(position);
+        if (mActionMode == null) ContextSheetKt.showContext(this, this, position, mediaItem.getTitle(), Constants.CTX_PLAYLIST_FLAGS);
     }
 
     @Override
@@ -320,80 +316,50 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     protected void showInfoDialog(MediaWrapper media) {
-        Intent i = new Intent(this, InfoActivity.class);
+        final Intent i = new Intent(this, InfoActivity.class);
         i.putExtra(InfoActivity.TAG_ITEM, media);
         startActivity(i);
     }
 
-    protected void setContextMenuItems(Menu menu, int position) {
-        menu.setGroupVisible(R.id.songs_view_only, true);
-        menu.findItem(R.id.audio_list_browser_play_all).setVisible(false);
-        menu.setGroupVisible(R.id.phone_only, AndroidDevices.isPhone);
-        //Hide delete if we cannot. Always possible for a Playlist
-        String location = ((MediaWrapper)mAdapter.getItem(position)).getLocation();
-        menu.findItem(R.id.audio_list_browser_delete).setVisible(FileUtils.canWrite(location) || mIsPlaylist);
-    }
-
-    protected boolean handleContextItemSelected(MenuItem item, final int position) {
-        int id = item.getItemId();
-
+    @Override
+    public void onCtxAction(int position, int option) {
+        if (position >= mAdapter.getItemCount()) return;
         final MediaWrapper media = (MediaWrapper) mAdapter.getItem(position);
-
-        if (id == R.id.audio_list_browser_set_song) {
-            AudioUtil.setRingtone(media, this);
-            return true;
-        } else if (id == R.id.audio_list_browser_append) {
-            MediaUtils.appendMedia(this, media);
-            return true;
-        } else if (id == R.id.audio_list_browser_insert_next) {
-            MediaUtils.insertNext(this, media);
-            return true;
-        } else if (id == R.id.audio_list_browser_delete) {
-            tracksModel.remove(media);
-            final Runnable cancel = new Runnable() {
-                @Override
-                public void run() {
-                    tracksModel.refresh();
-                }
-            };
-            UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.file_deleted), new Runnable() {
-                @Override
-                public void run() {
-                    if (mIsPlaylist) ((Playlist) mPlaylist).remove(media.getId());
-                    else deleteMedia(media, cancel);
-                }
-            }, cancel);
-            return true;
-        } else if (id == R.id.audio_view_info) {
-            showInfoDialog(media);
-            return true;
-        } else if (id == R.id.audio_view_add_playlist) {
-            FragmentManager fm = getSupportFragmentManager();
-            SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
-            Bundle args = new Bundle();
-            args.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, media.getTracks());
-            savePlaylistDialog.setArguments(args);
-            savePlaylistDialog.show(fm, "fragment_add_to_playlist");
-            return true;
+        if (media == null) return;
+        switch (option){
+            case Constants.CTX_INFORMATION:
+                showInfoDialog(media);
+                break;
+            case Constants.CTX_DELETE:
+                tracksModel.remove(media);
+                final Runnable cancel = new Runnable() {
+                    @Override
+                    public void run() {
+                        tracksModel.refresh();
+                    }
+                };
+                UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.file_deleted), new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mIsPlaylist) ((Playlist) mPlaylist).remove(media.getId());
+                        else deleteMedia(media, cancel);
+                    }
+                }, cancel);
+                break;
+            case Constants.CTX_APPEND:
+                MediaUtils.appendMedia(this, media.getTracks());
+                break;
+            case Constants.CTX_PLAY_NEXT:
+                MediaUtils.insertNext(this, media.getTracks());
+                break;
+            case Constants.CTX_ADD_TO_PLAYLIST:
+                UiTools.addToPlaylist(this, media.getTracks(), SavePlaylistDialog.KEY_NEW_TRACKS);
+                break;
+            case Constants.CTX_SET_RINGTONE:
+                AudioUtil.setRingtone((MediaWrapper) media, this);
+                break;
         }
-        return false;
-    }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (menuInfo == null)
-            return;
-        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo)menuInfo;
-        getMenuInflater().inflate(R.menu.audio_list_browser, menu);
-
-        setContextMenuItems(menu, info.position);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem menu) {
-        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo) menu.getMenuInfo();
-
-        return info != null && handleContextItemSelected(menu, info.position);
     }
 
     protected void deleteMedia(final MediaLibraryItem mw, final Runnable cancel) {

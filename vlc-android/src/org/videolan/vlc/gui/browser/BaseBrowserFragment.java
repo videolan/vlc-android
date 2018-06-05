@@ -52,6 +52,8 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.DirectoryBrowserBinding;
 import org.videolan.vlc.gui.InfoActivity;
+import org.videolan.vlc.gui.dialogs.ContextSheetKt;
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
@@ -61,17 +63,19 @@ import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.viewmodels.browser.BrowserModel;
+import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import kotlin.Pair;
 
-public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserModel> implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler {
+public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserModel> implements IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler, CtxActionReceiver {
     protected static final String TAG = "VLC/BaseBrowserFragment";
 
     public static final String KEY_MRL = "key_mrl";
@@ -135,7 +139,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserMo
         mLayoutManager = new LinearLayoutManager(getActivity());
         mBinding.networkList.setLayoutManager(mLayoutManager);
         mBinding.networkList.setAdapter(mAdapter);
-        registerForContextMenu(mBinding.networkList);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         viewModel.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
@@ -301,118 +304,6 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserMo
         mAdapter.clear();
     }
 
-    @Override
-    protected void inflate(Menu menu, int position) {
-        final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
-        if (mw == null) return;
-        final int type = mw.getType();
-        final MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(type == MediaWrapper.TYPE_DIR ? R.menu.directory_view_dir : R.menu.directory_view_file, menu);
-    }
-
-    protected void setContextMenuItems(Menu menu, int position) {
-        final MediaWrapper mw = (MediaWrapper) mAdapter.getItem(position);
-        if (mw == null) return;
-        final int type = mw.getType();
-        boolean canWrite = this instanceof FileBrowserFragment;
-        if (type == MediaWrapper.TYPE_DIR) {
-            final boolean isEmpty = viewModel.isFolderEmpty(mw);
-//                if (canWrite) {
-//                    boolean nomedia = new File(mw.getLocation() + "/.nomedia").exists();
-//                    menu.findItem(R.id.directory_view_hide_media).setVisible(!nomedia);
-//                    menu.findItem(R.id.directory_view_show_media).setVisible(nomedia);
-//                } else {
-//                    menu.findItem(R.id.directory_view_hide_media).setVisible(false);
-//                    menu.findItem(R.id.directory_view_show_media).setVisible(false);
-//                }
-            menu.findItem(R.id.directory_view_play_folder).setVisible(!isEmpty);
-            menu.findItem(R.id.directory_view_delete).setVisible(!mRoot && canWrite);
-            if (this instanceof NetworkBrowserFragment) {
-                final MediaDatabase db = MediaDatabase.getInstance();
-                if (db.networkFavExists(mw.getUri())) {
-                    menu.findItem(R.id.network_remove_favorite).setVisible(true);
-                    menu.findItem(R.id.network_edit_favorite).setVisible(!TextUtils.equals(mw.getUri().getScheme(), "upnp"));
-                } else
-                    menu.findItem(R.id.network_add_favorite).setVisible(true);
-            }
-        } else {
-            boolean canPlayInList =  mw.getType() == MediaWrapper.TYPE_AUDIO ||
-                    (mw.getType() == MediaWrapper.TYPE_VIDEO);
-            menu.findItem(R.id.directory_view_play_all).setVisible(canPlayInList);
-            menu.findItem(R.id.directory_view_append).setVisible(canPlayInList);
-            menu.findItem(R.id.directory_view_delete).setVisible(canWrite);
-            menu.findItem(R.id.directory_view_info).setVisible(type == MediaWrapper.TYPE_VIDEO || type == MediaWrapper.TYPE_AUDIO);
-            menu.findItem(R.id.directory_view_play_audio).setVisible(type != MediaWrapper.TYPE_AUDIO);
-            menu.findItem(R.id.directory_view_add_playlist).setVisible(type == MediaWrapper.TYPE_AUDIO);
-            menu.findItem(R.id.directory_subtitles_download).setVisible(type == MediaWrapper.TYPE_VIDEO);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public void openContextMenu(final int position) {
-        mBinding.networkList.openContextMenu(position);
-    }
-
-    protected boolean handleContextItemSelected(MenuItem item, final int position) {
-        int id = item.getItemId();
-        if (! (mAdapter.getItem(position) instanceof MediaWrapper))
-            return super.onContextItemSelected(item);
-        final Uri uri = ((MediaWrapper) mAdapter.getItem(position)).getUri();
-        final MediaWrapper mwFromMl = "file".equals(uri.getScheme()) ? mMediaLibrary.getMedia(uri) : null;
-        final MediaWrapper mw = mwFromMl != null ? mwFromMl : (MediaWrapper) mAdapter.getItem(position);
-        switch (id){
-            case R.id.directory_view_play_all:
-                mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                playAll(mw);
-                return true;
-            case R.id.directory_view_append: {
-                MediaUtils.appendMedia(getActivity(), mw);
-                return true;
-            }
-            case R.id.directory_view_delete:
-                if (checkWritePermission(mw, new Runnable() {
-                    @Override
-                    public void run() {
-                        removeMedia(mw);
-                    }
-                })) removeMedia(mw);
-                return true;
-            case  R.id.directory_view_info:
-                showMediaInfo(mw);
-                return true;
-            case R.id.directory_view_play_audio:
-                mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                MediaUtils.openMedia(getActivity(), mw);
-                return true;
-            case R.id.directory_view_play_folder:
-                MediaUtils.openMedia(getActivity(), mw);
-                return true;
-            case R.id.directory_view_add_playlist:
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
-                Bundle infoArgs = new Bundle();
-                infoArgs.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, mw.getTracks());
-                savePlaylistDialog.setArguments(infoArgs);
-                savePlaylistDialog.show(fm, "fragment_add_to_playlist");
-                return true;
-            case R.id.directory_subtitles_download:
-                MediaUtils.getSubs(getActivity(), mw);
-                return true;
-//            case R.id.directory_view_hide_media:
-//                try {
-//                    if (new File(mw.getLocation()+"/.nomedia").createNewFile())
-//                        updateLib();
-//                } catch (IOException e) {}
-//                return true;
-//            case R.id.directory_view_show_media:
-//                if (new File(mw.getLocation()+"/.nomedia").delete())
-//                    updateLib();
-//                return true;
-
-        }
-        return false;
-    }
-
     private void removeMedia(final MediaWrapper mw) {
         viewModel.remove(mw);
         final Runnable cancel = new Runnable() {
@@ -552,9 +443,73 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserMo
         return true;
     }
 
+    //TODO run it in VLCIO coroutine context
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
-        if (mActionMode == null && item.getItemType() == MediaLibraryItem.TYPE_MEDIA)
-            mBinding.networkList.openContextMenu(position);
+        if (mActionMode == null && item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
+            final MediaWrapper mw = (MediaWrapper) item;
+            int flags = 0;
+            if (!mRoot && this instanceof FileBrowserFragment) flags |= Constants.CTX_DELETE;
+            if (mw.getType() == MediaWrapper.TYPE_DIR) {
+                final boolean isEmpty = viewModel.isFolderEmpty(mw);
+                if (!isEmpty) flags |= Constants.CTX_PLAY;
+                if (this instanceof NetworkBrowserFragment) {
+                    final MediaDatabase db = MediaDatabase.getInstance();
+                    if (db.networkFavExists(mw.getUri())) flags |= Constants.CTX_NETWORK_EDIT | Constants.CTX_NETWORK_REMOVE;
+                    else flags |= Constants.CTX_NETWORK_ADD;
+                }
+            } else {
+                final boolean isVideo = mw.getType() == MediaWrapper.TYPE_VIDEO;
+                final boolean isAudio = mw.getType() == MediaWrapper.TYPE_AUDIO;
+                final boolean isMedia = isVideo || isAudio;
+                if (isMedia) flags |= Constants.CTX_PLAY_ALL|Constants.CTX_APPEND|Constants.CTX_INFORMATION;
+                if (!isAudio) flags |= Constants.CTX_PLAY_AS_AUDIO;
+                else flags |= Constants.CTX_ADD_TO_PLAYLIST;
+                if (isVideo) flags |= Constants.CTX_DOWNLOAD_SUBTITLES;
+            }
+            if (flags != 0) ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), flags);
+        }
+    }
+
+    @Override
+    public void onCtxAction(int position, int option) {
+        if (! (mAdapter.getItem(position) instanceof MediaWrapper))  return;
+        final Uri uri = ((MediaWrapper) mAdapter.getItem(position)).getUri();
+        final MediaWrapper mwFromMl = "file".equals(uri.getScheme()) ? mMediaLibrary.getMedia(uri) : null;
+        final MediaWrapper mw = mwFromMl != null ? mwFromMl : (MediaWrapper) mAdapter.getItem(position);
+
+        switch (option) {
+            case Constants.CTX_PLAY:
+                MediaUtils.openMedia(getActivity(), mw);
+                break;
+            case Constants.CTX_PLAY_ALL:
+                mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+                playAll(mw);
+                break;
+            case Constants.CTX_APPEND:
+                MediaUtils.appendMedia(getActivity(), mw);
+                break;
+            case Constants.CTX_DELETE:
+                if (checkWritePermission(mw, new Runnable() {
+                    @Override
+                    public void run() {
+                        removeMedia(mw);
+                    }
+                })) removeMedia(mw);
+                break;
+            case Constants.CTX_INFORMATION:
+                showMediaInfo(mw);
+                break;
+            case Constants.CTX_PLAY_AS_AUDIO:
+                mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+                MediaUtils.openMedia(getActivity(), mw);
+                break;
+            case Constants.CTX_ADD_TO_PLAYLIST:
+                UiTools.addToPlaylist(requireActivity(), mw.getTracks(), SavePlaylistDialog.KEY_NEW_TRACKS);
+                break;
+            case Constants.CTX_DOWNLOAD_SUBTITLES:
+                MediaUtils.getSubs(getActivity(), mw);
+                break;
+        }
     }
 
     public void onUpdateFinished(RecyclerView.Adapter adapter) {

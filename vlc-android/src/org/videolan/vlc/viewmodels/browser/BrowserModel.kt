@@ -54,6 +54,8 @@ open class BrowserModel(val url: String?, type: Int, showHiddenFiles: Boolean) :
 
     override fun refresh() = provider.refresh()
 
+    fun browserRoot() = provider.browseRoot()
+
     @MainThread
     override fun sort(sort: Int) {
         launch(UI, CoroutineStart.UNDISPATCHED) {

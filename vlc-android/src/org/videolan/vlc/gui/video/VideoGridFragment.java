@@ -57,6 +57,8 @@ import org.videolan.vlc.databinding.VideoGridBinding;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
+import org.videolan.vlc.gui.dialogs.ContextSheetKt;
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
@@ -70,7 +72,7 @@ import org.videolan.vlc.viewmodels.VideosModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoGridFragment extends MediaBrowserFragment<VideosModel> implements SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<List<MediaWrapper>> {
+public class VideoGridFragment extends MediaBrowserFragment<VideosModel> implements SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<List<MediaWrapper>>, CtxActionReceiver {
 
     private final static String TAG = "VLC/VideoListFragment";
 
@@ -188,41 +190,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         MediaUtils.openMedia(getActivity(), media);
     }
 
-    protected boolean handleContextItemSelected(MenuItem menu, final int position) {
-        if (position >= mAdapter.getItemCount()) return false;
-        final MediaWrapper media = mAdapter.getItem(position);
-        if (media == null) return false;
-        switch (menu.getItemId()){
-            case R.id.video_list_play_from_start:
-                playVideo(media, true);
-                return true;
-            case R.id.video_list_play_audio:
-                playAudio(media);
-                return true;
-            case R.id.video_list_play_all:
-                List<MediaWrapper> playList = new ArrayList<>();
-                MediaUtils.openList(getActivity(), playList, mAdapter.getListWithPosition(playList, position));
-                return true;
-            case R.id.video_list_info:
-                showInfoDialog(media);
-                return true;
-            case R.id.video_list_delete:
-                removeVideo(media);
-                return true;
-            case R.id.video_group_play:
-                MediaUtils.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
-                return true;
-            case R.id.video_list_append:
-                if (media instanceof MediaGroup) MediaUtils.appendMedia(getActivity(), ((MediaGroup)media).getAll());
-                else MediaUtils.appendMedia(getActivity(), media);
-                return true;
-            case R.id.video_download_subtitles:
-                MediaUtils.getSubs(getActivity(), media);
-                return true;
-        }
-        return false;
-    }
-
     private void removeVideo(final MediaWrapper media) {
         if (!checkWritePermission(media, new Runnable() {
             @Override
@@ -246,22 +213,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 }
             }, revert);
         }
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (menuInfo == null) return;
-        // Do not show the menu of media group.
-        final ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo)menuInfo;
-        final MediaWrapper media = mAdapter.getItem(info.position);
-        if (media == null) return;
-        final MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(media instanceof MediaGroup ? R.menu.video_group_contextual : R.menu.video_list, menu);
-        if (!(media instanceof MediaGroup)) setContextMenuItems(menu, media);
-    }
-
-    private void setContextMenuItems(Menu menu, MediaWrapper mediaWrapper) {
-        menu.findItem(R.id.video_list_play_from_start).setVisible(mediaWrapper.getTime() > 0);
     }
 
     @Override
@@ -430,7 +381,11 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     @Override
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
-        if (mActionMode == null) mBinding.videoGrid.openContextMenu(position);
+//        if (mActionMode == null) mBinding.videoGrid.openContextMenu(position);
+        final MediaWrapper mw = (MediaWrapper) item;
+        int flags = mw.getType() == MediaWrapper.TYPE_GROUP ? Constants.CTX_VIDEO_GOUP_FLAGS : Constants.CTX_VIDEO_FLAGS;
+        if (mw.getTime() != 0l) flags |= Constants.CTX_PLAY_FROM_START;
+        if (mActionMode == null) ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), flags);
     }
 
     @Override
@@ -444,5 +399,40 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     public void updateSeenMediaMarker() {
         mAdapter.setSeenMediaMarkerVisible(PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("media_seen", true));
         mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount()-1, Constants.UPDATE_SEEN);
+    }
+
+    @Override
+    public void onCtxAction(int position, int option) {
+        if (position >= mAdapter.getItemCount()) return;
+        final MediaWrapper media = mAdapter.getItem(position);
+        if (media == null) return;
+        switch (option){
+            case Constants.CTX_PLAY_FROM_START:
+                playVideo(media, true);
+                break;
+            case Constants.CTX_PLAY_AS_AUDIO:
+                playAudio(media);
+                break;
+            case Constants.CTX_PLAY_ALL:
+                final List<MediaWrapper> playList = new ArrayList<>();
+                MediaUtils.openList(getActivity(), playList, mAdapter.getListWithPosition(playList, position));
+                break;
+            case Constants.CTX_INFORMATION:
+                showInfoDialog(media);
+                break;
+            case Constants.CTX_DELETE:
+                removeVideo(media);
+                break;
+            case Constants.CTX_PLAY_GROUP:
+                MediaUtils.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
+                break;
+            case Constants.CTX_APPEND:
+                if (media instanceof MediaGroup) MediaUtils.appendMedia(getActivity(), ((MediaGroup)media).getAll());
+                else MediaUtils.appendMedia(getActivity(), media);
+                break;
+            case Constants.CTX_DOWNLOAD_SUBTITLES:
+                MediaUtils.getSubs(getActivity(), media);
+                break;
+        }
     }
 }

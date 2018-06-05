@@ -44,6 +44,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
@@ -53,6 +54,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.dialogs.ContextSheetKt;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -218,7 +220,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onStart() {
         super.onStart();
-        for (View rv : mLists) registerForContextMenu(rv);
         mViewPager.addOnPageChangeListener(this);
         mFabPlay.setImageResource(R.drawable.ic_fab_shuffle);
         setFabPlayShuffleAllVisibility();
@@ -233,7 +234,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onStop() {
         super.onStop();
-        for (View rv : mLists) unregisterForContextMenu(rv);
         mViewPager.removeOnPageChangeListener(this);
     }
 
@@ -243,133 +243,12 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(true);
     }
 
-    protected void setContextMenuItems(Menu menu, int position) {
-        final int pos = mViewPager.getCurrentItem();
-        if (pos != MODE_SONG) {
-            menu.setGroupVisible(R.id.songs_view_only, false);
-            menu.setGroupVisible(R.id.phone_only, false);
-        }
-        if (pos == MODE_ARTIST || pos == MODE_GENRE || pos == MODE_ALBUM)
-            menu.findItem(R.id.audio_list_browser_play).setVisible(true);
-        if (pos != MODE_SONG && pos != MODE_PLAYLIST)
-            menu.findItem(R.id.audio_list_browser_delete).setVisible(false);
-        else {
-            final MenuItem item = menu.findItem(R.id.audio_list_browser_delete);
-            final AudioBrowserAdapter adapter = pos == MODE_SONG ? mSongsAdapter : mPlaylistAdapter;
-            final MediaLibraryItem mediaItem = adapter.getItem(position);
-            if (pos == MODE_PLAYLIST ) item.setVisible(true);
-            else {
-                String location = ((MediaWrapper)mediaItem).getLocation();
-                item.setVisible(FileUtils.canWrite(location));
-            }
-        }
-        if (!AndroidDevices.isPhone) menu.setGroupVisible(R.id.phone_only, false);
-    }
-
-    protected boolean handleContextItemSelected(final MenuItem item, final int position) {
-        final int mode = mViewPager.getCurrentItem();
-        final AudioBrowserAdapter adapter = mAdapters[mode];
-        if (position < 0 && position >= adapter.getItemCount()) return false;
-
-        final int id = item.getItemId();
-        final MediaLibraryItem mediaItem = adapter.getItem(position);
-
-        if (id == R.id.audio_list_browser_delete) {
-            if (mediaItem.getItemType() != MediaLibraryItem.TYPE_MEDIA) return false;
-            final MediaLibraryItem previous = position > 0 ? adapter.getItem(position-1) : null;
-            final MediaLibraryItem next = position < adapter.getItemCount()-1 ? adapter.getItem(position+1) : null;
-            final AudioModel model = getViewModel();
-            final String message;
-            final Runnable action;
-            final Runnable cancel;
-            final MediaLibraryItem separator = previous != null && previous.getItemType() == MediaLibraryItem.TYPE_DUMMY &&
-                    (next == null || next.getItemType() == MediaLibraryItem.TYPE_DUMMY) ? previous : null;
-            if (separator != null) model.remove(separator);
-            model.remove(mediaItem);
-
-            if (mode == MODE_PLAYLIST) {
-                cancel = null;
-                message = getString(R.string.playlist_deleted);
-                action = new Runnable() {
-                    @Override
-                    public void run() {
-                        deletePlaylist((Playlist) mediaItem);
-                    }
-                };
-            } else if (mode == MODE_SONG) {
-                message = getString(R.string.file_deleted);
-                cancel = new Runnable() {
-                    @Override
-                    public void run() {
-                        model.refresh();
-                    }
-                };
-                action = new Runnable() {
-                    @Override
-                    public void run() {
-                        deleteMedia(mediaItem, true, cancel);
-                    }
-                };
-                if (!checkWritePermission((MediaWrapper) mediaItem, new Runnable() {
-                    @Override
-                    public void run() {
-                        final View v = getView();
-                        if (v != null) UiTools.snackerWithCancel(getView(), message, action, cancel);
-                    }
-                })) return false;
-            } else return false;
-            final View v = getView();
-            if (v != null) UiTools.snackerWithCancel(getView(), message, action, cancel);
-            return true;
-        }
-
-        if (id == R.id.audio_list_browser_set_song) {
-            if (mSongsAdapter.getItemCount() <= position) return false;
-            AudioUtil.setRingtone((MediaWrapper) mSongsAdapter.getItem(position), getActivity());
-            return true;
-        }
-
-        if (id == R.id.audio_view_info) {
-            showInfoDialog(mSongsAdapter.getItem(position));
-            return true;
-        }
-
-        if (id == R.id.audio_view_add_playlist) {
-            UiTools.addToPlaylist(getActivity(), mediaItem.getTracks(), SavePlaylistDialog.KEY_NEW_TRACKS);
-            return true;
-        }
-
-        int startPosition;
-        MediaWrapper[] medias;
-
-        boolean useAllItems = id == R.id.audio_list_browser_play_all;
-        boolean append = id == R.id.audio_list_browser_append;
-        boolean insert_next = id == R.id.audio_list_browser_insert_next;
-
-        // Play/Append
-        if (useAllItems) {
-            if (mSongsAdapter.getItemCount() <= position) return false;
-            final List<MediaLibraryItem> mediaList = new ArrayList<>();
-            startPosition = mSongsAdapter.getListWithPosition(mediaList, position);
-            medias = Arrays.copyOf(mediaList.toArray(), mediaList.size(), MediaWrapper[].class);
-        } else {
-            startPosition = 0;
-            if (position >= adapter.getItemCount()) return false;
-            medias = mediaItem.getTracks();
-        }
-
-        if (append) MediaUtils.appendMedia(getActivity(), medias);
-        else if (insert_next) MediaUtils.insertNext(getActivity(), medias);
-        else MediaUtils.openArray(getActivity(), medias, startPosition);
-        return true;
-    }
-
     @Override
     public void onFabPlayClick(View view) {
         final List<MediaWrapper> list = ((List<MediaWrapper>)(List<?>) mSongsAdapter.getMediaItems());
         final int count = list.size();
         if (count > 0) {
-            Random rand = new Random();
+            final Random rand = new Random();
             int randomSong = rand.nextInt(count);
             MediaUtils.openList(getActivity(), list, randomSong, true);
         }
@@ -443,15 +322,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         mLists[tab.getPosition()].smoothScrollToPosition(0);
     }
 
-    private void deletePlaylist(final Playlist playlist) {
-        WorkersKt.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                playlist.delete();
-            }
-        });
-    }
-
     @Override
     public void onPageScrollStateChanged(int state) {
         tcl.onPageScrollStateChanged(state);
@@ -485,13 +355,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 return;
         }
         startActivity(i);
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    @Override
-    public void onCtxClick(View anchor, final int position, MediaLibraryItem item) {
-        if (mActionMode == null)
-            getCurrentRV().openContextMenu(position);
     }
 
     @Override

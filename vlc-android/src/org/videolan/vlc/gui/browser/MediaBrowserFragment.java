@@ -139,25 +139,6 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     protected String getSubTitle() { return null; }
     public void clear() {}
 
-    protected void inflate(Menu menu, int position) {}
-    protected void setContextMenuItems(Menu menu, int position) {}
-    protected boolean handleContextItemSelected(MenuItem menu, int position) { return false;}
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (menuInfo == null) return;
-        final ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo)menuInfo;
-        inflate(menu, info.position);
-        setContextMenuItems(menu, info.position);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem menu) {
-        if (!getUserVisibleHint()) return false;
-        final ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo) menu.getMenuInfo();
-        return info != null && handleContextItemSelected(menu, info.position);
-    }
-
     protected void deleteMedia(final MediaLibraryItem mw, final boolean refresh, final Runnable failCB) {
         WorkersKt.runBackground(new Runnable() {
             @Override

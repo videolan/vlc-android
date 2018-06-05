@@ -148,7 +148,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        RecyclerView.RecycledViewPool rvp = new RecyclerView.RecycledViewPool();
+        final RecyclerView.RecycledViewPool rvp = new RecyclerView.RecycledViewPool();
         for (ContextMenuRecyclerView rv : mLists) {
             rv.setLayoutManager(new LinearLayoutManager(view.getContext()));
             final LinearLayoutManager llm = new LinearLayoutManager(getActivity());
@@ -173,21 +173,9 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        for (View rv : mLists) registerForContextMenu(rv);
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mActivity = (SecondaryActivity) context;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        for (View rv : mLists) unregisterForContextMenu(rv);
     }
 
     @Override
@@ -201,89 +189,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putParcelable(AudioBrowserFragment.TAG_ITEM, mItem);
         super.onSaveInstanceState(outState);
-    }
-
-    protected void setContextMenuItems(Menu menu, int position) {
-        if (mViewPager.getCurrentItem() != MODE_SONG) {
-            menu.setGroupVisible(R.id.songs_view_only, false);
-            menu.setGroupVisible(R.id.phone_only, false);
-        }
-        if (!AndroidDevices.isPhone)
-            menu.setGroupVisible(R.id.phone_only, false);
-        menu.findItem(R.id.audio_list_browser_play).setVisible(true);
-        //Hide delete if we cannot
-        final AudioBrowserAdapter adapter = mViewPager.getCurrentItem() == MODE_ALBUM ? mAlbumsAdapter : mSongsAdapter;
-        final MediaLibraryItem mediaItem = adapter.getItem(position);
-        String location = mediaItem instanceof MediaWrapper ? ((MediaWrapper)mediaItem).getLocation() : null;
-        menu.findItem(R.id.audio_list_browser_delete).setVisible(location != null &&
-                FileUtils.canWrite(location));
-    }
-
-    protected boolean handleContextItemSelected(MenuItem item, final int position) {
-        int startPosition;
-        MediaWrapper[] medias;
-        int id = item.getItemId();
-        final AudioBrowserAdapter adapter = mViewPager.getCurrentItem() == MODE_ALBUM ? mAlbumsAdapter : mSongsAdapter;
-        final MediaLibraryItem mediaItem = adapter.getItem(position);
-        final AudioModel provider = getViewModel();
-
-        boolean useAllItems = id == R.id.audio_list_browser_play_all;
-        boolean append = id == R.id.audio_list_browser_append;
-        boolean insert_next = id == R.id.audio_list_browser_insert_next;
-
-        if (id == R.id.audio_list_browser_delete) {
-
-            provider.remove(mediaItem);
-
-            final Runnable cancel = new Runnable() {
-                @Override
-                public void run() {
-                    provider.refresh();
-                }
-            };
-            UiTools.snackerWithCancel(mViewPager, getString(R.string.file_deleted), new Runnable() {
-                @Override
-                public void run() {
-                    deleteMedia(mediaItem, true, cancel);
-                }
-            }, cancel);
-            return true;
-        }
-
-        if (id == R.id.audio_list_browser_set_song) {
-            AudioUtil.setRingtone((MediaWrapper) mediaItem, getActivity());
-            return true;
-        }
-
-        if (id == R.id.audio_view_info) {
-            showInfoDialog(mediaItem);
-            return true;
-        }
-
-        if (id == R.id .audio_view_add_playlist) {
-            final FragmentManager fm = getActivity().getSupportFragmentManager();
-            SavePlaylistDialog savePlaylistDialog = new SavePlaylistDialog();
-            final Bundle args = new Bundle();
-            args.putParcelableArray(SavePlaylistDialog.KEY_NEW_TRACKS, mediaItem.getTracks());
-            savePlaylistDialog.setArguments(args);
-            savePlaylistDialog.show(fm, "fragment_add_to_playlist");
-            return true;
-        }
-
-        if (useAllItems) {
-            final List<MediaLibraryItem> items = new ArrayList<>();
-            startPosition = mSongsAdapter.getListWithPosition(items, position);
-            medias = items.toArray(new MediaWrapper[items.size()]);
-        } else {
-            startPosition = 0;
-            if (mediaItem instanceof Album) medias = mediaItem.getTracks();
-            else medias = new MediaWrapper[] {(MediaWrapper) mediaItem};
-        }
-
-        if (append) MediaUtils.appendMedia(getActivity(), medias);
-        else if (insert_next) MediaUtils.insertNext(getActivity(), medias);
-        else MediaUtils.openArray(getActivity(), medias, startPosition);
-        return true;
     }
 
     @Override
@@ -325,16 +230,10 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     }
 
     @Override
-    public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {
-        if (mActionMode == null)
-            mLists[mViewPager.getCurrentItem()].openContextMenu(position);
-    }
-
-    @Override
     public void onTabSelected(TabLayout.Tab tab) {
         final FragmentActivity activity = getActivity();
         if (activity == null) return;
-        activity.supportInvalidateOptionsMenu();
+        activity.invalidateOptionsMenu();
         mFastScroller.setRecyclerView(mLists[tab.getPosition()]);
     }
 
@@ -355,10 +254,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
     private ContextMenuRecyclerView getCurrentRV() {
         return mLists[mViewPager.getCurrentItem()];
-    }
-
-    protected boolean songModeSelected() {
-        return mViewPager.getCurrentItem() == MODE_SONG;
     }
 
     @Override

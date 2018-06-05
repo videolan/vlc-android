@@ -274,7 +274,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
         public void onMoreClick(View v){
             final int position = getLayoutPosition();
             if (isPositionValid(position))
-                mEventsHandler.onCtxClick(v, position, null);
+                mEventsHandler.onCtxClick(v, position, getItem(position));
         }
 
         public boolean onLongClick(View v) {
