@@ -39,6 +39,7 @@ Have a look at our  [sample codes](https://code.videolan.org/videolan/libvlc-and
 ## support
 
 - Android mailing list: android@videolan.org
+- bugtracker: https://code.videolan.org/videolan/vlc-android/issues
 - IRC: *#videolan* channel on [freenode](http://freenode.net/)
 - forum: https://forum.videolan.org/
 - G+ community: https://plus.google.com/u/0/communities/113615952107012455563
