@@ -519,6 +519,10 @@ class PlaybackService : MediaBrowserServiceCompat() {
         return Service.START_NOT_STICKY
     }
 
+    override fun onTaskRemoved(rootIntent: Intent) {
+        if (settings.getBoolean("audio_task_removed", false)) stopSelf()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
