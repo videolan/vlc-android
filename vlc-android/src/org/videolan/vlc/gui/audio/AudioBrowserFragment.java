@@ -255,7 +255,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         final MediaLibraryItem mediaItem = adapter.getItem(position);
 
         if (id == R.id.audio_list_browser_delete) {
-            if (mediaItem.getItemType() != MediaLibraryItem.TYPE_MEDIA) return false;
             final MediaLibraryItem previous = position > 0 ? adapter.getItem(position-1) : null;
             final MediaLibraryItem next = position < adapter.getItemCount()-1 ? adapter.getItem(position+1) : null;
             final String message;
@@ -267,7 +266,14 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             else adapter.remove(mediaItem);
 
             if (mode == MODE_PLAYLIST) {
-                cancel = null;
+                if (mediaItem.getItemType() != MediaLibraryItem.TYPE_PLAYLIST) return false;
+                cancel = new Runnable() {
+                    @Override
+                    public void run() {
+                        if (separator != null) adapter.addItems(separator, mediaItem);
+                        else adapter.addItems(mediaItem);
+                    }
+                };
                 message = getString(R.string.playlist_deleted);
                 action = new Runnable() {
                     @Override
@@ -276,6 +282,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                     }
                 };
             } else if (mode == MODE_SONG) {
+                if (mediaItem.getItemType() != MediaLibraryItem.TYPE_MEDIA) return false;
                 message = getString(R.string.file_deleted);
                 cancel = new Runnable() {
                     @Override
