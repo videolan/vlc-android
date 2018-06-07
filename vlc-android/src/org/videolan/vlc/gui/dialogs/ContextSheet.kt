@@ -76,7 +76,7 @@ class ContextSheet : BottomSheetDialogFragment() {
         list.adapter = ContextAdapter()
         val flags = arguments?.getInt(CTX_FLAGS_KEY) ?: 0
         options = populateOptions(flags)
-        if (!AndroidDevices.isPhone) launch(UI) { dialog.window.setLayout(resources.getDimensionPixelSize(R.dimen.default_content_width), ViewGroup.LayoutParams.MATCH_PARENT) }
+        if (!AndroidDevices.isPhone) launch(UI) { dialog.window.setLayout(resources.getDimensionPixelSize(R.dimen.default_context_width), ViewGroup.LayoutParams.MATCH_PARENT) }
     }
 
     private fun populateOptions(flags: Int) = mutableListOf<CtxOption>().apply {
