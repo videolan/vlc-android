@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,6 @@ import org.videolan.vlc.extensions.Utils;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.dialogs.ContextSheetKt;
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver;
-import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
@@ -48,7 +48,7 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     private String mTitle;
     private FloatingActionButton mAddDirectoryFAB;
     private ExtensionAdapter mAdapter;
-    protected ContextMenuRecyclerView mRecyclerView;
+    protected RecyclerView mRecyclerView;
     protected TextView mEmptyView;
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -67,30 +67,26 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        if (bundle == null)
-            bundle = getArguments();
+        if (bundle == null) bundle = getArguments();
         if (bundle != null) {
             mTitle = bundle.getString(KEY_TITLE);
             showSettings = bundle.getBoolean(KEY_SHOW_FAB);
-            List<VLCExtensionItem> list = bundle.getParcelableArrayList(KEY_ITEMS_LIST);
-            if (list != null)
-                mAdapter.addAll(list);
+            final List<VLCExtensionItem> list = bundle.getParcelableArrayList(KEY_ITEMS_LIST);
+            if (list != null) mAdapter.addAll(list);
         }
         setHasOptionsMenu(true);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.directory_browser, container, false);
+        final View v = inflater.inflate(R.layout.directory_browser, container, false);
         mRecyclerView = v.findViewById(R.id.network_list);
         mEmptyView = v.findViewById(android.R.id.empty);
         mEmptyView.setText(R.string.extension_empty);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(mAdapter);
         registerForContextMenu(mRecyclerView);
-
         mSwipeRefreshLayout = v.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-
         return v;
     }
 
@@ -161,7 +157,7 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         if (v.getId() == mAddDirectoryFAB.getId()){
             final ExtensionListing extension = mExtensionManagerService.getCurrentExtension();
             if (extension == null) return;
-            Intent intent = new Intent(Intent.ACTION_VIEW);
+            final Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setComponent(extension.settingsActivity());
             startActivity(intent);
         }
@@ -181,18 +177,16 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     public void onCtxAction(int position, int option) {
         switch (option) {
             case Constants.CTX_PLAY_ALL:
-                List<VLCExtensionItem> items = mAdapter.getAll();
-                List<MediaWrapper> medias = new ArrayList<>(items.size());
-                for (VLCExtensionItem vlcItem : items) {
-                    medias.add(Utils.mediawrapperFromExtension(vlcItem));
-                }
+                final List<VLCExtensionItem> items = mAdapter.getAll();
+                final List<MediaWrapper> medias = new ArrayList<>(items.size());
+                for (VLCExtensionItem vlcItem : items) medias.add(Utils.mediawrapperFromExtension(vlcItem));
                 MediaUtils.openList(getActivity(), medias, position);
                 break;
             case Constants.CTX_APPEND:
                 MediaUtils.appendMedia(getActivity(), Utils.mediawrapperFromExtension(mAdapter.getItem(position)));
                 break;
             case Constants.CTX_PLAY_AS_AUDIO:
-                MediaWrapper mw = Utils.mediawrapperFromExtension(mAdapter.getItem(position));
+                final MediaWrapper mw = Utils.mediawrapperFromExtension(mAdapter.getItem(position));
                 mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                 MediaUtils.openMedia(getActivity(), mw);
                 break;

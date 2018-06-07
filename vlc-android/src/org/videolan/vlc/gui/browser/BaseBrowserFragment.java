@@ -22,18 +22,15 @@
  */
 package org.videolan.vlc.gui.browser;
 
-import android.annotation.TargetApi;
 import android.arch.lifecycle.Observer;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.view.ActionMode;
@@ -42,7 +39,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +64,6 @@ import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.viewmodels.browser.BrowserModel;
-import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -439,7 +434,7 @@ public abstract class BaseBrowserFragment extends MediaBrowserFragment<BrowserMo
             mAdapter.updateSelectionCount(mediaWrapper.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
             mAdapter.notifyItemChanged(position, item);
             startActionMode();
-        } else mBinding.networkList.openContextMenu(position);
+        } else onCtxClick(v, position, item);
         return true;
     }
 

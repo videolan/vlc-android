@@ -53,7 +53,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:visibility="@{showFavorites ? View.VISIBLE : View.GONE}" />
-            <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/network_list"
                 android:layout_width="@dimen/default_content_width"
                 android:layout_height="0dp"

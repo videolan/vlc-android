@@ -39,10 +39,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +58,6 @@ import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.dialogs.ContextSheetKt;
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
@@ -381,7 +378,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     @Override
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
-//        if (mActionMode == null) mBinding.videoGrid.openContextMenu(position);
         final MediaWrapper mw = (MediaWrapper) item;
         int flags = mw.getType() == MediaWrapper.TYPE_GROUP ? Constants.CTX_VIDEO_GOUP_FLAGS : Constants.CTX_VIDEO_FLAGS;
         if (mw.getTime() != 0l) flags |= Constants.CTX_PLAY_FROM_START;

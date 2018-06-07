@@ -20,13 +20,11 @@
 
 package org.videolan.vlc.gui.audio;
 
-import android.annotation.TargetApi;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,35 +36,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.medialibrary.media.Playlist;
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.gui.dialogs.ContextSheetKt;
-import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
-import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.audio.AlbumModel;
 import org.videolan.vlc.viewmodels.audio.ArtistModel;
 import org.videolan.vlc.viewmodels.audio.AudioModel;
@@ -74,8 +61,6 @@ import org.videolan.vlc.viewmodels.audio.GenresModel;
 import org.videolan.vlc.viewmodels.audio.PlaylistsModel;
 import org.videolan.vlc.viewmodels.audio.TracksModel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -97,7 +82,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private TextView mEmptyView;
-    private final ContextMenuRecyclerView[] mLists = new ContextMenuRecyclerView[MODE_TOTAL];
+    private final RecyclerView[] mLists = new RecyclerView[MODE_TOTAL];
     private AudioModel[] mProvidersList;
     private FastScroller mFastScroller;
     private SharedPreferences mSettings;
@@ -138,7 +123,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        for (int i = 0; i < MODE_TOTAL; i++) mLists[i] = (ContextMenuRecyclerView) mViewPager.getChildAt(i);
+        for (int i = 0; i < MODE_TOTAL; i++) mLists[i] = (RecyclerView) mViewPager.getChildAt(i);
 
         final String[] titles = new String[] {
                 getString(R.string.artists),
@@ -377,7 +362,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         return (AudioBrowserAdapter) (getCurrentRV()).getAdapter();
     }
 
-    private ContextMenuRecyclerView getCurrentRV() {
+    private RecyclerView getCurrentRV() {
         return mLists[mViewPager.getCurrentItem()];
     }
 

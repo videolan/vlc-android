@@ -26,11 +26,12 @@ package org.videolan.vlc.gui.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.WindowManager;
 
-public class AutoFitRecyclerView extends ContextMenuRecyclerView {
+public class AutoFitRecyclerView extends RecyclerView {
 
     private GridLayoutManager mGridLayoutManager;
     private int mColumnWidth = -1;

@@ -71,7 +71,7 @@
                     android:text="@string/albums"
                     android:textAppearance="@style/Result.Title"
                     android:visibility="@{searchAggregate.albums.length == 0 ? View.GONE : View.VISIBLE}"/>
-                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/albums_results"
                     style="@style/Result.List"
                     android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                     android:textAppearance="@style/Result.Title"
                     android:text="@string/artists"
                     android:visibility="@{searchAggregate.artists.length == 0 ? View.GONE : View.VISIBLE}"/>
-                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/artists_results"
                     style="@style/Result.List"
                     android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                     android:textAppearance="@style/Result.Title"
                     android:text="@string/genres"
                     android:visibility="@{searchAggregate.genres.length == 0 ? View.GONE : View.VISIBLE}"/>
-                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/genres_results"
                     style="@style/Result.List"
                     android:layout_width="match_parent"
@@ -113,7 +113,7 @@
                     android:textAppearance="@style/Result.Title"
                     android:text="@string/playlists"
                     android:visibility="@{searchAggregate.playlists.length == 0 ? View.GONE : View.VISIBLE}"/>
-                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/playlists_results"
                     style="@style/Result.List"
                     android:layout_width="match_parent"
@@ -127,7 +127,7 @@
                     android:textAppearance="@style/Result.Title"
                     android:text="@string/episodes"
                     android:visibility="@{searchAggregate.mediaSearchAggregate.episodes.length == 0 ? View.GONE : View.VISIBLE}"/>
-                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/episodes_results"
                     style="@style/Result.List"
                     android:layout_width="match_parent"
@@ -141,7 +141,7 @@
                     android:textAppearance="@style/Result.Title"
                     android:text="@string/movies"
                     android:visibility="@{searchAggregate.mediaSearchAggregate.movies.length == 0 ? View.GONE : View.VISIBLE}"/>
-                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/movies_results"
                     style="@style/Result.List"
                     android:layout_width="match_parent"
@@ -155,7 +155,7 @@
                     android:textAppearance="@style/Result.Title"
                     android:text="@string/videos"
                     android:visibility="@{searchAggregate.mediaSearchAggregate.others.length == 0 ? View.GONE : View.VISIBLE}"/>
-                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/others_results"
                     style="@style/Result.List"
                     android:layout_width="match_parent"
@@ -169,7 +169,7 @@
                     android:textAppearance="@style/Result.Title"
                     android:text="@string/songs"
                     android:visibility="@{searchAggregate.mediaSearchAggregate.tracks.length == 0 ? View.GONE : View.VISIBLE}"/>
-                <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/songs_results"
                     style="@style/Result.List"
                     android:layout_width="match_parent"

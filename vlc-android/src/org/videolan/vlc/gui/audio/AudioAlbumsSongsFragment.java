@@ -31,13 +31,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,15 +45,9 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
-import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.viewmodels.audio.AlbumModel;
 import org.videolan.vlc.viewmodels.audio.AudioModel;
@@ -76,7 +67,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ViewPager mViewPager;
     TabLayout mTabLayout;
-    private ContextMenuRecyclerView[] mLists;
+    private RecyclerView[] mLists;
     private AudioModel[] audioModels;
     private AudioBrowserAdapter mSongsAdapter;
     private AudioBrowserAdapter mAlbumsAdapter;
@@ -120,10 +111,10 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         final View v = inflater.inflate(R.layout.audio_albums_songs, container, false);
 
         mViewPager = v.findViewById(R.id.pager);
-        final ContextMenuRecyclerView albumsList = (ContextMenuRecyclerView) mViewPager.getChildAt(MODE_ALBUM);
-        final ContextMenuRecyclerView songsList = (ContextMenuRecyclerView) mViewPager.getChildAt(MODE_SONG);
+        final RecyclerView albumsList = (RecyclerView) mViewPager.getChildAt(MODE_ALBUM);
+        final RecyclerView songsList = (RecyclerView) mViewPager.getChildAt(MODE_SONG);
 
-        mLists = new ContextMenuRecyclerView[]{albumsList, songsList};
+        mLists = new RecyclerView[]{albumsList, songsList};
         final String[] titles = new String[] {getString(R.string.albums), getString(R.string.songs)};
         mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this);
         mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this);
@@ -149,7 +140,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final RecyclerView.RecycledViewPool rvp = new RecyclerView.RecycledViewPool();
-        for (ContextMenuRecyclerView rv : mLists) {
+        for (RecyclerView rv : mLists) {
             rv.setLayoutManager(new LinearLayoutManager(view.getContext()));
             final LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             llm.setRecycleChildrenOnDetach(true);
@@ -252,7 +243,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         return (AudioBrowserAdapter) getCurrentRV().getAdapter();
     }
 
-    private ContextMenuRecyclerView getCurrentRV() {
+    private RecyclerView getCurrentRV() {
         return mLists[mViewPager.getCurrentItem()];
     }
 

@@ -30,7 +30,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.SearchActivityBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.WorkersKt;
 
@@ -97,8 +96,8 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Te
         int count = mBinding.resultsContainer.getChildCount();
         final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         for (int i = 0; i < count; ++i) {
-            View v = mBinding.resultsContainer.getChildAt(i);
-            if (v instanceof ContextMenuRecyclerView) {
+            final View v = mBinding.resultsContainer.getChildAt(i);
+            if (v instanceof RecyclerView) {
                 ((RecyclerView)v).setAdapter(new SearchResultAdapter(inflater));
                 ((RecyclerView)v).setLayoutManager(new LinearLayoutManager(this));
                 ((SearchResultAdapter)((RecyclerView)v).getAdapter()).setClickHandler(mClickHandler);
