@@ -29,6 +29,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ContextItemBinding
 import org.videolan.vlc.util.AndroidDevices
@@ -40,7 +42,6 @@ const val CTX_FLAGS_KEY = "CTX_FLAGS_KEY"
 
 class ContextSheet : BottomSheetDialogFragment() {
 
-    private lateinit var list : RecyclerView
     private lateinit var options : List<CtxOption>
     lateinit var receiver : CtxActionReceiver
     private var itemPosition = -1
@@ -56,33 +57,32 @@ class ContextSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<TextView>(R.id.ctx_title).text = arguments?.getString(CTX_TITLE_KEY) ?: ""
-        list = view.findViewById(R.id.ctx_list)
+        val list = view.findViewById<RecyclerView>(R.id.ctx_list)
         list.layoutManager = LinearLayoutManager(requireContext())
         list.adapter = ContextAdapter()
         val flags = arguments?.getInt(CTX_FLAGS_KEY) ?: 0
         options = populateOptions(flags)
+        if (!AndroidDevices.isPhone) launch(UI) { dialog.window.setLayout(resources.getDimensionPixelSize(R.dimen.default_content_width), ViewGroup.LayoutParams.MATCH_PARENT) }
     }
 
-    private fun populateOptions(flags: Int): List<CtxOption> {
-        val opts = mutableListOf<CtxOption>()
-        if (flags and Constants.CTX_PLAY != 0) opts.add(Simple(Constants.CTX_PLAY, getString(R.string.play), R.drawable.ic_play))
-        if (flags and Constants.CTX_PLAY_FROM_START != 0) opts.add(Simple(Constants.CTX_PLAY_FROM_START, getString(R.string.play_from_start), R.drawable.ic_play))
-        if (flags and Constants.CTX_PLAY_ALL != 0) opts.add(Simple(Constants.CTX_PLAY_ALL, getString(R.string.play_all), R.drawable.ic_play))
-        if (flags and Constants.CTX_PLAY_AS_AUDIO != 0) opts.add(Simple(Constants.CTX_PLAY_AS_AUDIO, getString(R.string.play_as_audio), R.drawable.ic_am_playasaudio_normal))
-        if (flags and Constants.CTX_PLAY_GROUP != 0) opts.add(Simple(Constants.CTX_PLAY_GROUP, getString(R.string.play), R.drawable.ic_play))
-        if (flags and Constants.CTX_APPEND != 0) opts.add(Simple(Constants.CTX_APPEND, getString(R.string.append), R.drawable.ic_am_append_normal))
-        if (flags and Constants.CTX_INFORMATION != 0) opts.add(Simple(Constants.CTX_INFORMATION, getString(R.string.info), R.drawable.ic_am_information_normal))
-        if (flags and Constants.CTX_DELETE != 0) opts.add(Simple(Constants.CTX_DELETE, getString(R.string.delete), R.drawable.ic_trash))
-        if (flags and Constants.CTX_DOWNLOAD_SUBTITLES != 0) opts.add(Simple(Constants.CTX_DOWNLOAD_SUBTITLES, getString(R.string.download_subtitles), R.drawable.ic_am_downsub_normal))
-        if (flags and Constants.CTX_PLAY_NEXT != 0) opts.add(Simple(Constants.CTX_PLAY_NEXT, getString(R.string.insert_next), R.drawable.ic_am_append_normal))
-        if (flags and Constants.CTX_ADD_TO_PLAYLIST != 0) opts.add(Simple(Constants.CTX_ADD_TO_PLAYLIST, getString(R.string.add_to_playlist), R.drawable.ic_am_addtoplaylist_normal))
-        if (flags and Constants.CTX_SET_RINGTONE != 0 && AndroidDevices.isPhone) opts.add(Simple(Constants.CTX_SET_RINGTONE, getString(R.string.set_song), R.drawable.ic_am_ringtone_normal))
-        return opts
+    private fun populateOptions(flags: Int) = mutableListOf<CtxOption>().apply {
+        if (flags and Constants.CTX_PLAY != 0) add(Simple(Constants.CTX_PLAY, getString(R.string.play), R.drawable.ic_play))
+        if (flags and Constants.CTX_PLAY_FROM_START != 0) add(Simple(Constants.CTX_PLAY_FROM_START, getString(R.string.play_from_start), R.drawable.ic_play))
+        if (flags and Constants.CTX_PLAY_ALL != 0) add(Simple(Constants.CTX_PLAY_ALL, getString(R.string.play_all), R.drawable.ic_play))
+        if (flags and Constants.CTX_PLAY_AS_AUDIO != 0) add(Simple(Constants.CTX_PLAY_AS_AUDIO, getString(R.string.play_as_audio), R.drawable.ic_am_playasaudio_normal))
+        if (flags and Constants.CTX_PLAY_GROUP != 0) add(Simple(Constants.CTX_PLAY_GROUP, getString(R.string.play), R.drawable.ic_play))
+        if (flags and Constants.CTX_APPEND != 0) add(Simple(Constants.CTX_APPEND, getString(R.string.append), R.drawable.ic_am_append_normal))
+        if (flags and Constants.CTX_INFORMATION != 0) add(Simple(Constants.CTX_INFORMATION, getString(R.string.info), R.drawable.ic_am_information_normal))
+        if (flags and Constants.CTX_DELETE != 0) add(Simple(Constants.CTX_DELETE, getString(R.string.delete), R.drawable.ic_trash))
+        if (flags and Constants.CTX_DOWNLOAD_SUBTITLES != 0) add(Simple(Constants.CTX_DOWNLOAD_SUBTITLES, getString(R.string.download_subtitles), R.drawable.ic_am_downsub_normal))
+        if (flags and Constants.CTX_PLAY_NEXT != 0) add(Simple(Constants.CTX_PLAY_NEXT, getString(R.string.insert_next), R.drawable.ic_am_append_normal))
+        if (flags and Constants.CTX_ADD_TO_PLAYLIST != 0) add(Simple(Constants.CTX_ADD_TO_PLAYLIST, getString(R.string.add_to_playlist), R.drawable.ic_am_addtoplaylist_normal))
+        if (flags and Constants.CTX_SET_RINGTONE != 0 && AndroidDevices.isPhone) add(Simple(Constants.CTX_SET_RINGTONE, getString(R.string.set_song), R.drawable.ic_am_ringtone_normal))
     }
 
     inner class ContextAdapter : RecyclerView.Adapter<ContextAdapter.ViewHolder>() {
 
-        val inflater: LayoutInflater by lazy(LazyThreadSafetyMode.NONE) { LayoutInflater.from(requireContext()) }
+        private val inflater: LayoutInflater by lazy(LazyThreadSafetyMode.NONE) { LayoutInflater.from(requireContext()) }
 
         inner class ViewHolder(val binding : ContextItemBinding) : RecyclerView.ViewHolder(binding.root) {
             init {
