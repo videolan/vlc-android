@@ -147,11 +147,7 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
         binding.equalizerButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (mService != null)
-                    if (isChecked)
-                        mService.setEqualizer(mEqualizer);
-                    else
-                        mService.setEqualizer(null);
+                if (mService != null)  mService.setEqualizer(isChecked ? mEqualizer : null);
             }
         });
         binding.equalizerSave.setOnClickListener(new View.OnClickListener() {

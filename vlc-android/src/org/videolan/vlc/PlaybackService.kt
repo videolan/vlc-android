@@ -1189,7 +1189,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     @MainThread
-    fun setEqualizer(equalizer: MediaPlayer.Equalizer) = playlistManager.player.setEqualizer(equalizer)
+    fun setEqualizer(equalizer: MediaPlayer.Equalizer?) = playlistManager.player.setEqualizer(equalizer)
 
     @MainThread
     fun setVideoScale(scale: Float) = playlistManager.player.setVideoScale(scale)
