@@ -49,6 +49,20 @@ class ContextSheet : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         itemPosition = arguments?.getInt(CTX_POSITION_KEY) ?: -1
+        if (!this::receiver.isInitialized) restoreReceiver(savedInstanceState)
+    }
+
+    private fun restoreReceiver(savedInstanceState: Bundle?) {
+        if (savedInstanceState != null) {
+            val fragments = requireActivity().supportFragmentManager.fragments
+            for ((index, fragment) in fragments.withIndex()) {
+                if (fragment is CtxActionReceiver) {
+                    receiver = fragment
+                    return
+                } else if (index > 1) break
+            }
+        }
+        dismiss()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
