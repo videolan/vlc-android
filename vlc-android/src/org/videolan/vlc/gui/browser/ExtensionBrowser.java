@@ -1,6 +1,5 @@
 package org.videolan.vlc.gui.browser;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,9 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -23,15 +20,18 @@ import org.videolan.vlc.extensions.ExtensionListing;
 import org.videolan.vlc.extensions.ExtensionManagerService;
 import org.videolan.vlc.extensions.Utils;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
+import org.videolan.vlc.gui.dialogs.ContextSheetKt;
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver;
 import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExtensionBrowser extends Fragment implements View.OnClickListener, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener {
+public class ExtensionBrowser extends Fragment implements View.OnClickListener, android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener, CtxActionReceiver {
 
     public static final String TAG = "VLC/ExtensionBrowser";
 
@@ -159,9 +159,8 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         if (v.getId() == mAddDirectoryFAB.getId()){
-            ExtensionListing extension = mExtensionManagerService.getCurrentExtension();
-            if (extension == null)
-                return;
+            final ExtensionListing extension = mExtensionManagerService.getCurrentExtension();
+            if (extension == null) return;
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setComponent(extension.settingsActivity());
             startActivity(intent);
@@ -174,53 +173,32 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
         mHandler.sendEmptyMessageDelayed(ACTION_HIDE_REFRESH, REFRESH_TIMEOUT);
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (menuInfo == null)
-            return;
-        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView
-                .RecyclerContextMenuInfo) menuInfo;
-        VLCExtensionItem item = mAdapter.getItem(info.position);
-        if (item.type == VLCExtensionItem.TYPE_DIRECTORY)
-            return;
-        boolean isVideo = item.type == VLCExtensionItem.TYPE_VIDEO;
-        getActivity().getMenuInflater().inflate(R.menu.extension_context_menu, menu);
-        menu.findItem(R.id.extension_item_view_play_audio).setVisible(isVideo);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView
-                .RecyclerContextMenuInfo) item.getMenuInfo();
-        return info != null && handleContextItemSelected(item, info.position);
-    }
-
     public void openContextMenu(final int position) {
-        mRecyclerView.openContextMenu(position);
+        ContextSheetKt.showContext(requireActivity(), this, position, mAdapter.getItem(position).title, Constants.CTX_PLAY_ALL|Constants.CTX_APPEND|Constants.CTX_PLAY_AS_AUDIO|Constants.CTX_ITEM_DL);
     }
 
-    protected boolean handleContextItemSelected(MenuItem item, final int position) {
-        switch (item.getItemId()) {
-            case R.id.extension_item_view_play_all:
+    @Override
+    public void onCtxAction(int position, int option) {
+        switch (option) {
+            case Constants.CTX_PLAY_ALL:
                 List<VLCExtensionItem> items = mAdapter.getAll();
                 List<MediaWrapper> medias = new ArrayList<>(items.size());
                 for (VLCExtensionItem vlcItem : items) {
                     medias.add(Utils.mediawrapperFromExtension(vlcItem));
                 }
                 MediaUtils.openList(getActivity(), medias, position);
-                return true;
-            case R.id.extension_item_view_append:
+                break;
+            case Constants.CTX_APPEND:
                 MediaUtils.appendMedia(getActivity(), Utils.mediawrapperFromExtension(mAdapter.getItem(position)));
-                return true;
-            case R.id.extension_item_view_play_audio:
+                break;
+            case Constants.CTX_PLAY_AS_AUDIO:
                 MediaWrapper mw = Utils.mediawrapperFromExtension(mAdapter.getItem(position));
                 mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                 MediaUtils.openMedia(getActivity(), mw);
-                return true;
-            case R.id.extension_item_download:
+                break;
+            case Constants.CTX_ITEM_DL:
                 //TODO
-            default:return false;
-
+                break;
         }
     }
 
