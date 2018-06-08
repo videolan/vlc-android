@@ -82,7 +82,7 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
         final boolean fileBrowser = fragment instanceof FileBrowserFragment;
         final boolean filesRoot = root && fileBrowser;
         mNetworkRoot = root && fragment instanceof NetworkBrowserFragment;
-        final String mrl = fragment.mMrl;
+        final String mrl = fragment.getMrl();
         mSpecialIcons = filesRoot || fileBrowser && mrl != null && mrl.endsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
         mFavorites = favorites;
     }

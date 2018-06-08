@@ -66,19 +66,19 @@ public class FilePickerFragment extends FileBrowserFragment {
             }
         }
         super.onCreate(bundle);
-        mAdapter = new FilePickerAdapter(this);
-        mRoot = defineIsRoot();
+        setAdapter(new FilePickerAdapter(this));
+        setRootDirectory(defineIsRoot());
     }
 
     @Override
     protected void setupBrowser() {
-        viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(mMrl, BrowserModelKt.TYPE_PICKER, false)).get(BrowserModel.class);
+        viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(getMrl(), BrowserModelKt.TYPE_PICKER, false)).get(BrowserModel.class);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mBinding.empty.setText(R.string.no_subs_found);
+        getBinding().empty.setText(R.string.no_subs_found);
     }
 
     @Override
@@ -97,31 +97,31 @@ public class FilePickerFragment extends FileBrowserFragment {
     void pickFile(MediaWrapper mw){
         Intent i = new Intent(Intent.ACTION_PICK);
         i.putExtra(EXTRA_MRL, mw.getLocation());
-        getActivity().setResult(Activity.RESULT_OK, i);
-        getActivity().finish();
+        requireActivity().setResult(Activity.RESULT_OK, i);
+        requireActivity().finish();
     }
 
     public void browseUp() {
-        if (mRoot) getActivity().finish();
-        else if (TextUtils.equals(Strings.removeFileProtocole(mMrl), AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) {
-            mMrl = null;
-            mRoot = true;
+        if (isRootDirectory()) requireActivity().finish();
+        else if (TextUtils.equals(Strings.removeFileProtocole(getMrl()), AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) {
+            setMrl(null);
+            setRootDirectory(true);
             viewModel.fetch();
-        } else if (mMrl != null) {
-            final MediaWrapper mw = new MediaWrapper(Uri.parse(FileUtils.getParent(mMrl)));
+        } else if (getMrl() != null) {
+            final MediaWrapper mw = new MediaWrapper(Uri.parse(FileUtils.getParent(getMrl())));
             browse(mw, false);
         }
     }
 
     protected boolean defineIsRoot() {
-        if (mMrl == null) return true;
-        if (mMrl.startsWith("file")) {
-            final String path = Strings.removeFileProtocole(mMrl);
+        if (getMrl() == null) return true;
+        if (getMrl().startsWith("file")) {
+            final String path = Strings.removeFileProtocole(getMrl());
             for (String directory : rootDirectories) {
                 if (path.startsWith(directory))
                     return false;
             }
             return true;
-        } else return mMrl.length() < 7;
+        } else return getMrl().length() < 7;
     }
 }

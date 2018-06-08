@@ -27,29 +27,15 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.View;
 
-import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.medialibrary.media.DummyItem;
-import org.videolan.medialibrary.media.MediaLibraryItem;
-import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.AudioPlayerContainerActivity;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.AndroidDevices;
-import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.browser.BrowserModel;
 import org.videolan.vlc.viewmodels.browser.BrowserModelKt;
-
-import java.io.File;
-import java.util.ArrayList;
 
 public class FileBrowserFragment extends BaseBrowserFragment {
 
@@ -65,21 +51,21 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     }
 
     protected void setupBrowser() {
-        if (mRoot) viewModel = ViewModelProviders.of(requireActivity(), new BrowserModel.Factory(null, BrowserModelKt.TYPE_FILE, mShowHiddenFiles)).get(BrowserModel.class);
-        else viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(mMrl, BrowserModelKt.TYPE_FILE, mShowHiddenFiles)).get(BrowserModel.class);
+        if (isRootDirectory()) viewModel = ViewModelProviders.of(requireActivity(), new BrowserModel.Factory(null, BrowserModelKt.TYPE_FILE, getShowHiddenFiles())).get(BrowserModel.class);
+        else viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(getMrl(), BrowserModelKt.TYPE_FILE, getShowHiddenFiles())).get(BrowserModel.class);
     }
 
     public String getTitle() {
-        if (mRoot) return getCategoryTitle();
+        if (isRootDirectory()) return getCategoryTitle();
         else {
             String title;
-            if (mCurrentMedia != null) {
-                if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, Strings.removeFileProtocole(mMrl)))
+            if (getCurrentMedia() != null) {
+                if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, Strings.removeFileProtocole(getMrl())))
                     title = getString(R.string.internal_memory);
                 else
-                    title = this instanceof FilePickerFragment ? mCurrentMedia.getUri().toString() : mCurrentMedia.getTitle();
+                    title = this instanceof FilePickerFragment ? getCurrentMedia().getUri().toString() : getCurrentMedia().getTitle();
             } else
-                title = this instanceof FilePickerFragment ? mMrl : FileUtils.getFileNameFromPath(mMrl);
+                title = this instanceof FilePickerFragment ? getMrl() : FileUtils.getFileNameFromPath(getMrl());
             return title;
         }
     }
@@ -92,9 +78,5 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     @Override
     protected void browseRoot() {
         viewModel.browserRoot();
-    }
-
-    public boolean isSortEnabled() {
-        return !mRoot;
     }
 }

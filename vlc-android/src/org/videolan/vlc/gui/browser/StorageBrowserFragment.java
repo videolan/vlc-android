@@ -37,7 +37,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -72,10 +71,6 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     private Snackbar mSnack;
     private AlertDialog mAlertDialog;
 
-    public boolean isSortEnabled() {
-        return false;
-    }
-
     @Override
     protected Fragment createFragment() {
         return new StorageBrowserFragment();
@@ -84,7 +79,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        mAdapter = new StorageBrowserAdapter(this);
+        setAdapter(new StorageBrowserAdapter(this));
         if (bundle == null) bundle = getArguments();
         if (bundle != null) mScannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB);
     }
@@ -92,14 +87,14 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mRoot && VLCApplication.showTvUi()) {
+        if (isRootDirectory() && VLCApplication.showTvUi()) {
             mSnack = Snackbar.make(view, R.string.tv_settings_hint, Snackbar.LENGTH_INDEFINITE);
             if (AndroidUtil.isLolliPopOrLater) mSnack.getView().setElevation(view.getResources().getDimensionPixelSize(R.dimen.audio_player_elevation));
         }
     }
 
     protected void setupBrowser() {
-        viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(mMrl, BrowserModelKt.TYPE_STORAGE, mShowHiddenFiles)).get(BrowserModel.class);
+        viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(getMrl(), BrowserModelKt.TYPE_STORAGE, getShowHiddenFiles())).get(BrowserModel.class);
     }
 
     @Override
@@ -143,17 +138,17 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         final Fragment next = createFragment();
         final Bundle args = new Bundle();
-        args.putParcelable(KEY_MEDIA, media);
+        args.putParcelable(BaseBrowserFragmentKt.KEY_MEDIA, media);
         args.putBoolean(KEY_IN_MEDIALIB, mScannedDirectory || scanned);
         next.setArguments(args);
         ft.replace(R.id.fragment_placeholder, next, media.getLocation());
-        ft.addToBackStack(mMrl);
+        ft.addToBackStack(getMrl());
         ft.commit();
     }
 
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
-        if (mRoot) {
-            final Storage storage = (Storage) mAdapter.getItem(position);
+        if (isRootDirectory()) {
+            final Storage storage = (Storage) getAdapter().getItem(position);
             boolean isCustom = CustomDirectories.contains(storage.getUri().getPath());
             if (isCustom) ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), Constants.CTX_CUSTOM_REMOVE);
         }
@@ -161,7 +156,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
 
     @Override
     public void onCtxAction(int position, int option) {
-        final Storage storage = (Storage) mAdapter.getItem(position);
+        final Storage storage = (Storage) getAdapter().getItem(position);
         MediaDatabase.getInstance().recursiveRemoveDir(storage.getUri().getPath());
         CustomDirectories.removeCustomDirectory(storage.getUri().getPath());
         viewModel.remove(storage);
@@ -197,15 +192,14 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
             entryPoint = entryPoint.substring(0, entryPoint.length()-1);
         if (mProcessingFolders.containsKey(entryPoint)) {
             final CheckBox cb = mProcessingFolders.remove(entryPoint);
-            mHandler.post(new Runnable() {
+            getHandler().post(new Runnable() {
                 @Override
                 public void run() {
                     cb.setEnabled(true);
                     if (success) {
-                        ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
-                        mAdapter.notifyDataSetChanged();
-                    } else
-                        cb.setChecked(true);
+                        ((StorageBrowserAdapter) getAdapter()).updateMediaDirs();
+                        getAdapter().notifyDataSetChanged();
+                    } else cb.setChecked(true);
                 }
             });
         }
@@ -223,13 +217,13 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         if (path.endsWith("/")) path = path.substring(0, path.length()-1);
         if (mProcessingFolders.containsKey(path)) {
             final String finalPath = path;
-            mHandler.post(new Runnable() {
+            getHandler().post(new Runnable() {
                 @Override
                 public void run() {
                     mProcessingFolders.get(finalPath).setEnabled(true);
                 }
             });
-            ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
+            ((StorageBrowserAdapter) getAdapter()).updateMediaDirs();
         }
     }
 
