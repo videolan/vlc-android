@@ -28,7 +28,6 @@ import android.os.Process
 import android.support.v4.util.SimpleArrayMap
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.HandlerContext
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
@@ -70,11 +69,11 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
     open fun fetch() {
         val prefetchList by lazy(LazyThreadSafetyMode.NONE) { BrowserProvider.prefetchLists[url] }
         when {
-            url === null -> launch(UI) {
+            url === null -> uiJob(true) {
                 browseRoot()
                 parseSubDirectories()
             }
-            prefetchList?.isEmpty() == false -> launch(UI) {
+            prefetchList?.isEmpty() == false -> uiJob(true) {
                 dataset.value = prefetchList
                 BrowserProvider.prefetchLists.remove(url)
                 parseSubDirectories()
@@ -86,7 +85,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
     protected fun browse(url: String? = null) {
         browserChannel = Channel(Channel.UNLIMITED)
         requestBrowsing(url)
-        job = uiJob {
+        job = uiJob(false) {
             for (media in browserChannel) addMedia(findMedia(media))
             parseSubDirectories()
         }
@@ -99,7 +98,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
         browserChannel = Channel(Channel.UNLIMITED)
         val refreshList = mutableListOf<MediaLibraryItem>()
         requestBrowsing(url)
-        job = uiJob {
+        job = uiJob(false) {
             for (media in browserChannel) refreshList.add(findMedia(media))
             dataset.value = refreshList
             parseSubDirectories()
@@ -146,7 +145,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
                 val holderText = getDescription(directories.size, files.size)
                 if (holderText != "") {
                     val position = currentParsedPosition
-                    launch(UI) {
+                    uiJob(true) {
                         item.description = holderText
                         descriptionUpdate.value = Pair(position, holderText)
                     }

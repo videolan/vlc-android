@@ -88,11 +88,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             var mediaWrapper = medialibrary.getMedia(location)
             if (mediaWrapper === null) {
                 if (!location.validateLocation()) {
-                    Log.w(TAG, "Invalid location " + location)
+                    Log.w(TAG, "Invalid location $location")
                     service.showToast(service.resources.getString(R.string.invalid_location, location), Toast.LENGTH_SHORT)
                     continue
                 }
-                Log.v(TAG, "Creating on-the-fly Media object for " + location)
+                Log.v(TAG, "Creating on-the-fly Media object for $location")
                 mediaWrapper = MediaWrapper(Uri.parse(location))
             }
             mediaList.add(mediaWrapper)
@@ -100,6 +100,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         load(mediaList, position)
     }
 
+    @MainThread
     fun load(list: List<MediaWrapper>, position: Int) {
         mediaList.removeEventListener(this)
         mediaList.clear()
@@ -113,7 +114,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
         // Add handler after loading the list
         mediaList.addEventListener(this)
-        uiJob {
+        uiJob(false) {
             playIndex(position)
             onPlaylistLoaded()
         }
@@ -135,7 +136,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             loadingLastPlaylist = false
             return false
         }
-        uiJob {
+        uiJob(false) {
             val playList = withContext(CommonPool) {
                 locations.map { Uri.decode(it) }.mapTo(ArrayList(locations.size)) { MediaWrapper(Uri.parse(it)) }
             }
@@ -157,12 +158,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         return true
     }
 
-    private fun onPlaylistLoaded() {
+    private suspend fun onPlaylistLoaded() {
         service.onPlaylistLoaded()
-        uiJob {
-            determinePrevAndNextIndices()
-            launch(VLCIO) { mediaList.updateWithMLMeta() }
-        }
+        determinePrevAndNextIndices()
+        launch(VLCIO) { mediaList.updateWithMLMeta() }
     }
 
     fun play() {
@@ -186,7 +185,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             return
         }
         videoBackground = !player.isVideoPlaying() && player.canSwitchToVideo()
-        uiJob { playIndex(currentIndex) }
+        uiJob(false) { playIndex(currentIndex) }
     }
 
     fun stop(systemExit: Boolean = false) {
@@ -216,23 +215,25 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 player.stop()
                 return
             }
-            uiJob { playIndex(currentIndex) }
+            uiJob(false) { playIndex(currentIndex) }
         } else player.setPosition(0F)
     }
 
+    @MainThread
     fun shuffle() {
         if (shuffling) previous.clear()
         shuffling = !shuffling
         savePosition()
-        uiJob { determinePrevAndNextIndices() }
+        uiJob(false) { determinePrevAndNextIndices() }
     }
 
+    @MainThread
     fun setRepeatType(repeatType: Int) {
         repeating = repeatType
         if (isAudioList() && settings.getBoolean("audio_save_repeat", false))
             settings.edit().putInt(AUDIO_REPEAT_MODE_KEY, repeating).apply()
         savePosition()
-        uiJob { determinePrevAndNextIndices() }
+        uiJob(false) { determinePrevAndNextIndices() }
     }
 
     fun setRenderer(item: RendererItem?) {
@@ -349,21 +350,23 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun hasNext() = nextIndex != -1
 
+    @MainThread
     override fun onItemAdded(index: Int, mrl: String?) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemAdded")
         if (currentIndex >= index && !expanding) ++currentIndex
-        uiJob {
+        uiJob(false) {
             determinePrevAndNextIndices()
             executeUpdate()
             saveMediaList()
         }
     }
 
+    @MainThread
     override fun onItemRemoved(index: Int, mrl: String?) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemDeleted")
         val currentRemoved = currentIndex == index
         if (currentIndex >= index && !expanding) --currentIndex
-        uiJob {
+        uiJob(false) {
             determinePrevAndNextIndices()
             if (currentRemoved && !expanding) {
                 when {
@@ -450,7 +453,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         // If we are in random mode, we completely reset the stored previous track
         // as their indices changed.
         previous.clear()
-        uiJob {
+        uiJob(false) {
             determinePrevAndNextIndices()
             executeUpdate()
             saveMediaList()
@@ -585,6 +588,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     /**
      * Append to the current existing playlist
      */
+    @MainThread
     fun append(list: List<MediaWrapper>) {
         if (!hasCurrentMedia()) {
             load(list, 0)
@@ -597,40 +601,31 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      * Insert into the current existing playlist
      */
 
+    @MainThread
     fun insertNext(list: List<MediaWrapper>) {
         if (!hasCurrentMedia()) {
             load(list, 0)
             return
         }
-
         val startIndex = currentIndex + 1
-
         for ((index, mw) in list.withIndex()) mediaList.insert(startIndex + index, mw)
     }
 
     /**
      * Move an item inside the playlist.
      */
-    fun moveItem(positionStart: Int, positionEnd: Int) {
-        mediaList.move(positionStart, positionEnd)
-        uiJob { determinePrevAndNextIndices() }
-    }
+    @MainThread
+    fun moveItem(positionStart: Int, positionEnd: Int) = mediaList.move(positionStart, positionEnd)
 
-    fun insertItem(position: Int, mw: MediaWrapper) {
-        mediaList.insert(position, mw)
-        uiJob { determinePrevAndNextIndices() }
-    }
+    @MainThread
+    fun insertItem(position: Int, mw: MediaWrapper) = mediaList.insert(position, mw)
 
 
-    fun remove(position: Int) {
-        mediaList.remove(position)
-        uiJob { determinePrevAndNextIndices() }
-    }
+    @MainThread
+    fun remove(position: Int) = mediaList.remove(position)
 
-    fun removeLocation(location: String) {
-        mediaList.remove(location)
-        uiJob { determinePrevAndNextIndices() }
-    }
+    @MainThread
+    fun removeLocation(location: String) = mediaList.remove(location)
 
     fun getMediaListSize()= mediaList.size()
 

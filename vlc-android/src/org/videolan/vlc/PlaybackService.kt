@@ -44,7 +44,6 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
@@ -1003,7 +1002,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
      * @param flags LibVLC.MEDIA_* flags
      */
     @JvmOverloads
-    fun playIndex(index: Int, flags: Int = 0) = launch(UI, CoroutineStart.UNDISPATCHED) { playlistManager.playIndex(index, flags) }
+    fun playIndex(index: Int, flags: Int = 0) = uiJob(false) { playlistManager.playIndex(index, flags) }
 
     @MainThread
     fun flush() {

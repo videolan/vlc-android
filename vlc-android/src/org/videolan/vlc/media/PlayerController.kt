@@ -18,6 +18,7 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.VLCOptions
+import org.videolan.vlc.util.uiJob
 import kotlin.math.abs
 
 @Suppress("EXPERIMENTAL_FEATURE_WARNING")
@@ -179,14 +180,14 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
                 try {
                     withTimeout(5000, { player.release() })
                 } catch (exception: TimeoutCancellationException) {
-                    launch(UI) { Toast.makeText(VLCApplication.getAppContext(), "media stop has timeouted!", Toast.LENGTH_LONG).show() }
+                    uiJob { Toast.makeText(VLCApplication.getAppContext(), "media stop has timeouted!", Toast.LENGTH_LONG).show() }
                 }
             } else player.release()
         }
         setPlaybackStopped()
     }
 
-    fun setSlaves(media: Media, mw: MediaWrapper) = launch(UI, CoroutineStart.UNDISPATCHED) {
+    fun setSlaves(media: Media, mw: MediaWrapper) = uiJob(false) {
         val list = withContext(VLCIO) {
             mw.slaves?.let {
                 for (slave in it) media.addSlave(slave)
@@ -266,13 +267,13 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     suspend fun expand(): MediaList? {
         return mediaplayer.media?.let {
-            return async(playerContext) {
+            return withContext(playerContext) {
                 mediaplayer.setEventListener(null)
                 val items = it.subItems()
                 it.release()
                 mediaplayer.setEventListener(this@PlayerController)
                 items
-            }.await()
+            }
         }
     }
 
