@@ -145,8 +145,8 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
 
 sealed class Update
 object Refresh : Update()
-data class MediaUpdate(val mediaList: List<MediaLibraryItem>) : Update()
-data class MediaListAddition(val mediaList: List<MediaLibraryItem>) : Update()
-data class MediaAddition(val media: MediaLibraryItem) : Update()
-data class Remove(val media: MediaLibraryItem) : Update()
-data class Filter(val query: String?) : Update()
+class MediaUpdate(val mediaList: List<MediaLibraryItem>) : Update()
+class MediaListAddition(val mediaList: List<MediaLibraryItem>) : Update()
+class MediaAddition(val media: MediaLibraryItem) : Update()
+class Remove(val media: MediaLibraryItem) : Update()
+class Filter(val query: String?) : Update()
