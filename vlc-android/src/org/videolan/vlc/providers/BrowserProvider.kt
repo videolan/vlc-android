@@ -26,7 +26,6 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
 import android.support.v4.util.SimpleArrayMap
-import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.HandlerContext
 import kotlinx.coroutines.experimental.android.UI
@@ -45,6 +44,7 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.VLCInstance
+import org.videolan.vlc.util.uiJob
 import java.util.*
 
 const val TAG = "VLC/BrowserProvider"
@@ -86,7 +86,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
     protected fun browse(url: String? = null) {
         browserChannel = Channel(Channel.UNLIMITED)
         requestBrowsing(url)
-        job = launch(UI, CoroutineStart.UNDISPATCHED) {
+        job = uiJob {
             for (media in browserChannel) addMedia(findMedia(media))
             parseSubDirectories()
         }
@@ -99,7 +99,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
         browserChannel = Channel(Channel.UNLIMITED)
         val refreshList = mutableListOf<MediaLibraryItem>()
         requestBrowsing(url)
-        job = launch(UI, CoroutineStart.UNDISPATCHED) {
+        job = uiJob {
             for (media in browserChannel) refreshList.add(findMedia(media))
             dataset.value = refreshList
             parseSubDirectories()

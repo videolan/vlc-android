@@ -23,11 +23,9 @@ package org.videolan.vlc.viewmodels
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.ViewModel
 import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
-import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -62,7 +60,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
     val categories by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<Map<String, List<MediaLibraryItem>>>().apply {
             addSource(dataset, {
-                launch(UI, CoroutineStart.UNDISPATCHED) { value = withContext(CommonPool) { ModelsHelper.splitList(sort, it!!.toList()) } }
+                uiJob { value = withContext(CommonPool) { ModelsHelper.splitList(sort, it!!.toList()) } }
             })
         }
     }
@@ -70,7 +68,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
     val sections by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<List<MediaLibraryItem>>().apply {
             addSource(dataset, {
-                launch(UI, CoroutineStart.UNDISPATCHED) { value = withContext(CommonPool) { ModelsHelper.generateSections(sort, it!!.toList()) } }
+                uiJob { value = withContext(CommonPool) { ModelsHelper.generateSections(sort, it!!.toList()) } }
             })
         }
     }

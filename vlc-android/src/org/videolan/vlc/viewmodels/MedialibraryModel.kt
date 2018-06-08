@@ -20,14 +20,12 @@
 
 package org.videolan.vlc.viewmodels
 
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.MediaAddedCb
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.EmptyMLCallbacks
-import org.videolan.vlc.util.uiStart
+import org.videolan.vlc.util.uiJob
 
 
 abstract class MedialibraryModel<T : MediaLibraryItem> : BaseModel<T>(), Medialibrary.OnMedialibraryReadyListener, MediaUpdatedCb by EmptyMLCallbacks, MediaAddedCb by EmptyMLCallbacks {
@@ -40,11 +38,11 @@ abstract class MedialibraryModel<T : MediaLibraryItem> : BaseModel<T>(), Mediali
     }
 
     override fun onMedialibraryReady() {
-        launch(UI, uiStart()) { refresh() }
+        uiJob { refresh() }
     }
 
     override fun onMedialibraryIdle() {
-        launch(UI, uiStart()) { refresh() }
+        uiJob { refresh() }
     }
 
     override fun onCleared() {
