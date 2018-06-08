@@ -115,8 +115,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
         // Add handler after loading the list
         mediaList.addEventListener(this)
-        playIndex(position)
-        onPlaylistLoaded()
+        launch(UI, CoroutineStart.UNDISPATCHED) {
+            playIndex(position)
+            onPlaylistLoaded()
+        }
     }
 
     @Volatile
@@ -186,7 +188,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             return
         }
         videoBackground = !player.isVideoPlaying() && player.canSwitchToVideo()
-        playIndex(currentIndex)
+        launch(UI, CoroutineStart.UNDISPATCHED) { playIndex(currentIndex) }
     }
 
     fun stop(systemExit: Boolean = false) {
@@ -216,7 +218,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 player.stop()
                 return
             }
-            playIndex(currentIndex)
+            launch(UI, CoroutineStart.UNDISPATCHED) { playIndex(currentIndex) }
         } else player.setPosition(0F)
     }
 
@@ -240,7 +242,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         showAudioPlayer.value = player.playbackState != PlaybackStateCompat.STATE_STOPPED && (item !== null || !player.isVideoPlaying())
     }
 
-    fun playIndex(index: Int, flags: Int = 0) {
+    suspend fun playIndex(index: Int, flags: Int = 0) {
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
             return
@@ -260,55 +262,53 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         player.switchToVideo = false
         if (TextUtils.equals(mw.uri.scheme, "content")) MediaUtils.retrieveMediaTitle(mw)
 
-        launch(UI, CoroutineStart.UNDISPATCHED) {
-            if (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && player.getAudioTracksCount() == 0) {
-                determinePrevAndNextIndices(true)
+        if (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && player.getAudioTracksCount() == 0) {
+            determinePrevAndNextIndices(true)
+            skipMedia()
+        } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
+                || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
+            val uri = FileUtils.getUri(mw.uri)
+            if (uri == null) {
                 skipMedia()
-            } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
-                    || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
-                val uri = FileUtils.getUri(mw.uri)
-                if (uri == null) {
-                    skipMedia()
-                    return@launch
-                }
-                val media = Media(VLCInstance.get(), uri)
-                setStartTime(media, mw)
-                VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
-                /* keeping only video during benchmark */
-                if (isBenchmark) {
-                    media.addOption(":no-audio")
-                    media.addOption(":no-spu")
-                    if (isHardware) {
-                        media.addOption(":codec=mediacodec_ndk,mediacodec_jni,none")
-                        isHardware = false
-                    }
-                }
-                media.setEventListener(this@PlaylistManager)
-                player.setSlaves(media, mw)
-                player.startPlayback(media, mediaplayerEventListener)
-                media.release()
-                determinePrevAndNextIndices()
-                service.onNewPlayback()
-                if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) launch {
-                    var id = mw.id
-                    if (id == 0L) {
-                        var internalMedia = medialibrary.findMedia(mw)
-                        if (internalMedia != null && internalMedia.id != 0L)
-                            id = internalMedia.id
-                        else {
-                            internalMedia = medialibrary.addMedia(Uri.decode(mw.uri.toString()))
-                            if (internalMedia != null)
-                                id = internalMedia.id
-                        }
-                    }
-                    medialibrary.increasePlayCount(id)
-                }
-                saveCurrentMedia()
-                newMedia = true
-            } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
-                player.stop()
-                VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
+                return
             }
+            val media = Media(VLCInstance.get(), uri)
+            setStartTime(media, mw)
+            VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
+            /* keeping only video during benchmark */
+            if (isBenchmark) {
+                media.addOption(":no-audio")
+                media.addOption(":no-spu")
+                if (isHardware) {
+                    media.addOption(":codec=mediacodec_ndk,mediacodec_jni,none")
+                    isHardware = false
+                }
+            }
+            media.setEventListener(this@PlaylistManager)
+            player.setSlaves(media, mw)
+            player.startPlayback(media, mediaplayerEventListener)
+            media.release()
+            newMedia = true
+            determinePrevAndNextIndices()
+            service.onNewPlayback()
+            if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) launch {
+                var id = mw.id
+                if (id == 0L) {
+                    var internalMedia = medialibrary.findMedia(mw)
+                    if (internalMedia != null && internalMedia.id != 0L)
+                        id = internalMedia.id
+                    else {
+                        internalMedia = medialibrary.addMedia(Uri.decode(mw.uri.toString()))
+                        if (internalMedia != null)
+                            id = internalMedia.id
+                    }
+                }
+                medialibrary.increasePlayCount(id)
+            }
+            saveCurrentMedia()
+        } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
+            player.stop()
+            VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
         }
     }
 

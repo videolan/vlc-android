@@ -117,5 +117,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onRewind() = playbackService.seek(Math.max(0, playbackService.time - 5000))
 
-    override fun onSkipToQueueItem(id: Long) = playbackService.playIndex(id.toInt())
+    override fun onSkipToQueueItem(id: Long) {
+        playbackService.playIndex(id.toInt())
+    }
 }

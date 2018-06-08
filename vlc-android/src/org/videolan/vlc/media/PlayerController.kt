@@ -15,6 +15,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.preferences.PreferencesActivity
+import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.VLCOptions
 import kotlin.math.abs
@@ -185,8 +186,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         setPlaybackStopped()
     }
 
-    suspend fun setSlaves(media: Media, mw: MediaWrapper) {
-        val list = withContext(CommonPool) {
+    fun setSlaves(media: Media, mw: MediaWrapper) = launch(UI, CoroutineStart.UNDISPATCHED) {
+        val list = withContext(VLCIO) {
             mw.slaves?.let {
                 for (slave in it) media.addSlave(slave)
                 MediaDatabase.getInstance().saveSlaves(mw)
