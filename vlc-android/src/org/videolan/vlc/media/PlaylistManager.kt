@@ -25,6 +25,7 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.video.VideoPlayerActivity
+import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
 import org.videolan.vlc.util.*
 import java.util.*
 
@@ -271,8 +272,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 skipMedia()
                 return
             }
+            val start = getStartTime(mw)
             val media = Media(VLCInstance.get(), uri)
-            setStartTime(media, mw)
+            media.addOption(":start-time=$start")
             VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
             /* keeping only video during benchmark */
             if (isBenchmark) {
@@ -284,9 +286,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
             }
             media.setEventListener(this@PlaylistManager)
-            player.setSlaves(media, mw)
             player.startPlayback(media, mediaplayerEventListener)
-            media.release()
+            player.setSlaves(media, mw)
             newMedia = true
             determinePrevAndNextIndices()
             service.onNewPlayback()
@@ -558,15 +559,14 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun getMedia(position: Int) = mediaList.getMedia(position)
 
-    private suspend fun setStartTime(media: Media, mw: MediaWrapper) {
-        if (savedTime <= 0L ) {
-            if (mw.time >= 0L) savedTime = mw.time
-            else if (mw.time == 0L && mw.type == MediaWrapper.TYPE_VIDEO || mw.isPodcast) savedTime = withContext(VLCIO) { medialibrary.findMedia(mw).getMetaLong(MediaWrapper.META_PROGRESS) }
-
-        }
-        if (savedTime <= 0L) return
-        media.addOption(":start-time=${savedTime/1000L}")
+    private suspend fun getStartTime(mw: MediaWrapper) : Long {
+        val start = if (savedTime <= 0L) when {
+            mw.time >= 0L -> mw.time
+            mw.type == MediaWrapper.TYPE_VIDEO || mw.isPodcast -> withContext(VLCIO) { medialibrary.findMedia(mw).getMetaLong(MediaWrapper.META_PROGRESS) }
+            else -> 0L
+        } else savedTime
         savedTime = 0L
+        return start/1000L
     }
 
     @Synchronized

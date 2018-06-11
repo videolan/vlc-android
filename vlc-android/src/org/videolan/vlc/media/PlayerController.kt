@@ -191,6 +191,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         val list = withContext(VLCIO) {
             mw.slaves?.let {
                 for (slave in it) media.addSlave(slave)
+                media.release()
                 MediaDatabase.getInstance().saveSlaves(mw)
             }
             MediaDatabase.getInstance().getSlaves(mw.location)
