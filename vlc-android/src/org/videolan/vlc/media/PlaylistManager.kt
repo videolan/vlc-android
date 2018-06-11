@@ -299,7 +299,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     private fun skipMedia() {
         if (currentIndex != nextIndex) next()
-        else stop(false)
+        else stop()
     }
 
     fun onServiceDestroyed() {
@@ -682,7 +682,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 service.showToast(service.getString(
                             R.string.invalid_location,
                             getCurrentMedia()?.getLocation() ?: ""), Toast.LENGTH_SHORT)
-                if (nextIndex != currentIndex) next() else stop(true)
+                if (nextIndex != currentIndex) next() else stop()
             }
         }
         service.onMediaPlayerEvent(event)
