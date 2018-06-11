@@ -271,9 +271,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     }
                 }
                 media.setEventListener(this@PlaylistManager)
-                player.setSlaves(media, mw)
                 player.startPlayback(media, mediaplayerEventListener)
-                media.release()
+                player.setSlaves(media, mw)
                 if (savedTime <= 0L && mw.time >= 0L && mw.isPodcast) savedTime = mw.time
                 determinePrevAndNextIndices()
                 service.onNewPlayback(mw)

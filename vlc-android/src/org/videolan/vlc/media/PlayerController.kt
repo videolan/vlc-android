@@ -180,7 +180,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         setPlaybackStopped()
     }
 
-    suspend fun setSlaves(media: Media, mw: MediaWrapper) {
+    fun setSlaves(media: Media, mw: MediaWrapper) = launch(UI, CoroutineStart.UNDISPATCHED) {
         val list = withContext(CommonPool) {
             mw.slaves?.let {
                 for (slave in it) media.addSlave(slave)
@@ -188,6 +188,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
             }
             MediaDatabase.getInstance().getSlaves(mw.location)
         }
+        media.release()
         for (slave in list) mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
     }
 
