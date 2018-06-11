@@ -71,10 +71,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     private var mediaplayerEventListener: MediaPLayerEventListener? = null
     internal fun startPlayback(media: Media, listener: MediaPLayerEventListener) {
         mediaplayerEventListener = listener
-        seekable = true
-        pausable = true
-        lastTime = 0L
-        updateProgress(0L, media.duration)
+        resetPlaybackState(media.duration)
         mediaplayer.setEventListener(null)
         mediaplayer.media = media.apply { if (hasRenderer) parse() }
         mediaplayer.setEventListener(this@PlayerController)
@@ -83,6 +80,13 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         mediaplayer.play()
         if (mediaplayer.rate == 1.0f && settings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, true))
             setRate(settings.getFloat(PreferencesActivity.KEY_PLAYBACK_RATE, 1.0f), false)
+    }
+
+    private fun resetPlaybackState(duration: Long) {
+        seekable = true
+        pausable = true
+        lastTime = 0L
+        updateProgress(0L, duration)
     }
 
     @MainThread
