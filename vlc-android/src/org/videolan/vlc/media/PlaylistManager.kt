@@ -683,7 +683,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     service.showToast(service.getString(
                             R.string.invalid_location,
                             getCurrentMedia()?.getLocation() ?: ""), Toast.LENGTH_SHORT)
-                    if (currentIndex != nextIndex) next() else stop(true)
+                    if (currentIndex != nextIndex) next() else stop()
                 }
             }
             service.onMediaPlayerEvent(event)
