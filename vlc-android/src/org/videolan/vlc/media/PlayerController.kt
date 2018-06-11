@@ -181,14 +181,15 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     }
 
     fun setSlaves(media: Media, mw: MediaWrapper) = launch(UI, CoroutineStart.UNDISPATCHED) {
-        val list = withContext(CommonPool) {
-            mw.slaves?.let {
-                for (slave in it) media.addSlave(slave)
-                MediaDatabase.getInstance().saveSlaves(mw)
-            }
-            MediaDatabase.getInstance().getSlaves(mw.location)
-        }
+        val slaves = mw.slaves
+        slaves?.let { for (slave in it) media.addSlave(slave) }
         media.release()
+        val list = withContext(CommonPool) {
+            MediaDatabase.getInstance().run {
+                if (slaves != null) saveSlaves(mw)
+                getSlaves(mw.location)
+            }
+        }
         for (slave in list) mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
     }
 
