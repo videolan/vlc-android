@@ -30,8 +30,8 @@ ext {
     compileSdkVersion = 26
     minSdkVersion = 14
     targetSdkVersion = 26
-    versionName = '3.0.10'
-    versionCode = 3001000
+    versionName = '3.0.11'
+    versionCode = 3001100
 //    versionCode scheme is T M NN RR AA
 //    T: Target/Flavour (1 for Android, 2 for Chrome?)
 //    M: Major version from 0 to 9
