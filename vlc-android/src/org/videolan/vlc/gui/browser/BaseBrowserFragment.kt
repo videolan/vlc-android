@@ -393,7 +393,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             if (mw.type == MediaWrapper.TYPE_DIR) {
                 val isEmpty = viewModel.isFolderEmpty(mw)
                 if (!isEmpty) flags = flags or Constants.CTX_PLAY
-                if (this is NetworkBrowserFragment) {
+                if (this@BaseBrowserFragment is NetworkBrowserFragment) {
                     val favExists = withContext(VLCIO) { MediaDatabase.getInstance().networkFavExists(mw.uri) }
                     flags = if (favExists) flags or Constants.CTX_NETWORK_EDIT or Constants.CTX_NETWORK_REMOVE
                     else flags or Constants.CTX_NETWORK_ADD
