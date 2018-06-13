@@ -139,7 +139,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun getSpuDelay() = mediaplayer.spuDelay
 
-    fun getRate() = if (mediaplayer.hasMedia()) mediaplayer.rate else 1.0f
+    fun getRate() = if (mediaplayer.hasMedia() && playbackState != PlaybackStateCompat.STATE_STOPPED) mediaplayer.rate else 1.0f
 
     fun setSpuDelay(delay: Long) = mediaplayer.setSpuDelay(delay)
 
