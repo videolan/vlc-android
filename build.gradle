@@ -25,7 +25,7 @@ allprojects {
 
 ext {
     appCompatVersion = '27.1.1'
-    constraintLayoutVersion = '1.1.1'
+    constraintLayoutVersion = '1.1.2'
     archVersion = '1.1.1'
     compileSdkVersion = 26
     minSdkVersion = 14
