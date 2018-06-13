@@ -127,6 +127,11 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
     }
 
     @Override
+    public void setFabPlayVisibility(boolean enable) {
+        if (mFabPlay != null) mFabPlay.setVisibility(View.GONE);
+    }
+
+    @Override
     public void refresh() {
         viewModel.refresh();
     }
