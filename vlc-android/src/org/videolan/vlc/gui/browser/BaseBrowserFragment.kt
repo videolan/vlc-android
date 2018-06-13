@@ -129,7 +129,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         viewModel.dataset.observe(this, Observer<MutableList<MediaLibraryItem>> { mediaLibraryItems -> adapter.update(mediaLibraryItems!!) })
         viewModel.getDescriptionUpdate().observe(this, Observer { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
         initFavorites()
+    }
 
+    override fun setBreadcrumb() {
         val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane)
         currentMedia?.let {
             ariane.visibility = View.VISIBLE
@@ -140,7 +142,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 did.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider_grey_50_18dp)!!)
                 ariane.addItemDecoration(did)
             }
-            ariane.scrollToPosition(ariane.adapter.itemCount -1)
+            ariane.scrollToPosition(ariane.adapter.itemCount - 1)
         } ?: run { ariane.visibility = View.GONE }
     }
 

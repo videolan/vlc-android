@@ -36,6 +36,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -92,6 +93,12 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
         if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
             mFabPlay = getActivity().findViewById(R.id.fab);
+        setBreadcrumb();
+    }
+
+    protected void setBreadcrumb() {
+        final RecyclerView ariane = requireActivity().findViewById(R.id.ariane);
+        if (ariane != null) ariane.setVisibility(View.GONE);
     }
 
     public void onStart() {
