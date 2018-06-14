@@ -92,6 +92,7 @@
             android:src="@drawable/ic_lock_circle"
             android:scaleType="center"
             android:onClick="@{(v) -> player.toggleLock()}"
+            android:contentDescription="@string/lock"
             android:focusable="true"/>
 
         <ImageView
@@ -103,6 +104,7 @@
             android:src="@drawable/ic_audiosub_circle"
             android:scaleType="center"
             android:onClick="@{player::onAudioSubClick}"
+            android:contentDescription="@string/tracks"
             android:focusable="true"/>
 
         <ImageView
@@ -116,6 +118,7 @@
             android:scaleType="center"
             android:onClick="@{(v) -> player.previous()}"
             android:src="@drawable/ic_playlist_previous_circle"
+            android:contentDescription="@string/previous"
             android:visibility="gone" />
 
         <ImageView
@@ -128,6 +131,7 @@
             android:longClickable="true"
             android:scaleType="center"
             android:src="@drawable/ic_rewind_circle"
+            android:contentDescription="@string/playback_rewind"
             android:visibility="gone" />
 
         <ImageView
@@ -140,7 +144,8 @@
             android:scaleType="fitCenter"
             android:focusable="true"
             android:onClick="@{(v) -> player.doPlayPause()}"
-            android:onLongClick="@{player::toggleLoop}"/>
+            android:onLongClick="@{player::toggleLoop}"
+            android:contentDescription="@string/play"/>
 
         <ImageView
             android:id="@+id/player_overlay_forward"
@@ -152,6 +157,7 @@
             android:src="@drawable/ic_forward_circle"
             android:scaleType="center"
             android:focusable="true"
+            android:contentDescription="@string/playback_forward"
             android:visibility="gone" />
 
         <ImageView
@@ -165,6 +171,7 @@
             android:scaleType="center"
             android:focusable="true"
             android:onClick="@{(v) -> player.next()}"
+            android:contentDescription="@string/next"
             android:visibility="gone" />
 
         <ImageView
@@ -176,6 +183,7 @@
             android:src="@drawable/ic_more_circle"
             android:scaleType="center"
             android:onClick="@{(v) -> player.showAdvancedOptions()}"
+            android:contentDescription="@string/advanced"
             android:focusable="true"/>
 
         <ImageView
@@ -186,6 +194,7 @@
             android:src="@drawable/ic_crop_circle_o"
             android:scaleType="center"
             android:onClick="@{(v) -> player.resizeVideo()}"
+            android:contentDescription="@string/resize"
             android:focusable="true" />
     </LinearLayout>
 </RelativeLayout>
