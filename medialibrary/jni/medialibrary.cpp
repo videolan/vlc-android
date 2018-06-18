@@ -254,10 +254,10 @@ bool clearHistory(JNIEnv* env, jobject thiz)
 }
 
 static jobjectArray
-getInternalVideos(JNIEnv* env, jobject thiz, medialibrary::SortingCriteria sort = medialibrary::SortingCriteria::Default, bool desc = false)
+getInternalVideos(JNIEnv* env, jobject thiz, const medialibrary::QueryParameters* params = nullptr )
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::MediaPtr> videoFiles = aml->videoFiles(sort, desc);
+    std::vector<medialibrary::MediaPtr> videoFiles = aml->videoFiles(params);
     jobjectArray videoRefs = (jobjectArray) env->NewObjectArray(videoFiles.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : videoFiles) {
@@ -279,20 +279,29 @@ getVideos(JNIEnv* env, jobject thiz)
 jobjectArray
 getSortedVideos(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
 {
-    return getInternalVideos(env, thiz, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    return getInternalVideos(env, thiz, &params );
 }
 
 jobjectArray
 getRecentVideos(JNIEnv* env, jobject thiz)
 {
-    return getInternalVideos(env, thiz, medialibrary::SortingCriteria::InsertionDate, true);
+    medialibrary::QueryParameters params {
+        medialibrary::SortingCriteria::InsertionDate,
+        true,
+    };
+    return getInternalVideos(env, thiz, &params);
 }
 
 static jobjectArray
-getInternalAudio(JNIEnv* env, jobject thiz, medialibrary::SortingCriteria sort = medialibrary::SortingCriteria::Default, bool desc = false)
+getInternalAudio(JNIEnv* env, jobject thiz, const medialibrary::QueryParameters* params = nullptr )
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::MediaPtr> audioFiles = aml->audioFiles(sort, desc);
+
+    std::vector<medialibrary::MediaPtr> audioFiles = aml->audioFiles(params);
     jobjectArray audioRefs = (jobjectArray) env->NewObjectArray(audioFiles.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : audioFiles) {
@@ -314,13 +323,20 @@ getAudio(JNIEnv* env, jobject thiz)
 jobjectArray
 getRecentAudio(JNIEnv* env, jobject thiz)
 {
-    return getInternalAudio(env, thiz, medialibrary::SortingCriteria::InsertionDate, true);
+    medialibrary::QueryParameters params {
+        medialibrary::SortingCriteria::InsertionDate, true
+    };
+    return getInternalAudio(env, thiz, &params );
 }
 
 jobjectArray
 getSortedAudio(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
 {
-    return getInternalAudio(env, thiz, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    return getInternalAudio(env, thiz, &params);
 }
 
 jobject
@@ -449,7 +465,11 @@ jobjectArray
 getAlbums(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::AlbumPtr> albums = aml->albums(static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    std::vector<medialibrary::AlbumPtr> albums = aml->albums( &params );
     jobjectArray albumRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
     int index = -1;
     for(medialibrary::AlbumPtr const& album : albums) {
@@ -472,7 +492,11 @@ jobjectArray
 getArtists(JNIEnv* env, jobject thiz, jboolean all, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::ArtistPtr> artists = aml->artists(all, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    std::vector<medialibrary::ArtistPtr> artists = aml->artists(all, &params);
     jobjectArray artistRefs = (jobjectArray) env->NewObjectArray(artists.size(), ml_fields.Artist.clazz, NULL);
     int index = -1;
     for(medialibrary::ArtistPtr const& artist : artists) {
@@ -495,7 +519,11 @@ jobjectArray
 getGenres(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::GenrePtr> genres = aml->genres(static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    std::vector<medialibrary::GenrePtr> genres = aml->genres( &params );
     jobjectArray genreRefs = (jobjectArray) env->NewObjectArray(genres.size(), ml_fields.Genre.clazz, NULL);
     int index = -1;
     for(medialibrary::GenrePtr const& genre : genres) {
@@ -518,7 +546,11 @@ jobjectArray
 getPlaylists(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::PlaylistPtr> playlists = aml->playlists(static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    std::vector<medialibrary::PlaylistPtr> playlists = aml->playlists(&params);
     jobjectArray playlistRefs = (jobjectArray) env->NewObjectArray(playlists.size(), ml_fields.Playlist.clazz, NULL);
     int index = -1;
     for(medialibrary::PlaylistPtr const& playlist : playlists) {
@@ -563,7 +595,11 @@ jobjectArray
 getTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    std::vector<medialibrary::MediaPtr> tracks = aml->tracksFromAlbum(id, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    std::vector<medialibrary::MediaPtr> tracks = aml->tracksFromAlbum(id, &params);
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(tracks.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1, drops = 0;
     jobject item = nullptr;
@@ -585,7 +621,11 @@ jobjectArray
 getMediaFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    std::vector<medialibrary::MediaPtr> mediaList = aml->mediaFromArtist(id, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    std::vector<medialibrary::MediaPtr> mediaList = aml->mediaFromArtist(id, &params);
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaList) {
@@ -602,7 +642,11 @@ jobjectArray
 getAlbumsFromArtist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    std::vector<medialibrary::AlbumPtr> albums = aml->albumsFromArtist(id, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    std::vector<medialibrary::AlbumPtr> albums = aml->albumsFromArtist(id, &params);
     jobjectArray albumsRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
     int index = -1;
     for(medialibrary::AlbumPtr const& album : albums) {
@@ -622,7 +666,11 @@ jobjectArray
 getMediaFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    std::vector<medialibrary::MediaPtr> mediaList = aml->mediaFromGenre(id, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    std::vector<medialibrary::MediaPtr> mediaList = aml->mediaFromGenre(id, &params);
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : mediaList) {
@@ -639,7 +687,11 @@ jobjectArray
 getAlbumsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    std::vector<medialibrary::AlbumPtr> albums = aml->albumsFromGenre(id, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    std::vector<medialibrary::AlbumPtr> albums = aml->albumsFromGenre(id, &params);
     jobjectArray albumRefs = (jobjectArray) env->NewObjectArray(albums.size(), ml_fields.Album.clazz, NULL);
     int index = -1;
     for(medialibrary::AlbumPtr const& album : albums) {
@@ -654,7 +706,11 @@ jobjectArray
 getArtistsFromGenre(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    std::vector<medialibrary::ArtistPtr> artists = aml->artistsFromGenre(id, static_cast<medialibrary::SortingCriteria>(sortingCriteria), desc);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    std::vector<medialibrary::ArtistPtr> artists = aml->artistsFromGenre(id, &params);
     jobjectArray artistsRefs = (jobjectArray) env->NewObjectArray(artists.size(), ml_fields.Artist.clazz, NULL);
     int index = -1;
     for(medialibrary::ArtistPtr const& artist : artists) {

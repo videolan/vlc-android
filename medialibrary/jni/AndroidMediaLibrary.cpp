@@ -257,21 +257,21 @@ AndroidMediaLibrary::addMedia(const std::string& mrl)
 }
 
 std::vector<medialibrary::MediaPtr>
-AndroidMediaLibrary::videoFiles( medialibrary::SortingCriteria sort, bool desc )
+AndroidMediaLibrary::videoFiles( const medialibrary::QueryParameters* params )
 {
-    return p_ml->videoFiles(sort, desc)->all();
+    return p_ml->videoFiles(params)->all();
 }
 
 std::vector<medialibrary::MediaPtr>
-AndroidMediaLibrary::audioFiles( medialibrary::SortingCriteria sort, bool desc )
+AndroidMediaLibrary::audioFiles( const medialibrary::QueryParameters* params )
 {
-    return p_ml->audioFiles(sort, desc)->all();
+    return p_ml->audioFiles(params)->all();
 }
 
 std::vector<medialibrary::AlbumPtr>
-AndroidMediaLibrary::albums(medialibrary::SortingCriteria sort, bool desc)
+AndroidMediaLibrary::albums(const medialibrary::QueryParameters* params)
 {
-    return p_ml->albums(sort, desc)->all();
+    return p_ml->albums(params)->all();
 }
 
 medialibrary::AlbumPtr
@@ -281,9 +281,9 @@ AndroidMediaLibrary::album(int64_t albumId)
 }
 
 std::vector<medialibrary::ArtistPtr>
-AndroidMediaLibrary::artists(bool includeAll, medialibrary::SortingCriteria sort, bool desc)
+AndroidMediaLibrary::artists(bool includeAll, const medialibrary::QueryParameters* params)
 {
-    return p_ml->artists(includeAll, sort, desc)->all();
+    return p_ml->artists(includeAll, params)->all();
 }
 
 medialibrary::ArtistPtr
@@ -293,9 +293,9 @@ AndroidMediaLibrary::artist(int64_t artistId)
 }
 
 std::vector<medialibrary::GenrePtr>
-AndroidMediaLibrary::genres(medialibrary::SortingCriteria sort, bool desc)
+AndroidMediaLibrary::genres(const medialibrary::QueryParameters* params)
 {
-    return p_ml->genres(sort, desc)->all();
+    return p_ml->genres(params)->all();
 }
 
 medialibrary::GenrePtr
@@ -305,9 +305,9 @@ AndroidMediaLibrary::genre(int64_t genreId)
 }
 
 std::vector<medialibrary::PlaylistPtr>
-AndroidMediaLibrary::playlists(medialibrary::SortingCriteria sort, bool desc)
+AndroidMediaLibrary::playlists(const medialibrary::QueryParameters* params)
 {
-    return p_ml->playlists(sort, desc)->all();
+    return p_ml->playlists(params)->all();
 }
 
 medialibrary::PlaylistPtr
@@ -323,45 +323,45 @@ AndroidMediaLibrary::PlaylistCreate( const std::string &name )
 }
 
 std::vector<medialibrary::MediaPtr>
-AndroidMediaLibrary::tracksFromAlbum( int64_t albumId, medialibrary::SortingCriteria sort, bool desc )
+AndroidMediaLibrary::tracksFromAlbum( int64_t albumId, const medialibrary::QueryParameters* params )
 {
     auto album = p_ml->album(albumId);
-    return album == nullptr ? std::vector<medialibrary::MediaPtr>() : album->tracks(sort, desc)->all();
+    return album == nullptr ? std::vector<medialibrary::MediaPtr>() : album->tracks(params)->all();
 }
 
 std::vector<medialibrary::MediaPtr>
-AndroidMediaLibrary::mediaFromArtist( int64_t artistId, medialibrary::SortingCriteria sort, bool desc )
+AndroidMediaLibrary::mediaFromArtist( int64_t artistId, const medialibrary::QueryParameters* params )
 {
     auto artist = p_ml->artist(artistId);
-    return artist == nullptr ? std::vector<medialibrary::MediaPtr>() : artist->media(sort, desc)->all();
+    return artist == nullptr ? std::vector<medialibrary::MediaPtr>() : artist->media(params)->all();
 }
 
 std::vector<medialibrary::AlbumPtr>
-AndroidMediaLibrary::albumsFromArtist( int64_t artistId, medialibrary::SortingCriteria sort, bool desc )
+AndroidMediaLibrary::albumsFromArtist( int64_t artistId, const medialibrary::QueryParameters* params )
 {
     auto artist = p_ml->artist(artistId);
-    return artist == nullptr ? std::vector<medialibrary::AlbumPtr>() : artist->albums(sort, desc)->all();
+    return artist == nullptr ? std::vector<medialibrary::AlbumPtr>() : artist->albums(params)->all();
 }
 
 std::vector<medialibrary::MediaPtr>
-AndroidMediaLibrary::mediaFromGenre( int64_t genreId, medialibrary::SortingCriteria sort, bool desc )
+AndroidMediaLibrary::mediaFromGenre( int64_t genreId, const medialibrary::QueryParameters* params )
 {
     auto genre = p_ml->genre(genreId);
-    return genre == nullptr ? std::vector<medialibrary::MediaPtr>() : genre->tracks(sort, desc)->all();
+    return genre == nullptr ? std::vector<medialibrary::MediaPtr>() : genre->tracks(params)->all();
 }
 
 std::vector<medialibrary::AlbumPtr>
-AndroidMediaLibrary::albumsFromGenre( int64_t genreId, medialibrary::SortingCriteria sort, bool desc )
+AndroidMediaLibrary::albumsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params )
 {
     auto genre = p_ml->genre(genreId);
-    return genre == nullptr ? std::vector<medialibrary::AlbumPtr>() : genre->albums(sort, desc)->all();
+    return genre == nullptr ? std::vector<medialibrary::AlbumPtr>() : genre->albums(params)->all();
 }
 
 std::vector<medialibrary::ArtistPtr>
-AndroidMediaLibrary::artistsFromGenre( int64_t genreId, medialibrary::SortingCriteria sort, bool desc )
+AndroidMediaLibrary::artistsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params )
 {
     auto genre = p_ml->genre(genreId);
-    return genre == nullptr ? std::vector<medialibrary::ArtistPtr>() : genre->artists(sort, desc)->all();
+    return genre == nullptr ? std::vector<medialibrary::ArtistPtr>() : genre->artists(params)->all();
 }
 
 std::vector<medialibrary::MediaPtr>
