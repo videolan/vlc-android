@@ -41,7 +41,6 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 
 public class StartActivity extends FragmentActivity implements StoragePermissionsDelegate.CustomActionController {
@@ -55,10 +54,9 @@ public class StartActivity extends FragmentActivity implements StoragePermission
         final boolean tv =  showTvUi();
         final String action = intent != null ? intent.getAction(): null;
 
-        if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null
-                && Permissions.checkReadStoragePermission(this, true)) {
-                startPlaybackFromApp(intent);
-                return;
+        if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null) {
+            startPlaybackFromApp(intent);
+            return;
         } else if (Intent.ACTION_SEND.equals(action)) {
             final ClipData cd = intent.getClipData();
             final ClipData.Item item = cd != null && cd.getItemCount() > 0 ? cd.getItemAt(0) : null;
@@ -78,9 +76,7 @@ public class StartActivity extends FragmentActivity implements StoragePermission
         /* Check if it's the first run */
         final boolean firstRun = savedVersionNumber == -1;
         final boolean upgrade = firstRun || savedVersionNumber != currentVersionNumber;
-        if (upgrade)
-            settings.edit().putInt(Constants.PREF_FIRST_RUN, currentVersionNumber).apply();
-        startMedialibrary(firstRun, upgrade);
+        if (upgrade) settings.edit().putInt(Constants.PREF_FIRST_RUN, currentVersionNumber).apply();
         // Route search query
         if (Intent.ACTION_SEARCH.equals(action) || "com.google.android.gms.actions.SEARCH_ACTION".equals(action)) {
             startActivity(intent.setClass(this, tv ? org.videolan.vlc.gui.tv.SearchActivity.class : SearchActivity.class));
@@ -91,6 +87,7 @@ public class StartActivity extends FragmentActivity implements StoragePermission
                     .putExtra(Constants.EXTRA_SEARCH_BUNDLE, intent.getExtras());
             Util.startService(this, serviceInent);
         } else {
+            MediaParsingServiceKt.startMedialibrary(this, firstRun, upgrade, true);
             startActivity(new Intent(this, tv ? MainTvActivity.class : MainActivity.class)
                     .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
                     .putExtra(Constants.EXTRA_UPGRADE, upgrade));
@@ -104,13 +101,6 @@ public class StartActivity extends FragmentActivity implements StoragePermission
         else
             MediaUtils.openMediaNoUi(intent.getData());
         finish();
-    }
-
-    private void startMedialibrary(final boolean firstRun, final boolean upgrade) {
-        if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage(StartActivity.this))
-            startService(new Intent(Constants.ACTION_INIT, null, StartActivity.this, MediaParsingService.class)
-                    .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
-                    .putExtra(Constants.EXTRA_UPGRADE, upgrade));
     }
 
     private boolean showTvUi() {

@@ -32,7 +32,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.videolan.medialibrary.Medialibrary;
-import org.videolan.vlc.MediaParsingService;
+import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment;
@@ -42,7 +42,6 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.video.VideoGridFragment;
-import org.videolan.vlc.util.Constants;
 
 public class SecondaryActivity extends ContentActivity {
     public final static String TAG = "VLC/SecondaryActivity";
@@ -107,9 +106,7 @@ public class SecondaryActivity extends ContentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_SECONDARY) {
-            if (resultCode == PreferencesActivity.RESULT_RESCAN) {
-                startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
-            }
+            if (resultCode == PreferencesActivity.RESULT_RESCAN) MediaParsingServiceKt.reload(this);
         }
     }
 
@@ -119,8 +116,7 @@ public class SecondaryActivity extends ContentActivity {
         switch (item.getItemId()) {
             case R.id.ml_menu_refresh:
                 Medialibrary ml = VLCApplication.getMLInstance();
-                if (!ml.isWorking())
-                    startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
+                if (!ml.isWorking()) MediaParsingServiceKt.reload(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);

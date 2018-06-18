@@ -24,7 +24,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -48,7 +47,7 @@ import android.view.ViewGroup;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.MediaParsingService;
+import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.VideoGridBinding;
@@ -235,7 +234,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     @Override
     public void onRefresh() {
         final Activity activity = getActivity();
-        if (activity != null) activity.startService(new Intent(Constants.ACTION_RELOAD, null, getActivity(), MediaParsingService.class));
+        if (activity != null) MediaParsingServiceKt.reload(activity);
     }
 
     public void clear(){

@@ -38,6 +38,7 @@ import android.widget.TextView;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.MediaParsingService;
+import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
 import org.videolan.vlc.ScanProgress;
 import org.videolan.vlc.VLCApplication;
@@ -45,8 +46,6 @@ import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.tv.SearchActivity;
 import org.videolan.vlc.gui.tv.TimeUpdaterKt;
-import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.util.Permissions;
 
 import java.util.List;
 
@@ -62,8 +61,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Init Medialibrary if KO
-        if (savedInstanceState != null && !VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage(this))
-            startService(new Intent(Constants.ACTION_INIT, null, this, MediaParsingService.class));
+        if (savedInstanceState != null) MediaParsingServiceKt.startMedialibrary(this, false, false, true);
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();
         mSettings = PreferenceManager.getDefaultSharedPreferences(this);

@@ -25,9 +25,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.support.v4.content.LocalBroadcastManager
-import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.startMedialibrary
 import java.util.*
 
 internal class PBSMedialibraryReceiver(private val service: PlaybackService) : BroadcastReceiver() {
@@ -50,7 +50,7 @@ internal fun PlaybackService.registerMedialibrary(action: Runnable?) {
     if (!Permissions.canReadStorage(this)) return
     if (libraryReceiver == null) {
         libraryReceiver = PBSMedialibraryReceiver(this)
-        Util.startService(this, Intent(Constants.ACTION_INIT, null, this, MediaParsingService::class.java))
+        startMedialibrary(parse = false)
     }
     if (action != null) libraryReceiver?.addAction(action)
 }

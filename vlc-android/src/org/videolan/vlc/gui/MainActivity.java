@@ -45,7 +45,7 @@ import android.widget.FilterQueryProvider;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.MediaParsingService;
+import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
 import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.VLCApplication;
@@ -130,7 +130,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
     private void setupNavigationView() {
         mNavigationView = findViewById(R.id.navigation);
         if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
-            MenuItem item = mNavigationView.getMenu().findItem(R.id.nav_directories);
+            final MenuItem item = mNavigationView.getMenu().findItem(R.id.nav_directories);
             item.setTitle(R.string.open);
         }
         mNavigationView.getMenu().findItem(R.id.nav_history).setVisible(mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true));
@@ -155,12 +155,15 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         super.onStart();
         if (mMediaLibrary.isInitiated()) {
             /* Load media items from database and storage */
-            if (mScanNeeded && Permissions.canReadStorage(this))
-                startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
+            if (mScanNeeded && Permissions.canReadStorage(this)) MediaParsingServiceKt.reload(this);
         }
-        mNavigationView.setNavigationItemSelectedListener(mNavigator);
-        if (BuildConfig.DEBUG)
-            createExtensionServiceConnection();
+        if (BuildConfig.DEBUG) createExtensionServiceConnection();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateNavMenu();
     }
 
     @Override
@@ -179,6 +182,17 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             mSettings.edit()
                     .putString("current_extension_name", mExtensionsManager.getExtensions(getApplication(), false).get(mNavigator.getCurrentFragmentId()).componentName().getPackageName())
                     .apply();
+    }
+
+    private void updateNavMenu() {
+        mNavigationView.setNavigationItemSelectedListener(mNavigator);
+        final boolean wasVisible = mNavigationView.getMenu().findItem(R.id.nav_video).isVisible();
+        final boolean scan = mSettings.getInt(Constants.KEY_MEDIALIBRARY_SCAN, Constants.ML_SCAN_OFF) == Constants.ML_SCAN_ON;
+        if (wasVisible != scan) {
+            mNavigationView.getMenu().findItem(R.id.nav_audio).setVisible(scan);
+            mNavigationView.getMenu().findItem(R.id.nav_video).setVisible(scan);
+            if (scan) getNavigator().showFragment(R.id.nav_video);
+        }
     }
 
     public boolean isExtensionServiceBinded() {
@@ -320,7 +334,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             if(current != null && current instanceof IRefreshable)
                 ((IRefreshable) current).refresh();
             else
-                startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
+                MediaParsingServiceKt.reload(this);
         }
     }
 
@@ -330,7 +344,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         if (requestCode == Constants.ACTIVITY_RESULT_PREFERENCES) {
             switch (resultCode) {
                 case PreferencesActivity.RESULT_RESCAN:
-                    startService(new Intent(Constants.ACTION_RELOAD, null,this, MediaParsingService.class));
+                    MediaParsingServiceKt.reload(this);
                     break;
                 case PreferencesActivity.RESULT_RESTART:
                 case PreferencesActivity.RESULT_RESTART_APP:

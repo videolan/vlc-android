@@ -43,9 +43,8 @@ import android.widget.TextView;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.MediaParsingService;
+import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
@@ -256,7 +255,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onRefresh() {
         mActivity.closeSearchView();
-        VLCApplication.getAppContext().startService(new Intent(Constants.ACTION_RELOAD, null, VLCApplication.getAppContext(), MediaParsingService.class));
+        MediaParsingServiceKt.reload(requireContext());
     }
 
     @Override

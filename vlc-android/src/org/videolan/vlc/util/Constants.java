@@ -26,6 +26,7 @@ public class Constants {
     public static final String PREF_FIRST_RUN = "first_run";
     public static final String EXTRA_FIRST_RUN = "extra_first_run";
     public static final String EXTRA_UPGRADE = "extra_upgrade";
+    public static final String EXTRA_PARSE = "extra_parse";
 
     //UI Navigation
     public static final String ID_VIDEO = "video";
@@ -90,6 +91,9 @@ public class Constants {
 
     // Preferences
     public final static String KEY_ARTISTS_SHOW_ALL = "artists_show_all";
+    public final static String KEY_MEDIALIBRARY_SCAN = "ml_scan";
+    public static final int ML_SCAN_ON = 0;
+    public static final int ML_SCAN_OFF = 1;
 
     // AUDIO category
     public final static String KEY_AUDIO_CURRENT_TAB = "key_audio_current_tab";
