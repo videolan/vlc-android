@@ -10,6 +10,7 @@
 #include <medialibrary/IAlbum.h>
 #include <medialibrary/IPlaylist.h>
 #include <medialibrary/IMediaLibrary.h>
+#include <medialibrary/IMetadata.h>
 #define LOG_TAG "VLC/JNI/Utils"
 #include "log.h"
 

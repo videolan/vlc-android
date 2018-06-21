@@ -21,6 +21,7 @@
 #include <medialibrary/IDeviceLister.h>
 #include <medialibrary/IMedia.h>
 #include <medialibrary/IMediaLibrary.h>
+#include <medialibrary/IMetadata.h>
 
 class AndroidMediaLibrary : public medialibrary::IMediaLibraryCb
 {
