@@ -733,7 +733,7 @@ getMediaLongMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, 
     medialibrary::MediaPtr media = aml->media(id);
     if (media == nullptr)
         return 0L;
-    const medialibrary::IMediaMetadata& metadata = media->metadata((medialibrary::IMedia::MetadataType)metadataType);
+    const medialibrary::IMetadata& metadata = media->metadata((medialibrary::IMedia::MetadataType)metadataType);
     return metadata.isSet() ? metadata.integer() : 0L;
 }
 
@@ -743,7 +743,7 @@ getMediaStringMetadata(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::MediaPtr media = aml->media(id);
     if (media == nullptr) return 0L;
-    const medialibrary::IMediaMetadata& metadata = media->metadata((medialibrary::IMedia::MetadataType)metadataType);
+    const medialibrary::IMetadata& metadata = media->metadata((medialibrary::IMedia::MetadataType)metadataType);
     return metadata.isSet() ? env->NewStringUTF(metadata.str().c_str()) : nullptr;
 }
 

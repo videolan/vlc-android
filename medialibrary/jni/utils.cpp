@@ -56,9 +56,9 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
         trackNumber = p_albumTrack->trackNumber();
         discNumber = p_albumTrack->discNumber();
     }
-    const medialibrary::IMediaMetadata& metaAudioTrack = mediaPtr->metadata(medialibrary::IMedia::MetadataType::AudioTrack);
+    const medialibrary::IMetadata& metaAudioTrack = mediaPtr->metadata(medialibrary::IMedia::MetadataType::AudioTrack);
     jint  audioTrack = metaAudioTrack.isSet() ? metaAudioTrack.integer() : -2;
-    const medialibrary::IMediaMetadata& metaSpuTrack = mediaPtr->metadata(medialibrary::IMedia::MetadataType::SubtitleTrack);
+    const medialibrary::IMetadata& metaSpuTrack = mediaPtr->metadata(medialibrary::IMedia::MetadataType::SubtitleTrack);
     jint  spuTrack = metaSpuTrack.isSet() ? metaSpuTrack.integer() : -2;
     title = mediaPtr->title().empty() ? NULL : env->NewStringUTF(mediaPtr->title().c_str());
     mrl = env->NewStringUTF(files.at(0)->mrl().c_str());
@@ -68,11 +68,11 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     unsigned int width = hasVideoTracks ? videoTracks.at(0)->width() : 0;
     unsigned int height = hasVideoTracks ? videoTracks.at(0)->height() : 0;
     int64_t duration = mediaPtr->duration();
-    const medialibrary::IMediaMetadata& progressMeta = mediaPtr->metadata( medialibrary::IMedia::MetadataType::Progress );
+    const medialibrary::IMetadata& progressMeta = mediaPtr->metadata( medialibrary::IMedia::MetadataType::Progress );
     int64_t progress = progressMeta.isSet() ? progressMeta.integer() : 0;
     // workaround to convert legacy percentage progress
     if (progress != 0 && progress < 100) progress = duration * ( progress / 100.0 );
-    const medialibrary::IMediaMetadata& seenMeta =  mediaPtr->metadata( medialibrary::IMedia::MetadataType::Seen );
+    const medialibrary::IMetadata& seenMeta =  mediaPtr->metadata( medialibrary::IMedia::MetadataType::Seen );
     int64_t seen = seenMeta.isSet() ? seenMeta.integer() : 0;
 
     jobject item = env->NewObject(fields->MediaWrapper.clazz, fields->MediaWrapper.initID,
