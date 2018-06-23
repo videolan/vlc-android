@@ -31,12 +31,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
 
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.util.RefreshModel;
+import org.videolan.vlc.viewmodels.BaseModel;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public abstract class MediaSortedFragment<T extends RefreshModel> extends CategoriesFragment<T> {
+public abstract class MediaSortedFragment<T extends BaseModel<? extends MediaLibraryItem>> extends CategoriesFragment<T> {
     protected Uri mUri;
     protected boolean mShowHiddenFiles = false;
 

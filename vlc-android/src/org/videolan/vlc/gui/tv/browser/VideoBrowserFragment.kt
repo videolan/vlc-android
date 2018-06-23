@@ -29,15 +29,15 @@ import android.os.Build
 import android.os.Bundle
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.vlc.util.Constants
-import org.videolan.vlc.viewmodels.VideosProvider
+import org.videolan.vlc.viewmodels.VideosModel
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class VideoBrowserFragment : CategoriesFragment<VideosProvider>() {
+class VideoBrowserFragment : CategoriesFragment<VideosModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"))
-        provider = VideosProvider.get(this, arguments?.getString(Constants.KEY_GROUP), minGroupLengthValue, Medialibrary.SORT_DEFAULT)
-        provider.categories.observe(this, Observer { update(it) })
+        viewModel = VideosModel.get(this, arguments?.getString(Constants.KEY_GROUP), minGroupLengthValue, Medialibrary.SORT_DEFAULT)
+        viewModel.categories.observe(this, Observer { update(it) })
         super.onCreate(savedInstanceState)
     }
 }

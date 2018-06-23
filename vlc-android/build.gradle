@@ -4,6 +4,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     packagingOptions {
+        exclude 'META-INF/main.kotlin_module'
     }
 
     dexOptions {

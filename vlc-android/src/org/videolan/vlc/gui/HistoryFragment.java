@@ -46,11 +46,11 @@ import org.videolan.vlc.interfaces.IHistory;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.PlaylistManager;
-import org.videolan.vlc.viewmodels.HistoryProvider;
+import org.videolan.vlc.viewmodels.HistoryModel;
 
 import java.util.List;
 
-public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> implements IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
+public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implements IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
 
     public final static String TAG = "VLC/HistoryFragment";
 
@@ -74,8 +74,8 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
         super.onViewCreated(view, savedInstanceState);
         mEmptyView = view.findViewById(android.R.id.empty);
         mRecyclerView = view.findViewById(android.R.id.list);
-        mProvider = ViewModelProviders.of(requireActivity()).get(HistoryProvider.class);
-        mProvider.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
+        viewModel = ViewModelProviders.of(requireActivity()).get(HistoryModel.class);
+        viewModel.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
             @Override
             public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
                 if (mediaWrappers != null) mHistoryAdapter.update(mediaWrappers);
@@ -86,7 +86,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
     @Override
     public void onStart() {
         super.onStart();
-        mProvider.refresh();
+        viewModel.refresh();
     }
 
     @Override
@@ -127,8 +127,13 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
     }
 
     @Override
+    public void setFabPlayVisibility(boolean enable) {
+        if (mFabPlay != null) mFabPlay.setVisibility(View.GONE);
+    }
+
+    @Override
     public void refresh() {
-        mProvider.refresh();
+        viewModel.refresh();
     }
 
     @Override
@@ -160,7 +165,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
     @Override
     public void clearHistory() {
         mMediaLibrary.clearHistory();
-        mProvider.clear();
+        viewModel.clear();
         updateEmptyView();
     }
 
@@ -209,7 +214,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
     public void onDestroyActionMode(ActionMode mode) {
         mActionMode = null;
         int index = -1;
-        for (MediaWrapper media : mProvider.getDataset().getValue()) {
+        for (MediaWrapper media : viewModel.getDataset().getValue()) {
             ++index;
             if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
                 media.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
@@ -226,7 +231,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryProvider> imple
             invalidateActionMode();
             return;
         }
-        if (position != 0) mProvider.moveUp((MediaWrapper) item);
+        if (position != 0) viewModel.moveUp((MediaWrapper) item);
         MediaUtils.openMedia(v.getContext(), (MediaWrapper) item);
     }
 

@@ -37,7 +37,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -53,8 +52,9 @@ import org.videolan.vlc.gui.SimpleAdapter;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.viewmodels.browser.NetworkProvider;
+import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
 import java.util.List;
 
@@ -68,17 +68,17 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mBinding.setShowFavorites(mRoot);
-        mProvider = ViewModelProviders.of(this, new NetworkProvider.Factory(mMrl, mShowHiddenFiles)).get(NetworkProvider.class);
+        getBinding().setShowFavorites(isRootDirectory());
+        viewModel = ViewModelProviders.of(this, new NetworkModel.Factory(getMrl(), getShowHiddenFiles())).get(NetworkModel.class);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (mRoot) ((NetworkProvider) mProvider).getFavorites().observe(this, new Observer<List<MediaLibraryItem>>() {
+        if (isRootDirectory()) ((NetworkModel) viewModel).getFavorites().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {
-                mBinding.setShowFavorites(!Util.isListEmpty(mediaLibraryItems));
+                getBinding().setShowFavorites(!Util.isListEmpty(mediaLibraryItems));
                 favoritesAdapter.update(mediaLibraryItems);
             }
         });
@@ -90,23 +90,13 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         });
     }
 
-    protected void setContextMenuItems(Menu menu, int position) {
-        if (mRoot) {
-            menu.findItem(R.id.directory_view_play_folder).setVisible(false);
-            menu.findItem(R.id.directory_view_delete).setVisible(false);
-            final MediaWrapper mw = (MediaWrapper) favoritesAdapter.get(position);
-            menu.findItem(R.id.network_remove_favorite).setVisible(true);
-            menu.findItem(R.id.network_edit_favorite).setVisible(!TextUtils.equals(mw.getUri().getScheme(), "upnp"));
-        } else super.setContextMenuItems(menu, position);
-    }
-
     private BaseBrowserAdapter favoritesAdapter;
     @Override
     protected void initFavorites() {
-        if (!mRoot) return;
-        mBinding.favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if (!isRootDirectory()) return;
+        getBinding().favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
         favoritesAdapter = new BaseBrowserAdapter(this, true);
-        mBinding.favoritesList.setAdapter(favoritesAdapter);
+        getBinding().favoritesList.setAdapter(favoritesAdapter);
     }
 
     @Override
@@ -118,10 +108,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        MenuItem item = menu.findItem(R.id.ml_menu_save);
-        item.setVisible(isSortEnabled());
+        final MenuItem item = menu.findItem(R.id.ml_menu_save);
+        item.setVisible(!isRootDirectory());
 
-        boolean isFavorite = mMrl != null && MediaDatabase.getInstance().networkFavExists(Uri.parse(mMrl));
+        boolean isFavorite = getMrl() != null && MediaDatabase.getInstance().networkFavExists(Uri.parse(getMrl()));
         item.setIcon(isFavorite ?
                 R.drawable.ic_menu_bookmark_w :
                 R.drawable.ic_menu_bookmark_outline_w);
@@ -130,7 +120,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
 
     public void onStart() {
         super.onStart();
-        if (!mRoot) LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
+        if (!isRootDirectory()) LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
         mFabPlay.setImageResource(R.drawable.ic_fab_add);
         mFabPlay.setOnClickListener(this);
         setFabPlayVisibility(true);
@@ -145,7 +135,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         if (connected) super.refresh();
         else {
             updateEmptyView();
-            mAdapter.clear();
+            getAdapter().clear();
         }
     }
 
@@ -171,28 +161,28 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         super.onStop();
         setFabPlayVisibility(false);
         mFabPlay.setOnClickListener(null);
-        if (!mRoot) LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
-        goBack = false;
+        if (!isRootDirectory()) LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
+        setGoBack(false);
     }
 
-    protected boolean handleContextItemSelected(MenuItem item, final int position) {
-        int id = item.getItemId();
-        if (!(mAdapter.getItem(position) instanceof MediaWrapper)) return false;
-        final MediaWrapper mw = (MediaWrapper) (mRoot ? favoritesAdapter.getItem(position) : mAdapter.getItem(position));
-        switch (id){
-            case R.id.network_add_favorite:
+    @Override
+    public void onCtxAction(int position, int option) {
+        final MediaWrapper mw = (MediaWrapper) (isRootDirectory() ? favoritesAdapter.getItem(position) : getAdapter().getItem(position));
+        switch (option) {
+            case Constants.CTX_NETWORK_ADD:
                 MediaDatabase.getInstance().addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
-                if (isRootDirectory()) ((NetworkProvider)getProvider()).updateFavs();
-                return true;
-            case R.id.network_remove_favorite:
-                MediaDatabase.getInstance().deleteNetworkFav(mw.getUri());
-                if (mRoot) ((NetworkProvider)getProvider()).updateFavs();
-                return true;
-            case R.id.network_edit_favorite:
+                if (isRootDirectory()) ((NetworkModel) getViewModel()).updateFavs();
+                break;
+            case Constants.CTX_NETWORK_EDIT:
                 showAddServerDialog(mw);
-                return true;
+                break;
+            case Constants.CTX_NETWORK_REMOVE:
+                MediaDatabase.getInstance().deleteNetworkFav(mw.getUri());
+                if (isRootDirectory()) ((NetworkModel) getViewModel()).updateFavs();
+                break;
+            default:
+                super.onCtxAction(position, option);
         }
-        return super.handleContextItemSelected(item, position);
     }
 
     @Override
@@ -209,10 +199,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
 
     public void toggleFavorite() {
         final MediaDatabase db = MediaDatabase.getInstance();
-        if (db.networkFavExists(mCurrentMedia.getUri()))
-            db.deleteNetworkFav(mCurrentMedia.getUri());
+        if (db.networkFavExists(getCurrentMedia().getUri()))
+            db.deleteNetworkFav(getCurrentMedia().getUri());
         else
-            db.addNetworkFavItem(mCurrentMedia.getUri(), mCurrentMedia.getTitle(), mCurrentMedia.getArtworkURL());
+            db.addNetworkFavItem(getCurrentMedia().getUri(), getCurrentMedia().getTitle(), getCurrentMedia().getArtworkURL());
         final Activity activity = getActivity();
         if (activity!= null) activity.invalidateOptionsMenu();
     }
@@ -221,29 +211,29 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
      * Update views visibility and emptiness info
      */
     protected void updateEmptyView() {
-        if (mBinding == null) return;
+        if (getBinding() == null) return;
         if (ExternalMonitor.connected.getValue()) {
-            if (Util.isListEmpty(getProvider().getDataset().getValue())) {
+            if (Util.isListEmpty(getViewModel().getDataset().getValue())) {
                 if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) {
-                    mBinding.empty.setText(R.string.loading);
-                    mBinding.empty.setVisibility(View.VISIBLE);
-                    mBinding.networkList.setVisibility(View.GONE);
+                    getBinding().empty.setText(R.string.loading);
+                    getBinding().empty.setVisibility(View.VISIBLE);
+                    getBinding().networkList.setVisibility(View.GONE);
                 } else {
-                    if (mRoot) mBinding.empty.setText(allowLAN() ? R.string.network_shares_discovery : R.string.network_connection_needed);
-                    else mBinding.empty.setText(R.string.network_empty);
-                    mBinding.empty.setVisibility(View.VISIBLE);
-                    mBinding.networkList.setVisibility(View.GONE);
-                    mHandler.sendEmptyMessage(BrowserFragmentHandler.MSG_HIDE_LOADING);
+                    if (isRootDirectory()) getBinding().empty.setText(allowLAN() ? R.string.network_shares_discovery : R.string.network_connection_needed);
+                    else getBinding().empty.setText(R.string.network_empty);
+                    getBinding().empty.setVisibility(View.VISIBLE);
+                    getBinding().networkList.setVisibility(View.GONE);
+                    getHandler().sendEmptyMessage(BaseBrowserFragmentKt.MSG_HIDE_LOADING);
                 }
-            } else if (mBinding.empty.getVisibility() == View.VISIBLE) {
-                    mBinding.empty.setVisibility(View.GONE);
-                    mBinding.networkList.setVisibility(View.VISIBLE);
+            } else if (getBinding().empty.getVisibility() == View.VISIBLE) {
+                    getBinding().empty.setVisibility(View.GONE);
+                    getBinding().networkList.setVisibility(View.VISIBLE);
             }
         } else {
-            mBinding.empty.setText(R.string.network_connection_needed);
-            mBinding.empty.setVisibility(View.VISIBLE);
-            mBinding.networkList.setVisibility(View.GONE);
-            mBinding.setShowFavorites(false);
+            getBinding().empty.setText(R.string.network_connection_needed);
+            getBinding().empty.setVisibility(View.VISIBLE);
+            getBinding().networkList.setVisibility(View.GONE);
+            getBinding().setShowFavorites(false);
         }
     }
 
@@ -260,15 +250,11 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         dialog.show(fm, "fragment_add_server");
     }
 
-    public boolean isSortEnabled() {
-        return !mRoot;
-    }
-
     private BroadcastReceiver mLocalReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (isResumed()) goBack();
-            else goBack = true;
+            else setGoBack(true);
         }
     };
 }

@@ -16,12 +16,14 @@ import android.util.Log;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.Playlist;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.SubtitlesDownloader;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WorkersKt;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -335,5 +337,14 @@ public class MediaUtils {
         } finally {
             if (cursor != null && !cursor.isClosed()) cursor.close();
         }
+    }
+
+    public static void deletePlaylist(final Playlist playlist) {
+        WorkersKt.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                playlist.delete();
+            }
+        });
     }
 }

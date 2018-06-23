@@ -20,13 +20,11 @@
 
 package org.videolan.vlc.gui.audio;
 
-import android.annotation.TargetApi;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -38,7 +36,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,34 +43,24 @@ import android.widget.TextView;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.medialibrary.media.Playlist;
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
-import org.videolan.vlc.gui.helpers.AudioUtil;
-import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WeakHandler;
-import org.videolan.vlc.util.WorkersKt;
-import org.videolan.vlc.viewmodels.audio.AlbumProvider;
-import org.videolan.vlc.viewmodels.audio.ArtistProvider;
+import org.videolan.vlc.viewmodels.audio.AlbumModel;
+import org.videolan.vlc.viewmodels.audio.ArtistModel;
 import org.videolan.vlc.viewmodels.audio.AudioModel;
-import org.videolan.vlc.viewmodels.audio.Genresprovider;
-import org.videolan.vlc.viewmodels.audio.PlaylistsProvider;
-import org.videolan.vlc.viewmodels.audio.TracksProvider;
+import org.videolan.vlc.viewmodels.audio.GenresModel;
+import org.videolan.vlc.viewmodels.audio.PlaylistsModel;
+import org.videolan.vlc.viewmodels.audio.TracksModel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -86,16 +73,16 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private AudioBrowserAdapter mGenresAdapter;
     private AudioBrowserAdapter mPlaylistAdapter;
 
-    private ArtistProvider artistProvider;
-    private AlbumProvider albumProvider;
-    private TracksProvider tracksProvider;
-    private Genresprovider genresprovider;
-    private PlaylistsProvider playlistsProvider;
+    private ArtistModel artistModel;
+    private AlbumModel albumModel;
+    private TracksModel tracksModel;
+    private GenresModel genresModel;
+    private PlaylistsModel playlistsModel;
 
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private TextView mEmptyView;
-    private final ContextMenuRecyclerView[] mLists = new ContextMenuRecyclerView[MODE_TOTAL];
+    private final RecyclerView[] mLists = new RecyclerView[MODE_TOTAL];
     private AudioModel[] mProvidersList;
     private FastScroller mFastScroller;
     private SharedPreferences mSettings;
@@ -136,12 +123,12 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        for (int i = 0; i < MODE_TOTAL; i++) mLists[i] = (ContextMenuRecyclerView) mViewPager.getChildAt(i);
+        for (int i = 0; i < MODE_TOTAL; i++) mLists[i] = (RecyclerView) mViewPager.getChildAt(i);
 
         final String[] titles = new String[] {
                 getString(R.string.artists),
                 getString(R.string.albums),
-                getString(R.string.songs),
+                getString(R.string.tracks),
                 getString(R.string.genres),
                 getString(R.string.playlists),
         };
@@ -164,26 +151,26 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private void setupAdapters(final int currentTab) {
         if (mArtistsAdapter == null) {
             mArtistsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this);
-            artistProvider = ViewModelProviders.of(requireActivity(), new ArtistProvider.Factory(mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false))).get(ArtistProvider.class);
+            artistModel = ViewModelProviders.of(requireActivity(), new ArtistModel.Factory(mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false))).get(ArtistModel.class);
         }
         if (mAlbumsAdapter == null) {
             mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this);
-            albumProvider = ViewModelProviders.of(requireActivity()).get(AlbumProvider.class);
+            albumModel = ViewModelProviders.of(requireActivity()).get(AlbumModel.class);
         }
         if (mSongsAdapter == null) {
             mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this);
-            tracksProvider = ViewModelProviders.of(requireActivity()).get(TracksProvider.class);
+            tracksModel = ViewModelProviders.of(requireActivity()).get(TracksModel.class);
         }
         if (mGenresAdapter == null) {
             mGenresAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this);
-            genresprovider = ViewModelProviders.of(requireActivity()).get(Genresprovider.class);
+            genresModel = ViewModelProviders.of(requireActivity()).get(GenresModel.class);
         }
         if (mPlaylistAdapter == null) {
             mPlaylistAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this);
-            playlistsProvider = ViewModelProviders.of(requireActivity()).get(PlaylistsProvider.class);
+            playlistsModel = ViewModelProviders.of(requireActivity()).get(PlaylistsModel.class);
         }
         mAdapters = new AudioBrowserAdapter[] {mArtistsAdapter, mAlbumsAdapter, mSongsAdapter, mGenresAdapter, mPlaylistAdapter};
-        mProvidersList = new AudioModel[] {artistProvider, albumProvider, tracksProvider, genresprovider, playlistsProvider};
+        mProvidersList = new AudioModel[] {artistModel, albumModel, tracksModel, genresModel, playlistsModel};
         //Register current tab first
         mProvidersList[currentTab].getSections().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
@@ -218,7 +205,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onStart() {
         super.onStart();
-        for (View rv : mLists) registerForContextMenu(rv);
         mViewPager.addOnPageChangeListener(this);
         mFabPlay.setImageResource(R.drawable.ic_fab_shuffle);
         setFabPlayShuffleAllVisibility();
@@ -233,7 +219,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onStop() {
         super.onStop();
-        for (View rv : mLists) unregisterForContextMenu(rv);
         mViewPager.removeOnPageChangeListener(this);
     }
 
@@ -243,133 +228,12 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         menu.findItem(R.id.ml_menu_last_playlist).setVisible(true);
     }
 
-    protected void setContextMenuItems(Menu menu, int position) {
-        final int pos = mViewPager.getCurrentItem();
-        if (pos != MODE_SONG) {
-            menu.setGroupVisible(R.id.songs_view_only, false);
-            menu.setGroupVisible(R.id.phone_only, false);
-        }
-        if (pos == MODE_ARTIST || pos == MODE_GENRE || pos == MODE_ALBUM)
-            menu.findItem(R.id.audio_list_browser_play).setVisible(true);
-        if (pos != MODE_SONG && pos != MODE_PLAYLIST)
-            menu.findItem(R.id.audio_list_browser_delete).setVisible(false);
-        else {
-            final MenuItem item = menu.findItem(R.id.audio_list_browser_delete);
-            final AudioBrowserAdapter adapter = pos == MODE_SONG ? mSongsAdapter : mPlaylistAdapter;
-            final MediaLibraryItem mediaItem = adapter.getItem(position);
-            if (pos == MODE_PLAYLIST ) item.setVisible(true);
-            else {
-                String location = ((MediaWrapper)mediaItem).getLocation();
-                item.setVisible(FileUtils.canWrite(location));
-            }
-        }
-        if (!AndroidDevices.isPhone) menu.setGroupVisible(R.id.phone_only, false);
-    }
-
-    protected boolean handleContextItemSelected(final MenuItem item, final int position) {
-        final int mode = mViewPager.getCurrentItem();
-        final AudioBrowserAdapter adapter = mAdapters[mode];
-        if (position < 0 && position >= adapter.getItemCount()) return false;
-
-        final int id = item.getItemId();
-        final MediaLibraryItem mediaItem = adapter.getItem(position);
-
-        if (id == R.id.audio_list_browser_delete) {
-            if (mediaItem.getItemType() != MediaLibraryItem.TYPE_MEDIA) return false;
-            final MediaLibraryItem previous = position > 0 ? adapter.getItem(position-1) : null;
-            final MediaLibraryItem next = position < adapter.getItemCount()-1 ? adapter.getItem(position+1) : null;
-            final AudioModel provider = getProvider();
-            final String message;
-            final Runnable action;
-            final Runnable cancel;
-            final MediaLibraryItem separator = previous != null && previous.getItemType() == MediaLibraryItem.TYPE_DUMMY &&
-                    (next == null || next.getItemType() == MediaLibraryItem.TYPE_DUMMY) ? previous : null;
-            if (separator != null) provider.remove(separator);
-            provider.remove(mediaItem);
-
-            if (mode == MODE_PLAYLIST) {
-                cancel = null;
-                message = getString(R.string.playlist_deleted);
-                action = new Runnable() {
-                    @Override
-                    public void run() {
-                        deletePlaylist((Playlist) mediaItem);
-                    }
-                };
-            } else if (mode == MODE_SONG) {
-                message = getString(R.string.file_deleted);
-                cancel = new Runnable() {
-                    @Override
-                    public void run() {
-                        provider.refresh();
-                    }
-                };
-                action = new Runnable() {
-                    @Override
-                    public void run() {
-                        deleteMedia(mediaItem, true, cancel);
-                    }
-                };
-                if (!checkWritePermission((MediaWrapper) mediaItem, new Runnable() {
-                    @Override
-                    public void run() {
-                        final View v = getView();
-                        if (v != null) UiTools.snackerWithCancel(getView(), message, action, cancel);
-                    }
-                })) return false;
-            } else return false;
-            final View v = getView();
-            if (v != null) UiTools.snackerWithCancel(getView(), message, action, cancel);
-            return true;
-        }
-
-        if (id == R.id.audio_list_browser_set_song) {
-            if (mSongsAdapter.getItemCount() <= position) return false;
-            AudioUtil.setRingtone((MediaWrapper) mSongsAdapter.getItem(position), getActivity());
-            return true;
-        }
-
-        if (id == R.id.audio_view_info) {
-            showInfoDialog(mSongsAdapter.getItem(position));
-            return true;
-        }
-
-        if (id == R.id.audio_view_add_playlist) {
-            UiTools.addToPlaylist(getActivity(), mediaItem.getTracks(), SavePlaylistDialog.KEY_NEW_TRACKS);
-            return true;
-        }
-
-        int startPosition;
-        MediaWrapper[] medias;
-
-        boolean useAllItems = id == R.id.audio_list_browser_play_all;
-        boolean append = id == R.id.audio_list_browser_append;
-        boolean insert_next = id == R.id.audio_list_browser_insert_next;
-
-        // Play/Append
-        if (useAllItems) {
-            if (mSongsAdapter.getItemCount() <= position) return false;
-            final List<MediaLibraryItem> mediaList = new ArrayList<>();
-            startPosition = mSongsAdapter.getListWithPosition(mediaList, position);
-            medias = Arrays.copyOf(mediaList.toArray(), mediaList.size(), MediaWrapper[].class);
-        } else {
-            startPosition = 0;
-            if (position >= adapter.getItemCount()) return false;
-            medias = mediaItem.getTracks();
-        }
-
-        if (append) MediaUtils.appendMedia(getActivity(), medias);
-        else if (insert_next) MediaUtils.insertNext(getActivity(), medias);
-        else MediaUtils.openArray(getActivity(), medias, startPosition);
-        return true;
-    }
-
     @Override
     public void onFabPlayClick(View view) {
         final List<MediaWrapper> list = ((List<MediaWrapper>)(List<?>) mSongsAdapter.getMediaItems());
         final int count = list.size();
         if (count > 0) {
-            Random rand = new Random();
+            final Random rand = new Random();
             int randomSong = rand.nextInt(count);
             MediaUtils.openList(getActivity(), list, randomSong, true);
         }
@@ -443,15 +307,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         mLists[tab.getPosition()].smoothScrollToPosition(0);
     }
 
-    private void deletePlaylist(final Playlist playlist) {
-        WorkersKt.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                playlist.delete();
-            }
-        });
-    }
-
     @Override
     public void onPageScrollStateChanged(int state) {
         tcl.onPageScrollStateChanged(state);
@@ -487,13 +342,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         startActivity(i);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    @Override
-    public void onCtxClick(View anchor, final int position, MediaLibraryItem item) {
-        if (mActionMode == null)
-            getCurrentRV().openContextMenu(position);
-    }
-
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         super.onUpdateFinished(adapter);
@@ -506,7 +354,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     @Override
-    public AudioModel getProvider() {
+    public AudioModel getViewModel() {
         return mProvidersList[mViewPager.getCurrentItem()];
     }
 
@@ -514,7 +362,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         return (AudioBrowserAdapter) (getCurrentRV()).getAdapter();
     }
 
-    private ContextMenuRecyclerView getCurrentRV() {
+    private RecyclerView getCurrentRV() {
         return mLists[mViewPager.getCurrentItem()];
     }
 
@@ -542,8 +390,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     public void updateArtists() {
-        artistProvider.showAll(mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false));
-        artistProvider.refresh();
+        artistModel.showAll(mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false));
+        artistModel.refresh();
     }
 
     protected boolean playlistModeSelected() {

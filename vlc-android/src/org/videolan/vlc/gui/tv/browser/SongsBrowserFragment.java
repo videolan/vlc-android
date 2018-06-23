@@ -39,21 +39,21 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.util.WorkersKt;
-import org.videolan.vlc.viewmodels.audio.TracksProvider;
+import org.videolan.vlc.viewmodels.audio.TracksModel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class SongsBrowserFragment extends CategoriesFragment<TracksProvider> {
+public class SongsBrowserFragment extends CategoriesFragment<TracksModel> {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        provider = ViewModelProviders.of(this).get(TracksProvider.class);
-        provider.getCategories().observe(this, new Observer<Map<String, List<MediaLibraryItem>>>() {
+        viewModel = ViewModelProviders.of(this).get(TracksModel.class);
+        viewModel.getCategories().observe(this, new Observer<Map<String, List<MediaLibraryItem>>>() {
             @Override
             public void onChanged(@Nullable Map<String, List<MediaLibraryItem>> stringListMap) {
                 if (stringListMap != null) update(stringListMap);
@@ -68,7 +68,7 @@ public class SongsBrowserFragment extends CategoriesFragment<TracksProvider> {
             public void run() {
                 int position = 0;
                 String location = ((MediaWrapper)item).getLocation();
-                final ArrayList<MediaWrapper> songs = (ArrayList<MediaWrapper>)(ArrayList<?>)provider.getDataset().getValue();
+                final ArrayList<MediaWrapper> songs = (ArrayList<MediaWrapper>)(ArrayList<?>) viewModel.getDataset().getValue();
                 for (int i = 0; i < songs.size(); ++i) {
                     if (TextUtils.equals(location, songs.get(i).getLocation())) {
                         position = i;

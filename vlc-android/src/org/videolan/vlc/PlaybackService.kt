@@ -519,6 +519,10 @@ class PlaybackService : MediaBrowserServiceCompat() {
         return Service.START_NOT_STICKY
     }
 
+    override fun onTaskRemoved(rootIntent: Intent) {
+        if (settings.getBoolean("audio_task_removed", false)) stopSelf()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
@@ -582,6 +586,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     fun onPlaybackStopped(systemExit: Boolean) {
         if (!systemExit) hideNotification(VLCApplication.isForeground())
+        removePopup()
         if (wakeLock.isHeld) wakeLock.release()
         audioFocusHelper.changeAudioFocus(false)
         medialibrary.resumeBackgroundOperations()
@@ -689,9 +694,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         NotificationManagerCompat.from(this@PlaybackService).cancel(3)
     }
 
-    fun onNewPlayback(mw: MediaWrapper) {
-        mediaSession.setSessionActivity(sessionPendingIntent)
-    }
+    fun onNewPlayback() = mediaSession.setSessionActivity(sessionPendingIntent)
 
     fun onPlaylistLoaded() {
         notifyTrackChanged()
@@ -707,7 +710,6 @@ class PlaybackService : MediaBrowserServiceCompat() {
     @MainThread
     @JvmOverloads
     fun stop(systemExit: Boolean = false) {
-        removePopup()
         playlistManager.stop(systemExit)
     }
 
@@ -1000,7 +1002,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
      * @param flags LibVLC.MEDIA_* flags
      */
     @JvmOverloads
-    fun playIndex(index: Int, flags: Int = 0) = playlistManager.playIndex(index, flags)
+    fun playIndex(index: Int, flags: Int = 0) = uiJob(false) { playlistManager.playIndex(index, flags) }
 
     @MainThread
     fun flush() {
@@ -1046,7 +1048,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     @MainThread
     fun removePopup() {
-        if (popupManager != null) popupManager!!.removePopup()
+        popupManager?.removePopup()
         popupManager = null
     }
 
@@ -1187,7 +1189,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     @MainThread
-    fun setEqualizer(equalizer: MediaPlayer.Equalizer) = playlistManager.player.setEqualizer(equalizer)
+    fun setEqualizer(equalizer: MediaPlayer.Equalizer?) = playlistManager.player.setEqualizer(equalizer)
 
     @MainThread
     fun setVideoScale(scale: Float) = playlistManager.player.setVideoScale(scale)
@@ -1327,10 +1329,10 @@ class PlaybackService : MediaBrowserServiceCompat() {
 // Actor actions sealed classes
 private sealed class CbAction
 private object CbUpdate : CbAction()
-private data class CbMediaEvent(val event : Media.Event) : CbAction()
-private data class CbMediaPlayerEvent(val event : MediaPlayer.Event) : CbAction()
-private data class CbAdd(val cb : PlaybackService.Callback) : CbAction()
-private data class CbRemove(val cb : PlaybackService.Callback) : CbAction()
+private class CbMediaEvent(val event : Media.Event) : CbAction()
+private class CbMediaPlayerEvent(val event : MediaPlayer.Event) : CbAction()
+private class CbAdd(val cb : PlaybackService.Callback) : CbAction()
+private class CbRemove(val cb : PlaybackService.Callback) : CbAction()
 private object ShowNotification : CbAction()
-private data class HideNotification(val remove: Boolean) : CbAction()
+private class HideNotification(val remove: Boolean) : CbAction()
 private object UpdateMeta : CbAction()

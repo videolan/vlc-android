@@ -324,7 +324,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         audioBoostEnabled = mSettings.getBoolean("audio_boost", false);
 
         mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
-        mDisplayManager = new DisplayManager(this, mEnableCloneMode);
+        mDisplayManager = new DisplayManager(this, mEnableCloneMode, mIsBenchmark);
         setContentView(mDisplayManager.isPrimary() ? R.layout.player : R.layout.player_remote_control);
 
         /** initialize Views an their Events */
@@ -777,7 +777,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         surfaceFrameAddLayoutListener(true);
 
         /* Listen for changes to media routes. */
-        mDisplayManager.mediaRouterAddCallback(true);
+        if (!mIsBenchmark) mDisplayManager.mediaRouterAddCallback(true);
 
         if (mRootView != null) mRootView.setKeepScreenOn(true);
     }
@@ -845,7 +845,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mRootView != null) mRootView.setKeepScreenOn(false);
 
         /* Stop listening for changes to media routes. */
-        mDisplayManager.mediaRouterAddCallback(false);
+        if (!mIsBenchmark) mDisplayManager.mediaRouterAddCallback(false);
 
         surfaceFrameAddLayoutListener(false);
 
@@ -933,7 +933,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     };
 
-    public void exit(int resultCode){
+    public void exit(int resultCode) {
         if (isFinishing()) return;
         final Intent resultIntent = new Intent(ACTION_RESULT);
         if (mUri != null && mService != null) {

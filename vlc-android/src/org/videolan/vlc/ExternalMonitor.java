@@ -176,6 +176,10 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
         return vpn;
     }
 
+    public static boolean allowLan() {
+        return isLan() || isVPN();
+    }
+
     public static synchronized void subscribeStorageCb(Activity observer) {
         storageObserver = new WeakReference<>(observer);
     }

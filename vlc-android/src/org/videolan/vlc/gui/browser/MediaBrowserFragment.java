@@ -36,9 +36,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
-import android.view.ContextMenu;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -55,7 +54,6 @@ import org.videolan.vlc.gui.audio.BaseAudioBrowser;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate;
 import org.videolan.vlc.gui.video.VideoGridFragment;
-import org.videolan.vlc.gui.view.ContextMenuRecyclerView;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.util.AndroidDevices;
@@ -75,17 +73,17 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     protected Medialibrary mMediaLibrary;
     protected ActionMode mActionMode;
     public FloatingActionButton mFabPlay;
-    protected T mProvider;
+    protected T viewModel;
 
-    public T getProvider() {
-        return mProvider;
+    public T getViewModel() {
+        return viewModel;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(!AndroidDevices.isAndroidTv);
     }
 
     @Override
@@ -95,6 +93,12 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
         if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
             mFabPlay = getActivity().findViewById(R.id.fab);
+        setBreadcrumb();
+    }
+
+    protected void setBreadcrumb() {
+        final RecyclerView ariane = requireActivity().findViewById(R.id.ariane);
+        if (ariane != null) ariane.setVisibility(View.GONE);
     }
 
     public void onStart() {
@@ -139,25 +143,6 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
 
     protected String getSubTitle() { return null; }
     public void clear() {}
-
-    protected void inflate(Menu menu, int position) {}
-    protected void setContextMenuItems(Menu menu, int position) {}
-    protected boolean handleContextItemSelected(MenuItem menu, int position) { return false;}
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        if (menuInfo == null) return;
-        final ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo)menuInfo;
-        inflate(menu, info.position);
-        setContextMenuItems(menu, info.position);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem menu) {
-        if (!getUserVisibleHint()) return false;
-        final ContextMenuRecyclerView.RecyclerContextMenuInfo info = (ContextMenuRecyclerView.RecyclerContextMenuInfo) menu.getMenuInfo();
-        return info != null && handleContextItemSelected(menu, info.position);
-    }
 
     protected void deleteMedia(final MediaLibraryItem mw, final boolean refresh, final Runnable failCB) {
         WorkersKt.runBackground(new Runnable() {
@@ -222,19 +207,14 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.ml_menu_sortby).setVisible(getProvider().canSortByName());
-        menu.findItem(R.id.ml_menu_sortby_filename).setVisible(getProvider().canSortByFileNameName());
-        menu.findItem(R.id.ml_menu_sortby_artist_name).setVisible(getProvider().canSortByArtist());
-        menu.findItem(R.id.ml_menu_sortby_album_name).setVisible(getProvider().canSortByAlbum());
-        menu.findItem(R.id.ml_menu_sortby_length).setVisible(getProvider().canSortByDuration());
-        menu.findItem(R.id.ml_menu_sortby_date).setVisible(getProvider().canSortByReleaseDate() || getProvider().canSortByLastModified());
+        menu.findItem(R.id.ml_menu_sortby).setVisible(getViewModel().canSortByName());
+        menu.findItem(R.id.ml_menu_sortby_filename).setVisible(getViewModel().canSortByFileNameName());
+        menu.findItem(R.id.ml_menu_sortby_artist_name).setVisible(getViewModel().canSortByArtist());
+        menu.findItem(R.id.ml_menu_sortby_album_name).setVisible(getViewModel().canSortByAlbum());
+        menu.findItem(R.id.ml_menu_sortby_length).setVisible(getViewModel().canSortByDuration());
+        menu.findItem(R.id.ml_menu_sortby_date).setVisible(getViewModel().canSortByReleaseDate() || getViewModel().canSortByLastModified());
         menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
         UiTools.updateSortTitles(this);
     }
@@ -268,7 +248,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     }
 
     protected void sortBy(int sort) {
-        final T provider = getProvider();
+        final T provider = getViewModel();
         provider.sort(sort);
         final String key = provider.getKey();
         VLCApplication.getSettings().edit()
@@ -311,11 +291,11 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
 
     @Override
     public void filter(String query) {
-        getProvider().filter(query);
+        getViewModel().filter(query);
     }
 
     public void restoreList() {
-        getProvider().restore();
+        getViewModel().restore();
     }
 
     @Override

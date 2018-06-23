@@ -55,7 +55,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:fitsSystemWindows="true"
-            android:background="?attr/background_default"
+            android:background="?attr/background_default_darker"
             tools:layout_constraintRight_creator="1"
             tools:layout_constraintLeft_creator="1">
 
@@ -156,7 +156,7 @@
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/default_margin"
                 android:layout_marginEnd="@dimen/default_margin"
-                android:contentDescription="@string/pause"
+                android:contentDescription="@string/play"
                 android:focusable="true"
                 android:scaleType="fitXY"
                 android:onClick="@{fragment::onPlayPauseClick}"
@@ -253,6 +253,7 @@
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
             android:text="@string/time_0"
+            android:contentDescription="@string/length"
             android:textSize="12sp" />
 
         <ImageView
@@ -264,7 +265,7 @@
             app:layout_constraintTop_toTopOf="@+id/play_pause"
             android:layout_marginLeft="@dimen/default_margin"
             android:layout_marginStart="@dimen/default_margin"
-            android:contentDescription="@string/shuffle"
+            android:contentDescription="@string/shuffle_title"
             android:focusable="true"
             android:scaleType="fitXY"
             android:src="?attr/ic_shuffle"
@@ -279,7 +280,7 @@
             app:layout_constraintTop_toTopOf="@+id/play_pause"
             android:layout_marginRight="@dimen/default_margin"
             android:layout_marginEnd="@dimen/default_margin"
-            android:contentDescription="@string/repeat"
+            android:contentDescription="@string/repeat_title"
             android:focusable="true"
             android:onClick="@{fragment::onRepeatClick}"
             android:scaleType="fitXY"
@@ -292,7 +293,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/previous"
             app:layout_constraintRight_toLeftOf="@+id/next"
-            android:contentDescription="@string/pause"
+            android:contentDescription="@string/play"
             android:focusable="true"
             android:scaleType="fitXY"
             android:onClick="@{fragment::onPlayPauseClick}"

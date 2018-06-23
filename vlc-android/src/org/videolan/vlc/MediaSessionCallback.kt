@@ -1,9 +1,12 @@
 package org.videolan.vlc
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
+import android.view.KeyEvent
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -15,11 +18,26 @@ import org.videolan.vlc.util.Constants
 import org.videolan.vlc.util.VoiceSearchParams
 import org.videolan.vlc.util.registerMedialibrary
 
+private const val TAG = "VLC/MediaSessionCallback"
+
 internal class MediaSessionCallback(private val playbackService: PlaybackService) : MediaSessionCompat.Callback() {
 
     override fun onPlay() {
         if (playbackService.hasMedia()) playbackService.play()
         else if (!AndroidDevices.isAndroidTv) PlaybackService.loadLastAudio(playbackService)
+    }
+
+    override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
+        val keyEvent by lazy(LazyThreadSafetyMode.NONE) {  mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT) as KeyEvent? }
+        if (!playbackService.hasMedia() && keyEvent != null
+                && (keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE)) {
+            return if (keyEvent.action == KeyEvent.ACTION_DOWN) {
+                Log.d(TAG, KeyEvent.keyCodeToString(keyEvent.keyCode))
+                PlaybackService.loadLastAudio(playbackService)
+                true
+            } else false
+        }
+        return super.onMediaButtonEvent(mediaButtonEvent)
     }
 
     override fun onCustomAction(action: String?, extras: Bundle?) {
@@ -99,5 +117,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onRewind() = playbackService.seek(Math.max(0, playbackService.time - 5000))
 
-    override fun onSkipToQueueItem(id: Long) = playbackService.playIndex(id.toInt())
+    override fun onSkipToQueueItem(id: Long) {
+        playbackService.playIndex(id.toInt())
+    }
 }

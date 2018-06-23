@@ -32,7 +32,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/searchButton"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:visibility="@{showFavorites ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{showFavorites ? View.VISIBLE : View.GONE, default=gone}" />
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/favorites_list"
                 android:layout_width="@dimen/default_content_width"
@@ -41,7 +41,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/favorites_title"
                 android:background="?attr/background_default"
-                android:visibility="@{showFavorites ? View.VISIBLE : View.GONE}" />
+                android:visibility="@{showFavorites ? View.VISIBLE : View.GONE, default=gone}" />
             <TextView
                 android:id="@+id/folders_title"
                 android:layout_width="@dimen/default_content_width"
@@ -52,8 +52,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/favorites_list"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:visibility="@{showFavorites ? View.VISIBLE : View.GONE}" />
-            <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+                android:visibility="@{showFavorites ? View.VISIBLE : View.GONE, default=gone}" />
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/network_list"
                 android:layout_width="@dimen/default_content_width"
                 android:layout_height="0dp"

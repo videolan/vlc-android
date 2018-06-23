@@ -25,5 +25,4 @@ package org.videolan.vlc.gui.tv.browser.interfaces;
 
 public interface BrowserFragmentInterface {
     void refresh();
-    void updateList();
 }

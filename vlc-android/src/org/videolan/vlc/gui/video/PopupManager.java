@@ -163,6 +163,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     @Override
     public void onNewVideoLayout(IVLCVout vlcVout, int width, int height,
                                  int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
+        if (mRootView == null) return;
         int displayW = mRootView.getWidth(), displayH = mRootView.getHeight();
 
         // sanity check
@@ -209,9 +210,6 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     @Override
     public void onMediaPlayerEvent(MediaPlayer.Event event) {
         switch (event.type) {
-            case MediaPlayer.Event.Stopped:
-                removePopup();
-                break;
             case MediaPlayer.Event.Playing:
                 if (!mAlwaysOn)
                     mRootView.setKeepScreenOn(true);

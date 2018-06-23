@@ -61,7 +61,7 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     @Override
     protected void initAudioPlayerContainerActivity() {
         super.initAudioPlayerContainerActivity();
-        if (!AndroidDevices.isChromeBook) {
+        if (!AndroidDevices.isChromeBook && !AndroidDevices.isAndroidTv) {
             RendererDelegate.INSTANCE.getSelectedRenderer().observe(this, new Observer<RendererItem>() {
                 @Override
                 public void onChanged(@Nullable RendererItem rendererItem) {
@@ -90,6 +90,7 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (AndroidDevices.isAndroidTv) return false;
         if (getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder) instanceof AboutFragment)
             return true;
         getMenuInflater().inflate(R.menu.activity_option, menu);
@@ -103,9 +104,7 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
             mSearchView.setQueryHint(getString(R.string.search_list_hint));
             mSearchView.setOnQueryTextListener(this);
             searchItem.setOnActionExpandListener(this);
-        }
-        else
-            menu.findItem(R.id.ml_menu_filter).setVisible(false);
+        } else menu.findItem(R.id.ml_menu_filter).setVisible(false);
         menu.findItem(R.id.ml_menu_renderers).setVisible(showRenderers);
         menu.findItem(R.id.ml_menu_renderers).setIcon(!RendererDelegate.INSTANCE.hasRenderer() ? R.drawable.ic_am_renderer_normal_w : R.drawable.ic_am_renderer_on_w);
         return super.onCreateOptionsMenu(menu);
@@ -184,7 +183,7 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
         final Menu menu = mToolbar.getMenu();
         menu.findItem(R.id.ml_menu_renderers).setVisible(!hide && showRenderers);
         if (current instanceof MediaBrowserFragment) {
-            menu.findItem(R.id.ml_menu_sortby).setVisible(!hide && ((MediaBrowserFragment) current).getProvider().canSortByName());
+            menu.findItem(R.id.ml_menu_sortby).setVisible(!hide && ((MediaBrowserFragment) current).getViewModel().canSortByName());
         }
         if (current instanceof VideoGridFragment || current instanceof AudioBrowserFragment) {
             menu.findItem(R.id.ml_menu_last_playlist).setVisible(!hide);

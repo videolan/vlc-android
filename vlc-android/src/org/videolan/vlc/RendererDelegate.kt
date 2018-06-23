@@ -22,15 +22,13 @@ package org.videolan.vlc
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.CoroutineStart
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
 import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.retry
+import org.videolan.vlc.util.uiJob
 import java.util.*
 
 object RendererDelegate : RendererDiscoverer.EventListener {
@@ -43,7 +41,7 @@ object RendererDelegate : RendererDiscoverer.EventListener {
     val selectedRenderer: LiveData<RendererItem> = MutableLiveData()
 
     init {
-        ExternalMonitor.connected.observeForever { launch(UI, CoroutineStart.UNDISPATCHED) { if (it == true) start() else stop() } }
+        ExternalMonitor.connected.observeForever { uiJob(false) { if (it == true) start() else stop() } }
     }
 
     suspend fun start() {

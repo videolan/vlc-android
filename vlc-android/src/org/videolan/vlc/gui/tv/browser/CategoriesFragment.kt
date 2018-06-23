@@ -31,34 +31,36 @@ import android.support.v17.leanback.app.BrowseSupportFragment
 import android.support.v17.leanback.widget.*
 import android.support.v4.content.ContextCompat
 import android.view.View
+import android.widget.ImageView
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.CardPresenter
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
+import org.videolan.vlc.interfaces.Sortable
 import org.videolan.vlc.util.Constants
-import org.videolan.vlc.util.Constants.SELECTED_ITEM
-import org.videolan.vlc.util.RefreshModel
+import org.videolan.vlc.viewmodels.BaseModel
 
 private const val TAG = "VLC/CategoriesFragment"
 
-open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener, BrowserFragmentInterface {
+open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSupportFragment(), Sortable, OnItemViewSelectedListener, OnItemViewClickedListener, BrowserFragmentInterface {
+
     private lateinit var selecteditem: MediaLibraryItem
     private lateinit var backgroundManager: BackgroundManager
     private val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
     private lateinit var categoryRows: Map<String, ListRow>
-    lateinit var provider: T
+    lateinit var viewModel: T
     private var restart = false
     protected val preferences: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(requireContext()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // UI setting
-        headersState = BrowseSupportFragment.HEADERS_HIDDEN
+        headersState = BrowseSupportFragment.HEADERS_DISABLED
         brandColor = ContextCompat.getColor(activity!!, R.color.orange800)
-        if (savedInstanceState !== null) selecteditem = savedInstanceState.getParcelable<MediaWrapper>(SELECTED_ITEM)
-        else backgroundManager = BackgroundManager.getInstance(requireActivity())
+        if (savedInstanceState == null) backgroundManager = BackgroundManager.getInstance(requireActivity())
+        setOnSearchClickedListener { sort(requireActivity().findViewById(R.id.title_orb)) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,6 +69,8 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
         onItemViewClickedListener = this
         onItemViewSelectedListener = this
         backgroundManager.attachToView(view)
+        searchAffordanceColor = ContextCompat.getColor(requireContext(), R.color.orange500)
+        requireActivity().findViewById<ImageView>(R.id.icon).setImageResource(R.drawable.ic_menu_sort)
     }
 
     override fun onStart() {
@@ -74,11 +78,6 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
         if (this::selecteditem.isInitialized) TvUtil.updateBackground(backgroundManager, selecteditem)
         if (restart) refresh()
         restart = true
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        if (this::selecteditem.isInitialized) outState.putParcelable(SELECTED_ITEM, selecteditem)
     }
 
     override fun onItemSelected(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
@@ -94,10 +93,8 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
     }
 
     override fun refresh() {
-        if (this::provider.isInitialized) provider.refresh()
+        if (this::viewModel.isInitialized) viewModel.refresh()
     }
-
-    override fun updateList() {}
 
     protected fun update(map: Map<String, List<MediaLibraryItem>>?) {
         if (map === null) return
@@ -107,7 +104,8 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
             (row.adapter as ArrayObjectAdapter).setItems(list, TvUtil.diffCallback)
             rows[key] = row
         }
-        rowsAdapter.setItems(rows.values.toList(), TvUtil.listDiffCallback)
+        //TODO  Activate animations once IndexOutOfRange Exception is fixed
+        rowsAdapter.setItems(rows.values.toList(), null /*TvUtil.listDiffCallback*/)
         categoryRows = rows
     }
 
@@ -121,4 +119,6 @@ open class CategoriesFragment<T : RefreshModel> : BrowseSupportFragment(), OnIte
         is DirectoryBrowserFragment -> Constants.HEADER_DIRECTORIES
         else -> -1
     }
+
+    override fun getVM() = viewModel
 }

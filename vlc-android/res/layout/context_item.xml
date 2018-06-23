@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<data>
+    <import type="android.view.View" />
+    <variable
+        name="option"
+        type="org.videolan.vlc.gui.dialogs.CtxOption" />
+</data>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="42dp">
+    <ImageView
+        android:id="@+id/context_option_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:visibility="@{option.icon != 0 ? View.VISIBLE : View.GONE, default=gone}"
+        android:tint="@color/grey500"/>
+    <TextView
+        android:id="@+id/context_option_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@{option.title}"
+        style="@style/VLC.CtxTitle"/>
+</LinearLayout>
+</layout>

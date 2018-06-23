@@ -24,6 +24,8 @@
 package org.videolan.vlc.gui.browser;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,8 +33,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.SimpleArrayMap;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatEditText;
+import android.text.InputType;
 import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -44,9 +49,18 @@ import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
+import org.videolan.vlc.gui.AudioPlayerContainerActivity;
+import org.videolan.vlc.gui.dialogs.ContextSheetKt;
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox;
+import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.CustomDirectories;
-import org.videolan.vlc.viewmodels.browser.StorageProvider;
+import org.videolan.vlc.viewmodels.browser.BrowserModel;
+import org.videolan.vlc.viewmodels.browser.BrowserModelKt;
+
+import java.io.File;
+import java.io.IOException;
 
 public class StorageBrowserFragment extends FileBrowserFragment implements EntryPointsEventsCb {
 
@@ -55,10 +69,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     boolean mScannedDirectory = false;
     private final SimpleArrayMap<String, CheckBox> mProcessingFolders = new SimpleArrayMap<>();
     private Snackbar mSnack;
-
-    public boolean isSortEnabled() {
-        return false;
-    }
+    private AlertDialog mAlertDialog;
 
     @Override
     protected Fragment createFragment() {
@@ -68,7 +79,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        mAdapter = new StorageBrowserAdapter(this);
+        setAdapter(new StorageBrowserAdapter(this));
         if (bundle == null) bundle = getArguments();
         if (bundle != null) mScannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB);
     }
@@ -76,24 +87,19 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mRoot && VLCApplication.showTvUi()) {
+        if (isRootDirectory() && VLCApplication.showTvUi()) {
             mSnack = Snackbar.make(view, R.string.tv_settings_hint, Snackbar.LENGTH_INDEFINITE);
             if (AndroidUtil.isLolliPopOrLater) mSnack.getView().setElevation(view.getResources().getDimensionPixelSize(R.dimen.audio_player_elevation));
         }
     }
 
     protected void setupBrowser() {
-        mProvider = ViewModelProviders.of(this, new StorageProvider.Factory(mMrl, mShowHiddenFiles)).get(StorageProvider.class);
+        viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(getMrl(), BrowserModelKt.TYPE_STORAGE, getShowHiddenFiles())).get(BrowserModel.class);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        if (mRoot && mFabPlay != null) {
-            mFabPlay.setImageResource(R.drawable.ic_fab_add);
-            mFabPlay.setOnClickListener(this);
-            setFabPlayVisibility(true);
-        }
         VLCApplication.getMLInstance().addEntryPointsEventsCb(this);
         if (mSnack != null) mSnack.show();
     }
@@ -101,12 +107,9 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     @Override
     public void onStop() {
         super.onStop();
-        if (mFabPlay != null) {
-            mFabPlay.setVisibility(View.GONE);
-            mFabPlay.setOnClickListener(null);
-        }
         VLCApplication.getMLInstance().removeEntryPointsEventsCb(this);
         if (mSnack != null) mSnack.dismiss();
+        if (mAlertDialog != null && mAlertDialog.isShowing()) mAlertDialog.dismiss();
     }
 
     @Override
@@ -115,47 +118,56 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         outState.putBoolean(KEY_IN_MEDIALIB, mScannedDirectory);
     }
 
-//    @Override
-//    public void onMediaAdded(int index, Media media) {
-//        if (media.getType() != Media.Type.Directory)
-//            return;
-//        super.onMediaAdded(index, media);
-//    }
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        menu.findItem(R.id.ml_menu_custom_dir).setVisible(true);
+        menu.findItem(R.id.ml_menu_equalizer).setVisible(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.ml_menu_custom_dir) {
+            showAddDirectoryDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public void browse (MediaWrapper media, int position, boolean scanned){
         final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         final Fragment next = createFragment();
         final Bundle args = new Bundle();
-        args.putParcelable(KEY_MEDIA, media);
+        args.putParcelable(BaseBrowserFragmentKt.KEY_MEDIA, media);
         args.putBoolean(KEY_IN_MEDIALIB, mScannedDirectory || scanned);
         next.setArguments(args);
         ft.replace(R.id.fragment_placeholder, next, media.getLocation());
-        ft.addToBackStack(mMrl);
+        ft.addToBackStack(getMrl());
         ft.commit();
     }
 
-    protected void setContextMenuItems(MenuInflater inflater, Menu menu, int position) {
-        if (mRoot) {
-            Storage storage = (Storage) mAdapter.getItem(position);
+    public void onCtxClick(View v, int position, MediaLibraryItem item) {
+        if (isRootDirectory()) {
+            final Storage storage = (Storage) getAdapter().getItem(position);
             boolean isCustom = CustomDirectories.contains(storage.getUri().getPath());
-            if (isCustom)
-                inflater.inflate(R.menu.directory_custom_dir, menu);
-        } else
-            super.setContextMenuItems(menu, position);
+            if (isCustom) ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), Constants.CTX_CUSTOM_REMOVE);
+        }
+    }
+
+    @Override
+    public void onCtxAction(int position, int option) {
+        final Storage storage = (Storage) getAdapter().getItem(position);
+        MediaDatabase.getInstance().recursiveRemoveDir(storage.getUri().getPath());
+        CustomDirectories.removeCustomDirectory(storage.getUri().getPath());
+        viewModel.remove(storage);
+        ((AudioPlayerContainerActivity)getActivity()).updateLib();
     }
 
     @Override
     public void onClick(View v, int position, MediaLibraryItem item) {
-        MediaWrapper mw = new MediaWrapper(((Storage) item).getUri());
+        final MediaWrapper mw = new MediaWrapper(((Storage) item).getUri());
         mw.setType(MediaWrapper.TYPE_DIR);
         browse(mw, position, ((BrowserItemBinding)DataBindingUtil.findBinding(v)).browserCheckbox.getState() == ThreeStatesCheckbox.STATE_CHECKED);
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.fab){
-            showAddDirectoryDialog();
-        }
     }
 
     void processEvent(CheckBox cbp, String mrl) {
@@ -180,15 +192,14 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
             entryPoint = entryPoint.substring(0, entryPoint.length()-1);
         if (mProcessingFolders.containsKey(entryPoint)) {
             final CheckBox cb = mProcessingFolders.remove(entryPoint);
-            mHandler.post(new Runnable() {
+            getHandler().post(new Runnable() {
                 @Override
                 public void run() {
                     cb.setEnabled(true);
                     if (success) {
-                        ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
-                        mAdapter.notifyDataSetChanged();
-                    } else
-                        cb.setChecked(true);
+                        ((StorageBrowserAdapter) getAdapter()).updateMediaDirs();
+                        getAdapter().notifyDataSetChanged();
+                    } else cb.setChecked(true);
                 }
             });
         }
@@ -203,17 +214,47 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     @Override
     public void onDiscoveryCompleted(String entryPoint) {
         String path = entryPoint;
-        if (path.endsWith("/"))
-            path = path.substring(0, path.length()-1);
+        if (path.endsWith("/")) path = path.substring(0, path.length()-1);
         if (mProcessingFolders.containsKey(path)) {
             final String finalPath = path;
-            mHandler.post(new Runnable() {
+            getHandler().post(new Runnable() {
                 @Override
                 public void run() {
                     mProcessingFolders.get(finalPath).setEnabled(true);
                 }
             });
-            ((StorageBrowserAdapter)mAdapter).updateMediaDirs();
+            ((StorageBrowserAdapter) getAdapter()).updateMediaDirs();
         }
+    }
+
+    private void showAddDirectoryDialog() {
+        final Context context = getActivity();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final AppCompatEditText input = new AppCompatEditText(context);
+        input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        builder.setTitle(R.string.add_custom_path);
+        builder.setMessage(R.string.add_custom_path_description);
+        builder.setView(input);
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int which) {}
+        });
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String path = input.getText().toString().trim();
+                File f = new File(path);
+                if (!f.exists() || !f.isDirectory()) {
+                    UiTools.snacker(getView(), getString(R.string.directorynotfound, path));
+                    return;
+                }
+
+                try {
+                    CustomDirectories.addCustomDirectory(f.getCanonicalPath());
+                    ((AudioPlayerContainerActivity)getActivity()).updateLib();
+                } catch (IOException ignored) {}
+            }
+        });
+        mAlertDialog = builder.show();
     }
 }

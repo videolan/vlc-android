@@ -602,4 +602,7 @@
     <string name="audio_digital_output_enabled">Audio Digital Output enabled</string>
     <string name="audio_digital_output_disabled">Audio Digital Output disabled</string>
     <string name="audio_digital_title">Digital audio output (passthrough)</string>
+    <string name="audio_task_removed_title">Stop playback when application is dismissed</string>
+    <string name="playback_rewind">Rewind</string>
+    <string name="playback_forward">Fast forward</string>
 </resources>

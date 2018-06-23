@@ -60,7 +60,7 @@
             vlc:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:keyboardNavigationCluster="true"
             tools:targetApi="o"  >
-            <org.videolan.vlc.gui.view.ContextMenuRecyclerView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/songs"
                 android:layout_width="@dimen/default_content_width"
                 android:layout_height="match_parent"

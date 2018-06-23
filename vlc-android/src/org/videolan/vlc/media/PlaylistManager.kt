@@ -11,8 +11,6 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.CoroutineStart
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
@@ -27,6 +25,7 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.video.VideoPlayerActivity
+import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
 import org.videolan.vlc.util.*
 import java.util.*
 
@@ -90,11 +89,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             var mediaWrapper = medialibrary.getMedia(location)
             if (mediaWrapper === null) {
                 if (!location.validateLocation()) {
-                    Log.w(TAG, "Invalid location " + location)
+                    Log.w(TAG, "Invalid location $location")
                     service.showToast(service.resources.getString(R.string.invalid_location, location), Toast.LENGTH_SHORT)
                     continue
                 }
-                Log.v(TAG, "Creating on-the-fly Media object for " + location)
+                Log.v(TAG, "Creating on-the-fly Media object for $location")
                 mediaWrapper = MediaWrapper(Uri.parse(location))
             }
             mediaList.add(mediaWrapper)
@@ -102,6 +101,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         load(mediaList, position)
     }
 
+    @MainThread
     fun load(list: List<MediaWrapper>, position: Int) {
         mediaList.removeEventListener(this)
         mediaList.clear()
@@ -115,8 +115,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
         // Add handler after loading the list
         mediaList.addEventListener(this)
-        playIndex(position)
-        onPlaylistLoaded()
+        uiJob(false) {
+            playIndex(position)
+            onPlaylistLoaded()
+        }
     }
 
     @Volatile
@@ -135,7 +137,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             loadingLastPlaylist = false
             return false
         }
-        launch(UI, CoroutineStart.UNDISPATCHED) {
+        uiJob(false) {
             val playList = withContext(CommonPool) {
                 locations.map { Uri.decode(it) }.mapTo(ArrayList(locations.size)) { MediaWrapper(Uri.parse(it)) }
             }
@@ -157,12 +159,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         return true
     }
 
-    private fun onPlaylistLoaded() {
+    private suspend fun onPlaylistLoaded() {
         service.onPlaylistLoaded()
-        launch(UI, CoroutineStart.UNDISPATCHED) {
-            determinePrevAndNextIndices()
-            launch(VLCIO) { mediaList.updateWithMLMeta() }
-        }
+        determinePrevAndNextIndices()
+        launch(VLCIO) { mediaList.updateWithMLMeta() }
     }
 
     fun play() {
@@ -186,7 +186,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             return
         }
         videoBackground = !player.isVideoPlaying() && player.canSwitchToVideo()
-        playIndex(currentIndex)
+        uiJob(false) { playIndex(currentIndex) }
     }
 
     fun stop(systemExit: Boolean = false) {
@@ -216,23 +216,25 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 player.stop()
                 return
             }
-            playIndex(currentIndex)
+            uiJob(false) { playIndex(currentIndex) }
         } else player.setPosition(0F)
     }
 
+    @MainThread
     fun shuffle() {
         if (shuffling) previous.clear()
         shuffling = !shuffling
         savePosition()
-        launch(UI, CoroutineStart.UNDISPATCHED) { determinePrevAndNextIndices() }
+        uiJob(false) { determinePrevAndNextIndices() }
     }
 
+    @MainThread
     fun setRepeatType(repeatType: Int) {
         repeating = repeatType
         if (isAudioList() && settings.getBoolean("audio_save_repeat", false))
             settings.edit().putInt(AUDIO_REPEAT_MODE_KEY, repeating).apply()
         savePosition()
-        launch(UI, CoroutineStart.UNDISPATCHED) { determinePrevAndNextIndices() }
+        uiJob(false) { determinePrevAndNextIndices() }
     }
 
     fun setRenderer(item: RendererItem?) {
@@ -240,7 +242,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         showAudioPlayer.value = player.playbackState != PlaybackStateCompat.STATE_STOPPED && (item !== null || !player.isVideoPlaying())
     }
 
-    fun playIndex(index: Int, flags: Int = 0) {
+    suspend fun playIndex(index: Int, flags: Int = 0) {
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
             return
@@ -260,55 +262,53 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         player.switchToVideo = false
         if (TextUtils.equals(mw.uri.scheme, "content")) MediaUtils.retrieveMediaTitle(mw)
 
-        launch(UI, CoroutineStart.UNDISPATCHED) {
-            if (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && player.getAudioTracksCount() == 0) {
-                determinePrevAndNextIndices(true)
+        if (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && player.getAudioTracksCount() == 0) {
+            determinePrevAndNextIndices(true)
+            skipMedia()
+        } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
+                || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
+            val uri = FileUtils.getUri(mw.uri)
+            if (uri == null) {
                 skipMedia()
-            } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
-                    || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
-                val uri = FileUtils.getUri(mw.uri)
-                if (uri == null) {
-                    skipMedia()
-                    return@launch
-                }
-                val media = Media(VLCInstance.get(), uri)
-                setStartTime(media, mw)
-                VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
-                /* keeping only video during benchmark */
-                if (isBenchmark) {
-                    media.addOption(":no-audio")
-                    media.addOption(":no-spu")
-                    if (isHardware) {
-                        media.addOption(":codec=mediacodec_ndk,mediacodec_jni,none")
-                        isHardware = false
-                    }
-                }
-                media.setEventListener(this@PlaylistManager)
-                player.setSlaves(media, mw)
-                player.startPlayback(media, mediaplayerEventListener)
-                media.release()
-                determinePrevAndNextIndices()
-                service.onNewPlayback(mw)
-                if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) launch {
-                    var id = mw.id
-                    if (id == 0L) {
-                        var internalMedia = medialibrary.findMedia(mw)
-                        if (internalMedia != null && internalMedia.id != 0L)
-                            id = internalMedia.id
-                        else {
-                            internalMedia = medialibrary.addMedia(Uri.decode(mw.uri.toString()))
-                            if (internalMedia != null)
-                                id = internalMedia.id
-                        }
-                    }
-                    medialibrary.increasePlayCount(id)
-                }
-                saveCurrentMedia()
-                newMedia = true
-            } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
-                player.stop()
-                VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
+                return
             }
+            val start = getStartTime(mw)
+            val media = Media(VLCInstance.get(), uri)
+            media.addOption(":start-time=$start")
+            VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
+            /* keeping only video during benchmark */
+            if (isBenchmark) {
+                media.addOption(":no-audio")
+                media.addOption(":no-spu")
+                if (isHardware) {
+                    media.addOption(":codec=mediacodec_ndk,mediacodec_jni,none")
+                    isHardware = false
+                }
+            }
+            media.setEventListener(this@PlaylistManager)
+            player.startPlayback(media, mediaplayerEventListener)
+            player.setSlaves(media, mw)
+            newMedia = true
+            determinePrevAndNextIndices()
+            service.onNewPlayback()
+            if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) launch {
+                var id = mw.id
+                if (id == 0L) {
+                    var internalMedia = medialibrary.findMedia(mw)
+                    if (internalMedia != null && internalMedia.id != 0L)
+                        id = internalMedia.id
+                    else {
+                        internalMedia = medialibrary.addMedia(Uri.decode(mw.uri.toString()))
+                        if (internalMedia != null)
+                            id = internalMedia.id
+                    }
+                }
+                medialibrary.increasePlayCount(id)
+            }
+            saveCurrentMedia()
+        } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
+            player.stop()
+            VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
         }
     }
 
@@ -351,21 +351,23 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun hasNext() = nextIndex != -1
 
+    @MainThread
     override fun onItemAdded(index: Int, mrl: String?) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemAdded")
         if (currentIndex >= index && !expanding) ++currentIndex
-        launch(UI, CoroutineStart.UNDISPATCHED) {
+        uiJob(false) {
             determinePrevAndNextIndices()
             executeUpdate()
             saveMediaList()
         }
     }
 
+    @MainThread
     override fun onItemRemoved(index: Int, mrl: String?) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemDeleted")
         val currentRemoved = currentIndex == index
         if (currentIndex >= index && !expanding) --currentIndex
-        launch(UI, CoroutineStart.UNDISPATCHED) {
+        uiJob(false) {
             determinePrevAndNextIndices()
             if (currentRemoved && !expanding) {
                 when {
@@ -452,7 +454,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         // If we are in random mode, we completely reset the stored previous track
         // as their indices changed.
         previous.clear()
-        launch(UI, CoroutineStart.UNDISPATCHED) {
+        uiJob(false) {
             determinePrevAndNextIndices()
             executeUpdate()
             saveMediaList()
@@ -557,15 +559,14 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun getMedia(position: Int) = mediaList.getMedia(position)
 
-    private suspend fun setStartTime(media: Media, mw: MediaWrapper) {
-        if (savedTime <= 0L ) {
-            if (mw.time >= 0L) savedTime = mw.time
-            else if (mw.time == 0L && mw.type == MediaWrapper.TYPE_VIDEO || mw.isPodcast) savedTime = withContext(VLCIO) { medialibrary.findMedia(mw).getMetaLong(MediaWrapper.META_PROGRESS) }
-
-        }
-        if (savedTime <= 0L) return
-        media.addOption(":start-time=${savedTime/1000L}")
+    private suspend fun getStartTime(mw: MediaWrapper) : Long {
+        val start = if (savedTime <= 0L) when {
+            mw.time >= 0L -> mw.time
+            mw.type == MediaWrapper.TYPE_VIDEO || mw.isPodcast -> withContext(VLCIO) { medialibrary.findMedia(mw).getMetaLong(MediaWrapper.META_PROGRESS) }
+            else -> 0L
+        } else savedTime
         savedTime = 0L
+        return start/1000L
     }
 
     @Synchronized
@@ -587,6 +588,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     /**
      * Append to the current existing playlist
      */
+    @MainThread
     fun append(list: List<MediaWrapper>) {
         if (!hasCurrentMedia()) {
             load(list, 0)
@@ -599,40 +601,31 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      * Insert into the current existing playlist
      */
 
+    @MainThread
     fun insertNext(list: List<MediaWrapper>) {
         if (!hasCurrentMedia()) {
             load(list, 0)
             return
         }
-
         val startIndex = currentIndex + 1
-
         for ((index, mw) in list.withIndex()) mediaList.insert(startIndex + index, mw)
     }
 
     /**
      * Move an item inside the playlist.
      */
-    fun moveItem(positionStart: Int, positionEnd: Int) {
-        mediaList.move(positionStart, positionEnd)
-        launch(UI, CoroutineStart.UNDISPATCHED) { determinePrevAndNextIndices() }
-    }
+    @MainThread
+    fun moveItem(positionStart: Int, positionEnd: Int) = mediaList.move(positionStart, positionEnd)
 
-    fun insertItem(position: Int, mw: MediaWrapper) {
-        mediaList.insert(position, mw)
-        launch(UI, CoroutineStart.UNDISPATCHED) { determinePrevAndNextIndices() }
-    }
+    @MainThread
+    fun insertItem(position: Int, mw: MediaWrapper) = mediaList.insert(position, mw)
 
 
-    fun remove(position: Int) {
-        mediaList.remove(position)
-        launch(UI, CoroutineStart.UNDISPATCHED) { determinePrevAndNextIndices() }
-    }
+    @MainThread
+    fun remove(position: Int) = mediaList.remove(position)
 
-    fun removeLocation(location: String) {
-        mediaList.remove(location)
-        launch(UI, CoroutineStart.UNDISPATCHED) { determinePrevAndNextIndices() }
-    }
+    @MainThread
+    fun removeLocation(location: String) = mediaList.remove(location)
 
     fun getMediaListSize()= mediaList.size()
 
@@ -690,7 +683,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     service.showToast(service.getString(
                             R.string.invalid_location,
                             getCurrentMedia()?.getLocation() ?: ""), Toast.LENGTH_SHORT)
-                    if (currentIndex != nextIndex) next() else stop(true)
+                    if (currentIndex != nextIndex) next() else stop()
                 }
             }
             service.onMediaPlayerEvent(event)

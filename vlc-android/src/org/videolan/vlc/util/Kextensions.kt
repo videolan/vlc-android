@@ -2,10 +2,8 @@ package org.videolan.vlc.util
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
-import android.os.Looper
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
-import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.delay
 import org.videolan.libvlc.Media
 import java.io.File
@@ -47,8 +45,6 @@ suspend fun retry (
     }
     return block() // last attempt
 }
-
-fun uiStart() = if (Looper.getMainLooper() == Looper.myLooper()) CoroutineStart.UNDISPATCHED else CoroutineStart.DEFAULT
 
 fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
 

@@ -39,13 +39,13 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
-import org.videolan.vlc.viewmodels.browser.NetworkProvider;
+import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
 import java.util.List;
 import java.util.Map;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class NetworkBrowserFragment extends MediaSortedFragment<NetworkProvider> {
+public class NetworkBrowserFragment extends MediaSortedFragment<NetworkModel> {
 
     public static final String TAG = "VLC/NetworkBrowserFragment";
     boolean goBack = false;
@@ -53,8 +53,8 @@ public class NetworkBrowserFragment extends MediaSortedFragment<NetworkProvider>
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        provider = ViewModelProviders.of(this, new NetworkProvider.Factory(mUri.toString(), mShowHiddenFiles)).get(NetworkProvider.class);
-        provider.getCategories().observe(this, new Observer<Map<String, List<MediaLibraryItem>>>() {
+        viewModel = ViewModelProviders.of(this, new NetworkModel.Factory(mUri.toString(), mShowHiddenFiles)).get(NetworkModel.class);
+        viewModel.getCategories().observe(this, new Observer<Map<String, List<MediaLibraryItem>>>() {
             @Override
             public void onChanged(@Nullable Map<String, List<MediaLibraryItem>> stringListMap) {
                 if (stringListMap != null) update(stringListMap);

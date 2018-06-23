@@ -4,7 +4,7 @@
     <style name="Theme.VLC" parent="Theme.VLC.7"/>
     <style name="Theme.VLC.7" parent="Theme.VLC.Apearance">
         <item name="actionBarStyle">@style/ActionBar</item>
-        <item name="android:textViewStyle">@style/TextView</item>
+        <item name="android:textViewStyle">@style/VLC.TextView</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
     </style>
@@ -95,14 +95,14 @@
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title">@color/bt_list_title</item>
         <item name="android:windowBackground">@color/grey900</item>
-        <item name="android:textViewStyle">@style/TextView</item>
+        <item name="android:textViewStyle">@style/VLC.TextView</item>
     </style>
 
     <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7"/>
     <style name="Theme.VLC.Black.7" parent="Theme.VLC.Apearance.Black">
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="android:textViewStyle">@style/TextView</item>
+        <item name="android:textViewStyle">@style/VLC.TextView</item>
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
     </style>
 
@@ -281,8 +281,31 @@
         <item name="android:windowAnimationStyle">@android:color/transparent</item>
     </style>
 
-    <style name="TextView" parent="android:Widget.TextView">
+    <style name="VLC.TextView" parent="android:Widget.TextView">
         <item name="android:textDirection">locale</item>
+    </style>
+
+    <style name="VLC.CtxTitle" parent="VLC.TextView">
+        <item name="android:layout_margin">12dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/list_title</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="VLC.TextViewTitle" parent="VLC.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/list_title</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+    </style>
+
+    <style name="VLC.TextViewDescription" parent="VLC.TextView">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?attr/list_subtitle</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">start</item>
     </style>
 
     <style name="ActionBar" parent="Widget.AppCompat.Light.ActionBar">
@@ -313,12 +336,12 @@
     </style>
 
     <!--Preferences-->
-    <style name="VLCPreferenceTheme.Light" parent="PreferenceThemeOverlay">
+    <style name="VLCPreferenceTheme.Light" parent="PreferenceThemeOverlay.v14.Material">
         <item name="android:textColorPrimary">@color/grey900</item>
         <item name="android:textColorSecondary">@color/grey700</item>
     </style>
 
-    <style name="VLCPreferenceTheme.Dark" parent="PreferenceThemeOverlay">
+    <style name="VLCPreferenceTheme.Dark" parent="PreferenceThemeOverlay.v14.Material">
         <item name="android:textColorPrimary">@color/grey50</item>
         <item name="android:textColorSecondary">@color/grey600</item>
     </style>

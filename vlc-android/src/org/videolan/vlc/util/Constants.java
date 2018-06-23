@@ -1,5 +1,5 @@
 /*****************************************************************************
- * VideoPlayerActivity.java
+ * Constants.java
  *****************************************************************************
  * Copyright © 2017-2018 VLC authors and VideoLAN
  *
@@ -126,4 +126,29 @@ public class Constants {
     public static final String SELECTED_ITEM = "selected";
     public static final String CURRENT_BROWSER_LIST = "CURRENT_BROWSER_LIST";
     public static final String CURRENT_BROWSER_MAP = "CURRENT_BROWSER_MAP";
+
+    // Context options
+    public final static int CTX_PLAY_ALL           = 1;
+    public final static int CTX_APPEND             = 1 << 1;
+    public final static int CTX_PLAY_AS_AUDIO      = 1 << 2;
+    public final static int CTX_INFORMATION        = 1 << 3;
+    public final static int CTX_DELETE             = 1 << 4;
+    public final static int CTX_DOWNLOAD_SUBTITLES = 1 << 5;
+    public final static int CTX_PLAY_FROM_START    = 1 << 6;
+    public final static int CTX_PLAY_GROUP         = 1 << 7;
+    public final static int CTX_PLAY               = 1 << 8;
+    public final static int CTX_PLAY_NEXT          = 1 << 9;
+    public final static int CTX_ADD_TO_PLAYLIST    = 1 << 10;
+    public final static int CTX_SET_RINGTONE       = 1 << 11;
+    public final static int CTX_NETWORK_ADD        = 1 << 12;
+    public final static int CTX_NETWORK_EDIT       = 1 << 13;
+    public final static int CTX_NETWORK_REMOVE     = 1 << 14;
+    public final static int CTX_CUSTOM_REMOVE      = 1 << 15;
+    public final static int CTX_ITEM_DL            = 1 << 16;
+
+    public final static int CTX_VIDEO_FLAGS = Constants.CTX_APPEND|Constants.CTX_DELETE|Constants.CTX_DOWNLOAD_SUBTITLES|Constants.CTX_INFORMATION|Constants.CTX_PLAY_ALL|Constants.CTX_PLAY_AS_AUDIO;
+    public final static int CTX_TRACK_FLAGS = Constants.CTX_APPEND|Constants.CTX_PLAY_NEXT|Constants.CTX_DELETE|Constants.CTX_INFORMATION|Constants.CTX_PLAY_ALL|Constants.CTX_ADD_TO_PLAYLIST|Constants.CTX_SET_RINGTONE;
+    public final static int CTX_AUDIO_FLAGS = Constants.CTX_PLAY|Constants.CTX_APPEND|Constants.CTX_PLAY_NEXT|Constants.CTX_ADD_TO_PLAYLIST;
+    public final static int CTX_PLAYLIST_FLAGS = Constants.CTX_APPEND|Constants.CTX_PLAY_NEXT|Constants.CTX_ADD_TO_PLAYLIST|Constants.CTX_INFORMATION|Constants.CTX_DELETE|Constants.CTX_SET_RINGTONE;
+    public final static int CTX_VIDEO_GOUP_FLAGS = Constants.CTX_APPEND|Constants.CTX_PLAY;
 }

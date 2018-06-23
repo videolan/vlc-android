@@ -327,7 +327,7 @@ public class UiTools {
     public static void updateSortTitles(MediaBrowserFragment sortable) {
         final Menu menu = sortable.getMenu();
         if (menu == null) return;
-        final BaseModel model = sortable.getProvider();
+        final BaseModel model = sortable.getViewModel();
         final int sort = model.getSort();
         final boolean desc = model.getDesc();
         MenuItem item = menu.findItem(R.id.ml_menu_sortby_name);

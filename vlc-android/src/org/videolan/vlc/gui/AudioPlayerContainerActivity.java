@@ -307,6 +307,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     }
 
     protected void updateContainerPadding(boolean show) {
+        if (mFragmentContainer == null) return;
         int factor = show ? 1 : 0;
         mFragmentContainer.setPadding(mFragmentContainer.getPaddingLeft(),
                 mFragmentContainer.getPaddingTop(), mFragmentContainer.getPaddingRight(),

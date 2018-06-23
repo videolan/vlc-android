@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ml_menu_sortby_name"
+        android:title="@string/sortby_name" />
+    <item
+        android:id="@+id/ml_menu_sortby_filename"
+        android:title="@string/sortby_filename" />
+    <item
+        android:id="@+id/ml_menu_sortby_length"
+        android:title="@string/sortby_length" />
+    <item
+        android:id="@+id/ml_menu_sortby_date"
+        android:title="@string/sortby_date" />
+    <item
+        android:id="@+id/ml_menu_sortby_number"
+        android:title="@string/sortby_number" />
+</menu>

@@ -15,8 +15,10 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.preferences.PreferencesActivity
+import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.VLCOptions
+import org.videolan.vlc.util.uiJob
 import kotlin.math.abs
 
 @Suppress("EXPERIMENTAL_FEATURE_WARNING")
@@ -69,10 +71,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     private var mediaplayerEventListener: MediaPLayerEventListener? = null
     internal fun startPlayback(media: Media, listener: MediaPLayerEventListener) {
         mediaplayerEventListener = listener
-        seekable = true
-        pausable = true
-        lastTime = 0L
-        updateProgress(0L, media.duration)
+        resetPlaybackState(media.duration)
         mediaplayer.setEventListener(null)
         mediaplayer.media = media.apply { if (hasRenderer) parse() }
         mediaplayer.setEventListener(this@PlayerController)
@@ -81,6 +80,13 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         mediaplayer.play()
         if (mediaplayer.rate == 1.0f && settings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, true))
             setRate(settings.getFloat(PreferencesActivity.KEY_PLAYBACK_RATE, 1.0f), false)
+    }
+
+    private fun resetPlaybackState(duration: Long) {
+        seekable = true
+        pausable = true
+        lastTime = 0L
+        updateProgress(0L, duration)
     }
 
     @MainThread
@@ -133,7 +139,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun getSpuDelay() = mediaplayer.spuDelay
 
-    fun getRate() = if (mediaplayer.hasMedia()) mediaplayer.rate else 1.0f
+    fun getRate() = if (mediaplayer.hasMedia() && playbackState != PlaybackStateCompat.STATE_STOPPED) mediaplayer.rate else 1.0f
 
     fun setSpuDelay(delay: Long) = mediaplayer.setSpuDelay(delay)
 
@@ -178,20 +184,22 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
                 try {
                     withTimeout(5000, { player.release() })
                 } catch (exception: TimeoutCancellationException) {
-                    launch(UI) { Toast.makeText(VLCApplication.getAppContext(), "media stop has timeouted!", Toast.LENGTH_LONG).show() }
+                    uiJob { Toast.makeText(VLCApplication.getAppContext(), "media stop has timeouted!", Toast.LENGTH_LONG).show() }
                 }
             } else player.release()
         }
         setPlaybackStopped()
     }
 
-    suspend fun setSlaves(media: Media, mw: MediaWrapper) {
-        val list = withContext(CommonPool) {
-            mw.slaves?.let {
-                for (slave in it) media.addSlave(slave)
-                MediaDatabase.getInstance().saveSlaves(mw)
+    fun setSlaves(media: Media, mw: MediaWrapper) = uiJob(false) {
+        val slaves = mw.slaves
+        slaves?.let { for (slave in it) media.addSlave(slave) }
+        media.release()
+        val list = withContext(VLCIO) {
+            MediaDatabase.getInstance().run {
+                if (slaves != null) saveSlaves(mw)
+                getSlaves(mw.location)
             }
-            MediaDatabase.getInstance().getSlaves(mw.location)
         }
         for (slave in list) mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
     }
@@ -265,13 +273,13 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     suspend fun expand(): MediaList? {
         return mediaplayer.media?.let {
-            return async(playerContext) {
+            return withContext(playerContext) {
                 mediaplayer.setEventListener(null)
                 val items = it.subItems()
                 it.release()
                 mediaplayer.setEventListener(this@PlayerController)
                 items
-            }.await()
+            }
         }
     }
 
