@@ -2,11 +2,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
-    <string name="app_name" translatable="false">VLC</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="app_name" translatable="false">VLC</string>
     <string name="other">Other</string>
-    <string name="sortby">Sort by&#8230;</string>
+    <string name="sortby">Sort by…</string>
     <string name="sortby_name">Name</string>
     <string name="sortby_name_desc">Name (desc)</string>
     <string name="sortby_filename">File name</string>
@@ -204,7 +204,7 @@
     <string name="load_3_period" translatable="false">...</string>
     <string name="colon" translatable="false">:</string>
     <string name="plus" translatable="false">+</string>
-    <string name="minus" translatable="false">&#8722;</string>
+    <string name="minus" translatable="false">−</string>
 
     <string name="encountered_error_title">Playback error</string>
     <string name="encountered_error_message">VLC encountered an error with this media.\nPlease try refreshing the media library.</string>
@@ -476,7 +476,7 @@
     <string name="directory_hide_medialib">Hide from MediaLib</string>
     <string name="playlist_save">Save Playlist</string>
     <string name="playlist_name_hint">playlist name</string>
-    <string name="go_to_chapter">Go to chapter&#8230;</string>
+    <string name="go_to_chapter">Go to chapter…</string>
     <string name="chapter">Chapter</string>
     <string name="resume_from_position">Resume from last position</string>
     <string name="confirm_resume">Resume from last position?</string>
@@ -498,9 +498,9 @@
     <string name="music_now_playing">Now Playing</string>
 
     <!-- Widget -->
-    <string name="widget_default_text" translatable="false">VLC mini player</string>
     <string name="widget_name_w">VLC White Widget</string>
     <string name="widget_name_b">VLC Dark Widget</string>
+    <string name="widget_default_text" translatable="false">VLC mini player</string>
     <string name="allow_storage_access_title">Allow VLC to access video and audio files</string>
     <string name="allow_storage_access_description">VLC needs you to grant this permission to access the media files on this device.</string>
     <string name="allow_settings_access_ringtone_title">Allow VLC to set the ringtone</string>
