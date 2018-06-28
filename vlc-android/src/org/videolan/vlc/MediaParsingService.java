@@ -110,13 +110,13 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
             exitCommand();
             return START_NOT_STICKY;
         }
-        synchronized (MediaParsingService.this) {
-            // Set 1s delay before displaying scan icon
-            // Except for Android 8+ which expects startForeground immediately
-            if (mLastNotificationTime <= 0L)
+        if (mLastNotificationTime == 0L && AndroidUtil.isOOrLater) forceForeground();
+        if (mLastNotificationTime <= 0L) {
+            synchronized (MediaParsingService.this) {
+                // Set 1s delay before displaying scan icon
+                // Except for Android 8+ which expects startForeground immediately
                 mLastNotificationTime = AndroidUtil.isOOrLater ? 0L : System.currentTimeMillis();
-            if (AndroidUtil.isOOrLater)
-                showNotification();
+            }
         }
         switch (intent.getAction()) {
             case Constants.ACTION_INIT:
@@ -140,6 +140,11 @@ public class MediaParsingService extends Service implements DevicesDiscoveryCb {
         }
         mLocalBroadcastManager.sendBroadcast(new Intent(Constants.ACTION_SERVICE_STARTED));
         return START_NOT_STICKY;
+    }
+
+    private void forceForeground() {
+        final Notification notification = NotificationHelper.createScanNotification(this, getString(R.string.loading_medialibrary), false, mScanPaused);
+        startForeground(43, notification);
     }
 
     private void discoverStorage(final String path) {
