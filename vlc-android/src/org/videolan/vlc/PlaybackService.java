@@ -247,7 +247,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (AndroidUtil.isOOrLater && !VLCApplication.isForeground()) forceForeground();
+        if (AndroidUtil.isOOrLater && !mIsForeground && !VLCApplication.isForeground()) forceForeground();
         if (intent == null) return START_NOT_STICKY;
         final String action = intent.getAction();
         if (Intent.ACTION_MEDIA_BUTTON.equals(action)) {
