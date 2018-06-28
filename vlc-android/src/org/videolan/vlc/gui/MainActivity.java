@@ -129,10 +129,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
 
     private void setupNavigationView() {
         mNavigationView = findViewById(R.id.navigation);
-        if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
-            final MenuItem item = mNavigationView.getMenu().findItem(R.id.nav_directories);
-            item.setTitle(R.string.open);
-        }
         mNavigationView.getMenu().findItem(R.id.nav_history).setVisible(mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true));
     }
 

@@ -33,10 +33,8 @@ import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.util.SimpleArrayMap
-import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.api.VLCExtensionItem
@@ -199,19 +197,6 @@ class Navigator(private val activity: MainActivity,
                     R.id.nav_about -> showSecondaryFragment(SecondaryActivity.ABOUT)
                     R.id.nav_settings -> activity.startActivityForResult(Intent(activity, PreferencesActivity::class.java), Constants.ACTIVITY_RESULT_PREFERENCES)
                     R.id.nav_mrl -> MRLPanelFragment().show(activity.supportFragmentManager, "fragment_mrl")
-                    R.id.nav_directories -> {
-                        if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
-                            val intent = Intent(Intent.ACTION_GET_CONTENT)
-                            intent.type = "audio/* video/*"
-                            activity.startActivityForResult(intent, Constants.ACTIVITY_RESULT_OPEN)
-                            activity.closeDrawer()
-                            return true
-                        }
-                        /* Slide down the audio player */
-                        activity.slideDownAudioPlayer()
-                        /* Switch the fragment */
-                        showFragment(id)
-                    }
                     else -> {
                         activity.slideDownAudioPlayer()
                         showFragment(id)
