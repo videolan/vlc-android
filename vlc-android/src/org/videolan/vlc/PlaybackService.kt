@@ -498,7 +498,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (AndroidUtil.isOOrLater && !VLCApplication.isForeground()) forceForeground()
+        if (AndroidUtil.isOOrLater && !isForeground && !VLCApplication.isForeground()) forceForeground()
         when (intent?.action) {
             Intent.ACTION_MEDIA_BUTTON -> {
                 if (AndroidDevices.hasTsp || AndroidDevices.hasPlayServices) MediaButtonReceiver.handleIntent(mediaSession, intent)

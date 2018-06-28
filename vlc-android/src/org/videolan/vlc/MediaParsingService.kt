@@ -143,7 +143,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
             // Set 1s delay before displaying scan icon
             // Except for Android 8+ which expects startForeground immediately
 
-        if (AndroidUtil.isOOrLater) forceForeground()
+        if (AndroidUtil.isOOrLater && lastNotificationTime == 0L) forceForeground()
         else if (lastNotificationTime <= 0L) notificationActor.offer(UPDATE_NOTIFICATION_TIME)
         when (intent.action) {
             Constants.ACTION_INIT -> {
