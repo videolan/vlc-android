@@ -25,14 +25,13 @@ package org.videolan.vlc.gui.helpers.hf
 
 import android.Manifest
 import android.annotation.TargetApi
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.vlc.MediaParsingService
+import org.videolan.vlc.startMedialibrary
 import org.videolan.vlc.util.Constants
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Permissions.canReadStorage
@@ -80,17 +79,10 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         when (requestCode) {
             Permissions.PERMISSION_STORAGE_TAG -> {
                 // If request is cancelled, the result arrays are empty.
-                val ctx = activity
-                if (ctx === null) return
+                val ctx = activity ?: return
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (mActivity is CustomActionController) {
-                        (mActivity as CustomActionController).onStorageAccessGranted()
-                    } else {
-                        val serviceIntent = Intent(Constants.ACTION_INIT, null, ctx, MediaParsingService::class.java)
-                        serviceIntent.putExtra(Constants.EXTRA_FIRST_RUN, mFirstRun)
-                        serviceIntent.putExtra(Constants.EXTRA_UPGRADE, mUpgrade)
-                        ctx.startService(serviceIntent)
-                    }
+                    if (ctx is CustomActionController) ctx.onStorageAccessGranted()
+                    else ctx.startMedialibrary(mFirstRun, mUpgrade, true)
                     exit()
                 } else if (mActivity != null) {
                     Permissions.showStoragePermissionDialog(mActivity, false)

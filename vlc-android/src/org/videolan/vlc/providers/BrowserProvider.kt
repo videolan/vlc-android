@@ -199,7 +199,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
 
     fun stop() = job?.cancel()
 
-    fun release() = launch(BrowserProvider.browserContext) { mediabrowser.release() }
+    fun release() = launch(BrowserProvider.browserContext) { if (this@BrowserProvider::mediabrowser.isInitialized) mediabrowser.release() }
 
     fun saveList(media: MediaWrapper) = foldersContentMap[media]?.let { if (!it.isEmpty()) prefetchLists[media.location] = it }
 

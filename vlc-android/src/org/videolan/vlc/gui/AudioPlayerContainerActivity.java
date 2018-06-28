@@ -24,7 +24,6 @@
 package org.videolan.vlc.gui;
 
 import android.arch.lifecycle.Observer;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -53,6 +52,7 @@ import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.MediaParsingService;
+import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.ScanProgress;
@@ -63,7 +63,6 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.List;
@@ -91,8 +90,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
         //Init Medialibrary if KO
         if (savedInstanceState != null) {
             VLCApplication.setLocale();
-            if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage(this))
-                startService(new Intent(Constants.ACTION_INIT, null, this, MediaParsingService.class));
+            MediaParsingServiceKt.startMedialibrary(this, false, false, true);
         }
         super.onCreate(savedInstanceState);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);

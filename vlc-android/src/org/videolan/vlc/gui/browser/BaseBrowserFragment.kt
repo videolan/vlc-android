@@ -1,8 +1,8 @@
 /**
  * **************************************************************************
- * BaseBrowserFragment.java
+ * BaseBrowserFragment.kt
  * ****************************************************************************
- * Copyright © 2015-2017 VLC authors and VideoLAN
+ * Copyright © 2018 VLC authors and VideoLAN
  * Author: Geoffrey Métais
  *
  * This program is free software; you can redistribute it and/or modify
@@ -341,7 +341,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         return true
     }
 
-    override fun onDestroyActionMode(mode: ActionMode) {
+    override fun onDestroyActionMode(mode: ActionMode?) {
         mActionMode = null
         var index = -1
         for (media in adapter.all) {

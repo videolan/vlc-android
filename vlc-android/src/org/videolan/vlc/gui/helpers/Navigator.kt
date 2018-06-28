@@ -33,9 +33,8 @@ import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.util.SimpleArrayMap
-import android.text.TextUtils
+import android.util.Log
 import android.view.MenuItem
-import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.api.VLCExtensionItem
@@ -50,6 +49,7 @@ import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.util.Constants
 import java.lang.ref.WeakReference
 
+private const val TAG = "Navigator"
 class Navigator(private val activity: MainActivity,
         private val settings: SharedPreferences,
         private val extensionsService: ExtensionManagerService?,
@@ -57,6 +57,7 @@ class Navigator(private val activity: MainActivity,
 ): NavigationView.OnNavigationItemSelectedListener, LifecycleObserver {
 
     private val fragmentsStack = SimpleArrayMap<String, WeakReference<Fragment>>()
+    private val defaultFragmentId inline get() = if (settings.getInt(Constants.KEY_MEDIALIBRARY_SCAN, Constants.ML_SCAN_OFF) == Constants.ML_SCAN_ON) R.id.nav_video else R.id.nav_directories
     var currentFragmentId = 0
     var currentFragment: Fragment? = null
         private set
@@ -66,7 +67,8 @@ class Navigator(private val activity: MainActivity,
         state?.let {
             val fm = activity.supportFragmentManager
             currentFragment = fm.getFragment(it, "current_fragment")
-            currentFragmentId = it.getInt("current", settings.getInt("fragment_id", R.id.nav_video))
+            currentFragmentId = it.getInt("current", settings.getInt("fragment_id", defaultFragmentId))
+            Log.d(TAG, "init currentFragmentId $currentFragmentId, default $defaultFragmentId")
             //Restore fragments stack
             restoreFragmentsStack(fm)
         }
@@ -150,10 +152,10 @@ class Navigator(private val activity: MainActivity,
     }
 
     fun reloadPreferences() {
-        currentFragmentId = settings.getInt("fragment_id", R.id.nav_video)
+        currentFragmentId = settings.getInt("fragment_id", defaultFragmentId)
     }
 
-    fun getTag(id: Int) = when (id) {
+    private fun getTag(id: Int) = when (id) {
         R.id.nav_about -> Constants.ID_ABOUT
         R.id.nav_settings -> Constants.ID_PREFERENCES
         R.id.nav_audio -> Constants.ID_AUDIO
@@ -161,11 +163,11 @@ class Navigator(private val activity: MainActivity,
         R.id.nav_history -> Constants.ID_HISTORY
         R.id.nav_mrl -> Constants.ID_MRL
         R.id.nav_network -> Constants.ID_NETWORK
-        else -> Constants.ID_VIDEO
+        R.id.nav_video -> Constants.ID_VIDEO
+        else -> if (defaultFragmentId == R.id.nav_video) Constants.ID_VIDEO else Constants.ID_DIRECTORIES
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-
         val id = item.itemId
         val current = currentFragment
         if (item.groupId == R.id.extensions_group) {
@@ -195,19 +197,6 @@ class Navigator(private val activity: MainActivity,
                     R.id.nav_about -> showSecondaryFragment(SecondaryActivity.ABOUT)
                     R.id.nav_settings -> activity.startActivityForResult(Intent(activity, PreferencesActivity::class.java), Constants.ACTIVITY_RESULT_PREFERENCES)
                     R.id.nav_mrl -> MRLPanelFragment().show(activity.supportFragmentManager, "fragment_mrl")
-                    R.id.nav_directories -> {
-                        if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
-                            val intent = Intent(Intent.ACTION_GET_CONTENT)
-                            intent.type = "audio/* video/*"
-                            activity.startActivityForResult(intent, Constants.ACTIVITY_RESULT_OPEN)
-                            activity.closeDrawer()
-                            return true
-                        }
-                        /* Slide down the audio player */
-                        activity.slideDownAudioPlayer()
-                        /* Switch the fragment */
-                        showFragment(id)
-                    }
                     else -> {
                         activity.slideDownAudioPlayer()
                         showFragment(id)

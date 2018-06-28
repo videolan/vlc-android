@@ -605,4 +605,7 @@
     <string name="audio_task_removed_title">Stop playback when application is dismissed</string>
     <string name="playback_rewind">Rewind</string>
     <string name="playback_forward">Fast forward</string>
+    <string name="ml_wizard_title">VLC Medialibrary selection</string>
+    <string name="ml_wizard_scan_checkbox">Scan device for media content</string>
+    <string name="ml_wizard_description">Choose whether VLC will scan your device storage to organize your media library or just use it as a simple player with an integrated browser.</string>
 </resources>

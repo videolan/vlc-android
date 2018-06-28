@@ -59,17 +59,17 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
 
     val categories by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<Map<String, List<MediaLibraryItem>>>().apply {
-            addSource(dataset, {
+            addSource(dataset) {
                 uiJob(false) { value = withContext(CommonPool) { ModelsHelper.splitList(sort, it!!.toList()) } }
-            })
+            }
         }
     }
 
     val sections by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<List<MediaLibraryItem>>().apply {
-            addSource(dataset, {
+            addSource(dataset) {
                 uiJob(false) { value = withContext(CommonPool) { ModelsHelper.generateSections(sort, it!!.toList()) } }
-            })
+            }
         }
     }
 
