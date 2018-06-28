@@ -39,6 +39,9 @@ import android.support.v7.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
 import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.experimental.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
@@ -50,6 +53,10 @@ import java.util.*
 
 private const val TAG = "VLC/MediaParsingService"
 private const val NOTIFICATION_DELAY = 1000L
+
+private const val SHOW_NOTIFICATION = 0
+private const val HIDE_NOTIFICATION = 1
+private const val UPDATE_NOTIFICATION_TIME = 2
 
 class MediaParsingService : Service(), DevicesDiscoveryCb {
     private lateinit var wakeLock: PowerManager.WakeLock
@@ -65,26 +72,25 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     private var scanActivated = false
 
     private val callsCtx = newSingleThreadContext("ml-calls")
-    private val notificationCtx = newSingleThreadContext("ml-notif")
 
     private val settings by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
-    internal var mScanPaused = false
-    private val mReceiver = object : BroadcastReceiver() {
+    internal var scanPaused = false
+    private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
                 Constants.ACTION_PAUSE_SCAN -> {
                     if (wakeLock.isHeld) wakeLock.release()
-                    mScanPaused = true
+                    scanPaused = true
                     medialibrary.pauseBackgroundOperations()
                 }
                 Constants.ACTION_RESUME_SCAN -> {
                     if (!wakeLock.isHeld) wakeLock.acquire()
                     medialibrary.resumeBackgroundOperations()
-                    mScanPaused = false
+                    scanPaused = false
                 }
                 Medialibrary.ACTION_IDLE -> if (intent.getBooleanExtra(Medialibrary.STATE_IDLE, true)) {
-                    if (!mScanPaused) {
+                    if (!scanPaused) {
                         exitCommand()
                         return
                     }
@@ -98,6 +104,16 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     private var wasWorking: Boolean = false
     internal val sb = StringBuilder()
 
+    private val notificationActor by lazy {
+        actor<Int>(UI, capacity = Channel.UNLIMITED, start = CoroutineStart.UNDISPATCHED) {
+            for (update in channel) when (update) {
+                SHOW_NOTIFICATION -> showNotification()
+                HIDE_NOTIFICATION -> hideNotification()
+                UPDATE_NOTIFICATION_TIME -> lastNotificationTime = System.currentTimeMillis()
+            }
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
         localBroadcastManager = LocalBroadcastManager.getInstance(this)
@@ -106,11 +122,13 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
         val filter = IntentFilter()
         filter.addAction(Constants.ACTION_PAUSE_SCAN)
         filter.addAction(Constants.ACTION_RESUME_SCAN)
-        registerReceiver(mReceiver, filter)
-        localBroadcastManager.registerReceiver(mReceiver, IntentFilter(Medialibrary.ACTION_IDLE))
+        registerReceiver(receiver, filter)
+        localBroadcastManager.registerReceiver(receiver, IntentFilter(Medialibrary.ACTION_IDLE))
         val pm = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
         wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG)
         wakeLock.acquire()
+
+        if (lastNotificationTime == 5L) stopSelf()
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -122,12 +140,11 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
             exitCommand()
             return Service.START_NOT_STICKY
         }
-        synchronized(this@MediaParsingService) {
             // Set 1s delay before displaying scan icon
             // Except for Android 8+ which expects startForeground immediately
-            if (lastNotificationTime <= 0L) System.currentTimeMillis()
-            if (AndroidUtil.isOOrLater) forceForeground()
-        }
+
+        if (AndroidUtil.isOOrLater) forceForeground()
+        else if (lastNotificationTime <= 0L) notificationActor.offer(UPDATE_NOTIFICATION_TIME)
         when (intent.action) {
             Constants.ACTION_INIT -> {
                 val upgrade = intent.getBooleanExtra(Constants.EXTRA_UPGRADE, false)
@@ -149,7 +166,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
 
     private fun forceForeground() {
         val ctx = this@MediaParsingService
-        val notification = NotificationHelper.createScanNotification(ctx, getString(R.string.loading_medialibrary), false, mScanPaused)
+        val notification = NotificationHelper.createScanNotification(ctx, getString(R.string.loading_medialibrary), false, scanPaused)
         startForeground(43, notification)
     }
 
@@ -292,15 +309,11 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
         exitCommand()
     }
 
-    private fun showNotification() {
+    private suspend fun showNotification() {
         val currentTime = System.currentTimeMillis()
-        synchronized(this@MediaParsingService) {
-            if (lastNotificationTime == -1L || currentTime - lastNotificationTime < NOTIFICATION_DELAY)
-                return
-            lastNotificationTime = currentTime
-        }
-        notificationJob = launch(notificationCtx) {
-            if (!isActive) return@launch
+        if (lastNotificationTime == -1L || currentTime - lastNotificationTime < NOTIFICATION_DELAY) return
+        lastNotificationTime = currentTime
+        notificationJob = launch {
             sb.setLength(0)
             when {
                 parsing > 0 -> sb.append(getString(R.string.ml_parse_media)).append(' ').append(parsing).append("%")
@@ -311,26 +324,21 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
             val updateAction = wasWorking != medialibrary.isWorking
             if (updateAction) wasWorking = !wasWorking
             if (!isActive) return@launch
-            val notification = NotificationHelper.createScanNotification(this@MediaParsingService, progressText, updateAction, mScanPaused)
-            synchronized(this@MediaParsingService) {
-                if (lastNotificationTime != -1L) {
-                    showProgress(parsing, progressText)
-                    try {
-                        startForeground(43, notification)
-                    } catch (ignored: IllegalArgumentException) {}
-                }
+            val notification = NotificationHelper.createScanNotification(this@MediaParsingService, progressText, updateAction, scanPaused)
+            if (lastNotificationTime != -1L) {
+                showProgress(parsing, progressText)
+                try {
+                    startForeground(43, notification)
+                } catch (ignored: IllegalArgumentException) {}
             }
         }
+        notificationJob?.join()
     }
 
-    private fun hideNotification() {
-        launch(Unconfined) {
-            notificationJob?.cancelAndJoin()
-            synchronized(this@MediaParsingService) {
-                lastNotificationTime = -1L
-                NotificationManagerCompat.from(this@MediaParsingService).cancel(43)
-            }
-        }
+    private suspend fun hideNotification() {
+        notificationJob?.cancelAndJoin()
+        lastNotificationTime = -1L
+        NotificationManagerCompat.from(this@MediaParsingService).cancel(43)
     }
 
     override fun onDiscoveryStarted(entryPoint: String) {
@@ -340,7 +348,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     override fun onDiscoveryProgress(entryPoint: String) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onDiscoveryProgress: $entryPoint")
         currentDiscovery = entryPoint
-        showNotification()
+        notificationActor.offer(SHOW_NOTIFICATION)
     }
 
     override fun onDiscoveryCompleted(entryPoint: String) {
@@ -350,7 +358,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     override fun onParsingStatsUpdated(percent: Int) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onParsingStatsUpdated: $percent")
         parsing = percent
-        if (parsing != 100) showNotification()
+        if (parsing != 100) notificationActor.offer(SHOW_NOTIFICATION)
     }
 
     override fun onReloadStarted(entryPoint: String) {
@@ -370,10 +378,10 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     override fun onDestroy() {
         progress.postValue(null)
         started.value = false
-        hideNotification()
+        notificationActor.offer(HIDE_NOTIFICATION)
         medialibrary.removeDeviceDiscoveryCb(this)
-        unregisterReceiver(mReceiver)
-        localBroadcastManager.unregisterReceiver(mReceiver)
+        unregisterReceiver(receiver)
+        localBroadcastManager.unregisterReceiver(receiver)
         if (wakeLock.isHeld) wakeLock.release()
         super.onDestroy()
     }
