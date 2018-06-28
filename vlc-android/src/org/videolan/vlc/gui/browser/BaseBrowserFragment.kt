@@ -341,7 +341,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         return true
     }
 
-    override fun onDestroyActionMode(mode: ActionMode) {
+    override fun onDestroyActionMode(mode: ActionMode?) {
         mActionMode = null
         var index = -1
         for (media in adapter.all) {
