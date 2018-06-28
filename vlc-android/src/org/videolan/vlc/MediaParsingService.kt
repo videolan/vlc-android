@@ -125,9 +125,8 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
         synchronized(this@MediaParsingService) {
             // Set 1s delay before displaying scan icon
             // Except for Android 8+ which expects startForeground immediately
-            if (lastNotificationTime <= 0L)
-                lastNotificationTime = if (AndroidUtil.isOOrLater) 0L else System.currentTimeMillis()
-            if (AndroidUtil.isOOrLater) showNotification()
+            if (lastNotificationTime <= 0L) System.currentTimeMillis()
+            if (AndroidUtil.isOOrLater) forceForeground()
         }
         when (intent.action) {
             Constants.ACTION_INIT -> {
@@ -146,6 +145,12 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
         }
         started.value = true
         return Service.START_NOT_STICKY
+    }
+
+    private fun forceForeground() {
+        val ctx = this@MediaParsingService
+        val notification = NotificationHelper.createScanNotification(ctx, getString(R.string.loading_medialibrary), false, mScanPaused)
+        startForeground(43, notification)
     }
 
     private fun discoverStorage(path: String) {
