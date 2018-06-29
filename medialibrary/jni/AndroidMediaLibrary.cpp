@@ -207,10 +207,10 @@ AndroidMediaLibrary::search(const std::string& query)
     return p_ml->search(query);
 }
 
-medialibrary::MediaSearchAggregate
+std::vector<medialibrary::MediaPtr>
 AndroidMediaLibrary::searchMedia(const std::string& query)
 {
-    return p_ml->searchMedia(query);
+    return p_ml->searchMedia(query)->all();
 }
 
 std::vector<medialibrary::PlaylistPtr>
@@ -333,7 +333,7 @@ std::vector<medialibrary::MediaPtr>
 AndroidMediaLibrary::mediaFromArtist( int64_t artistId, const medialibrary::QueryParameters* params )
 {
     auto artist = p_ml->artist(artistId);
-    return artist == nullptr ? std::vector<medialibrary::MediaPtr>() : artist->media(params)->all();
+    return artist == nullptr ? std::vector<medialibrary::MediaPtr>() : artist->tracks(params)->all();
 }
 
 std::vector<medialibrary::AlbumPtr>

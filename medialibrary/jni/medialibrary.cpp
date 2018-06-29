@@ -349,14 +349,21 @@ search(JNIEnv* env, jobject thiz, jstring query)
     return searchResult;
 }
 
-jobject
+jobjectArray
 searchMedia(JNIEnv* env, jobject thiz, jstring query)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *queryChar = env->GetStringUTFChars(query, JNI_FALSE);
-    jobject searchResult = convertMediaSearchAggregateObject(env, &ml_fields, aml->searchMedia(queryChar));
+    auto searchResult = aml->searchMedia(queryChar);
+    jobjectArray mediaList = (jobjectArray) env->NewObjectArray(searchResult.size(), ml_fields.MediaWrapper.clazz, NULL);
+    int index = -1;
+    for(medialibrary::MediaPtr const& media : searchResult) {
+        jobject item = mediaToMediaWrapper(env, &ml_fields, media);
+        env->SetObjectArrayElement(mediaList, ++index, item);
+        env->DeleteLocalRef(item);
+    }
     env->ReleaseStringUTFChars(query, queryChar);
-    return searchResult;
+    return mediaList;
 }
 
 jobjectArray
