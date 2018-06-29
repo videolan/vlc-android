@@ -128,7 +128,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
 
     @Override
     public void refresh() {
-        refresh(ExternalMonitor.connected.getValue());
+        refresh(ExternalMonitor.isConnected());
     }
 
     public void refresh(boolean connected) {
@@ -212,8 +212,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
      */
     protected void updateEmptyView() {
         if (getBinding() == null) return;
-        final Boolean connected = ExternalMonitor.connected.getValue();
-        if (connected != null && connected.booleanValue()) {
+        if (ExternalMonitor.isConnected()) {
             if (Util.isListEmpty(getViewModel().getDataset().getValue())) {
                 if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) {
                     getBinding().empty.setText(R.string.loading);

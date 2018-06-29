@@ -167,6 +167,11 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
         return mobile;
     }
 
+    public static boolean isConnected() {
+        final Boolean co = connected.getValue();
+        return co != null && co.booleanValue();
+    }
+
     public static boolean isLan() {
         final Boolean status = connected.getValue();
         return status != null && status && !mobile;

@@ -36,7 +36,7 @@ class NetworkProvider(dataset: LiveDataset<MediaLibraryItem>, url: String? = nul
     }
 
     suspend fun updateFavorites() : MutableList<MediaLibraryItem> {
-        if (ExternalMonitor.connected?.value != true) return mutableListOf()
+        if (!ExternalMonitor.isConnected()) return mutableListOf()
         val favs: MutableList<MediaLibraryItem> = withContext(CommonPool) { MediaDatabase.getInstance().allNetworkFav }.toMutableList()
         if (!ExternalMonitor.allowLan()) {
             val schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https")
