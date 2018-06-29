@@ -212,7 +212,8 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
      */
     protected void updateEmptyView() {
         if (getBinding() == null) return;
-        if (ExternalMonitor.connected.getValue()) {
+        final Boolean connected = ExternalMonitor.connected.getValue();
+        if (connected != null && connected.booleanValue()) {
             if (Util.isListEmpty(getViewModel().getDataset().getValue())) {
                 if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) {
                     getBinding().empty.setText(R.string.loading);
