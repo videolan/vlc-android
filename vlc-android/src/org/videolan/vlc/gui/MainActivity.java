@@ -99,12 +99,12 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         mNavigator = new Navigator(this, mSettings, mExtensionManagerService, savedInstanceState);
         if (savedInstanceState == null) {
             if (getIntent().getBooleanExtra(Constants.EXTRA_UPGRADE, false)) {
-            /*
-             * The sliding menu is automatically opened when the user closes
-             * the info dialog. If (for any reason) the dialog is not shown,
-             * open the menu after a short delay.
-             */
-            mActivityHandler.postDelayed(new Runnable() {
+                /*
+                 * The sliding menu is automatically opened when the user closes
+                 * the info dialog. If (for any reason) the dialog is not shown,
+                 * open the menu after a short delay.
+                 */
+                mActivityHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mDrawerLayout.openDrawer(mNavigationView);
@@ -184,11 +184,14 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         mNavigationView.setNavigationItemSelectedListener(mNavigator);
         final boolean wasVisible = mNavigationView.getMenu().findItem(R.id.nav_video).isVisible();
         final boolean scan = mSettings.getInt(Constants.KEY_MEDIALIBRARY_SCAN, Constants.ML_SCAN_OFF) == Constants.ML_SCAN_ON;
-        if (wasVisible != scan) {
-            mNavigationView.getMenu().findItem(R.id.nav_audio).setVisible(scan);
-            mNavigationView.getMenu().findItem(R.id.nav_video).setVisible(scan);
-            if (scan) getNavigator().showFragment(R.id.nav_video);
-        }
+        if (wasVisible != scan) mActivityHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mNavigationView.getMenu().findItem(R.id.nav_audio).setVisible(scan);
+                mNavigationView.getMenu().findItem(R.id.nav_video).setVisible(scan);
+                if (scan) getNavigator().showFragment(R.id.nav_video);
+            }
+        });
     }
 
     public boolean isExtensionServiceBinded() {
