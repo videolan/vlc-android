@@ -313,6 +313,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
             cs.setVisibility(R.id.searchButton, visible ? ConstraintSet.VISIBLE : ConstraintSet.GONE);
             TransitionManager.beginDelayedTransition(cl);
             cs.applyTo(cl);
+            mSearchButtonView.requestLayout();
         } else UiTools.setViewVisibility(mSearchButtonView, visible ? View.VISIBLE : View.GONE);
     }
 }
