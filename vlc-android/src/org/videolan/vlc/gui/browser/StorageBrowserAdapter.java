@@ -23,8 +23,9 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.annotation.MainThread;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -34,6 +35,7 @@ import org.videolan.medialibrary.media.Storage;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.MedialibraryUtils;
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.CustomDirectories;
 
 import java.util.ArrayList;
@@ -55,8 +57,7 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
         final MediaViewHolder vh = (MediaViewHolder) holder;
         MediaLibraryItem storage = getItem(position);
 
-        if (storage.getItemType() == MediaLibraryItem.TYPE_MEDIA)
-            storage = new Storage(((MediaWrapper)storage).getUri());
+        if (storage.getItemType() == MediaLibraryItem.TYPE_MEDIA) storage = new Storage(((MediaWrapper)storage).getUri());
         String storagePath = ((Storage)storage).getUri().getPath();
         if (!storagePath.endsWith("/")) storagePath += "/";
         boolean hasContextMenu = mCustomDirsLocation.contains(storagePath);
@@ -90,8 +91,11 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
     protected void checkBoxAction(View v, String mrl) {
         final ThreeStatesCheckbox tscb = (ThreeStatesCheckbox) v;
         int state = tscb.getState();
-        if (state == ThreeStatesCheckbox.STATE_CHECKED) MedialibraryUtils.addDir(mrl);
-        else MedialibraryUtils.removeDir(mrl);
+        if (state == ThreeStatesCheckbox.STATE_CHECKED) {
+            MedialibraryUtils.addDir(mrl);
+            final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(v.getContext().getApplicationContext());
+            if (prefs.getInt(Constants.KEY_MEDIALIBRARY_SCAN, -1) != Constants.ML_SCAN_ON) prefs.edit().putInt(Constants.KEY_MEDIALIBRARY_SCAN, Constants.ML_SCAN_ON).apply();
+        } else MedialibraryUtils.removeDir(mrl);
         ((StorageBrowserFragment)fragment).processEvent((CheckBox) v, mrl);
     }
 }
