@@ -72,8 +72,7 @@
         android:layout_weight="1"
         android:gravity="start"
         android:text="@string/loading"
-        android:textSize="20sp"
-        android:visibility="@{empty ? View.VISIBLE : View.GONE}" />
+        android:textSize="20sp" />
 
     <ViewFlipper
         android:id="@+id/loading_flipper"
@@ -84,8 +83,7 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/loading_title"
         android:layout_gravity="start"
         android:autoStart="true"
-        android:flipInterval="1000"
-        android:visibility="@{empty ? View.VISIBLE : View.GONE}" >
+        android:flipInterval="1000" >
 
         <TextView
             android:layout_width="match_parent"

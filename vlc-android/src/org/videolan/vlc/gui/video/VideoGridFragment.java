@@ -224,6 +224,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     }
 
     void updateEmptyView() {
+        mBinding.loadingFlipper.setVisibility(View.GONE);
+        mBinding.loadingTitle.setVisibility(View.GONE);
         mBinding.setEmpty(mAdapter.isEmpty());
     }
 
