@@ -247,6 +247,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
         if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
+        mBottomSheetBehavior.setHideable(false);
     }
 
     /**
