@@ -50,7 +50,6 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import kotlinx.coroutines.experimental.launch
@@ -129,7 +128,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         }
         binding.songsList.layoutManager = LinearLayoutManager(view.context)
         binding.songsList.adapter = playlistAdapter
-        binding.audioMediaSwitcher.setAudioMediaSwitcherListener(mHeaderMediaSwitcherListener)
+        binding.audioMediaSwitcher.setAudioMediaSwitcherListener(headerMediaSwitcherListener)
         binding.coverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener)
         binding.playlistSearchText.editText?.addTextChangedListener(this)
 
@@ -216,7 +215,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         updatePlayPause()
         updateShuffleMode()
         updateRepeatMode()
-        binding.timeline.setOnSeekBarChangeListener(mTimelineListner)
+        binding.timeline.setOnSeekBarChangeListener(timelineListener)
         updateBackground()
     }
 
@@ -566,7 +565,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         }
     }
 
-    private var mTimelineListner: OnSeekBarChangeListener = object : OnSeekBarChangeListener {
+    private var timelineListener: OnSeekBarChangeListener = object : OnSeekBarChangeListener {
 
         override fun onStopTrackingTouch(seekBar: SeekBar) {}
 
@@ -581,7 +580,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         }
     }
 
-    private val mHeaderMediaSwitcherListener = object : AudioMediaSwitcherListener {
+    private val headerMediaSwitcherListener = object : AudioMediaSwitcherListener {
 
         override fun onMediaSwitching() {}
 
@@ -594,13 +593,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
            }
         }
 
-        override fun onTouchDown() {
-            hideHeaderButtons()
-        }
+        override fun onTouchDown() = hideHeaderButtons()
 
-        override fun onTouchUp() {
-            restoreHeaderButtonVisibilities()
-        }
+        override fun onTouchUp() = restoreHeaderButtonVisibilities()
 
         override fun onTouchClick() {
             val activity = activity as AudioPlayerContainerActivity
