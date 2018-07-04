@@ -33,6 +33,7 @@ import android.support.v4.content.ContextCompat;
 
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.gui.helpers.BitmapUtil;
+import org.videolan.vlc.gui.helpers.NotificationHelper;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
@@ -45,6 +46,7 @@ public class RecommendationsService extends IntentService {
 
     private static final String TAG = "VLC/RecommendationsService";
     private static final int MAX_RECOMMENDATIONS = 3;
+    private String appName;
 
     private NotificationManager mNotificationManager;
 
@@ -57,6 +59,7 @@ public class RecommendationsService extends IntentService {
         super.onCreate();
         mNotificationManager = (NotificationManager)
                 getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        appName = getString(R.string.app_name);
     }
 
     @Override
@@ -65,25 +68,9 @@ public class RecommendationsService extends IntentService {
     }
 
     private void buildRecommendation(MediaWrapper movie, int id, int priority) {
-        if (movie == null)
-            return;
-
-        // build the recommendation as a Notification object
-        Notification notification = new NotificationCompat.BigPictureStyle(
-                new NotificationCompat.Builder(RecommendationsService.this)
-                        .setContentTitle(movie.getTitle())
-                        .setContentText(movie.getDescription())
-                        .setContentInfo(getString(R.string.app_name))
-                        .setPriority(priority)
-                        .setLocalOnly(true)
-                        .setOngoing(true)
-                        .setColor(ContextCompat.getColor(this, R.color.orange800))
-                        .setCategory(Notification.CATEGORY_RECOMMENDATION)
-                        .setLargeIcon(BitmapUtil.getPicture(movie))
-                        .setSmallIcon(R.drawable.icon)
-                        .setContentIntent(buildPendingIntent(movie, id))
-        ).build();
-
+        if (movie == null) return;
+        final Notification notification = NotificationHelper.createRecommendation(this, movie, priority, appName, buildPendingIntent(movie, id));
+        if (notification == null) return;
         // post the recommendation to the NotificationManager
         mNotificationManager.notify(id, notification);
     }

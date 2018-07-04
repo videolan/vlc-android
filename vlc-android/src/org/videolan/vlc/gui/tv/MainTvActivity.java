@@ -208,7 +208,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
     @Override
     protected void onStop() {
         super.onStop();
-        if (AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater) startService(new Intent(this, RecommendationsService.class));
+        if (AndroidDevices.isAndroidTv) startService(new Intent(this, RecommendationsService.class));
         TvUtil.releaseBackgroundManager(mBackgroundManager);
     }
 

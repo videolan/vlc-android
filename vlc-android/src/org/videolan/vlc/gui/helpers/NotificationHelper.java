@@ -31,11 +31,14 @@ import android.graphics.Bitmap;
 import android.media.session.MediaSession;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.NotificationCompat;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.RecommendationsService;
 import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
@@ -60,14 +63,14 @@ public class NotificationHelper {
         if (AndroidUtil.isOOrLater) {
             final Notification.Builder builder = new Notification.Builder(ctx, "vlc_playback");
             builder.setSmallIcon(video ? R.drawable.ic_notif_video : R.drawable.ic_notif_audio)
-                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                    .setVisibility(Notification.VISIBILITY_PUBLIC)
                     .setContentTitle(title)
                     .setContentText(Util.getMediaDescription(artist, album))
                     .setLargeIcon(cover)
                     .setTicker(title + " - " + artist)
                     .setAutoCancel(!playing)
                     .setOngoing(playing)
-                    .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                    .setCategory(Notification.CATEGORY_SERVICE)
                     .setDeleteIntent(piStop)
                     .setContentIntent(spi)
                     .addAction(R.drawable.ic_widget_previous_w, ctx.getString(R.string.previous), piBackward);
@@ -125,7 +128,7 @@ public class NotificationHelper {
                 scanBuilder = new Notification.Builder(ctx, "vlc_medialibrary")
                         .setContentIntent(PendingIntent.getActivity(ctx, 0, new Intent(ctx, StartActivity.class), PendingIntent.FLAG_UPDATE_CURRENT))
                         .setSmallIcon(R.drawable.ic_notif_scan)
-                        .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                        .setVisibility(Notification.VISIBILITY_PUBLIC)
                         .setContentTitle(ctx.getString(R.string.ml_scanning))
                         .setAutoCancel(false)
                         .setCategory(NotificationCompat.CATEGORY_PROGRESS)
@@ -165,6 +168,42 @@ public class NotificationHelper {
             }
             return scanCompatBuilder.build();
         }
+    }
+
+    public static Notification createRecommendation(Context ctx, MediaWrapper movie, int priority, String appName, PendingIntent pi) {
+        // build the recommendation as a Notification object
+        if (AndroidUtil.isOOrLater) {
+            final Notification.BigPictureStyle bps = new Notification.BigPictureStyle();
+            bps.setBuilder(
+                    new Notification.Builder(ctx, "vlc_recommendations")
+                    .setContentTitle(movie.getTitle())
+                    .setContentText(movie.getDescription())
+                    .setSubText(appName)
+                    .setPriority(priority)
+                    .setLocalOnly(true)
+                    .setOngoing(true)
+                    .setColor(ContextCompat.getColor(ctx, R.color.orange800))
+                    .setCategory(Notification.CATEGORY_RECOMMENDATION)
+                    .setLargeIcon(BitmapUtil.getPicture(movie))
+                    .setSmallIcon(R.drawable.icon)
+                    .setContentIntent(pi)
+            );
+            return bps.build();
+        } else return new android.support.v4.app.NotificationCompat.BigPictureStyle(
+                new android.support.v4.app.NotificationCompat.Builder(ctx)
+                        .setContentTitle(movie.getTitle())
+                        .setContentText(movie.getDescription())
+                        .setContentInfo(appName)
+                        .setPriority(priority)
+                        .setLocalOnly(true)
+                        .setOngoing(true)
+                        .setColor(ContextCompat.getColor(ctx, R.color.orange800))
+                        .setCategory(Notification.CATEGORY_RECOMMENDATION)
+                        .setLargeIcon(BitmapUtil.getPicture(movie))
+                        .setSmallIcon(R.drawable.icon)
+                        .setContentIntent(pi)
+        ).build();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

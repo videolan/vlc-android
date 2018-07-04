@@ -40,7 +40,7 @@ public class BootupReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
-        if (action != null && AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater && action.endsWith(Intent.ACTION_BOOT_COMPLETED)) {
+        if (action != null && AndroidDevices.isAndroidTv && action.endsWith(Intent.ACTION_BOOT_COMPLETED)) {
             if (BuildConfig.DEBUG) Log.d(TAG, "ACTION_BOOT_COMPLETED ");
             scheduleRecommendationUpdate(context);
         }
