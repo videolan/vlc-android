@@ -2,6 +2,7 @@ package org.videolan.vlc.util
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import kotlinx.coroutines.experimental.delay
@@ -48,3 +49,4 @@ suspend fun retry (
 
 fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
 
+fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)
