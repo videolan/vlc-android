@@ -66,12 +66,10 @@ public class RecommendationsService extends IntentService {
     }
 
     private void buildRecommendation(MediaWrapper movie, int id, int priority) {
-        if (movie == null)
-            return;
-
+        if (movie == null) return;
         // build the recommendation as a Notification object
-        Notification notification = new NotificationCompat.BigPictureStyle(
-                new NotificationCompat.Builder(RecommendationsService.this)
+        final Notification notification = new NotificationCompat.BigPictureStyle(
+                new NotificationCompat.Builder(RecommendationsService.this, "vlc_recommendations")
                         .setContentTitle(movie.getTitle())
                         .setContentText(movie.getDescription())
                         .setContentInfo(getString(R.string.app_name))
@@ -84,13 +82,12 @@ public class RecommendationsService extends IntentService {
                         .setSmallIcon(R.drawable.icon)
                         .setContentIntent(buildPendingIntent(movie, id))
         ).build();
-
         // post the recommendation to the NotificationManager
         mNotificationManager.notify(id, notification);
     }
 
     private PendingIntent buildPendingIntent(MediaWrapper mediaWrapper, int id) {
-        Intent intent = new Intent(RecommendationsService.this, VideoPlayerActivity.class);
+        final Intent intent = new Intent(RecommendationsService.this, VideoPlayerActivity.class);
         intent.setAction(Constants.PLAY_FROM_VIDEOGRID);
         intent.putExtra(Constants.PLAY_EXTRA_ITEM_LOCATION, mediaWrapper.getUri());
         intent.putExtra(Constants.PLAY_EXTRA_ITEM_TITLE, mediaWrapper.getTitle());
@@ -105,13 +102,11 @@ public class RecommendationsService extends IntentService {
             @Override
             public void run() {
                 int id = 0;
-                List<MediaWrapper> videoList = Arrays.asList(VLCApplication.getMLInstance().getRecentVideos());
-                if (Util.isListEmpty(videoList))
-                    return;
+                final List<MediaWrapper> videoList = Arrays.asList(VLCApplication.getMLInstance().getRecentVideos());
+                if (Util.isListEmpty(videoList)) return;
                 for (MediaWrapper mediaWrapper : videoList){
                     buildRecommendation(mediaWrapper, ++id, Notification.PRIORITY_DEFAULT);
-                    if (id == MAX_RECOMMENDATIONS)
-                        break;
+                    if (id == MAX_RECOMMENDATIONS) break;
                 }
             }
         });

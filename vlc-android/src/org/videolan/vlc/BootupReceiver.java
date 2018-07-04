@@ -40,23 +40,19 @@ public class BootupReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
-        if (action != null && AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater && action.endsWith(Intent.ACTION_BOOT_COMPLETED)) {
+        if (action != null && AndroidDevices.isAndroidTv && action.endsWith(Intent.ACTION_BOOT_COMPLETED)) {
             if (BuildConfig.DEBUG) Log.d(TAG, "ACTION_BOOT_COMPLETED ");
             scheduleRecommendationUpdate(context);
         }
     }
 
     private void scheduleRecommendationUpdate(Context context) {
-        AlarmManager alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(
+        final  AlarmManager alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(
                 Context.ALARM_SERVICE);
-        Intent recommendationIntent = new Intent(context,
-                RecommendationsService.class);
-        PendingIntent alarmIntent = PendingIntent.getService(context, 0,
-                recommendationIntent, 0);
+        if (alarmManager == null) return;
+        final Intent ri = new Intent(context, RecommendationsService.class);
+        final PendingIntent pi = PendingIntent.getService(context, 0, ri, 0);
 
-        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                INITIAL_DELAY,
-                AlarmManager.INTERVAL_HOUR,
-                alarmIntent);
+        alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, INITIAL_DELAY, AlarmManager.INTERVAL_HOUR, pi);
     }
 }

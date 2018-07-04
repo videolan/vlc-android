@@ -169,7 +169,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     override fun onStop() {
         super.onStop()
-        if (AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater) requireActivity().startService(Intent(requireActivity(), RecommendationsService::class.java))
+        if (AndroidDevices.isAndroidTv) requireActivity().startService(Intent(requireActivity(), RecommendationsService::class.java))
     }
 
     override fun onDestroy() {
