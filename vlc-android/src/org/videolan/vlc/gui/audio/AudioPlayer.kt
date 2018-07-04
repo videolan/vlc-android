@@ -553,6 +553,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         playerState = newState
         when (newState) {
             BottomSheetBehavior.STATE_COLLAPSED -> {
+                hideSearchField()
                 binding.header.setBackgroundResource(DEFAULT_BACKGROUND_DARKER_ID)
                 setHeaderVisibilities(false, false, true, true, true, false)
             }
