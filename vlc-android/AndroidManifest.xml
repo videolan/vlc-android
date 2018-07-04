@@ -5,7 +5,7 @@
     android:installLocation="auto">
 
     <uses-sdk
-        tools:overrideLibrary="android.support.v17.leanback, android.support.v17.preference" />
+        tools:overrideLibrary="android.support.v17.leanback, android.support.v17.preference, android.support.media.tv" />
 
     <uses-permission android:name="android.permission.READ_LOGS"
         android:maxSdkVersion="18" /> <!-- android:maxSdkVersion="15" -->
@@ -35,8 +35,11 @@
     <uses-permission android:name="android.permission.BLUETOOTH"/>
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    
+
     <uses-permission android:name="org.videolan.vlc.permission.READ_EXTENSION_DATA"/>
+
+    <uses-permission android:name="com.android.providers.tv.permission.READ_EPG_DATA" />
+    <uses-permission android:name="com.android.providers.tv.permission.WRITE_EPG_DATA" />
 
     <uses-feature android:name="android.software.leanback"
         android:required="false" />
@@ -77,13 +80,20 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
-        <activity
-            android:name=".StartActivity">
+        <activity android:name=".StartActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:scheme="vlclauncher"
+                    android:host="${applicationId}" />
             </intent-filter>
 
             <!-- This filter captures protocols without type info -->
@@ -466,9 +476,9 @@
             android:theme="@style/Theme.VLC" />
 
         <activity android:name=".gui.DebugLogActivity"
-                  android:launchMode="singleTop" />
+            android:launchMode="singleTop" />
         <service android:name=".DebugLogService"
-                 android:process=":logger" />
+            android:process=":logger" />
         <activity
             android:name=".gui.video.VideoPlayerActivity"
             android:resizeableActivity="true"
@@ -492,9 +502,9 @@
 
         <service android:name=".extensions.ExtensionManagerService" />
         <service android:name=".PlaybackService" >
-             <intent-filter>
+            <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService" />
-             </intent-filter>
+            </intent-filter>
         </service>
         <service android:name=".MediaParsingService" />
         <receiver
@@ -590,10 +600,25 @@
             android:name=".BootupReceiver"
             android:enabled="true"
             android:exported="true" >
-          <intent-filter>
-            <action android:name="android.intent.action.BOOT_COMPLETED"/>
-          </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.media.tv.action.INITIALIZE_PROGRAMS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.media.tv.action.PREVIEW_PROGRAM_ADDED_TO_WATCH_NEXT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </receiver>
+
+        <provider
+            android:authorities="org.videolan.vlc.thumbprovider"
+            android:name="videolan.org.commontools.FileProvider"
+            android:exported="true"
+            android:grantUriPermissions="true">
+        </provider>
     </application>
 
 </manifest>

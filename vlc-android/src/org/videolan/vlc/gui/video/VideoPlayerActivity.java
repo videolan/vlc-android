@@ -2060,7 +2060,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 } else if (item.getItemId() == R.id.video_menu_subtitles_download) {
                     if (mUri == null)
                         return false;
-                    MediaUtils.getSubs(VideoPlayerActivity.this, mService.getCurrentMediaWrapper(), new SubtitlesDownloader.Callback() {
+                    MediaUtils.INSTANCE.getSubs(VideoPlayerActivity.this, mService.getCurrentMediaWrapper(), new SubtitlesDownloader.Callback() {
                         @Override
                         public void onRequestEnded(boolean success) {
                             if (success)

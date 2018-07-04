@@ -610,4 +610,5 @@
     <string name="ml_wizard_title">VLC Medialibrary selection</string>
     <string name="ml_wizard_scan_checkbox">Scan device for media content</string>
     <string name="ml_wizard_description">Choose whether VLC will scan your device storage to organize your media library or just use it as a simple player with an integrated browser.</string>
+    <string name="tv_my_new_videos">My new videos</string>
 </resources>

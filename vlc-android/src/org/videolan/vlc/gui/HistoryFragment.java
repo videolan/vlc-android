@@ -193,10 +193,10 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
         if (!selection.isEmpty()) {
             switch (item.getItemId()) {
                 case R.id.action_history_play:
-                    MediaUtils.openList(getActivity(), selection, 0);
+                    MediaUtils.INSTANCE.openList(getActivity(), selection, 0);
                     break;
                 case R.id.action_history_append:
-                    MediaUtils.appendMedia(getActivity(), selection);
+                    MediaUtils.INSTANCE.appendMedia(getActivity(), selection);
                     break;
                 case R.id.action_history_info:
                     showInfoDialog(selection.get(0));
@@ -232,7 +232,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
             return;
         }
         if (position != 0) viewModel.moveUp((MediaWrapper) item);
-        MediaUtils.openMedia(v.getContext(), (MediaWrapper) item);
+        MediaUtils.INSTANCE.openMedia(v.getContext(), (MediaWrapper) item);
     }
 
     @Override

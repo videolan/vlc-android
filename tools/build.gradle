@@ -27,7 +27,8 @@ android {
 }
 
 dependencies {
-    api 'com.android.support:appcompat-v7:27.1.1'
+    api "com.android.support:appcompat-v7:$rootProject.ext.appCompatVersion"
+    api "com.android.support:support-tv-provider:$rootProject.ext.appCompatVersion"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     testImplementation 'junit:junit:4.12'

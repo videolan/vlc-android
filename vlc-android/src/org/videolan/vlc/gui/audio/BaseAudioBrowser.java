@@ -23,8 +23,6 @@
 
 package org.videolan.vlc.gui.audio;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -67,7 +65,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ml_menu_last_playlist:
-                MediaUtils.loadlastPlaylist(getActivity(), Constants.PLAYLIST_TYPE_AUDIO);
+                MediaUtils.INSTANCE.loadlastPlaylist(getActivity(), Constants.PLAYLIST_TYPE_AUDIO);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -107,10 +105,10 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
                 tracks.addAll(Arrays.asList(mediaItem.getTracks()));
             switch (item.getItemId()) {
                 case R.id.action_mode_audio_play:
-                    MediaUtils.openList(getActivity(), tracks, 0);
+                    MediaUtils.INSTANCE.openList(getActivity(), tracks, 0);
                     break;
                 case R.id.action_mode_audio_append:
-                    MediaUtils.appendMedia(getActivity(), tracks);
+                    MediaUtils.INSTANCE.appendMedia(getActivity(), tracks);
                     break;
                 case R.id.action_mode_audio_add_playlist:
                     UiTools.addToPlaylist(getActivity(), tracks);
@@ -172,7 +170,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
             action = new Runnable() {
                 @Override
                 public void run() {
-                    MediaUtils.deletePlaylist((Playlist) item);
+                    MediaUtils.INSTANCE.deletePlaylist((Playlist) item);
                 }
             };
         } else if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
@@ -242,12 +240,12 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
         if (media == null) return;
         switch (option){
             case Constants.CTX_PLAY:
-                MediaUtils.openArray(getActivity(), media.getTracks(), 0);
+                MediaUtils.INSTANCE.openArray(getActivity(), media.getTracks(), 0);
                 break;
             case Constants.CTX_PLAY_ALL:
                 final List<MediaLibraryItem> mediaList = new ArrayList<>();
                 final int startPosition = adapter.getListWithPosition(mediaList, position);
-                MediaUtils.openList(getActivity(), (List<MediaWrapper>)(List<?>) mediaList, startPosition);
+                MediaUtils.INSTANCE.openList(getActivity(), (List<MediaWrapper>)(List<?>) mediaList, startPosition);
                 break;
             case Constants.CTX_INFORMATION:
                 showInfoDialog(media);
@@ -256,10 +254,10 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
                 removeItem(position, adapter, media);
                 break;
             case Constants.CTX_APPEND:
-                MediaUtils.appendMedia(getActivity(), media.getTracks());
+                MediaUtils.INSTANCE.appendMedia(getActivity(), media.getTracks());
                 break;
             case Constants.CTX_PLAY_NEXT:
-                MediaUtils.insertNext(getActivity(), media.getTracks());
+                MediaUtils.INSTANCE.insertNext(getActivity(), media.getTracks());
                 break;
             case Constants.CTX_ADD_TO_PLAYLIST:
                 UiTools.addToPlaylist(getActivity(), media.getTracks(), SavePlaylistDialog.KEY_NEW_TRACKS);

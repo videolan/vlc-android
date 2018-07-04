@@ -5,8 +5,10 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
+import android.support.v7.preference.PreferenceManager
 import kotlinx.coroutines.experimental.delay
 import org.videolan.libvlc.Media
+import org.videolan.vlc.VLCApplication
 import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
@@ -50,3 +52,5 @@ suspend fun retry (
 fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
 
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)
+
+fun Context.getPreferences() = PreferenceManager.getDefaultSharedPreferences(this)

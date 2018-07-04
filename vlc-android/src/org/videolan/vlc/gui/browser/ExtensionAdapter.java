@@ -41,7 +41,7 @@ public class ExtensionAdapter extends RecyclerView.Adapter<ExtensionAdapter.View
                 mw.setDisplayTitle(item.getTitle());
                 mw.setDescription(item.getSubTitle());
                 mw.setType(getTypeAccordingToItem(item.type));
-                MediaUtils.openMedia(v.getContext(), mw);
+                MediaUtils.INSTANCE.openMedia(v.getContext(), mw);
             }
         }
 

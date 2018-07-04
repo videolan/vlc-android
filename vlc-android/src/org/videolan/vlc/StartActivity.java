@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.MainActivity;
@@ -43,6 +44,8 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
 
+import videolan.org.commontools.TvChannelUtilsKt;
+
 public class StartActivity extends FragmentActivity implements StoragePermissionsDelegate.CustomActionController {
 
     public final static String TAG = "VLC/StartActivity";
@@ -54,7 +57,8 @@ public class StartActivity extends FragmentActivity implements StoragePermission
         final boolean tv =  showTvUi();
         final String action = intent != null ? intent.getAction(): null;
 
-        if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null) {
+        if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null
+                && !TvChannelUtilsKt.TV_CHANNEL_SCHEME.equals(intent.getData().getScheme())) {
             startPlaybackFromApp(intent);
             return;
         } else if (Intent.ACTION_SEND.equals(action)) {
@@ -62,7 +66,7 @@ public class StartActivity extends FragmentActivity implements StoragePermission
             final ClipData.Item item = cd != null && cd.getItemCount() > 0 ? cd.getItemAt(0) : null;
             final String mrl = item != null ? item.getText().toString() : null;
             if (mrl != null) {
-                MediaUtils.openMediaNoUi(Uri.parse(mrl));
+                MediaUtils.INSTANCE.openMediaNoUi(Uri.parse(mrl));
                 finish();
                 return;
             }
@@ -86,20 +90,30 @@ public class StartActivity extends FragmentActivity implements StoragePermission
             final Intent serviceInent = new Intent(Constants.ACTION_PLAY_FROM_SEARCH, null, this, PlaybackService.class)
                     .putExtra(Constants.EXTRA_SEARCH_BUNDLE, intent.getExtras());
             Util.startService(this, serviceInent);
-        } else {
-            MediaParsingServiceKt.startMedialibrary(this, firstRun, upgrade, true);
-            startActivity(new Intent(this, tv ? MainTvActivity.class : MainActivity.class)
-                    .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
-                    .putExtra(Constants.EXTRA_UPGRADE, upgrade));
-        }
+        } else if(Intent.ACTION_VIEW.equals(action) && intent.getData() != null) { //launch from TV Channel
+            final Uri data = intent.getData();
+            final String path = data.getPath();
+            if (TextUtils.equals(path,"/"+TvChannelUtilsKt.TV_CHANNEL_PATH_APP)) startApplication(tv, firstRun, upgrade);
+            else if (TextUtils.equals(path,"/"+TvChannelUtilsKt.TV_CHANNEL_PATH_VIDEO)) {
+                final long id = Long.valueOf(data.getQueryParameter(TvChannelUtilsKt.TV_CHANNEL_QUERY_VIDEO_ID));
+                MediaUtils.INSTANCE.openMediaNoUi(id);
+            }
+        } else startApplication(tv, firstRun, upgrade);
         finish();
+    }
+
+    private void startApplication(boolean tv, boolean firstRun, boolean upgrade) {
+        MediaParsingServiceKt.startMedialibrary(this, firstRun, upgrade, true);
+        startActivity(new Intent(this, tv ? MainTvActivity.class : MainActivity.class)
+                .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
+                .putExtra(Constants.EXTRA_UPGRADE, upgrade));
     }
 
     private void startPlaybackFromApp(Intent intent) {
         if (intent.getType() != null && intent.getType().startsWith("video"))
             startActivity(intent.setClass(this, VideoPlayerActivity.class));
         else
-            MediaUtils.openMediaNoUi(intent.getData());
+            MediaUtils.INSTANCE.openMediaNoUi(intent.getData());
         finish();
     }
 

@@ -100,7 +100,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ml_menu_last_playlist:
-                MediaUtils.loadlastPlaylist(getActivity(), Constants.PLAYLIST_TYPE_VIDEO);
+                MediaUtils.INSTANCE.loadlastPlaylist(getActivity(), Constants.PLAYLIST_TYPE_VIDEO);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -183,7 +183,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     protected void playAudio(MediaWrapper media) {
         media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-        MediaUtils.openMedia(getActivity(), media);
+        MediaUtils.INSTANCE.openMedia(getActivity(), media);
     }
 
     private void removeVideo(final MediaWrapper media) {
@@ -214,7 +214,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     @Override
     public void onFabPlayClick(View view) {
         List<MediaWrapper> playList = new ArrayList<>();
-        MediaUtils.openList(getActivity(), playList, mAdapter.getListWithPosition(playList, 0));
+        MediaUtils.INSTANCE.openList(getActivity(), playList, mAdapter.getListWithPosition(playList, 0));
     }
 
     @MainThread
@@ -273,10 +273,10 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         if (!list.isEmpty()) {
             switch (item.getItemId()) {
                 case R.id.action_video_play:
-                    MediaUtils.openList(getActivity(), list, 0);
+                    MediaUtils.INSTANCE.openList(getActivity(), list, 0);
                     break;
                 case R.id.action_video_append:
-                    MediaUtils.appendMedia(getActivity(), list);
+                    MediaUtils.INSTANCE.appendMedia(getActivity(), list);
                     break;
                 case R.id.action_video_info:
                     showInfoDialog(list.get(0));
@@ -286,12 +286,12 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 //                    removeVideo(position, rowsAdapter.getItem(position));
                 //                break;
                 case R.id.action_video_download_subtitles:
-                    MediaUtils.getSubs(getActivity(), list);
+                    MediaUtils.INSTANCE.getSubs(getActivity(), list);
                     break;
                 case R.id.action_video_play_audio:
                     for (MediaWrapper media : list)
                         media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                    MediaUtils.openList(getActivity(), list, 0);
+                    MediaUtils.INSTANCE.openList(getActivity(), list, 0);
                     break;
                 default:
                     stopActionMode();
@@ -360,7 +360,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
             final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(v.getContext());
             if (settings.getBoolean("force_play_all", false)) {
                 final List<MediaWrapper> playList = new ArrayList<>();
-                MediaUtils.openList(activity, playList, mAdapter.getListWithPosition(playList, position));
+                MediaUtils.INSTANCE.openList(activity, playList, mAdapter.getListWithPosition(playList, position));
             } else {
                 playVideo(media, false);
             }
@@ -412,7 +412,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 break;
             case Constants.CTX_PLAY_ALL:
                 final List<MediaWrapper> playList = new ArrayList<>();
-                MediaUtils.openList(getActivity(), playList, mAdapter.getListWithPosition(playList, position));
+                MediaUtils.INSTANCE.openList(getActivity(), playList, mAdapter.getListWithPosition(playList, position));
                 break;
             case Constants.CTX_INFORMATION:
                 showInfoDialog(media);
@@ -421,14 +421,14 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 removeVideo(media);
                 break;
             case Constants.CTX_PLAY_GROUP:
-                MediaUtils.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
+                MediaUtils.INSTANCE.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
                 break;
             case Constants.CTX_APPEND:
-                if (media instanceof MediaGroup) MediaUtils.appendMedia(getActivity(), ((MediaGroup)media).getAll());
-                else MediaUtils.appendMedia(getActivity(), media);
+                if (media instanceof MediaGroup) MediaUtils.INSTANCE.appendMedia(getActivity(), ((MediaGroup)media).getAll());
+                else MediaUtils.INSTANCE.appendMedia(getActivity(), media);
                 break;
             case Constants.CTX_DOWNLOAD_SUBTITLES:
-                MediaUtils.getSubs(getActivity(), media);
+                MediaUtils.INSTANCE.getSubs(getActivity(), media);
                 break;
         }
     }

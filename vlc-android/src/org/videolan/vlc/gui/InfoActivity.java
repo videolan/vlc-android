@@ -186,7 +186,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        MediaUtils.openArray(this, mItem.getTracks(), 0);
+        MediaUtils.INSTANCE.openArray(this, mItem.getTracks(), 0);
         finish();
     }
 

@@ -22,13 +22,13 @@
     <TextView android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@{MediaUtils.getMediaTitle(media)}"
+        android:text="@{MediaUtils.INSTANCE.getMediaTitle(media)}"
         android:textColor="@color/grey50" />
 
     <TextView android:id="@+id/artist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@{MediaUtils.getMediaArtist(context, media)}"
+        android:text="@{MediaUtils.INSTANCE.getMediaArtist(context, media)}"
         android:textColor="@color/grey50" />
 
 </LinearLayout>

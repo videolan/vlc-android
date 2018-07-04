@@ -249,7 +249,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
                     item.setIconBitmap(cover);
                     if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
                         item.setMediaUri(((MediaWrapper) libraryItem).getUri())
-                                .setSubtitle(MediaUtils.getMediaSubtitle((MediaWrapper) libraryItem));
+                                .setSubtitle(MediaUtils.INSTANCE.getMediaSubtitle((MediaWrapper) libraryItem));
                     } else
                         item.setSubtitle(libraryItem.getDescription());
                     boolean playable = libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA ||

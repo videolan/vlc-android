@@ -180,15 +180,15 @@ public class ExtensionBrowser extends Fragment implements View.OnClickListener, 
                 final List<VLCExtensionItem> items = mAdapter.getAll();
                 final List<MediaWrapper> medias = new ArrayList<>(items.size());
                 for (VLCExtensionItem vlcItem : items) medias.add(Utils.mediawrapperFromExtension(vlcItem));
-                MediaUtils.openList(getActivity(), medias, position);
+                MediaUtils.INSTANCE.openList(getActivity(), medias, position);
                 break;
             case Constants.CTX_APPEND:
-                MediaUtils.appendMedia(getActivity(), Utils.mediawrapperFromExtension(mAdapter.getItem(position)));
+                MediaUtils.INSTANCE.appendMedia(getActivity(), Utils.mediawrapperFromExtension(mAdapter.getItem(position)));
                 break;
             case Constants.CTX_PLAY_AS_AUDIO:
                 final MediaWrapper mw = Utils.mediawrapperFromExtension(mAdapter.getItem(position));
                 mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-                MediaUtils.openMedia(getActivity(), mw);
+                MediaUtils.INSTANCE.openMedia(getActivity(), mw);
                 break;
             case Constants.CTX_ITEM_DL:
                 //TODO

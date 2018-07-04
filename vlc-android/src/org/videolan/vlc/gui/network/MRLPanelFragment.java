@@ -117,7 +117,7 @@ public class MRLPanelFragment extends DialogFragment implements View.OnKeyListen
 
     public void playMedia(MediaWrapper mw) {
         mw.setType(MediaWrapper.TYPE_STREAM);
-        MediaUtils.openMedia(getActivity(), mw);
+        MediaUtils.INSTANCE.openMedia(getActivity(), mw);
         updateHistory();
         getActivity().supportInvalidateOptionsMenu();
         UiTools.setKeyboardVisibility(mEditText, false);

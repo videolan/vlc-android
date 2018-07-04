@@ -161,7 +161,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         TvUtil.INSTANCE.openMedia(getActivity(), media, null);
                         break;
                     case ID_DL_SUBS:
-                        MediaUtils.getSubs(getActivity(), media);
+                        MediaUtils.INSTANCE.getSubs(getActivity(), media);
                         break;
                     case ID_PLAY_ALL:
                         if (mediaList != null) {
@@ -170,7 +170,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                                 if (media.equals(mediaList.get(i)))
                                     position = i;
                             Activity activity = getActivity();
-                            MediaUtils.openList(activity, mediaList, position);
+                            MediaUtils.INSTANCE.openList(activity, mediaList, position);
                             if (media.getType() == MediaWrapper.TYPE_AUDIO)
                                 getActivity().startActivity(new Intent(activity, AudioPlayerActivity.class));
                             getActivity().finish();

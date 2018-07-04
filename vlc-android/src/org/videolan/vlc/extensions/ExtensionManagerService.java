@@ -207,7 +207,7 @@ public class ExtensionManagerService extends Service {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        MediaUtils.openMediaNoUi(ExtensionManagerService.this, media);
+                        MediaUtils.INSTANCE.openMediaNoUi(ExtensionManagerService.this, media);
                     }
                 });
             }

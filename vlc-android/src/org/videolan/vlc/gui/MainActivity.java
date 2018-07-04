@@ -361,7 +361,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                     if (fragment instanceof AudioBrowserFragment) ((AudioBrowserFragment) fragment).updateArtists();
             }
         } else if (requestCode == Constants.ACTIVITY_RESULT_OPEN && resultCode == RESULT_OK){
-            MediaUtils.openUri(this, data.getData());
+            MediaUtils.INSTANCE.openUri(this, data.getData());
         } else if (requestCode == Constants.ACTIVITY_RESULT_SECONDARY) {
             if (resultCode == PreferencesActivity.RESULT_RESCAN) {
                 forceRefresh(getCurrentFragment());

@@ -20,34 +20,50 @@
  *****************************************************************************/
 package org.videolan.vlc;
 
+import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.tv.TvContract;
+import android.os.Build;
 import android.util.Log;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.TvChannelsKt;
 
 public class BootupReceiver extends BroadcastReceiver {
-    public BootupReceiver() {
-    }
+
     private static final String TAG = "VLC/BootupReceiver";
 
     private static final long INITIAL_DELAY = 5000;
 
+    @TargetApi(Build.VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
-        if (action != null && AndroidDevices.isAndroidTv && action.endsWith(Intent.ACTION_BOOT_COMPLETED)) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "ACTION_BOOT_COMPLETED ");
-            scheduleRecommendationUpdate(context);
+        if (action == null || !AndroidDevices.isAndroidTv) return;
+        switch (action) {
+            case TvContract.ACTION_INITIALIZE_PROGRAMS:
+                Log.d(TAG, "onReceive: ACTION_INITIALIZE_PROGRAMS ");
+                TvChannelsKt.setChannel(context);
+                break;
+            case TvContract.ACTION_PREVIEW_PROGRAM_ADDED_TO_WATCH_NEXT:
+                final long preview_id = intent.getLongExtra(TvContract.EXTRA_PREVIEW_PROGRAM_ID, -1L   );
+                final long next_id = intent.getLongExtra(TvContract.EXTRA_WATCH_NEXT_PROGRAM_ID, -1L);
+                Log.d(TAG, "onReceive: ACTION_PREVIEW_PROGRAM_ADDED_TO_WATCH_NEXT"+preview_id+", "+next_id);
+                break;
+            case Intent.ACTION_BOOT_COMPLETED:
+                Log.d(TAG, "onReceive: ACTION_BOOT_COMPLETED ");
+                if (!AndroidUtil.isOOrLater) scheduleRecommendationUpdate(context);
+                break;
         }
     }
 
     private void scheduleRecommendationUpdate(Context context) {
-        final  AlarmManager alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(
+        final AlarmManager alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(
                 Context.ALARM_SERVICE);
         if (alarmManager == null) return;
         final Intent ri = new Intent(context, RecommendationsService.class);

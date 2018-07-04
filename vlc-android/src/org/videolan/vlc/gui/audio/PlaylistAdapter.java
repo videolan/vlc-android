@@ -81,7 +81,7 @@ public class PlaylistAdapter extends DiffUtilAdapter<MediaWrapper, PlaylistAdapt
         final Context ctx = holder.itemView.getContext();
         final MediaWrapper media = getItem(position);
         holder.binding.setMedia(media);
-        holder.binding.setSubTitle(MediaUtils.getMediaSubtitle(media));
+        holder.binding.setSubTitle(MediaUtils.INSTANCE.getMediaSubtitle(media));
         holder.binding.setTitleColor(mCurrentIndex == position
                 ? UiTools.getColorFromAttribute(ctx, R.attr.list_title_last)
                 : UiTools.getColorFromAttribute(ctx, R.attr.list_title));

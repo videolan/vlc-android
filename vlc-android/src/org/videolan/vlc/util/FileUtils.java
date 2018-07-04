@@ -379,7 +379,7 @@ public class FileUtils {
             }
             // Media or MMS URI
             else if (TextUtils.equals(data.getAuthority(), "media")){
-                uri = MediaUtils.getContentMediaUri(data);
+                uri = MediaUtils.INSTANCE.getContentMediaUri(data);
             } else {
                 ParcelFileDescriptor inputPFD;
                 try {

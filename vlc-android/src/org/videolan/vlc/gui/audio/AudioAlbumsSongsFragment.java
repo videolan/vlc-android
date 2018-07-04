@@ -217,7 +217,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
             i.putExtra(AudioBrowserFragment.TAG_ITEM, item);
             startActivity(i);
         } else
-            MediaUtils.openMedia(v.getContext(), (MediaWrapper) item);
+            MediaUtils.INSTANCE.openMedia(v.getContext(), (MediaWrapper) item);
     }
 
     @Override
@@ -263,6 +263,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         } else {
             list = (List<MediaWrapper>) (List<?>) mSongsAdapter.getMediaItems();
         }
-        MediaUtils.openList(getActivity(), list, 0);
+        MediaUtils.INSTANCE.openList(getActivity(), list, 0);
     }
 }

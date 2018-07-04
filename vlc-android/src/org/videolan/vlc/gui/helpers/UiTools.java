@@ -431,12 +431,12 @@ public class UiTools {
                             final DragAndDropPermissions permissions = activity.requestDragAndDropPermissions(event);
                             if (permissions != null)  {
                                 final ClipData.Item item = clipData.getItemAt(i);
-                                if (item.getUri() != null) MediaUtils.openUri(activity, item.getUri());
+                                if (item.getUri() != null) MediaUtils.INSTANCE.openUri(activity, item.getUri());
                                 else if (item.getText() != null) {
                                     final Uri uri = Uri.parse(item.getText().toString());
                                     final MediaWrapper media = new MediaWrapper(uri);
                                     if (!"file".equals(uri.getScheme())) media.setType(MediaWrapper.TYPE_STREAM);
-                                    MediaUtils.openMedia(activity, media);
+                                    MediaUtils.INSTANCE.openMedia(activity, media);
                                 }
                                 return true;
                             }

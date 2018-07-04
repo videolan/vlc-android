@@ -433,7 +433,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 MediaUtils.openMedia(activity, mw)
             }
             Constants.CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
-            Constants.CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(activity, mw)
+            Constants.CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
         }
     }
 

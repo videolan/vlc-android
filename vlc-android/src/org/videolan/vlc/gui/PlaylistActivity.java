@@ -184,7 +184,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
             mAdapter.notifyItemChanged(position, item);
             invalidateActionMode();
-        } else MediaUtils.openArray(this, mPlaylist.getTracks(), position);
+        } else MediaUtils.INSTANCE.openArray(this, mPlaylist.getTracks(), position);
     }
 
     @Override
@@ -274,10 +274,10 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         stopActionMode();
         switch (item.getItemId()) {
             case R.id.action_mode_audio_play:
-                MediaUtils.openList(this, tracks, 0);
+                MediaUtils.INSTANCE.openList(this, tracks, 0);
                 break;
             case R.id.action_mode_audio_append:
-                MediaUtils.appendMedia(this, tracks);
+                MediaUtils.INSTANCE.appendMedia(this, tracks);
                 break;
             case R.id.action_mode_audio_add_playlist:
                 UiTools.addToPlaylist(this, tracks);
@@ -344,10 +344,10 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 }, cancel);
                 break;
             case Constants.CTX_APPEND:
-                MediaUtils.appendMedia(this, media.getTracks());
+                MediaUtils.INSTANCE.appendMedia(this, media.getTracks());
                 break;
             case Constants.CTX_PLAY_NEXT:
-                MediaUtils.insertNext(this, media.getTracks());
+                MediaUtils.INSTANCE.insertNext(this, media.getTracks());
                 break;
             case Constants.CTX_ADD_TO_PLAYLIST:
                 UiTools.addToPlaylist(this, media.getTracks(), SavePlaylistDialog.KEY_NEW_TRACKS);
@@ -394,7 +394,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     public void onClick(View v) {
-        MediaUtils.openArray(this, mPlaylist.getTracks(), 0);
+        MediaUtils.INSTANCE.openArray(this, mPlaylist.getTracks(), 0);
     }
 
     private void removeFromPlaylist(final List<MediaWrapper> list){

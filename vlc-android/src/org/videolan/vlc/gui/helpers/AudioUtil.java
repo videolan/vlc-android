@@ -202,8 +202,8 @@ public class AudioUtil {
             return Uri.decode(artworkURL).replace("file://", "");
         } else if(artworkURL != null && artworkURL.startsWith("attachment://")) {
             // Decode if the album art is embedded in the file
-            String mArtist = MediaUtils.getMediaArtist(context, media);
-            String mAlbum = MediaUtils.getMediaAlbum(context, media);
+            String mArtist = MediaUtils.INSTANCE.getMediaArtist(context, media);
+            String mAlbum = MediaUtils.INSTANCE.getMediaAlbum(context, media);
 
             /* Parse decoded attachment */
             if( mArtist.length() == 0 || mAlbum.length() == 0 ||
@@ -278,7 +278,7 @@ public class AudioUtil {
     }
 
     private static String getCoverCachePath(Context context, MediaWrapper media, int width) {
-        final int hash = MurmurHash.hash32(MediaUtils.getMediaArtist(context, media) + MediaUtils.getMediaAlbum(context, media));
+        final int hash = MurmurHash.hash32(MediaUtils.INSTANCE.getMediaArtist(context, media) + MediaUtils.INSTANCE.getMediaAlbum(context, media));
         return COVER_DIR.get() + (hash >= 0 ? "" + hash : "m" + (-hash)) + "_" + width;
     }
 

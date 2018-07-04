@@ -234,7 +234,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         if (count > 0) {
             final Random rand = new Random();
             int randomSong = rand.nextInt(count);
-            MediaUtils.openList(getActivity(), list, randomSong, true);
+            MediaUtils.INSTANCE.openList(getActivity(), list, randomSong, true);
         }
     }
 
@@ -320,7 +320,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             return;
         }
         if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
-            MediaUtils.openMedia(getActivity(), (MediaWrapper) item);
+            MediaUtils.INSTANCE.openMedia(getActivity(), (MediaWrapper) item);
             return;
         }
         final Intent i;
