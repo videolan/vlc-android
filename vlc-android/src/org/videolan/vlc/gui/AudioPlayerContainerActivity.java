@@ -272,6 +272,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
+        mBottomSheetBehavior.setHideable(false);
     }
 
     /**
