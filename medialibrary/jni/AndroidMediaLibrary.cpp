@@ -172,7 +172,7 @@ AndroidMediaLibrary::increasePlayCount(int64_t mediaId)
 std::vector<medialibrary::MediaPtr>
 AndroidMediaLibrary::lastMediaPlayed()
 {
-    return p_ml->lastMediaPlayed()->all();
+    return p_ml->history()->items( 100, 0 );
 }
 
 bool
@@ -181,18 +181,18 @@ AndroidMediaLibrary::addToHistory( const std::string& mrl, const std::string& ti
     auto media = p_ml->media( mrl );
     if ( media == nullptr )
     {
-        media = p_ml->addMedia( mrl );
+        media = p_ml->addStream( mrl );
         if ( media == nullptr )
             return false;
     }
     media->setTitle(title);
-    return p_ml->addToStreamHistory( media );
+    return true;
 }
 
-std::vector<medialibrary::HistoryPtr>
+std::vector<medialibrary::MediaPtr>
 AndroidMediaLibrary::lastStreamsPlayed()
 {
-    return p_ml->lastStreamsPlayed()->all();
+    return p_ml->streamHistory()->items( 100, 0 );
 }
 
 bool
@@ -253,7 +253,7 @@ AndroidMediaLibrary::media(const std::string& mrl)
 medialibrary::MediaPtr
 AndroidMediaLibrary::addMedia(const std::string& mrl)
 {
-    return p_ml->addMedia(mrl);
+    return p_ml->addExternalMedia(mrl);
 }
 
 std::vector<medialibrary::MediaPtr>

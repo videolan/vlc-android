@@ -51,7 +51,7 @@ public:
     /* History */
     std::vector<medialibrary::MediaPtr> lastMediaPlayed();
     bool addToHistory( const std::string& mrl, const std::string& title );
-    std::vector<medialibrary::HistoryPtr> lastStreamsPlayed();
+    std::vector<medialibrary::MediaPtr> lastStreamsPlayed();
     bool clearHistory();
 
     medialibrary::SearchAggregate search(const std::string& query);

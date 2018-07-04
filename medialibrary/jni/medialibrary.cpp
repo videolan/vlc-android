@@ -237,15 +237,17 @@ jobjectArray
 lastStreamsPlayed(JNIEnv* env, jobject thiz)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::HistoryPtr> streamsPlayed = aml->lastStreamsPlayed();
-    jobjectArray streamRefs = (jobjectArray) env->NewObjectArray(streamsPlayed.size(), ml_fields.HistoryItem.clazz, NULL);
-    int index = -1;
-    for(medialibrary::HistoryPtr const& historyItem : streamsPlayed) {
-        jobject item = convertHistoryItemObject(env, &ml_fields, historyItem);
-        env->SetObjectArrayElement(streamRefs, ++index, item);
+    std::vector<medialibrary::MediaPtr> streamsPlayed = aml->lastStreamsPlayed();
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(streamsPlayed.size(), ml_fields.MediaWrapper.clazz, NULL);
+    int index = -1, drops = 0;
+    for(medialibrary::MediaPtr const& media : streamsPlayed) {
+        jobject item = mediaToMediaWrapper(env, &ml_fields, media);
+        env->SetObjectArrayElement(mediaRefs, ++index, item);
+        if (item == nullptr)
+            ++drops;
         env->DeleteLocalRef(item);
     }
-    return streamRefs;
+    return mediaRefs;
 }
 
 bool clearHistory(JNIEnv* env, jobject thiz)
