@@ -54,6 +54,7 @@ import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
@@ -72,6 +73,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Constants
+import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
 
@@ -277,7 +279,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
                 if (TextUtils.isEmpty(mw.artworkMrl)) {
                     setDefaultBackground()
                 } else {
-                    val blurredCover = async { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), binding.contentLayout.width)) }.await()
+                    val blurredCover = withContext(VLCIO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), binding.contentLayout.width)) }
                     if (blurredCover !== null) {
                         val activity = activity as? AudioPlayerContainerActivity
                         if (activity === null) return@launch
@@ -326,19 +328,17 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     }
 
     fun onNextClick(view: View) {
-        if (service === null) return
-        if (service?.hasNext() == true)
-            service?.next()
-        else
-            Snackbar.make(binding.root, R.string.lastsong, Snackbar.LENGTH_SHORT).show()
+        service?.run {
+            if (hasNext()) next()
+            else Snackbar.make(binding.root, R.string.lastsong, Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     fun onPreviousClick(view: View) {
-        if (service === null) return
-        if (service?.hasPrevious() == true || service?.isSeekable == true)
-            service?.previous(false)
-        else
-            Snackbar.make(binding.root, R.string.firstsong, Snackbar.LENGTH_SHORT).show()
+        service?.run {
+            if (hasPrevious() || isSeekable) previous(false)
+            else Snackbar.make(binding.root, R.string.firstsong, Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     fun onRepeatClick(view: View) {
@@ -420,8 +420,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     fun onSearchClick(v: View) {
         binding.playlistSearch.visibility = View.GONE
         binding.playlistSearchText.visibility = View.VISIBLE
-        if (binding.playlistSearchText.editText != null)
-            binding.playlistSearchText.editText!!.requestFocus()
+        binding.playlistSearchText.editText?.requestFocus()
         val imm = VLCApplication.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding.playlistSearchText.editText, InputMethodManager.SHOW_IMPLICIT)
         handler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS.toLong())
