@@ -244,7 +244,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     public void setFabPlayShuffleAllVisibility() {
-        setFabPlayVisibility(mViewPager.getCurrentItem() == MODE_SONG);
+        setFabPlayVisibility(mViewPager.getCurrentItem() == MODE_SONG && mSongsAdapter.getItemCount() > 2);
     }
 
     /**
@@ -271,6 +271,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private void updateEmptyView(int position) {
         mEmptyView.setVisibility(getCurrentAdapter().isEmpty() ? View.VISIBLE : View.GONE);
         mEmptyView.setText(position == MODE_PLAYLIST ? R.string.noplaylist : R.string.nomedia);
+        setFabPlayShuffleAllVisibility();
     }
 
     private final TabLayout.TabLayoutOnPageChangeListener tcl = new TabLayout.TabLayoutOnPageChangeListener(mTabLayout);
