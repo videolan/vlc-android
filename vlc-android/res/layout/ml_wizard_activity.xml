@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 <android.support.constraint.ConstraintLayout
     android:layout_width="320dp"
-    android:layout_height="320dp"
+    android:layout_height="wrap_content"
     android:padding="16dp">
 
     <CheckBox
@@ -25,6 +25,7 @@
         android:text="@string/ok"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wizard_check_scan"
         style="?android:attr/borderlessButtonStyle" />
 
     <TextView
