@@ -805,7 +805,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         if (repeatType != Constants.REPEAT_NONE || hasPrevious() || isSeekable)
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
         if (isSeekable)
-            actions = actions or (PlaybackStateCompat.ACTION_FAST_FORWARD or PlaybackStateCompat.ACTION_REWIND)
+            actions = actions or PlaybackStateCompat.ACTION_FAST_FORWARD or PlaybackStateCompat.ACTION_REWIND or PlaybackStateCompat.ACTION_SEEK_TO
         actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM
         pscb.setActions(actions)
         val repeatResId = if (repeatType == Constants.REPEAT_ALL) R.drawable.ic_auto_repeat_pressed else if (repeatType == Constants.REPEAT_ONE) R.drawable.ic_auto_repeat_one_pressed else R.drawable.ic_auto_repeat_normal
