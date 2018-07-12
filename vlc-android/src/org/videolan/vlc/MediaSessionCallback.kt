@@ -109,7 +109,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onSkipToNext() = playbackService.next()
 
-    override fun onSkipToPrevious() = playbackService.previous(false)
+    override fun onSkipToPrevious() = playbackService.previous(true)
 
     override fun onSeekTo(pos: Long) = playbackService.seek(pos)
 
