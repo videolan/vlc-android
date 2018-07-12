@@ -327,7 +327,7 @@ public class SubtitlesDownloader {
         if (mToken == null || path == null) return;
         final StringBuilder sb = new StringBuilder();
         final String name = fileName.lastIndexOf('.') > 0 ? fileName.substring(0, fileName.lastIndexOf('.')) : fileName;
-        sb.append(SUBTITLES_DIRECTORY.getPath()).append('/').append(name).append('.').append(language).append('.').append(subFormat);
+        sb.append(SUBTITLES_DIRECTORY.getPath()).append('/').append(name.replace("/", "")).append('.').append(language).append('.').append(subFormat);
         final String srtUrl = sb.toString();
         FileOutputStream f = null;
         GZIPInputStream gzIS = null;
