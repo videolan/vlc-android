@@ -50,21 +50,25 @@ public class MRLPanelFragment extends DialogFragment implements View.OnKeyListen
     private MRLAdapter mAdapter;
     private TextInputLayout mEditText;
 
-    public MRLPanelFragment(){}
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NO_FRAME, 0);
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        setStyle(DialogFragment.STYLE_NO_FRAME, 0);
         final View v = inflater.inflate(R.layout.mrl_panel, container, false);
         mEditText = v.findViewById(R.id.mrl_edit);
         mEditText.getEditText().setOnKeyListener(this);
         mEditText.getEditText().setOnEditorActionListener(this);
         mEditText.setHint(getString(R.string.open_mrl_dialog_msg));
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.mrl_list);
+        final RecyclerView recyclerView = v.findViewById(R.id.mrl_list);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new MRLAdapter(this);
         recyclerView.setAdapter(mAdapter);
         v.findViewById(R.id.send).setOnClickListener(this);
+        getDialog().setTitle(R.string.open_mrl_dialog_title);
         return v;
     }
 
