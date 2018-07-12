@@ -333,8 +333,8 @@ public class SubtitlesDownloader {
         GZIPInputStream gzIS = null;
         URL url;
         HttpURLConnection urlConnection;
-        try {
-            url  = new URL(subUrl);
+        if (subUrl.startsWith("https")) try {
+            url = new URL(subUrl);
             urlConnection = (HttpURLConnection) url.openConnection();
             // We get the first matching subtitle
             f = new FileOutputStream(new File(srtUrl));
