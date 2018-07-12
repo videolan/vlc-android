@@ -1079,7 +1079,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
         if (repeatType != Constants.REPEAT_NONE || hasPrevious() || isSeekable())
             actions |= PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS;
         if (isSeekable())
-            actions |= PlaybackStateCompat.ACTION_FAST_FORWARD | PlaybackStateCompat.ACTION_REWIND;
+            actions |= PlaybackStateCompat.ACTION_FAST_FORWARD | PlaybackStateCompat.ACTION_REWIND | PlaybackStateCompat.ACTION_SEEK_TO;
         actions |= PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM;
         pscb.setActions(actions);
         final int repeatResId = repeatType == Constants.REPEAT_ALL ? R.drawable.ic_auto_repeat_pressed : repeatType == Constants.REPEAT_ONE ? R.drawable.ic_auto_repeat_one_pressed : R.drawable.ic_auto_repeat_normal;
