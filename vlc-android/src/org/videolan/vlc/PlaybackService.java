@@ -974,7 +974,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
         @Override
         public void onSkipToPrevious() {
-            previous(false);
+            previous(true);
         }
 
         @Override
