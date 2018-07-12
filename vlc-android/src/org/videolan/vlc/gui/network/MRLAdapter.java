@@ -27,12 +27,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.videolan.medialibrary.media.HistoryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 
 class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
-    private HistoryItem[] mDataset;
+    private MediaWrapper[] mDataset;
     private MediaPlayerController playerController;
 
     interface MediaPlayerController {
@@ -51,7 +50,7 @@ class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            playerController.playMedia(mDataset[getLayoutPosition()].getMedia());
+            playerController.playMedia(mDataset[getLayoutPosition()]);
         }
     }
 
@@ -60,26 +59,25 @@ class MRLAdapter extends RecyclerView.Adapter<MRLAdapter.ViewHolder> {
     }
 
     @Override
-    public MRLAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                    int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
+    public MRLAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.mrl_item, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final HistoryItem item = mDataset[position];
-        holder.uriTv.setText(Uri.decode(item.getMrl()));
+        final MediaWrapper item = mDataset[position];
+        holder.uriTv.setText(Uri.decode(item.getLocation()));
         holder.titleTv.setText(Uri.decode(item.getTitle()));
     }
 
-    public void setList(HistoryItem[] list){
+    public void setList(MediaWrapper[] list){
         mDataset = list;
         notifyDataSetChanged();
     }
 
-    public HistoryItem getItem(int position) {
+    public MediaWrapper getItem(int position) {
         if (position >= getItemCount() || position < 0)
             return null;
         return mDataset[position];
