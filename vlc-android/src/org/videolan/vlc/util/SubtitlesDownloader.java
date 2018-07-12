@@ -77,7 +77,7 @@ public class SubtitlesDownloader {
     private static final int DIALOG_UPDATE_MSG = 4;
     private static final String TAG = "VLC/SubtitlesDownloader";
 
-    private static final String OpenSubtitlesAPIUrl = "http://api.opensubtitles.org/xml-rpc";
+    private static final String OpenSubtitlesAPIUrl = "https://api.opensubtitles.org/xml-rpc";
     private static final String HTTP_USER_AGENT = "VLSub";
     private static final String USER_AGENT = "VLSub 0.9";
     private static final File SUBTITLES_DIRECTORY = new File(VLCApplication.getAppContext().getExternalFilesDir(null), "subs");
