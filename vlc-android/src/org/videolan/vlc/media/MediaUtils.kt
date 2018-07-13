@@ -189,16 +189,16 @@ object MediaUtils {
         return genre ?: getMediaString(ctx, R.string.unknown_genre)
     }
 
-    fun getMediaSubtitle(media: MediaWrapper): String {
+    fun getMediaSubtitle(media: MediaWrapper): String? {
         var subtitle = if (media.nowPlaying != null)
             media.nowPlaying
         else
             media.artist
         if (media.length > 0L) {
-            if (TextUtils.isEmpty(subtitle))
-                subtitle = Tools.millisToString(media.length)
+            subtitle = if (TextUtils.isEmpty(subtitle))
+                Tools.millisToString(media.length)
             else
-                subtitle = subtitle + "  -  " + Tools.millisToString(media.length)
+                subtitle + "  -  " + Tools.millisToString(media.length)
         }
         return subtitle
     }
