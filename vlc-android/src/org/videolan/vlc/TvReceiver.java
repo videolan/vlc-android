@@ -1,5 +1,5 @@
 /*****************************************************************************
- * BootupReceiver.java
+ * TvReceiver.java
  *****************************************************************************
  * Copyright © 2014-2015 VLC authors, VideoLAN and VideoLabs
  * Author: Geoffrey Métais
@@ -34,9 +34,9 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.TvChannelsKt;
 
-public class BootupReceiver extends BroadcastReceiver {
+public class TvReceiver extends BroadcastReceiver {
 
-    private static final String TAG = "VLC/BootupReceiver";
+    private static final String TAG = "VLC/TvReceiver";
 
     private static final long INITIAL_DELAY = 5000;
 
@@ -44,6 +44,7 @@ public class BootupReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
+        Log.d(TAG, "onReceive: "+action);
         if (action == null || !AndroidDevices.isAndroidTv) return;
         switch (action) {
             case TvContract.ACTION_INITIALIZE_PROGRAMS:
@@ -54,6 +55,16 @@ public class BootupReceiver extends BroadcastReceiver {
                 final long preview_id = intent.getLongExtra(TvContract.EXTRA_PREVIEW_PROGRAM_ID, -1L   );
                 final long next_id = intent.getLongExtra(TvContract.EXTRA_WATCH_NEXT_PROGRAM_ID, -1L);
                 Log.d(TAG, "onReceive: ACTION_PREVIEW_PROGRAM_ADDED_TO_WATCH_NEXT"+preview_id+", "+next_id);
+                break;
+            case TvContract.ACTION_WATCH_NEXT_PROGRAM_BROWSABLE_DISABLED:
+                final long preview_program_id = intent.getLongExtra(TvContract.EXTRA_PREVIEW_PROGRAM_ID, -1L   );
+                final long preview_internal_id = intent.getLongExtra(TvContract.EXTRA_WATCH_NEXT_PROGRAM_ID, -1L);
+                Log.d(TAG, "onReceive: ACTION_WATCH_NEXT_PROGRAM_BROWSABLE_DISABLED, "+preview_program_id+", "+preview_internal_id);
+                break;
+            case TvContract.ACTION_PREVIEW_PROGRAM_BROWSABLE_DISABLED:
+                final long watch_next_program_id = intent.getLongExtra(TvContract.EXTRA_PREVIEW_PROGRAM_ID, -1L   );
+                final long watch_next_internal_id = intent.getLongExtra(TvContract.EXTRA_WATCH_NEXT_PROGRAM_ID, -1L);
+                Log.d(TAG, "onReceive: ACTION_PREVIEW_PROGRAM_BROWSABLE_DISABLED, "+watch_next_program_id+", "+watch_next_internal_id);
                 break;
             case Intent.ACTION_BOOT_COMPLETED:
                 Log.d(TAG, "onReceive: ACTION_BOOT_COMPLETED ");

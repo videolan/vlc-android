@@ -28,10 +28,7 @@ import android.net.Uri
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.annotation.WorkerThread
-import android.support.media.tv.Channel
-import android.support.media.tv.ChannelLogoUtils
-import android.support.media.tv.PreviewProgram
-import android.support.media.tv.TvContractCompat
+import android.support.media.tv.*
 import android.util.Log
 
 typealias ProgramsList = MutableList<TvPreviewProgram>
@@ -46,6 +43,10 @@ val TV_PROGRAMS_MAP_PROJECTION = arrayOf(
         TvContractCompat.PreviewPrograms._ID,
         TvContractCompat.PreviewPrograms.COLUMN_INTERNAL_PROVIDER_ID,
         TvContractCompat.PreviewPrograms.COLUMN_TITLE)
+val WATCH_NEXT_MAP_PROJECTION = arrayOf(
+        TvContractCompat.PreviewPrograms._ID,
+        TvContractCompat.WatchNextPrograms.COLUMN_INTERNAL_PROVIDER_ID,
+        TvContractCompat.WatchNextPrograms.COLUMN_BROWSABLE)
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun createOrUpdateChannel(prefs: SharedPreferences, context: Context, name: String, icon: Int, appId: String): Long {
@@ -69,7 +70,9 @@ fun createOrUpdateChannel(prefs: SharedPreferences, context: Context, name: Stri
 }
 
 @WorkerThread
-fun deleteChannel(context: Context, id: Long) = context.contentResolver.delete(TvContractCompat.buildChannelUri(id), null, null)
+fun deleteChannel(context: Context, id: Long) = try {
+    context.contentResolver.delete(TvContractCompat.buildChannelUri(id), null, null)
+} catch (exception: Exception) {Log.e(TAG, "faild to delete channel $id", exception)}
 
 @WorkerThread
 fun existingPrograms(context: Context, channelId: Long) : ProgramsList {
@@ -120,6 +123,41 @@ fun buildProgram(program: ProgramDesc) : PreviewProgram {
             .setIntentUri(createUri(program.appId, program.id))
             .setInternalProviderId(program.id)
             .build()
+}
+
+fun buildWatchNextProgram(program: ProgramDesc) : WatchNextProgram {
+    return WatchNextProgram.Builder()
+            .setWatchNextType(TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
+            .setLastEngagementTimeUtcMillis(System.currentTimeMillis())
+            .setType(TvContractCompat.PreviewPrograms.TYPE_CLIP)
+            .setTitle(program.title)
+            .setDurationMillis(program.duration)
+            .setLastPlaybackPositionMillis(program.time)
+            .setVideoHeight(program.height)
+            .setVideoWidth(program.width)
+            .setDescription(program.description)
+            .setPosterArtUri(program.artUri)
+            .setPosterArtAspectRatio(TvContractCompat.PreviewProgramColumns.ASPECT_RATIO_16_9)
+            .setIntentUri(createUri(program.appId, program.id))
+            .setInternalProviderId(program.id)
+            .build()
+}
+
+fun updateWatchNext(context: Context, program: WatchNextProgram, time: Long, watchNextProgramId: Long) {
+    val values = WatchNextProgram.Builder(program)
+            .setLastEngagementTimeUtcMillis(System.currentTimeMillis())
+            .setLastPlaybackPositionMillis(time.toInt())
+            .build().toContentValues()
+    val watchNextProgramUri = TvContractCompat.buildWatchNextProgramUri(watchNextProgramId)
+    val rowsUpdated = context.contentResolver.update(watchNextProgramUri,values, null, null)
+    if (rowsUpdated < 1) Log.e(TAG, "Update program failed")
+}
+
+fun deleteWatchNext(context: Context, id: Long) = try {
+    context.contentResolver.delete(TvContractCompat.buildWatchNextProgramUri(id), null, null)
+} catch (exception: Exception) {
+    Log.e(TAG, "faild to delete program $id", exception)
+    -42
 }
 
 class TvPreviewProgram(val internalId: Long, val programId: Long, val title: String)

@@ -16,6 +16,7 @@ import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
+import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
@@ -190,9 +191,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     fun stop(systemExit: Boolean = false) {
-        if (hasCurrentMedia()) {
+        getCurrentMedia()?.let {
             savePosition()
             saveMediaMeta()
+            if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !isAudioList()) setResumeProgram(service.applicationContext, it)
+
         }
         mediaList.removeEventListener(this)
         previous.clear()
@@ -424,8 +427,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @Synchronized
     private fun saveCurrentMedia() {
+        val media = getCurrentMedia() ?: return
+        val isAudio = isAudioList()
         settings.edit()
-                .putString(if (isAudioList()) "current_song" else "current_media", mediaList.getMRL(Math.max(currentIndex, 0)))
+                .putString(if (isAudio) "current_song" else "current_media", media.location)
                 .apply()
     }
 
@@ -677,6 +682,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         if (nextIndex == -1) savePosition(true)
                     }
                     determinePrevAndNextIndices(true)
+                    if (!hasNext()) getCurrentMedia()?.let {
+                        if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !isAudioList()) setResumeProgram(service.applicationContext, it)
+                    }
                     next()
                 }
                 MediaPlayer.Event.EncounteredError -> {
@@ -690,5 +698,5 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
     }
 
-    private fun isAudioList() = !player.canSwitchToVideo() && mediaList.isAudioList
+    internal fun isAudioList() = !player.canSwitchToVideo() && mediaList.isAudioList
 }

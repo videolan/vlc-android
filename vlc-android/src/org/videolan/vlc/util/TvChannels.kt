@@ -21,10 +21,14 @@
 package org.videolan.vlc.util
 
 import android.content.Context
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.media.tv.TvContractCompat
+import android.support.media.tv.WatchNextProgram
+import android.text.TextUtils
+import android.util.Log
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
@@ -35,6 +39,10 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.startMedialibrary
 import videolan.org.commontools.*
+
+
+
+
 
 private const val TAG = "VLC/TvChannels"
 private const val MAX_RECOMMENDATIONS = 3
@@ -84,6 +92,46 @@ suspend fun updatePrograms(context: Context, channelId: Long) {
     for (program in programs) {
         withContext(VLCIO) { context.contentResolver.delete(TvContractCompat.buildPreviewProgramUri(program.programId), null, null) }
     }
+}
+
+fun setResumeProgram(context: Context, mw: MediaWrapper) {
+    var cursor: Cursor? = null
+    var isProgramPresent = false
+    try {
+        cursor = context.contentResolver.query(
+                TvContractCompat.WatchNextPrograms.CONTENT_URI, WATCH_NEXT_MAP_PROJECTION, null,
+                null, null)
+        cursor?.let {
+            while (it.moveToNext()) {
+                if (!it.isNull(1) && TextUtils.equals(mw.id.toString(), cursor.getString(1))) {
+                    // Found a row that contains the matching ID
+                    val watchNextProgramId = cursor.getLong(0)
+                    if (it.getInt(2) == 0 || mw.time == 0L) { //Row removed by user or progress null
+                        if (deleteWatchNext(context, watchNextProgramId) < 1) {
+                            Log.e(TAG, "Delete program failed")
+                            return
+                        }
+                    } else { // Update the program
+                        val existingProgram = WatchNextProgram.fromCursor(cursor)
+                        updateWatchNext(context, existingProgram, mw.time, watchNextProgramId)
+                        isProgramPresent = true
+                    }
+                    break
+                }
+            }
+        }
+        if (!isProgramPresent && mw.time != 0L) {
+            val desc = ProgramDesc(0L, mw.id.toString(), mw.title, mw.description,
+                    mw.artUri(), mw.length.toInt(), mw.time.toInt(),
+                    mw.width, mw.height, BuildConfig.APPLICATION_ID)
+            val program = buildWatchNextProgram(desc)
+            val watchNextProgramUri = context.contentResolver.insert(TvContractCompat.WatchNextPrograms.CONTENT_URI, program.toContentValues())
+            if (watchNextProgramUri == null || watchNextProgramUri == Uri.EMPTY) Log.e(TAG, "Insert watch next program failed")
+        }
+    } finally {
+        cursor?.close()
+    }
+
 }
 
 private fun MediaWrapper.artUri() : Uri {
