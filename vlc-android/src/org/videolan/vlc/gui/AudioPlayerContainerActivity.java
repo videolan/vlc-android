@@ -89,7 +89,9 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         //Init Medialibrary if KO
         if (savedInstanceState != null) {
-            VLCApplication.setLocale();
+            if (AndroidUtil.isNougatOrLater)
+                UiTools.setLocale(this);
+
             MediaParsingServiceKt.startMedialibrary(this, false, false, true);
         }
         super.onCreate(savedInstanceState);

@@ -435,6 +435,9 @@
     <string name="blurred_cover_background_summary">Blurred cover in audio player background</string>
     <string name="network_caching_popup">This value must be between 0 and 6000 ms</string>
     <string name="quit">Quit and restart application</string>
+    <string name="restart_message">Changes will take effect once application has restarted.\n\nRestart now?</string>
+    <string name="restart_message_OK">OK</string>
+    <string name="restart_message_Later">Later</string>
 
     <string name="developer_prefs_category">Developer</string>
     <string name="enable_verbose_mode">Verbose</string>

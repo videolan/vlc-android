@@ -36,6 +36,7 @@ import android.text.TextUtils;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SearchActivity;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
@@ -53,6 +54,8 @@ public class StartActivity extends FragmentActivity implements StoragePermission
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (AndroidUtil.isNougatOrLater)
+            UiTools.setLocale(this);
         final Intent intent = getIntent();
         final boolean tv =  showTvUi();
         final String action = intent != null ? intent.getAction(): null;
