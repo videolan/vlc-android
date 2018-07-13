@@ -33,6 +33,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.UiTools;
 
+
 public class PreferencesUi extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Override
@@ -84,6 +85,6 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("set_locale"))
-            UiTools.snacker(getView(), R.string.set_locale_popup);
+            UiTools.restartDialog(getActivity());
     }
 }

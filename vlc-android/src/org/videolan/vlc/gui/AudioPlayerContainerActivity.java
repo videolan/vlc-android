@@ -95,9 +95,10 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
     protected void onCreate(Bundle savedInstanceState) {
         //Init Medialibrary if KO
         if (savedInstanceState != null) {
-            VLCApplication.setLocale();
             if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage(this))
                 startService(new Intent(Constants.ACTION_INIT, null, this, MediaParsingService.class));
+            if (AndroidUtil.isNougatOrLater)
+                UiTools.setLocale(this);
         }
         super.onCreate(savedInstanceState);
         setVolumeControlStream(AudioManager.STREAM_MUSIC);

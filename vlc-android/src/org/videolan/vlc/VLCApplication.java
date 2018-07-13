@@ -56,6 +56,8 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import static org.videolan.vlc.gui.helpers.UiTools.setLocale;
+
 public class VLCApplication extends Application {
     public final static String TAG = "VLC/VLCApplication";
 
@@ -85,14 +87,18 @@ public class VLCApplication extends Application {
     private static final Handler handler = new Handler(Looper.getMainLooper());
 
     private static int sDialogCounter = 0;
+    // Property to get the new locale only on restart to prevent change the locale partially on runtime
+    private static String locale = "";
 
     @Override
     public void onCreate() {
         instance = this;
         super.onCreate();
         sSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        locale = sSettings.getString("set_locale", "");
 
-        setLocale();
+        // Set the locale for API < 24 and set application resources and direction for API >=24
+        setLocale(instance);
 
         runBackground(new Runnable() {
             @Override
@@ -120,7 +126,7 @@ public class VLCApplication extends Application {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        setLocale();
+        setLocale(instance);
     }
 
     /**
@@ -159,6 +165,10 @@ public class VLCApplication extends Application {
 
     public static SharedPreferences getSettings() {
         return sSettings;
+    }
+
+    public static String getLocale(){
+        return locale;
     }
 
     public static boolean showTvUi() {
@@ -242,39 +252,6 @@ public class VLCApplication extends Application {
 
     public static Medialibrary getMLInstance() {
         return Medialibrary.getInstance();
-    }
-
-    public static void setLocale() {
-        if (sSettings == null) PreferenceManager.getDefaultSharedPreferences(instance);
-        // Are we using advanced debugging - locale?
-        String p = sSettings.getString("set_locale", "");
-        if (!p.equals("")) {
-            Locale locale;
-            // workaround due to region code
-            if (p.equals("zh-TW")) {
-                locale = Locale.TRADITIONAL_CHINESE;
-            } else if(p.startsWith("zh")) {
-                locale = Locale.CHINA;
-            } else if(p.equals("pt-BR")) {
-                locale = new Locale("pt", "BR");
-            } else if(p.equals("bn-IN") || p.startsWith("bn")) {
-                locale = new Locale("bn", "IN");
-            } else {
-                /**
-                 * Avoid a crash of
-                 * java.lang.AssertionError: couldn't initialize LocaleData for locale
-                 * if the user enters nonsensical region codes.
-                 */
-                if(p.contains("-"))
-                    p = p.substring(0, p.indexOf('-'));
-                locale = new Locale(p);
-            }
-            Locale.setDefault(locale);
-            Configuration config = new Configuration();
-            config.locale = locale;
-            getAppResources().updateConfiguration(config,
-                    getAppResources().getDisplayMetrics());
-        }
     }
 
     /**

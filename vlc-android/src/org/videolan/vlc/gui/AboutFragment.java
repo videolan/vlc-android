@@ -62,7 +62,7 @@ public class AboutFragment extends Fragment {
         //Fix android 7 Locale problem with webView
         //https://stackoverflow.com/questions/40398528/android-webview-locale-changes-abruptly-on-android-n
         if (AndroidUtil.isNougatOrLater)
-            VLCApplication.setLocale();
+            UiTools.setLocale(getActivity());
 
         final View aboutMain = v.findViewById(R.id.about_main);
         final WebView webView = v.findViewById(R.id.webview);

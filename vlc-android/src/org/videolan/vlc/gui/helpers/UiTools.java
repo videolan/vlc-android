@@ -30,7 +30,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
@@ -61,6 +61,8 @@ import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
@@ -85,6 +87,7 @@ import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.MediaLibraryItemComparator;
 
 import java.util.List;
+import java.util.Locale;
 
 public class UiTools {
     private static final String TAG = "VLC/UiTools";
@@ -535,5 +538,51 @@ public class UiTools {
                 }
             }
         });
+    }
+
+    public static void setLocale(Context context) {
+        // Are we using advanced debugging - locale?
+        String p = VLCApplication.getLocale();
+        if (!p.equals("")) {
+            Locale locale;
+            // workaround due to region code
+            if (p.equals("zh-TW")) {
+                locale = Locale.TRADITIONAL_CHINESE;
+            } else if(p.startsWith("zh")) {
+                locale = Locale.CHINA;
+            } else if(p.equals("pt-BR")) {
+                locale = new Locale("pt", "BR");
+            } else if(p.equals("bn-IN") || p.startsWith("bn")) {
+                locale = new Locale("bn", "IN");
+            } else {
+                /**
+                 * Avoid a crash of
+                 * java.lang.AssertionError: couldn't initialize LocaleData for locale
+                 * if the user enters nonsensical region codes.
+                 */
+                if(p.contains("-")) p = p.substring(0, p.indexOf('-'));
+                locale = new Locale(p);
+            }
+            Locale.setDefault(locale);
+            final Configuration config = new Configuration();
+            config.locale = locale;
+            context.getResources().updateConfiguration(config,
+                    context.getResources().getDisplayMetrics());
+        }
+    }
+
+    public static void restartDialog(Context context) {
+        new AlertDialog.Builder(context)
+                .setTitle(context.getResources().getString(R.string.restart_vlc))
+                .setMessage(context.getResources().getString(R.string.restart_message))
+                .setPositiveButton(R.string.restart_message_OK, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                    }
+                })
+                .setNegativeButton(R.string.restart_message_Later, null)
+                .create()
+                .show();
     }
 }
