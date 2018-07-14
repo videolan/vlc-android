@@ -83,6 +83,7 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.LocalePair;
 import org.videolan.vlc.viewmodels.BaseModel;
 
 import java.util.List;
@@ -504,5 +505,14 @@ public class UiTools {
                 .setNegativeButton(R.string.restart_message_Later, null)
                 .create()
                 .show();
+    }
+
+    public static LocalePair getLocalesUsedInProject(Context context) {
+        final String[] localesEntryValues = context.getAssets().getLocales();
+        final String[] localesEntry = new String[localesEntryValues.length];
+        for (int i=0; i<localesEntryValues.length; i++) {
+            localesEntry[i] = new Locale(localesEntryValues[i]).getDisplayLanguage(new Locale(localesEntryValues[i]));
+        }
+        return new LocalePair(localesEntry, localesEntryValues);
     }
 }

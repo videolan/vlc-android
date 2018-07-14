@@ -29,10 +29,9 @@
         android:summary="@string/playback_speed_summary"
         android:title="@string/playback_speed_title" />
 
-    <EditTextPreference
+    <ListPreference
         android:defaultValue=""
         android:key="set_locale"
-        android:summary="@string/set_locale_detail"
         android:title="@string/set_locale" />
 
     <CheckBoxPreference

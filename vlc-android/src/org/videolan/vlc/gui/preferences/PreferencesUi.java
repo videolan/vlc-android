@@ -26,12 +26,15 @@ package org.videolan.vlc.gui.preferences;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.SwitchPreferenceCompat;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.util.LocalePair;
+
 
 
 public class PreferencesUi extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -64,6 +67,7 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
         super.onCreate(savedInstanceState);
         findPreference("tv_ui").setVisible(AndroidUtil.isJellyBeanMR1OrLater);
         findPreference("blurred_cover_background").setVisible(AndroidUtil.isJellyBeanMR1OrLater);
+        prepareLocaleList();
     }
 
     @Override
@@ -87,5 +91,12 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals("set_locale"))
             UiTools.restartDialog(getActivity());
+    }
+
+    private void prepareLocaleList() {
+        final LocalePair localePair = UiTools.getLocalesUsedInProject(getActivity());
+        final ListPreference lp = (ListPreference)findPreference("set_locale");
+        lp.setEntries(localePair.getLocaleEntries());
+        lp.setEntryValues(localePair.getLocaleEntryValues());
     }
 }
