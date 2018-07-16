@@ -616,6 +616,15 @@
             android:exported="true"
             android:grantUriPermissions="true">
         </provider>
+        <service android:name=".PreviewVideoInputService"
+            android:permission="android.permission.BIND_TV_INPUT">
+            <intent-filter>
+                <action android:name="android.media.tv.TvInputService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.media.tv.input"
+                android:resource="@xml/previewinputservice" />
+        </service>
     </application>
 
 </manifest>

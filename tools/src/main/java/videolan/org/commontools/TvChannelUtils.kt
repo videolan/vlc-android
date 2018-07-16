@@ -20,6 +20,7 @@
  *****************************************************************************/
 package videolan.org.commontools
 
+import android.content.ComponentName
 import android.content.ContentUris
 import android.content.Context
 import android.content.SharedPreferences
@@ -108,7 +109,12 @@ fun createUri(appId: String, id: String? = null) : Uri {
     return builder.build()
 }
 
-fun buildProgram(program: ProgramDesc) : PreviewProgram {
+fun buildProgram(cn: ComponentName, program: ProgramDesc) : PreviewProgram {
+    val previewProgramVideoUri = TvContractCompat.buildPreviewProgramUri(program.id)
+            .buildUpon()
+            .appendQueryParameter("input", TvContractCompat.buildInputId(cn))
+            .build()
+    val stringId = program.id.toString()
     return PreviewProgram.Builder()
             .setChannelId(program.channelId)
             .setType(TvContractCompat.PreviewPrograms.TYPE_CLIP)
@@ -120,12 +126,18 @@ fun buildProgram(program: ProgramDesc) : PreviewProgram {
             .setDescription(program.description)
             .setPosterArtUri(program.artUri)
             .setPosterArtAspectRatio(TvContractCompat.PreviewProgramColumns.ASPECT_RATIO_16_9)
-            .setIntentUri(createUri(program.appId, program.id))
-            .setInternalProviderId(program.id)
+            .setIntentUri(createUri(program.appId, stringId))
+            .setInternalProviderId(stringId)
+            .setPreviewVideoUri(previewProgramVideoUri)
             .build()
 }
 
-fun buildWatchNextProgram(program: ProgramDesc) : WatchNextProgram {
+fun buildWatchNextProgram(cn: ComponentName, program: ProgramDesc) : WatchNextProgram {
+    val previewProgramVideoUri = TvContractCompat.buildPreviewProgramUri(program.id)
+            .buildUpon()
+            .appendQueryParameter("input", TvContractCompat.buildInputId(cn))
+            .build()
+    val stringId = program.id.toString()
     return WatchNextProgram.Builder()
             .setWatchNextType(TvContractCompat.WatchNextPrograms.WATCH_NEXT_TYPE_CONTINUE)
             .setLastEngagementTimeUtcMillis(System.currentTimeMillis())
@@ -138,8 +150,9 @@ fun buildWatchNextProgram(program: ProgramDesc) : WatchNextProgram {
             .setDescription(program.description)
             .setPosterArtUri(program.artUri)
             .setPosterArtAspectRatio(TvContractCompat.PreviewProgramColumns.ASPECT_RATIO_16_9)
-            .setIntentUri(createUri(program.appId, program.id))
-            .setInternalProviderId(program.id)
+            .setIntentUri(createUri(program.appId, stringId))
+            .setInternalProviderId(stringId)
+            .setPreviewVideoUri(previewProgramVideoUri)
             .build()
 }
 
@@ -167,9 +180,9 @@ fun ProgramsList.indexOfId(id: Long) : Int {
     return -1
 }
 
-class ProgramDesc(
+data class ProgramDesc(
         val channelId: Long,
-        val id: String,
+        val id: Long,
         val title: String,
         val description: String?,
         val artUri: Uri,
@@ -177,4 +190,5 @@ class ProgramDesc(
         val time: Int,
         val width: Int,
         val height: Int,
-        val appId: String)
+        val appId: String,
+        val previewVideoUri: Uri? = null)

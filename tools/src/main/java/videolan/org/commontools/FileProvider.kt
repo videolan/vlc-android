@@ -29,7 +29,7 @@ class FileProvider : ContentProvider() {
     override fun openFile(uri: Uri, mode: String?): ParcelFileDescriptor {
         val file = File(uri.path)
         if (file.exists()) {
-            return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_WRITE)
+            return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
         }
         throw FileNotFoundException(uri.path)
     }

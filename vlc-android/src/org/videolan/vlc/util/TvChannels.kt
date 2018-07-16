@@ -20,6 +20,7 @@
  *****************************************************************************/
 package org.videolan.vlc.util
 
+import android.content.ComponentName
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
@@ -34,14 +35,10 @@ import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.vlc.*
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.startMedialibrary
 import videolan.org.commontools.*
-
-
-
 
 
 private const val TAG = "VLC/TvChannels"
@@ -75,6 +72,7 @@ suspend fun updatePrograms(context: Context, channelId: Long) {
     val programs = withContext(VLCIO) { existingPrograms(context, channelId) }
     val videoList = withContext(VLCIO) { VLCApplication.getMLInstance().recentVideos }
     if (Util.isArrayEmpty(videoList)) return
+    val cn = ComponentName(context, PreviewVideoInputService::class.java)
     for ((count, mw) in videoList.withIndex()) {
         if (mw == null) continue
         val index = programs.indexOfId(mw.id)
@@ -82,11 +80,13 @@ suspend fun updatePrograms(context: Context, channelId: Long) {
             programs.removeAt(index)
             continue
         }
-        val desc = ProgramDesc(channelId, mw.id.toString(), mw.title, mw.description,
+        val desc = ProgramDesc(channelId, mw.id, mw.title, mw.description,
                 mw.artUri(), mw.length.toInt(), mw.time.toInt(),
                 mw.width, mw.height, BuildConfig.APPLICATION_ID)
-        val program = buildProgram(desc)
-        launch(VLCIO) { context.contentResolver.insert(TvContractCompat.PreviewPrograms.CONTENT_URI, program.toContentValues()) }
+        val program = buildProgram(cn, desc)
+        launch(VLCIO) {
+            context.contentResolver.insert(TvContractCompat.PreviewPrograms.CONTENT_URI, program.toContentValues())
+        }
         if (count - programs.size >= MAX_RECOMMENDATIONS) break
     }
     for (program in programs) {
@@ -121,10 +121,11 @@ fun setResumeProgram(context: Context, mw: MediaWrapper) {
             }
         }
         if (!isProgramPresent && mw.time != 0L) {
-            val desc = ProgramDesc(0L, mw.id.toString(), mw.title, mw.description,
+            val desc = ProgramDesc(0L, mw.id, mw.title, mw.description,
                     mw.artUri(), mw.length.toInt(), mw.time.toInt(),
                     mw.width, mw.height, BuildConfig.APPLICATION_ID)
-            val program = buildWatchNextProgram(desc)
+            val cn = ComponentName(context, PreviewVideoInputService::class.java)
+            val program = buildWatchNextProgram(cn, desc)
             val watchNextProgramUri = context.contentResolver.insert(TvContractCompat.WatchNextPrograms.CONTENT_URI, program.toContentValues())
             if (watchNextProgramUri == null || watchNextProgramUri == Uri.EMPTY) Log.e(TAG, "Insert watch next program failed")
         }

@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentActivity
 import android.support.v7.preference.PreferenceManager
 import kotlinx.coroutines.experimental.delay
 import org.videolan.libvlc.Media
-import org.videolan.vlc.VLCApplication
 import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
@@ -54,3 +53,5 @@ fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type =
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)
 
 fun Context.getPreferences() = PreferenceManager.getDefaultSharedPreferences(this)
+
+fun Long.random() = (Random().nextFloat() * this).toLong()

@@ -68,8 +68,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         it.release()
     }
 
-    private var mediaplayerEventListener: MediaPLayerEventListener? = null
-    internal fun startPlayback(media: Media, listener: MediaPLayerEventListener) {
+    private var mediaplayerEventListener: MediaPlayerEventListener? = null
+    internal fun startPlayback(media: Media, listener: MediaPlayerEventListener) {
         mediaplayerEventListener = listener
         resetPlaybackState(media.duration)
         mediaplayer.setEventListener(null)
@@ -329,6 +329,6 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
 class Progress(var time: Long = 0L, var length: Long = 0L)
 
-internal interface MediaPLayerEventListener {
+internal interface MediaPlayerEventListener {
     suspend fun onEvent(event: MediaPlayer.Event)
 }

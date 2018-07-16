@@ -26,7 +26,6 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.video.VideoPlayerActivity
-import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
 import org.videolan.vlc.util.*
 import java.util.*
 
@@ -657,7 +656,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
     }
 
-    private val mediaplayerEventListener = object : MediaPLayerEventListener {
+    private val mediaplayerEventListener = object : MediaPlayerEventListener {
         override suspend fun onEvent(event: MediaPlayer.Event) {
             when (event.type) {
                 MediaPlayer.Event.Playing -> {
