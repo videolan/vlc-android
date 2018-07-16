@@ -111,7 +111,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onSkipToPrevious() = playbackService.previous(true)
 
-    override fun onSeekTo(pos: Long) = playbackService.seek(pos)
+    override fun onSeekTo(pos: Long) = playbackService.seek(if (pos < 0) playbackService.time + pos else pos)
 
     override fun onFastForward() = playbackService.seek(Math.min(playbackService.length, playbackService.time + 5000))
 
