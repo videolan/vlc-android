@@ -979,7 +979,7 @@ public class PlaybackService extends MediaBrowserServiceCompat{
 
         @Override
         public void onSeekTo(long pos) {
-            seek(pos);
+            seek(pos < 0 ? getTime()+pos : pos);
         }
 
         @Override
