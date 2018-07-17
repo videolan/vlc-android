@@ -82,6 +82,7 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -184,7 +185,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                         VLCApplication.runOnMainThread(new Runnable() {
                             @Override
                             public void run() {
-                                updateHistory(history);
+                                final ListRow hist = updateHistory(history);
+                                if (hist != null) mRowsAdapter.add(Math.min(2, mRowsAdapter.size()), hist);
                             }
                         });
                     }
@@ -400,11 +402,11 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         protected void onPostExecute(Void result) {
             mHandler.sendEmptyMessage(HIDE_LOADING);
             if (!isVisible()) return;
-            if (mRowsAdapter != null) mRowsAdapter.clear();
-            else {
+            if (mRowsAdapter == null) {
                 mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
                 mBrowseFragment.setAdapter(mRowsAdapter);
             }
+            final List<ListRow> rows = new LinkedList();
             mHistoryIndex.clear();
             //Video Section
             mVideoIndex.clear();
@@ -421,7 +423,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                     mVideoIndex.put(videoList[i].getLocation(), i);
                 }
             }
-            mRowsAdapter.add(new ListRow(videoHeader, mVideoAdapter));
+            rows.add(new ListRow(videoHeader, mVideoAdapter));
 
             //Music sections
             mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
@@ -431,16 +433,19 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ALBUMS, getString(R.string.albums), R.drawable.ic_album_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_GENRES, getString(R.string.genres), R.drawable.ic_genre_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_SONGS, getString(R.string.songs), R.drawable.ic_song_big));
-            mRowsAdapter.add(new ListRow(musicHeader, mCategoriesAdapter));
+            rows.add(new ListRow(musicHeader, mCategoriesAdapter));
 
             //History
-            if (showHistory && !Tools.isArrayEmpty(history)) updateHistory(history);
+            if (showHistory && !Tools.isArrayEmpty(history)) {
+                final ListRow hist = updateHistory(history);
+                if (hist != null) rows.add(hist);
+            }
 
             //Browser section
             mBrowserAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem browserHeader = new HeaderItem(HEADER_NETWORK, getString(R.string.browsing));
             updateBrowsers();
-            mRowsAdapter.add(new ListRow(browserHeader, mBrowserAdapter));
+            rows.add(new ListRow(browserHeader, mBrowserAdapter));
 
             mOtherAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem miscHeader = new HeaderItem(HEADER_MISC, getString(R.string.other));
@@ -448,17 +453,19 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_SETTINGS, getString(R.string.preferences), R.drawable.ic_menu_preferences_big));
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_ABOUT, getString(R.string.about), getString(R.string.app_name_full)+" "+ BuildConfig.VERSION_NAME, R.drawable.ic_default_cone));
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_LICENCE, getString(R.string.licence), R.drawable.ic_default_cone));
-            mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
+            rows.add(new ListRow(miscHeader, mOtherAdapter));
+            mRowsAdapter.clear();
+            mRowsAdapter.addAll(0, rows);
         }
     }
 
     @MainThread
-    private synchronized void updateHistory(MediaWrapper[] history) {
-        if (history == null || mRowsAdapter == null) return;
+    private synchronized ListRow updateHistory(MediaWrapper[] history) {
+        if (history == null || mRowsAdapter == null) return null;
         final boolean createAdapter = mHistoryAdapter == null;
         if (createAdapter) mHistoryAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
         else mHistoryAdapter.clear();
-        if (!mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) return;
+        if (!mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) return null;
         for (int i = 0; i < history.length; ++i) {
             final MediaWrapper item = history[i];
             mHistoryAdapter.add(item);
@@ -466,8 +473,9 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         }
         if (createAdapter) {
             final HeaderItem historyHeader = new HeaderItem(HEADER_HISTORY, getString(R.string.history));
-            mRowsAdapter.add(Math.min(2, mRowsAdapter.size()), new ListRow(historyHeader, mHistoryAdapter));
+            return new ListRow(historyHeader, mHistoryAdapter);
         }
+        return null;
     }
 
     private void updateBrowsers() {
