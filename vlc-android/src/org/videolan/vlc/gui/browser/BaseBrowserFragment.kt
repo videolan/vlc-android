@@ -132,7 +132,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun setBreadcrumb() {
-        val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane)
+        val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane) ?: return
         currentMedia?.let {
             ariane.visibility = View.VISIBLE
             ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
