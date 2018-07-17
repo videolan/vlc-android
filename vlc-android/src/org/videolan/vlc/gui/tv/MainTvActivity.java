@@ -49,7 +49,6 @@ import android.support.v17.leanback.widget.RowPresenter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.SimpleArrayMap;
-import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,7 +56,6 @@ import android.widget.ProgressBar;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
@@ -160,6 +158,9 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         mBackgroundManager = BackgroundManager.getInstance(this);
         mBackgroundManager.setAutoReleaseOnStop(false);
         TvUtil.clearBackground(mBackgroundManager);
+        // add a listener for selected items
+        mBrowseFragment.setOnItemViewClickedListener(MainTvActivity.this);
+        mBrowseFragment.setOnItemViewSelectedListener(MainTvActivity.this);
     }
 
     @Override
@@ -171,7 +172,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
          * skip browser and show directly Audio Player if a song is playing
          */
         if (!mMediaLibrary.isWorking() && (mRowsAdapter == null || mRowsAdapter.size() == 0) && Permissions.canReadStorage(this))
-            update();
+            updateView();
         else {
             updateBrowsers();
             updateNowPlayingCard();
@@ -263,7 +264,12 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
     public void update() {
+        updateNowPlayingCard();
+    }
+
+    public void updateView() {
         if (mUpdateTask == null || mUpdateTask.getStatus() == AsyncTask.Status.FINISHED) {
             mUpdateTask = new AsyncUpdate();
             mUpdateTask.execute();
@@ -343,7 +349,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
     @Override
     protected void onParsingServiceFinished() {
-        update();
+        updateView();
     }
 
     private static final int SHOW_LOADING = 0;
@@ -395,7 +401,10 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mHandler.sendEmptyMessage(HIDE_LOADING);
             if (!isVisible()) return;
             if (mRowsAdapter != null) mRowsAdapter.clear();
-            else mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+            else {
+                mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+                mBrowseFragment.setAdapter(mRowsAdapter);
+            }
             mHistoryIndex.clear();
             //Video Section
             mVideoIndex.clear();
@@ -440,13 +449,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_ABOUT, getString(R.string.about), getString(R.string.app_name_full)+" "+ BuildConfig.VERSION_NAME, R.drawable.ic_default_cone));
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_LICENCE, getString(R.string.licence), R.drawable.ic_default_cone));
             mRowsAdapter.add(new ListRow(miscHeader, mOtherAdapter));
-            if (mBrowseFragment.getSelectedPosition() >= mRowsAdapter.size()) mBrowseFragment.setSelectedPosition(RecyclerView.NO_POSITION);
-            mBrowseFragment.setAdapter(mRowsAdapter);
-            mBrowseFragment.setSelectedPosition(Math.min(mBrowseFragment.getSelectedPosition(), mRowsAdapter.size()-1));
-
-            // add a listener for selected items
-            mBrowseFragment.setOnItemViewClickedListener(MainTvActivity.this);
-            mBrowseFragment.setOnItemViewSelectedListener(MainTvActivity.this);
         }
     }
 
@@ -511,17 +513,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
 
     @Override
     public
-    void onMediaPlayerEvent(MediaPlayer.Event event){
-        switch (event.type) {
-            case MediaPlayer.Event.Opening:
-                updateNowPlayingCard();
-                break;
-            case MediaPlayer.Event.Stopped:
-                if (mNowPlayingCard != null)
-                    mCategoriesAdapter.remove(mNowPlayingCard);
-                break;
-        }
-    }
+    void onMediaPlayerEvent(MediaPlayer.Event event) {}
 
     public void updateNowPlayingCard () {
         if (mService == null) return;
@@ -555,7 +547,6 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                     });
                 }
             });
-
         }
     }
 
@@ -569,7 +560,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             public void onReceive(Context context, Intent intent) {
                 LocalBroadcastManager.getInstance(MainTvActivity.this).unregisterReceiver(this);
                 setmedialibraryListeners();
-                update();
+                updateView();
             }
         };
         LocalBroadcastManager.getInstance(this).registerReceiver(libraryReadyReceiver, new IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY));
