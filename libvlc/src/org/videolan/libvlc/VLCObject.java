@@ -91,6 +91,12 @@ abstract class VLCObject<T extends VLCEvent> {
         }
     }
 
+    @Override
+    protected synchronized void finalize() {
+        if (!isReleased())
+            throw new AssertionError("VLCObject (" + getClass().getName() + ") finalized but not natively released (" + mNativeRefCount + " refs)");
+    }
+
     /**
      * Set an event listener.
      * Events are sent via the android main thread.
