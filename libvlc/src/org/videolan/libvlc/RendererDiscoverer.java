@@ -112,7 +112,7 @@ public class RendererDiscoverer extends VLCObject<RendererDiscoverer.Event> {
 
     private final LongSparseArray<RendererItem> index = new LongSparseArray<>();
     private synchronized RendererItem insertItemFromEvent(long arg1) {
-        final RendererItem item = new RendererItem(this, arg1);
+        final RendererItem item = nativeNewItem(arg1);
         index.put(arg1, item);
         return item;
     }
@@ -139,4 +139,5 @@ public class RendererDiscoverer extends VLCObject<RendererDiscoverer.Event> {
     private native boolean nativeStart();
     private native void nativeStop();
     private static native Description[] nativeList(LibVLC libVLC);
+    private native RendererItem nativeNewItem(long ref);
 }

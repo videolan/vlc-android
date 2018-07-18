@@ -197,22 +197,25 @@ error:
 }
 
 jobject
-Java_org_videolan_libvlc_RendererItem_nativeNewItem(JNIEnv *env, jobject thiz, jobject rd,
+Java_org_videolan_libvlc_RendererDiscoverer_nativeNewItem(JNIEnv *env, jobject thiz,
                                                     jlong ref)
 {
-    vlcjni_object *p_rd_obj = VLCJniObject_getInstance(env, rd);
+    vlcjni_object *p_rd_obj = VLCJniObject_getInstance(env, thiz);
     vlcjni_object *p_obj;
+    libvlc_renderer_item_t *item_ref = (libvlc_renderer_item_t *)(intptr_t)ref;
 
     if (!p_rd_obj)
         return NULL;
 
-    p_obj = VLCJniObject_newFromLibVlc(env, thiz, p_rd_obj->p_libvlc);
+    jobject jitem = item_to_object(env, item_ref);
+
+    p_obj = VLCJniObject_newFromLibVlc(env, jitem, p_rd_obj->p_libvlc);
     if (!p_obj)
         return NULL;
 
-    p_obj->u.p_r = libvlc_renderer_item_hold((libvlc_renderer_item_t *)ref);
+    p_obj->u.p_r = libvlc_renderer_item_hold(item_ref);
 
-    return item_to_object(env, p_obj->u.p_r);
+    return jitem;
 }
 
 void
