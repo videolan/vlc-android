@@ -23,6 +23,7 @@
 
 package org.videolan.vlc;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,6 +34,7 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -91,6 +93,9 @@ public class ExternalMonitor extends BroadcastReceiver {
 
     static void unregister(Context ctx) {
         ctx.unregisterReceiver(instance);
+        connected = false;
+        mobile = false;
+        vpn = false;
     }
 
     public static ExternalMonitor getInstance() {
@@ -160,8 +165,7 @@ public class ExternalMonitor extends BroadcastReceiver {
     };
 
     private synchronized void notifyConnectionChanges() {
-        for (NetworkObserver obs : networkObservers)
-            obs.onNetworkConnectionChanged(connected);
+        for (NetworkObserver obs : networkObservers) obs.onNetworkConnectionChanged(connected);
     }
 
     private static synchronized void notifyStorageChanges(String path) {
@@ -209,6 +213,7 @@ public class ExternalMonitor extends BroadcastReceiver {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private boolean updateVPNStatus() {
         if (AndroidUtil.isLolliPopOrLater) {
             for (Network network : cm.getAllNetworks()) {
