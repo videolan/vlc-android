@@ -303,7 +303,10 @@ public class VLCApplication extends Application {
 
         @Override
         public void onActivityStopped(Activity activity) {
-            if (--sActivitiesCount == 0)  ExternalMonitor.unregister(instance);
+            if (--sActivitiesCount == 0)  {
+                ExternalMonitor.unregister(instance);
+                RendererDelegate.INSTANCE.stop();
+            }
         }
 
         @Override
