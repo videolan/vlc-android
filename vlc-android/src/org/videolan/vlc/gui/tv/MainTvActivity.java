@@ -82,7 +82,6 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -406,7 +405,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                 mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
                 mBrowseFragment.setAdapter(mRowsAdapter);
             }
-            final List<ListRow> rows = new LinkedList();
+            final ArrayObjectAdapter adapter = new ArrayObjectAdapter(new ListRowPresenter());
             mHistoryIndex.clear();
             //Video Section
             mVideoIndex.clear();
@@ -423,7 +422,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                     mVideoIndex.put(videoList[i].getLocation(), i);
                 }
             }
-            rows.add(new ListRow(videoHeader, mVideoAdapter));
+            adapter.add(new ListRow(videoHeader, mVideoAdapter));
 
             //Music sections
             mCategoriesAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
@@ -433,19 +432,19 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_ALBUMS, getString(R.string.albums), R.drawable.ic_album_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_GENRES, getString(R.string.genres), R.drawable.ic_genre_big));
             mCategoriesAdapter.add(new CardPresenter.SimpleCard(MusicFragment.CATEGORY_SONGS, getString(R.string.songs), R.drawable.ic_song_big));
-            rows.add(new ListRow(musicHeader, mCategoriesAdapter));
+            adapter.add(new ListRow(musicHeader, mCategoriesAdapter));
 
             //History
             if (showHistory && !Tools.isArrayEmpty(history)) {
                 final ListRow hist = updateHistory(history);
-                if (hist != null) rows.add(hist);
+                if (hist != null) adapter.add(hist);
             }
 
             //Browser section
             mBrowserAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem browserHeader = new HeaderItem(HEADER_NETWORK, getString(R.string.browsing));
             updateBrowsers();
-            rows.add(new ListRow(browserHeader, mBrowserAdapter));
+            adapter.add(new ListRow(browserHeader, mBrowserAdapter));
 
             mOtherAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem miscHeader = new HeaderItem(HEADER_MISC, getString(R.string.other));
@@ -453,9 +452,21 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_SETTINGS, getString(R.string.preferences), R.drawable.ic_menu_preferences_big));
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_ABOUT, getString(R.string.about), getString(R.string.app_name_full)+" "+ BuildConfig.VERSION_NAME, R.drawable.ic_default_cone));
             mOtherAdapter.add(new CardPresenter.SimpleCard(ID_LICENCE, getString(R.string.licence), R.drawable.ic_default_cone));
-            rows.add(new ListRow(miscHeader, mOtherAdapter));
-            mRowsAdapter.clear();
-            mRowsAdapter.addAll(0, rows);
+            adapter.add(new ListRow(miscHeader, mOtherAdapter));
+
+            if (mBrowseFragment.getSelectedPosition() < adapter.size()) {
+                mRowsAdapter = adapter;
+                mBrowseFragment.setAdapter(mRowsAdapter);
+            } else { // set selection is asynchronous, we neeed a delay
+                mBrowseFragment.setSelectedPosition(0);
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mRowsAdapter = adapter;
+                        mBrowseFragment.setAdapter(mRowsAdapter);
+                    }
+                });
+            }
         }
     }
 
