@@ -78,6 +78,7 @@ public class RendererDiscoverer extends VLCObject<RendererDiscoverer.Event> {
         if (isReleased()) throw new IllegalStateException("MediaDiscoverer is released");
         setEventListener(null);
         nativeStop();
+        release();
     }
 
     public void setEventListener(EventListener listener) {
