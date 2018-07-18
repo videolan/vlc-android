@@ -214,9 +214,12 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
         super.onHiddenChanged(hidden);
         if (hidden) {
             releaseBrowser();
-        } else if (mFabPlay != null) {
-            mFabPlay.setImageResource(R.drawable.ic_fab_play);
-            updateFab();
+        } else {
+            if (mFabPlay != null) {
+                mFabPlay.setImageResource(R.drawable.ic_fab_play);
+                updateFab();
+            }
+            if (mRoot && this instanceof NetworkBrowserFragment) refresh();
         }
     }
 
@@ -378,7 +381,7 @@ public abstract class BaseBrowserFragment extends SortableFragment<BaseBrowserAd
 
     @Override
     public void refresh() {
-        if (!isResumed()) return;
+        if (!isResumed() || isHidden()) return;
         if (isSortEnabled()) {
             refreshList = new ArrayList<>();
             refreshing = true;
