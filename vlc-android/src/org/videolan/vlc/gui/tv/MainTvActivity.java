@@ -186,6 +186,19 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                             public void run() {
                                 final ListRow hist = updateHistory(history);
                                 if (hist != null) mRowsAdapter.add(Math.min(2, mRowsAdapter.size()), hist);
+                                else removeHistory();
+                            }
+
+                            private void removeHistory() {
+                                int position = -1;
+                                for (int i = 0; i < mRowsAdapter.size(); ++i) {
+                                    if (((ListRow)mRowsAdapter.get(i)).getHeaderItem().getId() == HEADER_HISTORY) {
+                                        position = i;
+                                        break;
+                                    }
+                                }
+                                if (position != -1) mRowsAdapter.removeItems(position, 1);
+                                mHistoryAdapter = null;
                             }
                         });
                     }
