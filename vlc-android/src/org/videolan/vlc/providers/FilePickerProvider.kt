@@ -34,7 +34,7 @@ class FilePickerProvider(dataset: LiveDataset<MediaLibraryItem>, url: String?) :
 
     override fun initBrowser() {
         super.initBrowser()
-        mediabrowser.setIgnoreFileTypes("db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv")
+        mediabrowser?.setIgnoreFileTypes("db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv")
     }
 
     override fun addMedia(media: MediaLibraryItem) {

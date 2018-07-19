@@ -53,7 +53,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
     init {
         fetch()
     }
-    protected lateinit var mediabrowser: MediaBrowser
+    protected var mediabrowser: MediaBrowser? = null
 
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
     private lateinit var browserChannel : Channel<Media>
@@ -63,7 +63,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
     internal val medialibrary = Medialibrary.getInstance()
 
     protected open fun initBrowser() {
-        if (!this::mediabrowser.isInitialized) mediabrowser = MediaBrowser(VLCInstance.get(), this, browserHandler)
+        if (mediabrowser == null) mediabrowser = MediaBrowser(VLCInstance.get(), this, browserHandler)
     }
 
     open fun fetch() {
@@ -86,7 +86,10 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
         browserChannel = Channel(Channel.UNLIMITED)
         requestBrowsing(url)
         job = uiJob(false) {
-            for (media in browserChannel) addMedia(findMedia(media))
+            for (media in browserChannel) {
+                if (isActive) addMedia(findMedia(media))
+                else return@uiJob
+            }
             parseSubDirectories()
         }
     }
@@ -106,7 +109,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
         return true
     }
 
-    private suspend fun parseSubDirectories() {
+    internal open suspend fun parseSubDirectories() {
         if (dataset.value.isEmpty()) return
         val currentMediaList = dataset.value.toList()
         launch(browserContext, parent = job) {
@@ -133,7 +136,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
                 }
                 // request parsing
                 browserChannel = Channel(Channel.UNLIMITED)
-                mediabrowser.browse(current.uri, 0)
+                mediabrowser?.browse(current.uri, 0)
                 // retrieve subitems
                 for (media in browserChannel) {
                     val type = media.type
@@ -193,13 +196,21 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
 
     private fun requestBrowsing(url: String?) = launch(browserContext) {
         initBrowser()
-        if (url != null) mediabrowser.browse(Uri.parse(url), getFlags())
-        else mediabrowser.discoverNetworkShares()
+        mediabrowser?.let {
+            if (url != null) it.browse(Uri.parse(url), getFlags())
+            else it.discoverNetworkShares()
+        }
     }
 
     fun stop() = job?.cancel()
 
-    fun release() = launch(BrowserProvider.browserContext) { if (this@BrowserProvider::mediabrowser.isInitialized) mediabrowser.release() }
+    fun release() = launch(BrowserProvider.browserContext) {
+        if (this@BrowserProvider::browserChannel.isInitialized) browserChannel.close()
+        mediabrowser?.let {
+            it.release()
+            mediabrowser = null
+        }
+    }
 
     fun saveList(media: MediaWrapper) = foldersContentMap[media]?.let { if (!it.isEmpty()) prefetchLists[media.location] = it }
 
