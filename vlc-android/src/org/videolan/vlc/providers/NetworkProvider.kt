@@ -46,7 +46,7 @@ class NetworkProvider(dataset: LiveDataset<MediaLibraryItem>, url: String? = nul
         return favs
     }
 
-    override fun fetch() { if (ExternalMonitor.allowLan()) super.fetch() }
+    override fun fetch() {}
 
     override fun refresh(): Boolean {
         if (url == null) {
@@ -54,5 +54,9 @@ class NetworkProvider(dataset: LiveDataset<MediaLibraryItem>, url: String? = nul
             browseRoot()
         } else super.refresh()
         return true
+    }
+
+    override suspend fun parseSubDirectories() {
+        if (url != null) super.parseSubDirectories()
     }
 }
