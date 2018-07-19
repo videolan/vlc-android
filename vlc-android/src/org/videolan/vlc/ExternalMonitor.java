@@ -95,6 +95,7 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
     static void unregister() {
         final Context ctx = VLCApplication.getAppContext();
         ctx.unregisterReceiver(instance);
+        connected.setValue(false);
     }
 
     public static ExternalMonitor getInstance() {
