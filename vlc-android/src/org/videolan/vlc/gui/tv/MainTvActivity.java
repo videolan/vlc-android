@@ -425,7 +425,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mVideoAdapter = new ArrayObjectAdapter(new CardPresenter(mContext));
             final HeaderItem videoHeader = new HeaderItem(HEADER_VIDEO, getString(R.string.video));
             // Empty item to launch grid activity
-            mVideoAdapter.add(new CardPresenter.SimpleCard(0, "All videos", videoList.length+" "+getString(R.string.videos), R.drawable.ic_video_collection_big));
+            mVideoAdapter.add(new CardPresenter.SimpleCard(0, getString(R.string.videos_all), getResources().getQuantityString(R.plurals.videos_quantity, videoList.length, videoList.length), R.drawable.ic_video_collection_big));
             // Update video section
             if (!Tools.isArrayEmpty(videoList)) {
                 final int size = Math.min(NUM_ITEMS_PREVIEW, videoList.length);
