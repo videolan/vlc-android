@@ -285,7 +285,12 @@ Java_org_videolan_libvlc_util_VLCUtil_nativeGetThumbnail(JNIEnv *env,
 
     /* Play the media. */
     libvlc_media_player_play(mp);
+
+#if defined(LIBVLC_VERSION_MAJOR) && LIBVLC_VERSION_MAJOR < 4
     libvlc_media_player_set_position(mp, THUMBNAIL_POSITION);
+#else
+    libvlc_media_player_set_position(mp, THUMBNAIL_POSITION, false);
+#endif
 
     /* Wait for the thumbnail to be generated. */
     pthread_mutex_lock(&sys->doneMutex);

@@ -382,7 +382,11 @@ Java_org_videolan_libvlc_MediaPlayer_setTime(JNIEnv *env, jobject thiz,
     if (!p_obj)
         return;
 
+#if defined(LIBVLC_VERSION_MAJOR) && LIBVLC_VERSION_MAJOR < 4
     libvlc_media_player_set_time(p_obj->u.p_mp, time);
+#else
+    libvlc_media_player_set_time(p_obj->u.p_mp, time, false);
+#endif
 }
 
 jfloat
@@ -405,7 +409,12 @@ Java_org_videolan_libvlc_MediaPlayer_setPosition(JNIEnv *env, jobject thiz,
     if (!p_obj)
         return;
 
+#if defined(LIBVLC_VERSION_MAJOR) && LIBVLC_VERSION_MAJOR < 4
     libvlc_media_player_set_position(p_obj->u.p_mp, pos);
+#else
+    libvlc_media_player_set_position(p_obj->u.p_mp, pos, false);
+#endif
+
 }
 
 jlong
