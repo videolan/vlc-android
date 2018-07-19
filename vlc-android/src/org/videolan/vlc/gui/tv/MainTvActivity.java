@@ -491,7 +491,7 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
         else mHistoryAdapter.clear();
         if (!mSettings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) return null;
         for (int i = 0; i < history.length; ++i) {
-            final MediaWrapper item = history[i];
+            final MediaWrapper item = mMediaLibrary.findMedia(history[i]);
             mHistoryAdapter.add(item);
             mHistoryIndex.put(item.getLocation(), i);
         }
