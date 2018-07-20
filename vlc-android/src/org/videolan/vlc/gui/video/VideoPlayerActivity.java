@@ -1736,6 +1736,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         setESTracks();
         if (mTitle != null && mTitle.length() == 0)
             mTitle.setText(mw.getTitle());
+        // Get possible subtitles
+        getSubtitles();
     }
 
     private void encounteredError() {
@@ -3169,9 +3171,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             else
                 mService.loadUri(mUri);
 
-            // Get possible subtitles
-            getSubtitles();
-
             // Get the title
             if (itemTitle == null && !TextUtils.equals(mUri.getScheme(), "content"))
                 title = mUri.getLastPathSegment();
@@ -3180,8 +3179,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         } else {
             mService.loadLastPlaylist(Constants.PLAYLIST_TYPE_VIDEO);
         }
-        if (itemTitle != null)
-            title = itemTitle;
+        if (itemTitle != null) title = itemTitle;
         mTitle.setText(title);
 
         if (mWasPaused) {
@@ -3223,8 +3221,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 }
             }
 
-            if (!TextUtils.equals(mUri.getScheme(), "content"))
-                prefsList.addAll(MediaDatabase.getInstance().getSubtitles(mUri.getLastPathSegment()));
+            String mediaTitle = null;
+            if (mUri != null && !TextUtils.equals(mUri.getScheme(), "content")) mediaTitle = mUri.getLastPathSegment();
+            else if (mService != null) {
+                final MediaWrapper mw = mService.getCurrentMediaWrapper();
+                if (mw != null) mediaTitle = FileUtils.getFileNameFromPath(mService.getCurrentMediaWrapper().getLocation());
+            }
+            if (mediaTitle != null) prefsList.addAll(MediaDatabase.getInstance().getSubtitles(mediaTitle));
 
             return prefsList;
         }
