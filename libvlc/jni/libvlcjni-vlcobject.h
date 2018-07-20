@@ -28,6 +28,7 @@
 #include <vlc/libvlc_media_list.h>
 #include <vlc/libvlc_media_discoverer.h>
 #include <vlc/libvlc_renderer_discoverer.h>
+#include <vlc/libvlc_version.h>
 
 #include "utils.h"
 #define LOG_TAG "VLC/JNI/VLCObject"

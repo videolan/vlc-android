@@ -12,7 +12,7 @@ LOCAL_SRC_FILES += libvlcjni-dialog.c
 LOCAL_SRC_FILES += thumbnailer.c
 LOCAL_SRC_FILES += std_logger.c
 LOCAL_SRC_FILES += dummy.cpp
-LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include $(MEDIALIBRARY_JNI_DIR) $(LOCAL_PATH)/loader
+LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include $(VLC_BUILD_DIR)/include $(MEDIALIBRARY_JNI_DIR) $(LOCAL_PATH)/loader
 
 LOCAL_CFLAGS := -std=c11
 include $(BUILD_STATIC_LIBRARY)
