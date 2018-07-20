@@ -1,3 +1,20 @@
+Changes between 3.0.11 and 3.0.12:
+----------------------------------
+
+Application:
+ * Fix subtitles not reloaded when multitasking
+ * Fix forward/rewind actions with Assistant
+ * Improve video player accessibility descriptions
+ * Stability improvements
+ * Misc. fixes
+
+TV:
+ * Fix crashes in main screen
+ * Restore recommendations on Oreo
+
+VLC:
+ * Update VLC core
+
 Changes between 3.0.10 and 3.0.11:
 ----------------------------------
 
