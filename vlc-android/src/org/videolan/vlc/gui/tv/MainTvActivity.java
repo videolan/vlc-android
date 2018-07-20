@@ -185,8 +185,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
                             @Override
                             public void run() {
                                 final ListRow hist = updateHistory(history);
-                                if (hist != null) mRowsAdapter.add(Math.min(2, mRowsAdapter.size()), hist);
-                                else removeHistory();
+                                if (hist != null && mHistoryAdapter == null) mRowsAdapter.add(Math.min(2, mRowsAdapter.size()), hist);
+                                else if (hist == null&& mHistoryAdapter != null) removeHistory();
                             }
 
                             private void removeHistory() {
@@ -495,11 +495,8 @@ public class MainTvActivity extends BaseTvActivity implements OnItemViewSelected
             mHistoryAdapter.add(item);
             mHistoryIndex.put(item.getLocation(), i);
         }
-        if (createAdapter) {
-            final HeaderItem historyHeader = new HeaderItem(HEADER_HISTORY, getString(R.string.history));
-            return new ListRow(historyHeader, mHistoryAdapter);
-        }
-        return null;
+        final HeaderItem historyHeader = new HeaderItem(HEADER_HISTORY, getString(R.string.history));
+        return new ListRow(historyHeader, mHistoryAdapter);
     }
 
     private void updateBrowsers() {
