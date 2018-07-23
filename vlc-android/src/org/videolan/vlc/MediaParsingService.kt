@@ -408,7 +408,7 @@ fun reload(ctx: Context) {
 }
 
 fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true) = uiJob {
-    if (Medialibrary.getInstance().isInitiated || !Permissions.canReadStorage(this@startMedialibrary)) return@uiJob
+    if (Medialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@uiJob
     val prefs = withContext(VLCIO) { VLCApplication.getSettings() ?: android.preference.PreferenceManager.getDefaultSharedPreferences(this@startMedialibrary) }
     val scanOpt = if (VLCApplication.showTvUi()) Constants.ML_SCAN_ON else prefs.getInt(Constants.KEY_MEDIALIBRARY_SCAN, -1)
     if (parse && scanOpt == -1) {
