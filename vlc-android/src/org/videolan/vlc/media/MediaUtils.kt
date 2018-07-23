@@ -15,9 +15,7 @@ import android.util.Log
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Playlist
@@ -110,9 +108,9 @@ object MediaUtils {
         })
     }
 
-    fun openMediaNoUi(id: Long) = launch(UI, CoroutineStart.UNDISPATCHED) {
-        val media = withContext(VLCIO) {Medialibrary.getInstance().getMedia(id) }
-        openMediaNoUi(VLCApplication.getAppContext(), media)
+    fun openMediaNoUi(ctx: Context, id: Long) = launch(UI, CoroutineStart.UNDISPATCHED) {
+        val media = ctx.getFromMl { getMedia(id) }
+        openMediaNoUi(ctx, media)
     }
 
     fun openMediaNoUi(uri: Uri) {

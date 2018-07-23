@@ -1,30 +1,30 @@
 package org.videolan.vlc
 
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.media.tv.TvInputManager
 import android.media.tv.TvInputManager.VIDEO_UNAVAILABLE_REASON_TUNING
 import android.media.tv.TvInputService
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.view.Surface
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
-import org.videolan.medialibrary.Medialibrary
 import org.videolan.vlc.media.MediaPlayerEventListener
 import org.videolan.vlc.media.PlayerController
-import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.VLCInstance
+import org.videolan.vlc.util.getFromMl
 import org.videolan.vlc.util.random
 import java.io.IOException
-import kotlin.coroutines.experimental.suspendCoroutine
 
 private const val TAG = "PreviewInputService"
 
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class PreviewVideoInputService : TvInputService() {
 
     override fun onCreateSession(inputId: String): TvInputService.Session? {
@@ -44,7 +44,7 @@ class PreviewVideoInputService : TvInputService() {
             notifyVideoUnavailable(VIDEO_UNAVAILABLE_REASON_TUNING)
             val id = uri.lastPathSegment.toLong()
             launch(UI, CoroutineStart.UNDISPATCHED) {
-                val mw = getMedia(id)
+                val mw = this@PreviewVideoInputService.getFromMl { getMedia(id) }
                 if (mw == null) {
                     Log.w(TAG, "Could not find video $id")
                     notifyVideoUnavailable(TvInputManager.VIDEO_UNAVAILABLE_REASON_UNKNOWN)
@@ -69,22 +69,6 @@ class PreviewVideoInputService : TvInputService() {
                 }
             }
             return true
-        }
-
-        private suspend fun getMedia(id: Long) = withContext(VLCIO) {
-            val ml = Medialibrary.getInstance()
-            if (ml.isInitiated) ml.getMedia(id)
-            else suspendCoroutine { continuation ->
-                ml.addOnMedialibraryReadyListener(object : Medialibrary.OnMedialibraryReadyListener {
-                    override fun onMedialibraryReady() {
-                        ml.removeOnMedialibraryReadyListener(this)
-                        continuation.resume(ml.getMedia(id))
-                    }
-                    override fun onMedialibraryIdle() {}
-
-                })
-                this@PreviewVideoInputService.startMedialibrary(false, false, false)
-            }
         }
 
         private var width = 0

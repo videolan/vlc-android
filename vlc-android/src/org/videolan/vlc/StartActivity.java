@@ -99,7 +99,7 @@ public class StartActivity extends FragmentActivity implements StoragePermission
             if (TextUtils.equals(path,"/"+TvChannelUtilsKt.TV_CHANNEL_PATH_APP)) startApplication(tv, firstRun, upgrade);
             else if (TextUtils.equals(path,"/"+TvChannelUtilsKt.TV_CHANNEL_PATH_VIDEO)) {
                 final long id = Long.valueOf(data.getQueryParameter(TvChannelUtilsKt.TV_CHANNEL_QUERY_VIDEO_ID));
-                MediaUtils.INSTANCE.openMediaNoUi(id);
+                MediaUtils.INSTANCE.openMediaNoUi(this, id);
             }
         } else startApplication(tv, firstRun, upgrade);
         finish();
