@@ -2,6 +2,7 @@
 #define LOG_TAG "VLC/JNI/AndroidMediaLibrary"
 #include "log.h"
 #include "jniloader.h"
+#define THREAD_NAME "AndroidMedialibrary"
 
 #define FLAG_MEDIA_UPDATED_AUDIO       1 << 0
 #define FLAG_MEDIA_UPDATED_AUDIO_EMPTY 1 << 1
@@ -790,7 +791,12 @@ AndroidMediaLibrary::getEnv() {
         case JNI_OK:
             break;
         case JNI_EDETACHED:
-            if (myVm->AttachCurrentThread(&env, NULL) != JNI_OK)
+            /* attach the thread to the Java VM */
+            JavaVMAttachArgs args;
+            args.version = VLC_JNI_VERSION;
+            args.name = THREAD_NAME;
+            args.group = NULL;
+            if (myVm->AttachCurrentThread(&env, &args) != JNI_OK)
                 return NULL;
             if (pthread_setspecific(jni_env_key, env) != 0)
             {
