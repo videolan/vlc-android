@@ -7,11 +7,15 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.preference.PreferenceManager
 import kotlinx.coroutines.experimental.delay
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
+import org.videolan.medialibrary.Medialibrary
+import org.videolan.vlc.startMedialibrary
 import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
+import kotlin.coroutines.experimental.suspendCoroutine
 
 fun String.validateLocation(): Boolean {
     var location = this
@@ -50,8 +54,23 @@ suspend fun retry (
 
 fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
 
-fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)
+fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)!!
 
-fun Context.getPreferences() = PreferenceManager.getDefaultSharedPreferences(this)
+fun Context.getPreferences() = PreferenceManager.getDefaultSharedPreferences(this)!!
 
 fun Long.random() = (Random().nextFloat() * this).toLong()
+
+suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary.() -> T) = withContext(VLCIO) {
+    val ml = Medialibrary.getInstance()
+    if (ml.isInitiated) block.invoke(ml)
+    else suspendCoroutine { continuation ->
+        ml.addOnMedialibraryReadyListener(object : Medialibrary.OnMedialibraryReadyListener {
+            override fun onMedialibraryReady() {
+                ml.removeOnMedialibraryReadyListener(this)
+                continuation.resume(block.invoke(ml))
+            }
+            override fun onMedialibraryIdle() {}
+        })
+        startMedialibrary(false, false, false)
+    }
+}
