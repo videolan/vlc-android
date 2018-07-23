@@ -52,7 +52,7 @@ object RendererDelegate : RendererDiscoverer.EventListener {
             val rd = RendererDiscoverer(libVlc, discoverer.name)
             discoverers.add(rd)
             rd.setEventListener(this@RendererDelegate)
-            retry(5, 1000L) { rd.start() }
+            retry(5, 1000L) { if (!rd.isReleased) rd.start() else false }
         }
     }
 
