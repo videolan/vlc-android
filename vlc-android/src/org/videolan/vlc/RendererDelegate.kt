@@ -63,7 +63,7 @@ object RendererDelegate : RendererDiscoverer.EventListener, ExternalMonitor.Netw
             val rd = RendererDiscoverer(libVlc, discoverer.name)
             mDiscoverers.add(rd)
             rd.setEventListener(this@RendererDelegate)
-            retry(5, 1000L) { rd.start() }
+            retry(5, 1000L) { if (!rd.isReleased) rd.start() else false }
         }
     }
 
