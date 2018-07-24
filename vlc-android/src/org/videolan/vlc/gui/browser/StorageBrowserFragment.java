@@ -53,7 +53,6 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.dialogs.ContextSheetKt;
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.CustomDirectories;
 import org.videolan.vlc.viewmodels.browser.BrowserModel;
@@ -157,7 +156,6 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     @Override
     public void onCtxAction(int position, int option) {
         final Storage storage = (Storage) getAdapter().getItem(position);
-        MediaDatabase.getInstance().recursiveRemoveDir(storage.getUri().getPath());
         CustomDirectories.removeCustomDirectory(storage.getUri().getPath());
         viewModel.remove(storage);
         ((AudioPlayerContainerActivity)getActivity()).updateLib();

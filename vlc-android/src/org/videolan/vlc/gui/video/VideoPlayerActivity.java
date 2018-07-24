@@ -123,8 +123,9 @@ import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.repository.ExternalSubRepository;
+import org.videolan.vlc.repository.SlaveRepository;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
@@ -858,12 +859,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if(data.hasExtra(FilePickerFragment.EXTRA_MRL)) {
             mService.addSubtitleTrack(Uri.parse(data.getStringExtra(FilePickerFragment.EXTRA_MRL)), true);
-            WorkersKt.runBackground(new Runnable() {
-                @Override
-                public void run() {
-                    MediaDatabase.getInstance().saveSlave(mService.getCurrentMediaLocation(), Media.Slave.Type.Subtitle, 2, data.getStringExtra(FilePickerFragment.EXTRA_MRL));
-                }
-            });
+            new SlaveRepository(getApplicationContext()).saveSlave(mService.getCurrentMediaLocation(), Media.Slave.Type.Subtitle, 2, data.getStringExtra(FilePickerFragment.EXTRA_MRL));
         } else if (BuildConfig.DEBUG) Log.d(TAG, "Subtitle selection dialog was cancelled");
     }
 
@@ -2907,8 +2903,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 final MediaWrapper mw = mService.getCurrentMediaWrapper();
                 if (mw != null) mediaTitle = FileUtils.getFileNameFromPath(mService.getCurrentMediaWrapper().getLocation());
             }
-            if (mediaTitle != null) prefsList.addAll(MediaDatabase.getInstance().getSubtitles(mediaTitle));
-
+            if (mediaTitle != null) prefsList.addAll(new ExternalSubRepository(getApplicationContext()).getSubtitles(mediaTitle));
             return prefsList;
         }
 

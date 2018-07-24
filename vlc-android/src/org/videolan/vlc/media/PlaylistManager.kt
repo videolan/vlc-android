@@ -641,10 +641,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             Media.Event.MetaChanged -> {
                 /* Update Meta if file is already parsed */
                 if (parsed && player.updateCurrentMeta(event.metaId, getCurrentMedia())) service.executeUpdate()
-                if (BuildConfig.DEBUG) Log.i(MediaDatabase.TAG, "Media.Event.MetaChanged: " + event.metaId)
+                if (BuildConfig.DEBUG) Log.i(TAG, "Media.Event.MetaChanged: " + event.metaId)
             }
             Media.Event.ParsedChanged -> {
-                if (BuildConfig.DEBUG) Log.i(MediaDatabase.TAG, "Media.Event.ParsedChanged")
+                if (BuildConfig.DEBUG) Log.i(TAG, "Media.Event.ParsedChanged")
                 player.updateCurrentMeta(-1, getCurrentMedia())
                 parsed = true
             }

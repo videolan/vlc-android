@@ -51,9 +51,9 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.network.MRLPanelFragment.KEY_MRL
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IRefreshable
-import org.videolan.vlc.media.MediaDatabase
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.util.*
@@ -80,6 +80,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     protected abstract val categoryTitle: String
 
     protected lateinit var binding: DirectoryBrowserBinding
+    private lateinit var browserFavRepository: BrowserFavRepository
 
 
     protected abstract fun createFragment(): Fragment
@@ -100,6 +101,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
         showHiddenFiles = PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("browser_show_hidden_files", false)
         isRootDirectory = defineIsRoot()
+        browserFavRepository = BrowserFavRepository(requireContext())
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
@@ -396,7 +398,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 val isEmpty = viewModel.isFolderEmpty(mw)
                 if (!isEmpty) flags = flags or Constants.CTX_PLAY
                 if (this@BaseBrowserFragment is NetworkBrowserFragment) {
-                    val favExists = withContext(VLCIO) { MediaDatabase.getInstance().networkFavExists(mw.uri) }
+                    val favExists = withContext(VLCIO) { browserFavRepository.browserFavExists(mw.uri) }
                     flags = if (favExists) flags or Constants.CTX_NETWORK_EDIT or Constants.CTX_NETWORK_REMOVE
                     else flags or Constants.CTX_NETWORK_ADD
                 }

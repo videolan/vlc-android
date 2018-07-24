@@ -34,24 +34,23 @@ import android.support.v17.leanback.app.BrowseSupportFragment
 import android.support.v17.leanback.widget.*
 import android.support.v4.content.ContextCompat
 import android.view.View
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.ExternalMonitor
-import org.videolan.vlc.R
-import org.videolan.vlc.RecommendationsService
+import org.videolan.vlc.*
 import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.tv.MainTvActivity.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.vlc.gui.tv.MainTvActivity.BROWSER_TYPE
 import org.videolan.vlc.gui.tv.TvUtil.diffCallback
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
-import org.videolan.vlc.media.MediaDatabase
+import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Constants
+import org.videolan.vlc.util.uiJob
 import org.videolan.vlc.viewmodels.HistoryModel
 import org.videolan.vlc.viewmodels.VideosModel
 
@@ -83,6 +82,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private var selectedItem: Any? = null
     private var restart = false
 
+    private lateinit var browserFavRepository: BrowserFavRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         settings = PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -100,6 +101,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         brandColor = ContextCompat.getColor(requireContext(), R.color.orange800)
         backgroundManager = BackgroundManager.getInstance(requireActivity()).apply { attach(requireActivity().window) }
         nowPlayingDelegate = NowPlayingDelegate(this)
+        browserFavRepository = BrowserFavRepository(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -191,26 +193,30 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     }
 
     fun updateBrowsers() {
-        val list = mutableListOf<MediaLibraryItem>()
-        val directories = AndroidDevices.getMediaDirectoriesList()
-        if (!AndroidDevices.showInternalStorage && !directories.isEmpty()) directories.removeAt(0)
-        for (directory in directories) list.add(directory)
+        uiJob(false) {
+            val list = mutableListOf<MediaLibraryItem>()
+            val directories = AndroidDevices.getMediaDirectoriesList()
+            if (!AndroidDevices.showInternalStorage && !directories.isEmpty()) directories.removeAt(0)
+            for (directory in directories) list.add(directory)
 
-        if (ExternalMonitor.isLan()) {
-            try {
-                val favs = MediaDatabase.getInstance().allNetworkFav
-                list.add(DummyItem(Constants.HEADER_NETWORK, getString(R.string.network_browsing), null))
-                list.add(DummyItem(Constants.HEADER_STREAM, getString(R.string.open_mrl), null))
+            if (ExternalMonitor.isLan()) {
+                try {
 
-                if (!favs.isEmpty()) {
-                    for (fav in favs) {
-                        fav.description = fav.uri.scheme
-                        list.add(fav)
+                    val favs = browserFavRepository.getAllNetworkFavs()
+                    list.add(DummyItem(Constants.HEADER_NETWORK, getString(R.string.network_browsing), null))
+                    list.add(DummyItem(Constants.HEADER_STREAM, getString(R.string.open_mrl), null))
+
+                    if (!favs.isEmpty()) {
+                        for (fav in favs) {
+                            fav.description = fav.uri.scheme
+                            list.add(fav)
+                        }
                     }
-                }
-            } catch (ignored: Exception) {} //SQLite can explode
+                } catch (ignored: Exception) {
+                } //SQLite can explode
+            }
+            browserAdapter.setItems(list, diffCallback)
         }
-        browserAdapter.setItems(list, diffCallback)
     }
 
     override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {

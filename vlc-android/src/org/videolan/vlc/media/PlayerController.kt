@@ -15,7 +15,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.preferences.PreferencesActivity
-import org.videolan.vlc.util.VLCIO
+import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.VLCOptions
 import org.videolan.vlc.util.uiJob
@@ -28,6 +28,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     private val playerContext by lazy(LazyThreadSafetyMode.NONE) { newSingleThreadContext("vlc-player") }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getSettings() }
     val progress by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Progress>().apply { value = Progress() } }
+    private val slaveRepository by lazy { SlaveRepository(VLCApplication.getAppContext()) }
 
     private var mediaplayer = newMediaPlayer()
     var switchToVideo = false
@@ -193,15 +194,16 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun setSlaves(media: Media, mw: MediaWrapper) = uiJob(false) {
         val slaves = mw.slaves
-        slaves?.let { for (slave in it) media.addSlave(slave) }
+        slaves?.let { it.forEach { slave -> media.addSlave(slave) } }
         media.release()
-        val list = withContext(VLCIO) {
-            MediaDatabase.getInstance().run {
-                if (slaves != null) saveSlaves(mw)
-                getSlaves(mw.location)
-            }
+        slaves?.let {
+            val jobs = slaveRepository.saveSlaves(mw)
+            jobs?.forEach { it.join() }
         }
-        for (slave in list) mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
+        val list = slaveRepository.getSlaves(mw.location)
+        list?.forEach { slave ->
+            mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
+        }
     }
 
     private fun newMediaPlayer() : MediaPlayer {

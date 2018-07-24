@@ -27,7 +27,10 @@ ext {
     appCompatVersion = '27.1.1'
     constraintLayoutVersion = '1.1.2'
     archVersion = '1.1.1'
+    roomVersion = '1.1.1'
     compileSdkVersion = 26
+    junitVersion = '4.12'
+    espressoVersion = '3.0.1'
     minSdkVersion = 14
     targetSdkVersion = 26
     versionName = '3.0.13'

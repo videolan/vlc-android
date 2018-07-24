@@ -50,8 +50,8 @@ import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
-import org.videolan.vlc.media.MediaDatabase;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.repository.BrowserFavRepository;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WorkersKt;
 
@@ -73,7 +73,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     private ArrayObjectAdapter mRowsAdapter;
     private MediaItemDetails mMedia;
     private MediaWrapper mMediaWrapper;
-    private MediaDatabase mDb;
+    private BrowserFavRepository mBrowserFavRepository;
     private PlaybackService mService;
 
     @Override
@@ -144,14 +144,19 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         getActivity().finish();
                         break;
                     case ID_FAVORITE_ADD:
-                        mDb.addNetworkFavItem(Uri.parse(mMedia.getLocation()), mMedia.getTitle(), mMedia.getArtworkUrl());
+                        mBrowserFavRepository.addNetworkFavItem(Uri.parse(mMedia.getLocation()), mMedia.getTitle(), mMedia.getArtworkUrl());
                         detailsOverview.removeAction(actionAdd);
                         detailsOverview.addAction(actionDelete);
                         mRowsAdapter.notifyArrayItemRangeChanged(0, mRowsAdapter.size());
                         Toast.makeText(VLCApplication.getAppContext(), R.string.favorite_added, Toast.LENGTH_SHORT).show();
                         break;
                     case ID_FAVORITE_DELETE:
-                        mDb.deleteNetworkFav(Uri.parse(mMedia.getLocation()));
+                        WorkersKt.runBackground(new Runnable() {
+                            @Override
+                            public void run() {
+                                mBrowserFavRepository.deleteBrowserFav(Uri.parse(mMedia.getLocation()));
+                            }
+                        });
                         detailsOverview.removeAction(actionDelete);
                         detailsOverview.addAction(actionAdd);
                         mRowsAdapter.notifyArrayItemRangeChanged(0, mRowsAdapter.size());
@@ -192,19 +197,20 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
             public void run() {
                 final Bitmap cover = media.getType() == MediaWrapper.TYPE_AUDIO || media.getType() == MediaWrapper.TYPE_VIDEO
                 ? AudioUtil.readCoverBitmap(mMedia.getArtworkUrl(), 512) : null;
+                final Boolean browserFavExists = mBrowserFavRepository.browserFavExists((Uri.parse(mMedia.getLocation())));
                 WorkersKt.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
                         if (isDetached())
                             return;
                         if (media.getType() == MediaWrapper.TYPE_DIR && FileUtils.canSave(media)) {
-                            mDb = MediaDatabase.getInstance();
+                            mBrowserFavRepository = new BrowserFavRepository(VLCApplication.getAppContext());
                             detailsOverview.setImageDrawable(ContextCompat.getDrawable(activity, TextUtils.equals(media.getUri().getScheme(),"file")
                                     ? R.drawable.ic_menu_folder_big
                                     : R.drawable.ic_menu_network_big));
                             detailsOverview.setImageScaleUpAllowed(true);
                             detailsOverview.addAction(new Action(ID_BROWSE, getString(R.string.browse_folder)));
-                            if (mDb.networkFavExists(Uri.parse(mMedia.getLocation())))
+                            if (browserFavExists)
                                 detailsOverview.addAction(actionDelete);
                             else
                                 detailsOverview.addAction(actionAdd);
