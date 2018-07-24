@@ -46,6 +46,8 @@ android {
         resValue "string", "build_revision", revision()
         resValue "string", "build_vlc_revision", vlcRevision()
 
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
@@ -55,6 +57,13 @@ android {
             if (task.name.startsWith('merge')) {
                 task.dependsOn luaPlaylistCopy
                 task.dependsOn luaMetaCopy
+            }
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation":
+                                     "$projectDir/schemas".toString()]
             }
         }
     }
@@ -170,6 +179,10 @@ android {
     sourceSets.test {
         java.srcDirs = ['test']
     }
+    sourceSets.androidTest {
+        java.srcDirs = ['androidTest']
+        assets.srcDirs += files("$projectDir/schemas".toString())
+    }
 }
 
 kotlin.experimental.coroutines = "enable"
@@ -194,7 +207,6 @@ dependencies {
     implementation "com.android.support:leanback-v17:$rootProject.ext.appCompatVersion"
     implementation "com.android.support:preference-leanback-v17:$rootProject.ext.appCompatVersion"
     implementation "com.android.support:support-tv-provider:$rootProject.ext.appCompatVersion"
-    testImplementation 'junit:junit:4.12'
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     kapt "com.android.databinding:compiler:$rootProject.ext.android_plugin_version"
@@ -202,7 +214,15 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
     implementation "android.arch.lifecycle:extensions:$rootProject.ext.archVersion"
     kapt "android.arch.lifecycle:compiler:$rootProject.ext.archVersion"
+    implementation "android.arch.persistence.room:runtime:$rootProject.ext.roomVersion"
+    kapt "android.arch.persistence.room:compiler:$rootProject.ext.roomVersion"
+
     implementation project(':tools')
+    // Test
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$rootProject.espressoVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
+    testImplementation "junit:junit:$rootProject.ext.junitVersion"
+    androidTestImplementation "android.arch.persistence.room:testing:$rootProject.ext.roomVersion"
 }
 
 static def buildTime() {

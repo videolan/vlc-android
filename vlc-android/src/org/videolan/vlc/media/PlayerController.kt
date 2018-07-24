@@ -15,7 +15,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.preferences.PreferencesActivity
-import org.videolan.vlc.util.VLCIO
+import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.VLCOptions
 import org.videolan.vlc.util.uiJob
@@ -193,15 +193,17 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     fun setSlaves(media: Media, mw: MediaWrapper) = uiJob(false) {
         val slaves = mw.slaves
-        slaves?.let { for (slave in it) media.addSlave(slave) }
+        slaves?.let { it.forEach { slave -> media.addSlave(slave) } }
         media.release()
-        val list = withContext(VLCIO) {
-            MediaDatabase.getInstance().run {
-                if (slaves != null) saveSlaves(mw)
-                getSlaves(mw.location)
-            }
+        val slaveRepository = SlaveRepository(VLCApplication.getAppContext())
+        slaves?.let {
+            val jobs = slaveRepository.saveSlaves(mw)
+            jobs?.forEach { it.join() }
         }
-        for (slave in list) mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
+        val list = slaveRepository.getSlaves(mw.location)
+        list?.forEach { slave ->
+            mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
+        }
     }
 
     private fun newMediaPlayer() : MediaPlayer {

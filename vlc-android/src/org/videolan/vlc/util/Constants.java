@@ -155,4 +155,9 @@ public class Constants {
     public final static int CTX_AUDIO_FLAGS = Constants.CTX_PLAY|Constants.CTX_APPEND|Constants.CTX_PLAY_NEXT|Constants.CTX_ADD_TO_PLAYLIST;
     public final static int CTX_PLAYLIST_FLAGS = Constants.CTX_APPEND|Constants.CTX_PLAY_NEXT|Constants.CTX_ADD_TO_PLAYLIST|Constants.CTX_INFORMATION|Constants.CTX_DELETE|Constants.CTX_SET_RINGTONE;
     public final static int CTX_VIDEO_GOUP_FLAGS = Constants.CTX_APPEND|Constants.CTX_PLAY;
+
+    // Database
+    public static final int TYPE_NETWORK_FAV = 0;
+    public static final int TYPE_LOCAL_FAV = 1;
+
 }

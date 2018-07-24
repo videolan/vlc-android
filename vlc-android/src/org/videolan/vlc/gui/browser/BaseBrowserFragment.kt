@@ -42,6 +42,7 @@ import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
+import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
@@ -51,9 +52,9 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.network.MRLPanelFragment.KEY_MRL
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IRefreshable
-import org.videolan.vlc.media.MediaDatabase
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
+import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.util.*
@@ -396,7 +397,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 val isEmpty = viewModel.isFolderEmpty(mw)
                 if (!isEmpty) flags = flags or Constants.CTX_PLAY
                 if (this@BaseBrowserFragment is NetworkBrowserFragment) {
-                    val favExists = withContext(VLCIO) { MediaDatabase.getInstance().networkFavExists(mw.uri) }
+                    val favExists = withContext(VLCIO) { BrowserFavRepository(VLCApplication.getAppContext()).browserFavExists(mw.uri) }
                     flags = if (favExists) flags or Constants.CTX_NETWORK_EDIT or Constants.CTX_NETWORK_REMOVE
                     else flags or Constants.CTX_NETWORK_ADD
                 }
