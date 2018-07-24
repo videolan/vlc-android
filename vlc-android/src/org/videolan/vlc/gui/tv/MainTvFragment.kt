@@ -200,7 +200,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             if (ExternalMonitor.isLan()) {
                 try {
 
-                    val favs = BrowserFavRepository(VLCApplication.getAppContext()).getAllNetworkFavs()
+                    val favs = BrowserFavRepository(requireContext()).getAllNetworkFavs()
                     list.add(DummyItem(Constants.HEADER_NETWORK, getString(R.string.network_browsing), null))
                     list.add(DummyItem(Constants.HEADER_STREAM, getString(R.string.open_mrl), null))
 

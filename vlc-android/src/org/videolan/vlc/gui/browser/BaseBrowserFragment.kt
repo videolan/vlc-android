@@ -42,7 +42,6 @@ import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
@@ -397,7 +396,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 val isEmpty = viewModel.isFolderEmpty(mw)
                 if (!isEmpty) flags = flags or Constants.CTX_PLAY
                 if (this@BaseBrowserFragment is NetworkBrowserFragment) {
-                    val favExists = withContext(VLCIO) { BrowserFavRepository(VLCApplication.getAppContext()).browserFavExists(mw.uri) }
+                    val favExists = withContext(VLCIO) { BrowserFavRepository(requireContext()).browserFavExists(mw.uri) }
                     flags = if (favExists) flags or Constants.CTX_NETWORK_EDIT or Constants.CTX_NETWORK_REMOVE
                     else flags or Constants.CTX_NETWORK_ADD
                 }

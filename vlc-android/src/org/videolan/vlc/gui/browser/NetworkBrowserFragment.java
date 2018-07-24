@@ -114,7 +114,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
-                final boolean isFavorite = getMrl() != null && new BrowserFavRepository(VLCApplication.getAppContext()).browserFavExists(Uri.parse(getMrl()));
+                final boolean isFavorite = getMrl() != null && new BrowserFavRepository(requireContext()).browserFavExists(Uri.parse(getMrl()));
                 WorkersKt.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -180,7 +180,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         final MediaWrapper mw = (MediaWrapper) (isRootDirectory() ? favoritesAdapter.getItem(position) : getAdapter().getItem(position));
         switch (option) {
             case Constants.CTX_NETWORK_ADD:
-                new BrowserFavRepository(VLCApplication.getAppContext()).addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
+                new BrowserFavRepository(requireContext()).addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
                 if (isRootDirectory()) ((NetworkModel) getViewModel()).updateFavs();
                 break;
             case Constants.CTX_NETWORK_EDIT:
@@ -190,7 +190,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
                 WorkersKt.runBackground(new Runnable() {
                     @Override
                     public void run() {
-                        new BrowserFavRepository(VLCApplication.getAppContext()).deleteBrowserFav(mw.getUri());
+                        new BrowserFavRepository(requireContext()).deleteBrowserFav(mw.getUri());
                         WorkersKt.runOnMainThread(new Runnable() {
                             @Override
                             public void run() {
@@ -218,7 +218,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     }
 
     public void toggleFavorite() {
-        final BrowserFavRepository browserFavRepository = new BrowserFavRepository(VLCApplication.getAppContext());
+        final BrowserFavRepository browserFavRepository = new BrowserFavRepository(requireContext());
         WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {

@@ -151,7 +151,7 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
         String name = (TextUtils.isEmpty(mEditServername.getText().toString())) ?
                 mEditAddress.getText().toString() : mEditServername.getText().toString();
         Uri uri = Uri.parse(mUrl.getText().toString());
-        final BrowserFavRepository browserFavRepository = new BrowserFavRepository(VLCApplication.getAppContext());
+        final BrowserFavRepository browserFavRepository = new BrowserFavRepository(requireContext());
         if (mUri != null) {
             WorkersKt.runBackground(new Runnable() {
                 @Override
