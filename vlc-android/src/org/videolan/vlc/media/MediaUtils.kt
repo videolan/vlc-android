@@ -4,14 +4,12 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.database.Cursor
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.TextUtils
-import android.util.Log
 import kotlinx.coroutines.experimental.CoroutineStart
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -23,19 +21,16 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.*
-import java.util.*
 
 private const val TAG = "VLC/MediaUtils"
 
 object MediaUtils {
 
-    private var sSubtitlesDownloader: SubtitlesDownloader? = null
+    private val subtitlesDownloader by lazy { SubtitlesDownloader() }
 
     @JvmOverloads
     fun getSubs(activity: Activity, mediaList: List<MediaWrapper>, cb: SubtitlesDownloader.Callback? = null) {
-        if (sSubtitlesDownloader == null)
-            sSubtitlesDownloader = SubtitlesDownloader()
-        sSubtitlesDownloader!!.downloadSubs(activity, mediaList, cb)
+        subtitlesDownloader.downloadSubs(activity, mediaList, cb)
     }
 
     fun loadlastPlaylist(context: Context?, type: Int) {
@@ -47,16 +42,9 @@ object MediaUtils {
         })
     }
 
-    fun getSubs(activity: Activity, media: MediaWrapper, cb: SubtitlesDownloader.Callback) {
-        val mediaList = ArrayList<MediaWrapper>()
-        mediaList.add(media)
-        getSubs(activity, mediaList, cb)
-    }
-
-    fun getSubs(activity: Activity, media: MediaWrapper) {
-        val mediaList = ArrayList<MediaWrapper>()
-        mediaList.add(media)
-        getSubs(activity, mediaList)
+    @JvmOverloads
+    fun getSubs(activity: Activity, media: MediaWrapper, cb: SubtitlesDownloader.Callback? = null) {
+        getSubs(activity, mutableListOf(media), cb)
     }
 
     fun appendMedia(context: Context?, media: List<MediaWrapper>?) {
@@ -77,9 +65,7 @@ object MediaUtils {
         })
     }
 
-    fun appendMedia(context: Context, array: Array<MediaWrapper>) {
-        appendMedia(context, Arrays.asList(*array))
-    }
+    fun appendMedia(context: Context, array: Array<MediaWrapper>) = appendMedia(context, array.asList())
 
     fun insertNext(context: Context?, media: Array<MediaWrapper>?) {
         if (media == null || context == null) return
@@ -113,24 +99,19 @@ object MediaUtils {
         openMediaNoUi(ctx, media)
     }
 
-    fun openMediaNoUi(uri: Uri) {
-        val media = MediaWrapper(uri)
-        openMediaNoUi(VLCApplication.getAppContext(), media)
-    }
+    fun openMediaNoUi(uri: Uri) = openMediaNoUi(VLCApplication.getAppContext(), MediaWrapper(uri))
 
     fun openMediaNoUi(context: Context?, media: MediaWrapper?) {
         if (media == null || context == null) return
         object : BaseCallBack(context) {
             override fun onConnected(service: PlaybackService) {
                 service.load(media)
-                mClient.disconnect()
+                client.disconnect()
             }
         }
     }
 
-    fun openArray(context: Context, array: Array<MediaWrapper>, position: Int) {
-        openList(context, Arrays.asList(*array), position)
-    }
+    fun openArray(context: Context, array: Array<MediaWrapper>, position: Int) = openList(context, array.toList(), position)
 
     @JvmOverloads
     fun openList(context: Context?, list: List<MediaWrapper>, position: Int, shuffle: Boolean = false) {
@@ -161,100 +142,62 @@ object MediaUtils {
         })
     }
 
-    fun getMediaArtist(ctx: Context, media: MediaWrapper?): String {
-        val artist = media?.artist
-        return artist ?: getMediaString(ctx, R.string.unknown_artist)
-    }
+    fun getMediaArtist(ctx: Context, media: MediaWrapper?) = media?.artist ?: getMediaString(ctx, R.string.unknown_artist)
 
-    fun getMediaReferenceArtist(ctx: Context, media: MediaWrapper?): String {
-        val artist = media?.referenceArtist
-        return artist ?: getMediaString(ctx, R.string.unknown_artist)
-    }
+    fun getMediaReferenceArtist(ctx: Context, media: MediaWrapper?) = media?.artist ?: getMediaString(ctx, R.string.unknown_artist)
 
-    fun getMediaAlbumArtist(ctx: Context, media: MediaWrapper?): String {
-        val albumArtist = media?.albumArtist
-        return albumArtist ?: getMediaString(ctx, R.string.unknown_artist)
-    }
+    fun getMediaAlbumArtist(ctx: Context, media: MediaWrapper?) = media?.albumArtist ?: getMediaString(ctx, R.string.unknown_artist)
 
-    fun getMediaAlbum(ctx: Context, media: MediaWrapper?): String {
-        val album = media?.album
-        return album ?: getMediaString(ctx, R.string.unknown_album)
+    fun getMediaAlbum(ctx: Context, media: MediaWrapper?) = media?.album ?: getMediaString(ctx, R.string.unknown_album)
 
-    }
-
-    fun getMediaGenre(ctx: Context, media: MediaWrapper?): String {
-        val genre = media?.genre
-        return genre ?: getMediaString(ctx, R.string.unknown_genre)
-    }
+    fun getMediaGenre(ctx: Context, media: MediaWrapper?) = media?.genre ?: getMediaString(ctx, R.string.unknown_genre)
 
     fun getMediaSubtitle(media: MediaWrapper): String? {
-        var subtitle = if (media.nowPlaying != null)
-            media.nowPlaying
-        else
-            media.artist
+        var subtitle = media.nowPlaying ?: media.artist
         if (media.length > 0L) {
-            subtitle = if (TextUtils.isEmpty(subtitle))
-                Tools.millisToString(media.length)
-            else
-                subtitle + "  -  " + Tools.millisToString(media.length)
+            subtitle = if (TextUtils.isEmpty(subtitle)) Tools.millisToString(media.length)
+            else "$subtitle  -  ${Tools.millisToString(media.length)}"
         }
         return subtitle
     }
 
-    fun getMediaTitle(mediaWrapper: MediaWrapper): String {
-        return mediaWrapper.title ?: FileUtils.getFileNameFromPath(mediaWrapper.location)
-    }
+    fun getMediaTitle(mediaWrapper: MediaWrapper) = mediaWrapper.title ?: FileUtils.getFileNameFromPath(mediaWrapper.location)!!
 
     fun getContentMediaUri(data: Uri): Uri {
-        var uri: Uri? = null
-        try {
-            val cursor = VLCApplication.getAppContext().contentResolver.query(data,
-                    arrayOf(MediaStore.Video.Media.DATA), null, null, null)
-            if (cursor != null) {
-                val column_index = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)
-                if (cursor.moveToFirst())
-                    uri = AndroidUtil.PathToUri(cursor.getString(column_index))
-                cursor.close()
-            } else
-            // other content-based URI (probably file pickers)
-                uri = data
-        } catch (e: Exception) {
-            uri = data
-            if (uri.scheme == null)
-                uri = AndroidUtil.PathToUri(uri.path)
+        VLCApplication.getAppContext().contentResolver.query(data,
+                arrayOf(MediaStore.Video.Media.DATA), null, null, null)?.use {
+            val columnIndex = it.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)
+            if (it.moveToFirst()) return AndroidUtil.PathToUri(it.getString(columnIndex)) ?: data
         }
-
-        return uri ?: data
+        return data
     }
 
     private fun getMediaString(ctx: Context?, id: Int): String {
-        return if (ctx != null)
-            ctx.resources.getString(id)
-        else {
-            when (id) {
-                R.string.unknown_artist -> "Unknown Artist"
-                R.string.unknown_album -> "Unknown Album"
-                R.string.unknown_genre -> "Unknown Genre"
-                else -> ""
-            }
+        return if (ctx != null) ctx.resources.getString(id)
+        else when (id) {
+            R.string.unknown_artist -> "Unknown Artist"
+            R.string.unknown_album -> "Unknown Album"
+            R.string.unknown_genre -> "Unknown Genre"
+            else -> ""
         }
     }
 
     private abstract class BaseCallBack : PlaybackService.Client.Callback {
-        protected lateinit var mClient: PlaybackService.Client
+        protected lateinit var client: PlaybackService.Client
 
         internal constructor(context: Context) {
-            mClient = PlaybackService.Client(context, this)
-            mClient.connect()
+            client = PlaybackService.Client(context, this)
+            client.connect()
         }
 
         protected constructor()
 
+
         override fun onDisconnected() {}
     }
 
-    private class DialogCallback internal constructor(context: Context, private val mRunnable: Runnable) : BaseCallBack() {
-        private var dialog: ProgressDialog? = null
+    private class DialogCallback (context: Context, private val runnable: Runnable) : BaseCallBack() {
+        private lateinit var dialog: ProgressDialog
         private val handler = Handler(Looper.getMainLooper())
 
         internal interface Runnable {
@@ -262,61 +205,49 @@ object MediaUtils {
         }
 
         init {
-            mClient = PlaybackService.Client(context, this)
+            client = PlaybackService.Client(context, this)
             handler.postDelayed({
                 dialog = ProgressDialog.show(
                         context,
                         context.applicationContext.getString(R.string.loading) + "…",
                         context.applicationContext.getString(R.string.please_wait), true)
-                dialog!!.setCancelable(true)
-                dialog!!.setOnCancelListener(object : DialogInterface.OnCancelListener {
+                dialog.setCancelable(true)
+                dialog.setOnCancelListener(object : DialogInterface.OnCancelListener {
                     override fun onCancel(dialog: DialogInterface) {
                         synchronized(this) {
-                            mClient.disconnect()
+                            client.disconnect()
                         }
                     }
                 })
             }, 300)
             synchronized(this) {
-                mClient.connect()
+                client.connect()
             }
+
         }
 
         override fun onConnected(service: PlaybackService) {
             synchronized(this) {
-                mRunnable.run(service)
+                runnable.run(service)
             }
             handler.removeCallbacksAndMessages(null)
-            if (dialog != null) dialog!!.cancel()
+            if (this::dialog.isInitialized) dialog.cancel()
         }
 
         override fun onDisconnected() {
-            dialog!!.dismiss()
+            if (this::dialog.isInitialized) dialog.dismiss()
         }
     }
 
     fun retrieveMediaTitle(mw: MediaWrapper) {
-        var cursor: Cursor? = null
-        try {
-            cursor = VLCApplication.getAppContext().contentResolver.query(mw.uri, null, null, null, null)
-            if (cursor == null) return
-            val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-            if (nameIndex > -1 && cursor.count > 0) {
-                cursor.moveToFirst()
-                if (!cursor.isNull(nameIndex)) mw.title = cursor.getString(nameIndex)
+        VLCApplication.getAppContext().contentResolver.query(mw.uri, null, null, null, null)?.use {
+            val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            if (nameIndex > -1 && it.count > 0) {
+                it.moveToFirst()
+                if (!it.isNull(nameIndex)) mw.title = it.getString(nameIndex)
             }
-        } catch (e: SecurityException) { // We may not have storage access permission yet
-            Log.w(TAG, "retrieveMediaTitle: fail to resolve file from " + mw.uri, e)
-        } catch (e: IllegalArgumentException) {
-            Log.w(TAG, "retrieveMediaTitle: fail to resolve file from " + mw.uri, e)
-        } catch (e: UnsupportedOperationException) {
-            Log.w(TAG, "retrieveMediaTitle: fail to resolve file from " + mw.uri, e)
-        } finally {
-            if (cursor != null && !cursor.isClosed) cursor.close()
         }
     }
 
-    fun deletePlaylist(playlist: Playlist) {
-        runBackground(Runnable { playlist.delete() })
-    }
+    fun deletePlaylist(playlist: Playlist) = runBackground(Runnable { playlist.delete() })
 }
