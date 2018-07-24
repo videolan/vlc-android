@@ -49,6 +49,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.MediaParsingService;
@@ -142,7 +143,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, progressFilter);
         // super.onStart must be called after receiver registration
         super.onStart();
-        mHelper.onStart();
+        if (!AndroidUtil.isPOrLater) mHelper.onStart();
     }
 
     @Override
@@ -158,6 +159,13 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
             updateContainerPadding(true);
             applyMarginToProgressBar(mBottomSheetBehavior.getPeekHeight());
         }
+        if (AndroidUtil.isPOrLater) mHelper.onStart();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (AndroidUtil.isPOrLater) mHelper.onStop();
     }
 
     @Override
@@ -166,7 +174,7 @@ public class AudioPlayerContainerActivity extends BaseActivity implements Playba
         ExternalMonitor.unsubscribeStorageCb(this);
         unregisterReceiver(messageReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
-        mHelper.onStop();
+        if (!AndroidUtil.isPOrLater) mHelper.onStop();
     }
 
     @Override
