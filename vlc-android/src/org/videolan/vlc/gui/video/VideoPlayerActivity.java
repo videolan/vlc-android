@@ -220,6 +220,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private static final int LOADING_ANIMATION = 8;
     private static final int SHOW_INFO = 9;
     private static final int HIDE_INFO = 10;
+    private static final int CLEAR_REMOTE = 11;
 
     private static final int LOADING_ANIMATION_DELAY = 1000;
 
@@ -1604,7 +1605,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 encounteredError();
                 break;
             case MediaPlayer.Event.TimeChanged:
-                mProgress.set((int) event.getTimeChanged());
+                if (!mDpadSeek) mProgress.set((int) event.getTimeChanged());
                 break;
             case MediaPlayer.Event.LengthChanged:
                 mMediaLength.set(event.getLengthChanged());
@@ -1709,6 +1710,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     break;
                 case SHOW_INFO:
                     showOverlay();
+                    break;
+                case CLEAR_REMOTE:
+                    mDpadSeek = false;
+                    mProgress.set((int) mService.getTime());
+                    hideOverlay(true);
                     break;
             }
             return true;
@@ -2306,6 +2312,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     /**
      * handle changes of the seekbar (slicer)
      */
+    private boolean mDpadSeek = false;
     private final OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
 
         @Override
@@ -2322,6 +2329,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if (fromUser && !mDragging) {
+                mDpadSeek = true;
+                mHandler.removeMessages(CLEAR_REMOTE);
+                mHandler.sendEmptyMessageDelayed(CLEAR_REMOTE, 1000);
+                showOverlay();
+            }
             if (!isFinishing() && fromUser && mService.isSeekable()) {
                 seek(progress);
                 showInfo(Tools.millisToString(progress), 1000);
@@ -2675,6 +2688,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mProgress.set((int) position);
     }
 
+    private boolean mRemoteActive = false;
     private void seekDelta(int delta) {
         // unseekable stream
         if (mService.getLength() <= 0 || !mService.isSeekable()) return;
@@ -2682,9 +2696,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         long position = getTime() + delta;
         if (position < 0) position = 0;
         seek(position);
-        StringBuilder sb = new StringBuilder();
-        if (delta > 0f)
-            sb.append('+');
+        final StringBuilder sb = new StringBuilder();
+        if (delta > 0f) sb.append('+');
         sb.append((int)(delta/1000f))
                 .append("s (")
                 .append(Tools.millisToString(mService.getTime()))
