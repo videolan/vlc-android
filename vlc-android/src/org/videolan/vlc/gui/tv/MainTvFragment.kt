@@ -50,7 +50,6 @@ import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Constants
-import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.uiJob
 import org.videolan.vlc.viewmodels.HistoryModel
 import org.videolan.vlc.viewmodels.VideosModel
@@ -83,6 +82,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private var selectedItem: Any? = null
     private var restart = false
 
+    private lateinit var browserFavRepository: BrowserFavRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         settings = PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -100,6 +101,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         brandColor = ContextCompat.getColor(requireContext(), R.color.orange800)
         backgroundManager = BackgroundManager.getInstance(requireActivity()).apply { attach(requireActivity().window) }
         nowPlayingDelegate = NowPlayingDelegate(this)
+        browserFavRepository = BrowserFavRepository(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -200,7 +202,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             if (ExternalMonitor.isLan()) {
                 try {
 
-                    val favs = BrowserFavRepository(requireContext()).getAllNetworkFavs()
+                    val favs = browserFavRepository.getAllNetworkFavs()
                     list.add(DummyItem(Constants.HEADER_NETWORK, getString(R.string.network_browsing), null))
                     list.add(DummyItem(Constants.HEADER_STREAM, getString(R.string.open_mrl), null))
 

@@ -39,7 +39,7 @@ import org.videolan.vlc.util.runBackground
 @RunWith(AndroidJUnit4::class)
 class BrowserFavRepositoryTest {
     private lateinit var database: MediaDatabase
-    private lateinit var browserFavRepository:BrowserFavRepository
+    private lateinit var browserFavRepository: BrowserFavRepository
     private val uri = Uri.parse("/storage/emulated/0/Android/data/org.videolan.vlc.debug/files/subs/file1.mkv")
 
     @Before

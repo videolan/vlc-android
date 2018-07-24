@@ -61,6 +61,7 @@ import java.util.List;
 
 public class NetworkBrowserFragment extends BaseBrowserFragment implements SimpleAdapter.FavoritesHandler {
 
+    BrowserFavRepository mBrowserFavRepository;
     @Override
     public void onClick(@NotNull MediaLibraryItem item) {
         browse((MediaWrapper) item, true);
@@ -71,6 +72,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         super.onViewCreated(view, savedInstanceState);
         getBinding().setShowFavorites(isRootDirectory());
         viewModel = ViewModelProviders.of(this, new NetworkModel.Factory(getMrl(), getShowHiddenFiles())).get(NetworkModel.class);
+        mBrowserFavRepository = new BrowserFavRepository(requireContext());
     }
 
     @Override
@@ -114,7 +116,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
-                final boolean isFavorite = getMrl() != null && new BrowserFavRepository(requireContext()).browserFavExists(Uri.parse(getMrl()));
+                final boolean isFavorite = getMrl() != null && mBrowserFavRepository.browserFavExists(Uri.parse(getMrl()));
                 WorkersKt.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -180,7 +182,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         final MediaWrapper mw = (MediaWrapper) (isRootDirectory() ? favoritesAdapter.getItem(position) : getAdapter().getItem(position));
         switch (option) {
             case Constants.CTX_NETWORK_ADD:
-                new BrowserFavRepository(requireContext()).addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
+                mBrowserFavRepository.addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
                 if (isRootDirectory()) ((NetworkModel) getViewModel()).updateFavs();
                 break;
             case Constants.CTX_NETWORK_EDIT:
@@ -190,7 +192,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
                 WorkersKt.runBackground(new Runnable() {
                     @Override
                     public void run() {
-                        new BrowserFavRepository(requireContext()).deleteBrowserFav(mw.getUri());
+                        mBrowserFavRepository.deleteBrowserFav(mw.getUri());
                         WorkersKt.runOnMainThread(new Runnable() {
                             @Override
                             public void run() {
@@ -218,14 +220,13 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     }
 
     public void toggleFavorite() {
-        final BrowserFavRepository browserFavRepository = new BrowserFavRepository(requireContext());
         WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
-                if (browserFavRepository.browserFavExists(getCurrentMedia().getUri()))
-                    browserFavRepository.deleteBrowserFav(getCurrentMedia().getUri());
+                if (mBrowserFavRepository.browserFavExists(getCurrentMedia().getUri()))
+                    mBrowserFavRepository.deleteBrowserFav(getCurrentMedia().getUri());
                 else
-                    browserFavRepository.addNetworkFavItem(getCurrentMedia().getUri(), getCurrentMedia().getTitle(), getCurrentMedia().getArtworkURL());
+                    mBrowserFavRepository.addNetworkFavItem(getCurrentMedia().getUri(), getCurrentMedia().getTitle(), getCurrentMedia().getArtworkURL());
                 WorkersKt.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {

@@ -24,7 +24,6 @@ import android.widget.TextView;
 
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.repository.BrowserFavRepository;
 import org.videolan.vlc.util.WorkersKt;
@@ -38,6 +37,8 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     public static final String SFTP_DEFAULT_PORT = "22";
     public static final String HTTP_DEFAULT_PORT = "80";
     public static final String HTTPS_DEFAULT_PORT = "443";
+
+    private BrowserFavRepository mBrowserFavRepository;
 
     private Activity mActivity;
 
@@ -76,6 +77,7 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
+        mBrowserFavRepository = new BrowserFavRepository(requireContext());
     }
 
     @Override
@@ -151,16 +153,15 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
         String name = (TextUtils.isEmpty(mEditServername.getText().toString())) ?
                 mEditAddress.getText().toString() : mEditServername.getText().toString();
         Uri uri = Uri.parse(mUrl.getText().toString());
-        final BrowserFavRepository browserFavRepository = new BrowserFavRepository(requireContext());
         if (mUri != null) {
             WorkersKt.runBackground(new Runnable() {
                 @Override
                 public void run() {
-                    browserFavRepository.deleteBrowserFav(mUri);
+                    mBrowserFavRepository.deleteBrowserFav(mUri);
                 }
             });
         }
-        browserFavRepository.addNetworkFavItem(uri, name, null);
+        mBrowserFavRepository.addNetworkFavItem(uri, name, null);
     }
 
     private void updateUrl() {
