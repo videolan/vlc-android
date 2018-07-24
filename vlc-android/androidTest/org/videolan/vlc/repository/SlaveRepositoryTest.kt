@@ -59,8 +59,8 @@ class SlaveRepositoryTest {
     @Test fun saveSlave() = runBlocking {
         val slavesBeforeInsert = slaveRepository.getSlaves(media1Path)
         assertThat(slavesBeforeInsert.size, equalTo(0))
-        slaveRepository.saveSlave(media1Path, Media.Slave.Type.Subtitle, 2, media1UriEng)
-        slaveRepository.saveSlave(media1Path, Media.Slave.Type.Subtitle, 2, media1UriFa)
+        slaveRepository.saveSlave(media1Path, Media.Slave.Type.Subtitle, 2, media1UriEng).join()
+        slaveRepository.saveSlave(media1Path, Media.Slave.Type.Subtitle, 2, media1UriFa).join()
 
         val slavesAfterInsert = slaveRepository.getSlaves(media1Path)
         assertThat(slavesAfterInsert.size, equalTo(1))

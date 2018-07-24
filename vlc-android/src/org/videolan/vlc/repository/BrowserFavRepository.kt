@@ -76,14 +76,12 @@ class BrowserFavRepository @JvmOverloads constructor(context: Context,
     }
 
     private fun createMediaWrapperObjects(allBrowserFavs: List<BrowserFav>): List<MediaWrapper> {
-        return allBrowserFavs.map { outerIt ->
-            val mw = MediaWrapper(outerIt.uri)
-            mw.setDisplayTitle(Uri.decode(outerIt.title))
-            mw.type = MediaWrapper.TYPE_DIR
-            outerIt.iconUrl?.let {
-                mw.artworkURL = Uri.decode(outerIt.iconUrl)
+        return allBrowserFavs.map { browserFav ->
+            MediaWrapper(browserFav.uri).apply {
+                setDisplayTitle(Uri.decode(browserFav.title))
+                type = MediaWrapper.TYPE_DIR
+                browserFav.iconUrl?.let { artworkURL = Uri.decode(browserFav.iconUrl) }
             }
-            mw
         }
     }
 
