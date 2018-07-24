@@ -63,7 +63,7 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = ["room.schemaLocation":
-                                     "$projectDir/schemas".toString()]
+                                     "$projectDir/assets/schemas".toString()]
             }
         }
     }
@@ -181,7 +181,7 @@ android {
     }
     sourceSets.androidTest {
         java.srcDirs = ['androidTest']
-        assets.srcDirs += files("$projectDir/schemas".toString())
+        assets.srcDirs += files("$projectDir/assets/schemas".toString())
     }
 }
 
