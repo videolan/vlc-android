@@ -25,7 +25,6 @@ import android.net.Uri
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import junit.framework.Assert.assertNull
-import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
@@ -33,7 +32,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.videolan.vlc.database.MediaDatabase
-import org.videolan.vlc.util.runBackground
+import org.videolan.vlc.utilities.getValue
 
 
 @RunWith(AndroidJUnit4::class)
@@ -58,7 +57,7 @@ class BrowserFavRepositoryTest {
             assertThat(exists, equalTo(true))
         }
 
-        val browserFavs = browserFavRepository.getAllBrowserFavs()
+        val browserFavs = getValue(browserFavRepository.getAllBrowserFavs())
         assertThat(browserFavs[0].uri, equalTo(uri))
         assertThat(browserFavs[0].title, equalTo(title))
         assertNull(browserFavs[0].artworkURL)
@@ -68,7 +67,7 @@ class BrowserFavRepositoryTest {
         val title = "test1"
         browserFavRepository.addLocalFavItem(uri, title, null).join()
         browserFavRepository.deleteBrowserFav(uri)
-        val favs = browserFavRepository.getAllBrowserFavs()
+        val favs = getValue(browserFavRepository.getAllBrowserFavs())
         assertThat(favs.size, equalTo(0))
     }
 }

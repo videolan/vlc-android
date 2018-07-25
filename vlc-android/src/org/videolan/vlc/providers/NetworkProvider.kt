@@ -20,6 +20,8 @@
 
 package org.videolan.vlc.providers
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Transformations
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -38,15 +40,17 @@ class NetworkProvider(dataset: LiveDataset<MediaLibraryItem>, url: String? = nul
         if (ExternalMonitor.allowLan()) browse()
     }
 
-    suspend fun updateFavorites() : MutableList<MediaLibraryItem> {
-        if (!ExternalMonitor.isConnected()) return mutableListOf()
-        val favs: MutableList<MediaLibraryItem> = browserFavRepository.getAllNetworkFavs().toMutableList()
-        if (!ExternalMonitor.allowLan()) {
-            val schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https")
-            val toRemove = favs.filterNotTo(mutableListOf()) { schemes.contains((it as MediaWrapper).uri.scheme) }
-            if (!toRemove.isEmpty()) for (mw in toRemove) favs.remove(mw)
+    fun getFavorites() : LiveData<List<MediaLibraryItem>> {
+        val allNetworkFavs = browserFavRepository.getAllNetworkFavs()
+        return Transformations.map(allNetworkFavs) { favs ->
+            if (!ExternalMonitor.isConnected())  return@map listOf<MediaLibraryItem>()
+
+            if (!ExternalMonitor.allowLan()) {
+                val schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https")
+                return@map favs?.filter { schemes.contains((it as MediaWrapper).uri.scheme) }
+            }
+            favs
         }
-        return favs
     }
 
     override fun fetch() {}

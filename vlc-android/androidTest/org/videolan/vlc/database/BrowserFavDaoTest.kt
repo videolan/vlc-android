@@ -20,6 +20,8 @@
 
 package org.videolan.vlc.database
 
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.LifecycleRegistry
 import android.arch.persistence.room.Room
 import android.net.Uri
 import android.support.test.InstrumentationRegistry
@@ -32,6 +34,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.util.Constants
+import org.videolan.vlc.utilities.getValue
 
 
 @RunWith(AndroidJUnit4::class)
@@ -57,7 +60,7 @@ class BrowserFavDaoTest {
     }
 
     @Test fun getAllBrowserFavs() {
-        val browsersFavs = browserFavDao.getAll()
+        val browsersFavs = getValue(browserFavDao.getAll())
         assertThat(browsersFavs.size, equalTo(3))
 
         assertThat(browsersFavs, hasItem(netwrokFav1))
@@ -66,7 +69,7 @@ class BrowserFavDaoTest {
     }
 
     @Test fun getAllNetworkFavs() {
-        val networkFavs = browserFavDao.getAllNetwrokFavs()
+        val networkFavs = getValue(browserFavDao.getAllNetwrokFavs())
 
         assertThat(networkFavs.size, equalTo(2))
         assertThat(networkFavs, hasItem(netwrokFav1))
@@ -75,7 +78,7 @@ class BrowserFavDaoTest {
 
 
     @Test fun getAllLocalFavs() {
-        val localFavs = browserFavDao.getAllLocalFavs()
+        val localFavs = getValue(browserFavDao.getAllLocalFavs())
 
         assertThat(localFavs.size, equalTo(1))
         assertThat(localFavs, hasItem(localFav1))
@@ -90,7 +93,7 @@ class BrowserFavDaoTest {
 
     @Test fun deleteBrowserFav() {
         browserFavDao.delete(netwrokFav1.uri)
-        val browsers = browserFavDao.getAll()
+        val browsers = getValue(browserFavDao.getAll())
         assertThat(browsers.size, equalTo(2))
 
         assertThat(browsers, not(hasItem(netwrokFav1)))
@@ -98,7 +101,7 @@ class BrowserFavDaoTest {
 
         browserFavDao.delete(netwrokFav2.uri)
         browserFavDao.delete(localFav1.uri)
-        val browserFavsAfterDeleteAll = browserFavDao.getAll()
+        val browserFavsAfterDeleteAll = getValue(browserFavDao.getAll())
         assertThat(browserFavsAfterDeleteAll.size, equalTo(0))
     }
 }
