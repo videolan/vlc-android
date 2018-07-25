@@ -20,9 +20,11 @@
 
 package org.videolan.vlc.gui.video.benchmark;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
@@ -34,6 +36,8 @@ import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -77,6 +81,8 @@ public class BenchActivity extends ShallowVideoPlayer {
 
     private static final int VIRTUAL_DISPLAY_FLAGS = 0;
 
+    private static final int PERMISSION_REQUEST_WRITE = 1;
+
     private Runnable mTimeOut = null;
 
     private int mWidth;
@@ -104,6 +110,9 @@ public class BenchActivity extends ShallowVideoPlayer {
     private boolean mHasVout = false;
     /* screenshot directory location */
     private String screenshotDir;
+    /* bool to wait in pause for user permission */
+    private boolean mWritePermission = false;
+
 
     @Override
     protected void loadMedia() {
@@ -114,6 +123,27 @@ public class BenchActivity extends ShallowVideoPlayer {
             }
         }
         super.loadMedia();
+    }
+
+    @Override
+    final public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // checking for permission other than granted
+        if ((requestCode == PERMISSION_REQUEST_WRITE) &&
+                grantResults.length >= 1 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            errorFinish("Failed to get write permission for screenshots");
+        } else if ((requestCode == PERMISSION_REQUEST_WRITE) && grantResults.length >= 1) {
+            mWritePermission = true;
+            if (mIsScreenshot) {
+                /* Temporizing for the authorisation popup to disappear */
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        seekScreenshot();
+                    }
+                }, 1000);
+            }
+        }
     }
 
     @Override
@@ -158,6 +188,13 @@ public class BenchActivity extends ShallowVideoPlayer {
 
         // blocking display in landscape orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+        // Check for write permission, if false will ask
+        // for them after asking for screenshot permission
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            mWritePermission = false;
+        else
+            mWritePermission = true;
     }
 
     /**
@@ -185,7 +222,8 @@ public class BenchActivity extends ShallowVideoPlayer {
                     /* initial setup that has to be done when the video
                      * has finished the first buffering */
                     if (!mSetup) {
-                        mSetup = true;
+                        mSetup =
+                                true;
                         if (mIsScreenshot) {
                             mService.pause();
                             Point size = new Point();
@@ -284,14 +322,17 @@ public class BenchActivity extends ShallowVideoPlayer {
             if (mMediaProjection == null) {
                 errorFinish("Failed to create MediaProjection");
             }
-
-            /* Temporizing for the authorisation popup to disappear */
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    seekScreenshot();
-                }
-            }, 1000);
+            if (mWritePermission) {
+                /* Temporizing for the authorisation popup to disappear */
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        seekScreenshot();
+                    }
+                }, 1000);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_WRITE);
+            }
         } else {
             errorFinish("Failed to get screenshot permission");
         }
