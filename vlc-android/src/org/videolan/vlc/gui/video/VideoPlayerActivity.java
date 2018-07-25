@@ -1512,6 +1512,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 break;
             case MediaPlayer.Event.Vout:
                 updateNavStatus();
+                if (event.getVoutCount() > 0)
+                    changeSurfaceLayout();
                 if (mMenuIdx == -1)
                     handleVout(event.getVoutCount());
                 break;
@@ -1542,7 +1544,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             case MediaPlayer.Event.ESSelected:
                 if (event.getEsChangedType() == Media.VideoTrack.Type.Video) {
                     Media.VideoTrack vt = mService.getCurrentVideoTrack();
-                    changeSurfaceLayout();
                     if (vt != null)
                         mFov = vt.projection == Media.VideoTrack.Projection.Rectangular ? 0f : DEFAULT_FOV;
                 }
