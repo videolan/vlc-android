@@ -1,3 +1,19 @@
+Changes between 3.0.12 and 3.0.13:
+----------------------------------
+
+Application:
+ * Fix subtitles not reloaded when multitasking
+ * Fix 'previous' button behavior
+ * Fix crashes
+
+
+TV:
+ * Video player: improve use of seekbar with remote
+ * Fix History row disappearing
+
+VLC:
+ * Update VLC core
+
 Changes between 3.0.11 and 3.0.12:
 ----------------------------------
 
