@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -43,7 +44,6 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.util.Util;
 
 import videolan.org.commontools.TvChannelUtilsKt;
 
@@ -92,7 +92,7 @@ public class StartActivity extends FragmentActivity implements StoragePermission
         } else if (MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH.equals(action)) {
             final Intent serviceInent = new Intent(Constants.ACTION_PLAY_FROM_SEARCH, null, this, PlaybackService.class)
                     .putExtra(Constants.EXTRA_SEARCH_BUNDLE, intent.getExtras());
-            Util.startService(this, serviceInent);
+            ContextCompat.startForegroundService(this, serviceInent);
         } else if(Intent.ACTION_VIEW.equals(action) && intent.getData() != null) { //launch from TV Channel
             final Uri data = intent.getData();
             final String path = data.getPath();

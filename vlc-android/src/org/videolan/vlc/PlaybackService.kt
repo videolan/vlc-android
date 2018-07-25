@@ -32,6 +32,7 @@ import android.preference.PreferenceManager
 import android.support.annotation.MainThread
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.app.ServiceCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserServiceCompat
 import android.support.v4.media.MediaDescriptionCompat
@@ -1230,7 +1231,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
             if (mBound) throw IllegalStateException("already connected")
             val serviceIntent = getServiceIntent(mContext!!)
             if (mContext is Activity) mContext.startService(serviceIntent)
-            else Util.startService(mContext, serviceIntent)
+            else ContextCompat.startForegroundService(mContext, serviceIntent)
             mBound = mContext.bindService(serviceIntent, mServiceConnection, Context.BIND_AUTO_CREATE)
         }
 
@@ -1250,7 +1251,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
             }
 
             private fun startService(context: Context) {
-                Util.startService(context, getServiceIntent(context))
+                ContextCompat.startForegroundService(context, getServiceIntent(context))
             }
 
             private fun stopService(context: Context) {
@@ -1315,9 +1316,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
         }
 
         fun loadLastAudio(context: Context) {
-            val i = PlaybackService.Client.getServiceIntent(context)
-            i.action = Constants.ACTION_REMOTE_LAST_PLAYLIST
-            Util.startService(context, i)
+            val i = PlaybackService.Client.getServiceIntent(context).apply { action = Constants.ACTION_REMOTE_LAST_PLAYLIST }
+            ContextCompat.startForegroundService(context, i)
         }
 
         private const val PLAYBACK_BASE_ACTIONS = (PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH

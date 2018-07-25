@@ -179,19 +179,6 @@ public class Util {
         return contentBuilder.toString();
     }
 
-    /**
-     * Starts a service in Foreground in Android 8+
-     * To be removed with AppCompat 26+
-     * @param ctx the context
-     * @param intent service intent to start
-     */
-    public static void startService(Context ctx, Intent intent) {
-        if (!AndroidUtil.isOOrLater || VLCApplication.isForeground())
-            ctx.startService(intent);
-        else
-            ctx.startForegroundService(intent);
-    }
-
     public static boolean byPassChromecastDialog(Dialog.QuestionDialog dialog) {
         if ("Insecure site".equals(dialog.getTitle())) {
             if ("View certificate".equals(dialog.getAction1Text())) dialog.postAction(1);
