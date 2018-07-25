@@ -51,15 +51,17 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.SimpleAdapter;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
-import org.videolan.vlc.media.MediaDatabase;
+import org.videolan.vlc.repository.BrowserFavRepository;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
 import java.util.List;
 
 public class NetworkBrowserFragment extends BaseBrowserFragment implements SimpleAdapter.FavoritesHandler {
 
+    BrowserFavRepository mBrowserFavRepository;
     @Override
     public void onClick(@NotNull MediaLibraryItem item) {
         browse((MediaWrapper) item, true);
@@ -70,6 +72,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         super.onViewCreated(view, savedInstanceState);
         getBinding().setShowFavorites(isRootDirectory());
         viewModel = ViewModelProviders.of(this, new NetworkModel.Factory(getMrl(), getShowHiddenFiles())).get(NetworkModel.class);
+        mBrowserFavRepository = new BrowserFavRepository(requireContext());
     }
 
     @Override
@@ -110,12 +113,21 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         super.onPrepareOptionsMenu(menu);
         final MenuItem item = menu.findItem(R.id.ml_menu_save);
         item.setVisible(!isRootDirectory());
-
-        boolean isFavorite = getMrl() != null && MediaDatabase.getInstance().networkFavExists(Uri.parse(getMrl()));
-        item.setIcon(isFavorite ?
-                R.drawable.ic_menu_bookmark_w :
-                R.drawable.ic_menu_bookmark_outline_w);
-        item.setTitle(isFavorite ? R.string.favorites_remove : R.string.favorites_add);
+        WorkersKt.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                final boolean isFavorite = getMrl() != null && mBrowserFavRepository.browserFavExists(Uri.parse(getMrl()));
+                WorkersKt.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        item.setIcon(isFavorite ?
+                                R.drawable.ic_menu_bookmark_w :
+                                R.drawable.ic_menu_bookmark_outline_w);
+                        item.setTitle(isFavorite ? R.string.favorites_remove : R.string.favorites_add);
+                    }
+                });
+            }
+        });
     }
 
     public void onStart() {
@@ -170,15 +182,25 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         final MediaWrapper mw = (MediaWrapper) (isRootDirectory() ? favoritesAdapter.getItem(position) : getAdapter().getItem(position));
         switch (option) {
             case Constants.CTX_NETWORK_ADD:
-                MediaDatabase.getInstance().addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
+                mBrowserFavRepository.addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
                 if (isRootDirectory()) ((NetworkModel) getViewModel()).updateFavs();
                 break;
             case Constants.CTX_NETWORK_EDIT:
                 showAddServerDialog(mw);
                 break;
             case Constants.CTX_NETWORK_REMOVE:
-                MediaDatabase.getInstance().deleteNetworkFav(mw.getUri());
-                if (isRootDirectory()) ((NetworkModel) getViewModel()).updateFavs();
+                WorkersKt.runBackground(new Runnable() {
+                    @Override
+                    public void run() {
+                        mBrowserFavRepository.deleteBrowserFav(mw.getUri());
+                        WorkersKt.runOnMainThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (isRootDirectory()) ((NetworkModel) getViewModel()).updateFavs();
+                            }
+                        });
+                    }
+                });
                 break;
             default:
                 super.onCtxAction(position, option);
@@ -198,13 +220,22 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     }
 
     public void toggleFavorite() {
-        final MediaDatabase db = MediaDatabase.getInstance();
-        if (db.networkFavExists(getCurrentMedia().getUri()))
-            db.deleteNetworkFav(getCurrentMedia().getUri());
-        else
-            db.addNetworkFavItem(getCurrentMedia().getUri(), getCurrentMedia().getTitle(), getCurrentMedia().getArtworkURL());
-        final Activity activity = getActivity();
-        if (activity!= null) activity.invalidateOptionsMenu();
+        WorkersKt.runBackground(new Runnable() {
+            @Override
+            public void run() {
+                if (mBrowserFavRepository.browserFavExists(getCurrentMedia().getUri()))
+                    mBrowserFavRepository.deleteBrowserFav(getCurrentMedia().getUri());
+                else
+                    mBrowserFavRepository.addNetworkFavItem(getCurrentMedia().getUri(), getCurrentMedia().getTitle(), getCurrentMedia().getArtworkURL());
+                WorkersKt.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final Activity activity = getActivity();
+                        if (activity!= null) activity.invalidateOptionsMenu();
+                    }
+                });
+            }
+        });
     }
 
     /**

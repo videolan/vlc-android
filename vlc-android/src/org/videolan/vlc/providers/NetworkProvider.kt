@@ -25,11 +25,14 @@ import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
-import org.videolan.vlc.media.MediaDatabase
+import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.LiveDataset
 import java.util.*
 
 class NetworkProvider(dataset: LiveDataset<MediaLibraryItem>, url: String? = null, showHiddenFiles: Boolean): BrowserProvider(dataset, url, showHiddenFiles) {
+
+    private val browserFavRepository by lazy { BrowserFavRepository(VLCApplication.getAppContext())}
 
     override fun browseRoot() {
         if (ExternalMonitor.allowLan()) browse()
@@ -37,7 +40,7 @@ class NetworkProvider(dataset: LiveDataset<MediaLibraryItem>, url: String? = nul
 
     suspend fun updateFavorites() : MutableList<MediaLibraryItem> {
         if (!ExternalMonitor.isConnected()) return mutableListOf()
-        val favs: MutableList<MediaLibraryItem> = withContext(CommonPool) { MediaDatabase.getInstance().allNetworkFav }.toMutableList()
+        val favs: MutableList<MediaLibraryItem> = browserFavRepository.getAllNetworkFavs().toMutableList()
         if (!ExternalMonitor.allowLan()) {
             val schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https")
             val toRemove = favs.filterNotTo(mutableListOf()) { schemes.contains((it as MediaWrapper).uri.scheme) }
