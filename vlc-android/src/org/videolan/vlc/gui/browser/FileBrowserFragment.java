@@ -23,14 +23,20 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 
+import org.jetbrains.annotations.NotNull;
+import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.helpers.hf.OtgAccess;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Strings;
@@ -78,5 +84,28 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     @Override
     protected void browseRoot() {
         viewModel.browserRoot();
+    }
+
+    @Override
+    public void onClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
+        if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
+            final MediaWrapper mw = (MediaWrapper) item;
+            if ("otg://".equals(mw.getLocation())) {
+                final String title = getString(R.string.otg_device_title);
+                OtgAccess.Companion.getOtgRoot().observeForever(new Observer<Uri>() {
+                    @Override
+                    public void onChanged(@Nullable Uri uri) {
+                        OtgAccess.Companion.getOtgRoot().removeObserver(this);
+                        final MediaWrapper mw = new MediaWrapper(uri);
+                        mw.setType(MediaWrapper.TYPE_DIR);
+                        mw.setTitle(title);
+                        browse(mw, true);
+                    }
+                });
+                OtgAccess.Companion.requestOtgRoot(requireActivity());
+                return;
+            }
+        }
+        super.onClick(v, position, item);
     }
 }

@@ -82,7 +82,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
         }
     }
 
-    protected fun browse(url: String? = null) {
+    protected open fun browse(url: String? = null) {
         browserChannel = Channel(Channel.UNLIMITED)
         requestBrowsing(url)
         job = uiJob(false) {
@@ -129,6 +129,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
                     item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
                         val mw = item as MediaWrapper
                         if (mw.type != MediaWrapper.TYPE_DIR && mw.type != MediaWrapper.TYPE_PLAYLIST) continue@loop
+                        if (mw.uri.scheme == "otg" || mw.uri.scheme == "content") continue@loop
                         mw
                     }
                     item.itemType == MediaLibraryItem.TYPE_STORAGE -> MediaWrapper((item as Storage).uri).apply { type = MediaWrapper.TYPE_DIR }
@@ -204,7 +205,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
 
     fun stop() = job?.cancel()
 
-    fun release() = launch(BrowserProvider.browserContext) {
+    open fun release() = launch(BrowserProvider.browserContext) {
         if (this@BrowserProvider::browserChannel.isInitialized) browserChannel.close()
         mediabrowser?.let {
             it.release()

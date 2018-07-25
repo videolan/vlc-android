@@ -615,4 +615,5 @@
     <string name="ml_wizard_description">Choose whether VLC will scan your device storage to organize your media library or just use it as a simple player with an integrated browser.</string>
     <string name="tv_my_new_videos">My new videos</string>
     <string name="cast_option_title">Cast medias on another screen</string>
+    <string name="otg_device_title">OTG device</string>
 </resources>

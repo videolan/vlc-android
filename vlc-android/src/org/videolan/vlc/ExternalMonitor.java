@@ -33,6 +33,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -48,12 +50,14 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.LiveDataset;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 
 import java.lang.ref.WeakReference;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 public class ExternalMonitor extends BroadcastReceiver implements LifecycleObserver {
@@ -64,6 +68,8 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
     private static final ExternalMonitor instance = new ExternalMonitor();
     private static WeakReference<Activity> storageObserver = null;
 
+    public static LiveDataset<UsbDevice> devices;
+
     public ExternalMonitor() {
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
     }
@@ -73,11 +79,14 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
         final Context ctx = VLCApplication.getAppContext();
         final IntentFilter networkFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         final IntentFilter storageFilter = new IntentFilter(Intent.ACTION_MEDIA_MOUNTED);
+        final IntentFilter otgFilter = new IntentFilter(UsbManager.ACTION_USB_DEVICE_ATTACHED);
         storageFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
         storageFilter.addAction(Intent.ACTION_MEDIA_EJECT);
+        otgFilter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
         storageFilter.addDataScheme("file");
         ctx.registerReceiver(instance, networkFilter);
         ctx.registerReceiver(instance, storageFilter);
+        ctx.registerReceiver(instance, otgFilter);
         checkNewStorages(ctx);
     }
 
@@ -89,6 +98,9 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
                     ctx.startService(new Intent(Constants.ACTION_CHECK_STORAGES, null,ctx, MediaParsingService.class));
                 }
             });
+        devices = new LiveDataset<>();
+        final UsbManager usbManager = (UsbManager) ctx.getSystemService(Context.USB_SERVICE);
+        devices.add(new ArrayList<>(usbManager.getDeviceList().values()));
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
@@ -126,6 +138,18 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
             case Intent.ACTION_MEDIA_EJECT:
                 if (storageObserver != null && storageObserver.get() != null)
                     mHandler.sendMessageDelayed(mHandler.obtainMessage(ACTION_MEDIA_UNMOUNTED, intent.getData()), 100);
+                break;
+            case UsbManager.ACTION_USB_DEVICE_ATTACHED:
+                if (intent.hasExtra(UsbManager.EXTRA_DEVICE)) {
+                    final UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+                    devices.add(device);
+                }
+                break;
+            case UsbManager.ACTION_USB_DEVICE_DETACHED:
+                if (intent.hasExtra(UsbManager.EXTRA_DEVICE)) {
+                    final UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+                    devices.remove(device);
+                }
                 break;
         }
     }

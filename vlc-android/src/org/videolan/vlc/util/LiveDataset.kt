@@ -19,6 +19,10 @@ class LiveDataset<T> : MutableLiveData<MutableList<T>>() {
         value = value.apply { add(item) }
     }
 
+    fun add(position: Int, item: T) {
+        value = value.apply { add(position, item) }
+    }
+
     fun add(items: List<T>) {
         value = value.apply { addAll(items.filter { !this.contains(it) }) }
     }
