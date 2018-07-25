@@ -100,7 +100,7 @@ public class StartActivity extends FragmentActivity implements StoragePermission
 
     private void startMedialibrary(final boolean firstRun, final boolean upgrade) {
         if (!VLCApplication.getMLInstance().isInitiated() && Permissions.canReadStorage(StartActivity.this))
-            startService(new Intent(Constants.ACTION_INIT, null, StartActivity.this, MediaParsingService.class)
+            Util.startService(this, new Intent(Constants.ACTION_INIT, null, StartActivity.this, MediaParsingService.class)
                     .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
                     .putExtra(Constants.EXTRA_UPGRADE, upgrade));
     }
