@@ -40,18 +40,6 @@ internal class MRLAdapter(private val playerController: MediaPlayerController) :
         fun playMedia(mw: MediaWrapper)
     }
 
-    inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
-        internal val uriTv: TextView = v.findViewById(R.id.mrl_item_uri)
-        internal val titleTv: TextView = v.findViewById(R.id.mrl_item_title)
-
-        init {
-            itemView.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View) {
-            dataset?.get(layoutPosition)?.let { playerController.playMedia(it) }
-        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MRLAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context)
@@ -70,11 +58,25 @@ internal class MRLAdapter(private val playerController: MediaPlayerController) :
         notifyDataSetChanged()
     }
 
-    fun getItem(position: Int): MediaWrapper? {
-        return if (position >= itemCount || position < 0) null else dataset?.get(position)
+    fun getItem(position: Int): MediaWrapper? = when {
+        position >= itemCount -> null
+        position < 0 -> null
+        else -> dataset?.get(position)
     }
 
-    override fun getItemCount(): Int {
-        return dataset?.size ?: 0
+    override fun getItemCount() = dataset?.size ?: 0
+
+    inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
+        internal val uriTv: TextView = v.findViewById(R.id.mrl_item_uri)
+        internal val titleTv: TextView = v.findViewById(R.id.mrl_item_title)
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View) {
+            dataset?.get(layoutPosition)?.let { playerController.playMedia(it) }
+        }
     }
+
 }

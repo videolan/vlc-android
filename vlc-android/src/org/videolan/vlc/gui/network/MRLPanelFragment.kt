@@ -28,12 +28,15 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
@@ -42,6 +45,7 @@ import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.Constants.KEY_MRL
+import org.videolan.vlc.util.VLCIO
 
 const val TAG = "VLC/MrlPanelFragment"
 
@@ -68,6 +72,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
         adapter = MRLAdapter(this)
         recyclerView.adapter = adapter
         v.findViewById<View>(R.id.send).setOnClickListener(this)
+        dialog.setTitle(R.string.open_mrl_dialog_title);
         return v
     }
 
@@ -90,7 +95,13 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
     }
 
     private fun updateHistory() {
-        adapter.setList(VLCApplication.getMLInstance().lastStreamsPlayed())
+        launch(VLCIO) {
+            //        val history = VLCApplication.getMLInstance().lastStreamsPlayed()
+            /***FOR TEST PURPOSE ONLY REMOVE THIS **/val history = VLCApplication.getMLInstance().lastMediaPlayed()
+            launch(UI) {
+                adapter.setList(history)
+            }
+        }
     }
 
     override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
