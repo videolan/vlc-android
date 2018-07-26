@@ -85,6 +85,9 @@ public class Constants {
     public final static String PLAY_EXTRA_OPENED_POSITION = "opened_position";
     public final static String PLAY_DISABLE_HARDWARE = "disable_hardware";
 
+    // MRLPanelFragment
+    public final static String KEY_MRL = "mrl";
+
     // AudioPlayer
     public final static String PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown";
     public final static String PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown";
