@@ -48,13 +48,13 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.network.MRLPanelFragment.KEY_MRL
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.*
+import org.videolan.vlc.util.Constants.KEY_MRL
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.util.*
 
