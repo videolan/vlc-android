@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.tv
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -84,6 +85,9 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     private lateinit var browserFavRepository: BrowserFavRepository
 
+    var updatedFavoritList: List<MediaWrapper> = listOf()
+    private lateinit var favorites: LiveData<List<MediaWrapper>>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         settings = PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -101,7 +105,15 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         brandColor = ContextCompat.getColor(requireContext(), R.color.orange800)
         backgroundManager = BackgroundManager.getInstance(requireActivity()).apply { attach(requireActivity().window) }
         nowPlayingDelegate = NowPlayingDelegate(this)
+
         browserFavRepository = BrowserFavRepository(requireContext())
+        favorites = browserFavRepository.networkFavorites
+        favorites.observe(this, Observer{
+            it?.let{
+                updatedFavoritList = it
+            }
+            updateBrowsers()
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -193,30 +205,21 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     }
 
     fun updateBrowsers() {
-        uiJob(false) {
-            val list = mutableListOf<MediaLibraryItem>()
-            val directories = AndroidDevices.getMediaDirectoriesList()
-            if (!AndroidDevices.showInternalStorage && !directories.isEmpty()) directories.removeAt(0)
-            for (directory in directories) list.add(directory)
+        val list = mutableListOf<MediaLibraryItem>()
+        val directories = AndroidDevices.getMediaDirectoriesList()
+        if (!AndroidDevices.showInternalStorage && !directories.isEmpty()) directories.removeAt(0)
+        for (directory in directories) list.add(directory)
 
-            if (ExternalMonitor.isLan()) {
-                try {
+        if (ExternalMonitor.isLan()) {
+            list.add(DummyItem(Constants.HEADER_NETWORK, getString(R.string.network_browsing), null))
+            list.add(DummyItem(Constants.HEADER_STREAM, getString(R.string.open_mrl), null))
 
-                    val favs = browserFavRepository.getAllNetworkFavs()
-                    list.add(DummyItem(Constants.HEADER_NETWORK, getString(R.string.network_browsing), null))
-                    list.add(DummyItem(Constants.HEADER_STREAM, getString(R.string.open_mrl), null))
-
-                    if (!favs.isEmpty()) {
-                        for (fav in favs) {
-                            fav.description = fav.uri.scheme
-                            list.add(fav)
-                        }
-                    }
-                } catch (ignored: Exception) {
-                } //SQLite can explode
+            updatedFavoritList.forEach{
+                it.description = it.uri.scheme
+                list.add(it)
             }
-            browserAdapter.setItems(list, diffCallback)
-        }
+    }
+        browserAdapter.setItems(list, diffCallback)
     }
 
     override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {

@@ -32,21 +32,8 @@ import java.util.*
 
 class NetworkProvider(dataset: LiveDataset<MediaLibraryItem>, url: String? = null, showHiddenFiles: Boolean): BrowserProvider(dataset, url, showHiddenFiles) {
 
-    private val browserFavRepository by lazy { BrowserFavRepository(VLCApplication.getAppContext())}
-
     override fun browseRoot() {
         if (ExternalMonitor.allowLan()) browse()
-    }
-
-    suspend fun updateFavorites() : MutableList<MediaLibraryItem> {
-        if (!ExternalMonitor.isConnected()) return mutableListOf()
-        val favs: MutableList<MediaLibraryItem> = browserFavRepository.getAllNetworkFavs().toMutableList()
-        if (!ExternalMonitor.allowLan()) {
-            val schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https")
-            val toRemove = favs.filterNotTo(mutableListOf()) { schemes.contains((it as MediaWrapper).uri.scheme) }
-            if (!toRemove.isEmpty()) for (mw in toRemove) favs.remove(mw)
-        }
-        return favs
     }
 
     override fun fetch() {}
