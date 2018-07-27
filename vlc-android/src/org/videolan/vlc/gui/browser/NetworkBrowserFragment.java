@@ -78,9 +78,9 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (isRootDirectory()) ((NetworkModel) viewModel).getFavorites().observe(this, new Observer<List<MediaLibraryItem>>() {
+        if (isRootDirectory()) ((NetworkModel) viewModel).getFavorites().observe(this, new Observer<List<MediaWrapper>>() {
             @Override
-            public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {
+            public void onChanged(@Nullable List<MediaWrapper> mediaLibraryItems) {
                 getBinding().setShowFavorites(!Util.isListEmpty(mediaLibraryItems));
                 favoritesAdapter.update(mediaLibraryItems);
             }
@@ -183,7 +183,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         switch (option) {
             case Constants.CTX_NETWORK_ADD:
                 mBrowserFavRepository.addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
-                if (isRootDirectory()) ((NetworkModel) getViewModel()).updateFavs();
                 break;
             case Constants.CTX_NETWORK_EDIT:
                 showAddServerDialog(mw);
@@ -193,12 +192,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
                     @Override
                     public void run() {
                         mBrowserFavRepository.deleteBrowserFav(mw.getUri());
-                        WorkersKt.runOnMainThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (isRootDirectory()) ((NetworkModel) getViewModel()).updateFavs();
-                            }
-                        });
                     }
                 });
                 break;
