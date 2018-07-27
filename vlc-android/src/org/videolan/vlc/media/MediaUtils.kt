@@ -239,7 +239,7 @@ object MediaUtils {
         }
     }
 
-    fun retrieveMediaTitle(mw: MediaWrapper) {
+    fun retrieveMediaTitle(mw: MediaWrapper) = try {
         VLCApplication.getAppContext().contentResolver.query(mw.uri, null, null, null, null)?.use {
             val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
             if (nameIndex > -1 && it.count > 0) {
@@ -247,7 +247,7 @@ object MediaUtils {
                 if (!it.isNull(nameIndex)) mw.title = it.getString(nameIndex)
             }
         }
-    }
+    } catch (ignored: UnsupportedOperationException) {}
 
     fun deletePlaylist(playlist: Playlist) = runBackground(Runnable { playlist.delete() })
 }
