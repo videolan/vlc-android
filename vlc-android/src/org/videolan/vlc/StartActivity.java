@@ -67,11 +67,14 @@ public class StartActivity extends FragmentActivity implements StoragePermission
         } else if (Intent.ACTION_SEND.equals(action)) {
             final ClipData cd = intent.getClipData();
             final ClipData.Item item = cd != null && cd.getItemCount() > 0 ? cd.getItemAt(0) : null;
-            final String mrl = item != null ? item.getText().toString() : null;
-            if (mrl != null) {
-                MediaUtils.INSTANCE.openMediaNoUi(Uri.parse(mrl));
-                finish();
-                return;
+            if (item != null) {
+                Uri uri = item.getUri();
+                if (uri == null && item.getText() != null) uri = Uri.parse(item.getText().toString());
+                if (uri != null) {
+                    MediaUtils.INSTANCE.openMediaNoUi(uri);
+                    finish();
+                    return;
+                }
             }
         }
 
