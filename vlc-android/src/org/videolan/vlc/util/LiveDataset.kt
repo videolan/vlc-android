@@ -26,4 +26,8 @@ class LiveDataset<T> : MutableLiveData<MutableList<T>>() {
     fun remove(item: T) {
         value = value.apply { remove(item) }
     }
+
+    fun remove(position: Int) {
+        value = value.apply { removeAt(position) }
+    }
 }
