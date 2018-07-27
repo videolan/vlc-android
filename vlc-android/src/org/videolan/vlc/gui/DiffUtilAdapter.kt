@@ -1,21 +1,20 @@
 package org.videolan.vlc.gui
 
 import android.support.annotation.MainThread
-import android.support.annotation.WorkerThread
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
+import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
-import kotlinx.coroutines.experimental.launch
-import java.util.*
+import kotlinx.coroutines.experimental.withContext
 
 abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
 
     protected var dataset: List<D> = listOf()
     private set
     private val diffCallback by lazy(LazyThreadSafetyMode.NONE) { createCB() }
-    private val updateActor = actor<List<D>>(capacity = Channel.CONFLATED) {
+    private val updateActor = actor<List<D>>(UI, Channel.CONFLATED) {
         for (list in channel) internalUpdate(list)
     }
     protected abstract fun onUpdateFinished()
@@ -25,18 +24,19 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
         updateActor.offer(list)
     }
 
-    @WorkerThread
+    @MainThread
     private suspend fun internalUpdate(list: List<D>) {
-        val finalList = prepareList(list)
-        val result = DiffUtil.calculateDiff(diffCallback.apply { update(dataset, finalList) }, detectMoves())
-        launch(UI) {
-            dataset = finalList
-            result.dispatchUpdatesTo(this@DiffUtilAdapter)
-            onUpdateFinished()
-        }.join()
+        val (finalList, result) = withContext(CommonPool) {
+            val finalList = prepareList(list)
+            val result = DiffUtil.calculateDiff(diffCallback.apply { update(dataset, finalList) }, detectMoves())
+            Pair(finalList, result)
+        }
+        dataset = finalList
+        result.dispatchUpdatesTo(this@DiffUtilAdapter)
+        onUpdateFinished()
     }
 
-    protected open fun prepareList(list: List<D>) : List<D> = ArrayList(list)
+    protected open fun prepareList(list: List<D>) : List<D> = list.toList()
 
     @MainThread
     fun isEmpty() = dataset.isEmpty()
