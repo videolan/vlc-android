@@ -20,8 +20,10 @@
  */
 package org.videolan.vlc.gui.network
 
+import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
+import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +31,7 @@ import android.widget.TextView
 
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
+import org.videolan.vlc.databinding.MrlItemBinding
 
 internal class MRLAdapter(private val playerController: MediaPlayerController) : RecyclerView.Adapter<MRLAdapter.ViewHolder>() {
     private var dataset: Array<MediaWrapper>? = null
@@ -42,9 +45,9 @@ internal class MRLAdapter(private val playerController: MediaPlayerController) :
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MRLAdapter.ViewHolder {
-        val v = LayoutInflater.from(parent.context)
-                .inflate(R.layout.mrl_item, parent, false)
-        return ViewHolder(v)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding: MrlItemBinding = DataBindingUtil.inflate(inflater, R.layout.mrl_item, parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -53,7 +56,7 @@ internal class MRLAdapter(private val playerController: MediaPlayerController) :
         holder.titleTv.text = Uri.decode(item?.title)
     }
 
-    fun setList(list: Array<MediaWrapper>) {
+    fun setList(list: Array<MediaWrapper>?) {
         dataset = list
         notifyDataSetChanged()
     }
@@ -66,9 +69,9 @@ internal class MRLAdapter(private val playerController: MediaPlayerController) :
 
     override fun getItemCount() = dataset?.size ?: 0
 
-    inner class ViewHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
-        internal val uriTv: TextView = v.findViewById(R.id.mrl_item_uri)
-        internal val titleTv: TextView = v.findViewById(R.id.mrl_item_title)
+    inner class ViewHolder(val binding: MrlItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+        internal val uriTv: TextView = binding.mrlItemUri
+        internal val titleTv: TextView = binding.mrlItemTitle
 
         init {
             itemView.setOnClickListener(this)
