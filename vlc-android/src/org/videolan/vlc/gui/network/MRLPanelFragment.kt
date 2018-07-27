@@ -20,88 +20,65 @@
  */
 package org.videolan.vlc.gui.network
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.DialogFragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.databinding.MrlPanelBinding
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.Constants.KEY_MRL
-import org.videolan.vlc.util.VLCIO
+import org.videolan.vlc.viewmodels.MRLPanelModel
 
 const val TAG = "VLC/MrlPanelFragment"
 
 class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener, MRLAdapter.MediaPlayerController {
     private lateinit var adapter: MRLAdapter
     private lateinit var editText: TextInputLayout
-
-    val isEmpty: Boolean
-        get() = adapter.isEmpty
+    private lateinit var viewModel: MRLPanelModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NO_FRAME, 0)
+        viewModel = ViewModelProviders.of(this).get(MRLPanelModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val v = inflater.inflate(R.layout.mrl_panel, container, false)
-        editText = v.findViewById(R.id.mrl_edit)
+        val binding = MrlPanelBinding.inflate(inflater, container, false)
+        binding.viewmodel = viewModel
+        editText = binding.mrlEdit
         editText.editText?.setOnKeyListener(this)
         editText.editText?.setOnEditorActionListener(this)
-        val recyclerView = v.findViewById<RecyclerView>(R.id.mrl_list)
+
+        adapter = MRLAdapter(this)
+        val recyclerView = binding.mrlList
         recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        adapter = MRLAdapter(this)
         recyclerView.adapter = adapter
-        v.findViewById<View>(R.id.send).setOnClickListener(this)
-        dialog.setTitle(R.string.open_mrl_dialog_title);
-        return v
+        viewModel.observableHistory.observe(this, Observer { adapter.setList(it) })
+        binding.send.setOnClickListener(this)
+
+        dialog.setTitle(R.string.open_mrl_dialog_title)
+        return binding.root
     }
 
     override fun onStart() {
         super.onStart()
-        updateHistory()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(KEY_MRL, editText.editText?.text.toString())
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        val mrl = savedInstanceState?.getString(KEY_MRL)
-        mrl?.let {
-            editText.editText?.setText(mrl)
-        }
-    }
-
-    private fun updateHistory() {
-        launch(VLCIO) {
-            //        val history = VLCApplication.getMLInstance().lastStreamsPlayed()
-            /***FOR TEST PURPOSE ONLY REMOVE THIS **/val history = VLCApplication.getMLInstance().lastMediaPlayed()
-            launch(UI) {
-                adapter.setList(history)
-            }
-        }
+        viewModel.updateHistory()
     }
 
     override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
@@ -111,10 +88,10 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
     }
 
     private fun processUri(): Boolean {
-        if (!TextUtils.isEmpty(editText.editText?.text)) {
-            val mw = MediaWrapper(Uri.parse(editText.editText?.text.toString().trim()))
+        if (!TextUtils.isEmpty(viewModel.observableSearchText.get())) {
+            val mw = MediaWrapper(Uri.parse(viewModel.observableSearchText.get()))
             playMedia(mw)
-            editText.editText?.text?.clear()
+            viewModel.observableSearchText.set("")
             return true
         }
         return false
@@ -123,7 +100,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
     override fun playMedia(mw: MediaWrapper) {
         mw.type = MediaWrapper.TYPE_STREAM
         MediaUtils.openMedia(activity, mw)
-        updateHistory()
+        viewModel.updateHistory()
         activity?.supportInvalidateOptionsMenu()
         UiTools.setKeyboardVisibility(editText, false)
         dismiss()
@@ -140,6 +117,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
     override fun onDestroy() {
         super.onDestroy()
         val activity = activity
+        // TV
         (activity as? DialogActivity)?.finish()
     }
 
