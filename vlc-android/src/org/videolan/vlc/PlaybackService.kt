@@ -586,7 +586,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     fun onMediaPlayerEvent(event: MediaPlayer.Event) = mediaPlayerListener.onEvent(event)
 
     fun onPlaybackStopped(systemExit: Boolean) {
-        if (!systemExit) hideNotification(VLCApplication.isForeground())
+        if (!systemExit) hideNotification(isForeground)
         removePopup()
         if (wakeLock.isHeld) wakeLock.release()
         audioFocusHelper.changeAudioFocus(false)
