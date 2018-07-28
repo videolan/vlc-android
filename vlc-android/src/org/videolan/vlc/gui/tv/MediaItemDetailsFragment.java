@@ -81,6 +81,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         super.onCreate(savedInstanceState);
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.setAutoReleaseOnStop(false);
+        mBrowserFavRepository = new BrowserFavRepository(getActivity().getApplicationContext());
         buildDetails();
     }
 
@@ -204,7 +205,6 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         if (isDetached())
                             return;
                         if (media.getType() == MediaWrapper.TYPE_DIR && FileUtils.canSave(media)) {
-                            mBrowserFavRepository = new BrowserFavRepository(VLCApplication.getAppContext());
                             detailsOverview.setImageDrawable(ContextCompat.getDrawable(activity, TextUtils.equals(media.getUri().getScheme(),"file")
                                     ? R.drawable.ic_menu_folder_big
                                     : R.drawable.ic_menu_network_big));

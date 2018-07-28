@@ -20,6 +20,8 @@
 
 package org.videolan.vlc.repository
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Transformations
 import android.content.Context
 import android.net.Uri
 import android.support.annotation.WorkerThread
@@ -57,22 +59,25 @@ class BrowserFavRepository @JvmOverloads constructor(context: Context,
         return browserFavDao.get(uri).isNotEmpty()
     }
 
-    @WorkerThread
-    fun getAllBrowserFavs(): List<MediaWrapper> {
-        val allBrowserFavs = browserFavDao.getAll()
-        return createMediaWrapperObjects(allBrowserFavs)
-    }
-
-    suspend fun getAllNetworkFavs(): List<MediaWrapper> {
-        return withContext(VLCIO) {
-            val allNetworkFavs = browserFavDao.getAllNetwrokFavs()
-            createMediaWrapperObjects(allNetworkFavs)
+    fun getAllBrowserFavs(): LiveData<List<MediaWrapper>> {
+        val allBrowserFavsLiveData = browserFavDao.getAll()
+        return Transformations.map(allBrowserFavsLiveData) {
+            createMediaWrapperObjects(it)
         }
     }
 
-    fun getAllLocalFavs(): List<MediaWrapper> {
-        val allLocalFavs = browserFavDao.getAllLocalFavs()
-        return createMediaWrapperObjects(allLocalFavs)
+    fun getAllNetworkFavs(): LiveData<List<MediaWrapper>> {
+        val allNetworkFavsLiveData = browserFavDao.getAllNetwrokFavs()
+        return Transformations.map(allNetworkFavsLiveData){
+            createMediaWrapperObjects(it)
+        }
+    }
+
+    fun getAllLocalFavs(): LiveData<List<MediaWrapper>> {
+        val allLocalFavsLiveData = browserFavDao.getAllLocalFavs()
+        return Transformations.map(allLocalFavsLiveData) {
+            createMediaWrapperObjects(it)
+        }
     }
 
     private fun createMediaWrapperObjects(allBrowserFavs: List<BrowserFav>): List<MediaWrapper> {

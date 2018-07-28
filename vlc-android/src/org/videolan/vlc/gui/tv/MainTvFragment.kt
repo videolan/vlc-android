@@ -23,7 +23,9 @@
 
 package org.videolan.vlc.gui.tv
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.SharedPreferences
@@ -34,7 +36,6 @@ import android.support.v17.leanback.app.BrowseSupportFragment
 import android.support.v17.leanback.widget.*
 import android.support.v4.content.ContextCompat
 import android.view.View
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.DummyItem
@@ -50,9 +51,9 @@ import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Constants
-import org.videolan.vlc.util.uiJob
 import org.videolan.vlc.viewmodels.HistoryModel
 import org.videolan.vlc.viewmodels.VideosModel
+import java.util.*
 
 private const val NUM_ITEMS_PREVIEW = 5
 private const val TAG = "VLC/MainTvFragment"
@@ -84,6 +85,21 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     private lateinit var browserFavRepository: BrowserFavRepository
 
+    val favorites : LiveData<List<MediaWrapper>> by lazy {
+        val allNetworkFavs = browserFavRepository.getAllNetworkFavs()
+        Transformations.map(allNetworkFavs) { favs ->
+            if (!ExternalMonitor.isConnected())  return@map listOf<MediaLibraryItem>()
+
+            if (!ExternalMonitor.allowLan()) {
+                val schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https")
+                return@map favs?.filter { schemes.contains(it.uri.scheme) }
+            }
+            favs
+        } as LiveData<List<MediaWrapper>>
+    }
+
+    var updatedFavoritList: List<MediaWrapper> = listOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         settings = PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -102,6 +118,13 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         backgroundManager = BackgroundManager.getInstance(requireActivity()).apply { attach(requireActivity().window) }
         nowPlayingDelegate = NowPlayingDelegate(this)
         browserFavRepository = BrowserFavRepository(requireContext())
+
+        favorites.observe(this, Observer{
+            it?.let{
+                updatedFavoritList = it
+            }
+            updateBrowsers()
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -192,31 +215,28 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         return true
     }
 
+
+
     fun updateBrowsers() {
-        uiJob(false) {
-            val list = mutableListOf<MediaLibraryItem>()
-            val directories = AndroidDevices.getMediaDirectoriesList()
-            if (!AndroidDevices.showInternalStorage && !directories.isEmpty()) directories.removeAt(0)
-            for (directory in directories) list.add(directory)
+        val list = mutableListOf<MediaLibraryItem>()
+        val directories = AndroidDevices.getMediaDirectoriesList()
+        if (!AndroidDevices.showInternalStorage && !directories.isEmpty()) directories.removeAt(0)
+        for (directory in directories) list.add(directory)
 
-            if (ExternalMonitor.isLan()) {
-                try {
+        if (ExternalMonitor.allowLan()) {
+            try {
 
-                    val favs = browserFavRepository.getAllNetworkFavs()
-                    list.add(DummyItem(Constants.HEADER_NETWORK, getString(R.string.network_browsing), null))
-                    list.add(DummyItem(Constants.HEADER_STREAM, getString(R.string.open_mrl), null))
+                list.add(DummyItem(Constants.HEADER_NETWORK, getString(R.string.network_browsing), null))
+                list.add(DummyItem(Constants.HEADER_STREAM, getString(R.string.open_mrl), null))
 
-                    if (!favs.isEmpty()) {
-                        for (fav in favs) {
-                            fav.description = fav.uri.scheme
-                            list.add(fav)
-                        }
-                    }
-                } catch (ignored: Exception) {
-                } //SQLite can explode
-            }
-            browserAdapter.setItems(list, diffCallback)
+                updatedFavoritList.forEach{
+                    it.description = it.uri.scheme
+                    list.add(it)
+                }
+            } catch (ignored: Exception) {
+            } //SQLite can explode
         }
+        browserAdapter.setItems(list, diffCallback)
     }
 
     override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {

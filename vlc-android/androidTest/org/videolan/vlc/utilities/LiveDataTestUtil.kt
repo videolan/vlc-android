@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  BrowserFavDao.kt
+ *  LiveDataTestUtil.kt
  * ****************************************************************************
  * Copyright © 2018 VLC authors and VideoLAN
  *
@@ -18,35 +18,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  ******************************************************************************/
 
-package org.videolan.vlc.database
+package org.videolan.vlc.utilities
 
 import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
-import android.net.Uri
-import org.videolan.vlc.database.models.BrowserFav
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
+/**
+ * https://github.com/googlesamples/android-sunflower/blob/ee23fbc7608ea99a6fdd008885f0ae09d842dd47/app/src/androidTest/java/com/google/samples/apps/sunflower/utilities/LiveDataTestUtil.kt*
+ *
+ * Helper method for testing LiveData objects, from
+ * https://github.com/googlesamples/android-architecture-components.
+ *
+ * Get the value from a LiveData object. We're waiting for LiveData to emit, for 2 seconds.
+ * Once we got a notification via onChanged, we stop observing.
+ */
+@Throws(InterruptedException::class)
+fun <T> getValue(liveData: LiveData<T>): T {
+    val data = arrayOfNulls<Any>(1)
+    val latch = CountDownLatch(1)
+    liveData.observeForever { o ->
+        data[0] = o
+        latch.countDown()
+    }
+    latch.await(2, TimeUnit.SECONDS)
 
-@Dao
-interface BrowserFavDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(browserFav: BrowserFav)
-
-    @Query("SELECT * FROM fav_table where uri = :uri")
-    fun get(uri: Uri): List<BrowserFav>
-
-    @Query("SELECT * from fav_table")
-    fun getAll(): LiveData<List<BrowserFav>>
-
-    @Query("SELECT * from fav_table where type = 0")
-    fun getAllNetwrokFavs(): LiveData<List<BrowserFav>>
-
-    @Query("SELECT * from fav_table where type = 1")
-    fun getAllLocalFavs(): LiveData<List<BrowserFav>>
-
-    @Query("DELETE from fav_table where uri = :uri")
-    fun delete(uri: Uri)
-
+    @Suppress("UNCHECKED_CAST")
+    return data[0] as T
 }
