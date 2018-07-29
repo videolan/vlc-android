@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?attr/background_default_darker"
-            android:padding="@dimen/default_margin"
+            android:padding="32dp"
             android:layoutDirection="ltr">
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -23,6 +23,7 @@
                 android:layout_toLeftOf="@+id/send"
                 android:layout_toStartOf="@+id/send"
                 android:layout_marginTop="5dip"
+                android:layout_marginBottom="16dp"
                 android:id="@+id/mrl_edit">
 
                 <!--android:paddingTop ==> Space between cursor and top hint-->
@@ -31,13 +32,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_margin="10dp"
                     android:hint="@string/open_mrl_dialog_msg"
                     android:inputType="textUri"
                     android:text="@{viewmodel.observableSearchText}"
                     android:textColor="?font_default"
                     android:afterTextChanged="@{viewmodel::afterSearchTextChanged}"
                     android:maxLines="2"
+                    android:layout_marginRight="8dp"
                     android:paddingTop="10dp"
                     android:paddingBottom="5dp"
                     android:textCursorDrawable="@drawable/cursor_o"
@@ -53,15 +54,11 @@
                 android:layout_alignBottom="@+id/mrl_edit"
                 android:layout_alignTop="@+id/mrl_edit"
                 android:scaleType="center"
-                android:src="@drawable/ic_send"
-                android:layout_marginRight="10dp"
-                android:layout_marginEnd="10dp"/>
+                android:src="@drawable/ic_send"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/mrl_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="15dp"
                 android:layout_below="@+id/mrl_edit"
                 android:background="?attr/background_default"/>
         </RelativeLayout>
