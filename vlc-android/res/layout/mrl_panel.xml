@@ -24,6 +24,9 @@
                 android:layout_toStartOf="@+id/send"
                 android:layout_marginTop="5dip"
                 android:id="@+id/mrl_edit">
+
+                <!--android:paddingTop ==> Space between cursor and top hint-->
+                <!--android:paddingBottom ==> Space between cursor and bottom border-->
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -32,8 +35,13 @@
                     android:hint="@string/open_mrl_dialog_msg"
                     android:inputType="textUri"
                     android:text="@{viewmodel.observableSearchText}"
+                    android:textColor="?font_default"
                     android:afterTextChanged="@{viewmodel::afterSearchTextChanged}"
                     android:maxLines="2"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="5dp"
+                    android:textCursorDrawable="@drawable/cursor_o"
+                    android:background="@drawable/edittext_bottom_border"
                     android:imeOptions="actionGo"/>
             </android.support.design.widget.TextInputLayout>
             <ImageView
