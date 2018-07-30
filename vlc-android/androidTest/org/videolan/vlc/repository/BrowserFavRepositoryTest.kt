@@ -60,7 +60,7 @@ class BrowserFavRepositoryTest {
         val browserFavs = getValue(browserFavRepository.browserFavorites)
         assertThat(browserFavs[0].uri, equalTo(uri))
         assertThat(browserFavs[0].title, equalTo(title))
-        assertNull(browserFavs[0].artworkURL)
+        assertNull(browserFavs[0].iconUrl)
     }
 
     @Test fun deleteBrowserFav() = runBlocking {

@@ -46,9 +46,7 @@ class BrowserFavRepository @JvmOverloads constructor(context: Context,
 ) {
 
 
-    private val browserFavs by lazy { browserFavDao.getAll() }
     private val networkFavs by lazy { browserFavDao.getAllNetwrokFavs() }
-    private val localFavs by lazy { browserFavDao.getAllLocalFavs() }
 
     fun addNetworkFavItem(uri: Uri, title: String, iconUrl: String?): Job {
         return launch(VLCIO) {
@@ -65,22 +63,21 @@ class BrowserFavRepository @JvmOverloads constructor(context: Context,
     val networkFavorites by lazy {
         MediatorLiveData<List<MediaWrapper>>().apply {
             addSource(networkFavs) { value = createMediaWrapperObjects(it).filterNetworkFavs() }
-            addSource(ExternalMonitor.connected) { uiJob { value = if (it == true) getCurrentFavorites(networkFavs).filterNetworkFavs() else emptyList() } }
+            addSource(ExternalMonitor.connected) {
+                uiJob {
+                    val favList = getCurrentFavorites(networkFavs)
+                    if (favList.isNotEmpty()) value = if (it == true) favList.filterNetworkFavs() else emptyList()
+                }
+            }
         }
     }
 
     val browserFavorites by lazy {
-        MediatorLiveData<List<MediaWrapper>>().apply {
-            addSource(browserFavs) { value = createMediaWrapperObjects(it) }
-            addSource(ExternalMonitor.connected) { uiJob { value = if (it == true) getCurrentFavorites(browserFavs) else emptyList() } }
-        }
+        browserFavDao.getAll()
     }
 
     val localFavorites by lazy {
-        MediatorLiveData<List<MediaWrapper>>().apply {
-            addSource(localFavs) { value = createMediaWrapperObjects(it) }
-            addSource(ExternalMonitor.connected) { uiJob { value = if (it == true) getCurrentFavorites(localFavs) else emptyList() } }
-        }
+        browserFavDao.getAllLocalFavs()
     }
 
     @WorkerThread
