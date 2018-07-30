@@ -179,7 +179,10 @@ public class MediaWrapperList {
             final MediaWrapper media = iter.next();
             if (media.getId() == 0L) {
                 final MediaWrapper mw = ml.findMedia(media);
-                if (mw.getId() != 0) iter.set(mw);
+                if (mw.getId() != 0) {
+                    if (mw.getType() == MediaWrapper.TYPE_ALL) mw.setType(media.getType());
+                    iter.set(mw);
+                }
             }
         }
     }

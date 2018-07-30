@@ -300,7 +300,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     if (internalMedia != null && internalMedia.id != 0L)
                         id = internalMedia.id
                     else {
-                        internalMedia = medialibrary.addMedia(Uri.decode(mw.uri.toString()))
+                        internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM) medialibrary.addStream(Uri.decode(mw.uri.toString()), mw.title) else medialibrary.addMedia(Uri.decode(mw.uri.toString()))
                         if (internalMedia != null)
                             id = internalMedia.id
                     }
@@ -536,6 +536,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @MainThread
     private suspend fun expand(updateHistory: Boolean): Int {
         val index = currentIndex
+        val stream = getCurrentMedia()?.type == MediaWrapper.TYPE_STREAM
         val ml = player.expand()
         var ret = -1
 
@@ -548,7 +549,12 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 mediaList.insert(index, MediaWrapper(child))
                 child.release()
             }
-            if (mrl !== null && ml.count == 1) medialibrary.addToHistory(mrl, getCurrentMedia()!!.title)
+            if (mrl !== null && ml.count == 1) {
+                if (stream) {
+                    getCurrentMedia()!!.type = MediaWrapper.TYPE_STREAM
+                    medialibrary.addStream(mrl, getCurrentMedia()!!.title)
+                } else medialibrary.addToHistory(mrl, getCurrentMedia()!!.title)
+            }
             ret = index
         }
         ml?.release()
@@ -662,7 +668,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 MediaPlayer.Event.Playing -> {
                     medialibrary.pauseBackgroundOperations()
                     videoBackground = false
-                    val mw = withContext(VLCIO) { medialibrary.findMedia(getCurrentMedia()) }
+                    val mw = withContext(VLCIO) {
+                        val current = getCurrentMedia()
+                        medialibrary.findMedia(current).apply { if (type == -1) type = current?.type ?: -1 }
+                    }
                     if (newMedia) {
                         loadMediaMeta(mw)
                         if (mw.type == MediaWrapper.TYPE_STREAM) medialibrary.addToHistory(mw.location, mw.title)
@@ -689,7 +698,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 MediaPlayer.Event.EncounteredError -> {
                     service.showToast(service.getString(
                             R.string.invalid_location,
-                            getCurrentMedia()?.getLocation() ?: ""), Toast.LENGTH_SHORT)
+                            getCurrentMedia()?.location ?: ""), Toast.LENGTH_SHORT)
                     if (currentIndex != nextIndex) next() else stop()
                 }
             }
