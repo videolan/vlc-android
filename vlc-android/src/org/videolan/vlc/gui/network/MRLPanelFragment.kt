@@ -106,9 +106,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
         dismiss()
     }
 
-    override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent): Boolean {
-        return false
-    }
+    override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent) = false
 
     override fun onClick(v: View) {
         processUri()
@@ -116,9 +114,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
 
     override fun onDestroy() {
         super.onDestroy()
-        val activity = activity
         // TV
         (activity as? DialogActivity)?.finish()
     }
-
 }
