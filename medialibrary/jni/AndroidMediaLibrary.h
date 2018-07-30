@@ -63,6 +63,7 @@ public:
     medialibrary::MediaPtr media(long id);
     medialibrary::MediaPtr media(const std::string& mrl);
     medialibrary::MediaPtr addMedia(const std::string& mrl);
+    medialibrary::MediaPtr addStream(const std::string& mrl, const std::string& title);
     std::vector<medialibrary::MediaPtr> videoFiles( const medialibrary::QueryParameters* params = nullptr );
     std::vector<medialibrary::MediaPtr> audioFiles( const medialibrary::QueryParameters* params = nullptr );
     std::vector<medialibrary::AlbumPtr> albums(const medialibrary::QueryParameters* params);

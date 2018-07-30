@@ -250,11 +250,18 @@ AndroidMediaLibrary::media(const std::string& mrl)
     return p_ml->media(mrl);
 }
 
-
 medialibrary::MediaPtr
 AndroidMediaLibrary::addMedia(const std::string& mrl)
 {
     return p_ml->addExternalMedia(mrl);
+}
+
+medialibrary::MediaPtr
+AndroidMediaLibrary::addStream(const std::string& mrl, const std::string& title)
+{
+    auto media = p_ml->addStream(mrl);
+    if (media != nullptr) media->setTitle(title);
+    return media;
 }
 
 std::vector<medialibrary::MediaPtr>

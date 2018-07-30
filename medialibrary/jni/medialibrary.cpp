@@ -470,6 +470,17 @@ addMedia(JNIEnv* env, jobject thiz, jstring mrl) {
     return mw;
 }
 
+jobject
+addStream(JNIEnv* env, jobject thiz, jstring mrl, jstring title) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    const char *char_mrl = env->GetStringUTFChars(mrl, JNI_FALSE);
+    const char *char_title = env->GetStringUTFChars(title, JNI_FALSE);
+    jobject mw = mediaToMediaWrapper(env, &ml_fields, aml->addStream(char_mrl, char_title));
+    env->ReleaseStringUTFChars(mrl, char_mrl);
+    env->ReleaseStringUTFChars(title, char_title);
+    return mw;
+}
+
 jobjectArray
 getAlbums(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
 {
@@ -890,6 +901,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetMedia", "(J)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMedia },
     {"nativeGetMediaFromMrl", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getMediaFromMrl },
     {"nativeAddMedia", "(Ljava/lang/String;)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)addMedia },
+    {"nativeAddStream", "(Ljava/lang/String;Ljava/lang/String;)Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)addStream },
     {"nativeGetVideoCount", "()I", (void*)getVideoCount },
     {"nativeGetAudioCount", "()I", (void*)getAudioCount },
     {"nativeGetAlbums", "(IZ)[Lorg/videolan/medialibrary/media/Album;", (void*)getAlbums },

@@ -345,6 +345,13 @@ public class Medialibrary {
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeAddMedia(vlcMrl) : null;
     }
 
+    @Nullable
+    public MediaWrapper addStream(String mrl, String title) {
+        final String vlcMrl = Tools.encodeVLCMrl(mrl);
+        final String vlcTitle = Tools.encodeVLCMrl(title);
+        return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeAddStream(vlcMrl, vlcTitle) : null;
+    }
+
     public void requestThumbnail(long id) {
         if (mIsInitiated) nativeRequestThumbnail(id);
     }
@@ -711,6 +718,7 @@ public class Medialibrary {
     private native MediaWrapper nativeGetMedia(long id);
     private native MediaWrapper nativeGetMediaFromMrl(String mrl);
     private native MediaWrapper nativeAddMedia(String mrl);
+    private native MediaWrapper nativeAddStream(String mrl, String title);
     private native MediaWrapper[] nativeGetVideos();
     private native MediaWrapper[] nativeGetSortedVideos(int sort, boolean desc);
     private native MediaWrapper[] nativeGetRecentVideos();
