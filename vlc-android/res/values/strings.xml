@@ -605,4 +605,5 @@
     <string name="audio_digital_title">Digital audio output (passthrough)</string>
     <string name="playback_rewind">Rewind</string>
     <string name="playback_forward">Fast forward</string>
+    <string name="cast_option_title">Cast medias on another screen</string>
 </resources>
