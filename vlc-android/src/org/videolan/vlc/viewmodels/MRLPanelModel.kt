@@ -23,7 +23,6 @@ package org.videolan.vlc.viewmodels
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
-import android.text.Editable
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.VLCApplication
@@ -33,11 +32,6 @@ import org.videolan.vlc.util.uiJob
 
 class MRLPanelModel: ViewModel() {
      val observableSearchText = ObservableField<String>()
-     fun afterSearchTextChanged(s: Editable?) {
-         if (s.toString() != observableSearchText.get())
-              observableSearchText.set(s.toString())
-     }
-
      val observableHistory = MutableLiveData<Array<MediaWrapper>>()
 
     fun updateHistory() = uiJob {
