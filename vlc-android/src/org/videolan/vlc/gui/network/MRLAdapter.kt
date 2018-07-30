@@ -28,21 +28,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import kotlinx.coroutines.experimental.channels.SendChannel
+import org.videolan.libvlc.Media
 
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlItemBinding
 
-internal class MRLAdapter(private val playerController: MediaPlayerController) : RecyclerView.Adapter<MRLAdapter.ViewHolder>() {
+internal class MRLAdapter(private val eventActor: SendChannel<MediaWrapper>) : RecyclerView.Adapter<MRLAdapter.ViewHolder>() {
     private var dataset: Array<MediaWrapper>? = null
 
     val isEmpty: Boolean
         get() = itemCount == 0
-
-    internal interface MediaPlayerController {
-        fun playMedia(mw: MediaWrapper)
-    }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MRLAdapter.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -78,7 +75,7 @@ internal class MRLAdapter(private val playerController: MediaPlayerController) :
         }
 
         override fun onClick(v: View) {
-            dataset?.get(layoutPosition)?.let { playerController.playMedia(it) }
+            dataset?.get(layoutPosition)?.let { eventActor.offer(it) }
         }
     }
 

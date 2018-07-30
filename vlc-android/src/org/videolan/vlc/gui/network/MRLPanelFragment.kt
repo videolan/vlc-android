@@ -35,6 +35,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.channels.actor
 
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
@@ -46,10 +48,14 @@ import org.videolan.vlc.viewmodels.MRLPanelModel
 
 const val TAG = "VLC/MrlPanelFragment"
 
-class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener, MRLAdapter.MediaPlayerController {
+class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener {
     private lateinit var adapter: MRLAdapter
     private lateinit var editText: TextInputLayout
     private lateinit var viewModel: MRLPanelModel
+
+    private val listEventActor = actor<MediaWrapper>(UI) {
+        for (event in channel) playMedia(event)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +70,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
         editText.editText?.setOnKeyListener(this)
         editText.editText?.setOnEditorActionListener(this)
 
-        adapter = MRLAdapter(this)
+        adapter = MRLAdapter(listEventActor)
         val recyclerView = binding.mrlList
         recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(activity)
@@ -97,7 +103,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
         return false
     }
 
-    override fun playMedia(mw: MediaWrapper) {
+    private fun playMedia(mw: MediaWrapper) {
         mw.type = MediaWrapper.TYPE_STREAM
         MediaUtils.openMedia(activity, mw)
         viewModel.updateHistory()

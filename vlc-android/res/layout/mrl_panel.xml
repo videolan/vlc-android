@@ -3,8 +3,6 @@
     <data>
         <variable name="viewmodel"
             type="org.videolan.vlc.viewmodels.MRLPanelModel"/>
-        <variable name="handler"
-            type="org.videolan.vlc.gui.network.MRLAdapter.MediaPlayerController"/>
     </data>
 
     <android.support.v4.widget.NestedScrollView
