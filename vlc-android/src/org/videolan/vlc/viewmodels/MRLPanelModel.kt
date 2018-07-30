@@ -46,8 +46,7 @@ class MRLPanelModel: ViewModel() {
 
      fun updateHistory() {
           launch(VLCIO) {
-               //        val history = VLCApplication.getMLInstance().lastStreamsPlayed()
-               /***FOR TEST PURPOSE ONLY REMOVE THIS **/val history = VLCApplication.getMLInstance().lastMediaPlayed()
+               val history = VLCApplication.getMLInstance().lastStreamsPlayed()
                launch(UI) {
                    observableHistory.value = history
                }
