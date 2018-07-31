@@ -119,7 +119,7 @@ open class FileBrowserProvider(dataset: LiveDataset<MediaLibraryItem>, url: Stri
     override fun refresh() = true
 
     override fun release(): Job {
-        ExternalMonitor.devices.removeObserver(this)
+        if (url == null) ExternalMonitor.devices.removeObserver(this)
         return super.release()
     }
 

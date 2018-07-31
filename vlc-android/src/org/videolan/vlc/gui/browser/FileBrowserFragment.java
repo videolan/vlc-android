@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.net.Uri;
@@ -35,6 +36,7 @@ import android.view.View;
 import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.hf.OtgAccess;
 import org.videolan.vlc.util.AndroidDevices;
@@ -92,25 +94,37 @@ public class FileBrowserFragment extends BaseBrowserFragment {
             final MediaWrapper mw = (MediaWrapper) item;
             if ("otg://".equals(mw.getLocation())) {
                 final String title = getString(R.string.otg_device_title);
-                OtgAccess.Companion.getOtgRoot().observeForever(new Observer<Uri>() {
-                    @Override
-                    public void onChanged(@Nullable Uri uri) {
-                        OtgAccess.Companion.getOtgRoot().removeObserver(this);
-                        final MediaWrapper mw = new MediaWrapper(uri);
-                        mw.setType(MediaWrapper.TYPE_DIR);
-                        mw.setTitle(title);
-                        getHandler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                browse(mw, true);
+                final LiveData<Uri> otgRoot = OtgAccess.Companion.getOtgRoot();
+                final Uri rootUri = otgRoot.getValue();
+                if (rootUri != null && ExternalMonitor.devices.getValue().size() == 1) {
+                    browseOtgDevice(rootUri, title);
+                } else {
+                    otgRoot.observeForever(new Observer<Uri>() {
+                        @Override
+                        public void onChanged(@Nullable Uri uri) {
+                            if (uri != null) {
+                                OtgAccess.Companion.getOtgRoot().removeObserver(this);
+                                browseOtgDevice(uri, title);
                             }
-                        });
-                    }
-                });
-                OtgAccess.Companion.requestOtgRoot(requireActivity());
+                        }
+                    });
+                    OtgAccess.Companion.requestOtgRoot(requireActivity());
+                }
                 return;
             }
         }
         super.onClick(v, position, item);
+    }
+
+    private void browseOtgDevice(@NotNull Uri uri, @NotNull String title) {
+        final MediaWrapper mw = new MediaWrapper(uri);
+        mw.setType(MediaWrapper.TYPE_DIR);
+        mw.setTitle(title);
+        getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                browse(mw, true);
+            }
+        });
     }
 }

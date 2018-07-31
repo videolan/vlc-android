@@ -49,6 +49,7 @@ import android.text.TextUtils;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.helpers.hf.OtgAccess;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.LiveDataset;
 import org.videolan.vlc.util.Strings;
@@ -60,6 +61,8 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
+import videolan.org.commontools.LiveEvent;
+
 public class ExternalMonitor extends BroadcastReceiver implements LifecycleObserver {
     public final static String TAG = "VLC/ExternalMonitor";
     public static volatile MutableLiveData<Boolean> connected = new MutableLiveData<>();
@@ -68,7 +71,7 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
     private static final ExternalMonitor instance = new ExternalMonitor();
     private static WeakReference<Activity> storageObserver = null;
 
-    public static LiveDataset<UsbDevice> devices;
+    public static LiveDataset<UsbDevice> devices = new LiveDataset<>();
 
     public ExternalMonitor() {
         ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
@@ -101,7 +104,6 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
                 }
             });
         }
-        devices = new LiveDataset<>();
         final UsbManager usbManager = (UsbManager) ctx.getSystemService(Context.USB_SERVICE);
         devices.add(new ArrayList<>(usbManager.getDeviceList().values()));
     }
@@ -111,6 +113,7 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
         final Context ctx = VLCApplication.getAppContext();
         ctx.unregisterReceiver(instance);
         connected.setValue(false);
+        devices.clear();
     }
 
     public static ExternalMonitor getInstance() {
@@ -150,6 +153,7 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
                 break;
             case UsbManager.ACTION_USB_DEVICE_DETACHED:
                 if (intent.hasExtra(UsbManager.EXTRA_DEVICE)) {
+                    ((LiveEvent<Uri>)OtgAccess.Companion.getOtgRoot()).call();
                     final UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
                     devices.remove(device);
                 }
