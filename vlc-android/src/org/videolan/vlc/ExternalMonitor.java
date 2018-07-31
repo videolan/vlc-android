@@ -91,13 +91,16 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
     }
 
     private static void checkNewStorages(final Context ctx) {
-        if (VLCApplication.getMLInstance().isInitiated())
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
+        if (VLCApplication.getMLInstance().isInitiated()) {
+            final int scanOpt = VLCApplication.showTvUi() ? Constants.ML_SCAN_ON
+                    : PreferenceManager.getDefaultSharedPreferences(ctx).getInt(Constants.KEY_MEDIALIBRARY_SCAN, -1);
+            if (scanOpt == Constants.ML_SCAN_ON) new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    ctx.startService(new Intent(Constants.ACTION_CHECK_STORAGES, null,ctx, MediaParsingService.class));
+                    ctx.startService(new Intent(Constants.ACTION_CHECK_STORAGES, null, ctx, MediaParsingService.class));
                 }
             });
+        }
         devices = new LiveDataset<>();
         final UsbManager usbManager = (UsbManager) ctx.getSystemService(Context.USB_SERVICE);
         devices.add(new ArrayList<>(usbManager.getDeviceList().values()));
