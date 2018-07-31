@@ -219,6 +219,7 @@
     <string name="playback_speed_title">Save Playback Speed</string>
     <string name="playback_speed_summary">Remember the playback speed you set</string>
 
+    <string name="play_button">Play Button</string>
     <!-- Tips -->
     <string name="video_player_tips">Video player tips:</string>
     <string name="seek">Seek</string>
