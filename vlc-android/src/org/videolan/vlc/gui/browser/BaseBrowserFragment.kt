@@ -48,6 +48,7 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.hf.OTG_SCHEME
 import org.videolan.vlc.gui.network.MRLPanelFragment.KEY_MRL
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IRefreshable
@@ -392,7 +393,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         if (mActionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) uiJob(false) {
             val mw = item as MediaWrapper
-            var flags = 0
+            if (mw.uri.scheme == "content" || mw.uri.scheme == OTG_SCHEME) return@uiJob
+            var flags = if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment) Constants.CTX_DELETE else 0
             if (!isRootDirectory && this is FileBrowserFragment) flags = flags or Constants.CTX_DELETE
             if (mw.type == MediaWrapper.TYPE_DIR) {
                 val isEmpty = viewModel.isFolderEmpty(mw)
