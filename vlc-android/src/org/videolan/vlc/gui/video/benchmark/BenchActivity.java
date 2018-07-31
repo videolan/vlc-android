@@ -76,7 +76,7 @@ public class BenchActivity extends ShallowVideoPlayer {
     private static final String TAG = "VLCBenchmark";
     private static final int REQUEST_SCREENSHOT = 666;
 
-    private static final int RESULT_FAILED = 0;
+    private static final int RESULT_FAILED = 6;
     private static final int RESULT_NO_HW = 1;
 
     private static final int VIRTUAL_DISPLAY_FLAGS = 0;
@@ -197,6 +197,34 @@ public class BenchActivity extends ShallowVideoPlayer {
             mWritePermission = true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setTimeout();
+    }
+
+    /**
+     * On some weak devices, the hardware decoder will end up hung.
+     * To avoid stopping the benchmark, a timeout is set to stop vlc
+     * and return to the benchmark for the next test.
+     */
+    private void setTimeout() {
+        if (mSetup && mHandler != null) {
+            if (mTimeOut != null) {
+                mHandler.removeCallbacks(mTimeOut);
+                mTimeOut = null;
+            }
+            mTimeOut = new Runnable() {
+                @Override
+                public void run() {
+                    Log.e(TAG, "benchmark timeout: VLC Froze" );
+                    errorFinish("VLC Froze");
+                }
+            };
+            mHandler.postDelayed(mTimeOut, 10000);
+        }
+    }
+
     /**
      * Reacts on the event buffering before calling super:
      * <p/>
@@ -217,13 +245,14 @@ public class BenchActivity extends ShallowVideoPlayer {
         switch (event.type) {
             case MediaPlayer.Event.Vout:
                 mHasVout = true;
+            case MediaPlayer.Event.TimeChanged:
+                setTimeout();
             case MediaPlayer.Event.Buffering:
                 if (event.getBuffering() == 100f) {
                     /* initial setup that has to be done when the video
                      * has finished the first buffering */
                     if (!mSetup) {
-                        mSetup =
-                                true;
+                        mSetup = true;
                         if (mIsScreenshot) {
                             mService.pause();
                             Point size = new Point();
@@ -249,11 +278,6 @@ public class BenchActivity extends ShallowVideoPlayer {
                     /* Screenshot callback setup */
                     if (mIsScreenshot && mSetup && mScreenshotNumber < mTimestamp.size() && mSeeking) {
                         mSeeking = false;
-                        /* deactivating timeout*/
-                        if (mTimeOut != null) {
-                            mHandler.removeCallbacks(mTimeOut);
-                            mTimeOut = null;
-                        }
                         mImageReader = ImageReader.newInstance(mWidth, mHeight, PixelFormat.RGBA_8888, 2);
 
                         mVirtualDisplay =
@@ -284,14 +308,6 @@ public class BenchActivity extends ShallowVideoPlayer {
     private void seekScreenshot() {
         if (mProjectionManager != null && mScreenshotCount < mTimestamp.size()) {
             seek(mTimestamp.get(mScreenshotCount));
-            /* Setting a timeout system */
-            mTimeOut = new Runnable() {
-                @Override
-                public void run() {
-                    errorFinish("Seek froze");
-                }
-            };
-            mHandler.postDelayed(mTimeOut, 5000);
             ++mScreenshotCount;
             mSeeking = true;
         } else {
@@ -433,6 +449,9 @@ public class BenchActivity extends ShallowVideoPlayer {
         }
         if (mMediaProjection != null) {
             mMediaProjection.stop();
+        }
+        if (mTimeOut != null && mHandler != null) {
+            mHandler.removeCallbacks(mTimeOut);
         }
         super.onDestroy();
     }
