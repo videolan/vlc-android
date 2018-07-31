@@ -54,10 +54,6 @@ import java.util.*
 private const val TAG = "VLC/MediaParsingService"
 private const val NOTIFICATION_DELAY = 1000L
 
-private const val SHOW_NOTIFICATION = 0
-private const val HIDE_NOTIFICATION = 1
-private const val UPDATE_NOTIFICATION_TIME = 2
-
 class MediaParsingService : Service(), DevicesDiscoveryCb {
     private lateinit var wakeLock: PowerManager.WakeLock
     private lateinit var localBroadcastManager: LocalBroadcastManager
@@ -67,37 +63,13 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     private var parsing = 0
     private var reload = 0
     private var currentDiscovery: String? = null
-    private var lastNotificationTime = 0L
+    @Volatile private var lastNotificationTime = 0L
     private var notificationJob: Job? = null
-    private var scanActivated = false
-
-    private val callsCtx = newSingleThreadContext("ml-calls")
+    @Volatile private var scanActivated = false
 
     private val settings by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
 
-    internal var scanPaused = false
-    private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            when (intent.action) {
-                Constants.ACTION_PAUSE_SCAN -> {
-                    if (wakeLock.isHeld) wakeLock.release()
-                    scanPaused = true
-                    medialibrary.pauseBackgroundOperations()
-                }
-                Constants.ACTION_RESUME_SCAN -> {
-                    if (!wakeLock.isHeld) wakeLock.acquire()
-                    medialibrary.resumeBackgroundOperations()
-                    scanPaused = false
-                }
-                Medialibrary.ACTION_IDLE -> if (intent.getBooleanExtra(Medialibrary.STATE_IDLE, true)) {
-                    if (!scanPaused) {
-                        exitCommand()
-                        return
-                    }
-                }
-            }
-        }
-    }
+    private var scanPaused = false
 
     @Volatile
     private var serviceLock = false
@@ -105,11 +77,10 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     internal val sb = StringBuilder()
 
     private val notificationActor by lazy {
-        actor<Int>(UI, capacity = Channel.UNLIMITED, start = CoroutineStart.UNDISPATCHED) {
+        actor<Notification>(UI, capacity = Channel.UNLIMITED, start = CoroutineStart.UNDISPATCHED) {
             for (update in channel) when (update) {
-                SHOW_NOTIFICATION -> showNotification()
-                HIDE_NOTIFICATION -> hideNotification()
-                UPDATE_NOTIFICATION_TIME -> lastNotificationTime = System.currentTimeMillis()
+                Show -> showNotification()
+                Hide -> hideNotification()
             }
         }
     }
@@ -144,7 +115,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
             // Except for Android 8+ which expects startForeground immediately
 
         if (AndroidUtil.isOOrLater && lastNotificationTime == 0L) forceForeground()
-        else if (lastNotificationTime <= 0L) notificationActor.offer(UPDATE_NOTIFICATION_TIME)
+        else if (lastNotificationTime <= 0L) lastNotificationTime = System.currentTimeMillis()
         when (intent.action) {
             Constants.ACTION_INIT -> {
                 val upgrade = intent.getBooleanExtra(Constants.EXTRA_UPGRADE, false)
@@ -154,7 +125,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
             Constants.ACTION_RELOAD -> reload(intent.getStringExtra(Constants.EXTRA_PATH))
             Constants.ACTION_DISCOVER -> discover(intent.getStringExtra(Constants.EXTRA_PATH))
             Constants.ACTION_DISCOVER_DEVICE -> discoverStorage(intent.getStringExtra(Constants.EXTRA_PATH))
-            Constants.ACTION_CHECK_STORAGES -> if (scanActivated) updateStorages() else exitCommand()
+            Constants.ACTION_CHECK_STORAGES -> if (scanActivated) actions.offer(UpdateStorages) else exitCommand()
             else -> {
                 exitCommand()
                 return Service.START_NOT_STICKY
@@ -176,10 +147,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
             exitCommand()
             return
         }
-        launch(callsCtx) {
-            for (folder in Medialibrary.getBlackList()) medialibrary.banFolder(path + folder)
-            medialibrary.discover(path)
-        }
+        actions.offer(DiscoverStorage(path))
     }
 
     private fun discover(path: String) {
@@ -187,10 +155,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
             exitCommand()
             return
         }
-        launch(callsCtx) {
-            addDeviceIfNeeded(path)
-            medialibrary.discover(path)
-        }
+        actions.offer(DiscoverFolder(path))
     }
 
     private fun addDeviceIfNeeded(path: String) {
@@ -221,22 +186,10 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     }
 
     private fun setupMedialibrary(upgrade: Boolean, parse: Boolean) {
-        val context = this
         if (medialibrary.isInitiated) {
             medialibrary.resumeBackgroundOperations()
-            if (parse && !scanActivated) launch(callsCtx) {
-                scanActivated = true
-                addDevices(context, true)
-                startScan(false, upgrade)
-            }
-            exitCommand()
-        } else launch(callsCtx) {
-            var shouldInit = !dbExists(context)
-            val initCode = medialibrary.init(context)
-            shouldInit = shouldInit or (initCode == Medialibrary.ML_INIT_DB_RESET)
-            if (initCode != Medialibrary.ML_INIT_FAILED) initMedialib(parse, context, shouldInit, upgrade)
-            else exitCommand()
-        }
+            if (parse && !scanActivated) actions.offer(StartScan(upgrade))
+        } else actions.offer(Init(upgrade, parse))
     }
 
     private suspend fun initMedialib(parse: Boolean, context: Context, shouldInit: Boolean, upgrade: Boolean) {
@@ -286,12 +239,14 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
         }
     }
 
-    private fun updateStorages() = launch(callsCtx) {
+    private suspend fun updateStorages() {
         serviceLock = true
-        val ctx = VLCApplication.getAppContext()
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx)
-        val devices = AndroidDevices.getExternalStorageDirectories()
-        val knownDevices = medialibrary.devices
+        val ctx = applicationContext
+        val (sharedPreferences, devices, knownDevices) = withContext(VLCIO) {
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx)
+            val devices = AndroidDevices.getExternalStorageDirectories()
+            Triple(sharedPreferences, devices, medialibrary.devices)
+        }
         val missingDevices = Util.arrayToArrayList(knownDevices)
         missingDevices.remove("file://${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}")
         for (device in devices) {
@@ -301,11 +256,11 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
                 missingDevices.remove("file://$device")
                 continue
             }
-            val isNew = medialibrary.addDevice(uuid, device, true)
+            val isNew = withContext(VLCIO) { medialibrary.addDevice(uuid, device, true) }
             val isIgnored = sharedPreferences.getBoolean("ignore_$uuid", false)
             if (!isIgnored && isNew) showStorageNotification(device)
         }
-        for (device in missingDevices) medialibrary.removeDevice(FileUtils.getFileNameFromPath(device))
+        withContext(VLCIO) { for (device in missingDevices) medialibrary.removeDevice(FileUtils.getFileNameFromPath(device)) }
         serviceLock = false
         exitCommand()
     }
@@ -349,7 +304,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     override fun onDiscoveryProgress(entryPoint: String) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onDiscoveryProgress: $entryPoint")
         currentDiscovery = entryPoint
-        notificationActor.offer(SHOW_NOTIFICATION)
+        notificationActor.offer(Show)
     }
 
     override fun onDiscoveryCompleted(entryPoint: String) {
@@ -359,7 +314,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     override fun onParsingStatsUpdated(percent: Int) {
         if (BuildConfig.DEBUG) Log.v(TAG, "onParsingStatsUpdated: $percent")
         parsing = percent
-        if (parsing != 100) notificationActor.offer(SHOW_NOTIFICATION)
+        if (parsing != 100) notificationActor.offer(Show)
     }
 
     override fun onReloadStarted(entryPoint: String) {
@@ -372,14 +327,14 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
         if (TextUtils.isEmpty(entryPoint)) --reload
     }
 
-    private fun exitCommand() {
+    private fun exitCommand() = uiJob {
         if (!medialibrary.isWorking && !serviceLock) stopSelf()
     }
 
     override fun onDestroy() {
         progress.postValue(null)
         started.value = false
-        notificationActor.offer(HIDE_NOTIFICATION)
+        notificationActor.offer(Hide)
         medialibrary.removeDeviceDiscoveryCb(this)
         unregisterReceiver(receiver)
         localBroadcastManager.unregisterReceiver(receiver)
@@ -392,6 +347,56 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     private fun showProgress(parsing: Int, discovery: String) {
         val status = progress.value
         progress.postValue(if (status === null) ScanProgress(parsing, discovery) else status.copy(parsing = parsing, discovery = discovery))
+    }
+
+    private val actions = actor<MLAction>(capacity = Channel.UNLIMITED) {
+        for (action in channel) when (action) {
+            is DiscoverStorage -> {
+                for (folder in Medialibrary.getBlackList()) medialibrary.banFolder(action.path + folder)
+                medialibrary.discover(action.path)
+            }
+            is DiscoverFolder -> {
+                addDeviceIfNeeded(action.path)
+                medialibrary.discover(action.path)
+            }
+            is Init -> {
+                val context = this@MediaParsingService
+                var shouldInit = !dbExists(context)
+                val initCode = medialibrary.init(context)
+                shouldInit = shouldInit or (initCode == Medialibrary.ML_INIT_DB_RESET)
+                if (initCode != Medialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
+                else exitCommand()
+            }
+            is StartScan -> {
+                scanActivated = true
+                addDevices(this@MediaParsingService, true)
+                startScan(false, action.upgrade)
+            }
+            UpdateStorages -> updateStorages()
+        }
+    }
+
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            when (intent.action) {
+                Constants.ACTION_PAUSE_SCAN -> {
+                    if (wakeLock.isHeld) wakeLock.release()
+                    scanPaused = true
+                    medialibrary.pauseBackgroundOperations()
+                }
+                Constants.ACTION_RESUME_SCAN -> {
+                    if (!wakeLock.isHeld) wakeLock.acquire()
+                    medialibrary.resumeBackgroundOperations()
+                    scanPaused = false
+                }
+                Medialibrary.ACTION_IDLE -> if (intent.getBooleanExtra(Medialibrary.STATE_IDLE, true)) {
+                    if (!scanPaused) {
+                        exitCommand()
+                        return
+                    }
+                }
+            }
+        }
     }
 
     companion object {
@@ -431,3 +436,14 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
 private suspend fun dbExists(context: Context) = withContext(VLCIO) {
     File(context.getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME).exists()
 }
+
+private sealed class MLAction
+private class DiscoverStorage(val path: String) : MLAction()
+private class DiscoverFolder(val path: String) : MLAction()
+private class Init(val upgrade: Boolean, val parse: Boolean) : MLAction()
+private class StartScan(val upgrade: Boolean) : MLAction()
+private object UpdateStorages : MLAction()
+
+private sealed class Notification
+private object Show : Notification()
+private object Hide : Notification()
