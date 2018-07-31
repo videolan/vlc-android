@@ -208,7 +208,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
             val isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
             val uuid = FileUtils.getFileNameFromPath(device)
             if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid)) continue
-            val isNew = isMainStorage && (addExternal && withContext(VLCIO) { File(device).canRead() } )
+            val isNew = (isMainStorage || (addExternal && withContext(VLCIO) { File(device).canRead() } ))
                     && medialibrary.addDevice(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
             val isIgnored = sharedPreferences.getBoolean("ignore_$uuid", false)
             if (!isMainStorage && isNew && !isIgnored) showStorageNotification(device)
