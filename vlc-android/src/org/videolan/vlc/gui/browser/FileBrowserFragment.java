@@ -99,7 +99,12 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                         final MediaWrapper mw = new MediaWrapper(uri);
                         mw.setType(MediaWrapper.TYPE_DIR);
                         mw.setTitle(title);
-                        browse(mw, true);
+                        getHandler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                browse(mw, true);
+                            }
+                        });
                     }
                 });
                 OtgAccess.Companion.requestOtgRoot(requireActivity());
