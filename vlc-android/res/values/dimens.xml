@@ -76,4 +76,7 @@
     <dimen name="progress_layout_height">24dp</dimen>
     <dimen name="dialog_sd_wisard_width">320dp</dimen>
     <dimen name="dialog_sd_wisard_height">420dp</dimen>
+
+    <!--MRLPanel-->
+    <dimen name="mrl_panel_min_width">300dp</dimen>
 </resources>

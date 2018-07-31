@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable name="viewmodel"
             type="org.videolan.vlc.viewmodels.MRLPanelModel"/>
@@ -7,57 +8,69 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-        <RelativeLayout
+        android:layout_height="match_parent">
+
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/mrl_root"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="?attr/background_default_darker"
-            android:padding="32dp"
-            android:layoutDirection="ltr">
+            android:layoutDirection="ltr"
+            android:padding="16dp"
+            android:minWidth="@dimen/mrl_panel_min_width">
+
             <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
+                android:id="@+id/mrl_edit"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/send"
-                android:layout_toStartOf="@+id/send"
-                android:layout_marginTop="5dip"
-                android:layout_marginBottom="16dp"
-                android:id="@+id/mrl_edit">
+                android:layout_marginTop="4dip"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                app:layout_constraintEnd_toStartOf="@+id/play"
+                app:layout_constraintRight_toLeftOf="@+id/play"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <!--android:paddingTop ==> Space between cursor and top hint-->
                 <!--android:paddingBottom ==> Space between cursor and bottom border-->
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
+                    android:layout_marginRight="8dp"
+                    android:background="@drawable/edittext_bottom_border"
                     android:hint="@string/open_mrl_dialog_msg"
+                    android:imeOptions="actionGo"
                     android:inputType="textUri"
+                    android:maxLines="2"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="4dp"
                     android:text="@={viewmodel.observableSearchText}"
                     android:textColor="?font_default"
-                    android:maxLines="2"
-                    android:layout_marginRight="8dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="5dp"
-                    android:textCursorDrawable="@drawable/cursor_o"
-                    android:background="@drawable/edittext_bottom_border"
-                    android:imeOptions="actionGo"/>
+                    android:textCursorDrawable="@drawable/cursor_o" />
             </android.support.design.widget.TextInputLayout>
+
             <ImageView
-                android:id="@+id/send"
+                android:id="@+id/play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignBottom="@+id/mrl_edit"
-                android:layout_alignTop="@+id/mrl_edit"
+                android:contentDescription="@string/play_button"
                 android:scaleType="center"
-                android:src="@drawable/ic_send"/>
+                android:src="@drawable/ic_send"
+                app:layout_constraintBottom_toBottomOf="@+id/mrl_edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/mrl_edit" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/mrl_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/mrl_edit"
-                android:background="?attr/background_default"/>
-        </RelativeLayout>
+                android:layout_marginTop="16dp"
+                android:background="?attr/background_default"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mrl_edit" />
+        </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 </layout>

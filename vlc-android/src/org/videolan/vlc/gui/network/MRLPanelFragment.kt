@@ -76,7 +76,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
         viewModel.observableHistory.observe(this, Observer { adapter.setList(it) })
-        binding.send.setOnClickListener(this)
+        binding.play.setOnClickListener(this)
 
         dialog.setTitle(R.string.open_mrl_dialog_title)
         return binding.root
