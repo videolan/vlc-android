@@ -120,7 +120,7 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
     private void onBindMediaViewHolder(final MediaViewHolder vh, int position) {
         final MediaWrapper media = (MediaWrapper) getItem(position);
         vh.binding.setItem(media);
-        vh.binding.setHasContextMenu(!mNetworkRoot || mFavorites);
+        vh.binding.setHasContextMenu((!mNetworkRoot || mFavorites) && !"content".equals(media.getUri().getScheme()));
         if (mNetworkRoot) vh.binding.setProtocol(getProtocol(media));
         vh.binding.setCover(getIcon(media, mSpecialIcons));
         vh.selectView(media.hasStateFlags(FLAG_SELECTED));
