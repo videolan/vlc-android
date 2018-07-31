@@ -239,7 +239,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
         }
     }
 
-    private fun initMedialib(parse: Boolean, context: Context, shouldInit: Boolean, upgrade: Boolean) {
+    private suspend fun initMedialib(parse: Boolean, context: Context, shouldInit: Boolean, upgrade: Boolean) {
         addDevices(context, parse)
         medialibrary.start()
         localBroadcastManager.sendBroadcast(Intent(VLCApplication.ACTION_MEDIALIBRARY_READY))
@@ -247,15 +247,16 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
         else exitCommand()
     }
 
-    private fun addDevices(context: Context, addExternal: Boolean) {
+    private suspend fun addDevices(context: Context, addExternal: Boolean) {
         val devices = ArrayList<String>()
         Collections.addAll(devices, *AndroidDevices.getMediaDirectories(context))
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val sharedPreferences = withContext(VLCIO) { PreferenceManager.getDefaultSharedPreferences(context) }
         for (device in devices) {
             val isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
             val uuid = FileUtils.getFileNameFromPath(device)
             if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid)) continue
-            val isNew = (addExternal || isMainStorage) && medialibrary.addDevice(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
+            val isNew = isMainStorage && (addExternal && withContext(VLCIO) { File(device).canRead() } )
+                    && medialibrary.addDevice(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
             val isIgnored = sharedPreferences.getBoolean("ignore_$uuid", false)
             if (!isMainStorage && isNew && !isIgnored) showStorageNotification(device)
         }
