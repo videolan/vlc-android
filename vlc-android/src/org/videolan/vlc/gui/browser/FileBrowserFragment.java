@@ -102,10 +102,8 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                     otgRoot.observeForever(new Observer<Uri>() {
                         @Override
                         public void onChanged(@Nullable Uri uri) {
-                            if (uri != null) {
-                                OtgAccess.Companion.getOtgRoot().removeObserver(this);
-                                browseOtgDevice(uri, title);
-                            }
+                            OtgAccess.Companion.getOtgRoot().removeObserver(this);
+                            if (uri != null) browseOtgDevice(uri, title);
                         }
                     });
                     OtgAccess.Companion.requestOtgRoot(requireActivity());

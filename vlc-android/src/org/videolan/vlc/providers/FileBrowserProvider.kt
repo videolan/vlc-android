@@ -129,15 +129,13 @@ open class FileBrowserProvider(dataset: LiveDataset<MediaLibraryItem>, url: Stri
                 dataset.remove(otgPosition)
                 otgPosition = -1
             }
-        } else {
-            if (otgPosition == -1) {
-                val otg = MediaWrapper(Uri.parse("otg://")).apply {
-                    title = VLCApplication.getAppResources().getString(R.string.otg_device_title)
-                    type = MediaWrapper.TYPE_DIR
-                }
-                otgPosition = storagePosition+1
-                dataset.add(otgPosition, otg)
+        } else if (otgPosition == -1) {
+            val otg = MediaWrapper(Uri.parse("otg://")).apply {
+                title = VLCApplication.getAppResources().getString(R.string.otg_device_title)
+                type = MediaWrapper.TYPE_DIR
             }
+            otgPosition = storagePosition+1
+            dataset.add(otgPosition, otg)
         }
     }
 

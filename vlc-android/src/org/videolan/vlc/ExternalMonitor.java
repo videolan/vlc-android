@@ -153,7 +153,7 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
                 break;
             case UsbManager.ACTION_USB_DEVICE_DETACHED:
                 if (intent.hasExtra(UsbManager.EXTRA_DEVICE)) {
-                    ((LiveEvent<Uri>)OtgAccess.Companion.getOtgRoot()).call();
+                    ((LiveEvent<Uri>)OtgAccess.Companion.getOtgRoot()).clear();
                     final UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
                     devices.remove(device);
                 }
