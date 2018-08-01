@@ -213,6 +213,7 @@ public class VLCOptions {
     public static void setMediaOptions(Media media, Context context, int flags) {
         boolean noHardwareAcceleration = (flags & MediaWrapper.MEDIA_NO_HWACCEL) != 0;
         boolean noVideo = (flags & MediaWrapper.MEDIA_VIDEO) == 0;
+        boolean benchmark = (flags & MediaWrapper.MEDIA_BENCHMARK) != 0;
         final boolean paused = (flags & MediaWrapper.MEDIA_PAUSED) != 0;
         int hardwareAcceleration = HW_ACCELERATION_DISABLED;
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -235,7 +236,7 @@ public class VLCOptions {
         if (noVideo) media.addOption(":no-video");
         if (paused) media.addOption(":start-paused");
         if (!prefs.getBoolean("subtitles_autoload", true)) media.addOption(":sub-language=none");
-        if (prefs.getBoolean("media_fast_seek", true)) media.addOption(":input-fast-seek");
+        if (!benchmark && prefs.getBoolean("media_fast_seek", true)) media.addOption(":input-fast-seek");
 
         if (RendererDelegate.INSTANCE.hasRenderer()) {
             media.addOption(":sout-chromecast-audio-passthrough="+prefs.getBoolean("casting_passthrough", true));
