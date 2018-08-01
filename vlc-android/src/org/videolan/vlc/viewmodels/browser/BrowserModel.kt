@@ -30,10 +30,7 @@ import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.vlc.providers.FileBrowserProvider
-import org.videolan.vlc.providers.FilePickerProvider
-import org.videolan.vlc.providers.NetworkProvider
-import org.videolan.vlc.providers.StorageProvider
+import org.videolan.vlc.providers.*
 import org.videolan.vlc.viewmodels.BaseModel
 
 const val TYPE_FILE = 0
@@ -43,7 +40,7 @@ const val TYPE_STORAGE = 3
 
 open class BrowserModel(val url: String?, type: Int, showHiddenFiles: Boolean) : BaseModel<MediaLibraryItem>() {
 
-    protected val provider = when (type) {
+    protected val provider: BrowserProvider = when (type) {
         TYPE_PICKER -> FilePickerProvider(dataset, url)
         TYPE_NETWORK -> NetworkProvider(dataset, url, showHiddenFiles)
         TYPE_STORAGE -> StorageProvider(dataset, url, showHiddenFiles)

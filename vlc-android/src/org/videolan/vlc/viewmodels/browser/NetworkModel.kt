@@ -22,13 +22,8 @@ package org.videolan.vlc.viewmodels.browser
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.providers.NetworkProvider
-import org.videolan.vlc.repository.BrowserFavRepository
 
 class NetworkModel(url: String? = null, showHiddenFiles: Boolean): BrowserModel(url, TYPE_NETWORK, showHiddenFiles) {
-
-    val favorites = BrowserFavRepository(VLCApplication.getAppContext()).networkFavorites
 
     override fun refresh() : Boolean {
         return provider.refresh()

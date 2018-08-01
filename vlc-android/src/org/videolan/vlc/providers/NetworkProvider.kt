@@ -20,17 +20,24 @@
 
 package org.videolan.vlc.providers
 
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.withContext
+import android.arch.lifecycle.Observer
+import kotlinx.coroutines.experimental.Job
+import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
+import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.LiveDataset
-import java.util.*
 
-class NetworkProvider(dataset: LiveDataset<MediaLibraryItem>, url: String? = null, showHiddenFiles: Boolean): BrowserProvider(dataset, url, showHiddenFiles) {
+class NetworkProvider(dataset: LiveDataset<MediaLibraryItem>, url: String? = null, showHiddenFiles: Boolean): BrowserProvider(dataset, url, showHiddenFiles), Observer<List<MediaWrapper>> {
+
+    private val favorites = if (url == null) BrowserFavRepository(VLCApplication.getAppContext()).networkFavorites else null
+
+    init {
+        favorites?.observeForever(this)
+    }
 
     override fun browseRoot() {
         if (ExternalMonitor.allowLan()) browse()
@@ -40,7 +47,9 @@ class NetworkProvider(dataset: LiveDataset<MediaLibraryItem>, url: String? = nul
 
     override fun refresh(): Boolean {
         if (url == null) {
-            dataset.value = mutableListOf()
+            dataset.value = mutableListOf<MediaLibraryItem>().apply {
+                getFavoritesList(favorites?.value)?.let { addAll(it) }
+            }
             browseRoot()
         } else super.refresh()
         return true
@@ -48,5 +57,32 @@ class NetworkProvider(dataset: LiveDataset<MediaLibraryItem>, url: String? = nul
 
     override suspend fun parseSubDirectories() {
         if (url != null) super.parseSubDirectories()
+    }
+
+    override fun release(): Job {
+        favorites?.removeObserver(this)
+        return super.release()
+    }
+
+    override fun onChanged(favs: List<MediaWrapper>?) {
+        val data = dataset.value.toMutableList()
+        data.listIterator().run {
+            while (hasNext()) {
+                val item = next()
+                if (item.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE) || item is DummyItem) remove()
+            }
+        }
+        dataset.value = data.apply { getFavoritesList(favs)?.let { addAll(0, it) } }
+    }
+
+    private fun getFavoritesList(favs: List<MediaWrapper>?): MutableList<MediaLibraryItem>? {
+        if (favs?.isNotEmpty() == true) {
+            val list = mutableListOf<MediaLibraryItem>()
+            list.add(0, DummyItem(VLCApplication.getAppResources().getString(R.string.network_favorites)))
+            for ((index, fav) in favs.withIndex()) list.add(index + 1, fav)
+            list.add(DummyItem(VLCApplication.getAppResources().getString(R.string.network_shared_folders)))
+            return list
+        }
+        return null
     }
 }

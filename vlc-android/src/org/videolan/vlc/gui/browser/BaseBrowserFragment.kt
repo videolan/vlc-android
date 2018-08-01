@@ -131,7 +131,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         mSwipeRefreshLayout.setOnRefreshListener(this)
         viewModel.dataset.observe(this, Observer<MutableList<MediaLibraryItem>> { mediaLibraryItems -> adapter.update(mediaLibraryItems!!) })
         viewModel.getDescriptionUpdate().observe(this, Observer { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
-        initFavorites()
     }
 
     override fun setBreadcrumb() {
@@ -153,7 +152,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         requireActivity().supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
-    protected open fun initFavorites() {}
 
     override fun onStart() {
         super.onStart()
@@ -382,7 +380,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 mediaWrapper.type == MediaWrapper.TYPE_VIDEO ||
                 mediaWrapper.type == MediaWrapper.TYPE_DIR) {
             if (mActionMode != null) return false
-            item.setStateFlags(MediaLibraryItem.FLAG_SELECTED)
+            item.addStateFlags(MediaLibraryItem.FLAG_SELECTED)
             adapter.updateSelectionCount(mediaWrapper.hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
             adapter.notifyItemChanged(position, item)
             startActionMode()

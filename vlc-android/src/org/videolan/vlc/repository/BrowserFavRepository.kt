@@ -28,6 +28,7 @@ import android.support.annotation.WorkerThread
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.database.BrowserFavDao
@@ -95,6 +96,7 @@ class BrowserFavRepository @JvmOverloads constructor(context: Context,
                 setDisplayTitle(Uri.decode(title))
                 type = MediaWrapper.TYPE_DIR
                 iconUrl?.let { artworkURL = Uri.decode(it) }
+                setStateFlags(MediaLibraryItem.FLAG_FAVORITE)
             }
         } ?: emptyList()
     }

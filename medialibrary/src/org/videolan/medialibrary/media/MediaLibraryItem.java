@@ -17,6 +17,7 @@ public abstract class MediaLibraryItem implements Parcelable {
 
     public static final int FLAG_NONE = 0;
     public static final int FLAG_SELECTED = 1;
+    public static final int FLAG_FAVORITE = 1 << 1;
 
 
     public abstract MediaWrapper[] getTracks();

@@ -36,7 +36,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -57,8 +56,6 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
-import java.util.List;
-
 public class NetworkBrowserFragment extends BaseBrowserFragment implements SimpleAdapter.FavoritesHandler {
 
     BrowserFavRepository mBrowserFavRepository;
@@ -70,7 +67,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getBinding().setShowFavorites(isRootDirectory());
         viewModel = ViewModelProviders.of(this, new NetworkModel.Factory(getMrl(), getShowHiddenFiles())).get(NetworkModel.class);
         mBrowserFavRepository = new BrowserFavRepository(requireContext());
     }
@@ -78,28 +74,12 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (isRootDirectory()) ((NetworkModel) viewModel).getFavorites().observe(this, new Observer<List<MediaWrapper>>() {
-            @Override
-            public void onChanged(@Nullable List<MediaWrapper> mediaLibraryItems) {
-                getBinding().setShowFavorites(!Util.isListEmpty(mediaLibraryItems));
-                favoritesAdapter.update(mediaLibraryItems);
-            }
-        });
         ExternalMonitor.connected.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean connected) {
                 refresh(connected);
             }
         });
-    }
-
-    private BaseBrowserAdapter favoritesAdapter;
-    @Override
-    protected void initFavorites() {
-        if (!isRootDirectory()) return;
-        getBinding().favoritesList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        favoritesAdapter = new BaseBrowserAdapter(this, true);
-        getBinding().favoritesList.setAdapter(favoritesAdapter);
     }
 
     @Override
@@ -179,7 +159,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
 
     @Override
     public void onCtxAction(int position, int option) {
-        final MediaWrapper mw = (MediaWrapper) (isRootDirectory() ? favoritesAdapter.getItem(position) : getAdapter().getItem(position));
+        final MediaWrapper mw = (MediaWrapper) getAdapter().getItem(position);
         switch (option) {
             case Constants.CTX_NETWORK_ADD:
                 mBrowserFavRepository.addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());

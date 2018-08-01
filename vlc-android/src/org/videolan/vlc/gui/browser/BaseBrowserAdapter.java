@@ -70,13 +70,9 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
     }
     protected final BaseBrowserFragment fragment;
     private int mMediaCount = 0, mSelectionCount = 0;
-    private final boolean mNetworkRoot, mSpecialIcons, mFavorites;
+    private final boolean mNetworkRoot, mSpecialIcons;
 
     BaseBrowserAdapter(BaseBrowserFragment fragment) {
-        this(fragment, false);
-    }
-
-    BaseBrowserAdapter(BaseBrowserFragment fragment, boolean favorites) {
         this.fragment = fragment;
         final boolean root = fragment.isRootDirectory();
         final boolean fileBrowser = fragment instanceof FileBrowserFragment;
@@ -84,7 +80,6 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
         mNetworkRoot = root && fragment instanceof NetworkBrowserFragment;
         final String mrl = fragment.getMrl();
         mSpecialIcons = filesRoot || fileBrowser && mrl != null && mrl.endsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
-        mFavorites = favorites;
     }
 
     @Override
@@ -119,8 +114,9 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
 
     private void onBindMediaViewHolder(final MediaViewHolder vh, int position) {
         final MediaWrapper media = (MediaWrapper) getItem(position);
+        final boolean isFavorite = media.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE);
         vh.binding.setItem(media);
-        vh.binding.setHasContextMenu((!mNetworkRoot || mFavorites) && !"content".equals(media.getUri().getScheme()));
+        vh.binding.setHasContextMenu((!mNetworkRoot || isFavorite) && !"content".equals(media.getUri().getScheme()));
         if (mNetworkRoot) vh.binding.setProtocol(getProtocol(media));
         vh.binding.setCover(getIcon(media, mSpecialIcons));
         vh.selectView(media.hasStateFlags(FLAG_SELECTED));
