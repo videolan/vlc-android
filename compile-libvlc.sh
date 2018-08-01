@@ -175,7 +175,6 @@ VLC_CONFIGURE_ARGS="\
     --enable-vorbis \
     --disable-faad \
     --disable-schroedinger \
-    --disable-vncclient \
     --disable-vnc \
     --enable-jpeg \
 "
