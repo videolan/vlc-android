@@ -158,7 +158,6 @@ VLC_CONFIGURE_ARGS="\
     --disable-pulse \
     --disable-alsa \
     --disable-samplerate \
-    --disable-sdl \
     --disable-xcb \
     --disable-qt \
     --disable-skins2 \
