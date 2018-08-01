@@ -787,8 +787,8 @@ class PlaybackService : MediaBrowserServiceCompat() {
             PlaybackStateCompat.STATE_PAUSED -> actions = actions or (PlaybackStateCompat.ACTION_PLAY or PlaybackStateCompat.ACTION_STOP)
             else -> {
                 actions = actions or PlaybackStateCompat.ACTION_PLAY
-                val media = if (AndroidDevices.isAndroidTv && hasMedia) playlistManager.getCurrentMedia() else null
-                if (media != null) {
+                val media = if (AndroidDevices.isAndroidTv && !AndroidUtil.isOOrLater && hasMedia) playlistManager.getCurrentMedia() else null
+                if (media != null) { // Hack to show a now paying card on Android TV
                     val length = media.length
                     time = media.time
                     val progress = if (length <= 0L) 0f else time / length.toFloat()
