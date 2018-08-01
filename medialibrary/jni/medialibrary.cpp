@@ -1,5 +1,8 @@
 #include <stdlib.h>
+
+#include <algorithm>
 #include <string>
+
 #include "jniloader.h"
 #include <medialibrary/IDeviceLister.h>
 #define LOG_TAG "VLC/JNI/MediaLibrary"
