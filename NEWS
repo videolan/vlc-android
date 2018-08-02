@@ -5,7 +5,8 @@ Application:
  * minSDK is now 17 (Android 4.2)
  * Medialibrary scan is now optional
  * OTG devices support in file browser
- * Playback notification now persits after service is remove by Android
+ * Favorites in local file browser
+ * Playback notification now persits after service is removed by Android
  * Android Auto is back
  * Sorting preferences are now saved
  * Breadcrumb is browsers
