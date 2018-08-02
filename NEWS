@@ -1,3 +1,176 @@
+Unreleased changes:
+------------------
+
+Application:
+ * minSDK is now 17 (Android 4.2)
+ * Medialibrary scan is now optional
+ * OTG devices support in file browser
+ * Playback notification now persits after service is remove by Android
+ * Android Auto is back
+ * Sorting preferences are now saved
+ * Breadcrumb is browsers
+ * Use start-time to resume a media, loading should be faster
+ * Bottomsheet style for context menus
+
+TV:
+ * Homescreen channels support
+ * Support for media sorting
+ * Support of videos grouping
+
+Changes between 3.0.12 and 3.0.13:
+----------------------------------
+
+Application:
+ * Fix 'previous' button behavior
+ * Fix crashes
+
+
+TV:
+ * Video player: improve use of seekbar with remote
+ * Fix History row disappearing
+
+VLC:
+ * Update VLC core
+
+Changes between 3.0.11 and 3.0.12:
+----------------------------------
+
+Application:
+ * Fix subtitles not reloaded when multitasking
+ * Fix forward/rewind actions with Assistant
+ * Improve video player accessibility descriptions
+ * Stability improvements
+ * Misc. fixes
+
+TV:
+ * Fix crashes in main screen
+ * Restore recommendations on Oreo
+
+VLC:
+ * Update VLC core
+
+Changes between 3.0.10 and 3.0.11:
+----------------------------------
+
+Application:
+ * Fix potential crash on playback transitions
+ * Restore playlist deletion option
+ * Misc. fixes
+
+TV:
+ * Restore 'Play all' option
+
+Changes between 3.0.9 and 3.0.10:
+----------------------------------
+
+Application:
+ * TV: Restore 'Play All' option in details view
+ * Fix Chromecast switch on Android P
+ * Fix playlist progression in popup mode
+ * Misc. fixes
+
+Changes between 3.0.8 and 3.0.9:
+----------------------------------
+
+Application:
+ * Fix crash in video transitions/repeat
+ * Update translations
+ * Misc. fixes
+
+Changes between 3.0.7 and 3.0.8:
+----------------------------------
+
+Application:
+ * Fix crash on some video repeat
+ * Fix crash caused by subtitles
+ * Update Translations
+
+Changes between 3.0.6 and 3.0.7:
+----------------------------------
+
+Application:
+ * Fix Crash loading last playlist from wired headset
+ * Misc. fixes
+
+Changes between 3.0.5 and 3.0.6:
+----------------------------------
+
+Application:
+ * Improve Oreo compliance for playback service
+ * Filter accidental touch events in video player
+ * Subtitles: search by hash even for media on SD Card
+ * Crash fixes
+
+ VLC:
+  * Upgrade to libvlc 3.0.2
+
+Changes between 3.0.5 and 3.0.5-2:
+----------------------------------
+
+Application:
+ * Deactivate Android Auto
+
+VLC:
+ * Fix crash on Android 4
+
+Changes between 3.0.4 and 3.0.5:
+----------------------------------
+
+Application:
+ * Audio digital output (passthrough) is now disabled by default
+ * Fix video seek at wrong time on playback resume
+ * Fix renderer staying 'connected' when wifi is turned off
+ * Video tracks selector in video player
+ * Fix load last playlist from headset on Android 2-4
+ * Misc. fixes
+
+ VLC:
+  * Chromecast improvements
+  * stabilization
+
+Changes between 3.0.2 and 3.0.4:
+----------------------------------
+
+Application:
+ * Fix medialibrary missing some media
+ * Fix last playlist restoration
+
+TV:
+ * Fix History display
+
+
+Changes between 3.0.1 and 3.0.2:
+----------------------------------
+
+Application:
+ * Support of external equalizers (for Android 5+)
+ * Fix video player restore from background playback
+ * Deactivate PiP feature in DeX mode
+ * Restore DVD menu navigation on TV
+ * Misc. fixes
+
+VLC:
+ * Improve Chromecast loading and playback
+ * Improve mpeg2 files playback
+
+Changes between 3.0.0 and 3.0.1:
+----------------------------------
+
+Application:
+ * Show real SDCard/USB storages name
+ * Fix video playlist lost on app switch
+ * Fix renderers dialog
+ * Fix filter/search obstructed by options icons
+ * Fix playback resume after phone calls
+ * Fix shuffle mode being systematically erased
+ * Fix browsing in medialibrary options
+ * Do not stop when other apps play sounds while Chromecasting
+ * New options to disable remote controls shortcuts
+ * Fix video player controls on RTL devices
+ * Fix network media saving in history
+ * Misc. fixes
+
+
 Changes between 2.9.1 and 3.0.0:
 ----------------------------------
 
