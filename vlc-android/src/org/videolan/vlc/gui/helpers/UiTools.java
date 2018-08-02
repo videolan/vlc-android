@@ -61,8 +61,6 @@ import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
@@ -506,6 +504,7 @@ public class UiTools {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.N)
     public static void setOnDragListener(final Activity activity) {
         final View view = AndroidUtil.isNougatOrLater ? activity.getWindow().peekDecorView() : null;
         if (view != null) view.setOnDragListener(new View.OnDragListener() {
