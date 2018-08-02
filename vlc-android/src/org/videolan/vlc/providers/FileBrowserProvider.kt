@@ -39,10 +39,16 @@ import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.*
 import java.io.File
 
-open class FileBrowserProvider(dataset: LiveDataset<MediaLibraryItem>, url: String?, private val filePicker: Boolean = false, showHiddenFiles: Boolean) : BrowserProvider(dataset, url, showHiddenFiles), Observer<MutableList<UsbDevice>> {
+open class FileBrowserProvider(
+        dataset: LiveDataset<MediaLibraryItem>,
+        url: String?, private val filePicker: Boolean = false,
+        showHiddenFiles: Boolean) : BrowserProvider(dataset,
+        url, showHiddenFiles
+), Observer<MutableList<UsbDevice>> {
 
     private var storagePosition = -1
     private var otgPosition = -1
+    private val showFavorites : Boolean
     private val favorites = if (url == null && !filePicker) BrowserFavRepository(VLCApplication.getAppContext()).localFavorites else null
 
     private val favoritesObserver by lazy { Observer<List<BrowserFav>> {
@@ -66,9 +72,10 @@ open class FileBrowserProvider(dataset: LiveDataset<MediaLibraryItem>, url: Stri
     } }
 
     init {
+        showFavorites = url == null && !filePicker && this !is StorageProvider
         if (url == null) {
             ExternalMonitor.devices.observeForever(this)
-            favorites?.observeForever(favoritesObserver)
+            if (showFavorites) favorites?.observeForever(favoritesObserver)
         }
     }
 
@@ -116,7 +123,7 @@ open class FileBrowserProvider(dataset: LiveDataset<MediaLibraryItem>, url: Stri
     override fun release(): Job {
         if (url == null) {
             ExternalMonitor.devices.removeObserver(this)
-            favorites?.removeObserver(favoritesObserver)
+            if (showFavorites) favorites?.removeObserver(favoritesObserver)
         }
         return super.release()
     }

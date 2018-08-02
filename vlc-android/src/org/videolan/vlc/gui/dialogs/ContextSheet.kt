@@ -92,9 +92,9 @@ class ContextSheet : BottomSheetDialogFragment() {
         if (flags and Constants.CTX_PLAY_NEXT != 0) add(Simple(Constants.CTX_PLAY_NEXT, getString(R.string.insert_next), R.drawable.ic_ctx_play_next_normal))
         if (flags and Constants.CTX_ADD_TO_PLAYLIST != 0) add(Simple(Constants.CTX_ADD_TO_PLAYLIST, getString(R.string.add_to_playlist), R.drawable.ic_ctx_add_to_playlist_normal))
         if (flags and Constants.CTX_SET_RINGTONE != 0 && AndroidDevices.isPhone) add(Simple(Constants.CTX_SET_RINGTONE, getString(R.string.set_song), R.drawable.ic_ctx_set_ringtone_normal))
-        if (flags and Constants.CTX_NETWORK_ADD != 0) add(Simple(Constants.CTX_NETWORK_ADD, getString(R.string.favorites_add), R.drawable.ic_menu_network))
-        if (flags and Constants.CTX_NETWORK_EDIT != 0) add(Simple(Constants.CTX_NETWORK_EDIT, getString(R.string.favorites_edit), R.drawable.ic_menu_network))
-        if (flags and Constants.CTX_NETWORK_REMOVE != 0) add(Simple(Constants.CTX_NETWORK_REMOVE, getString(R.string.favorites_remove), R.drawable.ic_menu_network))
+        if (flags and Constants.CTX_FAV_ADD != 0) add(Simple(Constants.CTX_FAV_ADD, getString(R.string.favorites_add), R.drawable.ic_menu_network))
+        if (flags and Constants.CTX_FAV_EDIT != 0) add(Simple(Constants.CTX_FAV_EDIT, getString(R.string.favorites_edit), R.drawable.ic_menu_network))
+        if (flags and Constants.CTX_FAV_REMOVE != 0) add(Simple(Constants.CTX_FAV_REMOVE, getString(R.string.favorites_remove), R.drawable.ic_menu_network))
     }
 
     inner class ContextAdapter : RecyclerView.Adapter<ContextAdapter.ViewHolder>() {

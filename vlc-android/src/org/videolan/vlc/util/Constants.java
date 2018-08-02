@@ -144,9 +144,9 @@ public class Constants {
     public final static int CTX_PLAY_NEXT          = 1 << 9;
     public final static int CTX_ADD_TO_PLAYLIST    = 1 << 10;
     public final static int CTX_SET_RINGTONE       = 1 << 11;
-    public final static int CTX_NETWORK_ADD        = 1 << 12;
-    public final static int CTX_NETWORK_EDIT       = 1 << 13;
-    public final static int CTX_NETWORK_REMOVE     = 1 << 14;
+    public final static int CTX_FAV_ADD            = 1 << 12;
+    public final static int CTX_FAV_EDIT           = 1 << 13;
+    public final static int CTX_FAV_REMOVE         = 1 << 14;
     public final static int CTX_CUSTOM_REMOVE      = 1 << 15;
     public final static int CTX_ITEM_DL            = 1 << 16;
 

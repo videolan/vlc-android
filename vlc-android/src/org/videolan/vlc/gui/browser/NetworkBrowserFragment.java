@@ -23,7 +23,6 @@
 
 package org.videolan.vlc.gui.browser;
 
-import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
@@ -50,7 +49,6 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.SimpleAdapter;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
-import org.videolan.vlc.repository.BrowserFavRepository;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WorkersKt;
@@ -58,7 +56,6 @@ import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
 public class NetworkBrowserFragment extends BaseBrowserFragment implements SimpleAdapter.FavoritesHandler {
 
-    BrowserFavRepository mBrowserFavRepository;
     @Override
     public void onClick(@NotNull MediaLibraryItem item) {
         browse((MediaWrapper) item, true);
@@ -68,7 +65,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = ViewModelProviders.of(this, new NetworkModel.Factory(getMrl(), getShowHiddenFiles())).get(NetworkModel.class);
-        mBrowserFavRepository = new BrowserFavRepository(requireContext());
     }
 
     @Override
@@ -96,7 +92,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
         WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
-                final boolean isFavorite = getMrl() != null && mBrowserFavRepository.browserFavExists(Uri.parse(getMrl()));
+                final boolean isFavorite = getMrl() != null && getBrowserFavRepository().browserFavExists(Uri.parse(getMrl()));
                 WorkersKt.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
@@ -132,18 +128,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.ml_menu_save:
-                toggleFavorite();
-                onPrepareOptionsMenu(getMenu());
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     protected Fragment createFragment() {
         return new NetworkBrowserFragment();
     }
@@ -161,19 +145,11 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     public void onCtxAction(int position, int option) {
         final MediaWrapper mw = (MediaWrapper) getAdapter().getItem(position);
         switch (option) {
-            case Constants.CTX_NETWORK_ADD:
-                mBrowserFavRepository.addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
+            case Constants.CTX_FAV_ADD:
+                getBrowserFavRepository().addNetworkFavItem(mw.getUri(), mw.getTitle(), mw.getArtworkURL());
                 break;
-            case Constants.CTX_NETWORK_EDIT:
+            case Constants.CTX_FAV_EDIT:
                 showAddServerDialog(mw);
-                break;
-            case Constants.CTX_NETWORK_REMOVE:
-                WorkersKt.runBackground(new Runnable() {
-                    @Override
-                    public void run() {
-                        mBrowserFavRepository.deleteBrowserFav(mw.getUri());
-                    }
-                });
                 break;
             default:
                 super.onCtxAction(position, option);
@@ -190,25 +166,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment implements Simpl
     @Override
     protected String getCategoryTitle() {
         return getString(R.string.network_browsing);
-    }
-
-    public void toggleFavorite() {
-        WorkersKt.runBackground(new Runnable() {
-            @Override
-            public void run() {
-                if (mBrowserFavRepository.browserFavExists(getCurrentMedia().getUri()))
-                    mBrowserFavRepository.deleteBrowserFav(getCurrentMedia().getUri());
-                else
-                    mBrowserFavRepository.addNetworkFavItem(getCurrentMedia().getUri(), getCurrentMedia().getTitle(), getCurrentMedia().getArtworkURL());
-                WorkersKt.runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        final Activity activity = getActivity();
-                        if (activity!= null) activity.invalidateOptionsMenu();
-                    }
-                });
-            }
-        });
     }
 
     /**

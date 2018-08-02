@@ -38,6 +38,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.*
+import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -81,7 +82,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     protected abstract val categoryTitle: String
 
     protected lateinit var binding: DirectoryBrowserBinding
-    private lateinit var browserFavRepository: BrowserFavRepository
+    protected lateinit var browserFavRepository: BrowserFavRepository
 
 
     protected abstract fun createFragment(): Fragment
@@ -351,6 +352,29 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         adapter.resetSelectionCount()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            R.id.ml_menu_save -> {
+                toggleFavorite()
+                onPrepareOptionsMenu(menu)
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun toggleFavorite() = uiJob(false) {
+        val mw = currentMedia ?: return@uiJob
+        withContext(VLCIO) {
+            when {
+                browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
+                mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
+                else -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
+            }
+        }
+        activity?.invalidateOptionsMenu()
+    }
+
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         val mediaWrapper = item as MediaWrapper
         if (mActionMode != null) {
@@ -393,10 +417,14 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             if (mw.type == MediaWrapper.TYPE_DIR) {
                 val isEmpty = viewModel.isFolderEmpty(mw)
                 if (!isEmpty) flags = flags or Constants.CTX_PLAY
-                if (this@BaseBrowserFragment is NetworkBrowserFragment) {
+                val isFileBrowser = this@BaseBrowserFragment is FileBrowserFragment && item.uri.scheme == "file"
+                val isNetworkBrowser = this@BaseBrowserFragment is NetworkBrowserFragment
+                if (isFileBrowser || isNetworkBrowser) {
                     val favExists = withContext(VLCIO) { browserFavRepository.browserFavExists(mw.uri) }
-                    flags = if (favExists) flags or Constants.CTX_NETWORK_EDIT or Constants.CTX_NETWORK_REMOVE
-                    else flags or Constants.CTX_NETWORK_ADD
+                    flags = if (favExists) {
+                        if (isNetworkBrowser) flags or Constants.CTX_FAV_EDIT or Constants.CTX_FAV_REMOVE
+                        else flags or Constants.CTX_FAV_REMOVE
+                    } else flags or Constants.CTX_FAV_ADD
                 }
             } else {
                 val isVideo = mw.type == MediaWrapper.TYPE_VIDEO
@@ -412,10 +440,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onCtxAction(position: Int, option: Int) {
         if (adapter.getItem(position) !is MediaWrapper) return
-        val uri = (adapter.getItem(position) as MediaWrapper).uri
-        val mwFromMl = if ("file" == uri.scheme) mMediaLibrary.getMedia(uri) else null
-        val mw = mwFromMl ?: adapter.getItem(position) as MediaWrapper
-
+        val mw = adapter.getItem(position) as MediaWrapper
         when (option) {
             Constants.CTX_PLAY -> MediaUtils.openMedia(activity, mw)
             Constants.CTX_PLAY_ALL -> {
@@ -432,6 +457,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
             Constants.CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             Constants.CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
+            Constants.CTX_FAV_REMOVE -> launch(VLCIO) { browserFavRepository.deleteBrowserFav(mw.uri) }
         }
     }
 
