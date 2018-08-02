@@ -22,7 +22,11 @@ package org.videolan.vlc.database
 
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.migration.Migration
-import org.videolan.vlc.util.Constants
+import android.content.Context
+import kotlinx.coroutines.experimental.launch
+import org.videolan.vlc.repository.BrowserFavRepository
+import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.VLCIO
 
 private const val DIR_TABLE_NAME = "directories_table"
 private const val MEDIA_TABLE_NAME = "media_table"
@@ -161,14 +165,24 @@ val migration_26_27 = object:Migration(26, 27) {
     override fun migrate(database: SupportSQLiteDatabase) {
         dropUnnecessaryTables(database)
 
-        val SLAVES_TABLE_NAME_TEMP =  "${SLAVES_TABLE_NAME}_TEMP"
+        val slavesTableNameTemp =  "${SLAVES_TABLE_NAME}_TEMP"
         database.execSQL("UPDATE $SLAVES_TABLE_NAME SET slave_priority=2 WHERE slave_priority IS NULL;")
-        database.execSQL("CREATE TABLE IF NOT EXISTS $SLAVES_TABLE_NAME_TEMP ( slave_media_mrl TEXT PRIMARY KEY NOT NULL, slave_type INTEGER NOT NULL, slave_priority INTEGER NOT NULL, slave_uri TEXT NOT NULL);")
-        database.execSQL("INSERT INTO $SLAVES_TABLE_NAME_TEMP(slave_media_mrl, slave_type, slave_priority, slave_uri) SELECT slave_media_mrl, slave_type, slave_priority, slave_uri FROM $SLAVES_TABLE_NAME")
+        database.execSQL("CREATE TABLE IF NOT EXISTS $slavesTableNameTemp ( slave_media_mrl TEXT PRIMARY KEY NOT NULL, slave_type INTEGER NOT NULL, slave_priority INTEGER NOT NULL, slave_uri TEXT NOT NULL);")
+        database.execSQL("INSERT INTO $slavesTableNameTemp(slave_media_mrl, slave_type, slave_priority, slave_uri) SELECT slave_media_mrl, slave_type, slave_priority, slave_uri FROM $SLAVES_TABLE_NAME")
         database.execSQL("DROP TABLE $SLAVES_TABLE_NAME")
-        database.execSQL("ALTER TABLE $SLAVES_TABLE_NAME_TEMP RENAME TO $SLAVES_TABLE_NAME")
+        database.execSQL("ALTER TABLE $slavesTableNameTemp RENAME TO $SLAVES_TABLE_NAME")
 
         // Add a type column and set its value to 0 (till this version all favs were network favs)
         database.execSQL("ALTER TABLE $FAV_TABLE_NAME ADD COLUMN type INTEGER NOT NULL DEFAULT 0;")
     }
+}
+
+fun populateDB(context: Context) = launch(VLCIO) {
+    val favRepo = BrowserFavRepository(context)
+    val uris = listOf(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI,
+            AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI,
+            AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI,
+            AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI,
+            AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI)
+    for (uri in uris) favRepo.addLocalFavItem(uri, uri.lastPathSegment)
 }

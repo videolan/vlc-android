@@ -33,7 +33,9 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.gui.helpers.hf.getDocumentFiles
+import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.*
 import java.io.File
 
@@ -41,14 +43,38 @@ open class FileBrowserProvider(dataset: LiveDataset<MediaLibraryItem>, url: Stri
 
     private var storagePosition = -1
     private var otgPosition = -1
+    private val favorites = if (url == null && !filePicker) BrowserFavRepository(VLCApplication.getAppContext()).localFavorites else null
+
+    private val favoritesObserver by lazy { Observer<List<BrowserFav>> {
+        val favs = convertFavorites(it)
+        val data = dataset.value.toMutableList()
+        if (data.size > 1) {
+            data.listIterator(1).run {
+                while (hasNext()) {
+                    val item = next()
+                    if (item.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE) || item is DummyItem) remove()
+                }
+            }
+        }
+        if (favs.isNotEmpty()) {
+            val quickAccess = VLCApplication.getAppResources().getString(R.string.browser_quick_access)
+            data.add(DummyItem(quickAccess))
+            for (fav in favs) if (File(fav.uri.path).exists()) data.add(fav)
+        }
+        dataset.value = data
+        uiJob(false) { parseSubDirectories() }
+    } }
+
     init {
-        if (url == null) ExternalMonitor.devices.observeForever(this)
+        if (url == null) {
+            ExternalMonitor.devices.observeForever(this)
+            favorites?.observeForever(favoritesObserver)
+        }
     }
 
     override fun browseRoot() {
         val internalmemoryTitle = VLCApplication.getAppResources().getString(R.string.internal_memory)
         val browserStorage = VLCApplication.getAppResources().getString(R.string.browser_storages)
-        val quickAccess = VLCApplication.getAppResources().getString(R.string.browser_quick_access)
         val storages = AndroidDevices.getMediaDirectories()
         val devices = mutableListOf<MediaLibraryItem>()
         if (!filePicker) devices.add(DummyItem(browserStorage))
@@ -73,37 +99,6 @@ open class FileBrowserProvider(dataset: LiveDataset<MediaLibraryItem>, url: Stri
             otgPosition = devices.size
             devices.add(otg)
         }
-        // Set folders shortcuts
-        if (!filePicker) {
-            devices.add(DummyItem(quickAccess))
-        }
-        if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_FILE.exists()) {
-            val movies = MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI)
-            movies.type = MediaWrapper.TYPE_DIR
-            devices.add(movies)
-        }
-        if (!filePicker) {
-            if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_FILE.exists()) {
-                val music = MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI)
-                music.type = MediaWrapper.TYPE_DIR
-                devices.add(music)
-            }
-            if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_FILE.exists()) {
-                val podcasts = MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI)
-                podcasts.type = MediaWrapper.TYPE_DIR
-                devices.add(podcasts)
-            }
-            if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_FILE.exists()) {
-                val downloads = MediaWrapper(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI)
-                downloads.type = MediaWrapper.TYPE_DIR
-                devices.add(downloads)
-            }
-            if (AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE.exists()) {
-                val whatsapp = MediaWrapper(AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI)
-                whatsapp.type = MediaWrapper.TYPE_DIR
-                devices.add(whatsapp)
-            }
-        }
         dataset.value = devices
     }
 
@@ -119,7 +114,10 @@ open class FileBrowserProvider(dataset: LiveDataset<MediaLibraryItem>, url: Stri
     override fun refresh() = true
 
     override fun release(): Job {
-        if (url == null) ExternalMonitor.devices.removeObserver(this)
+        if (url == null) {
+            ExternalMonitor.devices.removeObserver(this)
+            favorites?.removeObserver(favoritesObserver)
+        }
         return super.release()
     }
 
@@ -138,5 +136,4 @@ open class FileBrowserProvider(dataset: LiveDataset<MediaLibraryItem>, url: Stri
             dataset.add(otgPosition, otg)
         }
     }
-
 }

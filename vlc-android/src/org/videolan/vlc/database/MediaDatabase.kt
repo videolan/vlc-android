@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.database
 
+import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
@@ -55,6 +56,11 @@ abstract class MediaDatabase: RoomDatabase() {
                                 migration_17_18, migration_18_19, migration_19_20, migration_20_21,
                                 migration_21_22, migration_22_23, migration_23_24, migration_24_25,
                                 migration_25_26, migration_26_27)
+                        .addCallback(object : RoomDatabase.Callback() {
+                            override fun onCreate(db: SupportSQLiteDatabase) {
+                                populateDB(context)
+                            }
+                        })
                         .build()
     }
 }
