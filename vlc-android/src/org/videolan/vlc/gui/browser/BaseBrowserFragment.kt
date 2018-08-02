@@ -113,9 +113,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         if (sortItem != null) sortItem.isVisible = !isRootDirectory
     }
 
-    protected open fun defineIsRoot(): Boolean {
-        return mrl == null
-    }
+    protected open fun defineIsRoot() = mrl == null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DirectoryBrowserBinding.inflate(inflater, container, false)
@@ -132,20 +130,20 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         viewModel.dataset.observe(this, Observer<MutableList<MediaLibraryItem>> { mediaLibraryItems -> adapter.update(mediaLibraryItems!!) })
         viewModel.getDescriptionUpdate().observe(this, Observer { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
     }
-
     override fun setBreadcrumb() {
         val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane) ?: return
-        currentMedia?.let {
+        val media = currentMedia
+        if (media != null && isSchemeSupported(media?.uri?.scheme)) {
             ariane.visibility = View.VISIBLE
             ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            ariane.adapter = PathAdapter(this, Uri.decode(it.uri.path))
+            ariane.adapter = PathAdapter(this, Uri.decode(media.uri.path))
             if (ariane.itemDecorationCount == 0) {
                 val did = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL)
                 did.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider_grey_50_18dp)!!)
                 ariane.addItemDecoration(did)
             }
             ariane.scrollToPosition(ariane.adapter.itemCount - 1)
-        } ?: run { ariane.visibility = View.GONE }
+        } else ariane.visibility = View.GONE
     }
 
     fun backTo(tag: String) {
@@ -273,9 +271,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
-    override fun clear() {
-        adapter.clear()
-    }
+    override fun clear() = adapter.clear()
 
     private fun removeMedia(mw: MediaWrapper) {
         viewModel.remove(mw)
