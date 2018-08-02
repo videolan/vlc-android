@@ -54,7 +54,6 @@ public class AndroidDevices {
     public final static String TAG = "VLC/UiTools/AndroidDevices";
     public final static String EXTERNAL_PUBLIC_DIRECTORY = Environment.getExternalStorageDirectory().getPath();
     public final static boolean isPhone;
-    public final static boolean hasCombBar;
     public final static boolean hasNavBar;
     public final static boolean hasTsp;
     public final static boolean isAndroidTv;
@@ -106,7 +105,6 @@ public class AndroidDevices {
         final TelephonyManager tm = ctx != null ? ((TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE)) : null;
         isPhone = tm == null || tm.getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
         // hasCombBar test if device has Combined Bar : only for tablet with Honeycomb or ICS
-        hasCombBar = !AndroidDevices.isPhone && !AndroidUtil.isJellyBeanMR1OrLater;
     }
 
     public static boolean hasExternalStorage() {

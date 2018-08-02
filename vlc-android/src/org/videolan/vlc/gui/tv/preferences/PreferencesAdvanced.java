@@ -23,23 +23,17 @@
 
 package org.videolan.vlc.gui.tv.preferences;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.v7.preference.EditTextPreference;
 import android.support.v7.preference.Preference;
-import android.text.TextUtils;
 import android.widget.Toast;
 
-import org.videolan.libvlc.util.AndroidUtil;
-import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DebugLogActivity;
@@ -56,16 +50,6 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
     @Override
     protected int getTitleId() {
         return R.string.advanced_prefs_category;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (TextUtils.equals(BuildConfig.FLAVOR_target, "chrome")) {
-            findPreference("quit_app").setEnabled(false);
-        }
-        findPreference("debug_logs").setVisible(AndroidUtil.isJellyBeanOrLater ||
-                (BuildConfig.DEBUG && getActivity().checkCallingOrSelfPermission(Manifest.permission.READ_LOGS) == PackageManager.PERMISSION_GRANTED));
     }
 
     @Override

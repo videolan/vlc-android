@@ -340,12 +340,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mActionBarView = (ViewGroup) mActionBar.getCustomView();
 
         mTitle = mActionBarView.findViewById(R.id.player_overlay_title);
-        if (!AndroidUtil.isJellyBeanOrLater) {
-            View v = findViewById(R.id.player_overlay_systime);
-            if (v instanceof TextView) mSysTime = (TextView) v;
-            v = findViewById(R.id.player_overlay_battery);
-            if (v instanceof TextView) mBattery = (TextView) v;
-        }
 
         mPlaylistToggle = findViewById(R.id.playlist_toggle);
         mPlaylist = findViewById(R.id.video_playlist);
@@ -433,7 +427,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         } else touch = 0;
         mCurrentScreenOrientation = getResources().getConfiguration().orientation;
         if (touch != 0) {
-            boolean isRtl = AndroidUtil.isJellyBeanMR1OrLater && TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
+            boolean isRtl = TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
             final DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
             int yRange = Math.min(dm.widthPixels, dm.heightPixels);
@@ -582,15 +576,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final int orientation = getScreenOrientation(100);
         final boolean portrait = orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT ||
                 orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
-        final int endOf = AndroidUtil.isJellyBeanMR1OrLater ? RelativeLayout.END_OF : RelativeLayout.RIGHT_OF;
-        final int startOf = AndroidUtil.isJellyBeanMR1OrLater ? RelativeLayout.START_OF : RelativeLayout.LEFT_OF;
-        final int endAlign = AndroidUtil.isJellyBeanMR1OrLater ? RelativeLayout.ALIGN_PARENT_END : RelativeLayout.ALIGN_PARENT_RIGHT;
-        final int startAlign = AndroidUtil.isJellyBeanMR1OrLater ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_LEFT;
-        layoutParams.addRule(startAlign, portrait ? 1 : 0);
-        layoutParams.addRule(endAlign, portrait ? 1 : 0);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START, portrait ? 1 : 0);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_END, portrait ? 1 : 0);
         layoutParams.addRule(RelativeLayout.BELOW, portrait ? R.id.player_overlay_length : R.id.player_overlay_seekbar);
-        layoutParams.addRule(endOf, portrait ? 0 : R.id.player_overlay_time);
-        layoutParams.addRule(startOf, portrait ? 0 : R.id.player_overlay_length);
+        layoutParams.addRule(RelativeLayout.END_OF, portrait ? 0 : R.id.player_overlay_time);
+        layoutParams.addRule(RelativeLayout.START_OF, portrait ? 0 : R.id.player_overlay_length);
         mHudBinding.playerOverlayButtons.setLayoutParams(layoutParams);
     }
 
@@ -2503,7 +2493,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mHudBinding.progressOverlay.setLayoutParams(layoutParams);
             mOverlayBackground = findViewById(R.id.player_overlay_background);
             mNavMenu = findViewById(R.id.player_overlay_navmenu);
-            if (!AndroidDevices.isChromeBook && AndroidUtil.isJellyBeanMR1OrLater && !VLCApplication.showTvUi()) {
+            if (!AndroidDevices.isChromeBook && !VLCApplication.showTvUi()) {
                 mRendererBtn = findViewById(R.id.video_renderer);
                 RendererDelegate.INSTANCE.getSelectedRenderer().observe(this, new Observer<RendererItem>() {
                     @Override
@@ -2570,23 +2560,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mIsNavMenu) return;
         if (dim || mIsLocked) mActionBar.hide();
         else mActionBar.show();
-        int visibility = 0;
-        int navbar = 0;
 
-        if (AndroidUtil.isJellyBeanOrLater) {
-            visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-            navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
-        }
+        int visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+        int navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         if (dim || mIsLocked) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            navbar |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
-            if (!AndroidDevices.hasCombBar) {
-                navbar |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-                if (AndroidUtil.isKitKatOrLater)
-                    visibility |= View.SYSTEM_UI_FLAG_IMMERSIVE;
-                if (AndroidUtil.isJellyBeanOrLater)
-                    visibility |= View.SYSTEM_UI_FLAG_FULLSCREEN;
-            }
+            navbar |= View.SYSTEM_UI_FLAG_LOW_PROFILE|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            if (AndroidUtil.isKitKatOrLater) visibility |= View.SYSTEM_UI_FLAG_IMMERSIVE;
+            visibility |= View.SYSTEM_UI_FLAG_FULLSCREEN;
         } else {
             mActionBar.show();
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -2601,14 +2582,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void showTitle() {
         if (mIsNavMenu) return;
-        int visibility = 0;
-        int navbar = 0;
         mActionBar.show();
 
-        if (AndroidUtil.isJellyBeanOrLater) {
-            visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-            navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
-        }
+        int visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+        int navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         navbar |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
 
         if (AndroidDevices.hasNavBar) visibility |= navbar;

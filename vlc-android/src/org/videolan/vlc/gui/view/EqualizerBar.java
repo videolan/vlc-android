@@ -30,7 +30,6 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
 
@@ -58,19 +57,17 @@ public class EqualizerBar extends LinearLayout {
     private void init(Context context, float band) {
         LayoutInflater.from(context).inflate(R.layout.equalizer_bar, this, true);
 
-        mSeek = (VerticalSeekBar) findViewById(R.id.equalizer_seek);
+        mSeek = findViewById(R.id.equalizer_seek);
         //Force LTR to fix VerticalSeekBar background problem with RTL layout
-        if (AndroidUtil.isJellyBeanMR1OrLater){
-            mSeek.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-        }
+        mSeek.setLayoutDirection(LAYOUT_DIRECTION_LTR);
         mSeek.setMax(2 * RANGE);
         mSeek.setProgress(RANGE);
         mSeek.setOnSeekBarChangeListener(mSeekListener);
-        mBand = (TextView) findViewById(R.id.equalizer_band);
+        mBand = findViewById(R.id.equalizer_band);
         mBand.setText(band < 999.5f
                 ? (int) (band + 0.5f) + " Hz"
                 : (int) (band / 1000.0f + 0.5f) + " kHz");
-        mValue = (TextView) findViewById(R.id.equalizer_value);
+        mValue = findViewById(R.id.equalizer_value);
     }
 
     private final OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {

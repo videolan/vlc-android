@@ -16,7 +16,6 @@ import android.view.SurfaceView
 import android.view.WindowManager
 import android.widget.FrameLayout
 import org.videolan.libvlc.RendererItem
-import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.RendererDelegate
@@ -29,7 +28,7 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean, benchma
 
     val displayType: DisplayType
     // Presentation
-    private val mediaRouter: MediaRouter? by lazy { if (AndroidUtil.isJellyBeanMR1OrLater) activity.applicationContext.getSystemService(Context.MEDIA_ROUTER_SERVICE) as MediaRouter else null }
+    private val mediaRouter: MediaRouter? by lazy { activity.applicationContext.getSystemService(Context.MEDIA_ROUTER_SERVICE) as MediaRouter }
     private var mediaRouterCallback: MediaRouter.SimpleCallback? = null
     var presentation: SecondaryDisplay? = null
     private var presentationDisplayId = -1
@@ -57,7 +56,7 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean, benchma
     }}
 
     init {
-        presentation = if (AndroidUtil.isJellyBeanMR1OrLater && !(cloneMode || benchmark)) createPresentation() else null
+        presentation = if (!(cloneMode || benchmark)) createPresentation() else null
         displayType = if (benchmark) DisplayType.PRIMARY else getCurrentType()
         if (!AndroidDevices.isChromeBook) RendererDelegate.selectedRenderer.observeForever(rendererObs)
     }
@@ -115,9 +114,7 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean, benchma
      */
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     fun mediaRouterAddCallback(add: Boolean) {
-        if (!AndroidUtil.isJellyBeanMR1OrLater || mediaRouter === null
-                || add == (mediaRouterCallback !== null))
-            return
+        if (mediaRouter === null || add == (mediaRouterCallback !== null)) return
         if (add) {
             mediaRouterCallback = object : MediaRouter.SimpleCallback() {
                 override fun onRoutePresentationDisplayChanged(

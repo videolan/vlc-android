@@ -124,8 +124,8 @@ public class StartActivity extends FragmentActivity implements StoragePermission
     }
 
     private boolean showTvUi() {
-        return AndroidUtil.isJellyBeanMR1OrLater && (AndroidDevices.isAndroidTv || (!AndroidDevices.isChromeBook && !AndroidDevices.hasTsp) ||
-                PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tv_ui", false));
+        return AndroidDevices.isAndroidTv || (!AndroidDevices.isChromeBook && !AndroidDevices.hasTsp) ||
+                PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tv_ui", false);
     }
 
     @Override

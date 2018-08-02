@@ -31,8 +31,6 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.TextureView;
 
-import org.videolan.libvlc.util.AndroidUtil;
-
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -204,8 +202,7 @@ public class AWindow implements IVLCVout {
     private int mMouseAction = -1, mMouseButton = -1, mMouseX = -1, mMouseY = -1;
     private int mWindowWidth = -1, mWindowHeight = -1;
 
-    private SurfaceTextureThread mSurfaceTextureThread = AndroidUtil.isJellyBeanOrLater ?
-            new SurfaceTextureThread() : null;
+    private SurfaceTextureThread mSurfaceTextureThread = new SurfaceTextureThread();
 
     /**
      * Create an AWindow
@@ -358,8 +355,7 @@ public class AWindow implements IVLCVout {
             cb.onSurfacesDestroyed(this);
         if (mSurfaceCallback != null)
             mSurfaceCallback.onSurfacesDestroyed(this);
-        if (AndroidUtil.isJellyBeanOrLater)
-            mSurfaceTextureThread.release();
+        mSurfaceTextureThread.release();
     }
 
     @Override
@@ -707,7 +703,7 @@ public class AWindow implements IVLCVout {
      */
     @SuppressWarnings("unused") /* used by JNI */
     boolean SurfaceTexture_attachToGLContext(int texName) {
-        return AndroidUtil.isJellyBeanOrLater && mSurfaceTextureThread.attachToGLContext(texName);
+        return mSurfaceTextureThread.attachToGLContext(texName);
     }
 
     /**

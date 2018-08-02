@@ -33,8 +33,6 @@ public class AndroidUtil {
     public static final boolean isLolliPopOrLater = isMarshMallowOrLater || android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     public static final boolean isKitKatOrLater = isLolliPopOrLater || android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
     public static final boolean isJellyBeanMR2OrLater = isKitKatOrLater || android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
-    public static final boolean isJellyBeanMR1OrLater = isJellyBeanMR2OrLater || android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
-    public static final boolean isJellyBeanOrLater = isJellyBeanMR1OrLater || android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
 
     public static File UriToFile(Uri uri) {
         return new File(uri.getPath().replaceFirst("file://", ""));
