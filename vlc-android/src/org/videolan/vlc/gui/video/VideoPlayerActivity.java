@@ -3121,6 +3121,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private void updateNavStatus() {
+        if (mService == null) return;
         mIsNavMenu = false;
         mMenuIdx = -1;
 
