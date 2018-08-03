@@ -1613,11 +1613,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private void onPlaying() {
         mIsPlaying = true;
+        final MediaWrapper mw = mService.getCurrentMediaWrapper();
+        if (mw == null) return;
         setPlaybackParameters();
         stopLoading();
         updateOverlayPausePlay();
         updateNavStatus();
-        final MediaWrapper mw = mService.getCurrentMediaWrapper();
         if (!mw.hasFlag(MediaWrapper.MEDIA_PAUSED))
             mHandler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT);
         else {
