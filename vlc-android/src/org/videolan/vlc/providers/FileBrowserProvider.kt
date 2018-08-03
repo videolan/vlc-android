@@ -25,6 +25,7 @@ import android.hardware.usb.UsbDevice
 import android.net.Uri
 import android.text.TextUtils
 import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.cancelAndJoin
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.media.DummyItem
@@ -62,13 +63,16 @@ open class FileBrowserProvider(
                 }
             }
         }
-        if (favs.isNotEmpty()) {
-            val quickAccess = VLCApplication.getAppResources().getString(R.string.browser_quick_access)
-            data.add(DummyItem(quickAccess))
-            for (fav in favs) if (File(fav.uri.path).exists()) data.add(fav)
+        uiJob(false) {
+            if (favs.isNotEmpty()) {
+                job?.cancelAndJoin()
+                val quickAccess = VLCApplication.getAppResources().getString(R.string.browser_quick_access)
+                data.add(DummyItem(quickAccess))
+                for (fav in favs) if (File(fav.uri.path).exists()) data.add(fav)
+            }
+            dataset.value = data
+            parseSubDirectories()
         }
-        dataset.value = data
-        uiJob(false) { parseSubDirectories() }
     } }
 
     init {

@@ -57,7 +57,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
 
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
     private lateinit var browserChannel : Channel<Media>
-    private var job : Job? = null
+    protected var job : Job? = null
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = Medialibrary.getInstance()
