@@ -66,9 +66,16 @@ open class FileBrowserProvider(
         uiJob(false) {
             if (favs.isNotEmpty()) {
                 job?.cancelAndJoin()
-                val quickAccess = VLCApplication.getAppResources().getString(R.string.browser_quick_access)
-                data.add(DummyItem(quickAccess))
-                for (fav in favs) if (File(fav.uri.path).exists()) data.add(fav)
+                val position = data.size
+                var favAdded = false
+                for (fav in favs) if (File(fav.uri.path).exists()) {
+                    favAdded = true
+                    data.add(fav)
+                }
+                if (favAdded) {
+                    val quickAccess = VLCApplication.getAppResources().getString(R.string.browser_quick_access)
+                    data.add(position, DummyItem(quickAccess))
+                }
             }
             dataset.value = data
             parseSubDirectories()
