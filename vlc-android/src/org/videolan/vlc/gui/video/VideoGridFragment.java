@@ -114,6 +114,16 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        restart = false;
+        final boolean empty = viewModel.getDataset().getValue().isEmpty();
+        mBinding.loadingFlipper.setVisibility(empty ? View.VISIBLE : View.GONE);
+        mBinding.loadingTitle.setVisibility(empty ? View.VISIBLE : View.GONE);
+        mBinding.setEmpty(empty);
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mSwipeRefreshLayout.setOnRefreshListener(this);
