@@ -611,8 +611,8 @@
         </receiver>
 
         <provider
-            android:authorities="org.videolan.vlc.thumbprovider"
-            android:name="videolan.org.commontools.FileProvider"
+            android:authorities="${applicationId}.thumbprovider"
+            android:name=".FileProvider"
             android:exported="true"
             android:grantUriPermissions="true">
         </provider>

@@ -1,4 +1,4 @@
-package videolan.org.commontools
+package org.videolan.vlc
 
 import android.content.ContentProvider
 import android.content.ContentValues
@@ -9,7 +9,7 @@ import java.io.File
 import java.io.FileNotFoundException
 
 private const val TAG = "VLC/FileProvider"
-const val THUMB_PROVIDER_AUTHORITY = "org.videolan.vlc.thumbprovider"
+private const val THUMB_PROVIDER_AUTHORITY = "${BuildConfig.APPLICATION_ID}.thumbprovider"
 
 class FileProvider : ContentProvider() {
     override fun insert(uri: Uri, values: ContentValues?) = Uri.EMPTY!!
