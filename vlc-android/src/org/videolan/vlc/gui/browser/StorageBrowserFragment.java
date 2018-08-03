@@ -23,10 +23,12 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.annotation.TargetApi;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -83,6 +85,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
         if (bundle != null) mScannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -93,7 +96,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     }
 
     protected void setupBrowser() {
-        viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(getMrl(), BrowserModelKt.TYPE_STORAGE, getShowHiddenFiles())).get(BrowserModel.class);
+        viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(requireContext(), getMrl(), BrowserModelKt.TYPE_STORAGE, getShowHiddenFiles())).get(BrowserModel.class);
     }
 
     @Override

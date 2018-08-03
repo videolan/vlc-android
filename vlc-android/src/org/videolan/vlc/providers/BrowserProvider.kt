@@ -21,6 +21,7 @@
 package org.videolan.vlc.providers
 
 import android.arch.lifecycle.MutableLiveData
+import android.content.Context
 import android.net.Uri
 import android.os.Handler
 import android.os.HandlerThread
@@ -39,7 +40,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.VLCInstance
@@ -48,11 +48,12 @@ import java.util.*
 
 const val TAG = "VLC/BrowserProvider"
 
-abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private val showHiddenFiles: Boolean) : EventListener {
+abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private val showHiddenFiles: Boolean) : EventListener {
 
     init {
         fetch()
     }
+
     protected var mediabrowser: MediaBrowser? = null
 
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
@@ -168,7 +169,7 @@ abstract class BrowserProvider(val dataset: LiveDataset<MediaLibraryItem>, val u
 
     private val sb = StringBuilder()
     private fun getDescription(folderCount: Int, mediaFileCount: Int): String {
-        val res = VLCApplication.getAppResources()
+        val res = context.resources
         sb.setLength(0)
         if (folderCount > 0) {
             sb.append(res.getQuantityString(R.plurals.subfolders_quantity, folderCount, folderCount))

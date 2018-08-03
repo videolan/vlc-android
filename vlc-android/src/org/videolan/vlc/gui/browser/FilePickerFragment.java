@@ -72,7 +72,7 @@ public class FilePickerFragment extends FileBrowserFragment {
 
     @Override
     protected void setupBrowser() {
-        viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(getMrl(), BrowserModelKt.TYPE_PICKER, false)).get(BrowserModel.class);
+        viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(requireContext(), getMrl(), BrowserModelKt.TYPE_PICKER, false)).get(BrowserModel.class);
     }
 
     @Override

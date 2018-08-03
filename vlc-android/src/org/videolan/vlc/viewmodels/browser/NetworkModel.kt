@@ -22,17 +22,18 @@ package org.videolan.vlc.viewmodels.browser
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import android.content.Context
 
-class NetworkModel(url: String? = null, showHiddenFiles: Boolean): BrowserModel(url, TYPE_NETWORK, showHiddenFiles) {
+class NetworkModel(context: Context, url: String? = null, showHiddenFiles: Boolean): BrowserModel(context, url, TYPE_NETWORK, showHiddenFiles) {
 
     override fun refresh() : Boolean {
         return provider.refresh()
     }
 
-    class Factory(val url: String?, private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
+    class Factory(val context: Context, val url: String?, private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return NetworkModel(url, showHiddenFiles) as T
+            return NetworkModel(context.applicationContext, url, showHiddenFiles) as T
         }
     }
 }

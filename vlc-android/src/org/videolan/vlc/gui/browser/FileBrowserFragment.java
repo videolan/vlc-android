@@ -64,8 +64,8 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     }
 
     protected void setupBrowser() {
-        if (isRootDirectory()) viewModel = ViewModelProviders.of(requireActivity(), new BrowserModel.Factory(null, BrowserModelKt.TYPE_FILE, getShowHiddenFiles())).get(BrowserModel.class);
-        else viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(getMrl(), BrowserModelKt.TYPE_FILE, getShowHiddenFiles())).get(BrowserModel.class);
+        if (isRootDirectory()) viewModel = ViewModelProviders.of(requireActivity(), new BrowserModel.Factory(requireContext(), null, BrowserModelKt.TYPE_FILE, getShowHiddenFiles())).get(BrowserModel.class);
+        else viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(requireContext(), getMrl(), BrowserModelKt.TYPE_FILE, getShowHiddenFiles())).get(BrowserModel.class);
     }
 
     public String getTitle() {

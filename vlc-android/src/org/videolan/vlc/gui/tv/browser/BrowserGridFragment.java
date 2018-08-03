@@ -61,7 +61,7 @@ public class BrowserGridFragment extends GridFragment implements OnItemViewSelec
         super.onCreate(savedInstanceState);
         setOnItemViewSelectedListener(this);
         setOnItemViewClickedListener(this); mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("browser_show_hidden_files", false);
-        provider = ViewModelProviders.of(this, new NetworkModel.Factory(null, mShowHiddenFiles)).get(NetworkModel.class);
+        provider = ViewModelProviders.of(this, new NetworkModel.Factory(requireContext(), null, mShowHiddenFiles)).get(NetworkModel.class);
         provider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable List<MediaLibraryItem> mediaLibraryItems) {

@@ -21,19 +21,19 @@
 package org.videolan.vlc.providers
 
 import android.arch.lifecycle.Observer
+import android.content.Context
 import kotlinx.coroutines.experimental.Job
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.LiveDataset
 
-class NetworkProvider(dataset: LiveDataset<MediaLibraryItem>, url: String? = null, showHiddenFiles: Boolean): BrowserProvider(dataset, url, showHiddenFiles), Observer<List<MediaWrapper>> {
+class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String? = null, showHiddenFiles: Boolean): BrowserProvider(context, dataset, url, showHiddenFiles), Observer<List<MediaWrapper>> {
 
-    private val favorites = if (url == null) BrowserFavRepository(VLCApplication.getAppContext()).networkFavorites else null
+    private val favorites = if (url == null) BrowserFavRepository(context).networkFavorites else null
 
     init {
         favorites?.observeForever(this)
@@ -78,9 +78,9 @@ class NetworkProvider(dataset: LiveDataset<MediaLibraryItem>, url: String? = nul
     private fun getFavoritesList(favs: List<MediaWrapper>?): MutableList<MediaLibraryItem>? {
         if (favs?.isNotEmpty() == true) {
             val list = mutableListOf<MediaLibraryItem>()
-            list.add(0, DummyItem(VLCApplication.getAppResources().getString(R.string.network_favorites)))
+            list.add(0, DummyItem(context.getString(R.string.network_favorites)))
             for ((index, fav) in favs.withIndex()) list.add(index + 1, fav)
-            list.add(DummyItem(VLCApplication.getAppResources().getString(R.string.network_shared_folders)))
+            list.add(DummyItem(context.getString(R.string.network_shared_folders)))
             return list
         }
         return null

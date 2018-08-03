@@ -21,6 +21,7 @@
 package org.videolan.vlc.providers
 
 import android.arch.lifecycle.Observer
+import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.net.Uri
 import android.text.TextUtils
@@ -33,7 +34,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.gui.helpers.hf.getDocumentFiles
 import org.videolan.vlc.repository.BrowserFavRepository
@@ -41,16 +41,17 @@ import org.videolan.vlc.util.*
 import java.io.File
 
 open class FileBrowserProvider(
+        context: Context,
         dataset: LiveDataset<MediaLibraryItem>,
         url: String?, private val filePicker: Boolean = false,
-        showHiddenFiles: Boolean) : BrowserProvider(dataset,
+        showHiddenFiles: Boolean) : BrowserProvider(context, dataset,
         url, showHiddenFiles
 ), Observer<MutableList<UsbDevice>> {
 
     private var storagePosition = -1
     private var otgPosition = -1
     private val showFavorites : Boolean
-    private val favorites = if (url == null && !filePicker) BrowserFavRepository(VLCApplication.getAppContext()).localFavorites else null
+    private val favorites = if (url == null && !filePicker) BrowserFavRepository(context).localFavorites else null
 
     private val favoritesObserver by lazy { Observer<List<BrowserFav>> {
         val favs = convertFavorites(it)
@@ -73,7 +74,7 @@ open class FileBrowserProvider(
                     data.add(fav)
                 }
                 if (favAdded) {
-                    val quickAccess = VLCApplication.getAppResources().getString(R.string.browser_quick_access)
+                    val quickAccess = context.getString(R.string.browser_quick_access)
                     data.add(position, DummyItem(quickAccess))
                 }
             }
@@ -91,8 +92,8 @@ open class FileBrowserProvider(
     }
 
     override fun browseRoot() {
-        val internalmemoryTitle = VLCApplication.getAppResources().getString(R.string.internal_memory)
-        val browserStorage = VLCApplication.getAppResources().getString(R.string.browser_storages)
+        val internalmemoryTitle = context.getString(R.string.internal_memory)
+        val browserStorage = context.getString(R.string.browser_storages)
         val storages = AndroidDevices.getMediaDirectories()
         val devices = mutableListOf<MediaLibraryItem>()
         if (!filePicker) devices.add(DummyItem(browserStorage))
@@ -123,7 +124,7 @@ open class FileBrowserProvider(
     override fun browse(url: String?) {
         when {
             url == "otg://" || url?.startsWith("content:") == true -> uiJob {
-                dataset.value = withContext(VLCIO) { getDocumentFiles(VLCApplication.getAppContext(), Uri.parse(url).path.substringAfterLast(':')) as? MutableList<MediaLibraryItem> ?: mutableListOf() }
+                dataset.value = withContext(VLCIO) { getDocumentFiles(context, Uri.parse(url).path.substringAfterLast(':')) as? MutableList<MediaLibraryItem> ?: mutableListOf() }
             }
             else -> super.browse(url)
         }
@@ -147,7 +148,7 @@ open class FileBrowserProvider(
             }
         } else if (otgPosition == -1) {
             val otg = MediaWrapper(Uri.parse("otg://")).apply {
-                title = VLCApplication.getAppResources().getString(R.string.otg_device_title)
+                title = context.getString(R.string.otg_device_title)
                 type = MediaWrapper.TYPE_DIR
             }
             otgPosition = storagePosition+1

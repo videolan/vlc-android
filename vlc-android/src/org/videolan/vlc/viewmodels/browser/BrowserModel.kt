@@ -22,6 +22,7 @@ package org.videolan.vlc.viewmodels.browser
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import android.content.Context
 import android.support.annotation.MainThread
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineStart
@@ -38,13 +39,13 @@ const val TYPE_NETWORK = 1
 const val TYPE_PICKER = 2
 const val TYPE_STORAGE = 3
 
-open class BrowserModel(val url: String?, type: Int, showHiddenFiles: Boolean) : BaseModel<MediaLibraryItem>() {
+open class BrowserModel(val context: Context, val url: String?, type: Int, showHiddenFiles: Boolean) : BaseModel<MediaLibraryItem>() {
 
     protected val provider: BrowserProvider = when (type) {
-        TYPE_PICKER -> FilePickerProvider(dataset, url)
-        TYPE_NETWORK -> NetworkProvider(dataset, url, showHiddenFiles)
-        TYPE_STORAGE -> StorageProvider(dataset, url, showHiddenFiles)
-        else -> FileBrowserProvider(dataset, url, showHiddenFiles = showHiddenFiles)
+        TYPE_PICKER -> FilePickerProvider(context, dataset, url)
+        TYPE_NETWORK -> NetworkProvider(context, dataset, url, showHiddenFiles)
+        TYPE_STORAGE -> StorageProvider(context, dataset, url, showHiddenFiles)
+        else -> FileBrowserProvider(context, dataset, url, showHiddenFiles = showHiddenFiles)
     }
 
     public override fun fetch() {}
@@ -74,10 +75,10 @@ open class BrowserModel(val url: String?, type: Int, showHiddenFiles: Boolean) :
         provider.release()
     }
 
-    class Factory(val url: String?, private val type: Int,  private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
+    class Factory(val context: Context, val url: String?, private val type: Int,  private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return BrowserModel(url, type, showHiddenFiles) as T
+            return BrowserModel(context.applicationContext, url, type, showHiddenFiles) as T
         }
     }
 }
