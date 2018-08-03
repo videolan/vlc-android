@@ -64,14 +64,23 @@
             android:id="@+id/ml_item_thumbnail"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@{cover}"
-            android:scaleType="fitXY"
-            android:src="@drawable/black_gradient"
+            android:scaleType="centerCrop"
+            android:src="@{cover}"
             vlc:media="@{media}"
             vlc:layout_constraintTop_toTopOf="parent"
             vlc:layout_constraintBottom_toBottomOf="parent"
             vlc:layout_constraintStart_toStartOf="parent"
             vlc:layout_constraintEnd_toEndOf="parent"/>
+        <ImageView
+            android:id="@+id/ml_item_overlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/black_gradient"
+            vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail"
+            vlc:layout_constraintBottom_toBottomOf="@+id/ml_item_thumbnail"
+            vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
+            vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"/>
 
         <ImageView
             android:id="@+id/ml_item_seen"
