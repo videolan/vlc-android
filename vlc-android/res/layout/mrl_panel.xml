@@ -8,20 +8,24 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/mrl_root"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/background_default_darker"
-            android:padding="28dp"
-            android:layoutDirection="ltr">
+            android:layoutDirection="ltr"
+            android:padding="16dp"
+            android:minWidth="@dimen/mrl_panel_min_width">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/mrl_edit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
                 app:layout_constraintEnd_toStartOf="@+id/play"
                 app:layout_constraintRight_toLeftOf="@+id/play"
                 app:layout_constraintStart_toStartOf="parent"
