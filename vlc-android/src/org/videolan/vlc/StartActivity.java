@@ -116,10 +116,10 @@ public class StartActivity extends FragmentActivity implements StoragePermission
     }
 
     private void startPlaybackFromApp(Intent intent) {
+        intent.setData(Uri.parse(Uri.encode(Uri.decode(intent.getDataString()), ".-_~/()&!$*+,;='@:")));
         if (intent.getType() != null && intent.getType().startsWith("video"))
             startActivity(intent.setClass(this, VideoPlayerActivity.class));
-        else
-            MediaUtils.INSTANCE.openMediaNoUi(intent.getData());
+        else MediaUtils.INSTANCE.openMediaNoUi(intent.getData());
         finish();
     }
 
