@@ -270,7 +270,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             skipMedia()
         } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
                 || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
-            val uri = FileUtils.getUri(mw.uri)
+            val uri = Uri.parse(Uri.decode(FileUtils.getUri(mw.uri).toString()))
             if (uri == null) {
                 skipMedia()
                 return
