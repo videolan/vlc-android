@@ -47,6 +47,10 @@ android {
         resValue "string", "build_vlc_revision", vlcRevision()
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // The following argument makes the Android Test Orchestrator run its
+        // "pm clear" command after each test invocation. This command ensures
+        // that the app's state is completely cleared between tests.
+        testInstrumentationRunnerArguments clearPackageData: 'true'
 
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -66,6 +70,10 @@ android {
                                      "$projectDir/assets/schemas".toString()]
             }
         }
+    }
+
+    testOptions {
+        execution 'ANDROID_TEST_ORCHESTRATOR'
     }
 
     signingConfigs {
@@ -225,6 +233,8 @@ dependencies {
     androidTestImplementation "android.arch.persistence.room:testing:$rootProject.ext.roomVersion"
     testImplementation "android.arch.core:core-testing:$rootProject.ext.archVersion"
     androidTestImplementation "android.arch.core:core-testing:$rootProject.ext.archVersion"
+    androidTestImplementation "com.android.support.test:runner:$rootProject.ext.supportTest"
+    androidTestUtil "com.android.support.test:orchestrator:$rootProject.ext.supportTest"
 
 }
 
