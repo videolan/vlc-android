@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  SlaveDaoTest.kt
+ *  DbTest.kt
  * ****************************************************************************
  * Copyright © 2018 VLC authors and VideoLAN
  *
@@ -20,26 +20,35 @@
 
 package org.videolan.vlc.database
 
-import android.support.test.runner.AndroidJUnit4
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
-import org.junit.Test
-import org.junit.runner.RunWith
-import java.org.videolan.vlc.util.TestUtil
+import android.arch.core.executor.testing.CountingTaskExecutorRule
+import android.arch.persistence.room.Room
+import android.support.test.InstrumentationRegistry
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import java.util.concurrent.TimeUnit
 
-@RunWith(AndroidJUnit4::class)
-class SlaveDaoTest: DbTest() {
 
-    @Test fun insertTwoSubtitleSlave_GetShouldReturnJustLatOne() {
-        val fakeSlaves = TestUtil.createSubtitleSlavesForMedia("foo", 2)
-        fakeSlaves.forEach {
-            db.slaveDao().insert(it)
-        }
+abstract class DbTest {
+    @Rule
+    @JvmField
+    val countingTaskExecutorRule = CountingTaskExecutorRule()
+    private lateinit var _db: MediaDatabase
+    val db: MediaDatabase
+        get() = _db
 
-        /*===========================================================*/
-
-        val slaves = db.slaveDao().get(fakeSlaves[0].mediaPath)
-        assertThat(slaves.size, equalTo(1))
-        assertThat(slaves, hasItem(fakeSlaves[1]))
+    @Before
+    fun initDb() {
+        _db = Room.inMemoryDatabaseBuilder(
+            InstrumentationRegistry.getTargetContext(),
+            MediaDatabase::class.java)
+            .build()
     }
+
+    @After
+    fun closeDb() {
+        countingTaskExecutorRule.drainTasks(10, TimeUnit.SECONDS)
+        _db.close()
+    }
+
 }

@@ -177,10 +177,10 @@ android {
         res.srcDirs = ['flavors/debug/res']
     }
     sourceSets.test {
-        java.srcDirs = ['test']
+        java.srcDirs = ['test', 'test-common']
     }
     sourceSets.androidTest {
-        java.srcDirs = ['androidTest']
+        java.srcDirs = ['androidTest', 'test-common']
         assets.srcDirs += files("$projectDir/assets/schemas".toString())
     }
 }
@@ -223,6 +223,9 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     androidTestImplementation "android.arch.persistence.room:testing:$rootProject.ext.roomVersion"
+    testImplementation "android.arch.core:core-testing:$rootProject.ext.archVersion"
+    androidTestImplementation "android.arch.core:core-testing:$rootProject.ext.archVersion"
+
 }
 
 static def buildTime() {
