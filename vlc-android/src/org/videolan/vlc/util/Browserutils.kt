@@ -27,7 +27,7 @@ import org.videolan.vlc.database.models.BrowserFav
 
 
 fun isSchemeSupported(scheme: String?) = when(scheme) {
-    "file", "smb", "ssh", "nfs" -> true
+    "file", "smb", "ssh", "nfs", "content" -> true
     else -> false
 }
 

@@ -617,4 +617,5 @@
     <string name="tv_my_new_videos">My new videos</string>
     <string name="cast_option_title">Cast medias on another screen</string>
     <string name="otg_device_title">OTG device</string>
+    <string name="browser">Browser</string>
 </resources>

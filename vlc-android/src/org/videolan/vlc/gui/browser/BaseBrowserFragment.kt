@@ -213,7 +213,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         viewModel.saveList(media)
         args.putParcelable(KEY_MEDIA, media)
         next.arguments = args
-        if (save) ft.addToBackStack(if (isRootDirectory) "root" else FileUtils.getFileNameFromPath(mrl))
+        if (save) ft.addToBackStack(if (isRootDirectory) "root" else currentMedia?.title ?: FileUtils.getFileNameFromPath(mrl))
         ft.replace(R.id.fragment_placeholder, next, media.title)
         ft.commit()
     }
