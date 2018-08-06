@@ -423,14 +423,14 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
             if (MediaParsingService.wizardShowing) return@uiJob
             MediaParsingService.wizardShowing = true
             startMLWizard()
+            return@uiJob
         }
-    } else {
-        val intent = Intent(Constants.ACTION_INIT, null, this@startMedialibrary, MediaParsingService::class.java)
-        ContextCompat.startForegroundService(this@startMedialibrary, intent
-                .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
-                .putExtra(Constants.EXTRA_UPGRADE, upgrade)
-                .putExtra(Constants.EXTRA_PARSE, parse && scanOpt == Constants.ML_SCAN_ON))
     }
+    val intent = Intent(Constants.ACTION_INIT, null, this@startMedialibrary, MediaParsingService::class.java)
+    ContextCompat.startForegroundService(this@startMedialibrary, intent
+            .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
+            .putExtra(Constants.EXTRA_UPGRADE, upgrade)
+            .putExtra(Constants.EXTRA_PARSE, parse && scanOpt == Constants.ML_SCAN_ON))
 }
 
 private suspend fun dbExists(context: Context) = withContext(VLCIO) {
