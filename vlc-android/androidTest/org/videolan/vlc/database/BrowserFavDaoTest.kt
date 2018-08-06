@@ -20,86 +20,113 @@
 
 package org.videolan.vlc.database
 
-import android.arch.persistence.room.Room
-import android.net.Uri
-import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.videolan.vlc.database.models.BrowserFav
-import org.videolan.vlc.util.Constants
 import org.videolan.vlc.util.getValue
+import java.org.videolan.vlc.util.TestUtil
 
 
 @RunWith(AndroidJUnit4::class)
-class BrowserFavDaoTest {
-    private lateinit var database: MediaDatabase
-    private lateinit var browserFavDao: BrowserFavDao
-    val netwrokFav1: BrowserFav = BrowserFav(Uri.parse("upnp://http://[fe80::61a1:a5a4:c66:bc5d]:2869/u"), Constants.TYPE_NETWORK_FAV, "Test1", null)
-    val netwrokFav2: BrowserFav = BrowserFav(Uri.parse("upnp://http://[fe80::61a1:a5a4:c66:bc6d]:2869/u"), Constants.TYPE_NETWORK_FAV, "Test2", null)
-    val localFav1: BrowserFav = BrowserFav(Uri.parse("/storage/emulated/0/Android/data/org.videolan.vlc.debug/files/subs/file1.mkv"), Constants.TYPE_LOCAL_FAV, "Test3", null)
+class BrowserFavDaoTest: DbTest() {
 
-    @Before fun createDao() {
-        val context = InstrumentationRegistry.getTargetContext()
-        database = Room.inMemoryDatabaseBuilder(context, MediaDatabase::class.java).build()
-        browserFavDao = database.browserFavDao()
+    @Test fun insertTwoNetworkAndOneLocal_GetAllShouldReturnThreeFav() {
+        val fakeNetworkFavs = TestUtil.crateNetworkFavs(2)
+        val fakeLocalFav = TestUtil.createLocalFavs(1)[0]
 
-        browserFavDao.insert(netwrokFav1)
-        browserFavDao.insert(netwrokFav2)
-        browserFavDao.insert(localFav1)
+        fakeNetworkFavs.forEach { db.browserFavDao().insert(it) }
+        db.browserFavDao().insert(fakeLocalFav)
+
+        /*===========================================================*/
+
+        val browsersFavs = getValue(db.browserFavDao().getAll())
+
+        assertThat(browsersFavs.size, `is`(3))
+        assertThat(browsersFavs, hasItem(fakeNetworkFavs[0]))
+        assertThat(browsersFavs, hasItem(fakeNetworkFavs[1]))
+        assertThat(browsersFavs, hasItem(fakeLocalFav))
     }
 
-    @After fun closeDb() {
-        database.close()
-    }
+    @Test fun insertTwoNetworkAndOneLocal_GetNetworkFavsShouldReturnTwoFav() {
+        val fakeNetworkFavs = TestUtil.crateNetworkFavs(2)
+        val fakeLocalFavs = TestUtil.createLocalFavs(1)[0]
 
-    @Test fun getAllBrowserFavs() {
-        val browsersFavs = getValue(browserFavDao.getAll())
-        assertThat(browsersFavs.size, equalTo(3))
+        fakeNetworkFavs.forEach { db.browserFavDao().insert(it) }
+        db.browserFavDao().insert(fakeLocalFavs)
 
-        assertThat(browsersFavs, hasItem(netwrokFav1))
-        assertThat(browsersFavs, hasItem(netwrokFav2))
-        assertThat(browsersFavs, hasItem(localFav1))
-    }
+        /*===========================================================*/
 
-    @Test fun getAllNetworkFavs() {
-        val networkFavs = getValue(browserFavDao.getAllNetwrokFavs())
+        val networkFavs = getValue(db.browserFavDao().getAllNetwrokFavs())
 
         assertThat(networkFavs.size, equalTo(2))
-        assertThat(networkFavs, hasItem(netwrokFav1))
-        assertThat(networkFavs, hasItem(netwrokFav2))
+        assertThat(networkFavs, hasItem(fakeNetworkFavs[0]))
+        assertThat(networkFavs, hasItem(fakeNetworkFavs[1]))
     }
 
 
-    @Test fun getAllLocalFavs() {
-        val localFavs = getValue(browserFavDao.getAllLocalFavs())
+    @Test fun insertTwoNetworkAndTwoLocal_GetLocalFavsShouldReturnTwoFav() {
+        val fakeNetworkFavs = TestUtil.crateNetworkFavs(2)
+        val fakeLocalFavs = TestUtil.createLocalFavs(2)
 
-        assertThat(localFavs.size, equalTo(1))
-        assertThat(localFavs, hasItem(localFav1))
+        fakeNetworkFavs.forEach { db.browserFavDao().insert(it) }
+        fakeLocalFavs.forEach { db.browserFavDao().insert(it)}
+
+        /*===========================================================*/
+
+        val localFavs = getValue(db.browserFavDao().getAllLocalFavs())
+
+        assertThat(localFavs.size, `is`(2))
+        assertThat(localFavs, hasItem(localFavs[0]))
+        assertThat(localFavs, hasItem(localFavs[1]))
     }
 
-    @Test fun getBrowserFav() {
-        val browser = browserFavDao.get(netwrokFav1.uri)
-        assertThat(browser.size, equalTo(1))
-        assertThat(browser[0], equalTo(netwrokFav1))
+    @Test fun insertTwoNetworkAndTwoLocal_GetFavByUriShouldReturnOneFav() {
+        val fakeNetworkFavs = TestUtil.crateNetworkFavs(2)
+        val fakeLocalFavs = TestUtil.createLocalFavs(2)
+
+        fakeNetworkFavs.forEach { db.browserFavDao().insert(it) }
+        fakeLocalFavs.forEach { db.browserFavDao().insert(it)}
+
+        /*===========================================================*/
+
+        val fav = db.browserFavDao().get(fakeNetworkFavs[0].uri)
+
+        assertThat(fav.size, `is`(1))
+        assertThat(fav[0], `is`(fakeNetworkFavs[0]))
 
     }
 
-    @Test fun deleteBrowserFav() {
-        browserFavDao.delete(netwrokFav1.uri)
-        val browsers = getValue(browserFavDao.getAll())
-        assertThat(browsers.size, equalTo(2))
+    @Test fun insertTwoNetworkAndTwoLocal_DeleteOne() {
+        val fakeNetworkFavs = TestUtil.crateNetworkFavs(2)
+        val fakeLocalFavs = TestUtil.createLocalFavs(2)
 
-        assertThat(browsers, not(hasItem(netwrokFav1)))
-        assertThat(browsers, hasItem(netwrokFav2))
+        fakeNetworkFavs.forEach { db.browserFavDao().insert(it) }
+        fakeLocalFavs.forEach { db.browserFavDao().insert(it)}
 
-        browserFavDao.delete(netwrokFav2.uri)
-        browserFavDao.delete(localFav1.uri)
-        val browserFavsAfterDeleteAll = getValue(browserFavDao.getAll())
-        assertThat(browserFavsAfterDeleteAll.size, equalTo(0))
+        /*===========================================================*/
+
+        db.browserFavDao().delete(fakeNetworkFavs[0].uri)
+        val favs = getValue(db.browserFavDao().getAll())
+
+        assertThat(favs.size, `is`(3))
+        assertThat(favs, not(hasItem(fakeNetworkFavs[0])))
+    }
+
+    @Test fun insertTwoNetworkAndTwoLocal_DeleteAll() {
+        val fakeNetworkFavs = TestUtil.crateNetworkFavs(2)
+        val fakeLocalFavs = TestUtil.createLocalFavs(2)
+
+        fakeNetworkFavs.forEach { db.browserFavDao().insert(it) }
+        fakeLocalFavs.forEach { db.browserFavDao().insert(it)}
+
+        /*===========================================================*/
+
+        fakeLocalFavs.forEach { db.browserFavDao().delete(it.uri) }
+        fakeNetworkFavs.forEach { db.browserFavDao().delete(it.uri) }
+        val favs = getValue(db.browserFavDao().getAll())
+
+        assertThat(favs.size, `is`(0))
     }
 }
