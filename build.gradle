@@ -31,6 +31,7 @@ ext {
     compileSdkVersion = 26
     junitVersion = '4.12'
     espressoVersion = '3.0.1'
+    supportTest = '1.0.2'
     minSdkVersion = 17
     targetSdkVersion = 26
     versionName = '3.0.13'
