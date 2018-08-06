@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable name="viewmodel"
-            type="org.videolan.vlc.viewmodels.MRLPanelModel"/>
+            type="org.videolan.vlc.viewmodels.StreamsModel"/>
     </data>
 
     <android.support.v4.widget.NestedScrollView

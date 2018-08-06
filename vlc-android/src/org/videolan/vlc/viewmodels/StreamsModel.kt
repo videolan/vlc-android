@@ -30,7 +30,7 @@ import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.uiJob
 
 
-class MRLPanelModel: ViewModel() {
+class StreamsModel: ViewModel() {
      val observableSearchText = ObservableField<String>()
      val observableHistory = MutableLiveData<Array<MediaWrapper>>()
 

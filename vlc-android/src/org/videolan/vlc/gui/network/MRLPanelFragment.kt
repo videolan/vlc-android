@@ -44,14 +44,14 @@ import org.videolan.vlc.databinding.MrlPanelBinding
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.viewmodels.MRLPanelModel
+import org.videolan.vlc.viewmodels.StreamsModel
 
 const val TAG = "VLC/MrlPanelFragment"
 
 class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener {
     private lateinit var adapter: MRLAdapter
     private lateinit var editText: TextInputLayout
-    private lateinit var viewModel: MRLPanelModel
+    private lateinit var viewModel: StreamsModel
 
     private val listEventActor = actor<MediaWrapper>(UI) {
         for (event in channel) playMedia(event)
@@ -60,7 +60,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NO_FRAME, 0)
-        viewModel = ViewModelProviders.of(this).get(MRLPanelModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(StreamsModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
