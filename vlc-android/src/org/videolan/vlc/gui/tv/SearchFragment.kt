@@ -23,22 +23,17 @@ package org.videolan.vlc.gui.tv
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.SearchManager
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.support.v17.leanback.app.SearchSupportFragment
 import android.support.v17.leanback.widget.*
-import android.support.v4.content.LocalBroadcastManager
 import android.text.TextUtils
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.util.VLCIO
-import org.videolan.vlc.util.runOnMainThread
+import org.videolan.vlc.util.getFromMl
 import java.util.*
 
 private const val TAG = "SearchFragment"
@@ -69,20 +64,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
     private fun queryByWords(words: String?) {
         if (words == null || words.length < 3) return
         rowsAdapter.clear()
-        if (!TextUtils.isEmpty(words)) {
-            if (VLCApplication.getMLInstance().isInitiated) launch(VLCIO) { loadRows(words) }
-            else setupMediaLibraryReceiver( { loadRows(words) } )
-        }
-    }
-
-    private fun setupMediaLibraryReceiver(action: () -> Unit) {
-        val libraryReadyReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(this)
-                launch(VLCIO) { action }
-            }
-        }
-        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(libraryReadyReceiver, IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY))
+        if (!TextUtils.isEmpty(words)) loadRows(words)
     }
 
     override fun onQueryTextChange(newQuery: String) = false
@@ -92,8 +74,8 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
         return true
     }
 
-    private fun loadRows(query: String?) {
-        val searchAggregate = VLCApplication.getMLInstance().search(query) ?: return
+    private fun loadRows(query: String?) = launch(UI.immediate) {
+        val searchAggregate = context?.getFromMl { search(query) } ?: return@launch
         val empty = searchAggregate.isEmpty
         val mediaEmpty = empty || searchAggregate.mediaSearchAggregate.isEmpty
         val cp = CardPresenter(requireActivity())
@@ -111,22 +93,20 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
         if (!empty) albumsAdapter.addAll(0, Arrays.asList<Album>(*searchAggregate.albums))
         val genresAdapter = ArrayObjectAdapter(cp)
         if (!empty) genresAdapter.addAll(0, Arrays.asList<Genre>(*searchAggregate.genres))
-        runOnMainThread(Runnable {
-            if (!mediaEmpty && videoAdapter.size() > 0)
-                rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.videos)), videoAdapter))
-            if (!mediaEmpty && episodesAdapter.size() > 0)
-                rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.episodes)), episodesAdapter))
-            if (!mediaEmpty && moviesAdapter.size() > 0)
-                rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.movies)), moviesAdapter))
-            if (!mediaEmpty && songsAdapter.size() > 0)
-                rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.songs)), songsAdapter))
-            if (!empty && artistsAdapter.size() > 0)
-                rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.artists)), artistsAdapter))
-            if (!empty && albumsAdapter.size() > 0)
-                rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.albums)), albumsAdapter))
-            if (!empty && genresAdapter.size() > 0)
-                rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.genres)), genresAdapter))
-        })
+        if (!mediaEmpty && videoAdapter.size() > 0)
+            rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.videos)), videoAdapter))
+        if (!mediaEmpty && episodesAdapter.size() > 0)
+            rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.episodes)), episodesAdapter))
+        if (!mediaEmpty && moviesAdapter.size() > 0)
+            rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.movies)), moviesAdapter))
+        if (!mediaEmpty && songsAdapter.size() > 0)
+            rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.songs)), songsAdapter))
+        if (!empty && artistsAdapter.size() > 0)
+            rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.artists)), artistsAdapter))
+        if (!empty && albumsAdapter.size() > 0)
+            rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.albums)), albumsAdapter))
+        if (!empty && genresAdapter.size() > 0)
+            rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.genres)), genresAdapter))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
