@@ -81,10 +81,8 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Te
                             ((SearchResultAdapter)mBinding.artistsResults.getAdapter()).add(searchAggregate.getArtists());
                             ((SearchResultAdapter)mBinding.genresResults.getAdapter()).add(searchAggregate.getGenres());
                             ((SearchResultAdapter)mBinding.playlistsResults.getAdapter()).add(searchAggregate.getPlaylists());
-                            ((SearchResultAdapter)mBinding.episodesResults.getAdapter()).add(searchAggregate.getMediaSearchAggregate().getEpisodes());
-                            ((SearchResultAdapter)mBinding.moviesResults.getAdapter()).add(searchAggregate.getMediaSearchAggregate().getMovies());
-                            ((SearchResultAdapter)mBinding.othersResults.getAdapter()).add(searchAggregate.getMediaSearchAggregate().getOthers());
-                            ((SearchResultAdapter)mBinding.songsResults.getAdapter()).add(searchAggregate.getMediaSearchAggregate().getTracks());
+                            ((SearchResultAdapter)mBinding.othersResults.getAdapter()).add(searchAggregate.getVideos());
+                            ((SearchResultAdapter)mBinding.songsResults.getAdapter()).add(searchAggregate.getTracks());
                         }
                     });
                 }
