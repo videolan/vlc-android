@@ -12,6 +12,7 @@ import android.support.v4.provider.DocumentFile
 import android.support.v7.app.AlertDialog
 import android.support.v7.preference.PreferenceManager
 import android.text.TextUtils
+import kotlinx.coroutines.experimental.channels.Channel
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -32,14 +33,12 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
         val builder = AlertDialog.Builder(activity!!)
         builder.setMessage(R.string.sdcard_permission_dialog_message)
                 .setTitle(R.string.sdcard_permission_dialog_title)
-                .setPositiveButton(R.string.ok, { _, _ ->
+                .setPositiveButton(R.string.ok) { _, _ ->
                     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
                     arguments?.getString(KEY_STORAGE_PATH)?.let { intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse(it)) }
                     startActivityForResult(intent, REQUEST_CODE_STORAGE_ACCES)
-                })
-                .setNeutralButton(getString(R.string.dialog_sd_wizard), { _, _ ->
-                    showHelpDialog()
-                }).create().show()
+                }
+                .setNeutralButton(getString(R.string.dialog_sd_wizard)) { _, _ -> showHelpDialog() }.create().show()
     }
 
     private fun showHelpDialog() {
@@ -52,6 +51,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data !== null && requestCode == REQUEST_CODE_STORAGE_ACCES) {
@@ -59,7 +59,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
                 val context = context ?: return
                 val treeUri = data.data
                 PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).edit()
-                        .putString("tree_uri_"+ storage, treeUri.toString()).apply()
+                        .putString("tree_uri_$storage", treeUri.toString()).apply()
                 val treeFile = DocumentFile.fromTreeUri(context, treeUri)
                 val contentResolver = context.contentResolver
 
@@ -76,11 +76,10 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
                 // else set permission
                 contentResolver.takePersistableUriPermission(treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                 permissions = contentResolver.persistedUriPermissions
-                executeCallback()
+                executePendingAction()
                 return
             }
         }
-        callback = null
     }
 
     companion object {
@@ -93,10 +92,12 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
         fun askForExtWrite(activity: FragmentActivity?, uri: Uri, cb: Runnable? = null) {
             if (activity === null) return
             val fragment = WriteExternalDelegate()
-            callback = cb
+            val channel = if (cb != null) Channel<Unit>(1) else null
             storage = FileUtils.getMediaStorage(uri) ?: return
             fragment.arguments = Bundle(1).apply { putString(KEY_STORAGE_PATH, storage) }
+            channel?.let { fragment.channel = it }
             activity.supportFragmentManager.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
+            channel?.let { waitForIt(it, cb!!) }
         }
 
         fun needsWritePermission(uri: Uri) : Boolean {

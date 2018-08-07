@@ -25,12 +25,16 @@ package org.videolan.vlc.gui.helpers.hf
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.experimental.channels.SendChannel
+import kotlinx.coroutines.experimental.launch
 
 open class BaseHeadlessFragment : Fragment() {
     protected var mActivity: FragmentActivity? = null
+    var channel: SendChannel<Unit>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,17 +55,18 @@ open class BaseHeadlessFragment : Fragment() {
         if (mActivity?.isFinishing == false) mActivity!!.supportFragmentManager.beginTransaction().remove(this).commitAllowingStateLoss()
     }
 
-    companion object {
-        internal var callback: Runnable? = null
+    fun executePendingAction() {
+        channel?.let { it.offer(Unit) }
+        channel = null
+    }
 
-        internal fun executeCallback() {
-            callback?.let {
-                try {
-                    Handler().postDelayed(it, 500);
-                } catch (ignored: Exception) {
-                } finally {
-                    callback = null
-                }
+    companion object {
+
+        internal fun waitForIt(channel: Channel<Unit>, cb: Runnable) {
+            launch(UI.immediate) {
+                channel.receive()
+                channel.close()
+                cb.run()
             }
         }
     }

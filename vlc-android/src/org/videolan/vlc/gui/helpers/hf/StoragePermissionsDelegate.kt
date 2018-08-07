@@ -30,6 +30,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
+import kotlinx.coroutines.experimental.channels.Channel
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.startMedialibrary
 import org.videolan.vlc.util.Constants
@@ -90,7 +91,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                         exit()
                 }
             }
-            Permissions.PERMISSION_WRITE_STORAGE_TAG -> executeCallback()
+            Permissions.PERMISSION_WRITE_STORAGE_TAG -> executePendingAction()
         }
     }
 
@@ -102,15 +103,20 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             if (activity.isFinishing) return
             val fm = activity.supportFragmentManager
             var fragment: Fragment? = fm.findFragmentByTag(TAG)
-            callback = cb
+            val channel = if (cb != null) Channel<Unit>(1) else null
             if (fragment == null) {
                 val args = Bundle()
                 args.putBoolean("write", write)
                 fragment = StoragePermissionsDelegate()
                 fragment.arguments = args
+                channel?.let { fragment.channel = it }
+
                 fm.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
-            } else
+            } else {
+                channel?.let { (fragment as StoragePermissionsDelegate).channel = it }
                 (fragment as StoragePermissionsDelegate).requestStorageAccess(write)
+            }
+            channel?.let { waitForIt(it, cb!!) }
         }
     }
 }
