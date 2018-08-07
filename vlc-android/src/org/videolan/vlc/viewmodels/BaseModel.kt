@@ -26,6 +26,7 @@ import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
+import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -60,7 +61,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
     val categories by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<Map<String, List<MediaLibraryItem>>>().apply {
             addSource(dataset) {
-                uiJob(false) { value = withContext(CommonPool) { ModelsHelper.splitList(sort, it!!.toList()) } }
+                launch(UI.immediate) { value = withContext(CommonPool) { ModelsHelper.splitList(sort, it!!.toList()) } }
             }
         }
     }
@@ -68,7 +69,7 @@ abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
     val sections by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<List<MediaLibraryItem>>().apply {
             addSource(dataset) {
-                uiJob(false) { value = withContext(CommonPool) { ModelsHelper.generateSections(sort, it!!.toList()) } }
+                launch(UI.immediate) { value = withContext(CommonPool) { ModelsHelper.generateSections(sort, it!!.toList()) } }
             }
         }
     }

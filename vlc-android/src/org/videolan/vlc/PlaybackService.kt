@@ -1003,7 +1003,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
      * @param flags LibVLC.MEDIA_* flags
      */
     @JvmOverloads
-    fun playIndex(index: Int, flags: Int = 0) = uiJob(false) { playlistManager.playIndex(index, flags) }
+    fun playIndex(index: Int, flags: Int = 0) = launch(UI.immediate) { playlistManager.playIndex(index, flags) }
 
     @MainThread
     fun flush() {

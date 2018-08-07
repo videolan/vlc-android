@@ -26,7 +26,9 @@ import android.hardware.usb.UsbDevice
 import android.net.Uri
 import android.text.TextUtils
 import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.cancelAndJoin
+import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.media.DummyItem
@@ -64,7 +66,7 @@ open class FileBrowserProvider(
                 }
             }
         }
-        uiJob(false) {
+        launch(UI.immediate) {
             if (favs.isNotEmpty()) {
                 job?.cancelAndJoin()
                 val position = data.size
@@ -123,7 +125,7 @@ open class FileBrowserProvider(
 
     override fun browse(url: String?) {
         when {
-            url == "otg://" || url?.startsWith("content:") == true -> uiJob {
+            url == "otg://" || url?.startsWith("content:") == true -> launch(UI.immediate) {
                 dataset.value = withContext(VLCIO) { getDocumentFiles(context, Uri.parse(url).path.substringAfterLast(':')) as? MutableList<MediaLibraryItem> ?: mutableListOf() }
             }
             else -> super.browse(url)

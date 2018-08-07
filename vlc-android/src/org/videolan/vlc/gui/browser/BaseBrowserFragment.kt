@@ -38,6 +38,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.*
+import kotlinx.coroutines.experimental.CoroutineStart
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -134,7 +136,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun setBreadcrumb() {
         val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane) ?: return
         val media = currentMedia
-        if (media != null && isSchemeSupported(media?.uri?.scheme)) {
+        if (media != null && isSchemeSupported(media.uri?.scheme)) {
             ariane.visibility = View.VISIBLE
             ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             ariane.adapter = PathAdapter(this, Uri.decode(media.uri.path))
@@ -363,8 +365,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
-    private fun toggleFavorite() = uiJob(false) {
-        val mw = currentMedia ?: return@uiJob
+    private fun toggleFavorite() = launch(UI.immediate, CoroutineStart.UNDISPATCHED) {
+        val mw = currentMedia ?: return@launch
         withContext(VLCIO) {
             when {
                 browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
@@ -409,9 +411,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
-        if (mActionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) uiJob(false) {
+        if (mActionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) launch(UI.immediate) {
             val mw = item as MediaWrapper
-            if (mw.uri.scheme == "content" || mw.uri.scheme == OTG_SCHEME) return@uiJob
+            if (mw.uri.scheme == "content" || mw.uri.scheme == OTG_SCHEME) return@launch
             var flags = if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment) Constants.CTX_DELETE else 0
             if (!isRootDirectory && this is FileBrowserFragment) flags = flags or Constants.CTX_DELETE
             if (mw.type == MediaWrapper.TYPE_DIR) {

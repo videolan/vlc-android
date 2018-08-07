@@ -24,6 +24,7 @@ import android.arch.lifecycle.MediatorLiveData
 import android.content.Context
 import android.net.Uri
 import android.support.annotation.WorkerThread
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
@@ -34,7 +35,6 @@ import org.videolan.vlc.util.Constants.TYPE_LOCAL_FAV
 import org.videolan.vlc.util.Constants.TYPE_NETWORK_FAV
 import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.convertFavorites
-import org.videolan.vlc.util.uiJob
 import java.util.*
 
 
@@ -62,7 +62,7 @@ class BrowserFavRepository @JvmOverloads constructor(context: Context,
         MediatorLiveData<List<MediaWrapper>>().apply {
             addSource(networkFavs) { value = convertFavorites(it).filterNetworkFavs() }
             addSource(ExternalMonitor.connected) {
-                uiJob {
+                launch(UI.immediate) {
                     val favList = convertFavorites(networkFavs.value)
                     if (favList.isNotEmpty()) value = if (it == true) favList.filterNetworkFavs() else emptyList()
                 }

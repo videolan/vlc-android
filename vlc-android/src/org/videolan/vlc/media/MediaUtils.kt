@@ -20,7 +20,10 @@ import org.videolan.medialibrary.media.Playlist
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.SubtitlesDownloader
+import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.getFromMl
 
 private const val TAG = "VLC/MediaUtils"
 
@@ -249,5 +252,5 @@ object MediaUtils {
         }
     } catch (ignored: UnsupportedOperationException) {}
 
-    fun deletePlaylist(playlist: Playlist) = runBackground(Runnable { playlist.delete() })
+    fun deletePlaylist(playlist: Playlist) = launch { playlist.delete() }
 }

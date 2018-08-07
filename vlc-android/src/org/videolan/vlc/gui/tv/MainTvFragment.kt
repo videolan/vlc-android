@@ -35,13 +35,15 @@ import android.support.v17.leanback.app.BrowseSupportFragment
 import android.support.v17.leanback.widget.*
 import android.support.v4.content.ContextCompat
 import android.view.View
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.vlc.*
+import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.ExternalMonitor
+import org.videolan.vlc.R
+import org.videolan.vlc.RecommendationsService
 import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.tv.MainTvActivity.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.vlc.gui.tv.MainTvActivity.BROWSER_TYPE
@@ -51,7 +53,6 @@ import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Constants
-import org.videolan.vlc.util.uiJob
 import org.videolan.vlc.viewmodels.HistoryModel
 import org.videolan.vlc.viewmodels.VideosModel
 

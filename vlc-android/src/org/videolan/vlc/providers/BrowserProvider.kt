@@ -29,6 +29,7 @@ import android.os.Process
 import android.support.v4.util.SimpleArrayMap
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.HandlerContext
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
@@ -43,7 +44,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.VLCInstance
-import org.videolan.vlc.util.uiJob
 import java.util.*
 
 const val TAG = "VLC/BrowserProvider"
@@ -70,11 +70,11 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     open fun fetch() {
         val prefetchList by lazy(LazyThreadSafetyMode.NONE) { BrowserProvider.prefetchLists[url] }
         when {
-            url === null -> uiJob(true) {
+            url === null -> launch(UI) {
                 browseRoot()
                 parseSubDirectories()
             }
-            prefetchList?.isEmpty() == false -> uiJob(true) {
+            prefetchList?.isEmpty() == false -> launch(UI) {
                 dataset.value = prefetchList
                 BrowserProvider.prefetchLists.remove(url)
                 parseSubDirectories()
@@ -86,10 +86,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     protected open fun browse(url: String? = null) {
         browserChannel = Channel(Channel.UNLIMITED)
         requestBrowsing(url)
-        job = uiJob(false) {
+        job = launch(UI.immediate) {
             for (media in browserChannel) {
                 if (isActive) addMedia(findMedia(media))
-                else return@uiJob
+                else return@launch
             }
             parseSubDirectories()
         }
@@ -102,7 +102,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         browserChannel = Channel(Channel.UNLIMITED)
         val refreshList = mutableListOf<MediaLibraryItem>()
         requestBrowsing(url)
-        job = uiJob(false) {
+        job = launch(UI.immediate) {
             for (media in browserChannel) refreshList.add(findMedia(media))
             dataset.value = refreshList
             parseSubDirectories()
@@ -150,7 +150,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 val holderText = getDescription(directories.size, files.size)
                 if (holderText != "") {
                     val position = currentParsedPosition
-                    uiJob(true) {
+                    launch(UI) {
                         item.description = holderText
                         descriptionUpdate.value = Pair(position, holderText)
                     }

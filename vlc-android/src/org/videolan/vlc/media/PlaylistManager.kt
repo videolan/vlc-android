@@ -11,6 +11,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
@@ -115,7 +116,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
         // Add handler after loading the list
         mediaList.addEventListener(this)
-        uiJob(false) {
+        launch(UI.immediate) {
             playIndex(position)
             onPlaylistLoaded()
         }
@@ -137,7 +138,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             loadingLastPlaylist = false
             return false
         }
-        uiJob(false) {
+        launch(UI.immediate) {
             val playList = withContext(CommonPool) {
                 locations.map { Uri.decode(it) }.mapTo(ArrayList(locations.size)) { MediaWrapper(Uri.parse(it)) }
             }
@@ -186,7 +187,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             return
         }
         videoBackground = !player.isVideoPlaying() && player.canSwitchToVideo()
-        uiJob(false) { playIndex(currentIndex) }
+        launch(UI.immediate) { playIndex(currentIndex) }
     }
 
     fun stop(systemExit: Boolean = false) {
@@ -218,7 +219,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 player.stop()
                 return
             }
-            uiJob(false) { playIndex(currentIndex) }
+            launch(UI.immediate) { playIndex(currentIndex) }
         } else player.setPosition(0F)
     }
 
@@ -227,7 +228,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (shuffling) previous.clear()
         shuffling = !shuffling
         savePosition()
-        uiJob(false) { determinePrevAndNextIndices() }
+        launch(UI.immediate) { determinePrevAndNextIndices() }
     }
 
     @MainThread
@@ -236,7 +237,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (isAudioList() && settings.getBoolean("audio_save_repeat", false))
             settings.edit().putInt(AUDIO_REPEAT_MODE_KEY, repeating).apply()
         savePosition()
-        uiJob(false) { determinePrevAndNextIndices() }
+        launch(UI.immediate) { determinePrevAndNextIndices() }
     }
 
     fun setRenderer(item: RendererItem?) {
@@ -358,7 +359,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     override fun onItemAdded(index: Int, mrl: String?) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemAdded")
         if (currentIndex >= index && !expanding) ++currentIndex
-        uiJob(false) {
+        launch(UI.immediate) {
             determinePrevAndNextIndices()
             executeUpdate()
             saveMediaList()
@@ -370,7 +371,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemDeleted")
         val currentRemoved = currentIndex == index
         if (currentIndex >= index && !expanding) --currentIndex
-        uiJob(false) {
+        launch(UI.immediate) {
             determinePrevAndNextIndices()
             if (currentRemoved && !expanding) {
                 when {
@@ -459,7 +460,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         // If we are in random mode, we completely reset the stored previous track
         // as their indices changed.
         previous.clear()
-        uiJob(false) {
+        launch(UI.immediate) {
             determinePrevAndNextIndices()
             executeUpdate()
             saveMediaList()
