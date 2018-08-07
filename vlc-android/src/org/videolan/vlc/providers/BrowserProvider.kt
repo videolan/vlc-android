@@ -31,6 +31,7 @@ import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.HandlerContext
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.experimental.channels.mapTo
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
@@ -103,7 +104,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         val refreshList = mutableListOf<MediaLibraryItem>()
         requestBrowsing(url)
         job = launch(UI.immediate) {
-            for (media in browserChannel) refreshList.add(findMedia(media))
+            browserChannel.mapTo(refreshList) { findMedia(it) }
             dataset.value = refreshList
             parseSubDirectories()
         }
