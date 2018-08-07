@@ -25,7 +25,6 @@ import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
 import org.videolan.medialibrary.media.Genre;
-import org.videolan.medialibrary.media.MediaSearchAggregate;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
 import org.videolan.medialibrary.media.SearchAggregate;
@@ -597,7 +596,7 @@ public class Medialibrary {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearch(query) : null;
     }
 
-    public MediaSearchAggregate searchMedia(String query) {
+    public MediaWrapper[] searchMedia(String query) {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchMedia(query) : null;
     }
 
@@ -746,7 +745,7 @@ public class Medialibrary {
     private native void nativeSetMediaUpdatedCbFlag(int flags);
     private native void nativeSetMediaAddedCbFlag(int flags);
     private native SearchAggregate nativeSearch(String query);
-    private native MediaSearchAggregate nativeSearchMedia(String query);
+    private native MediaWrapper[] nativeSearchMedia(String query);
     private native Artist[] nativeSearchArtist(String query);
     private native Album[] nativeSearchAlbum(String query);
     private native Genre[] nativeSearchGenre(String query);

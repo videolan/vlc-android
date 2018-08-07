@@ -82,10 +82,6 @@ struct fields {
         jclass clazz;
         jmethodID initID;
     } HistoryItem;
-    struct MediaSearchAggregate {
-        jclass clazz;
-        jmethodID initID;
-    } MediaSearchAggregate;
     struct SearchAggregate {
         jclass clazz;
         jmethodID initID;
