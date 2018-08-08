@@ -88,10 +88,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         browserChannel = Channel(Channel.UNLIMITED)
         requestBrowsing(url)
         job = launch(UI.immediate) {
-            for (media in browserChannel) {
-                if (isActive) addMedia(findMedia(media))
-                else return@launch
-            }
+            dataset.value = browserChannel.mapTo(mutableListOf()) { findMedia(it) }
             parseSubDirectories()
         }
     }
@@ -100,14 +97,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     open fun refresh(): Boolean {
         if (url === null) return false
-        browserChannel = Channel(Channel.UNLIMITED)
-        val refreshList = mutableListOf<MediaLibraryItem>()
-        requestBrowsing(url)
-        job = launch(UI.immediate) {
-            browserChannel.mapTo(refreshList) { findMedia(it) }
-            dataset.value = refreshList
-            parseSubDirectories()
-        }
+        browse()
         return true
     }
 

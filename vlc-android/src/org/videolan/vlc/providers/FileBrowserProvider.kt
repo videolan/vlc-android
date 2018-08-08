@@ -133,8 +133,6 @@ open class FileBrowserProvider(
         }
     }
 
-    override fun refresh() = true
-
     override fun release(): Job {
         if (url == null) {
             ExternalMonitor.devices.removeObserver(this)
