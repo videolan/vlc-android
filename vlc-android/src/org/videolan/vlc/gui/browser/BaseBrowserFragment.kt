@@ -139,7 +139,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         if (media != null && isSchemeSupported(media.uri?.scheme)) {
             ariane.visibility = View.VISIBLE
             ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            ariane.adapter = PathAdapter(this, Uri.decode(media.uri.path))
+            ariane.adapter = PathAdapter(this, media)
             if (ariane.itemDecorationCount == 0) {
                 val did = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL)
                 did.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider_grey_50_18dp)!!)

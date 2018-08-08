@@ -109,6 +109,7 @@ open class FileBrowserProvider(
             } else {
                 val deviceName = FileUtils.getStorageTag(directory.title)
                 if (deviceName != null) directory.setDisplayTitle(deviceName)
+                directory.addStateFlags(MediaLibraryItem.FLAG_STORAGE)
             }
             devices.add(directory)
         }
