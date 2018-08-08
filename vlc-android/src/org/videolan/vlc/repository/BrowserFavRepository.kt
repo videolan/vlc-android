@@ -21,7 +21,6 @@
 package org.videolan.vlc.repository
 
 import android.arch.lifecycle.MediatorLiveData
-import android.content.Context
 import android.net.Uri
 import android.support.annotation.WorkerThread
 import kotlinx.coroutines.experimental.android.UI
@@ -29,7 +28,6 @@ import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.database.BrowserFavDao
-import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.util.Constants.TYPE_LOCAL_FAV
 import org.videolan.vlc.util.Constants.TYPE_NETWORK_FAV
@@ -38,11 +36,7 @@ import org.videolan.vlc.util.convertFavorites
 import java.util.*
 
 
-class BrowserFavRepository @JvmOverloads constructor(context: Context,
-                                                     val mediaDatabase: MediaDatabase = MediaDatabase.getDatabase(context),
-                                                     private val browserFavDao: BrowserFavDao = mediaDatabase.browserFavDao()
-) {
-
+class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
 
     private val networkFavs by lazy { browserFavDao.getAllNetwrokFavs() }
 

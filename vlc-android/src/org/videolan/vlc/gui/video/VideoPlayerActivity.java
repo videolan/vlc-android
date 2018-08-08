@@ -108,6 +108,7 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RendererDelegate;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.database.MediaDatabase;
 import org.videolan.vlc.databinding.PlayerHudBinding;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
@@ -849,7 +850,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if(data.hasExtra(FilePickerFragment.EXTRA_MRL)) {
             mService.addSubtitleTrack(Uri.parse(data.getStringExtra(FilePickerFragment.EXTRA_MRL)), true);
-            new SlaveRepository(getApplicationContext()).saveSlave(mService.getCurrentMediaLocation(), Media.Slave.Type.Subtitle, 2, data.getStringExtra(FilePickerFragment.EXTRA_MRL));
+            new SlaveRepository(MediaDatabase.Companion.getDatabase(getApplicationContext()).slaveDao()).saveSlave(mService.getCurrentMediaLocation(), Media.Slave.Type.Subtitle, 2, data.getStringExtra(FilePickerFragment.EXTRA_MRL));
         } else if (BuildConfig.DEBUG) Log.d(TAG, "Subtitle selection dialog was cancelled");
     }
 
@@ -2882,7 +2883,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 final MediaWrapper mw = mService.getCurrentMediaWrapper();
                 if (mw != null) mediaTitle = FileUtils.getFileNameFromPath(mService.getCurrentMediaWrapper().getLocation());
             }
-            if (mediaTitle != null) prefsList.addAll(new ExternalSubRepository(getApplicationContext()).getSubtitles(mediaTitle));
+            if (mediaTitle != null) prefsList.addAll(new ExternalSubRepository(MediaDatabase.Companion.getDatabase(getApplicationContext()).externalSubDao()).getSubtitles(mediaTitle));
             return prefsList;
         }
 

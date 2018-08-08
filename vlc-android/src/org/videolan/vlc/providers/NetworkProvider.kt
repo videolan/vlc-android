@@ -28,12 +28,13 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
+import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.LiveDataset
 
 class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String? = null, showHiddenFiles: Boolean): BrowserProvider(context, dataset, url, showHiddenFiles), Observer<List<MediaWrapper>> {
 
-    private val favorites = if (url == null) BrowserFavRepository(context).networkFavorites else null
+    private val favorites = if (url == null) BrowserFavRepository(MediaDatabase.getDatabase(context).browserFavDao()).networkFavorites else null
 
     init {
         favorites?.observeForever(this)

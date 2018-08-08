@@ -20,23 +20,14 @@
 
 package org.videolan.vlc.repository
 
-import android.content.Context
 import android.net.Uri
 import android.support.annotation.WorkerThread
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
-import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.ExternalSubDao
-import org.videolan.vlc.util.VLCIO
 import java.io.File
 
 
-class ExternalSubRepository @JvmOverloads constructor(context: Context,
-                             val mediaDatabase: MediaDatabase = MediaDatabase.getDatabase(context),
-                             val externalSubDao: ExternalSubDao = mediaDatabase.externalSubDao()
-) {
+class ExternalSubRepository(val externalSubDao: ExternalSubDao ) {
     fun saveSubtitle(path: String, mediaName: String) {
         externalSubDao.insert(ExternalSub(path, mediaName))
     }

@@ -14,6 +14,7 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.VLCInstance
@@ -27,7 +28,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     private val playerContext by lazy(LazyThreadSafetyMode.NONE) { newSingleThreadContext("vlc-player") }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getSettings() }
     val progress by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Progress>().apply { value = Progress() } }
-    private val slaveRepository by lazy { SlaveRepository(VLCApplication.getAppContext()) }
+    private val slaveRepository by lazy { SlaveRepository(MediaDatabase.getDatabase(VLCApplication.getAppContext()).slaveDao()) }
 
     private var mediaplayer = newMediaPlayer()
     var switchToVideo = false

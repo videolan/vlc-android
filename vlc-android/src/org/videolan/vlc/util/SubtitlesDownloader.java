@@ -46,6 +46,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.database.MediaDatabase;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.repository.ExternalSubRepository;
@@ -345,7 +346,7 @@ public class SubtitlesDownloader {
             while ((length = gzIS.read(buffer)) != -1) {
                 f.write(buffer, 0, length);
             }
-            new ExternalSubRepository(VLCApplication.getAppContext()).saveSubtitle(srtUrl, fileName);
+            new ExternalSubRepository(MediaDatabase.Companion.getDatabase(VLCApplication.getAppContext()).externalSubDao()).saveSubtitle(srtUrl, fileName);
         } catch (Throwable e) { //for various service outages
             if (BuildConfig.DEBUG) Log.e(TAG, "download fail", e);
         } finally {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  SlaveDaoTest.kt
+ *  MockitoExt.kt
  * ****************************************************************************
  * Copyright © 2018 VLC authors and VideoLAN
  *
@@ -18,28 +18,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  ******************************************************************************/
 
-package org.videolan.vlc.database
+package org.videolan.vlc.util
 
-import android.support.test.runner.AndroidJUnit4
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.videolan.vlc.util.TestUtil
+import org.mockito.ArgumentCaptor
+import org.mockito.Mockito
 
-@RunWith(AndroidJUnit4::class)
-class SlaveDaoTest: DbTest() {
+/**
+ * a kotlin friendly mock that handles generics
+ */
+inline fun <reified T> mock(): T = Mockito.mock(T::class.java)
 
-    @Test fun insertTwoSubtitleSlave_GetShouldReturnJustLatOne() {
-        val fakeSlaves = TestUtil.createSubtitleSlavesForMedia("foo", 2)
-        fakeSlaves.forEach {
-            db.slaveDao().insert(it)
-        }
+inline fun <reified T> argumentCaptor(): ArgumentCaptor<T> = ArgumentCaptor.forClass(T::class.java)
 
-        /*===========================================================*/
-
-        val slaves = db.slaveDao().get(fakeSlaves[0].mediaPath)
-        assertThat(slaves.size, equalTo(1))
-        assertThat(slaves, hasItem(fakeSlaves[1]))
-    }
-}
+fun <T> uninitialized(): T = null as T

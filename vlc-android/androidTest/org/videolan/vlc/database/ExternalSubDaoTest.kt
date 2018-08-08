@@ -25,7 +25,7 @@ import org.hamcrest.Matchers.*
 import org.junit.Assert.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.org.videolan.vlc.util.TestUtil
+import org.videolan.vlc.util.TestUtil
 
 @RunWith(AndroidJUnit4::class)
 class ExternalSubDaoTest: DbTest() {
