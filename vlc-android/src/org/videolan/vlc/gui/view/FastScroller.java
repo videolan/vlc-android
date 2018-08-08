@@ -27,6 +27,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -58,7 +59,6 @@ public class FastScroller extends LinearLayout {
     private static final int HANDLE_ANIMATION_DURATION = 100;
     private static final int HANDLE_HIDE_DELAY = 1000;
     private static final int SCROLLER_HIDE_DELAY = 3000;
-    private static final int TRACK_SNAP_RANGE = 5;
 
     private static final int HIDE_HANDLE = 0;
     private static final int HIDE_SCROLLER = 1;
@@ -196,14 +196,7 @@ public class FastScroller extends LinearLayout {
 
     private void setRecyclerViewPosition(float y) {
         if (mRecyclerView != null) {
-            float proportion;
-            if (handle.getY() == 0) {
-                proportion = 0f;
-            } else if (handle.getY() + handle.getHeight() >= mHeight - TRACK_SNAP_RANGE) {
-                proportion = 1f;
-            } else {
-                proportion = y / (float) mHeight;
-            }
+            final float proportion = y / (float) mHeight;
             final int targetPos = getValueInRange(0, mItemCount - 1, Math.round(proportion * (float) mItemCount));
             if (targetPos == mCurrentPosition) return;
             mCurrentPosition = targetPos;
@@ -248,18 +241,21 @@ public class FastScroller extends LinearLayout {
         }
     }
 
+    @SuppressLint("HandlerLeak")
     private final Handler mHandler = new FastScrollerHandler(this) {
         @Override
         public void handleMessage(Message msg) {
+            final FastScroller fs = getOwner();
+            if (fs == null) return;
             switch (msg.what) {
                 case HIDE_HANDLE:
-                    hideBubble();
+                    fs.hideBubble();
                     break;
                 case HIDE_SCROLLER:
-                    FastScroller.this.setVisibility(INVISIBLE);
+                    fs.setVisibility(INVISIBLE);
                     break;
                 case SHOW_SCROLLER:
-                    FastScroller.this.setVisibility(VISIBLE);
+                    fs.setVisibility(VISIBLE);
                     mHandler.removeMessages(HIDE_SCROLLER);
                     mHandler.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY);
                     break;
