@@ -26,14 +26,14 @@ import org.hamcrest.Matchers.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.videolan.vlc.util.getValue
-import java.org.videolan.vlc.util.TestUtil
+import org.videolan.vlc.util.TestUtil
 
 
 @RunWith(AndroidJUnit4::class)
 class BrowserFavDaoTest: DbTest() {
 
     @Test fun insertTwoNetworkAndOneLocal_GetAllShouldReturnThreeFav() {
-        val fakeNetworkFavs = TestUtil.crateNetworkFavs(2)
+        val fakeNetworkFavs = TestUtil.createNetworkFavs(2)
         val fakeLocalFav = TestUtil.createLocalFavs(1)[0]
 
         fakeNetworkFavs.forEach { db.browserFavDao().insert(it) }
@@ -50,7 +50,7 @@ class BrowserFavDaoTest: DbTest() {
     }
 
     @Test fun insertTwoNetworkAndOneLocal_GetNetworkFavsShouldReturnTwoFav() {
-        val fakeNetworkFavs = TestUtil.crateNetworkFavs(2)
+        val fakeNetworkFavs = TestUtil.createNetworkFavs(2)
         val fakeLocalFavs = TestUtil.createLocalFavs(1)[0]
 
         fakeNetworkFavs.forEach { db.browserFavDao().insert(it) }
@@ -67,7 +67,7 @@ class BrowserFavDaoTest: DbTest() {
 
 
     @Test fun insertTwoNetworkAndTwoLocal_GetLocalFavsShouldReturnTwoFav() {
-        val fakeNetworkFavs = TestUtil.crateNetworkFavs(2)
+        val fakeNetworkFavs = TestUtil.createNetworkFavs(2)
         val fakeLocalFavs = TestUtil.createLocalFavs(2)
 
         fakeNetworkFavs.forEach { db.browserFavDao().insert(it) }
@@ -83,7 +83,7 @@ class BrowserFavDaoTest: DbTest() {
     }
 
     @Test fun insertTwoNetworkAndTwoLocal_GetFavByUriShouldReturnOneFav() {
-        val fakeNetworkFavs = TestUtil.crateNetworkFavs(2)
+        val fakeNetworkFavs = TestUtil.createNetworkFavs(2)
         val fakeLocalFavs = TestUtil.createLocalFavs(2)
 
         fakeNetworkFavs.forEach { db.browserFavDao().insert(it) }
@@ -99,7 +99,7 @@ class BrowserFavDaoTest: DbTest() {
     }
 
     @Test fun insertTwoNetworkAndTwoLocal_DeleteOne() {
-        val fakeNetworkFavs = TestUtil.crateNetworkFavs(2)
+        val fakeNetworkFavs = TestUtil.createNetworkFavs(2)
         val fakeLocalFavs = TestUtil.createLocalFavs(2)
 
         fakeNetworkFavs.forEach { db.browserFavDao().insert(it) }
@@ -115,7 +115,7 @@ class BrowserFavDaoTest: DbTest() {
     }
 
     @Test fun insertTwoNetworkAndTwoLocal_DeleteAll() {
-        val fakeNetworkFavs = TestUtil.crateNetworkFavs(2)
+        val fakeNetworkFavs = TestUtil.createNetworkFavs(2)
         val fakeLocalFavs = TestUtil.createLocalFavs(2)
 
         fakeNetworkFavs.forEach { db.browserFavDao().insert(it) }

@@ -45,6 +45,7 @@ import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
+import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
@@ -105,7 +106,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
         showHiddenFiles = PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("browser_show_hidden_files", false)
         isRootDirectory = defineIsRoot()
-        browserFavRepository = BrowserFavRepository(requireContext())
+        browserFavRepository = BrowserFavRepository(MediaDatabase.getDatabase(requireContext()).browserFavDao())
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {

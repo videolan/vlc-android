@@ -46,6 +46,7 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.database.MediaDatabase;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
@@ -81,7 +82,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         super.onCreate(savedInstanceState);
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.setAutoReleaseOnStop(false);
-        mBrowserFavRepository = new BrowserFavRepository(VLCApplication.getAppContext());
+        mBrowserFavRepository = new BrowserFavRepository(MediaDatabase.Companion.getDatabase(VLCApplication.getAppContext()).browserFavDao());
         buildDetails();
     }
 

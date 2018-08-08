@@ -178,7 +178,7 @@ val migration_26_27 = object:Migration(26, 27) {
 }
 
 fun populateDB(context: Context) = launch(VLCIO) {
-    val favRepo = BrowserFavRepository(context)
+    val favRepo = BrowserFavRepository(MediaDatabase.getDatabase(context).browserFavDao())
     val uris = listOf(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI,
             AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI,
             AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI,

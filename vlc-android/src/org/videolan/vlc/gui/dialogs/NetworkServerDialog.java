@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.database.MediaDatabase;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.repository.BrowserFavRepository;
 import org.videolan.vlc.util.WorkersKt;
@@ -77,7 +78,7 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
-        mBrowserFavRepository = new BrowserFavRepository(requireContext());
+        mBrowserFavRepository = new BrowserFavRepository( MediaDatabase.Companion.getDatabase(requireContext()).browserFavDao());
     }
 
     @Override

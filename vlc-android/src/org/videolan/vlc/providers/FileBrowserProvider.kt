@@ -36,6 +36,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
+import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.gui.helpers.hf.getDocumentFiles
 import org.videolan.vlc.repository.BrowserFavRepository
@@ -53,7 +54,7 @@ open class FileBrowserProvider(
     private var storagePosition = -1
     private var otgPosition = -1
     private val showFavorites : Boolean
-    private val favorites = if (url == null && !filePicker) BrowserFavRepository(context).localFavorites else null
+    private val favorites = if (url == null && !filePicker) BrowserFavRepository(MediaDatabase.getDatabase(context).browserFavDao()).localFavorites else null
 
     private val favoritesObserver by lazy { Observer<List<BrowserFav>> {
         val favs = convertFavorites(it)

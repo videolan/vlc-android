@@ -44,6 +44,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.RecommendationsService
+import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.tv.MainTvActivity.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.vlc.gui.tv.MainTvActivity.BROWSER_TYPE
@@ -107,7 +108,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         backgroundManager = BackgroundManager.getInstance(requireActivity()).apply { attach(requireActivity().window) }
         nowPlayingDelegate = NowPlayingDelegate(this)
 
-        browserFavRepository = BrowserFavRepository(requireContext())
+        browserFavRepository = BrowserFavRepository(MediaDatabase.getDatabase(requireContext()).browserFavDao())
         favorites = browserFavRepository.networkFavorites
         favorites.observe(this, Observer{
             it?.let{

@@ -74,6 +74,9 @@ android {
 
     testOptions {
         execution 'ANDROID_TEST_ORCHESTRATOR'
+        unitTests {
+            includeAndroidResources = true
+        }
     }
 
     signingConfigs {
@@ -235,6 +238,9 @@ dependencies {
     androidTestImplementation "android.arch.core:core-testing:$rootProject.ext.archVersion"
     androidTestImplementation "com.android.support.test:runner:$rootProject.ext.supportTest"
     androidTestUtil "com.android.support.test:orchestrator:$rootProject.ext.supportTest"
+    testImplementation "org.mockito:mockito-core:$rootProject.ext.mockito"
+    testImplementation "org.powermock:powermock-api-mockito2:$rootProject.ext.powerMock"
+    testImplementation "org.powermock:powermock-module-junit4:$rootProject.ext.powerMock"
 
 }
 

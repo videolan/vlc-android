@@ -18,7 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  ******************************************************************************/
 
-package java.org.videolan.vlc.util
+package org.videolan.vlc.util
 
 import android.net.Uri
 import org.videolan.libvlc.Media
@@ -36,10 +36,16 @@ object TestUtil {
         return BrowserFav(uri, Constants.TYPE_LOCAL_FAV, title, iconUrl)
     }
 
+    fun createLocalUris(count: Int): List<String> {
+        return (0 until count).map {
+            "${fakeUri}_local$it"
+        }
+    }
+
     fun createLocalFavs(count: Int): List<BrowserFav> {
         return (0 until count).map {
             createLocalFav(Uri.parse(fakeUri + "local" + it),
-                    "foo" + 1,
+                    "local" + 1,
                     null)
         }
     }
@@ -48,11 +54,17 @@ object TestUtil {
         return BrowserFav(uri, Constants.TYPE_NETWORK_FAV, title, iconUrl)
     }
 
-    fun crateNetworkFavs(count: Int): List<BrowserFav> {
+    fun createNetworkUris(count: Int): List<String> {
+        return (0 until count).map {
+            "${fakeUri}_network$it"
+        }
+    }
+
+    fun createNetworkFavs(count: Int): List<BrowserFav> {
         return (0 until count).map {
             createNetworkFav(
                     Uri.parse(fakeUri + "network" + it),
-                    "foo" + 1,
+                    "network" + 1,
                     null)
         }
     }

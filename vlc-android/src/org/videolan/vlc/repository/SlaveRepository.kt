@@ -32,10 +32,8 @@ import org.videolan.vlc.database.SlaveDao
 import org.videolan.vlc.database.models.Slave
 import org.videolan.vlc.util.VLCIO
 
-class SlaveRepository @JvmOverloads constructor(context: Context,
-                       val mediaDatabase:MediaDatabase = MediaDatabase.getDatabase(context),
-                       val slaveDao:SlaveDao = mediaDatabase.slaveDao()
-){
+
+class SlaveRepository(val slaveDao:SlaveDao){
 
     fun saveSlave(mediaPath: String, type: Int, priority: Int, uriString: String): Job {
         return launch(VLCIO) {
