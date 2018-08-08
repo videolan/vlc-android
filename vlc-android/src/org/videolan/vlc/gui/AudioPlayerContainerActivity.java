@@ -32,7 +32,6 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -59,6 +58,7 @@ import org.videolan.vlc.ScanProgress;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
+import org.videolan.vlc.gui.helpers.BottomSheetBehavior;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.PlaylistManager;
@@ -76,7 +76,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     protected AudioPlayer mAudioPlayer;
     private FrameLayout mAudioPlayerContainer;
     protected PlaybackService mService;
-    protected BottomSheetBehavior mBottomSheetBehavior;
+    public BottomSheetBehavior mBottomSheetBehavior;
     protected View mFragmentContainer;
     protected int mOriginalBottomPadding;
     private View mScanProgressLayout;
@@ -124,7 +124,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     private void initAudioPlayer() {
         findViewById(R.id.audio_player_stub).setVisibility(View.VISIBLE);
         mAudioPlayer = (AudioPlayer) getSupportFragmentManager().findFragmentById(R.id.audio_player);
-        mBottomSheetBehavior = BottomSheetBehavior.from(mAudioPlayerContainer);
+        mBottomSheetBehavior = (BottomSheetBehavior) BottomSheetBehavior.from(mAudioPlayerContainer);
         mBottomSheetBehavior.setPeekHeight(getResources().getDimensionPixelSize(R.dimen.player_peek_height));
         mBottomSheetBehavior.setBottomSheetCallback(mAudioPlayerBottomSheetCallback);
         showTipViewIfNeeded(R.id.audio_player_tips, Constants.PREF_AUDIOPLAYER_TIPS_SHOWN);

@@ -226,16 +226,15 @@ public class FlingViewGroup extends ViewGroup {
 
                 break;
         }
-
         return true;
     }
 
     @Override
-    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        super.onScrollChanged(l, t, oldl, oldt);
-        if (mViewSwitchListener != null) {
-            float progress = (float) l / (float) (getWidth() * (getChildCount() - 1));
-            if (l != mCurrentView * getWidth())
+    protected void onScrollChanged(int h, int v, int oldh, int oldv) {
+        super.onScrollChanged(h, v, oldh, oldv);
+        if (mViewSwitchListener != null && Math.abs(oldh-h) > Math.abs(oldv-v)) {
+            float progress = (float) h / (float) (getWidth() * (getChildCount() - 1));
+            if (h != mCurrentView * getWidth())
                 mViewSwitchListener.onSwitching(progress);
             else
                 mViewSwitchListener.onSwitched(mCurrentView);
