@@ -7,10 +7,6 @@
             name="showFavorites"
             type="boolean" />
     </data>
-    <org.videolan.vlc.gui.view.SwipeRefreshLayout
-        android:id="@+id/swipeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
@@ -21,17 +17,22 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:background="?attr/background_default" />
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/network_list"
+            <org.videolan.vlc.gui.view.SwipeRefreshLayout
+                android:id="@+id/swipeLayout"
                 android:layout_width="@dimen/default_content_width"
                 android:layout_height="0dp"
-                app:layout_constraintHeight_default="spread"
-                android:background="?attr/background_default"
                 app:layout_constraintTop_toBottomOf="@+id/searchButton"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="gone"/>
+                app:layout_constraintHeight_default="spread" >
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/network_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?attr/background_default"
+                    android:visibility="gone"/>
+            </org.videolan.vlc.gui.view.SwipeRefreshLayout>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -44,5 +45,4 @@
                 android:text="@string/loading" />
 
         </android.support.constraint.ConstraintLayout>
-    </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 </layout>
