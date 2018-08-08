@@ -2,9 +2,6 @@ package org.videolan.medialibrary.media;
 
 import org.videolan.medialibrary.Tools;
 
-import java.util.LinkedList;
-import java.util.List;
-
 public class SearchAggregate {
     private static final String TAG = "VLC/SearchAggregate";
 
@@ -23,20 +20,12 @@ public class SearchAggregate {
         this.tracks = null;
         this.playlists = null;}
 
-    public SearchAggregate(Album[] albums, Artist[] artists, Genre[] genres, MediaWrapper[] media, Playlist[] playlists) {
+    public SearchAggregate(Album[] albums, Artist[] artists, Genre[] genres, MediaWrapper[] videos, MediaWrapper[] tracks, Playlist[] playlists) {
         this.albums = albums;
         this.artists = artists;
         this.genres = genres;
-        final List<MediaWrapper> vidz = new LinkedList<>();
-        final List<MediaWrapper> trackz = new LinkedList<>();
-        for (MediaWrapper mw : media) {
-            if (mw.getType() == MediaWrapper.TYPE_VIDEO) vidz.add(mw);
-            else trackz.add(mw);
-        }
-        videos = new MediaWrapper[vidz.size()];
-        vidz.toArray(videos);
-        tracks = new MediaWrapper[trackz.size()];
-        trackz.toArray(tracks);
+        this.videos = videos;
+        this.tracks = tracks;
         this.playlists = playlists;
     }
 
