@@ -57,6 +57,7 @@ class BrowserFavRepositoryTest {
     private lateinit var browserFavRepository: BrowserFavRepository
     @Before
     fun init() {
+        System.setProperty("kotlinx.coroutines.blocking.checker", "disable")
         val db = mock<MediaDatabase>()
         `when`(db.browserFavDao()).thenReturn(browserFavDao)
         browserFavRepository = BrowserFavRepository(browserFavDao)

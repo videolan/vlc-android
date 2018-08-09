@@ -29,15 +29,16 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.*
+import org.mockito.ArgumentMatchers.anyString
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
+import org.powermock.api.mockito.PowerMockito
+import org.powermock.core.classloader.annotations.PrepareForTest
+import org.powermock.modules.junit4.PowerMockRunner
+import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.SlaveDao
 import org.videolan.vlc.database.models.Slave
 import org.videolan.vlc.util.TestUtil
-import org.mockito.ArgumentMatchers.anyString
-import org.powermock.core.classloader.annotations.PrepareForTest
-import org.powermock.modules.junit4.PowerMockRunner
-import org.powermock.api.mockito.PowerMockito
-import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.util.argumentCaptor
 import org.videolan.vlc.util.mock
 import org.videolan.vlc.util.uninitialized
@@ -53,17 +54,18 @@ class SlaveRepositoryTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     @Before fun init() {
+        System.setProperty("kotlinx.coroutines.blocking.checker", "disable")
         val db = mock<MediaDatabase>()
         `when`(db.slaveDao()).thenReturn(slaveDao)
         slaveRepository = SlaveRepository(slaveDao)
     }
 
 
-    @Test fun saveOneSlave_getSlaveShouldReturnOne() = runBlocking<Unit> {
+    @Test fun saveOneSlave_getSlaveShouldReturnOne() = runBlocking {
         val fakeSlave = TestUtil.createSubtitleSlavesForMedia("foo.mkv", 1)[0]
         slaveRepository.saveSlave(fakeSlave.mediaPath, fakeSlave.type, fakeSlave.priority, fakeSlave.uri)
 
-        var inserted = argumentCaptor<Slave>()
+        val inserted = argumentCaptor<Slave>()
         verify(slaveDao).insert(inserted.capture() ?: uninitialized())
         assertThat(inserted.value, `is`(fakeSlave))
 
