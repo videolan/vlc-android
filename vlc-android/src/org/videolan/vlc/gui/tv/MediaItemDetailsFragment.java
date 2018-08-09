@@ -28,7 +28,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v17.leanback.app.BackgroundManager;
-import android.support.v17.leanback.app.DetailsFragment;
+import android.support.v17.leanback.app.DetailsSupportFragment;
 import android.support.v17.leanback.widget.Action;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.ClassPresenterSelector;
@@ -46,9 +46,9 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.database.MediaDatabase;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
@@ -59,7 +59,7 @@ import org.videolan.vlc.util.WorkersKt;
 import java.util.List;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class MediaItemDetailsFragment extends DetailsFragment implements PlaybackService.Client.Callback {
+public class MediaItemDetailsFragment extends DetailsSupportFragment implements PlaybackService.Client.Callback {
     private static final String TAG = "MediaItemDetailsFragment";
     private static final int ID_PLAY = 1;
     private static final int ID_LISTEN = 2;
@@ -80,24 +80,22 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBackgroundManager = BackgroundManager.getInstance(getActivity());
+        mBackgroundManager = BackgroundManager.getInstance(requireActivity());
         mBackgroundManager.setAutoReleaseOnStop(false);
-        mBrowserFavRepository = BrowserFavRepository.Companion.getInstance(getActivity());
+        mBrowserFavRepository = BrowserFavRepository.Companion.getInstance(requireContext());
         buildDetails();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (!mBackgroundManager.isAttached())
-            mBackgroundManager.attachToView(getView());
+        if (!mBackgroundManager.isAttached()) mBackgroundManager.attachToView(getView());
     }
 
     public void onPause() {
         mBackgroundManager.release();
         super.onPause();
-        if (mService != null && mService.isPlaying())
-            mService.stop();
+        if (mService != null && mService.isPlaying()) mService.stop();
     }
 
     @Override
@@ -112,10 +110,11 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
     }
 
     private void buildDetails() {
-        Bundle extras = getActivity().getIntent().getExtras();
+        final Bundle extras = requireActivity().getIntent().getExtras();
+        if (extras == null) return;
         mMedia = extras.getParcelable("item");
         boolean hasMedia = extras.containsKey("media");
-        ClassPresenterSelector selector = new ClassPresenterSelector();
+        final ClassPresenterSelector selector = new ClassPresenterSelector();
         final MediaWrapper media = hasMedia ? (MediaWrapper) extras.getParcelable("media") : new MediaWrapper(AndroidUtil.LocationToUri(mMedia.getLocation()));
         if (!hasMedia){
             media.setDisplayTitle(mMedia.getTitle());
@@ -127,7 +126,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         // Attach your media item details presenter to the row presenter:
         FullWidthDetailsOverviewRowPresenter rowPresenter = new FullWidthDetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
 
-        final Activity activity = getActivity();
+        final Activity activity = requireActivity();
         final DetailsOverviewRow detailsOverview = new DetailsOverviewRow(mMedia);
         final Action actionAdd = new Action(ID_FAVORITE_ADD, getString(R.string.favorites_add));
         final Action actionDelete = new Action(ID_FAVORITE_DELETE, getString(R.string.favorites_remove));
@@ -142,8 +141,8 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         PlaybackServiceFragment.registerPlaybackService(MediaItemDetailsFragment.this, MediaItemDetailsFragment.this);
                         break;
                     case ID_PLAY:
-                        TvUtil.INSTANCE.playMedia(getActivity(), media);
-                        getActivity().finish();
+                        TvUtil.INSTANCE.playMedia(activity, media);
+                        activity.finish();
                         break;
                     case ID_FAVORITE_ADD:
                         mBrowserFavRepository.addNetworkFavItem(Uri.parse(mMedia.getLocation()), mMedia.getTitle(), mMedia.getArtworkUrl());
@@ -165,10 +164,10 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         Toast.makeText(VLCApplication.getAppContext(), R.string.favorite_removed, Toast.LENGTH_SHORT).show();
                         break;
                     case ID_BROWSE:
-                        TvUtil.INSTANCE.openMedia(getActivity(), media, null);
+                        TvUtil.INSTANCE.openMedia(activity, media, null);
                         break;
                     case ID_DL_SUBS:
-                        MediaUtils.INSTANCE.getSubs(getActivity(), media);
+                        MediaUtils.INSTANCE.getSubs(activity, media);
                         break;
                     case ID_PLAY_ALL:
                         if (mediaList != null) {
@@ -199,6 +198,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
             public void run() {
                 final Bitmap cover = media.getType() == MediaWrapper.TYPE_AUDIO || media.getType() == MediaWrapper.TYPE_VIDEO
                 ? AudioUtil.readCoverBitmap(mMedia.getArtworkUrl(), 512) : null;
+                final Bitmap blurred = cover != null ? UiTools.blurBitmap(cover) : null;
                 final Boolean browserFavExists = mBrowserFavRepository.browserFavExists((Uri.parse(mMedia.getLocation())));
                 WorkersKt.runOnMainThread(new Runnable() {
                     @Override
@@ -243,8 +243,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
                         }
                         mRowsAdapter.add(detailsOverview);
                         setAdapter(mRowsAdapter);
-                        if (cover != null)
-                            mBackgroundManager.setBitmap(cover);
+                        if (blurred != null) mBackgroundManager.setBitmap(blurred);
                     }
                 });
             }
