@@ -85,5 +85,5 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
         }
     }
 
-    companion object : SingletonHolder<BrowserFavRepository, Context>({ BrowserFavRepository(MediaDatabase.getDatabase(it.applicationContext).browserFavDao()) })
+    companion object : SingletonHolder<BrowserFavRepository, Context>({ BrowserFavRepository(MediaDatabase.getInstance(it).browserFavDao()) })
 }

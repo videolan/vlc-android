@@ -26,9 +26,12 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
+import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.models.Slave
+
+private const val DB_NAME = "vlc_database"
 
 @Database(entities = [ExternalSub::class, Slave::class, BrowserFav::class], version = 27)
 @TypeConverters(Converters::class)
@@ -37,31 +40,20 @@ abstract class MediaDatabase: RoomDatabase() {
     abstract fun slaveDao(): SlaveDao
     abstract fun browserFavDao(): BrowserFavDao
 
-    companion object {
-        private const val DB_NAME = "vlc_database"
-
-        @Volatile private var instance: MediaDatabase? = null
-        fun getDatabase(context: Context): MediaDatabase =
-                instance ?: synchronized(this) {
-                    instance ?: buildDatabase(context).also { instance = it }
-                }
-
-        private fun buildDatabase(context: Context) =
-                Room.databaseBuilder(context.applicationContext,
-                        MediaDatabase::class.java, DB_NAME)
-                        .addMigrations(migration_1_2, migration_2_3, migration_3_4, migration_4_5,
-                                migration_5_6, migration_6_7, migration_7_8, migration_8_9,
-                                migration_9_10, migration_10_11, migration_11_12, migration_12_13,
-                                migration_13_14, migration_14_15, migration_15_16, migration_16_17,
-                                migration_17_18, migration_18_19, migration_19_20, migration_20_21,
-                                migration_21_22, migration_22_23, migration_23_24, migration_24_25,
-                                migration_25_26, migration_26_27)
-                        .addCallback(object : RoomDatabase.Callback() {
-                            override fun onCreate(db: SupportSQLiteDatabase) {
-                                populateDB(context)
-                            }
-                        })
-                        .build()
-    }
+    companion object : SingletonHolder<MediaDatabase, Context>({ buildDatabase(it.applicationContext) })
 }
+
+private fun buildDatabase(context: Context) = Room.databaseBuilder(context.applicationContext,
+        MediaDatabase::class.java, DB_NAME)
+        .addMigrations(migration_1_2, migration_2_3, migration_3_4, migration_4_5,
+                migration_5_6, migration_6_7, migration_7_8, migration_8_9,
+                migration_9_10, migration_10_11, migration_11_12, migration_12_13,
+                migration_13_14, migration_14_15, migration_15_16, migration_16_17,
+                migration_17_18, migration_18_19, migration_19_20, migration_20_21,
+                migration_21_22, migration_22_23, migration_23_24, migration_24_25,
+                migration_25_26, migration_26_27)
+        .addCallback(object : RoomDatabase.Callback() {
+            override fun onCreate(db: SupportSQLiteDatabase) { populateDB(context) }
+        })
+        .build()
 

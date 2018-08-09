@@ -63,5 +63,5 @@ class SlaveRepository(private val slaveDao:SlaveDao){
         }
     }
 
-    companion object : SingletonHolder<SlaveRepository, Context>({ SlaveRepository(MediaDatabase.getDatabase(it.applicationContext).slaveDao()) })
+    companion object : SingletonHolder<SlaveRepository, Context>({ SlaveRepository(MediaDatabase.getInstance(it).slaveDao()) })
 }

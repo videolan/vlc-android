@@ -47,5 +47,5 @@ class ExternalSubRepository(private val externalSubDao: ExternalSubDao ) {
         return existExternalSubs
     }
 
-    companion object : SingletonHolder<ExternalSubRepository, Context>({ ExternalSubRepository(MediaDatabase.getDatabase(it.applicationContext).externalSubDao()) })
+    companion object : SingletonHolder<ExternalSubRepository, Context>({ ExternalSubRepository(MediaDatabase.getInstance(it).externalSubDao()) })
 }
