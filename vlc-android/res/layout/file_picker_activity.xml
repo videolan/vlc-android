@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="@dimen/default_content_width"
-    android:layout_height="@dimen/file_picker_height">
+    android:layout_height="@dimen/file_picker_height"
+    android:minHeight="320dp">
     <ImageView
         android:id="@+id/button_home"
         android:layout_width="48dp"
