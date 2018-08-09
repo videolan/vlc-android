@@ -41,7 +41,6 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
     public final static String NAME = "VlcSharedPreferences";
     public final static String VIDEO_RESUME_TIME = "VideoResumeTime";
     public final static String VIDEO_PAUSED = "VideoPaused";
-    public final static String VIDEO_SUBTITLE_FILES = "VideoSubtitleFiles";
     public final static String VIDEO_SPEED = "VideoSpeed";
     public final static String VIDEO_RESTORE = "video_restore";
     public final static String VIDEO_RATE = "video_rate";

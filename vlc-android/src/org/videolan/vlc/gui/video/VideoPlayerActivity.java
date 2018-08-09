@@ -281,12 +281,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private MediaPlayer.TrackDescription[] mAudioTracksList;
     private MediaPlayer.TrackDescription[] mVideoTracksList;
     private MediaPlayer.TrackDescription[] mSubtitleTracksList;
-    /**
-     * Used to store a selected subtitle; see onActivityResult.
-     * It is possible to have multiple custom subs in one session
-     * (just like desktop VLC allows you as well.)
-     */
-    private final ArrayList<String> mSubtitleSelectedFiles = new ArrayList<>();
 
     /**
      * Flag to indicate whether the media should be paused once loaded
@@ -371,10 +365,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         // videos.
         final SharedPreferences.Editor editor = mSettings.edit();
         editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
-        // Also clear the subs list, because it is supposed to be per session
-        // only (like desktop VLC). We don't want the custom subtitle files
-        // to persist forever with this video.
-        editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
         // Paused flag - per session too, like the subs list.
         editor.remove(PreferencesActivity.VIDEO_PAUSED);
         editor.apply();
@@ -621,20 +611,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final SharedPreferences.Editor editor = mSettings.edit();
         if (mSavedTime != -1) editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, mSavedTime);
 
-        // Save selected subtitles
-        String subtitleList_serialized = null;
-        synchronized (mSubtitleSelectedFiles) {
-            if(mSubtitleSelectedFiles.size() > 0) {
-                if (BuildConfig.DEBUG) Log.d(TAG, "Saving selected subtitle files");
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                try {
-                    ObjectOutputStream oos = new ObjectOutputStream(bos);
-                    oos.writeObject(mSubtitleSelectedFiles);
-                    subtitleList_serialized = bos.toString();
-                } catch(IOException ignored) {}
-            }
-        }
-        editor.putString(PreferencesActivity.VIDEO_SUBTITLE_FILES, subtitleList_serialized);
         editor.apply();
 
         saveBrightness();
@@ -2723,9 +2699,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             positionInPlaylist = extras.getInt(Constants.PLAY_EXTRA_OPENED_POSITION, -1);
 
             if (intent.hasExtra(Constants.PLAY_EXTRA_SUBTITLES_LOCATION))
-                synchronized (mSubtitleSelectedFiles) {
-                    mSubtitleSelectedFiles.add(extras.getString(Constants.PLAY_EXTRA_SUBTITLES_LOCATION));
-                }
+                mService.addSubtitleTrack(extras.getString(Constants.PLAY_EXTRA_SUBTITLES_LOCATION), true);
             if (intent.hasExtra(Constants.PLAY_EXTRA_ITEM_TITLE))
                 itemTitle = extras.getString(Constants.PLAY_EXTRA_ITEM_TITLE);
         }
@@ -2857,25 +2831,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     private SubtitlesGetTask mSubtitlesGetTask = null;
-    private class SubtitlesGetTask extends AsyncTask<String, Void, List<String>> {
+    private class SubtitlesGetTask extends AsyncTask<Void, Void, List<String>> {
         @Override
-        protected List<String> doInBackground(String... strings) {
-            final String subtitleList_serialized = strings[0];
-            List<String> prefsList = new ArrayList<>();
-
-            if (subtitleList_serialized != null) {
-                final ByteArrayInputStream bis = new ByteArrayInputStream(subtitleList_serialized.getBytes());
-                ObjectInputStream ois = null;
-                try {
-                    ois = new ObjectInputStream(bis);
-                    prefsList = (List<String>) ois.readObject();
-                } catch (InterruptedIOException ignored) {
-                    return prefsList; /* Task is cancelled */
-                } catch (ClassNotFoundException | IOException ignored) {
-                } finally {
-                    Util.close(ois);
-                }
-            }
+        protected List<String> doInBackground(Void... voids) {
+            List<String> externalSubList = new ArrayList<>();
 
             String mediaTitle = null;
             if (mUri != null && !TextUtils.equals(mUri.getScheme(), "content")) mediaTitle = mUri.getLastPathSegment();
@@ -2883,22 +2842,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 final MediaWrapper mw = mService.getCurrentMediaWrapper();
                 if (mw != null) mediaTitle = FileUtils.getFileNameFromPath(mService.getCurrentMediaWrapper().getLocation());
             }
-            if (mediaTitle != null) prefsList.addAll(ExternalSubRepository.Companion.getInstance(VideoPlayerActivity.this).getSubtitles(mediaTitle));
-            return prefsList;
+            if (mediaTitle != null) externalSubList.addAll(ExternalSubRepository.Companion.getInstance(VideoPlayerActivity.this).getSubtitles(mediaTitle));
+            return externalSubList;
         }
 
         @Override
-        protected void onPostExecute(List<String> prefsList) {
-            // Add any selected subtitle file from the file picker
-            if (prefsList.size() > 0) {
-                for (String file : prefsList) {
-                    synchronized (mSubtitleSelectedFiles) {
-                        if (!mSubtitleSelectedFiles.contains(file))
-                            mSubtitleSelectedFiles.add(file);
-                    }
-                    Log.i(TAG, "Adding user-selected subtitle " + file);
-                    mService.addSubtitleTrack(file, true);
-                }
+        protected void onPostExecute(List<String> externalSubList) {
+            for (String file : externalSubList) {
+                Log.i(TAG, "Adding user-selected subtitle " + file);
+                mService.addSubtitleTrack(file, true);
             }
             mSubtitlesGetTask = null;
         }
@@ -2912,10 +2864,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public void getSubtitles() {
         if (mSubtitlesGetTask != null || mService == null)
             return;
-        final String subtitleList_serialized = mSettings.getString(PreferencesActivity.VIDEO_SUBTITLE_FILES, null);
 
         mSubtitlesGetTask = new SubtitlesGetTask();
-        mSubtitlesGetTask.execute(subtitleList_serialized);
+        mSubtitlesGetTask.execute();
     }
 
     @SuppressWarnings("deprecation")
