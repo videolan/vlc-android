@@ -63,6 +63,12 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         setupBrowser();
     }
 
+    @Override
+    public void registerSwiperRefreshlayout() {
+        if (!isRootDirectory()) super.registerSwiperRefreshlayout();
+        else mSwipeRefreshLayout.setEnabled(false);
+    }
+
     protected void setupBrowser() {
         if (isRootDirectory()) viewModel = ViewModelProviders.of(requireActivity(), new BrowserModel.Factory(requireContext(), null, BrowserModelKt.TYPE_FILE, getShowHiddenFiles())).get(BrowserModel.class);
         else viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(requireContext(), getMrl(), BrowserModelKt.TYPE_FILE, getShowHiddenFiles())).get(BrowserModel.class);

@@ -130,10 +130,13 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         layoutManager = LinearLayoutManager(activity)
         binding.networkList.layoutManager = layoutManager
         binding.networkList.adapter = adapter
-        mSwipeRefreshLayout.setOnRefreshListener(this)
+        registerSwiperRefreshlayout()
         viewModel.dataset.observe(this, Observer<MutableList<MediaLibraryItem>> { mediaLibraryItems -> adapter.update(mediaLibraryItems!!) })
         viewModel.getDescriptionUpdate().observe(this, Observer { pair -> if (pair != null) adapter.notifyItemChanged(pair.first, pair.second) })
     }
+
+    open fun registerSwiperRefreshlayout() = mSwipeRefreshLayout.setOnRefreshListener(this)
+
     override fun setBreadcrumb() {
         val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane) ?: return
         val media = currentMedia
