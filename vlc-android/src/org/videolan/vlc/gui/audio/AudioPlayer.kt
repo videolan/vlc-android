@@ -36,7 +36,6 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.text.Editable
 import android.text.TextUtils
@@ -63,13 +62,14 @@ import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.PlaybackServiceActivity
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
-import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Constants
 import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.viewmodels.PlaybackProgress
@@ -164,32 +164,30 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         outState.putInt("player_state", playerState)
     }
 
+    private val ctxReceiver : CtxActionReceiver = object : CtxActionReceiver {
+        override fun onCtxAction(position: Int, option: Int) {
+            when(option) {
+                Constants.CTX_SET_RINGTONE -> AudioUtil.setRingtone(playlistAdapter.getItem(position), activity)
+                Constants.CTX_ADD_TO_PLAYLIST -> {
+                    val mw = playlistAdapter.getItem(position)
+                    UiTools.addToPlaylist(requireActivity(), listOf(mw))
+                }
+                Constants.CTX_REMOVE -> view?.let {
+                    val mw = playlistAdapter.getItem(position)
+                    val cancelAction = Runnable { service?.insertItem(position, mw) }
+                    val message = String.format(VLCApplication.getAppResources().getString(R.string.remove_playlist_item), mw.title)
+                    UiTools.snackerWithCancel(it, message, null, cancelAction)
+                    service?.remove(position)
+                }
+            }
+        }
+    }
+
     override fun onPopupMenu(anchor: View, position: Int, media: MediaWrapper) {
         val activity = activity
         if (activity === null || position >= playlistAdapter.itemCount) return
-        val pos = playlistModel.getItemPosition(position, media)
-        if (pos == -1) return
-        val mw = playlistAdapter.getItem(pos)
-        val popupMenu = PopupMenu(activity, anchor)
-        popupMenu.menuInflater.inflate(R.menu.audio_player, popupMenu.menu)
-
-        popupMenu.menu.setGroupVisible(R.id.phone_only, mw!!.type != MediaWrapper.TYPE_VIDEO
-                && TextUtils.equals(mw.uri.scheme, "file")
-                && AndroidDevices.isPhone)
-
-        popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-            if (item.itemId == R.id.audio_player_mini_remove) {
-                service?.apply {
-                    remove(pos)
-                    return@OnMenuItemClickListener true
-                }
-            } else if (item.itemId == R.id.audio_player_set_song) {
-                AudioUtil.setRingtone(mw, activity)
-                return@OnMenuItemClickListener true
-            }
-            false
-        })
-        popupMenu.show()
+        val flags = Constants.CTX_REMOVE or Constants.CTX_SET_RINGTONE or Constants.CTX_ADD_TO_PLAYLIST
+        showContext(activity, ctxReceiver, position, media.title, flags)
     }
 
     private fun doUpdate() {
@@ -306,7 +304,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     }
 
     override fun playItem(position: Int, item: MediaWrapper) {
-         service?.playIndex(playlistModel.getItemPosition(position, item))
+        service?.playIndex(playlistModel.getItemPosition(position, item))
     }
 
     fun onTimeLabelClick(view: View) {
@@ -582,12 +580,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         override fun onMediaSwitching() {}
 
         override fun onMediaSwitched(position: Int) {
-           service?.apply {
-               when (position) {
-                   AudioMediaSwitcherListener.PREVIOUS_MEDIA -> previous(true)
-                   AudioMediaSwitcherListener.NEXT_MEDIA ->  next()
-               }
-           }
+            service?.apply {
+                when (position) {
+                    AudioMediaSwitcherListener.PREVIOUS_MEDIA -> previous(true)
+                    AudioMediaSwitcherListener.NEXT_MEDIA ->  next()
+                }
+            }
         }
 
         override fun onTouchDown() = hideHeaderButtons()

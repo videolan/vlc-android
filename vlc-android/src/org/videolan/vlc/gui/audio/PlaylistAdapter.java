@@ -23,8 +23,10 @@
 
 package org.videolan.vlc.gui.audio;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Message;
 import android.support.annotation.MainThread;
 import android.support.v4.app.Fragment;
@@ -166,6 +168,7 @@ public class PlaylistAdapter extends DiffUtilAdapter<MediaWrapper, PlaylistAdapt
     public class ViewHolder extends RecyclerView.ViewHolder {
         PlaylistItemBinding binding;
 
+        @TargetApi(Build.VERSION_CODES.M)
         public ViewHolder(View v) {
             super(v);
             binding = DataBindingUtil.bind(v);

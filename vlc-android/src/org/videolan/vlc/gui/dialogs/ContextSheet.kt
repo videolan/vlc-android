@@ -95,6 +95,7 @@ class ContextSheet : BottomSheetDialogFragment() {
         if (flags and Constants.CTX_FAV_ADD != 0) add(Simple(Constants.CTX_FAV_ADD, getString(R.string.favorites_add), R.drawable.ic_menu_network))
         if (flags and Constants.CTX_FAV_EDIT != 0) add(Simple(Constants.CTX_FAV_EDIT, getString(R.string.favorites_edit), R.drawable.ic_menu_network))
         if (flags and Constants.CTX_FAV_REMOVE != 0) add(Simple(Constants.CTX_FAV_REMOVE, getString(R.string.favorites_remove), R.drawable.ic_menu_network))
+        if (flags and Constants.CTX_REMOVE != 0) add(Simple(Constants.CTX_REMOVE, getString(R.string.remove), R.drawable.ic_ctx_delete_normal))
     }
 
     inner class ContextAdapter : RecyclerView.Adapter<ContextAdapter.ViewHolder>() {

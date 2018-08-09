@@ -152,6 +152,7 @@ public class Constants {
     public final static int CTX_FAV_REMOVE         = 1 << 14;
     public final static int CTX_CUSTOM_REMOVE      = 1 << 15;
     public final static int CTX_ITEM_DL            = 1 << 16;
+    public final static int CTX_REMOVE             = 1 << 17;
 
     public final static int CTX_VIDEO_FLAGS = Constants.CTX_APPEND|Constants.CTX_DELETE|Constants.CTX_DOWNLOAD_SUBTITLES|Constants.CTX_INFORMATION|Constants.CTX_PLAY_ALL|Constants.CTX_PLAY_AS_AUDIO;
     public final static int CTX_TRACK_FLAGS = Constants.CTX_APPEND|Constants.CTX_PLAY_NEXT|Constants.CTX_DELETE|Constants.CTX_INFORMATION|Constants.CTX_PLAY_ALL|Constants.CTX_ADD_TO_PLAYLIST|Constants.CTX_SET_RINGTONE;
