@@ -11,7 +11,7 @@
         android:layout_height="48dp"
         android:layout_gravity="start|center_horizontal"
         android:contentDescription="@string/directories"
-        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
         android:onClick="onHomeClick"
         tools:targetApi="11"
         android:src="@drawable/ic_browser_home_normal"
