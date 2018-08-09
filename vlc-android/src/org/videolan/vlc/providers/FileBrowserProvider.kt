@@ -36,7 +36,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
-import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.gui.helpers.hf.getDocumentFiles
 import org.videolan.vlc.repository.BrowserFavRepository
@@ -88,10 +87,6 @@ open class FileBrowserProvider(
 
     init {
         showFavorites = url == null && !filePicker && this !is StorageProvider
-        if (url == null) {
-            ExternalMonitor.devices.observeForever(this)
-            if (showFavorites) favorites?.observeForever(favoritesObserver)
-        }
     }
 
     override fun browseRoot() {
@@ -123,6 +118,9 @@ open class FileBrowserProvider(
             devices.add(otg)
         }
         dataset.value = devices
+        // observe devices & favorites
+        ExternalMonitor.devices.observeForever(this)
+        if (showFavorites) favorites?.observeForever(favoritesObserver)
     }
 
     override fun browse(url: String?) {
