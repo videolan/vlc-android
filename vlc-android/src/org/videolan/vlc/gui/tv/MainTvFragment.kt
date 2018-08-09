@@ -108,7 +108,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         backgroundManager = BackgroundManager.getInstance(requireActivity()).apply { attach(requireActivity().window) }
         nowPlayingDelegate = NowPlayingDelegate(this)
 
-        browserFavRepository = BrowserFavRepository(MediaDatabase.getDatabase(requireContext()).browserFavDao())
+        browserFavRepository = BrowserFavRepository.getInstance(requireContext())
         favorites = browserFavRepository.networkFavorites
         favorites.observe(this, Observer{
             it?.let{

@@ -20,14 +20,17 @@
 
 package org.videolan.vlc.repository
 
+import android.content.Context
 import android.net.Uri
 import android.support.annotation.WorkerThread
+import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.ExternalSubDao
+import org.videolan.vlc.database.MediaDatabase
 import java.io.File
 
 
-class ExternalSubRepository(val externalSubDao: ExternalSubDao ) {
+class ExternalSubRepository(private val externalSubDao: ExternalSubDao ) {
     fun saveSubtitle(path: String, mediaName: String) {
         externalSubDao.insert(ExternalSub(path, mediaName))
     }
@@ -38,12 +41,11 @@ class ExternalSubRepository(val externalSubDao: ExternalSubDao ) {
         val existExternalSubs: MutableList<String> = mutableListOf()
 
         externalSubs.map {
-            if (File(Uri.decode(it.uri)).exists()) {
-                existExternalSubs.add(it.uri)
-            } else {
-                externalSubDao.delete(it)
-            }
+            if (File(Uri.decode(it.uri)).exists()) existExternalSubs.add(it.uri)
+            else externalSubDao.delete(it)
         }
         return existExternalSubs
     }
+
+    companion object : SingletonHolder<ExternalSubRepository, Context>({ ExternalSubRepository(MediaDatabase.getDatabase(it.applicationContext).externalSubDao()) })
 }

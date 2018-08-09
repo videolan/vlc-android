@@ -106,7 +106,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
         showHiddenFiles = PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("browser_show_hidden_files", false)
         isRootDirectory = defineIsRoot()
-        browserFavRepository = BrowserFavRepository(MediaDatabase.getDatabase(requireContext()).browserFavDao())
+        browserFavRepository = BrowserFavRepository.getInstance(requireContext())
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {

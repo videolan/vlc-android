@@ -28,7 +28,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
     private val playerContext by lazy(LazyThreadSafetyMode.NONE) { newSingleThreadContext("vlc-player") }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getSettings() }
     val progress by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Progress>().apply { value = Progress() } }
-    private val slaveRepository by lazy { SlaveRepository(MediaDatabase.getDatabase(VLCApplication.getAppContext()).slaveDao()) }
+    private val slaveRepository by lazy { SlaveRepository.getInstance(VLCApplication.getAppContext()) }
 
     private var mediaplayer = newMediaPlayer()
     var switchToVideo = false

@@ -78,7 +78,7 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
-        mBrowserFavRepository = new BrowserFavRepository( MediaDatabase.Companion.getDatabase(requireContext()).browserFavDao());
+        if (mBrowserFavRepository == null) mBrowserFavRepository = BrowserFavRepository.Companion.getInstance(activity);
     }
 
     @Override

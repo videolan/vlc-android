@@ -27,13 +27,14 @@ import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.SlaveDao
 import org.videolan.vlc.database.models.Slave
 import org.videolan.vlc.util.VLCIO
 
 
-class SlaveRepository(val slaveDao:SlaveDao){
+class SlaveRepository(private val slaveDao:SlaveDao){
 
     fun saveSlave(mediaPath: String, type: Int, priority: Int, uriString: String): Job {
         return launch(VLCIO) {
@@ -61,4 +62,6 @@ class SlaveRepository(val slaveDao:SlaveDao){
              mediaSlaves
         }
     }
+
+    companion object : SingletonHolder<SlaveRepository, Context>({ SlaveRepository(MediaDatabase.getDatabase(it.applicationContext).slaveDao()) })
 }

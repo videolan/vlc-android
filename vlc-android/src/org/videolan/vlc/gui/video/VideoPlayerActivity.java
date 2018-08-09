@@ -850,7 +850,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         if(data.hasExtra(FilePickerFragment.EXTRA_MRL)) {
             mService.addSubtitleTrack(Uri.parse(data.getStringExtra(FilePickerFragment.EXTRA_MRL)), true);
-            new SlaveRepository(MediaDatabase.Companion.getDatabase(getApplicationContext()).slaveDao()).saveSlave(mService.getCurrentMediaLocation(), Media.Slave.Type.Subtitle, 2, data.getStringExtra(FilePickerFragment.EXTRA_MRL));
+            SlaveRepository.Companion.getInstance(this).saveSlave(mService.getCurrentMediaLocation(), Media.Slave.Type.Subtitle, 2, data.getStringExtra(FilePickerFragment.EXTRA_MRL));
         } else if (BuildConfig.DEBUG) Log.d(TAG, "Subtitle selection dialog was cancelled");
     }
 
@@ -2883,7 +2883,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 final MediaWrapper mw = mService.getCurrentMediaWrapper();
                 if (mw != null) mediaTitle = FileUtils.getFileNameFromPath(mService.getCurrentMediaWrapper().getLocation());
             }
-            if (mediaTitle != null) prefsList.addAll(new ExternalSubRepository(MediaDatabase.Companion.getDatabase(getApplicationContext()).externalSubDao()).getSubtitles(mediaTitle));
+            if (mediaTitle != null) prefsList.addAll(ExternalSubRepository.Companion.getInstance(VideoPlayerActivity.this).getSubtitles(mediaTitle));
             return prefsList;
         }
 

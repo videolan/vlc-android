@@ -20,14 +20,18 @@
 
 package org.videolan.vlc.repository
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.MediatorLiveData
+import android.content.Context
 import android.net.Uri
 import android.support.annotation.WorkerThread
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.database.BrowserFavDao
+import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.util.Constants.TYPE_LOCAL_FAV
 import org.videolan.vlc.util.Constants.TYPE_NETWORK_FAV
@@ -80,4 +84,6 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
             else -> this
         }
     }
+
+    companion object : SingletonHolder<BrowserFavRepository, Context>({ BrowserFavRepository(MediaDatabase.getDatabase(it.applicationContext).browserFavDao()) })
 }

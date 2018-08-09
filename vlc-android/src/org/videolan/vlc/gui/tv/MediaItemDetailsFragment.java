@@ -82,7 +82,7 @@ public class MediaItemDetailsFragment extends DetailsFragment implements Playbac
         super.onCreate(savedInstanceState);
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.setAutoReleaseOnStop(false);
-        mBrowserFavRepository = new BrowserFavRepository(MediaDatabase.Companion.getDatabase(VLCApplication.getAppContext()).browserFavDao());
+        mBrowserFavRepository = BrowserFavRepository.Companion.getInstance(getActivity());
         buildDetails();
     }
 

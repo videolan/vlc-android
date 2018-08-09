@@ -54,7 +54,7 @@ open class FileBrowserProvider(
     private var storagePosition = -1
     private var otgPosition = -1
     private val showFavorites : Boolean
-    private val favorites = if (url == null && !filePicker) BrowserFavRepository(MediaDatabase.getDatabase(context).browserFavDao()).localFavorites else null
+    private val favorites = if (url == null && !filePicker) BrowserFavRepository.getInstance(context).localFavorites else null
 
     private val favoritesObserver by lazy { Observer<List<BrowserFav>> {
         val favs = convertFavorites(it)
