@@ -10,7 +10,8 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/sliding_tabs">
+        android:layout_below="@+id/sliding_tabs"
+        android:layout_marginBottom="16dp">
 
         <include layout="@layout/about_main" />
         <include layout="@layout/about_licence" />
