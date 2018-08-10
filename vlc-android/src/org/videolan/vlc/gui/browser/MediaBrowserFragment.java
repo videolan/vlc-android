@@ -59,6 +59,7 @@ import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.BaseModel;
 
@@ -251,7 +252,7 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
         final T provider = getViewModel();
         provider.sort(sort);
         final String key = provider.getKey();
-        VLCApplication.getSettings().edit()
+        Settings.INSTANCE.getInstance(requireContext()).edit()
                 .putInt(key, sort)
                 .putBoolean(key+"_desc", provider.getDesc())
                 .apply();

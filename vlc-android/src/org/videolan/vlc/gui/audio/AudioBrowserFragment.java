@@ -28,7 +28,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -52,6 +51,7 @@ import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.viewmodels.audio.AlbumModel;
 import org.videolan.vlc.viewmodels.audio.ArtistModel;
@@ -101,7 +101,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (mSettings == null) mSettings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        if (mSettings == null) mSettings = Settings.INSTANCE.getInstance(requireContext());
         setupAdapters(mSettings.getInt(Constants.KEY_AUDIO_CURRENT_TAB, 0));
     }
 

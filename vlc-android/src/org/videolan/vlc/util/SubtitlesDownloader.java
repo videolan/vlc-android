@@ -46,7 +46,6 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.database.MediaDatabase;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.repository.ExternalSubRepository;
@@ -106,7 +105,7 @@ public class SubtitlesDownloader {
         try {
             languages = Collections.singleton(Locale.getDefault().getISO3Language().toLowerCase());
         } catch (MissingResourceException ignored) {}
-        languages = VLCApplication.getSettings().getStringSet("languages_download_list", languages);
+        languages = Settings.INSTANCE.getInstance(context).getStringSet("languages_download_list", languages);
         if (languages == null) { // In case getDefault().getISO3Language() fails
             Toast.makeText(mContext, R.string.subs_dl_lang_fail, Toast.LENGTH_SHORT).show();
             return;

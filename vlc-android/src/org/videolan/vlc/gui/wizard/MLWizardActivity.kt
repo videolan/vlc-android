@@ -27,16 +27,15 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.MlWizardActivityBinding
 import org.videolan.vlc.startMedialibrary
 import org.videolan.vlc.util.Constants
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.VLCIO
 
 
@@ -54,7 +53,7 @@ class MLWizardActivity : AppCompatActivity() {
     @Suppress("UNUSED_PARAMETER")
     fun apply(v: View) = launch(VLCIO) {
         val parse = binding.wizardCheckScan.isChecked
-        val prefs = VLCApplication.getSettings() ?: PreferenceManager.getDefaultSharedPreferences(this@MLWizardActivity)
+        val prefs = Settings.getInstance(this@MLWizardActivity)
         prefs.edit().putInt(Constants.KEY_MEDIALIBRARY_SCAN, if (parse) Constants.ML_SCAN_ON else Constants.ML_SCAN_OFF).commit()
         startMedialibrary(true, true, parse)
         if (!isFinishing) finish()

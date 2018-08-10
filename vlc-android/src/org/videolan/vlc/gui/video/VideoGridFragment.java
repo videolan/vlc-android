@@ -63,6 +63,7 @@ import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.viewmodels.VideosModel;
 
 import java.util.ArrayList;
@@ -80,8 +81,9 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (mAdapter == null) {
-            mAdapter = new VideoListAdapter(this);
-            final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(requireContext());
+            final SharedPreferences preferences = Settings.INSTANCE.getInstance(requireContext());
+            final boolean seenMarkVisible = preferences.getBoolean("media_seen", true);
+            mAdapter = new VideoListAdapter(this, seenMarkVisible);
             final int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
             viewModel = ViewModelProviders.of(requireActivity(), new VideosModel.Factory(mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosModel.class);
             viewModel.getDataset().observe(this, this);

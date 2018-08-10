@@ -65,11 +65,10 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
 
     private boolean mIsSeenMediaMarkerVisible;
 
-    VideoListAdapter(IEventsHandler eventsHandler) {
+    VideoListAdapter(IEventsHandler eventsHandler, boolean seenMarkVisible) {
         super();
         mEventsHandler = eventsHandler;
-        final SharedPreferences settings = VLCApplication.getSettings();
-        mIsSeenMediaMarkerVisible = settings == null || settings.getBoolean("media_seen", true);
+        mIsSeenMediaMarkerVisible = seenMarkVisible;
     }
 
     @Override
