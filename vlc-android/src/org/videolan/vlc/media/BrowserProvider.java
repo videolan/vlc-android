@@ -35,7 +35,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 import android.support.v4.media.MediaBrowserCompat;
@@ -52,6 +51,7 @@ import org.videolan.vlc.extensions.ExtensionsManager;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +63,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
     private static final String TAG = "VLC/BrowserProvider";
 
     private static final Bitmap DEFAULT_AUDIO_COVER = BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_menu_audio);
-    private static final String BASE_DRAWABLE_URI = "android.resource://"+VLCApplication.getAppContext().getPackageName()+"/drawable/";
+    private static String BASE_DRAWABLE_URI;
 
     public static final String ID_ROOT = "ID_ROOT";
     private static final String ID_ARTISTS = "ID_ARTISTS";
@@ -88,7 +88,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
     private static Semaphore extensionLock = new Semaphore(0);
 
     @WorkerThread
-    public static List<MediaBrowserCompat.MediaItem> browse(String parentId) {
+    public static List<MediaBrowserCompat.MediaItem> browse(Context context, String parentId) {
         List<MediaBrowserCompat.MediaItem> results = new ArrayList<>();
         MediaLibraryItem[] list = null;
         boolean limitSize = false;
@@ -97,7 +97,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
         //Extensions
         if (parentId.startsWith(ExtensionsManager.EXTENSION_PREFIX)) {
             if (sExtensionServiceConnection == null) {
-                createExtensionServiceConnection();
+                createExtensionServiceConnection(context);
                 try {
                     extensionLock.acquire();
                 } catch (InterruptedException e) {
@@ -129,11 +129,11 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
                 case ID_ROOT:
                     MediaDescriptionCompat.Builder item = new MediaDescriptionCompat.Builder();
                     //List of Extensions
-                    List<ExtensionListing> extensions = ExtensionsManager.getInstance().getExtensions(VLCApplication.getAppContext(), true);
+                    List<ExtensionListing> extensions = ExtensionsManager.getInstance().getExtensions(context, true);
                     for (int i = 0; i < extensions.size(); i++) {
                         ExtensionListing extension = extensions.get(i);
                         if (extension.androidAutoEnabled()
-                                && PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean(ExtensionsManager.EXTENSION_PREFIX + "_" + extension.componentName().getPackageName() + "_" + ExtensionsManager.ANDROID_AUTO_SUFFIX, false)) {
+                                && Settings.INSTANCE.getInstance(context).getBoolean(ExtensionsManager.EXTENSION_PREFIX + "_" + extension.componentName().getPackageName() + "_" + ExtensionsManager.ANDROID_AUTO_SUFFIX, false)) {
                             item.setMediaId(ExtensionsManager.EXTENSION_PREFIX + "_" + String.valueOf(i))
                                     .setTitle(extension.title());
 
@@ -142,26 +142,23 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
                             Resources extensionRes;
                             if (iconRes != 0) {
                                 try {
-                                    extensionRes = VLCApplication.getAppContext()
-                                            .getPackageManager()
+                                    extensionRes = context.getPackageManager()
                                             .getResourcesForApplication(extension.componentName().getPackageName());
                                     b = BitmapFactory.decodeResource(extensionRes, iconRes);
-                                } catch (PackageManager.NameNotFoundException e) {
-                                }
+                                } catch (PackageManager.NameNotFoundException ignored) {}
                             }
-                            if (b != null)
+                            if (b != null) item.setIconBitmap(b);
+                            else try {
+                                b = ((BitmapDrawable) context.getPackageManager().getApplicationIcon(extension.componentName().getPackageName())).getBitmap();
                                 item.setIconBitmap(b);
-                            else
-                                try {
-                                    b = ((BitmapDrawable) VLCApplication.getAppContext().getPackageManager().getApplicationIcon(extension.componentName().getPackageName())).getBitmap();
-                                    item.setIconBitmap(b);
-                                } catch (PackageManager.NameNotFoundException e) {
-                                    b = BitmapFactory.decodeResource(res, R.drawable.icon);
-                                    item.setIconBitmap(b);
-                                }
+                            } catch (PackageManager.NameNotFoundException e) {
+                                b = BitmapFactory.decodeResource(res, R.drawable.icon);
+                                item.setIconBitmap(b);
+                            }
                             results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_BROWSABLE));
                         }
                     }
+                    if (BASE_DRAWABLE_URI == null) BASE_DRAWABLE_URI = "android.resource://"+context.getPackageName()+"/drawable/";
                     //Last added
                     item = new MediaDescriptionCompat.Builder()
                             .setMediaId(ID_LAST_ADDED)
@@ -202,30 +199,30 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
                     return results;
                 case ID_LAST_ADDED:
                     limitSize = true;
-                    list = VLCApplication.getMLInstance().getRecentAudio();
+                    list = Medialibrary.getInstance().getRecentAudio();
                     break;
                 case ID_HISTORY:
                     limitSize = true;
-                    list = VLCApplication.getMLInstance().lastMediaPlayed();
+                    list = Medialibrary.getInstance().lastMediaPlayed();
                     break;
                 case ID_ARTISTS:
-                    list = VLCApplication.getMLInstance().getArtists(VLCApplication.getSettings().getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false));
+                    list = Medialibrary.getInstance().getArtists(Settings.INSTANCE.getInstance(context).getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false));
                     break;
                 case ID_ALBUMS:
-                    list = VLCApplication.getMLInstance().getAlbums();
+                    list = Medialibrary.getInstance().getAlbums();
                     break;
                 case ID_GENRES:
-                    list = VLCApplication.getMLInstance().getGenres();
+                    list = Medialibrary.getInstance().getGenres();
                     break;
                 case ID_PLAYLISTS:
-                    list = VLCApplication.getMLInstance().getPlaylists();
+                    list = Medialibrary.getInstance().getPlaylists();
                     break;
                 case ID_SONGS:
-                    list = VLCApplication.getMLInstance().getAudio();
+                    list = Medialibrary.getInstance().getAudio();
                     break;
                 default:
                     String[] idSections = parentId.split("_");
-                    Medialibrary ml = VLCApplication.getMLInstance();
+                    Medialibrary ml = Medialibrary.getInstance();
                     long id = Long.parseLong(idSections[1]);
                     switch (idSections[0]) {
                         case ARTIST_PREFIX:
@@ -242,16 +239,14 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
                     if (libraryItem == null || (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper) libraryItem).getType() != MediaWrapper.TYPE_AUDIO))
                         continue;
                     Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(libraryItem.getArtworkMrl()), 256);
-                    if (cover == null)
-                        cover = DEFAULT_AUDIO_COVER;
+                    if (cover == null) cover = DEFAULT_AUDIO_COVER;
                     item.setTitle(libraryItem.getTitle())
                             .setMediaId(generateMediaId(libraryItem));
                     item.setIconBitmap(cover);
                     if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
                         item.setMediaUri(((MediaWrapper) libraryItem).getUri())
                                 .setSubtitle(MediaUtils.INSTANCE.getMediaSubtitle((MediaWrapper) libraryItem));
-                    } else
-                        item.setSubtitle(libraryItem.getDescription());
+                    } else item.setSubtitle(libraryItem.getDescription());
                     boolean playable = libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA ||
                             libraryItem.getItemType() == MediaLibraryItem.TYPE_ALBUM ||
                             libraryItem.getItemType() == MediaLibraryItem.TYPE_PLAYLIST;
@@ -264,7 +259,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
         if (results.isEmpty()) {
             MediaDescriptionCompat.Builder mediaItem = new MediaDescriptionCompat.Builder();
             mediaItem.setMediaId(DUMMY);
-            mediaItem.setTitle(VLCApplication.getAppContext().getString(R.string.search_no_result));
+            mediaItem.setTitle(context.getString(R.string.search_no_result));
             results.add(new MediaBrowserCompat.MediaItem(mediaItem.build(), 0));
         }
         return results;
@@ -306,8 +301,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
                 continue;
             mediaItem = new MediaDescriptionCompat.Builder();
             Uri coverUri = extensionItem.getImageUri();
-            if (coverUri == null)
-                mediaItem.setIconBitmap(DEFAULT_AUDIO_COVER);
+            if (coverUri == null) mediaItem.setIconBitmap(DEFAULT_AUDIO_COVER);
             else
                 mediaItem.setIconUri(coverUri);
             mediaItem.setTitle(extensionItem.getTitle());
@@ -333,7 +327,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
         return instance;
     }
 
-    private static void createExtensionServiceConnection() {
+    private static void createExtensionServiceConnection(final Context context) {
         sExtensionServiceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
@@ -343,13 +337,13 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
             }
             @Override
             public void onServiceDisconnected(ComponentName name) {
-                VLCApplication.getAppContext().unbindService(sExtensionServiceConnection);
+                context.unbindService(sExtensionServiceConnection);
                 sExtensionServiceConnection = null;
                 sExtensionManagerService.stopSelf();
             }
         };
 
-        if (!VLCApplication.getAppContext().bindService(new Intent(VLCApplication.getAppContext(), ExtensionManagerService.class), sExtensionServiceConnection, Context.BIND_AUTO_CREATE))
+        if (!context.bindService(new Intent(context, ExtensionManagerService.class), sExtensionServiceConnection, Context.BIND_AUTO_CREATE))
             sExtensionServiceConnection = null;
     }
 

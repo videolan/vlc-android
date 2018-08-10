@@ -1283,7 +1283,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     private fun sendResults(result: MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>, parentId: String) {
         launch {
             try {
-                result.sendResult(BrowserProvider.browse(parentId))
+                result.sendResult(BrowserProvider.browse(applicationContext, parentId))
             } catch (ignored: RuntimeException) {} //bitmap parcelization can fail
         }
     }
