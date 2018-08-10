@@ -1,6 +1,7 @@
 package org.videolan.vlc.media
 
 import android.arch.lifecycle.MutableLiveData
+import android.content.Context
 import android.net.Uri
 import android.support.annotation.MainThread
 import android.support.v4.media.session.PlaybackStateCompat
@@ -13,22 +14,21 @@ import org.videolan.libvlc.*
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.RendererDelegate
-import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.repository.SlaveRepository
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.VLCOptions
 import kotlin.math.abs
 
 @Suppress("EXPERIMENTAL_FEATURE_WARNING")
-class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
+class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.EventListener {
 
 //    private val exceptionHandler by lazy(LazyThreadSafetyMode.NONE) { CoroutineExceptionHandler { _, _ -> onPlayerError() } }
     private val playerContext by lazy(LazyThreadSafetyMode.NONE) { newSingleThreadContext("vlc-player") }
-    private val settings by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getSettings() }
+    private val settings by lazy(LazyThreadSafetyMode.NONE) { Settings.getInstance(context) }
     val progress by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Progress>().apply { value = Progress() } }
-    private val slaveRepository by lazy { SlaveRepository.getInstance(VLCApplication.getAppContext()) }
+    private val slaveRepository by lazy { SlaveRepository.getInstance(context) }
 
     private var mediaplayer = newMediaPlayer()
     var switchToVideo = false
@@ -76,7 +76,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
         mediaplayer.setEventListener(null)
         mediaplayer.media = media.apply { if (hasRenderer) parse() }
         mediaplayer.setEventListener(this@PlayerController)
-        mediaplayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(VLCApplication.getAppContext()))
+        mediaplayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(context))
         mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)
         mediaplayer.play()
         if (mediaplayer.rate == 1.0f && settings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, true))
@@ -185,7 +185,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
                 try {
                     withTimeout(5000, { player.release() })
                 } catch (exception: TimeoutCancellationException) {
-                    launch(UI.immediate) { Toast.makeText(VLCApplication.getAppContext(), "media stop has timeouted!", Toast.LENGTH_LONG).show() }
+                    launch(UI.immediate) { Toast.makeText(context, "media stop has timeouted!", Toast.LENGTH_LONG).show() }
                 }
             } else player.release()
         }
@@ -208,8 +208,8 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 
     private fun newMediaPlayer() : MediaPlayer {
         return MediaPlayer(VLCInstance.get()).apply {
-            setAudioDigitalOutputEnabled(VLCOptions.isAudioDigitalOutputEnabled(VLCApplication.getSettings()));
-            VLCOptions.getAout(VLCApplication.getSettings())?.let { setAudioOutput(it) }
+            setAudioDigitalOutputEnabled(VLCOptions.isAudioDigitalOutputEnabled(settings))
+            VLCOptions.getAout(settings)?.let { setAudioOutput(it) }
             setRenderer(RendererDelegate.selectedRenderer.value)
             this.vlcVout.addCallback(this@PlayerController)
         }
@@ -324,7 +324,7 @@ class PlayerController : IVLCVout.Callback, MediaPlayer.EventListener {
 //    private fun onPlayerError() {
 //        launch(UI) {
 //            restart()
-//            Toast.makeText(VLCApplication.getAppContext(), VLCApplication.getAppContext().getString(R.string.feedback_player_crashed), Toast.LENGTH_LONG).show()
+//            Toast.makeText(context, context.getString(R.string.feedback_player_crashed), Toast.LENGTH_LONG).show()
 //        }
 //    }
 }

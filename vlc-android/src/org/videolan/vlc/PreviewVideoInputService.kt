@@ -34,7 +34,7 @@ class PreviewVideoInputService : TvInputService() {
     private inner class PreviewSession(private val context: Context
     ) : TvInputService.Session(context), MediaPlayerEventListener {
 
-        val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController() }
+        val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController(applicationContext) }
 
         override fun onRelease() {
             player.release()

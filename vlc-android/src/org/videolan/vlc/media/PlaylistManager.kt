@@ -43,7 +43,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { Medialibrary.getInstance() }
-    val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController() }
+    val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController(service.applicationContext) }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { PreferenceManager.getDefaultSharedPreferences(service) }
     private val ctx by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getAppContext() }
     var currentIndex = -1
