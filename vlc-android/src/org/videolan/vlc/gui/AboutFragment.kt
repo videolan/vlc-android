@@ -43,10 +43,12 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.Util
 
 const val TAG = "VLC/AboutFragment"
+const val MODE_TOTAL = 2 // Number of audio browser modes
+
 class AboutFragment : Fragment() {
 
-    private lateinit var mViewPager: ViewPager
-    private lateinit var mTabLayout: TabLayout
+    private lateinit var viewPager: ViewPager
+    private lateinit var tabLayout: TabLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.about, container, false)
@@ -55,8 +57,7 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (activity is AppCompatActivity)
-            (activity as AppCompatActivity).supportActionBar?.title = "VLC " + BuildConfig.VERSION_NAME
+        (activity as? AppCompatActivity)?.supportActionBar?.title = "VLC ${BuildConfig.VERSION_NAME}"
         //Fix android 7 Locale problem with webView
         //https://stackoverflow.com/questions/40398528/android-webview-locale-changes-abruptly-on-android-n
         if (AndroidUtil.isNougatOrLater)
@@ -68,22 +69,19 @@ class AboutFragment : Fragment() {
 
         val lists = arrayOf(aboutMain, webView)
         val titles = arrayOf(getString(R.string.about), getString(R.string.licence))
-        mViewPager = view.findViewById(R.id.pager)
-        mViewPager.offscreenPageLimit = MODE_TOTAL - 1
-        mViewPager.adapter = AudioPagerAdapter(lists, titles)
+        viewPager = view.findViewById(R.id.pager)
+        viewPager.offscreenPageLimit = MODE_TOTAL - 1
+        viewPager.adapter = AudioPagerAdapter(lists, titles)
 
-        mTabLayout = view.findViewById(R.id.sliding_tabs)
-        mTabLayout.setupWithViewPager(mViewPager)
-        launch(CommonPool) {
-            val asset = Util.readAsset("licence.htm", "").replace("!COMMITID!", revision)
-            withContext(UI){
-                UiTools.fillAboutView(view)
-                webView.loadData(asset, "text/html", "UTF8")
+        tabLayout = view.findViewById(R.id.sliding_tabs)
+        tabLayout.setupWithViewPager(viewPager)
+        launch(UI.immediate) {
+            val asset = withContext(CommonPool) {
+                Util.readAsset("licence.htm", "").replace("!COMMITID!", revision)
             }
+            UiTools.fillAboutView(view)
+            webView.loadData(asset, "text/html", "UTF8")
         }
     }
 
-    companion object {
-        private val MODE_TOTAL = 2 // Number of audio browser modes
-    }
 }
