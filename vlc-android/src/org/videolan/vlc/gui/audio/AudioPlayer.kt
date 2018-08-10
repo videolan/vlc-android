@@ -70,8 +70,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
-import org.videolan.vlc.util.Constants
-import org.videolan.vlc.util.VLCIO
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
 
@@ -167,12 +166,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     private val ctxReceiver : CtxActionReceiver = object : CtxActionReceiver {
         override fun onCtxAction(position: Int, option: Int) {
             when(option) {
-                Constants.CTX_SET_RINGTONE -> AudioUtil.setRingtone(playlistAdapter.getItem(position), activity)
-                Constants.CTX_ADD_TO_PLAYLIST -> {
+                CTX_SET_RINGTONE -> AudioUtil.setRingtone(playlistAdapter.getItem(position), activity)
+                CTX_ADD_TO_PLAYLIST -> {
                     val mw = playlistAdapter.getItem(position)
                     UiTools.addToPlaylist(requireActivity(), listOf(mw))
                 }
-                Constants.CTX_REMOVE -> view?.let {
+                CTX_REMOVE -> view?.let {
                     val mw = playlistAdapter.getItem(position)
                     val cancelAction = Runnable { service?.insertItem(position, mw) }
                     val message = String.format(VLCApplication.getAppResources().getString(R.string.remove_playlist_item), mw.title)
@@ -186,7 +185,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     override fun onPopupMenu(anchor: View, position: Int, media: MediaWrapper) {
         val activity = activity
         if (activity === null || position >= playlistAdapter.itemCount) return
-        val flags = Constants.CTX_REMOVE or Constants.CTX_SET_RINGTONE or Constants.CTX_ADD_TO_PLAYLIST
+        val flags = CTX_REMOVE or CTX_SET_RINGTONE or CTX_ADD_TO_PLAYLIST
         showContext(activity, ctxReceiver, position, media.title, flags)
     }
 
@@ -234,11 +233,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
 
     private fun updateRepeatMode() {
         when (service?.repeatType) {
-            Constants.REPEAT_ONE -> {
+            REPEAT_ONE -> {
                 binding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_one))
                 binding.repeat.contentDescription = resources.getString(R.string.repeat_single)
             }
-            Constants.REPEAT_ALL -> {
+            REPEAT_ALL -> {
                 binding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_all))
                 binding.repeat.contentDescription = resources.getString(R.string.repeat_all)
             }
@@ -338,9 +337,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     fun onRepeatClick(view: View) {
         if (service === null) return
         when (service?.repeatType) {
-            Constants.REPEAT_NONE -> service?.repeatType = Constants.REPEAT_ALL
-            Constants.REPEAT_ALL -> service?.repeatType = Constants.REPEAT_ONE
-            else -> service?.repeatType = Constants.REPEAT_NONE
+            REPEAT_NONE -> service?.repeatType = REPEAT_ALL
+            REPEAT_ALL -> service?.repeatType = REPEAT_ONE
+            else -> service?.repeatType = REPEAT_NONE
         }
         updateRepeatMode()
     }
@@ -539,7 +538,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
 
     private fun showPlaylistTips() {
         val activity = activity as? AudioPlayerContainerActivity
-        activity?.showTipViewIfNeeded(R.id.audio_playlist_tips, Constants.PREF_PLAYLIST_TIPS_SHOWN)
+        activity?.showTipViewIfNeeded(R.id.audio_playlist_tips, PREF_PLAYLIST_TIPS_SHOWN)
     }
 
     fun onStateChanged(newState: Int) {

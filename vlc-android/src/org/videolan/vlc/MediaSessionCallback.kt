@@ -13,10 +13,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.media.BrowserProvider
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.Constants
-import org.videolan.vlc.util.VoiceSearchParams
-import org.videolan.vlc.util.registerMedialibrary
+import org.videolan.vlc.util.*
 
 private const val TAG = "VLC/MediaSessionCallback"
 
@@ -44,10 +41,10 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
         when (action) {
             "shuffle" -> playbackService.shuffle()
             "repeat" -> playbackService.repeatType = when (playbackService.repeatType) {
-                Constants.REPEAT_NONE -> Constants.REPEAT_ALL
-                Constants.REPEAT_ALL -> Constants.REPEAT_ONE
-                Constants.REPEAT_ONE -> Constants.REPEAT_NONE
-                else -> Constants.REPEAT_NONE
+                REPEAT_NONE -> REPEAT_ALL
+                REPEAT_ALL -> REPEAT_ONE
+                REPEAT_ONE -> REPEAT_NONE
+                else -> REPEAT_NONE
             }
         }
     }

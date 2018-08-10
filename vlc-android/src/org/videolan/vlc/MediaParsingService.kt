@@ -91,8 +91,8 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
         medialibrary = Medialibrary.getInstance()
         medialibrary.addDeviceDiscoveryCb(this@MediaParsingService)
         val filter = IntentFilter()
-        filter.addAction(Constants.ACTION_PAUSE_SCAN)
-        filter.addAction(Constants.ACTION_RESUME_SCAN)
+        filter.addAction(ACTION_PAUSE_SCAN)
+        filter.addAction(ACTION_RESUME_SCAN)
         registerReceiver(receiver, filter)
         localBroadcastManager.registerReceiver(receiver, IntentFilter(Medialibrary.ACTION_IDLE))
         val pm = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -117,15 +117,15 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
         if (AndroidUtil.isOOrLater && lastNotificationTime == 0L) forceForeground()
         else if (lastNotificationTime <= 0L) lastNotificationTime = System.currentTimeMillis()
         when (intent.action) {
-            Constants.ACTION_INIT -> {
-                val upgrade = intent.getBooleanExtra(Constants.EXTRA_UPGRADE, false)
-                val parse = intent.getBooleanExtra(Constants.EXTRA_PARSE, true)
+            ACTION_INIT -> {
+                val upgrade = intent.getBooleanExtra(EXTRA_UPGRADE, false)
+                val parse = intent.getBooleanExtra(EXTRA_PARSE, true)
                 setupMedialibrary(upgrade, parse)
             }
-            Constants.ACTION_RELOAD -> reload(intent.getStringExtra(Constants.EXTRA_PATH))
-            Constants.ACTION_DISCOVER -> discover(intent.getStringExtra(Constants.EXTRA_PATH))
-            Constants.ACTION_DISCOVER_DEVICE -> discoverStorage(intent.getStringExtra(Constants.EXTRA_PATH))
-            Constants.ACTION_CHECK_STORAGES -> if (scanActivated) actions.offer(UpdateStorages) else exitCommand()
+            ACTION_RELOAD -> reload(intent.getStringExtra(EXTRA_PATH))
+            ACTION_DISCOVER -> discover(intent.getStringExtra(EXTRA_PATH))
+            ACTION_DISCOVER_DEVICE -> discoverStorage(intent.getStringExtra(EXTRA_PATH))
+            ACTION_CHECK_STORAGES -> if (scanActivated) actions.offer(UpdateStorages) else exitCommand()
             else -> {
                 exitCommand()
                 return Service.START_NOT_STICKY
@@ -379,12 +379,12 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
-                Constants.ACTION_PAUSE_SCAN -> {
+                ACTION_PAUSE_SCAN -> {
                     if (wakeLock.isHeld) wakeLock.release()
                     scanPaused = true
                     medialibrary.pauseBackgroundOperations()
                 }
-                Constants.ACTION_RESUME_SCAN -> {
+                ACTION_RESUME_SCAN -> {
                     if (!wakeLock.isHeld) wakeLock.acquire()
                     medialibrary.resumeBackgroundOperations()
                     scanPaused = false
@@ -410,15 +410,15 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
 data class ScanProgress(val parsing: Int, val discovery: String)
 
 fun reload(ctx: Context) {
-    ContextCompat.startForegroundService(ctx, Intent(Constants.ACTION_RELOAD, null, ctx, MediaParsingService::class.java))
+    ContextCompat.startForegroundService(ctx, Intent(ACTION_RELOAD, null, ctx, MediaParsingService::class.java))
 }
 
 fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true) = launch(UI.immediate) {
     if (Medialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@launch
     val prefs = withContext(VLCIO) { VLCApplication.getSettings() ?: android.preference.PreferenceManager.getDefaultSharedPreferences(this@startMedialibrary) }
-    val scanOpt = if (VLCApplication.showTvUi()) Constants.ML_SCAN_ON else prefs.getInt(Constants.KEY_MEDIALIBRARY_SCAN, -1)
+    val scanOpt = if (VLCApplication.showTvUi()) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
     if (parse && scanOpt == -1) {
-        if (dbExists(this@startMedialibrary)) prefs.edit().putInt(Constants.KEY_MEDIALIBRARY_SCAN, Constants.ML_SCAN_ON).apply()
+        if (dbExists(this@startMedialibrary)) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
         else {
             if (MediaParsingService.wizardShowing) return@launch
             MediaParsingService.wizardShowing = true
@@ -426,11 +426,11 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
             return@launch
         }
     }
-    val intent = Intent(Constants.ACTION_INIT, null, this@startMedialibrary, MediaParsingService::class.java)
+    val intent = Intent(ACTION_INIT, null, this@startMedialibrary, MediaParsingService::class.java)
     ContextCompat.startForegroundService(this@startMedialibrary, intent
-            .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
-            .putExtra(Constants.EXTRA_UPGRADE, upgrade)
-            .putExtra(Constants.EXTRA_PARSE, parse && scanOpt == Constants.ML_SCAN_ON))
+            .putExtra(EXTRA_FIRST_RUN, firstRun)
+            .putExtra(EXTRA_UPGRADE, upgrade)
+            .putExtra(EXTRA_PARSE, parse && scanOpt == ML_SCAN_ON))
 }
 
 private suspend fun dbExists(context: Context) = withContext(VLCIO) {
