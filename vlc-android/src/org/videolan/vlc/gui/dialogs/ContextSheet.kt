@@ -33,8 +33,7 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ContextItemBinding
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.Constants
+import org.videolan.vlc.util.*
 
 const val CTX_TITLE_KEY = "CTX_TITLE_KEY"
 const val CTX_POSITION_KEY = "CTX_POSITION_KEY"
@@ -80,22 +79,22 @@ class ContextSheet : BottomSheetDialogFragment() {
     }
 
     private fun populateOptions(flags: Int) = mutableListOf<CtxOption>().apply {
-        if (flags and Constants.CTX_PLAY != 0) add(Simple(Constants.CTX_PLAY, getString(R.string.play), R.drawable.ic_ctx_play_normal))
-        if (flags and Constants.CTX_PLAY_FROM_START != 0) add(Simple(Constants.CTX_PLAY_FROM_START, getString(R.string.play_from_start), R.drawable.ic_ctx_play_from_start_normal))
-        if (flags and Constants.CTX_PLAY_ALL != 0) add(Simple(Constants.CTX_PLAY_ALL, getString(R.string.play_all), R.drawable.ic_ctx_play_all_normal))
-        if (flags and Constants.CTX_PLAY_AS_AUDIO != 0) add(Simple(Constants.CTX_PLAY_AS_AUDIO, getString(R.string.play_as_audio), R.drawable.ic_ctx_play_as_audio_normal))
-        if (flags and Constants.CTX_PLAY_GROUP != 0) add(Simple(Constants.CTX_PLAY_GROUP, getString(R.string.play), R.drawable.ic_ctx_play_normal))
-        if (flags and Constants.CTX_APPEND != 0) add(Simple(Constants.CTX_APPEND, getString(R.string.append), R.drawable.ic_ctx_append_normal))
-        if (flags and Constants.CTX_INFORMATION != 0) add(Simple(Constants.CTX_INFORMATION, getString(R.string.info), R.drawable.ic_ctx_information_normal))
-        if (flags and Constants.CTX_DELETE != 0) add(Simple(Constants.CTX_DELETE, getString(R.string.delete), R.drawable.ic_ctx_delete_normal))
-        if (flags and Constants.CTX_DOWNLOAD_SUBTITLES != 0) add(Simple(Constants.CTX_DOWNLOAD_SUBTITLES, getString(R.string.download_subtitles), R.drawable.ic_ctx_download_subtitles_normal))
-        if (flags and Constants.CTX_PLAY_NEXT != 0) add(Simple(Constants.CTX_PLAY_NEXT, getString(R.string.insert_next), R.drawable.ic_ctx_play_next_normal))
-        if (flags and Constants.CTX_ADD_TO_PLAYLIST != 0) add(Simple(Constants.CTX_ADD_TO_PLAYLIST, getString(R.string.add_to_playlist), R.drawable.ic_ctx_add_to_playlist_normal))
-        if (flags and Constants.CTX_SET_RINGTONE != 0 && AndroidDevices.isPhone) add(Simple(Constants.CTX_SET_RINGTONE, getString(R.string.set_song), R.drawable.ic_ctx_set_ringtone_normal))
-        if (flags and Constants.CTX_FAV_ADD != 0) add(Simple(Constants.CTX_FAV_ADD, getString(R.string.favorites_add), R.drawable.ic_menu_network))
-        if (flags and Constants.CTX_FAV_EDIT != 0) add(Simple(Constants.CTX_FAV_EDIT, getString(R.string.favorites_edit), R.drawable.ic_menu_network))
-        if (flags and Constants.CTX_FAV_REMOVE != 0) add(Simple(Constants.CTX_FAV_REMOVE, getString(R.string.favorites_remove), R.drawable.ic_menu_network))
-        if (flags and Constants.CTX_REMOVE != 0) add(Simple(Constants.CTX_REMOVE, getString(R.string.remove), R.drawable.ic_ctx_delete_normal))
+        if (flags and CTX_PLAY != 0) add(Simple(CTX_PLAY, getString(R.string.play), R.drawable.ic_ctx_play_normal))
+        if (flags and CTX_PLAY_FROM_START != 0) add(Simple(CTX_PLAY_FROM_START, getString(R.string.play_from_start), R.drawable.ic_ctx_play_from_start_normal))
+        if (flags and CTX_PLAY_ALL != 0) add(Simple(CTX_PLAY_ALL, getString(R.string.play_all), R.drawable.ic_ctx_play_all_normal))
+        if (flags and CTX_PLAY_AS_AUDIO != 0) add(Simple(CTX_PLAY_AS_AUDIO, getString(R.string.play_as_audio), R.drawable.ic_ctx_play_as_audio_normal))
+        if (flags and CTX_PLAY_GROUP != 0) add(Simple(CTX_PLAY_GROUP, getString(R.string.play), R.drawable.ic_ctx_play_normal))
+        if (flags and CTX_APPEND != 0) add(Simple(CTX_APPEND, getString(R.string.append), R.drawable.ic_ctx_append_normal))
+        if (flags and CTX_INFORMATION != 0) add(Simple(CTX_INFORMATION, getString(R.string.info), R.drawable.ic_ctx_information_normal))
+        if (flags and CTX_DELETE != 0) add(Simple(CTX_DELETE, getString(R.string.delete), R.drawable.ic_ctx_delete_normal))
+        if (flags and CTX_DOWNLOAD_SUBTITLES != 0) add(Simple(CTX_DOWNLOAD_SUBTITLES, getString(R.string.download_subtitles), R.drawable.ic_ctx_download_subtitles_normal))
+        if (flags and CTX_PLAY_NEXT != 0) add(Simple(CTX_PLAY_NEXT, getString(R.string.insert_next), R.drawable.ic_ctx_play_next_normal))
+        if (flags and CTX_ADD_TO_PLAYLIST != 0) add(Simple(CTX_ADD_TO_PLAYLIST, getString(R.string.add_to_playlist), R.drawable.ic_ctx_add_to_playlist_normal))
+        if (flags and CTX_SET_RINGTONE != 0 && AndroidDevices.isPhone) add(Simple(CTX_SET_RINGTONE, getString(R.string.set_song), R.drawable.ic_ctx_set_ringtone_normal))
+        if (flags and CTX_FAV_ADD != 0) add(Simple(CTX_FAV_ADD, getString(R.string.favorites_add), R.drawable.ic_menu_network))
+        if (flags and CTX_FAV_EDIT != 0) add(Simple(CTX_FAV_EDIT, getString(R.string.favorites_edit), R.drawable.ic_menu_network))
+        if (flags and CTX_FAV_REMOVE != 0) add(Simple(CTX_FAV_REMOVE, getString(R.string.favorites_remove), R.drawable.ic_menu_network))
+        if (flags and CTX_REMOVE != 0) add(Simple(CTX_REMOVE, getString(R.string.remove), R.drawable.ic_ctx_delete_normal))
     }
 
     inner class ContextAdapter : RecyclerView.Adapter<ContextAdapter.ViewHolder>() {

@@ -25,7 +25,6 @@ import org.videolan.libvlc.Media
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.models.Slave
-import org.videolan.vlc.util.Constants
 
 object TestUtil {
     private const val fakeUri: String = "https://www.videolan.org/fake_"
@@ -33,7 +32,7 @@ object TestUtil {
     private const val fakeMediaUri: String = "/storage/emulated/0/Android/data/org.videolan.vlc.debug/files/medias/"
 
     fun createLocalFav(uri: Uri, title: String, iconUrl: String?): BrowserFav {
-        return BrowserFav(uri, Constants.TYPE_LOCAL_FAV, title, iconUrl)
+        return BrowserFav(uri, TYPE_LOCAL_FAV, title, iconUrl)
     }
 
     fun createLocalUris(count: Int): List<String> {
@@ -51,7 +50,7 @@ object TestUtil {
     }
 
     fun createNetworkFav(uri: Uri, title: String, iconUrl: String?): BrowserFav {
-        return BrowserFav(uri, Constants.TYPE_NETWORK_FAV, title, iconUrl)
+        return BrowserFav(uri, TYPE_NETWORK_FAV, title, iconUrl)
     }
 
     fun createNetworkUris(count: Int): List<String> {

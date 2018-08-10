@@ -6,7 +6,7 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.PlaybackServiceActivity
 import org.videolan.vlc.media.PlaylistManager
-import org.videolan.vlc.util.Constants
+import org.videolan.vlc.util.CATEGORY_NOW_PLAYING
 import org.videolan.vlc.util.EmptyPBSCallback
 
 
@@ -40,7 +40,7 @@ class NowPlayingDelegate(private val fragment: MainTvFragment): PlaybackService.
 
     private fun updateCurrent() {
         fragment.updateAudioCategories(service?.currentMediaWrapper?.let {
-            DummyItem(Constants.CATEGORY_NOW_PLAYING, it.title, it.artist).apply { setArtWork(service?.coverArt) }
+            DummyItem(CATEGORY_NOW_PLAYING, it.title, it.artist).apply { setArtWork(service?.coverArt) }
         })
     }
 

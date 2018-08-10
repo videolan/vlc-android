@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.repository
 
-import android.annotation.SuppressLint
 import android.arch.lifecycle.MediatorLiveData
 import android.content.Context
 import android.net.Uri
@@ -33,8 +32,8 @@ import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.database.BrowserFavDao
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.models.BrowserFav
-import org.videolan.vlc.util.Constants.TYPE_LOCAL_FAV
-import org.videolan.vlc.util.Constants.TYPE_NETWORK_FAV
+import org.videolan.vlc.util.TYPE_LOCAL_FAV
+import org.videolan.vlc.util.TYPE_NETWORK_FAV
 import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.convertFavorites
 import java.util.*

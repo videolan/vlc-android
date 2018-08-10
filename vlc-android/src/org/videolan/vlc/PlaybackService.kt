@@ -112,7 +112,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
             /*
              * Launch the activity if needed
              */
-            if (action.startsWith(Constants.ACTION_REMOTE_GENERIC) && !isPlaying && !playlistManager.hasCurrentMedia()) {
+            if (action.startsWith(ACTION_REMOTE_GENERIC) && !isPlaying && !playlistManager.hasCurrentMedia()) {
                 packageManager.getLaunchIntentForPackage(packageName)?.let { context.startActivity(it) }
             }
 
@@ -120,20 +120,20 @@ class PlaybackService : MediaBrowserServiceCompat() {
              * Remote / headset control events
              */
             when (action) {
-                Constants.ACTION_REMOTE_PLAYPAUSE -> {
+                ACTION_REMOTE_PLAYPAUSE -> {
                     if (!playlistManager.hasCurrentMedia()) loadLastAudioPlaylist()
                     else if (isPlaying) pause()
                     else play()
                 }
-                Constants.ACTION_REMOTE_PLAY -> if (!isPlaying && playlistManager.hasCurrentMedia()) play()
-                Constants.ACTION_REMOTE_PAUSE -> if (playlistManager.hasCurrentMedia()) pause()
-                Constants.ACTION_REMOTE_BACKWARD -> previous(false)
-                Constants.ACTION_REMOTE_STOP,
+                ACTION_REMOTE_PLAY -> if (!isPlaying && playlistManager.hasCurrentMedia()) play()
+                ACTION_REMOTE_PAUSE -> if (playlistManager.hasCurrentMedia()) pause()
+                ACTION_REMOTE_BACKWARD -> previous(false)
+                ACTION_REMOTE_STOP,
                 VLCApplication.SLEEP_INTENT -> stop()
-                Constants.ACTION_REMOTE_FORWARD -> next()
-                Constants.ACTION_REMOTE_LAST_PLAYLIST -> loadLastAudioPlaylist()
-                Constants.ACTION_REMOTE_LAST_VIDEO_PLAYLIST -> playlistManager.loadLastPlaylist(Constants.PLAYLIST_TYPE_VIDEO)
-                Constants.ACTION_REMOTE_SWITCH_VIDEO -> {
+                ACTION_REMOTE_FORWARD -> next()
+                ACTION_REMOTE_LAST_PLAYLIST -> loadLastAudioPlaylist()
+                ACTION_REMOTE_LAST_VIDEO_PLAYLIST -> playlistManager.loadLastPlaylist(PLAYLIST_TYPE_VIDEO)
+                ACTION_REMOTE_SWITCH_VIDEO -> {
                     removePopup()
                     if (hasMedia()) {
                         currentMediaWrapper!!.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
@@ -142,7 +142,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
                 }
                 VLCAppWidgetProvider.ACTION_WIDGET_INIT -> updateWidget()
                 VLCAppWidgetProvider.ACTION_WIDGET_ENABLED , VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
-                Constants.ACTION_CAR_MODE_EXIT -> BrowserProvider.unbindExtensionConnection()
+                ACTION_CAR_MODE_EXIT -> BrowserProvider.unbindExtensionConnection()
                 AudioManager.ACTION_AUDIO_BECOMING_NOISY -> if (detectHeadset) {
                     if (BuildConfig.DEBUG) Log.i(TAG, "Becoming noisy")
                     wasPlaying = isPlaying
@@ -206,7 +206,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
                 }
                 playlistManager.videoBackground || canSwitchToVideo() && !currentMediaHasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) -> {//resume video playback
                     /* Resume VideoPlayerActivity from ACTION_REMOTE_SWITCH_VIDEO intent */
-                    val notificationIntent = Intent(Constants.ACTION_REMOTE_SWITCH_VIDEO)
+                    val notificationIntent = Intent(ACTION_REMOTE_SWITCH_VIDEO)
                     PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
                 }
                 else -> { /* Show audio player */
@@ -467,22 +467,22 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
         val filter = IntentFilter().apply {
             priority = Integer.MAX_VALUE
-            addAction(Constants.ACTION_REMOTE_BACKWARD)
-            addAction(Constants.ACTION_REMOTE_PLAYPAUSE)
-            addAction(Constants.ACTION_REMOTE_PLAY)
-            addAction(Constants.ACTION_REMOTE_PAUSE)
-            addAction(Constants.ACTION_REMOTE_STOP)
-            addAction(Constants.ACTION_REMOTE_FORWARD)
-            addAction(Constants.ACTION_REMOTE_LAST_PLAYLIST)
-            addAction(Constants.ACTION_REMOTE_LAST_VIDEO_PLAYLIST)
-            addAction(Constants.ACTION_REMOTE_SWITCH_VIDEO)
+            addAction(ACTION_REMOTE_BACKWARD)
+            addAction(ACTION_REMOTE_PLAYPAUSE)
+            addAction(ACTION_REMOTE_PLAY)
+            addAction(ACTION_REMOTE_PAUSE)
+            addAction(ACTION_REMOTE_STOP)
+            addAction(ACTION_REMOTE_FORWARD)
+            addAction(ACTION_REMOTE_LAST_PLAYLIST)
+            addAction(ACTION_REMOTE_LAST_VIDEO_PLAYLIST)
+            addAction(ACTION_REMOTE_SWITCH_VIDEO)
             addAction(VLCAppWidgetProvider.ACTION_WIDGET_INIT)
             addAction(VLCAppWidgetProvider.ACTION_WIDGET_ENABLED)
             addAction(VLCAppWidgetProvider.ACTION_WIDGET_DISABLED)
             addAction(Intent.ACTION_HEADSET_PLUG)
             addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
             addAction(VLCApplication.SLEEP_INTENT)
-            addAction(Constants.ACTION_CAR_MODE_EXIT)
+            addAction(ACTION_CAR_MODE_EXIT)
         }
         registerReceiver(receiver, filter)
 
@@ -504,15 +504,15 @@ class PlaybackService : MediaBrowserServiceCompat() {
             Intent.ACTION_MEDIA_BUTTON -> {
                 if (AndroidDevices.hasTsp || AndroidDevices.hasPlayServices) MediaButtonReceiver.handleIntent(mediaSession, intent)
             }
-            Constants.ACTION_REMOTE_PLAYPAUSE,
-            Constants.ACTION_REMOTE_PLAY,
-            Constants.ACTION_REMOTE_LAST_PLAYLIST -> {
+            ACTION_REMOTE_PLAYPAUSE,
+            ACTION_REMOTE_PLAY,
+            ACTION_REMOTE_LAST_PLAYLIST -> {
                 if (playlistManager.hasCurrentMedia()) play()
                 else loadLastAudioPlaylist()
             }
-            Constants.ACTION_PLAY_FROM_SEARCH -> {
+            ACTION_PLAY_FROM_SEARCH -> {
                 if (!this::mediaSession.isInitialized) initMediaSession()
-                val extras = intent!!.getBundleExtra(Constants.EXTRA_SEARCH_BUNDLE)
+                val extras = intent!!.getBundleExtra(EXTRA_SEARCH_BUNDLE)
                 mediaSession.controller.transportControls
                         .playFromSearch(extras.getString(SearchManager.QUERY), extras)
             }
@@ -801,15 +801,15 @@ class PlaybackService : MediaBrowserServiceCompat() {
         }
         pscb.setState(state, time, playlistManager.player.getRate())
         val repeatType = playlistManager.repeating
-        if (repeatType != Constants.REPEAT_NONE || hasNext())
+        if (repeatType != REPEAT_NONE || hasNext())
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_NEXT
-        if (repeatType != Constants.REPEAT_NONE || hasPrevious() || isSeekable)
+        if (repeatType != REPEAT_NONE || hasPrevious() || isSeekable)
             actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS
         if (isSeekable)
             actions = actions or PlaybackStateCompat.ACTION_FAST_FORWARD or PlaybackStateCompat.ACTION_REWIND or PlaybackStateCompat.ACTION_SEEK_TO
         actions = actions or PlaybackStateCompat.ACTION_SKIP_TO_QUEUE_ITEM
         pscb.setActions(actions)
-        val repeatResId = if (repeatType == Constants.REPEAT_ALL) R.drawable.ic_auto_repeat_pressed else if (repeatType == Constants.REPEAT_ONE) R.drawable.ic_auto_repeat_one_pressed else R.drawable.ic_auto_repeat_normal
+        val repeatResId = if (repeatType == REPEAT_ALL) R.drawable.ic_auto_repeat_pressed else if (repeatType == REPEAT_ONE) R.drawable.ic_auto_repeat_one_pressed else R.drawable.ic_auto_repeat_normal
         if (playlistManager.hasPlaylist())
             pscb.addCustomAction("shuffle", getString(R.string.shuffle_title), if (isShuffling) R.drawable.ic_auto_shuffle_pressed else R.drawable.ic_auto_shuffle_normal)
         pscb.addCustomAction("repeat", getString(R.string.repeat_title), repeatResId)
@@ -1316,7 +1316,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         }
 
         fun loadLastAudio(context: Context) {
-            val i = PlaybackService.Client.getServiceIntent(context).apply { action = Constants.ACTION_REMOTE_LAST_PLAYLIST }
+            val i = PlaybackService.Client.getServiceIntent(context).apply { action = ACTION_REMOTE_LAST_PLAYLIST }
             ContextCompat.startForegroundService(context, i)
         }
 

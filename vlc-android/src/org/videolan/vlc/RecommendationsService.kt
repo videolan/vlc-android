@@ -37,7 +37,6 @@ import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.video.VideoPlayerActivity
-import org.videolan.vlc.util.Constants
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.*
 
@@ -81,10 +80,10 @@ class RecommendationsService : IntentService("RecommendationService") {
 
     private fun buildPendingIntent(mw: MediaWrapper, id: Int): PendingIntent {
         val intent = Intent(this@RecommendationsService, VideoPlayerActivity::class.java)
-        intent.action = Constants.PLAY_FROM_VIDEOGRID
-        intent.putExtra(Constants.PLAY_EXTRA_ITEM_LOCATION, mw.uri)
-        intent.putExtra(Constants.PLAY_EXTRA_ITEM_TITLE, mw.title)
-        intent.putExtra(Constants.PLAY_EXTRA_FROM_START, false)
+        intent.action = PLAY_FROM_VIDEOGRID
+        intent.putExtra(PLAY_EXTRA_ITEM_LOCATION, mw.uri)
+        intent.putExtra(PLAY_EXTRA_ITEM_TITLE, mw.title)
+        intent.putExtra(PLAY_EXTRA_FROM_START, false)
         return PendingIntent.getActivity(this, id, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 

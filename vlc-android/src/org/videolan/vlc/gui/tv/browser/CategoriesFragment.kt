@@ -39,7 +39,8 @@ import org.videolan.vlc.gui.tv.CardPresenter
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.interfaces.Sortable
-import org.videolan.vlc.util.Constants
+import org.videolan.vlc.util.HEADER_DIRECTORIES
+import org.videolan.vlc.util.HEADER_NETWORK
 import org.videolan.vlc.viewmodels.BaseModel
 
 private const val TAG = "VLC/CategoriesFragment"
@@ -115,8 +116,8 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
     }
 
     private fun getCategoryId() = when(this) {
-        is NetworkBrowserFragment ->  Constants.HEADER_NETWORK
-        is DirectoryBrowserFragment -> Constants.HEADER_DIRECTORIES
+        is NetworkBrowserFragment ->  HEADER_NETWORK
+        is DirectoryBrowserFragment -> HEADER_DIRECTORIES
         else -> -1
     }
 

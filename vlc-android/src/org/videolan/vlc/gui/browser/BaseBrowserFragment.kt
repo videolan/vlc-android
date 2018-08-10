@@ -57,7 +57,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.*
-import org.videolan.vlc.util.Constants.KEY_MRL
+import org.videolan.vlc.util.KEY_MRL
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.util.*
 
@@ -416,27 +416,27 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         if (mActionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) launch(UI.immediate) {
             val mw = item as MediaWrapper
             if (mw.uri.scheme == "content" || mw.uri.scheme == OTG_SCHEME) return@launch
-            var flags = if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment) Constants.CTX_DELETE else 0
-            if (!isRootDirectory && this is FileBrowserFragment) flags = flags or Constants.CTX_DELETE
+            var flags = if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment) CTX_DELETE else 0
+            if (!isRootDirectory && this is FileBrowserFragment) flags = flags or CTX_DELETE
             if (mw.type == MediaWrapper.TYPE_DIR) {
                 val isEmpty = viewModel.isFolderEmpty(mw)
-                if (!isEmpty) flags = flags or Constants.CTX_PLAY
+                if (!isEmpty) flags = flags or CTX_PLAY
                 val isFileBrowser = this@BaseBrowserFragment is FileBrowserFragment && item.uri.scheme == "file"
                 val isNetworkBrowser = this@BaseBrowserFragment is NetworkBrowserFragment
                 if (isFileBrowser || isNetworkBrowser) {
                     val favExists = withContext(VLCIO) { browserFavRepository.browserFavExists(mw.uri) }
                     flags = if (favExists) {
-                        if (isNetworkBrowser) flags or Constants.CTX_FAV_EDIT or Constants.CTX_FAV_REMOVE
-                        else flags or Constants.CTX_FAV_REMOVE
-                    } else flags or Constants.CTX_FAV_ADD
+                        if (isNetworkBrowser) flags or CTX_FAV_EDIT or CTX_FAV_REMOVE
+                        else flags or CTX_FAV_REMOVE
+                    } else flags or CTX_FAV_ADD
                 }
             } else {
                 val isVideo = mw.type == MediaWrapper.TYPE_VIDEO
                 val isAudio = mw.type == MediaWrapper.TYPE_AUDIO
                 val isMedia = isVideo || isAudio
-                if (isMedia) flags = flags or Constants.CTX_PLAY_ALL or Constants.CTX_APPEND or Constants.CTX_INFORMATION
-                flags = if (!isAudio) flags or Constants.CTX_PLAY_AS_AUDIO else flags or Constants.CTX_ADD_TO_PLAYLIST
-                if (isVideo) flags = flags or Constants.CTX_DOWNLOAD_SUBTITLES
+                if (isMedia) flags = flags or CTX_PLAY_ALL or CTX_APPEND or CTX_INFORMATION
+                flags = if (!isAudio) flags or CTX_PLAY_AS_AUDIO else flags or CTX_ADD_TO_PLAYLIST
+                if (isVideo) flags = flags or CTX_DOWNLOAD_SUBTITLES
             }
             if (flags != 0) showContext(requireActivity(), this@BaseBrowserFragment, position, item.getTitle(), flags)
         }
@@ -446,22 +446,22 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         if (adapter.getItem(position) !is MediaWrapper) return
         val mw = adapter.getItem(position) as MediaWrapper
         when (option) {
-            Constants.CTX_PLAY -> MediaUtils.openMedia(activity, mw)
-            Constants.CTX_PLAY_ALL -> {
+            CTX_PLAY -> MediaUtils.openMedia(activity, mw)
+            CTX_PLAY_ALL -> {
                 mw.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                 playAll(mw)
             }
-            Constants.CTX_APPEND -> MediaUtils.appendMedia(activity, mw)
-            Constants.CTX_DELETE -> if (checkWritePermission(mw) { removeMedia(mw) })
+            CTX_APPEND -> MediaUtils.appendMedia(activity, mw)
+            CTX_DELETE -> if (checkWritePermission(mw) { removeMedia(mw) })
                 removeMedia(mw)
-            Constants.CTX_INFORMATION -> showMediaInfo(mw)
-            Constants.CTX_PLAY_AS_AUDIO -> {
+            CTX_INFORMATION -> showMediaInfo(mw)
+            CTX_PLAY_AS_AUDIO -> {
                 mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                 MediaUtils.openMedia(activity, mw)
             }
-            Constants.CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
-            Constants.CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
-            Constants.CTX_FAV_REMOVE -> launch(VLCIO) { browserFavRepository.deleteBrowserFav(mw.uri) }
+            CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+            CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
+            CTX_FAV_REMOVE -> launch(VLCIO) { browserFavRepository.deleteBrowserFav(mw.uri) }
         }
     }
 

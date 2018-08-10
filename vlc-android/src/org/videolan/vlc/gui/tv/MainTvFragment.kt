@@ -51,8 +51,7 @@ import org.videolan.vlc.gui.tv.TvUtil.diffCallback
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.Constants
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.HistoryModel
 import org.videolan.vlc.viewmodels.VideosModel
 
@@ -128,7 +127,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         rowsAdapter.add(videoRow)
         // Audio
         categoriesAdapter = ArrayObjectAdapter(CardPresenter(ctx))
-        val musicHeader = HeaderItem(Constants.HEADER_CATEGORIES, getString(R.string.audio))
+        val musicHeader = HeaderItem(HEADER_CATEGORIES, getString(R.string.audio))
         updateAudioCategories()
         audioRow = ListRow(musicHeader, categoriesAdapter)
         rowsAdapter.add(audioRow)
@@ -136,17 +135,17 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
         //Browser section
         browserAdapter = ArrayObjectAdapter(CardPresenter(ctx))
-        val browserHeader = HeaderItem(Constants.HEADER_NETWORK, getString(R.string.browsing))
+        val browserHeader = HeaderItem(HEADER_NETWORK, getString(R.string.browsing))
         updateBrowsers()
         browsersRow = ListRow(browserHeader, browserAdapter)
         rowsAdapter.add(browsersRow)
         //Misc. section
         otherAdapter = ArrayObjectAdapter(CardPresenter(ctx))
-        val miscHeader = HeaderItem(Constants.HEADER_MISC, getString(R.string.other))
+        val miscHeader = HeaderItem(HEADER_MISC, getString(R.string.other))
 
-        otherAdapter.add(DummyItem(Constants.ID_SETTINGS, getString(R.string.preferences), ""))
-        otherAdapter.add(DummyItem(Constants.ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VERSION_NAME}"))
-        otherAdapter.add(DummyItem(Constants.ID_LICENCE, getString(R.string.licence), ""))
+        otherAdapter.add(DummyItem(ID_SETTINGS, getString(R.string.preferences), ""))
+        otherAdapter.add(DummyItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VERSION_NAME}"))
+        otherAdapter.add(DummyItem(ID_LICENCE, getString(R.string.licence), ""))
         miscRow = ListRow(miscHeader, otherAdapter)
         rowsAdapter.add(miscRow)
 
@@ -163,10 +162,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     fun updateAudioCategories(current: DummyItem? = null) {
         val list = mutableListOf<MediaLibraryItem>(
-                DummyItem(Constants.CATEGORY_ARTISTS, getString(R.string.artists), ""),
-                DummyItem(Constants.CATEGORY_ALBUMS, getString(R.string.albums), ""),
-                DummyItem(Constants.CATEGORY_GENRES, getString(R.string.genres), ""),
-                DummyItem(Constants.CATEGORY_SONGS, getString(R.string.tracks), "")
+                DummyItem(CATEGORY_ARTISTS, getString(R.string.artists), ""),
+                DummyItem(CATEGORY_ALBUMS, getString(R.string.albums), ""),
+                DummyItem(CATEGORY_GENRES, getString(R.string.genres), ""),
+                DummyItem(CATEGORY_SONGS, getString(R.string.tracks), "")
         )
         if (current !== null) list.add(0, current)
         categoriesAdapter.setItems(list.toList(), diffCallback)
@@ -212,8 +211,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         for (directory in directories) list.add(directory)
 
         if (ExternalMonitor.isLan()) {
-            list.add(DummyItem(Constants.HEADER_NETWORK, getString(R.string.network_browsing), null))
-            list.add(DummyItem(Constants.HEADER_STREAM, getString(R.string.open_mrl), null))
+            list.add(DummyItem(HEADER_NETWORK, getString(R.string.network_browsing), null))
+            list.add(DummyItem(HEADER_STREAM, getString(R.string.open_mrl), null))
 
             updatedFavoritList.forEach{
                 it.description = it.uri.scheme
@@ -226,22 +225,22 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
         val activity = requireActivity()
         when(row?.id) {
-            Constants.HEADER_CATEGORIES -> {
-                if ((item as DummyItem).id == Constants.CATEGORY_NOW_PLAYING) { //NOW PLAYING CARD
+            HEADER_CATEGORIES -> {
+                if ((item as DummyItem).id == CATEGORY_NOW_PLAYING) { //NOW PLAYING CARD
                     activity.startActivity(Intent(activity, AudioPlayerActivity::class.java))
                     return
                 }
                 val intent = Intent(activity, VerticalGridActivity::class.java)
-                intent.putExtra(BROWSER_TYPE, Constants.HEADER_CATEGORIES)
-                intent.putExtra(Constants.AUDIO_CATEGORY, item.id)
+                intent.putExtra(BROWSER_TYPE, HEADER_CATEGORIES)
+                intent.putExtra(AUDIO_CATEGORY, item.id)
                 activity.startActivity(intent)
             }
-            Constants.HEADER_MISC -> {
+            HEADER_MISC -> {
                 val id = (item as DummyItem).id
                 when (id) {
-                    Constants.ID_SETTINGS -> activity.startActivityForResult(Intent(activity, org.videolan.vlc.gui.tv.preferences.PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
-                    Constants.ID_ABOUT_TV -> activity.startActivity(Intent(activity, org.videolan.vlc.gui.tv.AboutActivity::class.java))
-                    Constants.ID_LICENCE -> startActivity(Intent(activity, org.videolan.vlc.gui.tv.LicenceActivity::class.java))
+                    ID_SETTINGS -> activity.startActivityForResult(Intent(activity, org.videolan.vlc.gui.tv.preferences.PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
+                    ID_ABOUT_TV -> activity.startActivity(Intent(activity, org.videolan.vlc.gui.tv.AboutActivity::class.java))
+                    ID_LICENCE -> startActivity(Intent(activity, org.videolan.vlc.gui.tv.LicenceActivity::class.java))
                 }
             }
             else -> TvUtil.openMedia(activity, item, row)
@@ -272,7 +271,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                     displayHistory = true
                     if (!this::historyRow.isInitialized) {
                         historyAdapter = ArrayObjectAdapter(CardPresenter(requireActivity()))
-                        val historyHeader = HeaderItem(Constants.HEADER_HISTORY, getString(R.string.history))
+                        val historyHeader = HeaderItem(HEADER_HISTORY, getString(R.string.history))
                         historyRow = ListRow(historyHeader, historyAdapter)
                     }
                 }
@@ -290,7 +289,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private fun updateVideos(videos: List<MediaWrapper>?) {
         videos?.let {
             val list = mutableListOf<Any>()
-            list.add(DummyItem(Constants.HEADER_VIDEO, getString(R.string.videos_all), resources.getQuantityString(R.plurals.videos_quantity, it.size, it.size)))
+            list.add(DummyItem(HEADER_VIDEO, getString(R.string.videos_all), resources.getQuantityString(R.plurals.videos_quantity, it.size, it.size)))
             if (!it.isEmpty()) for ((index, video) in it.withIndex()) {
                 if (index == NUM_ITEMS_PREVIEW) break
                 list.add(video)
