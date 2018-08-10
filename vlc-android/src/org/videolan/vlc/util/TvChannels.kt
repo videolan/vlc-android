@@ -47,7 +47,7 @@ private const val MAX_RECOMMENDATIONS = 3
 @RequiresApi(Build.VERSION_CODES.O)
 fun setChannel(context: Context) = launch(start = CoroutineStart.UNDISPATCHED) {
     val channelId = withContext(VLCIO) {
-        val prefs = context.getPreferences()
+        val prefs = Settings.getInstance(context)
         val name = context.getString(R.string.tv_my_new_videos)
         createOrUpdateChannel(prefs, context, name, R.drawable.icon, BuildConfig.APPLICATION_ID)
     }

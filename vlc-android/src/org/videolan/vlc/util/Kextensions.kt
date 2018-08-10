@@ -3,6 +3,7 @@ package org.videolan.vlc.util
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.SharedPreferences
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.preference.PreferenceManager
@@ -10,12 +11,15 @@ import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.startMedialibrary
 import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
 import kotlin.coroutines.experimental.suspendCoroutine
+
+object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManager.getDefaultSharedPreferences(it) })
 
 fun String.validateLocation(): Boolean {
     var location = this
@@ -55,8 +59,6 @@ suspend fun retry (
 fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
 
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)!!
-
-fun Context.getPreferences() = PreferenceManager.getDefaultSharedPreferences(this)!!
 
 fun Long.random() = (Random().nextFloat() * this).toLong()
 
