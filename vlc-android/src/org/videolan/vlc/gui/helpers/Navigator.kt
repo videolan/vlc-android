@@ -46,7 +46,7 @@ import org.videolan.vlc.gui.browser.*
 import org.videolan.vlc.gui.network.MRLPanelFragment
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.VideoGridFragment
-import org.videolan.vlc.util.Constants
+import org.videolan.vlc.util.*
 import java.lang.ref.WeakReference
 
 private const val TAG = "Navigator"
@@ -57,7 +57,7 @@ class Navigator(private val activity: MainActivity,
 ): NavigationView.OnNavigationItemSelectedListener, LifecycleObserver {
 
     private val fragmentsStack = SimpleArrayMap<String, WeakReference<Fragment>>()
-    private val defaultFragmentId inline get() = if (settings.getInt(Constants.KEY_MEDIALIBRARY_SCAN, Constants.ML_SCAN_OFF) == Constants.ML_SCAN_ON) R.id.nav_video else R.id.nav_directories
+    private val defaultFragmentId inline get() = if (settings.getInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_OFF) == ML_SCAN_ON) R.id.nav_video else R.id.nav_directories
     var currentFragmentId = 0
     var currentFragment: Fragment? = null
         private set
@@ -156,15 +156,15 @@ class Navigator(private val activity: MainActivity,
     }
 
     private fun getTag(id: Int) = when (id) {
-        R.id.nav_about -> Constants.ID_ABOUT
-        R.id.nav_settings -> Constants.ID_PREFERENCES
-        R.id.nav_audio -> Constants.ID_AUDIO
-        R.id.nav_directories -> Constants.ID_DIRECTORIES
-        R.id.nav_history -> Constants.ID_HISTORY
-        R.id.nav_mrl -> Constants.ID_MRL
-        R.id.nav_network -> Constants.ID_NETWORK
-        R.id.nav_video -> Constants.ID_VIDEO
-        else -> if (defaultFragmentId == R.id.nav_video) Constants.ID_VIDEO else Constants.ID_DIRECTORIES
+        R.id.nav_about -> ID_ABOUT
+        R.id.nav_settings -> ID_PREFERENCES
+        R.id.nav_audio -> ID_AUDIO
+        R.id.nav_directories -> ID_DIRECTORIES
+        R.id.nav_history -> ID_HISTORY
+        R.id.nav_mrl -> ID_MRL
+        R.id.nav_network -> ID_NETWORK
+        R.id.nav_video -> ID_VIDEO
+        else -> if (defaultFragmentId == R.id.nav_video) ID_VIDEO else ID_DIRECTORIES
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -195,7 +195,7 @@ class Navigator(private val activity: MainActivity,
                 }
             } else when (id) {
                     R.id.nav_about -> showSecondaryFragment(SecondaryActivity.ABOUT)
-                    R.id.nav_settings -> activity.startActivityForResult(Intent(activity, PreferencesActivity::class.java), Constants.ACTIVITY_RESULT_PREFERENCES)
+                    R.id.nav_settings -> activity.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
                     R.id.nav_mrl -> MRLPanelFragment().show(activity.supportFragmentManager, "fragment_mrl")
                     else -> {
                         activity.slideDownAudioPlayer()

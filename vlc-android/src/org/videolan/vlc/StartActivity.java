@@ -44,6 +44,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.PackageRelatedConstants;
 
 import videolan.org.commontools.TvChannelUtilsKt;
 
@@ -93,8 +94,8 @@ public class StartActivity extends FragmentActivity implements StoragePermission
             finish();
             return;
         } else if (MediaStore.INTENT_ACTION_MEDIA_PLAY_FROM_SEARCH.equals(action)) {
-            final Intent serviceInent = new Intent(Constants.ACTION_PLAY_FROM_SEARCH, null, this, PlaybackService.class)
-                    .putExtra(Constants.EXTRA_SEARCH_BUNDLE, intent.getExtras());
+            final Intent serviceInent = new Intent(PackageRelatedConstants.INSTANCE.getACTION_PLAY_FROM_SEARCH(), null, this, PlaybackService.class)
+                    .putExtra(PackageRelatedConstants.INSTANCE.getEXTRA_SEARCH_BUNDLE(), intent.getExtras());
             ContextCompat.startForegroundService(this, serviceInent);
         } else if(Intent.ACTION_VIEW.equals(action) && intent.getData() != null) { //launch from TV Channel
             final Uri data = intent.getData();

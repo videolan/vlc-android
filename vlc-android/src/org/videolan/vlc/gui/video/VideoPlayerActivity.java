@@ -129,6 +129,7 @@ import org.videolan.vlc.repository.SlaveRepository;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.PackageRelatedConstants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.SubtitlesDownloader;
@@ -572,8 +573,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         super.onStart();
         mHelper.onStart();
         restoreBrightness();
-        final IntentFilter filter = new IntentFilter(Constants.PLAY_FROM_SERVICE);
-        filter.addAction(Constants.EXIT_PLAYER);
+        final IntentFilter filter = new IntentFilter(PackageRelatedConstants.INSTANCE.getPLAY_FROM_SERVICE());
+        filter.addAction(PackageRelatedConstants.INSTANCE.getEXIT_PLAYER());
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 mServiceReceiver, filter);
         final IntentFilter btFilter = new IntentFilter(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED);
@@ -847,7 +848,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @NonNull
     public static Intent getIntent(Context context, Uri uri, String title, boolean fromStart, int openedPosition) {
-        return getIntent(Constants.PLAY_FROM_VIDEOGRID, context, uri, title, fromStart, openedPosition);
+        return getIntent(PackageRelatedConstants.INSTANCE.getPLAY_FROM_VIDEOGRID(), context, uri, title, fromStart, openedPosition);
     }
 
     @NonNull
@@ -3140,9 +3141,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private BroadcastReceiver mServiceReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (TextUtils.equals(intent.getAction(), Constants.PLAY_FROM_SERVICE))
+            if (TextUtils.equals(intent.getAction(), PackageRelatedConstants.INSTANCE.getPLAY_FROM_SERVICE()))
                 onNewIntent(intent);
-            else if (TextUtils.equals(intent.getAction(), Constants.EXIT_PLAYER))
+            else if (TextUtils.equals(intent.getAction(), PackageRelatedConstants.INSTANCE.getEXIT_PLAYER()))
                 exitOK();
         }
     };

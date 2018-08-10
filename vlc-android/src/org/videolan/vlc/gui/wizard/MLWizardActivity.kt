@@ -36,8 +36,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.MlWizardActivityBinding
 import org.videolan.vlc.startMedialibrary
-import org.videolan.vlc.util.Constants
-import org.videolan.vlc.util.VLCIO
+import org.videolan.vlc.util.*
 
 
 class MLWizardActivity : AppCompatActivity() {
@@ -55,7 +54,7 @@ class MLWizardActivity : AppCompatActivity() {
     fun apply(v: View) = launch(VLCIO) {
         val parse = binding.wizardCheckScan.isChecked
         val prefs = VLCApplication.getSettings() ?: PreferenceManager.getDefaultSharedPreferences(this@MLWizardActivity)
-        prefs.edit().putInt(Constants.KEY_MEDIALIBRARY_SCAN, if (parse) Constants.ML_SCAN_ON else Constants.ML_SCAN_OFF).commit()
+        prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, if (parse) ML_SCAN_ON else ML_SCAN_OFF).commit()
         startMedialibrary(true, true, parse)
         if (!isFinishing) finish()
     }

@@ -33,7 +33,8 @@ import android.support.v4.app.FragmentActivity
 import kotlinx.coroutines.experimental.channels.Channel
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.startMedialibrary
-import org.videolan.vlc.util.Constants
+import org.videolan.vlc.util.EXTRA_FIRST_RUN
+import org.videolan.vlc.util.EXTRA_UPGRADE
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Permissions.canReadStorage
 
@@ -51,11 +52,11 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val intent = if (mActivity == null) null else mActivity!!.intent
-        if (intent !== null && intent.getBooleanExtra(Constants.EXTRA_UPGRADE, false)) {
+        if (intent !== null && intent.getBooleanExtra(EXTRA_UPGRADE, false)) {
             mUpgrade = true
-            mFirstRun = intent.getBooleanExtra(Constants.EXTRA_FIRST_RUN, false)
-            intent.removeExtra(Constants.EXTRA_UPGRADE)
-            intent.removeExtra(Constants.EXTRA_FIRST_RUN)
+            mFirstRun = intent.getBooleanExtra(EXTRA_FIRST_RUN, false)
+            intent.removeExtra(EXTRA_UPGRADE)
+            intent.removeExtra(EXTRA_FIRST_RUN)
         }
         mWrite = arguments?.getBoolean("write") ?: false
         if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(activity!!)) {

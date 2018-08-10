@@ -38,7 +38,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.interfaces.Sortable
-import org.videolan.vlc.util.Constants
+import org.videolan.vlc.util.AUDIO_ITEM
 import org.videolan.vlc.viewmodels.BaseModel
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -51,8 +51,8 @@ abstract class MediaLibBrowserFragment<T : BaseModel<out MediaLibraryItem>> : Gr
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        currentItem = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(Constants.AUDIO_ITEM) as? MediaLibraryItem
-        else requireActivity().intent.getParcelableExtra<Parcelable>(Constants.AUDIO_ITEM) as? MediaLibraryItem
+        currentItem = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(AUDIO_ITEM) as? MediaLibraryItem
+        else requireActivity().intent.getParcelableExtra<Parcelable>(AUDIO_ITEM) as? MediaLibraryItem
         mBackgroundManager = BackgroundManager.getInstance(requireActivity())
         setOnSearchClickedListener { sort(requireActivity().findViewById(R.id.title_orb)) }
     }

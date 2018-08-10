@@ -51,6 +51,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.PopupLayout;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.PackageRelatedConstants;
 
 public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener,
         View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.OnNewVideoLayoutListener, IVLCVout.Callback {
@@ -278,7 +279,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     private void showNotification() {
         final PendingIntent piStop = PendingIntent.getBroadcast(mService, 0,
-                new Intent(Constants.ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
+                new Intent(PackageRelatedConstants.INSTANCE.getACTION_REMOTE_STOP()), PendingIntent.FLAG_UPDATE_CURRENT);
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(mService)
                 .setSmallIcon(R.drawable.ic_notif_video)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -290,10 +291,10 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
                 .setDeleteIntent(piStop);
 
         //Switch
-        final Intent notificationIntent = new Intent(Constants.ACTION_REMOTE_SWITCH_VIDEO);
+        final Intent notificationIntent = new Intent(PackageRelatedConstants.INSTANCE.getACTION_REMOTE_SWITCH_VIDEO());
         final PendingIntent piExpand = PendingIntent.getBroadcast(mService, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         //PLay Pause
-        final PendingIntent piPlay = PendingIntent.getBroadcast(mService, 0, new Intent(Constants.ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent piPlay = PendingIntent.getBroadcast(mService, 0, new Intent(PackageRelatedConstants.INSTANCE.getACTION_REMOTE_PLAYPAUSE()), PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (mService.isPlaying())
             builder.addAction(R.drawable.ic_popup_pause, mService.getString(R.string.pause), piPlay);

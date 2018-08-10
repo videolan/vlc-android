@@ -53,9 +53,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.Constants
-import org.videolan.vlc.util.Constants.*
+import org.videolan.vlc.util.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -80,12 +78,12 @@ object TvUtil {
         }
 
         override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Any {
-            if (oldItem.itemType == MediaLibraryItem.TYPE_DUMMY) return Constants.UPDATE_DESCRIPTION
+            if (oldItem.itemType == MediaLibraryItem.TYPE_DUMMY) return UPDATE_DESCRIPTION
             val oldMedia = oldItem as MediaWrapper
             val newMedia = newItem as MediaWrapper
-            if (oldMedia.time != newMedia.time) return Constants.UPDATE_TIME
-            return if (!TextUtils.equals(oldMedia.artworkMrl, newMedia.artworkMrl)) Constants.UPDATE_THUMB
-            else Constants.UPDATE_SEEN
+            if (oldMedia.time != newMedia.time) return UPDATE_TIME
+            return if (!TextUtils.equals(oldMedia.artworkMrl, newMedia.artworkMrl)) UPDATE_THUMB
+            else UPDATE_SEEN
         }
     }
 
@@ -117,20 +115,20 @@ object TvUtil {
                 item.type == MediaWrapper.TYPE_AUDIO -> openAudioCategory(activity, item)
                 item.type == MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) Constants.HEADER_DIRECTORIES else Constants.HEADER_NETWORK)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.data = item.uri
                     activity.startActivity(intent)
                 }
                 item.type == MediaWrapper.TYPE_GROUP -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
-                    intent.putExtra(MainTvActivity.BROWSER_TYPE, Constants.HEADER_VIDEO)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
                     val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
-                    intent.putExtra(Constants.KEY_GROUP, title)
+                    intent.putExtra(KEY_GROUP, title)
                     activity.startActivity(intent)
                 }
                 else -> MediaUtils.openMedia(activity, item)
             }
-            is DummyItem -> if (item.id == Constants.HEADER_STREAM) {
+            is DummyItem -> if (item.id == HEADER_STREAM) {
                 activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_STREAM)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
             } else {
@@ -178,7 +176,7 @@ object TvUtil {
                 val intent = Intent(context, VerticalGridActivity::class.java)
                 intent.putExtra(AUDIO_ITEM, mediaLibraryItem)
                 intent.putExtra(AUDIO_CATEGORY, CATEGORY_ALBUMS)
-                intent.putExtra(MainTvActivity.BROWSER_TYPE, Constants.HEADER_CATEGORIES)
+                intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
                 context.startActivity(intent)
             }
         }
@@ -230,16 +228,16 @@ object TvUtil {
             }
             MediaLibraryItem.TYPE_DUMMY -> {
                 return when (mediaLibraryItem.id) {
-                    Constants.HEADER_VIDEO -> R.drawable.ic_video_collection_big
-                    Constants.HEADER_DIRECTORIES -> R.drawable.ic_menu_folder_big
-                    Constants.HEADER_NETWORK -> R.drawable.ic_menu_network_big
-                    Constants.HEADER_STREAM -> R.drawable.ic_menu_stream_big
-                    Constants.ID_SETTINGS -> R.drawable.ic_menu_preferences_big
-                    Constants.ID_ABOUT_TV, Constants.ID_LICENCE -> R.drawable.ic_default_cone
-                    Constants.CATEGORY_ARTISTS -> R.drawable.ic_artist_big
-                    Constants.CATEGORY_ALBUMS -> R.drawable.ic_album_big
-                    Constants.CATEGORY_GENRES -> R.drawable.ic_genre_big
-                    Constants.CATEGORY_SONGS, Constants.CATEGORY_NOW_PLAYING -> R.drawable.ic_song_big
+                    HEADER_VIDEO -> R.drawable.ic_video_collection_big
+                    HEADER_DIRECTORIES -> R.drawable.ic_menu_folder_big
+                    HEADER_NETWORK -> R.drawable.ic_menu_network_big
+                    HEADER_STREAM -> R.drawable.ic_menu_stream_big
+                    ID_SETTINGS -> R.drawable.ic_menu_preferences_big
+                    ID_ABOUT_TV, ID_LICENCE -> R.drawable.ic_default_cone
+                    CATEGORY_ARTISTS -> R.drawable.ic_artist_big
+                    CATEGORY_ALBUMS -> R.drawable.ic_album_big
+                    CATEGORY_GENRES -> R.drawable.ic_genre_big
+                    CATEGORY_SONGS, CATEGORY_NOW_PLAYING -> R.drawable.ic_song_big
                     else -> R.drawable.ic_browser_unknown_big_normal
                 }
             }
