@@ -11,7 +11,7 @@ class AlbumsFragment : MediaLibBrowserFragment<AlbumModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = currentItem?.title ?: getString(R.string.albums)
-        model = ViewModelProviders.of(this, AlbumModel.Factory(currentItem)).get(AlbumModel::class.java)
+        model = ViewModelProviders.of(this, AlbumModel.Factory(requireContext(), currentItem)).get(AlbumModel::class.java)
         model.dataset.observe(this, Observer { update(it!!) })
     }
 }

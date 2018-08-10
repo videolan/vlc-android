@@ -20,24 +20,34 @@
 
 package org.videolan.vlc.viewmodels.audio
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
+import android.content.Context
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.VLCIO
 
 
-class GenresModel: AudioModel() {
+class GenresModel(context: Context): AudioModel(context) {
 
     init {
-        sort = VLCApplication.getSettings().getInt(sortKey, Medialibrary.SORT_ALPHA)
-        desc = VLCApplication.getSettings().getBoolean("${sortKey}_desc", false)
+        sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)
+        desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
     }
 
     @Suppress("UNCHECKED_CAST")
     override suspend fun updateList() {
         dataset.value = withContext(VLCIO) {
             medialibrary.getGenres(sort, desc).toMutableList() as MutableList<MediaLibraryItem>
+        }
+    }
+
+    class Factory(private val context: Context): ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            @Suppress("UNCHECKED_CAST")
+            return GenresModel(context.applicationContext) as T
         }
     }
 }

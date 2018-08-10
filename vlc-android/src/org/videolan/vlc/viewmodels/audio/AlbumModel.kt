@@ -22,24 +22,25 @@ package org.videolan.vlc.viewmodels.audio
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import android.content.Context
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Artist
 import org.videolan.medialibrary.media.Genre
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.VLCIO
 
 
-class AlbumModel(val parent: MediaLibraryItem? = null): AudioModel(), Medialibrary.AlbumsAddedCb {
+class AlbumModel(context: Context, val parent: MediaLibraryItem? = null): AudioModel(context), Medialibrary.AlbumsAddedCb {
 
     override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
     override fun canSortByReleaseDate() = true
 
     init {
-        sort = VLCApplication.getSettings().getInt(sortKey, Medialibrary.SORT_ALPHA)
-        desc = VLCApplication.getSettings().getBoolean("${sortKey}_desc", false)
+        sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)
+        desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
         if (sort == Medialibrary.SORT_ALPHA && parent is Artist) sort = Medialibrary.SORT_RELEASEDATE
     }
 
@@ -67,10 +68,10 @@ class AlbumModel(val parent: MediaLibraryItem? = null): AudioModel(), Medialibra
         medialibrary.setAlbumsAddedCb(null)
     }
 
-    class Factory(val parent: MediaLibraryItem?): ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val context: Context, val parent: MediaLibraryItem?): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return AlbumModel(parent) as T
+            return AlbumModel(context.applicationContext, parent) as T
         }
     }
 }

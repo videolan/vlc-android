@@ -44,7 +44,6 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.RecommendationsService
-import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.tv.MainTvActivity.ACTIVITY_RESULT_PREFERENCES
 import org.videolan.vlc.gui.tv.MainTvActivity.BROWSER_TYPE
@@ -152,7 +151,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         rowsAdapter.add(miscRow)
 
         adapter = rowsAdapter
-        videoModel = VideosModel.get(this, null, 0, Medialibrary.SORT_INSERTIONDATE)
+        videoModel = VideosModel.get(requireContext(), this, null, 0, Medialibrary.SORT_INSERTIONDATE)
         videoModel.dataset.observe(this, Observer {
             updateVideos(it)
             (requireActivity() as MainTvActivity).hideLoading()
@@ -258,7 +257,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         val historyEnabled = settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)
         if (historyEnabled == displayHistory) return
         if (historyEnabled) {
-            historyModel = ViewModelProviders.of(this).get(HistoryModel::class.java)
+            historyModel = ViewModelProviders.of(this, HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
             historyModel.dataset.observe(this, this)
         } else {
             displayHistory = false

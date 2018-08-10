@@ -20,7 +20,8 @@
 
 package org.videolan.vlc.viewmodels.audio
 
+import android.content.Context
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.viewmodels.MedialibraryModel
 
-open class AudioModel: MedialibraryModel<MediaLibraryItem>()
+open class AudioModel(context: Context): MedialibraryModel<MediaLibraryItem>(context)

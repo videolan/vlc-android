@@ -150,23 +150,23 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private void setupAdapters(final int currentTab) {
         if (mArtistsAdapter == null) {
             mArtistsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this);
-            artistModel = ViewModelProviders.of(requireActivity(), new ArtistModel.Factory(mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false))).get(ArtistModel.class);
+            artistModel = ViewModelProviders.of(requireActivity(), new ArtistModel.Factory(requireContext(), mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false))).get(ArtistModel.class);
         }
         if (mAlbumsAdapter == null) {
             mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this);
-            albumModel = ViewModelProviders.of(requireActivity()).get(AlbumModel.class);
+            albumModel = ViewModelProviders.of(requireActivity(), new AlbumModel.Factory(requireContext(), null)).get(AlbumModel.class);
         }
         if (mSongsAdapter == null) {
             mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this);
-            tracksModel = ViewModelProviders.of(requireActivity()).get(TracksModel.class);
+            tracksModel = ViewModelProviders.of(requireActivity(), new TracksModel.Factory(requireContext(), null)).get(TracksModel.class);
         }
         if (mGenresAdapter == null) {
             mGenresAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this);
-            genresModel = ViewModelProviders.of(requireActivity()).get(GenresModel.class);
+            genresModel = ViewModelProviders.of(requireActivity(), new GenresModel.Factory(requireContext())).get(GenresModel.class);
         }
         if (mPlaylistAdapter == null) {
             mPlaylistAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this);
-            playlistsModel = ViewModelProviders.of(requireActivity()).get(PlaylistsModel.class);
+            playlistsModel = ViewModelProviders.of(requireActivity(), new PlaylistsModel.Factory(requireContext())).get(PlaylistsModel.class);
         }
         mAdapters = new AudioBrowserAdapter[] {mArtistsAdapter, mAlbumsAdapter, mSongsAdapter, mGenresAdapter, mPlaylistAdapter};
         mProvidersList = new AudioModel[] {artistModel, albumModel, tracksModel, genresModel, playlistsModel};

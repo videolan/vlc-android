@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.viewmodels
 
+import android.content.Context
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Medialibrary
@@ -29,7 +30,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.EmptyMLCallbacks
 
 
-abstract class MedialibraryModel<T : MediaLibraryItem> : BaseModel<T>(), Medialibrary.OnMedialibraryReadyListener, MediaUpdatedCb by EmptyMLCallbacks, MediaAddedCb by EmptyMLCallbacks {
+abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context) : BaseModel<T>(context), Medialibrary.OnMedialibraryReadyListener, MediaUpdatedCb by EmptyMLCallbacks, MediaAddedCb by EmptyMLCallbacks {
 
     val medialibrary = Medialibrary.getInstance()
 

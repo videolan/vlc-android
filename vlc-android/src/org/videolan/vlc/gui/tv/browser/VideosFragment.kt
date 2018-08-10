@@ -15,7 +15,7 @@ class VideosFragment : MediaLibBrowserFragment<VideosModel>() {
         val minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"))
         val group = arguments?.getString(Constants.KEY_GROUP)
         title = group ?: getString(R.string.videos)
-        model = VideosModel.get(this, group, minGroupLengthValue, Medialibrary.SORT_DEFAULT)
+        model = VideosModel.get(requireContext(), this, group, minGroupLengthValue, Medialibrary.SORT_DEFAULT)
         model.dataset.observe(this, Observer { update(it!!) })
     }
 

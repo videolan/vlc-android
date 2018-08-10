@@ -22,6 +22,7 @@ package org.videolan.vlc.viewmodels
 
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Context
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
@@ -33,7 +34,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.*
 
 private const val TAG = "VLC/BaseModel"
-abstract class BaseModel<T : MediaLibraryItem> : ViewModel(), RefreshModel {
+abstract class BaseModel<T : MediaLibraryItem>(protected val context: Context) : ViewModel(), RefreshModel {
 
     var sort = Medialibrary.SORT_ALPHA
     var desc = false

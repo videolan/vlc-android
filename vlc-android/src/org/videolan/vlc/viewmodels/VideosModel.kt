@@ -24,6 +24,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.support.v4.app.Fragment
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
@@ -32,10 +33,11 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.media.MediaGroup
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.VLCIO
 
-open class VideosModel(private val group: String?, private val minGroupLen: Int, customSort : Int) : MedialibraryModel<MediaWrapper>(), MediaAddedCb {
+open class VideosModel(context: Context, private val group: String?, private val minGroupLen: Int, customSort : Int) : MedialibraryModel<MediaWrapper>(context), MediaAddedCb {
 
     override val sortKey = "${super.sortKey}_$group"
     override fun canSortByFileNameName() = true
@@ -47,8 +49,8 @@ open class VideosModel(private val group: String?, private val minGroupLen: Int,
 
     init {
         sort = if (customSort != Medialibrary.SORT_DEFAULT) customSort
-        else VLCApplication.getSettings().getInt(sortKey, Medialibrary.SORT_ALPHA)
-        desc = VLCApplication.getSettings().getBoolean(sortKey+"_desc", false)
+        else Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)
+        desc = Settings.getInstance(context).getBoolean(sortKey+"_desc", false)
         Medialibrary.lastThumb.observeForever(thumbObs)
     }
 
@@ -95,16 +97,16 @@ open class VideosModel(private val group: String?, private val minGroupLen: Int,
         Medialibrary.lastThumb.removeObserver(thumbObs)
     }
 
-    class Factory(val group: String?, private val minGroupLen : Int, private val sort : Int): ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val context: Context, val group: String?, private val minGroupLen : Int, private val sort : Int): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return VideosModel(group, minGroupLen, sort) as T
+            return VideosModel(context.applicationContext, group, minGroupLen, sort) as T
         }
     }
 
     companion object {
-        fun get(fragment: Fragment, group: String?, minGroupLen : Int, sort : Int) : VideosModel {
-            return ViewModelProviders.of(fragment, Factory(group, minGroupLen, sort)).get(VideosModel::class.java)
+        fun get(context: Context, fragment: Fragment, group: String?, minGroupLen : Int, sort : Int) : VideosModel {
+            return ViewModelProviders.of(fragment, Factory(context, group, minGroupLen, sort)).get(VideosModel::class.java)
         }
     }
 }

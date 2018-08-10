@@ -24,10 +24,8 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.ProcessLifecycleOwner;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.util.SimpleArrayMap;
 import android.util.Log;
@@ -41,6 +39,7 @@ import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.NotificationHelper;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
@@ -48,7 +47,6 @@ import org.videolan.vlc.util.WorkersKt;
 
 import java.lang.ref.WeakReference;
 import java.util.Calendar;
-import java.util.Locale;
 
 import static org.videolan.vlc.gui.helpers.UiTools.setLocale;
 
@@ -62,7 +60,6 @@ public class VLCApplication extends Application {
 
     public static Calendar sPlayerSleepTime = null;
     private static boolean sTV;
-    private static SharedPreferences sSettings;
 
     private static SimpleArrayMap<String, WeakReference<Object>> sDataMap = new SimpleArrayMap<>();
 
@@ -79,9 +76,8 @@ public class VLCApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        sSettings = PreferenceManager.getDefaultSharedPreferences(this);
         sTV = AndroidDevices.isAndroidTv || (!AndroidDevices.isChromeBook && !AndroidDevices.hasTsp);
-        locale = sSettings.getString("set_locale", "");
+        locale = Settings.INSTANCE.getInstance(this).getString("set_locale", "");
 
         // Set the locale for API < 24 and set application resources and direction for API >=24
         setLocale(instance);
@@ -140,16 +136,12 @@ public class VLCApplication extends Application {
         return instance.getResources();
     }
 
-    public static SharedPreferences getSettings() {
-        return sSettings;
-    }
-
     public static String getLocale(){
         return locale;
     }
 
     public static boolean showTvUi() {
-        return sTV || (sSettings != null && sSettings.getBoolean("tv_ui", false));
+        return sTV || (Settings.INSTANCE.getInstance(instance).getBoolean("tv_ui", false));
     }
 
     public static void storeData(String key, Object data) {

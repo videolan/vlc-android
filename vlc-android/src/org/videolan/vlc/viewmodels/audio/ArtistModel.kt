@@ -22,18 +22,19 @@ package org.videolan.vlc.viewmodels.audio
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import android.content.Context
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.Medialibrary.ArtistsAddedCb
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.VLCIO
 
-class ArtistModel(private var showAll: Boolean = false): AudioModel(), ArtistsAddedCb {
+class ArtistModel(context: Context, private var showAll: Boolean = false): AudioModel(context), ArtistsAddedCb {
 
     init {
-        sort = VLCApplication.getSettings().getInt(sortKey, Medialibrary.SORT_ALPHA)
-        desc = VLCApplication.getSettings().getBoolean("${sortKey}_desc", false)
+        sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)
+        desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
     }
 
     override fun onArtistsAdded() {
@@ -62,10 +63,10 @@ class ArtistModel(private var showAll: Boolean = false): AudioModel(), ArtistsAd
         medialibrary.setArtistsAddedCb(null)
     }
 
-    class Factory(private val showAll: Boolean): ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val context: Context, private val showAll: Boolean): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return ArtistModel(showAll) as T
+            return ArtistModel(context, showAll) as T
         }
     }
 }

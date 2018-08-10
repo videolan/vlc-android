@@ -39,7 +39,7 @@ const val TYPE_NETWORK = 1
 const val TYPE_PICKER = 2
 const val TYPE_STORAGE = 3
 
-open class BrowserModel(val context: Context, val url: String?, type: Int, showHiddenFiles: Boolean) : BaseModel<MediaLibraryItem>() {
+open class BrowserModel(context: Context, val url: String?, type: Int, showHiddenFiles: Boolean) : BaseModel<MediaLibraryItem>(context) {
 
     protected val provider: BrowserProvider = when (type) {
         TYPE_PICKER -> FilePickerProvider(context, dataset, url)

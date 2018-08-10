@@ -20,17 +20,27 @@
 
 package org.videolan.vlc.viewmodels.audio
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
+import android.content.Context
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.VLCIO
 
 
-class PlaylistsModel: AudioModel() {
+class PlaylistsModel(context: Context): AudioModel(context) {
 
     override fun canSortByDuration() = true
 
     @Suppress("UNCHECKED_CAST")
     override suspend fun updateList() {
         dataset.value = withContext(VLCIO) { medialibrary.getPlaylists(sort, desc).toMutableList() as MutableList<MediaLibraryItem> }
+    }
+
+    class Factory(private val context: Context): ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            @Suppress("UNCHECKED_CAST")
+            return PlaylistsModel(context.applicationContext) as T
+        }
     }
 }

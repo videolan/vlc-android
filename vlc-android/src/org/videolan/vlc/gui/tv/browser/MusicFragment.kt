@@ -34,7 +34,7 @@ import org.videolan.vlc.viewmodels.audio.TracksModel
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             title = currentItem?.title ?: getString(R.string.tracks)
-            model = ViewModelProviders.of(this, TracksModel.Factory(currentItem)).get(TracksModel::class.java)
+            model = ViewModelProviders.of(this, TracksModel.Factory(requireContext(), currentItem)).get(TracksModel::class.java)
             model.dataset.observe(this, Observer { update(it!!) })
         }
 }

@@ -85,7 +85,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
             final boolean seenMarkVisible = preferences.getBoolean("media_seen", true);
             mAdapter = new VideoListAdapter(this, seenMarkVisible);
             final int minGroupLengthValue = Integer.valueOf(preferences.getString("video_min_group_length", "6"));
-            viewModel = ViewModelProviders.of(requireActivity(), new VideosModel.Factory(mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosModel.class);
+            viewModel = ViewModelProviders.of(requireActivity(), new VideosModel.Factory(requireContext(), mGroup, minGroupLengthValue, Medialibrary.SORT_DEFAULT)).get(VideosModel.class);
             viewModel.getDataset().observe(this, this);
         }
         if (savedInstanceState != null) setGroup(savedInstanceState.getString(Constants.KEY_GROUP));
