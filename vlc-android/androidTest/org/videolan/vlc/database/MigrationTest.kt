@@ -35,7 +35,7 @@ import org.videolan.vlc.database.helpers.*
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.models.Slave
-import org.videolan.vlc.util.Constants
+import org.videolan.vlc.util.TYPE_NETWORK_FAV
 
 @RunWith(AndroidJUnit4::class)
 class MigrationTest {
@@ -89,7 +89,7 @@ class MigrationTest {
         assertEquals(fav.uri, favUri)
         assertEquals(fav.title, favTitle)
         assertEquals(fav.iconUrl, null)
-        assertEquals(fav.type, Constants.TYPE_NETWORK_FAV)
+        assertEquals(fav.type, TYPE_NETWORK_FAV)
 
         clearDatabase(sqliteTestDbOpenHelper)
     }
