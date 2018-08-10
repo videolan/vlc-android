@@ -39,7 +39,6 @@ import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.*
-import org.videolan.vlc.util.PackageRelatedConstants.PLAY_FROM_VIDEOGRID
 
 private const val TAG = "VLC/RecommendationsService"
 private const val MAX_RECOMMENDATIONS = 3

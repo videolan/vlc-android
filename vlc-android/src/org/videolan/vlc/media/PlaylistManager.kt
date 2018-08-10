@@ -28,8 +28,6 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.*
-import org.videolan.vlc.util.PackageRelatedConstants.EXIT_PLAYER
-import org.videolan.vlc.util.PackageRelatedConstants.PLAY_FROM_SERVICE
 import java.util.*
 
 private const val TAG = "VLC/PlaylistManager"

@@ -42,6 +42,18 @@ const val ACTIVITY_RESULT_OPEN = 2
 const val ACTIVITY_RESULT_SECONDARY = 3
 
 // PlaybackService
+@JvmField val ACTION_REMOTE_GENERIC = Strings.buildPkgString("remote.")
+@JvmField val EXTRA_SEARCH_BUNDLE = ACTION_REMOTE_GENERIC + "extra_search_bundle"
+@JvmField val ACTION_PLAY_FROM_SEARCH = ACTION_REMOTE_GENERIC + "play_from_search"
+@JvmField val ACTION_REMOTE_SWITCH_VIDEO = ACTION_REMOTE_GENERIC + "SwitchToVideo"
+@JvmField val ACTION_REMOTE_LAST_VIDEO_PLAYLIST = ACTION_REMOTE_GENERIC + "LastVideoPlaylist"
+@JvmField val ACTION_REMOTE_LAST_PLAYLIST = ACTION_REMOTE_GENERIC + "LastPlaylist"
+@JvmField val ACTION_REMOTE_FORWARD = ACTION_REMOTE_GENERIC + "Forward"
+@JvmField val ACTION_REMOTE_STOP = ACTION_REMOTE_GENERIC + "Stop"
+@JvmField val ACTION_REMOTE_PAUSE = ACTION_REMOTE_GENERIC + "Pause"
+@JvmField val ACTION_REMOTE_PLAYPAUSE = ACTION_REMOTE_GENERIC + "PlayPause"
+@JvmField val ACTION_REMOTE_PLAY = ACTION_REMOTE_GENERIC + "Play"
+@JvmField val ACTION_REMOTE_BACKWARD = ACTION_REMOTE_GENERIC + "Backward"
 const val ACTION_CAR_MODE_EXIT = "android.app.action.EXIT_CAR_MODE"
 const val PLAYLIST_TYPE_AUDIO = 0
 const val PLAYLIST_TYPE_VIDEO = 1
@@ -61,6 +73,9 @@ const val ACTION_RESUME_SCAN = "action_resume_scan"
 const val ACTION_PAUSE_SCAN = "action_pause_scan"
 
 // VideoPlayerActivity
+@JvmField val PLAY_FROM_VIDEOGRID = Strings.buildPkgString("gui.video.PLAY_FROM_VIDEOGRID")
+@JvmField val PLAY_FROM_SERVICE = Strings.buildPkgString("gui.video.PLAY_FROM_SERVICE")
+@JvmField val EXIT_PLAYER = Strings.buildPkgString("gui.video.EXIT_PLAYER")
 const val PLAY_EXTRA_ITEM_LOCATION = "item_location"
 const val PLAY_EXTRA_SUBTITLES_LOCATION = "subtitles_location"
 const val PLAY_EXTRA_ITEM_TITLE = "title"
@@ -148,24 +163,5 @@ const val CTX_VIDEO_GOUP_FLAGS = CTX_APPEND or CTX_PLAY
 const val TYPE_NETWORK_FAV = 0
 const val TYPE_LOCAL_FAV = 1
 
-object PackageRelatedConstants {
-    // PlaybackService
-    val ACTION_REMOTE_GENERIC = Strings.buildPkgString("remote.")
-    val EXTRA_SEARCH_BUNDLE = ACTION_REMOTE_GENERIC + "extra_search_bundle"
-    val ACTION_PLAY_FROM_SEARCH = ACTION_REMOTE_GENERIC + "play_from_search"
-    val ACTION_REMOTE_SWITCH_VIDEO = ACTION_REMOTE_GENERIC + "SwitchToVideo"
-    val ACTION_REMOTE_LAST_VIDEO_PLAYLIST = ACTION_REMOTE_GENERIC + "LastVideoPlaylist"
-    val ACTION_REMOTE_LAST_PLAYLIST = ACTION_REMOTE_GENERIC + "LastPlaylist"
-    val ACTION_REMOTE_FORWARD = ACTION_REMOTE_GENERIC + "Forward"
-    val ACTION_REMOTE_STOP = ACTION_REMOTE_GENERIC + "Stop"
-    val ACTION_REMOTE_PAUSE = ACTION_REMOTE_GENERIC + "Pause"
-    val ACTION_REMOTE_PLAYPAUSE = ACTION_REMOTE_GENERIC + "PlayPause"
-    val ACTION_REMOTE_PLAY = ACTION_REMOTE_GENERIC + "Play"
-    val ACTION_REMOTE_BACKWARD = ACTION_REMOTE_GENERIC + "Backward"
 
-    // VideoPlayerActivity
-    val PLAY_FROM_VIDEOGRID = Strings.buildPkgString("gui.video.PLAY_FROM_VIDEOGRID")
-    val PLAY_FROM_SERVICE = Strings.buildPkgString("gui.video.PLAY_FROM_SERVICE")
-    val EXIT_PLAYER = Strings.buildPkgString("gui.video.EXIT_PLAYER")
-}
 
