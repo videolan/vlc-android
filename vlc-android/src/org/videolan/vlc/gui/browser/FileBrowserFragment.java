@@ -79,7 +79,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         else {
             String title;
             if (getCurrentMedia() != null) {
-                if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, Strings.removeFileProtocole(getMrl())))
+                if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, Strings.INSTANCE.removeFileProtocole(getMrl())))
                     title = getString(R.string.internal_memory);
                 else
                     title = this instanceof FilePickerFragment ? getCurrentMedia().getUri().toString() : getCurrentMedia().getTitle();

@@ -88,6 +88,6 @@ public class CustomDirectories {
     }
 
     public static boolean contains(String directory) {
-        return Strings.stringArrayContains(getCustomDirectories(), directory.trim());
+        return Strings.INSTANCE.stringArrayContains(getCustomDirectories(), directory.trim());
     }
 }

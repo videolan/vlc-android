@@ -254,7 +254,7 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
         if (Util.isArrayEmpty(devices))
             return false;
         for (String dev : devices)
-            if (device.startsWith(Strings.removeFileProtocole(dev)))
+            if (device.startsWith(Strings.INSTANCE.removeFileProtocole(dev)))
                 return true;
         return false;
     }

@@ -51,7 +51,7 @@ public class BitmapCache {
         final long cacheSize = Runtime.getRuntime().maxMemory() / 5;
 
         if (BuildConfig.DEBUG)
-            Log.i(TAG, "LRUCache size set to " +  Strings.readableSize(cacheSize));
+            Log.i(TAG, "LRUCache size set to " +  Strings.INSTANCE.readableSize(cacheSize));
 
         mMemCache = new LruCache<String, Bitmap>((int) cacheSize) {
 
