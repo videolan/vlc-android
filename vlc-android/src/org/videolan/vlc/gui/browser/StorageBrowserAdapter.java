@@ -37,7 +37,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.MedialibraryUtils;
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.util.CustomDirectories;
+import org.videolan.vlc.repository.CustomDirectories;
 
 import java.util.ArrayList;
 import java.util.Arrays;
