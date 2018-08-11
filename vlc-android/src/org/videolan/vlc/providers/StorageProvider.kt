@@ -37,7 +37,7 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
 
     override fun browseRoot() {
         val storages = AndroidDevices.getMediaDirectories()
-        val customDirectories = CustomDirectories.getCustomDirectories()
+        val customDirectories = CustomDirectories.getCustomDirectories(context)
         var storage: Storage
         val storagesList = ArrayList<MediaLibraryItem>()
         for (mediaDirLocation in storages) {

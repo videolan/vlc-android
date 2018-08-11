@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.browser;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
@@ -49,7 +50,7 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
 
     StorageBrowserAdapter(BaseBrowserFragment fragment) {
         super(fragment);
-        updateMediaDirs();
+        updateMediaDirs(fragment.requireContext());
     }
 
     @Override
@@ -78,14 +79,14 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
         return false;
     }
 
-    void updateMediaDirs() {
+    void updateMediaDirs(Context context) {
         if (mMediaDirsLocation != null) mMediaDirsLocation.clear();
         final String folders[] = VLCApplication.getMLInstance().getFoldersList();
         mMediaDirsLocation = new ArrayList<>(folders.length);
         for (String folder : folders) {
             mMediaDirsLocation.add(Uri.decode(folder.startsWith("file://") ? folder.substring(7) : folder));
         }
-        mCustomDirsLocation = new ArrayList<>(Arrays.asList(CustomDirectories.getCustomDirectories()));
+        mCustomDirsLocation = new ArrayList<>(Arrays.asList(CustomDirectories.getCustomDirectories(context)));
     }
 
     protected void checkBoxAction(View v, String mrl) {
