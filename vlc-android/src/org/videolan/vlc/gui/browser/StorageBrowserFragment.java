@@ -56,7 +56,7 @@ import org.videolan.vlc.gui.dialogs.ContextSheetKt;
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.util.CustomDirectories;
+import org.videolan.vlc.repository.CustomDirectories;
 import org.videolan.vlc.viewmodels.browser.BrowserModel;
 import org.videolan.vlc.viewmodels.browser.BrowserModelKt;
 

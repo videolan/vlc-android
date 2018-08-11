@@ -37,6 +37,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.repository.CustomDirectories;
 
 import java.io.BufferedReader;
 import java.io.File;

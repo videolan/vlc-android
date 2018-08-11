@@ -28,7 +28,7 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
 import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.CustomDirectories
+import org.videolan.vlc.repository.CustomDirectories
 import org.videolan.vlc.util.LiveDataset
 import java.io.File
 import java.util.*
