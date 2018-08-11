@@ -46,11 +46,11 @@ import java.util.Locale;
 
 abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String TAG = "VLC/VLCAppWidgetProvider";
-    public static final String ACTION_REMOTE_BACKWARD = Strings.buildPkgString("remote.Backward");
-    public static final String ACTION_REMOTE_PLAYPAUSE = Strings.buildPkgString("remote.PlayPause");
-    public static final String ACTION_REMOTE_STOP = Strings.buildPkgString("remote.Stop");
-    public static final String ACTION_REMOTE_FORWARD = Strings.buildPkgString("remote.Forward");
-    public static final String ACTION_WIDGET_PREFIX = Strings.buildPkgString("widget.");
+    public static final String ACTION_REMOTE_BACKWARD = Strings.INSTANCE.buildPkgString("remote.Backward");
+    public static final String ACTION_REMOTE_PLAYPAUSE = Strings.INSTANCE.buildPkgString("remote.PlayPause");
+    public static final String ACTION_REMOTE_STOP = Strings.INSTANCE.buildPkgString("remote.Stop");
+    public static final String ACTION_REMOTE_FORWARD = Strings.INSTANCE.buildPkgString("remote.Forward");
+    public static final String ACTION_WIDGET_PREFIX = Strings.INSTANCE.buildPkgString("widget.");
     public static final String ACTION_WIDGET_INIT = ACTION_WIDGET_PREFIX+"INIT";
     public static final String ACTION_WIDGET_UPDATE = ACTION_WIDGET_PREFIX+"UPDATE";
     public static final String ACTION_WIDGET_UPDATE_COVER = ACTION_WIDGET_PREFIX+"UPDATE_COVER";

@@ -250,7 +250,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
                 return null;
             if (((MediaWrapper)mItem).getType() == MediaWrapper.TYPE_VIDEO)
                 checkSubtitles(itemFile);
-            mBinding.setSizeValueText(Strings.readableFileSize(itemFile.length()));
+            mBinding.setSizeValueText(Strings.INSTANCE.readableFileSize(itemFile.length()));
             return null;
         }
 

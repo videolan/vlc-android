@@ -165,7 +165,7 @@ public class PlaybackSpeedDialog extends DialogFragment implements PlaybackServi
 
     private void updateInterface() {
         float rate = mService.getRate();
-        mSpeedValue.setText(Strings.formatRateString(rate));
+        mSpeedValue.setText(Strings.INSTANCE.formatRateString(rate));
         if (rate != 1.0f) {
             mPlaybackSpeedIcon.setImageResource(R.drawable.ic_speed_reset);
             mSpeedValue.setTextColor(getResources().getColor(R.color.orange500));

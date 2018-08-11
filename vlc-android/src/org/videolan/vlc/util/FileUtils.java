@@ -222,7 +222,7 @@ public class FileUtils {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static boolean deleteFile (String path){
         boolean deleted = false;
-        path = Uri.decode(Strings.removeFileProtocole(path));
+        path = Uri.decode(Strings.INSTANCE.removeFileProtocole(path));
         //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
         final ContentResolver cr = VLCApplication.getAppContext().getContentResolver();
         try {

@@ -129,12 +129,12 @@ public class AndroidDevices {
                 final String type = tokens.hasMoreTokens() ? tokens.nextToken() : null;
 
                 // skip if already in list or if type/mountpoint is blacklisted
-                if (list.contains(mountpoint) || typeBL.contains(type) || Strings.startsWith(mountBL, mountpoint))
+                if (list.contains(mountpoint) || typeBL.contains(type) || Strings.INSTANCE.startsWith(mountBL, mountpoint))
                     continue;
 
                 // check that device is in whitelist, and either type or mountpoint is in a whitelist
-                if (Strings.startsWith(deviceWL, device) && (typeWL.contains(type) || Strings.startsWith(mountWL, mountpoint))) {
-                    final int position = Strings.containsName(list, FileUtils.getFileNameFromPath(mountpoint));
+                if (Strings.INSTANCE.startsWith(deviceWL, device) && (typeWL.contains(type) || Strings.INSTANCE.startsWith(mountWL, mountpoint))) {
+                    final int position = Strings.INSTANCE.containsName(list, FileUtils.getFileNameFromPath(mountpoint));
                     if (position > -1)
                         list.remove(position);
                     list.add(mountpoint);
