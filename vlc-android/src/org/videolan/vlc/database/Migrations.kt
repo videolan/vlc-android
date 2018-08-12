@@ -24,8 +24,10 @@ import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.migration.Migration
 import android.content.Context
 import kotlinx.coroutines.experimental.launch
+import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.VLCIO
 
 private const val DIR_TABLE_NAME = "directories_table"
@@ -39,6 +41,8 @@ private const val HISTORY_TABLE_NAME = "history_table"
 private const val EXTERNAL_SUBTITLES_TABLE_NAME = "external_subtitles_table"
 private const val SLAVES_TABLE_NAME = "SLAVES_table"
 private const val FAV_TABLE_NAME = "fav_table"
+private const val CUSTOM_DIRECTORY_TABLE_NAME = "CustomDirectory"
+
 
 fun dropUnnecessaryTables(database: SupportSQLiteDatabase) {
     database.execSQL("DROP TABLE IF EXISTS $DIR_TABLE_NAME;")
@@ -174,6 +178,21 @@ val migration_26_27 = object:Migration(26, 27) {
 
         // Add a type column and set its value to 0 (till this version all favs were network favs)
         database.execSQL("ALTER TABLE $FAV_TABLE_NAME ADD COLUMN type INTEGER NOT NULL DEFAULT 0;")
+    }
+}
+
+val migration_27_28 = object:Migration(27, 28) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        val preferences = Settings.getInstance(VLCApplication.getAppContext())
+        val customPaths = preferences.getString("custom_paths", "")
+        var oldPaths = listOf<String>()
+        if (customPaths.isNotEmpty())
+            oldPaths = customPaths.split(":")
+
+        database.execSQL("CREATE TABLE IF NOT EXISTS $CUSTOM_DIRECTORY_TABLE_NAME(path TEXT PRIMARY KEY NOT NULL);")
+        oldPaths.forEach {
+            database.execSQL("INSERT INTO $CUSTOM_DIRECTORY_TABLE_NAME(path) VALUES (\"$it\")")
+        }
     }
 }
 

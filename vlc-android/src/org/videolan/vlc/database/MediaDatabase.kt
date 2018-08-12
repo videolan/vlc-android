@@ -28,17 +28,19 @@ import android.arch.persistence.room.TypeConverters
 import android.content.Context
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.models.BrowserFav
+import org.videolan.vlc.database.models.CustomDirectory
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.models.Slave
 
 private const val DB_NAME = "vlc_database"
 
-@Database(entities = [ExternalSub::class, Slave::class, BrowserFav::class], version = 27)
+@Database(entities = [ExternalSub::class, Slave::class, BrowserFav::class, CustomDirectory::class], version = 28)
 @TypeConverters(Converters::class)
 abstract class MediaDatabase: RoomDatabase() {
     abstract fun externalSubDao(): ExternalSubDao
     abstract fun slaveDao(): SlaveDao
     abstract fun browserFavDao(): BrowserFavDao
+    abstract fun customDirectoryDao(): CustomDirectoryDao
 
     companion object : SingletonHolder<MediaDatabase, Context>({ buildDatabase(it.applicationContext) })
 }
@@ -51,7 +53,7 @@ private fun buildDatabase(context: Context) = Room.databaseBuilder(context.appli
                 migration_13_14, migration_14_15, migration_15_16, migration_16_17,
                 migration_17_18, migration_18_19, migration_19_20, migration_20_21,
                 migration_21_22, migration_22_23, migration_23_24, migration_24_25,
-                migration_25_26, migration_26_27)
+                migration_25_26, migration_26_27, migration_27_28)
         .addCallback(object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) { populateDB(context) }
         })

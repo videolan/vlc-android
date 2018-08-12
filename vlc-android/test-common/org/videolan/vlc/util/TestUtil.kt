@@ -23,6 +23,7 @@ package org.videolan.vlc.util
 import android.net.Uri
 import org.videolan.libvlc.Media
 import org.videolan.vlc.database.models.BrowserFav
+import org.videolan.vlc.database.models.CustomDirectory
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.models.Slave
 
@@ -86,6 +87,17 @@ object TestUtil {
     fun createSubtitleSlavesForMedia(mediaName: String, count:Int): List<Slave> {
         return (0 until count).map {
             createSubtitleSlave( "$fakeMediaUri$mediaName", "$fakeSubUri$mediaName$it.srt" )
+        }
+    }
+
+    fun createCustomDirectory(path: String): CustomDirectory{
+        return CustomDirectory(path)
+    }
+
+    fun createCustomDirectories(count: Int): List<CustomDirectory> {
+        val directory = "/sdcard/foo"
+        return (0 until count).map {
+            createCustomDirectory("$directory$it")
         }
     }
 }

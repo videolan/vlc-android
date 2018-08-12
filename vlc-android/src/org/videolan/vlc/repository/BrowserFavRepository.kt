@@ -70,7 +70,7 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
     @WorkerThread
     fun browserFavExists(uri: Uri): Boolean = browserFavDao.get(uri).isNotEmpty()
 
-    fun deleteBrowserFav(uri: Uri) = browserFavDao.delete(uri)
+    fun deleteBrowserFav(uri: Uri) = launch(VLCIO) { browserFavDao.delete(uri) }
 
     private fun List<MediaWrapper>.filterNetworkFavs() : List<MediaWrapper> {
         return when {
