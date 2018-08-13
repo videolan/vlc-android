@@ -396,7 +396,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
 
         if (mIsBenchmark) {
-            mCurrentSize = SURFACE_FIT_SCREEN;
+            mCurrentSize = SURFACE_FILL;
         } else {
             mCurrentSize = mSettings.getInt(PreferencesActivity.VIDEO_RATIO, SURFACE_BEST_FIT);
         }
