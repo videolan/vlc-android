@@ -595,15 +595,6 @@ void AndroidMediaLibrary::onAlbumsDeleted( std::vector<int64_t> ids )
 
 }
 
-void AndroidMediaLibrary::onTracksAdded( std::vector<medialibrary::AlbumTrackPtr> tracks )
-{
-
-}
-void AndroidMediaLibrary::onTracksDeleted( std::vector<int64_t> trackIds )
-{
-
-}
-
 void AndroidMediaLibrary::onDiscoveryStarted( const std::string& entryPoint )
 {
     ++m_nbDiscovery;

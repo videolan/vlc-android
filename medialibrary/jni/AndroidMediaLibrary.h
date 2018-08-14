@@ -102,9 +102,6 @@ public:
     void onAlbumsModified( std::vector<medialibrary::AlbumPtr> albums );
     void onAlbumsDeleted( std::vector<int64_t> ids );
 
-    void onTracksAdded( std::vector<medialibrary::AlbumTrackPtr> tracks );
-    void onTracksDeleted( std::vector<int64_t> trackIds );
-
     void onPlaylistsAdded( std::vector<medialibrary::PlaylistPtr> playlists );
     void onPlaylistsModified( std::vector<medialibrary::PlaylistPtr> playlist );
     void onPlaylistsDeleted( std::vector<int64_t> ids );
