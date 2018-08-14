@@ -151,7 +151,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
         if (isRootDirectory()) {
             final Storage storage = (Storage) getAdapter().getItem(position);
-            boolean isCustom = CustomDirectories.contains(storage.getUri().getPath(), requireContext());
+            boolean isCustom = CustomDirectories.contains(storage.getUri().getPath(), requireContext().getApplicationContext());
             if (isCustom) ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), Constants.CTX_CUSTOM_REMOVE);
         }
     }
@@ -159,7 +159,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
     @Override
     public void onCtxAction(int position, int option) {
         final Storage storage = (Storage) getAdapter().getItem(position);
-        CustomDirectories.removeCustomDirectory(storage.getUri().getPath(), requireContext());
+        CustomDirectories.removeCustomDirectory(storage.getUri().getPath(), requireContext().getApplicationContext());
         viewModel.remove(storage);
         ((AudioPlayerContainerActivity)getActivity()).updateLib();
     }
@@ -251,7 +251,7 @@ public class StorageBrowserFragment extends FileBrowserFragment implements Entry
                 }
 
                 try {
-                    CustomDirectories.addCustomDirectory(f.getCanonicalPath(), requireContext());
+                    CustomDirectories.addCustomDirectory(f.getCanonicalPath(), requireContext().getApplicationContext());
                     ((AudioPlayerContainerActivity)getActivity()).updateLib();
                 } catch (IOException ignored) {}
             }

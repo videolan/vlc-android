@@ -86,7 +86,7 @@ class StorageBrowserAdapter extends BaseBrowserAdapter {
         for (String folder : folders) {
             mMediaDirsLocation.add(Uri.decode(folder.startsWith("file://") ? folder.substring(7) : folder));
         }
-        mCustomDirsLocation = new ArrayList<>(Arrays.asList(CustomDirectories.getCustomDirectories(context)));
+        mCustomDirsLocation = new ArrayList<>(Arrays.asList(CustomDirectories.getCustomDirectories(context.getApplicationContext())));
     }
 
     protected void checkBoxAction(View v, String mrl) {
