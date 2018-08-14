@@ -109,6 +109,10 @@ public:
     void onPlaylistsModified( std::vector<medialibrary::PlaylistPtr> playlist );
     void onPlaylistsDeleted( std::vector<int64_t> ids );
 
+    void onGenresAdded( std::vector<medialibrary::GenrePtr> );
+    void onGenresModified( std::vector<medialibrary::GenrePtr> );
+    void onGenresDeleted( std::vector<int64_t> );
+
     void onDiscoveryStarted( const std::string& entryPoint );
     void onDiscoveryProgress( const std::string& entryPoint );
     void onDiscoveryCompleted( const std::string& entryPoint, bool success );
