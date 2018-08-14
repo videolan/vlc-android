@@ -146,7 +146,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private final static String TAG = "VLC/VideoPlayerActivity";
 
-    private final static String ACTION_RESULT = Strings.buildPkgString("player.result");
+    private final static String ACTION_RESULT = Strings.INSTANCE.buildPkgString("player.result");
     private final static String EXTRA_POSITION = "extra_position";
     private final static String EXTRA_DURATION = "extra_duration";
     private final static String EXTRA_URI = "extra_uri";

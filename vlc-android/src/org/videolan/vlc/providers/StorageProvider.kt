@@ -28,7 +28,7 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
 import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.CustomDirectories
+import org.videolan.vlc.repository.CustomDirectories
 import org.videolan.vlc.util.LiveDataset
 import java.io.File
 import java.util.*
@@ -37,7 +37,7 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
 
     override fun browseRoot() {
         val storages = AndroidDevices.getMediaDirectories()
-        val customDirectories = CustomDirectories.getCustomDirectories()
+        val customDirectories = CustomDirectories.getCustomDirectories(context.applicationContext)
         var storage: Storage
         val storagesList = ArrayList<MediaLibraryItem>()
         for (mediaDirLocation in storages) {

@@ -271,7 +271,7 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
                     UiTools.getResourceFromAttribute(mActivity, R.attr.ic_speed_normal_style),
                     0, 0);
         } else {
-            mPlaybackSpeed.setText(Strings.formatRateString(mService.getRate()));
+            mPlaybackSpeed.setText(Strings.INSTANCE.formatRateString(mService.getRate()));
             mPlaybackSpeed.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_speed_on, 0, 0);
         }
     }
