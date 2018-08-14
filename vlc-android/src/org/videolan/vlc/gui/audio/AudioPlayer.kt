@@ -171,7 +171,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
                     val mw = playlistAdapter.getItem(position)
                     UiTools.addToPlaylist(requireActivity(), listOf(mw))
                 }
-                CTX_REMOVE -> view?.let {
+                CTX_REMOVE_FROM_PLAYLIST -> view?.let {
                     val mw = playlistAdapter.getItem(position)
                     val cancelAction = Runnable { service?.insertItem(position, mw) }
                     val message = String.format(VLCApplication.getAppResources().getString(R.string.remove_playlist_item), mw.title)
@@ -185,7 +185,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     override fun onPopupMenu(anchor: View, position: Int, media: MediaWrapper) {
         val activity = activity
         if (activity === null || position >= playlistAdapter.itemCount) return
-        val flags = CTX_REMOVE or CTX_SET_RINGTONE or CTX_ADD_TO_PLAYLIST
+        val flags = CTX_REMOVE_FROM_PLAYLIST or CTX_SET_RINGTONE or CTX_ADD_TO_PLAYLIST
         showContext(activity, ctxReceiver, position, media.title, flags)
     }
 
