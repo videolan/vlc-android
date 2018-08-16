@@ -145,13 +145,13 @@ object MediaUtils {
         })
     }
 
-    fun getMediaArtist(ctx: Context, media: MediaWrapper?) = media?.artist ?: getMediaString(ctx, R.string.unknown_artist)
+    fun getMediaArtist(ctx: Context, media: MediaWrapper?) = media?.artist ?: if (media?.nowPlaying != null) "" else getMediaString(ctx, R.string.unknown_artist)
 
-    fun getMediaReferenceArtist(ctx: Context, media: MediaWrapper?) = media?.artist ?: getMediaString(ctx, R.string.unknown_artist)
+    fun getMediaReferenceArtist(ctx: Context, media: MediaWrapper?) = getMediaArtist(ctx, media)
 
     fun getMediaAlbumArtist(ctx: Context, media: MediaWrapper?) = media?.albumArtist ?: getMediaString(ctx, R.string.unknown_artist)
 
-    fun getMediaAlbum(ctx: Context, media: MediaWrapper?) = media?.album ?: getMediaString(ctx, R.string.unknown_album)
+    fun getMediaAlbum(ctx: Context, media: MediaWrapper?) = media?.album ?: if (media?.nowPlaying != null) "" else getMediaString(ctx, R.string.unknown_album)
 
     fun getMediaGenre(ctx: Context, media: MediaWrapper?) = media?.genre ?: getMediaString(ctx, R.string.unknown_genre)
 
