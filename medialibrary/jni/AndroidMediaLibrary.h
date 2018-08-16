@@ -91,7 +91,7 @@ public:
     void requestThumbnail( int64_t media_id );
 
     void onMediaAdded( std::vector<medialibrary::MediaPtr> media );
-    void onMediaUpdated( std::vector<medialibrary::MediaPtr> media ) ;
+    void onMediaModified( std::vector<medialibrary::MediaPtr> media ) ;
     void onMediaDeleted( std::vector<int64_t> ids ) ;
 
     void onArtistsAdded( std::vector<medialibrary::ArtistPtr> artists ) ;

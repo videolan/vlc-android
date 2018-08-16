@@ -461,7 +461,7 @@ AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList
     }
 }
 
-void AndroidMediaLibrary::onMediaUpdated( std::vector<medialibrary::MediaPtr> mediaList )
+void AndroidMediaLibrary::onMediaModified( std::vector<medialibrary::MediaPtr> mediaList )
 {
     if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO || m_mediaUpdatedType & FLAG_MEDIA_UPDATED_VIDEO
             || m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO_EMPTY) {
