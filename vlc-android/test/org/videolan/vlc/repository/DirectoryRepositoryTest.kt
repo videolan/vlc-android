@@ -3,7 +3,6 @@ package org.videolan.vlc.repository
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import kotlinx.coroutines.experimental.runBlocking
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.hasItem
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
@@ -20,9 +19,9 @@ import org.videolan.vlc.util.mock
 import org.videolan.vlc.util.uninitialized
 
 @RunWith(PowerMockRunner::class)
-class CustomDirectoryRepositoryTest {
+class DirectoryRepositoryTest {
     private val customDirectoryDao = mock<CustomDirectoryDao>()
-    private lateinit var customDirectoryRepository: CustomDirectoryRepository
+    private lateinit var directoryRepository: DirectoryRepository
 
     @Rule
     @JvmField
@@ -32,14 +31,14 @@ class CustomDirectoryRepositoryTest {
         System.setProperty("kotlinx.coroutines.blocking.checker", "disable")
         val db = mock<MediaDatabase>()
         `when`(db.customDirectoryDao()).thenReturn(customDirectoryDao)
-        customDirectoryRepository = CustomDirectoryRepository(customDirectoryDao)
+        directoryRepository = DirectoryRepository(customDirectoryDao)
     }
 
     @Test
     fun insertTwoCustomDirectory_GetAllShouldReturnTwo() = runBlocking{
         val fakeCustomDirectories = TestUtil.createCustomDirectories(2)
         fakeCustomDirectories.forEach {
-            customDirectoryRepository.addCustomDirectory(it.path).join()
+            directoryRepository.addCustomDirectory(it.path).join()
         }
 
         val inserted = argumentCaptor<CustomDirectory>()
@@ -51,7 +50,7 @@ class CustomDirectoryRepositoryTest {
 
         `when`(customDirectoryDao.getAll()).thenReturn(fakeCustomDirectories)
 
-        val customDirectories = customDirectoryRepository.getCustomDirectories()
+        val customDirectories = directoryRepository.getCustomDirectories()
         verify(customDirectoryDao).getAll()
         assertThat(customDirectories.size, `is`(2))
     }
@@ -60,7 +59,7 @@ class CustomDirectoryRepositoryTest {
     fun insertTwoCustomDirectory_DeleteOneShouldDeleteOne() = runBlocking{
         val fakeCustomDirectories = TestUtil.createCustomDirectories(2)
         fakeCustomDirectories.forEach {
-            customDirectoryRepository.addCustomDirectory(it.path).join()
+            directoryRepository.addCustomDirectory(it.path).join()
         }
 
         val inserted = argumentCaptor<CustomDirectory>()
@@ -69,7 +68,7 @@ class CustomDirectoryRepositoryTest {
         assertThat(inserted.allValues[0], `is`(fakeCustomDirectories[0]))
         assertThat(inserted.allValues[1], `is`(fakeCustomDirectories[1]))
 
-        customDirectoryRepository.deleteCustomDirectory(fakeCustomDirectories[0].path)
+        directoryRepository.deleteCustomDirectory(fakeCustomDirectories[0].path)
 
         val deleted = argumentCaptor<CustomDirectory>()
         verify(customDirectoryDao).delete(deleted.capture() ?: uninitialized())
@@ -80,7 +79,7 @@ class CustomDirectoryRepositoryTest {
     fun insertOneCustomDirectory_CheckExistenceShouldBeTrue() = runBlocking{
         val fakeCustomDirectories = TestUtil.createCustomDirectories(1)
         fakeCustomDirectories.forEach {
-            customDirectoryRepository.addCustomDirectory(it.path).join()
+            directoryRepository.addCustomDirectory(it.path).join()
         }
 
         val inserted = argumentCaptor<CustomDirectory>()
@@ -90,7 +89,7 @@ class CustomDirectoryRepositoryTest {
 
         `when`(customDirectoryDao.get(fakeCustomDirectories[0].path)).thenReturn(fakeCustomDirectories)
 
-        val bool = customDirectoryRepository.customDirectoryExists(fakeCustomDirectories[0].path)
+        val bool = directoryRepository.customDirectoryExists(fakeCustomDirectories[0].path)
         assertTrue(bool)
     }
 
@@ -98,7 +97,7 @@ class CustomDirectoryRepositoryTest {
     fun insertOneCustomDirectory_CheckExistenceForWrongPathShouldBeFalse() = runBlocking{
         val fakeCustomDirectories = TestUtil.createCustomDirectories(1)
         fakeCustomDirectories.forEach {
-            customDirectoryRepository.addCustomDirectory(it.path).join()
+            directoryRepository.addCustomDirectory(it.path).join()
         }
 
         val inserted = argumentCaptor<CustomDirectory>()
@@ -108,7 +107,7 @@ class CustomDirectoryRepositoryTest {
 
         `when`(customDirectoryDao.get(fakeCustomDirectories[0].path)).thenReturn(fakeCustomDirectories)
 
-        val bool = customDirectoryRepository.customDirectoryExists(fakeCustomDirectories[0].path+"foo")
+        val bool = directoryRepository.customDirectoryExists(fakeCustomDirectories[0].path+"foo")
         assertFalse(bool)
     }
 
