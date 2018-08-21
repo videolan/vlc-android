@@ -47,6 +47,7 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.wizard.startMLWizard
+import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
 import java.io.File
 import java.util.*
@@ -202,7 +203,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
 
     private suspend fun addDevices(context: Context, addExternal: Boolean) {
         val devices = ArrayList<String>()
-        Collections.addAll(devices, *AndroidDevices.getMediaDirectories(context))
+        Collections.addAll(devices, *DirectoryRepository.getInstance(context).getMediaDirectories())
         val sharedPreferences = withContext(VLCIO) { PreferenceManager.getDefaultSharedPreferences(context) }
         for (device in devices) {
             val isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)

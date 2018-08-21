@@ -35,6 +35,8 @@ import android.support.v17.leanback.app.BrowseSupportFragment
 import android.support.v17.leanback.widget.*
 import android.support.v4.content.ContextCompat
 import android.view.View
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.DummyItem
@@ -51,6 +53,7 @@ import org.videolan.vlc.gui.tv.TvUtil.diffCallback
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.repository.BrowserFavRepository
+import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.HistoryModel
 import org.videolan.vlc.viewmodels.VideosModel
@@ -204,9 +207,9 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         return true
     }
 
-    fun updateBrowsers() {
+    fun updateBrowsers() = launch(UI.immediate) {
         val list = mutableListOf<MediaLibraryItem>()
-        val directories = AndroidDevices.getMediaDirectoriesList()
+        val directories = DirectoryRepository.getInstance(requireContext()).getMediaDirectoriesList(requireContext().applicationContext).toMutableList()
         if (!AndroidDevices.showInternalStorage && !directories.isEmpty()) directories.removeAt(0)
         for (directory in directories) list.add(directory)
 
@@ -218,7 +221,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                 it.description = it.uri.scheme
                 list.add(it)
             }
-    }
+        }
         browserAdapter.setItems(list, diffCallback)
     }
 
