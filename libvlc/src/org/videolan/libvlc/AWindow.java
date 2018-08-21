@@ -42,13 +42,6 @@ public class AWindow implements IVLCVout {
     private static final int ID_SUBTITLES = 1;
     private static final int ID_MAX = 2;
 
-    public interface SurfaceCallback {
-        @MainThread
-        void onSurfacesCreated(AWindow vout);
-        @MainThread
-        void onSurfacesDestroyed(AWindow vout);
-    }
-
     private class SurfaceHelper {
         private final int mId;
         private final SurfaceView mSurfaceView;
@@ -191,7 +184,7 @@ public class AWindow implements IVLCVout {
     private final static int SURFACE_STATE_READY = 2;
 
     private final SurfaceHelper[] mSurfaceHelpers;
-    private final SurfaceCallback mSurfaceCallback;
+    private final MediaPlayer.SurfaceListener mSurfaceCallback;
     private final AtomicInteger mSurfacesState = new AtomicInteger(SURFACE_STATE_INIT);
     private OnNewVideoLayoutListener mOnNewVideoLayoutListener = null;
     private ArrayList<IVLCVout.Callback> mIVLCVoutCallbacks = new ArrayList<IVLCVout.Callback>();
@@ -211,7 +204,7 @@ public class AWindow implements IVLCVout {
      * MediaPlayer class).
      * @param surfaceCallback
      */
-    public AWindow(SurfaceCallback surfaceCallback) {
+    public AWindow(MediaPlayer.SurfaceListener surfaceCallback) {
         mSurfaceCallback = surfaceCallback;
         mSurfaceHelpers = new SurfaceHelper[ID_MAX];
         mSurfaceHelpers[ID_VIDEO] = null;
@@ -354,7 +347,7 @@ public class AWindow implements IVLCVout {
         for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
             cb.onSurfacesDestroyed(this);
         if (mSurfaceCallback != null)
-            mSurfaceCallback.onSurfacesDestroyed(this);
+            mSurfaceCallback.onSurfaceDestroyed();
         mSurfaceTextureThread.release();
     }
 
@@ -379,7 +372,7 @@ public class AWindow implements IVLCVout {
             for (IVLCVout.Callback cb : mIVLCVoutCallbacks)
                 cb.onSurfacesCreated(this);
             if (mSurfaceCallback != null)
-                mSurfaceCallback.onSurfacesCreated(this);
+                mSurfaceCallback.onSurfaceCreated();
         }
     }
 
