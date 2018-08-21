@@ -39,6 +39,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.gui.helpers.hf.getDocumentFiles
 import org.videolan.vlc.repository.BrowserFavRepository
+import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
 import java.io.File
 
@@ -89,10 +90,10 @@ open class FileBrowserProvider(
         showFavorites = url == null && !filePicker && this !is StorageProvider
     }
 
-    override fun browseRoot() {
+    override fun browseRoot() = launch(UI.immediate) {
         val internalmemoryTitle = context.getString(R.string.internal_memory)
         val browserStorage = context.getString(R.string.browser_storages)
-        val storages = AndroidDevices.getMediaDirectories()
+        val storages = DirectoryRepository.getInstance(context).getMediaDirectories()
         val devices = mutableListOf<MediaLibraryItem>()
         if (!filePicker) devices.add(DummyItem(browserStorage))
         for (mediaDirLocation in storages) {
@@ -119,9 +120,10 @@ open class FileBrowserProvider(
         }
         dataset.value = devices
         // observe devices & favorites
-        ExternalMonitor.devices.observeForever(this)
+        ExternalMonitor.devices.observeForever(this@FileBrowserProvider)
         if (showFavorites) favorites?.observeForever(favoritesObserver)
     }
+
 
     override fun browse(url: String?) {
         when {

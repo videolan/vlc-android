@@ -72,7 +72,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         val prefetchList by lazy(LazyThreadSafetyMode.NONE) { BrowserProvider.prefetchLists[url] }
         when {
             url === null -> launch(UI) {
-                browseRoot()
+                browseRoot()?.join()
                 parseSubDirectories()
             }
             prefetchList?.isEmpty() == false -> launch(UI) {
@@ -184,7 +184,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         return mw
     }
 
-    abstract fun browseRoot()
+    abstract fun browseRoot(): Job?
 
     open fun getFlags() : Int {
         var flags = MediaBrowser.Flag.Interact or MediaBrowser.Flag.NoSlavesAutodetect

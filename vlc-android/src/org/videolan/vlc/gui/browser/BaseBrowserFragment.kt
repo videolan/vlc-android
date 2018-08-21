@@ -103,7 +103,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             requireActivity().intent = null
         }
         showHiddenFiles = Settings.getInstance(requireContext()).getBoolean("browser_show_hidden_files", false)
-        isRootDirectory = defineIsRoot()
+        launch(UI.immediate) { isRootDirectory = defineIsRoot() }
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
     }
 
@@ -115,7 +115,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         if (sortItem != null) sortItem.isVisible = !isRootDirectory
     }
 
-    protected open fun defineIsRoot() = mrl == null
+    protected open suspend fun defineIsRoot() = mrl == null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DirectoryBrowserBinding.inflate(inflater, container, false)
