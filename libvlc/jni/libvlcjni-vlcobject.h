@@ -93,6 +93,7 @@ enum vlcjni_exception
 {
     VLCJNI_EX_ILLEGAL_STATE,
     VLCJNI_EX_ILLEGAL_ARGUMENT,
+    VLCJNI_EX_RUNTIME,
     VLCJNI_EX_OUT_OF_MEMORY,
 };
 
@@ -111,6 +112,9 @@ static inline void throw_Exception(JNIEnv *env, enum vlcjni_exception type,
     {
         case VLCJNI_EX_ILLEGAL_STATE:
             clazz = fields.IllegalStateException.clazz;
+            break;
+        case VLCJNI_EX_RUNTIME:
+            clazz = fields.RuntimeException.clazz;
             break;
         case VLCJNI_EX_OUT_OF_MEMORY:
             clazz = fields.OutOfMemoryError.clazz;

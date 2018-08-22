@@ -145,6 +145,8 @@ int VLCJNI_OnLoad(JavaVM *vm, JNIEnv* env)
               "java/lang/IllegalStateException", true);
     GET_CLASS(fields.IllegalArgumentException.clazz,
               "java/lang/IllegalArgumentException", true);
+    GET_CLASS(fields.RuntimeException.clazz,
+              "java/lang/RuntimeException", true);
     GET_CLASS(fields.OutOfMemoryError.clazz,
               "java/lang/OutOfMemoryError", true);
     GET_CLASS(fields.String.clazz,
@@ -347,6 +349,7 @@ void VLCJNI_OnUnload(JavaVM *vm, JNIEnv *env)
 {
     (*env)->DeleteGlobalRef(env, fields.IllegalStateException.clazz);
     (*env)->DeleteGlobalRef(env, fields.IllegalArgumentException.clazz);
+    (*env)->DeleteGlobalRef(env, fields.RuntimeException.clazz);
     (*env)->DeleteGlobalRef(env, fields.OutOfMemoryError.clazz);
     (*env)->DeleteGlobalRef(env, fields.String.clazz);
     (*env)->DeleteGlobalRef(env, fields.VLCObject.clazz);
