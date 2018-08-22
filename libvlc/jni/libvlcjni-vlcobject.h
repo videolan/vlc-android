@@ -97,8 +97,15 @@ enum vlcjni_exception
 };
 
 static inline void throw_Exception(JNIEnv *env, enum vlcjni_exception type,
-                                   const char *p_error)
+                                   const char *fmt, ...)
 {
+    va_list args;
+    va_start(args, fmt);
+
+    char *error;
+    if (vasprintf(&error, fmt, args) == -1)
+        error = NULL;
+
     jclass clazz;
     switch (type)
     {
@@ -113,7 +120,10 @@ static inline void throw_Exception(JNIEnv *env, enum vlcjni_exception type,
             clazz = fields.IllegalArgumentException.clazz;
             break;
     }
-    (*env)->ThrowNew(env, clazz, p_error);
+    (*env)->ThrowNew(env, clazz, error ? error : fmt);
+
+    free(error);
+    va_end(args);
 }
 
 #endif // LIBVLCJNI_VLCOBJECT_H
