@@ -54,7 +54,7 @@ Java_org_videolan_libvlc_RendererDiscoverer_nativeNew(JNIEnv *env,
 
     if (!jname || !(p_name = (*env)->GetStringUTFChars(env, jname, 0)))
     {
-        throw_IllegalArgumentException(env, "jname invalid");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_ARGUMENT, "jname invalid");
         return;
     }
 
@@ -72,7 +72,7 @@ Java_org_videolan_libvlc_RendererDiscoverer_nativeNew(JNIEnv *env,
     if (!p_obj->u.p_rd)
     {
         VLCJniObject_release(env, thiz, p_obj);
-        throw_IllegalStateException(env, "can't create RendererDiscoverer instance");
+        throw_Exception(env, VLCJNI_EX_OUT_OF_MEMORY, "RendererDiscoverer");
         return;
     }
     VLCJniObject_attachEvents(p_obj, RendererDiscoverer_event_cb,

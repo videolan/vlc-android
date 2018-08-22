@@ -145,6 +145,8 @@ int VLCJNI_OnLoad(JavaVM *vm, JNIEnv* env)
               "java/lang/IllegalStateException", true);
     GET_CLASS(fields.IllegalArgumentException.clazz,
               "java/lang/IllegalArgumentException", true);
+    GET_CLASS(fields.OutOfMemoryError.clazz,
+              "java/lang/OutOfMemoryError", true);
     GET_CLASS(fields.String.clazz,
               "java/lang/String", true);
     GET_CLASS(fields.FileDescriptor.clazz,
@@ -345,6 +347,7 @@ void VLCJNI_OnUnload(JavaVM *vm, JNIEnv *env)
 {
     (*env)->DeleteGlobalRef(env, fields.IllegalStateException.clazz);
     (*env)->DeleteGlobalRef(env, fields.IllegalArgumentException.clazz);
+    (*env)->DeleteGlobalRef(env, fields.OutOfMemoryError.clazz);
     (*env)->DeleteGlobalRef(env, fields.String.clazz);
     (*env)->DeleteGlobalRef(env, fields.VLCObject.clazz);
     (*env)->DeleteGlobalRef(env, fields.Media.clazz);
@@ -422,7 +425,8 @@ error:
 
     if (!p_libvlc)
     {
-        throw_IllegalStateException(env, "can't create LibVLC instance");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_STATE,
+                        "can't create LibVLC instance");
         return;
     }
 
@@ -480,5 +484,5 @@ void Java_org_videolan_libvlc_LibVLC_nativeSetUserAgent(JNIEnv* env,
         (*env)->ReleaseStringUTFChars(env, jhttp, psz_http);
 
     if (!psz_name || !psz_http)
-        throw_IllegalArgumentException(env, "name or http invalid");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_ARGUMENT, "name or http invalid");
 }

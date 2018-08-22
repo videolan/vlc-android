@@ -226,7 +226,7 @@ Java_org_videolan_libvlc_Dialog_00024LoginDialog_nativePostLogin(
     if (!username
      || !(psz_username = (*env)->GetStringUTFChars(env, username, 0)))
     {
-        throw_IllegalArgumentException(env, "username invalid");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_ARGUMENT, "username invalid");
         return;
     }
 
@@ -234,7 +234,7 @@ Java_org_videolan_libvlc_Dialog_00024LoginDialog_nativePostLogin(
      || !(psz_password = (*env)->GetStringUTFChars(env, password, 0)))
     {
         (*env)->ReleaseStringUTFChars(env, username, psz_username);
-        throw_IllegalArgumentException(env, "password invalid");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_ARGUMENT, "password invalid");
         return;
     }
 

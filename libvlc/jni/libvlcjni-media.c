@@ -104,7 +104,9 @@ Media_nativeNewCommon(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
     {
         free(p_obj->p_sys);
         VLCJniObject_release(env, thiz, p_obj);
-        throw_IllegalStateException(env, "can't create Media instance");
+        throw_Exception(env,
+                        !p_obj->u.p_m ? VLCJNI_EX_ILLEGAL_STATE : VLCJNI_EX_OUT_OF_MEMORY,
+                        "can't create Media instance");
         return;
     }
 
@@ -125,7 +127,7 @@ Media_nativeNewFromCb(JNIEnv *env, jobject thiz, jobject libVlc, jstring jmrl,
 
     if (!jmrl || !(p_mrl = (*env)->GetStringUTFChars(env, jmrl, 0)))
     {
-        throw_IllegalArgumentException(env, "path or location invalid");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_ARGUMENT, "path or location invalid");
         return;
     }
 
@@ -173,7 +175,7 @@ Java_org_videolan_libvlc_Media_nativeNewFromFd(JNIEnv *env, jobject thiz,
     }
     if (fd == -1)
     {
-        throw_IllegalArgumentException(env, "fd invalid");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_ARGUMENT, "fd invalid");
         return;
     }
 
@@ -486,7 +488,7 @@ Java_org_videolan_libvlc_Media_nativeAddOption(JNIEnv *env, jobject thiz,
 
     if (!joption || !(p_option = (*env)->GetStringUTFChars(env, joption, 0)))
     {
-        throw_IllegalArgumentException(env, "option invalid");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_ARGUMENT, "option invalid");
         return;
     }
 
@@ -508,7 +510,7 @@ Java_org_videolan_libvlc_Media_nativeAddSlave(JNIEnv *env, jobject thiz,
 
     if (!juri || !(psz_uri = (*env)->GetStringUTFChars(env, juri, 0)))
     {
-        throw_IllegalArgumentException(env, "uri invalid");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_ARGUMENT, "uri invalid");
         return;
     }
 
@@ -516,7 +518,8 @@ Java_org_videolan_libvlc_Media_nativeAddSlave(JNIEnv *env, jobject thiz,
 
     (*env)->ReleaseStringUTFChars(env, juri, psz_uri);
     if (i_ret != 0)
-        throw_IllegalStateException(env, "can't add slaves to libvlc_media");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_ARGUMENT,
+                        "can't add slaves to libvlc_media");
 }
 
 void

@@ -30,7 +30,7 @@ Java_org_videolan_libvlc_MediaDiscoverer_nativeNew(JNIEnv *env,
 
     if (!jname || !(p_name = (*env)->GetStringUTFChars(env, jname, 0)))
     {
-        throw_IllegalArgumentException(env, "jname invalid");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_STATE, "jname invalid");
         return;
     }
 
@@ -48,7 +48,8 @@ Java_org_videolan_libvlc_MediaDiscoverer_nativeNew(JNIEnv *env,
     if (!p_obj->u.p_md)
     {
         VLCJniObject_release(env, thiz, p_obj);
-        throw_IllegalStateException(env, "can't create MediaDiscoverer instance");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_STATE,
+                        "can't create MediaDiscoverer instance");
         return;
     }
 }

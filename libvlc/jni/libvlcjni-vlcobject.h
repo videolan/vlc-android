@@ -89,14 +89,31 @@ void VLCJniObject_attachEvents(vlcjni_object *p_obj, event_cb pf_event_cb,
                                libvlc_event_manager_t *p_event_manager,
                                const int *p_events);
 
-static inline void throw_IllegalStateException(JNIEnv *env, const char *p_error)
+enum vlcjni_exception
 {
-    (*env)->ThrowNew(env, fields.IllegalStateException.clazz, p_error);
-}
+    VLCJNI_EX_ILLEGAL_STATE,
+    VLCJNI_EX_ILLEGAL_ARGUMENT,
+    VLCJNI_EX_OUT_OF_MEMORY,
+};
 
-static inline void throw_IllegalArgumentException(JNIEnv *env, const char *p_error)
+static inline void throw_Exception(JNIEnv *env, enum vlcjni_exception type,
+                                   const char *p_error)
 {
-    (*env)->ThrowNew(env, fields.IllegalArgumentException.clazz, p_error);
+    jclass clazz;
+    switch (type)
+    {
+        case VLCJNI_EX_ILLEGAL_STATE:
+            clazz = fields.IllegalStateException.clazz;
+            break;
+        case VLCJNI_EX_OUT_OF_MEMORY:
+            clazz = fields.OutOfMemoryError.clazz;
+            break;
+        case VLCJNI_EX_ILLEGAL_ARGUMENT:
+        default:
+            clazz = fields.IllegalArgumentException.clazz;
+            break;
+    }
+    (*env)->ThrowNew(env, clazz, p_error);
 }
 
 #endif // LIBVLCJNI_VLCOBJECT_H

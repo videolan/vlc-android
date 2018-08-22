@@ -51,7 +51,8 @@ VLCJniObject_getInstance(JNIEnv *env, jobject thiz)
 {
     vlcjni_object *p_obj = VLCJniObject_getInstanceInternal(env, thiz);
     if (!p_obj)
-        throw_IllegalStateException(env, "can't get VLCObject instance");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_STATE,
+                        "can't get VLCObject instance");
     return p_obj;
 }
 
@@ -71,6 +72,7 @@ VLCJniObject_newFromLibVlc(JNIEnv *env, jobject thiz,
     vlcjni_object *p_obj = NULL;
     libvlc_event_manager_t *ev;
     const char *p_error;
+    enum vlcjni_exception ex = VLCJNI_EX_OUT_OF_MEMORY;
 
     if (VLCJniObject_getInstanceInternal(env, thiz))
     {
@@ -110,6 +112,7 @@ VLCJniObject_newFromLibVlc(JNIEnv *env, jobject thiz,
             p_obj->p_owner->weak = (*env)->NewWeakGlobalRef(env, thiz);
         if (!p_obj->p_owner->weak && !p_obj->p_owner->weakCompat)
         {
+            ex = VLCJNI_EX_ILLEGAL_STATE;
             p_error = "No VLCObject weak reference";
             goto error;
         }
@@ -121,25 +124,25 @@ VLCJniObject_newFromLibVlc(JNIEnv *env, jobject thiz,
 error:
     if (p_obj)
         VLCJniObject_release(env, thiz, p_obj);
-    throw_IllegalStateException(env, p_error);
+    throw_Exception(env, ex, p_error);
     return NULL;
 }
 
 vlcjni_object *
 VLCJniObject_newFromJavaLibVlc(JNIEnv *env, jobject thiz, jobject libVlc)
 {
-    vlcjni_object *p_lib_obj = VLCJniObject_getInstance(env, libVlc);
+    vlcjni_object *p_lib_obj = VLCJniObject_getInstanceInternal(env, libVlc);
     if (!p_lib_obj)
     {
         const char *p_error = libVlc ? "Can't get mInstance from libVlc"
                                      : "libVlc is NULL";
-        throw_IllegalStateException(env, p_error);
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_STATE, p_error);
         return NULL;
     }
     if (p_lib_obj->p_libvlc || !p_lib_obj->u.p_libvlc)
     {
         /* The initial LibVLC object shouldn't have a parent libvlc */
-        throw_IllegalStateException(env, "Invalid LibVLC object");
+        throw_Exception(env, VLCJNI_EX_ILLEGAL_STATE, "Invalid LibVLC object");
         return NULL;
     }
     return VLCJniObject_newFromLibVlc(env, thiz, p_lib_obj->u.p_libvlc);
