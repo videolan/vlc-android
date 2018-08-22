@@ -76,8 +76,6 @@ public class VLCOptions {
         final String subtitlesEncoding = pref.getString("subtitle_text_encoding", "");
         final boolean frameSkip = pref.getBoolean("enable_frame_skip", false);
         String chroma = pref.getString("chroma_format", VLCApplication.getAppResources().getString(R.string.chroma_format_default));
-        if (chroma.equals("YV12"))
-            chroma = "";
         final boolean verboseMode = pref.getBoolean("enable_verbose_mode", true);
 
         int deblocking = -1;
