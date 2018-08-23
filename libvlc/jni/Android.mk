@@ -8,11 +8,13 @@ LOCAL_SRC_FILES += libvlcjni-mediaplayer.c
 LOCAL_SRC_FILES += libvlcjni-vlcobject.c
 LOCAL_SRC_FILES += libvlcjni-media.c libvlcjni-medialist.c libvlcjni-mediadiscoverer.c libvlcjni-rendererdiscoverer.c
 LOCAL_SRC_FILES += libvlcjni-dialog.c
+LOCAL_SRC_FILES += libvlcjni-glrenderer.c
 LOCAL_SRC_FILES += thumbnailer.c
 LOCAL_SRC_FILES += std_logger.c
 LOCAL_C_INCLUDES := $(VLC_SRC_DIR)/include $(VLC_BUILD_DIR)/include $(MEDIALIBRARY_JNI_DIR)
 LOCAL_CFLAGS := -std=c11
 LOCAL_LDLIBS := -llog
+LOCAL_LDLIBS += -lEGL -lGLESv2 #libvlcjni-glrenderer.c
 LOCAL_SHARED_LIBRARIES := libvlc
 include $(BUILD_SHARED_LIBRARY)
 

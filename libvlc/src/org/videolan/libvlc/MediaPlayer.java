@@ -430,6 +430,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
     private final AWindow mWindow = new AWindow(mSurfaceListener);
 
+    private GLRenderer mGLRenderer = null;
+
     private synchronized void updateAudioOutputDevice(long encodingFlags, String defaultDevice) {
         mCanDoPassthrough = encodingFlags != 0;
         final String newDeviceId = mAudioDigitalOutputEnabled && mCanDoPassthrough ? "encoded:" + encodingFlags : defaultDevice;
@@ -617,6 +619,16 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         return mVideoHelper != null ? mVideoHelper.getVideoScale() : ScaleType.SURFACE_BEST_FIT;
     }
 
+    public GLRenderer enableGLRenderer(int eglContextClientVersion) {
+        if (mWindow.areViewsAttached())
+            throw new IllegalArgumentException("can't work with views attached to IVLCVout");
+        if (mGLRenderer != null)
+            throw new IllegalArgumentException("GLRenderer already enabled");
+        mWindow.useGLRenderer();
+        mGLRenderer = new GLRenderer(eglContextClientVersion, this, mSurfaceListener);
+        return mGLRenderer;
+    }
+
     /**
      * Set a Media
      *
@@ -674,7 +686,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                 if (mListenAudioPlug)
                     registerAudioPlug(true);
                 mPlayRequested = true;
-                if (mWindow.areSurfacesWaiting())
+                if (mWindow.areSurfacesWaiting() || (mGLRenderer != null && !mGLRenderer.isValid()))
                     return;
             }
             mPlaying = true;
@@ -932,7 +944,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      */
     public boolean setVideoTrack(int index) {
         /* Don't activate a video track is surfaces are not ready */
-        if (index == -1 || (mWindow.areViewsAttached() && !mWindow.areSurfacesWaiting())) {
+        if (index == -1 || (mWindow.areViewsAttached() && !mWindow.areSurfacesWaiting())
+                || (mGLRenderer != null && mGLRenderer.isValid())) {
             return nativeSetVideoTrack(index);
         } else
             return false;
@@ -1248,6 +1261,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
     @Override
     protected void onReleaseNative() {
+        if (mGLRenderer != null)
+            mGLRenderer.release();
         mWindow.detachViews();
         registerAudioPlug(false);
 
