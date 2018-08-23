@@ -185,6 +185,8 @@ int VLCJNI_OnLoad(JavaVM *vm, JNIEnv* env)
               "org/videolan/libvlc/RendererDiscoverer$Description", true);
     GET_CLASS(fields.Dialog.clazz,
               "org/videolan/libvlc/Dialog", true);
+    GET_CLASS(fields.GLRenderer.clazz,
+              "org/videolan/libvlc/GLRenderer", true);
 
     GET_ID(GetFieldID,
            fields.VLCObject.mInstanceID,
@@ -194,6 +196,11 @@ int VLCJNI_OnLoad(JavaVM *vm, JNIEnv* env)
     GET_ID(GetFieldID,
            fields.MediaPlayer.Equalizer.mInstanceID,
            fields.MediaPlayer.Equalizer.clazz,
+           "mInstance", "J");
+
+    GET_ID(GetFieldID,
+           fields.GLRenderer.mInstanceID,
+           fields.GLRenderer.clazz,
            "mInstance", "J");
 
     GET_ID(GetMethodID,
@@ -338,6 +345,10 @@ int VLCJNI_OnLoad(JavaVM *vm, JNIEnv* env)
            fields.Dialog.clazz,
            "updateProgressFromNative",
            "(Lorg/videolan/libvlc/Dialog;FLjava/lang/String;)V");
+
+    jclass pointCLazz;
+    GET_CLASS(pointCLazz, "android/graphics/Point", false);
+    GET_ID(GetMethodID, fields.Point.setID, pointCLazz, "set", "(II)V");
 
 #undef GET_CLASS
 #undef GET_ID

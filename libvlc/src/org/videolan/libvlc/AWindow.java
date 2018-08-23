@@ -189,6 +189,7 @@ public class AWindow implements IVLCVout {
     private OnNewVideoLayoutListener mOnNewVideoLayoutListener = null;
     private ArrayList<IVLCVout.Callback> mIVLCVoutCallbacks = new ArrayList<IVLCVout.Callback>();
     private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private boolean mUseGLRenderer = false;
     /* synchronized Surfaces accessed by an other thread from JNI */
     private final Surface[] mSurfaces;
     private long mCallbackNativeHandle = 0;
@@ -215,6 +216,8 @@ public class AWindow implements IVLCVout {
     }
 
     private void ensureInitState() throws IllegalStateException {
+        if (mUseGLRenderer)
+            throw new IllegalStateException("Can't set view when using GL Renderer.");
         if (mSurfacesState.get() != SURFACE_STATE_INIT)
             throw new IllegalStateException("Can't set view when already attached. " +
                     "Current state: " + mSurfacesState.get() + ", " +
@@ -349,6 +352,11 @@ public class AWindow implements IVLCVout {
         if (mSurfaceCallback != null)
             mSurfaceCallback.onSurfaceDestroyed();
         mSurfaceTextureThread.release();
+    }
+
+    @MainThread
+    protected void useGLRenderer() {
+        mUseGLRenderer = true;
     }
 
     @Override

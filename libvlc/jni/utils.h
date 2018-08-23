@@ -114,6 +114,13 @@ struct fields {
         jmethodID cancelFromNativeID;
         jmethodID updateProgressFromNativeID;
     } Dialog;
+    struct {
+        jmethodID setID;
+    } Point;
+    struct {
+        jclass clazz;
+        jfieldID mInstanceID;
+    } GLRenderer;
 };
 
 extern struct fields fields;
