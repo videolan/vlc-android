@@ -35,6 +35,9 @@ struct fields {
     } IllegalArgumentException;
     struct {
         jclass clazz;
+    } RuntimeException;
+    struct {
+        jclass clazz;
     } OutOfMemoryError;
     struct {
         jclass clazz;
