@@ -90,25 +90,25 @@ public:
 
     void requestThumbnail( int64_t media_id );
 
-    void onMediaAdded( const std::vector<medialibrary::MediaPtr>& media );
-    void onMediaModified( const std::vector<medialibrary::MediaPtr>& media ) ;
-    void onMediaDeleted( const std::vector<int64_t>& ids ) ;
+    void onMediaAdded( std::vector<medialibrary::MediaPtr> media );
+    void onMediaModified( std::vector<medialibrary::MediaPtr> media ) ;
+    void onMediaDeleted( std::vector<int64_t> ids ) ;
 
-    void onArtistsAdded( const std::vector<medialibrary::ArtistPtr>& artists ) ;
-    void onArtistsModified( const std::vector<medialibrary::ArtistPtr>& artist );
-    void onArtistsDeleted( const std::vector<int64_t>& ids );
+    void onArtistsAdded( std::vector<medialibrary::ArtistPtr> artists ) ;
+    void onArtistsModified( std::vector<medialibrary::ArtistPtr> artist );
+    void onArtistsDeleted( std::vector<int64_t> ids );
 
-    void onAlbumsAdded( const std::vector<medialibrary::AlbumPtr>& albums );
-    void onAlbumsModified( const std::vector<medialibrary::AlbumPtr>& albums );
-    void onAlbumsDeleted( const std::vector<int64_t>& ids );
+    void onAlbumsAdded( std::vector<medialibrary::AlbumPtr> albums );
+    void onAlbumsModified( std::vector<medialibrary::AlbumPtr> albums );
+    void onAlbumsDeleted( std::vector<int64_t> ids );
 
-    void onPlaylistsAdded( const std::vector<medialibrary::PlaylistPtr>& playlists );
-    void onPlaylistsModified( const std::vector<medialibrary::PlaylistPtr>& playlist );
-    void onPlaylistsDeleted( const std::vector<int64_t>& ids );
+    void onPlaylistsAdded( std::vector<medialibrary::PlaylistPtr> playlists );
+    void onPlaylistsModified( std::vector<medialibrary::PlaylistPtr> playlist );
+    void onPlaylistsDeleted( std::vector<int64_t> ids );
 
-    void onGenresAdded( const std::vector<medialibrary::GenrePtr>& );
-    void onGenresModified( const std::vector<medialibrary::GenrePtr>& );
-    void onGenresDeleted( const std::vector<int64_t>& );
+    void onGenresAdded( std::vector<medialibrary::GenrePtr> );
+    void onGenresModified( std::vector<medialibrary::GenrePtr> );
+    void onGenresDeleted( std::vector<int64_t> );
 
     void onDiscoveryStarted( const std::string& entryPoint );
     void onDiscoveryProgress( const std::string& entryPoint );

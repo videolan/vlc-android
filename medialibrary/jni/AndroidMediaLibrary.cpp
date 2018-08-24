@@ -417,7 +417,7 @@ AndroidMediaLibrary::requestThumbnail( int64_t media_id )
 }
 
 void
-AndroidMediaLibrary::onMediaAdded( const std::vector<medialibrary::MediaPtr>& mediaList )
+AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList )
 {
     if (m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO || m_mediaAddedType & FLAG_MEDIA_ADDED_VIDEO
             || m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO_EMPTY) {
@@ -461,7 +461,7 @@ AndroidMediaLibrary::onMediaAdded( const std::vector<medialibrary::MediaPtr>& me
     }
 }
 
-void AndroidMediaLibrary::onMediaModified( const std::vector<medialibrary::MediaPtr>& mediaList )
+void AndroidMediaLibrary::onMediaModified( std::vector<medialibrary::MediaPtr> mediaList )
 {
     if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO || m_mediaUpdatedType & FLAG_MEDIA_UPDATED_VIDEO
             || m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO_EMPTY) {
@@ -504,12 +504,12 @@ void AndroidMediaLibrary::onMediaModified( const std::vector<medialibrary::Media
     }
 }
 
-void AndroidMediaLibrary::onMediaDeleted( const std::vector<int64_t>& ids )
+void AndroidMediaLibrary::onMediaDeleted( std::vector<int64_t> ids )
 {
 
 }
 
-void AndroidMediaLibrary::onArtistsAdded( const std::vector<medialibrary::ArtistPtr>& artists )
+void AndroidMediaLibrary::onArtistsAdded( std::vector<medialibrary::ArtistPtr> artists )
 {
     if (m_mediaAddedType & (FLAG_MEDIA_ADDED_AUDIO_EMPTY|FLAG_MEDIA_ADDED_AUDIO))
     {
@@ -519,7 +519,7 @@ void AndroidMediaLibrary::onArtistsAdded( const std::vector<medialibrary::Artist
     }
 }
 
-void AndroidMediaLibrary::onArtistsModified( const std::vector<medialibrary::ArtistPtr>& artist )
+void AndroidMediaLibrary::onArtistsModified( std::vector<medialibrary::ArtistPtr> artist )
 {
     if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO_EMPTY)
     {
@@ -532,12 +532,12 @@ void AndroidMediaLibrary::onArtistsModified( const std::vector<medialibrary::Art
     }
 }
 
-void AndroidMediaLibrary::onArtistsDeleted( const std::vector<int64_t>& ids )
+void AndroidMediaLibrary::onArtistsDeleted( std::vector<int64_t> ids )
 {
 
 }
 
-void AndroidMediaLibrary::onAlbumsAdded( const std::vector<medialibrary::AlbumPtr>& albums )
+void AndroidMediaLibrary::onAlbumsAdded( std::vector<medialibrary::AlbumPtr> albums )
 {
     if (m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO)
     {
@@ -550,7 +550,7 @@ void AndroidMediaLibrary::onAlbumsAdded( const std::vector<medialibrary::AlbumPt
     }
 }
 
-void AndroidMediaLibrary::onAlbumsModified( const std::vector<medialibrary::AlbumPtr>& albums )
+void AndroidMediaLibrary::onAlbumsModified( std::vector<medialibrary::AlbumPtr> albums )
 {
     if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
     {
@@ -563,34 +563,34 @@ void AndroidMediaLibrary::onAlbumsModified( const std::vector<medialibrary::Albu
     }
 }
 
-void AndroidMediaLibrary::onPlaylistsAdded( const std::vector<medialibrary::PlaylistPtr>& playlists )
+void AndroidMediaLibrary::onPlaylistsAdded( std::vector<medialibrary::PlaylistPtr> playlists )
 {
 
 }
 
-void AndroidMediaLibrary::onPlaylistsModified( const std::vector<medialibrary::PlaylistPtr>& playlist )
+void AndroidMediaLibrary::onPlaylistsModified( std::vector<medialibrary::PlaylistPtr> playlist )
 {
 
 }
 
-void AndroidMediaLibrary::onPlaylistsDeleted( const std::vector<int64_t>& ids )
+void AndroidMediaLibrary::onPlaylistsDeleted( std::vector<int64_t> ids )
 {
 
 }
 
-void AndroidMediaLibrary::onGenresAdded( const std::vector<medialibrary::GenrePtr>& )
+void AndroidMediaLibrary::onGenresAdded( std::vector<medialibrary::GenrePtr> )
 {
 }
 
-void AndroidMediaLibrary::onGenresModified( const std::vector<medialibrary::GenrePtr>& )
+void AndroidMediaLibrary::onGenresModified( std::vector<medialibrary::GenrePtr> )
 {
 }
 
-void AndroidMediaLibrary::onGenresDeleted( const std::vector<int64_t>& )
+void AndroidMediaLibrary::onGenresDeleted( std::vector<int64_t> )
 {
 }
 
-void AndroidMediaLibrary::onAlbumsDeleted( const std::vector<int64_t>& ids )
+void AndroidMediaLibrary::onAlbumsDeleted( std::vector<int64_t> ids )
 {
 
 }
