@@ -20,10 +20,19 @@
 
 #include <stdlib.h>
 #include <pthread.h>
+#include <unistd.h>
 
 #include "libvlcjni-vlcobject.h"
 
 #define META_MAX 25
+
+struct media_cb
+{
+    int fd;
+    uint64_t fd_offset;
+    uint64_t fd_length;
+    uint64_t offset;
+};
 
 struct vlcjni_object_sys
 {
@@ -31,6 +40,11 @@ struct vlcjni_object_sys
     pthread_cond_t  wait;
     bool b_parsing_sync;
     bool b_parsing_async;
+    struct {
+        int fd;
+        uint64_t offset;
+        uint64_t length;
+    } media_cb;
 };
 static const libvlc_event_type_t m_events[] = {
     libvlc_MediaMetaChanged,
@@ -95,7 +109,7 @@ Media_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
     return true;
 }
 
-static void
+static int
 Media_nativeNewCommon(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
 {
     p_obj->p_sys = calloc(1, sizeof(vlcjni_object_sys));
@@ -107,15 +121,17 @@ Media_nativeNewCommon(JNIEnv *env, jobject thiz, vlcjni_object *p_obj)
         throw_Exception(env,
                         !p_obj->u.p_m ? VLCJNI_EX_ILLEGAL_STATE : VLCJNI_EX_OUT_OF_MEMORY,
                         "can't create Media instance");
-        return;
+        return -1;
     }
 
     pthread_mutex_init(&p_obj->p_sys->lock, NULL);
     pthread_cond_init(&p_obj->p_sys->wait, NULL);
+    p_obj->p_sys->media_cb.fd = -1;
 
     VLCJniObject_attachEvents(p_obj, Media_event_cb,
                               libvlc_media_event_manager(p_obj->u.p_m),
                               m_events);
+    return 0;
 }
 
 static void
@@ -195,6 +211,105 @@ Java_org_videolan_libvlc_Media_nativeNewFromFd(JNIEnv *env, jobject thiz,
     p_obj->u.p_m = libvlc_media_new_fd(p_obj->p_libvlc, fd);
 
     Media_nativeNewCommon(env, thiz, p_obj);
+}
+
+static int
+media_cb_seek(void *opaque, uint64_t offset)
+{
+    struct media_cb *mcb = opaque;
+    if (lseek(mcb->fd, mcb->fd_offset + offset, SEEK_SET) == (off_t)-1)
+        return -1;
+    mcb->offset = offset;
+    return 0;
+}
+
+static int
+media_cb_open(void *opaque, void **datap, uint64_t *sizep)
+{
+    vlcjni_object *p_obj = opaque;
+    vlcjni_object_sys *p_sys = p_obj->p_sys;
+
+    struct media_cb *mcb = malloc(sizeof(*mcb));
+    if (!mcb)
+        return -1;
+
+    mcb->fd = dup(p_sys->media_cb.fd);
+    if (mcb->fd == -1)
+    {
+        free(mcb);
+        return -1;
+    }
+    mcb->fd_offset = p_sys->media_cb.offset;
+    mcb->fd_length = p_sys->media_cb.length;
+    mcb->offset = 0;
+
+    if (media_cb_seek(mcb, 0) != 0)
+    {
+        close(mcb->fd);
+        free(mcb);
+        return -1;
+    }
+
+    *sizep = p_sys->media_cb.length;
+    *datap = mcb;
+    return 0;
+}
+
+static ssize_t
+media_cb_read(void *opaque, unsigned char *buf, size_t len)
+{
+#define __MIN(a, b) ( ((a) < (b)) ? (a) : (b) )
+
+    struct media_cb *mcb = opaque;
+    len = __MIN(len, mcb->fd_length - mcb->offset);
+    if (len == 0)
+        return 0;
+
+    ssize_t ret = read(mcb->fd, buf, len);
+    if (ret > 0)
+        mcb->offset += ret;
+    return ret;
+
+#undef __MIN
+}
+
+static void
+media_cb_close(void *opaque)
+{
+    struct media_cb *mcb = opaque;
+    close(mcb->fd);
+    free(mcb);
+}
+
+void
+Java_org_videolan_libvlc_Media_nativeNewFromFdWithOffsetLength(
+    JNIEnv *env, jobject thiz, jobject libVlc, jobject jfd, jlong offset, jlong length)
+{
+    vlcjni_object *p_obj;
+    int fd = FDObject_getInt(env, jfd);
+    if (fd == -1)
+        return;
+
+    p_obj = VLCJniObject_newFromJavaLibVlc(env, thiz, libVlc);
+    if (!p_obj)
+        return;
+
+    p_obj->u.p_m =
+        libvlc_media_new_callbacks(p_obj->p_libvlc,
+                                   media_cb_open,
+                                   media_cb_read,
+                                   media_cb_seek,
+                                   media_cb_close,
+                                   p_obj);
+
+
+    if (Media_nativeNewCommon(env, thiz, p_obj) == 0)
+    {
+        vlcjni_object_sys *p_sys = p_obj->p_sys;
+        p_sys->media_cb.fd = fd;
+        p_sys->media_cb.offset = offset;
+        p_sys->media_cb.length = length >= 0 ? length : UINT64_MAX;
+    }
 }
 
 /* MediaList must be locked */

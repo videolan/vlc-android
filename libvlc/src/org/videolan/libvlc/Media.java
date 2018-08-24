@@ -20,6 +20,7 @@
 
 package org.videolan.libvlc;
 
+import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
@@ -458,6 +459,20 @@ public class Media extends VLCObject<Media.Event> {
     }
 
     /**
+     * Create a Media from libVLC and an AssetFileDescriptor
+     *
+     * @param libVLC a valid LibVLC
+     * @param afd asset file descriptor object
+     */
+    public Media(LibVLC libVLC, AssetFileDescriptor afd) {
+        super(libVLC);
+        long offset = afd.getStartOffset();
+        long length = afd.getLength();
+        nativeNewFromFdWithOffsetLength(libVLC, afd.getFileDescriptor(), offset, length);
+        mUri = VLCUtil.UriFromMrl(nativeGetMrl());
+    }
+
+    /**
      *
      * @param ml Should not be released and locked
      * @param index index of the Media from the MediaList
@@ -862,6 +877,7 @@ public class Media extends VLCObject<Media.Event> {
     private native void nativeNewFromPath(LibVLC libVLC, String path);
     private native void nativeNewFromLocation(LibVLC libVLC, String location);
     private native void nativeNewFromFd(LibVLC libVLC, FileDescriptor fd);
+    private native void nativeNewFromFdWithOffsetLength(LibVLC libVLC, FileDescriptor fd, long offset, long length);
     private native void nativeNewFromMediaList(MediaList ml, int index);
     private native void nativeRelease();
     private native boolean nativeParseAsync(int flags, int timeout);
