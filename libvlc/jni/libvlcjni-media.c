@@ -161,11 +161,9 @@ Java_org_videolan_libvlc_Media_nativeNewFromLocation(JNIEnv *env, jobject thiz,
                           libvlc_media_new_location);
 }
 
-void
-Java_org_videolan_libvlc_Media_nativeNewFromFd(JNIEnv *env, jobject thiz,
-                                               jobject libVlc, jobject jfd)
+static int
+FDObject_getInt(JNIEnv *env, jobject jfd)
 {
-    vlcjni_object *p_obj;
     int fd = (*env)->GetIntField(env, jfd, fields.FileDescriptor.descriptorID);
 
     if ((*env)->ExceptionOccurred(env))
@@ -176,8 +174,19 @@ Java_org_videolan_libvlc_Media_nativeNewFromFd(JNIEnv *env, jobject thiz,
     if (fd == -1)
     {
         throw_Exception(env, VLCJNI_EX_ILLEGAL_ARGUMENT, "fd invalid");
-        return;
+        return -1;
     }
+    return fd;
+}
+
+void
+Java_org_videolan_libvlc_Media_nativeNewFromFd(JNIEnv *env, jobject thiz,
+                                               jobject libVlc, jobject jfd)
+{
+    vlcjni_object *p_obj;
+    int fd = FDObject_getInt(env, jfd);
+    if (fd == -1)
+        return;
 
     p_obj = VLCJniObject_newFromJavaLibVlc(env, thiz, libVlc);
     if (!p_obj)
