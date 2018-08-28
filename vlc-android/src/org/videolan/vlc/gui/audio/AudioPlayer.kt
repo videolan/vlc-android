@@ -303,6 +303,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     }
 
     override fun playItem(position: Int, item: MediaWrapper) {
+        hideSearchField()
         service?.playIndex(playlistModel.getItemPosition(position, item))
     }
 
@@ -414,6 +415,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         binding.playlistSearch.visibility = View.GONE
         binding.playlistSearchText.visibility = View.VISIBLE
         binding.playlistSearchText.editText?.requestFocus()
+        if (binding.showCover) onPlaylistSwitchClick(binding.playlistSwitch)
         val imm = VLCApplication.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding.playlistSearchText.editText, InputMethodManager.SHOW_IMPLICIT)
         handler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS.toLong())
