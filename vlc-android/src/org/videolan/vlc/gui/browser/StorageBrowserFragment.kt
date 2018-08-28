@@ -55,7 +55,6 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.*
@@ -147,7 +146,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         if (isRootDirectory) {
             val storage = adapter.getItem(position) as Storage
             launch(UI.immediate) {
-                val isCustom = DirectoryRepository.getInstance(requireContext()).customDirectoryExists(storage.uri.path)
+                val isCustom = viewModel.customDirectoryExists(storage.uri.path)
                 if (isCustom) showContext(requireActivity(), this@StorageBrowserFragment, position, item.title, CTX_CUSTOM_REMOVE)
             }
         }
@@ -155,7 +154,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
 
     override fun onCtxAction(position: Int, option: Int) {
         val storage = adapter.getItem(position) as Storage
-        DirectoryRepository.getInstance(requireContext()).deleteCustomDirectory(storage.uri.path)
+        viewModel.deleteCustomDirectory(storage.uri.path)
         viewModel.remove(storage)
         (activity as AudioPlayerContainerActivity).updateLib()
     }
@@ -224,7 +223,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
             }
 
             launch(UI.immediate + CoroutineExceptionHandler{ _, _ ->}) {
-                DirectoryRepository.getInstance(requireContext()).addCustomDirectory(f.canonicalPath).join()
+                viewModel.addCustomDirectory(f.canonicalPath).join()
                 (activity as AudioPlayerContainerActivity).updateLib()
             }
         })
