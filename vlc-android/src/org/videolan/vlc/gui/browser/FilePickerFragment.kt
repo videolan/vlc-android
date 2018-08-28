@@ -31,8 +31,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
 import android.view.View
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.runBlocking
 
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -62,7 +61,6 @@ class FilePickerFragment : FileBrowserFragment() {
         }
         super.onCreate(bundle)
         adapter = FilePickerAdapter(this)
-        launch(UI.immediate) { isRootDirectory = defineIsRoot() }
     }
 
     override fun setupBrowser() {
@@ -111,17 +109,21 @@ class FilePickerFragment : FileBrowserFragment() {
         }
     }
 
-    override suspend fun defineIsRoot(): Boolean {
-        if (mrl == null) return true
-        if (mrl!!.startsWith("file")) {
-            val path = Strings.removeFileProtocole(mrl)
-            val rootDirectories = DirectoryRepository.getInstance(requireContext()).getMediaDirectories()
-            for (directory in rootDirectories) {
-                if (path.startsWith(directory))
-                    return false
-            }
-            return true
-        } else
-            return mrl!!.length < 7
+    override fun defineIsRoot(): Boolean {
+        // TODO: remove this after upgrade kotlin coroutine
+        System.setProperty("kotlinx.coroutines.blocking.checker", "disable")
+        return runBlocking {
+            if (mrl == null) return@runBlocking true
+            if (mrl!!.startsWith("file")) {
+                val path = Strings.removeFileProtocole(mrl)
+                val rootDirectories = DirectoryRepository.getInstance(requireContext()).getMediaDirectories()
+                for (directory in rootDirectories) {
+                    if (path.startsWith(directory))
+                        return@runBlocking false
+                }
+                return@runBlocking true
+            } else
+                return@runBlocking mrl!!.length < 7
+        }
     }
 }
