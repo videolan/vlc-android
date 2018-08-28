@@ -28,6 +28,7 @@ import android.net.Uri
 import android.preference.PreferenceManager
 import android.view.View
 import android.widget.CheckBox
+import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 
@@ -45,28 +46,32 @@ internal class StorageBrowserAdapter(fragment: BaseBrowserFragment) : BaseBrowse
 
     private var mediaDirsLocation: MutableList<String> = mutableListOf()
     private lateinit var customDirsLocation: List<String>
+    private var job : Job? = null
 
     init {
         updateMediaDirs(fragment.requireContext())
     }
 
     override fun onBindViewHolder(holder: BaseBrowserAdapter.ViewHolder<*>, position: Int) {
-        val vh = holder as BaseBrowserAdapter.MediaViewHolder
-        var storage = getItem(position)
+        launch(UI.immediate) {
+            val vh = holder as BaseBrowserAdapter.MediaViewHolder
+            var storage = getItem(position)
 
-        if (storage?.itemType == MediaLibraryItem.TYPE_MEDIA) storage = Storage((storage as MediaWrapper).uri)
-        var storagePath = (storage as Storage).uri.path
-        if (!storagePath.endsWith("/")) storagePath += "/"
-        val hasContextMenu = customDirsLocation.contains(storagePath)
-        val checked = (fragment as StorageBrowserFragment).mScannedDirectory || mediaDirsLocation.contains(storagePath)
-        vh.binding.setItem(storage)
-        vh.binding.hasContextMenu = hasContextMenu
-        when {
-            checked -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_CHECKED
-            hasDiscoveredChildren(storagePath) -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_PARTIAL
-            else -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_UNCHECKED
+            if (storage?.itemType == MediaLibraryItem.TYPE_MEDIA) storage = Storage((storage as MediaWrapper).uri)
+            var storagePath = (storage as Storage).uri.path
+            if (!storagePath.endsWith("/")) storagePath += "/"
+            job?.join()
+            val hasContextMenu = customDirsLocation.contains(storagePath)
+            val checked = (fragment as StorageBrowserFragment).mScannedDirectory || mediaDirsLocation.contains(storagePath)
+            vh.binding.setItem(storage)
+            vh.binding.hasContextMenu = hasContextMenu
+            when {
+                checked -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_CHECKED
+                hasDiscoveredChildren(storagePath) -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_PARTIAL
+                else -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_UNCHECKED
+            }
+            vh.binding.checkEnabled = !fragment.mScannedDirectory
         }
-        vh.binding.checkEnabled = !fragment.mScannedDirectory
     }
 
     private fun hasDiscoveredChildren(path: String): Boolean {
@@ -82,7 +87,7 @@ internal class StorageBrowserAdapter(fragment: BaseBrowserFragment) : BaseBrowse
             mediaDirsLocation.add(Uri.decode(if (it.startsWith("file://")) it.substring(7) else it))
         }
 
-        launch(UI.immediate) {
+        job = launch(UI.immediate) {
             customDirsLocation = DirectoryRepository.getInstance(context).getCustomDirectories().map { it.path }
         }
     }
