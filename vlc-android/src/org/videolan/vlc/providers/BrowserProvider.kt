@@ -89,7 +89,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         requestBrowsing(url)
         job = launch(UI.immediate) {
             for (media in browserChannel) addMedia(findMedia(media))
-            parseSubDirectories()
+            if (dataset.value.isNotEmpty()) parseSubDirectories()
+            else dataset.clear() // send observable event when folder is empty
         }
     }
 
