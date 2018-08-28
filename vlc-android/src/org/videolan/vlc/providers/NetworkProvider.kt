@@ -40,9 +40,8 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         favorites?.observeForever(this)
     }
 
-    override fun browseRoot(): Job? {
+    override fun browseRoot() {
         if (ExternalMonitor.allowLan()) browse()
-        return null
     }
 
     override fun fetch() {}
