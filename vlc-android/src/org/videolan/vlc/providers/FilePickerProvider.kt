@@ -39,6 +39,8 @@ class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem
     }
 
     override fun addMedia(media: MediaLibraryItem) {
-        if (media is MediaWrapper && media.type == MediaWrapper.TYPE_SUBTITLE) super.addMedia(media)
+        if (media is MediaWrapper && (media.type == MediaWrapper.TYPE_SUBTITLE || media.type == MediaWrapper.TYPE_DIR)) super.addMedia(media)
     }
+
+    override suspend fun parseSubDirectories() {}
 }
