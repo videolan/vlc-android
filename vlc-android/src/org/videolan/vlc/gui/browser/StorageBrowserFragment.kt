@@ -224,7 +224,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
 
             launch(UI.immediate + CoroutineExceptionHandler{ _, _ ->}) {
                 viewModel.addCustomDirectory(f.canonicalPath).join()
-                (activity as AudioPlayerContainerActivity).updateLib()
+                viewModel.browserRoot()
             }
         })
         mAlertDialog = builder.show()
