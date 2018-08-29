@@ -120,6 +120,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         super.onPrepareOptionsMenu(menu)
         menu?.findItem(R.id.ml_menu_custom_dir)?.isVisible = true
         menu?.findItem(R.id.ml_menu_equalizer)?.isVisible = false
+        menu?.findItem(R.id.ml_menu_refresh)?.isVisible = false
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
