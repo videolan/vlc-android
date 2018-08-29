@@ -22,10 +22,8 @@ import java.io.File
 
 class DirectoryRepository (private val customDirectoryDao: CustomDirectoryDao) {
 
-    fun addCustomDirectory(path: String): Job {
-        return launch(VLCIO) {
+    fun addCustomDirectory(path: String): Job = launch(VLCIO) {
             customDirectoryDao.insert(CustomDirectory(path))
-        }
     }
 
     suspend fun getCustomDirectories() = withContext(VLCIO) { customDirectoryDao.getAll() }
