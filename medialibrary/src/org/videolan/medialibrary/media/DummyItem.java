@@ -25,6 +25,11 @@ public class DummyItem extends MediaLibraryItem {
     }
 
     @Override
+    public int getTracksCount() {
+        return 1;
+    }
+
+    @Override
     public int getItemType() {
         return TYPE_DUMMY;
     }

@@ -6,6 +6,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import org.videolan.medialibrary.Medialibrary;
+
 public class Storage extends MediaLibraryItem {
 
     Uri uri;
@@ -13,7 +15,12 @@ public class Storage extends MediaLibraryItem {
 
     @Override
     public MediaWrapper[] getTracks() {
-        return new MediaWrapper[0];
+        return Medialibrary.EMPTY_COLLECTION;
+    }
+
+    @Override
+    public int getTracksCount() {
+        return 1;
     }
 
     @Override

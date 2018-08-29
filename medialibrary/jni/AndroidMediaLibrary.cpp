@@ -208,34 +208,88 @@ AndroidMediaLibrary::search(const std::string& query)
     return p_ml->search(query);
 }
 
-std::vector<medialibrary::MediaPtr>
-AndroidMediaLibrary::searchMedia(const std::string& query)
+medialibrary::Query<medialibrary::IMedia>
+AndroidMediaLibrary::searchMedia(const std::string& query, const medialibrary::QueryParameters* params)
 {
-    return p_ml->searchMedia(query)->all();
+    return p_ml->searchMedia(query, params);
 }
 
-std::vector<medialibrary::PlaylistPtr>
-AndroidMediaLibrary::searchPlaylists(const std::string& query)
+medialibrary::Query<medialibrary::IMedia>
+AndroidMediaLibrary::searchAudio(const std::string& query, const medialibrary::QueryParameters* params)
 {
-    return p_ml->searchPlaylists(query)->all();
+    return p_ml->searchAudio(query, params);
 }
 
-std::vector<medialibrary::AlbumPtr>
-AndroidMediaLibrary::searchAlbums(const std::string& query)
+medialibrary::Query<medialibrary::IMedia>
+AndroidMediaLibrary::searchVideo(const std::string& query, const medialibrary::QueryParameters* params)
 {
-    return p_ml->searchAlbums(query)->all();
+    return p_ml->searchVideo(query, params);
 }
 
-std::vector<medialibrary::GenrePtr>
-AndroidMediaLibrary::searchGenre(const std::string& query)
+medialibrary::Query<medialibrary::IMedia>
+AndroidMediaLibrary::searchFromAlbum( int64_t albumId, const std::string& query, const medialibrary::QueryParameters* params )
 {
-    return p_ml->searchGenre(query)->all();
+    auto album = p_ml->album(albumId);
+    return album == nullptr ? nullptr : album->searchTracks(query, params);
 }
 
-std::vector<medialibrary::ArtistPtr>
-AndroidMediaLibrary::searchArtists(const std::string& query)
+medialibrary::Query<medialibrary::IMedia>
+AndroidMediaLibrary::searchFromArtist( int64_t artistId, const std::string& query, const medialibrary::QueryParameters* params )
 {
-    return p_ml->searchArtists(query, true)->all();
+    auto artist = p_ml->artist(artistId);
+    return artist == nullptr ? nullptr : artist->searchTracks(query, params);
+}
+
+medialibrary::Query<medialibrary::IAlbum>
+AndroidMediaLibrary::searchAlbumsFromArtist( int64_t artistId, const std::string& query, const medialibrary::QueryParameters* params )
+{
+    auto artist = p_ml->artist(artistId);
+    return artist == nullptr ? nullptr : artist->searchAlbums(query, params);
+}
+
+medialibrary::Query<medialibrary::IMedia>
+AndroidMediaLibrary::searchFromGenre( int64_t genreId, const std::string& query, const medialibrary::QueryParameters* params )
+{
+    auto genre = p_ml->genre(genreId);
+    return genre == nullptr ? nullptr : genre->searchTracks(query, params);
+}
+
+medialibrary::Query<medialibrary::IAlbum>
+AndroidMediaLibrary::searchAlbumsFromGenre( int64_t genreId, const std::string& query, const medialibrary::QueryParameters* params )
+{
+    auto genre = p_ml->genre(genreId);
+    return genre == nullptr ? nullptr : genre->searchAlbums(query, params);
+}
+
+medialibrary::Query<medialibrary::IMedia>
+AndroidMediaLibrary::searchFromPLaylist( int64_t playlistId, const std::string& query, const medialibrary::QueryParameters* params )
+{
+    auto playlist = p_ml->playlist(playlistId);
+    return playlist == nullptr ? nullptr : playlist->searchMedia(query, params);
+}
+
+medialibrary::Query<medialibrary::IPlaylist>
+AndroidMediaLibrary::searchPlaylists(const std::string& query, const medialibrary::QueryParameters* params)
+{
+    return p_ml->searchPlaylists(query, params);
+}
+
+medialibrary::Query<medialibrary::IAlbum>
+AndroidMediaLibrary::searchAlbums(const std::string& query, const medialibrary::QueryParameters* params)
+{
+    return p_ml->searchAlbums(query, params);
+}
+
+medialibrary::Query<medialibrary::IGenre>
+AndroidMediaLibrary::searchGenre(const std::string& query, const medialibrary::QueryParameters* params)
+{
+    return p_ml->searchGenre(query, params);
+}
+
+medialibrary::Query<medialibrary::IArtist>
+AndroidMediaLibrary::searchArtists(const std::string& query, const medialibrary::QueryParameters* params)
+{
+    return p_ml->searchArtists(query, true, params);
 }
 
 medialibrary::MediaPtr
@@ -264,22 +318,22 @@ AndroidMediaLibrary::addStream(const std::string& mrl, const std::string& title)
     return media;
 }
 
-std::vector<medialibrary::MediaPtr>
+medialibrary::Query<medialibrary::IMedia>
 AndroidMediaLibrary::videoFiles( const medialibrary::QueryParameters* params )
 {
-    return p_ml->videoFiles(params)->all();
+    return p_ml->videoFiles(params);
 }
 
-std::vector<medialibrary::MediaPtr>
+medialibrary::Query<medialibrary::IMedia>
 AndroidMediaLibrary::audioFiles( const medialibrary::QueryParameters* params )
 {
-    return p_ml->audioFiles(params)->all();
+    return p_ml->audioFiles(params);
 }
 
-std::vector<medialibrary::AlbumPtr>
+medialibrary::Query<medialibrary::IAlbum>
 AndroidMediaLibrary::albums(const medialibrary::QueryParameters* params)
 {
-    return p_ml->albums(params)->all();
+    return p_ml->albums(params);
 }
 
 medialibrary::AlbumPtr
@@ -288,10 +342,10 @@ AndroidMediaLibrary::album(int64_t albumId)
     return p_ml->album(albumId);
 }
 
-std::vector<medialibrary::ArtistPtr>
+medialibrary::Query<medialibrary::IArtist>
 AndroidMediaLibrary::artists(bool includeAll, const medialibrary::QueryParameters* params)
 {
-    return p_ml->artists(includeAll, params)->all();
+    return p_ml->artists(includeAll, params);
 }
 
 medialibrary::ArtistPtr
@@ -300,10 +354,10 @@ AndroidMediaLibrary::artist(int64_t artistId)
     return p_ml->artist(artistId);
 }
 
-std::vector<medialibrary::GenrePtr>
+medialibrary::Query<medialibrary::IGenre>
 AndroidMediaLibrary::genres(const medialibrary::QueryParameters* params)
 {
-    return p_ml->genres(params)->all();
+    return p_ml->genres(params);
 }
 
 medialibrary::GenrePtr
@@ -312,10 +366,10 @@ AndroidMediaLibrary::genre(int64_t genreId)
     return p_ml->genre(genreId);
 }
 
-std::vector<medialibrary::PlaylistPtr>
+medialibrary::Query<medialibrary::IPlaylist>
 AndroidMediaLibrary::playlists(const medialibrary::QueryParameters* params)
 {
-    return p_ml->playlists(params)->all();
+    return p_ml->playlists(params);
 }
 
 medialibrary::PlaylistPtr
@@ -330,53 +384,53 @@ AndroidMediaLibrary::PlaylistCreate( const std::string &name )
     return p_ml->createPlaylist(name);
 }
 
-std::vector<medialibrary::MediaPtr>
+medialibrary::Query<medialibrary::IMedia>
 AndroidMediaLibrary::tracksFromAlbum( int64_t albumId, const medialibrary::QueryParameters* params )
 {
     auto album = p_ml->album(albumId);
-    return album == nullptr ? std::vector<medialibrary::MediaPtr>() : album->tracks(params)->all();
+    return album == nullptr ? nullptr : album->tracks(params);
 }
 
-std::vector<medialibrary::MediaPtr>
+medialibrary::Query<medialibrary::IMedia>
 AndroidMediaLibrary::mediaFromArtist( int64_t artistId, const medialibrary::QueryParameters* params )
 {
     auto artist = p_ml->artist(artistId);
-    return artist == nullptr ? std::vector<medialibrary::MediaPtr>() : artist->tracks(params)->all();
+    return artist == nullptr ? nullptr : artist->tracks(params);
 }
 
-std::vector<medialibrary::AlbumPtr>
+medialibrary::Query<medialibrary::IAlbum>
 AndroidMediaLibrary::albumsFromArtist( int64_t artistId, const medialibrary::QueryParameters* params )
 {
     auto artist = p_ml->artist(artistId);
-    return artist == nullptr ? std::vector<medialibrary::AlbumPtr>() : artist->albums(params)->all();
+    return artist == nullptr ? nullptr : artist->albums(params);
 }
 
-std::vector<medialibrary::MediaPtr>
+medialibrary::Query<medialibrary::IMedia>
 AndroidMediaLibrary::mediaFromGenre( int64_t genreId, const medialibrary::QueryParameters* params )
 {
     auto genre = p_ml->genre(genreId);
-    return genre == nullptr ? std::vector<medialibrary::MediaPtr>() : genre->tracks(params)->all();
+    return genre == nullptr ? nullptr : genre->tracks(params);
 }
 
-std::vector<medialibrary::AlbumPtr>
+medialibrary::Query<medialibrary::IAlbum>
 AndroidMediaLibrary::albumsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params )
 {
     auto genre = p_ml->genre(genreId);
-    return genre == nullptr ? std::vector<medialibrary::AlbumPtr>() : genre->albums(params)->all();
+    return genre == nullptr ? nullptr : genre->albums(params);
 }
 
-std::vector<medialibrary::ArtistPtr>
+medialibrary::Query<medialibrary::IArtist>
 AndroidMediaLibrary::artistsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params )
 {
     auto genre = p_ml->genre(genreId);
-    return genre == nullptr ? std::vector<medialibrary::ArtistPtr>() : genre->artists(params)->all();
+    return genre == nullptr ? nullptr : genre->artists(params);
 }
 
-std::vector<medialibrary::MediaPtr>
+medialibrary::Query<medialibrary::IMedia>
 AndroidMediaLibrary::mediaFromPlaylist( int64_t playlistId )
 {
     auto playlist =  p_ml->playlist(playlistId);
-    return playlist == nullptr ? std::vector<medialibrary::MediaPtr>() : playlist->media()->all();
+    return playlist == nullptr ? nullptr : playlist->media();
 }
 
 bool

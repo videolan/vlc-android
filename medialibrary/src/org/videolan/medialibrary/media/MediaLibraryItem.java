@@ -22,6 +22,7 @@ public abstract class MediaLibraryItem implements Parcelable {
 
 
     public abstract MediaWrapper[] getTracks();
+    public abstract int getTracksCount();
     public abstract int getItemType();
 
     long mId;

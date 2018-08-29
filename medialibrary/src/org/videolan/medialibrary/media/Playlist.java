@@ -18,7 +18,12 @@ public class Playlist extends MediaLibraryItem {
 
     public MediaWrapper[] getTracks() {
         Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetTracksFromPlaylist(ml, mId) : Medialibrary.EMPTY_COLLECTION;
+        return ml != null && ml.isInitiated() ? nativeGetTracks(ml, mId) : Medialibrary.EMPTY_COLLECTION;
+    }
+
+    public MediaWrapper[] getPagedTracks(int nbItems, int offset) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return ml != null && ml.isInitiated() ? nativeGetPagedTracks(ml, mId, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
     public int getTracksCount() {
@@ -70,6 +75,16 @@ public class Playlist extends MediaLibraryItem {
         return ml != null && ml.isInitiated() && nativePlaylistDelete(ml, mId);
     }
 
+    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return ml != null && ml.isInitiated() ? nativeSearch(ml, mId, query, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
+    }
+
+    public int searchTracksCount(String query) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return ml != null && ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
+    }
+
     public static Parcelable.Creator<Playlist> CREATOR
             = new Parcelable.Creator<Playlist>() {
         public Playlist createFromParcel(Parcel in) {
@@ -92,7 +107,10 @@ public class Playlist extends MediaLibraryItem {
         this.mTracksCount = in.readInt();
     }
 
-    private native MediaWrapper[] nativeGetTracksFromPlaylist(Medialibrary ml, long id);
+    private native MediaWrapper[] nativeGetTracks(Medialibrary ml, long id);
+    private native MediaWrapper[] nativeGetPagedTracks(Medialibrary ml, long id, int nbItems, int offset);
+    private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int sort, boolean desc, int nbItems, int offset);
+    private native int nativeGetSearchCount(Medialibrary ml, long mId, String query);
     private native boolean nativePlaylistAppend(Medialibrary ml, long id, long mediaId);
     private native boolean nativePlaylistAppendGroup(Medialibrary ml, long id, long[] mediaIds);
     private native boolean nativePlaylistAdd(Medialibrary ml, long id, long mediaId, int position);

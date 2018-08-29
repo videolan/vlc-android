@@ -309,6 +309,11 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     }
 
     @Override
+    public int getTracksCount() {
+        return 1;
+    }
+
+    @Override
     public int getItemType() {
         return TYPE_MEDIA;
     }
