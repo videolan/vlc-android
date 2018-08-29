@@ -73,6 +73,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         when {
             url === null -> launch(UI) {
                 browseRoot()
+                job?.join()
                 parseSubDirectories()
             }
             prefetchList?.isEmpty() == false -> launch(UI) {

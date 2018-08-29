@@ -24,14 +24,12 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.support.annotation.MainThread
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.CoroutineStart
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.providers.*
+import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.viewmodels.BaseModel
 
 const val TYPE_FILE = 0
@@ -74,6 +72,14 @@ open class BrowserModel(context: Context, val url: String?, type: Int, showHidde
     override fun onCleared() {
         provider.release()
     }
+
+    fun addCustomDirectory(path: String) = DirectoryRepository.getInstance(context).addCustomDirectory(path)
+
+    fun deleteCustomDirectory(path: String) = DirectoryRepository.getInstance(context).deleteCustomDirectory(path)
+
+    suspend fun customDirectoryExists(path: String) = DirectoryRepository.getInstance(context).customDirectoryExists(path)
+
+    suspend fun getMediaDirectories() = DirectoryRepository.getInstance(context).getMediaDirectories()
 
     class Factory(val context: Context, val url: String?, private val type: Int,  private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
