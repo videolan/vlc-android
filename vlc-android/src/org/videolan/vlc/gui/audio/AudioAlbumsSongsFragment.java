@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.audio;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,9 +50,9 @@ import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.viewmodels.audio.AlbumModel;
-import org.videolan.vlc.viewmodels.audio.AudioModel;
-import org.videolan.vlc.viewmodels.audio.TracksModel;
+import org.videolan.vlc.viewmodels.paged.MLPagedModel;
+import org.videolan.vlc.viewmodels.paged.PagedAlbumsModel;
+import org.videolan.vlc.viewmodels.paged.PagedTracksModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,14 +62,14 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     private final static String TAG = "VLC/AudioAlbumsSongsFragment";
 
     protected Handler mHandler = new Handler(Looper.getMainLooper());
-    private AlbumModel albumModel;
-    private TracksModel tracksModel;
+    private PagedAlbumsModel albumModel;
+    private PagedTracksModel tracksModel;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ViewPager mViewPager;
     TabLayout mTabLayout;
     private RecyclerView[] mLists;
-    private AudioModel[] audioModels;
+    private MLPagedModel<MediaLibraryItem>[] audioModels;
     private AudioBrowserAdapter mSongsAdapter;
     private AudioBrowserAdapter mAlbumsAdapter;
     private FastScroller mFastScroller;
@@ -90,9 +91,9 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         mItem = (MediaLibraryItem) (savedInstanceState != null ?
                             savedInstanceState.getParcelable(AudioBrowserFragment.TAG_ITEM) :
                             getArguments().getParcelable(AudioBrowserFragment.TAG_ITEM));
-        albumModel = ViewModelProviders.of(this, new AlbumModel.Factory(requireContext(), mItem)).get(AlbumModel.class);
-        tracksModel = ViewModelProviders.of(this, new TracksModel.Factory(requireContext(), mItem)).get(TracksModel.class);
-        audioModels = new AudioModel[] {albumModel, tracksModel};
+        albumModel = ViewModelProviders.of(this, new PagedAlbumsModel.Factory(requireContext(), mItem)).get(PagedAlbumsModel.class);
+        tracksModel = ViewModelProviders.of(this, new PagedTracksModel.Factory(requireContext(), mItem)).get(PagedTracksModel.class);
+        audioModels = new MLPagedModel[] {albumModel, tracksModel};
     }
 
     @Override
@@ -101,7 +102,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     }
 
     @Override
-    public AudioModel getViewModel() {
+    public MLPagedModel<MediaLibraryItem> getViewModel() {
         return audioModels[mViewPager.getCurrentItem()];
     }
 
@@ -116,8 +117,8 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
         mLists = new RecyclerView[]{albumsList, songsList};
         final String[] titles = new String[] {getString(R.string.albums), getString(R.string.songs)};
-        mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this);
-        mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this);
+        mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, albumModel.getSort());
+        mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, tracksModel.getSort());
         mAdapters = new AudioBrowserAdapter[]{mAlbumsAdapter, mSongsAdapter};
 
         songsList.setAdapter(mSongsAdapter);
@@ -149,16 +150,16 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         }
         mFabPlay.setImageResource(R.drawable.ic_fab_play);
         mTabLayout.addOnTabSelectedListener(this);
-        albumModel.getSections().observe(this, new Observer<List<MediaLibraryItem>>() {
+        ((MLPagedModel)albumModel).getPagedList().observe(this, new Observer<PagedList<MediaLibraryItem>>() {
             @Override
-            public void onChanged(@Nullable List<MediaLibraryItem> albums) {
-                if (albums != null) mAlbumsAdapter.update(albums);
+            public void onChanged(@Nullable PagedList<MediaLibraryItem> albums) {
+                if (albums != null) mAlbumsAdapter.submitList(albums);
             }
         });
-        tracksModel.getSections().observe(this, new Observer<List<MediaLibraryItem>>() {
+        ((MLPagedModel)tracksModel).getPagedList().observe(this, new Observer<PagedList<MediaLibraryItem>>() {
             @Override
-            public void onChanged(@Nullable List<MediaLibraryItem> tracks) {
-                if (tracks != null) mSongsAdapter.update(tracks);
+            public void onChanged(@Nullable PagedList<MediaLibraryItem> tracks) {
+                if (tracks != null) mSongsAdapter.submitList(tracks);
             }
         });
     }
@@ -185,9 +186,9 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         super.onUpdateFinished(adapter);
-        mFastScroller.setRecyclerView(getCurrentRV());
+        mFastScroller.setRecyclerView(getCurrentRV(), getViewModel().getTotalCount());
         mSwipeRefreshLayout.setRefreshing(false);
-        if (mAlbumsAdapter.isEmpty()) mViewPager.setCurrentItem(1);
+        if (mAlbumsAdapter.isEmpty() && !getViewModel().isFiltering()) mViewPager.setCurrentItem(1);
     }
 
     /*
@@ -225,13 +226,15 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         final FragmentActivity activity = getActivity();
         if (activity == null) return;
         activity.invalidateOptionsMenu();
-        mFastScroller.setRecyclerView(mLists[tab.getPosition()]);
+        mFastScroller.setRecyclerView(mLists[tab.getPosition()], getViewModel().getTotalCount());
     }
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
         stopActionMode();
         onDestroyActionMode((AudioBrowserAdapter) mLists[tab.getPosition()].getAdapter());
+        mActivity.closeSearchView();
+        audioModels[tab.getPosition()].restore();
     }
 
     @Override

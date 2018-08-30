@@ -8,7 +8,7 @@ import org.videolan.medialibrary.interfaces.MediaAddedCb
 import org.videolan.medialibrary.interfaces.MediaUpdatedCb
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
-import org.videolan.vlc.viewmodels.BaseModel
+import org.videolan.vlc.viewmodels.SortableModel
 
 object ModelsHelper {
 
@@ -93,6 +93,55 @@ object ModelsHelper {
         return array
     }
 
+    fun getHeader(sort: Int, item: MediaLibraryItem, aboveItem: MediaLibraryItem?) : String? {
+        when (sort) {
+            Medialibrary.SORT_DEFAULT,
+            Medialibrary.SORT_FILENAME,
+            Medialibrary.SORT_ALPHA -> {
+                val letter = if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || ModelsHelper.isSpecialItem(item)) "#" else item.title.substring(0, 1).toUpperCase()
+                return if (aboveItem == null) letter
+                else {
+                    val previous = if (aboveItem.title.isEmpty() || !Character.isLetter(aboveItem.title[0]) || ModelsHelper.isSpecialItem(aboveItem)) "#" else aboveItem.title.substring(0, 1).toUpperCase()
+                    if (letter != previous) letter else null
+                }
+            }
+            Medialibrary.SORT_DURATION -> {
+                val length = getLength(item)
+                val lengthCategory = lengthToCategory(length)
+                return if (aboveItem == null) lengthCategory
+                else {
+                    val previous = lengthToCategory(getLength(aboveItem))
+                    if (lengthCategory != previous) lengthCategory else null
+                }
+            }
+            Medialibrary.SORT_RELEASEDATE -> {
+                val year = getYear(item)
+                return if (aboveItem == null) year
+                else {
+                    val previous = getYear(aboveItem)
+                    if (year != previous) year else null
+                }
+            }
+            Medialibrary.SORT_ARTIST -> {
+                val artist = (item as MediaWrapper).artist ?: ""
+                return if (aboveItem == null) artist
+                else {
+                    val previous = (aboveItem as MediaWrapper).artist ?: ""
+                    if (artist != previous) artist else null
+                }
+            }
+            Medialibrary.SORT_ALBUM -> {
+                val album = (item as MediaWrapper).album ?: ""
+                return if (aboveItem == null) album
+                else {
+                    val previous = (aboveItem as MediaWrapper).album ?: ""
+                    if (album != previous) album else null
+                }
+            }
+        }
+        return null
+    }
+
     private fun isSpecialItem(item: MediaLibraryItem) = item.itemType == MediaLibraryItem.TYPE_ARTIST
             && (item.id == 1L || item.id == 2L) || item.itemType == MediaLibraryItem.TYPE_ALBUM
             && item.title == Album.SpecialRes.UNKNOWN_ALBUM
@@ -158,7 +207,7 @@ interface RefreshModel {
     fun refresh() : Boolean
 }
 
-fun <T : MediaLibraryItem> BaseModel<T>.canSortBy(sort: Int) = when(sort) {
+fun SortableModel.canSortBy(sort: Int) = when(sort) {
     Medialibrary.SORT_DEFAULT -> true
     Medialibrary.SORT_ALPHA -> canSortByName()
     Medialibrary.SORT_FILENAME -> canSortByFileNameName()

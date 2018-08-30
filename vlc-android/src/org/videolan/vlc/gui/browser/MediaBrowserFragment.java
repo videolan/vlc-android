@@ -61,11 +61,11 @@ import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.WorkersKt;
-import org.videolan.vlc.viewmodels.BaseModel;
+import org.videolan.vlc.viewmodels.SortableModel;
 
 import java.util.LinkedList;
 
-public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment implements android.support.v7.view.ActionMode.Callback, Filterable {
+public abstract class MediaBrowserFragment<T extends SortableModel> extends Fragment implements android.support.v7.view.ActionMode.Callback, Filterable {
 
     public final static String TAG = "VLC/MediaBrowserFragment";
 
@@ -249,12 +249,12 @@ public abstract class MediaBrowserFragment<T extends BaseModel> extends Fragment
     }
 
     protected void sortBy(int sort) {
-        final T provider = getViewModel();
-        provider.sort(sort);
-        final String key = provider.getKey();
+        final T model = getViewModel();
+        model.sort(sort);
+        final String key = model.getKey();
         Settings.INSTANCE.getInstance(requireContext()).edit()
                 .putInt(key, sort)
-                .putBoolean(key+"_desc", provider.getDesc())
+                .putBoolean(key+"_desc", model.getDesc())
                 .apply();
     }
 

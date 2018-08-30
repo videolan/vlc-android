@@ -204,6 +204,7 @@ task generateSources (type: Jar) {
 }
 
 dependencies {
+    def paging_version = "1.0.0"
     implementation project(':libvlc')
     implementation project(':medialibrary')
     implementation project(':api')
@@ -227,6 +228,7 @@ dependencies {
     kapt "android.arch.lifecycle:compiler:$rootProject.ext.archVersion"
     implementation "android.arch.persistence.room:runtime:$rootProject.ext.roomVersion"
     kapt "android.arch.persistence.room:compiler:$rootProject.ext.roomVersion"
+    implementation "android.arch.paging:runtime:$paging_version"
 
     implementation project(':tools')
     // Test
@@ -241,7 +243,6 @@ dependencies {
     testImplementation "org.mockito:mockito-core:$rootProject.ext.mockito"
     testImplementation "org.powermock:powermock-api-mockito2:$rootProject.ext.powerMock"
     testImplementation "org.powermock:powermock-module-junit4:$rootProject.ext.powerMock"
-
 }
 
 static def buildTime() {

@@ -84,7 +84,7 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.LocalePair;
-import org.videolan.vlc.viewmodels.BaseModel;
+import org.videolan.vlc.viewmodels.SortableModel;
 
 import java.util.List;
 import java.util.Locale;
@@ -330,7 +330,7 @@ public class UiTools {
     public static void updateSortTitles(MediaBrowserFragment sortable) {
         final Menu menu = sortable.getMenu();
         if (menu == null) return;
-        final BaseModel model = sortable.getViewModel();
+        final SortableModel model = sortable.getViewModel();
         final int sort = model.getSort();
         final boolean desc = model.getDesc();
         MenuItem item = menu.findItem(R.id.ml_menu_sortby_name);

@@ -23,48 +23,62 @@
 
 package org.videolan.vlc.gui.audio;
 
+import android.annotation.TargetApi;
+import android.arch.paging.PagedList;
+import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.support.annotation.MainThread;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.util.DiffUtil;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
-import org.videolan.vlc.gui.DiffUtilAdapter;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IEventsHandler;
+import org.videolan.vlc.util.ModelsHelper;
 import org.videolan.vlc.util.Util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_PLAYLIST;
 
-public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> {
+public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
+    private static final int UPDATE_PAYLOAD = 1;
 
-    private List<MediaLibraryItem> mOriginalDataSet;
     private final IEventsHandler mIEventsHandler;
     private final int mType;
     private final BitmapDrawable mDefaultCover;
     private int mSelectionCount = 0;
+    private int mSort = Medialibrary.SORT_DEFAULT;
 
-    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler) {
+    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, int sort) {
+        super(DIFF_CALLBACK);
         mIEventsHandler = eventsHandler;
         mType = type;
         mDefaultCover = getIconDrawable();
+        mSort = sort;
+    }
+
+    void setSort(int sort) {
+        mSort = sort;
     }
 
     @Override
@@ -83,10 +97,13 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (position >= getDataset().size()) return;
-        holder.binding.setVariable(BR.item, getDataset().get(position));
+        if (position >= getItemCount()) return;
+        final MediaLibraryItem item = getItem(position);
+        if (item == null) return;
+        holder.binding.setVariable(BR.item, getItem(position));
         if (holder.getType() == MediaLibraryItem.TYPE_MEDIA) {
-            final boolean isSelected = getDataset().get(position).hasStateFlags(FLAG_SELECTED);
+            setHeader(holder, position, item);
+            final boolean isSelected = item != null && item.hasStateFlags(FLAG_SELECTED);
             ((MediaItemViewHolder)holder).setCoverlay(isSelected);
             holder.selectView(isSelected);
         }
@@ -96,12 +113,25 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
     public void onBindViewHolder(ViewHolder holder, int position, List<Object> payloads) {
         if (Util.isListEmpty(payloads)) onBindViewHolder(holder, position);
         else {
-            final boolean isSelected = ((MediaLibraryItem)payloads.get(0)).hasStateFlags(FLAG_SELECTED);
-            final MediaItemViewHolder miv = (MediaItemViewHolder) holder;
-            miv.setCoverlay(isSelected);
-            miv.selectView(isSelected);
+            final Object payload = payloads.get(0);
+            if (payload instanceof MediaLibraryItem) {
+                final boolean isSelected = ((MediaLibraryItem)payload).hasStateFlags(FLAG_SELECTED);
+                final MediaItemViewHolder miv = (MediaItemViewHolder) holder;
+                miv.setCoverlay(isSelected);
+                miv.selectView(isSelected);
+            } else if (payload instanceof Integer && ((Integer) payload).intValue() == UPDATE_PAYLOAD) {
+                final MediaLibraryItem item = getItem(position);
+                if (item == null) return;
+                setHeader(holder, position, item);
+            }
         }
 
+    }
+
+    private void setHeader(ViewHolder holder, int position, MediaLibraryItem item) {
+        if (mSort == -1) return;
+        final MediaLibraryItem aboveItem = position > 0 ? getItem(position-1) : null;
+        holder.binding.setVariable(BR.header, ModelsHelper.INSTANCE.getHeader(mSort, item, aboveItem));
     }
 
     @Override
@@ -109,71 +139,68 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
         if (mDefaultCover != null) holder.binding.setVariable(BR.cover, mDefaultCover);
     }
 
-    @Override
-    public int getItemCount() {
-        return getDataset().size();
-    }
-
-    public MediaLibraryItem getItem(int position) {
-        return isPositionValid(position) ? getDataset().get(position) : null;
-    }
-
     private boolean isPositionValid(int position) {
-        return position >= 0 && position < getDataset().size();
+        return position >= 0 && position < getItemCount();
+    }
+
+    public boolean isEmpty() {
+        final PagedList<MediaLibraryItem> currentList = getCurrentList();
+        return currentList == null || currentList.isEmpty();
     }
 
     public List<MediaLibraryItem> getAll() {
-        return getDataset();
+        return getCurrentList();
     }
 
     List<MediaLibraryItem> getMediaItems() {
         final List<MediaLibraryItem> list = new ArrayList<>();
-        for (MediaLibraryItem item : getDataset()) if (!(item.getItemType() == MediaLibraryItem.TYPE_DUMMY)) list.add(item);
+        final PagedList<MediaLibraryItem> currentList = getCurrentList();
+        if (currentList != null) for (MediaLibraryItem item : currentList) if (!(item.getItemType() == MediaLibraryItem.TYPE_DUMMY)) list.add(item);
         return list;
     }
 
     int getListWithPosition(List<MediaLibraryItem> list, int position) {
         int offset = 0, count = getItemCount();
         for (int i = 0; i < count; ++i)
-            if (getDataset().get(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) {
+            if (getItem(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) {
                 if (i < position)
                     ++offset;
             } else
-                list.add(getDataset().get(i));
+                list.add(getItem(i));
         return position-offset;
     }
 
     @Override
     public long getItemId(int position) {
-        return isPositionValid(position) ? getDataset().get(position).getId() : -1;
+        return isPositionValid(position) ? getItem(position).getId() : -1;
+    }
+
+    @Nullable
+    @Override
+    public MediaLibraryItem getItem(int position) {
+        return super.getItem(position);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return getItem(position).getItemType();
+        final MediaLibraryItem item = getItem(position);
+        return item != null ? item.getItemType() : MediaLibraryItem.TYPE_MEDIA;
     }
 
     public void clear() {
-        getDataset().clear();
-        mOriginalDataSet = null;
-    }
-
-    public void restoreList() {
-        if (mOriginalDataSet != null) {
-            update(new ArrayList<>(mOriginalDataSet));
-            mOriginalDataSet = null;
-        }
+//        getDataset().clear();
     }
 
     @Override
-    protected void onUpdateFinished() {
+    public void onCurrentListChanged(@Nullable PagedList<MediaLibraryItem> currentList) {
         mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
     }
 
     @MainThread
     public List<MediaLibraryItem> getSelection() {
         final List<MediaLibraryItem> selection = new LinkedList<>();
-        for (MediaLibraryItem item : getDataset()) if (item.hasStateFlags(FLAG_SELECTED)) selection.add(item);
+        final PagedList<MediaLibraryItem> currentList = getCurrentList();
+        if (currentList != null) for (MediaLibraryItem item : currentList) if (item.hasStateFlags(FLAG_SELECTED)) selection.add(item);
         return selection;
     }
 
@@ -220,6 +247,7 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
     public class MediaItemViewHolder extends ViewHolder<AudioBrowserItemBinding> implements View.OnFocusChangeListener {
         int coverlayResource = 0;
 
+        @TargetApi(Build.VERSION_CODES.M)
         MediaItemViewHolder(AudioBrowserItemBinding binding) {
             super(binding);
             binding.setHolder(this);
@@ -236,20 +264,20 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
         public void onClick(View v) {
             if (mIEventsHandler != null) {
                 int position = getLayoutPosition();
-                mIEventsHandler.onClick(v, position, getDataset().get(position));
+                mIEventsHandler.onClick(v, position, getItem(position));
             }
         }
 
         public void onMoreClick(View v) {
             if (mIEventsHandler != null) {
                 int position = getLayoutPosition();
-                mIEventsHandler.onCtxClick(v, position, getDataset().get(position));
+                mIEventsHandler.onCtxClick(v, position, getItem(position));
             }
         }
 
         public boolean onLongClick(View view) {
             int position = getLayoutPosition();
-            return mIEventsHandler.onLongClick(view, position, getDataset().get(position));
+            return mIEventsHandler.onLongClick(view, position, getItem(position));
         }
 
         private void setCoverlay(boolean selected) {
@@ -269,4 +297,24 @@ public class AudioBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, Audio
             return getItem(getLayoutPosition()).hasStateFlags(FLAG_SELECTED);
         }
     }
+    public static final DiffUtil.ItemCallback<MediaLibraryItem> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<MediaLibraryItem>() {
+                @Override
+                public boolean areItemsTheSame(
+                        @NonNull MediaLibraryItem oldMedia, @NonNull MediaLibraryItem newMedia) {
+                    return oldMedia == newMedia || (oldMedia.getItemType() == newMedia.getItemType() && oldMedia.equals(newMedia));
+                }
+
+                @Override
+                public boolean areContentsTheSame(
+                        @NonNull MediaLibraryItem oldMedia, @NonNull MediaLibraryItem newMedia) {
+                    return false;
+                }
+
+                @Override
+                public Object getChangePayload(MediaLibraryItem oldItem, MediaLibraryItem newItem) {
+                    return UPDATE_PAYLOAD;
+                }
+            };
+
 }

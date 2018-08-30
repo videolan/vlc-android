@@ -34,7 +34,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -45,7 +44,7 @@ import android.widget.TextView;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.DiffUtilAdapter;
+import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.TreeMap;
@@ -153,22 +152,21 @@ public class FastScroller extends LinearLayout {
         bubble.setY(getValueInRange(0, mHeight - bubbleHeight, (int) ((mHeight - bubbleHeight) * position) - handleHeight));
     }
 
-    public void setRecyclerView(RecyclerView recyclerView) {
+    public void setRecyclerView(RecyclerView recyclerView, int count) {
         if (mRecyclerView != null) mRecyclerView.removeOnScrollListener(scrollListener);
         setVisibility(INVISIBLE);
-        mItemCount = recyclerView.getAdapter().getItemCount();
+        mItemCount = count;
         this.mRecyclerView = recyclerView;
         mRecyclerviewTotalHeight = 0;
-        prepareSectionsMap();
+//        prepareSectionsMap();
         recyclerView.addOnScrollListener(scrollListener);
         mShowBubble = !sections.isEmpty();
     }
 
     private void prepareSectionsMap() {
         sections.clear();
-        final DiffUtilAdapter adapter = (DiffUtilAdapter) mRecyclerView.getAdapter();
-        final int count = adapter.getItemCount();
-        for (int i = 0; i < count; ++i) {
+        final AudioBrowserAdapter adapter = (AudioBrowserAdapter) mRecyclerView.getAdapter();
+        for (int i = 0; i < mItemCount; ++i) {
             if (adapter.getItemViewType(i) == MediaLibraryItem.TYPE_DUMMY)
                 sections.put(i, ((MediaLibraryItem) adapter.getItem(i)).getTitle());
         }
@@ -216,12 +214,12 @@ public class FastScroller extends LinearLayout {
             setPosition(mHeight * proportion);
             if (mFastScrolling) {
                 sb.setLength(0);
-                int position = mCurrentPosition != -1 ? mCurrentPosition
-                        : ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-                sb.append(' ')
-                        .append(sections.floorEntry(position).getValue())
-                        .append(' ');
-                bubble.setText(sb.toString());
+//                int position = mCurrentPosition != -1 ? mCurrentPosition
+//                        : ((LinearLayoutManager)mRecyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+//                sb.append(' ')
+//                        .append(sections.floorEntry(position).getValue())
+//                        .append(' ');
+                bubble.setText("~"/*sb.toString()*/);
                 return;
             }
             if (mRecyclerviewTotalHeight == 0)

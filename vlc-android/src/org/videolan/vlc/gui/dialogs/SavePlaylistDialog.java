@@ -52,8 +52,6 @@ import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.WorkersKt;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 public class SavePlaylistDialog extends DialogFragment implements View.OnClickListener, TextView.OnEditorActionListener, IEventsHandler {
@@ -81,7 +79,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMedialibrary = VLCApplication.getMLInstance();
-        mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this);
+        mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, 0);
         mTracks = (MediaWrapper[]) getArguments().getParcelableArray(KEY_TRACKS);
         mNewTrack = (MediaWrapper[]) getArguments().getParcelableArray(KEY_NEW_TRACKS);
     }
@@ -125,7 +123,8 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
         mEditText.setOnEditorActionListener(this);
         mListView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mListView.setAdapter(mAdapter);
-        mAdapter.update(new ArrayList<MediaLibraryItem>(Arrays.asList(mMedialibrary.getPlaylists())));
+        //TODO new adapter
+//        mAdapter.update(new ArrayList<MediaLibraryItem>(Arrays.asList(mMedialibrary.getPlaylists())));
     }
 
     void updateEmptyView() {

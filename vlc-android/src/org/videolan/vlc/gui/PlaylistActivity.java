@@ -26,6 +26,7 @@ package org.videolan.vlc.gui;
 import android.annotation.TargetApi;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -69,7 +70,8 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WorkersKt;
-import org.videolan.vlc.viewmodels.audio.TracksModel;
+import org.videolan.vlc.viewmodels.paged.MLPagedModel;
+import org.videolan.vlc.viewmodels.paged.PagedTracksModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -87,7 +89,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     private PlaylistActivityBinding mBinding;
     private ActionMode mActionMode;
     private boolean mIsPlaylist;
-    private TracksModel tracksModel;
+    private PagedTracksModel tracksModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,15 +107,15 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 getIntent().getParcelableExtra(AudioBrowserFragment.TAG_ITEM));
         mIsPlaylist = mPlaylist.getItemType() == MediaLibraryItem.TYPE_PLAYLIST;
         mBinding.setPlaylist(mPlaylist);
-        mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this);
+        mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, -1);
 
         mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
         mBinding.songs.setAdapter(mAdapter);
-        tracksModel = ViewModelProviders.of(this, new TracksModel.Factory(this, mPlaylist)).get(TracksModel.class);
-        tracksModel.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
+        tracksModel = ViewModelProviders.of(this, new PagedTracksModel.Factory(this, mPlaylist)).get(PagedTracksModel.class);
+        ((MLPagedModel)tracksModel).getPagedList().observe(this, new Observer<PagedList<MediaLibraryItem>>() {
             @Override
-            public void onChanged(@Nullable List<MediaLibraryItem> tracks) {
-                if (tracks != null) mAdapter.update(tracks);
+            public void onChanged(@Nullable PagedList<MediaLibraryItem> tracks) {
+                if (tracks != null) mAdapter.submitList(tracks);
             }
         });
         final int fabVisibility =  savedInstanceState != null ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;

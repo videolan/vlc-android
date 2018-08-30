@@ -18,6 +18,9 @@
             name="bgColor"
             type="int" />
         <variable
+            name="header"
+            type="String" />
+        <variable
             name="holder"
             type="org.videolan.vlc.gui.audio.AudioBrowserAdapter.MediaItemViewHolder" />
     </data>
@@ -33,14 +36,26 @@
         android:onClick="@{holder::onClick}"
         android:onLongClick="@{holder::onLongClick}"
         android:background="@{bgColor}" >
+        <TextView
+            android:id="@+id/section_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingStart="8dp"
+            vlc:layout_constraintTop_toTopOf="parent"
+            android:singleLine="true"
+            android:text="@{header}"
+            android:textColor="?attr/audio_browser_separator"
+            android:textSize="20sp"
+            android:visibility="@{TextUtils.isEmpty(header) ? View.GONE : View.VISIBLE, default=gone}"/>
 
         <!-- Image loading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
         <ImageView
             android:id="@+id/media_cover"
             android:layout_width="@dimen/audio_browser_item_size"
             android:layout_height="@dimen/audio_browser_item_size"
+            vlc:layout_constraintTop_toBottomOf="@+id/section_header"
             vlc:layout_constraintStart_toStartOf="parent"
-            vlc:layout_constraintTop_toTopOf="parent"
             vlc:layout_constraintBottom_toBottomOf="parent"
             android:layout_gravity="center"
             vlc:media="@{item}"
@@ -55,7 +70,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             vlc:layout_constraintVertical_chainStyle="packed"
-            vlc:layout_constraintTop_toTopOf="parent"
+            vlc:layout_constraintTop_toTopOf="@+id/media_cover"
             vlc:layout_constraintStart_toEndOf="@+id/media_cover"
             vlc:layout_constraintEnd_toStartOf="@+id/item_more"
             vlc:layout_constraintBottom_toTopOf="@+id/subtitle"
@@ -83,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             vlc:layout_constraintEnd_toEndOf="parent"
-            vlc:layout_constraintTop_toTopOf="parent"
+            vlc:layout_constraintTop_toTopOf="@+id/media_cover"
             vlc:layout_constraintBottom_toBottomOf="parent"
             android:scaleType="center"
             android:src="@drawable/ic_more"

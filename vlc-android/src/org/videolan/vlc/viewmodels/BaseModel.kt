@@ -21,7 +21,6 @@
 package org.videolan.vlc.viewmodels
 
 import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.ViewModel
 import android.content.Context
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
@@ -29,28 +28,15 @@ import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
-import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.FilterDelegate
+import org.videolan.vlc.util.LiveDataset
+import org.videolan.vlc.util.ModelsHelper
 
 private const val TAG = "VLC/BaseModel"
-abstract class BaseModel<T : MediaLibraryItem>(protected val context: Context) : ViewModel(), RefreshModel {
+abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel(context) {
 
-    var sort = Medialibrary.SORT_ALPHA
-    var desc = false
     private var filtering = false
-    protected open val sortKey = this.javaClass.simpleName!!
-
-    open fun canSortByName() = true
-    open fun canSortByFileNameName() = false
-    open fun canSortByDuration() = false
-    open fun canSortByInsertionDate() = false
-    open fun canSortByLastModified() = false
-    open fun canSortByReleaseDate() = false
-    open fun canSortByFileSize() = false
-    open fun canSortByArtist() = false
-    open fun canSortByAlbum ()= false
-    open fun canSortByPlayCount() = false
 
     private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelegate(dataset) }
 
@@ -91,26 +77,14 @@ abstract class BaseModel<T : MediaLibraryItem>(protected val context: Context) :
 
     override fun refresh() = updateActor.offer(Refresh)
 
-    open fun sort(sort: Int) {
-        if (canSortBy(sort)) {
-            desc = when (this.sort) {
-                Medialibrary.SORT_DEFAULT -> sort == Medialibrary.SORT_ALPHA
-                sort -> !desc
-                else -> false
-            }
-            this.sort = sort
-            refresh()
-        }
-    }
-
     fun remove(mw: T) = updateActor.offer(Remove(mw))
 
-    fun filter(query: String?) {
+    override fun filter(query: String?) {
         filtering = true
         updateActor.offer(Filter(query))
     }
 
-    fun restore() {
+    override fun restore() {
         if (filtering) updateActor.offer(Filter(null))
         filtering = false
     }
@@ -139,10 +113,6 @@ abstract class BaseModel<T : MediaLibraryItem>(protected val context: Context) :
     protected open suspend fun updateList() {}
 
     protected abstract fun fetch()
-
-    fun getKey() : String {
-        return sortKey
-    }
 }
 
 sealed class Update

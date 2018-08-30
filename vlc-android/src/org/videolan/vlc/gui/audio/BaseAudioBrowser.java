@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.audio;
 
+import android.support.annotation.NonNull;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -45,13 +46,14 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.viewmodels.audio.AudioModel;
+import org.videolan.vlc.util.ModelsHelperKt;
+import org.videolan.vlc.viewmodels.paged.MLPagedModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> implements IEventsHandler, CtxActionReceiver {
+public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel> implements IEventsHandler, CtxActionReceiver {
 
     public ContentActivity mActivity;
     protected AudioBrowserAdapter[] mAdapters;
@@ -146,6 +148,12 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
     }
 
     @Override
+    protected void sortBy(int sort) {
+        if (ModelsHelperKt.canSortBy(getViewModel(), sort)) getCurrentAdapter().setSort(sort);
+        super.sortBy(sort);
+    }
+
+    @Override
     public void onRefresh() {}
 
     protected boolean playlistModeSelected() {
@@ -155,7 +163,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
     protected boolean removeItem(int position, AudioBrowserAdapter adapter, final MediaLibraryItem item) {
         final MediaLibraryItem previous = position > 0 ? adapter.getItem(position-1) : null;
         final MediaLibraryItem next = position < adapter.getItemCount()-1 ? adapter.getItem(position+1) : null;
-        final AudioModel model = getViewModel();
+        final MLPagedModel model = getViewModel();
         final String message;
         final Runnable action;
         final Runnable cancel;
@@ -201,7 +209,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
     }
 
     @Override
-    public void onClick(View v, int position, MediaLibraryItem item) {
+    public void onClick(View v, int position, @NonNull MediaLibraryItem item) {
         if (mActionMode != null) {
             item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
             getCurrentAdapter().updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
@@ -212,10 +220,9 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
 
     @Override
     public boolean onLongClick(View v, int position, MediaLibraryItem item) {
-        if (mActionMode != null)
-            return false;
+        if (mActionMode != null) return false;
         item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
-            getCurrentAdapter().updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
+        getCurrentAdapter().updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
         getCurrentAdapter().notifyItemChanged(position, item);
         startActionMode();
         return true;
@@ -240,12 +247,12 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
         if (media == null) return;
         switch (option){
             case Constants.CTX_PLAY:
-                MediaUtils.INSTANCE.openArray(getActivity(), media.getTracks(), 0);
+                MediaUtils.INSTANCE.openArray(requireActivity(), media.getTracks(), 0);
                 break;
             case Constants.CTX_PLAY_ALL:
                 final List<MediaLibraryItem> mediaList = new ArrayList<>();
                 final int startPosition = adapter.getListWithPosition(mediaList, position);
-                MediaUtils.INSTANCE.openList(getActivity(), (List<MediaWrapper>)(List<?>) mediaList, startPosition);
+                MediaUtils.INSTANCE.openList(requireActivity(), (List<MediaWrapper>)(List<?>) mediaList, startPosition);
                 break;
             case Constants.CTX_INFORMATION:
                 showInfoDialog(media);
@@ -254,16 +261,16 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<AudioModel> 
                 removeItem(position, adapter, media);
                 break;
             case Constants.CTX_APPEND:
-                MediaUtils.INSTANCE.appendMedia(getActivity(), media.getTracks());
+                MediaUtils.INSTANCE.appendMedia(requireActivity(), media.getTracks());
                 break;
             case Constants.CTX_PLAY_NEXT:
-                MediaUtils.INSTANCE.insertNext(getActivity(), media.getTracks());
+                MediaUtils.INSTANCE.insertNext(requireActivity(), media.getTracks());
                 break;
             case Constants.CTX_ADD_TO_PLAYLIST:
-                UiTools.addToPlaylist(getActivity(), media.getTracks(), SavePlaylistDialog.KEY_NEW_TRACKS);
+                UiTools.addToPlaylist(requireActivity(), media.getTracks(), SavePlaylistDialog.KEY_NEW_TRACKS);
                 break;
             case Constants.CTX_SET_RINGTONE:
-                AudioUtil.setRingtone((MediaWrapper) media, getActivity());
+                AudioUtil.setRingtone((MediaWrapper) media, requireActivity());
                 break;
         }
 
