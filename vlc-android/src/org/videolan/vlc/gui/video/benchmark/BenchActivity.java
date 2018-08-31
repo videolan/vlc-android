@@ -113,6 +113,10 @@ public class BenchActivity extends ShallowVideoPlayer {
     /* bool to wait in pause for user permission */
     private boolean mWritePermission = false;
 
+    /* Used to determine when a playback is stuck */
+    private float mPosition = 0;
+    private int mPositionCounter = 0;
+
 
     @Override
     protected void loadMedia() {
@@ -217,8 +221,8 @@ public class BenchActivity extends ShallowVideoPlayer {
             mTimeOut = new Runnable() {
                 @Override
                 public void run() {
-                    Log.e(TAG, "benchmark timeout: VLC Froze" );
-                    errorFinish("VLC Froze");
+                    Log.e(TAG, "VLC Seek Froze" );
+                    errorFinish("VLC Seek Froze");
                 }
             };
             mHandler.postDelayed(mTimeOut, 10000);
@@ -245,8 +249,23 @@ public class BenchActivity extends ShallowVideoPlayer {
         switch (event.type) {
             case MediaPlayer.Event.Vout:
                 mHasVout = true;
+                break;
             case MediaPlayer.Event.TimeChanged:
                 setTimeout();
+                break;
+            case MediaPlayer.Event.PositionChanged:
+                float pos = event.getPositionChanged();
+                if (!mIsScreenshot) {
+                    if (pos != mPosition) {
+                        mPosition = pos;
+                        mPositionCounter = 0;
+                    } else if (mPositionCounter > 50){
+                        errorFinish("VLC Playback Froze");
+                    } else {
+                        mPositionCounter += 1;
+                    }
+                }
+                break;
             case MediaPlayer.Event.Buffering:
                 if (event.getBuffering() == 100f) {
                     /* initial setup that has to be done when the video
@@ -307,6 +326,7 @@ public class BenchActivity extends ShallowVideoPlayer {
      */
     private void seekScreenshot() {
         if (mProjectionManager != null && mScreenshotCount < mTimestamp.size()) {
+            setTimeout();
             seek(mTimestamp.get(mScreenshotCount));
             ++mScreenshotCount;
             mSeeking = true;
