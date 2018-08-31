@@ -27,7 +27,6 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
-import android.graphics.Point;
 import android.hardware.display.VirtualDisplay;
 import android.media.Image;
 import android.media.ImageReader;
@@ -50,7 +49,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.ByteBuffer;
+import java.nio.Buffer;
 import java.util.List;
 
 /**
@@ -274,12 +273,10 @@ public class BenchActivity extends ShallowVideoPlayer {
                         mSetup = true;
                         if (mIsScreenshot) {
                             mService.pause();
-                            Point size = new Point();
-                            getWindowManager().getDefaultDisplay().getSize(size);
-                            mWidth = size.x;
-                            mHeight = size.y;
                             DisplayMetrics metrics = new DisplayMetrics();
-                            getWindowManager().getDefaultDisplay().getMetrics(metrics);
+                            getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+                            mWidth = metrics.widthPixels;
+                            mHeight = metrics.heightPixels;
                             mDensity = metrics.densityDpi;
                             mProjectionManager =
                                     (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
@@ -298,7 +295,6 @@ public class BenchActivity extends ShallowVideoPlayer {
                     if (mIsScreenshot && mSetup && mScreenshotNumber < mTimestamp.size() && mSeeking) {
                         mSeeking = false;
                         mImageReader = ImageReader.newInstance(mWidth, mHeight, PixelFormat.RGBA_8888, 2);
-
                         mVirtualDisplay =
                                 mMediaProjection.createVirtualDisplay("testScreenshot", mWidth,
                                         mHeight, mDensity, VIRTUAL_DISPLAY_FLAGS,
@@ -500,7 +496,7 @@ public class BenchActivity extends ShallowVideoPlayer {
                     }
                     if (image != null) {
                         Image.Plane[] planes = image.getPlanes();
-                        ByteBuffer buffer = planes[0].getBuffer();
+                        Buffer buffer = planes[0].getBuffer().rewind();
                         int pixelStride = planes[0].getPixelStride();
                         int rowStride = planes[0].getRowStride();
                         int rowPadding = rowStride - pixelStride * mWidth;
@@ -509,7 +505,6 @@ public class BenchActivity extends ShallowVideoPlayer {
                                 Bitmap.Config.ARGB_8888);
                         if (bitmap != null) {
                             bitmap.copyPixelsFromBuffer(buffer);
-
                             File folder = new File(screenshotDir);
 
                             if (!folder.exists()) {
@@ -517,9 +512,7 @@ public class BenchActivity extends ShallowVideoPlayer {
                                     errorFinish("Failed to create screenshot directory");
                                 }
                             }
-
-                            //File imageFile = new File(getExternalFilesDir(null), "Screenshot_" + sScreenshotNumber + ".jpg");
-                            File imageFile = new File(folder.getAbsolutePath() + File.separator + "Screenshot_" + mScreenshotNumber + ".jpg");
+                            File imageFile = new File(folder.getAbsolutePath() + File.separator + "Screenshot_" + mScreenshotNumber + ".png");
                             mScreenshotNumber += 1;
                             try {
                                 outputStream = new FileOutputStream(imageFile);
@@ -527,7 +520,7 @@ public class BenchActivity extends ShallowVideoPlayer {
                                 Log.e(TAG, "Failed to create outputStream");
                             }
                             if (outputStream != null) {
-                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
                             }
 
                             bitmap.recycle();
