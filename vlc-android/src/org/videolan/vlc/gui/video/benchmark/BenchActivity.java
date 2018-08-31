@@ -402,17 +402,24 @@ public class BenchActivity extends ShallowVideoPlayer {
         int counter = 0;
 
         try {
-            Process process = Runtime.getRuntime().exec("logcat -d");
+            int pid = android.os.Process.myPid();
+            /*Displays priority, tag, and PID of the process issuing the message from this pid*/
+            Process process = Runtime.getRuntime().exec("logcat -d -v brief --pid=" + pid);
             BufferedReader bufferedReader = new BufferedReader(
                     new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                if (line.contains("W VLC") || line.contains("E VLC")) {
+                if (line.contains("W/") || line.contains("E/")) {
                     if (line.contains(" late ")) {
                         counter += 1;
                     }
                 }
             }
+            /* Clear logs, so that next test is not polluted by current one */
+            new ProcessBuilder()
+            .command("logcat", "-c")
+            .redirectErrorStream(true)
+            .start();
         } catch (IOException ex) {
             Log.e(TAG, ex.toString());
         }
