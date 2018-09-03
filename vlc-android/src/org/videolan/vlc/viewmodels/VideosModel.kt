@@ -97,8 +97,8 @@ open class VideosModel(context: Context, private val group: String?, private val
 
     class Factory(private val context: Context, val group: String?, private val minGroupLen : Int, private val sort : Int, private val desc : Boolean?): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            @Suppress("UNCHECKED_CAST")
             val length = if (minGroupLen == 0) Integer.valueOf(Settings.getInstance(context).getString("video_min_group_length", "6")) else minGroupLen
+            @Suppress("UNCHECKED_CAST")
             return VideosModel(context.applicationContext, group, length, sort, desc) as T
         }
     }
