@@ -67,7 +67,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class AdvOptionsDialog extends DialogFragment implements View.OnClickListener, PlaybackService.Client.Callback, View.OnFocusChangeListener, DialogInterface.OnKeyListener {
+public class AdvOptionsDialog extends DismissDialogFragment implements View.OnClickListener, PlaybackService.Client.Callback, View.OnFocusChangeListener, DialogInterface.OnKeyListener {
 
     public final static String TAG = "VLC/AdvOptionsDialog";
     public static final String MODE_KEY = "mode";
@@ -225,6 +225,8 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
             default:
                 return;
         }
+        if (newFragment instanceof DismissDialogFragment)
+            ((DismissDialogFragment)newFragment).setOnDismissListener(onDismissListener);
         newFragment.show(getActivity().getSupportFragmentManager(), tag);
         dismiss();
     }
@@ -512,21 +514,6 @@ public class AdvOptionsDialog extends DialogFragment implements View.OnClickList
         if (v instanceof TextView) ((TextView) v).setTextColor(v.hasFocus() ? UiTools.Resources.ITEM_FOCUS_ON : mTextColor);
         mToast.setText(mAdapter.getSelectedAdvOptionHelp());
         mToast.show();
-    }
-
-
-    private DialogInterface.OnDismissListener onDismissListener;
-
-    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
-        this.onDismissListener = onDismissListener;
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        if (onDismissListener != null) {
-            onDismissListener.onDismiss(dialog);
-        }
     }
 
     @Override

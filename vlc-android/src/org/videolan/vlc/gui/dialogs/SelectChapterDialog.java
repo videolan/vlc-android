@@ -45,7 +45,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SelectChapterDialog extends DialogFragment implements PlaybackService.Client.Callback {
+public class SelectChapterDialog extends DismissDialogFragment implements PlaybackService.Client.Callback {
 
     public final static String TAG = "VLC/SelectChapterDialog";
 

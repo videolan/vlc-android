@@ -40,7 +40,7 @@ import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Strings;
 
-public class PlaybackSpeedDialog extends DialogFragment implements PlaybackService.Client.Callback {
+public class PlaybackSpeedDialog extends DismissDialogFragment implements PlaybackService.Client.Callback {
 
     public final static String TAG = "VLC/PlaybackSpeedDialog";
 
