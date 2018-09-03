@@ -409,7 +409,9 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         return mType == TYPE_AUDIO && (TextUtils.isEmpty(mAlbum) && mLength > PODCAST_THRESHOLD
                 || "podcast".equalsIgnoreCase(mGenre)
                 || "audiobooks".equalsIgnoreCase(mGenre)
-                || "audiobook".equalsIgnoreCase(mGenre));
+                || "audiobook".equalsIgnoreCase(mGenre)
+                || "speech".equalsIgnoreCase(mGenre)
+                || "vocal".equalsIgnoreCase(mGenre));
     }
 
     public void setType(int type){
