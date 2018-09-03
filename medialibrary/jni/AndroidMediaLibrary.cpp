@@ -235,7 +235,7 @@ AndroidMediaLibrary::searchGenre(const std::string& query)
 std::vector<medialibrary::ArtistPtr>
 AndroidMediaLibrary::searchArtists(const std::string& query)
 {
-    return p_ml->searchArtists(query)->all();
+    return p_ml->searchArtists(query, true)->all();
 }
 
 medialibrary::MediaPtr
