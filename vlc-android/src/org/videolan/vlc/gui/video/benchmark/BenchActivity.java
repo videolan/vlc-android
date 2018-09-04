@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.video.benchmark;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -35,6 +36,7 @@ import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
@@ -43,6 +45,8 @@ import android.view.View;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.vlc.PlaybackService;
+import org.videolan.vlc.util.VLCInstance;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -112,10 +116,30 @@ public class BenchActivity extends ShallowVideoPlayer {
     /* bool to wait in pause for user permission */
     private boolean mWritePermission = false;
 
+    /* android_display vout is forced on hardware tests */
+    /* this option is set using the opengl sharedPref */
+    /* Saves the original value to reset it after the benchmark */
+    private String mOldOpenglValue = "-2";
+
     /* Used to determine when a playback is stuck */
     private float mPosition = 0;
     private int mPositionCounter = 0;
 
+
+    @Override
+    public void onConnected(PlaybackService service) {
+        /* Changing preference to set the android_display vout on hardware benchmarks */
+        super.onConnected(service);
+        if (mIsHardware && mService != null) {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+            mOldOpenglValue = sharedPref.getString("opengl", "-1");
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("opengl", "0");
+            editor.commit();
+            VLCInstance.restart();
+            mService.restartMediaPlayer();
+        }
+    }
 
     @Override
     protected void loadMedia() {
@@ -433,6 +457,14 @@ public class BenchActivity extends ShallowVideoPlayer {
     @Override
     @TargetApi(21)
     public void finish() {
+        /* Resetting vout preference to it value before the benchmark */
+        if (mIsHardware && !mOldOpenglValue.equals("-2")) {
+            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor= sharedPref.edit();
+            editor.putString("opengl", mOldOpenglValue);
+            editor.commit();
+            VLCInstance.restart();
+        }
         /* Case of error in VideoPlayerActivity, then finish is not overridden */
         if (mVLCFailed) {
             super.finish();
