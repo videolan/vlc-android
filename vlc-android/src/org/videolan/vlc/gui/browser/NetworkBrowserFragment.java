@@ -40,13 +40,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.jetbrains.annotations.NotNull;
-import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.SimpleAdapter;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.util.Constants;
@@ -54,12 +51,7 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
-public class NetworkBrowserFragment extends BaseBrowserFragment implements SimpleAdapter.FavoritesHandler {
-
-    @Override
-    public void onClick(@NotNull MediaLibraryItem item) {
-        browse((MediaWrapper) item, true);
-    }
+public class NetworkBrowserFragment extends BaseBrowserFragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

@@ -2,6 +2,7 @@
 <layout xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="org.videolan.medialibrary.media.MediaLibraryItem"/>
+        <import type="android.view.View"/>
         <variable
             name="item"
             type="MediaLibraryItem"/>
@@ -10,19 +11,22 @@
             type="android.graphics.drawable.BitmapDrawable"/>
         <variable
             name="handler"
-            type="org.videolan.vlc.gui.SimpleAdapter.FavoritesHandler" />
+            type="org.videolan.vlc.gui.SimpleAdapter.ClickHandler" />
     </data>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:onClick="@{(v) -> handler.onClick(item)}">
 
         <ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:src="@{cover}"
-            app:media="@{item}" />
+            app:media="@{item}"
+            android:visibility="@{item.artworkMrl == null ? View.GONE : View.VISIBLE, default=gone}"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

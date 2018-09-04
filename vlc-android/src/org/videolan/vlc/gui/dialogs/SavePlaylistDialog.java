@@ -41,6 +41,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -48,13 +49,13 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.audio.AudioBrowserAdapter;
-import org.videolan.vlc.interfaces.IEventsHandler;
+import org.videolan.vlc.gui.SimpleAdapter;
 import org.videolan.vlc.util.WorkersKt;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
-public class SavePlaylistDialog extends DialogFragment implements View.OnClickListener, TextView.OnEditorActionListener, IEventsHandler {
+public class SavePlaylistDialog extends DialogFragment implements View.OnClickListener, TextView.OnEditorActionListener, SimpleAdapter.ClickHandler {
 
     public final static String TAG = "VLC/SavePlaylistDialog";
 
@@ -66,7 +67,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
     TextView mEmptyView;
     Button mSaveButton;
     Button mCancelButton;
-    AudioBrowserAdapter mAdapter;
+    SimpleAdapter mAdapter;
     MediaWrapper[] mTracks;
     MediaWrapper[] mNewTrack;
     Runnable mCallBack;
@@ -79,7 +80,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMedialibrary = VLCApplication.getMLInstance();
-        mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, 0);
+        mAdapter = new SimpleAdapter(this);
         mTracks = (MediaWrapper[]) getArguments().getParcelableArray(KEY_TRACKS);
         mNewTrack = (MediaWrapper[]) getArguments().getParcelableArray(KEY_NEW_TRACKS);
     }
@@ -91,7 +92,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AppCompatDialog dialog = new AppCompatDialog(getActivity(), getTheme());
+        final AppCompatDialog dialog = new AppCompatDialog(getActivity(), getTheme());
         dialog.setTitle(R.string.playlist_save);
         return dialog;
 
@@ -123,8 +124,8 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
         mEditText.setOnEditorActionListener(this);
         mListView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mListView.setAdapter(mAdapter);
-        //TODO new adapter
-//        mAdapter.update(new ArrayList<MediaLibraryItem>(Arrays.asList(mMedialibrary.getPlaylists())));
+        mAdapter.submitList(Arrays.<MediaLibraryItem>asList(mMedialibrary.getPlaylists()));
+        updateEmptyView();
     }
 
     void updateEmptyView() {
@@ -181,22 +182,14 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
         dismiss();
     }
 
+//    @Override
+//    public void onUpdateFinished(RecyclerView.Adapter adapter) {
+//        updateEmptyView();
+//    }
+
     @Override
-    public void onClick(View v, int position, MediaLibraryItem item) {
+    public void onClick(@NotNull MediaLibraryItem item) {
         mPlaylistId = item.getId();
         mEditText.setText(item.getTitle());
-    }
-
-    @Override
-    public boolean onLongClick(View v, int position, MediaLibraryItem item) {
-        return false;
-    }
-
-    @Override
-    public void onCtxClick(View v, int position, MediaLibraryItem item) {}
-
-    @Override
-    public void onUpdateFinished(RecyclerView.Adapter adapter) {
-        updateEmptyView();
     }
 }
