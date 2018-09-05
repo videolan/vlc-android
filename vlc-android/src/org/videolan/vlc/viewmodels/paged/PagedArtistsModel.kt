@@ -5,10 +5,11 @@ import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Artist
+import org.videolan.vlc.util.EmptyMLCallbacks
 import org.videolan.vlc.util.Settings
 
 
-class PagedArtistsModel(context: Context, private var showAll: Boolean = false): MLPagedModel<Artist>(context), Medialibrary.ArtistsAddedCb {
+class PagedArtistsModel(context: Context, private var showAll: Boolean = false): MLPagedModel<Artist>(context), Medialibrary.ArtistsCb by EmptyMLCallbacks {
 
     init {
         sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)
@@ -33,12 +34,12 @@ class PagedArtistsModel(context: Context, private var showAll: Boolean = false):
 
     override fun onMedialibraryReady() {
         super.onMedialibraryReady()
-        medialibrary.setArtistsAddedCb(this)
+        medialibrary.addArtistsCb(this)
     }
 
     override fun onCleared() {
         super.onCleared()
-        medialibrary.setArtistsAddedCb(null)
+        medialibrary.removeArtistsCb(this)
     }
 
     class Factory(private val context: Context, private val showAll: Boolean): ViewModelProvider.NewInstanceFactory() {

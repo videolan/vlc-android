@@ -7,9 +7,11 @@
 #define FLAG_MEDIA_UPDATED_AUDIO       1 << 0
 #define FLAG_MEDIA_UPDATED_AUDIO_EMPTY 1 << 1
 #define FLAG_MEDIA_UPDATED_VIDEO       1 << 2
-#define FLAG_MEDIA_ADDED_AUDIO         1 << 3
-#define FLAG_MEDIA_ADDED_AUDIO_EMPTY   1 << 4
-#define FLAG_MEDIA_ADDED_VIDEO         1 << 5
+#define FLAG_MEDIA_UPDATED_VIDEO_EMPTY 1 << 3
+#define FLAG_MEDIA_ADDED_AUDIO         1 << 4
+#define FLAG_MEDIA_ADDED_AUDIO_EMPTY   1 << 5
+#define FLAG_MEDIA_ADDED_VIDEO         1 << 6
+#define FLAG_MEDIA_ADDED_VIDEO_EMPTY   1 << 7
 
 static pthread_key_t jni_env_key;
 static JavaVM *myVm;
@@ -473,14 +475,13 @@ AndroidMediaLibrary::requestThumbnail( int64_t media_id )
 void
 AndroidMediaLibrary::onMediaAdded( std::vector<medialibrary::MediaPtr> mediaList )
 {
-    if (m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO || m_mediaAddedType & FLAG_MEDIA_ADDED_VIDEO
-            || m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO_EMPTY) {
+    if (m_mediaAddedType & (FLAG_MEDIA_ADDED_AUDIO | FLAG_MEDIA_ADDED_VIDEO | FLAG_MEDIA_ADDED_AUDIO_EMPTY | FLAG_MEDIA_ADDED_VIDEO_EMPTY)) {
         JNIEnv *env = getEnv();
         if (env == NULL /*|| env->IsSameObject(weak_thiz, NULL)*/)
             return;
         jobjectArray mediaRefs, results;
         int index;
-        if (m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO_EMPTY)
+        if ((m_mediaAddedType & (FLAG_MEDIA_ADDED_AUDIO|FLAG_MEDIA_ADDED_VIDEO)) == 0)
         {
             index = 0;
             mediaRefs = (jobjectArray) env->NewObjectArray(0, p_fields->MediaWrapper.clazz, NULL);
@@ -524,7 +525,7 @@ void AndroidMediaLibrary::onMediaModified( std::vector<medialibrary::MediaPtr> m
             return;
         jobjectArray mediaRefs, results;
         int index;
-        if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO_EMPTY)
+        if ((m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_VIDEO)) == 0)
         {
             index = 0;
             mediaRefs = (jobjectArray) env->NewObjectArray(0, p_fields->MediaWrapper.clazz, NULL);
@@ -560,7 +561,11 @@ void AndroidMediaLibrary::onMediaModified( std::vector<medialibrary::MediaPtr> m
 
 void AndroidMediaLibrary::onMediaDeleted( std::vector<int64_t> ids )
 {
-
+    if (m_mediaAddedType & (FLAG_MEDIA_ADDED_AUDIO_EMPTY|FLAG_MEDIA_ADDED_AUDIO|FLAG_MEDIA_ADDED_VIDEO|FLAG_MEDIA_ADDED_VIDEO_EMPTY))
+    {
+        JNIEnv *env = getEnv();
+        if (env != NULL && weak_thiz) env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onMediaDeletedId);
+    }
 }
 
 void AndroidMediaLibrary::onArtistsAdded( std::vector<medialibrary::ArtistPtr> artists )
@@ -575,7 +580,7 @@ void AndroidMediaLibrary::onArtistsAdded( std::vector<medialibrary::ArtistPtr> a
 
 void AndroidMediaLibrary::onArtistsModified( std::vector<medialibrary::ArtistPtr> artist )
 {
-    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
+    if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
         JNIEnv *env = getEnv();
         if (env == NULL) return;
@@ -593,7 +598,7 @@ void AndroidMediaLibrary::onArtistsDeleted( std::vector<int64_t> ids )
 
 void AndroidMediaLibrary::onAlbumsAdded( std::vector<medialibrary::AlbumPtr> albums )
 {
-    if (m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO)
+    if (m_mediaAddedType & (FLAG_MEDIA_ADDED_AUDIO|FLAG_MEDIA_ADDED_AUDIO_EMPTY))
     {
         JNIEnv *env = getEnv();
         if (env == NULL) return;
@@ -606,7 +611,7 @@ void AndroidMediaLibrary::onAlbumsAdded( std::vector<medialibrary::AlbumPtr> alb
 
 void AndroidMediaLibrary::onAlbumsModified( std::vector<medialibrary::AlbumPtr> albums )
 {
-    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
+    if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
         JNIEnv *env = getEnv();
         if (env == NULL) return;
@@ -619,7 +624,7 @@ void AndroidMediaLibrary::onAlbumsModified( std::vector<medialibrary::AlbumPtr> 
 
 void AndroidMediaLibrary::onPlaylistsAdded( std::vector<medialibrary::PlaylistPtr> playlists )
 {
-    if (m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO)
+    if (m_mediaAddedType & (FLAG_MEDIA_ADDED_AUDIO|FLAG_MEDIA_ADDED_AUDIO_EMPTY))
     {
         JNIEnv *env = getEnv();
         if (env == NULL) return;
@@ -633,7 +638,7 @@ void AndroidMediaLibrary::onPlaylistsAdded( std::vector<medialibrary::PlaylistPt
 
 void AndroidMediaLibrary::onPlaylistsModified( std::vector<medialibrary::PlaylistPtr> playlist )
 {
-    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
+    if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
         JNIEnv *env = getEnv();
         if (env == NULL) return;
@@ -646,7 +651,7 @@ void AndroidMediaLibrary::onPlaylistsModified( std::vector<medialibrary::Playlis
 
 void AndroidMediaLibrary::onPlaylistsDeleted( std::vector<int64_t> ids )
 {
-    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
+    if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
         JNIEnv *env = getEnv();
         if (env == NULL) return;
@@ -659,7 +664,7 @@ void AndroidMediaLibrary::onPlaylistsDeleted( std::vector<int64_t> ids )
 
 void AndroidMediaLibrary::onGenresAdded( std::vector<medialibrary::GenrePtr> )
 {
-    if (m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO)
+    if (m_mediaAddedType & (FLAG_MEDIA_ADDED_AUDIO|FLAG_MEDIA_ADDED_AUDIO_EMPTY))
     {
         JNIEnv *env = getEnv();
         if (env == NULL) return;
@@ -672,7 +677,7 @@ void AndroidMediaLibrary::onGenresAdded( std::vector<medialibrary::GenrePtr> )
 
 void AndroidMediaLibrary::onGenresModified( std::vector<medialibrary::GenrePtr> )
 {
-    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
+    if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
         JNIEnv *env = getEnv();
         if (env == NULL) return;
@@ -685,7 +690,7 @@ void AndroidMediaLibrary::onGenresModified( std::vector<medialibrary::GenrePtr> 
 
 void AndroidMediaLibrary::onGenresDeleted( std::vector<int64_t> )
 {
-    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
+    if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
         JNIEnv *env = getEnv();
         if (env == NULL) return;
@@ -698,7 +703,7 @@ void AndroidMediaLibrary::onGenresDeleted( std::vector<int64_t> )
 
 void AndroidMediaLibrary::onAlbumsDeleted( std::vector<int64_t> )
 {
-    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
+    if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
     {
         JNIEnv *env = getEnv();
         if (env == NULL) return;

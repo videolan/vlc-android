@@ -29,7 +29,7 @@ import org.videolan.medialibrary.media.*
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.VLCIO
 
-class TracksModel(context: Context, val parent: MediaLibraryItem? = null): AudioModel(context) {
+class TracksModel(context: Context, val parent: MediaLibraryItem? = null): AudioModel(context), Medialibrary.MediaCb {
 
     override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
@@ -45,23 +45,38 @@ class TracksModel(context: Context, val parent: MediaLibraryItem? = null): Audio
         }
     }
 
-    override fun onMediaAdded(mediaList: Array<out MediaWrapper>?) {
+    override fun onMedialibraryReady() {
+        super.onMedialibraryReady()
+        medialibrary.addMediaCb(this)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        medialibrary.removeMediaCb(this)
+    }
+
+    override fun onMediaAdded() {
         refresh()
     }
 
-    override fun onMediaUpdated(mediaList: Array<out MediaWrapper>?) {
+    override fun onMediaModified() {
+        refresh()
+    }
+
+    override fun onMediaDeleted() {
         refresh()
     }
 
     @Suppress("UNCHECKED_CAST")
     override suspend fun updateList() {
-        dataset.value = withContext(VLCIO) { when (parent) {
-            is Artist -> parent.getTracks(sort, desc)
-            is Album -> parent.getTracks(sort, desc)
-            is Genre -> parent.getTracks(sort, desc)
-            is Playlist -> parent.getTracks()
-            else -> medialibrary.getAudio(sort, desc)
-        }.toMutableList() as MutableList<MediaLibraryItem>
+        dataset.value = withContext(VLCIO) {
+            when (parent) {
+                is Artist -> parent.getTracks(sort, desc)
+                is Album -> parent.getTracks(sort, desc)
+                is Genre -> parent.getTracks(sort, desc)
+                is Playlist -> parent.getTracks()
+                else -> medialibrary.getAudio(sort, desc)
+            }.toMutableList() as MutableList<MediaLibraryItem>
         }
     }
 

@@ -15,13 +15,10 @@ import android.support.annotation.WorkerThread;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb;
-import org.videolan.medialibrary.interfaces.MediaAddedCb;
-import org.videolan.medialibrary.interfaces.MediaUpdatedCb;
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
 import org.videolan.medialibrary.media.Genre;
@@ -56,9 +53,11 @@ public class Medialibrary {
     public static final int FLAG_MEDIA_UPDATED_AUDIO        = 1 << 0;
     public static final int FLAG_MEDIA_UPDATED_AUDIO_EMPTY  = 1 << 1;
     public static final int FLAG_MEDIA_UPDATED_VIDEO        = 1 << 2;
-    public static final int FLAG_MEDIA_ADDED_AUDIO          = 1 << 3;
-    public static final int FLAG_MEDIA_ADDED_AUDIO_EMPTY    = 1 << 4;
-    public static final int FLAG_MEDIA_ADDED_VIDEO          = 1 << 5;
+    public static final int FLAG_MEDIA_UPDATED_VIDEO_EMPTY  = 1 << 3;
+    public static final int FLAG_MEDIA_ADDED_AUDIO          = 1 << 4;
+    public static final int FLAG_MEDIA_ADDED_AUDIO_EMPTY    = 1 << 5;
+    public static final int FLAG_MEDIA_ADDED_VIDEO          = 1 << 6;
+    public static final int FLAG_MEDIA_ADDED_VIDEO_EMPTY    = 1 << 7;
 
     public static final int ML_INIT_SUCCESS = 0;
     public static final int ML_INIT_ALREADY_INITIALIZED = 1;
@@ -75,12 +74,11 @@ public class Medialibrary {
     private volatile boolean mIsInitiated = false;
     private volatile boolean mIsWorking = false;
 
-    private MediaUpdatedCb mediaUpdatedCb = null;
-    private MediaAddedCb mediaAddedCb = null;
-    private ArtistsAddedCb mArtistsAddedCb = null;
-    private ArtistsModifiedCb mArtistsModifiedCb = null;
-    private AlbumsAddedCb mAlbumsAddedCb = null;
-    private AlbumsModifiedCb mAlbumsModifiedCb = null;
+    private final List<ArtistsCb> mArtistsCbs = new ArrayList<>();
+    private final List<AlbumsCb> mAlbumsCbs = new ArrayList<>();
+    private final List<MediaCb> mMediaCbs = new ArrayList<>();
+    private final List<GenresCb> mGenreCbs = new ArrayList<>();
+    private final List<PlaylistsCb> mPlaylistCbs = new ArrayList<>();
     private final List<OnMedialibraryReadyListener> onMedialibraryReadyListeners = new ArrayList<>();
     private volatile boolean isMedialibraryStarted = false;
     private final List<DevicesDiscoveryCb> devicesDiscoveryCbList = new ArrayList<>();
@@ -113,8 +111,8 @@ public class Medialibrary {
         synchronized (onMedialibraryReadyListeners) {
             for (OnMedialibraryReadyListener listener : onMedialibraryReadyListeners) listener.onMedialibraryReady();
         }
-        nativeSetMediaAddedCbFlag(FLAG_MEDIA_ADDED_AUDIO|FLAG_MEDIA_ADDED_VIDEO);
-        nativeSetMediaUpdatedCbFlag(FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_VIDEO);
+        nativeSetMediaAddedCbFlag(FLAG_MEDIA_ADDED_AUDIO_EMPTY|FLAG_MEDIA_ADDED_VIDEO_EMPTY);
+        nativeSetMediaUpdatedCbFlag(FLAG_MEDIA_UPDATED_AUDIO_EMPTY|FLAG_MEDIA_UPDATED_VIDEO_EMPTY);
     }
 
     public boolean isStarted() {
@@ -445,91 +443,107 @@ public class Medialibrary {
 
     @SuppressWarnings("unused")
     public void onMediaAdded(MediaWrapper[] mediaList) {
-        if (mediaAddedCb != null)
-            mediaAddedCb.onMediaAdded(mediaList);
+        synchronized (mMediaCbs) {
+            for (MediaCb cb : mMediaCbs) cb.onMediaAdded();
+        }
     }
 
     @SuppressWarnings("unused")
     public void onMediaUpdated(MediaWrapper[] mediaList) {
-        if (mediaUpdatedCb != null)
-            mediaUpdatedCb.onMediaUpdated(mediaList);
+        synchronized (mMediaCbs) {
+            for (MediaCb cb : mMediaCbs) cb.onMediaModified();
+        }
     }
 
     @SuppressWarnings("unused")
     public void onMediaDeleted(long[] ids) {
-        for (long id : ids)
-            Log.d(TAG, "onMediaDeleted: "+id);
+        synchronized (mMediaCbs) {
+            for (MediaCb cb : mMediaCbs) cb.onMediaDeleted();
+        }
     }
 
     @SuppressWarnings("unused")
     public void onArtistsAdded() {
-        if (mArtistsAddedCb != null) mArtistsAddedCb.onArtistsAdded();
+        synchronized (mArtistsCbs) {
+            for (ArtistsCb cb : mArtistsCbs) cb.onArtistsAdded();
+        }
     }
 
     @SuppressWarnings("unused")
     public void onArtistsModified() {
-        if (mArtistsModifiedCb != null)
-            mArtistsModifiedCb.onArtistsModified();
-    }
-
-    @SuppressWarnings("unused")
-    public void onAlbumsAdded() {
-        if (mAlbumsAddedCb != null)
-            mAlbumsAddedCb.onAlbumsAdded();
-    }
-
-    @SuppressWarnings("unused")
-    public void onAlbumsModified() {
-        if (mAlbumsModifiedCb != null)
-            mAlbumsModifiedCb.onAlbumsModified();
+        synchronized (mArtistsCbs) {
+            for (ArtistsCb cb : mArtistsCbs) cb.onArtistsModified();
+        }
     }
 
     @SuppressWarnings("unused")
     public void onArtistsDeleted(long[] ids) {
-        for (long id : ids)
-            Log.d(TAG, "onArtistsDeleted: "+id);
+        synchronized (mArtistsCbs) {
+            for (ArtistsCb cb : mArtistsCbs) cb.onArtistsDeleted();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onAlbumsAdded() {
+        synchronized (mAlbumsCbs) {
+            for (AlbumsCb cb : mAlbumsCbs) cb.onAlbumsAdded();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onAlbumsModified() {
+        synchronized (mAlbumsCbs) {
+            for (AlbumsCb cb : mAlbumsCbs) cb.onAlbumsModified();
+        }
     }
 
     @SuppressWarnings("unused")
     public void onAlbumsDeleted(long[] ids) {
-        for (long id : ids)
-            Log.d(TAG, "onAlbumsDeleted: "+id);
+        synchronized (mAlbumsCbs) {
+            for (AlbumsCb cb : mAlbumsCbs) cb.onAlbumsDeleted();
+        }
     }
 
     @SuppressWarnings("unused")
     public void onGenresAdded() {
-//        if (mGenresAddedCb != null)
-//            mGenresAddedCb.onGenresAdded();
+        synchronized (mGenreCbs) {
+            for (GenresCb cb : mGenreCbs) cb.onGenresAdded();
+        }
     }
 
     @SuppressWarnings("unused")
     public void onGenresModified() {
-//        if (mGenresModifiedCb != null)
-//            mGenresModifiedCb.onGenresModified();
+        synchronized (mGenreCbs) {
+            for (GenresCb cb : mGenreCbs) cb.onGenresModified();
+        }
     }
 
     @SuppressWarnings("unused")
     public void onGenresDeleted(long[] ids) {
-        for (long id : ids)
-            Log.d(TAG, "onGenresDeleted: "+id);
+        synchronized (mGenreCbs) {
+            for (GenresCb cb : mGenreCbs) cb.onGenresDeleted();
+        }
     }
 
     @SuppressWarnings("unused")
     public void onPlaylistsAdded() {
-//        if (mPlaylistsAddedCb != null)
-//            mPlaylistsAddedCb.onPlaylistsAdded();
+        synchronized (mPlaylistCbs) {
+            for (PlaylistsCb cb : mPlaylistCbs) cb.onPlaylistsAdded();
+        }
     }
 
     @SuppressWarnings("unused")
     public void onPlaylistsModified() {
-//        if (mPlaylistsModifiedCb != null)
-//            mPlaylistsModifiedCb.onPlaylistsModified();
+        synchronized (mPlaylistCbs) {
+            for (PlaylistsCb cb : mPlaylistCbs) cb.onPlaylistsModified();
+        }
     }
 
     @SuppressWarnings("unused")
     public void onPlaylistsDeleted(long[] ids) {
-        for (long id : ids)
-            Log.d(TAG, "onPlaylistsDeleted: "+id);
+        synchronized (mPlaylistCbs) {
+            for (PlaylistsCb cb : mPlaylistCbs) cb.onPlaylistsDeleted();
+        }
     }
 
     public void onDiscoveryStarted(String entryPoint) {
@@ -641,47 +655,82 @@ public class Medialibrary {
         if (success) ((MutableLiveData)lastThumb).postValue(media);
     }
 
-    public void setMediaUpdatedCb(MediaUpdatedCb mediaUpdatedCb, int flags) {
-        if (!mIsInitiated)
-            return;
-        this.mediaUpdatedCb = mediaUpdatedCb;
-        nativeSetMediaUpdatedCbFlag(flags);
-    }
-
-    public void removeMediaUpdatedCb() {
-        if (!mIsInitiated)
-            return;
-        setMediaUpdatedCb(null, 0);
-    }
-
-    public void setMediaAddedCb(MediaAddedCb mediaAddedCb, int flags) {
-        if (!mIsInitiated)
-            return;
-        this.mediaAddedCb = mediaAddedCb;
-        nativeSetMediaAddedCbFlag(flags);
-    }
-
-    public void setArtistsAddedCb(ArtistsAddedCb artistsAddedCb) {
+    public void addMediaCb(MediaCb mediaUpdatedCb) {
         if (!mIsInitiated) return;
-        this.mArtistsAddedCb = artistsAddedCb;
+        synchronized (mMediaCbs) {
+//            if (mMediaCbs.isEmpty()) {
+//                nativeSetMediaAddedCbFlag(FLAG_MEDIA_ADDED_AUDIO|FLAG_MEDIA_ADDED_VIDEO);
+//                nativeSetMediaUpdatedCbFlag(FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_VIDEO);
+//            }
+            mMediaCbs.add(mediaUpdatedCb);
+        }
     }
 
-    public void setArtistsModifiedCb(ArtistsModifiedCb artistsModifiedCb) {
-        if (!mIsInitiated)
-            return;
-        this.mArtistsModifiedCb = artistsModifiedCb;
+    public void removeMediaCb(MediaCb mediaUpdatedCb) {
+        if (!mIsInitiated) return;
+        synchronized (mMediaCbs) {
+            mMediaCbs.remove(mediaUpdatedCb);
+//            if (mMediaCbs.isEmpty()) {
+//                nativeSetMediaAddedCbFlag(0);
+//                nativeSetMediaUpdatedCbFlag(0);
+//            }
+        }
     }
 
-    public void setAlbumsAddedCb(AlbumsAddedCb AlbumsAddedCb) {
-        if (!mIsInitiated)
-            return;
-        this.mAlbumsAddedCb = AlbumsAddedCb;
+    public void addArtistsCb(ArtistsCb artistsAddedCb) {
+        if (!mIsInitiated) return;
+        synchronized (mArtistsCbs) {
+            mArtistsCbs.add(artistsAddedCb);
+        }
     }
 
-    public void setAlbumsModifiedCb(AlbumsModifiedCb AlbumsModifiedCb) {
-        if (!mIsInitiated)
-            return;
-        this.mAlbumsModifiedCb = AlbumsModifiedCb;
+    public void removeArtistsCb(ArtistsCb artistsAddedCb) {
+        if (!mIsInitiated) return;
+        synchronized (mArtistsCbs) {
+            mArtistsCbs.remove(artistsAddedCb);
+        }
+    }
+
+    public void addAlbumsCb(AlbumsCb AlbumsAddedCb) {
+        if (!mIsInitiated) return;
+        synchronized (mAlbumsCbs) {
+            mAlbumsCbs.add(AlbumsAddedCb);
+        }
+    }
+
+    public void removeAlbumsCb(AlbumsCb AlbumsAddedCb) {
+        if (!mIsInitiated) return;
+        synchronized (mAlbumsCbs) {
+            mAlbumsCbs.remove(AlbumsAddedCb);
+        }
+    }
+
+    public void addGenreCb(GenresCb GenreCb) {
+        if (!mIsInitiated) return;
+        synchronized (mGenreCbs) {
+            this.mGenreCbs.add(GenreCb);
+        }
+    }
+
+    public void removeGenreCb(GenresCb GenreCb) {
+        if (!mIsInitiated) return;
+        synchronized (mGenreCbs) {
+            this.mGenreCbs.remove(GenreCb);
+        }
+    }
+
+    public void addPlaylistCb(PlaylistsCb playlistCb) {
+        if (!mIsInitiated) return;
+        synchronized (mPlaylistCbs) {
+            this.mPlaylistCbs.add(playlistCb);
+        }
+    }
+
+    public void removePlaylistCb(PlaylistsCb playlistCb) {
+        if (!mIsInitiated) return;
+        synchronized (mPlaylistCbs) {
+            this.mPlaylistCbs.remove(playlistCb);
+        }
     }
 
     public SearchAggregate search(String query) {
@@ -785,12 +834,6 @@ public class Medialibrary {
         synchronized (entryPointsEventsCbList) {
             entryPointsEventsCbList.remove(cb);
         }
-    }
-
-    public void removeMediaAddedCb() {
-        if (!mIsInitiated)
-            return;
-        setMediaAddedCb(null, 0);
     }
 
     public static String[] getBlackList() {
@@ -912,20 +955,34 @@ public class Medialibrary {
                 Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
-    public interface ArtistsAddedCb {
+    public interface MediaCb {
+        void onMediaAdded();
+        void onMediaModified();
+        void onMediaDeleted();
+    }
+
+    public interface ArtistsCb {
         void onArtistsAdded();
-    }
-
-    public interface ArtistsModifiedCb {
         void onArtistsModified();
+        void onArtistsDeleted();
     }
 
-    public interface AlbumsAddedCb {
+    public interface AlbumsCb {
         void onAlbumsAdded();
+        void onAlbumsModified();
+        void onAlbumsDeleted();
     }
 
-    public interface AlbumsModifiedCb {
-        void onAlbumsModified();
+    public interface GenresCb {
+        void onGenresAdded();
+        void onGenresModified();
+        void onGenresDeleted();
+    }
+
+    public interface PlaylistsCb {
+        void onPlaylistsAdded();
+        void onPlaylistsModified();
+        void onPlaylistsDeleted();
     }
 
     public interface OnMedialibraryReadyListener {

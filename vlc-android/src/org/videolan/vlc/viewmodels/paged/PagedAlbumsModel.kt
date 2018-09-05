@@ -8,10 +8,11 @@ import org.videolan.medialibrary.media.Album
 import org.videolan.medialibrary.media.Artist
 import org.videolan.medialibrary.media.Genre
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.util.EmptyMLCallbacks
 import org.videolan.vlc.util.Settings
 
 
-class PagedAlbumsModel(context: Context, val parent: MediaLibraryItem? = null) : MLPagedModel<Album>(context), Medialibrary.AlbumsAddedCb {
+class PagedAlbumsModel(context: Context, val parent: MediaLibraryItem? = null) : MLPagedModel<Album>(context), Medialibrary.AlbumsCb by EmptyMLCallbacks {
 
     override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
@@ -49,12 +50,12 @@ class PagedAlbumsModel(context: Context, val parent: MediaLibraryItem? = null) :
 
     override fun onMedialibraryReady() {
         super.onMedialibraryReady()
-        medialibrary.setAlbumsAddedCb(this)
+        medialibrary.addAlbumsCb(this)
     }
 
     override fun onCleared() {
         super.onCleared()
-        medialibrary.setAlbumsAddedCb(null)
+        medialibrary.removeAlbumsCb(this)
     }
 
     class Factory(private val context: Context, val parent: MediaLibraryItem?) : ViewModelProvider.NewInstanceFactory() {

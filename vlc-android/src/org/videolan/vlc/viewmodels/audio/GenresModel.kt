@@ -26,15 +26,26 @@ import android.content.Context
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.util.EmptyMLCallbacks
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.VLCIO
 
 
-class GenresModel(context: Context): AudioModel(context) {
+class GenresModel(context: Context): AudioModel(context), Medialibrary.GenresCb by EmptyMLCallbacks {
 
     init {
         sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
+    }
+
+    override fun onMedialibraryReady() {
+        super.onMedialibraryReady()
+        medialibrary.addGenreCb(this)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        medialibrary.removeGenreCb(this)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -42,6 +53,14 @@ class GenresModel(context: Context): AudioModel(context) {
         dataset.value = withContext(VLCIO) {
             medialibrary.getGenres(sort, desc).toMutableList() as MutableList<MediaLibraryItem>
         }
+    }
+
+    override fun onGenresAdded() {
+        refresh()
+    }
+
+    override fun onGenresDeleted() {
+        refresh()
     }
 
     class Factory(private val context: Context): ViewModelProvider.NewInstanceFactory() {

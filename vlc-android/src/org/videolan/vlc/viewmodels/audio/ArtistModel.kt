@@ -25,20 +25,16 @@ import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
-import org.videolan.medialibrary.Medialibrary.ArtistsAddedCb
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.util.EmptyMLCallbacks
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.VLCIO
 
-class ArtistModel(context: Context, private var showAll: Boolean = false): AudioModel(context), ArtistsAddedCb {
+class ArtistModel(context: Context, private var showAll: Boolean = false): AudioModel(context), Medialibrary.ArtistsCb by EmptyMLCallbacks {
 
     init {
         sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
-    }
-
-    override fun onArtistsAdded() {
-        refresh()
     }
 
     fun showAll(show: Boolean) {
@@ -55,12 +51,20 @@ class ArtistModel(context: Context, private var showAll: Boolean = false): Audio
 
     override fun onMedialibraryReady() {
         super.onMedialibraryReady()
-        medialibrary.setArtistsAddedCb(this)
+        medialibrary.addArtistsCb(this)
     }
 
     override fun onCleared() {
         super.onCleared()
-        medialibrary.setArtistsAddedCb(null)
+        medialibrary.removeArtistsCb(this)
+    }
+
+    override fun onArtistsAdded() {
+        refresh()
+    }
+
+    override fun onArtistsDeleted() {
+        refresh()
     }
 
     class Factory(private val context: Context, private val showAll: Boolean): ViewModelProvider.NewInstanceFactory() {

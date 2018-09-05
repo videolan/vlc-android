@@ -3,9 +3,20 @@ package org.videolan.vlc.viewmodels.paged
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
+import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Playlist
 
-class PagedPlaylistsModel(context: Context): MLPagedModel<Playlist>(context) {
+class PagedPlaylistsModel(context: Context): MLPagedModel<Playlist>(context), Medialibrary.PlaylistsCb {
+
+    override fun onMedialibraryReady() {
+        super.onMedialibraryReady()
+        medialibrary.addPlaylistCb(this)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        medialibrary.removePlaylistCb(this)
+    }
 
     override fun canSortByDuration() = true
 
@@ -13,6 +24,18 @@ class PagedPlaylistsModel(context: Context): MLPagedModel<Playlist>(context) {
     else medialibrary.searchPlaylist(filter, sort, desc, loadSize, startposition)
 
     override fun getTotalCount() = if (filter == null) medialibrary.playlistsCount else medialibrary.getPlaylistsCount(filter)
+
+    override fun onPlaylistsAdded() {
+        refresh()
+    }
+
+    override fun onPlaylistsModified() {
+        refresh()
+    }
+
+    override fun onPlaylistsDeleted() {
+        refresh()
+    }
 
     class Factory(private val context: Context): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

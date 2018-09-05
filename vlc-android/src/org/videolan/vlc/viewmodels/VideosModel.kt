@@ -28,15 +28,13 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
-import org.videolan.medialibrary.interfaces.MediaAddedCb
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.media.MediaGroup
 import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.VLCIO
 
-open class VideosModel(context: Context, private val group: String?, private val minGroupLen: Int, customSort : Int, customDesc: Boolean?) : MedialibraryModel<MediaWrapper>(context), MediaAddedCb {
+open class VideosModel(context: Context, private val group: String?, private val minGroupLen: Int, customSort : Int, customDesc: Boolean?) : MedialibraryModel<MediaWrapper>(context), Medialibrary.MediaCb {
 
     override val sortKey = "${super.sortKey}_$group"
     override fun canSortByFileNameName() = true
@@ -52,12 +50,16 @@ open class VideosModel(context: Context, private val group: String?, private val
         Medialibrary.lastThumb.observeForever(thumbObs)
     }
 
-    override fun onMediaAdded(mediaList: Array<out MediaWrapper>?) {
-        if (!Util.isArrayEmpty<MediaWrapper>(mediaList)) updateActor.offer(MediaListAddition(mediaList!!.filter { it.type == MediaWrapper.TYPE_VIDEO }))
+    override fun onMediaAdded() {
+        refresh()
     }
 
-    override fun onMediaUpdated(mediaList: Array<out MediaWrapper>?) {
-        if (!Util.isArrayEmpty<MediaWrapper>(mediaList)) updateActor.offer(MediaUpdate(mediaList!!.filter { it.type == MediaWrapper.TYPE_VIDEO }))
+    override fun onMediaModified() {
+        refresh()
+    }
+
+    override fun onMediaDeleted() {
+        refresh()
     }
 
     override suspend fun updateList() {
@@ -84,14 +86,12 @@ open class VideosModel(context: Context, private val group: String?, private val
 
     override fun onMedialibraryReady() {
         super.onMedialibraryReady()
-        medialibrary.setMediaUpdatedCb(this, Medialibrary.FLAG_MEDIA_UPDATED_VIDEO)
-        medialibrary.setMediaAddedCb(this, Medialibrary.FLAG_MEDIA_ADDED_VIDEO)
+        medialibrary.addMediaCb(this)
     }
 
     override fun onCleared() {
         super.onCleared()
-        medialibrary.removeMediaAddedCb()
-        medialibrary.removeMediaUpdatedCb()
+        medialibrary.removeMediaCb(this)
         Medialibrary.lastThumb.removeObserver(thumbObs)
     }
 

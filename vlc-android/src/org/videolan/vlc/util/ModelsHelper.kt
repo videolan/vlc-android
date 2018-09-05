@@ -4,8 +4,6 @@ import android.text.TextUtils
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Medialibrary
-import org.videolan.medialibrary.interfaces.MediaAddedCb
-import org.videolan.medialibrary.interfaces.MediaUpdatedCb
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.viewmodels.SortableModel
@@ -188,13 +186,22 @@ object ModelsHelper {
     }
 }
 
-object EmptyMLCallbacks : MediaAddedCb, MediaUpdatedCb, Medialibrary.ArtistsAddedCb, Medialibrary.ArtistsModifiedCb, Medialibrary.AlbumsAddedCb, Medialibrary.AlbumsModifiedCb {
-    override fun onMediaAdded(mediaList: Array<out MediaWrapper>?) {}
-    override fun onMediaUpdated(mediaList: Array<out MediaWrapper>?) {}
+object EmptyMLCallbacks : Medialibrary.MediaCb, Medialibrary.ArtistsCb, Medialibrary.AlbumsCb, Medialibrary.GenresCb, Medialibrary.PlaylistsCb {
+    override fun onMediaAdded() {}
+    override fun onMediaModified() {}
+    override fun onMediaDeleted() {}
+    override fun onArtistsDeleted() {}
+    override fun onAlbumsDeleted() {}
     override fun onArtistsAdded() {}
     override fun onArtistsModified() {}
     override fun onAlbumsAdded() {}
     override fun onAlbumsModified() {}
+    override fun onGenresAdded() {}
+    override fun onGenresModified() {}
+    override fun onGenresDeleted() {}
+    override fun onPlaylistsAdded() {}
+    override fun onPlaylistsModified() {}
+    override fun onPlaylistsDeleted() {}
 }
 
 object EmptyPBSCallback : PlaybackService.Callback {

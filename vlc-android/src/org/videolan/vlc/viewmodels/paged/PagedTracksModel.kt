@@ -7,7 +7,7 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.util.Settings
 
-class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): MLPagedModel<MediaWrapper>(context) {
+class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): MLPagedModel<MediaWrapper>(context), Medialibrary.MediaCb {
 
     override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
@@ -23,11 +23,25 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
         }
     }
 
-    override fun onMediaAdded(mediaList: Array<out MediaWrapper>?) {
+    override fun onMedialibraryReady() {
+        super.onMedialibraryReady()
+        medialibrary.addMediaCb(this)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        medialibrary.removeMediaCb(this)
+    }
+
+    override fun onMediaAdded() {
         refresh()
     }
 
-    override fun onMediaUpdated(mediaList: Array<out MediaWrapper>?) {
+    override fun onMediaModified() {
+        refresh()
+    }
+
+    override fun onMediaDeleted() {
         refresh()
     }
 

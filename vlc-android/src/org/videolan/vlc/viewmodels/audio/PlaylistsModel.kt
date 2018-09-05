@@ -24,11 +24,23 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import kotlinx.coroutines.experimental.withContext
+import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.util.EmptyMLCallbacks
 import org.videolan.vlc.util.VLCIO
 
 
-class PlaylistsModel(context: Context): AudioModel(context) {
+class PlaylistsModel(context: Context): AudioModel(context), Medialibrary.PlaylistsCb by EmptyMLCallbacks {
+
+    override fun onMedialibraryReady() {
+        super.onMedialibraryReady()
+        medialibrary.addPlaylistCb(this)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        medialibrary.removePlaylistCb(this)
+    }
 
     override fun canSortByDuration() = true
 
@@ -42,5 +54,13 @@ class PlaylistsModel(context: Context): AudioModel(context) {
             @Suppress("UNCHECKED_CAST")
             return PlaylistsModel(context.applicationContext) as T
         }
+    }
+
+    override fun onPlaylistsAdded() {
+        refresh()
+    }
+
+    override fun onPlaylistsDeleted() {
+        refresh()
     }
 }
