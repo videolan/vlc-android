@@ -56,7 +56,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
-import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_PLAYLIST;
 
 public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> {
 
@@ -89,8 +88,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
             return new ViewHolder<>(binding);
         } else {
             final AudioBrowserItemBinding binding = AudioBrowserItemBinding.inflate(inflater, parent, false);
-            // Hide context button for playlist in save playlist dialog
-            if (mType == TYPE_PLAYLIST) binding.itemMore.setVisibility(View.GONE);
             return new MediaItemViewHolder(binding);
         }
     }
