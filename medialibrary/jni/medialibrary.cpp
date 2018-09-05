@@ -1818,7 +1818,7 @@ int MediaLibraryJNI_OnLoad(JavaVM *vm, JNIEnv* env)
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onMediaDeletedId,
            ml_fields.MediaLibrary.clazz,
-           "onMediaDeleted", "([J)V");
+           "onMediaDeleted", "()V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onArtistsAddedId,
            ml_fields.MediaLibrary.clazz,
@@ -1838,19 +1838,19 @@ int MediaLibraryJNI_OnLoad(JavaVM *vm, JNIEnv* env)
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onArtistsDeletedId,
            ml_fields.MediaLibrary.clazz,
-           "onArtistsDeleted", "([J)V");
+           "onArtistsDeleted", "()V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onAlbumsDeletedId,
            ml_fields.MediaLibrary.clazz,
-           "onAlbumsDeleted", "([J)V");
+           "onAlbumsDeleted", "()V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onGenresDeletedId,
            ml_fields.MediaLibrary.clazz,
-           "onGenresDeleted", "([J)V");
+           "onGenresDeleted", "()V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onPlaylistsDeletedId,
            ml_fields.MediaLibrary.clazz,
-           "onPlaylistsDeleted", "([J)V");
+           "onPlaylistsDeleted", "()V");
     GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onArtistsModifiedId,
            ml_fields.MediaLibrary.clazz,

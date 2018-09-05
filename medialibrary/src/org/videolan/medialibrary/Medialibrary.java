@@ -456,7 +456,7 @@ public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
-    public void onMediaDeleted(long[] ids) {
+    public void onMediaDeleted() {
         synchronized (mMediaCbs) {
             for (MediaCb cb : mMediaCbs) cb.onMediaDeleted();
         }
@@ -477,7 +477,7 @@ public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
-    public void onArtistsDeleted(long[] ids) {
+    public void onArtistsDeleted() {
         synchronized (mArtistsCbs) {
             for (ArtistsCb cb : mArtistsCbs) cb.onArtistsDeleted();
         }
@@ -498,7 +498,7 @@ public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
-    public void onAlbumsDeleted(long[] ids) {
+    public void onAlbumsDeleted() {
         synchronized (mAlbumsCbs) {
             for (AlbumsCb cb : mAlbumsCbs) cb.onAlbumsDeleted();
         }
@@ -519,7 +519,7 @@ public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
-    public void onGenresDeleted(long[] ids) {
+    public void onGenresDeleted() {
         synchronized (mGenreCbs) {
             for (GenresCb cb : mGenreCbs) cb.onGenresDeleted();
         }
@@ -540,7 +540,7 @@ public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
-    public void onPlaylistsDeleted(long[] ids) {
+    public void onPlaylistsDeleted() {
         synchronized (mPlaylistCbs) {
             for (PlaylistsCb cb : mPlaylistCbs) cb.onPlaylistsDeleted();
         }

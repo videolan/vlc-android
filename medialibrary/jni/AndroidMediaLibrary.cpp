@@ -593,7 +593,14 @@ void AndroidMediaLibrary::onArtistsModified( std::vector<medialibrary::ArtistPtr
 
 void AndroidMediaLibrary::onArtistsDeleted( std::vector<int64_t> ids )
 {
-
+    if (m_mediaUpdatedType & (FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_AUDIO_EMPTY))
+    {
+        JNIEnv *env = getEnv();
+        if (env != NULL || weak_thiz)
+        {
+            env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onArtistsDeletedId);
+        }
+    }
 }
 
 void AndroidMediaLibrary::onAlbumsAdded( std::vector<medialibrary::AlbumPtr> albums )
