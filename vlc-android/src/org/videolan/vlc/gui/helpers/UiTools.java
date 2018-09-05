@@ -122,6 +122,21 @@ public class UiTools {
     }
 
     /** Print an on-screen message to alert the user, with undo action */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static void snackerConfirm(@NonNull View view, @NonNull String message, @NonNull final Runnable action) {
+        final Snackbar snack = Snackbar.make(view, message, DELETE_DURATION)
+                .setAction(android.R.string.ok, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        action.run();
+                    }
+                });
+        if (AndroidUtil.isLolliPopOrLater)
+            snack.getView().setElevation(view.getResources().getDimensionPixelSize(R.dimen.audio_player_elevation));
+        snack.show();
+    }
+
+    /** Print an on-screen message to alert the user, with undo action */
     public static void snackerWithCancel(@NonNull View view, @NonNull String message, @NonNull final Runnable action) {
         snackerWithCancel(view, message, action, null);
     }

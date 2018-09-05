@@ -161,50 +161,29 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
     }
 
     protected boolean removeItem(int position, AudioBrowserAdapter adapter, final MediaLibraryItem item) {
-        final MediaLibraryItem previous = position > 0 ? adapter.getItem(position-1) : null;
-        final MediaLibraryItem next = position < adapter.getItemCount()-1 ? adapter.getItem(position+1) : null;
-        final MLPagedModel model = getViewModel();
-        final String message;
-        final Runnable action;
-        final Runnable cancel;
-        final MediaLibraryItem separator = previous != null && previous.getItemType() == MediaLibraryItem.TYPE_DUMMY &&
-                (next == null || next.getItemType() == MediaLibraryItem.TYPE_DUMMY) ? previous : null;
-        if (separator != null) model.remove(separator);
-        model.remove(item);
-
+        final View view = getView();
+        if (view == null) return false;
         if (item.getItemType() == MediaLibraryItem.TYPE_PLAYLIST) {
-            cancel = null;
-            message = getString(R.string.playlist_deleted);
-            action = new Runnable() {
+            UiTools.snackerConfirm(getView(), "Delete " + item.getTitle() + "?", new Runnable() {
                 @Override
                 public void run() {
                     MediaUtils.INSTANCE.deletePlaylist((Playlist) item);
                 }
-            };
+            });
         } else if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
-            message = getString(R.string.file_deleted);
-            cancel = new Runnable() {
+            final Runnable deleteAction = new Runnable() {
                 @Override
                 public void run() {
-                    model.refresh();
+                    deleteMedia(item, false, null);
                 }
             };
-            action = new Runnable() {
+            UiTools.snackerConfirm(getView(), "Delete " + item.getTitle() + "?", new Runnable() {
                 @Override
                 public void run() {
-                    deleteMedia(item, true, cancel);
+                    if (checkWritePermission((MediaWrapper) item, deleteAction)) deleteAction.run();
                 }
-            };
-            if (!checkWritePermission((MediaWrapper) item, new Runnable() {
-                @Override
-                public void run() {
-                    final View v = getView();
-                    if (v != null) UiTools.snackerWithCancel(getView(), message, action, cancel);
-                }
-            })) return false;
+            });
         } else return false;
-        final View v = getView();
-        if (v != null) UiTools.snackerWithCancel(getView(), message, action, cancel);
         return true;
     }
 
@@ -230,7 +209,17 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
 
     @Override
     public void onCtxClick(View anchor, final int position, MediaLibraryItem item) {
-        final int flags = item.getItemType() == MediaLibraryItem.TYPE_MEDIA ? Constants.CTX_TRACK_FLAGS : Constants.CTX_AUDIO_FLAGS;
+        final int flags;
+        switch (item.getItemType()) {
+            case MediaLibraryItem.TYPE_MEDIA:
+                flags = Constants.CTX_TRACK_FLAGS;
+                break;
+            case MediaLibraryItem.TYPE_PLAYLIST:
+                flags = Constants.CTX_PLAYLIST_FLAGS;
+                break;
+            default:
+                flags = Constants.CTX_AUDIO_FLAGS;
+        }
         if (mActionMode == null) ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), flags);
     }
 
