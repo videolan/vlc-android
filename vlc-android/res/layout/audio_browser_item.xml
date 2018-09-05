@@ -28,11 +28,11 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
+        android:minHeight="@dimen/audio_browser_item_size"
+        android:paddingBottom="8dp"
         android:longClickable="true"
         android:clickable="true"
-        android:focusable="@{item.getItemType() != MediaLibraryItem.TYPE_DUMMY}"
+        android:focusable="true"
         android:onClick="@{holder::onClick}"
         android:onLongClick="@{holder::onLongClick}"
         android:background="@{bgColor}" >
@@ -40,27 +40,29 @@
             android:id="@+id/section_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
             android:paddingStart="8dp"
+            android:paddingBottom="8dp"
             vlc:layout_constraintTop_toTopOf="parent"
             android:singleLine="true"
             android:text="@{header}"
             android:textColor="?attr/audio_browser_separator"
             android:textSize="20sp"
+            android:background="?attr/background_default"
             android:visibility="@{TextUtils.isEmpty(header) ? View.GONE : View.VISIBLE, default=gone}"/>
 
         <!-- Image loading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
         <ImageView
             android:id="@+id/media_cover"
-            android:layout_width="@dimen/audio_browser_item_size"
             android:layout_height="@dimen/audio_browser_item_size"
-            vlc:layout_constraintTop_toBottomOf="@+id/section_header"
+            android:layout_width="0dp"
+            vlc:layout_constraintDimensionRatio="1"
+            vlc:layout_constraintTop_toTopOf="@+id/title"
             vlc:layout_constraintStart_toStartOf="parent"
             vlc:layout_constraintBottom_toBottomOf="parent"
             android:layout_gravity="center"
             vlc:media="@{item}"
             android:background="@{cover}"
-            android:visibility="@{(item.getItemType() &amp; (MediaLibraryItem.TYPE_ALBUM|MediaLibraryItem.TYPE_ARTIST|MediaLibraryItem.TYPE_MEDIA)) != 0 ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{(item.getItemType() &amp; (MediaLibraryItem.TYPE_ALBUM|MediaLibraryItem.TYPE_ARTIST|MediaLibraryItem.TYPE_MEDIA)) != 0 ? View.VISIBLE : View.GONE, default=gone}"/>
 
 
         <!-- TextView must be set to singleLine
@@ -70,10 +72,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             vlc:layout_constraintVertical_chainStyle="packed"
-            vlc:layout_constraintTop_toTopOf="@+id/media_cover"
+            vlc:layout_constraintTop_toBottomOf="@+id/section_header"
             vlc:layout_constraintStart_toEndOf="@+id/media_cover"
             vlc:layout_constraintEnd_toStartOf="@+id/item_more"
             vlc:layout_constraintBottom_toTopOf="@+id/subtitle"
+            android:layout_marginTop="8dp"
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginLeft="@dimen/default_margin"
             android:gravity="center_vertical"
@@ -98,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             vlc:layout_constraintEnd_toEndOf="parent"
-            vlc:layout_constraintTop_toTopOf="@+id/media_cover"
+            vlc:layout_constraintTop_toTopOf="@+id/title"
             vlc:layout_constraintBottom_toBottomOf="parent"
             android:scaleType="center"
             android:src="@drawable/ic_more"
