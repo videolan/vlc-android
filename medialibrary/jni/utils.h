@@ -46,6 +46,12 @@ struct fields {
         jmethodID onAlbumsDeletedId;
         jmethodID onTracksAddedId;
         jmethodID onTracksDeletedId;
+        jmethodID onGenresAddedId;
+        jmethodID onGenresModifiedId;
+        jmethodID onGenresDeletedId;
+        jmethodID onPlaylistsAddedId;
+        jmethodID onPlaylistsModifiedId;
+        jmethodID onPlaylistsDeletedId;
         jmethodID onDiscoveryStartedId;
         jmethodID onDiscoveryProgressId;
         jmethodID onDiscoveryCompletedId;

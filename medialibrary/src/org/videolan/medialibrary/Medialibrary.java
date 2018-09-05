@@ -52,6 +52,7 @@ public class Medialibrary {
     public final static int SORT_ALBUM = 9;
     public final static int SORT_FILENAME = 10;
 
+    private long mInstanceID;
     public static final int FLAG_MEDIA_UPDATED_AUDIO        = 1 << 0;
     public static final int FLAG_MEDIA_UPDATED_AUDIO_EMPTY  = 1 << 1;
     public static final int FLAG_MEDIA_UPDATED_VIDEO        = 1 << 2;
@@ -71,8 +72,6 @@ public class Medialibrary {
     public static final String VLC_MEDIA_DB_NAME = "/vlc_media.db";
     public static final String THUMBS_FOLDER_NAME = "/thumbs";
 
-
-    private long mInstanceID;
     private volatile boolean mIsInitiated = false;
     private volatile boolean mIsWorking = false;
 
@@ -495,6 +494,42 @@ public class Medialibrary {
     public void onAlbumsDeleted(long[] ids) {
         for (long id : ids)
             Log.d(TAG, "onAlbumsDeleted: "+id);
+    }
+
+    @SuppressWarnings("unused")
+    public void onGenresAdded() {
+//        if (mGenresAddedCb != null)
+//            mGenresAddedCb.onGenresAdded();
+    }
+
+    @SuppressWarnings("unused")
+    public void onGenresModified() {
+//        if (mGenresModifiedCb != null)
+//            mGenresModifiedCb.onGenresModified();
+    }
+
+    @SuppressWarnings("unused")
+    public void onGenresDeleted(long[] ids) {
+        for (long id : ids)
+            Log.d(TAG, "onGenresDeleted: "+id);
+    }
+
+    @SuppressWarnings("unused")
+    public void onPlaylistsAdded() {
+//        if (mPlaylistsAddedCb != null)
+//            mPlaylistsAddedCb.onPlaylistsAdded();
+    }
+
+    @SuppressWarnings("unused")
+    public void onPlaylistsModified() {
+//        if (mPlaylistsModifiedCb != null)
+//            mPlaylistsModifiedCb.onPlaylistsModified();
+    }
+
+    @SuppressWarnings("unused")
+    public void onPlaylistsDeleted(long[] ids) {
+        for (long id : ids)
+            Log.d(TAG, "onPlaylistsDeleted: "+id);
     }
 
     public void onDiscoveryStarted(String entryPoint) {

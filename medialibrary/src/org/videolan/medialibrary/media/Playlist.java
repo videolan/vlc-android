@@ -27,7 +27,8 @@ public class Playlist extends MediaLibraryItem {
     }
 
     public int getTracksCount() {
-        return mTracksCount;
+        Medialibrary ml = Medialibrary.getInstance();
+        return ml.isInitiated() ? nativeGetTracksCount(ml, mId) : 0;
     }
 
     @Override
@@ -109,6 +110,7 @@ public class Playlist extends MediaLibraryItem {
 
     private native MediaWrapper[] nativeGetTracks(Medialibrary ml, long id);
     private native MediaWrapper[] nativeGetPagedTracks(Medialibrary ml, long id, int nbItems, int offset);
+    private native int nativeGetTracksCount(Medialibrary ml, long id);
     private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetSearchCount(Medialibrary ml, long mId, String query);
     private native boolean nativePlaylistAppend(Medialibrary ml, long id, long mediaId);

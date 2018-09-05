@@ -575,7 +575,7 @@ void AndroidMediaLibrary::onArtistsAdded( std::vector<medialibrary::ArtistPtr> a
 
 void AndroidMediaLibrary::onArtistsModified( std::vector<medialibrary::ArtistPtr> artist )
 {
-    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO_EMPTY)
+    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
     {
         JNIEnv *env = getEnv();
         if (env == NULL) return;
@@ -619,34 +619,94 @@ void AndroidMediaLibrary::onAlbumsModified( std::vector<medialibrary::AlbumPtr> 
 
 void AndroidMediaLibrary::onPlaylistsAdded( std::vector<medialibrary::PlaylistPtr> playlists )
 {
+    if (m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO)
+    {
+        JNIEnv *env = getEnv();
+        if (env == NULL) return;
+        if (weak_thiz)
+        {
+            env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onPlaylistsAddedId);
+        }
+    }
 
 }
 
 void AndroidMediaLibrary::onPlaylistsModified( std::vector<medialibrary::PlaylistPtr> playlist )
 {
-
+    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
+    {
+        JNIEnv *env = getEnv();
+        if (env == NULL) return;
+        if (weak_thiz)
+        {
+            env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onPlaylistsModifiedId);
+        }
+    }
 }
 
 void AndroidMediaLibrary::onPlaylistsDeleted( std::vector<int64_t> ids )
 {
-
+    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
+    {
+        JNIEnv *env = getEnv();
+        if (env == NULL) return;
+        if (weak_thiz)
+        {
+            env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onPlaylistsDeletedId);
+        }
+    }
 }
 
 void AndroidMediaLibrary::onGenresAdded( std::vector<medialibrary::GenrePtr> )
 {
+    if (m_mediaAddedType & FLAG_MEDIA_ADDED_AUDIO)
+    {
+        JNIEnv *env = getEnv();
+        if (env == NULL) return;
+        if (weak_thiz)
+        {
+            env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onGenresAddedId);
+        }
+    }
 }
 
 void AndroidMediaLibrary::onGenresModified( std::vector<medialibrary::GenrePtr> )
 {
+    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
+    {
+        JNIEnv *env = getEnv();
+        if (env == NULL) return;
+        if (weak_thiz)
+        {
+            env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onGenresModifiedId);
+        }
+    }
 }
 
 void AndroidMediaLibrary::onGenresDeleted( std::vector<int64_t> )
 {
+    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
+    {
+        JNIEnv *env = getEnv();
+        if (env == NULL) return;
+        if (weak_thiz)
+        {
+            env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onGenresDeletedId);
+        }
+    }
 }
 
-void AndroidMediaLibrary::onAlbumsDeleted( std::vector<int64_t> ids )
+void AndroidMediaLibrary::onAlbumsDeleted( std::vector<int64_t> )
 {
-
+    if (m_mediaUpdatedType & FLAG_MEDIA_UPDATED_AUDIO)
+    {
+        JNIEnv *env = getEnv();
+        if (env == NULL) return;
+        if (weak_thiz)
+        {
+            env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onAlbumsDeletedId);
+        }
+    }
 }
 
 void AndroidMediaLibrary::onDiscoveryStarted( const std::string& entryPoint )
