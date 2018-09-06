@@ -187,9 +187,15 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         super.onUpdateFinished(adapter);
-        mFastScroller.setRecyclerView(getCurrentRV(), getViewModel().getTotalCount());
-        mSwipeRefreshLayout.setRefreshing(false);
-        if (mAlbumsAdapter.isEmpty() && !getViewModel().isFiltering()) mViewPager.setCurrentItem(1);
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                mFastScroller.setRecyclerView(getCurrentRV(), getViewModel().getTotalCount());
+                mSwipeRefreshLayout.setRefreshing(false);
+                final List<Album> albums = albumModel.getPagedList().getValue();
+                if (Util.isListEmpty(albums) && !getViewModel().isFiltering()) mViewPager.setCurrentItem(1);
+            }
+        });
     }
 
     /*
