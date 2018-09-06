@@ -197,31 +197,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         MediaUtils.INSTANCE.openMedia(getActivity(), media);
     }
 
-    private void removeVideo(final MediaWrapper media) {
-        if (!checkWritePermission(media, new Runnable() {
-            @Override
-            public void run() {
-                removeVideo(media);
-            }
-        })) return;
-        viewModel.remove(media);
-        final View view = getView();
-        if (view != null) {
-            final Runnable revert = new Runnable() {
-                @Override
-                public void run() {
-                    viewModel.refresh();
-                }
-            };
-            UiTools.snackerWithCancel(view, getString(R.string.file_deleted), new Runnable() {
-                @Override
-                public void run() {
-                    deleteMedia(media, false, revert);
-                }
-            }, revert);
-        }
-    }
-
     @Override
     public void onFabPlayClick(View view) {
         List<MediaWrapper> playList = new ArrayList<>();
@@ -429,7 +404,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 showInfoDialog(media);
                 break;
             case Constants.CTX_DELETE:
-                removeVideo(media);
+                removeItem(media);
                 break;
             case Constants.CTX_PLAY_GROUP:
                 MediaUtils.INSTANCE.openList(getActivity(), ((MediaGroup) media).getAll(), 0);

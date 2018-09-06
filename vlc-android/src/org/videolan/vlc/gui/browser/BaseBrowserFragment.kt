@@ -57,7 +57,6 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.*
-import org.videolan.vlc.util.KEY_MRL
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.util.*
 
@@ -278,10 +277,17 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun clear() = adapter.clear()
 
-    private fun removeMedia(mw: MediaWrapper) {
-        viewModel.remove(mw)
+    override fun removeItem(item: MediaLibraryItem?): Boolean {
+        val view = view ?: return false
+        val mw = item as? MediaWrapper ?: return false
         val cancel = Runnable { viewModel.refresh() }
-        view?.let { UiTools.snackerWithCancel(it, getString(R.string.file_deleted), Runnable { deleteMedia(mw, false, cancel) }, cancel) }
+        val deleteAction = Runnable {
+            deleteMedia(mw, false, cancel)
+            viewModel.remove(mw)
+        }
+        val resId = if (mw.type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
+        UiTools.snackerConfirm(view, getString(resId, mw.title)) { if (checkWritePermission(mw, deleteAction)) deleteAction.run() }
+        return true
     }
 
     private fun showMediaInfo(mw: MediaWrapper) {
@@ -452,8 +458,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 playAll(mw)
             }
             CTX_APPEND -> MediaUtils.appendMedia(activity, mw)
-            CTX_DELETE -> if (checkWritePermission(mw) { removeMedia(mw) })
-                removeMedia(mw)
+            CTX_DELETE -> removeItem(mw)
             CTX_INFORMATION -> showMediaInfo(mw)
             CTX_PLAY_AS_AUDIO -> {
                 mw.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)

@@ -45,6 +45,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.Playlist;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
@@ -56,6 +57,7 @@ import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.Filterable;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
@@ -145,6 +147,34 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
     protected String getSubTitle() { return null; }
     public void clear() {}
 
+    protected boolean removeItem(final MediaLibraryItem item) {
+        final View view = getView();
+        if (view == null) return false;
+        if (item.getItemType() == MediaLibraryItem.TYPE_PLAYLIST) {
+            UiTools.snackerConfirm(getView(), getString(R.string.confirm_delete_playlist, item.getTitle()), new Runnable() {
+                @Override
+                public void run() {
+                    MediaUtils.INSTANCE.deletePlaylist((Playlist) item);
+                }
+            });
+        } else if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
+            final Runnable deleteAction = new Runnable() {
+                @Override
+                public void run() {
+                    deleteMedia(item, false, null);
+                }
+            };
+            final int resid = ((MediaWrapper)item).getType() == MediaWrapper.TYPE_DIR ? R.string.confirm_delete_folder : R.string.confirm_delete;
+            UiTools.snackerConfirm(getView(), getString(resid, item.getTitle()), new Runnable() {
+                @Override
+                public void run() {
+                    if (checkWritePermission((MediaWrapper) item, deleteAction)) deleteAction.run();
+                }
+            });
+        } else return false;
+        return true;
+    }
+
     protected void deleteMedia(final MediaLibraryItem mw, final boolean refresh, final Runnable failCB) {
         WorkersKt.runBackground(new Runnable() {
             @Override
@@ -170,8 +200,6 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
                                 if (failCB != null) failCB.run();
                                 return;
                             }
-                            // TODO
-//                            if (mService != null) for (String path : mediaPaths) mService.removeLocation(path);
                             if (refresh) onRefresh();
                         }
                     });

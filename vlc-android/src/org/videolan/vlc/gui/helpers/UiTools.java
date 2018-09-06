@@ -124,7 +124,7 @@ public class UiTools {
     /** Print an on-screen message to alert the user, with undo action */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void snackerConfirm(@NonNull View view, @NonNull String message, @NonNull final Runnable action) {
-        final Snackbar snack = Snackbar.make(view, message, DELETE_DURATION)
+        final Snackbar snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction(android.R.string.ok, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

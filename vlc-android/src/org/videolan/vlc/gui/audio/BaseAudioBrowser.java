@@ -160,33 +160,6 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
         return false;
     }
 
-    protected boolean removeItem(int position, AudioBrowserAdapter adapter, final MediaLibraryItem item) {
-        final View view = getView();
-        if (view == null) return false;
-        if (item.getItemType() == MediaLibraryItem.TYPE_PLAYLIST) {
-            UiTools.snackerConfirm(getView(), "Delete " + item.getTitle() + "?", new Runnable() {
-                @Override
-                public void run() {
-                    MediaUtils.INSTANCE.deletePlaylist((Playlist) item);
-                }
-            });
-        } else if (item.getItemType() == MediaLibraryItem.TYPE_MEDIA) {
-            final Runnable deleteAction = new Runnable() {
-                @Override
-                public void run() {
-                    deleteMedia(item, false, null);
-                }
-            };
-            UiTools.snackerConfirm(getView(), "Delete " + item.getTitle() + "?", new Runnable() {
-                @Override
-                public void run() {
-                    if (checkWritePermission((MediaWrapper) item, deleteAction)) deleteAction.run();
-                }
-            });
-        } else return false;
-        return true;
-    }
-
     @Override
     public void onClick(View v, int position, @NonNull MediaLibraryItem item) {
         if (mActionMode != null) {
@@ -247,7 +220,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
                 showInfoDialog(media);
                 break;
             case Constants.CTX_DELETE:
-                removeItem(position, adapter, media);
+                removeItem(media);
                 break;
             case Constants.CTX_APPEND:
                 MediaUtils.INSTANCE.appendMedia(requireActivity(), media.getTracks());
