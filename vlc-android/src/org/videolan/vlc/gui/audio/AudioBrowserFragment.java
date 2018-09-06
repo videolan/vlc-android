@@ -61,6 +61,7 @@ import org.videolan.vlc.viewmodels.paged.PagedGenresModel;
 import org.videolan.vlc.viewmodels.paged.PagedPlaylistsModel;
 import org.videolan.vlc.viewmodels.paged.PagedTracksModel;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -230,7 +231,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
 
     @Override
     public void onFabPlayClick(View view) {
-        final List<MediaWrapper> list = ((List<MediaWrapper>)(List<?>) mSongsAdapter.getMediaItems());
+        final List<MediaWrapper> list = Arrays.asList(tracksModel.getAll());
         final int count = list.size();
         if (count > 0) {
             final Random rand = new Random();

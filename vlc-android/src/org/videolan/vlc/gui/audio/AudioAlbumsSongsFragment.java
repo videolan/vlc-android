@@ -55,6 +55,7 @@ import org.videolan.vlc.viewmodels.paged.PagedAlbumsModel;
 import org.videolan.vlc.viewmodels.paged.PagedTracksModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, TabLayout.OnTabSelectedListener {
@@ -261,10 +262,10 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         final List<MediaWrapper> list ;
         if (mViewPager.getCurrentItem() == 0) {
             list = new ArrayList<>();
-            for (MediaLibraryItem item : mAlbumsAdapter.getMediaItems())
+            for (MediaLibraryItem item : albumModel.getAll())
                 list.addAll(Util.arrayToArrayList(item.getTracks()));
         } else {
-            list = (List<MediaWrapper>) (List<?>) mSongsAdapter.getMediaItems();
+            list = Arrays.asList(tracksModel.getAll());
         }
         MediaUtils.INSTANCE.openList(getActivity(), list, 0);
     }

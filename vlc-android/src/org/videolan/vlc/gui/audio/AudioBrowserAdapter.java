@@ -30,7 +30,6 @@ import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
@@ -40,7 +39,6 @@ import android.view.ViewGroup;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaLibraryItem;
-import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.tools.MultiSelectAdapter;
 import org.videolan.tools.MultiSelectHelper;
 import org.videolan.vlc.BR;
@@ -54,8 +52,6 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.ModelsHelper;
 import org.videolan.vlc.util.Util;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
@@ -157,17 +153,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     public boolean isEmpty() {
         final PagedList<MediaLibraryItem> currentList = getCurrentList();
         return currentList == null || currentList.isEmpty();
-    }
-
-    public List<MediaLibraryItem> getAll() {
-        return getCurrentList();
-    }
-
-    List<MediaLibraryItem> getMediaItems() {
-        final List<MediaLibraryItem> list = new ArrayList<>();
-        final PagedList<MediaLibraryItem> currentList = getCurrentList();
-        if (currentList != null) for (MediaLibraryItem item : currentList) if (!(item.getItemType() == MediaLibraryItem.TYPE_DUMMY)) list.add(item);
-        return list;
     }
 
     int getListWithPosition(List<MediaLibraryItem> list, int position) {
