@@ -25,6 +25,8 @@ class PagedGenresModel(context: Context): MLPagedModel<Genre>(context), Medialib
         medialibrary.removeGenreCb(this)
     }
 
+    override fun getAll() = medialibrary.getGenres(sort, desc)
+
     override fun getPage(loadSize: Int, startposition: Int) = if (filter == null) medialibrary.getPagedGenres(sort, desc, loadSize, startposition)
     else medialibrary.searchGenre(filter, sort, desc, loadSize, startposition)
 

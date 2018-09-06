@@ -24,6 +24,8 @@ class PagedArtistsModel(context: Context, private var showAll: Boolean = false):
         showAll = show
     }
 
+    override fun getAll() = medialibrary.getArtists(showAll, sort, desc)
+
     override fun getPage(loadSize: Int, startposition: Int): Array<Artist> {
         return if (filter == null) medialibrary.getPagedArtists(showAll, sort, desc, loadSize, startposition)
         else medialibrary.searchArtist(filter, sort, desc, loadSize, startposition)

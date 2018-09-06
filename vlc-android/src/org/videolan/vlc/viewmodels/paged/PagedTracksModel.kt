@@ -45,6 +45,8 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
         refresh()
     }
 
+    override fun getAll(): Array<MediaWrapper> = parent?.tracks ?: medialibrary.getAudio(sort, desc)
+
     override fun getPage(loadSize: Int, startposition: Int) : Array<MediaWrapper> = if (filter == null) when(parent) {
         is Artist -> parent.getPagedTracks(sort, desc, loadSize, startposition)
         is Album -> parent.getPagedTracks(sort, desc, loadSize, startposition)
