@@ -318,21 +318,21 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-        val count = adapter.selectionCount
+        val count = adapter.multiSelectHelper.getSelectionCount()
         if (count == 0) {
             stopActionMode()
             return false
         }
         val single = this is FileBrowserFragment && count == 1
-        val selection = if (single) adapter.selection else null
-        val type = if (!Util.isListEmpty(selection)) selection!![0].type else -1
+        val selection = if (single) adapter.multiSelectHelper.getSelection() else null
+        val type = if (!Util.isListEmpty(selection)) (selection!![0] as MediaWrapper).type else -1
         menu.findItem(R.id.action_mode_file_info).isVisible = single && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO)
         menu.findItem(R.id.action_mode_file_append).isVisible = PlaylistManager.hasMedia()
         return true
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-        val list = adapter.selection
+        val list = adapter.multiSelectHelper.getSelection() as? List<MediaWrapper> ?: return false
         if (!list.isEmpty()) {
             when (item.itemId) {
                 R.id.action_mode_file_play -> MediaUtils.openList(activity, list, 0)
@@ -351,15 +351,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onDestroyActionMode(mode: ActionMode?) {
         mActionMode = null
-        var index = -1
-        for (media in adapter.all) {
-            ++index
-            if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
-                media.removeStateFlags(MediaLibraryItem.FLAG_SELECTED)
-                adapter.notifyItemChanged(index, media)
-            }
-        }
-        adapter.resetSelectionCount()
+        adapter.multiSelectHelper.clearSelection()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -391,9 +383,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             if (mediaWrapper.type == MediaWrapper.TYPE_AUDIO ||
                     mediaWrapper.type == MediaWrapper.TYPE_VIDEO ||
                     mediaWrapper.type == MediaWrapper.TYPE_DIR) {
-                item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED)
-                adapter.updateSelectionCount(mediaWrapper.hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
-                adapter.notifyItemChanged(position, item)
+                adapter.multiSelectHelper.toggleSelection(position)
                 invalidateActionMode()
             }
         } else {
@@ -410,9 +400,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 mediaWrapper.type == MediaWrapper.TYPE_VIDEO ||
                 mediaWrapper.type == MediaWrapper.TYPE_DIR) {
             if (mActionMode != null) return false
-            item.addStateFlags(MediaLibraryItem.FLAG_SELECTED)
-            adapter.updateSelectionCount(mediaWrapper.hasStateFlags(MediaLibraryItem.FLAG_SELECTED))
-            adapter.notifyItemChanged(position, item)
+            adapter.multiSelectHelper.toggleSelection(position)
             startActionMode()
         } else onCtxClick(v, position, item)
         return true
