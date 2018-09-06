@@ -47,6 +47,7 @@ import android.view.ViewGroup;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.tools.MultiSelectHelper;
 import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -74,6 +75,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     private final static String TAG = "VLC/VideoListFragment";
 
     private VideoListAdapter mAdapter;
+    private MultiSelectHelper<MediaWrapper> multiSelectHelper;
     private VideoGridBinding mBinding;
     private String mGroup;
 
@@ -84,6 +86,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
             final SharedPreferences preferences = Settings.INSTANCE.getInstance(requireContext());
             final boolean seenMarkVisible = preferences.getBoolean("media_seen", true);
             mAdapter = new VideoListAdapter(this, seenMarkVisible);
+            multiSelectHelper = mAdapter.getMultiSelectHelper();
             viewModel = ViewModelProviders.of(requireActivity(), new VideosModel.Factory(requireContext(), mGroup, 0, Medialibrary.SORT_DEFAULT, null)).get(VideosModel.class);
             viewModel.getDataset().observe(this, this);
         }
@@ -243,7 +246,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        final int count = mAdapter.getSelectionCount();
+        final int count = multiSelectHelper.getSelectionCount();
         if (count == 0) {
             stopActionMode();
             return false;
@@ -255,7 +258,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        final List<MediaWrapper> list = mAdapter.getSelection();
+        final List<MediaWrapper> list = multiSelectHelper.getSelection();
         if (!list.isEmpty()) {
             switch (item.getItemId()) {
                 case R.id.action_video_play:
@@ -272,11 +275,10 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 //                    removeVideo(position, rowsAdapter.getItem(position));
                 //                break;
                 case R.id.action_video_download_subtitles:
-                    MediaUtils.INSTANCE.getSubs(getActivity(), list);
+                    MediaUtils.INSTANCE.getSubs(requireActivity(), list);
                     break;
                 case R.id.action_video_play_audio:
-                    for (MediaWrapper media : list)
-                        media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+                    for (MediaWrapper media : list) media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                     MediaUtils.INSTANCE.openList(getActivity(), list, 0);
                     break;
                 default:
@@ -292,15 +294,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     public void onDestroyActionMode(ActionMode mode) {
         mActionMode = null;
         setFabPlayVisibility(true);
-        final List<MediaWrapper> items = mAdapter.getAll();
-        for (int i = 0; i < items.size(); ++i) {
-            final MediaWrapper mw = items.get(i);
-            if (mw.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
-                mw.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
-                mAdapter.resetSelectionCount();
-                mAdapter.notifyItemChanged(i, Constants.UPDATE_SELECTION);
-            }
-        }
+        multiSelectHelper.clearSelection();
     }
 
     private static final int UPDATE_LIST = 14;
@@ -331,9 +325,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     public void onClick(View v, int position, MediaLibraryItem item) {
         final MediaWrapper media = (MediaWrapper) item;
         if (mActionMode != null) {
-            item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
-            mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-            mAdapter.notifyItemChanged(position, Constants.UPDATE_SELECTION);
+            multiSelectHelper.toggleSelection(position);
             invalidateActionMode();
             return;
         }
@@ -356,9 +348,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     @Override
     public boolean onLongClick(View v, int position, MediaLibraryItem item) {
         if (mActionMode != null) return false;
-        item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
-        mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-        mAdapter.notifyItemChanged(position, Constants.UPDATE_SELECTION);
+        multiSelectHelper.toggleSelection(position);
         startActionMode();
         return true;
     }
