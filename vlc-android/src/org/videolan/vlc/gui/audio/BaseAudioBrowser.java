@@ -32,7 +32,6 @@ import android.view.View;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.medialibrary.media.Playlist;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.ContentActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
@@ -84,7 +83,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        final List<MediaLibraryItem> selection = getCurrentAdapter().getSelection();
+        final List<MediaLibraryItem> selection = getCurrentAdapter().getMultiSelectHelper().getSelection();
         final int count = selection.size();
         if (count == 0) {
             stopActionMode();
@@ -99,7 +98,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        final List<MediaLibraryItem> list = getCurrentAdapter().getSelection();
+        final List<MediaLibraryItem> list = getCurrentAdapter().getMultiSelectHelper().getSelection();
         stopActionMode();
         if (!list.isEmpty()) {
             final List<MediaWrapper> tracks = new ArrayList<>();
@@ -135,16 +134,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
     public void onDestroyActionMode(AudioBrowserAdapter adapter) {
         setFabPlayVisibility(true);
         mActionMode = null;
-        List<? extends MediaLibraryItem> items = adapter.getAll();
-        if (items != null) {
-            for (int i = 0; i < items.size(); ++i) {
-                if (items.get(i).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
-                    items.get(i).removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
-                    adapter.notifyItemChanged(i, items.get(i));
-                }
-            }
-        }
-        adapter.resetSelectionCount();
+        adapter.getMultiSelectHelper().clearSelection();
     }
 
     @Override
@@ -161,27 +151,23 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
     }
 
     @Override
-    public void onClick(View v, int position, @NonNull MediaLibraryItem item) {
+    public void onClick(@NonNull View v, int position, @NonNull MediaLibraryItem item) {
         if (mActionMode != null) {
-            item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
-            getCurrentAdapter().updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-            getCurrentAdapter().notifyItemChanged(position, item);
+            getCurrentAdapter().getMultiSelectHelper().toggleSelection(position);
             invalidateActionMode();
         }
     }
 
     @Override
-    public boolean onLongClick(View v, int position, MediaLibraryItem item) {
+    public boolean onLongClick(View v, int position, @NonNull MediaLibraryItem item) {
         if (mActionMode != null) return false;
-        item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
-        getCurrentAdapter().updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-        getCurrentAdapter().notifyItemChanged(position, item);
+        getCurrentAdapter().getMultiSelectHelper().toggleSelection(position);
         startActionMode();
         return true;
     }
 
     @Override
-    public void onCtxClick(View anchor, final int position, MediaLibraryItem item) {
+    public void onCtxClick(@NonNull View anchor, final int position, @NonNull MediaLibraryItem item) {
         final int flags;
         switch (item.getItemType()) {
             case MediaLibraryItem.TYPE_MEDIA:

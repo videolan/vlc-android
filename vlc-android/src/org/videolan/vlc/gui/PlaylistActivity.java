@@ -182,9 +182,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     @Override
     public void onClick(View v, int position, MediaLibraryItem item) {
         if (mActionMode != null) {
-            item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
-            mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-            mAdapter.notifyItemChanged(position, item);
+            mAdapter.getMultiSelectHelper().toggleSelection(position);
             invalidateActionMode();
         } else MediaUtils.INSTANCE.openArray(this, mPlaylist.getTracks(), position);
     }
@@ -192,9 +190,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     @Override
     public boolean onLongClick(View v, int position, MediaLibraryItem item) {
         if (mActionMode != null) return false;
-        item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
-        mAdapter.updateSelectionCount(item.hasStateFlags(MediaLibraryItem.FLAG_SELECTED));
-        mAdapter.notifyItemChanged(position, item);
+        mAdapter.getMultiSelectHelper().toggleSelection(position);
         startActionMode();
         return true;
     }
@@ -241,12 +237,12 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        int count = mAdapter.getSelectionCount();
+        int count = mAdapter.getMultiSelectHelper().getSelectionCount();
         if (count == 0) {
             stopActionMode();
             return false;
         }
-        boolean isSong = count == 1 && mAdapter.getSelection().get(0).getItemType() == MediaLibraryItem.TYPE_MEDIA;
+        boolean isSong = count == 1 && mAdapter.getMultiSelectHelper().getSelection().get(0).getItemType() == MediaLibraryItem.TYPE_MEDIA;
         //menu.findItem(R.id.action_mode_audio_playlist_up).setVisible(isSong && mIsPlaylist);
         //menu.findItem(R.id.action_mode_audio_playlist_down).setVisible(isSong && mIsPlaylist);
         menu.findItem(R.id.action_mode_audio_set_song).setVisible(isSong && AndroidDevices.isPhone && !mIsPlaylist);
@@ -258,7 +254,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        List<MediaLibraryItem> list = mAdapter.getSelection();
+        List<MediaLibraryItem> list = mAdapter.getMultiSelectHelper().getSelection();
         List<MediaWrapper> tracks = new ArrayList<>();
         for (MediaLibraryItem mediaItem : list)
             tracks.addAll(Arrays.asList(mediaItem.getTracks()));
@@ -302,16 +298,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     @Override
     public void onDestroyActionMode(ActionMode mode) {
         mActionMode = null;
-        List<MediaLibraryItem> items = mAdapter.getAll();
-        if (items != null) {
-            for (int i = 0; i < items.size(); ++i) {
-                if (items.get(i).hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
-                    items.get(i).removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
-                    mAdapter.notifyItemChanged(i, items.get(i));
-                }
-            }
-        }
-        mAdapter.resetSelectionCount();
+        mAdapter.getMultiSelectHelper().clearSelection();
     }
 
     protected void showInfoDialog(MediaWrapper media) {
