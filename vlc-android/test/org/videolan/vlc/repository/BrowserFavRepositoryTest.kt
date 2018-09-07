@@ -20,28 +20,27 @@
 
 package org.videolan.vlc.repository
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.MutableLiveData
 import android.net.Uri
 import kotlinx.coroutines.experimental.runBlocking
 import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.hasItem
 import org.junit.Assert.assertThat
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.*
 import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
+import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.database.BrowserFavDao
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.util.*
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import org.hamcrest.CoreMatchers.hasItem
-import org.hamcrest.core.AnyOf
-import org.junit.Rule
-import org.mockito.ArgumentMatchers
-import org.videolan.vlc.ExternalMonitor
 
 
 @RunWith(PowerMockRunner::class)
@@ -57,7 +56,6 @@ class BrowserFavRepositoryTest {
     private lateinit var browserFavRepository: BrowserFavRepository
     @Before
     fun init() {
-        System.setProperty("kotlinx.coroutines.blocking.checker", "disable")
         val db = mock<MediaDatabase>()
         `when`(db.browserFavDao()).thenReturn(browserFavDao)
         browserFavRepository = BrowserFavRepository(browserFavDao)

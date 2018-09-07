@@ -28,7 +28,6 @@ class DirectoryRepositoryTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     @Before fun init() {
-        System.setProperty("kotlinx.coroutines.blocking.checker", "disable")
         val db = mock<MediaDatabase>()
         `when`(db.customDirectoryDao()).thenReturn(customDirectoryDao)
         directoryRepository = DirectoryRepository(customDirectoryDao)
