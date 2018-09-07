@@ -80,7 +80,7 @@
             vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail"
             vlc:layout_constraintBottom_toBottomOf="@+id/ml_item_thumbnail"
             vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
-            vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"/>
+            vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail" />
 
         <ImageView
             android:id="@+id/ml_item_seen"

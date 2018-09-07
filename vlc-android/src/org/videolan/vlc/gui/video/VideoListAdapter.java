@@ -104,7 +104,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
             for (Object data : payloads) {
                 switch ((int) data) {
                     case Constants.UPDATE_THUMB:
-                        ImageLoaderKt.loadImage(holder.thumbView, media);
+                        ImageLoaderKt.loadImage(holder.overlay, media);
                         break;
                     case Constants.UPDATE_TIME:
                     case Constants.UPDATE_SEEN:
@@ -207,12 +207,12 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
     }
 
     public class ViewHolder extends SelectorViewHolder<ViewDataBinding> implements View.OnFocusChangeListener {
-        private ImageView thumbView;
+        private ImageView overlay;
 
         @TargetApi(Build.VERSION_CODES.M)
         public ViewHolder(ViewDataBinding binding) {
             super(binding);
-            thumbView = itemView.findViewById(R.id.ml_item_thumbnail);
+            overlay = itemView.findViewById(R.id.ml_item_overlay);
             binding.setVariable(BR.holder, this);
             binding.setVariable(BR.cover, UiTools.Resources.DEFAULT_COVER_VIDEO_DRAWABLE);
             if (AndroidUtil.isMarshMallowOrLater) itemView.setOnContextClickListener(new View.OnContextClickListener() {
@@ -243,7 +243,8 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
 
         @Override
         public void selectView(boolean selected) {
-            thumbView.setImageResource(selected ? R.drawable.ic_action_mode_select_1610 : mListMode ? 0 : R.drawable.black_gradient);
+            overlay.setImageResource(selected ? R.drawable.ic_action_mode_select_1610 : mListMode ? 0 : R.drawable.black_gradient);
+            if (mListMode) overlay.setVisibility(selected ? View.VISIBLE : View.GONE);
             super.selectView(selected);
         }
 

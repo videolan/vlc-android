@@ -63,6 +63,16 @@
             vlc:media="@{media}"
             android:scaleType="centerCrop"
             android:src="@{cover}" />
+        <ImageView
+            android:id="@+id/ml_item_overlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail"
+            vlc:layout_constraintBottom_toBottomOf="@+id/ml_item_thumbnail"
+            vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
+            vlc:layout_constraintEnd_toEndOf="@+id/ml_item_thumbnail"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/ml_item_seen"
