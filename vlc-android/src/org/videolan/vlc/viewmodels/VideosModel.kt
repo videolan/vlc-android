@@ -95,6 +95,21 @@ open class VideosModel(context: Context, private val group: String?, private val
         Medialibrary.lastThumb.removeObserver(thumbObs)
     }
 
+    fun getListWithPosition(list: MutableList<MediaWrapper>, position: Int): Int {
+        if (group != null || minGroupLen <= 0) {
+            list.addAll(dataset.value)
+            return position
+        }
+        var offset = 0
+        for ((i, mw) in dataset.value.withIndex()) {
+            if (mw is MediaGroup) {
+                for (item in mw.all) list.add(item)
+                if (i < position) offset += mw.size() - 1
+            } else list.add(mw)
+        }
+        return position + offset
+    }
+
     class Factory(private val context: Context, val group: String?, private val minGroupLen : Int, private val sort : Int, private val desc : Boolean?): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             val length = if (minGroupLen == 0) Integer.valueOf(Settings.getInstance(context).getString("video_min_group_length", "6")) else minGroupLen

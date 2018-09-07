@@ -203,7 +203,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     @Override
     public void onFabPlayClick(View view) {
         List<MediaWrapper> playList = new ArrayList<>();
-        MediaUtils.INSTANCE.openList(getActivity(), playList, mAdapter.getListWithPosition(playList, 0));
+        MediaUtils.INSTANCE.openList(getActivity(), playList, viewModel.getListWithPosition(playList, 0));
     }
 
     @MainThread
@@ -338,7 +338,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
             final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(v.getContext());
             if (settings.getBoolean("force_play_all", false)) {
                 final List<MediaWrapper> playList = new ArrayList<>();
-                MediaUtils.INSTANCE.openList(activity, playList, mAdapter.getListWithPosition(playList, position));
+                MediaUtils.INSTANCE.openList(activity, playList, viewModel.getListWithPosition(playList, position));
             } else {
                 playVideo(media, false);
             }
@@ -388,7 +388,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 break;
             case Constants.CTX_PLAY_ALL:
                 final List<MediaWrapper> playList = new ArrayList<>();
-                MediaUtils.INSTANCE.openList(getActivity(), playList, mAdapter.getListWithPosition(playList, position));
+                MediaUtils.INSTANCE.openList(getActivity(), playList, viewModel.getListWithPosition(playList, position));
                 break;
             case Constants.CTX_INFORMATION:
                 showInfoDialog(media);
@@ -404,7 +404,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 else MediaUtils.INSTANCE.appendMedia(getActivity(), media);
                 break;
             case Constants.CTX_DOWNLOAD_SUBTITLES:
-                MediaUtils.INSTANCE.getSubs(getActivity(), media);
+                MediaUtils.INSTANCE.getSubs(requireActivity(), media);
                 break;
         }
     }

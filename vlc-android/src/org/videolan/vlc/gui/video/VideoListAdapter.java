@@ -47,7 +47,6 @@ import org.videolan.vlc.gui.helpers.ImageLoaderKt;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IEventsHandler;
-import org.videolan.vlc.media.MediaGroup;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.MediaItemDiffCallback;
 
@@ -205,22 +204,6 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
     @Override
     public int getItemViewType(int position) {
         return super.getItemViewType(position);
-    }
-
-    int getListWithPosition(List<MediaWrapper>  list, int position) {
-        MediaWrapper mw;
-        int offset = 0;
-        for (int i = 0; i < getItemCount(); ++i) {
-            mw = getDataset().get(i);
-            if (mw instanceof MediaGroup) {
-                for (MediaWrapper item : ((MediaGroup) mw).getAll())
-                    list.add(item);
-                if (i < position)
-                    offset += ((MediaGroup)mw).size()-1;
-            } else
-                list.add(mw);
-        }
-        return position+offset;
     }
 
     public class ViewHolder extends SelectorViewHolder<ViewDataBinding> implements View.OnFocusChangeListener {

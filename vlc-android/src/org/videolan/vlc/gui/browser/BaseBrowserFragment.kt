@@ -299,7 +299,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     private fun playAll(mw: MediaWrapper?) {
         var positionInPlaylist = 0
         val mediaLocations = LinkedList<MediaWrapper>()
-        for (file in adapter.all)
+        for (file in viewModel.dataset.value)
             if (file is MediaWrapper) {
                 if (file.type == MediaWrapper.TYPE_VIDEO || file.type == MediaWrapper.TYPE_AUDIO) {
                     mediaLocations.add(file)
