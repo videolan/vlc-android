@@ -26,13 +26,13 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.v4.app.Fragment
+import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.media.MediaGroup
 import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.VLCIO
 
 open class VideosModel(context: Context, private val group: String?, private val minGroupLen: Int, customSort : Int, customDesc: Boolean?) : MedialibraryModel<MediaWrapper>(context), Medialibrary.MediaCb {
 
@@ -63,7 +63,7 @@ open class VideosModel(context: Context, private val group: String?, private val
     }
 
     override suspend fun updateList() {
-        dataset.value = withContext(VLCIO) {
+        dataset.value = withContext(IO) {
             val list = medialibrary.getVideos(sort, desc)
             val displayList = mutableListOf<MediaWrapper>()
             when {

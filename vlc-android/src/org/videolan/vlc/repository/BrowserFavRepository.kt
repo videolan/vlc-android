@@ -24,6 +24,7 @@ import android.arch.lifecycle.MediatorLiveData
 import android.content.Context
 import android.net.Uri
 import android.support.annotation.WorkerThread
+import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.media.MediaWrapper
@@ -34,7 +35,6 @@ import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.util.TYPE_LOCAL_FAV
 import org.videolan.vlc.util.TYPE_NETWORK_FAV
-import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.convertFavorites
 import java.util.*
 
@@ -47,11 +47,11 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
 
     val localFavorites by lazy { browserFavDao.getAllLocalFavs() }
 
-    fun addNetworkFavItem(uri: Uri, title: String, iconUrl: String?) = launch(VLCIO) {
+    fun addNetworkFavItem(uri: Uri, title: String, iconUrl: String?) = launch(IO) {
         browserFavDao.insert(BrowserFav(uri, TYPE_NETWORK_FAV, title, iconUrl))
     }
 
-    fun addLocalFavItem(uri: Uri, title: String, iconUrl: String? = null) = launch(VLCIO) {
+    fun addLocalFavItem(uri: Uri, title: String, iconUrl: String? = null) = launch(IO) {
         browserFavDao.insert(BrowserFav(uri, TYPE_LOCAL_FAV, title, iconUrl))
     }
 
@@ -70,7 +70,7 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
     @WorkerThread
     fun browserFavExists(uri: Uri): Boolean = browserFavDao.get(uri).isNotEmpty()
 
-    fun deleteBrowserFav(uri: Uri) = launch(VLCIO) { browserFavDao.delete(uri) }
+    fun deleteBrowserFav(uri: Uri) = launch(IO) { browserFavDao.delete(uri) }
 
     private fun List<MediaWrapper>.filterNetworkFavs() : List<MediaWrapper> {
         return when {

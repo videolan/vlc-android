@@ -38,6 +38,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.*
 import kotlinx.coroutines.experimental.CoroutineStart
+import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
@@ -367,7 +368,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     private fun toggleFavorite() = launch(UI.immediate, CoroutineStart.UNDISPATCHED) {
         val mw = currentMedia ?: return@launch
-        withContext(VLCIO) {
+        withContext(IO) {
             when {
                 browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
                 mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
@@ -418,7 +419,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 val isFileBrowser = this@BaseBrowserFragment is FileBrowserFragment && item.uri.scheme == "file"
                 val isNetworkBrowser = this@BaseBrowserFragment is NetworkBrowserFragment
                 if (isFileBrowser || isNetworkBrowser) {
-                    val favExists = withContext(VLCIO) { browserFavRepository.browserFavExists(mw.uri) }
+                    val favExists = withContext(IO) { browserFavRepository.browserFavExists(mw.uri) }
                     flags = if (favExists) {
                         if (isNetworkBrowser) flags or CTX_FAV_EDIT or CTX_FAV_REMOVE
                         else flags or CTX_FAV_REMOVE
@@ -454,7 +455,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
             CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
-            CTX_FAV_REMOVE -> launch(VLCIO) { browserFavRepository.deleteBrowserFav(mw.uri) }
+            CTX_FAV_REMOVE -> launch(IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
         }
     }
 

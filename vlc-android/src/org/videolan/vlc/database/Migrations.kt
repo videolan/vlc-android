@@ -23,12 +23,12 @@ package org.videolan.vlc.database
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.migration.Migration
 import android.content.Context
+import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.launch
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.VLCIO
 
 private const val DIR_TABLE_NAME = "directories_table"
 private const val MEDIA_TABLE_NAME = "media_table"
@@ -196,7 +196,7 @@ val migration_27_28 = object:Migration(27, 28) {
     }
 }
 
-fun populateDB(context: Context) = launch(VLCIO) {
+fun populateDB(context: Context) = launch(IO) {
     val favRepo = BrowserFavRepository.getInstance(context)
     val uris = listOf(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI,
             AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI,

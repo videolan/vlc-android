@@ -204,12 +204,12 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     private suspend fun addDevices(context: Context, addExternal: Boolean) {
         val devices = ArrayList<String>()
         Collections.addAll(devices, *DirectoryRepository.getInstance(context).getMediaDirectories())
-        val sharedPreferences = withContext(VLCIO) { PreferenceManager.getDefaultSharedPreferences(context) }
+        val sharedPreferences = withContext(IO) { PreferenceManager.getDefaultSharedPreferences(context) }
         for (device in devices) {
             val isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
             val uuid = FileUtils.getFileNameFromPath(device)
             if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid)) continue
-            val isNew = (isMainStorage || (addExternal && withContext(VLCIO) { File(device).canRead() } ))
+            val isNew = (isMainStorage || (addExternal && withContext(IO) { File(device).canRead() } ))
                     && medialibrary.addDevice(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
             val isIgnored = sharedPreferences.getBoolean("ignore_$uuid", false)
             if (!isMainStorage && isNew && !isIgnored) showStorageNotification(device)
@@ -243,7 +243,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     private suspend fun updateStorages() {
         serviceLock = true
         val ctx = applicationContext
-        val (sharedPreferences, devices, knownDevices) = withContext(VLCIO) {
+        val (sharedPreferences, devices, knownDevices) = withContext(IO) {
             val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx)
             val devices = AndroidDevices.getExternalStorageDirectories()
             Triple(sharedPreferences, devices, medialibrary.devices)
@@ -257,11 +257,11 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
                 missingDevices.remove("file://$device")
                 continue
             }
-            val isNew = withContext(VLCIO) { medialibrary.addDevice(uuid, device, true) }
+            val isNew = withContext(IO) { medialibrary.addDevice(uuid, device, true) }
             val isIgnored = sharedPreferences.getBoolean("ignore_$uuid", false)
             if (!isIgnored && isNew) showStorageNotification(device)
         }
-        withContext(VLCIO) { for (device in missingDevices) medialibrary.removeDevice(FileUtils.getFileNameFromPath(device)) }
+        withContext(IO) { for (device in missingDevices) medialibrary.removeDevice(FileUtils.getFileNameFromPath(device)) }
         serviceLock = false
         exitCommand()
     }
@@ -416,7 +416,7 @@ fun reload(ctx: Context) {
 
 fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true) = launch(UI.immediate) {
     if (Medialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@launch
-    val prefs = withContext(VLCIO) { Settings.getInstance(this@startMedialibrary) }
+    val prefs = withContext(IO) { Settings.getInstance(this@startMedialibrary) }
     val scanOpt = if (VLCApplication.showTvUi()) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
     if (parse && scanOpt == -1) {
         if (dbExists(this@startMedialibrary)) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
@@ -434,7 +434,7 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
             .putExtra(EXTRA_PARSE, parse && scanOpt == ML_SCAN_ON))
 }
 
-private suspend fun dbExists(context: Context) = withContext(VLCIO) {
+private suspend fun dbExists(context: Context) = withContext(IO) {
     File(context.getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME).exists()
 }
 

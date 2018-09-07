@@ -31,6 +31,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
 import android.view.View
+import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.runBlocking
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -39,7 +40,6 @@ import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Strings
-import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_PICKER
 
@@ -114,7 +114,7 @@ class FilePickerFragment : FileBrowserFragment() {
             //TODO: remove this after upgrade to kotlinx v 0.25+
             System.setProperty("kotlinx.coroutines.blocking.checker", "disable")
             val path = Strings.removeFileProtocole(this@run)
-            val rootDirectories = runBlocking(VLCIO) { DirectoryRepository.getInstance(requireContext()).getMediaDirectories() }
+            val rootDirectories = runBlocking(IO) { DirectoryRepository.getInstance(requireContext()).getMediaDirectories() }
             for (directory in rootDirectories) if (path.startsWith(directory)) return false
             return true
         } else length < 7

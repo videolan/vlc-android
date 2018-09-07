@@ -31,6 +31,7 @@ import android.support.media.tv.WatchNextProgram
 import android.text.TextUtils
 import android.util.Log
 import kotlinx.coroutines.experimental.CoroutineStart
+import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
@@ -46,7 +47,7 @@ private const val MAX_RECOMMENDATIONS = 3
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun setChannel(context: Context) = launch(start = CoroutineStart.UNDISPATCHED) {
-    val channelId = withContext(VLCIO) {
+    val channelId = withContext(IO) {
         val prefs = Settings.getInstance(context)
         val name = context.getString(R.string.tv_my_new_videos)
         createOrUpdateChannel(prefs, context, name, R.drawable.icon, BuildConfig.APPLICATION_ID)
@@ -69,8 +70,8 @@ suspend fun updatePrograms(context: Context, channelId: Long) {
         context.startMedialibrary(false, false, false)
         return
     }
-    val programs = withContext(VLCIO) { existingPrograms(context, channelId) }
-    val videoList = withContext(VLCIO) { VLCApplication.getMLInstance().recentVideos }
+    val programs = withContext(IO) { existingPrograms(context, channelId) }
+    val videoList = withContext(IO) { VLCApplication.getMLInstance().recentVideos }
     if (Util.isArrayEmpty(videoList)) return
     val cn = ComponentName(context, PreviewVideoInputService::class.java)
     for ((count, mw) in videoList.withIndex()) {
@@ -84,13 +85,13 @@ suspend fun updatePrograms(context: Context, channelId: Long) {
                 mw.artUri(), mw.length.toInt(), mw.time.toInt(),
                 mw.width, mw.height, BuildConfig.APPLICATION_ID)
         val program = buildProgram(cn, desc)
-        launch(VLCIO) {
+        launch(IO) {
             context.contentResolver.insert(TvContractCompat.PreviewPrograms.CONTENT_URI, program.toContentValues())
         }
         if (count - programs.size >= MAX_RECOMMENDATIONS) break
     }
     for (program in programs) {
-        withContext(VLCIO) { context.contentResolver.delete(TvContractCompat.buildPreviewProgramUri(program.programId), null, null) }
+        withContext(IO) { context.contentResolver.delete(TvContractCompat.buildPreviewProgramUri(program.programId), null, null) }
     }
 }
 

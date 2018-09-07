@@ -30,6 +30,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.ScrollView
+import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
@@ -39,7 +40,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.audio.AudioPagerAdapter
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.Util
-import org.videolan.vlc.util.VLCIO
 
 private const val TAG = "VLC/AboutFragment"
 private const val MODE_TOTAL = 2 // Number of audio browser modes
@@ -75,7 +75,7 @@ class AboutFragment : Fragment() {
         tabLayout = view.findViewById(R.id.sliding_tabs)
         tabLayout.setupWithViewPager(viewPager)
         launch(UI.immediate) {
-            val asset = withContext(VLCIO) {
+            val asset = withContext(IO) {
                 Util.readAsset("licence.htm", "").replace("!COMMITID!", revision)
             }
             UiTools.fillAboutView(view)

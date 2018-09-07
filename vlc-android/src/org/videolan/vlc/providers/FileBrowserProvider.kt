@@ -25,11 +25,8 @@ import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.net.Uri
 import android.text.TextUtils
-import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.cancelAndJoin
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -40,7 +37,10 @@ import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.gui.helpers.hf.getDocumentFiles
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.LiveDataset
+import org.videolan.vlc.util.convertFavorites
 import java.io.File
 
 open class FileBrowserProvider(
@@ -130,7 +130,7 @@ open class FileBrowserProvider(
     override fun browse(url: String?) {
         when {
             url == "otg://" || url?.startsWith("content:") == true -> launch(UI.immediate) {
-                dataset.value = withContext(VLCIO) { getDocumentFiles(context, Uri.parse(url).path.substringAfterLast(':')) as? MutableList<MediaLibraryItem> ?: mutableListOf() }
+                dataset.value = withContext(IO) { getDocumentFiles(context, Uri.parse(url).path.substringAfterLast(':')) as? MutableList<MediaLibraryItem> ?: mutableListOf() }
             }
             else -> super.browse(url)
         }

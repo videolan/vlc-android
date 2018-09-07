@@ -22,6 +22,7 @@ package org.videolan.vlc.repository
 
 import android.content.Context
 import android.net.Uri
+import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
@@ -31,13 +32,12 @@ import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.SlaveDao
 import org.videolan.vlc.database.models.Slave
-import org.videolan.vlc.util.VLCIO
 
 
 class SlaveRepository(private val slaveDao:SlaveDao){
 
     fun saveSlave(mediaPath: String, type: Int, priority: Int, uriString: String): Job {
-        return launch(VLCIO) {
+        return launch(IO) {
             slaveDao.insert(Slave(mediaPath, type, priority, uriString))
         }
     }
@@ -51,7 +51,7 @@ class SlaveRepository(private val slaveDao:SlaveDao){
     }
 
     suspend fun getSlaves(mrl: String): List<Media.Slave> {
-        return withContext(VLCIO) {
+        return withContext(IO) {
             val slaves = slaveDao.get(mrl)
             val mediaSlaves = slaves.map {
                 var uri = it.uri

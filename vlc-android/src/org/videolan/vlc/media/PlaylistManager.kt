@@ -11,6 +11,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
@@ -163,7 +164,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private suspend fun onPlaylistLoaded() {
         service.onPlaylistLoaded()
         determinePrevAndNextIndices()
-        launch(VLCIO) { mediaList.updateWithMLMeta() }
+        launch(IO) { mediaList.updateWithMLMeta() }
     }
 
     fun play() {
@@ -574,7 +575,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private suspend fun getStartTime(mw: MediaWrapper) : Long {
         val start = if (savedTime <= 0L) when {
             mw.time >= 0L -> mw.time
-            mw.type == MediaWrapper.TYPE_VIDEO || mw.isPodcast -> withContext(VLCIO) { medialibrary.findMedia(mw).getMetaLong(MediaWrapper.META_PROGRESS) }
+            mw.type == MediaWrapper.TYPE_VIDEO || mw.isPodcast -> withContext(IO) { medialibrary.findMedia(mw).getMetaLong(MediaWrapper.META_PROGRESS) }
             else -> 0L
         } else savedTime
         savedTime = 0L
@@ -670,7 +671,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 MediaPlayer.Event.Playing -> {
                     medialibrary.pauseBackgroundOperations()
                     videoBackground = false
-                    val mw = withContext(VLCIO) {
+                    val mw = withContext(IO) {
                         val current = getCurrentMedia()
                         medialibrary.findMedia(current).apply { if (type == -1) type = current?.type ?: -1 }
                     }

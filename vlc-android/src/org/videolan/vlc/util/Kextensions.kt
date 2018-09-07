@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.preference.PreferenceManager
+import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
@@ -62,7 +63,7 @@ fun Context.getAppSystemService(name: String) = applicationContext.getSystemServ
 
 fun Long.random() = (Random().nextFloat() * this).toLong()
 
-suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary.() -> T) = withContext(VLCIO) {
+suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary.() -> T) = withContext(IO) {
     val ml = Medialibrary.getInstance()
     if (ml.isInitiated) block.invoke(ml)
     else suspendCoroutine { continuation ->

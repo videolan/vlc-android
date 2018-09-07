@@ -27,6 +27,7 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
 import android.support.v4.util.SimpleArrayMap
+import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.HandlerContext
 import kotlinx.coroutines.experimental.android.UI
@@ -43,7 +44,6 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
 import org.videolan.vlc.util.LiveDataset
-import org.videolan.vlc.util.VLCIO
 import org.videolan.vlc.util.VLCInstance
 import java.util.*
 
@@ -182,7 +182,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         val mw = MediaWrapper(media)
         val uri = mw.uri
         if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)
-                && "file" == uri.scheme) return withContext(VLCIO) { medialibrary.getMedia(uri) ?: mw }
+                && "file" == uri.scheme) return withContext(IO) { medialibrary.getMedia(uri) ?: mw }
         return mw
     }
 
