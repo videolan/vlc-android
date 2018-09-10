@@ -180,6 +180,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
                     UiTools.snackerWithCancel(it, message, null, cancelAction)
                     service?.remove(position)
                 }
+                CTX_STOP_AFTER_THIS -> service?.playlistManager?.stopAfter = position
             }
         }
     }
@@ -187,7 +188,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     override fun onPopupMenu(anchor: View, position: Int, media: MediaWrapper) {
         val activity = activity
         if (activity === null || position >= playlistAdapter.itemCount) return
-        val flags = CTX_REMOVE_FROM_PLAYLIST or CTX_SET_RINGTONE or CTX_ADD_TO_PLAYLIST
+        val flags = CTX_REMOVE_FROM_PLAYLIST or CTX_SET_RINGTONE or CTX_ADD_TO_PLAYLIST or CTX_STOP_AFTER_THIS
         showContext(activity, ctxReceiver, position, media.title, flags)
     }
 

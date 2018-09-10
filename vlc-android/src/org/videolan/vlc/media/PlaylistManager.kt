@@ -52,6 +52,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private var nextIndex = -1
     private var prevIndex = -1
     private var previous = Stack<Int>()
+    var stopAfter = -1
     var repeating = REPEAT_NONE
     var shuffling = false
     var videoBackground = false
@@ -119,6 +120,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
         // Add handler after loading the list
         mediaList.addEventListener(this)
+        stopAfter = -1
+        clearABRepeat()
         launch(UI.immediate) {
             playIndex(position)
             onPlaylistLoaded()
@@ -195,6 +198,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun stop(systemExit: Boolean = false) {
         clearABRepeat()
+        stopAfter = -1
         getCurrentMedia()?.let {
             savePosition()
             saveMediaMeta()
@@ -710,17 +714,21 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
                 MediaPlayer.Event.Paused -> medialibrary.resumeBackgroundOperations()
                 MediaPlayer.Event.EndReached -> {
+                    clearABRepeat()
                     if (currentIndex != nextIndex) {
                         saveMediaMeta()
                         if (isBenchmark) player.setPreviousStats()
                         if (nextIndex == -1) savePosition(true)
                     }
-                    determinePrevAndNextIndices(true)
-                    if (!hasNext()) getCurrentMedia()?.let {
-                        if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !isAudioList()) setResumeProgram(service.applicationContext, it)
+                    if (stopAfter == currentIndex) {
+                        stop()
+                    } else {
+                        determinePrevAndNextIndices(true)
+                        if (!hasNext()) getCurrentMedia()?.let {
+                            if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !isAudioList()) setResumeProgram(service.applicationContext, it)
+                        }
+                        next()
                     }
-                    clearABRepeat()
-                    next()
                 }
                 MediaPlayer.Event.EncounteredError -> {
                     service.showToast(service.getString(

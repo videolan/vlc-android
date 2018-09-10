@@ -619,4 +619,5 @@
     <string name="otg_device_title">OTG device</string>
     <string name="browser">Browser</string>
     <string name="ab_repeat">A-B repeat</string>
+    <string name="stop_after_this">Stop after this track</string>
 </resources>
