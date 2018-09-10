@@ -258,6 +258,8 @@
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
         <item name="ic_repeat">@drawable/ic_repeat_w</item>
+        <item name="ic_repeat_all">@drawable/ic_repeat_all</item>
+        <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
         <item name="ic_shuffle">@drawable/ic_shuffle_w</item>
         <item name="ic_trash">@drawable/ic_trash_w</item>
         <item name="ic_reset">@drawable/ic_reset_w</item>

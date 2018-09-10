@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
@@ -58,8 +60,10 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.gui.view.AutoFitRecyclerView;
 import org.videolan.vlc.interfaces.IPlaybackSettingsController;
+import org.videolan.vlc.media.ABRepeat;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCOptions;
 
@@ -95,6 +99,7 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
     private static final int ID_REPEAT = 10 ;
     private static final int ID_SHUFFLE = 11 ;
     private static final int ID_PASSTHROUGH = 12 ;
+    private static final int ID_ABREPEAT = 13 ;
 
     private Activity mActivity;
     private int mMode = -1;
@@ -107,6 +112,7 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
     private TextView mPlaybackSpeed;
     private TextView mSleep;
     private TextView mPassThrough;
+    private TextView mABRepeat;
 
     private TextView mJumpTitle;
 
@@ -372,13 +378,30 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
     }
 
     public void initPassthrough(){
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AdvOptionsDialog.this.getContext());
+        final SharedPreferences prefs = Settings.INSTANCE.getInstance(AdvOptionsDialog.this.getContext());
         mPassThrough.setCompoundDrawablesWithIntrinsicBounds(0,
                 VLCOptions.isAudioDigitalOutputEnabled(prefs)
                         ? R.drawable.ic_passthrough_on
                         : UiTools.getResourceFromAttribute(mActivity, R.attr.ic_passthrough),
                 0, 0);
     }
+
+    private void initAbRepeat() {
+        mService.getPlaylistManager().getAbRepeat().observe(this, abrObs);
+    }
+
+    private final Observer<ABRepeat> abrObs = new Observer<ABRepeat>() {
+        @Override
+        public void onChanged(@Nullable ABRepeat abr) {
+            if (abr == null) return;
+            int resid;
+            if (abr.getStart() == -1L) resid = R.attr.ic_repeat;
+            else if (abr.getStop() == -1L) resid = R.attr.ic_repeat_one;
+            else resid = R.attr.ic_repeat_all;
+            final int icon = UiTools.getResourceFromAttribute(mABRepeat.getContext(), resid);
+            mABRepeat.setCompoundDrawablesWithIntrinsicBounds(0, icon, 0, 0);
+        }
+    };
 
     private void initChapters() {
         final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
@@ -437,9 +460,12 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
                 mPassThrough = tv;
                 initPassthrough();
                 break;
+            case ID_ABREPEAT:
+                mABRepeat = tv;
+                initAbRepeat();
+                break;
         }
     }
-
 
 
     @TargetApi(Build.VERSION_CODES.N)
@@ -488,10 +514,12 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
                 mService.shuffle();
                 initShuffle();
                 break;
-            case ID_PASSTHROUGH: {
+            case ID_PASSTHROUGH:
                 togglePassthrough();
                 break;
-            }
+            case ID_ABREPEAT:
+                mService.getPlaylistManager().toggleABRepeat();
+                break;
         }
     }
 
@@ -551,6 +579,7 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
             mAdapter.addOption(new Option(ID_REPEAT, R.attr.ic_repeat, getString(R.string.repeat_title)));
             if (mService.canShuffle())
                 mAdapter.addOption(new Option(ID_SHUFFLE, R.attr.ic_shuffle, getString(R.string.shuffle_title)));
+            mAdapter.addOption(new Option(ID_ABREPEAT, R.attr.ic_repeat, getString(R.string.ab_repeat)));
 
             final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
             final int chaptersCount = chapters != null ? chapters.length : 0;
@@ -568,6 +597,7 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
 
     @Override
     public void onDisconnected() {
+        mService.getPlaylistManager().getAbRepeat().removeObserver(abrObs);
         mService = null;
     }
 
@@ -647,7 +677,7 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
             final TextView tv = (TextView) holder.itemView;
             if (mSelection == position) tv.requestFocus();
             tv.setId(option.id);
-            final int icon = UiTools.getResourceFromAttribute(mActivity, option.icon);
+            final int icon = UiTools.getResourceFromAttribute(holder.itemView.getContext(), option.icon);
             if (option.id == ID_CHAPTER_TITLE)
                 tv.setCompoundDrawablesWithIntrinsicBounds(icon, 0, 0, 0);
             else

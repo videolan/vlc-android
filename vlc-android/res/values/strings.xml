@@ -618,4 +618,5 @@
     <string name="cast_option_title">Cast medias on another screen</string>
     <string name="otg_device_title">OTG device</string>
     <string name="browser">Browser</string>
+    <string name="ab_repeat">A-B repeat</string>
 </resources>

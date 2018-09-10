@@ -71,6 +71,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
+import org.videolan.vlc.media.ABRepeat
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
@@ -412,6 +413,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         binding.headerTime.visibility = View.GONE
     }
 
+    fun onABRepeat(v: View) {
+        service?.playlistManager?.toggleABRepeat()
+    }
+
     fun onSearchClick(v: View) {
         binding.playlistSearch.visibility = View.GONE
         binding.playlistSearchText.visibility = View.VISIBLE
@@ -455,6 +460,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
 
     override fun afterTextChanged(editable: Editable) {}
 
+    private val abRepeatObserver = Observer<ABRepeat> { abr ->
+        if (abr != null) binding.playlistAbRepeat.setImageResource(when {
+            abr.start == -1L -> R.drawable.ic_repeat
+            abr.stop == -1L -> R.drawable.ic_repeat_one
+            else -> R.drawable.ic_repeat_all
+        })
+    }
+
     override fun onConnected(service: PlaybackService) {
         this.service = service
         playlistModel = PlaylistModel.get(this, service).apply { setup() }
@@ -464,10 +477,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
             updateActor.offer(Unit)
         })
         playlistAdapter.setService(service)
+        service.playlistManager.abRepeat.observe(this, abRepeatObserver)
     }
 
     override fun onDisconnected() {
         playlistModel.onCleared()
+        service?.playlistManager?.abRepeat?.removeObserver(abRepeatObserver)
         service = null
     }
 

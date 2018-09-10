@@ -1,5 +1,6 @@
 package org.videolan.vlc.media
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
 import android.net.Uri
@@ -46,7 +47,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { Medialibrary.getInstance() }
     val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController(service.applicationContext) }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { PreferenceManager.getDefaultSharedPreferences(service) }
-    private val ctx by lazy(LazyThreadSafetyMode.NONE) { VLCApplication.getAppContext() }
+    private val ctx by lazy(LazyThreadSafetyMode.NONE) { service.applicationContext }
     var currentIndex = -1
     private var nextIndex = -1
     private var prevIndex = -1
@@ -63,6 +64,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private var newMedia = false
     @Volatile
     private var expanding = false
+    val abRepeat by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<ABRepeat>().apply { value = ABRepeat() } }
 
     fun hasCurrentMedia() = isValidPosition(currentIndex)
 
@@ -192,6 +194,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     fun stop(systemExit: Boolean = false) {
+        clearABRepeat()
         getCurrentMedia()?.let {
             savePosition()
             saveMediaMeta()
@@ -644,6 +647,26 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun getMediaList(): MutableList<MediaWrapper> = mediaList.all
 
+    fun toggleABRepeat() {
+        val time = player.getCurrentTime()
+        val value = abRepeat.value ?: ABRepeat()
+        when {
+            abRepeat.value?.start == -1L -> abRepeat.value = value.apply { start = time }
+            abRepeat.value?.stop == -1L && time > abRepeat.value?.start ?: 0L -> {
+                abRepeat.value = value.apply { stop = time }
+                player.seek(abRepeat.value!!.start)
+            }
+            else -> clearABRepeat()
+        }
+    }
+
+    fun clearABRepeat() {
+        abRepeat.value = abRepeat.value?.apply {
+            start = -1L
+            stop = -1L
+        }
+    }
+
     override fun onEvent(event: Media.Event) {
         var update = true
         when (event.type) {
@@ -696,6 +719,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     if (!hasNext()) getCurrentMedia()?.let {
                         if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !isAudioList()) setResumeProgram(service.applicationContext, it)
                     }
+                    clearABRepeat()
                     next()
                 }
                 MediaPlayer.Event.EncounteredError -> {
@@ -704,6 +728,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                             getCurrentMedia()?.location ?: ""), Toast.LENGTH_SHORT)
                     if (currentIndex != nextIndex) next() else stop()
                 }
+                MediaPlayer.Event.TimeChanged -> {
+                    abRepeat.value?.let {
+                        if (it.stop != -1L && player.getCurrentTime() > it.stop) player.seek(it.start)
+                    }
+                }
             }
             service.onMediaPlayerEvent(event)
         }
@@ -711,3 +740,5 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     internal fun isAudioList() = !player.canSwitchToVideo() && mediaList.isAudioList
 }
+
+class ABRepeat(var start: Long = -1L, var stop: Long = -1L)
