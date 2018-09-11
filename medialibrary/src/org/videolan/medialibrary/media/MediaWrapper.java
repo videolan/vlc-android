@@ -466,6 +466,11 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         mTitle = title;
     }
 
+    public void rename(String name) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        if (mId != 0 && ml.isInitiated()) nativeSetMediaTitle(ml, mId, name);
+    }
+
     public void setArtist(String artist){
         mArtist = artist;
     }
@@ -639,6 +644,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     private native void nativeSetMediaStringMetadata(Medialibrary ml, long id, int metaDataType, String metadataValue);
     private native void nativeSetMediaLongMetadata(Medialibrary ml, long id, int metaDataType, long metadataValue);
     private native void nativeSetMediaThumbnail(Medialibrary ml, long id, String mrl);
+    private native void nativeSetMediaTitle(Medialibrary ml, long id, String name);
 
     @Nullable
     public Media.Slave[] getSlaves() {

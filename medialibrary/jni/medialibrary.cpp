@@ -1417,6 +1417,17 @@ setMediaThumbnail(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jst
     env->ReleaseStringUTFChars(mrl, char_mrl);
 }
 
+void
+setMediaTitle(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring title)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::MediaPtr media = aml->media(id);
+    if (media == nullptr) return;
+    const char *char_name = env->GetStringUTFChars(title, JNI_FALSE);
+    media->setTitle(char_name);
+    env->ReleaseStringUTFChars(title, char_name);
+}
+
 /*
  * Playlist methods
  */
@@ -1628,6 +1639,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeSetMediaStringMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JILjava/lang/String;)V", (void*)setMediaStringMetadata },
     {"nativeSetMediaLongMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JIJ)V", (void*)setMediaLongMetadata },
     {"nativeSetMediaThumbnail", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)V", (void*)setMediaThumbnail },
+    {"nativeSetMediaTitle", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)V", (void*)setMediaTitle },
 };
 
 static JNINativeMethod album_methods[] = {
