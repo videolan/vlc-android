@@ -26,6 +26,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.DialogFragment
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
@@ -34,27 +35,36 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.TextView
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.actor
-
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
 import org.videolan.vlc.gui.DialogActivity
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
+import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.util.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.CTX_RENAME
 import org.videolan.vlc.viewmodels.StreamsModel
 
 const val TAG = "VLC/MrlPanelFragment"
 
-class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener {
+class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener, CtxActionReceiver {
+
     private lateinit var adapter: MRLAdapter
     private lateinit var editText: TextInputLayout
     private lateinit var viewModel: StreamsModel
 
-    private val listEventActor = actor<MediaWrapper>(UI) {
-        for (event in channel) playMedia(event)
+    private val listEventActor = actor<MrlAction>(UI) {
+        for (event in channel) when(event) {
+            is Playmedia -> playMedia(event.media)
+            is ShowContext -> showContext(event.position)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -107,7 +117,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
         mw.type = MediaWrapper.TYPE_STREAM
         MediaUtils.openMedia(activity, mw)
         viewModel.updateHistory()
-        activity?.supportInvalidateOptionsMenu()
+        activity?.invalidateOptionsMenu()
         UiTools.setKeyboardVisibility(editText, false)
         dismiss()
     }
@@ -116,6 +126,35 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
 
     override fun onClick(v: View) {
         processUri()
+    }
+
+    private fun showContext(position: Int) {
+        val flags = CTX_RENAME or CTX_ADD_TO_PLAYLIST
+        val media = viewModel.observableHistory.value?.get(position) ?: return
+        showContext(requireActivity(), this, position, media.title, flags)
+    }
+
+    override fun onCtxAction(position: Int, option: Int) {
+        when (option) {
+            CTX_RENAME -> renameStream(position)
+            CTX_ADD_TO_PLAYLIST -> {
+                val media = viewModel.observableHistory.value?.get(position) ?: return
+                UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+            }
+        }
+    }
+
+    private fun renameStream(position: Int) {
+        val media = viewModel.observableHistory.value?.get(position) ?: return
+        val edit = EditText(requireActivity())
+        AlertDialog.Builder(requireContext())
+                .setTitle(getString(R.string.rename_media, media.title))
+                .setView(edit)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    viewModel.rename(position, edit.text.toString())
+                }
+                .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+                .show()
     }
 
     override fun onDestroy() {

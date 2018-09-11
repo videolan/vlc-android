@@ -39,4 +39,10 @@ class StreamsModel: ViewModel() {
         val history = withContext(IO) { VLCApplication.getMLInstance().lastStreamsPlayed() }
         observableHistory.value = history
     }
+
+    fun rename(position: Int, name: String) {
+        val media = observableHistory.value?.get(position) ?: return
+        media.rename(name)
+        updateHistory()
+    }
 }

@@ -627,4 +627,6 @@
     <string name="time_category_current_year">This year</string>
     <string name="time_category_last_year">Last year</string>
     <string name="time_category_older">Older media</string>
+    <string name="rename">Rename</string>
+    <string name="rename_media">Rename %1$s</string>
 </resources>

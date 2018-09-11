@@ -64,7 +64,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/mrl_list"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="?attr/background_default"

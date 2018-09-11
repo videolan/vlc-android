@@ -23,19 +23,15 @@ package org.videolan.vlc.gui.network
 import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.support.v7.widget.RecyclerView
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import kotlinx.coroutines.experimental.channels.SendChannel
-import org.videolan.libvlc.Media
-
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlItemBinding
 
-internal class MRLAdapter(private val eventActor: SendChannel<MediaWrapper>) : RecyclerView.Adapter<MRLAdapter.ViewHolder>() {
+internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : RecyclerView.Adapter<MRLAdapter.ViewHolder>() {
     private var dataset: Array<MediaWrapper>? = null
 
     val isEmpty: Boolean
@@ -49,8 +45,8 @@ internal class MRLAdapter(private val eventActor: SendChannel<MediaWrapper>) : R
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = dataset?.get(position)
-        holder.uriTv.text = Uri.decode(item?.location)
-        holder.titleTv.text = Uri.decode(item?.title)
+        holder.binding.mrlItemUri.text = Uri.decode(item?.location)
+        holder.binding.mrlItemTitle.text = Uri.decode(item?.title)
     }
 
     fun setList(list: Array<MediaWrapper>?) {
@@ -67,16 +63,19 @@ internal class MRLAdapter(private val eventActor: SendChannel<MediaWrapper>) : R
     override fun getItemCount() = dataset?.size ?: 0
 
     inner class ViewHolder(val binding: MrlItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
-        internal val uriTv: TextView = binding.mrlItemUri
-        internal val titleTv: TextView = binding.mrlItemTitle
 
         init {
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener { eventActor.offer(ShowContext(layoutPosition)) }
+            binding.mrlCtx.setOnClickListener { eventActor.offer(ShowContext(layoutPosition)) }
         }
 
         override fun onClick(v: View) {
-            dataset?.get(layoutPosition)?.let { eventActor.offer(it) }
+            dataset?.get(layoutPosition)?.let { eventActor.offer(Playmedia(it)) }
         }
     }
-
 }
+
+sealed class MrlAction
+class Playmedia(val media: MediaWrapper) : MrlAction()
+class ShowContext(val position: Int) : MrlAction()
