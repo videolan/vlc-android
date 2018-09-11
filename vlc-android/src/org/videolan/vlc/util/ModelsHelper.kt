@@ -1,12 +1,19 @@
 package org.videolan.vlc.util
 
+import android.content.Context
 import android.text.TextUtils
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
+import org.videolan.vlc.R
 import org.videolan.vlc.viewmodels.SortableModel
+
+private const val LENGTH_WEEK = 7*24*60*60
+private const val LENGTH_MONTH = 30*LENGTH_WEEK
+private const val LENGTH_YEAR = 52*LENGTH_WEEK
+private const val LENGTH_2_YEAR = 2* LENGTH_YEAR
 
 object ModelsHelper {
 
@@ -91,53 +98,79 @@ object ModelsHelper {
         return array
     }
 
-    fun getHeader(sort: Int, item: MediaLibraryItem, aboveItem: MediaLibraryItem?) : String? {
-        when (sort) {
-            Medialibrary.SORT_DEFAULT,
-            Medialibrary.SORT_FILENAME,
-            Medialibrary.SORT_ALPHA -> {
-                val letter = if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || ModelsHelper.isSpecialItem(item)) "#" else item.title.substring(0, 1).toUpperCase()
-                return if (aboveItem == null) letter
-                else {
-                    val previous = if (aboveItem.title.isEmpty() || !Character.isLetter(aboveItem.title[0]) || ModelsHelper.isSpecialItem(aboveItem)) "#" else aboveItem.title.substring(0, 1).toUpperCase()
-                    if (letter != previous) letter else null
-                }
-            }
-            Medialibrary.SORT_DURATION -> {
-                val length = getLength(item)
-                val lengthCategory = lengthToCategory(length)
-                return if (aboveItem == null) lengthCategory
-                else {
-                    val previous = lengthToCategory(getLength(aboveItem))
-                    if (lengthCategory != previous) lengthCategory else null
-                }
-            }
-            Medialibrary.SORT_RELEASEDATE -> {
-                val year = getYear(item)
-                return if (aboveItem == null) year
-                else {
-                    val previous = getYear(aboveItem)
-                    if (year != previous) year else null
-                }
-            }
-            Medialibrary.SORT_ARTIST -> {
-                val artist = (item as MediaWrapper).artist ?: ""
-                return if (aboveItem == null) artist
-                else {
-                    val previous = (aboveItem as MediaWrapper).artist ?: ""
-                    if (artist != previous) artist else null
-                }
-            }
-            Medialibrary.SORT_ALBUM -> {
-                val album = (item as MediaWrapper).album ?: ""
-                return if (aboveItem == null) album
-                else {
-                    val previous = (aboveItem as MediaWrapper).album ?: ""
-                    if (album != previous) album else null
-                }
+    fun getHeader(context: Context, sort: Int, item: MediaLibraryItem, aboveItem: MediaLibraryItem?) = when (sort) {
+        Medialibrary.SORT_DEFAULT,
+        Medialibrary.SORT_FILENAME,
+        Medialibrary.SORT_ALPHA -> {
+            val letter = if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || ModelsHelper.isSpecialItem(item)) "#" else item.title.substring(0, 1).toUpperCase()
+            if (aboveItem == null) letter
+            else {
+                val previous = if (aboveItem.title.isEmpty() || !Character.isLetter(aboveItem.title[0]) || ModelsHelper.isSpecialItem(aboveItem)) "#" else aboveItem.title.substring(0, 1).toUpperCase()
+                if (letter != previous) letter else null
             }
         }
-        return null
+        Medialibrary.SORT_DURATION -> {
+            val length = getLength(item)
+            val lengthCategory = lengthToCategory(length)
+            if (aboveItem == null) lengthCategory
+            else {
+                val previous = lengthToCategory(getLength(aboveItem))
+                if (lengthCategory != previous) lengthCategory else null
+            }
+        }
+        Medialibrary.SORT_RELEASEDATE -> {
+            val year = getYear(item)
+            if (aboveItem == null) year
+            else {
+                val previous = getYear(aboveItem)
+                if (year != previous) year else null
+            }
+        }
+        Medialibrary.SORT_LASTMODIFICATIONDATE -> {
+            val timestamp = (item as MediaWrapper).lastModified
+            val category = getTimeCategory(timestamp)
+            if (aboveItem == null) getTimeCategoryString(context, category)
+            else {
+                val prevCat = getTimeCategory((aboveItem as MediaWrapper).lastModified)
+                if (prevCat != category) getTimeCategoryString(context, category) else null
+            }
+        }
+        Medialibrary.SORT_ARTIST -> {
+            val artist = (item as MediaWrapper).artist ?: ""
+            if (aboveItem == null) artist
+            else {
+                val previous = (aboveItem as MediaWrapper).artist ?: ""
+                if (artist != previous) artist else null
+            }
+        }
+        Medialibrary.SORT_ALBUM -> {
+            val album = (item as MediaWrapper).album ?: ""
+            if (aboveItem == null) album
+            else {
+                val previous = (aboveItem as MediaWrapper).album ?: ""
+                if (album != previous) album else null
+            }
+        }
+        else -> null
+    }
+
+    private fun getTimeCategory(timestamp: Long): Int {
+        val delta = (System.currentTimeMillis()/1000L) - timestamp
+        return when {
+            delta < LENGTH_WEEK -> 0
+            delta < LENGTH_MONTH -> 1
+            delta < LENGTH_YEAR -> 2
+            delta < LENGTH_2_YEAR -> 3
+            else -> 4
+        }
+    }
+
+    private fun getTimeCategoryString(context: Context, cat: Int) = when (cat) {
+        0 -> context.getString(R.string.time_category_new)
+        1 -> context.getString(R.string.time_category_current_month)
+        2 -> context.getString(R.string.time_category_current_year)
+        3 -> context.getString(R.string.time_category_last_year)
+        else -> context.getString(R.string.time_category_older)
     }
 
     private fun isSpecialItem(item: MediaLibraryItem) = item.itemType == MediaLibraryItem.TYPE_ARTIST

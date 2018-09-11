@@ -62,6 +62,11 @@
                 android:visible="false" />
             <item
                 android:orderInCategory="2"
+                android:id="@+id/ml_menu_sortby_last_modified"
+                android:title="@string/sortby_last_modified_date"
+                android:visible="false" />
+            <item
+                android:orderInCategory="2"
                 android:id="@+id/ml_menu_sortby_number"
                 android:title="@string/sortby_number"
                 android:visible="false" />

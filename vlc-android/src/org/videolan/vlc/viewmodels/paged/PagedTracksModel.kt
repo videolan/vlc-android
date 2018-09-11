@@ -12,6 +12,7 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
     override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
     override fun canSortByAlbum() = parent !== null
+    override fun canSortByLastModified() = true
 
     init {
         sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)

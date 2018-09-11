@@ -134,7 +134,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     private void setHeader(ViewHolder holder, int position, MediaLibraryItem item) {
         if (mSort == -1) return;
         final MediaLibraryItem aboveItem = position > 0 ? getItem(position-1) : null;
-        holder.binding.setVariable(BR.header, ModelsHelper.INSTANCE.getHeader(mSort, item, aboveItem));
+        holder.binding.setVariable(BR.header, ModelsHelper.INSTANCE.getHeader(holder.itemView.getContext(), mSort, item, aboveItem));
     }
 
     public MultiSelectHelper<MediaLibraryItem> getMultiSelectHelper() {

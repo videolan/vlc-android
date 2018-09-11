@@ -19,6 +19,8 @@ interface Sortable : PopupMenu.OnMenuItemClickListener {
         menu.menu.findItem(R.id.ml_menu_sortby_filename).isVisible = vm.canSortByFileNameName()
         menu.menu.findItem(R.id.ml_menu_sortby_length).isVisible = vm.canSortByDuration()
         menu.menu.findItem(R.id.ml_menu_sortby_date).isVisible = vm.canSortByInsertionDate() || vm.canSortByReleaseDate() || vm.canSortByLastModified()
+        menu.menu.findItem(R.id.ml_menu_sortby_date).isVisible = vm.canSortByReleaseDate()
+        menu.menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = vm.canSortByLastModified()
         menu.menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
         menu.setOnMenuItemClickListener(this)
         menu.show()
@@ -30,11 +32,8 @@ interface Sortable : PopupMenu.OnMenuItemClickListener {
             R.id.ml_menu_sortby_name -> Medialibrary.SORT_ALPHA
             R.id.ml_menu_sortby_filename -> Medialibrary.SORT_FILENAME
             R.id.ml_menu_sortby_length -> Medialibrary.SORT_DURATION
-            R.id.ml_menu_sortby_date -> when {
-                vm.canSortByInsertionDate() -> Medialibrary.SORT_INSERTIONDATE
-//                vm.canSortByLastModified() -> Medialibrary.SORT_LASTMODIFICATIONDATE //TODO manage sections
-                else -> Medialibrary.SORT_RELEASEDATE
-            }
+            R.id.ml_menu_sortby_last_modified -> Medialibrary.SORT_LASTMODIFICATIONDATE
+            R.id.ml_menu_sortby_date -> Medialibrary.SORT_RELEASEDATE
             else -> return false
         })
         return true

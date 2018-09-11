@@ -360,6 +360,8 @@ public class UiTools {
         if (item != null) item.setTitle(sort == Medialibrary.SORT_DURATION && !desc ? R.string.sortby_length_desc : R.string.sortby_length);
         item = menu.findItem(R.id.ml_menu_sortby_date);
         if (item != null) item.setTitle(sort == Medialibrary.SORT_RELEASEDATE && !desc ? R.string.sortby_date_desc : R.string.sortby_date);
+        item = menu.findItem(R.id.ml_menu_sortby_last_modified);
+        if (item != null) item.setTitle(sort == Medialibrary.SORT_RELEASEDATE && !desc ? R.string.sortby_last_modified_date_desc : R.string.sortby_last_modified_date);
 //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
 //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 

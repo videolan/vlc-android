@@ -54,7 +54,6 @@ import org.videolan.vlc.gui.InfoActivity;
 import org.videolan.vlc.gui.audio.BaseAudioBrowser;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate;
-import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.media.MediaUtils;
@@ -243,7 +242,8 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
         menu.findItem(R.id.ml_menu_sortby_artist_name).setVisible(getViewModel().canSortByArtist());
         menu.findItem(R.id.ml_menu_sortby_album_name).setVisible(getViewModel().canSortByAlbum());
         menu.findItem(R.id.ml_menu_sortby_length).setVisible(getViewModel().canSortByDuration());
-        menu.findItem(R.id.ml_menu_sortby_date).setVisible(getViewModel().canSortByReleaseDate() || getViewModel().canSortByLastModified());
+        menu.findItem(R.id.ml_menu_sortby_date).setVisible(getViewModel().canSortByReleaseDate());
+        menu.findItem(R.id.ml_menu_sortby_last_modified).setVisible(getViewModel().canSortByLastModified());
         menu.findItem(R.id.ml_menu_sortby_number).setVisible(false);
         UiTools.updateSortTitles(this);
     }
@@ -261,7 +261,10 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
                 sortBy(Medialibrary.SORT_DURATION);
                 return true;
             case R.id.ml_menu_sortby_date:
-                sortBy(this instanceof VideoGridFragment ? Medialibrary.SORT_LASTMODIFICATIONDATE : Medialibrary.SORT_RELEASEDATE);
+                sortBy(Medialibrary.SORT_RELEASEDATE);
+                return true;
+            case R.id.ml_menu_sortby_last_modified:
+                sortBy(Medialibrary.SORT_LASTMODIFICATIONDATE);
                 return true;
             case R.id.ml_menu_sortby_artist_name:
                 sortBy(Medialibrary.SORT_ARTIST);
