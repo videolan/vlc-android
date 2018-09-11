@@ -24,6 +24,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.databinding.ViewDataBinding;
 import android.os.Build;
 import android.support.annotation.MainThread;
@@ -62,6 +63,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
     private int mGridCardWidth = 0;
 
     private boolean mIsSeenMediaMarkerVisible;
+    private ObservableBoolean mShowFilename = new ObservableBoolean();
 
     private MultiSelectHelper<MediaWrapper> multiSelectHelper;
 
@@ -76,6 +78,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final ViewDataBinding binding = DataBindingUtil.inflate(inflater, mListMode ? R.layout.video_list_card : R.layout.video_grid_card, parent, false);
+        binding.setVariable(BR.showFilename, mShowFilename);
         if (!mListMode) {
             final GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) binding.getRoot().getLayoutParams();
             params.width = mGridCardWidth;
@@ -307,6 +310,10 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
 
     void setSeenMediaMarkerVisible(boolean seenMediaMarkerVisible) {
         mIsSeenMediaMarkerVisible = seenMediaMarkerVisible;
+    }
+
+    void showFilename(boolean show) {
+        mShowFilename.set(show);
     }
 
     @Override

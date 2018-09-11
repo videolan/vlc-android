@@ -22,6 +22,10 @@
             type="String" />
 
         <variable
+            name="showFilename"
+            type="android.databinding.ObservableBoolean" />
+
+        <variable
             name="max"
             type="int" />
 
@@ -103,7 +107,7 @@
             android:textColor="@color/grey50"
             android:layout_marginLeft="@dimen/very_small_margin"
             android:layout_marginStart="@dimen/half_default_margin"
-            android:text="@{media.title}"
+            android:text="@{showFilename ? media.fileName : media.title}"
             tools:targetApi="jelly_bean" />
 
         <TextView

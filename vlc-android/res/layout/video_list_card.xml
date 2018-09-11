@@ -19,6 +19,10 @@
             type="String" />
 
         <variable
+            name="showFilename"
+            type="android.databinding.ObservableBoolean" />
+
+        <variable
             name="bgColor"
             type="int" />
 
@@ -95,7 +99,7 @@
             android:gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:text="@{media.title}"
+            android:text="@{showFilename ? media.fileName : media.title}"
             style="@style/VLC.TextViewTitle" />
 
         <ImageView

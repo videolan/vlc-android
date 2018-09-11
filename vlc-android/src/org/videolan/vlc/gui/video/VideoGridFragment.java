@@ -161,6 +161,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     @Override
     public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
+        mAdapter.showFilename(viewModel.getSort() == Medialibrary.SORT_FILENAME);
         if (mediaWrappers != null) mAdapter.update(mediaWrappers);
     }
 
