@@ -1797,7 +1797,7 @@ int MediaLibraryJNI_OnLoad(JavaVM *vm, JNIEnv* env)
     GET_ID(GetMethodID,
            ml_fields.MediaWrapper.initID,
            ml_fields.MediaWrapper.clazz,
-           "<init>", "(JLjava/lang/String;JJILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;IIIIJJZ)V");
+           "<init>", "(JLjava/lang/String;JJILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IILjava/lang/String;IIIIJJZ)V");
 
     GET_CLASS(ml_fields.HistoryItem.clazz,
               "org/videolan/medialibrary/media/HistoryItem", true);

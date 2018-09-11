@@ -126,8 +126,8 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
      * @param mrl Should not be null.
      */
     public MediaWrapper(long id, String mrl, long time, long length, int type, String title,
-                        String artist, String genre, String album, String albumArtist, int width,
-                        int height, String artworkURL, int audio, int spu, int trackNumber,
+                        String filename, String artist, String genre, String album, String albumArtist,
+                        int width, int height, String artworkURL, int audio, int spu, int trackNumber,
                         int discNumber, long lastModified, long seen, boolean isThumbnailGenerated) {
         super();
         if (TextUtils.isEmpty(mrl)) throw new IllegalArgumentException("uri was empty");
@@ -136,6 +136,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
             mrl = "file://"+mrl;
         mUri = Uri.parse(mrl);
         mId = id;
+        mFilename = filename;
         init(time, length, type, null, title, artist, genre, album, albumArtist, width, height,
                 artworkURL != null ? VLCUtil.UriFromMrl(artworkURL).getPath() : null, audio, spu,
                 trackNumber, discNumber, lastModified, seen, null);

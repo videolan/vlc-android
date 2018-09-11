@@ -35,7 +35,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
         break;
     }
     medialibrary::AlbumTrackPtr p_albumTrack = mediaPtr->albumTrack();
-    jstring artist = NULL, genre = NULL, album = NULL, albumArtist = NULL, mrl = NULL, title = NULL, thumbnail = NULL;
+    jstring artist = NULL, genre = NULL, album = NULL, albumArtist = NULL, mrl = NULL, title = NULL, thumbnail = NULL, filename = NULL;
     jint trackNumber = 0, discNumber = 0;
     if (p_albumTrack)
     {
@@ -60,6 +60,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     const medialibrary::IMetadata& metaSpuTrack = mediaPtr->metadata(medialibrary::IMedia::MetadataType::SubtitleTrack);
     jint  spuTrack = metaSpuTrack.isSet() ? metaSpuTrack.integer() : -2;
     title = mediaPtr->title().empty() ? NULL : env->NewStringUTF(mediaPtr->title().c_str());
+    filename = mediaPtr->fileName().empty() ? NULL : env->NewStringUTF(mediaPtr->fileName().c_str());
     mrl = env->NewStringUTF(files.at(0)->mrl().c_str());
     thumbnail = mediaPtr->thumbnail().empty() ? NULL : env->NewStringUTF(mediaPtr->thumbnail().c_str());
     std::vector<medialibrary::VideoTrackPtr> videoTracks = mediaPtr->videoTracks()->all();
@@ -76,7 +77,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
 
     jobject item = env->NewObject(fields->MediaWrapper.clazz, fields->MediaWrapper.initID,
                           (jlong) mediaPtr->id(), mrl,(jlong) progress, (jlong) duration, type,
-                          title, artist, genre, album,
+                          title, filename, artist, genre, album,
                           albumArtist, width, height, thumbnail,
                           audioTrack, spuTrack, trackNumber, discNumber, (jlong) files.at(0)->lastModificationDate(), seen, mediaPtr->isThumbnailGenerated());
     if (artist != NULL)
