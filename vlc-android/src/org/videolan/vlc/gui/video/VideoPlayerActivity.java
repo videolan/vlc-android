@@ -113,7 +113,6 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.audio.PlaylistAdapter;
 import org.videolan.vlc.gui.browser.FilePickerActivity;
-import org.videolan.vlc.gui.browser.FilePickerFragment;
 import org.videolan.vlc.gui.browser.FilePickerFragmentKt;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.dialogs.RenderersDialog;
@@ -268,6 +267,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private float mFov;
     private VideoTouchDelegate mTouchDelegate;
+    private boolean mIsTv;
 
     // Tracks & Subtitles
     private MediaPlayer.TrackDescription[] mAudioTracksList;
@@ -371,16 +371,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         // 100 is the value for screen_orientation_start_lock
         setRequestedOrientation(getScreenOrientation(mScreenOrientation));
         // Extra initialization when no secondary display is detected
+        mIsTv = VLCApplication.showTvUi();
         if (mDisplayManager.isPrimary()) {
             // Orientation
             // Tips
-            if (!BuildConfig.DEBUG && !VLCApplication.showTvUi() && !mSettings.getBoolean(PREF_TIPS_SHOWN, false)) {
+            if (!BuildConfig.DEBUG && !mIsTv && !mSettings.getBoolean(PREF_TIPS_SHOWN, false)) {
                 ((ViewStubCompat) findViewById(R.id.player_overlay_tips)).inflate();
                 mOverlayTips = findViewById(R.id.overlay_tips_layout);
             }
 
             //Set margins for TV overscan
-            if (VLCApplication.showTvUi()) {
+            if (mIsTv) {
                 int hm = getResources().getDimensionPixelSize(R.dimen.tv_overscan_horizontal);
                 int vm = getResources().getDimensionPixelSize(R.dimen.tv_overscan_vertical);
 
@@ -403,7 +404,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
         mMedialibrary = VLCApplication.getMLInstance();
         final int touch;
-        if (!VLCApplication.showTvUi()) {
+        if (!mIsTv) {
             touch = (mSettings.getBoolean("enable_volume_gesture", true) ? VideoTouchDelegateKt.TOUCH_FLAG_AUDIO_VOLUME : 0)
                     + (mSettings.getBoolean("enable_brightness_gesture", true) ? VideoTouchDelegateKt.TOUCH_FLAG_BRIGHTNESS : 0)
                     + (mSettings.getBoolean("enable_double_tap_seek", true) ? VideoTouchDelegateKt.TOUCH_FLAG_SEEK : 0);
@@ -416,7 +417,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             int yRange = Math.min(dm.widthPixels, dm.heightPixels);
             int xRange = Math.max(dm.widthPixels, dm.heightPixels);
             final ScreenConfig sc = new ScreenConfig(dm, xRange, yRange, mCurrentScreenOrientation);
-            mTouchDelegate = new VideoTouchDelegate(this, touch, sc, isRtl);
+            mTouchDelegate = new VideoTouchDelegate(this, touch, sc, isRtl, mIsTv);
         }
         UiTools.setRotationAnimation(this);
     }
@@ -926,7 +927,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             togglePlaylist();
         } else if (isPlaybackSettingActive()){
             endPlaybackSetting();
-        } else if (VLCApplication.showTvUi() && mShowing && !mIsLocked) {
+        } else if (mIsTv && mShowing && !mIsLocked) {
             hideOverlay(true);
         } else {
             exitOK();
@@ -1648,7 +1649,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mSwitchingView = true;
         // Show the MainActivity if it is not in background.
         if (showUI) {
-            Intent i = new Intent(this, VLCApplication.showTvUi() ? AudioPlayerActivity.class : MainActivity.class);
+            Intent i = new Intent(this, mIsTv ? AudioPlayerActivity.class : MainActivity.class);
             startActivity(i);
         } else
             mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, true).apply();
@@ -2463,7 +2464,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mHudBinding.progressOverlay.setLayoutParams(layoutParams);
             mOverlayBackground = findViewById(R.id.player_overlay_background);
             mNavMenu = findViewById(R.id.player_overlay_navmenu);
-            if (!AndroidDevices.isChromeBook && !VLCApplication.showTvUi()) {
+            if (!AndroidDevices.isChromeBook && !mIsTv) {
                 mRendererBtn = findViewById(R.id.video_renderer);
                 RendererDelegate.INSTANCE.getSelectedRenderer().observe(this, new Observer<RendererItem>() {
                     @Override

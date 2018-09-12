@@ -8,7 +8,6 @@ import android.util.DisplayMetrics
 import android.view.*
 import org.videolan.medialibrary.Tools
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.AndroidDevices
 
 const val TOUCH_FLAG_AUDIO_VOLUME = 1
@@ -29,7 +28,8 @@ private const val JOYSTICK_INPUT_DELAY = 300
 class VideoTouchDelegate(private val player: VideoPlayerActivity,
                          private val mTouchControls : Int,
                          var screenConfig : ScreenConfig,
-                         private val rtl: Boolean) {
+                         private val rtl: Boolean,
+                         private val tv : Boolean) {
 
     private var mTouchAction = TOUCH_NONE
     private var mInitTouchY = 0f
@@ -151,12 +151,12 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
         if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY) {
             if (Math.abs(x) > 0.3) {
-                if (VLCApplication.showTvUi()) {
+                if (tv) {
                     player.navigateDvdMenu(if (x > 0.0f) KeyEvent.KEYCODE_DPAD_RIGHT else KeyEvent.KEYCODE_DPAD_LEFT)
                 } else
                     player.seekDelta(if (x > 0.0f) 10000 else -10000)
             } else if (Math.abs(y) > 0.3) {
-                if (VLCApplication.showTvUi())
+                if (tv)
                     player.navigateDvdMenu(if (x > 0.0f) KeyEvent.KEYCODE_DPAD_UP else KeyEvent.KEYCODE_DPAD_DOWN)
                 else {
                     if (mIsFirstBrightnessGesture)
