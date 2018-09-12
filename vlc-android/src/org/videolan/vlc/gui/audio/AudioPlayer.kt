@@ -202,12 +202,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
                 switchToVideo()
                 return
             }
+            binding.audioMediaSwitcher.updateMedia(this)
+            binding.coverMediaSwitcher.updateMedia(this)
+
+            binding.playlistPlayasaudioOff.visibility = if (videoTracksCount > 0) View.VISIBLE else View.GONE
         }
-
-        binding.audioMediaSwitcher.updateMedia(service)
-        binding.coverMediaSwitcher.updateMedia(service)
-
-        binding.playlistPlayasaudioOff.visibility = if (service?.videoTracksCount ?: 0 > 0) View.VISIBLE else View.GONE
 
         updatePlayPause()
         updateShuffleMode()
