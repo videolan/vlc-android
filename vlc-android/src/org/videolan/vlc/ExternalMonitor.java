@@ -50,6 +50,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.helpers.hf.OtgAccess;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.LiveDataset;
 import org.videolan.vlc.util.Strings;
@@ -95,7 +96,7 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
 
     private static void checkNewStorages(final Context ctx) {
         if (VLCApplication.getMLInstance().isInitiated()) {
-            final int scanOpt = VLCApplication.showTvUi() ? Constants.ML_SCAN_ON
+            final int scanOpt = AndroidDevices.showTvUi(ctx) ? Constants.ML_SCAN_ON
                     : PreferenceManager.getDefaultSharedPreferences(ctx).getInt(Constants.KEY_MEDIALIBRARY_SCAN, -1);
             if (scanOpt == Constants.ML_SCAN_ON) new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override

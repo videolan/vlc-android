@@ -42,6 +42,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.video.VideoGridFragment;
+import org.videolan.vlc.util.AndroidDevices;
 
 public class SecondaryActivity extends ContentActivity {
     public final static String TAG = "VLC/SecondaryActivity";
@@ -67,7 +68,7 @@ public class SecondaryActivity extends ContentActivity {
         final CoordinatorLayout.LayoutParams params =
                 (CoordinatorLayout.LayoutParams) fph.getLayoutParams();
 
-        if (VLCApplication.showTvUi()) {
+        if (AndroidDevices.showTvUi(this)) {
             TvUtil.INSTANCE.applyOverscanMargin(this);
             params.topMargin = getResources().getDimensionPixelSize(UiTools.getResourceFromAttribute(this, R.attr.actionBarSize));
         } else

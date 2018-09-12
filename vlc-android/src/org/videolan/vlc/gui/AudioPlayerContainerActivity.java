@@ -62,6 +62,7 @@ import org.videolan.vlc.gui.helpers.BottomSheetBehavior;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.PlaylistManager;
+import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.WeakHandler;
 
@@ -208,7 +209,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     public void showTipViewIfNeeded(final int stubId, final String settingKey) {
         if (BuildConfig.DEBUG) return;
         View vsc = findViewById(stubId);
-        if (vsc != null && !mSettings.getBoolean(settingKey, false) && !VLCApplication.showTvUi()) {
+        if (vsc != null && !mSettings.getBoolean(settingKey, false) && !AndroidDevices.showTvUi(this)) {
             View v = ((ViewStubCompat)vsc).inflate();
             v.setOnClickListener(new View.OnClickListener() {
                 @Override

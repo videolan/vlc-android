@@ -371,7 +371,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         // 100 is the value for screen_orientation_start_lock
         setRequestedOrientation(getScreenOrientation(mScreenOrientation));
         // Extra initialization when no secondary display is detected
-        mIsTv = VLCApplication.showTvUi();
+        mIsTv = AndroidDevices.showTvUi(this);
         if (mDisplayManager.isPrimary()) {
             // Orientation
             // Tips

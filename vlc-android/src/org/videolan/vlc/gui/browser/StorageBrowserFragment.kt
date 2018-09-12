@@ -88,7 +88,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (isRootDirectory && VLCApplication.showTvUi()) {
+        if (isRootDirectory && AndroidDevices.showTvUi(view.context)) {
             mSnack = Snackbar.make(view, R.string.tv_settings_hint, Snackbar.LENGTH_INDEFINITE)
             if (AndroidUtil.isLolliPopOrLater) mSnack?.view?.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         }

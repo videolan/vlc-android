@@ -560,7 +560,7 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
     public void onConnected(PlaybackService service) {
         mAdapter.clear();
         mService = service;
-        boolean tvUi = VLCApplication.showTvUi();
+        boolean tvUi = AndroidDevices.showTvUi(service);
         int large_items = 0;
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AdvOptionsDialog.this.getContext());
 

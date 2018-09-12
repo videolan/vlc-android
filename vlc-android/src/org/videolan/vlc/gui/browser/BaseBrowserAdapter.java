@@ -204,7 +204,7 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
 
         public boolean onLongClick(View v) {
             int position = getLayoutPosition();
-            if (getItem(position).getItemType() == TYPE_STORAGE && VLCApplication.showTvUi()) {
+            if (getItem(position).getItemType() == TYPE_STORAGE && AndroidDevices.showTvUi(itemView.getContext())) {
                 binding.browserCheckbox.toggle();
                 onCheckBoxClick(binding.browserCheckbox);
                 return true;

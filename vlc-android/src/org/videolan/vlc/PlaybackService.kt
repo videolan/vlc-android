@@ -628,7 +628,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun showNotificationInternal() {
-        if (!AndroidDevices.isAndroidTv && VLCApplication.showTvUi()) return
+        if (!AndroidDevices.isAndroidTv && AndroidDevices.showTvUi(this)) return
         if (isPlayingPopup || !hasRenderer() && isVideoPlaying) {
             hideNotificationInternal(true)
             return

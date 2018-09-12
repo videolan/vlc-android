@@ -54,6 +54,7 @@ public class AndroidDevices {
     public final static boolean hasNavBar;
     public final static boolean hasTsp;
     public final static boolean isAndroidTv;
+    public final static boolean isTv;
     public final static boolean isAmazon = TextUtils.equals(Build.MANUFACTURER,"Amazon");
     public final static boolean isChromeBook;
     public static final boolean hasPiP;
@@ -97,6 +98,7 @@ public class AndroidDevices {
         hasTsp = pm == null || pm.hasSystemFeature("android.hardware.touchscreen");
         isAndroidTv = pm != null && pm.hasSystemFeature("android.software.leanback");
         isChromeBook = pm != null && pm.hasSystemFeature("org.chromium.arc.device_management");
+        isTv = isAndroidTv || (!isChromeBook && !hasTsp);
         hasPlayServices = pm == null || hasPlayServices(pm);
         hasPiP = AndroidUtil.isOOrLater || AndroidUtil.isNougatOrLater && isAndroidTv;
         final TelephonyManager tm = ctx != null ? ((TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE)) : null;
@@ -165,6 +167,10 @@ public class AndroidDevices {
             }
         }
         return 0;
+    }
+
+    public static boolean showTvUi(Context context) {
+        return isTv || (Settings.INSTANCE.getInstance(context.getApplicationContext()).getBoolean("tv_ui", false));
     }
 
     private static boolean isManufacturerBannedForMediastyleNotifications() {

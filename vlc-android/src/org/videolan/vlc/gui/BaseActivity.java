@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatDelegate;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.util.AndroidDevices;
 
 
 public class BaseActivity extends AppCompatActivity {
@@ -30,7 +31,7 @@ public class BaseActivity extends AppCompatActivity {
 
     private void applyTheme() {
         boolean enableBlackTheme = mSettings.getBoolean("enable_black_theme", false);
-        if (VLCApplication.showTvUi() || enableBlackTheme) {
+        if (AndroidDevices.showTvUi(this) || enableBlackTheme) {
             setTheme(R.style.Theme_VLC_Black);
         }
     }

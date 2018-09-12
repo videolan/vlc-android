@@ -38,7 +38,6 @@ import org.videolan.vlc.gui.dialogs.VlcProgressDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.NotificationHelper;
-import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
@@ -59,7 +58,6 @@ public class VLCApplication extends Application {
     public final static String SLEEP_INTENT = Strings.INSTANCE.buildPkgString("SleepIntent");
 
     public static Calendar sPlayerSleepTime = null;
-    private static boolean sTV;
 
     private static SimpleArrayMap<String, WeakReference<Object>> sDataMap = new SimpleArrayMap<>();
 
@@ -76,7 +74,6 @@ public class VLCApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        sTV = AndroidDevices.isAndroidTv || (!AndroidDevices.isChromeBook && !AndroidDevices.hasTsp);
         locale = Settings.INSTANCE.getInstance(this).getString("set_locale", "");
 
         // Set the locale for API < 24 and set application resources and direction for API >=24
@@ -138,10 +135,6 @@ public class VLCApplication extends Application {
 
     public static String getLocale(){
         return locale;
-    }
-
-    public static boolean showTvUi() {
-        return sTV || (Settings.INSTANCE.getInstance(instance).getBoolean("tv_ui", false));
     }
 
     public static void storeData(String key, Object data) {
