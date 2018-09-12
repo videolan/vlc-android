@@ -135,6 +135,7 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
     }
 
     public void setFabPlayVisibility(boolean enable) {
+        if (enable == (mFabPlay.getVisibility() == View.VISIBLE)) return;
         if (mFabPlay != null) mFabPlay.setVisibility(enable ? View.VISIBLE : View.GONE);
     }
 
