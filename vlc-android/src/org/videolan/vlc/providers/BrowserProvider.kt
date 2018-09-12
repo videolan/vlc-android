@@ -27,14 +27,11 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
 import android.support.v4.util.SimpleArrayMap
-import kotlinx.coroutines.experimental.IO
-import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.HandlerContext
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.mapTo
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
