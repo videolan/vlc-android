@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">U redu</string>
     <string name="cancel">Odustani</string>
@@ -19,11 +20,13 @@
     <string name="sortby_number_desc">Broju pjesama (odostraga)</string>
     <string name="searchable_hint">Pretraži…</string>
     <string name="history">Povijest</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">Pronađen je %d rezultat</item>
         <item quantity="few">Pronađena su %d rezultata</item>
         <item quantity="other">Pronađeno je %d rezultata</item>
     </plurals>
+
     <string name="play">Reproduciraj</string>
     <string name="playback">Reprodukcija</string>
     <string name="playback_controls">Upravljanje reprodukcijom</string>
@@ -63,9 +66,11 @@
         <item quantity="few">%d pjesme</item>
         <item quantity="other">%d pjesmi</item>
     </plurals>
+
     <string name="artists">Izvođači</string>
     <string name="albums">Albumi</string>
     <string name="tracks">Pjesme</string>
+
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="few">%d albuma</item>
@@ -86,6 +91,7 @@
         <item quantity="few">%d video snimke</item>
         <item quantity="other">%d video snimki</item>
     </plurals>
+
     <string name="internal_memory">Unutarnja memorija</string>
     <string name="parent_folder">Idi u nadređenu mapu</string>
     <string name="audio">Glazba</string>
@@ -110,6 +116,7 @@
     <string name="directorynotfound">Putanja direktorija \'%1$s\' nije pronađena.</string>
     <string name="nohistory">Još nemate povijest reprodukcije.</string>
     <string name="validation">Jeste li sigurni?</string>
+
     <string name="cover_art">Omot slike</string>
     <string name="shuffle_title">Naizmjenični način rada</string>
     <string name="shuffle">Naizmjenično isključeno</string>
@@ -123,6 +130,7 @@
     <string name="next">Sljedeće</string>
     <string name="firstsong">Prva pjesma na popisu izvođenja</string>
     <string name="lastsong">Posljednja pjesma na popisu izvođenja</string>
+
     <string name="locked">Zaključano</string>
     <string name="unlocked">Otključano</string>
     <string name="surface_best_fit">Najbolji prikaz</string>
@@ -146,14 +154,17 @@
     <string name="navmenu">izbornik upravljanja</string>
     <string name="advanced">napredne mogućnosti</string>
     <string name="audio_boost_warning">Kliznite gore ponovno za iznad 100%</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
         <item quantity="few">%1$d kanala\n</item>
         <item quantity="other">%1$d kanala\n</item>
     </plurals>
+
     <string name="track_samplerate_info">Frekvencija: %1$d Hz\n</string>
     <string name="track_resolution_info">Razlučivost: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Broj sličica: %1$.3f\n</string>
+
     <string name="tools">Alati</string>
     <string name="playback_speed">Brzina reprodukcije</string>
     <string name="sleep_title">Zadano vrijeme spavanja</string>
@@ -163,6 +174,7 @@
     <string name="subtitle_label">Dodaj datoteku podnaslova</string>
     <string name="subtitle_select">Odaberi datoteku podnaslova</string>
     <string name="no_file_picker_found">Datoteka nije pronađena na vašem sustavu.</string>
+
     <string name="server_add_title">Dodaj novi poslužitelj u omiljene</string>
     <string name="server_domain_hint">Adresa poslužitelja (naziv domene ili IP adresa)</string>
     <string name="server_share_hint">Naziv mrežnog dijeljenja (ili IP adresa)</string>
@@ -172,6 +184,7 @@
     <string name="server_port">Ulaz:</string>
     <string name="login">Prijava</string>
     <string name="password">Lozinka</string>
+
     <string name="search_results">Rezultati pretrage</string>
     <string name="search_no_result">Nema pronađenih medija</string>
     <string name="favorites_add">Dodaj u omiljene</string>
@@ -179,6 +192,7 @@
     <string name="favorites_edit">Uredi</string>
     <string name="favorite_added">Spremljeno u omiljene</string>
     <string name="favorite_removed">Uklonjeno iz omiljenih</string>
+
     <string name="open">Otvori</string>
     <string name="open_mrl">Mrežna strujanja</string>
     <string name="open_mrl_dialog_title">Otvori mrežno strujanje</string>
@@ -186,16 +200,19 @@
     <string name="error_not_compatible">Isprika, trenutna VLC inačica nije podržana vašim Android™ uređajem.</string>
     <string name="error_problem">Isprika, VLC za Android™ je imao poteškoća pri učitavanju i morao se zatvoriti.</string>
     <string name="error_message_is">Poruka greške je (navedite ovo pri prijavi greške):\n</string>
-    <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">Geška izvođenja</string>
     <string name="encountered_error_message">VLC je naišao na grešku s ovim medijem.\nPokušajte osvježiti medijsku zbirku.</string>
     <string name="invalid_location">Lokacija %1$s se ne može reproducirati.</string>
+
     <string name="search">Pretraživanje</string>
     <string name="search_history">Povijest pretraživanja</string>
+
+
     <string name="playback_history_title">Povijest reprodukcije</string>
     <string name="playback_history_summary">Spremi sve reproducirane medije u odjeljak povijesti</string>
     <string name="playback_speed_title">Spremi brzinu reprodukcije</string>
     <string name="playback_speed_summary">Zapamti postavljenu brzinu reprodukcije</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Savjeti video reproduktora:</string>
     <string name="seek">Premotavanje</string>
@@ -205,25 +222,30 @@
     <string name="options">Mogućnosti</string>
     <string name="lock">Zaključaj</string>
     <string name="ok_got_it">Shvaćam, ne prikazuj više savjete</string>
+
     <string name="playlist_tips">Savjeti popisa izvođenja</string>
     <string name="remove_song">Ukloni pjesmu</string>
     <string name="remove_playlist_item">%1$s je uklonjen iz popisa izvođenja</string>
     <string name="rearrange_order">Razvrstaj poredak</string>
     <string name="hold_to_seek">Drži za premotavanje</string>
+
     <string name="audio_player_tips">Savjeti reproduktora zvuka</string>
     <string name="previous_next_song">Prijašnja/Sljedeća pjesma</string>
     <string name="show_playlist">Prikaži popis izvođenja</string>
     <string name="hold_to_stop">Drži za zasutavljanje</string>
+
     <!-- About -->
     <string name="app_name_full">VLC za Android</string>
     <string name="licence">Licenca</string>
     <string name="revision">Izdanje</string>
     <string name="about">O aplikaciji</string>
     <string name="about_text">VLC za Android™ je izdanje popularnog VLC medijskog reproduktora otvorenog kôda. Inačica za Android™ može reproducirati većinu datoteka i mrežnih strujanja.</string>
-    <string name="compiled_by">Ovu VLC inačicu su kompilirali:</string>
     <string name="vlc_authors">Autori VLC-a.</string>
+    <string name="compiled_by">Ovu VLC inačicu su kompilirali:</string>
+
     <!-- Preferences -->
     <string name="preferences">Postavke</string>
+
     <string name="general_prefs_category">Općenito</string>
     <string name="directories_summary">Odaberi direktorije za uključivanje u medijsku zbirku</string>
     <string name="add_custom_path">Dodaj prilagođenu putanju</string>
@@ -236,10 +258,6 @@
     <string name="hardware_acceleration_full">Potpuno ubrzanje</string>
     <string name="dev_hardware_decoder">Napredno hardversko dekôdiranje</string>
     <string name="dev_hardware_decoder_summary">Prisili hardversko dekôdiranje, samo za napredne korisnike</string>
-    <string name="dev_hardware_decoder_omx">iomx</string>
-    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
-    <string name="dev_hardware_decoder_mediacodec">mediakôdek</string>
-    <string name="dev_hardware_decoder_mediacodec_dr">mediakôdek-dr</string>
     <string name="automatic">Automatsko</string>
     <string name="screen_orientation">Zakretanje zaslona</string>
     <string name="screen_orientation_sensor">Automatsko (senzor)</string>
@@ -252,7 +270,9 @@
     <string name="subtitle_text_encoding">Kôdiranje teksta podnaslova</string>
     <string name="daynight_title">Dnevno-noćni način rada</string>
     <string name="daynight_summary">Automatsko prebacivanje na noćni način rada u prikladno vrijeme</string>
+
     <string name="extra_prefs_category">Dodatne postavke</string>
+
     <string name="interface_prefs_screen">Sučelje</string>
     <string name="interface_gui">Zaslon</string>
     <string name="interface_secondary_display_category_title">Pomoćni zaslon</string>
@@ -260,6 +280,7 @@
     <string name="enable_clone_mode">Preferiraj klonirano</string>
     <string name="enable_clone_mode_summary">Kloniraj zaslon uređaja bez kontrola daljinskog upravljanja.</string>
     <string name="interface_other_category">Sučelje - Ostalo</string>
+
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Grupiraj video snimke</string>
     <string name="video_min_group_length_summary">Video snimke su grupirane ako su njihova prva slova jednaka.</string>
@@ -288,6 +309,7 @@
     <string name="popup_keepscreen_summary">Uvijek drži zaslon uključenim kada se skočni prozor pojavi, čak iako je video reprodukcija pauzirana.</string>
     <string name="browser_show_hidden_files_title">Prikaži skrivene datoteke</string>
     <string name="browser_show_hidden_files_summary">Prikaži skrivene datoteke u pregledniku</string>
+
     <string name="subtitles_prefs_category">Podnaslovi</string>
     <string name="subtitles_size_title">Veličina podnaslova</string>
     <string name="subtitles_size_small">Mala</string>
@@ -304,6 +326,7 @@
     <string name="subtitles_background_title">Pozadina podnaslova</string>
     <string name="subtitles_bold_title">Podebljani podnaslovi</string>
     <string name="subtitles_autoload_title">Automatski učitaj podnaslove</string>
+
     <string name="audio_prefs_category">Zvuk</string>
     <string name="lockscreen_cover_title">Omot medija na zaključanom zaslonu</string>
     <string name="lockscreen_cover_summary">Kada je dostupno, postavi trenutni omot albuma kao pozadinu zaključanog zaslona</string>
@@ -344,6 +367,7 @@
     <string name="casting_connected_renderer">Povezano s prikazivačem \'%1$s\'</string>
     <string name="artists_show_all_title">Prikaži sve izvođače</string>
     <string name="artists_show_all_summary">Prikaži sve izvođače u popisu izvođača, a ne samo izvođače albuma</string>
+
     <string name="extensions_prefs_category">Proširenja</string>
     <string name="extensions_enable_category">Odaberite proširenja za omogućavanje</string>
     <string name="extensions_empty">Nema otkrivenih proširenja</string>
@@ -351,7 +375,9 @@
     <string name="extension_permission_checkbox_title">Prikaži u %1$s</string>
     <string name="extension_prefs_activation_title">Aktiviraj</string>
     <string name="android_auto">Android automatski</string>
+
     <string name="controls_prefs_category">Upravljanje</string>
+
     <string name="performance_prefs_category">Pefomanse</string>
     <string name="chroma_format">Nametni boju</string>
     <string name="chroma_format_summary">RGB 32-bit: zadana boja\nRGB 16-bit: bolje performanse ali lošija kvaliteta\nYUV: najbolje performanse ali ne radi na svim uređajima. Android 2.3 i novija izdanja.</string>
@@ -364,6 +390,7 @@
     <string name="enable_frame_skip_summary">Ubrzava dekôdiranje ali smanjuje kvalitetu video snimke.</string>
     <string name="enable_time_stretching_audio">Vremensko rastezanje zvuka</string>
     <string name="enable_time_stretching_audio_summary">Ubrzavanje i usporavanje zvuka bez promjene tona (zahtijeva brzi uređaj)</string>
+
     <string name="advanced_prefs_category">Napredno</string>
     <string name="save_video_none">Ne spremaj bezinu</string>
     <string name="save_video_session">Spremi brzinu tijekom ove sesije</string>
@@ -404,15 +431,18 @@
     <string name="restart_vlc">Ponovno pokreni VLC</string>
     <string name="send_log">Pošalji zapis</string>
     <string name="sending_log">Slanje zapisa…</string>
+
     <string name="drawer_open">Otvori pretinac navigacije</string>
     <string name="drawer_close">Zatvori pretinac navigacije</string>
     <string name="network_browsing">Lokalna mreža</string>
     <string name="browsing">Pregledaj</string>
+
     <string name="file_size">Veličina datoteke:</string>
+
     <string name="audio_delay">Kašnjenje zvuka</string>
     <string name="spu_delay">Kašnjenje podnaslova</string>
     <string name="sleep_time_not_set">Ništa postavljeno</string>
-    <string name="network_shares_discovery">Pretraživanje mrežnih dijeljenja...</string>
+    <string name="network_shares_discovery">Pretraživanje mrežnih dijeljenja…</string>
     <string name="network_empty">Direktorij je prazan.</string>
     <string name="network_connection_needed">Nema povezivanjiva s lokalnom mrežom.</string>
     <string name="search_hint">Pretraži medij</string>
@@ -422,7 +452,7 @@
     <string name="directory_hide_medialib">Sakrij u medijskoj zbirci</string>
     <string name="playlist_save">Spremi popis izvođenja</string>
     <string name="playlist_name_hint">naziv popisa izvođenja</string>
-    <string name="go_to_chapter">Idi na poglavlje...</string>
+    <string name="go_to_chapter">Idi na poglavlje…</string>
     <string name="chapter">Poglavlje</string>
     <string name="resume_from_position">Nastavi s posljednjeg položaja</string>
     <string name="confirm_resume">Nastavi s posljednjeg položaja?</string>
@@ -433,6 +463,7 @@
     <string name="tv_ui_summary">Promijeni sučelje na TV prilagođenu temu</string>
     <string name="medialibrary">Medijska zbirka</string>
     <string name="medialibrary_directories">Mapa medijske zbirke</string>
+
     <!-- Accessibility -->
     <string name="more_actions">Više radnji</string>
     <string name="move">Premjesti</string>
@@ -441,6 +472,7 @@
     <string name="file_deleted">Datoteka obrisana</string>
     <string name="no_subs_found">Nema podnaslova u ovom direktoriju</string>
     <string name="music_now_playing">Trenutno se reporducira</string>
+
     <!-- Widget -->
     <string name="widget_name_w">VLC bijeli widget</string>
     <string name="widget_name_b">VLC tamni widget</string>
@@ -452,14 +484,15 @@
     <string name="allow_settings_access_brightness_description">Vlc treba dozvolu za promjenu svjetline.</string>
     <string name="allow_draw_overlays_title">Dopusti VLC skočni prozor preko drugih aplikacija</string>
     <string name="allow_sdraw_overlays_description">Vlc treba dozvolu za prikaz video snimke u skočnom prozor preko drugih aplikacija.</string>
-    <string name="permission_ask_again">Odobri dozvolu </string>
+    <string name="permission_ask_again">Odobri dozvolu</string>
     <string name="exit_app">Zatvori VLC</string>
     <string name="exit_app_msg">Sigurno želite zatvoriti VLC?</string>
-    <!-- fast scroller -->
+
     <!-- Plugins -->
     <string name="plugins">Priključci</string>
     <string name="download_on_device">Preuzimanje</string>
     <string name="extension_empty">Nema stavke za prikaz, idite u svoje postavke proširenja za prikaz stavke.</string>
+
     <string name="opengl_title">OpenGL ES2 upotreba</string>
     <string name="opengl_summary">Po zadanome, OpenGL ES2 se koristi za softversko i hardversko dekôdiranje, prema potrebi (360° video snimke).</string>
     <string name="opengl_automatic">Automatski</string>
@@ -488,7 +521,7 @@
     <string name="browse_folder">Pregledaj mapu</string>
     <string name="listen">Osluškuj</string>
     <string name="subtitles_download_title">Preuzimanje podnaslova</string>
-    <string name="connecting">Povezivanje...</string>
+    <string name="connecting">Povezivanje…</string>
     <string name="save_bluetooth_delay">spremi odgodu za bluetooth uređaje</string>
     <string name="episodes">epizode</string>
     <string name="movies">filmovi</string>
@@ -507,12 +540,13 @@
     <string name="ml_external_storage_decline">Ne</string>
     <string name="last_added_media">posljednje dodano</string>
     <string name="no">Ne</string>
-    <string name="loading_medialibrary">Učitavanje medijske zbirke...</string>
+    <string name="loading_medialibrary">Učitavanje medijske zbirke…</string>
     <string name="yes">Da</string>
+
     <string name="custom_set_save_title">Nespremljene promjene</string>
     <string name="custom_set_save_warning">Upozorenje: nespremljene promjene</string>
-    <string name="existing_custom_set_save_message">Spremi postavku ekvalizatora kao...</string>
-    <string name="new_custom_set_save_message">Spremi novu postavku ekvalizatora kao...</string>
+    <string name="existing_custom_set_save_message">Spremi postavku ekvalizatora kao…</string>
+    <string name="new_custom_set_save_message">Spremi novu postavku ekvalizatora kao…</string>
     <string name="save">Spremi</string>
     <string name="do_not_save">Nemoj spremiti</string>
     <string name="custom_set_deleted_message">Prilagođna postavka ekvalizatora \"%1$s\" obrisana.</string>
@@ -533,4 +567,4 @@
     <string name="sdcard_permission_dialog_message">VLC ne može obrisati ovu datoteku bez dozvole zapisivanja.\nIdite u svoju SD karticu i odaberite \"Odaberi\".\nMožda ćete trebati odabrati i \"Prikaži SD karticu\" prvu stavku u gornjem desnom izborniku</string>
     <string name="dialog_sd_wizard">Prikaži mi</string>
     <string name="renderers_disconnect">Prekini povezivanje</string>
-</resources>
+    </resources>
