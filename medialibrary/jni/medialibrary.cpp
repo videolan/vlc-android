@@ -959,7 +959,8 @@ getTracksFromAlbum(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, ji
 
 jint
 getTracksFromAlbumCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
-    return (jint) MediaLibrary_getInstance(env, medialibrary)->tracksFromAlbum(id, nullptr)->count();
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->tracksFromAlbum(id, nullptr);
+    return (jint) (query!= nullptr ? query->count() : 0);
 }
 
 jobjectArray
@@ -1459,6 +1460,7 @@ getPagedMediaFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     const auto query = aml->mediaFromPlaylist(id);
+    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1;
@@ -1472,7 +1474,8 @@ getPagedMediaFromPlaylist(JNIEnv* env, jobject thiz, jobject medialibrary, jlong
 
 jint
 getPlaylistTracksCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
-    return (jint) MediaLibrary_getInstance(env, medialibrary)->mediaFromPlaylist(id)->count();
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromPlaylist(id);
+    return (jint) (query != nullptr ? query->count() : 0);
 }
 
 jobjectArray
