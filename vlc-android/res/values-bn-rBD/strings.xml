@@ -1,40 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">ঠিক আছে</string>
     <string name="cancel">বাতিল</string>
     <string name="other">অন্যান্য</string>
-    <string name="sortby">সাজানোর ক্রম...</string>
+    <string name="sortby">সাজানোর ক্রম…</string>
     <string name="sortby_name">নাম</string>
-    <string name="sortby_name_desc">নাম (বর্ণনা)</string>
+    <string name="sortby_filename">ফাইলের নাম</string>
     <string name="sortby_length">দৈর্ঘ্য</string>
-    <string name="sortby_length_desc">দৈর্ঘ্য (বর্ণনা)</string>
     <string name="sortby_date">তারিখ</string>
-    <string name="sortby_date_desc">তারিখ (বর্ণনা)</string>
-    <string name="searchable_hint">অনুসন্ধান...</string>
+    <string name="searchable_hint">অনুসন্ধান…</string>
     <string name="history">ইতিহাস</string>
-    <plurals name="search_found_results_quantity">
-        <item quantity="one">%dটি ফলাফল পাওয়া গেছে</item>
-        <item quantity="other">%dটি ফলাফল পাওয়া গেছে</item>
-    </plurals>
+
     <string name="play">চালান</string>
-    <string name="play_from_start">শুরু থেকে চালান</string>
     <string name="play_as_audio">অডিও হিসেবে চালান</string>
     <string name="play_as_video">ভিডিও হিসেবে চালান</string>
-    <string name="play_as_audio_background">পটভূমিতে ভিডিও চালান</string>
     <string name="append">পরিশেষে সংযোজন</string>
     <string name="play_all">সবগুলো চালান</string>
     <string name="append_all">সবগুলো যুক্ত করুন</string>
-    <string name="last_playlist">সর্বশেষ চালানো</string>
     <string name="delete">মুছুন</string>
     <string name="remove">সরিয়ে ফেলুন</string>
     <string name="set_song">রিংটোন হিসেবে সেট করুন</string>
     <string name="info">তথ্য</string>
     <string name="confirm_delete">\'%1$s\' ফাইলটি মুছে ফেলুন?</string>
-    <string name="confirm_delete_folder">ফোল্ডার \'%1$s\' ও এতে থাকা সব বিষয়বস্তু মুছে ফেলবেন?</string>
     <string name="pause">বিরতি</string>
     <string name="not_show_again">এই বার্তাটি পুনরায় দেখাবেন না।</string>
-    <string name="info_title">VLC</string>
     <string name="unknown_artist">অজানা শিল্পী</string>
     <string name="unknown_album">অজানা অ্যালবাম</string>
     <string name="unknown_genre">অজানা ধরণ</string>
@@ -43,24 +34,18 @@
         <item quantity="one">১টি গান</item>
         <item quantity="other">%dটি গান</item>
     </plurals>
+
     <string name="artists">শিল্পীগণ</string>
     <string name="albums">অ্যালবাম</string>
     <plurals name="albums_quantity">
         <item quantity="one">১টি অ্যালবাম</item>
         <item quantity="other">%dটি অ্যালবাম</item>
     </plurals>
-    <plurals name="subfolders_quantity">
-        <item quantity="one">১টি উপফোল্ডার</item>
-        <item quantity="other">%dটি উপফোল্ডার</item>
-    </plurals>
-    <plurals name="mediafiles_quantity">
-        <item quantity="one">১টি মিডিয়া ফাইল</item>
-        <item quantity="other">%dটি মিডিয়া ফাইল</item>
-    </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">১টি ভিডিও</item>
         <item quantity="other">%dটি ভিডিও</item>
     </plurals>
+
     <string name="internal_memory">অভ্যন্তরীণ মেমোরি</string>
     <string name="audio">অডিও</string>
     <string name="video">ভিডিও</string>
@@ -75,119 +60,62 @@
     <string name="directory">ডিরেক্টরি</string>
     <string name="directories">ডিরেক্টরি</string>
     <string name="loading">লোড হচ্ছে</string>
-    <string name="please_wait">অনুগ্রহ করে অপেক্ষা করুন...</string>
-    <string name="noplaylist">কোন প্লেলিস্ট পাওয়া যায়নি।</string>
+    <string name="please_wait">অনুগ্রহ করে অপেক্ষা করুন…</string>
     <string name="mediafiles">মিডিয়া ফাইলগুলো</string>
     <string name="notavailable">উপলব্ধ নয়</string>
-    <string name="nosubdirectory">কোন উপডিরেক্টরি নেই</string>
+    <string name="nosubdirectory">কোন সাবডিরেক্টরি নেই</string>
     <string name="validation">আপনি কি নিশ্চিত?</string>
-    <string name="cover_art">কভার আর্ট</string>
-    <string name="shuffle">এলোমেলো বন্ধ</string>
-    <string name="shuffle_on">এলোমেলো চালু</string>
-    <string name="repeat">পুনরাবৃত্তি কোনটি না</string>
-    <string name="repeat_single">একটি পুনরাবৃত্তি</string>
-    <string name="repeat_all">সব পুনরাবৃত্তি</string>
+
+    <string name="cover_art">প্রচ্ছদ শিল্প</string>
     <string name="previous">পূর্ববর্তী</string>
     <string name="stop">বন্ধ করা হবে</string>
     <string name="next">পরবর্তী</string>
-    <string name="locked">তালাবদ্ধ</string>
-    <string name="surface_best_fit">সেরা মাপসই</string>
-    <string name="surface_fill">পূরণ</string>
     <string name="surface_original">মাঝামাঝি</string>
     <string name="thumbnail">থাম্বনেইল</string>
     <string name="refresh">পুনঃসতেজ</string>
     <string name="track_audio">অডিও ট্র্যাক</string>
     <string name="track_video">ভিডিও ট্র্যাক</string>
-    <string name="track_text">সাবটাইটেল ট্র্যাক</string>
     <string name="track_unknown">অজানা ট্র্যাক</string>
-    <string name="track_codec_info">কোডেক: %1$s\n</string>
-    <string name="track_language_info">ভাষা: %1$s\n</string>
     <string name="volume">ভলিউম</string>
-    <string name="sound_on">শব্দ চালু</string>
-    <string name="sound_off">শব্দ বন্ধ</string>
     <string name="brightness">উজ্জ্বলতা</string>
-    <string name="advanced">উন্নত অপশনসমূহ</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="one">১টি চ্যানেল\n</item>
-        <item quantity="other">%1$dটি চ্যানেল\n</item>
-    </plurals>
-    <string name="track_samplerate_info">স্যাম্পল রেট: %1$d Hz\n</string>
-    <string name="track_resolution_info">রেজল্যুশন: %1$dx%2$d\n</string>
-    <string name="track_framerate_info">ফ্রেমের রেট: %1$.3f\n</string>
     <string name="tools">সরঞ্জাম</string>
     <string name="playback_speed">প্লেব্যাকের স্পীড</string>
-    <string name="sleep_title">ঘুমানোর টাইমার</string>
-    <string name="sleep_in">ঘুমাবে</string>
-    <string name="sleep_cancel">ঘুমানোর টাইমার বাতিল করুন</string>
-    <string name="jump_to_time">সময়ে লাফ দিন</string>
-    <string name="subtitle_label">সাবটাইটেল ফাইল যোগ করুন</string>
     <string name="subtitle_select">সাবটাইটেল ফাইল নির্বাচন করুন</string>
+    <string name="server_username_hint">ব্যবহারকারীর নাম</string>
+    <string name="password">পাসওয়ার্ড</string>
+
+    <string name="favorites_edit">সম্পাদনা</string>
     <string name="open">খুলুন</string>
-    <string name="open_mrl">MRL খুলুন</string>
     <string name="open_mrl_dialog_title">নেটওয়ার্ক স্ট্রিম খুলুন</string>
-    <string name="open_mrl_dialog_msg">নেটওয়ার্ক MRL প্রবেশ করান: উদাঃ http://, mms:// বা rtsp://</string>
     <string name="encountered_error_title">প্লেব্যাক ত্রুটি</string>
     <string name="search">অনুসন্ধান</string>
     <string name="search_history">ইতিহাস অনুসন্ধান</string>
-    <!--Tips-->
+
+
     <string name="subtitles">সাবটাইটেল</string>
-    <string name="resize">পুনঃমাপ</string>
-    <string name="options">অপশন</string>
-    <string name="lock">তালাবদ্ধ</string>
-    <string name="ok_got_it">বুঝেছি, এটি খারিজ করুন</string>
-    <!-- About -->
-    <string name="app_name_full">Android-এর জন্য VLC</string>
+    <string name="options">বিকল্প</string>
     <string name="licence">লাইসেন্স</string>
     <string name="revision">সংশোধন</string>
     <string name="about">সম্পর্কিত</string>
-    <string name="compiled_by">VLC-এর এই সংস্করণটি কম্পাইল করেছেন:‌‌‌\n </string>
-    <string name="vlc_authors">VLC লেখকবৃন্দ।</string>
+    <string name="compiled_by">VLC-এর এই সংস্করণটি কম্পাইল করেছেন:‌‌‌</string>
+
     <!-- Preferences -->
-    <string name="preferences">পছন্দসমূহ</string>
+    <string name="preferences">সেটিংস</string>
+
     <string name="general_prefs_category">সাধারণ</string>
     <string name="hardware_acceleration_disabled">নিষ্ক্রিয় করা</string>
-    <string name="dev_hardware_decoder_omx">iomx</string>
-    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
-    <string name="dev_hardware_decoder_mediacodec">মিডিয়াকোডেক</string>
-    <string name="dev_hardware_decoder_mediacodec_dr">মিডিয়াকোডেক-dr</string>
     <string name="automatic">স্বয়ংক্রিয়</string>
-    <string name="screen_orientation_sensor">স্বয়ংক্রিয় (সেন্সর)</string>
-    <string name="screen_orientation_start_lock">শুরুতে তালাবদ্ধ</string>
-    <string name="screen_orientation_portrait">লম্বালম্বি</string>
-    <string name="screen_orientation_landscape">আড়াআড়ি</string>
     <string name="extra_prefs_category">অতিরিক্ত সেটিংস</string>
+
     <string name="interface_prefs_screen">ইন্টারফেস</string>
-    <string name="interface_other_category">ইন্টারফেস - অন্যান্য</string>
-    <string name="audio_title_alignment_default">পূর্বনির্ধারিত</string>
-    <string name="audio_title_alignment_left">বামে</string>
-    <string name="audio_title_alignment_centre">কেন্দ্রে</string>
-    <string name="audio_title_alignment_right">ডানে</string>
-    <string name="audio_title_alignment_marquee">মার্কি</string>
-    <string name="performance_prefs_category">কার্যকারিতা</string>
-    <string name="advanced_prefs_category">উন্নত</string>
+    <string name="video_prefs_category">ভিডিও</string>
     <string name="aout">ভিডিও আউটপুট</string>
+    <string name="advanced_prefs_category">উন্নত</string>
     <string name="clear_media_db">মিডিয়া ডাটাবেজ মুছে ফেলুন</string>
     <string name="clear_history">অনুসন্ধান ইতিহাস মুছে ফেলুন</string>
     <string name="media_db_cleared">মিডিয়া ডাটাবেজ মুছে ফেলা হয়েছে!</string>
-    <string name="developer_prefs_category">ডেভলপার</string>
+    <string name="developer_prefs_category">উন্নয়নকারী</string>
     <string name="debug_logs">ডিবাগ লগ</string>
     <string name="clear_log">লগ পরিষ্কার করুন</string>
     <string name="copy_to_clipboard">ক্লিপবোর্ডে অনুলিপি করুন</string>
-    <string name="send_log">লগ পাঠান</string>
-    <string name="sending_log">লগ পাঠানো হচ্ছে...</string>
-    <string name="network_browsing">স্থানীয় নেটওয়ার্ক</string>
-    <string name="file_size">ফাইলের আকার:</string>
-    <string name="audio_delay">অডিও বিলম্ব</string>
-    <string name="spu_delay">সাবটাইটেল বিলম্ব</string>
-    <string name="sleep_time_not_set">কোনটি নির্ধারিত হয়নি</string>
-    <string name="network_connection_needed">স্থানীয় নেটওয়ার্কে কোন সংযোগ নেই।</string>
-    <string name="search_hint">মিডিয়া অনুসন্ধান</string>
-    <string name="playlist_save">প্লে-লিস্ট সংরক্ষণ</string>
-    <string name="playlist_name_hint">প্লেলিস্টের নাম</string>
-    <string name="go_to_chapter">অধ্যায়ে যান...</string>
-    <!--Accessibility-->
-    <string name="more_actions">আরও কার্য</string>
-    <string name="move">স্থানান্তর</string>
-    <string name="file_deleted">ফাইল অপসারিত</string>
-    <!--Widget-->
-</resources>
+    </resources>
