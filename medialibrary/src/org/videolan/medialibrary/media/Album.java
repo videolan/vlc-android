@@ -63,6 +63,11 @@ public class Album extends MediaLibraryItem {
         return mTracksCount;
     }
 
+    public int getRealTracksCount() {
+        Medialibrary ml = Medialibrary.getInstance();
+        return ml.isInitiated() ? nativeGetTracksCount(ml, mId) : 0;
+    }
+
     public int getDuration() {
         return duration;
     }
@@ -99,6 +104,7 @@ public class Album extends MediaLibraryItem {
     private native MediaWrapper[] nativeGetTracks(Medialibrary ml, long mId, int sort, boolean desc);
     private native MediaWrapper[] nativeGetPagedTracks(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
     private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int sort, boolean desc, int nbItems, int offset);
+    private native int nativeGetTracksCount(Medialibrary ml, long id);
     private native int nativeGetSearchCount(Medialibrary ml, long mId, String query);
 
     @Override

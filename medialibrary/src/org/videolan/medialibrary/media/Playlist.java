@@ -30,6 +30,11 @@ public class Playlist extends MediaLibraryItem {
         return mTracksCount;
     }
 
+    public int getRealTracksCount() {
+        Medialibrary ml = Medialibrary.getInstance();
+        return ml.isInitiated() ? nativeGetTracksCount(ml, mId) : 0;
+    }
+
     @Override
     public int getItemType() {
         return TYPE_PLAYLIST;
