@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">Đồng ý</string>
     <string name="cancel">Hủy bỏ</string>
@@ -9,9 +10,11 @@
     <string name="sortby_length">Độ dài</string>
     <string name="searchable_hint">Tìm kiếm…</string>
     <string name="history">Nhật Ký Xem</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="other">%d kết quả được tìm thấy</item>
     </plurals>
+
     <string name="play">Bật</string>
     <string name="play_from_start">Bật từ đầu</string>
     <string name="play_as_audio">Bật dưới dạng audio</string>
@@ -29,12 +32,11 @@
     <string name="unknown_artist">Không rõ nghệ sĩ</string>
     <string name="unknown_album">Không rõ album</string>
     <string name="unknown_genre">Không rõ thể loại</string>
-    <string name="songs">Bài hát</string>
     <plurals name="songs_quantity">
         <item quantity="other">%d bài hát</item>
     </plurals>
+
     <string name="artists">Nghệ sĩ</string>
-    <string name="albums">Album</string>
     <plurals name="albums_quantity">
         <item quantity="other">%d album</item>
     </plurals>
@@ -47,6 +49,7 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d video</item>
     </plurals>
+
     <string name="internal_memory">Bộ nhớ trong</string>
     <string name="parent_folder">Di chuyển lên thư mục gốc</string>
     <string name="audio">Audio</string>
@@ -68,6 +71,7 @@
     <string name="nosubdirectory">Không có thư mục con</string>
     <string name="nohistory">Nhật Ký Xem của bạn hiện đang trống.</string>
     <string name="validation">Bạn có chắc không?</string>
+
     <string name="cover_art">Bìa</string>
     <string name="previous">Trước đó</string>
     <string name="stop">Dừng lại</string>
@@ -82,7 +86,6 @@
     <string name="refresh">Cập nhật lại</string>
     <string name="track_audio">Tập tin Audio</string>
     <string name="track_video">Tập tin Video</string>
-    <string name="track_text">Tập tin phụ đề</string>
     <string name="track_unknown">Tập tin chưa rõ nguồn</string>
     <string name="volume">Âm lượng</string>
     <string name="brightness">Độ sáng</string>
@@ -94,24 +97,20 @@
     <string name="subtitle_label">Thêm vào tập tin phụ đề</string>
     <string name="subtitle_select">Chọn tập tin phụ đề</string>
     <string name="no_file_picker_found">Việc thực hiện chọn tập tin không được kích hoạt trên hệ thống.</string>
+
     <string name="open">Mở</string>
-    <string name="open_mrl">Mở MRL</string>
     <string name="open_mrl_dialog_title">Mở một luồng dữ liệu trong mạng</string>
-    <string name="open_mrl_dialog_msg">Điền vào đường dẫn MRL: ví dụ http://, mms:// hoặc rtsp://</string>
     <string name="error_not_compatible">Thật đáng tiếc, phiên bản VLC dành cho Android™ này hiện không hỗ trợ đối với thiết bị của bạn.</string>
     <string name="error_problem">Thật đáng tiếc, VLC dành cho Android đã gặp phải trục trặc trong quá trình khởi động và buộc phải đóng lại.</string>
     <string name="encountered_error_title">Lỗi xảy ra khi phát lại</string>
-    <!--Tips-->
     <!-- About -->
-    <string name="app_name_full">VLC dành cho </string>
+    <string name="app_name_full">VLC dành cho</string>
     <string name="licence">Bản quyền</string>
     <string name="revision">Duyệt lại</string>
     <string name="about">Thông tin</string>
     <string name="about_text">VLC dành cho  Android™ là một chương trình nằm trong dự án VLC Media Player, vốn được biết tới với đại đa số người dùng trên khắp thế giới vì tính miễn phí, mã nguồn mở và đầy tiện dụng của mình. Phiên bản dành cho Android™ có thể xem/đọc được hầu hết các định dạng file/tập tin lẫn tương tác với luồng dữ liệu trực tuyến. Bản dịch Việt Ngữ được thực hiện bởi Phan Anh.</string>
     <string name="compiled_by">Phiên bản VLC này được biên dịch bởi:</string>
-    <string name="vlc_authors">Tác giả VLC.</string>
-    <!-- Preferences -->
-    <string name="preferences">Tùy biến</string>
+
     <string name="directories_summary">Chọn thư mục để chứa Thư Viện Media</string>
     <string name="add_custom_path">Thêm vào đường dẫn tự chọn</string>
     <string name="add_custom_path_description">Thêm vào thư mục do bạn chỉ định để quét:</string>
@@ -124,14 +123,12 @@
     <string name="screen_orientation_landscape">Chế độ màn hình xem dạng nằm ngang</string>
     <string name="screen_orientation_reverse_portrait">Đảo ngược chế độ xem đứng</string>
     <string name="screen_orientation_reverse_landscape">Đảo ngược chế độ xem ngang</string>
-    <string name="enable_brightness_gesture">Bật tính năng tăng chỉnh độ sáng</string>
     <string name="enable_brightness_gesture_summary">Điều chỉnh độ sáng bằng cử động chạm nhẹ trong thời gian bật tập tin media</string>
-    <string name="enable_jump_buttons">Bật tính năng nút nhảy</string>
-    <string name="enable_jump_buttons_summary">Hiển thị nút điều khiển lùi lại và tiến tới trên giao diện video</string>
     <string name="enable_headset_detection">Phát hiện Tai Nghe được thêm vào</string>
-    <string name="enable_headset_detection_summary">Tạm dừng khi tai nghe được rút khỏi máy; bật trở lại khi gắn tai nghe vào</string>
     <string name="enable_steal_remote_control">Điều khiển tai nghe đặc biệt</string>
     <string name="enable_steal_remote_control_summary">Tránh xung đột với các điều khiển từ xa từ các ứng dụng khác. Điều này có thể gây khó khăn cho việc bấm phím số trong lúc gọi điện thoại trên một số dòng của hãng HTC.</string>
+    <string name="aout">Dữ liệu Audio xuất ra</string>
+    <string name="aout_summary">Thay đổi cơ chế xuất dữ liệu đầu ra với phần audio.</string>
     <string name="performance_prefs_category">Thể hiện</string>
     <string name="chroma_format">Bắt buộc video hiển thị đơn sắc</string>
     <string name="deblocking">Mở khóa với thiết lập liên quan đến bộ lọc</string>
@@ -140,13 +137,11 @@
     <string name="deblocking_nonref">Mở khóa trung bình</string>
     <string name="deblocking_nonkey">Mở khóa thấp</string>
     <string name="deblocking_all">Không mở khóa (nhanh nhất)</string>
-    <string name="enable_frame_skip">Bật tính năng bỏ qua khung hình</string>
     <string name="enable_frame_skip_summary">Tăng tốc độ giải mã nhưng sẽ làm giảm đi chất lượng hiển thị của video.</string>
     <string name="enable_time_stretching_audio">Thời gian giãn của audio</string>
     <string name="enable_time_stretching_audio_summary">Tăng tốc độ và làm chậm lại audio mà không cần phải chỉnh sửa thông số (yêu cầu thiết bị có phần cứng mới).</string>
+
     <string name="advanced_prefs_category">Nâng Cao</string>
-    <string name="aout">Dữ liệu Audio xuất ra</string>
-    <string name="aout_summary">Thay đổi cơ chế xuất dữ liệu đầu ra với phần audio.</string>
     <string name="clear_media_db">Xóa thông tin đã lưu về các tập tin/file</string>
     <string name="clear_history">Xóa Nhật Ký xem</string>
     <string name="media_db_cleared">Dữ liệu đã lưu về tập tin/file đã được thực hiện xong!</string>
@@ -162,5 +157,4 @@
     <string name="clear_log">Làm rỗng Nhật Ký</string>
     <string name="copy_to_clipboard">Lưu vào bộ nhớ ảo</string>
     <string name="copied_to_clipboard">Đã sao chép Nhật Ký vào bộ nhớ ảo.</string>
-    <!--Accessibility-->
-</resources>
+    </resources>
