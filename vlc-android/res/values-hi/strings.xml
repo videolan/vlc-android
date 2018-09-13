@@ -1,42 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">ठीक है</string>
     <string name="cancel">रद्द करें</string>
     <string name="other">अन्य</string>
     <string name="sortby">द्वारा क्रमबद्ध करें…</string>
     <string name="sortby_name">नाम</string>
+    <string name="sortby_artist_name">कलाकार का नाम</string>
+    <string name="sortby_album_name">एल्बम का नाम</string>
     <string name="sortby_length">अवधि</string>
-    <string name="searchable_hint">खोजे…</string>
+    <string name="sortby_date">दिनाँक</string>
+    <string name="searchable_hint">खोजें…</string>
     <string name="history">इतिहास</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d परिणाम मिल गया</item>
-        <item quantity="other">%d परिणाम मिल गया</item>
+        <item quantity="other">%d परिणाम मिले </item>
     </plurals>
+
     <string name="play">चलायें</string>
+    <string name="playback">प्रतिश्रवण</string>
+    <string name="playback_controls">प्रतिश्रवण नियंत्रण</string>
+    <string name="medialibrary_scan">मीडिया लाइब्रेरी में खोजें</string>
     <string name="play_from_start">खेल से शुरूआत</string>
     <string name="play_as_audio">ऑडियो के रूप में चलाएँ</string>
     <string name="play_as_video">वीडियो के रूप में चलाएँ</string>
+    <string name="video_app_switch_title">पृष्ठभूमि / चित्र के अंदर चित्र मोड</string>
+    <string name="video_app_switch_summary">वीएलसी व्यवहार का चयन करें जब आप वीडियो प्लेबैक से अन्य एप्लिकेशन पर स्विच करते हैं</string>
+    <string name="play_pip_title">वीडियो को चित्र के अंदर चित्र मोड में चलाये</string>
+    <string name="play_as_audio_background">वीडियो को पृष्ठभूमि में चलाये</string>
     <string name="append">संलग्न करें</string>
+    <string name="insert_next">अगला जोड़ें</string>
     <string name="play_all">सभी को चलायें</string>
     <string name="append_all">सभी को संलग्न करें</string>
     <string name="last_playlist">पिछली गीतसूची</string>
     <string name="delete">हटाएँ</string>
+    <string name="remove">हटाए</string>
     <string name="set_song">रिंगटोन के रूप में सेट करें</string>
     <string name="info">जानकारी</string>
+    <string name="confirm_delete">फाइल \'%1$s\' को मिटायें</string>
+    <string name="confirm_delete_folder">फ़ोल्डर \'1%1$s\' और उसकी सभी सामग्री हटाएं?</string>
+    <string name="confirm_delete_playlist">प्लेलिस्ट हटाएं \'1%1$s\'?</string>
+    <string name="ringtone_set">फ़ाइल \'1%1$s\' को रिंगटोन के रूप में सेट किया गया था|</string>
     <string name="ringtone_error">रिंगटोन सेट करते समय कोई त्रुटि हुई.</string>
     <string name="pause">विराम दें</string>
     <string name="not_show_again">इस संदेश को फिर मत दिखाएँ.</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">अज्ञात कलाकार</string>
     <string name="unknown_album">अज्ञात एल्बम</string>
     <string name="unknown_genre">अज्ञात शैली</string>
-    <string name="songs">गाने</string>
+    <string name="unknown_number">ट्रैक की संख्या अज्ञात</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 गाना</item>
         <item quantity="other">%d गाने</item>
     </plurals>
+
     <string name="artists">कलाकार</string>
-    <string name="albums">एल्बम</string>
+    <string name="tracks">ट्रैक</string>
+
     <plurals name="albums_quantity">
         <item quantity="one">1 एल्बम</item>
         <item quantity="other">%d एल्बम</item>
@@ -65,12 +87,17 @@
     <string name="directories">निर्देशिकाएँ</string>
     <string name="loading">लोड हो रहा है</string>
     <string name="please_wait">कृपया प्रतीक्षा करे…</string>
+    <string name="nomedia">कोई मीडिया फाइल नहीं मिला, कृपया कोई फाइल अपने डिवाइस में ट्रांसफर करे या अपने सेटिंग्स को चेंज करे</string>
     <string name="mediafiles">मीडिया फ़ाइलें</string>
     <string name="notavailable">उपलब्ध नहीं</string>
     <string name="nosubdirectory">कोई उपनिर्देशिका नहीं है |</string>
     <string name="nohistory">आपके पास अभी तक कोई प्लेबैक इतिहास नहीं है.</string>
     <string name="validation">क्या आपको यकीन है?</string>
+
     <string name="cover_art">आवरण कला</string>
+    <string name="repeat">पुनरावृत्ति नहीं</string>
+    <string name="repeat_single">एकल पुनरावृत्ति</string>
+    <string name="repeat_all">समग्र पुनरावृत्ति</string>
     <string name="previous">पिछला</string>
     <string name="stop">विराम</string>
     <string name="next">अगला</string>
@@ -84,9 +111,10 @@
     <string name="refresh">तरोताज़ा करें</string>
     <string name="track_audio">ऑडीओ रील</string>
     <string name="track_video">वीडियो रील</string>
-    <string name="track_text">उपशीर्षक रील</string>
     <string name="track_unknown">अज्ञात रील</string>
     <string name="volume">आवाज़ निर्धारक</string>
+    <string name="sound_on">आवाज़ चालू</string>
+    <string name="sound_off">आवाज़ बंद</string>
     <string name="brightness">चमक</string>
     <string name="tools">साधन</string>
     <string name="playback_speed">पार्श्व गति</string>
@@ -96,24 +124,23 @@
     <string name="subtitle_label">उपशीर्षक फ़ाइल जोड़ें</string>
     <string name="subtitle_select">उपशीर्षक फ़ाइल का चयन करें</string>
     <string name="no_file_picker_found">फ़ाइल चुननेवाला सिस्टम पर नहीं पाया गया.</string>
+
     <string name="open">खोलें</string>
-    <string name="open_mrl">MRL खोलें</string>
     <string name="open_mrl_dialog_title">संजाल प्रवाह को खोलें</string>
-    <string name="open_mrl_dialog_msg">संजाल MRL प्रविष्ट करें: e.g. http://, mms:// or rtsp://</string>
-    <string name="error_not_compatible">क्षमा करें, लेकिन वर्तमान में आपके डिवाइस पर Android™ के लिए VLC के इस संस्करण द्वारा समर्थित नहीं है.\n\n\nत्रुटि संदेश(दोषारोपण के दौरान त्रुटि सन्देश उल्लेख करें) हैं: \n</string>
+    <string name="error_not_compatible">क्षमा करें, लेकिन वर्तमान में आपके डिवाइस पर Android™ के लिए VLC के इस संस्करण द्वारा समर्थित नहीं है.</string>
     <string name="error_problem">क्षमा करें, एंड्रॉयड के लिए VLC को लोड करने में एक समस्या हो रहा था और उसे बंद करना होगा.</string>
     <string name="encountered_error_title">पार्शव त्रुटि</string>
-    <!--Tips-->
-    <!-- About -->
-    <string name="app_name_full">Android™ के लिए VLC</string>
+    <string name="search">ढूंढे</string>
+    <string name="search_history">खोजने का इतिहास</string>
+
+
+    <string name="show_playlist">गीतसूची दिखाएं</string>
     <string name="licence">अनुज्ञाप‍त्र</string>
     <string name="revision">संशोधन</string>
     <string name="about">के संबंध में</string>
     <string name="about_text">VLCAndroid ™ के लिए  VLC मीडिया प्लेयर,लोकप्रिय मुक्त स्रोत मीडिया प्लेयर का एक अनुभाग है | Android ™ संस्करण ज्यादातर फ़ाइलें और संजाल धाराओं को पढ़ सकता है.</string>
     <string name="compiled_by">VLC का यह संस्करण इनके द्वारा संकलित किया गया है:</string>
-    <string name="vlc_authors">VLC लेखक.</string>
-    <!-- Preferences -->
-    <string name="preferences">प्राथमिकताएं</string>
+
     <string name="directories_summary">मीडिया लाइब्रेरी में शामिल करने के लिए निर्देशिका का चयन करें</string>
     <string name="add_custom_path">एक कस्टम पथ जोड़ें</string>
     <string name="add_custom_path_description">स्कैन करने के लिए अतिरिक्त कस्टम निर्देशिका दर्ज करें:</string>
@@ -123,17 +150,15 @@
     <string name="screen_orientation_sensor">स्वचालित (संवेदक)</string>
     <string name="screen_orientation_start_lock">शुरू में बंद कर दिया</string>
     <string name="screen_orientation_portrait">विस्तृत आलेख्य</string>
-    <string name="screen_orientation_landscape"> भूदृश्य</string>
+    <string name="screen_orientation_landscape">भूदृश्य</string>
     <string name="screen_orientation_reverse_portrait">विपरीत आलेख्य</string>
     <string name="screen_orientation_reverse_landscape">विपरीत भूदृश्य</string>
-    <string name="enable_brightness_gesture">चमक जेश्चर सक्रिय करें</string>
     <string name="enable_brightness_gesture_summary">वीडियो प्लेबैक के दौरान चमक इशारे से नियंत्रण करें</string>
-    <string name="enable_jump_buttons">कूद बटन सक्षम करें</string>
-    <string name="enable_jump_buttons_summary">वीडियो इंटरफेस पर पिछड़े और आगे बटन दिखाएँ</string>
     <string name="enable_headset_detection">हेडसेट का पता लगायें</string>
-    <string name="enable_headset_detection_summary">हेडसेट को निकालने पर विराम दें; हेडसेट लगाने पर फिर से चलायें</string>
     <string name="enable_steal_remote_control">अनन्य हेडसेट रिमोट कंट्रोल</string>
     <string name="enable_steal_remote_control_summary">अन्य apps से रिमोट कंट्रोल चोरी करके संघर्ष से बचें. इस से HTC फोन पर डबल क्लिक करने पर डायल करने से बचा जा सक्ता है.</string>
+    <string name="aout">ऑडियो आउटपुट</string>
+    <string name="aout_summary">VLC आउटपुट ऑडियो कि विधि बदलें.</string>
     <string name="performance_prefs_category">निष्पादन</string>
     <string name="chroma_format">बल वर्णकी</string>
     <string name="deblocking">डेब्लोक्किंग फिल्टर सेटिंग</string>
@@ -142,13 +167,11 @@
     <string name="deblocking_nonref">मध्यम डेब्लोक्किंग</string>
     <string name="deblocking_nonkey">कम डेब्लोक्किंग</string>
     <string name="deblocking_all">कोई डेब्लोक्किंग नही (सबसे तेज)</string>
-    <string name="enable_frame_skip">फ्रेम छोड़ सक्षम करें</string>
     <string name="enable_frame_skip_summary">डिकोडिंग में तेजी लाने, लेकिन वीडियो की गुणवत्ता को कम कर सकता है.</string>
     <string name="enable_time_stretching_audio">समय-टूटती ऑडियो सक्षम करें</string>
     <string name="enable_time_stretching_audio_summary">पिच (तेज उपकरण की आवश्यकता है) को परिवर्तित किये बिना ऑडियो धीमी गति से और तेजी से बढ़ाएं.</string>
+
     <string name="advanced_prefs_category">उन्नत</string>
-    <string name="aout">ऑडियो आउटपुट</string>
-    <string name="aout_summary">VLC आउटपुट ऑडियो कि विधि बदलें.</string>
     <string name="clear_media_db">मीडिया डेटाबेस ख़ाली करें</string>
     <string name="clear_history">खोज के इतिहास को हटायें</string>
     <string name="media_db_cleared">मीडिया डेटाबेस को खली कर दिया गया हैं!</string>
@@ -164,5 +187,11 @@
     <string name="clear_log">लॉग साफ़ करें</string>
     <string name="copy_to_clipboard">क्लिपबोर्ड में कॉपी करें</string>
     <string name="copied_to_clipboard">लॉग को क्लिपबोर्ड में कॉपी किया.</string>
-    <!--Accessibility-->
-</resources>
+    <string name="chapter">अध्याय</string>
+    <string name="ml_external_storage_accept">हाँ</string>
+    <string name="ml_external_storage_decline">नहीं</string>
+    <string name="no">नहीं</string>
+    <string name="yes">हाँ</string>
+
+    <string name="save">सहेजें</string>
+    </resources>
