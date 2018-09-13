@@ -120,5 +120,6 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
 
     override fun onPlaylistsModified() {
         refresh()
+        if ((parent as Playlist).realTracksCount == 0) parent.delete()
     }
 }

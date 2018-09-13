@@ -69,6 +69,7 @@ import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.paged.MLPagedModel;
 import org.videolan.vlc.viewmodels.paged.PagedTracksModel;
@@ -115,7 +116,10 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         ((MLPagedModel)tracksModel).getPagedList().observe(this, new Observer<PagedList<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable PagedList<MediaLibraryItem> tracks) {
-                if (tracks != null) mAdapter.submitList(tracks);
+                if (tracks != null) {
+                    if (tracks.isEmpty() && !tracksModel.isFiltering()) finish();
+                    else mAdapter.submitList(tracks);
+                }
             }
         });
         final int fabVisibility =  savedInstanceState != null ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;
@@ -237,7 +241,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-        int count = mAdapter.getMultiSelectHelper().getSelectionCount();
+        final int count = mAdapter.getMultiSelectHelper().getSelectionCount();
         if (count == 0) {
             stopActionMode();
             return false;
@@ -254,8 +258,8 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        List<MediaLibraryItem> list = mAdapter.getMultiSelectHelper().getSelection();
-        List<MediaWrapper> tracks = new ArrayList<>();
+        final List<MediaLibraryItem> list = mAdapter.getMultiSelectHelper().getSelection();
+        final List<MediaWrapper> tracks = new ArrayList<>();
         for (MediaLibraryItem mediaItem : list)
             tracks.addAll(Arrays.asList(mediaItem.getTracks()));
 
@@ -371,10 +375,6 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             @Override
             public void run() {
                 for (MediaLibraryItem mediaItem : list) ((Playlist) mPlaylist).remove(mediaItem.getId());
-                if (mPlaylist.getTracks().length == 0) {
-                    ((Playlist) mPlaylist).delete();
-                    finish();
-                }
             }
         });
     }

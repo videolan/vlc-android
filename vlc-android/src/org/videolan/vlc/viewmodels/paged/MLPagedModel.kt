@@ -72,8 +72,6 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
         return true
     }
 
-    fun remove(item: MediaLibraryItem) {} //TODO
-
     inner class MLDataSource : PositionalDataSource<T>() {
         override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
             callback.onResult(getPage(params.loadSize, params.startPosition).toList())
