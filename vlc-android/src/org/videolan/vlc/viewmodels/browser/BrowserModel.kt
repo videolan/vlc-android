@@ -24,8 +24,9 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.support.annotation.MainThread
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.providers.*
@@ -54,10 +55,10 @@ open class BrowserModel(context: Context, val url: String?, type: Int, showHidde
 
     @MainThread
     override fun sort(sort: Int) {
-        launch(UI, CoroutineStart.UNDISPATCHED) {
+        launch {
             this@BrowserModel.sort = sort
             desc = !desc
-            dataset.value = withContext(CommonPool) { dataset.value.apply { sortWith(if (desc) descComp else ascComp) } }
+            dataset.value = withContext(Dispatchers.Default) { dataset.value.apply { sortWith(if (desc) descComp else ascComp) } }
         }
     }
 

@@ -5,12 +5,10 @@ import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import android.arch.paging.PositionalDataSource
 import android.content.Context
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.viewmodels.SortableModel
-
 
 abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableModel(context), Medialibrary.OnMedialibraryReadyListener {
     protected val medialibrary = Medialibrary.getInstance()
@@ -31,11 +29,11 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     }
 
     override fun onMedialibraryReady() {
-        launch(UI.immediate) { refresh() }
+        launch { refresh() }
     }
 
     override fun onMedialibraryIdle() {
-        launch(UI.immediate) { refresh() }
+        launch { refresh() }
     }
 
     override fun onCleared() {

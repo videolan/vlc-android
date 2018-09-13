@@ -1,12 +1,12 @@
 package org.videolan.vlc.viewmodels
 
-import android.arch.lifecycle.ViewModel
 import android.content.Context
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.vlc.util.RefreshModel
 import org.videolan.vlc.util.canSortBy
 
-abstract class SortableModel(protected val context: Context): ViewModel(), RefreshModel {
+abstract class SortableModel(protected val context: Context): ScopedModel(), RefreshModel {
+
     protected open val sortKey = this.javaClass.simpleName!!
     var sort = Medialibrary.SORT_ALPHA
     var desc = false

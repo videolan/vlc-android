@@ -26,6 +26,7 @@ import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.v4.app.Fragment
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
@@ -63,7 +64,7 @@ open class VideosModel(context: Context, private val group: String?, private val
     }
 
     override suspend fun updateList() {
-        dataset.value = withContext(IO) {
+        dataset.value = withContext(Dispatchers.IO) {
             val list = medialibrary.getVideos(sort, desc)
             val displayList = mutableListOf<MediaWrapper>()
             when {

@@ -21,22 +21,21 @@
 package org.videolan.vlc.viewmodels
 
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import android.databinding.ObservableField
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.IO
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.VLCApplication
 
 
-class StreamsModel: ViewModel() {
+class StreamsModel: ScopedModel() {
      val observableSearchText = ObservableField<String>()
      val observableHistory = MutableLiveData<Array<MediaWrapper>>()
 
-    fun updateHistory() = launch(UI.immediate) {
-        val history = withContext(IO) { VLCApplication.getMLInstance().lastStreamsPlayed() }
+    fun updateHistory() = launch {
+        val history = withContext(Dispatchers.IO) { VLCApplication.getMLInstance().lastStreamsPlayed() }
         observableHistory.value = history
     }
 

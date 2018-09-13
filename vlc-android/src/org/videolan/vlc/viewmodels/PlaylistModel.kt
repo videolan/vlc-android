@@ -25,8 +25,6 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
-import kotlinx.coroutines.experimental.CoroutineStart
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
@@ -40,9 +38,9 @@ class PlaylistModel(private val service: PlaybackService) : ViewModel(), Playbac
     val dataset = LiveDataset<MediaWrapper>()
     val progress by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<PlaybackProgress>().apply {
-            addSource(service.playlistManager.player.progress, {
+            addSource(service.playlistManager.player.progress) {
                 value = PlaybackProgress(it?.time ?: 0L, it?.length ?: 0L)
-            })
+            }
         }
     }
 
@@ -57,7 +55,7 @@ class PlaylistModel(private val service: PlaybackService) : ViewModel(), Playbac
         dataset.value = service.medias.toMutableList()
     }
 
-    fun filter(query: CharSequence?) = launch(UI, CoroutineStart.UNDISPATCHED) { filter.filter(query) }
+    fun filter(query: CharSequence?) = launch { filter.filter(query) }
 
     public override fun onCleared() {
         service.removeCallback(this)

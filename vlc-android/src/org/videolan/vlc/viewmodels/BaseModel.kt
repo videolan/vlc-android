@@ -22,7 +22,7 @@ package org.videolan.vlc.viewmodels
 
 import android.arch.lifecycle.MediatorLiveData
 import android.content.Context
-import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
@@ -48,7 +48,7 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
     val categories by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<Map<String, List<MediaLibraryItem>>>().apply {
             addSource(dataset) {
-                launch(UI.immediate) { value = withContext(CommonPool) { ModelsHelper.splitList(sort, it!!.toList()) } }
+                launch { value = withContext(Dispatchers.Default) { ModelsHelper.splitList(sort, it!!.toList()) } }
             }
         }
     }
@@ -56,7 +56,7 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
     val sections by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<List<MediaLibraryItem>>().apply {
             addSource(dataset) {
-                launch(UI.immediate) { value = withContext(CommonPool) { ModelsHelper.generateSections(sort, it!!.toList()) } }
+                launch { value = withContext(Dispatchers.Default) { ModelsHelper.generateSections(sort, it!!.toList()) } }
             }
         }
     }
@@ -96,7 +96,7 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
     open suspend fun addMedia(mediaList: List<T>) = dataset.add(mediaList)
 
     protected open suspend fun updateItems(mediaList: List<T>) {
-        dataset.value = withContext(CommonPool) {
+        dataset.value = withContext(Dispatchers.Default) {
             val list = dataset.value
             val iterator = list.listIterator()
             while (iterator.hasNext()) {

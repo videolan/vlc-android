@@ -21,7 +21,6 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -37,11 +36,11 @@ abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context) : BaseM
     }
 
     override fun onMedialibraryReady() {
-        launch(UI.immediate) { refresh() }
+        launch { refresh() }
     }
 
     override fun onMedialibraryIdle() {
-        launch(UI.immediate) { refresh() }
+        launch { refresh() }
     }
 
     override fun onCleared() {

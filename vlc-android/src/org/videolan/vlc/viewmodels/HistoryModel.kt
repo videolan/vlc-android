@@ -23,7 +23,7 @@ package org.videolan.vlc.viewmodels
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
-import kotlinx.coroutines.experimental.IO
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
@@ -37,7 +37,7 @@ class HistoryModel(context: Context) : BaseModel<MediaWrapper>(context) {
     }
 
     override suspend fun updateList() {
-        dataset.value = withContext(IO) { Medialibrary.getInstance().lastMediaPlayed().toMutableList() }
+        dataset.value = withContext(Dispatchers.Default) { Medialibrary.getInstance().lastMediaPlayed().toMutableList() }
     }
 
     fun moveUp(media: MediaWrapper) {
