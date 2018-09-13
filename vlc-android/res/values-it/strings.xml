@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Annulla</string>
@@ -21,10 +22,12 @@
     <string name="sortby_number_desc">Num. tracce (decresc)</string>
     <string name="searchable_hint">Cerca…</string>
     <string name="history">Cronologia</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d risultato trovato</item>
         <item quantity="other">%d risultati trovati</item>
     </plurals>
+
     <string name="play">Riproduci</string>
     <string name="playback">Riproduzione</string>
     <string name="playback_controls">Controlli di riproduzione</string>
@@ -63,9 +66,11 @@
         <item quantity="one">Un brano</item>
         <item quantity="other">%d brani</item>
     </plurals>
+
     <string name="artists">Artisti</string>
     <string name="albums">Album</string>
     <string name="tracks">Tracce</string>
+
     <plurals name="albums_quantity">
         <item quantity="one">Un album</item>
         <item quantity="other">%d album</item>
@@ -82,6 +87,7 @@
         <item quantity="one">1 video</item>
         <item quantity="other">%d video</item>
     </plurals>
+
     <string name="internal_memory">Memoria interna</string>
     <string name="parent_folder">Livello superiore</string>
     <string name="audio">Audio</string>
@@ -106,6 +112,7 @@
     <string name="directorynotfound">Il percorso della cartella \'%1$s\' non è stato trovato.</string>
     <string name="nohistory">Non hai ancora uno storico delle riproduzioni.</string>
     <string name="validation">Sei sicuro?</string>
+
     <string name="cover_art">Copertina</string>
     <string name="shuffle_title">Mescola</string>
     <string name="shuffle">Non mescolare</string>
@@ -119,6 +126,7 @@
     <string name="next">Successiva</string>
     <string name="firstsong">Primo brano della scaletta</string>
     <string name="lastsong">Ultimo brano della scaletta</string>
+
     <string name="locked">Bloccato</string>
     <string name="unlocked">Sbloccato</string>
     <string name="surface_best_fit">Adatta allo schermo</string>
@@ -142,13 +150,16 @@
     <string name="navmenu">menu di navigazione</string>
     <string name="advanced">opzioni avanzate</string>
     <string name="audio_boost_warning">Scorri ancora per andare oltre il 100%</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canale\n</item>
         <item quantity="other">%1$d canali\n</item>
     </plurals>
+
     <string name="track_samplerate_info">Campionamento: %1$d Hz\n</string>
     <string name="track_resolution_info">Risoluzione: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Velocità: %1$.3f\n</string>
+
     <string name="tools">Strumenti</string>
     <string name="playback_speed">Velocità di riproduzione</string>
     <string name="sleep_title">Sospendi</string>
@@ -158,6 +169,7 @@
     <string name="subtitle_label">Aggiungi file di sottotitoli</string>
     <string name="subtitle_select">Seleziona file di sottotitoli</string>
     <string name="no_file_picker_found">Non è stato trovato alcun selettore di file nel sistema.</string>
+
     <string name="server_add_title">Aggiungi un nuovo server ai preferiti</string>
     <string name="server_domain_hint">Indirizzo server (nome dominio o IP)</string>
     <string name="server_share_hint">Nome condivisione di rete (o indirizzo IP)</string>
@@ -167,6 +179,7 @@
     <string name="server_port">Porta:</string>
     <string name="login">Nome utente</string>
     <string name="password">Password</string>
+
     <string name="search_results">Risultati di ricerca</string>
     <string name="search_no_result">Nessun media trovato</string>
     <string name="favorites_add">Aggiungi ai preferiti</string>
@@ -174,6 +187,7 @@
     <string name="favorites_edit">Modifica</string>
     <string name="favorite_added">Salvato nei preferiti</string>
     <string name="favorite_removed">Rimosso dai preferiti</string>
+
     <string name="open">Apri</string>
     <string name="open_mrl">Trasmetti</string>
     <string name="open_mrl_dialog_title">Apri flusso di rete</string>
@@ -181,16 +195,19 @@
     <string name="error_not_compatible">Spiacenti, il tuo dispositivo non è supportato da questa versione di VLC per Android™.</string>
     <string name="error_problem">Spiacenti, VLC per Android ha riscontrato un problema in fase di caricamento ed è stato chiuso.</string>
     <string name="error_message_is">Il messaggio di errore è (da citare in caso di debug):\n</string>
-    <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">Errore di riproduzione</string>
     <string name="encountered_error_message">VLC ha riscontrato un errore con questo media.\nProva ad aggiornare la raccolta multimediale.</string>
     <string name="invalid_location">La posizione %1$s non può essere riprodotta.</string>
+
     <string name="search">Cerca</string>
     <string name="search_history">Cerca nella cronologia</string>
+
+
     <string name="playback_history_title">Cronologia di riproduzione</string>
     <string name="playback_history_summary">Salva tutti i media riprodotti nella sezione Cronologia</string>
     <string name="playback_speed_title">Salva velocità di riproduzione</string>
     <string name="playback_speed_summary">Ricorda la velocità di riproduzione impostata</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Suggerimenti del lettore video:</string>
     <string name="seek">Posiziona</string>
@@ -200,25 +217,30 @@
     <string name="options">Opzioni</string>
     <string name="lock">Blocca</string>
     <string name="ok_got_it">Ricevuto, rimuovilo</string>
+
     <string name="playlist_tips">Suggerimenti della scaletta</string>
     <string name="remove_song">Rimuovi brano</string>
     <string name="remove_playlist_item">%1$s è stato rimosso dalla scaletta</string>
     <string name="rearrange_order">Modifica ordine</string>
     <string name="hold_to_seek">Trattieni per posizionare</string>
+
     <string name="audio_player_tips">Suggerimenti del lettore audio</string>
     <string name="previous_next_song">Brano precedente/successivo</string>
     <string name="show_playlist">Mostra scaletta</string>
     <string name="hold_to_stop">Trattieni per fermare</string>
+
     <!-- About -->
     <string name="app_name_full">VLC per Android</string>
     <string name="licence">Licenza</string>
     <string name="revision">Revisione</string>
     <string name="about">Informazioni</string>
     <string name="about_text">VLC per Android™ è un port del lettore multimediale VLC, il popolare lettore multimediale open source. La versione per Android™ può leggere la maggior parte dei file e dei flussi di rete.</string>
-    <string name="compiled_by">Questa versione di VLC è compilata da:</string>
     <string name="vlc_authors">e gli autori di VLC.</string>
+    <string name="compiled_by">Questa versione di VLC è compilata da:</string>
+
     <!-- Preferences -->
     <string name="preferences">Impostazioni</string>
+
     <string name="general_prefs_category">Generale</string>
     <string name="directories_summary">Seleziona le cartelle da includere nelle raccolta</string>
     <string name="add_custom_path">Aggiungi percorso personalizzato</string>
@@ -231,10 +253,6 @@
     <string name="hardware_acceleration_full">Accelerazione completa</string>
     <string name="dev_hardware_decoder">Decodificatore hardware avanzato</string>
     <string name="dev_hardware_decoder_summary">Forza decodificatore hardware, solo per utenti avanzati</string>
-    <string name="dev_hardware_decoder_omx">iomx</string>
-    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
-    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
-    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">Automatico</string>
     <string name="screen_orientation">Orientamento dello schermo</string>
     <string name="screen_orientation_sensor">Automatico (sensore)</string>
@@ -248,7 +266,9 @@
     <string name="subtitle_text_encoding">Codifica testo dei sottotitoli</string>
     <string name="daynight_title">Modalità GiornoNotte</string>
     <string name="daynight_summary">Passa automaticamente alla modalità notturna all\'ora appropriata</string>
+
     <string name="extra_prefs_category">Impostazioni aggiuntive</string>
+
     <string name="interface_prefs_screen">Interfaccia</string>
     <string name="interface_gui">Schermo</string>
     <string name="interface_secondary_display_category_title">Schermo secondario</string>
@@ -256,6 +276,7 @@
     <string name="enable_clone_mode">Clone preferito</string>
     <string name="enable_clone_mode_summary">Clona lo schermo del dispositivo senza telecomando.</string>
     <string name="interface_other_category">Interfaccia - Altro</string>
+
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Raggruppa video</string>
     <string name="video_min_group_length_summary">I video sono raggruppati se la prima lettera è la stessa.</string>
@@ -287,6 +308,7 @@
     <string name="popup_keepscreen_summary">Mantieni lo schermo sempre attivo quando la finestra a comparsa è visualizzata, anche se il video è in pausa.</string>
     <string name="browser_show_hidden_files_title">Mostra file nascosti</string>
     <string name="browser_show_hidden_files_summary">Mostra file nascosti nei browser</string>
+
     <string name="subtitles_prefs_category">Sottotitoli</string>
     <string name="subtitles_size_title">Dimensione sottotitoli</string>
     <string name="subtitles_size_small">Piccolo</string>
@@ -303,6 +325,7 @@
     <string name="subtitles_background_title">Sfondo sottotitoli</string>
     <string name="subtitles_bold_title">Sottotitoli in grassetto</string>
     <string name="subtitles_autoload_title">Carica automaticamente i sottotitoli</string>
+
     <string name="audio_prefs_category">Audio</string>
     <string name="lockscreen_cover_title">Copertina al blocco dello schermo</string>
     <string name="lockscreen_cover_summary">Se disponibili, imposta la copertina del media corrente come sfondo del salvaschermo</string>
@@ -330,7 +353,7 @@
     <string name="aout">Uscita audio</string>
     <string name="aout_summary">Cambia il metodo utilizzato da VLC per l\'uscita audio.</string>
     <string name="audio_ducking_title">Volume di VLC più basso in caso di notifiche</string>
-    <string name="audio_ducking_summary">Aiuta a sentire le notifiche audio, le istruzioni parlate di navigazione o assistenza </string>
+    <string name="audio_ducking_summary">Aiuta a sentire le notifiche audio, le istruzioni parlate di navigazione o assistenza</string>
     <string name="casting_category">Trasmissione</string>
     <string name="casting_passthrough_title">Passthrough audio</string>
     <string name="casting_passthrough_summary">Consenti alla tua TV di gestire il rendering audio</string>
@@ -344,6 +367,7 @@
     <string name="casting_connected_renderer">Connesso al renderer \'%1$s\'</string>
     <string name="artists_show_all_title">Mostra tutti gli artisti</string>
     <string name="artists_show_all_summary">Mostra tutti gli artisti nell\'elenco Artisti, non solo gli artisti dell\'album</string>
+
     <string name="extensions_prefs_category">Estensioni</string>
     <string name="extensions_enable_category">Scegli le estensioni da abilitare</string>
     <string name="extensions_empty">Nessuna estensione rilevata</string>
@@ -351,7 +375,9 @@
     <string name="extension_permission_checkbox_title">Mostra in %1$s</string>
     <string name="extension_prefs_activation_title">Attiva</string>
     <string name="android_auto">Android Auto</string>
+
     <string name="controls_prefs_category">Controlli</string>
+
     <string name="performance_prefs_category">Prestazioni</string>
     <string name="chroma_format">Forza croma</string>
     <string name="chroma_format_summary">RGB 32-bit: croma predefinita\nRGB 16-bit: migliori prestazioni, ma qualità inferiore\nYUV: migliori prestazioni, ma non funziona su tutti i dispositivi. Solo Android 2.3 e successivi.</string>
@@ -365,6 +391,7 @@
     <string name="enable_frame_skip_summary">Velocizza la decodifica, ma potrebbe ridurre la qualità del video.</string>
     <string name="enable_time_stretching_audio">Allungamento temporale audio</string>
     <string name="enable_time_stretching_audio_summary">Aumenta e riduci la velocità dell\'audio senza cambiare la tonalità (richiede un dispositivo veloce).</string>
+
     <string name="advanced_prefs_category">Avanzate</string>
     <string name="save_video_none">Non salvare la velocità</string>
     <string name="save_video_session">Salva velocità durante la sessione</string>
@@ -384,6 +411,8 @@
     <string name="network_caching_summary">La quantità di tempo dedicata al buffer dei media di rete (in ms). Non funziona con la decodifica hardware. Lasciala vuota per ripristinare.</string>
     <string name="resume_playback_title">Riprendi riproduzione dopo una chiamata</string>
     <string name="resume_playback_summary">Rimani in pausa altrimenti</string>
+    <string name="blurred_cover_background_title">Sfondo con copertina sfuocata</string>
+    <string name="blurred_cover_background_summary">Copertina sfuocata nello sfondo del lettore audio</string>
     <string name="network_caching_popup">Questo valore deve essere compreso tra 0 e 6000 ms</string>
     <string name="quit">Esci e riavvia l\'applicazione</string>
     <string name="developer_prefs_category">Sviluppatore</string>
@@ -400,20 +429,25 @@
     <string name="dump_logcat">Salva log logcat</string>
     <string name="dump_logcat_success">Logcat salvato correttamente su %1$s!</string>
     <string name="dump_logcat_failure">Salvataggio logcat non riuscito.</string>
+    <string name="custom_libvlc_options">Opzioni personalizzate libVLC</string>
+
     <string name="serious_crash">Sfortunatamente, si è verificato un errore grave e VLC è stato chiuso.</string>
-    <string name="help_us_send_log">Aiutaci a migliorare VLC inviando il seguente registro del crash: </string>
+    <string name="help_us_send_log">Aiutaci a migliorare VLC inviando il seguente registro del crash:</string>
     <string name="restart_vlc">Riavvia VLC</string>
     <string name="send_log">Invia il registro</string>
-    <string name="sending_log">Invio del registro in corso...</string>
+    <string name="sending_log">Invio del registro in corso…</string>
+
     <string name="drawer_open">Apri cassetto di navigazione</string>
     <string name="drawer_close">Chiudi cassetto di navigazione</string>
     <string name="network_browsing">Rete locale</string>
     <string name="browsing">Navigazione</string>
+
     <string name="file_size">Dimensione file:</string>
+
     <string name="audio_delay">Ritardo audio</string>
     <string name="spu_delay">Ritardo dei sottotitoli</string>
     <string name="sleep_time_not_set">non impostato</string>
-    <string name="network_shares_discovery">Ricerca condivisioni di rete in corso...</string>
+    <string name="network_shares_discovery">Ricerca condivisioni di rete in corso…</string>
     <string name="network_empty">Questa cartella è vuota.</string>
     <string name="network_connection_needed">Nessuna connessione alla rete locale.</string>
     <string name="search_hint">Cerca media</string>
@@ -423,7 +457,7 @@
     <string name="directory_hide_medialib">Nascondi dalla raccolta multimediale</string>
     <string name="playlist_save">Salva scaletta</string>
     <string name="playlist_name_hint">nome della scaletta</string>
-    <string name="go_to_chapter">Vai al capitolo...</string>
+    <string name="go_to_chapter">Vai al capitolo…</string>
     <string name="chapter">Capitolo</string>
     <string name="resume_from_position">Riprendi dall\'ultima posizione</string>
     <string name="confirm_resume">Vuoi riprendere dall\'ultima posizione?</string>
@@ -434,6 +468,7 @@
     <string name="tv_ui_summary">Cambia interfaccia a tema adattato alla TV</string>
     <string name="medialibrary">Raccolta multimediale</string>
     <string name="medialibrary_directories">Cartelle della raccolta multimediale</string>
+
     <!-- Accessibility -->
     <string name="more_actions">Altre azioni</string>
     <string name="move">Sposta</string>
@@ -442,6 +477,7 @@
     <string name="file_deleted">File eliminato</string>
     <string name="no_subs_found">Nessun sottotitolo in questa cartella</string>
     <string name="music_now_playing">In riproduzione</string>
+
     <!-- Widget -->
     <string name="widget_name_w">Widget VLC bianco</string>
     <string name="widget_name_b">Widget VLC scuro</string>
@@ -456,13 +492,16 @@
     <string name="permission_ask_again">Accorda permesso</string>
     <string name="exit_app">Chiudi VLC</string>
     <string name="exit_app_msg">Sei sicuro di voler chiudere VLC?</string>
+
     <!-- fast scroller -->
     <string name="fastscroller_track">Traccia FastScroller</string>
     <string name="fastscroller_handle">Maniglia FastScroller</string>
+
     <!-- Plugins -->
     <string name="plugins">Estensioni</string>
     <string name="download_on_device">Scarica</string>
     <string name="extension_empty">Nessun elemento da visualizzare, vai alle impostazioni delle estensioni per trovarne.</string>
+
     <string name="opengl_title">Utilizzo OpenGL ES2</string>
     <string name="opengl_summary">In modo predefinito, OpenGL ES2 è utilizzato per la decodifica software e hardware se necessaria (video 360°).</string>
     <string name="opengl_automatic">Automatico</string>
@@ -491,7 +530,7 @@
     <string name="browse_folder">Sfoglia cartella</string>
     <string name="listen">Ascolta</string>
     <string name="subtitles_download_title">Scaricamento sottotitoli</string>
-    <string name="connecting">Connessione in corso...</string>
+    <string name="connecting">Connessione in corso…</string>
     <string name="save_bluetooth_delay">ritardo di salvataggio per dispositivo bluetooth</string>
     <string name="episodes">episodi</string>
     <string name="movies">film</string>
@@ -511,12 +550,13 @@
     <string name="ml_external_storage_decline">No</string>
     <string name="last_added_media">Ultime aggiunte</string>
     <string name="no">No</string>
-    <string name="loading_medialibrary">Caricamento raccolta multimediale...</string>
+    <string name="loading_medialibrary">Caricamento raccolta multimediale…</string>
     <string name="yes">Sì</string>
+
     <string name="custom_set_save_title">Modifiche non salvate</string>
     <string name="custom_set_save_warning">Avviso: modifiche non salvate</string>
-    <string name="existing_custom_set_save_message">Salva equalizzazione come...</string>
-    <string name="new_custom_set_save_message">Salva nuova equalizzazione come...</string>
+    <string name="existing_custom_set_save_message">Salva equalizzazione come…</string>
+    <string name="new_custom_set_save_message">Salva nuova equalizzazione come…</string>
     <string name="save">Salva</string>
     <string name="do_not_save">Non salvare</string>
     <string name="custom_set_deleted_message">Equalizzazione personalizzata \"%1$s\" eliminata.</string>
@@ -533,7 +573,7 @@
     <string name="msg_delete_failed">Eliminazione media %1$s non riuscita</string>
     <string name="renderer_list_title">Schermi</string>
     <string name="feedback_player_crashed">Spiacenti, VLC si è chiuso in modo inatteso. Prova ancora.</string>
-    <string name="sdcard_permission_dialog_title">Hai accordato a VLC l\'accesso in scrittura alla tua scheda SD </string>
+    <string name="sdcard_permission_dialog_title">Hai accordato a VLC l\'accesso in scrittura alla tua scheda SD</string>
     <string name="sdcard_permission_dialog_message">VLC non può eliminare questo file senza il permesso di scrittura.\nVai alla tua scheda SD e fai clic su \"Seleziona\".\nPotresti dover fare clic prima su \"Mostra scheda SD\" nel menu in alto a destra,</string>
     <string name="dialog_sd_wizard">Mostrami</string>
     <string name="renderers_disconnect">Disconnetti</string>
@@ -541,4 +581,11 @@
     <string name="audio_digital_output_enabled">Uscita audio digitale abilitata</string>
     <string name="audio_digital_output_disabled">Uscita audio digitale disabilitata</string>
     <string name="audio_digital_title">Uscita audio digitale (passthrough)</string>
-</resources>
+    <string name="audio_task_removed_title">Ferma la riproduzione quando l\'applicazione viene chiusa</string>
+    <string name="playback_rewind">Riavvolgi</string>
+    <string name="playback_forward">Avanti veloce</string>
+    <string name="ml_wizard_title">Selezione raccolta multimediale VLC</string>
+    <string name="ml_wizard_scan_checkbox">Scansione del dispositivo per contenuti multimediali</string>
+    <string name="ml_wizard_description">Scegli se VLC analizzerà l\'archiviazione del tuo dispositivo per organizzare la tua raccolta multimediale o utilizzalo come un semplice lettore con un browser integrato.</string>
+    <string name="tv_my_new_videos">I miei nuovi video</string>
+    </resources>
