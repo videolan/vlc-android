@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">אישור</string>
     <string name="cancel">ביטול</string>
@@ -17,14 +18,20 @@
     <string name="sortby_length_desc">אורך (יורד)</string>
     <string name="sortby_date">תאריך</string>
     <string name="sortby_date_desc">תאריך (יורד)</string>
+    <string name="sortby_last_modified_date">נוספו לאחרונה</string>
+    <string name="sortby_last_modified_date_desc">נוספו לאחרונה (סדר יורד)</string>
     <string name="sortby_number">מספר הרצועות</string>
     <string name="sortby_number_desc">מספר הרצועות (יורד)</string>
     <string name="searchable_hint">חיפוש…</string>
     <string name="history">היסטוריה</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">נמצאה תוצאה אחת</item>
+        <item quantity="two">נמצאו %d תוצאות</item>
+        <item quantity="many">נמצאו %d תוצאות</item>
         <item quantity="other">נמצאו %d תוצאות</item>
     </plurals>
+
     <string name="play">נגינה</string>
     <string name="playback">נגינה</string>
     <string name="playback_controls">פקדי נגינה</string>
@@ -61,27 +68,40 @@
     <string name="songs">שירים</string>
     <plurals name="songs_quantity">
         <item quantity="one">שיר אחד</item>
+        <item quantity="two">%d שירים</item>
+        <item quantity="many">%d שירים</item>
         <item quantity="other">%d שירים</item>
     </plurals>
+
     <string name="artists">אמנים</string>
     <string name="albums">אלבומים</string>
     <string name="tracks">רצועות</string>
+
     <plurals name="albums_quantity">
         <item quantity="one">אלבום אחד</item>
+        <item quantity="two">%d אלבומים</item>
+        <item quantity="many">%d אלבומים</item>
         <item quantity="other">%d אלבומים</item>
     </plurals>
     <plurals name="subfolders_quantity">
         <item quantity="one">תת־תיקייה אחת</item>
+        <item quantity="two">%d תת־תיקיות</item>
+        <item quantity="many">%d תת־תיקיות</item>
         <item quantity="other">%d תת־תיקיות</item>
     </plurals>
     <plurals name="mediafiles_quantity">
         <item quantity="one">קובץ מדיה אחד</item>
+        <item quantity="two">%d קובצי מדיה</item>
+        <item quantity="many">%d קובצי מדיה</item>
         <item quantity="other">%d קובצי מדיה</item>
     </plurals>
     <plurals name="videos_quantity">
         <item quantity="one">סרטון אחד</item>
+        <item quantity="two">%d סרטונים</item>
+        <item quantity="many">%d סרטונים</item>
         <item quantity="other">%d סרטונים</item>
     </plurals>
+
     <string name="internal_memory">זיכרון פנימי</string>
     <string name="parent_folder">חזרה לתיקיית ההורה</string>
     <string name="audio">שמע</string>
@@ -106,6 +126,7 @@
     <string name="directorynotfound">נתיב התיקייה \'%1$s\' לא נמצא.</string>
     <string name="nohistory">אין לך היסטוריית נגינה עדיין.</string>
     <string name="validation">בטוח?</string>
+
     <string name="cover_art">האומנות על העטיפה</string>
     <string name="shuffle_title">מצב ערבול</string>
     <string name="shuffle">כיבוי הערבול</string>
@@ -119,6 +140,7 @@
     <string name="next">הבא</string>
     <string name="firstsong">השיר הראשון ברשימת הנגינה</string>
     <string name="lastsong">השיר האחרון ברשימת הנגינה</string>
+
     <string name="locked">נעול</string>
     <string name="unlocked">משוחרר</string>
     <string name="surface_best_fit">התאמה מיטבית</string>
@@ -142,13 +164,18 @@
     <string name="navmenu">תפריט ניווט</string>
     <string name="advanced">אפשרויות מתקדמות</string>
     <string name="audio_boost_warning">יש להחליק כלפי מעלה שוב כדי לעלות מעבר ל־100%</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">ערוץ אחד\n</item>
+        <item quantity="two">%1$d ערוצים\n</item>
+        <item quantity="many">%1$d ערוצים\n</item>
         <item quantity="other">%1$d ערוצים\n</item>
     </plurals>
+
     <string name="track_samplerate_info">קצב דגימה: %1$d הרץ\n</string>
     <string name="track_resolution_info">רזולוציה: %1$dx%2$d\n</string>
     <string name="track_framerate_info">קצב שקופיות: %1$.3f\n</string>
+
     <string name="tools">כלים</string>
     <string name="playback_speed">מהירות הנגינה</string>
     <string name="sleep_title">לישון</string>
@@ -158,6 +185,7 @@
     <string name="subtitle_label">הוספת קובץ כתוביות</string>
     <string name="subtitle_select">בחירת קובץ כתוביות</string>
     <string name="no_file_picker_found">לא נמצא בוחר קבצים במערכת.</string>
+
     <string name="server_add_title">הוספת שרת חדש למועדפים</string>
     <string name="server_domain_hint">כתובת השרת (שם מתחם או IP)</string>
     <string name="server_share_hint">שם השיתוף ברשת (או כתובת IP)</string>
@@ -167,6 +195,7 @@
     <string name="server_port">פתחה:</string>
     <string name="login">שם לכניסה</string>
     <string name="password">ססמה</string>
+
     <string name="search_results">תוצאות החיפוש</string>
     <string name="search_no_result">לא נמצאה מדיה</string>
     <string name="favorites_add">הוספה למועדפים</string>
@@ -174,6 +203,7 @@
     <string name="favorites_edit">עריכה</string>
     <string name="favorite_added">נשמר למועדפים</string>
     <string name="favorite_removed">הוסר מהמועדפים</string>
+
     <string name="open">פתיחה</string>
     <string name="open_mrl">הזרמה</string>
     <string name="open_mrl_dialog_title">פתיחת תזרים רשת</string>
@@ -181,16 +211,20 @@
     <string name="error_not_compatible">ההתקן שלך אינו נתמך על ידי גרסה זו של VLC ל־Android™, עמך הסליחה.</string>
     <string name="error_problem">VLC לאנדרויד נתקבל בשגיאה והיה עליו להיסגר, עמך הסליחה.</string>
     <string name="error_message_is">הודעת השגיאה היא (נא לציין בעת ניפוי שגיאות):\n</string>
-    <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">שגיאת נגינה</string>
     <string name="encountered_error_message">תכנת VLC גילתה שגיאה עם המדיה הזאת.\nנא לנסות לרענן את ספריית המדיה.</string>
     <string name="invalid_location">לא ניתן לנגן את המיקום %1$s.</string>
+
     <string name="search">חיפוש</string>
     <string name="search_history">היסטוריית החיפוש</string>
+
+
     <string name="playback_history_title">היסטוריית נגינה</string>
     <string name="playback_history_summary">לשמור את כל המדיה שהתנגנה באגף ההיסטוריה</string>
     <string name="playback_speed_title">לשמור את מהירות הנגינה</string>
     <string name="playback_speed_summary">לזכור את מהירות הנגינה שהגדרת</string>
+
+    <string name="play_button">כפתור נגינה</string>
     <!-- Tips -->
     <string name="video_player_tips">עצות לנגן הווידאו:</string>
     <string name="seek">גלילה</string>
@@ -200,25 +234,30 @@
     <string name="options">אפשרויות</string>
     <string name="lock">נעילה</string>
     <string name="ok_got_it">הבנתי, אפשר להעיף את זה</string>
+
     <string name="playlist_tips">עצות רשימת נגינה</string>
     <string name="remove_song">הסרת שיר</string>
     <string name="remove_playlist_item">%1$s הוסר מרשימת הנגינה</string>
     <string name="rearrange_order">שינוי הסדר</string>
     <string name="hold_to_seek">יש להחזיק כדי לגלול</string>
+
     <string name="audio_player_tips">עצות לנגן המדיה</string>
     <string name="previous_next_song">השיר הבא/הקודם</string>
     <string name="show_playlist">הצגת רשימת נגינה</string>
     <string name="hold_to_stop">יש להחזיק כדי לעצור</string>
+
     <!-- About -->
     <string name="app_name_full">VLC לאנדרויד</string>
     <string name="licence">רשיון</string>
     <string name="revision">מהדורה</string>
     <string name="about">על אודות</string>
     <string name="about_text">VLC ל־Android™ הנו הסבה של נגן המדיה VLC הפופולרי בקוד פתוח. גרסת ה־Android™ יכולה לקרוא את רוב הקבצים וסוגי תזרימי הרשת</string>
-    <string name="compiled_by">גרסה זו של VLC הודרה על ידי:</string>
     <string name="vlc_authors">ויוצרי VLC.</string>
+    <string name="compiled_by">גרסה זו של VLC הודרה על ידי:</string>
+
     <!-- Preferences -->
     <string name="preferences">הגדרות</string>
+
     <string name="general_prefs_category">כללי</string>
     <string name="directories_summary">נא לבחור את התיקיות שיכללו בספריית המדיה</string>
     <string name="add_custom_path">הוספת נתיב מותאם אישית</string>
@@ -231,10 +270,6 @@
     <string name="hardware_acceleration_full">האצה מלאה</string>
     <string name="dev_hardware_decoder">מפענח חומרה מתקדם</string>
     <string name="dev_hardware_decoder_summary">אילוץ הפעלת מפענח חומרה, למשתמשים מתקדמים בלבד</string>
-    <string name="dev_hardware_decoder_omx">iomx</string>
-    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
-    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
-    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">אוטומטית</string>
     <string name="screen_orientation">כיוון המסך</string>
     <string name="screen_orientation_sensor">אוטומטית (חיישן)</string>
@@ -248,7 +283,9 @@
     <string name="subtitle_text_encoding">קידוד טקסט הכתוביות</string>
     <string name="daynight_title">מצב יום־לילה</string>
     <string name="daynight_summary">להחליף למצב לילה במועד המתאים אוטומטית</string>
+
     <string name="extra_prefs_category">הגדרות נוספות</string>
+
     <string name="interface_prefs_screen">מנשק</string>
     <string name="interface_gui">תצוגה</string>
     <string name="interface_secondary_display_category_title">תצוגה משנית</string>
@@ -256,6 +293,7 @@
     <string name="enable_clone_mode">העדפת שכפול</string>
     <string name="enable_clone_mode_summary">שכפול מסך ההתקן ללא שליטה מרחוק.</string>
     <string name="interface_other_category">מנשק - אחר</string>
+
     <string name="video_prefs_category">סרטון</string>
     <string name="video_min_group_length_title">סרטונים קבוצתיים</string>
     <string name="video_min_group_length_summary">סרטונים מקובצים אם האותיות הראשונות שלהם זהות.</string>
@@ -287,6 +325,7 @@
     <string name="popup_keepscreen_summary">תמיד להשאיר את המסך פעיל כאשר מוצג חלון קופץ, אפילו אם הסרטון מושהה.</string>
     <string name="browser_show_hidden_files_title">הצגת קבצים מוסתרים</string>
     <string name="browser_show_hidden_files_summary">הצגת קבצים מוסתרים בדפדפנים</string>
+
     <string name="subtitles_prefs_category">כתוביות</string>
     <string name="subtitles_size_title">גודל הכתוביות</string>
     <string name="subtitles_size_small">קטן</string>
@@ -303,6 +342,7 @@
     <string name="subtitles_background_title">רקע הכתוביות</string>
     <string name="subtitles_bold_title">כתוביות מודגשות</string>
     <string name="subtitles_autoload_title">טעינת כתוביות אוטומטית</string>
+
     <string name="audio_prefs_category">שמע</string>
     <string name="lockscreen_cover_title">תמונת המדיה במסך הנעילה</string>
     <string name="lockscreen_cover_summary">כאשר ניתן, יש להגדיר את עטיפת האלבום של פריט המדיה המתנגן בתור רקע מסך הנעילה</string>
@@ -344,6 +384,7 @@
     <string name="casting_connected_renderer">יש חיבור להתקן העיבוד ‚%1$s’</string>
     <string name="artists_show_all_title">הצגת כל האומנים</string>
     <string name="artists_show_all_summary">הצגת כל האומנים ברשימת האומים, לא רק את אומני האלבומים</string>
+
     <string name="extensions_prefs_category">הרחבות</string>
     <string name="extensions_enable_category">בחירת הרחבות להפעלה</string>
     <string name="extensions_empty">לא זוהו הרחבות</string>
@@ -351,7 +392,9 @@
     <string name="extension_permission_checkbox_title">להציג בתוך %1$s</string>
     <string name="extension_prefs_activation_title">הפעלה</string>
     <string name="android_auto">Android Auto</string>
+
     <string name="controls_prefs_category">פקדים</string>
+
     <string name="performance_prefs_category">ביצועים</string>
     <string name="chroma_format">אילוץ כרומה בווידאו</string>
     <string name="chroma_format_summary">RGB‏ 32-סיביות: כרומה כבררת מחדל\nRGB ‏16-סיביות: ביצועים טובים יותר עם איכות נמוכה יותר\nYUV: הביצועים הטובים ביותר אך לא פועל על כל ההתקנים. אנדרואיד 2.3 ומעלה בלבד.</string>
@@ -365,6 +408,7 @@
     <string name="enable_frame_skip_summary">הקידוד מהיר יותר אך איכות הווידאו עלולה להיפגע.</string>
     <string name="enable_time_stretching_audio">הפעלת מתיחת זמן השמע</string>
     <string name="enable_time_stretching_audio_summary">האצה והאטה של השמע מבלי לשנות את גובה הצליל (נדרש התקן מהיר).</string>
+
     <string name="advanced_prefs_category">מתקדם</string>
     <string name="save_video_none">לא לשמור מהירות</string>
     <string name="save_video_session">לשמור את המהירות במהלך ההפעלה</string>
@@ -384,8 +428,14 @@
     <string name="network_caching_summary">משך הזמן שלוקח לאגור את המדיה מהרשת (במילישניות). לא עובד עם קידוד חומרה. יש להשאיר ריק כדי לאפס.</string>
     <string name="resume_playback_title">להמשיך בנגינה לאחר השיחה</string>
     <string name="resume_playback_summary">להישאר במצב השהיה בכל מצב אחר</string>
+    <string name="blurred_cover_background_title">רקע עטיפה מטושטשת</string>
+    <string name="blurred_cover_background_summary">עטיפה מטושטשת ברקע של נגן השמע</string>
     <string name="network_caching_popup">הערך חייב להיות בין 0 ל־6000 מ״ש</string>
     <string name="quit">יציאה מהיישום והפעלה מחדש</string>
+    <string name="restart_message">השינויים יחולו עם הפעלת היישום מחדש.\n\nלהפעיל מחדש כעת?</string>
+    <string name="restart_message_OK">אישור</string>
+    <string name="restart_message_Later">אחר כך</string>
+
     <string name="developer_prefs_category">למתכנתים</string>
     <string name="enable_verbose_mode">פירוט</string>
     <string name="enable_verbose_mode_summary">הגברת הפירוט (logcat)</string>
@@ -400,16 +450,21 @@
     <string name="dump_logcat">שמירת רישום logcat</string>
     <string name="dump_logcat_success">ה־Logcat נשמר בהצלחה אל %1$s!</string>
     <string name="dump_logcat_failure">שמירת ה־logcat נכשלה.</string>
+    <string name="custom_libvlc_options">אפשרויות מיוחדות ל־libVLC</string>
+
     <string name="serious_crash">אתרע מזלך והתרחשה תקלה איומה, לפיכך נכפה על VLC להיסגר.</string>
     <string name="help_us_send_log">ניתן לסייע לנו לשפר את VLC ע״י שליחת דוח הקריסה הבא:</string>
     <string name="restart_vlc">הפעלת VLC מחדש</string>
     <string name="send_log">שליחת הדוח</string>
     <string name="sending_log">הדוח נשלח…</string>
+
     <string name="drawer_open">פתיחת מגירת הניווט</string>
     <string name="drawer_close">סגירת מגירת הניווט</string>
     <string name="network_browsing">רשת מקומית</string>
     <string name="browsing">עיון</string>
+
     <string name="file_size">גודל קובץ:</string>
+
     <string name="audio_delay">השהיית שמע</string>
     <string name="spu_delay">השהיית כתוביות</string>
     <string name="sleep_time_not_set">לא הוגדרו</string>
@@ -434,6 +489,7 @@
     <string name="tv_ui_summary">החלפת מנשק המשתמש לערכת נושא תואמת טלוויזייה</string>
     <string name="medialibrary">ספריית מדיה</string>
     <string name="medialibrary_directories">תיקיות ספריית המדיה</string>
+
     <!-- Accessibility -->
     <string name="more_actions">פעולות נוספות</string>
     <string name="move">העברה</string>
@@ -442,6 +498,7 @@
     <string name="file_deleted">הקובץ נמחק</string>
     <string name="no_subs_found">אין כתוביות בתיקייה זו</string>
     <string name="music_now_playing">מתנגן כעת</string>
+
     <!-- Widget -->
     <string name="widget_name_w">וידג׳ט לבן של VLC</string>
     <string name="widget_name_b">וידג׳ט כהה של VLC</string>
@@ -456,13 +513,16 @@
     <string name="permission_ask_again">הענקת הרשאה</string>
     <string name="exit_app">סגירת VLC</string>
     <string name="exit_app_msg">לצאת מ־VLC?</string>
+
     <!-- fast scroller -->
     <string name="fastscroller_track">רצועת גלילה מהירה</string>
     <string name="fastscroller_handle">ידית גלילה מהירה</string>
+
     <!-- Plugins -->
     <string name="plugins">הרחבות</string>
     <string name="download_on_device">הורדה</string>
     <string name="extension_empty">אין פריט להצגה, עליך לעבור להגדרות ההרחבה שלך כדי לקבל כזה.</string>
+
     <string name="opengl_title">שימוש ב־OpenGL ES2</string>
     <string name="opengl_summary">כבררת מחדל, נעשה שימוש ב־OpenGL ES2 לטובת פענוח תכנתי וחומרתי בעת הצורך (סרטוני 360°).</string>
     <string name="opengl_automatic">אוטומטית</string>
@@ -513,6 +573,7 @@
     <string name="no">לא</string>
     <string name="loading_medialibrary">ספריית המדיה נטענת…</string>
     <string name="yes">כן</string>
+
     <string name="custom_set_save_title">שינויים שלא נשמרו</string>
     <string name="custom_set_save_warning">אזהרה: שינויים שלא נשמרו</string>
     <string name="existing_custom_set_save_message">שמירת ערכת האקולייזר בשם…</string>
@@ -541,4 +602,23 @@
     <string name="audio_digital_output_enabled">פלט שמע דיגיטלי פעיל</string>
     <string name="audio_digital_output_disabled">פלט שמע דיגיטלי מושבת</string>
     <string name="audio_digital_title">פלט שמע דיגיטלי (מעקף)</string>
+    <string name="audio_task_removed_title">לעצור את הנגינה כאשר היישום מועבר לרקע</string>
+    <string name="playback_rewind">חזרה אחורה</string>
+    <string name="playback_forward">האצה קדימה</string>
+    <string name="ml_wizard_title">בחירה מתיקיית המדיה של VLC</string>
+    <string name="ml_wizard_scan_checkbox">סריקת התקן לאיתור תוכן מדיה</string>
+    <string name="ml_wizard_description">נא לבחור האם VLC יסרוק את אחסון המכשיר שלך כדי לסדר את תיקיית המדיה שלך או פשוט להשתמש בו כנגן פשוט עם דפדפן מובנה.</string>
+    <string name="tv_my_new_videos">הסרטונים החדשים שלי</string>
+    <string name="cast_option_title">שידור מדיה למסך אחר</string>
+    <string name="otg_device_title">התקן OTG</string>
+    <string name="browser">דפדפן</string>
+    <string name="ab_repeat">חזרה א-ב</string>
+    <string name="stop_after_this">לעצור לאחר הרצועה הזו</string>
+    <string name="time_category_new">מדיה חדשה</string>
+    <string name="time_category_current_month">החודש</string>
+    <string name="time_category_current_year">השנה</string>
+    <string name="time_category_last_year">שנה שעברה</string>
+    <string name="time_category_older">מדיה ישנה יותר</string>
+    <string name="rename">שינוי שם</string>
+    <string name="rename_media">שינוי השם של %1$s</string>
 </resources>
