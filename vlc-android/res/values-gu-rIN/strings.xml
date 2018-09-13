@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
-    <string name="ok">ઓકે</string>
+    <string name="ok">બરાબર</string>
     <string name="cancel">રદ્દ કરો</string>
     <string name="other">બધું</string>
     <string name="sortby">સ્ટેન્ડ બાય</string>
@@ -9,6 +10,7 @@
     <string name="sortby_length">લંબાઈ</string>
     <string name="searchable_hint">શોધો</string>
     <string name="history">ઈતિહાસ</string>
+
     <string name="play">વગાડો</string>
     <string name="play_as_audio">ઓડિયો તરીકે ચલાવો</string>
     <string name="play_as_video">વિડિઓ તરીકે ચલાવો</string>
@@ -16,22 +18,23 @@
     <string name="play_all">બધું વગાડો</string>
     <string name="append_all">બધું ઉમેરો</string>
     <string name="delete">કાઢી નાખો</string>
+    <string name="remove">દૂર કરો</string>
     <string name="set_song">રિંગટોન તરીકે સેટ કરો</string>
     <string name="info">માહિતી</string>
     <string name="pause">વિરામ</string>
     <string name="not_show_again">ફરીથી આ સંદેશ બતાવશો નહીં .</string>
-    <string name="beta_warning">આ એક બીટા સંસ્કરણ છે ⏎ ⏎ આ સંસ્કરણ સ્થિર નથી ⏎! ⏎ ઉપયોગ કરશો નહિં જ્યાં સુધી તમે જાણો છો કે તમે શું કરી રહ્યા છો. ⏎ ⏎ તે તમારા બિલાડીનું બચ્ચું મારી નાંખવા માટે, તમારા ઘર નાશ કરી શકે છે અને મય સાક્ષાત્કાર શરૂ કરો. ⏎ તે તમારા પર વાપરો. પોતાના જોખમ ⏎. ⏎ ફન છે! :)</string>
-    <string name="info_title">VLC બીટા</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">અજ્ઞાત આર્ટિસ્ટ</string>
     <string name="unknown_album">અજ્ઞાત આલ્બમ</string>
     <string name="unknown_genre">અજ્ઞાત શૈલી</string>
-    <string name="songs">ગીતો</string>
     <plurals name="songs_quantity">
-        <item quantity="one">એક: 1 ગીત \n </item>
+        <item quantity="one">એક: 1 ગીત
+</item>
         <item quantity="other">અન્ય:  ગીતો \n </item>
     </plurals>
+
     <string name="artists">આર્ટિસ્ટ</string>
-    <string name="albums"> આલ્બમ</string>
+    <string name="albums">આલ્બમ</string>
     <string name="parent_folder">પેરેન્ટ ફોલ્ડર માટે</string>
     <string name="audio">ઑડિઓ</string>
     <string name="video">વીડીઓ</string>
@@ -45,13 +48,13 @@
     <string name="album">આલ્બમ</string>
     <string name="directory">ડિરેક્ટરી</string>
     <string name="directories">ડિરેક્ટરીઓ</string>
-    <string name="loading">લોડ કરી રહ્યું છે ...</string>
+    <string name="loading">લોડ કરી રહ્યું છે …</string>
     <string name="please_wait">રાહ જુઓ . ..</string>
     <string name="mediafiles">મીડિયા ફાઈલો</string>
     <string name="notavailable">ઉપલબ્ધ નથી</string>
     <string name="nosubdirectory">કોઈ ઉપડિરેક્ટરીઓ.</string>
     <string name="validation">તમને ખાતરી છે?</string>
-    <string name="shuffle">આડું અવળું</string>
+
     <string name="previous">પહેલાનું</string>
     <string name="stop">બંધ કરો</string>
     <string name="next">પછીનું</string>
@@ -64,44 +67,48 @@
     <string name="refresh">તાજું કરો</string>
     <string name="track_audio">ઓડિયો ટ્રેક</string>
     <string name="track_video">વીડીઓ ટ્રેક</string>
-    <string name="track_text">સબટાઇટલ ટ્રેક</string>
     <string name="track_unknown">અજ્ઞાત ટ્રેક</string>
-    <string name="track_codec_info">કોડેક: %1$s\n</string>
-    <string name="track_language_info">ભાષા:%1$s\n</string>
     <string name="volume">અવાજ</string>
     <string name="brightness">બ્રાઈટનેસ</string>
-    <string name="track_samplerate_info">નમૂના દર:%1$d Hz ⏎\n\n</string>
-    <string name="track_resolution_info">રિસોલ્યુશન: %1$dx%2$d \n </string>
+    <string name="track_samplerate_info">નમૂના દર: %1$d Hz\n</string>
+    <string name="track_resolution_info">રિસોલ્યુશન: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">ફ્રેમ દર: %1$.3f\n</string>
+
     <string name="playback_speed">પ્લેબૅક ઝડપ</string>
+    <string name="jump_to_time">સમય સાથે કૂદો</string>
     <string name="open">ખોલો</string>
-    <string name="open_mrl">MRL ખોલો </string>
     <string name="open_mrl_dialog_title">નેટવર્ક સ્ટ્રીમ ખોલો</string>
-    <string name="open_mrl_dialog_msg">નેટવર્ક MRL દાખલ કરો: દા.ત. http://, MMS :/ / અથવા rtsp :/ /</string>
     <string name="error_not_compatible">માફ કરશો,હાલમાં તમારા ઉપકરણ માટે  Android ™  VLC ની આ આવૃત્તિ ઉપલબ્ધ નથી.</string>
     <string name="error_problem">માફ કરશો, Android માટે વીએલસી લોડ થવામાં સમસ્યા છે બંધ કરવું પડશે.</string>
-    <string name="error_message_is"> ભૂલ સંદેશ (કૃપા કરીને આ ઉલ્લેખ છે જ્યારે ડિબગીંગ હોય)છે:⏎ </string>
-    <!--Tips-->
+    <string name="error_message_is">ભૂલ સંદેશ (કૃપા કરીને આ ઉલ્લેખ છે જ્યારે ડિબગીંગ હોય)છે:\n</string>
+    <string name="search">શોધો</string>
+    <string name="subtitles">ઉપશીર્ષકો</string>
+    <string name="options">વિકલ્પો</string>
     <!-- About -->
-    <string name="app_name_full">  Android™ માટે VLC</string>
+    <string name="app_name_full">Android™ માટે VLC</string>
     <string name="licence">લાઇસન્સ</string>
     <string name="revision">પુનરાવર્તન</string>
     <string name="about">લગભગ</string>
     <string name="about_text">Android ™ માટે VLC મીડિયા પ્લેયર, લોકપ્રિય ઓપન સોર્સ મીડિયા પ્લેયર એક બંદર છે. ફક્ત Android ™ આવૃત્તિ મોટા ભાગના ફાઈલો અને નેટવર્ક સ્ટ્રીમ્સ વાંચી શકે છે.</string>
     <string name="compiled_by">વીએલસીનુ સંસ્કરણ આના દ્વારા સંકલિત છે:</string>
-    <string name="vlc_authors">VLC લેખકો.</string>
-    <!-- Preferences -->
-    <string name="preferences">પસંદગીઓ</string>
+
+    <string name="general_prefs_category">સામાન્ય</string>
+    <string name="hardware_acceleration">હાર્ડવેર પ્રવેગ</string>
     <string name="automatic">સ્વ્નીયાન્ત્ર્ણ</string>
-    <string name="enable_brightness_gesture">તેજ ચેષ્ટા સક્ષમ કરો</string>
+    <string name="subtitle_text_encoding">ઉપશીર્ષક લખાણ એનકોડીંગ</string>
+    <string name="interface_prefs_screen">ઇન્ટરફેસ</string>
+    <string name="audio_title_alignment_default">મૂળભૂત</string>
+    <string name="audio_title_alignment_left">ડાબુ</string>
+    <string name="audio_title_alignment_marquee">માર્ક્યુ</string>
     <string name="enable_headset_detection">હેડસેટ શોધો</string>
+    <string name="aout">ઓડિયો આઉટપુટ</string>
     <string name="enable_time_stretching_audio">સમય ફેલાયેલા ઓડિયો સક્ષમ કરો</string>
     <string name="advanced_prefs_category">ઉન્નત</string>
-    <string name="aout">ઓડિયો આઉટપુટ</string>
     <string name="clear_media_db">સાફ કરો મીડિયા ડેટાબેઝ</string>
-    <string name="clear_history">શોધ ઇતિહાસ સાફ કરો </string>
+    <string name="clear_history">શોધ ઇતિહાસ સાફ કરો</string>
     <string name="media_db_cleared">મીડિયા ડેટાબેઝ સાફ!</string>
     <string name="set_locale">લોકેલ સેટ કરો</string>
     <string name="set_locale_detail">પુનઃસુયોજિત કરવા માટે ખાલી છોડી દો</string>
     <string name="enable_verbose_mode">શબ્લબહુલ</string>
     <string name="enable_verbose_mode_summary">આ વર્બોઝીટી (logcat) વધારો</string>
-</resources>
+    </resources>
