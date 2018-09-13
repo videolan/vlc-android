@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
-    <string name="ok">	\nঠিক আছে</string>
-    <string name="cancel">	\nরদ করা</string>
-    <string name="other">	\nঅন্য</string>
+    <string name="ok">	
+ঠিক আছে</string>
+    <string name="cancel">	
+রদ করা</string>
+    <string name="other">	
+অন্য</string>
     <string name="sortby">সাজান…</string>
     <string name="sortby_name">নাম</string>
+    <string name="sortby_artist_name">শিল্পী</string>
     <string name="sortby_length">দৈর্ঘ্য</string>
     <string name="searchable_hint">অনুসন্ধান করুন …</string>
     <string name="history">ইতিহাস</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d ফলাফল খুঁজে পেয়েছিল</item>
         <item quantity="other">%d ফলাফলগলি খুঁজে পেয়েছিল</item>
     </plurals>
+
     <string name="play">চালান</string>
     <string name="play_as_audio">অডিও হিসাবে খেলুন</string>
     <string name="play_as_video">ভিডিও হিসাবে খেলুন</string>
@@ -27,13 +34,12 @@
     <string name="unknown_artist">অজানা শিল্পী</string>
     <string name="unknown_album">অজানা এলবাম</string>
     <string name="unknown_genre">অজানা জেনার</string>
-    <string name="songs">গান</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 গান</item>
         <item quantity="other">%d গান</item>
     </plurals>
+
     <string name="artists">শিল্পী</string>
-    <string name="albums">অ্যালবাম</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 ফটোগ্রাফ</item>
         <item quantity="other">%d ফটোগ্রাফ</item>
@@ -62,8 +68,8 @@
     <string name="nosubdirectory">কোনও সাবডিরেক্টরি না।</string>
     <string name="nohistory">আপনার কোনো প্লেব্যাক ইতিহাস এখনো আছে.</string>
     <string name="validation">আপনি কি নিশ্চিত?</string>
-    <string name="cover_art">কভার কলা </string>
-    <string name="shuffle">অদলবদল</string>
+
+    <string name="cover_art">কভার কলা</string>
     <string name="previous">পূর্ববর্তী</string>
     <string name="stop">বন্ধ করা হবে</string>
     <string name="next">পরবর্তী</string>
@@ -76,35 +82,26 @@
     <string name="refresh">সতেজ করা</string>
     <string name="track_audio">অডিও ট্র্যাক</string>
     <string name="track_video">ভিডিও ট্র্যাক</string>
-    <string name="track_text">সাবটাইটেল ট্র্যাক</string>
     <string name="track_unknown">অজানা ট্র্যাক</string>
     <string name="volume">আয়তন</string>
     <string name="brightness">উজ্জ্বলতা</string>
     <string name="tools">সরঞ্জাম</string>
     <string name="playback_speed">প্লেব্যাক গতি</string>
     <string name="open">খোলা</string>
-    <string name="open_mrl">MRL খুলুন</string>
     <string name="open_mrl_dialog_title">ওপেন সোর্স নেটওয়ার্ক প্রবাহ</string>
-    <string name="open_mrl_dialog_msg">নেটওযারক MRL লিখন: যেমন এখানে http://, mms:// বা  rtsp://</string>
     <string name="error_not_compatible">দুঃখিত, আপনার ডিভাইস Android™এর জন্য VLCএর এই সংস্করণটির দ্বারা বর্তমানে সমর্থন করা হয় না।</string>
     <string name="error_problem">দুঃখিত, Android এর জন্য VLC একটি সমস্যা লোড হয় এবং বন্ধ ছিল.</string>
-    <!--Tips-->
-    <!-- About -->
-    <string name="app_name_full">Android এর জন্য VLC ™</string>
     <string name="licence">লাইসেন্স</string>
     <string name="revision">সংস্করণ</string>
     <string name="about">সম্পর্কে</string>
     <string name="about_text">অ্যানড্রইড ™ জন্য VLC হয় VLC মিডিয়া প্লেয়ার, জনপ্রিয় ওপেন সোর্স মিডিয়া প্লেয়ার একটি বন্দর. অ্যানড্রইড ™ সংস্করণে সর্বাধিক ফাইল এবং নেটওয়ার্ক স্ট্রিম পড়তে পারেন.</string>
     <string name="compiled_by">VLC \'র এই সংস্করণ দ্বারা কম্পাইল করা হয়:</string>
-    <string name="vlc_authors">VLC লেখক।</string>
-    <!-- Preferences -->
-    <string name="preferences">পছন্দ</string>
+
     <string name="automatic">স্বয়ংক্রিয়</string>
-    <string name="enable_brightness_gesture">উজ্জ্বলতা অঙ্গভঙ্গি সক্ষম করুন</string>
     <string name="enable_headset_detection">হেডসেট সনাক্ত করুন</string>
+    <string name="aout">অডিও আউটপুট</string>
     <string name="enable_time_stretching_audio">সময় প্রসারিত করছে অডিও সক্ষম করুন</string>
     <string name="advanced_prefs_category">নিশুতি</string>
-    <string name="aout">অডিও আউটপুট</string>
     <string name="clear_media_db">সাফ মিডিয়া ডাটাবেস</string>
     <string name="clear_history">অনুসন্ধানের ইতিহাস সাফ করুন</string>
     <string name="media_db_cleared">মিডিয়া ডাটাবেস সাফ!</string>
@@ -112,4 +109,4 @@
     <string name="set_locale_detail">রিসেট করতে ফাঁকা ছেড়ে চলে যান</string>
     <string name="enable_verbose_mode">বাগ্বহুল</string>
     <string name="enable_verbose_mode_summary">ভার্বোসিটি (logcat) বাড়ান</string>
-</resources>
+    </resources>
