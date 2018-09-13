@@ -1,6 +1,5 @@
 package org.videolan.vlc.media
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
 import android.net.Uri
@@ -279,13 +278,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             skipMedia()
         } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
                 || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
-            val uri = Uri.parse(Uri.decode(FileUtils.getUri(mw.uri).toString()))
+            val uri = FileUtils.getUri(mw.uri)
             if (uri == null) {
                 skipMedia()
                 return
             }
             val start = getStartTime(mw)
-            val media = Media(VLCInstance.get(), uri)
+            val media = Media(VLCInstance.get(), Uri.parse(Uri.decode(uri.toString())))
             media.addOption(":start-time=$start")
             VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
             /* keeping only video during benchmark */
