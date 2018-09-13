@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">ٹھیک ہے</string>
     <string name="cancel">منسوخ کریں</string>
@@ -9,10 +10,12 @@
     <string name="sortby_length">لمبائی</string>
     <string name="searchable_hint">تلا‎ش۔۔۔</string>
     <string name="history">تاريخى معلومات</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d نتيجہ ملاہے</item>
         <item quantity="other">%d نتائج ملے ہيں</item>
     </plurals>
+
     <string name="play">چلائيں</string>
     <string name="play_from_start">شروع سے چلائيں</string>
     <string name="play_as_audio">آڈیو کے طور پر چلائیں</string>
@@ -30,13 +33,12 @@
     <string name="unknown_artist">نامعلوم آرٹِسٹ</string>
     <string name="unknown_album">نا معلوم مرقع</string>
     <string name="unknown_genre">نامعلوم نوع</string>
-    <string name="songs">گانے</string>
     <plurals name="songs_quantity">
-        <item quantity="one"> 1 نغمہ</item>
+        <item quantity="one">1 نغمہ</item>
         <item quantity="other">%d گانے</item>
     </plurals>
+
     <string name="artists">فنکار</string>
-    <string name="albums">مرقع جات</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 البم</item>
         <item quantity="other">%d البمز</item>
@@ -68,8 +70,9 @@
     <string name="mediafiles">میڈیا فائلیں</string>
     <string name="notavailable">دستیاب نہیں ہے</string>
     <string name="nosubdirectory">مزيد ذيلى فولڈر نہيں ہيں ـ</string>
-    <string name="nohistory"> پلے بیک کا ابھی تک کوئى بھى ریکارڈ نہيں ہے۔</string>
+    <string name="nohistory">پلے بیک کا ابھی تک کوئى بھى ریکارڈ نہيں ہے۔</string>
     <string name="validation">کيا آپ کو يقين ہے؟</string>
+
     <string name="cover_art">کَور آرٹ</string>
     <string name="previous">سابقہ</string>
     <string name="stop">روکیں</string>
@@ -84,7 +87,6 @@
     <string name="refresh">تروتازہ</string>
     <string name="track_audio">آڈیو ٹریک</string>
     <string name="track_video">ویڈیو ٹریک</string>
-    <string name="track_text">ذیلی عنوان کا ٹريک</string>
     <string name="track_unknown">نامعلوم ٹریک</string>
     <string name="volume">آواز کی بُلندی</string>
     <string name="brightness">چمک</string>
@@ -96,24 +98,18 @@
     <string name="subtitle_label">تحریری مقالموں کی فائل شامل کیجئے</string>
     <string name="subtitle_select">تحریری مکالموں کی فائل منتخب کیجئے</string>
     <string name="no_file_picker_found">سسٹم ميں فائل پکر نہيں ملا۔</string>
+
     <string name="open">کھوليں</string>
-    <string name="open_mrl">MRL کھولیں</string>
     <string name="open_mrl_dialog_title">نيٹ ورک سٹريم کھوليں</string>
-    <string name="open_mrl_dialog_msg">نیٹ ورک ايم ـ آر ـ آيل ـ درج کریں: مثال کے طور پر http://, mms://, rtsp://, و‍غيرہ</string>
     <string name="error_not_compatible">ہم معذرت خواہ ہیں، اينذرائڈ کے ليے وى ـ ايل ـ سى ـ کا يہ ورژن فى الحال آپ کے آلہ پر کام نہيں کرتا ـ</string>
     <string name="error_problem">ہم معذرت خواہ ہیں ، اينڈرائيڈ کيليے وى ـ ايل ـ سى ـ کو لوڈ کرتے ہوئے ايک مسئلہ پيش آگيا تھا جس کى وجہ سے اسے بند کرنا پڑا ہے ـ</string>
     <string name="encountered_error_title">پلے بیک ايرر</string>
-    <!--Tips-->
-    <!-- About -->
-    <string name="app_name_full">اينذرائڈ کے ليے وى ـ ايل ـ سى ـ</string>
     <string name="licence">لائيسنس</string>
     <string name="revision">نظرثانی</string>
     <string name="about">کے بارے میں</string>
     <string name="about_text">اينذرائڈ کے ليے وى ـ ايل ـ سى ـ میڈیا پلیئر وى ـ ايل ـ سى ـ میڈیا پلیئر پر مبنى ہے،  جو کہ ايک مقبول اوپن سورس میڈیا پلیئر ہے. اينذرائڈ والا ورژن بہت سى فائلوں اور نیٹ ورک اسٹریمز کو پڑھ سکتا ہے.</string>
     <string name="compiled_by">وى ـ ايل ـ سى ـ کا يہ ورژن تیار کرنے والے کا نام:</string>
-    <string name="vlc_authors">وى ـ ايل ـ سى ـ کے بنانے والے</string>
-    <!-- Preferences -->
-    <string name="preferences">ترجيحات</string>
+
     <string name="directories_summary">ميڈيا لائبريری ميں شامل کرنے کے ليے فولڈرزمنتخب کريں</string>
     <string name="add_custom_path">اپنی مرضی کے مطابق (کسٹم) جگہ (پاتھ) ڈاليں</string>
     <string name="add_custom_path_description">اپنی مرضی کے مطابق مذيد فولڈر سکين کرنے کيليے ڈاليں:</string>
@@ -126,12 +122,12 @@
     <string name="screen_orientation_landscape">اُفقی شکل میں</string>
     <string name="screen_orientation_reverse_portrait">الٹى عمُودی</string>
     <string name="screen_orientation_reverse_landscape">اُلٹی اُفقی</string>
-    <string name="enable_brightness_gesture">چمک کے اشارے کو فعال کريں</string>
     <string name="enable_brightness_gesture_summary">چمکنے کا اشارہ میوزِک کے حساب سے کام کرے</string>
     <string name="enable_headset_detection">ہيڈ سيٹ تلاش کريں</string>
-    <string name="enable_headset_detection_summary">ہیڈسیٹ ہٹانے پر روک ديں، ہیڈسیٹ لگانے پر دوبارہ شروع کر دیں</string>
     <string name="enable_steal_remote_control">خصوصی ہيڈ سيٹ ریموٹ کنٹرول</string>
     <string name="enable_steal_remote_control_summary">دوسرے پروگراموں کی طرف سے ریموٹ کنٹرول چوری کرکے تنازعات سے بچیں. یہ ايچ ـ ٹى - سى - فون پر ڈبل کلک پر ڈائل روکتا ہے ـ</string>
+    <string name="aout">آڈیو آؤٹ پٹ</string>
+    <string name="aout_summary">VLC کی ٓڈيو کے آواز دینے کے طریقے کو تبدیل کریں</string>
     <string name="performance_prefs_category">کارکردگی</string>
     <string name="chroma_format">فورسِ وڈیوکروما</string>
     <string name="deblocking">نہ روکنے والے فلٹر کی سیٹنگ</string>
@@ -140,13 +136,11 @@
     <string name="deblocking_nonref">معتدل آزادی</string>
     <string name="deblocking_nonkey">کم آزادی</string>
     <string name="deblocking_all">غیرآزادی(تیزترین)</string>
-    <string name="enable_frame_skip">فریم چھوڑنے کے قابل کریں</string>
     <string name="enable_frame_skip_summary">غیر مرموز(ڈیکوڈنگ) کرنا تیز کریں لیکن وڈیو کا معیار کم ہو سکتا ہے</string>
     <string name="enable_time_stretching_audio">وقت بڑھانےوالی آڈيو</string>
     <string name="enable_time_stretching_audio_summary">آڈيو کى رفتار کو پچ تبدیل کيے بغیر تيز اور آہستہ کريں ( اس کيليے ایک تيز ڈیوائس چاہيے)</string>
+
     <string name="advanced_prefs_category">ماہرانہ انداز</string>
-    <string name="aout">آڈیو آؤٹ پٹ</string>
-    <string name="aout_summary">VLC کی ٓڈيو کے آواز دینے کے طریقے کو تبدیل کریں</string>
     <string name="clear_media_db">میڈیا ڈیٹا بیس کو خالى کريں</string>
     <string name="clear_history">تلاش کرنے کا ریکارڈ ختم کريں</string>
     <string name="media_db_cleared">ميڈيا ڈیٹابيس خالى کر ديا گيا ہے!</string>
@@ -162,5 +156,4 @@
     <string name="clear_log">خاموش ریکارڈ ختم کریں</string>
     <string name="copy_to_clipboard">کِلپ بورڈ پر کاپی کریں</string>
     <string name="copied_to_clipboard">کلپ بورڈ میں لاگ میں نقل کردیا گيا ھے.</string>
-    <!--Accessibility-->
-</resources>
+    </resources>
