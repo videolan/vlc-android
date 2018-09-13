@@ -55,6 +55,8 @@
     <string name="confirm_delete">Delete the file \'%1$s\'?</string>
     <string name="confirm_delete_folder">Delete the folder \'%1$s\' and all its contents?</string>
     <string name="confirm_delete_playlist">Delete playlist \'%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">Remove \'%1$s\' from playlist?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Remove from playlist?</string>
     <string name="ringtone_set">The file \'%1$s\' was set as the ringtone.</string>
     <string name="ringtone_error">An error occurred while setting the ringtone.</string>
     <string name="pause">Pause</string>

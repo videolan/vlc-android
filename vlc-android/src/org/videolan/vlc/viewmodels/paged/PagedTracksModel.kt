@@ -3,11 +3,20 @@ package org.videolan.vlc.viewmodels.paged
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.*
+import org.videolan.vlc.util.EmptyMLCallbacks
 import org.videolan.vlc.util.Settings
 
-class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): MLPagedModel<MediaWrapper>(context), Medialibrary.MediaCb {
+class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): MLPagedModel<MediaWrapper>(context),
+        Medialibrary.MediaCb,
+        Medialibrary.ArtistsCb by EmptyMLCallbacks,
+        Medialibrary.AlbumsCb by EmptyMLCallbacks,
+        Medialibrary.GenresCb by EmptyMLCallbacks,
+        Medialibrary.PlaylistsCb by EmptyMLCallbacks {
 
     override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
@@ -26,24 +35,26 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
 
     override fun onMedialibraryReady() {
         super.onMedialibraryReady()
-        medialibrary.addMediaCb(this)
+        launch(Dispatchers.Main) {
+            when (parent) {
+                is Artist -> medialibrary.addArtistsCb(this@PagedTracksModel)
+                is Album -> medialibrary.addAlbumsCb(this@PagedTracksModel)
+                is Genre -> medialibrary.addGenreCb(this@PagedTracksModel)
+                is Playlist -> medialibrary.addPlaylistCb(this@PagedTracksModel)
+                else -> medialibrary.addMediaCb(this@PagedTracksModel)
+            }
+        }
     }
 
     override fun onCleared() {
         super.onCleared()
-        medialibrary.removeMediaCb(this)
-    }
-
-    override fun onMediaAdded() {
-        refresh()
-    }
-
-    override fun onMediaModified() {
-        refresh()
-    }
-
-    override fun onMediaDeleted() {
-        refresh()
+        when (parent) {
+            is Artist -> medialibrary.removeArtistsCb(this)
+            is Album -> medialibrary.removeAlbumsCb(this)
+            is Genre -> medialibrary.removeGenreCb(this)
+            is Playlist -> medialibrary.removePlaylistCb(this)
+            else -> medialibrary.removeMediaCb(this)
+        }
     }
 
     override fun getAll(): Array<MediaWrapper> = parent?.tracks ?: medialibrary.getAudio(sort, desc)
@@ -62,8 +73,13 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
         else -> medialibrary.searchAudio(filter, sort, desc, loadSize, startposition)
     }
 
-    override fun getTotalCount() = if (filter == null) parent?.tracksCount ?: medialibrary.audioCount
-    else when(parent) {
+    override fun getTotalCount() = if (filter == null) when (parent) {
+        is Album -> parent.realTracksCount
+        is Playlist -> parent.realTracksCount
+        is Artist,
+        is Genre -> parent.tracksCount
+        else -> medialibrary.audioCount
+    } else when(parent) {
         is Artist -> parent.searchTracksCount(filter)
         is Album -> parent.searchTracksCount(filter)
         is Genre -> parent.searchTracksCount(filter)
@@ -76,5 +92,33 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
             @Suppress("UNCHECKED_CAST")
             return PagedTracksModel(context.applicationContext, parent) as T
         }
+    }
+
+    override fun onMediaAdded() {
+        refresh()
+    }
+
+    override fun onMediaModified() {
+        refresh()
+    }
+
+    override fun onMediaDeleted() {
+        refresh()
+    }
+
+    override fun onArtistsModified() {
+        refresh()
+    }
+
+    override fun onAlbumsModified() {
+        refresh()
+    }
+
+    override fun onGenresModified() {
+        refresh()
+    }
+
+    override fun onPlaylistsModified() {
+        refresh()
     }
 }

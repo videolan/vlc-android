@@ -317,20 +317,14 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 showInfoDialog(media);
                 break;
             case Constants.CTX_DELETE:
-                tracksModel.remove(media);
-                final Runnable cancel = new Runnable() {
-                    @Override
-                    public void run() {
-                        tracksModel.refresh();
-                    }
-                };
-                UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.file_deleted), new Runnable() {
+                final int resId = mIsPlaylist ? R.string.confirm_remove_from_playlist : R.string.confirm_delete;
+                UiTools.snackerConfirm(mBinding.getRoot(), getString(resId, media.getTitle()), new Runnable() {
                     @Override
                     public void run() {
                         if (mIsPlaylist) ((Playlist) mPlaylist).remove(media.getId());
-                        else deleteMedia(media, cancel);
+                        else deleteMedia(media);
                     }
-                }, cancel);
+                });
                 break;
             case Constants.CTX_APPEND:
                 MediaUtils.INSTANCE.appendMedia(this, media.getTracks());
@@ -342,13 +336,13 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 UiTools.addToPlaylist(this, media.getTracks(), SavePlaylistDialog.KEY_NEW_TRACKS);
                 break;
             case Constants.CTX_SET_RINGTONE:
-                AudioUtil.setRingtone((MediaWrapper) media, this);
+                AudioUtil.setRingtone(media, this);
                 break;
         }
 
     }
 
-    protected void deleteMedia(final MediaLibraryItem mw, final Runnable cancel) {
+    protected void deleteMedia(final MediaLibraryItem mw) {
         WorkersKt.runBackground(new Runnable() {
             @Override
             public void run() {
@@ -362,21 +356,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                         mediaPaths.add(media.getLocation());
                     } else UiTools.snacker(mBinding.getRoot(), getString(R.string.msg_delete_failed, media.getTitle()));
                 }
-                for (String folder : foldersToReload)
-                    mMediaLibrary.reload(folder);
-                if (PlaylistManager.Companion.hasMedia()) {
-                    WorkersKt.runOnMainThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mediaPaths.isEmpty()) cancel.run();
-                            //TODO
-//                            else {
-//                                for (String path : mediaPaths)
-//                                    mService.removeLocation(path);
-//                            }
-                        }
-                    });
-                }
+                for (String folder : foldersToReload) mMediaLibrary.reload(folder);
             }
         });
     }
@@ -387,17 +367,14 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     private void removeFromPlaylist(final List<MediaWrapper> list){
-        for (MediaLibraryItem mediaItem : list) tracksModel.remove(mediaItem);
-        UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.file_deleted), new Runnable() {
+        UiTools.snackerConfirm(mBinding.getRoot(), getString(R.string.confirm_remove_from_playlist_anonymous), new Runnable() {
             @Override
             public void run() {
                 for (MediaLibraryItem mediaItem : list) ((Playlist) mPlaylist).remove(mediaItem.getId());
-                if (mPlaylist.getTracks().length == 0) ((Playlist) mPlaylist).delete();
-            }
-        }, new Runnable() {
-            @Override
-            public void run() {
-                tracksModel.refresh();
+                if (mPlaylist.getTracks().length == 0) {
+                    ((Playlist) mPlaylist).delete();
+                    finish();
+                }
             }
         });
     }
