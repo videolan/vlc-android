@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">Labi</string>
     <string name="cancel">Atcelt</string>
     <string name="other">Cits</string>
-    <string name="sortby">Kārtot pēc...</string>
+    <string name="sortby">Kārtot pēc…</string>
     <string name="sortby_name">Nosaukuma</string>
-    <string name="sortby_name_desc">Nosaukuma(dilstoši)</string>
+    <string name="sortby_name_desc">Nosaukuma (dilstoši)</string>
+    <string name="sortby_filename">Datnes nosaukuma</string>
+    <string name="sortby_filename_desc">Datnes nosaukuma (dilstoši)</string>
+    <string name="sortby_artist_name">Izpildītāja nosaukuma</string>
+    <string name="sortby_artist_name_desc">Izpildītāja nosaukuma (dilstoši)</string>
+    <string name="sortby_album_name">Albuma nosaukuma</string>
+    <string name="sortby_album_name_desc">Albuma nosaukuma (dilstoši)</string>
     <string name="sortby_length">Garuma</string>
-    <string name="sortby_length_desc">Garuma(dilstoši)</string>
+    <string name="sortby_length_desc">Garuma (dilstoši)</string>
     <string name="sortby_date">Datuma</string>
-    <string name="sortby_date_desc">Datuma(dilstoši)</string>
-    <string name="searchable_hint">Meklēt...</string>
+    <string name="sortby_date_desc">Datuma (dilstoši)</string>
+    <string name="searchable_hint">Meklēt…</string>
     <string name="history">Vēsture</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="zero">%d rezultāti atrasti</item>
         <item quantity="one">%d rezultāts atrasts</item>
         <item quantity="other">%d rezultāti atrasti</item>
     </plurals>
+
     <string name="play">Atskaņot</string>
     <string name="play_from_start">Atskaņot no sākuma</string>
     <string name="play_as_audio">Atskaņot kā audio</string>
@@ -34,20 +43,19 @@
     <string name="confirm_delete">Vai izdzēst failu \'%1$s\'?</string>
     <string name="ringtone_set">Fails \'%1$s\' iestatīts kā zvana signāls.</string>
     <string name="ringtone_error">Radās kļūda nosakot zvana signālu.</string>
-    <string name="pause">Nopauzēt</string>
+    <string name="pause">Pauzēt</string>
     <string name="not_show_again">Nerādīt šo ziņu atkārtoti.</string>
     <string name="info_title">VLC</string>
     <string name="unknown_artist">Nezināms Mākslinieks</string>
     <string name="unknown_album">Nezināms Albūms</string>
     <string name="unknown_genre">Nezināms Žanrs</string>
-    <string name="songs">Dziesmas</string>
     <plurals name="songs_quantity">
         <item quantity="zero">%d</item>
         <item quantity="one">1 dziesma</item>
         <item quantity="other">%d dziesmas</item>
     </plurals>
+
     <string name="artists">Izpildītāji</string>
-    <string name="albums">albumi</string>
     <plurals name="albums_quantity">
         <item quantity="zero">%d</item>
         <item quantity="one">1 albums</item>
@@ -68,6 +76,7 @@
         <item quantity="one">1 videos</item>
         <item quantity="other">%d video</item>
     </plurals>
+
     <string name="internal_memory">iekšējā atmiņa</string>
     <string name="parent_folder">Līdz mātes mapei</string>
     <string name="audio">Audio</string>
@@ -83,13 +92,14 @@
     <string name="directory">Katalogs</string>
     <string name="directories">Katalogi</string>
     <string name="loading">Ielādēšana</string>
-    <string name="please_wait">Lūdzu uzgaidiet ...</string>
+    <string name="please_wait">Lūdzu uzgaidiet …</string>
     <string name="mediafiles">Multivides faili</string>
     <string name="notavailable">Nav pieejams</string>
     <string name="nosubdirectory">Nav apakšdirektorijas.</string>
     <string name="directorynotfound">Direktorijas ceļš \'%1$s\' netika atrasts.</string>
     <string name="nohistory">Jums nav atskaņošanas vēstures vēl.</string>
     <string name="validation">Vai esat pārliecināts?</string>
+
     <string name="cover_art">Pārklāšanas māksla</string>
     <string name="previous">Iepriekšējais</string>
     <string name="stop">Stop</string>
@@ -104,7 +114,6 @@
     <string name="refresh">Atjaunot</string>
     <string name="track_audio">Audio Ieraksts</string>
     <string name="track_video">Video Ieraksts</string>
-    <string name="track_text">Subtitru celiņš</string>
     <string name="track_unknown">Nezināma dziesma</string>
     <string name="track_codec_info">Kodeks: %1$s\n</string>
     <string name="track_language_info">Valoda: %1$s\n</string>
@@ -117,7 +126,11 @@
         <item quantity="one">1 kanāls\n</item>
         <item quantity="other">%1$d kanāli\n</item>
     </plurals>
+
+    <string name="track_samplerate_info">Diskretizācijas frekvence: %1$d Hz\n</string>
     <string name="track_resolution_info">Izšķirtspēja: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Kadru ātrums: %1$.3f\n</string>
+
     <string name="tools">Darbarīki</string>
     <string name="playback_speed">Atskaņošanas ātrums</string>
     <string name="sleep_title">Miega taimeris</string>
@@ -126,30 +139,27 @@
     <string name="subtitle_label">Pievienot subtitru failu</string>
     <string name="subtitle_select">Izvēlaties subtitru failu</string>
     <string name="no_file_picker_found">Nav failu atlasītājs atrasts sistēmā.</string>
+
     <string name="open">Atvērt</string>
-    <string name="open_mrl">Atvērt MRL</string>
     <string name="open_mrl_dialog_title">Atvērt tīkla plūsmu</string>
-    <string name="open_mrl_dialog_msg">Ievadiet tīkla MRL: piemēram, http://, mms:// vai rtsp://</string>
     <string name="error_not_compatible">Žēl, jūsu ierīce pašlaik neatbalsta šo versiju VLC Android™.</string>
     <string name="error_problem">Žēl, VLC Android bija problēma ielādešanā un nācās aizvērt.</string>
     <string name="encountered_error_title">Atskaņošanas kļūda</string>
     <string name="search">Meklēt</string>
     <string name="search_history">Meklēšanas vēsture</string>
-    <!--Tips-->
+
+
     <string name="subtitles">Subtitri</string>
     <string name="options">Opcijas</string>
     <string name="remove_song">Noņemt dziesmu</string>
     <string name="hold_to_stop">Turiet lai apturētu</string>
-    <!-- About -->
-    <string name="app_name_full">VLC priekš Android™</string>
+
     <string name="licence">License</string>
     <string name="revision">Revīzija</string>
     <string name="about">Par</string>
     <string name="about_text">VLC priekš Android ™ ir osta no VLC multimediju atskaņotāja, populārā atvērtā koda multimediju atskaņotājs.Android ™ versiju var izlasīt lielāko failus un tīkla plūsmas.</string>
     <string name="compiled_by">Šī versija VLC tiek apkopota pēc:</string>
-    <string name="vlc_authors">VLC Autori</string>
-    <!-- Preferences -->
-    <string name="preferences">Iestatījumi</string>
+
     <string name="general_prefs_category">Vispārīgi</string>
     <string name="directories_summary">Izvēlaties direktorijas, lai iekļautu multivides bibliotēku</string>
     <string name="add_custom_path">Pievienot pielāgotu ceļu</string>
@@ -165,20 +175,20 @@
     <string name="screen_orientation_landscape">Ainava</string>
     <string name="screen_orientation_reverse_portrait">Atpakaļgaitas portrets</string>
     <string name="screen_orientation_reverse_landscape">Atgriezt ainavu</string>
-    <string name="enable_black_theme">Aktivizēt melno tēmu</string>
     <string name="subtitle_text_encoding">Apakšvirsraksta teksta kodēšana</string>
     <string name="interface_prefs_screen">Interfeiss</string>
     <string name="interface_other_category">Interfeiss - Cits</string>
-    <string name="enable_brightness_gesture">Aktivizēt spilgtuma žestu</string>
+
     <string name="enable_brightness_gesture_summary">Kontrolējiet spilgtumu ar žestu video atskaņošanas laikā</string>
-    <string name="enable_headset_detection">Atklāt austiņas</string>
-    <string name="enable_headset_detection_summary">Apturēt uz austiņu noņemšanu; atsākt uz austiņu ievietošanu</string>
-    <string name="enable_steal_remote_control">Ekskluzīvs austiņu tālvadības pults</string>
-    <string name="enable_steal_remote_control_summary">Izvairīties no konfliktiem nozogot tālvadības pulti no citām lietojumprogrammām. Tas novērš Zvanu dubultklikšķi uz HTC telefoniem.</string>
     <string name="audio_title_alignment_default">Noklusējuma</string>
     <string name="audio_title_alignment_left">Kreisais</string>
     <string name="audio_title_alignment_centre">Centrs</string>
     <string name="audio_title_alignment_right">Labais</string>
+    <string name="enable_headset_detection">Atklāt austiņas</string>
+    <string name="enable_steal_remote_control">Ekskluzīvs austiņu tālvadības pults</string>
+    <string name="enable_steal_remote_control_summary">Izvairīties no konfliktiem nozogot tālvadības pulti no citām lietojumprogrammām. Tas novērš Zvanu dubultklikšķi uz HTC telefoniem.</string>
+    <string name="aout">Audio izeja</string>
+    <string name="aout_summary">Mainīt metodi, ko VLC izmanto, lai izvadītu audio.</string>
     <string name="performance_prefs_category">Izpildījums</string>
     <string name="chroma_format">Piespiest video Chroma</string>
     <string name="deblocking">Atbloķēšanas filtra iestatījumi</string>
@@ -187,13 +197,11 @@
     <string name="deblocking_nonref">Vidēja atbloķēšana</string>
     <string name="deblocking_nonkey">Zema atbloķēšana</string>
     <string name="deblocking_all">Nav atbloķēšanas (ātrākais)</string>
-    <string name="enable_frame_skip">Aktivizēt kadra izlaišanu</string>
     <string name="enable_frame_skip_summary">Paātrinot dekodēšanu varētu samazināt video kvalitāti.</string>
     <string name="enable_time_stretching_audio">Laika stiepšana audio</string>
     <string name="enable_time_stretching_audio_summary">Paātrināt un palēnināt audio nemainot piķi (prasa ātru ierīci).</string>
+
     <string name="advanced_prefs_category">Uzlabots</string>
-    <string name="aout">Audio izeja</string>
-    <string name="aout_summary">Mainīt metodi, ko VLC izmanto, lai izvadītu audio.</string>
     <string name="clear_media_db">Iztīrīt mediju datubāzi</string>
     <string name="clear_history">Tīrīt meklēšanas vēsturi</string>
     <string name="media_db_cleared">Mediju datubāze izvadītīta!</string>
@@ -201,20 +209,42 @@
     <string name="set_locale_detail">Atstājiet tukšu, lai atjaunotu</string>
     <string name="network_caching">Tīkla kešdarbes vērtība</string>
     <string name="network_caching_summary">Laika daudzums lai buferētu tīkla mediju (ms). Nedarbojas ar aparatūras dekodēšanu. Atstājiet tukšu, lai atjaunotu.</string>
+    <string name="quit">Iziet un restartēt programmu</string>
     <string name="developer_prefs_category">Izstrādātājs</string>
     <string name="enable_verbose_mode">Runīgs</string>
     <string name="enable_verbose_mode_summary">Palielināt liekvārdību (logcat)</string>
     <string name="debug_logs">Atkļūdošanas žurnāli</string>
     <string name="start_logging">Sākt reģistrēt</string>
-    <string name="stop_logging">Beigt reģistrēšanu </string>
+    <string name="stop_logging">Beigt reģistrēšanu</string>
     <string name="clear_log">Notīrīt žurnālu</string>
     <string name="copy_to_clipboard">Kopēt uz starpliktuvi</string>
     <string name="copied_to_clipboard">Kopēt žurnālu starpliktuvē.</string>
-    <string name="quit">Iziet un restartēt programmu</string>
     <string name="dump_logcat">Izgāzt logcat log</string>
     <string name="dump_logcat_success">Logcat veiksmīgi izgāza uz %1$s!</string>
     <string name="dump_logcat_failure">Neizdevās izgāzt logcat.</string>
     <string name="restart_vlc">Pārstartēt VLC</string>
-    <!--Accessibility-->
-    <!--Widget-->
-</resources>
+    <string name="directory_empty">Datņu katalogs ir tukšs</string>
+    <string name="preferences_languages_download">Subtitru valodas</string>
+    <string name="service_unavailable">Pakalpojums nav pieejams</string>
+    <string name="downloading_subtitles">Lejupielādē subtitrus</string>
+    <string name="ml_external_storage_accept">Jā</string>
+    <string name="ml_external_storage_decline">Nē</string>
+    <string name="last_added_media">pēdējāis pievienotais</string>
+    <string name="no">Nē</string>
+    <string name="yes">Jā</string>
+
+    <string name="custom_set_save_title">Nesaglabātas izmaiņas</string>
+    <string name="custom_set_save_warning">Uzmanību: nesaglabātas izmaiņas</string>
+    <string name="save">Saglabāt</string>
+    <string name="do_not_save">Nesaglabāt</string>
+    <string name="custom_set_deleted_message">Lietotāja ekvivalaizera \"%1$s\" iestātījumi dzēsti.</string>
+    <string name="custom_set_wrong_input">Nederīgs nosaukums.</string>
+    <string name="custom_set_already_exist">Ekvivalaizera iestātījumi jau ir ar šādu nosaukumu</string>
+    <string name="custom_set_restored">Lietotāja ekvivalaizera iestātījumi atjaunoti.</string>
+    <string name="unsaved_set_deleted_message">Tika dzēsti nesaglabātie ekvivalaizera iestatījumi.</string>
+    <string name="equalizer_new_preset_name">Jaunumi</string>
+    <string name="settings_ml_block_scan">Tiek skanēta failu glabātuve</string>
+    <string name="recommendations">Ieteikumi</string>
+    <string name="browser_quick_access">Ātrā piekļuve</string>
+    <string name="browser_storages">Glabātuves</string>
+    </resources>
