@@ -30,6 +30,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:minHeight="36dp"
             android:fontFamily="sans-serif-light"
             android:textColor="?attr/list_title"
             android:textSize="16sp"
