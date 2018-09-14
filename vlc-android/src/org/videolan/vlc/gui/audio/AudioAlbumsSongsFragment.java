@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.audio;
 
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
@@ -138,6 +139,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         return v;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -160,7 +162,12 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         ((MLPagedModel)tracksModel).getPagedList().observe(this, new Observer<PagedList<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable PagedList<MediaLibraryItem> tracks) {
-                if (tracks != null) mSongsAdapter.submitList(tracks);
+                if (tracks != null) {
+                    if (tracks.isEmpty() && !tracksModel.isFiltering()) {
+                        final Activity activity = getActivity();
+                        if (activity != null) activity.finish();
+                    } else mSongsAdapter.submitList(tracks);
+                }
             }
         });
     }
