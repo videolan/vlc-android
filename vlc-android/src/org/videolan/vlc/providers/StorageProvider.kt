@@ -38,29 +38,27 @@ import java.util.*
 
 class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showHiddenFiles: Boolean): FileBrowserProvider(context, dataset, url, false, showHiddenFiles) {
 
-    override fun browseRoot() {
-        launch(UI.immediate, parent = job) {
-            val storages = DirectoryRepository.getInstance(context).getMediaDirectories()
-            val customDirectories = DirectoryRepository.getInstance(context).getCustomDirectories()
-            var storage: Storage
-            val storagesList = ArrayList<MediaLibraryItem>()
+    override suspend fun browseRoot() {
+        val storages = DirectoryRepository.getInstance(context).getMediaDirectories()
+        val customDirectories = DirectoryRepository.getInstance(context).getCustomDirectories()
+        var storage: Storage
+        val storagesList = ArrayList<MediaLibraryItem>()
+        for (mediaDirLocation in storages) {
+            if (TextUtils.isEmpty(mediaDirLocation)) continue
+            storage = Storage(Uri.fromFile(File(mediaDirLocation)))
+            if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
+                storage.name = context.getString(R.string.internal_memory)
+            storagesList.add(storage)
+        }
+        customLoop@ for (customDir in customDirectories) {
             for (mediaDirLocation in storages) {
                 if (TextUtils.isEmpty(mediaDirLocation)) continue
-                storage = Storage(Uri.fromFile(File(mediaDirLocation)))
-                if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
-                    storage.name = context.getString(R.string.internal_memory)
-                storagesList.add(storage)
+                if (customDir.path.startsWith(mediaDirLocation)) continue@customLoop
             }
-            customLoop@ for (customDir in customDirectories) {
-                for (mediaDirLocation in storages) {
-                    if (TextUtils.isEmpty(mediaDirLocation)) continue
-                    if (customDir.path.startsWith(mediaDirLocation)) continue@customLoop
-                }
-                storage = Storage(Uri.parse(customDir.path))
-                storagesList.add(storage)
-            }
-            dataset.value = storagesList
+            storage = Storage(Uri.parse(customDir.path))
+            storagesList.add(storage)
         }
+        dataset.value = storagesList
     }
 
     override fun addMedia(media: MediaLibraryItem) {

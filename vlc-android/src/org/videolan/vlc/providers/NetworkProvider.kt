@@ -23,6 +23,8 @@ package org.videolan.vlc.providers
 import android.arch.lifecycle.Observer
 import android.content.Context
 import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -40,23 +42,23 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         favorites?.observeForever(this)
     }
 
-    override fun browseRoot() {
+    override suspend fun browseRoot() {
         if (ExternalMonitor.allowLan()) browse()
     }
 
     override fun fetch() {}
 
     override fun refresh(): Boolean {
-        if (url == null) {
+        return if (url == null) {
             dataset.value = mutableListOf<MediaLibraryItem>().apply {
                 getFavoritesList(favorites?.value)?.let { addAll(it) }
             }
-            browseRoot()
+            launch { browseRoot() }
+            true
         } else super.refresh()
-        return true
     }
 
-    override suspend fun parseSubDirectories() {
+    override fun parseSubDirectories() {
         if (url != null) super.parseSubDirectories()
     }
 

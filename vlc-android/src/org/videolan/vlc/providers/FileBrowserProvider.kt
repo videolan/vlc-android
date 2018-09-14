@@ -90,40 +90,38 @@ open class FileBrowserProvider(
         showFavorites = url == null && !filePicker && this !is StorageProvider
     }
 
-    override fun browseRoot() {
-        launch(UI.immediate, parent = job) {
-            val internalmemoryTitle = context.getString(R.string.internal_memory)
-            val browserStorage = context.getString(R.string.browser_storages)
-            val storages = DirectoryRepository.getInstance(context).getMediaDirectories()
-            val devices = mutableListOf<MediaLibraryItem>()
-            if (!filePicker) devices.add(DummyItem(browserStorage))
-            for (mediaDirLocation in storages) {
-                if (!File(mediaDirLocation).exists()) continue
-                val directory = MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation))
-                directory.type = MediaWrapper.TYPE_DIR
-                if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation)) {
-                    directory.setDisplayTitle(internalmemoryTitle)
-                    storagePosition = devices.size
-                } else {
-                    val deviceName = FileUtils.getStorageTag(directory.title)
-                    if (deviceName != null) directory.setDisplayTitle(deviceName)
-                    directory.addStateFlags(MediaLibraryItem.FLAG_STORAGE)
-                }
-                devices.add(directory)
+    override suspend fun browseRoot() {
+        val internalmemoryTitle = context.getString(R.string.internal_memory)
+        val browserStorage = context.getString(R.string.browser_storages)
+        val storages = DirectoryRepository.getInstance(context).getMediaDirectories()
+        val devices = mutableListOf<MediaLibraryItem>()
+        if (!filePicker) devices.add(DummyItem(browserStorage))
+        for (mediaDirLocation in storages) {
+            if (!File(mediaDirLocation).exists()) continue
+            val directory = MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation))
+            directory.type = MediaWrapper.TYPE_DIR
+            if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation)) {
+                directory.setDisplayTitle(internalmemoryTitle)
+                storagePosition = devices.size
+            } else {
+                val deviceName = FileUtils.getStorageTag(directory.title)
+                if (deviceName != null) directory.setDisplayTitle(deviceName)
+                directory.addStateFlags(MediaLibraryItem.FLAG_STORAGE)
             }
-            if (AndroidUtil.isLolliPopOrLater && !ExternalMonitor.devices.value.isEmpty()) {
-                val otg = MediaWrapper(Uri.parse("otg://")).apply {
-                    title = "OTG Device"
-                    type = MediaWrapper.TYPE_DIR
-                }
-                otgPosition = devices.size
-                devices.add(otg)
-            }
-            dataset.value = devices
-            // observe devices & favorites
-            ExternalMonitor.devices.observeForever(this@FileBrowserProvider)
-            if (showFavorites) favorites?.observeForever(favoritesObserver)
+            devices.add(directory)
         }
+        if (AndroidUtil.isLolliPopOrLater && !ExternalMonitor.devices.value.isEmpty()) {
+            val otg = MediaWrapper(Uri.parse("otg://")).apply {
+                title = "OTG Device"
+                type = MediaWrapper.TYPE_DIR
+            }
+            otgPosition = devices.size
+            devices.add(otg)
+        }
+        dataset.value = devices
+        // observe devices & favorites
+        ExternalMonitor.devices.observeForever(this@FileBrowserProvider)
+        if (showFavorites) favorites?.observeForever(favoritesObserver)
     }
 
 
