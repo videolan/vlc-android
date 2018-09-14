@@ -152,7 +152,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
                         Toast.makeText(VLCApplication.getAppContext(), R.string.favorite_added, Toast.LENGTH_SHORT).show();
                         break;
                     case ID_FAVORITE_DELETE:
-                        WorkersKt.runBackground(new Runnable() {
+                        WorkersKt.runIO(new Runnable() {
                             @Override
                             public void run() {
                                 mBrowserFavRepository.deleteBrowserFav(Uri.parse(mMedia.getLocation()));
@@ -193,7 +193,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
         selector.addClassPresenter(ListRow.class,
                 new ListRowPresenter());
         mRowsAdapter = new ArrayObjectAdapter(selector);
-        WorkersKt.runBackground(new Runnable() {
+        WorkersKt.runIO(new Runnable() {
             @Override
             public void run() {
                 final Bitmap cover = media.getType() == MediaWrapper.TYPE_AUDIO || media.getType() == MediaWrapper.TYPE_VIDEO

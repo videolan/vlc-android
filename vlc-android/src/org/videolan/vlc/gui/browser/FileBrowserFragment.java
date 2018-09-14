@@ -150,7 +150,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         final MenuItem item = menu.findItem(R.id.ml_menu_save);
         if (item == null) return;
         item.setVisible(!isRootDirectory() && getMrl().startsWith("file"));
-        WorkersKt.runBackground(new Runnable() {
+        WorkersKt.runIO(new Runnable() {
             @Override
             public void run() {
                 final boolean isFavorite = getMrl() != null && getBrowserFavRepository().browserFavExists(Uri.parse(getMrl()));

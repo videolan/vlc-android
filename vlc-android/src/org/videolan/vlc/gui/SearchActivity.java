@@ -68,7 +68,7 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Te
     }
 
     private void performSearh(final String query) {
-        WorkersKt.runBackground(new Runnable() {
+        WorkersKt.runIO(new Runnable() {
             @Override
             public void run() {
                 final SearchAggregate searchAggregate = mMedialibrary.search(query);

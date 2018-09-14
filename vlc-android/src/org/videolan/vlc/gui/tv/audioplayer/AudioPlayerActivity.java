@@ -157,7 +157,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     }
 
     private void updateBackground() {
-        WorkersKt.runBackground(new Runnable() {
+        WorkersKt.runIO(new Runnable() {
             @Override
             public void run() {
                 final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mCurrentCoverArt), mBinding.albumCover.getWidth());

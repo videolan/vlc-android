@@ -48,7 +48,7 @@ public abstract class AudioMediaSwitcher extends FlingViewGroup {
         final String artMrl = service.getCoverArt();
         final String prevArtMrl = service.getPrevCoverArt();
         final String nextArtMrl = service.getNextCoverArt();
-        WorkersKt.runBackground(new Runnable() {
+        WorkersKt.runIO(new Runnable() {
             @Override
             public void run() {
                 final Bitmap coverCurrent = artMrl != null ? AudioUtil.readCoverBitmap(Uri.decode(artMrl), 512) : null;

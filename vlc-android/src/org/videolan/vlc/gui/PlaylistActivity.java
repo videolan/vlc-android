@@ -125,7 +125,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         final int fabVisibility =  savedInstanceState != null ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;
 
         if (!TextUtils.isEmpty(mPlaylist.getArtworkMrl())) {
-            WorkersKt.runBackground(new Runnable() {
+            WorkersKt.runIO(new Runnable() {
                 @Override
                 public void run() {
                     final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mPlaylist.getArtworkMrl()), 0);
@@ -347,7 +347,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     protected void deleteMedia(final MediaLibraryItem mw) {
-        WorkersKt.runBackground(new Runnable() {
+        WorkersKt.runIO(new Runnable() {
             @Override
             public void run() {
                 final LinkedList<String> foldersToReload = new LinkedList<>();

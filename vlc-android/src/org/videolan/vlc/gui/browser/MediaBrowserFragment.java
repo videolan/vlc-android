@@ -176,7 +176,7 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
     }
 
     protected void deleteMedia(final MediaLibraryItem mw, final boolean refresh, final Runnable failCB) {
-        WorkersKt.runBackground(new Runnable() {
+        WorkersKt.runIO(new Runnable() {
             @Override
             public void run() {
                 final LinkedList<String> foldersToReload = new LinkedList<>();

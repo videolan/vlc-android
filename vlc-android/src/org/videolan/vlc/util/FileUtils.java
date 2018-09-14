@@ -243,7 +243,7 @@ public class FileUtils {
     }
 
     private static void asyncRecursiveDelete(final File fileOrDirectory, final Callback callback) {
-        WorkersKt.runBackground(new Runnable() {
+        WorkersKt.runIO(new Runnable() {
             public void run() {
                 if (!fileOrDirectory.exists() || !fileOrDirectory.canWrite())
                     return;

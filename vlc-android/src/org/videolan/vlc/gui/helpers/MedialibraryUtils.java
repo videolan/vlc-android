@@ -11,7 +11,7 @@ import org.videolan.vlc.util.WorkersKt;
 public class MedialibraryUtils {
 
     public static void removeDir(final String path) {
-        WorkersKt.runBackground(new Runnable() {
+        WorkersKt.runIO(new Runnable() {
             @Override
             public void run() {
                 VLCApplication.getMLInstance().removeFolder(path);

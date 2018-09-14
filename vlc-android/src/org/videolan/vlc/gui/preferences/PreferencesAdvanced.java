@@ -107,7 +107,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                 if (VLCApplication.getMLInstance().isWorking())
                     UiTools.snacker(getView(), getString(R.string.settings_ml_block_scan));
                 else {
-                    WorkersKt.runBackground(new Runnable() {
+                    WorkersKt.runIO(new Runnable() {
                         @Override
                         public void run() {
                             final Runnable dump = new Runnable() {

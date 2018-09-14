@@ -81,7 +81,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         super.onPrepareOptionsMenu(menu);
         final MenuItem item = menu.findItem(R.id.ml_menu_save);
         item.setVisible(!isRootDirectory());
-        WorkersKt.runBackground(new Runnable() {
+        WorkersKt.runIO(new Runnable() {
             @Override
             public void run() {
                 final boolean isFavorite = getMrl() != null && getBrowserFavRepository().browserFavExists(Uri.parse(getMrl()));

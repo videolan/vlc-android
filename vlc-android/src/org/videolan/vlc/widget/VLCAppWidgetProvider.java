@@ -118,7 +118,7 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
         } else if (ACTION_WIDGET_UPDATE_COVER.equals(action)) {
             final String artworkMrl = intent.getStringExtra("artworkMrl");
             if (!TextUtils.isEmpty(artworkMrl)) {
-                WorkersKt.runBackground(new Runnable() {
+                WorkersKt.runIO(new Runnable() {
                     @Override
                     public void run() {
                         final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 320);

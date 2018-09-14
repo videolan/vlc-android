@@ -155,7 +155,7 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
                 mEditAddress.getText().toString() : mEditServername.getText().toString();
         Uri uri = Uri.parse(mUrl.getText().toString());
         if (mUri != null) {
-            WorkersKt.runBackground(new Runnable() {
+            WorkersKt.runIO(new Runnable() {
                 @Override
                 public void run() {
                     mBrowserFavRepository.deleteBrowserFav(mUri);

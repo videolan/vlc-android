@@ -13,11 +13,9 @@ import android.support.v4.view.ViewCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import kotlinx.coroutines.experimental.CoroutineStart
-import kotlinx.coroutines.experimental.IO
+import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BR
@@ -41,13 +39,13 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
     val cacheKey = if (isGroup) "group: ${item.title}" else ThumbnailsProvider.getMediaCacheKey(isMedia, item)
     val bitmap = if (cacheKey !== null) sBitmapCache.getBitmapFromMemCache(cacheKey) else null
     if (bitmap !== null) updateImageView(bitmap, v, binding)
-    else launch(UI, CoroutineStart.UNDISPATCHED) { getImage(v, findInLibrary(item, isMedia, isGroup), binding) }
+    else GlobalScope.launch(Dispatchers.Main, CoroutineStart.UNDISPATCHED) { getImage(v, findInLibrary(item, isMedia, isGroup), binding) }
 }
 
 @BindingAdapter("imageUri")
 fun downloadIcon(v: View, imageUri: Uri?) {
-    if (imageUri != null && imageUri.scheme == "http") launch(UI, CoroutineStart.UNDISPATCHED) {
-        val image = withContext(IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
+    if (imageUri != null && imageUri.scheme == "http") GlobalScope.launch(Dispatchers.Main, CoroutineStart.UNDISPATCHED) {
+        val image = withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
         updateImageView(image, v, DataBindingUtil.findBinding(v))
     }
 }
@@ -69,7 +67,7 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
     binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
 
-private suspend fun obtainBitmap(item: MediaLibraryItem, width: Int) = withContext(IO) {
+private suspend fun obtainBitmap(item: MediaLibraryItem, width: Int) = withContext(Dispatchers.IO) {
     if (item.itemType == MediaLibraryItem.TYPE_MEDIA) ThumbnailsProvider.getMediaThumbnail(item as MediaWrapper, width)
     else AudioUtil.readCoverBitmap(Uri.decode(item.artworkMrl), width)
 }
@@ -105,7 +103,7 @@ private suspend fun findInLibrary(item: MediaLibraryItem, isMedia: Boolean, isGr
         val isMediaFile = type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO
         val uri = mw.uri
         if (!isMediaFile && !(type == MediaWrapper.TYPE_DIR && "upnp" == uri.scheme)) return item
-        if (isMediaFile && "file" == uri.scheme) return withContext(IO) { sMedialibrary.getMedia(uri) } ?: item
+        if (isMediaFile && "file" == uri.scheme) return withContext(Dispatchers.IO) { sMedialibrary.getMedia(uri) } ?: item
     }
     return item
 }

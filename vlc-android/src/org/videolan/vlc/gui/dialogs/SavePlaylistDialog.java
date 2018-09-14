@@ -145,7 +145,7 @@ public class SavePlaylistDialog extends DialogFragment implements View.OnClickLi
     }
 
     private void savePlaylist() {
-        WorkersKt.runBackground(new Runnable() {
+        WorkersKt.runIO(new Runnable() {
             public void run() {
                 final String name = mEditText.getText().toString().trim();
                 final boolean addTracks = !Tools.isArrayEmpty(mNewTrack);

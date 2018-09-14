@@ -84,7 +84,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
                 ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;
 
         if (!TextUtils.isEmpty(mItem.getArtworkMrl())) {
-            WorkersKt.runBackground(new Runnable() {
+            WorkersKt.runIO(new Runnable() {
                 @Override
                 public void run() {
                     final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mItem.getArtworkMrl()), 0);
