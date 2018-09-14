@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">Długość (malejąco)</string>
     <string name="sortby_date">Data</string>
     <string name="sortby_date_desc">Data (malejąco)</string>
+    <string name="sortby_last_modified_date">Ostatnio dodane</string>
+    <string name="sortby_last_modified_date_desc">Ostatnio dodane (malejąco)</string>
     <string name="sortby_number">Liczba utworów</string>
     <string name="sortby_number_desc">Liczba utworów (malejąco)</string>
     <string name="searchable_hint">Szukaj…</string>
@@ -54,6 +56,8 @@
     <string name="confirm_delete">Usunąć plik \"%1$s\"?</string>
     <string name="confirm_delete_folder">Usunąć folder \'%1$s\' i całą jego zawartość?</string>
     <string name="confirm_delete_playlist">Usunąć listę odtwarzania \'%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">Usunąć \'%1$s\' z listy odtwarzania?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Usunąć z listy odtwarzania?</string>
     <string name="ringtone_set">Plik \"%1$s\" został ustawiony jako dzwonek.</string>
     <string name="ringtone_error">Wystąpił błąd podczas ustawiania dzwonka.</string>
     <string name="pause">Pauza</string>
@@ -222,6 +226,7 @@
     <string name="playback_speed_title">Zapisz prędkość odtwarzania</string>
     <string name="playback_speed_summary">Zapamiętaj ustawioną prędkość odtwarzania</string>
 
+    <string name="play_button">Przycisk odtwarzania</string>
     <!-- Tips -->
     <string name="video_player_tips">Porady odtwarzacza wideo:</string>
     <string name="seek">Szukaj</string>
@@ -608,4 +613,14 @@
     <string name="tv_my_new_videos">Moje nowe filmy</string>
     <string name="cast_option_title">Prześlij media na inny ekran</string>
     <string name="otg_device_title">Urządzenie OTG</string>
+    <string name="browser">Przeglądarka</string>
+    <string name="ab_repeat">Powtórzenie A-B</string>
+    <string name="stop_after_this">Zakończ odtwarzanie po tym utworze</string>
+    <string name="time_category_new">Nowe pliki multimedialne</string>
+    <string name="time_category_current_month">W tym miesiącu</string>
+    <string name="time_category_current_year">W tym roku</string>
+    <string name="time_category_last_year">W ubiegłym roku</string>
+    <string name="time_category_older">Starsze pliki multimedialne</string>
+    <string name="rename">Zmień nazwę</string>
+    <string name="rename_media">Zmień nazwę %1$s</string>
 </resources>
