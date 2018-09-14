@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">Довжина (за спад.)</string>
     <string name="sortby_date">Дата</string>
     <string name="sortby_date_desc">Дата (за спад.)</string>
+    <string name="sortby_last_modified_date">Недавно додано</string>
+    <string name="sortby_last_modified_date_desc">Недавно додано (спад.)</string>
     <string name="sortby_number">Доріжки Nb</string>
     <string name="sortby_number_desc">Доріжки Nb (за спад.)</string>
     <string name="searchable_hint">Триває пошук…</string>
@@ -54,6 +56,8 @@
     <string name="confirm_delete">Видалити файл \'%1$s\'?</string>
     <string name="confirm_delete_folder">Вилучити теку \'%1$s\' та увесь її вміст?</string>
     <string name="confirm_delete_playlist">Вилучити список відтворення \'%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">Вилучити \'%1$s\' зі списку відтворення?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Вилучити з списку відтворення?</string>
     <string name="ringtone_set">Файл \'%1$s\' встановлено як мелодія.</string>
     <string name="ringtone_error">Трапилася помилка під час установки мелодії.</string>
     <string name="pause">Пауза</string>
@@ -222,6 +226,7 @@
     <string name="playback_speed_title">Зберігати швидкість відтворення</string>
     <string name="playback_speed_summary">Запам\'ятати швидкість відтворення, задану вами</string>
 
+    <string name="play_button">Кнопка Відтворити</string>
     <!-- Tips -->
     <string name="video_player_tips">Поради для відеопрогравача:</string>
     <string name="seek">Шукати</string>
@@ -608,4 +613,14 @@
     <string name="tv_my_new_videos">Моє нове відео</string>
     <string name="cast_option_title">Транслювати медіа на іншому екрані</string>
     <string name="otg_device_title">Пристрій OTG</string>
+    <string name="browser">Переглядач</string>
+    <string name="ab_repeat">Повторювати A-B</string>
+    <string name="stop_after_this">Зупинитися після цієї доріжки</string>
+    <string name="time_category_new">Нові медіа</string>
+    <string name="time_category_current_month">Цього місяця</string>
+    <string name="time_category_current_year">Цьогоріч</string>
+    <string name="time_category_last_year">Торік</string>
+    <string name="time_category_older">Старіші медіа</string>
+    <string name="rename">Перейменувати</string>
+    <string name="rename_media">Перейменувати %1$s</string>
 </resources>
