@@ -4,17 +4,21 @@ import android.support.annotation.MainThread
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import kotlinx.coroutines.experimental.withContext
 
-abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
+abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>(), CoroutineScope {
+    override val coroutineContext = Dispatchers.Main.immediate
 
     protected var dataset: List<D> = listOf()
     private set
     private val diffCallback by lazy(LazyThreadSafetyMode.NONE) { createCB() }
-    private val updateActor = actor<List<D>>(UI, Channel.CONFLATED) {
+    private val updateActor = actor<List<D>>(capacity = Channel.CONFLATED) {
         for (list in channel) internalUpdate(list)
     }
     protected abstract fun onUpdateFinished()
@@ -26,7 +30,7 @@ abstract class DiffUtilAdapter<D, VH : RecyclerView.ViewHolder> : RecyclerView.A
 
     @MainThread
     private suspend fun internalUpdate(list: List<D>) {
-        val (finalList, result) = withContext(CommonPool) {
+        val (finalList, result) = withContext(Dispatchers.Default) {
             val finalList = prepareList(list)
             val result = DiffUtil.calculateDiff(diffCallback.apply { update(dataset, finalList) }, detectMoves())
             Pair(finalList, result)
