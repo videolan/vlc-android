@@ -29,8 +29,10 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.IO
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.launch
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MlWizardActivityBinding
@@ -52,7 +54,7 @@ class MLWizardActivity : AppCompatActivity() {
 
     @SuppressLint("ApplySharedPref")
     @Suppress("UNUSED_PARAMETER")
-    fun apply(v: View) = launch(IO) {
+    fun apply(v: View) = GlobalScope.launch(Dispatchers.IO) {
         val parse = binding.wizardCheckScan.isChecked
         val prefs = Settings.getInstance(this@MLWizardActivity)
         prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, if (parse) ML_SCAN_ON else ML_SCAN_OFF).commit()
@@ -61,4 +63,4 @@ class MLWizardActivity : AppCompatActivity() {
     }
 }
 
-fun Context.startMLWizard() = launch(UI) { startActivity(Intent(applicationContext, MLWizardActivity::class.java)) }
+fun Context.startMLWizard() = GlobalScope.launch(Dispatchers.Main.immediate) { startActivity(Intent(applicationContext, MLWizardActivity::class.java)) }

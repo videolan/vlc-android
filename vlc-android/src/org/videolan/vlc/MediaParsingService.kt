@@ -22,6 +22,7 @@
  */
 package org.videolan.vlc
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.arch.lifecycle.MutableLiveData
 import android.content.BroadcastReceiver
@@ -39,7 +40,7 @@ import android.support.v7.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
 import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
@@ -55,7 +56,8 @@ import java.util.*
 private const val TAG = "VLC/MediaParsingService"
 private const val NOTIFICATION_DELAY = 1000L
 
-class MediaParsingService : Service(), DevicesDiscoveryCb {
+class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
+    override val coroutineContext = Dispatchers.Main.immediate
     private lateinit var wakeLock: PowerManager.WakeLock
     private lateinit var localBroadcastManager: LocalBroadcastManager
 
@@ -78,7 +80,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     internal val sb = StringBuilder()
 
     private val notificationActor by lazy {
-        actor<Notification>(UI, capacity = Channel.UNLIMITED, start = CoroutineStart.UNDISPATCHED) {
+        actor<Notification>(capacity = Channel.UNLIMITED, start = CoroutineStart.UNDISPATCHED) {
             for (update in channel) when (update) {
                 Show -> showNotification()
                 Hide -> hideNotification()
@@ -86,6 +88,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
         }
     }
 
+    @SuppressLint("WakelockTimeout")
     override fun onCreate() {
         super.onCreate()
         localBroadcastManager = LocalBroadcastManager.getInstance(this)
@@ -205,12 +208,12 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     private suspend fun addDevices(context: Context, addExternal: Boolean) {
         val devices = ArrayList<String>()
         Collections.addAll(devices, *DirectoryRepository.getInstance(context).getMediaDirectories())
-        val sharedPreferences = withContext(IO) { PreferenceManager.getDefaultSharedPreferences(context) }
+        val sharedPreferences = Settings.getInstance(context)
         for (device in devices) {
             val isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
             val uuid = FileUtils.getFileNameFromPath(device)
             if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid)) continue
-            val isNew = (isMainStorage || (addExternal && withContext(IO) { File(device).canRead() } ))
+            val isNew = (isMainStorage || (addExternal && withContext(Dispatchers.IO) { File(device).canRead() } ))
                     && medialibrary.addDevice(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
             val isIgnored = sharedPreferences.getBoolean("ignore_$uuid", false)
             if (!isMainStorage && isNew && !isIgnored) showStorageNotification(device)
@@ -243,8 +246,8 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     private suspend fun updateStorages() {
         serviceLock = true
         val ctx = applicationContext
-        val (sharedPreferences, devices, knownDevices) = withContext(IO) {
-            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ctx)
+        val (sharedPreferences, devices, knownDevices) = withContext(Dispatchers.IO) {
+            val sharedPreferences = Settings.getInstance(ctx)
             val devices = AndroidDevices.getExternalStorageDirectories()
             Triple(sharedPreferences, devices, medialibrary.devices)
         }
@@ -257,11 +260,11 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
                 missingDevices.remove("file://$device")
                 continue
             }
-            val isNew = withContext(IO) { medialibrary.addDevice(uuid, device, true) }
+            val isNew = withContext(Dispatchers.IO) { medialibrary.addDevice(uuid, device, true) }
             val isIgnored = sharedPreferences.getBoolean("ignore_$uuid", false)
             if (!isIgnored && isNew) showStorageNotification(device)
         }
-        withContext(IO) { for (device in missingDevices) medialibrary.removeDevice(FileUtils.getFileNameFromPath(device)) }
+        withContext(Dispatchers.IO) { for (device in missingDevices) medialibrary.removeDevice(FileUtils.getFileNameFromPath(device)) }
         serviceLock = false
         exitCommand()
     }
@@ -328,7 +331,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
         if (TextUtils.isEmpty(entryPoint)) --reload
     }
 
-    private fun exitCommand() = launch(UI.immediate) {
+    private fun exitCommand() = launch {
         if (!medialibrary.isWorking && !serviceLock) stopSelf()
     }
 
@@ -378,6 +381,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
     }
 
     private val receiver = object : BroadcastReceiver() {
+        @SuppressLint("WakelockTimeout")
         override fun onReceive(context: Context, intent: Intent) {
             when (intent.action) {
                 ACTION_PAUSE_SCAN -> {
@@ -414,9 +418,9 @@ fun reload(ctx: Context) {
     ContextCompat.startForegroundService(ctx, Intent(ACTION_RELOAD, null, ctx, MediaParsingService::class.java))
 }
 
-fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true) = launch(UI.immediate) {
+fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true) = GlobalScope.launch(Dispatchers.Main.immediate) {
     if (Medialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@launch
-    val prefs = withContext(IO) { Settings.getInstance(this@startMedialibrary) }
+    val prefs = withContext(Dispatchers.IO) { Settings.getInstance(this@startMedialibrary) }
     val scanOpt = if (AndroidDevices.showTvUi(this@startMedialibrary)) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
     if (parse && scanOpt == -1) {
         if (dbExists(this@startMedialibrary)) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
@@ -434,7 +438,7 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
             .putExtra(EXTRA_PARSE, parse && scanOpt == ML_SCAN_ON))
 }
 
-private suspend fun dbExists(context: Context) = withContext(IO) {
+private suspend fun dbExists(context: Context) = withContext(Dispatchers.IO) {
     File(context.getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME).exists()
 }
 
