@@ -60,6 +60,14 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = Medialibrary.getInstance()
 
+    private val browserActor = actor<BrowserAction>(Dispatchers.IO, Channel.UNLIMITED) {
+        for (action in channel) when (action) {
+            is Browse -> browseImpl(action.url)
+            is Refresh -> refreshImpl()
+            is ParseSubDirectories -> parseSubDirectoriesImpl()
+        }
+    }
+
     init {
         fetch()
     }
@@ -224,12 +232,6 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     fun saveList(media: MediaWrapper) = foldersContentMap[media]?.let { if (!it.isEmpty()) prefetchLists[media.location] = it }
 
     fun isFolderEmpty(mw: MediaWrapper) = foldersContentMap[mw]?.isEmpty() ?: true
-
-    private val browserActor = actor<BrowserAction>(Dispatchers.IO, Channel.UNLIMITED) { for (action in channel) when (action) {
-        is Browse -> browseImpl(action.url)
-        is Refresh -> refreshImpl()
-        is ParseSubDirectories -> parseSubDirectoriesImpl()
-    } }
 
     companion object {
         private val browserHandler by lazy {
