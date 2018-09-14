@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">Dĺžka (zostupne)</string>
     <string name="sortby_date">Dátum</string>
     <string name="sortby_date_desc">Dátum (zostupne)</string>
+    <string name="sortby_last_modified_date">Naposledy pridané</string>
+    <string name="sortby_last_modified_date_desc">Naposledy pridané (zostupne)</string>
     <string name="sortby_number">Čísel stôp</string>
     <string name="sortby_number_desc">Čísel stôp (zostupne)</string>
     <string name="searchable_hint">Vyhľadávať…</string>
@@ -54,6 +56,8 @@
     <string name="confirm_delete">Vymazať súbor \'%1$s\'?</string>
     <string name="confirm_delete_folder">Vymazať priečinok \'%1$s\' a všetok jeho obsah?</string>
     <string name="confirm_delete_playlist">Vymazať playlist \'%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">Odstrániť \'%1$s\' z playlistu?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Odstrániť z playlistu?</string>
     <string name="ringtone_set">Súbor \'%1$s\' bol nastavený ako tón zvonenia.</string>
     <string name="ringtone_error">Počas nastavovania tónu zvonenia nastala chyba.</string>
     <string name="pause">Pozastaviť</string>
@@ -222,6 +226,7 @@
     <string name="playback_speed_title">Uložiť rýchlosť prehrávania</string>
     <string name="playback_speed_summary">Pamätať si vami nastavenú rýchlosť prehrávania</string>
 
+    <string name="play_button">Tlačidlo Prehrať</string>
     <!-- Tips -->
     <string name="video_player_tips">Tipy pre prehrávač videa:</string>
     <string name="seek">Vyhľadať</string>
@@ -608,4 +613,14 @@
     <string name="tv_my_new_videos">Moje nové videá</string>
     <string name="cast_option_title">Odovzdanie médií na inú obrazovku</string>
     <string name="otg_device_title">Zariadenie OTG</string>
+    <string name="browser">Prehliadač</string>
+    <string name="ab_repeat">Opakovať A-B</string>
+    <string name="stop_after_this">Zastaviť po tejto stope</string>
+    <string name="time_category_new">Nové médium</string>
+    <string name="time_category_current_month">Tento mesiac</string>
+    <string name="time_category_current_year">Tento rok</string>
+    <string name="time_category_last_year">Posledný rok</string>
+    <string name="time_category_older">Staršie médium</string>
+    <string name="rename">Premenovať</string>
+    <string name="rename_media">Premenovať %1$s</string>
 </resources>
