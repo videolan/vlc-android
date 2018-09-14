@@ -195,6 +195,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
 
     private suspend fun initMedialib(parse: Boolean, context: Context, shouldInit: Boolean, upgrade: Boolean) {
         addDevices(context, parse)
+        if (upgrade) medialibrary.forceParserRetry()
         medialibrary.start()
         localBroadcastManager.sendBroadcast(Intent(VLCApplication.ACTION_MEDIALIBRARY_READY))
         if (parse) startScan(shouldInit, upgrade)
@@ -227,7 +228,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb {
             upgrade -> {
                 medialibrary.unbanFolder("${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}/WhatsApp/")
                 medialibrary.banFolder("${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}/WhatsApp/Media/WhatsApp Animated Gifs/")
-                medialibrary.forceParserRetry()
             }
             settings.getBoolean("auto_rescan", true) -> reload(null)
             else -> exitCommand()
