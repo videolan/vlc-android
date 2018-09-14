@@ -61,7 +61,7 @@
                 android:ellipsize="middle"
                 android:maxLines="1"
                 android:textColor="?attr/font_light"
-                android:fontFamily="sans-serif-light"
+                android:fontFamily="sans-serif"
                 android:textSize="12sp"
                 android:visibility="@{TextUtils.isEmpty(subTitle) ? View.GONE : View.VISIBLE}"/>
         </LinearLayout>

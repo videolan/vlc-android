@@ -36,7 +36,7 @@
             android:gravity="center_vertical"
             android:maxLines="1"
             android:singleLine="true"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="sans-serif"
             android:textColor="?attr/font_default"/>
         <ImageView
             android:id="@+id/mrl_ctx"

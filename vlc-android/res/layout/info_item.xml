@@ -27,7 +27,7 @@
             android:layout_marginEnd="@dimen/half_default_margin"
             android:layout_marginTop="@dimen/half_default_margin"
             android:gravity="center_vertical"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="sans-serif"
             android:textColor="?attr/list_title"
             android:textSize="16sp"
             android:scrollHorizontally="true"
@@ -39,7 +39,7 @@
             android:layout_marginBottom="@dimen/half_default_margin"
             android:layout_marginLeft="@dimen/half_default_margin"
             android:layout_marginRight="@dimen/half_default_margin"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="sans-serif"
             android:textColor="?attr/list_subtitle"
             android:maxLines="2"
             tools:targetApi="jelly_bean" />
