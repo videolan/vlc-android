@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">長さ (降順)</string>
     <string name="sortby_date">日付</string>
     <string name="sortby_date_desc">日付 (降順)</string>
+    <string name="sortby_last_modified_date">追加された順</string>
+    <string name="sortby_last_modified_date_desc">追加された順（逆順）</string>
     <string name="sortby_number">トラック数</string>
     <string name="sortby_number_desc">トラック数 (降順)</string>
     <string name="searchable_hint">検索…</string>
@@ -51,6 +53,8 @@
     <string name="confirm_delete">ファイル \'%1$s\' を削除しますか？</string>
     <string name="confirm_delete_folder">\'%1$s\' フォルダーと含まれるすべてのファイルを削除しますか?</string>
     <string name="confirm_delete_playlist">プレイリスト \'%1$s\' を削除しますか?</string>
+    <string name="confirm_remove_from_playlist">プレイリストから \'%1$s\' を削除しますか?</string>
+    <string name="confirm_remove_from_playlist_anonymous">プレイリストから削除しますか?</string>
     <string name="ringtone_set">\'%1$s\' は着信音として設定されました。</string>
     <string name="ringtone_error">着信音の設定中にエラーが発生しました。</string>
     <string name="pause">一時停止</string>
@@ -201,6 +205,7 @@
     <string name="playback_speed_title">再生速度を保存</string>
     <string name="playback_speed_summary">設定した再生速度を保存</string>
 
+    <string name="play_button">再生ボタン</string>
     <!-- Tips -->
     <string name="video_player_tips">ビデオプレイヤーのTips:</string>
     <string name="seek">シーク</string>
@@ -587,4 +592,14 @@
     <string name="tv_my_new_videos">新しいマイビデオ</string>
     <string name="cast_option_title">他のスクリーンにメディアをキャストする</string>
     <string name="otg_device_title">OTGデバイス</string>
+    <string name="browser">ブラウザ</string>
+    <string name="ab_repeat">A-B間繰り返し</string>
+    <string name="stop_after_this">このトラックのあとで停止</string>
+    <string name="time_category_new">新しいメディア</string>
+    <string name="time_category_current_month">今月</string>
+    <string name="time_category_current_year">今年</string>
+    <string name="time_category_last_year">昨年</string>
+    <string name="time_category_older">古いメディア</string>
+    <string name="rename">変名</string>
+    <string name="rename_media">変名 %1$s</string>
 </resources>
