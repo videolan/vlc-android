@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">Lengte (aflopend)</string>
     <string name="sortby_date">Datum</string>
     <string name="sortby_date_desc">Datum (aflopend)</string>
+    <string name="sortby_last_modified_date">Recent toegevoegd</string>
+    <string name="sortby_last_modified_date_desc">Recent toegevoegd (aflopend)</string>
     <string name="sortby_number">Aantal tracks</string>
     <string name="sortby_number_desc">Aantal tracks (aflopend)</string>
     <string name="searchable_hint">Zoeken…</string>
@@ -52,6 +54,8 @@
     <string name="confirm_delete">Het bestand \'%1$s\' verwijderen?</string>
     <string name="confirm_delete_folder">Map \'%1$s\' en de volledige inhoud verwijderen?</string>
     <string name="confirm_delete_playlist">Afspeellijst \'%1$s\' verwijderen?</string>
+    <string name="confirm_remove_from_playlist">\'%1$s\' verwijderen uit afspeellijst?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Verwijderen uit afspeellijst?</string>
     <string name="ringtone_set">Het bestand \'%1$s\' werd als beltoon ingesteld.</string>
     <string name="ringtone_error">Er trad een fout op bij het instellen van de beltoon.</string>
     <string name="pause">Pauzeren</string>
@@ -208,6 +212,7 @@
     <string name="playback_speed_title">Afspeelsnelheid opslaan</string>
     <string name="playback_speed_summary">Ingestelde afspeelsnelheid onthouden</string>
 
+    <string name="play_button">Afspeelknop</string>
     <!-- Tips -->
     <string name="video_player_tips">Videospeler-tips:</string>
     <string name="seek">Zoeken</string>
@@ -594,4 +599,14 @@
     <string name="tv_my_new_videos">Mijn nieuwe video\'s</string>
     <string name="cast_option_title">Media op een ander scherm uitzenden</string>
     <string name="otg_device_title">OTG-apparaat</string>
+    <string name="browser">Browser</string>
+    <string name="ab_repeat">A-B herhalen</string>
+    <string name="stop_after_this">Stoppen na deze track</string>
+    <string name="time_category_new">Nieuwe media</string>
+    <string name="time_category_current_month">Deze maand</string>
+    <string name="time_category_current_year">Dit jaar</string>
+    <string name="time_category_last_year">Vorig jaar</string>
+    <string name="time_category_older">Oudere media</string>
+    <string name="rename">Hernoemen</string>
+    <string name="rename_media">%1$s hernoemen</string>
 </resources>
