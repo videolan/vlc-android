@@ -8,7 +8,7 @@ import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.Main
 
-fun LifecycleOwner.createJob(cancelEvent: Lifecycle.Event = Lifecycle.Event.ON_STOP): Job = Job().also { job ->
+fun LifecycleOwner.createJob(cancelEvent: Lifecycle.Event = Lifecycle.Event.ON_DESTROY): Job = Job().also { job ->
     lifecycle.addObserver(object : GenericLifecycleObserver {
         override fun onStateChanged(source: LifecycleOwner?, event: Lifecycle.Event) {
             if (event == cancelEvent) {
