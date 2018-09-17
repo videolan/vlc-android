@@ -32,8 +32,11 @@ import android.os.Handler
 import android.preference.PreferenceManager
 import android.support.annotation.MainThread
 import android.support.annotation.RequiresPermission
+import android.support.constraint.ConstraintSet
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.Snackbar
+import android.support.transition.AutoTransition
+import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -93,6 +96,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     private var advFuncVisible = false
     private var playlistSwitchVisible = false
     private var searchVisible = false
+    private var abVisible = false
     private var headerPlayPauseVisible = false
     private var progressBarVisible = false
     private var headerTimeVisible = false
@@ -113,7 +117,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = AudioPlayerBinding.inflate(inflater)
+        binding = AudioPlayerBinding.inflate(inflater)!!
         return binding.root
     }
 
@@ -131,7 +135,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(binding.songsList)
 
-        setHeaderVisibilities(false, false, true, true, true, false)
+        setHeaderVisibilities(false, false, true, true, true, false, false)
         binding.fragment = this
 
         binding.next.setOnTouchListener(LongSeekListener(true,
@@ -285,7 +289,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
             }
         }
         if ((activity as AudioPlayerContainerActivity).isAudioPlayerExpanded)
-            setHeaderVisibilities(true, true, false, false, false, true)
+            setHeaderVisibilities(true, true, false, false, false, true, true)
     }
 
     @MainThread
@@ -382,32 +386,31 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
 
     private fun setHeaderVisibilities(advFuncVisible: Boolean, playlistSwitchVisible: Boolean,
                                       headerPlayPauseVisible: Boolean, progressBarVisible: Boolean,
-                                      headerTimeVisible: Boolean, searchVisible: Boolean) {
+                                      headerTimeVisible: Boolean, searchVisible: Boolean, abVisible: Boolean) {
         this.advFuncVisible = advFuncVisible
         this.playlistSwitchVisible = playlistSwitchVisible
         this.headerPlayPauseVisible = headerPlayPauseVisible
         this.progressBarVisible = progressBarVisible
         this.headerTimeVisible = headerTimeVisible
         this.searchVisible = searchVisible
+        this.abVisible = abVisible
         restoreHeaderButtonVisibilities()
     }
 
     private fun restoreHeaderButtonVisibilities() {
-        binding.advFunction.visibility = if (advFuncVisible) View.VISIBLE else View.GONE
-        binding.playlistSwitch.visibility = if (playlistSwitchVisible) View.VISIBLE else View.GONE
-        binding.playlistSearch.visibility = if (searchVisible) View.VISIBLE else View.GONE
-        binding.headerPlayPause.visibility = if (headerPlayPauseVisible) View.VISIBLE else View.GONE
         binding.progressBar.visibility = if (progressBarVisible) View.VISIBLE else View.GONE
-        binding.headerTime.visibility = if (headerTimeVisible) View.VISIBLE else View.GONE
-    }
-
-    private fun hideHeaderButtons() {
-        binding.advFunction.visibility = View.GONE
-        binding.playlistSwitch.visibility = View.GONE
-        binding.playlistSearch.visibility = View.GONE
-        binding.headerPlayPause.visibility = View.GONE
-        binding.progressBar.visibility = View.GONE
-        binding.headerTime.visibility = View.GONE
+        val cl = binding.header
+        TransitionManager.beginDelayedTransition(cl, AutoTransition().setDuration(200))
+        ConstraintSet().apply {
+            clone(cl)
+            setVisibility(R.id.playlist_ab_repeat, if (abVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.playlist_search, if (searchVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.playlist_switch, if (playlistSwitchVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.adv_function, if (advFuncVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.header_play_pause, if (headerPlayPauseVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.header_time, if (headerTimeVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            applyTo(cl)
+        }
     }
 
     fun onABRepeat(v: View) {
@@ -562,15 +565,15 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
             BottomSheetBehavior.STATE_COLLAPSED -> {
                 hideSearchField()
                 binding.header.setBackgroundResource(DEFAULT_BACKGROUND_DARKER_ID)
-                setHeaderVisibilities(false, false, true, true, true, false)
+                setHeaderVisibilities(false, false, true, true, true, false, false)
             }
             BottomSheetBehavior.STATE_EXPANDED -> {
                 binding.header.setBackgroundResource(0)
-                setHeaderVisibilities(true, true, false, false, false, true)
+                setHeaderVisibilities(true, true, false, false, false, true, true)
                 showPlaylistTips()
                 service?.apply { playlistAdapter.currentIndex = currentMediaPosition }
             }
-            else -> binding.header.setBackgroundResource(0)
+//            else -> binding.header.setBackgroundResource(0)
         }
     }
 
@@ -602,14 +605,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
             }
         }
 
-        override fun onTouchDown() = hideHeaderButtons()
-
-        override fun onTouchUp() = restoreHeaderButtonVisibilities()
-
         override fun onTouchClick() {
             val activity = activity as AudioPlayerContainerActivity
             activity.slideUpOrDownAudioPlayer()
         }
+
+        override fun onTouchDown() {}
+
+        override fun onTouchUp() {}
     }
 
     private val mCoverMediaSwitcherListener = object : AudioMediaSwitcherListener {
