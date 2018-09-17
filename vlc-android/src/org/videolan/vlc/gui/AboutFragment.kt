@@ -30,11 +30,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.ScrollView
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.tools.coroutineScope
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.audio.AudioPagerAdapter
@@ -74,8 +76,8 @@ class AboutFragment : Fragment() {
 
         tabLayout = view.findViewById(R.id.sliding_tabs)
         tabLayout.setupWithViewPager(viewPager)
-        launch(UI.immediate) {
-            val asset = withContext(IO) {
+        coroutineScope.launch {
+            val asset = withContext(Dispatchers.IO) {
                 Util.readAsset("licence.htm", "").replace("!COMMITID!", revision)
             }
             UiTools.fillAboutView(view)

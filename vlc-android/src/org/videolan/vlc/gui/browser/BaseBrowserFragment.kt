@@ -37,13 +37,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.*
-import kotlinx.coroutines.experimental.CoroutineStart
-import kotlinx.coroutines.experimental.IO
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.InfoActivity
@@ -366,9 +364,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
-    private fun toggleFavorite() = launch(UI.immediate, CoroutineStart.UNDISPATCHED) {
+    private fun toggleFavorite() = coroutineScope.launch {
         val mw = currentMedia ?: return@launch
-        withContext(IO) {
+        withContext(Dispatchers.IO) {
             when {
                 browserFavRepository.browserFavExists(mw.uri) -> browserFavRepository.deleteBrowserFav(mw.uri)
                 mw.uri.scheme == "file" -> browserFavRepository.addLocalFavItem(mw.uri, mw.title, mw.artworkURL)
@@ -408,7 +406,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
-        if (mActionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) launch(UI.immediate) {
+        if (mActionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) coroutineScope.launch {
             val mw = item as MediaWrapper
             if (mw.uri.scheme == "content" || mw.uri.scheme == OTG_SCHEME) return@launch
             var flags = if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment) CTX_DELETE else 0
@@ -419,7 +417,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 val isFileBrowser = this@BaseBrowserFragment is FileBrowserFragment && item.uri.scheme == "file"
                 val isNetworkBrowser = this@BaseBrowserFragment is NetworkBrowserFragment
                 if (isFileBrowser || isNetworkBrowser) {
-                    val favExists = withContext(IO) { browserFavRepository.browserFavExists(mw.uri) }
+                    val favExists = withContext(Dispatchers.IO) { browserFavRepository.browserFavExists(mw.uri) }
                     flags = if (favExists) {
                         if (isNetworkBrowser) flags or CTX_FAV_EDIT or CTX_FAV_REMOVE
                         else flags or CTX_FAV_REMOVE
@@ -455,7 +453,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
             CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
-            CTX_FAV_REMOVE -> launch(IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
+            CTX_FAV_REMOVE -> coroutineScope.launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
         }
     }
 

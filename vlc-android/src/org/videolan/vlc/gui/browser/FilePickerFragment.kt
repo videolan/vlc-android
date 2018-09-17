@@ -31,6 +31,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
 import android.view.View
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.runBlocking
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -111,10 +112,8 @@ class FilePickerFragment : FileBrowserFragment() {
 
     override fun defineIsRoot() = mrl?.run {
         if (startsWith("file")) {
-            //TODO: remove this after upgrade to kotlinx v 0.25+
-            System.setProperty("kotlinx.coroutines.blocking.checker", "disable")
             val path = Strings.removeFileProtocole(this@run)
-            val rootDirectories = runBlocking(IO) { DirectoryRepository.getInstance(requireContext()).getMediaDirectories() }
+            val rootDirectories = runBlocking(Dispatchers.IO) { DirectoryRepository.getInstance(requireContext()).getMediaDirectories() }
             for (directory in rootDirectories) if (path.startsWith(directory)) return false
             return true
         } else length < 7

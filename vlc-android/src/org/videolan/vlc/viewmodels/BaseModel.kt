@@ -63,7 +63,7 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
 
     @Suppress("UNCHECKED_CAST")
     protected val updateActor by lazy {
-        actor<Update>(UI, capacity = Channel.UNLIMITED) {
+        actor<Update>(capacity = Channel.UNLIMITED) {
             for (update in channel) when (update) {
                 Refresh -> updateList()
                 is Filter -> filter.filter(update.query)

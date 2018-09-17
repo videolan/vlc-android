@@ -23,6 +23,7 @@ package org.videolan.vlc.viewmodels.audio
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
@@ -69,7 +70,7 @@ class TracksModel(context: Context, val parent: MediaLibraryItem? = null): Audio
 
     @Suppress("UNCHECKED_CAST")
     override suspend fun updateList() {
-        dataset.value = withContext(IO) {
+        dataset.value = withContext(Dispatchers.IO) {
             when (parent) {
                 is Artist -> parent.getTracks(sort, desc)
                 is Album -> parent.getTracks(sort, desc)

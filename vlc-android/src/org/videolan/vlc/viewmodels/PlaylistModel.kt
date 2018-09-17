@@ -25,6 +25,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
@@ -33,7 +34,7 @@ import org.videolan.vlc.util.EmptyPBSCallback
 import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.PlaylistFilterDelegate
 
-class PlaylistModel(private val service: PlaybackService) : ViewModel(), PlaybackService.Callback by EmptyPBSCallback {
+class PlaylistModel(private val service: PlaybackService) : ScopedModel(), PlaybackService.Callback by EmptyPBSCallback {
 
     val dataset = LiveDataset<MediaWrapper>()
     val progress by lazy(LazyThreadSafetyMode.NONE) {
@@ -55,7 +56,7 @@ class PlaylistModel(private val service: PlaybackService) : ViewModel(), Playbac
         dataset.value = service.medias.toMutableList()
     }
 
-    fun filter(query: CharSequence?) = launch { filter.filter(query) }
+    fun filter(query: CharSequence?) = launch(Dispatchers.Default) { filter.filter(query) }
 
     public override fun onCleared() {
         service.removeCallback(this)

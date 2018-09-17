@@ -30,10 +30,7 @@ import android.support.media.tv.TvContractCompat
 import android.support.media.tv.WatchNextProgram
 import android.text.TextUtils
 import android.util.Log
-import kotlinx.coroutines.experimental.CoroutineStart
-import kotlinx.coroutines.experimental.IO
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.experimental.*
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.*
@@ -46,8 +43,8 @@ private const val TAG = "VLC/TvChannels"
 private const val MAX_RECOMMENDATIONS = 3
 
 @RequiresApi(Build.VERSION_CODES.O)
-fun setChannel(context: Context) = launch(start = CoroutineStart.UNDISPATCHED) {
-    val channelId = withContext(IO) {
+fun setChannel(context: Context) = GlobalScope.launch(start = CoroutineStart.UNDISPATCHED) {
+    val channelId = withContext(Dispatchers.IO) {
         val prefs = Settings.getInstance(context)
         val name = context.getString(R.string.tv_my_new_videos)
         createOrUpdateChannel(prefs, context, name, R.drawable.icon, BuildConfig.APPLICATION_ID)
@@ -63,15 +60,15 @@ suspend fun updatePrograms(context: Context, channelId: Long) {
             override fun onMedialibraryIdle() {}
             override fun onMedialibraryReady() {
                 ml.removeOnMedialibraryReadyListener(this)
-                launch { updatePrograms(context, channelId) }
+                GlobalScope.launch { updatePrograms(context, channelId) }
             }
 
         })
         context.startMedialibrary(false, false, false)
         return
     }
-    val programs = withContext(IO) { existingPrograms(context, channelId) }
-    val videoList = withContext(IO) { VLCApplication.getMLInstance().recentVideos }
+    val programs = withContext(Dispatchers.IO) { existingPrograms(context, channelId) }
+    val videoList = withContext(Dispatchers.IO) { VLCApplication.getMLInstance().recentVideos }
     if (Util.isArrayEmpty(videoList)) return
     val cn = ComponentName(context, PreviewVideoInputService::class.java)
     for ((count, mw) in videoList.withIndex()) {
@@ -85,13 +82,13 @@ suspend fun updatePrograms(context: Context, channelId: Long) {
                 mw.artUri(), mw.length.toInt(), mw.time.toInt(),
                 mw.width, mw.height, BuildConfig.APPLICATION_ID)
         val program = buildProgram(cn, desc)
-        launch(IO) {
+        GlobalScope.launch(Dispatchers.IO) {
             context.contentResolver.insert(TvContractCompat.PreviewPrograms.CONTENT_URI, program.toContentValues())
         }
         if (count - programs.size >= MAX_RECOMMENDATIONS) break
     }
     for (program in programs) {
-        withContext(IO) { context.contentResolver.delete(TvContractCompat.buildPreviewProgramUri(program.programId), null, null) }
+        withContext(Dispatchers.IO) { context.contentResolver.delete(TvContractCompat.buildPreviewProgramUri(program.programId), null, null) }
     }
 }
 

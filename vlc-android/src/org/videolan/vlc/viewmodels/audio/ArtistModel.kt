@@ -23,6 +23,7 @@ package org.videolan.vlc.viewmodels.audio
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
@@ -44,7 +45,7 @@ class ArtistModel(context: Context, private var showAll: Boolean = false): Audio
     //VLCApplication.getSettings().getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false)
     @Suppress("UNCHECKED_CAST")
     override suspend fun updateList() {
-        dataset.value = withContext(IO) {
+        dataset.value = withContext(Dispatchers.IO) {
             medialibrary.getArtists(showAll, sort, desc).toMutableList() as MutableList<MediaLibraryItem>
         }
     }

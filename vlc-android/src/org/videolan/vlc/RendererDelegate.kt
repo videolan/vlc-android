@@ -21,10 +21,8 @@ package org.videolan.vlc
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
 import org.videolan.vlc.util.LiveDataset
@@ -48,7 +46,7 @@ object RendererDelegate : RendererDiscoverer.EventListener {
     suspend fun start() {
         if (started) return
         started = true
-        val libVlc = withContext(CommonPool) { VLCInstance.get() }
+        val libVlc = withContext(Dispatchers.IO) { VLCInstance.get() }
         for (discoverer in RendererDiscoverer.list(libVlc)) {
             val rd = RendererDiscoverer(libVlc, discoverer.name)
             discoverers.add(rd)

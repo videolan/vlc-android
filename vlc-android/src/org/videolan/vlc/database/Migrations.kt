@@ -23,6 +23,8 @@ package org.videolan.vlc.database
 import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.migration.Migration
 import android.content.Context
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.launch
 import org.videolan.vlc.VLCApplication
@@ -196,7 +198,7 @@ val migration_27_28 = object:Migration(27, 28) {
     }
 }
 
-fun populateDB(context: Context) = launch(IO) {
+fun populateDB(context: Context) = GlobalScope.launch(Dispatchers.IO) {
     val favRepo = BrowserFavRepository.getInstance(context)
     val uris = listOf(AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI,
             AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI,

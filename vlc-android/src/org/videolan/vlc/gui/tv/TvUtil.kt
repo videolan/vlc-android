@@ -36,11 +36,9 @@ import android.support.v17.leanback.widget.Row
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.CoroutineStart
+import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -185,22 +183,19 @@ object TvUtil {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     fun updateBackground(bm: BackgroundManager?, item: Any?) {
         if (bm === null || item === null) return
-        if (item is MediaLibraryItem) launch(UI, CoroutineStart.UNDISPATCHED){
+        if (item is MediaLibraryItem) GlobalScope.launch(Dispatchers.Main.immediate){
             val crop = item.itemType != MediaLibraryItem.TYPE_MEDIA || (item as MediaWrapper).type == MediaWrapper.TYPE_AUDIO
             val artworkMrl = item.artworkMrl
             if (!TextUtils.isEmpty(artworkMrl)) {
-                val blurred = withContext(CommonPool) {
-                    if (bm == null) return@withContext null
+                val blurred = withContext(Dispatchers.IO) {
                     var cover: Bitmap? = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512)
                             ?: return@withContext null
                     if (crop)
                         cover = BitmapUtil.centerCrop(cover, cover!!.width, cover.width * 10 / 16)
                     UiTools.blurBitmap(cover, 10f)
                 }
-                if (bm !== null) {
-                    bm.color = 0
-                    bm.drawable = BitmapDrawable(VLCApplication.getAppResources(), blurred)
-                }
+                bm.color = 0
+                bm.drawable = BitmapDrawable(VLCApplication.getAppResources(), blurred)
             }
         }
         clearBackground(bm)

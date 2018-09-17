@@ -34,6 +34,7 @@ import kotlinx.coroutines.experimental.GlobalScope
 import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.launch
+import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MlWizardActivityBinding
 import org.videolan.vlc.startMedialibrary
@@ -54,7 +55,7 @@ class MLWizardActivity : AppCompatActivity() {
 
     @SuppressLint("ApplySharedPref")
     @Suppress("UNUSED_PARAMETER")
-    fun apply(v: View) = GlobalScope.launch(Dispatchers.IO) {
+    fun apply(v: View) = coroutineScope.launch(Dispatchers.IO) {
         val parse = binding.wizardCheckScan.isChecked
         val prefs = Settings.getInstance(this@MLWizardActivity)
         prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, if (parse) ML_SCAN_ON else ML_SCAN_OFF).commit()

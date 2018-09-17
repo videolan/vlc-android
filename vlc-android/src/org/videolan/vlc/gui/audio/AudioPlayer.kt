@@ -47,15 +47,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
-import kotlinx.coroutines.experimental.CoroutineStart
-import kotlinx.coroutines.experimental.IO
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.coroutineScope
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -267,14 +265,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun updateBackground() {
         if (settings.getBoolean("blurred_cover_background", true)) {
-            launch(UI, CoroutineStart.UNDISPATCHED) {
+            coroutineScope.launch {
                 val mw = service?.currentMediaWrapper
                 if (mw === null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return@launch
                 currentCoverArt = mw.artworkMrl
                 if (TextUtils.isEmpty(mw.artworkMrl)) {
                     setDefaultBackground()
                 } else {
-                    val blurredCover = withContext(IO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), binding.contentLayout.width)) }
+                    val blurredCover = withContext(Dispatchers.IO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), binding.contentLayout.width)) }
                     if (blurredCover !== null) {
                         val activity = activity as? AudioPlayerContainerActivity
                         if (activity === null) return@launch

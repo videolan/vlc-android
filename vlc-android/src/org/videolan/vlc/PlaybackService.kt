@@ -44,7 +44,7 @@ import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
@@ -748,7 +748,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
         if (!this::mediaSession.isInitialized) initMediaSession()
         val ctx = this
         val length = length
-        val bob = withContext(CommonPool) {
+        val bob = withContext(Dispatchers.Default) {
             val title = media.nowPlaying ?: media.title
             val coverOnLockscreen = settings.getBoolean("lockscreen_cover", true)
             val bob = MediaMetadataCompat.Builder().apply {

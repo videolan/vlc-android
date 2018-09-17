@@ -3,11 +3,9 @@ package org.videolan.vlc.gui
 import android.support.annotation.MainThread
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
-import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import kotlinx.coroutines.experimental.withContext

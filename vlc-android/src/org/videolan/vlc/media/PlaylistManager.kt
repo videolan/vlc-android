@@ -10,11 +10,9 @@ import android.support.v7.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.IO
+import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -30,12 +28,14 @@ import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.*
 import java.util.*
+import kotlin.coroutines.experimental.CoroutineContext
 
 private const val TAG = "VLC/PlaylistManager"
 private const val PREVIOUS_LIMIT_DELAY = 5000L
 private const val AUDIO_REPEAT_MODE_KEY = "audio_repeat_mode"
 
-class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventListener, Media.EventListener {
+class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventListener, Media.EventListener, CoroutineScope {
+    override val coroutineContext = Dispatchers.Main.immediate
 
     companion object {
         val showAudioPlayer = MutableLiveData<Boolean>().apply { value = false }
@@ -121,7 +121,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         mediaList.addEventListener(this)
         stopAfter = -1
         clearABRepeat()
-        launch(UI.immediate) {
+        launch {
             playIndex(position)
             onPlaylistLoaded()
         }
@@ -143,9 +143,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             loadingLastPlaylist = false
             return false
         }
-        launch(UI.immediate) {
-            val playList = withContext(CommonPool) {
-                locations.map { Uri.decode(it) }.mapTo(ArrayList(locations.size)) { MediaWrapper(Uri.parse(it)) }
+        launch {
+            val playList = withContext(Dispatchers.Default) {
+                locations.asSequence().map { Uri.decode(it) }.mapTo(ArrayList(locations.size)) { MediaWrapper(Uri.parse(it)) }
             }
             // load playlist
             shuffling = settings.getBoolean(if (audio) "audio_shuffling" else "media_shuffling", false)
@@ -168,7 +168,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private suspend fun onPlaylistLoaded() {
         service.onPlaylistLoaded()
         determinePrevAndNextIndices()
-        launch(IO) { mediaList.updateWithMLMeta() }
+        launch(Dispatchers.IO) { mediaList.updateWithMLMeta() }
     }
 
     fun play() {
@@ -192,7 +192,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             return
         }
         videoBackground = !player.isVideoPlaying() && player.canSwitchToVideo()
-        launch(UI.immediate) { playIndex(currentIndex) }
+        launch { playIndex(currentIndex) }
     }
 
     fun stop(systemExit: Boolean = false) {
@@ -226,7 +226,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 player.stop()
                 return
             }
-            launch(UI.immediate) { playIndex(currentIndex) }
+            launch { playIndex(currentIndex) }
         } else player.setPosition(0F)
     }
 
@@ -235,7 +235,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (shuffling) previous.clear()
         shuffling = !shuffling
         savePosition()
-        launch(UI.immediate) { determinePrevAndNextIndices() }
+        launch { determinePrevAndNextIndices() }
     }
 
     @MainThread
@@ -244,7 +244,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (isAudioList() && settings.getBoolean("audio_save_repeat", false))
             settings.edit().putInt(AUDIO_REPEAT_MODE_KEY, repeating).apply()
         savePosition()
-        launch(UI.immediate) { determinePrevAndNextIndices() }
+        launch { determinePrevAndNextIndices() }
     }
 
     fun setRenderer(item: RendererItem?) {
@@ -302,7 +302,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             newMedia = true
             determinePrevAndNextIndices()
             service.onNewPlayback()
-            if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) launch {
+            if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) launch(Dispatchers.IO) {
                 var id = mw.id
                 if (id == 0L) {
                     var internalMedia = medialibrary.findMedia(mw)
@@ -366,7 +366,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     override fun onItemAdded(index: Int, mrl: String?) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemAdded")
         if (currentIndex >= index && !expanding) ++currentIndex
-        launch(UI.immediate) {
+        launch {
             determinePrevAndNextIndices()
             executeUpdate()
             saveMediaList()
@@ -378,7 +378,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemDeleted")
         val currentRemoved = currentIndex == index
         if (currentIndex >= index && !expanding) --currentIndex
-        launch(UI.immediate) {
+        launch {
             determinePrevAndNextIndices()
             if (currentRemoved && !expanding) {
                 when {
@@ -467,7 +467,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         // If we are in random mode, we completely reset the stored previous track
         // as their indices changed.
         previous.clear()
-        launch(UI.immediate) {
+        launch {
             determinePrevAndNextIndices()
             executeUpdate()
             saveMediaList()
