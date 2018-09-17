@@ -48,7 +48,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import org.videolan.medialibrary.Tools
@@ -84,7 +83,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     private lateinit var playlistAdapter: PlaylistAdapter
     private lateinit var settings: SharedPreferences
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
-    private val updateActor = actor<Unit>(UI, capacity = Channel.CONFLATED) { for (entry in channel) doUpdate() }
+    private val updateActor = coroutineScope.actor<Unit>(capacity = Channel.CONFLATED) { for (entry in channel) doUpdate() }
     private lateinit var helper: PlaybackServiceActivity.Helper
     private var service: PlaybackService? = null
     private lateinit var playlistModel: PlaylistModel

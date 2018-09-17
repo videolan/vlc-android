@@ -84,6 +84,7 @@
         <item name="ic_audiodelay">@drawable/ic_audiodelay</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay</item>
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
+        <item name="progress_background">@color/grey600transparent</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.AppCompat.Dialog">
@@ -181,6 +182,7 @@
         <item name="ic_audiodelay">@drawable/ic_audiodelay_w</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
+        <item name="progress_background">@color/grey400transparent</item>
     </style>
    <style name="Theme.VLC.TV" parent="Theme.Leanback">
        <item name="colorPrimary">@color/orange800</item>
@@ -269,6 +271,7 @@
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/bt_list_title</item>
+        <item name="progress_background">@color/grey400transparent</item>
     </style>
 
     <style name="VLCTransparentTheme" parent="Theme.VLC">

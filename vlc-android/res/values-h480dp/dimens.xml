@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="info_appbar_height">300dp</dimen>
+    <dimen name="audioplayer_controls_margin">32dp</dimen>
+    <dimen name="audio_player_cover_margin">16dp</dimen>
 </resources>
