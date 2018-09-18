@@ -232,6 +232,7 @@ object MediaUtils {
         override fun onConnected(service: PlaybackService) {
             synchronized(this) {
                 runnable.run(service)
+                client.disconnect()
             }
             handler.removeCallbacksAndMessages(null)
             if (this::dialog.isInitialized) dialog.cancel()
