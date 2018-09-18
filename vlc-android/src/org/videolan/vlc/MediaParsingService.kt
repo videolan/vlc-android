@@ -79,7 +79,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     internal val sb = StringBuilder()
 
     private val notificationActor by lazy {
-        actor<Notification>(capacity = Channel.UNLIMITED, start = CoroutineStart.UNDISPATCHED) {
+        actor<Notification>(capacity = Channel.UNLIMITED) {
             for (update in channel) when (update) {
                 Show -> showNotification()
                 Hide -> hideNotification()
@@ -114,8 +114,8 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
             exitCommand()
             return Service.START_NOT_STICKY
         }
-            // Set 1s delay before displaying scan icon
-            // Except for Android 8+ which expects startForeground immediately
+        // Set 1s delay before displaying scan icon
+        // Except for Android 8+ which expects startForeground immediately
 
         if (AndroidUtil.isOOrLater && lastNotificationTime == 0L) forceForeground()
         else if (lastNotificationTime <= 0L) lastNotificationTime = System.currentTimeMillis()
@@ -272,7 +272,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
         val currentTime = System.currentTimeMillis()
         if (lastNotificationTime == -1L || currentTime - lastNotificationTime < NOTIFICATION_DELAY) return
         lastNotificationTime = currentTime
-        notificationJob = launch {
+        val discovery = withContext(Dispatchers.Default) {
             sb.setLength(0)
             when {
                 parsing > 0 -> sb.append(getString(R.string.ml_parse_media)).append(' ').append(parsing).append("%")
@@ -282,22 +282,23 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
             val progressText = sb.toString()
             val updateAction = wasWorking != medialibrary.isWorking
             if (updateAction) wasWorking = !wasWorking
-            if (!isActive) return@launch
+            if (!isActive) return@withContext ""
             val notification = NotificationHelper.createScanNotification(this@MediaParsingService, progressText, updateAction, scanPaused)
             if (lastNotificationTime != -1L) {
-                showProgress(parsing, progressText)
                 try {
                     startForeground(43, notification)
                 } catch (ignored: IllegalArgumentException) {}
-            }
+                progressText
+            } else ""
         }
-        notificationJob?.join()
+        showProgress(parsing, discovery)
     }
 
     private suspend fun hideNotification() {
         notificationJob?.cancelAndJoin()
         lastNotificationTime = -1L
         NotificationManagerCompat.from(this@MediaParsingService).cancel(43)
+        showProgress(-1, "")
     }
 
     override fun onDiscoveryStarted(entryPoint: String) {
@@ -335,7 +336,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     }
 
     override fun onDestroy() {
-        progress.postValue(null)
         started.value = false
         notificationActor.offer(Hide)
         medialibrary.removeDeviceDiscoveryCb(this)
@@ -348,8 +348,12 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     private inner class LocalBinder : Binder()
 
     private fun showProgress(parsing: Int, discovery: String) {
+        if (parsing == -1) {
+            progress.value = null
+            return
+        }
         val status = progress.value
-        progress.postValue(if (status === null) ScanProgress(parsing, discovery) else status.copy(parsing = parsing, discovery = discovery))
+        progress.value = if (status === null) ScanProgress(parsing, discovery) else status.copy(parsing = parsing, discovery = discovery)
     }
 
     private val actions = actor<MLAction>(capacity = Channel.UNLIMITED) {
