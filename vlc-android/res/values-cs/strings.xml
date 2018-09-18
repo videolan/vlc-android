@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">Délka (sestupně)</string>
     <string name="sortby_date">Datum</string>
     <string name="sortby_date_desc">Datum (sestupně)</string>
+    <string name="sortby_last_modified_date">Nedávno přidané</string>
+    <string name="sortby_last_modified_date_desc">Nedávno přidané (sestupně)</string>
     <string name="sortby_number">Počet stop</string>
     <string name="sortby_number_desc">Počet stop (sestupně)</string>
     <string name="searchable_hint">Hledat…</string>
@@ -54,6 +56,8 @@
     <string name="confirm_delete">Odstranit soubor \'%1$s\'?</string>
     <string name="confirm_delete_folder">Smazat složku \'%1$s\' a veškerý její obsah?</string>
     <string name="confirm_delete_playlist">Smazat seznam skladeb \'%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">Odstranit \'%1$s\' ze seznamu skladeb?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Odstranit ze seznamu skladeb?</string>
     <string name="ringtone_set">\'%1$s\' bylo nastaveno jako vyzváněcí melodie.</string>
     <string name="ringtone_error">Nastala chyba při nastavování vyzváněcí melodie.</string>
     <string name="pause">Pozastavit</string>
@@ -222,6 +226,7 @@
     <string name="playback_speed_title">Uložit rychlost přehrávání</string>
     <string name="playback_speed_summary">Pamatovat si nastavenou rychlost přehrávání</string>
 
+    <string name="play_button">Tlačítko přehrát</string>
     <!-- Tips -->
     <string name="video_player_tips">Tipy přehrávače videa:</string>
     <string name="seek">Posun</string>
@@ -608,4 +613,14 @@
     <string name="tv_my_new_videos">Nová videa</string>
     <string name="cast_option_title">Vysílat média na další obrazovku</string>
     <string name="otg_device_title">Zařízení OTG</string>
+    <string name="browser">Prohlžeč</string>
+    <string name="ab_repeat">Opakovat A-B</string>
+    <string name="stop_after_this">Zastavit po této stopě</string>
+    <string name="time_category_new">Nová média</string>
+    <string name="time_category_current_month">Tento měsíc</string>
+    <string name="time_category_current_year">Tento rok</string>
+    <string name="time_category_last_year">Minulý rok</string>
+    <string name="time_category_older">Starší média</string>
+    <string name="rename">Přejmenovat</string>
+    <string name="rename_media">Přejmenovat %1$s</string>
 </resources>
