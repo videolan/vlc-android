@@ -19,6 +19,7 @@
  *****************************************************************************/
 package org.videolan.vlc;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.ProcessLifecycleOwner;
@@ -45,6 +46,7 @@ import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WorkersKt;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 
 import static org.videolan.vlc.gui.helpers.UiTools.setLocale;
@@ -77,7 +79,7 @@ public class VLCApplication extends Application {
         locale = Settings.INSTANCE.getInstance(this).getString("set_locale", "");
 
         // Set the locale for API < 24 and set application resources and direction for API >=24
-        setLocale(instance);
+        setLocale(getAppContext());
 
         WorkersKt.runBackground(new Runnable() {
             @Override
@@ -85,9 +87,9 @@ public class VLCApplication extends Application {
 
                 if (AndroidUtil.isOOrLater) NotificationHelper.createNotificationChannels(VLCApplication.this);
                 // Prepare cache folder constants
-                AudioUtil.prepareCacheFolder(instance);
+                AudioUtil.prepareCacheFolder(getAppContext());
 
-                if (!VLCInstance.testCompatibleCPU(instance)) return;
+                if (!VLCInstance.testCompatibleCPU(getAppContext())) return;
                 Dialog.setCallbacks(VLCInstance.get(), mDialogCallbacks);
             }
         });
@@ -96,7 +98,7 @@ public class VLCApplication extends Application {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        setLocale(instance);
+        setLocale(getAppContext());
     }
 
     /**
@@ -121,8 +123,18 @@ public class VLCApplication extends Application {
     /**
      * @return the main context of the Application
      */
+    @SuppressLint("PrivateApi")
     public static Context getAppContext() {
-        return instance;
+        if (instance != null) return instance;
+        else {
+            try {
+                instance = (VLCApplication) Class.forName("android.app.ActivityThread").getDeclaredMethod("currentApplication").invoke(null);
+            } catch (IllegalAccessException e) {}
+              catch (InvocationTargetException e) {}
+              catch (NoSuchMethodException e) {}
+              catch (ClassNotFoundException e) {}
+            return instance;
+        }
     }
 
     /**
@@ -130,7 +142,7 @@ public class VLCApplication extends Application {
      */
     public static Resources getAppResources()
     {
-        return instance.getResources();
+        return getAppContext().getResources();
     }
 
     public static String getLocale(){
@@ -194,7 +206,7 @@ public class VLCApplication extends Application {
 
     private void fireDialog(Dialog dialog, String key) {
         storeData(key, dialog);
-        startActivity(new Intent(instance, DialogActivity.class).setAction(key)
+        startActivity(new Intent(getAppContext(), DialogActivity.class).setAction(key)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
     }
 
