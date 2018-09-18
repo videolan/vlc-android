@@ -439,7 +439,7 @@ cd extras/tools
 checkfail "buildsystem tools: bootstrap failed"
 make $MAKEFLAGS
 checkfail "buildsystem tools: make failed"
-make $MAKEFLAGS .gas
+make $MAKEFLAGS .buildgas
 checkfail "buildsystem tools: make failed"
 cd ../..
 
