@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.tv.preferences;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -67,11 +68,11 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
-        if (preference.getKey() == null)
-            return false;
-        switch (preference.getKey()){
+        final Context ctx = getActivity();
+        if (preference.getKey() == null || ctx == null) return false;
+        switch (preference.getKey()) {
             case "debug_logs":
-                Intent intent = new Intent(VLCApplication.getAppContext(), DebugLogActivity.class);
+                Intent intent = new Intent(ctx, DebugLogActivity.class);
                 startActivity(intent);
                 return true;
             case "clear_history":
@@ -89,9 +90,9 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                         .setNegativeButton(android.R.string.cancel, null).show();
                 return true;
             case "clear_media_db":
-                Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                final Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                 i.addCategory(Intent.CATEGORY_DEFAULT);
-                i.setData(Uri.parse("package:" + VLCApplication.getAppContext().getPackageName()));
+                i.setData(Uri.parse("package:" + ctx.getPackageName()));
                 startActivity(i);
                 return true;
             case "quit_app":

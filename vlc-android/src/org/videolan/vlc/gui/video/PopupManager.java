@@ -47,7 +47,6 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.PopupLayout;
 import org.videolan.vlc.util.Constants;
@@ -88,10 +87,10 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     public void showPopup() {
         mService.addCallback(this);
-        LayoutInflater li = (LayoutInflater) VLCApplication.getAppContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final LayoutInflater li = (LayoutInflater) mService.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (li == null) return;
         mRootView = (PopupLayout) li.inflate(R.layout.video_popup, null);
-        if (mAlwaysOn)
-            mRootView.setKeepScreenOn(true);
+        if (mAlwaysOn) mRootView.setKeepScreenOn(true);
         mPlayPauseButton = mRootView.findViewById(R.id.video_play_pause);
         mCloseButton = mRootView.findViewById(R.id.popup_close);
         mExpandButton = mRootView.findViewById(R.id.popup_expand);
@@ -104,6 +103,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         mRootView.setGestureDetector(gestureDetector);
 
         final IVLCVout vlcVout = mService.getVout();
+        if (vlcVout == null) return;
         vlcVout.setVideoView((SurfaceView) mRootView.findViewById(R.id.player_surface));
         vlcVout.addCallback(this);
         vlcVout.attachViews(this);
@@ -112,8 +112,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     @Override
     public boolean onSingleTapConfirmed(MotionEvent e) {
-        if (mPlayPauseButton.getVisibility() == View.VISIBLE)
-            return false;
+        if (mPlayPauseButton.getVisibility() == View.VISIBLE) return false;
         mHandler.sendEmptyMessage(SHOW_BUTTONS);
         mHandler.sendEmptyMessageDelayed(HIDE_BUTTONS, MSG_DELAY);
         return true;
@@ -191,10 +190,8 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
         // compute the display aspect ratio
         double dar = dw / dh;
-        if (dar < ar)
-            dh = dw / ar;
-        else
-            dw = dh * ar;
+        if (dar < ar) dh = dw / ar;
+        else dw = dh * ar;
 
         width = (int) Math.floor(dw);
         height = (int) Math.floor(dh);

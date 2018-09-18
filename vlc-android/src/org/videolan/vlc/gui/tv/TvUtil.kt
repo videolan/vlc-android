@@ -38,7 +38,6 @@ import android.text.TextUtils
 import android.view.View
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.android.UI
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper

@@ -76,7 +76,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
             return false;
         switch (preference.getKey()){
             case "debug_logs":
-                Intent intent = new Intent(VLCApplication.getAppContext(), DebugLogActivity.class);
+                final Intent intent = new Intent(requireContext(), DebugLogActivity.class);
                 startActivity(intent);
                 return true;
             case "clear_history":
@@ -97,7 +97,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
             case "clear_media_db":
                 final Intent i = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                 i.addCategory(Intent.CATEGORY_DEFAULT);
-                i.setData(Uri.parse("package:" + VLCApplication.getAppContext().getPackageName()));
+                i.setData(Uri.parse("package:" + requireContext().getPackageName()));
                 startActivity(i);
                 return true;
             case "quit_app":
@@ -106,26 +106,27 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
             case "dump_media_db":
                 if (VLCApplication.getMLInstance().isWorking())
                     UiTools.snacker(getView(), getString(R.string.settings_ml_block_scan));
-                else {
-                    WorkersKt.runIO(new Runnable() {
+                else WorkersKt.runIO(new Runnable() {
                         @Override
                         public void run() {
                             final Runnable dump = new Runnable() {
                                 @Override
                                 public void run() {
-                                    final File db = new File(VLCApplication.getAppContext().getDir("db", Context.MODE_PRIVATE)+ Medialibrary.VLC_MEDIA_DB_NAME);
+                                    final File db = new File(requireContext().getDir("db", Context.MODE_PRIVATE)+ Medialibrary.VLC_MEDIA_DB_NAME);
 
                                     if (FileUtils.copyFile(db, new File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + Medialibrary.VLC_MEDIA_DB_NAME)))
                                         WorkersKt.runOnMainThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                Toast.makeText(VLCApplication.getAppContext(), "Database dumped on internal storage root", Toast.LENGTH_LONG).show();
+                                                final Context ctx = getContext();
+                                                if (ctx != null) Toast.makeText(ctx, "Database dumped on internal storage root", Toast.LENGTH_LONG).show();
                                             }
                                         });
                                     else WorkersKt.runOnMainThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Toast.makeText(VLCApplication.getAppContext(), "Failed to dumped database", Toast.LENGTH_LONG).show();
+                                                final Context ctx = getContext();
+                                                if (ctx != null) Toast.makeText(ctx, "Failed to dumped database", Toast.LENGTH_LONG).show();
                                         }
                                     });
                                 }
@@ -134,7 +135,6 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                             else Permissions.askWriteStoragePermission(getActivity(), false, dump);
                         }
                     });
-                }
                 return true;
         }
         return super.onPreferenceTreeClick(preference);

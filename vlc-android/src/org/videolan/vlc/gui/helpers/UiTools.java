@@ -84,6 +84,7 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.LocalePair;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.viewmodels.SortableModel;
 
 import java.util.List;
@@ -181,7 +182,7 @@ public class UiTools {
      * @return the color id
      */
     public static int getColorFromAttribute(Context context, int attrId) {
-        return VLCApplication.getAppResources().getColor(getResourceFromAttribute(context, attrId));
+        return context.getResources().getColor(getResourceFromAttribute(context, attrId));
     }
     /**
      * Set the alignment mode of the specified TextView with the desired align
@@ -219,23 +220,23 @@ public class UiTools {
         if (v != null) v.setOnClickListener(ocl);
     }
 
-    public static boolean isBlackThemeEnabled() {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext());
+    public static boolean isBlackThemeEnabled(Context context) {
+        final SharedPreferences pref = Settings.INSTANCE.getInstance(context);
         return pref.getBoolean("enable_black_theme", false);
     }
 
     public static void fillAboutView(View v) {
         final TextView link = v.findViewById(R.id.main_link);
-        link.setText(Html.fromHtml(VLCApplication.getAppResources().getString(R.string.about_link)));
+        link.setText(Html.fromHtml(v.getContext().getString(R.string.about_link)));
 
-        final String revision = VLCApplication.getAppResources().getString(R.string.build_revision)+" VLC: "+VLCApplication.getAppResources().getString(R.string.build_vlc_revision);
-        final String builddate = VLCApplication.getAppResources().getString(R.string.build_time);
-        final String builder = VLCApplication.getAppResources().getString(R.string.build_host);
+        final String revision = v.getContext().getString(R.string.build_revision)+" VLC: "+v.getContext().getString(R.string.build_vlc_revision);
+        final String builddate = v.getContext().getString(R.string.build_time);
+        final String builder = v.getContext().getString(R.string.build_host);
 
         final TextView compiled = v.findViewById(R.id.main_compiled);
         compiled.setText(builder + " (" + builddate + ")");
         final TextView textview_rev = v.findViewById(R.id.main_revision);
-        textview_rev.setText(VLCApplication.getAppResources().getString(R.string.revision) + " " + revision + " (" + builddate + ") " + BuildConfig.FLAVOR_abi);
+        textview_rev.setText(v.getContext().getString(R.string.revision) + " " + revision + " (" + builddate + ") " + BuildConfig.FLAVOR_abi);
 
         final ImageView logo = v.findViewById(R.id.logo);
         logo.setOnClickListener(new View.OnClickListener() {
@@ -403,7 +404,7 @@ public class UiTools {
                     })
                     .setNegativeButton(R.string.ml_external_storage_decline, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext())
+                            Settings.INSTANCE.getInstance(activity)
                                     .edit()
                                     .putBoolean("ignore_"+ uuid, true)
                                     .apply();
@@ -424,7 +425,7 @@ public class UiTools {
                 })
                 .setNegativeButton(R.string.ml_external_storage_decline, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext())
+                        Settings.INSTANCE.getInstance(activity)
                                 .edit()
                                 .putBoolean("ignore_"+ uuid, true)
                                 .apply();

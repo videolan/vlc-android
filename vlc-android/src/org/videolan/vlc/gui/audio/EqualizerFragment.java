@@ -383,9 +383,9 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
                     public void onClick(View view) {
                         final String newName = input.getText().toString();
                         if (newName.contains("_") || TextUtils.equals(newName, newPresetName)) {
-                            Toast.makeText(VLCApplication.getAppContext(), VLCApplication.getAppContext().getResources().getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, VLCApplication.getAppContext().getResources().getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show();
                         } else if (allSets.contains(newName) && !TextUtils.equals(newName,oldName)) {
-                            Toast.makeText(VLCApplication.getAppContext(), VLCApplication.getAppContext().getResources().getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, VLCApplication.getAppContext().getResources().getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show();
                         } else {
                             VLCOptions.saveCustomSet(context, temporarySet, newName);
                             if (onPause) {

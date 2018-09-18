@@ -36,7 +36,6 @@ import android.widget.EditText;
 
 import org.videolan.libvlc.Dialog;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.VlcLoginDialogBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -81,13 +80,12 @@ public class VlcLoginDialog extends VlcDialog<Dialog.LoginDialog, VlcLoginDialog
 
     @Override
     public void onFocusChange(final View v, boolean hasFocus) {
-        if (hasFocus)
-            UiTools.setKeyboardVisibility(v, v instanceof EditText);
+        if (hasFocus) UiTools.setKeyboardVisibility(v, v instanceof EditText);
     }
 
     @Override
     public void onDestroy() {
-        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).sendBroadcast(new Intent(ACTION_DIALOG_CANCELED));
+        LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(new Intent(ACTION_DIALOG_CANCELED));
         super.onDestroy();
     }
 }

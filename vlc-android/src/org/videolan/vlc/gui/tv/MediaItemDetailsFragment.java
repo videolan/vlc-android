@@ -45,7 +45,6 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -149,7 +148,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
                         detailsOverview.removeAction(actionAdd);
                         detailsOverview.addAction(actionDelete);
                         mRowsAdapter.notifyArrayItemRangeChanged(0, mRowsAdapter.size());
-                        Toast.makeText(VLCApplication.getAppContext(), R.string.favorite_added, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, R.string.favorite_added, Toast.LENGTH_SHORT).show();
                         break;
                     case ID_FAVORITE_DELETE:
                         WorkersKt.runIO(new Runnable() {
@@ -161,7 +160,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
                         detailsOverview.removeAction(actionDelete);
                         detailsOverview.addAction(actionAdd);
                         mRowsAdapter.notifyArrayItemRangeChanged(0, mRowsAdapter.size());
-                        Toast.makeText(VLCApplication.getAppContext(), R.string.favorite_removed, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, R.string.favorite_removed, Toast.LENGTH_SHORT).show();
                         break;
                     case ID_BROWSE:
                         TvUtil.INSTANCE.openMedia(activity, media, null);

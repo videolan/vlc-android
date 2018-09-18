@@ -854,7 +854,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     @NonNull
     public static Intent getIntent(String action, Context context, Uri uri, String title, boolean fromStart, int openedPosition) {
-        Intent intent = new Intent(context, VideoPlayerActivity.class);
+        final Intent intent = new Intent(context, VideoPlayerActivity.class);
         intent.setAction(action);
         intent.putExtra(Constants.PLAY_EXTRA_ITEM_LOCATION, uri);
         intent.putExtra(Constants.PLAY_EXTRA_ITEM_TITLE, title);

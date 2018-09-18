@@ -50,7 +50,6 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.tools.MultiSelectHelper;
 import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.VideoGridBinding;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
@@ -371,7 +370,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     }
 
     public void updateSeenMediaMarker() {
-        mAdapter.setSeenMediaMarkerVisible(PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("media_seen", true));
+        mAdapter.setSeenMediaMarkerVisible(Settings.INSTANCE.getInstance(requireContext()).getBoolean("media_seen", true));
         mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount()-1, Constants.UPDATE_SEEN);
     }
 

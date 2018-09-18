@@ -15,7 +15,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.android.UI
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BR
@@ -86,7 +85,7 @@ fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?) {
             target.visibility = View.VISIBLE
         }
         is TextView -> {
-            ViewCompat.setBackground(target, BitmapDrawable(VLCApplication.getAppResources(), bitmap))
+            ViewCompat.setBackground(target, BitmapDrawable(target.context.resources, bitmap))
             target.text = null
         }
         is ImageCardView -> {

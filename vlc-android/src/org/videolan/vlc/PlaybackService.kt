@@ -1182,7 +1182,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     fun setRenderer(item: RendererItem?) {
         val wasOnRenderer = hasRenderer()
         if (wasOnRenderer && !hasRenderer() && canSwitchToVideo())
-            VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
+            VideoPlayerActivity.startOpened(applicationContext,
                     playlistManager.getCurrentMedia()!!.uri, playlistManager.currentIndex)
         playlistManager.setRenderer(item)
         if (!wasOnRenderer && item != null) audioFocusHelper.changeAudioFocus(false)

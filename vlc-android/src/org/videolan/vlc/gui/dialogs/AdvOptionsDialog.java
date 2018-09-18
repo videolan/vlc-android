@@ -182,12 +182,12 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
         mAdapter = new AdvOptionsAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        mToast = Toast.makeText(VLCApplication.getAppContext(), "", Toast.LENGTH_SHORT);
+        mToast = Toast.makeText(mRecyclerView.getContext(), "", Toast.LENGTH_SHORT);
         mToast.setGravity(Gravity.TOP,0,100);
 
         //Get default color
         final int[] attrs = new int[] { android.R.attr.textColorSecondary };
-        final TypedArray a = getActivity().getTheme().obtainStyledAttributes(R.style.Theme_VLC, attrs);
+        final TypedArray a = mRecyclerView.getContext().getTheme().obtainStyledAttributes(R.style.Theme_VLC, attrs);
         mTextColor = a.getColor(0, Color.LTGRAY);
         a.recycle();
 
