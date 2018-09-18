@@ -28,7 +28,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
@@ -50,6 +49,7 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.PlaylistModel;
 
@@ -138,7 +138,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     public void update() {
         if (mService == null || !mService.hasMedia()) return;
         mBinding.buttonPlay.setImageResource(mService.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
-        final SharedPreferences mSettings= PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences mSettings= Settings.INSTANCE.getInstance(this);
         if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
             mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
             mService.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);

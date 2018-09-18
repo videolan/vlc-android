@@ -35,7 +35,6 @@ import android.support.v17.leanback.widget.OnItemViewSelectedListener;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
-import android.support.v7.preference.PreferenceManager;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -46,6 +45,7 @@ import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
 import java.util.List;
@@ -60,7 +60,7 @@ public class BrowserGridFragment extends GridFragment implements OnItemViewSelec
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setOnItemViewSelectedListener(this);
-        setOnItemViewClickedListener(this); mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("browser_show_hidden_files", false);
+        setOnItemViewClickedListener(this); mShowHiddenFiles = Settings.INSTANCE.getInstance(requireContext()).getBoolean("browser_show_hidden_files", false);
         provider = ViewModelProviders.of(this, new NetworkModel.Factory(requireContext(), null, mShowHiddenFiles)).get(NetworkModel.class);
         provider.getDataset().observe(this, new Observer<List<MediaLibraryItem>>() {
             @Override

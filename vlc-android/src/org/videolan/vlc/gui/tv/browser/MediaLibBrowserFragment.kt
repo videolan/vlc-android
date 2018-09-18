@@ -28,7 +28,6 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import android.preference.PreferenceManager
 import android.support.annotation.RequiresApi
 import android.support.v17.leanback.app.BackgroundManager
 import android.support.v17.leanback.widget.*
@@ -39,6 +38,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.interfaces.Sortable
 import org.videolan.vlc.util.AUDIO_ITEM
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.BaseModel
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -47,7 +47,7 @@ abstract class MediaLibBrowserFragment<T : BaseModel<out MediaLibraryItem>> : Gr
     private var mSelectedItem: Any? = null
     lateinit var model: T
     protected var currentItem: MediaLibraryItem? = null
-    protected val preferences: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(requireContext()) }
+    protected val preferences: SharedPreferences by lazy { Settings.getInstance(requireContext()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

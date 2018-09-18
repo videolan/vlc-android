@@ -30,7 +30,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.widget.TextView;
@@ -46,6 +45,7 @@ import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.tv.SearchActivity;
 import org.videolan.vlc.gui.tv.TimeUpdaterKt;
+import org.videolan.vlc.util.Settings;
 
 import java.util.List;
 
@@ -64,7 +64,7 @@ public abstract class BaseTvActivity extends PlaybackServiceActivity {
         if (savedInstanceState != null) MediaParsingServiceKt.startMedialibrary(this, false, false, true);
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        mSettings = Settings.INSTANCE.getInstance(this);
         registerLiveData();
         new Handler().post(new Runnable() {
             @Override

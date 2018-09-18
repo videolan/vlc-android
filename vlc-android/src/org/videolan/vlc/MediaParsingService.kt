@@ -36,7 +36,6 @@ import android.os.PowerManager
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
-import android.support.v7.preference.PreferenceManager
 import android.text.TextUtils
 import android.util.Log
 import kotlinx.coroutines.experimental.*
@@ -70,7 +69,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     private var notificationJob: Job? = null
     @Volatile private var scanActivated = false
 
-    private val settings by lazy { PreferenceManager.getDefaultSharedPreferences(this) }
+    private val settings by lazy { Settings.getInstance(this) }
 
     private var scanPaused = false
 

@@ -38,7 +38,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -524,7 +523,7 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
     }
 
     private void togglePassthrough() {
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AdvOptionsDialog.this.getContext());
+        final SharedPreferences prefs = Settings.INSTANCE.getInstance(AdvOptionsDialog.this.getContext());
         boolean enabled = !VLCOptions.isAudioDigitalOutputEnabled(prefs);
         if (mService.setAudioDigitalOutputEnabled(enabled)) {
             mPassThrough.setCompoundDrawablesWithIntrinsicBounds(0,
@@ -562,7 +561,7 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
         mService = service;
         boolean tvUi = AndroidDevices.showTvUi(service);
         int large_items = 0;
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AdvOptionsDialog.this.getContext());
+        final SharedPreferences prefs = Settings.INSTANCE.getInstance(AdvOptionsDialog.this.getContext());
 
         mAdapter.addOption(new Option(ID_SLEEP, R.attr.ic_sleep_normal_style, getString(R.string.sleep_title)));
         mAdapter.addOption(new Option(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, getString(R.string.playback_speed)));
@@ -657,7 +656,7 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
         private int mSelection = 0;
 
         AdvOptionsAdapter() {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(AdvOptionsDialog.this.getContext());
+            final SharedPreferences prefs = Settings.INSTANCE.getInstance(AdvOptionsDialog.this.getContext());
             if (!(prefs.getBoolean("enable_volume_gesture",false) || prefs.getBoolean("enable_volume_gesture",false)))
                 mSelection = 0;
         }

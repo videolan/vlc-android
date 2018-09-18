@@ -41,6 +41,7 @@ import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.KEY_MEDIALIBRARY_SCAN
 import org.videolan.vlc.util.ML_SCAN_ON
+import org.videolan.vlc.util.Settings
 
 internal class StorageBrowserAdapter(fragment: BaseBrowserFragment) : BaseBrowserAdapter(fragment) {
 
@@ -97,7 +98,7 @@ internal class StorageBrowserAdapter(fragment: BaseBrowserFragment) : BaseBrowse
         val state = tscb.state
         if (state == ThreeStatesCheckbox.STATE_CHECKED) {
             MedialibraryUtils.addDir(mrl)
-            val prefs = PreferenceManager.getDefaultSharedPreferences(v.getContext().applicationContext)
+            val prefs = Settings.getInstance(v.getContext())
             if (prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_ON) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
         } else
             MedialibraryUtils.removeDir(mrl)

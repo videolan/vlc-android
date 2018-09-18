@@ -32,7 +32,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -50,6 +49,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.PopupLayout;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.Settings;
 
 public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener,
         View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.OnNewVideoLayoutListener, IVLCVout.Callback {
@@ -72,7 +72,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     public PopupManager(PlaybackService service) {
         mService = service;
-        mAlwaysOn = PreferenceManager.getDefaultSharedPreferences(service).getBoolean("popup_keepscreen", false);
+        mAlwaysOn = Settings.INSTANCE.getInstance(service).getBoolean("popup_keepscreen", false);
     }
 
     public void removePopup() {
@@ -267,12 +267,13 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
             time = mService.getLength() - time < 5000 ? 0 :  2000;
             // Save position
             if (mService.isSeekable())
-                PreferenceManager.getDefaultSharedPreferences(mService).edit()
+                Settings.INSTANCE.getInstance(mService).edit()
                         .putLong(PreferencesActivity.VIDEO_RESUME_TIME, time).apply();
         }
         mService.stop();
     }
 
+    @SuppressWarnings("deprecation")
     private void showNotification() {
         final PendingIntent piStop = PendingIntent.getBroadcast(mService, 0,
                 new Intent(Constants.ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);

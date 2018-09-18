@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -44,6 +43,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.Settings;
 
 import videolan.org.commontools.TvChannelUtilsKt;
 
@@ -80,7 +80,7 @@ public class StartActivity extends FragmentActivity implements StoragePermission
 
         // Start application
         /* Get the current version from package */
-        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences settings = Settings.INSTANCE.getInstance(this);
         final int currentVersionNumber = BuildConfig.VERSION_CODE;
         final int savedVersionNumber = settings.getInt(Constants.PREF_FIRST_RUN, -1);
         /* Check if it's the first run */
@@ -125,7 +125,7 @@ public class StartActivity extends FragmentActivity implements StoragePermission
 
     private boolean showTvUi() {
         return AndroidDevices.isAndroidTv || (!AndroidDevices.isChromeBook && !AndroidDevices.hasTsp) ||
-                PreferenceManager.getDefaultSharedPreferences(this).getBoolean("tv_ui", false);
+                Settings.INSTANCE.getInstance(this).getBoolean("tv_ui", false);
     }
 
     @Override

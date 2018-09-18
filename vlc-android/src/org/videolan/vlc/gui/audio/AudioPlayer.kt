@@ -29,7 +29,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.preference.PreferenceManager
 import android.support.annotation.MainThread
 import android.support.annotation.RequiresPermission
 import android.support.constraint.ConstraintSet
@@ -112,7 +111,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         super.onCreate(savedInstanceState)
         savedInstanceState?.let { playerState = it.getInt("player_state")}
         playlistAdapter = PlaylistAdapter(this)
-        settings = PreferenceManager.getDefaultSharedPreferences(activity)
+        settings = Settings.getInstance(requireContext())
         helper = PlaybackServiceActivity.Helper(activity, this)
     }
 

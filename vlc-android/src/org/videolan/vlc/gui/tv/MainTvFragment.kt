@@ -29,7 +29,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v17.leanback.app.BackgroundManager
 import android.support.v17.leanback.app.BrowseSupportFragment
 import android.support.v17.leanback.widget.*
@@ -93,7 +92,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        settings = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        settings = Settings.getInstance(requireContext())
         // Set display parameters for the BrowseFragment
         headersState = BrowseSupportFragment.HEADERS_ENABLED
         title = getString(R.string.app_name)

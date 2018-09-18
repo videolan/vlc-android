@@ -29,7 +29,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.support.v17.leanback.widget.ImageCardView;
 import android.support.v17.leanback.widget.Presenter;
 import android.support.v4.content.ContextCompat;
@@ -46,6 +45,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.ImageLoaderKt;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.Settings;
 
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class CardPresenter extends Presenter {
         mContext = context;
         mRes = mContext.getResources();
         sDefaultCardImage = ContextCompat.getDrawable(mContext, R.drawable.ic_default_cone);
-        mIsSeenMediaMarkerVisible = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getBoolean("media_seen", true);
+        mIsSeenMediaMarkerVisible = Settings.INSTANCE.getInstance(context).getBoolean("media_seen", true);
 
     }
 

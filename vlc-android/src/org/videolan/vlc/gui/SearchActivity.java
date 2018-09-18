@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -31,6 +30,7 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.SearchActivityBinding;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.WorkersKt;
 
 public class SearchActivity extends AppCompatActivity implements TextWatcher, TextView.OnEditorActionListener {
@@ -44,7 +44,7 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Te
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean("enable_black_theme", false))
+        if (Settings.INSTANCE.getInstance(this).getBoolean("enable_black_theme", false))
             setTheme(R.style.Theme_VLC_Black);
         final Intent intent = getIntent();
         mBinding = DataBindingUtil.setContentView(this, R.layout.search_activity);

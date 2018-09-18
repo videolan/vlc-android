@@ -176,7 +176,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         final Resources res = getResources();
         final boolean listMode = res.getBoolean(R.bool.list_mode)
                 || (res.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT &&
-                PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean("force_list_portrait", false));
+                Settings.INSTANCE.getInstance(requireContext()).getBoolean("force_list_portrait", false));
 
         // Select between grid or list
         if (!listMode) {
@@ -335,7 +335,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
             ((MainActivity)activity).getNavigator().showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
         } else {
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-            final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(v.getContext());
+            final SharedPreferences settings = Settings.INSTANCE.getInstance(v.getContext());
             if (settings.getBoolean("force_play_all", false)) {
                 final List<MediaWrapper> playList = new ArrayList<>();
                 MediaUtils.INSTANCE.openList(activity, playList, viewModel.getListWithPosition(playList, position));

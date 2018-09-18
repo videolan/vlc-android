@@ -295,7 +295,7 @@ public class FileUtils {
 
     public static DocumentFile findFile(Uri uri) {
         final String storage = getMediaStorage(uri);
-        final String treePref = PreferenceManager.getDefaultSharedPreferences(VLCApplication.getAppContext()).getString("tree_uri_"+ storage, null);
+        final String treePref = Settings.INSTANCE.getInstance(VLCApplication.getAppContext()).getString("tree_uri_"+ storage, null);
         if (treePref == null) return null;
         final Uri treeUri = Uri.parse(treePref);
         DocumentFile documentFile = DocumentFile.fromTreeUri(VLCApplication.getAppContext(), treeUri);

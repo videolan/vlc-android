@@ -34,13 +34,11 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.preference.PreferenceManager;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
@@ -64,12 +62,12 @@ public class Permissions {
 
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean canDrawOverlays(Context context) {
-        return !AndroidUtil.isMarshMallowOrLater || Settings.canDrawOverlays(context);
+        return !AndroidUtil.isMarshMallowOrLater || android.provider.Settings.canDrawOverlays(context);
     }
 
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean canWriteSettings(Context context) {
-        return !AndroidUtil.isMarshMallowOrLater || Settings.System.canWrite(context);
+        return !AndroidUtil.isMarshMallowOrLater || android.provider.Settings.System.canWrite(context);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -138,7 +136,7 @@ public class Permissions {
                 .setPositiveButton(activity.getString(R.string.permission_ask_again), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
+                        final SharedPreferences settings = Settings.INSTANCE.getInstance(activity);
                         if (!settings.getBoolean("user_declined_storage_access", false))
                             requestStoragePermission(activity, false, null);
                         else {
@@ -175,7 +173,7 @@ public class Permissions {
                 .setPositiveButton(activity.getString(R.string.permission_ask_again), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
+                        final SharedPreferences settings = Settings.INSTANCE.getInstance(activity);
                         if (!settings.getBoolean("user_declined_storage_access", false))
                             requestStoragePermission(activity, false, null);
                         else {
@@ -207,7 +205,7 @@ public class Permissions {
 
     private static Dialog createSettingsDialogCompat(final Activity activity, int mode) {
         int titleId = 0, textId = 0;
-        String action = Settings.ACTION_MANAGE_WRITE_SETTINGS;
+        String action = android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS;
         switch (mode) {
             case PERMISSION_SYSTEM_RINGTONE:
                 titleId = R.string.allow_settings_access_ringtone_title;
@@ -220,7 +218,7 @@ public class Permissions {
             case PERMISSION_SYSTEM_DRAW_OVRLAYS:
                 titleId = R.string.allow_draw_overlays_title;
                 textId = R.string.allow_sdraw_overlays_description;
-                action = Settings.ACTION_MANAGE_OVERLAY_PERMISSION;
+                action = android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION;
                 break;
         }
         final String finalAction = action;
@@ -231,13 +229,13 @@ public class Permissions {
                 .setPositiveButton(activity.getString(R.string.permission_ask_again), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(activity);
-                        Intent i = new Intent(finalAction);
+                        final SharedPreferences settings = Settings.INSTANCE.getInstance(activity);
+                        final Intent i = new Intent(finalAction);
                         i.setData(Uri.parse("package:" + activity.getPackageName()));
                         try {
                             activity.startActivity(i);
                         } catch (Exception ignored) {}
-                        SharedPreferences.Editor editor = settings.edit();
+                        final SharedPreferences.Editor editor = settings.edit();
                         editor.putBoolean("user_declined_settings_access", true);
                         editor.apply();
                     }

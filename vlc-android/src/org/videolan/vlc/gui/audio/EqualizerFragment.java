@@ -24,7 +24,6 @@ import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableInt;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
@@ -55,6 +54,7 @@ import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.EqualizerBar;
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.VLCOptions;
 
 import java.util.ArrayList;
@@ -132,7 +132,7 @@ public class EqualizerFragment extends AppCompatDialogFragment implements Playba
         allSets = new ArrayList<>();
         allSets.addAll(Arrays.asList(getEqualizerPresets()));
         presetCount = allSets.size();
-        for (Map.Entry<String, ?> entry : PreferenceManager.getDefaultSharedPreferences(context).getAll().entrySet()) {
+        for (Map.Entry<String, ?> entry : Settings.INSTANCE.getInstance(context).getAll().entrySet()) {
             if (entry.getKey().startsWith("custom_equalizer_")) {
                 allSets.add(entry.getKey().replace("custom_equalizer_", "").replace("_", " "));
                 customCount++;

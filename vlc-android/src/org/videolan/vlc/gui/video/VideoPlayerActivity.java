@@ -49,7 +49,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -130,9 +129,11 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.SubtitlesDownloader;
 import org.videolan.vlc.util.Util;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
@@ -304,7 +305,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         Util.checkCpuCompatibility(this);
 
-        mSettings = PreferenceManager.getDefaultSharedPreferences(this);
+        mSettings = Settings.INSTANCE.getInstance(this);
 
         /* Services and miscellaneous */
         mAudioManager = (AudioManager) getApplicationContext().getSystemService(AUDIO_SERVICE);

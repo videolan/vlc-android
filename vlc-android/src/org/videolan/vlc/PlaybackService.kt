@@ -28,7 +28,6 @@ import android.media.AudioManager
 import android.media.audiofx.AudioEffect
 import android.net.Uri
 import android.os.*
-import android.preference.PreferenceManager
 import android.support.annotation.MainThread
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.app.ServiceCompat
@@ -448,7 +447,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
     override fun onCreate() {
         super.onCreate()
-        settings = PreferenceManager.getDefaultSharedPreferences(this)
+        settings = Settings.getInstance(this)
         playlistManager = PlaylistManager(this)
         Util.checkCpuCompatibility(this)
 

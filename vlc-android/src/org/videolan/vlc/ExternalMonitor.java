@@ -43,7 +43,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.v7.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
@@ -53,6 +52,7 @@ import org.videolan.vlc.gui.helpers.hf.OtgAccess;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.LiveDataset;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 
@@ -97,7 +97,7 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
     private static void checkNewStorages(final Context ctx) {
         if (VLCApplication.getMLInstance().isInitiated()) {
             final int scanOpt = AndroidDevices.showTvUi(ctx) ? Constants.ML_SCAN_ON
-                    : PreferenceManager.getDefaultSharedPreferences(ctx).getInt(Constants.KEY_MEDIALIBRARY_SCAN, -1);
+                    : Settings.INSTANCE.getInstance(ctx).getInt(Constants.KEY_MEDIALIBRARY_SCAN, -1);
             if (scanOpt == Constants.ML_SCAN_ON) new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
@@ -174,7 +174,7 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
                     final String path = ((Uri) msg.obj).getPath();
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
                     if (!TextUtils.isEmpty(uuid)
-                            && !PreferenceManager.getDefaultSharedPreferences(appCtx).getBoolean("ignore_" + uuid, false)) {
+                            && !Settings.INSTANCE.getInstance(appCtx).getBoolean("ignore_" + uuid, false)) {
                         final Medialibrary ml = VLCApplication.getMLInstance();
                         final String[] knownDevices = ml.getDevices();
                         if (!containsDevice(knownDevices, path) && ml.addDevice(uuid, path, true)) {

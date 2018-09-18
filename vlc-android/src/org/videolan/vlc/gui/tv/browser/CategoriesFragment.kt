@@ -25,7 +25,6 @@ package org.videolan.vlc.gui.tv.browser
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.v17.leanback.app.BackgroundManager
 import android.support.v17.leanback.app.BrowseSupportFragment
 import android.support.v17.leanback.widget.*
@@ -41,6 +40,7 @@ import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.interfaces.Sortable
 import org.videolan.vlc.util.HEADER_DIRECTORIES
 import org.videolan.vlc.util.HEADER_NETWORK
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.BaseModel
 
 private const val TAG = "VLC/CategoriesFragment"
@@ -53,7 +53,7 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
     private lateinit var categoryRows: Map<String, ListRow>
     lateinit var viewModel: T
     private var restart = false
-    protected val preferences: SharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(requireContext()) }
+    protected val preferences: SharedPreferences by lazy { Settings.getInstance(requireContext()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -36,7 +36,6 @@ import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
@@ -46,6 +45,7 @@ import android.view.View;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.vlc.PlaybackService;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.VLCInstance;
 
 import java.io.BufferedReader;
@@ -131,9 +131,9 @@ public class BenchActivity extends ShallowVideoPlayer {
         /* Changing preference to set the android_display vout on hardware benchmarks */
         super.onConnected(service);
         if (mIsHardware && mService != null) {
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+            final SharedPreferences sharedPref = Settings.INSTANCE.getInstance(this);
             mOldOpenglValue = sharedPref.getString("opengl", "-1");
-            SharedPreferences.Editor editor = sharedPref.edit();
+            final SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("opengl", "0");
             editor.commit();
             VLCInstance.restart();
@@ -459,8 +459,8 @@ public class BenchActivity extends ShallowVideoPlayer {
     public void finish() {
         /* Resetting vout preference to it value before the benchmark */
         if (mIsHardware && !mOldOpenglValue.equals("-2")) {
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-            SharedPreferences.Editor editor= sharedPref.edit();
+            final SharedPreferences sharedPref = Settings.INSTANCE.getInstance(this);
+            final SharedPreferences.Editor editor= sharedPref.edit();
             editor.putString("opengl", mOldOpenglValue);
             editor.commit();
             VLCInstance.restart();

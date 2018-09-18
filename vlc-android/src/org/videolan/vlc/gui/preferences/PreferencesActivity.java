@@ -23,7 +23,6 @@ package org.videolan.vlc.gui.preferences;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +31,7 @@ import android.view.MenuItem;
 
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.util.Settings;
 
 @SuppressWarnings("deprecation")
 public class PreferencesActivity extends AppCompatActivity implements PlaybackService.Client.Callback {
@@ -110,7 +110,7 @@ public class PreferencesActivity extends AppCompatActivity implements PlaybackSe
     }
 
     private void applyTheme() {
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences pref = Settings.INSTANCE.getInstance(this);
         boolean enableBlackTheme = pref.getBoolean("enable_black_theme", false);
         if (enableBlackTheme) {
             setTheme(R.style.Theme_VLC_Black);

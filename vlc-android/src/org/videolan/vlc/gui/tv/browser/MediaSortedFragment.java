@@ -29,11 +29,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.preference.PreferenceManager;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.viewmodels.BaseModel;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -56,7 +56,7 @@ public abstract class MediaSortedFragment<T extends BaseModel<? extends MediaLib
             if (intent != null)
                 mUri = intent.getData();
         }
-        mShowHiddenFiles = PreferenceManager.getDefaultSharedPreferences(requireContext()).getBoolean("browser_show_hidden_files", false);
+        mShowHiddenFiles = Settings.INSTANCE.getInstance(requireContext()).getBoolean("browser_show_hidden_files", false);
     }
 
     public void onPause(){
