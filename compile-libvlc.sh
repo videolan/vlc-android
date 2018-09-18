@@ -111,6 +111,7 @@ VLC_BOOTSTRAP_ARGS="\
     --disable-srt \
     --enable-vpx \
     --disable-x265 \
+    --disable-medialibrary \
 "
 
 ###########################
