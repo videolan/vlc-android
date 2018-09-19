@@ -95,6 +95,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     private var advFuncVisible = false
     private var playlistSwitchVisible = false
     private var searchVisible = false
+    private var searchTextVisible = false
     private var abVisible = false
     private var headerPlayPauseVisible = false
     private var progressBarVisible = false
@@ -287,7 +288,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
                 }
             }
         }
-        if ((activity as AudioPlayerContainerActivity).isAudioPlayerExpanded)
+        if ((activity as AudioPlayerContainerActivity).isAudioPlayerExpanded && !searchTextVisible)
             setHeaderVisibilities(true, true, false, false, false, true, true)
     }
 
@@ -385,14 +386,16 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
 
     private fun setHeaderVisibilities(advFuncVisible: Boolean, playlistSwitchVisible: Boolean,
                                       headerPlayPauseVisible: Boolean, progressBarVisible: Boolean,
-                                      headerTimeVisible: Boolean, searchVisible: Boolean, abVisible: Boolean) {
-        this.advFuncVisible = advFuncVisible
-        this.playlistSwitchVisible = playlistSwitchVisible
-        this.headerPlayPauseVisible = headerPlayPauseVisible
-        this.progressBarVisible = progressBarVisible
-        this.headerTimeVisible = headerTimeVisible
-        this.searchVisible = searchVisible
-        this.abVisible = abVisible
+                                      headerTimeVisible: Boolean, searchVisible: Boolean,
+                                      abVisible: Boolean, filter: Boolean = false) {
+        this.advFuncVisible = !filter && advFuncVisible
+        this.playlistSwitchVisible = !filter && playlistSwitchVisible
+        this.headerPlayPauseVisible = !filter && headerPlayPauseVisible
+        this.progressBarVisible = !filter && progressBarVisible
+        this.headerTimeVisible = !filter && headerTimeVisible
+        this.searchVisible = !filter && searchVisible
+        this.abVisible = !filter && abVisible
+        this.searchTextVisible = filter
         restoreHeaderButtonVisibilities()
     }
 
@@ -408,6 +411,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
             setVisibility(R.id.adv_function, if (advFuncVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
             setVisibility(R.id.header_play_pause, if (headerPlayPauseVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
             setVisibility(R.id.header_time, if (headerTimeVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.playlist_search_text, if (searchTextVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.audio_media_switcher, if (searchTextVisible) ConstraintSet.GONE else ConstraintSet.VISIBLE)
             applyTo(cl)
         }
     }
@@ -417,11 +422,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     }
 
     fun onSearchClick(v: View) {
-        binding.playlistSearch.visibility = View.GONE
-        binding.playlistSearchText.visibility = View.VISIBLE
+        setHeaderVisibilities(false, false, false, false, false, false, false, true)
         binding.playlistSearchText.editText?.requestFocus()
         if (binding.showCover) onPlaylistSwitchClick(binding.playlistSwitch)
-        val imm = VLCApplication.getAppContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = v.context.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding.playlistSearchText.editText, InputMethodManager.SHOW_IMPLICIT)
         handler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS.toLong())
     }
@@ -441,8 +445,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
             addTextChangedListener(this@AudioPlayer)
         }
         UiTools.setKeyboardVisibility(binding.playlistSearchText, false)
-        binding.playlistSearch.visibility = View.VISIBLE
-        binding.playlistSearchText.visibility = View.GONE
+        if (playerState == BottomSheetBehavior.STATE_COLLAPSED) setHeaderVisibilities(false, false, true, true, true, false, false)
+        else setHeaderVisibilities(true, true, false, false, false, true, true)
         return true
     }
 
