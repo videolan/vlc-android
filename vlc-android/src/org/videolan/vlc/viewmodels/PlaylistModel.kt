@@ -25,7 +25,6 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.support.v4.app.Fragment
-import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
@@ -56,7 +55,7 @@ class PlaylistModel(private val service: PlaybackService) : ScopedModel(), Playb
         dataset.value = service.medias.toMutableList()
     }
 
-    fun filter(query: CharSequence?) = launch(Dispatchers.Default) { filter.filter(query) }
+    fun filter(query: CharSequence?) = launch { filter.filter(query) }
 
     public override fun onCleared() {
         service.removeCallback(this)
