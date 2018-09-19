@@ -28,6 +28,9 @@
     <!-- Audio search on TV -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+    <!-- USe foreground services -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <!-- normal -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
