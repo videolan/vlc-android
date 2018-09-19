@@ -373,7 +373,10 @@ public class AudioPlayerContainerActivity extends BaseActivity {
         MediaParsingService.Companion.getProgress().observe(this, new Observer<ScanProgress>() {
             @Override
             public void onChanged(@Nullable ScanProgress scanProgress) {
-                if (scanProgress == null || !Medialibrary.getInstance().isWorking()) return;
+                if (scanProgress == null || !Medialibrary.getInstance().isWorking()) {
+                    updateProgressVisibility(false);
+                    return;
+                }
                 updateProgressVisibility(true);
                 if (mScanProgressText != null) mScanProgressText.setText(scanProgress.getDiscovery());
                 if (mScanProgressBar != null) mScanProgressBar.setProgress(scanProgress.getParsing());
