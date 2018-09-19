@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">OK</string>
     <string name="cancel">Отмена</string>
     <string name="other">Другое</string>
     <string name="sortby">Сортировка…</string>
-    <string name="sortby_name">по имени</string>
+    <string name="sortby_name">По имени</string>
     <string name="sortby_name_desc">Название (по убыв.)</string>
     <string name="sortby_filename">Имя файла</string>
     <string name="sortby_filename_desc">Имя файла (по убыв.)</string>
@@ -17,16 +18,20 @@
     <string name="sortby_length_desc">Длительность (по убыв.)</string>
     <string name="sortby_date">Дата</string>
     <string name="sortby_date_desc">Дата (по убыв.)</string>
+    <string name="sortby_last_modified_date">По дате добавления</string>
+    <string name="sortby_last_modified_date_desc">По дате добавления (по убыв.)</string>
     <string name="sortby_number">Номер дорожки</string>
     <string name="sortby_number_desc">Номер дорожки (по убыв.)</string>
     <string name="searchable_hint">Поиск</string>
     <string name="history">История</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">Результатов поиска: %d</item>
         <item quantity="few">Результатов поиска: %d</item>
         <item quantity="many">Результатов поиска: %d</item>
         <item quantity="other">Результатов поиска: %d</item>
     </plurals>
+
     <string name="play">Воспроизвести</string>
     <string name="playback">Воспроизведение</string>
     <string name="playback_controls">Управление воспроизведением</string>
@@ -51,6 +56,8 @@
     <string name="confirm_delete">Удалить файл \'%1$s\'?</string>
     <string name="confirm_delete_folder">Удалить папку \'%1$s\' и всё её содержимое?</string>
     <string name="confirm_delete_playlist">Удалить плейлист \'%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">Убрать \'%1$s\' из плейлиста?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Убрать из плейлиста?</string>
     <string name="ringtone_set">Теперь \'%1$s\' — мелодия звонка.</string>
     <string name="ringtone_error">При попытке сменить мелодию звонка произошла ошибка.</string>
     <string name="pause">Пауза</string>
@@ -67,9 +74,11 @@
         <item quantity="many">Композиций: %d</item>
         <item quantity="other">Композиций: %d</item>
     </plurals>
+
     <string name="artists">Исполнители</string>
     <string name="albums">Альбомы</string>
     <string name="tracks">Дорожки</string>
+
     <plurals name="albums_quantity">
         <item quantity="one">Альбомов: 1</item>
         <item quantity="few">Альбомов: %d</item>
@@ -94,6 +103,7 @@
         <item quantity="many">%d видео</item>
         <item quantity="other">%d видео</item>
     </plurals>
+
     <string name="internal_memory">Внутренняя память</string>
     <string name="parent_folder">Предыдущий уровень</string>
     <string name="audio">Аудио</string>
@@ -118,6 +128,7 @@
     <string name="directorynotfound">Каталог \'%1$s\' не найден.</string>
     <string name="nohistory">История воспроизведения пуста.</string>
     <string name="validation">Вы уверены?</string>
+
     <string name="cover_art">Обложка</string>
     <string name="shuffle_title">Режим перемешивания</string>
     <string name="shuffle">Перемешивание выкл.</string>
@@ -131,6 +142,7 @@
     <string name="next">Следующий</string>
     <string name="firstsong">Первая позиция плейлиста</string>
     <string name="lastsong">Последняя позиция плейлиста</string>
+
     <string name="locked">Заблокировано</string>
     <string name="unlocked">Разблокировано</string>
     <string name="surface_best_fit">Оптимально</string>
@@ -154,15 +166,18 @@
     <string name="navmenu">меню навигации</string>
     <string name="advanced">расширенные параметры</string>
     <string name="audio_boost_warning">Сдвиньте выше ещё раз для превышения 100%</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">Каналов: 1\n</item>
         <item quantity="few">Каналов: %1$d\n</item>
         <item quantity="many">Каналов: %1$d\n</item>
         <item quantity="other">Каналов: %1$d\n</item>
     </plurals>
+
     <string name="track_samplerate_info">Частота дискр.: %1$d Гц\n</string>
     <string name="track_resolution_info">Разрешение: %1$dx%2$d\n</string>
     <string name="track_framerate_info">Частота кадров: %1$.3f\n</string>
+
     <string name="tools">Инструменты</string>
     <string name="playback_speed">Скорость воспроизведения</string>
     <string name="sleep_title">Таймер сна</string>
@@ -172,6 +187,7 @@
     <string name="subtitle_label">Добавить файл субтитров</string>
     <string name="subtitle_select">Выберите файл субтитров</string>
     <string name="no_file_picker_found">В системе нет средства для выбора файла.</string>
+
     <string name="server_add_title">Добавление сервера в Избранное</string>
     <string name="server_domain_hint">Адрес сервера (доменное имя или IP)</string>
     <string name="server_share_hint">Имя сетевого ресурса (или IP-адрес)</string>
@@ -181,6 +197,7 @@
     <string name="server_port">Порт:</string>
     <string name="login">Войти</string>
     <string name="password">Пароль</string>
+
     <string name="search_results">Результаты поиска</string>
     <string name="search_no_result">Медиаобъекты не найдены</string>
     <string name="favorites_add">Добавить в избранное</string>
@@ -188,6 +205,7 @@
     <string name="favorites_edit">Редактирование</string>
     <string name="favorite_added">Сохранено в избранном</string>
     <string name="favorite_removed">Удалено из избранного</string>
+
     <string name="open">Открыть</string>
     <string name="open_mrl">Поток</string>
     <string name="open_mrl_dialog_title">Воспроизведение сетевого потока</string>
@@ -195,16 +213,20 @@
     <string name="error_not_compatible">Жаль, эта версия VLC для Android™ не работает на вашем устройстве.</string>
     <string name="error_problem">К сожалению, VLC для Android не смог загрузиться и его пришлось закрыть.</string>
     <string name="error_message_is">Сообщение об ошибке (оно будет полезно нам при отладке):\n</string>
-    <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">Ошибка воспроизведения</string>
     <string name="encountered_error_message">При воспроизведении этого медиаисточника произошла ошибка.\nПопробуйте обновить медиатеку.</string>
     <string name="invalid_location">Воспроизвести %1$s нельзя.</string>
+
     <string name="search">Искать</string>
     <string name="search_history">Искать в истории</string>
+
+
     <string name="playback_history_title">История воспроизведения</string>
     <string name="playback_history_summary">Сохранять всё воспроизведённое в Истории</string>
     <string name="playback_speed_title">Сохранять скорость воспроизведения</string>
     <string name="playback_speed_summary">Запоминать последнюю установленную скорость воспроизведения</string>
+
+    <string name="play_button">Кнопка воспроизведения</string>
     <!-- Tips -->
     <string name="video_player_tips">Подсказки для видеоплеера:</string>
     <string name="seek">Переход</string>
@@ -214,25 +236,30 @@
     <string name="options">Параметры</string>
     <string name="lock">Блокировка</string>
     <string name="ok_got_it">Принято</string>
+
     <string name="playlist_tips">Подсказки для плейлиста</string>
     <string name="remove_song">Удаление</string>
     <string name="remove_playlist_item">Элемент %1$s убран из плейлиста</string>
     <string name="rearrange_order">Изменение порядка</string>
     <string name="hold_to_seek">Удержание — переход</string>
+
     <string name="audio_player_tips">Подсказки для аудиоплеера:</string>
     <string name="previous_next_song">Пред./след. композиция</string>
     <string name="show_playlist">Показать плейлист</string>
     <string name="hold_to_stop">Удержание — останов</string>
+
     <!-- About -->
     <string name="app_name_full">VLC для Android</string>
     <string name="licence">Лицензия</string>
     <string name="revision">Ревизия</string>
     <string name="about">О программе</string>
     <string name="about_text">VLC для Android™ - порт медиаплеера VLC (популярного плеера с открытым исходным кодом). Версия для Android™ может воспроизводить большинство файлов и сетевых потоков.</string>
-    <string name="compiled_by">Эту версию VLC скомпилировал:</string>
     <string name="vlc_authors">и авторы VLC.</string>
+    <string name="compiled_by">Эту версию VLC скомпилировал:</string>
+
     <!-- Preferences -->
     <string name="preferences">Настройки</string>
+
     <string name="general_prefs_category">Общие</string>
     <string name="directories_summary">Выберите каталоги для составления медиатеки</string>
     <string name="add_custom_path">Добавить свой путь</string>
@@ -245,11 +272,7 @@
     <string name="hardware_acceleration_full">Полное ускорение</string>
     <string name="dev_hardware_decoder">Расширенный аппаратный декодер</string>
     <string name="dev_hardware_decoder_summary">Включить аппаратный декодер (не для обычных пользователей)</string>
-    <string name="dev_hardware_decoder_omx">iomx</string>
-    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
-    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
-    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
-    <string name="automatic">автоматически</string>
+    <string name="automatic">Автоматически</string>
     <string name="screen_orientation">Ориентация экрана</string>
     <string name="screen_orientation_sensor">Автоматическая (от сенсора)</string>
     <string name="screen_orientation_start_lock">Блокируется при запуске</string>
@@ -262,7 +285,9 @@
     <string name="subtitle_text_encoding">Кодировка текста субтитров</string>
     <string name="daynight_title">Режим День/Ночь</string>
     <string name="daynight_summary">Автоматически переключаться в ночной режим в подходящее время</string>
+
     <string name="extra_prefs_category">Доп. настройки</string>
+
     <string name="interface_prefs_screen">Интерфейс</string>
     <string name="interface_gui">Отображение</string>
     <string name="interface_secondary_display_category_title">Вторичный дисплей</string>
@@ -270,6 +295,7 @@
     <string name="enable_clone_mode">Клонирование</string>
     <string name="enable_clone_mode_summary">Клонировать экран устройства без удалённого управления.</string>
     <string name="interface_other_category">Интерфейс — Другое</string>
+
     <string name="video_prefs_category">Видео</string>
     <string name="video_min_group_length_title">Группирование видео</string>
     <string name="video_min_group_length_summary">Видео будут группироваться при совпадении первых букв.</string>
@@ -301,6 +327,7 @@
     <string name="popup_keepscreen_summary">Всегда поддерживать экран включённым, когда отображается всплывающее окно, даже если видео на паузе.</string>
     <string name="browser_show_hidden_files_title">Показывать скрытые файлы</string>
     <string name="browser_show_hidden_files_summary">Показывать скрытые файлы при обзоре</string>
+
     <string name="subtitles_prefs_category">Субтитры</string>
     <string name="subtitles_size_title">Размер субтитров</string>
     <string name="subtitles_size_small">маленький</string>
@@ -317,6 +344,7 @@
     <string name="subtitles_background_title">Фон субтитров</string>
     <string name="subtitles_bold_title">Полужирные субтитры</string>
     <string name="subtitles_autoload_title">Автоматически загружать субтитры</string>
+
     <string name="audio_prefs_category">Аудио</string>
     <string name="lockscreen_cover_title">Обложка медиа на экране блокировки</string>
     <string name="lockscreen_cover_summary">Если текущий медиаобъект имеет обложку, она будет установлена как фон экрана блокировки</string>
@@ -358,6 +386,7 @@
     <string name="casting_connected_renderer">Подключено к экрану \'%1$s\'</string>
     <string name="artists_show_all_title">Показывать всех исполнителей</string>
     <string name="artists_show_all_summary">Показывать всех исполнителей в списке Исполнители, а не только исполнителей альбомов</string>
+
     <string name="extensions_prefs_category">Расширения</string>
     <string name="extensions_enable_category">Выберите расширения для включения</string>
     <string name="extensions_empty">Расширения не найдены</string>
@@ -365,10 +394,12 @@
     <string name="extension_permission_checkbox_title">Показывать в %1$s</string>
     <string name="extension_prefs_activation_title">Активировать</string>
     <string name="android_auto">Android Auto</string>
+
     <string name="controls_prefs_category">Параметры</string>
+
     <string name="performance_prefs_category">Производительность</string>
     <string name="chroma_format">Принудительный формат цветности</string>
-    <string name="chroma_format_summary">RGB 32 бита: формат по умолчанию\nRGB 16 бит: выше скорость, но ниже качество\nYUV: максимальная скорость, но работает на на всех устройствах; поддерживает только Android 2.3 и новее.</string>
+    <string name="chroma_format_summary">RGB 32 бита: формат по умолчанию\nRGB 16 бит: выше скорость, но ниже качество\nYUV: максимальная скорость, но работает не на всех устройствах; поддерживает только Android 2.3 и новее.</string>
     <string name="deblocking">Параметры устранения блочности</string>
     <string name="deblocking_summary">Устранение блочности может улучшить качество видео. Предназначено только для опытных пользователей.</string>
     <string name="deblocking_always">Полное устранение (самое медленное)</string>
@@ -379,6 +410,7 @@
     <string name="enable_frame_skip_summary">Ускоряет декодирование, но может повлиять на качество видео.</string>
     <string name="enable_time_stretching_audio">Изменение скорости звука</string>
     <string name="enable_time_stretching_audio_summary">Ускорение/замедление звука без изменения его высоты (требуется мощное устройство).</string>
+
     <string name="advanced_prefs_category">Расширенные</string>
     <string name="save_video_none">Не запоминать скорость</string>
     <string name="save_video_session">Запоминать скорость до выхода</string>
@@ -398,8 +430,14 @@
     <string name="network_caching_summary">Время буферизации сетевых потоков (в мс). Не применимо при аппаратном декодировании. Для сброса очистите это значение.</string>
     <string name="resume_playback_title">Возобновлять воспроизведение после звонка</string>
     <string name="resume_playback_summary">В противном случае сохраняется пауза</string>
+    <string name="blurred_cover_background_title">Размытая обложка</string>
+    <string name="blurred_cover_background_summary">Размытая обложка в фоне при воспроизведении аудио</string>
     <string name="network_caching_popup">Это значение должно быть от 0 до 6000 мс</string>
     <string name="quit">Перезапустить приложение</string>
+    <string name="restart_message">Изменения вступят в силу после перезапуска приложения.\n\nПерезапустить его сейчас?</string>
+    <string name="restart_message_OK">ОК</string>
+    <string name="restart_message_Later">Позже</string>
+
     <string name="developer_prefs_category">Для разработчиков</string>
     <string name="enable_verbose_mode">Детализация</string>
     <string name="enable_verbose_mode_summary">Степень детализации сообщений (logcat)</string>
@@ -414,16 +452,21 @@
     <string name="dump_logcat">Выгрузить журнал logcat</string>
     <string name="dump_logcat_success">Журнал logcat успешно выгружен в %1$s!</string>
     <string name="dump_logcat_failure">Выгрузить logcat не удалось.</string>
+    <string name="custom_libvlc_options">Спецпараметры libVLC</string>
+
     <string name="serious_crash">К сожалению, произошла серьёзная ошибка и VLC пришлось закрыть.</string>
     <string name="help_us_send_log">Помогите нам усовершенствовать VLC, отправив протокол сбоя:</string>
     <string name="restart_vlc">Перезапустить VLC</string>
     <string name="send_log">Отправить протокол</string>
-    <string name="sending_log">Отправка протокола...</string>
+    <string name="sending_log">Отправка протокола…</string>
+
     <string name="drawer_open">Открыть панель навигации</string>
     <string name="drawer_close">Закрыть панель навигации</string>
     <string name="network_browsing">Локальная сеть</string>
     <string name="browsing">Обзор</string>
+
     <string name="file_size">Размер файла:</string>
+
     <string name="audio_delay">Задержка звука</string>
     <string name="spu_delay">Задержка субтитров</string>
     <string name="sleep_time_not_set">не задано</string>
@@ -437,7 +480,7 @@
     <string name="directory_hide_medialib">Убрать из медиатеки</string>
     <string name="playlist_save">Сохранить плейлист</string>
     <string name="playlist_name_hint">название плейлиста</string>
-    <string name="go_to_chapter">Перейти к главе...</string>
+    <string name="go_to_chapter">Перейти к главе…</string>
     <string name="chapter">Глава</string>
     <string name="resume_from_position">Продолжить с последней позиции</string>
     <string name="confirm_resume">Продолжить с последней позиции?</string>
@@ -448,6 +491,7 @@
     <string name="tv_ui_summary">Сменить интерфейс на тему для TV</string>
     <string name="medialibrary">Медиатека</string>
     <string name="medialibrary_directories">Папки медиатеки</string>
+
     <!-- Accessibility -->
     <string name="more_actions">Другие действия</string>
     <string name="move">Переместить</string>
@@ -456,6 +500,7 @@
     <string name="file_deleted">Файл удалён</string>
     <string name="no_subs_found">В этом каталоге нет субтитров</string>
     <string name="music_now_playing">Сейчас играет</string>
+
     <!-- Widget -->
     <string name="widget_name_w">VLC в светлом оформлении</string>
     <string name="widget_name_b">VLC в тёмном оформлении</string>
@@ -470,13 +515,16 @@
     <string name="permission_ask_again">Дать разрешение</string>
     <string name="exit_app">Закрыть VLC</string>
     <string name="exit_app_msg">Вы действительно хотите закрыть VLC?</string>
+
     <!-- fast scroller -->
     <string name="fastscroller_track">Быстрая прокрутка</string>
     <string name="fastscroller_handle">Быстрая прокрутка</string>
+
     <!-- Plugins -->
     <string name="plugins">Модули</string>
     <string name="download_on_device">Загрузить</string>
     <string name="extension_empty">Список расширений пуст, перейдите в настройки расширений, чтобы они появились.</string>
+
     <string name="opengl_title">Использование OpenGL ES2</string>
     <string name="opengl_summary">По умолчанию OpenGL ES2 используется для программного и аппаратного декодирования при необходимости (видео с обзором 360°).</string>
     <string name="opengl_automatic">Автоматически</string>
@@ -527,6 +575,7 @@
     <string name="no">Нет</string>
     <string name="loading_medialibrary">Загрузка медиатеки…</string>
     <string name="yes">Да</string>
+
     <string name="custom_set_save_title">Несохранённые изменения</string>
     <string name="custom_set_save_warning">Предупреждение: несохранённые изменения</string>
     <string name="existing_custom_set_save_message">Сохранить настройки эквалайзера как…</string>
@@ -555,4 +604,23 @@
     <string name="audio_digital_output_enabled">Цифровой вывод звука включён</string>
     <string name="audio_digital_output_disabled">Цифровой вывод звука отключён</string>
     <string name="audio_digital_title">Цифровой вывод звука (сквозной)</string>
+    <string name="audio_task_removed_title">Останавливать воспроизведение когда приложение убирается</string>
+    <string name="playback_rewind">Перемотка</string>
+    <string name="playback_forward">Быстро вперёд</string>
+    <string name="ml_wizard_title">Выбор медиатеки VLC</string>
+    <string name="ml_wizard_scan_checkbox">Искать медиаобъекты на устройстве</string>
+    <string name="ml_wizard_description">Определите, должен ли VLC просканировать хранилище вашего устройства и организовать медиатеку, или вы будете использовать его как простой плеер со встроенным браузером.</string>
+    <string name="tv_my_new_videos">Мои новые видеозаписи</string>
+    <string name="cast_option_title">Передавать медиапотоки на другой экран</string>
+    <string name="otg_device_title">Устройство OTG</string>
+    <string name="browser">Браузер</string>
+    <string name="ab_repeat">Повторение A-B</string>
+    <string name="stop_after_this">Остановка после этой дорожки</string>
+    <string name="time_category_new">Новое</string>
+    <string name="time_category_current_month">В этом месяце</string>
+    <string name="time_category_current_year">В этом году</string>
+    <string name="time_category_last_year">В прошлом году</string>
+    <string name="time_category_older">Старое</string>
+    <string name="rename">Переименовать</string>
+    <string name="rename_media">Переименовать %1$s</string>
 </resources>
