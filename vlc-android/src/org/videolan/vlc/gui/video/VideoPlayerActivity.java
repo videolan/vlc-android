@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.PictureInPictureParams;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothHeadset;
 import android.content.BroadcastReceiver;
@@ -133,6 +134,7 @@ import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.SubtitlesDownloader;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.viewmodels.PlaylistModel;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -170,6 +172,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private ImageView mPlaylistToggle;
     private RecyclerView mPlaylist;
     private PlaylistAdapter mPlaylistAdapter;
+    private PlaylistModel mPlaylistModel;
 
     private static final int SURFACE_BEST_FIT = 0;
     static final int SURFACE_FIT_SCREEN = 1;
@@ -710,7 +713,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mService.hasPlaylist()) {
             mHasPlaylist = true;
             mPlaylistAdapter = new PlaylistAdapter(this);
-            mPlaylistAdapter.setService(mService);
+            mPlaylistModel = ViewModelProviders.of(this, new PlaylistModel.Factory(mService)).get(PlaylistModel.class);
+            mPlaylistModel.setup();
+            mPlaylistAdapter.setModel(mPlaylistModel);
             final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             mPlaylist.setLayoutManager(layoutManager);

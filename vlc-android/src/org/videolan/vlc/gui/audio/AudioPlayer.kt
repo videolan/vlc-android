@@ -306,8 +306,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     }
 
     override fun playItem(position: Int, item: MediaWrapper) {
-        hideSearchField()
-        service?.playIndex(playlistModel.getItemPosition(position, item))
+        clearSearch()
+        service?.playIndex(playlistModel.getPlaylistPosition(position, item))
     }
 
     fun onTimeLabelClick(view: View) {
@@ -471,19 +471,22 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         })
     }
 
+    private val playlistObserver = Observer<MutableList<MediaWrapper>> {
+        playlistAdapter.update(it!!)
+        updateActor.offer(Unit)
+    }
+
     override fun onConnected(service: PlaybackService) {
         this.service = service
         playlistModel = PlaylistModel.get(this, service).apply { setup() }
         playlistModel.progress.observe(this,  Observer { it?.let { updateProgress(it) } })
-        playlistModel.dataset.observe(this, Observer {
-            playlistAdapter.update(it!!)
-            updateActor.offer(Unit)
-        })
-        playlistAdapter.setService(service)
+        playlistModel.dataset.observe(this, playlistObserver)
+        playlistAdapter.setModel(playlistModel)
         service.playlistManager.abRepeat.observe(this, abRepeatObserver)
     }
 
     override fun onDisconnected() {
+        playlistModel.dataset.removeObserver(playlistObserver)
         playlistModel.onCleared()
         service?.playlistManager?.abRepeat?.removeObserver(abRepeatObserver)
         service = null
@@ -574,7 +577,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
                 binding.header.setBackgroundResource(0)
                 setHeaderVisibilities(true, true, false, false, false, true, true)
                 showPlaylistTips()
-                service?.apply { playlistAdapter.currentIndex = currentMediaPosition }
+                service?.apply { playlistAdapter.currentIndex = playlistModel.selection }
             }
 //            else -> binding.header.setBackgroundResource(0)
         }

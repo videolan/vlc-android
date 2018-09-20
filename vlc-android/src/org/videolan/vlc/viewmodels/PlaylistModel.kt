@@ -36,6 +36,10 @@ import org.videolan.vlc.util.PlaylistFilterDelegate
 class PlaylistModel(private val service: PlaybackService) : ScopedModel(), PlaybackService.Callback by EmptyPBSCallback {
 
     val dataset = LiveDataset<MediaWrapper>()
+    var originalDataset : MutableList<MediaWrapper>? = null
+    val selection : Int
+        get() = if (filtering) -1 else service.playlistManager.currentIndex
+    var filtering = false
     val progress by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<PlaybackProgress>().apply {
             addSource(service.playlistManager.player.progress) {
@@ -55,16 +59,33 @@ class PlaylistModel(private val service: PlaybackService) : ScopedModel(), Playb
         dataset.value = service.medias.toMutableList()
     }
 
-    fun filter(query: CharSequence?) = launch { filter.filter(query) }
+    fun insertMedia(position: Int, media: MediaWrapper) = service.insertItem(position, media)
+
+    fun remove(position: Int) = service.remove(position)
+
+    fun move(from: Int, to: Int) = service.moveItem(from, to)
+
+    fun filter(query: CharSequence?) {
+        val filtering = query != null
+        if (this.filtering != filtering) {
+            this.filtering = filtering
+            originalDataset = if (filtering) dataset.value.toMutableList() else null
+        }
+        launch { filter.filter(query) }
+    }
 
     public override fun onCleared() {
         service.removeCallback(this)
     }
 
-    fun getItemPosition(position: Int, media: MediaWrapper): Int {
-        val list = dataset.value
+    fun getPlaylistPosition(position: Int, media: MediaWrapper): Int {
+        val list = originalDataset ?: dataset.value
         if (list[position] == media) return position
-        else for ((index, item) in list.withIndex()) if (item == media) return index
+        else {
+            for ((index, item) in list.withIndex()) if (item == media) {
+                return index
+            }
+        }
         return -1
     }
 
