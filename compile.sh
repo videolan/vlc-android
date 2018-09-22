@@ -29,7 +29,6 @@ while [ $# -gt 0 ]; do
             echo "  ARM:     (armeabi-v7a|arm)"
             echo "  ARM64:   (arm64-v8a|arm64)"
             echo "  X86:     x86, x86_64"
-            echo "  MIPS:    mips, mips64."
             echo "Use --release to build in release mode"
             echo "Use --signrelease to build in release mode and sign apk, see vlc-android/build.gradle"
             echo "Use -s to set your keystore file and -p for the password"
@@ -100,10 +99,6 @@ elif [ "$ANDROID_ABI" = "x86" ]; then
     GRADLE_ABI="x86"
 elif [ "$ANDROID_ABI" = "x86_64" ]; then
     GRADLE_ABI="x86_64"
-elif [ "$ANDROID_ABI" = "mips" ]; then
-    GRADLE_ABI="MIPS"
-elif [ "$ANDROID_ABI" = "mips64" ]; then
-    GRADLE_ABI="MIPS64"
 else
     diagnostic "Invalid arch specified: '$ANDROID_ABI'."
     diagnostic "Try --help for more information"

@@ -58,8 +58,7 @@ if [ -z "$ANDROID_ABI" ]; then
                 compile-libvlc.sh -a ARCH
     ARM:     (armeabi-v7a|arm)
     ARM64:   (arm64-v8a|arm64)
-    X86:     x86, x86_64
-    MIPS:    mips, mips64."
+    X86:     x86, x86_64"
     exit 1
 fi
 
@@ -253,13 +252,6 @@ elif [ "${ANDROID_ABI}" = "x86_64" ] ; then
     TARGET_TUPLE="x86_64-linux-android"
     PLATFORM_SHORT_ARCH="x86_64"
     HAVE_64=1
-elif [ "${ANDROID_ABI}" = "mips" ] ; then
-    TARGET_TUPLE="mipsel-linux-android"
-    PLATFORM_SHORT_ARCH="mips"
-elif [ "${ANDROID_ABI}" = "mips64" ] ; then
-    TARGET_TUPLE="mips64el-linux-android"
-    PLATFORM_SHORT_ARCH="mips64"
-    HAVE_64=1
 elif [ "${ANDROID_ABI}" = "arm64-v8a" ] ; then
     TARGET_TUPLE="aarch64-linux-android"
     HAVE_ARM=1
@@ -386,11 +378,6 @@ if [ "${ANDROID_ABI}" = "armeabi-v7a" ] ; then
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -mthumb -mfloat-abi=softfp"
 elif [ "${ANDROID_ABI}" = "x86" ] ; then
     EXTRA_CFLAGS="-mtune=atom -msse3 -mfpmath=sse -m32"
-elif [ "${ANDROID_ABI}" = "mips" ] ; then
-    EXTRA_CFLAGS="-march=mips32 -mtune=mips32r2 -mhard-float"
-    # All MIPS Linux kernels since 2.4.4 will trap any unimplemented FPU
-    # instruction and emulate it, so we select -mhard-float.
-    # See http://www.linux-mips.org/wiki/Floating_point#The_Linux_kernel_and_floating_point
 fi
 
 EXTRA_CFLAGS="${EXTRA_CFLAGS} -MMD -MP -fpic -ffunction-sections -funwind-tables \
@@ -409,7 +396,7 @@ if [ ${ANDROID_ABI} = "armeabi-v7a" ]; then
         EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -Wl,--fix-cortex-a8"
 fi
 NDK_LIB_DIR="${NDK_TOOLCHAIN_DIR}/${TARGET_TUPLE}/lib"
-if [ "${PLATFORM_SHORT_ARCH}" = "x86_64" -o "${PLATFORM_SHORT_ARCH}" = "mips64" ];then
+if [ "${PLATFORM_SHORT_ARCH}" = "x86_64" ];then
     NDK_LIB_DIR="${NDK_LIB_DIR}64"
 fi
 
