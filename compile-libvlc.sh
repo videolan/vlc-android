@@ -690,7 +690,6 @@ rm ${REDEFINED_VLC_MODULES_DIR}/syms
 # NDK-Build for libvlc.so and libvlcjni.so #
 ############################################
 
-LIBVLC_LIBS="libvlcjni"
 VLC_MODULES=$(find_modules ${REDEFINED_VLC_MODULES_DIR})
 ANDROID_SYS_HEADERS="$SRC_DIR/android-headers"
 VLC_CONTRIB_LDFLAGS=`for i in $(/bin/ls $VLC_CONTRIB/lib/pkgconfig/*.pc); do PKG_CONFIG_PATH="$VLC_CONTRIB/lib/pkgconfig/" pkg-config --libs $i; done |xargs`
