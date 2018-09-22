@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">Laufzeit (absteigend)</string>
     <string name="sortby_date">Datum</string>
     <string name="sortby_date_desc">Datum (absteigend)</string>
+    <string name="sortby_last_modified_date">Zuletzt hinzugefügt</string>
+    <string name="sortby_last_modified_date_desc">Zuletzt hinzugefügt (absteigend)</string>
     <string name="sortby_number">Titelnummern</string>
     <string name="sortby_number_desc">Titelnummern (absteigend)</string>
     <string name="searchable_hint">Suchen …</string>
@@ -52,6 +54,8 @@
     <string name="confirm_delete">Die Datei \'%1$s\' löschen?</string>
     <string name="confirm_delete_folder">Den Ordner \'%1$s\' mit dem gesamten Inhalt löschen?</string>
     <string name="confirm_delete_playlist">Wiedergabeliste \'%1$s\' löschen?</string>
+    <string name="confirm_remove_from_playlist">Entfernen von \'%1$s\' aus der Wiedergabeliste?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Aus der Wiedergabeliste entfernen?</string>
     <string name="ringtone_set">Die Datei \'%1$s\' wurde als Klingelton eingestellt.</string>
     <string name="ringtone_error">Beim Einstellen des Klingeltons trat ein Fehler auf.</string>
     <string name="pause">Pause</string>
@@ -208,6 +212,7 @@
     <string name="playback_speed_title">Wiedergabegeschwindigkeit speichern</string>
     <string name="playback_speed_summary">Wiedergabegeschwindigkeit merken</string>
 
+    <string name="play_button">Wiedergabe-Knopf</string>
     <!-- Tips -->
     <string name="video_player_tips">Filmwiedergabetipps:</string>
     <string name="seek">Suchen</string>
@@ -594,4 +599,14 @@
     <string name="tv_my_new_videos">Meine neuen Videos</string>
     <string name="cast_option_title">Medien auf einen anderen Bildschirm übertragen</string>
     <string name="otg_device_title">OTG-Gerät</string>
+    <string name="browser">Browser</string>
+    <string name="ab_repeat">A-B-Wiederholung</string>
+    <string name="stop_after_this">Wiedergabe nach diesem Titel stoppen</string>
+    <string name="time_category_new">Neue Medien</string>
+    <string name="time_category_current_month">Diesen Monat</string>
+    <string name="time_category_current_year">Dieses Jahr</string>
+    <string name="time_category_last_year">Letztes Jahr</string>
+    <string name="time_category_older">Ältere Medien</string>
+    <string name="rename">Umbenennen</string>
+    <string name="rename_media">Umbenennen von %1$s</string>
 </resources>
