@@ -375,7 +375,7 @@ VLC_CXXFLAGS="${VLC_CXXFLAGS} -fstrict-aliasing -funsafe-math-optimizations"
 
 # Setup CFLAGS per ABI
 if [ "${ANDROID_ABI}" = "armeabi-v7a" ] ; then
-    EXTRA_CFLAGS="-march=armv7-a -mfpu=vfpv3-d16 -mcpu=cortex-a8"
+    EXTRA_CFLAGS="-march=armv7-a -mfpu=neon -mcpu=cortex-a8"
     EXTRA_CFLAGS="${EXTRA_CFLAGS} -mthumb -mfloat-abi=softfp"
 elif [ "${ANDROID_ABI}" = "x86" ] ; then
     EXTRA_CFLAGS="-mtune=atom -msse3 -mfpmath=sse -m32"
