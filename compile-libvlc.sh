@@ -534,11 +534,13 @@ if [ "${CHROME_OS}" = "1" ];then
     export ac_cv_func_pipe2=no
 fi
 
-if [ ${ANDROID_API} = "21" ] ; then
-    # android-21 has empty sys/shm.h headers that triggers shm detection but it
+if [ ${ANDROID_API} -lt "26" ]; then
+    # android APIs < 26 have empty sys/shm.h headers that triggers shm detection but it
     # doesn't have any shm functions and/or symbols. */
     export ac_cv_header_sys_shm_h=no
-else
+fi
+
+if [ ${ANDROID_API} -lt "21" ] ; then
     # force uselocale using libandroid_support since it's present in libc++
     export ac_cv_func_uselocale=yes
 
