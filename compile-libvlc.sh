@@ -399,6 +399,8 @@ fi
 NDK_LIB_DIR="${NDK_TOOLCHAIN_DIR}/${TARGET_TUPLE}/lib"
 if [ "${PLATFORM_SHORT_ARCH}" = "x86_64" ];then
     NDK_LIB_DIR="${NDK_LIB_DIR}64"
+elif [ "${PLATFORM_SHORT_ARCH}" = "arm" ]; then
+    NDK_LIB_DIR="${NDK_LIB_DIR}/armv7-a"
 fi
 
 EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L${NDK_LIB_DIR} -lc++abi -lc++_static"
