@@ -9,7 +9,7 @@
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
     </style>
 
-    <style name="Theme.VLC.Apearance" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.VLC.Apearance" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="marginTopContent">50dp</item>
         <item name="toolbar_popup_style">@style/ThemeOverlay.AppCompat.Light</item>
 
@@ -70,7 +70,7 @@
         <item name="shadow_bottom_9patch">@drawable/shadow_bottom</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar</item>
         <item name="progress_mini_player">@drawable/progress_mini_player</item>
-        <item name="advanced_options_style">@style/Theme.AppCompat.Light.Dialog</item>
+        <item name="advanced_options_style">@style/Theme.MaterialComponents.Light.Dialog</item>
         <item name="rounded_bg">@drawable/rounded_corners_light</item>
         <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off</item>
         <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on</item>
@@ -87,7 +87,7 @@
         <item name="progress_background">@color/grey600transparent</item>
     </style>
 
-    <style name="Theme.VLC.PickerDialog" parent="Theme.AppCompat.Dialog">
+    <style name="Theme.VLC.PickerDialog" parent="Theme.MaterialComponents.Dialog">
         <item name="android:gridViewStyle">@style/Theme.VLC.List</item>
         <item name="background_default">@color/grey850</item>
         <item name="background_default_darker">@color/grey875</item>
@@ -107,7 +107,7 @@
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
     </style>
 
-    <style name="Theme.VLC.Apearance.Black" parent="Theme.AppCompat.NoActionBar">
+    <style name="Theme.VLC.Apearance.Black" parent="Theme.MaterialComponents.NoActionBar">
         <item name="marginTopContent">50dp</item>
         <item name="toolbar_popup_style">@style/ThemeOverlay.AppCompat.Dark</item>
 
@@ -168,7 +168,7 @@
         <item name="shadow_bottom_9patch">@drawable/shadow_bottom_dark</item>
         <item name="gridview_progressbar">@drawable/gridview_progressbar_w</item>
         <item name="progress_mini_player">@drawable/progress_mini_player_dark</item>
-        <item name="advanced_options_style">@style/Theme.AppCompat.Dialog</item>
+        <item name="advanced_options_style">@style/Theme.MaterialComponents.Dialog</item>
         <item name="rounded_bg">@drawable/rounded_corners</item>
         <item name="ic_playasaudio_off">@drawable/ic_playasaudio_off_w</item>
         <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
@@ -217,7 +217,7 @@
         <item name="android:dividerHeight">0dp</item>
     </style>
 
-    <style name="Theme.VLC.NoTitleBar" parent="Theme.AppCompat.Light">
+    <style name="Theme.VLC.NoTitleBar" parent="Theme.MaterialComponents.Light">
         <item name="android:windowNoTitle">true</item>
         <item name="item_footer">@color/grey300</item>
         <item name="background_menu_divider">@color/grey400</item>
@@ -237,7 +237,7 @@
     </style>
 
     <style name="Theme.VLC.Player" parent="Theme.VLC.Player.7"/>
-    <style name="Theme.VLC.Player.7" parent="Theme.AppCompat">
+    <style name="Theme.VLC.Player.7" parent="Theme.MaterialComponents">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/black</item>
@@ -248,7 +248,7 @@
         <item name="colorAccent">@color/orange800</item>
 
         <item name="rounded_bg">@drawable/rounded_corners</item>
-        <item name="advanced_options_style">@style/Theme.AppCompat.Dialog</item>
+        <item name="advanced_options_style">@style/Theme.MaterialComponents.Dialog</item>
         <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
         <item name="ic_popup_dim">@drawable/ic_popup_dim_w</item>
         <item name="ic_speed_normal_style">@drawable/ic_speed_w</item>
