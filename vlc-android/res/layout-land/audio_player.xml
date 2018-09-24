@@ -63,9 +63,13 @@
                 android:layout_height="32dp"
                 android:layout_marginStart="@dimen/default_margin"
                 android:layout_marginEnd="@dimen/half_default_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:focusable="true"
                 android:scaleType="fitXY"
                 android:visibility="gone"
+                tools:visibility="visible"
                 android:onClick="@{fragment::onResumeToVideoClick}"
                 android:contentDescription="@string/play_as_audio"
                 android:src="?attr/ic_playasaudio_off" />
@@ -74,7 +78,7 @@
                 android:id="@+id/audio_media_switcher"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/playlist_playasaudio_off"
                 app:layout_constraintEnd_toStartOf="@+id/barrier"
                 android:background="#00000000" />
 
