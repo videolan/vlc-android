@@ -300,6 +300,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 } else if (!grow && savedSize != -1) {
                     player.setVideoSurfacesize(savedSize)
                     savedSize = -1
+                } else if (!grow && player.currentSize == VideoPlayerActivity.SURFACE_FIT_SCREEN) {
+                    player.setVideoSurfacesize(VideoPlayerActivity.SURFACE_BEST_FIT)
                 }
             }
         }
