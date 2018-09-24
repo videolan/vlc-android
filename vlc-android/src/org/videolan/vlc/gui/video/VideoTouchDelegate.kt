@@ -281,7 +281,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         }
 
         override fun onScale(detector: ScaleGestureDetector): Boolean {
-            if (player.fov != 0f) {
+            if (player.fov != 0f && !player.isLocked) {
                 val diff = VideoPlayerActivity.DEFAULT_FOV * (1 - detector.scaleFactor)
                 if (player.updateViewpoint(0f, 0f, diff)) {
                     player.fov = Math.min(Math.max(MIN_FOV, player.fov + diff), MAX_FOV)
@@ -292,7 +292,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         }
 
         override fun onScaleEnd(detector: ScaleGestureDetector) {
-            if (player.fov == 0f) {
+            if (player.fov == 0f && !player.isLocked) {
                 val grow = detector.scaleFactor > 1.0f
                 if (grow && player.currentSize != VideoPlayerActivity.SURFACE_FIT_SCREEN) {
                     savedSize = player.currentSize
