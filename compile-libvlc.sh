@@ -538,8 +538,7 @@ if [ ${ANDROID_API} = "21" ] ; then
     # doesn't have any shm functions and/or symbols. */
     export ac_cv_header_sys_shm_h=no
 else
-    # force nanf and uselocale using libandroid_support since it's present in libc++
-    export ac_cv_lib_m_nanf=yes
+    # force uselocale using libandroid_support since it's present in libc++
     export ac_cv_func_uselocale=yes
 
     VLC_LDFLAGS="${VLC_LDFLAGS} -L${NDK_LIB_DIR} -landroid_support"
