@@ -7,22 +7,24 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
-    <CheckBox
+    <android.support.design.chip.Chip
         android:id="@+id/wizard_check_scan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:checked="true"
+        android:checkable="true"
         android:text="@string/ml_wizard_scan_checkbox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/wizard_description" />
 
-    <Button
+    <android.support.design.button.MaterialButton
         android:id="@+id/wizard_validate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="apply"
         android:text="@string/ok"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/wizard_check_scan"
