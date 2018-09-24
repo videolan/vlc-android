@@ -23,15 +23,12 @@ package org.videolan.vlc.providers
 import android.content.Context
 import android.net.Uri
 import android.text.TextUtils
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
-import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.repository.DirectoryRepository
+import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.LiveDataset
 import java.io.File
 import java.util.*
@@ -44,6 +41,7 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         var storage: Storage
         val storagesList = ArrayList<MediaLibraryItem>()
         for (mediaDirLocation in storages) {
+            if (!File(mediaDirLocation).exists()) continue
             if (TextUtils.isEmpty(mediaDirLocation)) continue
             storage = Storage(Uri.fromFile(File(mediaDirLocation)))
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation))
