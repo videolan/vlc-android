@@ -145,7 +145,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 did.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider_grey_50_18dp)!!)
                 ariane.addItemDecoration(did)
             }
-            ariane.scrollToPosition(ariane.adapter.itemCount - 1)
+            ariane.scrollToPosition(ariane.adapter!!.itemCount - 1)
         } else ariane.visibility = View.GONE
     }
 

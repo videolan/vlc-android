@@ -69,7 +69,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
                 val persistedUriPermissions = contentResolver.persistedUriPermissions
                 for (uriPermission in persistedUriPermissions) {
                     val file = DocumentFile.fromTreeUri(context, uriPermission.uri)
-                    if (treeFile.name == file.name) {
+                    if (treeFile?.name == file?.name) {
                         contentResolver.releasePersistableUriPermission(uriPermission.uri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                         return
                     }

@@ -180,14 +180,15 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         if (entryPoint.endsWith("/"))
             entryPoint = entryPoint.substring(0, entryPoint.length - 1)
         if (mProcessingFolders.containsKey(entryPoint)) {
-            val cb = mProcessingFolders.remove(entryPoint)
-            handler.post {
-                cb.isEnabled = true
-                if (success) {
-                    (adapter as StorageBrowserAdapter).updateMediaDirs(requireContext())
-                    adapter.notifyDataSetChanged()
-                } else
-                    cb.isChecked = true
+            mProcessingFolders.remove(entryPoint)?.let {
+                handler.post {
+                    it.isEnabled = true
+                    if (success) {
+                        (adapter as StorageBrowserAdapter).updateMediaDirs(requireContext())
+                        adapter.notifyDataSetChanged()
+                    } else
+                        it.isChecked = true
+                }
             }
         }
     }
@@ -201,7 +202,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         if (path.endsWith("/")) path = path.dropLast(1)
         if (mProcessingFolders.containsKey(path)) {
             val finalPath = path
-            handler.post { mProcessingFolders.get(finalPath).isEnabled = true }
+            handler.post { mProcessingFolders.get(finalPath)?.isEnabled = true }
             (adapter as StorageBrowserAdapter).updateMediaDirs(requireContext())
         }
     }

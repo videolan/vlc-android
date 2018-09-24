@@ -1,13 +1,20 @@
 package org.videolan.medialibrary;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-public class ToolsTest extends TestCase {
-    public void testIsArrayEmpty() throws Exception {
+import static org.junit.Assert.assertEquals;
+
+@RunWith(JUnit4::class)
+public class ToolsTest {
+    @Test
+    public void testIsArrayEmpty() {
 
     }
 
-    public void testMillisToString() throws Exception {
+    @Test
+    public void testMillisToString()n {
         assertEquals("3min30s", Tools.millisToString(210000, true, true));
         assertEquals("3min", Tools.millisToString(180000, true, true));
         assertEquals("1h30min30s", Tools.millisToString(5430000, true, true));

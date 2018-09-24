@@ -72,7 +72,7 @@ fun getDocumentFiles(context: Context, path: String) : List<MediaWrapper>? {
     val parts = path.substringAfterLast(':').split("/".toRegex()).dropLastWhile { it.isEmpty() }
     for (part in parts) {
         if (part == "") continue
-        documentFile = documentFile.findFile(part)
+        documentFile = documentFile?.findFile(part)
     }
 
     if (documentFile == null) {
@@ -84,12 +84,12 @@ fun getDocumentFiles(context: Context, path: String) : List<MediaWrapper>? {
     val list = mutableListOf<MediaWrapper>()
     for (file in documentFile.listFiles()) {
         if (file.exists() && file.canRead()) {
-            if (file.name.startsWith(".")) continue
+            if (file.name?.startsWith(".") == true) continue
             val mw = MediaWrapper(file.uri).apply {
                 type = when {
                     file.isDirectory -> MediaWrapper.TYPE_DIR
-                    file.type.startsWith("video") -> MediaWrapper.TYPE_VIDEO
-                    file.type.startsWith("audio") -> MediaWrapper.TYPE_AUDIO
+                    file.type?.startsWith("video") == true -> MediaWrapper.TYPE_VIDEO
+                    file.type?.startsWith("audio") == true -> MediaWrapper.TYPE_AUDIO
                     else -> type
                 }
                 title = file.name
