@@ -31,7 +31,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -356,8 +355,9 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     @Override
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
         final MediaWrapper mw = (MediaWrapper) item;
-        int flags = mw.getType() == MediaWrapper.TYPE_GROUP ? Constants.CTX_VIDEO_GOUP_FLAGS : Constants.CTX_VIDEO_FLAGS;
-        if (mw.getTime() != 0l) flags |= Constants.CTX_PLAY_FROM_START;
+        final boolean group = mw.getType() == MediaWrapper.TYPE_GROUP;
+        int flags = group ? Constants.CTX_VIDEO_GOUP_FLAGS : Constants.CTX_VIDEO_FLAGS;
+        if (mw.getTime() != 0l && !group) flags |= Constants.CTX_PLAY_FROM_START;
         if (mActionMode == null) ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), flags);
     }
 
@@ -379,6 +379,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         if (position >= mAdapter.getItemCount()) return;
         final MediaWrapper media = mAdapter.getItem(position);
         if (media == null) return;
+        final Activity activity = getActivity();
+        if (activity == null) return;
         switch (option){
             case Constants.CTX_PLAY_FROM_START:
                 playVideo(media, true);
@@ -388,7 +390,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 break;
             case Constants.CTX_PLAY_ALL:
                 final List<MediaWrapper> playList = new ArrayList<>();
-                MediaUtils.INSTANCE.openList(getActivity(), playList, viewModel.getListWithPosition(playList, position));
+                MediaUtils.INSTANCE.openList(activity, playList, viewModel.getListWithPosition(playList, position));
                 break;
             case Constants.CTX_INFORMATION:
                 showInfoDialog(media);
@@ -397,11 +399,11 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 removeItem(media);
                 break;
             case Constants.CTX_PLAY_GROUP:
-                MediaUtils.INSTANCE.openList(getActivity(), ((MediaGroup) media).getAll(), 0);
+                MediaUtils.INSTANCE.openList(activity, ((MediaGroup) media).getAll(), 0);
                 break;
             case Constants.CTX_APPEND:
-                if (media instanceof MediaGroup) MediaUtils.INSTANCE.appendMedia(getActivity(), ((MediaGroup)media).getAll());
-                else MediaUtils.INSTANCE.appendMedia(getActivity(), media);
+                if (media instanceof MediaGroup) MediaUtils.INSTANCE.appendMedia(activity, ((MediaGroup)media).getAll());
+                else MediaUtils.INSTANCE.appendMedia(activity, media);
                 break;
             case Constants.CTX_DOWNLOAD_SUBTITLES:
                 MediaUtils.INSTANCE.getSubs(requireActivity(), media);
