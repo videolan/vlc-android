@@ -74,5 +74,4 @@ dependencies {
     api "com.android.support:support-fragment:$rootProject.ext.appCompatVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     implementation project(':tools')
-    implementation 'junit:junit:4.12'
 }

@@ -2,7 +2,7 @@ apply plugin: 'com.android.feature'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
 
     baseFeature true
