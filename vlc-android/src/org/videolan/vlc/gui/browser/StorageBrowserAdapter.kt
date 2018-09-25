@@ -54,7 +54,7 @@ internal class StorageBrowserAdapter(fragment: BaseBrowserFragment) : BaseBrowse
     }
 
     override fun onBindViewHolder(holder: BaseBrowserAdapter.ViewHolder<*>, position: Int) {
-        launch(UI.immediate) {
+        launch {
             val vh = holder as BaseBrowserAdapter.MediaViewHolder
             var storage = getItem(position)
 
@@ -81,14 +81,14 @@ internal class StorageBrowserAdapter(fragment: BaseBrowserFragment) : BaseBrowse
     }
 
     fun updateMediaDirs(context: Context) {
-        if (mediaDirsLocation != null) mediaDirsLocation.clear()
+        mediaDirsLocation.clear()
         val folders = VLCApplication.getMLInstance().foldersList
 
         folders.forEach {
             mediaDirsLocation.add(Uri.decode(if (it.startsWith("file://")) it.substring(7) else it))
         }
 
-        job = launch(UI.immediate) {
+        job = launch {
             customDirsLocation = DirectoryRepository.getInstance(context).getCustomDirectories().map { it.path }
         }
     }
