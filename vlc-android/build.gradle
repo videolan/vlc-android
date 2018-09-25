@@ -153,22 +153,14 @@ android {
     applicationVariants.all { variant ->
 
         def generatedCode = variant.productFlavors.get(0).versionCode * 10000000 + defaultConfig.versionCode + variant.productFlavors.get(1).versionCode
-        variant.mergedFlavor.versionCode = generatedCode
-        //Custom APK name
-        variant.outputs.all { output ->
+        //Custom APK name and versionCode
+        variant.outputs.each { output ->
+            output.versionCodeOverride = generatedCode
             def outputName = "VLC-Android-"
             if (variant.productFlavors.get(0).name != "vanilla")
                 outputName += variant.productFlavors.get(0).name.toUpperCase() + "-"
             outputName += variant.versionName + "-" + variant.productFlavors.get(1).name + ".apk"
-            outputFileName = outputName
-            output.processManifest.doLast {
-                // set the composite code
-                String manifestPath = "$manifestOutputDirectory/AndroidManifest.xml"
-                def manifestContent = file(manifestPath).getText()
-                manifestContent = manifestContent.replace('android:versionCode="1"',
-                        String.format('android:versionCode="%s"', generatedCode))
-                file(manifestPath).write(manifestContent)
-            }
+            output.outputFileName = outputName
         }
     }
 
@@ -204,7 +196,7 @@ task generateSources (type: Jar) {
 }
 
 dependencies {
-    def paging_version = "1.0.0"
+    def paging_version = "1.0.1"
     implementation project(':libvlc')
     implementation project(':medialibrary')
     implementation project(':api')
@@ -221,7 +213,6 @@ dependencies {
     implementation "com.android.support:support-tv-provider:$rootProject.ext.appCompatVersion"
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    kapt "com.android.databinding:compiler:$rootProject.ext.android_plugin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
     implementation "android.arch.lifecycle:extensions:$rootProject.ext.archVersion"
