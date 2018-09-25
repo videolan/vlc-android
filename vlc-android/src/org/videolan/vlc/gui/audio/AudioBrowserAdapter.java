@@ -155,17 +155,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         return currentList == null || currentList.isEmpty();
     }
 
-    int getListWithPosition(List<MediaLibraryItem> list, int position) {
-        int offset = 0, count = getItemCount();
-        for (int i = 0; i < count; ++i)
-            if (getItem(i).getItemType() == MediaLibraryItem.TYPE_DUMMY) {
-                if (i < position)
-                    ++offset;
-            } else
-                list.add(getItem(i));
-        return position-offset;
-    }
-
     @Override
     public long getItemId(int position) {
         return isPositionValid(position) ? getItem(position).getId() : -1;
