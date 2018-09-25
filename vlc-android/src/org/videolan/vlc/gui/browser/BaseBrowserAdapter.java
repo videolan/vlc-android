@@ -28,7 +28,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.MainThread;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +50,6 @@ import org.videolan.vlc.util.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_STORAGE;
 
@@ -127,6 +125,7 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
         vh.binding.setHasContextMenu((!mNetworkRoot || isFavorite)
                 && !"content".equals(media.getUri().getScheme())
                 && !"otg".equals(media.getUri().getScheme()));
+        if (media.getType() != MediaWrapper.TYPE_DIR) vh.binding.setFilename(media.getFileName());
         if (mNetworkRoot) vh.binding.setProtocol(getProtocol(media));
         vh.binding.setCover(getIcon(media, mSpecialIcons));
         vh.selectView(multiSelectHelper.isSelected(position));

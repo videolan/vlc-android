@@ -14,6 +14,9 @@
             name="item"
             type="MediaLibraryItem"/>
         <variable
+            name="filename"
+            type="String"/>
+        <variable
             name="hasContextMenu"
             type="boolean"/>
         <variable
@@ -95,7 +98,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:maxLines="1"
-            android:text="@{item.title}"
+            android:text="@{filename ?? item.title}"
             android:textColor="?attr/list_title"
             android:textSize="16sp"
             android:lineSpacingMultiplier="1.1" />
