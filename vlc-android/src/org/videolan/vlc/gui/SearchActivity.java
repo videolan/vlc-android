@@ -141,7 +141,7 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Te
             finish();
         }
         public void onItemClick(MediaLibraryItem item) {
-            MediaUtils.INSTANCE.openArray(SearchActivity.this, item.getTracks(), 0);
+            MediaUtils.INSTANCE.playTracks(SearchActivity.this, item, 0);
             finish();
         }
     }

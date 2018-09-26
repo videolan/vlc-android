@@ -69,7 +69,6 @@ import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
-import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.paged.MLPagedModel;
 import org.videolan.vlc.viewmodels.paged.PagedTracksModel;
@@ -188,7 +187,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         if (mActionMode != null) {
             mAdapter.getMultiSelectHelper().toggleSelection(position);
             invalidateActionMode();
-        } else MediaUtils.INSTANCE.openArray(this, mPlaylist.getTracks(), position);
+        } else MediaUtils.INSTANCE.playTracks(this, mPlaylist, position);
     }
 
     @Override
@@ -367,7 +366,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     public void onClick(View v) {
-        MediaUtils.INSTANCE.openArray(this, mPlaylist.getTracks(), 0);
+        MediaUtils.INSTANCE.playTracks(this, mPlaylist, 0);
     }
 
     private void removeFromPlaylist(final List<MediaWrapper> list){

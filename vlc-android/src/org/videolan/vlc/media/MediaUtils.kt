@@ -17,6 +17,7 @@ import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Playlist
 import org.videolan.vlc.PlaybackService
@@ -121,7 +122,9 @@ object MediaUtils {
         }
     }
 
-    fun openArray(context: Context, array: Array<MediaWrapper>, position: Int) = openList(context, array.toList(), position)
+    fun playTracks(context: Context, item: MediaLibraryItem, position: Int) = GlobalScope.launch(Dispatchers.Main.immediate) {
+        openList(context, withContext(Dispatchers.IO) { item.tracks }.toList(), position)
+    }
 
     fun playAll(context: Context?, model: MLPagedModel<MediaWrapper>, position: Int, shuffle: Boolean) {
         if (context == null) return
