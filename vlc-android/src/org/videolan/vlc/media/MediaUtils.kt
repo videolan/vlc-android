@@ -10,9 +10,11 @@ import android.os.Looper
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.TextUtils
-import kotlinx.coroutines.experimental.CoroutineStart
+import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.experimental.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
@@ -24,8 +26,13 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.SubtitlesDownloader
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.getFromMl
+import org.videolan.vlc.viewmodels.paged.MLPagedModel
+import java.util.*
+import kotlin.math.min
 
 private const val TAG = "VLC/MediaUtils"
+
+private const val PAGE_SIZE = 1000
 
 object MediaUtils {
 
@@ -115,6 +122,30 @@ object MediaUtils {
     }
 
     fun openArray(context: Context, array: Array<MediaWrapper>, position: Int) = openList(context, array.toList(), position)
+
+    fun playAll(context: Context?, model: MLPagedModel<MediaWrapper>, position: Int, shuffle: Boolean) {
+        if (context == null) return
+        SuspendDialogCallback(context) { service ->
+            val count = withContext(Dispatchers.IO) { model.getTotalCount() }
+            when (count) {
+                0 -> null
+                in 1..PAGE_SIZE -> withContext(Dispatchers.IO) { model.getAll()?.toList() }
+                else -> withContext(Dispatchers.IO) {
+                    val tracks = mutableListOf<MediaWrapper>()
+                    var index = 0
+                    while (index < count) {
+                        val pageCount = min(PAGE_SIZE, count-index)
+                        tracks.addAll(withContext(Dispatchers.IO) { model.getPage(pageCount, index) })
+                        index += pageCount
+                    }
+                    tracks
+                }
+            }?.let { list ->
+                service.load(list, if (shuffle) Random().nextInt(count) else position)
+                if (shuffle && !service.isShuffling) service.shuffle()
+            }
+        }
+    }
 
     @JvmOverloads
     fun openList(context: Context?, list: List<MediaWrapper>, position: Int, shuffle: Boolean = false) {
@@ -212,8 +243,9 @@ object MediaUtils {
             handler.postDelayed({
                 dialog = ProgressDialog.show(
                         context,
-                        context.applicationContext.getString(R.string.loading) + "…",
-                        context.applicationContext.getString(R.string.please_wait), true)
+                        "${context.applicationContext.getString(R.string.loading)} … ",
+                        context.applicationContext.getString(R.string.please_wait),
+                        true)
                 dialog.setCancelable(true)
                 dialog.setOnCancelListener(object : DialogInterface.OnCancelListener {
                     override fun onCancel(dialog: DialogInterface) {
@@ -243,6 +275,51 @@ object MediaUtils {
         }
     }
 
+    private class SuspendDialogCallback (context: Context, private val task: suspend (service: PlaybackService) -> Unit) : BaseCallBack(), CoroutineScope {
+        override val coroutineContext = Dispatchers.Main.immediate
+        private lateinit var dialog: ProgressDialog
+        var job = Job()
+        val actor = actor<Action>(capacity = Channel.UNLIMITED) {
+            for (action in channel) when (action) {
+                Connect -> client.connect()
+                Disconnect -> client.disconnect()
+                is Task -> {
+                    action.task.invoke(action.service)
+                    job.cancel()
+                    dismiss()
+                    client.disconnect()
+                }
+            }
+        }
+
+        init {
+            client = PlaybackService.Client(context, this)
+            job = launch{
+                delay(300)
+                dialog = ProgressDialog.show(
+                        context,
+                        "${context.applicationContext.getString(R.string.loading)}…",
+                        context.applicationContext.getString(R.string.please_wait), true)
+                dialog.setCancelable(true)
+                dialog.setOnCancelListener { actor.offer(Disconnect) }
+            }
+            actor.offer(Connect)
+        }
+
+        override fun onConnected(service: PlaybackService) {
+            actor.offer(Task(service, task))
+            dismiss()
+        }
+
+        override fun onDisconnected() {
+            dismiss()
+        }
+
+        private fun dismiss() {
+            if (this::dialog.isInitialized) dialog.dismiss()
+        }
+    }
+
     fun retrieveMediaTitle(mw: MediaWrapper) = try {
         VLCApplication.getAppContext().contentResolver.query(mw.uri, null, null, null, null)?.use {
             val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
@@ -253,5 +330,10 @@ object MediaUtils {
         }
     } catch (ignored: UnsupportedOperationException) {}
 
-    fun deletePlaylist(playlist: Playlist) = launch { playlist.delete() }
+    fun deletePlaylist(playlist: Playlist) = GlobalScope.launch(Dispatchers.IO) { playlist.delete() }
 }
+
+private sealed class Action
+private object Connect : Action()
+private object Disconnect : Action()
+private class Task(val service : PlaybackService, val task: suspend (service: PlaybackService) -> Unit): Action()
