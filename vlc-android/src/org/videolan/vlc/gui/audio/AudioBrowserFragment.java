@@ -61,10 +61,6 @@ import org.videolan.vlc.viewmodels.paged.PagedGenresModel;
 import org.videolan.vlc.viewmodels.paged.PagedPlaylistsModel;
 import org.videolan.vlc.viewmodels.paged.PagedTracksModel;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-
 public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
@@ -231,13 +227,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
 
     @Override
     public void onFabPlayClick(View view) {
-        final List<MediaWrapper> list = Arrays.asList(tracksModel.getAll());
-        final int count = list.size();
-        if (count > 0) {
-            final Random rand = new Random();
-            int randomSong = rand.nextInt(count);
-            MediaUtils.INSTANCE.openList(getActivity(), list, randomSong, true);
-        }
+        MediaUtils.INSTANCE.playAll(view.getContext(), tracksModel, 0, true);
     }
 
     @Override

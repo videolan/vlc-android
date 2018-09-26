@@ -198,7 +198,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
                 MediaUtils.INSTANCE.openArray(requireActivity(), media.getTracks(), 0);
                 break;
             case Constants.CTX_PLAY_ALL:
-                MediaUtils.INSTANCE.openArray(requireActivity(), (MediaWrapper[]) getViewModel().getAll(), position);
+                MediaUtils.INSTANCE.playAll(requireContext(), getViewModel(), position, false);
                 break;
             case Constants.CTX_INFORMATION:
                 showInfoDialog(media);
