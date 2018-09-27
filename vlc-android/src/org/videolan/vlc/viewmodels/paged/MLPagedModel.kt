@@ -1,5 +1,6 @@
 package org.videolan.vlc.viewmodels.paged
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.paging.DataSource
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
@@ -13,6 +14,8 @@ import org.videolan.vlc.viewmodels.SortableModel
 abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableModel(context), Medialibrary.OnMedialibraryReadyListener {
     protected val medialibrary = Medialibrary.getInstance()
     protected var filter : String? = null
+    val loading = MutableLiveData<Boolean>().apply { value = true }
+
     private val pagingConfig = PagedList.Config.Builder()
             .setPageSize(100)
             .setPrefetchDistance(100)
@@ -68,18 +71,20 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     }
 
     override fun refresh(): Boolean {
+        loading.value = true
         pagedList.value?.dataSource?.invalidate()
         return true
     }
 
     inner class MLDataSource : PositionalDataSource<T>() {
-        override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
-            callback.onResult(getPage(params.loadSize, params.startPosition).toList())
-        }
 
         override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
             val count = getTotalCount()
             callback.onResult(getPage(params.requestedLoadSize, params.requestedStartPosition).toList(), params.requestedStartPosition, count)
+            loading.postValue(false)
+        }
+        override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
+            callback.onResult(getPage(params.loadSize, params.startPosition).toList())
         }
     }
 

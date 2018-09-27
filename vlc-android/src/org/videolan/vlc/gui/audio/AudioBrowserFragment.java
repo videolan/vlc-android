@@ -100,7 +100,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (mSettings == null) mSettings = Settings.INSTANCE.getInstance(requireContext());
-        setupAdapters(mSettings.getInt(Constants.KEY_AUDIO_CURRENT_TAB, 0));
+        setupModels();
     }
 
     @Override
@@ -145,7 +145,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 
-    private void setupAdapters(final int currentTab) {
+    private void setupModels() {
         if (mArtistsAdapter == null) {
             artistModel = ViewModelProviders.of(requireActivity(), new PagedArtistsModel.Factory(requireContext(), mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false))).get(PagedArtistsModel.class);
             mArtistsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this, artistModel.getSort());
@@ -168,20 +168,20 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         }
         mAdapters = new AudioBrowserAdapter[] {mArtistsAdapter, mAlbumsAdapter, mSongsAdapter, mGenresAdapter, mPlaylistAdapter};
         models = new MLPagedModel[] {artistModel, albumModel, tracksModel, genresModel, playlistsModel};
-        //Register current tab first
-        models[currentTab].getPagedList().observe(this, new Observer<PagedList<MediaLibraryItem>>() {
-            @Override
-            public void onChanged(@Nullable PagedList<MediaLibraryItem> items) {
-                if (items != null) mAdapters[currentTab].submitList(items);
-            }
-        });
         for (int i = 0; i < models.length; ++i ) {
-            if (i == currentTab) continue;
             final int index = i;
             models[i].getPagedList().observe(this, new Observer<PagedList<MediaLibraryItem>>() {
                 @Override
                 public void onChanged(@Nullable PagedList<MediaLibraryItem> items) {
                     if (items != null) mAdapters[index].submitList(items);
+                }
+            });
+            models[i].getLoading().observe(this, new Observer<Boolean>() {
+                @Override
+                public void onChanged(@Nullable Boolean loading) {
+                    if (loading == null || mViewPager.getCurrentItem() != index) return;
+                    if (loading) mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
+                    else mHandler.sendEmptyMessage(UNSET_REFRESHING);
                 }
             });
         }
@@ -284,6 +284,9 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         requireActivity().invalidateOptionsMenu();
         mFastScroller.setRecyclerView(mLists[tab.getPosition()], getViewModel().getTotalCount());
         mSettings.edit().putInt(Constants.KEY_AUDIO_CURRENT_TAB, tab.getPosition()).apply();
+        final Boolean loading = getViewModel().getLoading().getValue();
+        if (loading == null || loading == false) mHandler.sendEmptyMessage(UNSET_REFRESHING);
+        else mHandler.sendEmptyMessage(SET_REFRESHING);
     }
 
     @Override
@@ -338,7 +341,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         super.onUpdateFinished(adapter);
         if (adapter == getCurrentAdapter()) {
-            if (!mMediaLibrary.isWorking()) mHandler.sendEmptyMessage(UNSET_REFRESHING);
             mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)getCurrentRV().getLayoutManager()).findFirstVisibleItemPosition() <= 0);
             updateEmptyView(mViewPager.getCurrentItem());
             mFastScroller.setRecyclerView(getCurrentRV(), getViewModel().getTotalCount());
