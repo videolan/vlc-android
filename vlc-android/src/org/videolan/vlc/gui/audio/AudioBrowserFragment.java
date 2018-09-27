@@ -146,44 +146,50 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     }
 
     private void setupModels() {
-        if (mArtistsAdapter == null) {
-            artistModel = ViewModelProviders.of(requireActivity(), new PagedArtistsModel.Factory(requireContext(), mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false))).get(PagedArtistsModel.class);
-            mArtistsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this, artistModel.getSort());
-        }
-        if (mAlbumsAdapter == null) {
-            albumModel = ViewModelProviders.of(requireActivity(), new PagedAlbumsModel.Factory(requireContext(), null)).get(PagedAlbumsModel.class);
-            mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, albumModel.getSort());
-        }
-        if (mSongsAdapter == null) {
-            tracksModel = ViewModelProviders.of(requireActivity(), new PagedTracksModel.Factory(requireContext(), null)).get(PagedTracksModel.class);
-            mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, tracksModel.getSort());
-        }
-        if (mGenresAdapter == null) {
-            genresModel = ViewModelProviders.of(requireActivity(), new PagedGenresModel.Factory(requireContext())).get(PagedGenresModel.class);
-            mGenresAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this, genresModel.getSort());
-        }
-        if (mPlaylistAdapter == null) {
-            playlistsModel = ViewModelProviders.of(requireActivity(), new PagedPlaylistsModel.Factory(requireContext())).get(PagedPlaylistsModel.class);
-            mPlaylistAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, playlistsModel.getSort());
+        final int current = mSettings.getInt(Constants.KEY_AUDIO_CURRENT_TAB, 0);
+        for (int pass = 0 ; pass < 2; ++pass) {
+            if ((pass != 0 ^ current == MODE_ARTIST) && mArtistsAdapter == null) {
+                artistModel = ViewModelProviders.of(requireActivity(), new PagedArtistsModel.Factory(requireContext(), mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false))).get(PagedArtistsModel.class);
+                mArtistsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this, artistModel.getSort());
+            }
+            if ((pass != 0 ^ current == MODE_ALBUM) && mAlbumsAdapter == null) {
+                albumModel = ViewModelProviders.of(requireActivity(), new PagedAlbumsModel.Factory(requireContext(), null)).get(PagedAlbumsModel.class);
+                mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, albumModel.getSort());
+            }
+            if ((pass != 0 ^ current == MODE_SONG) && mSongsAdapter == null) {
+                tracksModel = ViewModelProviders.of(requireActivity(), new PagedTracksModel.Factory(requireContext(), null)).get(PagedTracksModel.class);
+                mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, tracksModel.getSort());
+            }
+            if ((pass != 0 ^ current == MODE_GENRE) && mGenresAdapter == null) {
+                genresModel = ViewModelProviders.of(requireActivity(), new PagedGenresModel.Factory(requireContext())).get(PagedGenresModel.class);
+                mGenresAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this, genresModel.getSort());
+            }
+            if ((pass != 0 ^ current == MODE_PLAYLIST) && mPlaylistAdapter == null) {
+                playlistsModel = ViewModelProviders.of(requireActivity(), new PagedPlaylistsModel.Factory(requireContext())).get(PagedPlaylistsModel.class);
+                mPlaylistAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, playlistsModel.getSort());
+            }
         }
         mAdapters = new AudioBrowserAdapter[] {mArtistsAdapter, mAlbumsAdapter, mSongsAdapter, mGenresAdapter, mPlaylistAdapter};
         models = new MLPagedModel[] {artistModel, albumModel, tracksModel, genresModel, playlistsModel};
-        for (int i = 0; i < models.length; ++i ) {
-            final int index = i;
-            models[i].getPagedList().observe(this, new Observer<PagedList<MediaLibraryItem>>() {
-                @Override
-                public void onChanged(@Nullable PagedList<MediaLibraryItem> items) {
-                    if (items != null) mAdapters[index].submitList(items);
-                }
-            });
-            models[i].getLoading().observe(this, new Observer<Boolean>() {
-                @Override
-                public void onChanged(@Nullable Boolean loading) {
-                    if (loading == null || mViewPager.getCurrentItem() != index) return;
-                    if (loading) mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
-                    else mHandler.sendEmptyMessage(UNSET_REFRESHING);
-                }
-            });
+        for (int pass = 0 ; pass < 2; ++pass) {
+            for (int i = 0; i < models.length; ++i) {
+                if (pass == 0 ^ current == i) continue;
+                final int index = i;
+                models[i].getPagedList().observe(this, new Observer<PagedList<MediaLibraryItem>>() {
+                    @Override
+                    public void onChanged(@Nullable PagedList<MediaLibraryItem> items) {
+                        if (items != null) mAdapters[index].submitList(items);
+                    }
+                });
+                models[i].getLoading().observe(this, new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(@Nullable Boolean loading) {
+                        if (loading == null || mViewPager.getCurrentItem() != index) return;
+                        if (loading) mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
+                        else mHandler.sendEmptyMessage(UNSET_REFRESHING);
+                    }
+                });
+            }
         }
     }
 
