@@ -12,11 +12,11 @@ import android.provider.OpenableColumns
 import android.text.TextUtils
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.media.Album
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Playlist
@@ -35,7 +35,8 @@ private const val TAG = "VLC/MediaUtils"
 
 private const val PAGE_SIZE = 1000
 
-object MediaUtils {
+object MediaUtils : CoroutineScope {
+    override val coroutineContext = Dispatchers.Main.immediate
 
     private val subtitlesDownloader by lazy { SubtitlesDownloader() }
 
@@ -105,7 +106,7 @@ object MediaUtils {
         })
     }
 
-    fun openMediaNoUi(ctx: Context, id: Long) = launch(UI, CoroutineStart.UNDISPATCHED) {
+    fun openMediaNoUi(ctx: Context, id: Long) = launch {
         val media = ctx.getFromMl { getMedia(id) }
         openMediaNoUi(ctx, media)
     }
@@ -122,8 +123,38 @@ object MediaUtils {
         }
     }
 
-    fun playTracks(context: Context, item: MediaLibraryItem, position: Int) = GlobalScope.launch(Dispatchers.Main.immediate) {
+    fun playTracks(context: Context, item: MediaLibraryItem, position: Int) = launch {
         openList(context, withContext(Dispatchers.IO) { item.tracks }.toList(), position)
+    }
+
+    fun playAlbums(context: Context?, model: MLPagedModel<Album>, position: Int, shuffle: Boolean) {
+        if (context == null) return
+        SuspendDialogCallback(context) { service ->
+            val count = withContext(Dispatchers.IO) { model.getTotalCount() }
+            when (count) {
+                0 -> null
+                in 1..PAGE_SIZE -> withContext(Dispatchers.IO) {
+                    mutableListOf<MediaWrapper>().apply {
+                        for (album in model.getAll()) album.tracks?.let { addAll(it) }
+                    }
+                }
+                else -> withContext(Dispatchers.IO) {
+                    mutableListOf<MediaWrapper>().apply {
+                        var index = 0
+                        while (index < count) {
+                            val pageCount = min(PAGE_SIZE, count-index)
+                            val albums = withContext(Dispatchers.IO) { model.getPage(pageCount, index) }
+                            for (album in albums) addAll(album.tracks)
+                            index += pageCount
+                        }
+                    }
+                }
+            }?.takeIf { it.isNotEmpty() }?.let { list ->
+                service.load(list, if (shuffle) Random().nextInt(count) else position)
+                if (shuffle && !service.isShuffling) service.shuffle()
+            }
+        }
+
     }
 
     fun playAll(context: Context?, model: MLPagedModel<MediaWrapper>, position: Int, shuffle: Boolean) {
@@ -134,16 +165,16 @@ object MediaUtils {
                 0 -> null
                 in 1..PAGE_SIZE -> withContext(Dispatchers.IO) { model.getAll()?.toList() }
                 else -> withContext(Dispatchers.IO) {
-                    val tracks = mutableListOf<MediaWrapper>()
-                    var index = 0
-                    while (index < count) {
-                        val pageCount = min(PAGE_SIZE, count-index)
-                        tracks.addAll(withContext(Dispatchers.IO) { model.getPage(pageCount, index) })
-                        index += pageCount
+                    mutableListOf<MediaWrapper>().apply {
+                        var index = 0
+                        while (index < count) {
+                            val pageCount = min(PAGE_SIZE, count - index)
+                            addAll(withContext(Dispatchers.IO) { model.getPage(pageCount, index) })
+                            index += pageCount
+                        }
                     }
-                    tracks
                 }
-            }?.let { list ->
+            }?.takeIf { it.isNotEmpty() }?.let { list ->
                 service.load(list, if (shuffle) Random().nextInt(count) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
@@ -278,8 +309,7 @@ object MediaUtils {
         }
     }
 
-    private class SuspendDialogCallback (context: Context, private val task: suspend (service: PlaybackService) -> Unit) : BaseCallBack(), CoroutineScope {
-        override val coroutineContext = Dispatchers.Main.immediate
+    private class SuspendDialogCallback (context: Context, private val task: suspend (service: PlaybackService) -> Unit) : BaseCallBack() {
         private lateinit var dialog: ProgressDialog
         var job = Job()
         val actor = actor<Action>(capacity = Channel.UNLIMITED) {
@@ -333,7 +363,7 @@ object MediaUtils {
         }
     } catch (ignored: UnsupportedOperationException) {}
 
-    fun deletePlaylist(playlist: Playlist) = GlobalScope.launch(Dispatchers.IO) { playlist.delete() }
+    fun deletePlaylist(playlist: Playlist) = launch(Dispatchers.IO) { playlist.delete() }
 }
 
 private sealed class Action
