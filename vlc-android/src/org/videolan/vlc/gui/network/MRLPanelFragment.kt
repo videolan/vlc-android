@@ -37,9 +37,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.actor
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
 import org.videolan.vlc.gui.DialogActivity
@@ -60,7 +60,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
     private lateinit var editText: TextInputLayout
     private lateinit var viewModel: StreamsModel
 
-    private val listEventActor = actor<MrlAction>(UI) {
+    private val listEventActor = coroutineScope.actor<MrlAction> {
         for (event in channel) when(event) {
             is Playmedia -> playMedia(event.media)
             is ShowContext -> showContext(event.position)

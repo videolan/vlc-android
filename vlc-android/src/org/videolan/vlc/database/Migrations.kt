@@ -187,12 +187,11 @@ val migration_27_28 = object:Migration(27, 28) {
     override fun migrate(database: SupportSQLiteDatabase) {
         val preferences = Settings.getInstance(VLCApplication.getAppContext())
         val customPaths = preferences.getString("custom_paths", "")
-        var oldPaths = listOf<String>()
-        if (customPaths.isNotEmpty())
-            oldPaths = customPaths.split(":")
+        var oldPaths : List<String>? = null
+        if (customPaths.isNotEmpty()) oldPaths = customPaths?.split(":")
 
         database.execSQL("CREATE TABLE IF NOT EXISTS $CUSTOM_DIRECTORY_TABLE_NAME(path TEXT PRIMARY KEY NOT NULL);")
-        oldPaths.forEach {
+        oldPaths?.forEach {
             database.execSQL("INSERT INTO $CUSTOM_DIRECTORY_TABLE_NAME(path) VALUES (\"$it\")")
         }
     }

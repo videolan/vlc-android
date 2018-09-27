@@ -23,7 +23,8 @@ package org.videolan.vlc.util
 import org.videolan.vlc.BuildConfig
 import java.text.DecimalFormat
 
-private val TAG = "VLC/UiTools/Strings"
+private const val TAG = "VLC/UiTools/Strings"
+
 object Strings {
 
     fun stripTrailingSlash(s: String): String {

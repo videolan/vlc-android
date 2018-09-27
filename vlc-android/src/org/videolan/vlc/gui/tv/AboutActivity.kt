@@ -2,7 +2,6 @@ package org.videolan.vlc.gui.tv
 
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
-import android.widget.TextView
 
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools

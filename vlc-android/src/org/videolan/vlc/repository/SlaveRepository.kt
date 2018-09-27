@@ -22,36 +22,32 @@ package org.videolan.vlc.repository
 
 import android.content.Context
 import android.net.Uri
-import kotlinx.coroutines.experimental.IO
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.experimental.*
 import org.videolan.libvlc.Media
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.SlaveDao
 import org.videolan.vlc.database.models.Slave
 
 
-class SlaveRepository(private val slaveDao:SlaveDao){
+class SlaveRepository(private val slaveDao:SlaveDao) : IOScopedObject() {
 
     fun saveSlave(mediaPath: String, type: Int, priority: Int, uriString: String): Job {
-        return launch(IO) {
+        return launch {
             slaveDao.insert(Slave(mediaPath, type, priority, uriString))
         }
     }
 
     fun saveSlaves(mw: MediaWrapper): List<Job>? {
         return mw.slaves?.let{
-            it.map {
-                saveSlave(mw.location, it.type, it.priority, it.uri)
-            }
+            it.map { saveSlave(mw.location, it.type, it.priority, it.uri) }
         }
     }
 
     suspend fun getSlaves(mrl: String): List<Media.Slave> {
-        return withContext(IO) {
+        return withContext(Dispatchers.IO) {
             val slaves = slaveDao.get(mrl)
             val mediaSlaves = slaves.map {
                 var uri = it.uri

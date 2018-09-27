@@ -152,7 +152,7 @@ class DisplayManager(private val activity: Activity, cloneMode: Boolean, benchma
         lateinit var surfaceFrame: FrameLayout
 
         companion object {
-            val TAG = "VLC/SecondaryDisplay"
+            const val TAG = "VLC/SecondaryDisplay"
         }
 
         override fun onCreate(savedInstanceState: Bundle?) {

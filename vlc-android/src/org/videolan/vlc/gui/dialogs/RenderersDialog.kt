@@ -40,11 +40,9 @@ import org.videolan.vlc.gui.PlaybackServiceActivity
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
 
-class RenderersDialog : DialogFragment(), PlaybackService.Client.Callback {
+const private val TAG = "VLC/RenderersDialog"
 
-    companion object {
-        private val TAG = "VLC/RenderersDialog"
-    }
+class RenderersDialog : DialogFragment(), PlaybackService.Client.Callback {
     private var renderers = RendererDelegate.renderers.value
     private lateinit var mBinding: DialogRenderersBinding
     private val mAdapter = RendererAdapter()

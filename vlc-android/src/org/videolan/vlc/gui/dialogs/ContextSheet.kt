@@ -29,8 +29,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ContextItemBinding
 import org.videolan.vlc.util.*
@@ -75,7 +75,7 @@ class ContextSheet : BottomSheetDialogFragment() {
         list.adapter = ContextAdapter()
         val flags = arguments?.getInt(CTX_FLAGS_KEY) ?: 0
         options = populateOptions(flags)
-        if (!AndroidDevices.isPhone) launch(UI) { dialog.window.setLayout(resources.getDimensionPixelSize(R.dimen.default_context_width), ViewGroup.LayoutParams.MATCH_PARENT) }
+        if (!AndroidDevices.isPhone) coroutineScope.launch { dialog.window.setLayout(resources.getDimensionPixelSize(R.dimen.default_context_width), ViewGroup.LayoutParams.MATCH_PARENT) }
     }
 
     private fun populateOptions(flags: Int) = mutableListOf<CtxOption>().apply {

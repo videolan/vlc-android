@@ -7,7 +7,7 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.util.Log
 import android.view.KeyEvent
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.*
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -71,7 +71,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             return
         }
         playbackService.mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, playbackService.time, 1.0f).build())
-        launch {
+        GlobalScope.launch(Dispatchers.IO) {
             val vsp = VoiceSearchParams(query, extras)
             var items: Array<out MediaLibraryItem>? = null
             var tracks: Array<MediaWrapper>? = null

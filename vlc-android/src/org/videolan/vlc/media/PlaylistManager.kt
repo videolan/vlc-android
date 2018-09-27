@@ -130,13 +130,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (loadingLastPlaylist) return true
         loadingLastPlaylist = true
         val audio = type == PLAYLIST_TYPE_AUDIO
-        val currentMedia = settings.getString(if (audio) "current_song" else "current_media", "")
+        val currentMedia = settings.getString(if (audio) "current_song" else "current_media", "")!!
         if (currentMedia.isEmpty()) {
             loadingLastPlaylist = false
             return false
         }
-        val locations = settings.getString(if (audio) "audio_list" else "media_list", "").split(" ".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-        if (Util.isArrayEmpty(locations)) {
+        val locations = settings.getString(if (audio) "audio_list" else "media_list", null)?.split(" ".toRegex())?.dropLastWhile({ it.isEmpty() })?.toTypedArray()
+        if (locations?.isNotEmpty() != false) {
             loadingLastPlaylist = false
             return false
         }
@@ -694,7 +694,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 MediaPlayer.Event.Playing -> {
                     medialibrary.pauseBackgroundOperations()
                     videoBackground = false
-                    val mw = withContext(IO) {
+                    val mw = withContext(Dispatchers.IO) {
                         val current = getCurrentMedia()
                         medialibrary.findMedia(current).apply { if (type == -1) type = current?.type ?: -1 }
                     }

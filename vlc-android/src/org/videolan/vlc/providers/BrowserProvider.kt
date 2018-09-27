@@ -198,7 +198,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         val mw = MediaWrapper(media)
         val uri = mw.uri
         if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)
-                && "file" == uri.scheme) return withContext(IO) { medialibrary.getMedia(uri) ?: mw }
+                && "file" == uri.scheme) return withContext(Dispatchers.IO) { medialibrary.getMedia(uri) ?: mw }
         return mw
     }
 

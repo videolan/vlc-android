@@ -24,10 +24,11 @@ import android.arch.lifecycle.MediatorLiveData
 import android.content.Context
 import android.net.Uri
 import android.support.annotation.WorkerThread
-import kotlinx.coroutines.experimental.IO
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.database.BrowserFavDao
@@ -39,7 +40,7 @@ import org.videolan.vlc.util.convertFavorites
 import java.util.*
 
 
-class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
+class BrowserFavRepository(private val browserFavDao: BrowserFavDao) : IOScopedObject() {
 
     private val networkFavs by lazy { browserFavDao.getAllNetwrokFavs() }
 
@@ -47,11 +48,11 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
 
     val localFavorites by lazy { browserFavDao.getAllLocalFavs() }
 
-    fun addNetworkFavItem(uri: Uri, title: String, iconUrl: String?) = launch(IO) {
+    fun addNetworkFavItem(uri: Uri, title: String, iconUrl: String?) = launch {
         browserFavDao.insert(BrowserFav(uri, TYPE_NETWORK_FAV, title, iconUrl))
     }
 
-    fun addLocalFavItem(uri: Uri, title: String, iconUrl: String? = null) = launch(IO) {
+    fun addLocalFavItem(uri: Uri, title: String, iconUrl: String? = null) = launch {
         browserFavDao.insert(BrowserFav(uri, TYPE_LOCAL_FAV, title, iconUrl))
     }
 
@@ -59,7 +60,7 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
         MediatorLiveData<List<MediaWrapper>>().apply {
             addSource(networkFavs) { value = convertFavorites(it).filterNetworkFavs() }
             addSource(ExternalMonitor.connected) {
-                launch(UI.immediate) {
+                launch(Dispatchers.Main.immediate) {
                     val favList = convertFavorites(networkFavs.value)
                     if (favList.isNotEmpty()) value = if (it == true) favList.filterNetworkFavs() else emptyList()
                 }
@@ -70,7 +71,7 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) {
     @WorkerThread
     fun browserFavExists(uri: Uri): Boolean = browserFavDao.get(uri).isNotEmpty()
 
-    fun deleteBrowserFav(uri: Uri) = launch(IO) { browserFavDao.delete(uri) }
+    fun deleteBrowserFav(uri: Uri) = launch { browserFavDao.delete(uri) }
 
     private fun List<MediaWrapper>.filterNetworkFavs() : List<MediaWrapper> {
         return when {

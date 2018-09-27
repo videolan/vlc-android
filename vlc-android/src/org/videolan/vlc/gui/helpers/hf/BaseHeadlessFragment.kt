@@ -27,6 +27,9 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.GlobalScope
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.SendChannel
@@ -63,7 +66,7 @@ open class BaseHeadlessFragment : Fragment() {
     companion object {
 
         internal fun waitForIt(channel: Channel<Unit>, cb: Runnable) {
-            launch(UI.immediate) {
+            GlobalScope.launch(Dispatchers.Main.immediate) {
                 channel.receive()
                 channel.close()
                 cb.run()

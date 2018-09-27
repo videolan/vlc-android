@@ -43,12 +43,10 @@ import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.IVLCVout
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
@@ -72,7 +70,8 @@ import java.util.*
 
 private const val TAG = "VLC/PlaybackService"
 
-class PlaybackService : MediaBrowserServiceCompat() {
+class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope {
+    override val coroutineContext = Dispatchers.Main.immediate
 
     lateinit var playlistManager: PlaylistManager
         private set
@@ -167,7 +166,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
                 publishState()
                 audioFocusHelper.changeAudioFocus(true)
                 if (!wakeLock.isHeld) wakeLock.acquire()
-                if (!keyguardManager.inKeyguardRestrictedInputMode()
+                if (!keyguardManager.isKeyguardLocked
                         && !playlistManager.videoBackground
                         && !hasRenderer()
                         && playlistManager.switchToVideo()) {
@@ -639,7 +638,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
             val sessionToken = mediaSession.sessionToken
             val ctx = this
             val metaData = mediaSession.controller.metadata
-            launch {
+            launch(Dispatchers.Default) {
                 if (isPlayingPopup) return@launch
                 try {
                     val title = if (metaData == null) mw.title else metaData.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
@@ -1002,7 +1001,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
      * @param flags LibVLC.MEDIA_* flags
      */
     @JvmOverloads
-    fun playIndex(index: Int, flags: Int = 0) = launch(UI.immediate) { playlistManager.playIndex(index, flags) }
+    fun playIndex(index: Int, flags: Int = 0) = launch { playlistManager.playIndex(index, flags) }
 
     @MainThread
     fun flush() {
@@ -1280,7 +1279,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
     }
 
     private fun sendResults(result: MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>, parentId: String) {
-        launch {
+        launch(Dispatchers.IO) {
             try {
                 result.sendResult(BrowserProvider.browse(applicationContext, parentId))
             } catch (ignored: RuntimeException) {} //bitmap parcelization can fail
@@ -1289,7 +1288,7 @@ class PlaybackService : MediaBrowserServiceCompat() {
 
 
     private val cbActor by lazy {
-        actor<CbAction>(UI, capacity = Channel.UNLIMITED) {
+        actor<CbAction>(capacity = Channel.UNLIMITED) {
             for (update in channel) when (update) {
                 CbUpdate -> for (callback in callbacks) callback.update()
                 is CbMediaEvent -> for (callback in callbacks) callback.onMediaEvent(update.event)

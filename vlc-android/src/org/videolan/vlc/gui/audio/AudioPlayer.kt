@@ -117,7 +117,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = AudioPlayerBinding.inflate(inflater)!!
+        binding = AudioPlayerBinding.inflate(inflater)
         return binding.root
     }
 

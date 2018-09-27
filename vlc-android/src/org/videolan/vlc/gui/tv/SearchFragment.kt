@@ -29,10 +29,10 @@ import android.os.Bundle
 import android.support.v17.leanback.app.SearchSupportFragment
 import android.support.v17.leanback.widget.*
 import android.text.TextUtils
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.*
+import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.util.getFromMl
 import java.util.*
@@ -75,7 +75,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
         return true
     }
 
-    private fun loadRows(query: String?) = launch(UI.immediate) {
+    private fun loadRows(query: String?) = coroutineScope.launch {
         val searchAggregate = context?.getFromMl { search(query) } ?: return@launch
         val empty = searchAggregate.isEmpty
         val mediaEmpty = empty || (Tools.isArrayEmpty(searchAggregate.tracks) && Tools.isArrayEmpty(searchAggregate.videos))

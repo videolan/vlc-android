@@ -73,9 +73,9 @@ const val ACTION_RESUME_SCAN = "action_resume_scan"
 const val ACTION_PAUSE_SCAN = "action_pause_scan"
 
 // VideoPlayerActivity
-@JvmField val PLAY_FROM_VIDEOGRID = Strings.buildPkgString("gui.video.PLAY_FROM_VIDEOGRID")!!
-@JvmField val PLAY_FROM_SERVICE = Strings.buildPkgString("gui.video.PLAY_FROM_SERVICE")!!
-@JvmField val EXIT_PLAYER = Strings.buildPkgString("gui.video.EXIT_PLAYER")!!
+@JvmField val PLAY_FROM_VIDEOGRID = Strings.buildPkgString("gui.video.PLAY_FROM_VIDEOGRID")
+@JvmField val PLAY_FROM_SERVICE = Strings.buildPkgString("gui.video.PLAY_FROM_SERVICE")
+@JvmField val EXIT_PLAYER = Strings.buildPkgString("gui.video.EXIT_PLAYER")
 const val PLAY_EXTRA_ITEM_LOCATION = "item_location"
 const val PLAY_EXTRA_SUBTITLES_LOCATION = "subtitles_location"
 const val PLAY_EXTRA_ITEM_TITLE = "title"

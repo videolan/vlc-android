@@ -24,7 +24,7 @@ class FileProvider : ContentProvider() {
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?) = 0
 
-    override fun getType(uri: Uri) = "image/${uri.path.substringAfterLast('.')}"
+    override fun getType(uri: Uri) = "image/${uri.path?.substringAfterLast('.')}"
 
     override fun openFile(uri: Uri, mode: String?): ParcelFileDescriptor {
         val file = File(uri.path)

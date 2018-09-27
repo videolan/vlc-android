@@ -197,11 +197,9 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         slaves?.let { it.forEach { slave -> media.addSlave(slave) } }
         media.release()
         slaves?.let {
-            val jobs = slaveRepository.saveSlaves(mw)
-            jobs?.forEach { it.join() }
+            slaveRepository.saveSlaves(mw)?.forEach { it.join() }
         }
-        val list = slaveRepository.getSlaves(mw.location)
-        list?.forEach { slave ->
+        slaveRepository.getSlaves(mw.location).forEach { slave ->
             mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
         }
     }

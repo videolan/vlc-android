@@ -163,7 +163,7 @@ object MediaUtils : CoroutineScope {
             val count = withContext(Dispatchers.IO) { model.getTotalCount() }
             when (count) {
                 0 -> null
-                in 1..PAGE_SIZE -> withContext(Dispatchers.IO) { model.getAll()?.toList() }
+                in 1..PAGE_SIZE -> withContext(Dispatchers.IO) { model.getAll().toList() }
                 else -> withContext(Dispatchers.IO) {
                     mutableListOf<MediaWrapper>().apply {
                         var index = 0

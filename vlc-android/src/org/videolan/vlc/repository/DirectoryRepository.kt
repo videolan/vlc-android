@@ -2,12 +2,12 @@ package org.videolan.vlc.repository
 
 import android.content.Context
 import android.text.TextUtils
-import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.R
 import org.videolan.vlc.database.CustomDirectoryDao
@@ -19,17 +19,17 @@ import org.videolan.vlc.util.AndroidDevices.getExternalStorageDirectories
 import org.videolan.vlc.util.FileUtils
 import java.io.File
 
-class DirectoryRepository (private val customDirectoryDao: CustomDirectoryDao) {
+class DirectoryRepository (private val customDirectoryDao: CustomDirectoryDao) : IOScopedObject() {
 
-    fun addCustomDirectory(path: String): Job = launch(IO) {
+    fun addCustomDirectory(path: String): Job = launch {
             customDirectoryDao.insert(CustomDirectory(path))
     }
 
-    suspend fun getCustomDirectories() = withContext(IO) { customDirectoryDao.getAll() }
+    suspend fun getCustomDirectories() = withContext(coroutineContext) { customDirectoryDao.getAll() }
 
-    fun deleteCustomDirectory(path: String) = launch(IO) { customDirectoryDao.delete(CustomDirectory(path)) }
+    fun deleteCustomDirectory(path: String) = launch { customDirectoryDao.delete(CustomDirectory(path)) }
 
-    suspend fun customDirectoryExists(path: String) = withContext(IO) { customDirectoryDao.get(path).isNotEmpty() }
+    suspend fun customDirectoryExists(path: String) = withContext(coroutineContext) { customDirectoryDao.get(path).isNotEmpty() }
 
     suspend fun getMediaDirectoriesList(context: Context): List<MediaWrapper> {
         val storages = getMediaDirectories()

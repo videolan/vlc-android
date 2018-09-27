@@ -34,13 +34,13 @@ import android.support.v17.leanback.app.BrowseSupportFragment
 import android.support.v17.leanback.widget.*
 import android.support.v4.content.ContextCompat
 import android.view.View
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.coroutineScope
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
@@ -87,7 +87,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     private lateinit var browserFavRepository: BrowserFavRepository
 
-    var updatedFavoritList: List<MediaWrapper> = listOf()
+    private var updatedFavoritList: List<MediaWrapper> = listOf()
     private lateinit var favorites: LiveData<List<MediaWrapper>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -206,7 +206,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         return true
     }
 
-    fun updateBrowsers() = launch(UI.immediate) {
+    fun updateBrowsers() = coroutineScope.launch {
         val list = mutableListOf<MediaLibraryItem>()
         val directories = DirectoryRepository.getInstance(requireContext()).getMediaDirectoriesList(requireContext().applicationContext).toMutableList()
         if (!AndroidDevices.showInternalStorage && !directories.isEmpty()) directories.removeAt(0)

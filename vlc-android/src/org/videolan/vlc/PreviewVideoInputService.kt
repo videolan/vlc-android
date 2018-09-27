@@ -10,8 +10,9 @@ import android.net.Uri
 import android.os.Build
 import android.util.Log
 import android.view.Surface
-import kotlinx.coroutines.experimental.CoroutineStart
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.launch
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
@@ -25,7 +26,8 @@ import java.io.IOException
 private const val TAG = "PreviewInputService"
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-class PreviewVideoInputService : TvInputService() {
+class PreviewVideoInputService : TvInputService(), CoroutineScope {
+    override val coroutineContext = Dispatchers.Main.immediate
 
     override fun onCreateSession(inputId: String): TvInputService.Session? {
         return PreviewSession(this)
@@ -42,8 +44,8 @@ class PreviewVideoInputService : TvInputService() {
 
         override fun onTune(uri: Uri): Boolean {
             notifyVideoUnavailable(VIDEO_UNAVAILABLE_REASON_TUNING)
-            val id = uri.lastPathSegment.toLong()
-            launch(UI, CoroutineStart.UNDISPATCHED) {
+            val id = uri.lastPathSegment?.toLong() ?: return false
+            launch {
                 val mw = this@PreviewVideoInputService.getFromMl { getMedia(id) }
                 if (mw == null) {
                     Log.w(TAG, "Could not find video $id")

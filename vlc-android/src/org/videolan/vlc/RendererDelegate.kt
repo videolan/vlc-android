@@ -22,6 +22,7 @@ package org.videolan.vlc
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.android.UI
 import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
@@ -40,7 +41,7 @@ object RendererDelegate : RendererDiscoverer.EventListener {
     val selectedRenderer: LiveData<RendererItem> = MutableLiveData()
 
     init {
-        ExternalMonitor.connected.observeForever { launch(UI.immediate) { if (it == true) start() else stop() } }
+        ExternalMonitor.connected.observeForever { GlobalScope.launch(Dispatchers.Main.immediate) { if (it == true) start() else stop() } }
     }
 
     suspend fun start() {

@@ -48,6 +48,7 @@ import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
+import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.BrowserItemBinding
@@ -146,7 +147,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         if (isRootDirectory) {
             val storage = adapter.getItem(position) as Storage
-            launch(UI.immediate) {
+            coroutineScope.launch {
                 val isCustom = viewModel.customDirectoryExists(storage.uri.path)
                 if (isCustom) showContext(requireActivity(), this@StorageBrowserFragment, position, item.title, CTX_CUSTOM_REMOVE)
             }
@@ -215,7 +216,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         builder.setTitle(R.string.add_custom_path)
         builder.setMessage(R.string.add_custom_path_description)
         builder.setView(input)
-        builder.setNegativeButton(R.string.cancel) { dialogInterface, which -> }
+        builder.setNegativeButton(R.string.cancel) { _, _ -> }
         builder.setPositiveButton(R.string.ok, DialogInterface.OnClickListener { dialog, which ->
             val path = input.text.toString().trim { it <= ' ' }
             val f = File(path)
@@ -224,7 +225,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
                 return@OnClickListener
             }
 
-            launch(UI.immediate + CoroutineExceptionHandler{ _, _ ->}) {
+            coroutineScope.launch(CoroutineExceptionHandler{ _, _ ->}) {
                 viewModel.addCustomDirectory(f.canonicalPath).join()
                 viewModel.browserRoot()
             }
