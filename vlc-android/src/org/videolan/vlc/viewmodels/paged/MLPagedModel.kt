@@ -43,7 +43,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
 
     abstract fun getTotalCount() : Int
     abstract fun getPage(loadSize: Int, startposition: Int) : Array<T>
-    abstract fun getAll() : Array<T>?
+    abstract fun getAll() : Array<T>
 
     override fun sort(sort: Int) {
         if (this.sort != sort) {

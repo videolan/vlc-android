@@ -28,7 +28,7 @@ class PagedAlbumsModel(context: Context, val parent: MediaLibraryItem? = null) :
         refresh()
     }
 
-    override fun getAll() = when (parent) {
+    override fun getAll() : Array<Album> = when (parent) {
         is Artist -> parent.getAlbums(sort, desc)
         is Genre -> parent.getAlbums(sort, desc)
         else -> medialibrary.getAlbums(sort, desc)

@@ -25,10 +25,12 @@ class PagedGenresModel(context: Context): MLPagedModel<Genre>(context), Medialib
         medialibrary.removeGenreCb(this)
     }
 
-    override fun getAll() = medialibrary.getGenres(sort, desc)
+    override fun getAll() : Array<Genre> = medialibrary.getGenres(sort, desc)
 
-    override fun getPage(loadSize: Int, startposition: Int) = if (filter == null) medialibrary.getPagedGenres(sort, desc, loadSize, startposition)
-    else medialibrary.searchGenre(filter, sort, desc, loadSize, startposition)
+    override fun getPage(loadSize: Int, startposition: Int) : Array<Genre> {
+        return if (filter == null) medialibrary.getPagedGenres(sort, desc, loadSize, startposition)
+        else medialibrary.searchGenre(filter, sort, desc, loadSize, startposition)
+    }
 
     override fun getTotalCount() = if (filter == null) medialibrary.genresCount else medialibrary.getGenresCount(filter)
 

@@ -20,10 +20,12 @@ class PagedPlaylistsModel(context: Context): MLPagedModel<Playlist>(context), Me
 
     override fun canSortByDuration() = true
 
-    override fun getAll() = medialibrary.getPlaylists(sort, desc)
+    override fun getAll() : Array<Playlist> = medialibrary.getPlaylists(sort, desc)
 
-    override fun getPage(loadSize: Int, startposition: Int) = if (filter == null) medialibrary.getPagedPlaylists(sort, desc, loadSize, startposition)
-    else medialibrary.searchPlaylist(filter, sort, desc, loadSize, startposition)
+    override fun getPage(loadSize: Int, startposition: Int)  : Array<Playlist> {
+        return if (filter == null) medialibrary.getPagedPlaylists(sort, desc, loadSize, startposition)
+        else medialibrary.searchPlaylist(filter, sort, desc, loadSize, startposition)
+    }
 
     override fun getTotalCount() = if (filter == null) medialibrary.playlistsCount else medialibrary.getPlaylistsCount(filter)
 
