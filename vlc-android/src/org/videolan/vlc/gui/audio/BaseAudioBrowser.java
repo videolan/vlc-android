@@ -46,6 +46,7 @@ import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.ModelsHelperKt;
+import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.paged.MLPagedModel;
 
 import java.util.ArrayList;
@@ -97,32 +98,40 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
     }
 
     @Override
-    public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+    public boolean onActionItemClicked(ActionMode mode, final MenuItem item) {
         final List<MediaLibraryItem> list = getCurrentAdapter().getMultiSelectHelper().getSelection();
         stopActionMode();
         if (!list.isEmpty()) {
-            final List<MediaWrapper> tracks = new ArrayList<>();
-            for (MediaLibraryItem mediaItem : list)
-                tracks.addAll(Arrays.asList(mediaItem.getTracks()));
-            switch (item.getItemId()) {
-                case R.id.action_mode_audio_play:
-                    MediaUtils.INSTANCE.openList(getActivity(), tracks, 0);
-                    break;
-                case R.id.action_mode_audio_append:
-                    MediaUtils.INSTANCE.appendMedia(getActivity(), tracks);
-                    break;
-                case R.id.action_mode_audio_add_playlist:
-                    UiTools.addToPlaylist(getActivity(), tracks);
-                    break;
-                case R.id.action_mode_audio_info:
-                    showInfoDialog(list.get(0));
-                    break;
-                case R.id.action_mode_audio_set_song:
-                    AudioUtil.setRingtone((MediaWrapper) list.get(0), getActivity());
-                    break;
-                default:
-                    return false;
-            }
+            WorkersKt.runIO(new Runnable() {
+                @Override
+                public void run() {
+                    final List<MediaWrapper> tracks = new ArrayList<>();
+                    for (MediaLibraryItem mediaItem : list)
+                        tracks.addAll(Arrays.asList(mediaItem.getTracks()));
+                    WorkersKt.runOnMainThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            switch (item.getItemId()) {
+                                case R.id.action_mode_audio_play:
+                                    MediaUtils.INSTANCE.openList(getActivity(), tracks, 0);
+                                    break;
+                                case R.id.action_mode_audio_append:
+                                    MediaUtils.INSTANCE.appendMedia(getActivity(), tracks);
+                                    break;
+                                case R.id.action_mode_audio_add_playlist:
+                                    UiTools.addToPlaylist(getActivity(), tracks);
+                                    break;
+                                case R.id.action_mode_audio_info:
+                                    showInfoDialog(list.get(0));
+                                    break;
+                                case R.id.action_mode_audio_set_song:
+                                    AudioUtil.setRingtone((MediaWrapper) list.get(0), getActivity());
+                                    break;
+                            }
+                        }
+                    });
+                }
+            });
         }
         return true;
     }
