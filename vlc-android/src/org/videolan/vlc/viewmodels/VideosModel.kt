@@ -91,9 +91,9 @@ open class VideosModel(context: Context, private val group: String?, private val
     }
 
     override fun onCleared() {
-        super.onCleared()
         medialibrary.removeMediaCb(this)
         Medialibrary.lastThumb.removeObserver(thumbObs)
+        super.onCleared()
     }
 
     fun getListWithPosition(list: MutableList<MediaWrapper>, position: Int): Int {

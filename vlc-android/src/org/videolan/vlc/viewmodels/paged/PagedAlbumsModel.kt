@@ -60,8 +60,8 @@ class PagedAlbumsModel(context: Context, val parent: MediaLibraryItem? = null) :
     }
 
     override fun onCleared() {
-        super.onCleared()
         medialibrary.removeAlbumsCb(this)
+        super.onCleared()
     }
 
     class Factory(private val context: Context, val parent: MediaLibraryItem?) : ViewModelProvider.NewInstanceFactory() {

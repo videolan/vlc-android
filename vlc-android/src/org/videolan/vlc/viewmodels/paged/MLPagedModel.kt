@@ -40,8 +40,8 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     }
 
     override fun onCleared() {
-        super.onCleared()
         medialibrary.removeOnMedialibraryReadyListener(this)
+        super.onCleared()
     }
 
     abstract fun getTotalCount() : Int

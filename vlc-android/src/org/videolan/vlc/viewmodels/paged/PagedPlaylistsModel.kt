@@ -14,8 +14,8 @@ class PagedPlaylistsModel(context: Context): MLPagedModel<Playlist>(context), Me
     }
 
     override fun onCleared() {
-        super.onCleared()
         medialibrary.removePlaylistCb(this)
+        super.onCleared()
     }
 
     override fun canSortByDuration() = true

@@ -39,8 +39,8 @@ class PlaylistsModel(context: Context): AudioModel(context), Medialibrary.Playli
     }
 
     override fun onCleared() {
-        super.onCleared()
         medialibrary.removePlaylistCb(this)
+        super.onCleared()
     }
 
     override fun canSortByDuration() = true

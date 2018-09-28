@@ -52,8 +52,8 @@ class TracksModel(context: Context, val parent: MediaLibraryItem? = null): Audio
     }
 
     override fun onCleared() {
-        super.onCleared()
         medialibrary.removeMediaCb(this)
+        super.onCleared()
     }
 
     override fun onMediaAdded() {

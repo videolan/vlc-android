@@ -72,6 +72,7 @@ open class BrowserModel(context: Context, val url: String?, type: Int, showHidde
 
     override fun onCleared() {
         provider.release()
+        super.onCleared()
     }
 
     fun addCustomDirectory(path: String) = DirectoryRepository.getInstance(context).addCustomDirectory(path)

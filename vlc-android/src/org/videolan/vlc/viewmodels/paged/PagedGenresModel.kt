@@ -21,8 +21,8 @@ class PagedGenresModel(context: Context): MLPagedModel<Genre>(context), Medialib
     }
 
     override fun onCleared() {
-        super.onCleared()
         medialibrary.removeGenreCb(this)
+        super.onCleared()
     }
 
     override fun getAll() : Array<Genre> = medialibrary.getGenres(sort, desc)

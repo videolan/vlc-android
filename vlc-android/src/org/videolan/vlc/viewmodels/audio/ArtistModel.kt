@@ -56,8 +56,8 @@ class ArtistModel(context: Context, private var showAll: Boolean = false): Audio
     }
 
     override fun onCleared() {
-        super.onCleared()
         medialibrary.removeArtistsCb(this)
+        super.onCleared()
     }
 
     override fun onArtistsAdded() {

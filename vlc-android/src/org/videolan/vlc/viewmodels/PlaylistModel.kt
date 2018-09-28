@@ -76,6 +76,7 @@ class PlaylistModel(private val service: PlaybackService) : ScopedModel(), Playb
 
     public override fun onCleared() {
         service.removeCallback(this)
+        super.onCleared()
     }
 
     fun getPlaylistPosition(position: Int, media: MediaWrapper): Int {

@@ -45,8 +45,8 @@ class GenresModel(context: Context): AudioModel(context), Medialibrary.GenresCb 
     }
 
     override fun onCleared() {
-        super.onCleared()
         medialibrary.removeGenreCb(this)
+        super.onCleared()
     }
 
     @Suppress("UNCHECKED_CAST")

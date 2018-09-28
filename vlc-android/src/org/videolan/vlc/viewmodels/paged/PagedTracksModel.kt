@@ -47,7 +47,6 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
     }
 
     override fun onCleared() {
-        super.onCleared()
         when (parent) {
             is Artist -> medialibrary.removeArtistsCb(this)
             is Album -> medialibrary.removeAlbumsCb(this)
@@ -55,6 +54,7 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
             is Playlist -> medialibrary.removePlaylistCb(this)
             else -> medialibrary.removeMediaCb(this)
         }
+        super.onCleared()
     }
 
     override fun getAll(): Array<MediaWrapper> = parent?.tracks ?: medialibrary.getAudio(sort, desc)

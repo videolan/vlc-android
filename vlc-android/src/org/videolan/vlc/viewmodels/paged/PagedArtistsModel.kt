@@ -40,8 +40,8 @@ class PagedArtistsModel(context: Context, private var showAll: Boolean = false):
     }
 
     override fun onCleared() {
-        super.onCleared()
         medialibrary.removeArtistsCb(this)
+        super.onCleared()
     }
 
     class Factory(private val context: Context, private val showAll: Boolean): ViewModelProvider.NewInstanceFactory() {

@@ -66,8 +66,8 @@ class AlbumModel(context: Context, val parent: MediaLibraryItem? = null): AudioM
     }
 
     override fun onCleared() {
-        super.onCleared()
         medialibrary.removeAlbumsCb(this)
+        super.onCleared()
     }
 
     class Factory(private val context: Context, val parent: MediaLibraryItem?): ViewModelProvider.NewInstanceFactory() {
