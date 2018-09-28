@@ -14,7 +14,7 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.92.3 (unknown)"
-   sodipodi:docname="ic_ctx_fav_edit_normal.svg"
+   sodipodi:docname="ic_ctx_stop_after_this.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -28,15 +28,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="22.4"
-     inkscape:cx="-3.2618426"
-     inkscape:cy="13.113392"
+     inkscape:cx="0.8638253"
+     inkscape:cy="3.5136834"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1025"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-height="1052"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="true"
      inkscape:bbox-nodes="true"
@@ -71,10 +71,23 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-1032.3622)">
-    <path
-       style="fill:#212121;fill-opacity:1;stroke:none;stroke-width:0.66666675"
-       d="m 10.041172,1036.3622 -1.55469,4.666 h -4.44531 l 3.41602,2.5039 3.73046,-3.7304 z m 4.30469,2.0742 v 0 0.01 c -0.24096,0 -0.48137,0.093 -0.66602,0.2773 l -0.38867,0.3848 2,1.998 0.42773,-0.4257 c 0.33012,-0.3705 0.32069,-0.9336 -0.0352,-1.2891 l -0.004,-0.01 -0.66406,-0.6621 -0.004,-0.01 c -0.18467,-0.1842 -0.42504,-0.2774 -0.66601,-0.2774 z m -1.72071,1.336 -6.58398,6.5898 v 2 h 2 l 6.58398,-6.5898 z m 0.26954,5.1503 -1.5,1.5 2.64648,1.9395 z"
-       id="path5279"
-       inkscape:connector-curvature="0" />
+    <g
+       id="g843"
+       transform="translate(17,-1.9999913)"
+       style="fill:#212121;fill-opacity:1">
+      <rect
+         y="1041.3622"
+         x="-7"
+         height="5.9999871"
+         width="6"
+         id="rect6205"
+         style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:8.50393677;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate" />
+      <path
+         sodipodi:nodetypes="cccccccc"
+         inkscape:connector-curvature="0"
+         id="path6207"
+         d="m -8,1044.3622 -3,-3 v 2 h -2 v 2 h 2 v 2 z"
+         style="fill:#212121;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    </g>
   </g>
 </svg>
