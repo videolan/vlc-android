@@ -356,7 +356,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
         progress.value = if (status === null) ScanProgress(parsing, discovery) else status.copy(parsing = parsing, discovery = discovery)
     }
 
-    private val actions = actor<MLAction>(capacity = Channel.UNLIMITED) {
+    private val actions = actor<MLAction>(context = Dispatchers.IO, capacity = Channel.UNLIMITED) {
         for (action in channel) when (action) {
             is DiscoverStorage -> {
                 for (folder in Medialibrary.getBlackList()) medialibrary.banFolder(action.path + folder)
