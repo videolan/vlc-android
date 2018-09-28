@@ -71,7 +71,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     }
 
     override fun refresh(): Boolean {
-        loading.value = true
+        loading.postValue(true)
         pagedList.value?.dataSource?.invalidate()
         return true
     }
