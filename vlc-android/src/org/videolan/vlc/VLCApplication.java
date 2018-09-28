@@ -81,7 +81,7 @@ public class VLCApplication extends Application {
         // Set the locale for API < 24 and set application resources and direction for API >=24
         setLocale(getAppContext());
 
-        WorkersKt.runBackground(new Runnable() {
+        WorkersKt.runIO(new Runnable() {
             @Override
             public void run() {
 
