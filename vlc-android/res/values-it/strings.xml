@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">Durata (decresc)</string>
     <string name="sortby_date">Data</string>
     <string name="sortby_date_desc">Data (decresc)</string>
+    <string name="sortby_last_modified_date">Aggiunti di recente</string>
+    <string name="sortby_last_modified_date_desc">Aggiunti di recente (decres)</string>
     <string name="sortby_number">Num. tracce</string>
     <string name="sortby_number_desc">Num. tracce (decresc)</string>
     <string name="searchable_hint">Cerca…</string>
@@ -52,6 +54,8 @@
     <string name="confirm_delete">Vuoi eliminare il file \'%1$s\'?</string>
     <string name="confirm_delete_folder">Vuoi eliminare la cartella \'%1$s\' e il suo contenuto?</string>
     <string name="confirm_delete_playlist">Vuoi eliminare la scaletta \'%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">Vuoi rimuovere \'%1$s\' dalla scaletta?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Vuoi rimuovere dalla scaletta?</string>
     <string name="ringtone_set">Il file \'%1$s\' è stato impostato come suoneria.</string>
     <string name="ringtone_error">Si è verificato un errore durante l\'impostazione della suoneria.</string>
     <string name="pause">Pausa</string>
@@ -208,6 +212,7 @@
     <string name="playback_speed_title">Salva velocità di riproduzione</string>
     <string name="playback_speed_summary">Ricorda la velocità di riproduzione impostata</string>
 
+    <string name="play_button">Pulsante Riproduci</string>
     <!-- Tips -->
     <string name="video_player_tips">Suggerimenti del lettore video:</string>
     <string name="seek">Posiziona</string>
@@ -415,6 +420,10 @@
     <string name="blurred_cover_background_summary">Copertina sfuocata nello sfondo del lettore audio</string>
     <string name="network_caching_popup">Questo valore deve essere compreso tra 0 e 6000 ms</string>
     <string name="quit">Esci e riavvia l\'applicazione</string>
+    <string name="restart_message">Le modifiche avranno effetto solo dopo il riavvio dell\'applicazione.\n\nVuoi riavviare ora?</string>
+    <string name="restart_message_OK">OK</string>
+    <string name="restart_message_Later">Più tardi</string>
+
     <string name="developer_prefs_category">Sviluppatore</string>
     <string name="enable_verbose_mode">Verboso</string>
     <string name="enable_verbose_mode_summary">Aumenta la verbosità (logcat)</string>
@@ -588,4 +597,16 @@
     <string name="ml_wizard_scan_checkbox">Scansione del dispositivo per contenuti multimediali</string>
     <string name="ml_wizard_description">Scegli se VLC analizzerà l\'archiviazione del tuo dispositivo per organizzare la tua raccolta multimediale o utilizzalo come un semplice lettore con un browser integrato.</string>
     <string name="tv_my_new_videos">I miei nuovi video</string>
-    </resources>
+    <string name="cast_option_title">Trasmetti i media su un altro schermo</string>
+    <string name="otg_device_title">Dispositivo OTG</string>
+    <string name="browser">Browser</string>
+    <string name="ab_repeat">Ripeti A-B</string>
+    <string name="stop_after_this">Ferma dopo questa traccia</string>
+    <string name="time_category_new">Nuovo media</string>
+    <string name="time_category_current_month">Questo mese</string>
+    <string name="time_category_current_year">Questo anno</string>
+    <string name="time_category_last_year">L\'anno scorso</string>
+    <string name="time_category_older">Media più datati</string>
+    <string name="rename">Rinomina</string>
+    <string name="rename_media">Rinomina %1$s</string>
+</resources>
