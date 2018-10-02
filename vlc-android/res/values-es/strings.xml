@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">Longitud (desc)</string>
     <string name="sortby_date">Fecha</string>
     <string name="sortby_date_desc">Fecha (desc)</string>
+    <string name="sortby_last_modified_date">Añadido recientemente</string>
+    <string name="sortby_last_modified_date_desc">Añadido recientemente (desc)</string>
     <string name="sortby_number">Pistas</string>
     <string name="sortby_number_desc">Pistas (desc)</string>
     <string name="searchable_hint">Buscar…</string>
@@ -52,6 +54,8 @@
     <string name="confirm_delete">¿Eliminar el archivo «%1$s»?</string>
     <string name="confirm_delete_folder">¿Eliminar la carpeta «%1$s» y todo su contenido?</string>
     <string name="confirm_delete_playlist">¿Eliminar la lista de reproducción «%1$s»?</string>
+    <string name="confirm_remove_from_playlist">¿Eliminar «%1$s» de la lista de reproducción?</string>
+    <string name="confirm_remove_from_playlist_anonymous">¿Eliminar de la lista de reproducción?</string>
     <string name="ringtone_set">El archivo «%1$s» se ha establecido como tono de llamada.</string>
     <string name="ringtone_error">Ha ocurrido un error al establecer el tono de llamada.</string>
     <string name="pause">Pausar</string>
