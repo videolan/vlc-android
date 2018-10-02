@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">Lengd (lækkandi)</string>
     <string name="sortby_date">Dagsetning</string>
     <string name="sortby_date_desc">Dagsetning (lækkandi)</string>
+    <string name="sortby_last_modified_date">Nýlega bætt við</string>
+    <string name="sortby_last_modified_date_desc">Nýlega bætt við (lýsing)</string>
     <string name="sortby_number">Fjöldi laga</string>
     <string name="sortby_number_desc">Fjöldi laga (lækkandi)</string>
     <string name="searchable_hint">Leita…</string>
@@ -52,6 +54,8 @@
     <string name="confirm_delete">Eyða skránni \'%1$s\'?</string>
     <string name="confirm_delete_folder">Eyða möppunni \'%1$s\' og öllu innihaldi hennar?</string>
     <string name="confirm_delete_playlist">Eyða spilunarlistanum \'%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">Fjarlægja \'%1$s\' af spilunarlista?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Fjarlægja af spilunarlista?</string>
     <string name="ringtone_set">Skráin \'%1$s\' var sett sem hringitónn.</string>
     <string name="ringtone_error">Upp kom villa þegar verið var að setja hringitón.</string>
     <string name="pause">Í bið</string>
@@ -208,6 +212,7 @@
     <string name="playback_speed_title">Vista afspilunarhraða</string>
     <string name="playback_speed_summary">Muna afspilunarhraðann sem þú stilltir</string>
 
+    <string name="play_button">Afspilunarhnappur</string>
     <!-- Tips -->
     <string name="video_player_tips">Ábendingar myndskeiðaspilara:</string>
     <string name="seek">Leita</string>
@@ -411,6 +416,8 @@
     <string name="network_caching_summary">Tímalengd sem á að setja netmargmiðlunargögn í biðminni (í msek). Virkar ekki með vélbúnaðarafkóðun. Skildu eftir autt til að frumstilla.</string>
     <string name="resume_playback_title">Halda afspilun áfram eftir símtal</string>
     <string name="resume_playback_summary">Annars haldast í bið</string>
+    <string name="blurred_cover_background_title">Móðað plötuumslag í bakgrunni</string>
+    <string name="blurred_cover_background_summary">Móðað plötuumslag í bakgrunni tónlistarspilara</string>
     <string name="network_caching_popup">Þetta gildi verður að vera á milli 0 og 6000 msek</string>
     <string name="quit">Hætta og endurræsa forrit</string>
     <string name="restart_message">Breytingar munu taka gildi eftir að forritið hefur verið endurræst.\n\nEndurræsa núna?</string>
@@ -589,4 +596,16 @@
     <string name="ml_wizard_title">Úrval úr VLC-margmiðlunarsafni</string>
     <string name="ml_wizard_scan_checkbox">Leita að margmiðlunarskrám á tækinu</string>
     <string name="tv_my_new_videos">Ný myndskeið</string>
-    </resources>
+    <string name="cast_option_title">Varpa margmiðlun á annan skjá</string>
+    <string name="otg_device_title">OTG-tæki</string>
+    <string name="browser">Vafri</string>
+    <string name="ab_repeat">A-B endurtaka</string>
+    <string name="stop_after_this">Stöðva eftir þetta spor</string>
+    <string name="time_category_new">Nýr gagnamiðill</string>
+    <string name="time_category_current_month">Í þessum mánuði</string>
+    <string name="time_category_current_year">Á þessu ári</string>
+    <string name="time_category_last_year">Á síðasta ári</string>
+    <string name="time_category_older">Eldri gagnamiðlar</string>
+    <string name="rename">Endurnefna</string>
+    <string name="rename_media">Endurnefna %1$s</string>
+</resources>
