@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">جەزملە</string>
     <string name="cancel">ۋاز كەچ</string>
     <string name="other">باشقا</string>
     <string name="sortby">تەرتىپلەش تەرتىپى…</string>
     <string name="sortby_name">ئىسىم</string>
-    <string name="sortby_name_desc">ئىسىم (كېمەيگۈچى)</string>
     <string name="sortby_length">ئۇزۇنلۇق</string>
-    <string name="sortby_length_desc">ئۇزۇنلۇق (كېمەيگۈچى)</string>
-    <string name="sortby_date">چېسلا</string>
-    <string name="sortby_date_desc">چېسلا (كېمەيگۈچى)</string>
     <string name="searchable_hint">ئىزدە…</string>
     <string name="history">تارىخ</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="other">%d تۈر تېپىلدى</item>
     </plurals>
+
     <string name="play">چال</string>
     <string name="play_from_start">باشتىن چال</string>
     <string name="play_as_audio">ئۈن سۈپىتىدە چال</string>
     <string name="play_as_video">سىن سۈپىتىدە چال</string>
-    <string name="play_as_audio_background">ئارقا سەھنىدە كۆرۈنمە چاستوتا قۇيۇش</string>
     <string name="append">قوش</string>
     <string name="play_all">ھەممىنى چال</string>
     <string name="append_all">ھەممىنى قوش</string>
@@ -36,12 +34,11 @@
     <string name="unknown_artist">يوچۇن سەنئەتكار</string>
     <string name="unknown_album">يوچۇن توپلام</string>
     <string name="unknown_genre">يوچۇن ئېقىم</string>
-    <string name="songs">ناخشالار</string>
     <plurals name="songs_quantity">
         <item quantity="other">%d ناخشا</item>
     </plurals>
+
     <string name="artists">سەنئەتكارلار</string>
-    <string name="albums">توپلاملار</string>
     <plurals name="albums_quantity">
         <item quantity="other">%d توپلام</item>
     </plurals>
@@ -54,6 +51,7 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d سىن</item>
     </plurals>
+
     <string name="internal_memory">ئىنتېرنېت ساقلىغۇچ</string>
     <string name="parent_folder">ئاتا قىسقۇچقا قايت</string>
     <string name="audio">ئۈن</string>
@@ -70,23 +68,16 @@
     <string name="directories">مۇندەرىجەلەر</string>
     <string name="loading">يۈكلەۋاتىدۇ</string>
     <string name="please_wait">سەل كۈتۈڭ…</string>
-    <string name="noplaylist">چېلىش تىزىملىكى تېپىلمىدى</string>
     <string name="mediafiles">ۋاستە ھۆججەتلەر</string>
     <string name="notavailable">ئىشلەتكىلى بولمايدۇ</string>
     <string name="nosubdirectory">تارماق قىسقۇچ يوق.</string>
     <string name="nohistory">سىزنىڭ تېخى چالغان تارىخ خاتىرىڭىز يوق.</string>
     <string name="validation">جەزملەمسىز؟</string>
+
     <string name="cover_art">توپلام مۇقاۋا</string>
-    <string name="shuffle">ئىختىيارىينى تاقا</string>
-    <string name="shuffle_on">ئىختىيارىي ئاچ</string>
-    <string name="repeat">قايتىلمىنى تاقا</string>
-    <string name="repeat_single">يەككە قايتىلا</string>
-    <string name="repeat_all">ھەممىنى قايتىلا</string>
     <string name="previous">ئالدىنقى</string>
     <string name="stop">توختا</string>
     <string name="next">كېيىنكى</string>
-    <string name="firstsong">چېلىش تېزىملىكتىكى بىرىنچى ناخشا</string>
-    <string name="lastsong">چېلىش تىزىملىكتىكى ئاخىرىقى ناخشا</string>
     <string name="locked">قۇلۇپلانغان</string>
     <string name="unlocked">قۇلۇپ ئېچىلغان</string>
     <string name="surface_best_fit">ئەڭ مۇۋاپىق</string>
@@ -97,7 +88,6 @@
     <string name="refresh">يېڭىلا</string>
     <string name="track_audio">ئۈن يولى</string>
     <string name="track_video">سىن يولى</string>
-    <string name="track_text">كىنو خەت يولى</string>
     <string name="track_unknown">يوچۇن يول</string>
     <string name="track_codec_info">كودلىغۇچ: %1$s\n</string>
     <string name="track_language_info">تىل: %1$s\n</string>
@@ -105,53 +95,44 @@
     <string name="sound_on">ئاۋاز ئاچ</string>
     <string name="sound_off">ئاۋاز تاقا</string>
     <string name="brightness">يورۇقلۇق</string>
-    <string name="navmenu">يولباشچى تېزىملىكى</string>
-    <string name="advanced">ئالى تاللانما</string>
-    <plurals name="track_channels_info_quantity">
-        <item quantity="other">%1$d ئاۋاز يولى\n</item>
-    </plurals>
     <string name="track_samplerate_info">نۇسخا ئېلىش نىسبىتى: %1$d Hz\n</string>
     <string name="track_resolution_info">ئېنىقلىقى: %1$dx%2$d\n</string>
     <string name="tools">قوراللار</string>
     <string name="playback_speed">تەكرار چېلىش سۈرئىتى</string>
     <string name="sleep_title">ئۇخلىتىش سانىغۇچ</string>
-    <string name="sleep_in">ئۇخلىتىش ۋاقتى</string>
     <string name="sleep_cancel">ئۇخلىتىش سانىغۇچتىن ۋاز كەچ</string>
     <string name="jump_to_time">ۋاقىتقا يۆتكەل</string>
     <string name="subtitle_label">كىنو خەت ھۆججىتى قوش</string>
     <string name="subtitle_select">كىنو خەتىنى تاللاڭ</string>
     <string name="no_file_picker_found">سىستېمىدا ھۆججەت تاللىغۇچ تېپىلمىدى.</string>
+
     <string name="open">ئاچ</string>
-    <string name="open_mrl">MRL ئاچ</string>
     <string name="open_mrl_dialog_title">تور ئېقىمىنى ئاچ</string>
-    <string name="open_mrl_dialog_msg">تور MRL نى كىرگۈزۈڭ: مەسىلەن: http://, mms:// ياكى rtsp://</string>
     <string name="error_not_compatible">كەچۈرۈڭ، بۇ نەشرىدىكى VLC for Android™ ئۈسكۈنىڭىزنى قوللىمايدۇ.</string>
     <string name="error_problem">كەچۈرۈڭ، VLC for Android نى يۈكلىيەلمىدى، تاقاش زۆرۈر.</string>
     <string name="encountered_error_title">تەكرار چېلىش خاتالىقى</string>
     <string name="search">ئىزدە</string>
     <string name="search_history">ئىزدەش تارىخى</string>
-    <!--Tips-->
+
+
+    <!-- Tips -->
     <string name="video_player_tips">كۆرۈش چاستۇتا ئەسكەرتكۈچ:</string>
     <string name="seek">ئۇچۇرۇن بەلگۈلە</string>
     <string name="subtitles">ئاستىدىكى خېتى</string>
     <string name="resize">كىچىكلىتىش ۋە چوڭايتىش</string>
     <string name="options">تاللانما</string>
     <string name="lock">قۇلۇپلاش</string>
-    <string name="ok_got_it">بىلدىم ،ئاۋارە قىلدىم</string>
     <string name="playlist_tips">چالدىغان تىزىم ئەسكەرتكۈچى</string>
     <string name="rearrange_order">قايتىدىن رەتلە</string>
     <string name="audio_player_tips">ئاۋاز چاستۇتا ئەسكەرتكۈچ</string>
     <string name="hold_to_stop">باسسىڭز توختايدۇ</string>
-    <!-- About -->
-    <string name="app_name_full">VLC for Android™</string>
+
     <string name="licence">ئىجازەتنامە</string>
     <string name="revision">تۈزىتىلگەن نەشرى</string>
     <string name="about">ھەققىدە</string>
     <string name="about_text">VLC for Android™ ئالقىشقا ئېرىشكەن كودى ئوچۇق ۋاستە چالغۇچ VLC media player نىڭ يۆتكەلگەن نەشرى. Android™ نەشرى كۆپ قىسىم ھۆججەتلەر ۋە تور ئېقىم ۋاستىلىرىنى ئوقۇيالايدۇ.</string>
     <string name="compiled_by">بۇ نەشرىدىكى VLC نى ھاسىللىغۇچى</string>
-    <string name="vlc_authors">VLC يازغۇچىلار</string>
-    <!-- Preferences -->
-    <string name="preferences">مايىللىقلار</string>
+
     <string name="general_prefs_category">ئادەتتىكى</string>
     <string name="directories_summary">ۋاستە ئامبىرى ئۆز ئىچىگە ئالىدىغان مۇندەرىجىنى تاللاڭ</string>
     <string name="add_custom_path">ئىختىيارىي يول قوش</string>
@@ -159,10 +140,6 @@
     <string name="remove_custom_path">ئىختىيارىي يولنى چىقىرىۋەت</string>
     <string name="hardware_acceleration">قاتتىق دېتال تېزلەتكۈ</string>
     <string name="hardware_acceleration_disabled">چەكلەنگەن</string>
-    <string name="dev_hardware_decoder_omx">iomx</string>
-    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
-    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
-    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">ئاپتوماتىك</string>
     <string name="screen_orientation">سىن ئېكران يۆنىلىشى</string>
     <string name="screen_orientation_sensor">ئاپتوماتىك(سەزگۈچ)</string>
@@ -173,19 +150,21 @@
     <string name="screen_orientation_reverse_landscape">يانتۇ ئۆرۈ</string>
     <string name="subtitle_text_encoding">تېكىست كودى</string>
     <string name="extra_prefs_category">قۇشۇمچە تەڭشەكلەر</string>
+
     <string name="interface_prefs_screen">ئارايۈز</string>
-    <string name="interface_other_category">ئارا يۈز_باشقىلار</string>
-    <string name="enable_brightness_gesture">يورۇقلۇق قول ئىشارىتىنى قوزغات</string>
+    <string name="interface_other_category">كۆرۈنمە يۈز_باشقىلار</string>
+
     <string name="enable_brightness_gesture_summary">سىن قويۇۋاتقاندا قول ئىشارىتى بىلەن يورۇقلۇقنى تىزگىنلىگىلى بولىدۇ</string>
-    <string name="enable_headset_detection">قۇلاقلىق بايقاشنى قوزغات</string>
-    <string name="enable_headset_detection_summary">قۇلاقلىقنى چىقىرىۋەتكەندە ۋاقىتلىق توختىتىدۇ؛ قىستۇرغاندا چېلىشنى داۋاملاشتۇرىدۇ</string>
-    <string name="enable_steal_remote_control">مۇستەقىل قۇلاقلىق يىراقتىن تىزگىنى</string>
-    <string name="enable_steal_remote_control_summary">باشقا ئەپلەرنىڭ يىراقتىن تىزگىنلىشىنى توسۇپ توقۇنۇش كېلىپ چىقىشنىڭ ئالدىنى ئالىدۇ. بەلكىم HTC تېلېفوننىڭ قوش چېكىپ نومۇر بۇراش ئىقتىدارى ئىشلىمەسلىكى مۇمكىن.</string>
     <string name="audio_title_alignment_default">كۆڭۈلدىكى</string>
     <string name="audio_title_alignment_left">سول</string>
     <string name="audio_title_alignment_centre">ئوتتۇرىدا</string>
     <string name="audio_title_alignment_right">ئوڭ</string>
     <string name="audio_title_alignment_marquee">سېرىش</string>
+    <string name="enable_headset_detection">قۇلاقلىق بايقاشنى قوزغات</string>
+    <string name="enable_steal_remote_control">مۇستەقىل قۇلاقلىق يىراقتىن تىزگىنى</string>
+    <string name="enable_steal_remote_control_summary">باشقا ئەپلەرنىڭ يىراقتىن تىزگىنلىشىنى توسۇپ توقۇنۇش كېلىپ چىقىشنىڭ ئالدىنى ئالىدۇ. بەلكىم HTC تېلېفوننىڭ قوش چېكىپ نومۇر بۇراش ئىقتىدارى ئىشلىمەسلىكى مۇمكىن.</string>
+    <string name="aout">ئۈن چىقىرىش</string>
+    <string name="aout_summary">VLC نىڭ ئۈن چىقىرىدىغان ئۇسۇلىنى ئۆزگەرتىدۇ.</string>
     <string name="performance_prefs_category">ئۈنۈم</string>
     <string name="chroma_format">مەجبۇرىي سىن رەڭ تۈسى</string>
     <string name="deblocking">بۆلەك چىقىرىۋېتىش سۈزگۈچ تەڭشەكلىرى</string>
@@ -194,13 +173,11 @@
     <string name="deblocking_nonref">بۆلەكنى ئوتتۇرىھال چىقىرىۋېتىش</string>
     <string name="deblocking_nonkey">بۆلەكنى تۆۋەن چىقىرىۋېتىش</string>
     <string name="deblocking_all">بۆلەك چىقىرىۋېتىش يوق (ئەڭ تېز)</string>
-    <string name="enable_frame_skip">كاندۇك ئاتلاشنى قوزغات</string>
     <string name="enable_frame_skip_summary">كود يېشىشنى تېزلىتىدۇ ئەمما سىن سۈپىتىنى تۆۋەنلىتىشى مۇمكىن.</string>
     <string name="enable_time_stretching_audio">ئۈننىڭ ۋاقىتچانلىقىنى قوزغات</string>
     <string name="enable_time_stretching_audio_summary">ئۈن چېلىش سۈرئىتىنى تېزلىتىپ ۋە ئاستىلىتىپ ئۈن ئۇدارىنى ئۆزگەرتمەيدۇ (تېز ئۈسكۈنە بولۇشى زۆرۈر).</string>
+
     <string name="advanced_prefs_category">ئالىي</string>
-    <string name="aout">ئۈن چىقىرىش</string>
-    <string name="aout_summary">VLC نىڭ ئۈن چىقىرىدىغان ئۇسۇلىنى ئۆزگەرتىدۇ.</string>
     <string name="clear_media_db">ۋاستە سانداننى تازىلا</string>
     <string name="clear_history">ئىزدەش تارىخىنى تازىلا</string>
     <string name="media_db_cleared">ۋاستە ساندان تازىلاندى!</string>
@@ -209,7 +186,6 @@
     <string name="network_caching">تور غەملەش قىممىتى</string>
     <string name="network_caching_summary">تور ۋاستىنى غەملەش ۋاقتىنىڭ مىقدارى (بىرلىكى مىللىسېكۇنت). قاتتىق دېتالدا كود يەشكەندە ئىشلىمەيدۇ. بوش قالدۇرۇپ ئەسلىگە قايتۇرغىلى بولىدۇ.</string>
     <string name="developer_prefs_category">ئىجاتكارلار</string>
-    <string name="auto_rescan">ئۆزلىگىدىن قايتا سكاننېرلاش</string>
     <string name="enable_verbose_mode">تەپسىلات ھالىتى</string>
     <string name="enable_verbose_mode_summary">تەپسىلات دەرىجىسىنى ئاشۇرىدۇ(logcat)</string>
     <string name="debug_logs">سازلاش خاتىرىسى</string>
@@ -220,27 +196,8 @@
     <string name="copied_to_clipboard">خاتىرىنى چاپلاش تاختىسىغا كۆچۈرىدۇ.</string>
     <string name="restart_vlc">VLCنى قايتا قوزغېتىش</string>
     <string name="send_log">خاتىرىسنى يوللاش</string>
-    <string name="sending_log">خاتىرىسى يوللنىۋاتىدۇ...</string>
+    <string name="sending_log">خاتىرىسى يوللنىۋاتىدۇ…</string>
+
     <string name="drawer_open">يولباشچى تىزىملىكىنى ئاچ</string>
     <string name="drawer_close">يولباشچى تىزىملىكىنى تاقا</string>
-    <string name="network_browsing">يەرلىك تور</string>
-    <string name="file_size">ھۆججەت چوڭلۇقى:</string>
-    <string name="file_other">يولباشچى تىزىملىكىنى تاقا</string>
-    <string name="sleep_time_not_set">تەڭشەلمىگەن</string>
-    <string name="network_shares_discovery">توردائورتاقلىشىشنى ئىزلەۋاتىدۇ...</string>
-    <string name="network_empty">مۇندەرىجە قۇرۇق</string>
-    <string name="network_connection_needed">يەرلىك تودا ئۇلانمىدى</string>
-    <string name="search_hint">ۋاستە ئىزدەش</string>
-    <string name="playlist_save">قويۇش تىزىملىكى ساقلاش</string>
-    <string name="playlist_name_hint">قۇيۇش تىزىم نام</string>
-    <string name="chapter">باب</string>
-    <string name="directory_empty">مۇندەرىجە قۇرۇق</string>
-    <!--Accessibility-->
-    <string name="more_actions">تېخىمۇ كۆپ مەشغۇلاتلار</string>
-    <string name="move">يۆتكە</string>
-    <string name="playlist_deleted">چالدىغان تىزىمنى ئۈچۈرۈلدى</string>
-    <string name="file_deleted">ھۆججەت ئۈچۈرۈلدى</string>
-    <string name="music_now_playing">قويۇۋاتىدۇ</string>
-    <!--Widget-->
-    <string name="exit_app">تاقاVLC</string>
-</resources>
+    </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">Olgu</string>
     <string name="cancel">Loobu</string>
@@ -9,10 +10,12 @@
     <string name="sortby_length">Kestus</string>
     <string name="searchable_hint">Otsi…</string>
     <string name="history">Ajalugu</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">Leiti %d vaste</item>
         <item quantity="other">Leiti %d vastet</item>
     </plurals>
+
     <string name="play">Esita</string>
     <string name="play_from_start">Esita algusest</string>
     <string name="play_as_audio">Esita kui audio</string>
@@ -33,13 +36,12 @@
     <string name="unknown_artist">Tundmatu esitaja</string>
     <string name="unknown_album">Tundmatu album</string>
     <string name="unknown_genre">Tundmatu stiil</string>
-    <string name="songs">Lood</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 lugu</item>
         <item quantity="other">%d lugu</item>
     </plurals>
+
     <string name="artists">Esitajad</string>
-    <string name="albums">Albumid</string>
     <plurals name="albums_quantity">
         <item quantity="one">1 album</item>
         <item quantity="other">%d albumit</item>
@@ -56,12 +58,13 @@
         <item quantity="one">1 video</item>
         <item quantity="other">%d videod</item>
     </plurals>
+
     <string name="internal_memory">Sisemine mälu</string>
     <string name="parent_folder">Ülemisse kataloogi</string>
     <string name="audio">Audio</string>
     <string name="video">Video</string>
     <string name="bookmarks">Lemmikud</string>
-    <string name="equalizer">Ekvalaiser...</string>
+    <string name="equalizer">Ekvalaiser…</string>
     <string name="all_albums">Kõik albumid</string>
     <string name="genres">Stiilid</string>
     <string name="playlists">Esitusloendid</string>
@@ -78,6 +81,7 @@
     <string name="nosubdirectory">Puuduvad alamkataloogid.</string>
     <string name="nohistory">Taasesituse ajalugu veel puudub.</string>
     <string name="validation">Oled sa kindel?</string>
+
     <string name="cover_art">Kaanepilt</string>
     <string name="previous">Eelmine</string>
     <string name="stop">Peata</string>
@@ -92,7 +96,6 @@
     <string name="refresh">Värskenda</string>
     <string name="track_audio">Audiorada</string>
     <string name="track_video">Videorada</string>
-    <string name="track_text">Subtiitrite rada</string>
     <string name="track_unknown">Tundmatu rada</string>
     <string name="volume">Helitugevus</string>
     <string name="brightness">Heledus</string>
@@ -104,27 +107,24 @@
     <string name="subtitle_label">Subtiitrite faili lisamine</string>
     <string name="subtitle_select">Vali subtiitrite fail</string>
     <string name="no_file_picker_found">Faili korjajat ei leitud süsteemil.</string>
+
     <string name="open">Ava</string>
-    <string name="open_mrl">Ava MRL</string>
     <string name="open_mrl_dialog_title">Ava võrguvoog</string>
-    <string name="open_mrl_dialog_msg">Sisesta võrgu MRL: nt. http://, mms:// või rtsp://</string>
     <string name="error_not_compatible">Kahjuks pole sinu seade selle VLC Androidi™ versiooni poolt hetkel toetatud.</string>
     <string name="error_problem">Kahjuks tekkis VLC Androidi versioonil laadimisel viga ja ta tuli sulgeda.</string>
     <string name="encountered_error_title">Tõrge taasesitamisel</string>
     <string name="invalid_location">Asukohta %1$s ei saa esitada.</string>
+
     <string name="search">Otsing</string>
     <string name="search_history">Otsingu ajalugu</string>
-    <!--Tips-->
-    <!-- About -->
-    <string name="app_name_full">VLC Androidile™</string>
+
+
     <string name="licence">Litsents</string>
     <string name="revision">Revisioon</string>
     <string name="about">Programmist</string>
     <string name="about_text">VLC Androidile™ on avatud lähtekoodiga populaarse VLC meediaesitaja port. Androidi™ versioon suudab avada enamikke meediafaile ja võrguvoogusid.</string>
     <string name="compiled_by">Selle VLC versiooni kompileerisid:</string>
-    <string name="vlc_authors">VLC autorid.</string>
-    <!-- Preferences -->
-    <string name="preferences">Eelistused</string>
+
     <string name="general_prefs_category">Üldine</string>
     <string name="directories_summary">Vali katalooge, mida lisada meediakogusse</string>
     <string name="add_custom_path">Kohandatud raja lisamine</string>
@@ -140,30 +140,28 @@
     <string name="screen_orientation_landscape">Rõhtasetus</string>
     <string name="screen_orientation_reverse_portrait">Tagurpidi püstasetus</string>
     <string name="screen_orientation_reverse_landscape">Tagurpidi rõhtasetus</string>
-    <string name="enable_black_theme">Võimalda must kujundusteema</string>
-    <string name="enable_black_theme_summary">Muuda kasutajaliite värvid sobivamaks halvema valgusega keskkonnas.</string>
     <string name="extra_prefs_category">Lisaseaded</string>
-    <string name="interface_prefs_screen">Kasutajaliides</string>
+
     <string name="interface_other_category">Kasutajaliides - Muu</string>
-    <string name="enable_brightness_gesture">Võimalda heleduse žestid</string>
+
     <string name="enable_brightness_gesture_summary">Halda heledust video taasesitamise ajala žestide abil</string>
     <string name="enable_headset_detection">Tuvasta kõrvaklapid</string>
-    <string name="enable_headset_detection_summary">Kõrvaklapide eemaldamisel pausi ja jätka klappide ühendamisel</string>
     <string name="enable_steal_remote_control">Eksklusiivne peakomplekti pult</string>
-    <string name="performance_prefs_category">Jõudlus</string>
-    <string name="chroma_format">Sunnitud video värviformaat</string>
-    <string name="enable_frame_skip">Võimalda kaadrite vahelejätmist</string>
-    <string name="enable_time_stretching_audio">Võimalda aegvenitatud audio</string>
-    <string name="enable_time_stretching_audio_summary">Kiirenda või aeglusta audiot ilma helikõrgust muutmata (vajalik kiire seade)</string>
-    <string name="advanced_prefs_category">Laiendatud</string>
     <string name="aout">Audioväljund</string>
     <string name="aout_summary">Muuda meetod mida VLC kasutab audio väljundiks.</string>
+    <string name="performance_prefs_category">Jõudlus</string>
+    <string name="chroma_format">Sunnitud video värviformaat</string>
+    <string name="enable_time_stretching_audio">Võimalda aegvenitatud audio</string>
+    <string name="enable_time_stretching_audio_summary">Kiirenda või aeglusta audiot ilma helikõrgust muutmata (vajalik kiire seade)</string>
+
+    <string name="advanced_prefs_category">Laiendatud</string>
     <string name="clear_media_db">Puhasta meedia andmebaas</string>
     <string name="clear_history">Puhasta otsingu ajalugu</string>
     <string name="media_db_cleared">Meedia andmebaas puhastatud!</string>
     <string name="set_locale">Määra lokaat</string>
     <string name="set_locale_detail">Lähtestamiseks jäta tühjaks</string>
     <string name="set_locale_popup">Sulge ja lähtesta VLC muutuste kinnitamiseks.</string>
+    <string name="quit">Sulge ning taaskäivita rakendus</string>
     <string name="developer_prefs_category">Arendaja</string>
     <string name="enable_verbose_mode">Jutukas</string>
     <string name="enable_verbose_mode_summary">Suurenda jutukust (logcat)</string>
@@ -173,8 +171,5 @@
     <string name="clear_log">Puhasta logi</string>
     <string name="copy_to_clipboard">Kopeeri lõikepuhvrisse</string>
     <string name="copied_to_clipboard">Logi lõikepuhvrisse kopeeritud.</string>
-    <string name="quit">Sulge ning taaskäivita rakendus</string>
     <string name="restart_vlc">Taaskäivita VLC</string>
-    <!--Accessibility-->
-    <!--Widget-->
-</resources>
+    </resources>

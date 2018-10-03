@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">长度 (倒序)</string>
     <string name="sortby_date">日期</string>
     <string name="sortby_date_desc">日期 (倒序)</string>
+    <string name="sortby_last_modified_date">最近添加</string>
+    <string name="sortby_last_modified_date_desc">最近添加 (逆序)</string>
     <string name="sortby_number">轨道编号</string>
     <string name="sortby_number_desc">轨道编号 (倒序)</string>
     <string name="searchable_hint">搜索…</string>
@@ -51,6 +53,8 @@
     <string name="confirm_delete">是否要删除文件「%1$s」?</string>
     <string name="confirm_delete_folder">是否删除文件夹「%1$s」及其全部内容?</string>
     <string name="confirm_delete_playlist">是否删除播放列表「%1$s」?</string>
+    <string name="confirm_remove_from_playlist">将 \'%1$s\' 从播放列表中移除？</string>
+    <string name="confirm_remove_from_playlist_anonymous">从播放列表中移除？</string>
     <string name="ringtone_set">文件「%1$s」已被设为铃声。</string>
     <string name="ringtone_error">设置铃声时发生错误。</string>
     <string name="pause">暂停</string>
@@ -201,6 +205,7 @@
     <string name="playback_speed_title">保存回放速度</string>
     <string name="playback_speed_summary">记住您所设置的回放速度</string>
 
+    <string name="play_button">播放按钮</string>
     <!-- Tips -->
     <string name="video_player_tips">视频播放器小提示:</string>
     <string name="seek">定位</string>
@@ -587,4 +592,14 @@
     <string name="tv_my_new_videos">我的新视频</string>
     <string name="cast_option_title">将媒体投至其他屏幕</string>
     <string name="otg_device_title">OTG 设备</string>
+    <string name="browser">浏览器</string>
+    <string name="ab_repeat">A-B 循环</string>
+    <string name="stop_after_this">当前曲目后停止播放</string>
+    <string name="time_category_new">新媒体</string>
+    <string name="time_category_current_month">本月</string>
+    <string name="time_category_current_year">今年</string>
+    <string name="time_category_last_year">去年</string>
+    <string name="time_category_older">较旧媒体</string>
+    <string name="rename">重命名</string>
+    <string name="rename_media">重命名 %1$s</string>
 </resources>

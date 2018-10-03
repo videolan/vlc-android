@@ -1,22 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">យល់ព្រម</string>
     <string name="cancel">បោះបង់</string>
     <string name="other">ផ្សេងៗ</string>
     <string name="sortby">តម្រៀប​តាម…</string>
     <string name="sortby_name">ឈ្មោះ</string>
+    <string name="sortby_name_desc">ឈ្មោះ (ពិពណ៌នា)</string>
+    <string name="sortby_filename">ឈ្មោះឯកសារ</string>
+    <string name="sortby_filename_desc">ឈ្មោះឯកសារ(DESC)</string>
+    <string name="sortby_artist_name">ឈ្មោះសិល្បករ</string>
+    <string name="sortby_artist_name_desc">ឈ្មោះសិល្បករ(ពិពណ៌នា)</string>
+    <string name="sortby_album_name">ឈ្មោះអាល់ប៊ុម</string>
+    <string name="sortby_album_name_desc">ឈ្មោះអាល់ប៊ុម(ពិពណ័នា)</string>
     <string name="sortby_length">រយៈពេល</string>
+    <string name="sortby_length_desc">បណ្ដោយ</string>
+    <string name="sortby_date">កាលបរិច្ឆេទ</string>
+    <string name="sortby_date_desc">កាលបរិច្ឆេទ(ពិពណ៌នា)</string>
+    <string name="sortby_number">ចំនួន​បទ</string>
+    <string name="sortby_number_desc">ចំនួន​បទ (ពណ៌នា)</string>
     <string name="searchable_hint">ស្វែងរក…</string>
     <string name="history">ប្រវត្តិ</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="other">រក​ឃើញ​លទ្ធផល %d</item>
     </plurals>
+
     <string name="play">ចាក់</string>
+    <string name="playback">ចាក់ត្រឡប់ក្រោយ</string>
+    <string name="playback_controls">បញ្ជារការចាក់ត្រឡប់</string>
+    <string name="medialibrary_scan">ស្វែងរកនៅបណ្ណាល័យ​មេឌៀ</string>
+    <string name="Medialibrary_progress">ធ្វើបច្ចុប្បន្នភាព​វឌ្ឍនភាព​ការ​ស្វែងរក​បណ្ណាល័យ​មេឌា</string>
     <string name="play_from_start">ចាក់​ពី​ដើម</string>
     <string name="play_as_audio">ចាក់​ជា​អូឌីយ៉ូ</string>
     <string name="play_as_video">ចាក់​ជា​វីដេអូ</string>
+    <string name="video_app_switch_title">របៀប​ផ្ទៃ​ខាងក្រោយ/PiP</string>
+    <string name="video_app_switch_summary">ជ្រើសលក្ខណៈរបស់ VLC នៅពេលប្ដូរទៅកម្មវិធីផ្សេងចេញពីកម្មវិធីចាក់វីដេអូត្រឡប់</string>
+    <string name="play_pip_title">ចាក់វីដេអូក្នុងរបៀបរូបភាពក្នុងរូបភាព</string>
+    <string name="play_as_audio_background">ចាក់វីដេអូក្នុងផ្ទៃខាងក្រោយ</string>
     <string name="append">បន្ថែម​ទៅ​​​ចុង</string>
+    <string name="insert_next">បញ្ចូលបន្ទាប់</string>
     <string name="play_all">ចាក់​ទាំងអស់</string>
     <string name="append_all">បន្ថែម​ទៅ​ចុង​ទាំងអស់</string>
     <string name="last_playlist">បញ្ជី​ចាក់​ចុង​ក្រោយ</string>
@@ -25,19 +49,26 @@
     <string name="set_song">កំណត់​ជា​សំឡេង​រោទ៍</string>
     <string name="info">ព័ត៌មាន</string>
     <string name="confirm_delete">លុប​ឯកសារ \'%1$s\'?</string>
+    <string name="confirm_delete_folder">លុបថត \'%1$s\' និងធាតុទាំងអស់របស់វាឬ?</string>
+    <string name="confirm_delete_playlist">លុបបញ្ជីចាក់ \'%1$s\' ឬ?</string>
     <string name="ringtone_set">ឯកសារ​ \'%1$s\' ត្រូវ​បាន​កំណត់​ជា​សំឡេង​រោទ៍។</string>
     <string name="ringtone_error">កំហុស​មួយ​បាន​កើត​ឡើង ខណៈ​ដែល​កំណត់​សំឡេង​រោទ៍។</string>
     <string name="pause">ផ្អាក</string>
     <string name="not_show_again">កុំ​បង្ហាញ​សារ​នេះ​ម្ដង​ទៀត ។</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">មិន​ស្គាល់​សិល្បករ</string>
     <string name="unknown_album">មិន​ស្គាល់​អាល់ប៊ុម</string>
     <string name="unknown_genre">មិន​ស្គាល់​ចង្វាក់</string>
-    <string name="songs">បទ​ចម្រៀង</string>
+    <string name="unknown_number">មិនស្គាល់លេខរបស់បទ</string>
+    <string name="songs">បទចម្រៀង</string>
     <plurals name="songs_quantity">
         <item quantity="other">%d បទ</item>
     </plurals>
+
     <string name="artists">សិល្បករ</string>
     <string name="albums">អាល់ប៊ុម</string>
+    <string name="tracks">បទចម្រៀង</string>
+
     <plurals name="albums_quantity">
         <item quantity="other">%d អាល់ប៊ុម</item>
     </plurals>
@@ -50,6 +81,7 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d វីដេអូ</item>
     </plurals>
+
     <string name="internal_memory">អង្គ​ចងចាំ​ខាង​ក្នុង</string>
     <string name="parent_folder">ទៅ​ថត​មេ</string>
     <string name="audio">អូឌីយ៉ូ</string>
@@ -67,18 +99,32 @@
     <string name="loading">ផ្ទុក</string>
     <string name="please_wait">សូម​រង់ចាំ…</string>
     <string name="nomedia">រក​មិន​ឃើញ​ឯកសារ​មេឌៀ សូម​បញ្ជូន​ឯកសារ​មួយ​ចំនួន​ទៅកាន់​ឧបករណ៍​របស់​អ្នក ឬ​ផ្លាស់ប្ដូរ​ចំណូលចិត្ត​របស់​អ្នក។</string>
+    <string name="noplaylist">រកមិនឃើញបញ្ជីចាក់</string>
     <string name="mediafiles">ឯកសារ​មេឌៀ</string>
     <string name="notavailable">មិន​អាច​ប្រើ​បាន</string>
     <string name="nosubdirectory">គ្មាន​ថត​រង។</string>
+    <string name="directorynotfound">រកមិនឃើញផ្លូវរបស់ថត \'%1$s\' ។</string>
     <string name="nohistory">អ្នក​មិន​មាន​ប្រវត្តិ​ចាក់​ឡើងវិញ​នៅ​ឡើយ​ទេ។</string>
     <string name="validation">តើ​អ្នក​ប្រាកដ​ឬ?</string>
+
     <string name="cover_art">រូប​គម្រប​មុខ</string>
+    <string name="shuffle_title">ទម្រង់បញ្ចូលគ្នា</string>
+    <string name="shuffle">បិទបញ្ចូលគ្នា</string>
+    <string name="shuffle_on">បើកបញ្ចូលគ្នា</string>
+    <string name="repeat_title">មុខងារលេងត្រឡប់</string>
+    <string name="repeat">ការចាក់ឡើងវិញទទេរ</string>
+    <string name="repeat_single">លេងឡើងវិញម្ដងមួយ</string>
+    <string name="repeat_all">លេងឡើងវិញទាំងអស់</string>
     <string name="previous">មុន</string>
     <string name="stop">បញ្ឈប់</string>
     <string name="next">បន្ទាប់</string>
+    <string name="firstsong">បទដំបូងនៃបញ្ជីចាក់</string>
+    <string name="lastsong">បទចុងក្រោយនៃបញ្ជីចាក់</string>
+
     <string name="locked">បាន​ចាក់សោ</string>
     <string name="unlocked">បាន​ដោះសោ</string>
     <string name="surface_best_fit">សម​បំផុត</string>
+    <string name="surface_fit_screen">សមទៅនឹងអេក្រង់</string>
     <string name="surface_fill">បំពេញ</string>
     <string name="surface_original">កណ្ដាល</string>
     <string name="thumbnail">រូបភាព​តូចៗ</string>
@@ -86,10 +132,17 @@
     <string name="refresh">ផ្ទុក​ឡើងវិញ</string>
     <string name="track_audio">បទ​អូឌីយ៉ូ</string>
     <string name="track_video">បទ​វីដេអូ</string>
-    <string name="track_text">បទ​ចំណង​ជើង​រង</string>
+    <string name="track_text">ចំណងជើងរង បទចម្រៀង</string>
     <string name="track_unknown">មិន​ស្គាល់​បទ</string>
+    <string name="track_bitrate_info">អត្រាប៊ីត៖ %1$s/s\n</string>
+    <string name="track_codec_info">កូដ: %1$s</string>
+    <string name="track_language_info">ភាសា៖ %1$s\n</string>
     <string name="volume">កម្រិត​សំឡេង</string>
+    <string name="sound_on">បើកសម្លេង</string>
+    <string name="sound_off">បិទសម្លេង</string>
     <string name="brightness">ពន្លឺ</string>
+    <string name="navmenu">ម៉ឺនុយរុករក</string>
+    <string name="advanced">ជម្រើសកម្រិតខ្ពស់</string>
     <string name="tools">ឧបករណ៍</string>
     <string name="playback_speed">ល្បឿន​ចាក់​ឡើងវិញ</string>
     <string name="sleep_title">កម្មវិធី​កំណត់​ម៉ោង​ដេក</string>
@@ -98,34 +151,41 @@
     <string name="subtitle_label">បន្ថែម​ឯកសារ​ចំណងជើង​រង</string>
     <string name="subtitle_select">ជ្រើស​ឯកសារ​ចំណងជើង​រង</string>
     <string name="no_file_picker_found">រក​មិន​ឃើញ​កម្មវិធី​ជ្រើស​ឯកសារ​នៅ​លើ​ប្រព័ន្ធ។</string>
+
+    <string name="server_username_hint">ឈ្មោះប្រើ</string>
+    <string name="server_port">ច្រក:</string>
+    <string name="login">បញ្ចូល</string>
+    <string name="password">លេខសម្ងាត់</string>
+
+    <string name="search_results">ស្វែងរក ទិន្ន័យ</string>
+    <string name="favorites_add">បន្ថែមទៅចំណូលចិត្ត</string>
+    <string name="favorites_remove">លុបចេញពីចំណូលចិត្ត</string>
+    <string name="favorites_edit">កែតម្រូវ</string>
     <string name="open">បើក</string>
-    <string name="open_mrl">បើក MRL</string>
+    <string name="open_mrl">ស្ទ្រីម</string>
     <string name="open_mrl_dialog_title">បើក​ស្ទ្រីម​បណ្ដាញ</string>
-    <string name="open_mrl_dialog_msg">បញ្ចូល MRL បណ្ដាញ៖ ឧ. http://, mms:// ឬ rtsp://</string>
-    <string name="error_not_compatible">សូម​ទោស ​ឧបករណ៍​របស់​អ្នក​​បច្ចុប្បន្ន​មិន​បាន​គាំទ្រ​ដោយ​កំណែ VLC សម្រាប់ Android™ នេះ​ទេ។\n</string>
+    <string name="error_not_compatible">សូម​ទោស ​ឧបករណ៍​របស់​អ្នក​​បច្ចុប្បន្ន​មិន​បាន​គាំទ្រ​ដោយ​កំណែ VLC សម្រាប់ Android™ នេះ​ទេ។</string>
     <string name="error_problem">សូម​ទោស VLC សម្រាប់ Android មាន​បញ្ហា​ក្នុង​កា​រ​ផ្ទុក និង​ពិបាក​បិទ​ណាស់។</string>
     <string name="encountered_error_title">កំហុស​ក្នុង​ការ​ចាក់​ឡើងវិញ</string>
     <string name="invalid_location">មិន​អាច​បង្ហាញ​ទីតាំង​ %1$s បាន​ទេ។</string>
+
     <string name="search">ស្វែងរក</string>
     <string name="search_history">ប្រវត្តិ​ស្វែងរក</string>
-    <!--Tips-->
+
+
+    <!-- Tips -->
     <string name="video_player_tips">គន្លឹះកម្មវិធីចាក់វីដេអូ:</string>
     <string name="seek">ស្វែងរក</string>
     <string name="subtitles">ចំណងជើង</string>
-    <string name="resize">
-ផ្លាស់ប្តូរទំហំ</string>
+    <string name="resize">ផ្លាស់ប្តូរទំហំ</string>
     <string name="options">ជម្រើស</string>
     <string name="lock">ចាក់សោ</string>
-    <!-- About -->
-    <string name="app_name_full">VLC សម្រាប់ Android™</string>
     <string name="licence">អាជ្ញាប័ណ្ណ</string>
     <string name="revision">កំណែ</string>
     <string name="about">អំពី</string>
     <string name="about_text">VLC សម្រាប់ Android™ គឺ​ជា​កម្មវិធី​ចាក់​មេឌៀ VLC ដែល​ជា​កម្មវិធី​មេឌៀ​កូដ​ចំ​ហ​ដ៏​មាន​ប្រជាប្រិយ ។ Android™ អាច​អាន​ឯកសារ និង​​ស្ទ្រីម​បណ្ដាញ​​ភាគ​ច្រើន ។</string>
     <string name="compiled_by">VLC កំណែ​នេះ​ត្រូវ​បាន​ចងក្រង​ដោយ ៖</string>
-    <string name="vlc_authors">អ្នក​និពន្ធ VLC</string>
-    <!-- Preferences -->
-    <string name="preferences">ចំណូល​ចិត្ត</string>
+
     <string name="general_prefs_category">ទូទៅ</string>
     <string name="directories_summary">ជ្រើស​ថត ដើម្បី​ដាក់​បញ្ចូល​បណ្ណាល័យ​មេឌៀ</string>
     <string name="add_custom_path">បន្ថែម​ផ្លូវ​ផ្ទាល់​ខ្លួន</string>
@@ -143,21 +203,42 @@
     <string name="screen_orientation_landscape">ផ្ដេក</string>
     <string name="screen_orientation_reverse_portrait">ដាក់​បញ្ច្រាស​បញ្ឈរ</string>
     <string name="screen_orientation_reverse_landscape">ដាក់​បញ្ច្រាស​ផ្ដេក</string>
-    <string name="enable_black_theme">អនុញ្ញាត​រូបរាង​ពណ៌ខ្មៅ</string>
-    <string name="enable_black_theme_summary">ប្ដូរ​ពណ៌​ចំណុច​ប្រទាក់​ដើម្បីឲ្យ​ប្រសើរ​សម្រាប់​បរិស្ថាន​ពន្លឺ​ទាប។</string>
     <string name="subtitle_text_encoding">ការ​ដាក់​លេខ​កូដ​អត្ថបទ​ចំណង​ជើង​រង</string>
     <string name="extra_prefs_category">ការ​កំណត់​បន្ថែម</string>
+
     <string name="interface_prefs_screen">ចំណុច​ប្រទាក់</string>
-    <string name="interface_secondary_display_category">ចំណុច​ប្រទាក់ - ការ​បង្ហាញ​ទីពីរ</string>
+    <string name="interface_gui">បង្ហាញ</string>
     <string name="enable_clone_mode">ក្លូន​ដែល​ពេញចិត្ត</string>
     <string name="enable_clone_mode_summary">ក្លូន​អេក្រង់​ឧបករណ៍​នេះ ដោយ​មិន​បាច់​ការ​បញ្ជា​ពី​ចម្ងាយ។</string>
     <string name="interface_other_category">ចំណុចប្រទាក់ - ផ្សេង</string>
-    <string name="enable_brightness_gesture">បើក​កាយវិការ​ពន្លឺ</string>
+
+    <string name="video_prefs_category">វីដេអូ</string>
     <string name="enable_brightness_gesture_summary">ពិនិត្យ​ពន្លឺ​ដោយ​កាយវិការ​អំឡុង​ពេល​ចាក់​វីដេអូ​ឡើងវិញ</string>
+    <string name="subtitles_size_small">តូច</string>
+    <string name="subtitles_size_normal">ធម្មតា</string>
+    <string name="subtitles_size_big">ធំ</string>
+    <string name="subtitles_size_huge">ទូលាយ</string>
+    <string name="subtitles_color_white">ស</string>
+    <string name="subtitles_color_gray">ប្រផេះ</string>
+    <string name="subtitles_color_pink">ផ្កាឈូក</string>
+    <string name="subtitles_color_blue">ខៀវ</string>
+    <string name="subtitles_color_yellow">លឿង</string>
+    <string name="subtitles_color_green">បៃតង</string>
+    <string name="audio_prefs_category">សម្លេង</string>
+    <string name="audio_title_alignment_default">ទូទៅ</string>
+    <string name="audio_title_alignment_left">ឆ្វេង</string>
+    <string name="audio_title_alignment_centre">កណ្ដាល</string>
+    <string name="audio_title_alignment_right">ស្ដាំ</string>
+    <string name="headset_prefs_category">កាស</string>
     <string name="enable_headset_detection">រក​កាស</string>
-    <string name="enable_headset_detection_summary">ផ្អាក​ពេល​ដក​កាស​ចេញ បន្ត​ពេល​ដោត​កាស​</string>
     <string name="enable_steal_remote_control">មិន​បញ្ចូល​ការ​បញ្ហា​កាស​ពី​ចម្ងាយ</string>
     <string name="enable_steal_remote_control_summary">ជៀសវាង​មាន​បញ្ហា​ដោយ​លួច​ការ​បញ្ជា​ពី​ចម្ងាយ​ពី​កម្មវិធី​ផ្សេងៗ។ វា​ការ​ពារ​ពី​ការ​ចុច​ទ្វេដង​លើ​ទូរស័ព្ទ HTC</string>
+    <string name="aout">លទ្ធផល​អូឌីយ៉ូ</string>
+    <string name="aout_summary">ប្ដូរ​វិធីសាស្ត្រ​ដែល​ VLC ប្រើ​ដើម្បី​​បង្ហាញ​លទ្ធផល​អូឌីយ៉ូ។</string>
+    <string name="extensions_prefs_category">បន្ថែម</string>
+    <string name="extension_prefs_activation_title">ដំណើរការ</string>
+    <string name="controls_prefs_category">បញ្ជារ</string>
+
     <string name="performance_prefs_category">ការ​អនុវត្ត</string>
     <string name="chroma_format">បង្ខុំ​​ក្រូមវីដេអូ</string>
     <string name="deblocking">ការ​កំណត់​តម្រង​វីដេអូ</string>
@@ -166,13 +247,12 @@
     <string name="deblocking_nonref">តម្រង​វីដេអូ​ពាក់កណ្ដាល</string>
     <string name="deblocking_nonkey">តម្រង​វីដេអូ​ទាប</string>
     <string name="deblocking_all">គ្មាន​តម្រង​វីដេអូ (លឿន​បំផុត)</string>
-    <string name="enable_frame_skip">បើក​ការ​រំលង​ស៊ុម</string>
     <string name="enable_frame_skip_summary">បង្កើន​ល្បឿន​ការ​ដោះ​លេខ​កូដ ប៉ុន្តែ​អាច​បន្ថយ​គុណភាព​វីដេអូ។</string>
     <string name="enable_time_stretching_audio">បើក​​អូឌីយ៉ូ​​ពេលវេលា</string>
     <string name="enable_time_stretching_audio_summary">បង្កើន​ល្បឿន ឬ​បន្ថយ​​ល្បឿន​​អូឌីយ៉ូ​ដោយ​​មិន​ផ្លាស់ប្ដូរ​​សូរស័ព្ទ (ទាមទារ​ឧបករណ៍​ដែល​លឿន)</string>
+
     <string name="advanced_prefs_category">កម្រិត​ខ្ពស់</string>
-    <string name="aout">លទ្ធផល​អូឌីយ៉ូ</string>
-    <string name="aout_summary">ប្ដូរ​វិធីសាស្ត្រ​ដែល​ VLC ប្រើ​ដើម្បី​​បង្ហាញ​លទ្ធផល​អូឌីយ៉ូ។</string>
+    <string name="auto_rescan">ស្កេនដោយស្វ័យប្រវត្ត</string>
     <string name="clear_media_db">សម្អាត​មូលដ្ឋាន​ទិន្នន័យ​មេឌៀ</string>
     <string name="clear_history">សម្អាត​ប្រវត្តិ​ស្វែងរក</string>
     <string name="media_db_cleared">បាន​សម្អាត​មូលដ្ឋាន​ទិន្នន័យ!</string>
@@ -181,6 +261,7 @@
     <string name="set_locale_popup">ចេញ រួច​ចាប់ផ្ដើម VLC ឡើងវិញ ដើម្បីឲ្យ​ការ​ផ្លាស់ប្ដូរ​មាន​ប្រសិទ្ធ​ភាព។​</string>
     <string name="network_caching">តម្លៃ​ឃ្លាំង​សម្ងាត់​បណ្ដាញ</string>
     <string name="network_caching_summary">ចំនួន​ពេលវេលា​ដើម្បី​ទប់​មេឌៀ​បណ្ដាញ (គិតជា​មិ.វិ.)។ មិន​ដំណើរការ​ជាមួយ​ការ​ដោះ​លេខ​កូដ​ទេ។ ទុក​ឲ្យ​វា​ទទេ​ដើម្បី​កំណត់​ឡើង​វិញ។</string>
+    <string name="quit">ចេញ ហើយ​ចាប់ផ្ដើម​កម្មវិធី​ឡើង​វិញ</string>
     <string name="developer_prefs_category">អ្នក​អភិវឌ្ឍន៍</string>
     <string name="enable_verbose_mode">បរិយាយ</string>
     <string name="enable_verbose_mode_summary">បង្កើន​ការ​បរិយាយ (logcat)</string>
@@ -190,13 +271,15 @@
     <string name="clear_log">សម្អាត​កំណត់ហេតុ</string>
     <string name="copy_to_clipboard">ចម្លង​ទៅ​ក្ដារ​តម្បៀត​ខ្ទាស់</string>
     <string name="copied_to_clipboard">បាន​ចម្លង​កំណត់​ហេតុ​ទៅ​ក្ដារ​តម្បៀត​ខ្ទាស់</string>
-    <string name="quit">ចេញ ហើយ​ចាប់ផ្ដើម​កម្មវិធី​ឡើង​វិញ</string>
     <string name="dump_logcat">បោះបង់​កំណត់ហេតុ logcat</string>
     <string name="dump_logcat_success">បាន​បោះបង់​កំណត់ហេតុ Logcat ទៅកាន់ %1$s ដោយ​ជោគជ័យ!</string>
     <string name="dump_logcat_failure">បាន​បរាជ័យ​ក្នុង​ការ​បោះបង់ logcat ។</string>
     <string name="restart_vlc">ចាប់​ផ្ដើម VLC ឡើងវិញ</string>
     <string name="send_log">ផ្ញើចូល</string>
-    <string name="sending_log">កំពុង​ផ្ញើចូល...</string>
-    <!--Accessibility-->
-    <!--Widget-->
-</resources>
+    <string name="sending_log">កំពុង​ផ្ញើចូល…</string>
+
+    <string name="browsing">រុករក</string>
+
+    <string name="file_size">ខ្នាតឯកសារ</string>
+
+    </resources>

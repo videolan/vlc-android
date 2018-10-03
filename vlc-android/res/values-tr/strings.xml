@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">Uzunluk (azalan)</string>
     <string name="sortby_date">Tarih</string>
     <string name="sortby_date_desc">Tarih (azalan)</string>
+    <string name="sortby_last_modified_date">Son eklenen</string>
+    <string name="sortby_last_modified_date_desc">Son eklenen (azalan)</string>
     <string name="sortby_number">İz numarası</string>
     <string name="sortby_number_desc">İz numarası (azalan)</string>
     <string name="searchable_hint">Arama…</string>
@@ -52,6 +54,8 @@
     <string name="confirm_delete">\'%1$s\' dosyası silinsin mi?</string>
     <string name="confirm_delete_folder">\'%1$s\' klasörü ve tüm içeriği silinsin mi?</string>
     <string name="confirm_delete_playlist">\'%1$s\' oynatma listesi silinsin mi?</string>
+    <string name="confirm_remove_from_playlist">\'%1$s\' oynatma listesinden kaldırılsın mı?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Oynatma listesinden kaldırılsın mı?</string>
     <string name="ringtone_set">\'%1$s\' dosyası zil sesi olarak ayarlandı.</string>
     <string name="ringtone_error">Zil sesi ayarlanırken bir sorun çıktı.</string>
     <string name="pause">Duraklat</string>
@@ -208,6 +212,7 @@
     <string name="playback_speed_title">Oynatma Hızını Kaydet</string>
     <string name="playback_speed_summary">Ayarlanan oynatma hızı hatırlansın</string>
 
+    <string name="play_button">Oynatma Düğmesi</string>
     <!-- Tips -->
     <string name="video_player_tips">Görüntü oynatıcı ipuçları:</string>
     <string name="seek">Arama</string>
@@ -594,4 +599,14 @@
     <string name="tv_my_new_videos">Yeni görüntülerim</string>
     <string name="cast_option_title">Ortamları başka bir ekrana gönder</string>
     <string name="otg_device_title">Dokun yedekle aygıtı</string>
+    <string name="browser">Tarayıcı</string>
+    <string name="ab_repeat">A-B Yineleme</string>
+    <string name="stop_after_this">Bu izden sonra dur</string>
+    <string name="time_category_new">Yeni ortam</string>
+    <string name="time_category_current_month">Bu ay</string>
+    <string name="time_category_current_year">Bu yıl</string>
+    <string name="time_category_last_year">Geçen yıl</string>
+    <string name="time_category_older">Daha eski ortamlar</string>
+    <string name="rename">Yeniden Adlandır</string>
+    <string name="rename_media">%1$s Yeniden Adlandır</string>
 </resources>

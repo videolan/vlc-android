@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">Longària (decresc)</string>
     <string name="sortby_date">Data</string>
     <string name="sortby_date_desc">Data (decresc)</string>
+    <string name="sortby_last_modified_date">Annantu dae pagu</string>
+    <string name="sortby_last_modified_date_desc">Annantu dae pagu (desc)</string>
     <string name="sortby_number">Nùm. rastas</string>
     <string name="sortby_number_desc">Nùm. rastas (decresc)</string>
     <string name="searchable_hint">Chirca…</string>
@@ -52,6 +54,8 @@
     <string name="confirm_delete">Cheres iscantzellare su documentu \'%1$s\'?</string>
     <string name="confirm_delete_folder">Cheres iscantzellare sa cartella \'%1$s\' e su chi b\'est in intro?</string>
     <string name="confirm_delete_playlist">Cheres iscantzellare s\'iscalita \'%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">Bogare \'%1$s\' dae s\'iscalita?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Bogare dae s\'iscalita?</string>
     <string name="ringtone_set">Su documentu \'%1$s\' est istadu impostadu comente suoneria.</string>
     <string name="ringtone_error">B\'est istadu un\'errore cun s\'impostatzione de sa suoneria.</string>
     <string name="pause">Pàusa</string>
@@ -208,6 +212,7 @@
     <string name="playback_speed_title">Sarva sa lestresa de riprodutzione</string>
     <string name="playback_speed_summary">Ammenta sa lestresa de riprodutzione impostada</string>
 
+    <string name="play_button">Butone de riprodutzione</string>
     <!-- Tips -->
     <string name="video_player_tips">Impòsitos de su leghidore de vìdeos:</string>
     <string name="seek">Positziona</string>
@@ -594,4 +599,14 @@
     <string name="tv_my_new_videos">Vìdeos noos meos</string>
     <string name="cast_option_title">Trasmiti cuntenutos multimediales a un\'àteru ischermu</string>
     <string name="otg_device_title">Dispositivu OTG</string>
+    <string name="browser">Esploradore</string>
+    <string name="ab_repeat">Riprodutzione A-B</string>
+    <string name="stop_after_this">Firma a pustis de custa rasta</string>
+    <string name="time_category_new">Documentos multimediales noos</string>
+    <string name="time_category_current_month">Custu mese</string>
+    <string name="time_category_current_year">Cust\'annu</string>
+    <string name="time_category_last_year">S\'annu coladu</string>
+    <string name="time_category_older">Documentos prus betzos</string>
+    <string name="rename">Càmbia nùmene</string>
+    <string name="rename_media">Càmbia su nùmene a %1$s</string>
 </resources>

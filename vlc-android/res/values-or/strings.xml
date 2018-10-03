@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">ଠିକ ଅଛି</string>
     <string name="cancel">ବାତିଲ୍ କରନ୍ତୁ</string>
@@ -9,10 +10,12 @@
     <string name="sortby_length">ଦୈର୍ଘ୍ୟ</string>
     <string name="searchable_hint">ଖୋଜନ୍ତୁ…</string>
     <string name="history">ଇତିହାସ</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="one">%d ଫଳାଫଳ ମିଳିଲା</item>
         <item quantity="other">%d ଫଳାଫଳ ମିଳିଲା</item>
     </plurals>
+
     <string name="play">ଚଳାନ୍ତୁ</string>
     <string name="play_from_start">ଆରମ୍ଭରୁ ଚଳାନ୍ତୁ</string>
     <string name="play_as_audio">ଅଡ଼ିଓ ଭାବରେ ଚଳାନ୍ତୁ</string>
@@ -22,7 +25,7 @@
     <string name="append_all">ସବୁତକ ଯୋଡନ୍ତୁ</string>
     <string name="last_playlist">ଶେଷ ଚାଳନସୂଚୀ</string>
     <string name="delete">ବିଲୋପନ କରନ୍ତୁ</string>
-    <string name="remove">ଅପସାରଣ </string>
+    <string name="remove">ଅପସାରଣ</string>
     <string name="set_song">ରିଂଗଟୋନ ଭାବରେ ସେଟ କରନ୍ତୁ</string>
     <string name="info">ତଥ୍ୟ</string>
     <string name="confirm_delete">\'%1$s\' ଫାଇଲକୁ ବିଲୋପ କରିବେ?</string>
@@ -33,13 +36,12 @@
     <string name="unknown_artist">ଅଜ୍ଞାତ କଳାକାର</string>
     <string name="unknown_album">ଅଜ୍ଞାତ ଆଲବମ୍</string>
     <string name="unknown_genre">ଅଜ୍ଞାତ ଧରଣ</string>
-    <string name="songs">ଗୀତଗୁଡିକ</string>
     <plurals name="songs_quantity">
         <item quantity="one">୧ ଗୀତ</item>
         <item quantity="other">%d ଗୀତଗୁଡିକ</item>
     </plurals>
+
     <string name="artists">କଳାକାରଗଣ</string>
-    <string name="albums">ଆଲବମ୍ ଗୁଡିକ</string>
     <plurals name="albums_quantity">
         <item quantity="one">୧ ଆଲବମ୍</item>
         <item quantity="other">%d ଆଲବମ୍ ଗୁଡିକ</item>
@@ -73,9 +75,8 @@
     <string name="nosubdirectory">କୌଣସି ଉପଡିରେକ୍ଟୋରୀ ନାହିଁ|</string>
     <string name="nohistory">ବର୍ତ୍ତମାନ ପର୍ଯ୍ୟନ୍ତ ଆପଣଙ୍କର କୌଣସି ଚାଳନ ଇତିହାସ ନାହିଁ|</string>
     <string name="validation">ଆପଣ ନିଶ୍ଚିତ ଅଛନ୍ତି ତ?</string>
+
     <string name="cover_art">ଆବରଣ କଳା</string>
-    <string name="shuffle">ଅଦଳବଦଳ</string>
-    <string name="repeat">ପୁନରାବୃତ୍ତି ନାହିଁ/ଗୋଟିଏ/ସମସ୍ତ</string>
     <string name="previous">ପୂର୍ବବର୍ତ୍ତୀ</string>
     <string name="stop">ବନ୍ଦ</string>
     <string name="next">ପରବର୍ତ୍ତୀ</string>
@@ -88,7 +89,6 @@
     <string name="refresh">ସତେଜ</string>
     <string name="track_audio">ଅଡ଼ିଓ ଟ୍ରାକ୍</string>
     <string name="track_video">ଭିଡ଼ିଓ ଟ୍ରାକ୍</string>
-    <string name="track_text">ଉପଟାଇଟେଲ୍‌ ଟ୍ରାକ୍</string>
     <string name="track_unknown">ଅଜ୍ଞାତ ଟ୍ରାକ୍</string>
     <string name="volume">ଶବ୍ଦ ନିର୍ଦ୍ଧାରକ</string>
     <string name="brightness">ଔଜଲ୍ୟତା</string>
@@ -98,25 +98,20 @@
     <string name="sleep_cancel">ସୁପ୍ତ ଘଣ୍ଟାକୁ ବାତିଲ କରନ୍ତୁ</string>
     <string name="jump_to_time">ସମୟକୁ ଯାଆନ୍ତୁ</string>
     <string name="open">ଖୋଲନ୍ତୁ</string>
-    <string name="open_mrl">MRL ଖୋଲନ୍ତୁ</string>
     <string name="open_mrl_dialog_title">ନେଟୱର୍କ ଷ୍ଟ୍ରିମ୍ ଖୋଲନ୍ତୁ</string>
-    <string name="open_mrl_dialog_msg">ନେଟୱର୍କ MRL ପ୍ରବେଶ କରନ୍ତୁ: ଉ.ଦା. http://, mms:// or rtsp://</string>
     <string name="error_not_compatible">କ୍ଷମା କରିବେ, Android™ ପାଇଁ VLC ର ଏହି ସଂସ୍କରଣକୁ ଆପଣଙ୍କ ଯନ୍ତ୍ର ବର୍ତ୍ତମାନ ସମର୍ଥନ କରୁନାହିଁ|</string>
     <string name="error_problem">କ୍ଷମା କରିବେ, Android ପାଇଁ VLC କୁ ଲୋଡ୍ କରିବାରେ ଅସୁବିଧା ହେଉଥିଲା ଏବଂ ବନ୍ଦ କରିବାକୁ ପଡିଲା|</string>
-    <string name="encountered_error_title">ପଶ୍ଚାତ୍ ଚାଳନ  ତ୍ରୁଟି  </string>
+    <string name="encountered_error_title">ପଶ୍ଚାତ୍ ଚାଳନ ତ୍ରୁଟି</string>
     <string name="search">ସନ୍ଧାନ</string>
     <string name="search_history">ସନ୍ଧାନ ଇତିହାସ</string>
-    <!--Tips-->
-    <!-- About -->
-    <string name="app_name_full">Android™ ପାଇଁ VLC</string>
+
+
     <string name="licence">ଲାଇସେନ୍ସ</string>
     <string name="revision">ପୁନରୀକ୍ଷଣ</string>
     <string name="about">ବିଷୟରେ</string>
     <string name="about_text">Android™ ପାଇଁ VLC ହେଉଛି ଲୋକପ୍ରିୟ ମୁକ୍ତ ସ୍ରୋତ ମିଡିଆ ପ୍ଲେୟାର, VLC ମିଡିଆ ପ୍ଲେୟାରର ଏକ ଅନୁଭାଗ| Android™ ସଂସ୍କରଣ ପ୍ରାୟ ଫାଇଲ ଏବଂ ନେଟୱର୍କ ଷ୍ଟ୍ରିମ୍‌ ଗୁଡିକକୁ ଚଳାଇ ପାରିବ|</string>
     <string name="compiled_by">VLC ର ଏହି ସଂସ୍କରଣକୁ ସଙ୍କଳନ କରିଛନ୍ତି:</string>
-    <string name="vlc_authors">VLC ର ଲେଖକମାନେ</string>
-    <!-- Preferences -->
-    <string name="preferences">ଅଗ୍ରାଧିକାରସମୂହ</string>
+
     <string name="add_custom_path">ଇଚ୍ଛାରୂପୀ ପଥ ଯୋଗ କରନ୍ତୁ</string>
     <string name="remove_custom_path">ଇଚ୍ଛାରୂପୀ ପଥ ଅପସାରଣ କରନ୍ତୁ</string>
     <string name="hardware_acceleration_disabled">ନିଷ୍କ୍ରିୟ</string>
@@ -125,25 +120,23 @@
     <string name="screen_orientation_sensor">ସ୍ବୟଂଚାଳିତ (ସମ୍ବେଦକ)</string>
     <string name="screen_orientation_start_lock">ଆରମ୍ଭରେ ଅବରୋଧିତ କରନ୍ତୁ</string>
     <string name="screen_orientation_portrait">ପ୍ରତିକୃତି</string>
-    <string name="screen_orientation_landscape">ଲ୍ୟାଣ୍ଡସ୍କେପ୍ </string>
+    <string name="screen_orientation_landscape">ଲ୍ୟାଣ୍ଡସ୍କେପ୍</string>
     <string name="screen_orientation_reverse_portrait">ଓଲଟା ପ୍ରତିକୃତି</string>
-    <string name="enable_black_theme">କଳା ପ୍ରସଙ୍ଗ ସକ୍ରିୟ କରନ୍ତୁ</string>
-    <string name="enable_brightness_gesture">ଔଜଲ୍ୟତା ଅଙ୍ଗଭଙ୍ଗୀକୁ ସକ୍ଷମ କରନ୍ତୁ</string>
     <string name="enable_headset_detection">ହେଡ୍‌ସେଟ୍ କୁ ଆବିଷ୍କାର କରନ୍ତୁ</string>
+    <string name="aout">ଅଡ଼ିଓ ଆଉଟପୁଟ୍</string>
     <string name="enable_time_stretching_audio">ଅଡ଼ିଓର ସମୟ ପ୍ରସାରଣ ସକ୍ଷମ କରନ୍ତୁ</string>
     <string name="advanced_prefs_category">ଉନ୍ନତ</string>
-    <string name="aout">ଅଡ଼ିଓ ଆଉଟପୁଟ୍</string>
     <string name="clear_media_db">ମିଡ଼ିଆ ଡାଟାବେସ୍ ଖାଲି କରନ୍ତୁ</string>
     <string name="clear_history">ଖୋଜିବା ଇତିହାସକୁ ଖାଲି କରନ୍ତୁ</string>
     <string name="media_db_cleared">ମିଡ଼ିଆ ଡାଟାବେସ୍ ଖାଲି କରିଦିଆଗଲା!</string>
     <string name="set_locale">ଆଂଚଳିକ ସେଟ କରନ୍ତୁ</string>
     <string name="set_locale_detail">ପୁନଃସ୍ଥାପନ କରିବା ପାଇଁ ଖାଲି ଛାଡି ଦିଅନ୍ତୁ</string>
     <string name="set_locale_popup">ପରିବର୍ତ୍ତନଗୁଡ଼ିକୁ କାର୍ଯ୍ୟକାରୀ କରିବା ପାଇଁ VLC କୁ ତ୍ୟାଗ କରନ୍ତୁ ଏବଂ ପୁନର୍ବାର ଆରମ୍ଭ କରନ୍ତୁ|</string>
+    <string name="quit">ଅନୁପ୍ରୟୋଗକୁ ତ୍ୟାଗ କରି ପୁନର୍ବାର ଆରମ୍ଭ କରନ୍ତୁ</string>
     <string name="enable_verbose_mode">ବହୁଶବ୍ଦକ</string>
     <string name="start_logging">ଲଗ ଆରମ୍ଭ କରନ୍ତୁ</string>
     <string name="stop_logging">ଲଗ ବନ୍ଦ କରନ୍ତୁ</string>
     <string name="clear_log">ଲଗ ସଫାକରନ୍ତୁ</string>
     <string name="copy_to_clipboard">କ୍ଲିପବୋର୍ଡକୁ ନକଲ କରନ୍ତୁ</string>
     <string name="copied_to_clipboard">ଲଗ କ୍ଲିପବୋର୍ଡକୁ ନକଲ କରାଗଲା</string>
-    <string name="quit">ଅନୁପ୍ରୟୋଗକୁ ତ୍ୟାଗ କରି ପୁନର୍ବାର ଆରମ୍ଭ କରନ୍ତୁ</string>
-</resources>
+    </resources>

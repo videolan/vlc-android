@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Main VLC Interface -->
     <string name="ok">ตกลง</string>
     <string name="cancel">ยกเลิก</string>
@@ -19,9 +20,11 @@
     <string name="sortby_number_desc">หมายเลขแทร็ก (desc)</string>
     <string name="searchable_hint">ค้นหา…</string>
     <string name="history">ประวัติ</string>
+
     <plurals name="search_found_results_quantity">
         <item quantity="other">พบ %d รายการ</item>
     </plurals>
+
     <string name="play">เล่น</string>
     <string name="playback">การเล่น</string>
     <string name="playback_controls">การควบคุมการเล่น</string>
@@ -58,8 +61,10 @@
     <plurals name="songs_quantity">
         <item quantity="other">%d เพลง</item>
     </plurals>
+
     <string name="artists">ศิลปิน</string>
     <string name="tracks">แทร็ก</string>
+
     <plurals name="albums_quantity">
         <item quantity="other">%d อัลบัม</item>
     </plurals>
@@ -72,6 +77,7 @@
     <plurals name="videos_quantity">
         <item quantity="other">%d วิดีโอ</item>
     </plurals>
+
     <string name="internal_memory">หน่วยความจำภายใน</string>
     <string name="parent_folder">กลับไปยังโฟลเดอร์ก่อนหน้านี้</string>
     <string name="audio">เสียง</string>
@@ -96,6 +102,7 @@
     <string name="directorynotfound">ไม่พบเส้นทางไดเรกทอรี \'%1$s\'</string>
     <string name="nohistory">ยังไม่มีประวัติการเล่นของคุณ</string>
     <string name="validation">คุณแน่ใจหรือไม่</string>
+
     <string name="cover_art">ภาพหน้าปก</string>
     <string name="shuffle_title">โหมดสุ่มเล่น</string>
     <string name="shuffle">โหมดสุ่มเล่นปิด</string>
@@ -109,6 +116,7 @@
     <string name="next">ถัดไป</string>
     <string name="firstsong">เพลงแรกของเพลย์ลิสต์</string>
     <string name="lastsong">เพลงสุดท้ายของเพลย์ลิสต์</string>
+
     <string name="locked">ล็อก</string>
     <string name="unlocked">ปลดล็อก</string>
     <string name="surface_best_fit">พอดีที่สุด</string>
@@ -132,12 +140,15 @@
     <string name="navmenu">เมนูนำทาง</string>
     <string name="advanced">ตัวเลือกขั้นสูง</string>
     <string name="audio_boost_warning">เลื่อนขึ้นอีกครั้งเพื่อปรับให้เกิน 100%</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d ช่อง\n</item>
     </plurals>
+
     <string name="track_samplerate_info">อัตราการสุ่มตัวอย่าง: %1$d Hz\n</string>
     <string name="track_resolution_info">ความละเอียด: %1$dx%2$d\n</string>
     <string name="track_framerate_info">อัตราเฟรม: %1$.3f\n</string>
+
     <string name="tools">เครื่องมือ</string>
     <string name="playback_speed">ความเร็วการเล่น</string>
     <string name="sleep_title">พักเครื่อง</string>
@@ -147,6 +158,7 @@
     <string name="subtitle_label">เพิ่มไฟล์คำบรรยาย</string>
     <string name="subtitle_select">เลือกไฟล์คำบรรยาย</string>
     <string name="no_file_picker_found">ไม่พบตัวเลือกไฟล์ในระบบ</string>
+
     <string name="server_add_title">เพิ่มเซิร์ฟเวอร์ใหม่ลงในรายการโปรด</string>
     <string name="server_domain_hint">ที่อยู่เซิร์ฟเวอร์ (ชื่อโดเมนหรือ IP)</string>
     <string name="server_share_hint">ชื่อเครือข่ายแชร์ (หรือที่อยู่ IP)</string>
@@ -156,6 +168,7 @@
     <string name="server_port">พอร์ต: </string>
     <string name="login">เข้าสู่ระบบ</string>
     <string name="password">รหัสผ่าน</string>
+
     <string name="search_results">ผลการค้นหา</string>
     <string name="search_no_result">ไม่พบสื่อ</string>
     <string name="favorites_add">เพิ่มลงในรายการโปรด</string>
@@ -163,6 +176,7 @@
     <string name="favorites_edit">แก้ไข</string>
     <string name="favorite_added">บันทึกลงในรายการโปรดแล้ว</string>
     <string name="favorite_removed">เอาออกจากรายการโปรดแล้ว</string>
+
     <string name="open">เปิด</string>
     <string name="open_mrl">สตรีม</string>
     <string name="open_mrl_dialog_title">เปิดสตรีมเครือข่าย</string>
@@ -170,16 +184,19 @@
     <string name="error_not_compatible">ขออภัย อุปกรณ์ของคุณไม่รองรับการใช้งานของ VLC สำหรับ Android™ เวอร์ชันนี้ในขณะนี้</string>
     <string name="error_problem">ขออภัย VLC สำหรับ Android ปิดเนื่องจากมีปัญหาในการโหลด</string>
     <string name="error_message_is">ข้อความแสดงข้อผิดพลาดคือ (กรุณากล่าวถึงสิ่งที่เกิดขึ้นนี้เมื่อทำการดีบั๊ก):\n</string>
-    <string name="empty" translatable="false"></string>
     <string name="encountered_error_title">ข้อผิดพลาดการเล่น</string>
     <string name="encountered_error_message">VLC พบว่าสื่อนี้มีข้อผิดพลาด\nกรุณาลองรีเฟรชคลังสื่ออีกครั้ง</string>
     <string name="invalid_location">ไม่สามารถเล่นตำแหน่ง %1$s ได้</string>
+
     <string name="search">ค้นหา</string>
     <string name="search_history">ประวัติการค้นหา</string>
+
+
     <string name="playback_history_title">ประวัติการเล่น</string>
     <string name="playback_history_summary">บันทึกสื่อทั้งหมดที่เล่นไว้ในส่วน \"ประวัติ\"</string>
     <string name="playback_speed_title">บันทึกความเร็วในการเล่น</string>
     <string name="playback_speed_summary">จดจำความเร็วในการเล่นที่คุณตั้งไว้</string>
+
     <!-- Tips -->
     <string name="video_player_tips">คำแนะนำโปรแกรมเล่นวิดีโอ:</string>
     <string name="seek">ค้นหา</string>
@@ -189,25 +206,30 @@
     <string name="options">ตัวเลือก</string>
     <string name="lock">ล็อก</string>
     <string name="ok_got_it">เข้าใจแล้ว เลิกสนใจสิ่งนี้</string>
+
     <string name="playlist_tips">คำแนะนำเพลย์ลิสต์</string>
     <string name="remove_song">ลบเพลงออก</string>
     <string name="remove_playlist_item">%1$s ได้ถูกลบออกจากเพลย์ลิสต์แล้ว</string>
     <string name="rearrange_order">จัดลำดับใหม่</string>
     <string name="hold_to_seek">กดค้างเพื่อค้นหา</string>
+
     <string name="audio_player_tips">คำแนะนำโปรแกรมเล่นเสียง</string>
     <string name="previous_next_song">เพลงก่อนหน้า/ถัดไป</string>
     <string name="show_playlist">แสดงเพลย์ลิสต์</string>
     <string name="hold_to_stop">กดค้างเพื่อหยุด</string>
+
     <!-- About -->
     <string name="app_name_full">VLC สำหรับ Android</string>
     <string name="licence">สัญญาอนุญาต</string>
     <string name="revision">การปรับปรุง</string>
     <string name="about">เกี่ยวกับ</string>
     <string name="about_text">VLC สำหรับ Android™ เป็นแขนงหนึ่งของโปรแกรมเล่นสื่อ VLC ซึ่งเป็นโปรแกรมเล่นสื่อยอดนิยมแบบโอเพนซอร์ส โดยในเวอร์ชัน Android™ สามารถอ่านไฟล์และสตรีมเครือข่ายได้แทบทุกรูปแบบ</string>
-    <string name="compiled_by">VLC เวอร์ชันนี้คอมไพล์โดย:</string>
     <string name="vlc_authors">และผู้จัดทำ VLC</string>
+    <string name="compiled_by">VLC เวอร์ชันนี้คอมไพล์โดย:</string>
+
     <!-- Preferences -->
     <string name="preferences">การตั้งค่า</string>
+
     <string name="general_prefs_category">ทั่วไป</string>
     <string name="directories_summary">เลือกไดเรกทอรีที่จะรวมไว้ในคลังสื่อ</string>
     <string name="add_custom_path">เพิ่มเส้นทางแบบกำหนดเอง</string>
@@ -220,10 +242,6 @@
     <string name="hardware_acceleration_full">การเร่งความเร็วแบบเต็มที่</string>
     <string name="dev_hardware_decoder">ตัวถอดรหัสแบบฮาร์ดแวร์ขั้นสูง</string>
     <string name="dev_hardware_decoder_summary">บังคับใช้ตัวถอดรหัสแบบฮาร์ดแวร์ (เฉพาะผู้ใช้ขั้นสูงเท่านั้น)</string>
-    <string name="dev_hardware_decoder_omx">iomx</string>
-    <string name="dev_hardware_decoder_omx_dr">iomx-dr</string>
-    <string name="dev_hardware_decoder_mediacodec">mediacodec</string>
-    <string name="dev_hardware_decoder_mediacodec_dr">mediacodec-dr</string>
     <string name="automatic">อัตโนมัติ</string>
     <string name="screen_orientation">การจัดวางหน้าจอวิดีโอ</string>
     <string name="screen_orientation_sensor">อัตโนมัติ (ตรวจจับ)</string>
@@ -236,7 +254,9 @@
     <string name="subtitle_text_encoding">การเข้ารหัสข้อความคำบรรยาย</string>
     <string name="daynight_title">โหมดกลางวัน/กลางคืน</string>
     <string name="daynight_summary">สลับไปใช้โหมดกลางคืนโดยอัตโนมัติเมื่อถึงเวลาที่เหมาะสม</string>
+
     <string name="extra_prefs_category">การตั้งค่าพิเศษ</string>
+
     <string name="interface_prefs_screen">อินเทอร์เฟซ</string>
     <string name="interface_gui">จอแสดงผล</string>
     <string name="interface_secondary_display_category_title">จอแสดงผลรอง</string>
@@ -244,6 +264,7 @@
     <string name="enable_clone_mode">ตั้งค่าการโคลน</string>
     <string name="enable_clone_mode_summary">โคลนหน้าจออุปกรณ์โดยไม่ใช้รีโมทคอนโทรล</string>
     <string name="interface_other_category">อินเทอร์เฟซ - อื่นๆ</string>
+
     <string name="video_prefs_category">วิดีโอ</string>
     <string name="video_min_group_length_title">จัดกลุ่มวิดีโอ</string>
     <string name="video_min_group_length_summary">วิดีโอจะถูกจัดกลุ่มหากตัวอักษรตัวแรกเหมือนกัน</string>
@@ -272,6 +293,7 @@
     <string name="popup_keepscreen_summary">คงหน้าจอให้เปิดไว้เสมอเมื่อแสดงป๊อปอัพ แม้ว่าจะพักวิดีโออยู่ก็ตาม</string>
     <string name="browser_show_hidden_files_title">แสดงไฟล์ที่ซ่อนอยู่</string>
     <string name="browser_show_hidden_files_summary">แสดงไฟล์ที่ซ่อนอยู่ในเบราว์เซอร์</string>
+
     <string name="subtitles_prefs_category">คำบรรยาย</string>
     <string name="subtitles_size_title">ขนาดคำบรรยาย</string>
     <string name="subtitles_size_small">เล็ก</string>
@@ -288,6 +310,7 @@
     <string name="subtitles_background_title">พื้นหลังคำบรรยาย</string>
     <string name="subtitles_bold_title">คำบรรยายตัวหนา</string>
     <string name="subtitles_autoload_title">โหลดคำบรรยายอัตโนมัติ</string>
+
     <string name="audio_prefs_category">เสียง</string>
     <string name="lockscreen_cover_title">แสดงปกอัลบั้มบนฟน้าจอล็อก</string>
     <string name="lockscreen_cover_summary">เมื่อพร้อมใช้งาน ให้ตั้งปกอัลบั้มสื่อปัจจุบันเป็นภาพพื้นหลังของหน้าจอล็อก</string>
@@ -328,6 +351,7 @@
     <string name="casting_connected_renderer">เชื่อมต่อตัวแสดง \'%1$s\' แล้ว</string>
     <string name="artists_show_all_title">แสดงศิลปินทั้งหมด</string>
     <string name="artists_show_all_summary">แสดงศิลปินทั้งหมดในรายการ \"ศิลปิน\" โดยไม่แสดงเฉพาะศิลปินอัลบั้ม</string>
+
     <string name="extensions_prefs_category">ส่วนขยาย</string>
     <string name="extensions_enable_category">เลือกส่วนขยายที่จะเปิดใช้งาน</string>
     <string name="extensions_empty">ตรวจไม่พบส่วนขยาย</string>
@@ -335,7 +359,9 @@
     <string name="extension_permission_checkbox_title">แสดงใน %1$s</string>
     <string name="extension_prefs_activation_title">เปิดใช้งาน</string>
     <string name="android_auto">Android Auto</string>
+
     <string name="controls_prefs_category">การควบคุม</string>
+
     <string name="performance_prefs_category">ประสิทธิภาพการทำงาน</string>
     <string name="chroma_format">บังคับค่าความสดสีวิดีโอ</string>
     <string name="chroma_format_summary">RGB แบบ 32 บิต: ความสดสีเริ่มต้น\nRGB แบบ 16 บิต: เพื่อประสิทธิภาพที่ดีกว่า แต่อาจลดคุณภาพได้\nYUV: เพื่อประสิทธิภาพที่ดีที่สุด แต่ใช้ไม่ได้กับทุกอุปกรณ์ (จำเป็นต้องใช้ Android 2.3 หรือเวอร์ชั่นใหม่กว่าเท่านั้น)</string>
@@ -348,6 +374,7 @@
     <string name="enable_frame_skip_summary">เพิ่มความเร็วในการถอดรหัส แต่อาจลดคุณภาพวิดีโอได้</string>
     <string name="enable_time_stretching_audio">เปิดใช้งานการยืดเสียง</string>
     <string name="enable_time_stretching_audio_summary">เพิ่มความเร็ว และลดความเร็วของเสียงโดยไม่เปลียนระดับเสียง (จำเป็นต้องใช้อุปกรณ์ที่ทำงานได้เร็ว)</string>
+
     <string name="advanced_prefs_category">ขั้นสูง</string>
     <string name="save_video_none">ไม่ต้องบันทึกความเร็ว</string>
     <string name="save_video_session">บันทึกความเร็วระหว่างเซสชัน</string>
@@ -386,15 +413,18 @@
     <string name="restart_vlc">เปิด VLC ใหม่</string>
     <string name="send_log">ส่งไฟล์บันทึก</string>
     <string name="sending_log">กำลังส่งไฟล์บันทึก…</string>
+
     <string name="drawer_open">เปิดลิ้นชักการนำทาง</string>
     <string name="drawer_close">ปิดลิ้นชักการนำทาง</string>
     <string name="network_browsing">เครือข่ายเฉพาะที่</string>
     <string name="browsing">เรียกดู</string>
+
     <string name="file_size">ขนาดไฟล์:</string>
+
     <string name="audio_delay">หน่วงเวลาเสียง</string>
     <string name="spu_delay">หน่วงเวลาคำบรรยาย</string>
     <string name="sleep_time_not_set">ไม่ได้ตั้งค่าไว้</string>
-    <string name="network_shares_discovery">กำลังมองหาการแชร์ทางเครือข่าย...</string>
+    <string name="network_shares_discovery">กำลังมองหาการแชร์ทางเครือข่าย…</string>
     <string name="network_empty">ไดเรกทอรีนี้ว่างเปล่า</string>
     <string name="network_connection_needed">ไม่มีการเชื่อมต่อเครือข่ายเฉพาะที่</string>
     <string name="search_hint">ค้นหาสื่อ</string>
@@ -404,7 +434,7 @@
     <string name="directory_hide_medialib">ซ่อนจากคลังสื่อ</string>
     <string name="playlist_save">บันทึกเพลย์ลิสต์</string>
     <string name="playlist_name_hint">ชื่อเพลย์ลิสต์</string>
-    <string name="go_to_chapter">ไปที่ตอน...</string>
+    <string name="go_to_chapter">ไปที่ตอน…</string>
     <string name="chapter">ตอน</string>
     <string name="resume_from_position">เล่นต่อจากตำแหน่งที่เล่นล่าสุด</string>
     <string name="confirm_resume">เล่นต่อจากตำแหน่งล่าสุดหรือไม่</string>
@@ -415,6 +445,7 @@
     <string name="tv_ui_summary">เปลี่ยนธีมอินเทอร์เฟซเป็นแบบเดียวกับค่าเริ่มต้นของทีวี</string>
     <string name="medialibrary">คลังสื่อ</string>
     <string name="medialibrary_directories">โฟลเดอร์คลังสื่อ</string>
+
     <!-- Accessibility -->
     <string name="more_actions">การกระทำเพิ่มเติม</string>
     <string name="move">ย้าย</string>
@@ -423,6 +454,7 @@
     <string name="file_deleted">ลบไฟล์แล้ว</string>
     <string name="no_subs_found">ไม่มีคำบรรยายในไดเรกทอรีนี้</string>
     <string name="music_now_playing">กำลังเล่นอยู่</string>
+
     <!-- Widget -->
     <string name="widget_name_w">วิดเจ็ต VLC สีขาว</string>
     <string name="widget_name_b">วิดเจ็ต VLC สีเข้ม</string>
@@ -437,13 +469,16 @@
     <string name="permission_ask_again">อนุญาตสิทธิ์การเข้าถึง</string>
     <string name="exit_app">ปิด VLC</string>
     <string name="exit_app_msg">คุณแน่ใจหรือไม่ว่าคุณต้องการออกจาก VLC</string>
+
     <!-- fast scroller -->
     <string name="fastscroller_track">แทร็ก FastScroller</string>
     <string name="fastscroller_handle">ตัวจัดการ FastScroller</string>
+
     <!-- Plugins -->
     <string name="plugins">ปลั๊กอิน</string>
     <string name="download_on_device">ดาวน์โหลด</string>
     <string name="extension_empty">ไม่มีรายการที่จะแสดง ไปที่การตั้งค่าส่วนขยายเพื่อรับส่วนขยายเพิ่มเติม</string>
+
     <string name="opengl_title">การใช้ OpenGL ES2</string>
     <string name="opengl_summary">โดยเริ่มต้น OpenGL ES2 ใช้สำหรับการถอดรหัสซอฟต์แวร์และการถอดรหัสฮาร์ดแวร์เมื่อจำเป็น (วิดีโอ 360°)</string>
     <string name="opengl_automatic">อัตโนมัติ</string>
@@ -472,7 +507,7 @@
     <string name="browse_folder">เรียกดูโฟลเดอร์</string>
     <string name="listen">ฟัง</string>
     <string name="subtitles_download_title">การดาวน์โหลดคำบรรยาย</string>
-    <string name="connecting">กำลังเชื่อมต่อ...</string>
+    <string name="connecting">กำลังเชื่อมต่อ…</string>
     <string name="save_bluetooth_delay">บันทึกการหน่วงเวลาสำหรับอุปกรณ์บลูทูธ</string>
     <string name="episodes">ตอน</string>
     <string name="movies">ภาพยนตร์</string>
@@ -491,12 +526,13 @@
     <string name="ml_external_storage_decline">ไม่ใช่</string>
     <string name="last_added_media">เพิ่มล่าสุด</string>
     <string name="no">ไม่ใช่</string>
-    <string name="loading_medialibrary">กำลังโหลดคลังสื่อ...</string>
+    <string name="loading_medialibrary">กำลังโหลดคลังสื่อ…</string>
     <string name="yes">ใช่</string>
+
     <string name="custom_set_save_title">การเปลี่ยนแปลงที่ยังไม่ได้บันทึก</string>
     <string name="custom_set_save_warning">คำเตือน: การเปลี่ยนแปลงที่ยังไม่ได้บันทึก</string>
-    <string name="existing_custom_set_save_message">บันทึกชุดอีควอไลเซอร์เป็น...</string>
-    <string name="new_custom_set_save_message">บันทึกชุดอีควอไลเซอร์ใหม่เป็น...</string>
+    <string name="existing_custom_set_save_message">บันทึกชุดอีควอไลเซอร์เป็น…</string>
+    <string name="new_custom_set_save_message">บันทึกชุดอีควอไลเซอร์ใหม่เป็น…</string>
     <string name="save">บันทึก</string>
     <string name="do_not_save">ไม่ต้องบันทึก</string>
     <string name="custom_set_deleted_message">ลบชุดอีควอไลเซอร์ \"%1$s\" แล้ว</string>
@@ -517,4 +553,4 @@
     <string name="sdcard_permission_dialog_message">VLC ไม่สามารถลบไฟล์นี้ได้โดยไม่ได้เขียนสิทธิ์การเข้าถึง\nกรุณาไปที่ SD การ์ดของคุณและคลิก \"เลือก\"\nคุณอาจต้องคลิก \"แสดง SD การ์ด\" ในเมนูบนขวาก่อน</string>
     <string name="dialog_sd_wizard">แสดงวิธีการ</string>
     <string name="renderers_disconnect">ยกเลิกการเชื่อมต่อ</string>
-</resources>
+    </resources>
