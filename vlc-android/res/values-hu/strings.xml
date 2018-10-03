@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">Hossz (csökk.)</string>
     <string name="sortby_date">Dátum</string>
     <string name="sortby_date_desc">Dátum (csökk.)</string>
+    <string name="sortby_last_modified_date">Legutóbb hozzáadott</string>
+    <string name="sortby_last_modified_date_desc">Legutóbb hozzáadott (csökk.)</string>
     <string name="sortby_number">Számok száma</string>
     <string name="sortby_number_desc">Számok száma (csökk.)</string>
     <string name="searchable_hint">Keresés…</string>
@@ -52,6 +54,8 @@
     <string name="confirm_delete">Törli ezt a fájlt: „%1$s”?</string>
     <string name="confirm_delete_folder">Törli a(z) „%1$s” mappát és a teljes tartalmát?</string>
     <string name="confirm_delete_playlist">Törli a(z) „%1$s” lejátszólistát?</string>
+    <string name="confirm_remove_from_playlist">Eltávolítja a(z) „%1$s” elemet a lejátszólistáról?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Eltávolítja a lejátszólistáról?</string>
     <string name="ringtone_set">A(z) „%1$s” fájl beállítva csengőhangként.</string>
     <string name="ringtone_error">Hiba történt a csengőhang beállítása közben.</string>
     <string name="pause">Szünet</string>
@@ -208,6 +212,7 @@
     <string name="playback_speed_title">Lejátszási sebesség mentése</string>
     <string name="playback_speed_summary">Emlékezzen a beállított lejátszási sebességre</string>
 
+    <string name="play_button">Lejátszás gomb</string>
     <!-- Tips -->
     <string name="video_player_tips">Lejátszó tippek:</string>
     <string name="seek">Keresés</string>
@@ -594,4 +599,14 @@
     <string name="tv_my_new_videos">Új saját videók</string>
     <string name="cast_option_title">Média átküldése más képernyőre</string>
     <string name="otg_device_title">OTG eszköz</string>
+    <string name="browser">Böngésző</string>
+    <string name="ab_repeat">A-B ismétlés</string>
+    <string name="stop_after_this">Leállítás ezután a szám után</string>
+    <string name="time_category_new">Új média</string>
+    <string name="time_category_current_month">Ebben a hónapban</string>
+    <string name="time_category_current_year">Ebben az évben</string>
+    <string name="time_category_last_year">Tavaly</string>
+    <string name="time_category_older">Régebbi média</string>
+    <string name="rename">Átnevezés</string>
+    <string name="rename_media">%1$s átnevezése</string>
 </resources>
