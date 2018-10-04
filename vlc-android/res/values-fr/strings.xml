@@ -65,10 +65,10 @@
     <string name="unknown_album">Album inconnu</string>
     <string name="unknown_genre">Genre inconnu</string>
     <string name="unknown_number">Nombre de pistes inconnu</string>
-    <string name="songs">Chansons</string>
+    <string name="songs">Morceaux</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 chanson</item>
-        <item quantity="other">%d chansons</item>
+        <item quantity="other">%d morceaux</item>
     </plurals>
 
     <string name="artists">Artistes</string>
@@ -128,8 +128,8 @@
     <string name="previous">Précédent</string>
     <string name="stop">Arrêter</string>
     <string name="next">Suivant</string>
-    <string name="firstsong">Première chanson de la liste de lecture</string>
-    <string name="lastsong">Dernière chanson de la liste de lecture</string>
+    <string name="firstsong">Premier morceau de la liste de lecture</string>
+    <string name="lastsong">Dernier morceau de la liste de lecture</string>
 
     <string name="locked">Verrouillé</string>
     <string name="unlocked">Déverrouillé</string>
@@ -180,7 +180,7 @@
     <string name="server_folder_hint">Chemin du dossier (facultatif)</string>
     <string name="server_username_hint">Nom d\'utilisateur</string>
     <string name="server_servername_hint">Nom à afficher</string>
-    <string name="server_port">Port :</string>
+    <string name="server_port">Port :</string>
     <string name="login">Identifiant</string>
     <string name="password">Mot de passe</string>
 
@@ -214,7 +214,7 @@
 
     <string name="play_button">Bouton Jouer</string>
     <!-- Tips -->
-    <string name="video_player_tips">Astuces du lecteur vidéo :</string>
+    <string name="video_player_tips">Astuces du lecteur vidéo :</string>
     <string name="seek">Naviguer</string>
     <string name="subtitles">Sous-titres</string>
     <string name="audio_sub">Pistes audio\net sous-titres</string>
@@ -224,13 +224,13 @@
     <string name="ok_got_it">J\'ai compris</string>
 
     <string name="playlist_tips">Astuces de la liste de lecture</string>
-    <string name="remove_song">Supprimer la chanson</string>
+    <string name="remove_song">Retirer le morceau</string>
     <string name="remove_playlist_item">%1$s a été retiré de la liste de lecture</string>
     <string name="rearrange_order">Modifier l\'ordre</string>
     <string name="hold_to_seek">Maintenir pour naviguer</string>
 
     <string name="audio_player_tips">Astuces du lecteur audio</string>
-    <string name="previous_next_song">Chanson précédente/suivante</string>
+    <string name="previous_next_song">Morceau précédent/suivant</string>
     <string name="show_playlist">Afficher la liste de lecture</string>
     <string name="hold_to_stop">Maintenir pour arrêter</string>
 
@@ -385,7 +385,7 @@
 
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Chroma vidéo</string>
-    <string name="chroma_format_summary">RGB 32-bit : mode par défaut\nRGB 16-bit : améliore les performances vidéos mais diminue la qualité\nYUV : améliore les performances vidéos mais ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement.</string>
+    <string name="chroma_format_summary">RGB 32-bit : mode par défaut\nRGB 16-bit : améliore les performances vidéos mais diminue la qualité\nYUV : améliore les performances vidéos mais ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement.</string>
     <string name="deblocking">Filtre de déblocage</string>
     <string name="deblocking_summary">Modifier le réglage du filtre de déblocage. Peut améliorer la qualité vidéo. Pour utilisateurs expérimentés uniquement.</string>
     <string name="deblocking_always">Déblocage max (plus lent)</string>
@@ -441,7 +441,7 @@
     <string name="custom_libvlc_options">Options personnalisées de libVLC</string>
 
     <string name="serious_crash">Malheureusement, une importante erreur est intervenue et VLC a dû se fermer.</string>
-    <string name="help_us_send_log">Aidez-nous à améliorer VLC en renvoyant le rapport de crash suivant :</string>
+    <string name="help_us_send_log">Aidez-nous à améliorer VLC en envoyant le rapport de plantage suivant :</string>
     <string name="restart_vlc">Redémarrer VLC</string>
     <string name="send_log">Envoyer le rapport</string>
     <string name="sending_log">Envoi du rapport…</string>
@@ -451,7 +451,7 @@
     <string name="network_browsing">Réseau local</string>
     <string name="browsing">Navigation</string>
 
-    <string name="file_size">Taille du fichier :</string>
+    <string name="file_size">Taille du fichier :</string>
 
     <string name="audio_delay">Délai audio</string>
     <string name="spu_delay">Délai du sous-titrage</string>
@@ -493,7 +493,7 @@
     <string name="allow_storage_access_title">Permettre l\'accès aux fichiers vidéos et audios à VLC</string>
     <string name="allow_storage_access_description">VLC a besoin de votre permission pour accéder aux fichiers multimédias de cet appareil.</string>
     <string name="allow_settings_access_ringtone_title">Autoriser VLC à changer la sonnerie du téléphone</string>
-    <string name="allow_settings_access_ringtone_description">VLC a besoin de votre autorisation pour pouvoir régler la sonnerie du téléphone</string>
+    <string name="allow_settings_access_ringtone_description">VLC a besoin de votre autorisation pour définir ce morceau comme sonnerie.</string>
     <string name="allow_settings_access_brightness_title">Autoriser VLC à modifier la luminosité de l\'écran</string>
     <string name="allow_settings_access_brightness_description">VLC a besoin de votre autorisation pour pouvoir modifier la luminosité de l\'écran</string>
     <string name="allow_draw_overlays_title">Autoriser la popup VLC à s\'afficher par dessus les autres applications</string>
@@ -526,8 +526,8 @@
     <string name="popup_expand">Maximiser la vidéo</string>
     <string name="snack_subloader_sub_found">Sous-titres téléchargés</string>
     <string name="snack_subloader_sub_not_found">Sous-titres non trouvés</string>
-    <string name="dialog_subloader_success">Sous-titres trouvés pour :</string>
-    <string name="dialog_subloader_fails">Sous-titres non trouvés pour :</string>
+    <string name="dialog_subloader_success">Sous-titres trouvés pour :</string>
+    <string name="dialog_subloader_fails">Sous-titres non trouvés pour :</string>
     <string name="dialog_subloader_sumup">Téléchargenent terminé</string>
     <string name="download_subtitles">Télécharger des sous-titres</string>
     <string name="preferences_languages_download">Langues des sous-titres</string>
@@ -563,7 +563,7 @@
     <string name="yes">Oui</string>
 
     <string name="custom_set_save_title">Changements non enregistrés</string>
-    <string name="custom_set_save_warning">Attention : changements non enregistrés</string>
+    <string name="custom_set_save_warning">Attention : changements non enregistrés</string>
     <string name="existing_custom_set_save_message">Enregistrer le profil d\'égaliseur sous…</string>
     <string name="new_custom_set_save_message">Enregistrer le nouveau profil d\'égaliseur sous…</string>
     <string name="save">Enregistrer</string>
@@ -600,11 +600,13 @@
     <string name="cast_option_title">Diffuser le média sur un autre écran</string>
     <string name="otg_device_title">Périphérique OTG</string>
     <string name="browser">Navigateur</string>
+    <string name="ab_repeat">Répétition A-B</string>
     <string name="stop_after_this">Arrêter après cette piste</string>
-    <string name="time_category_new">Nouveau média</string>
+    <string name="time_category_new">Nouveaux médias</string>
     <string name="time_category_current_month">Ce mois-ci</string>
     <string name="time_category_current_year">Cette année</string>
     <string name="time_category_last_year">L’année dernière</string>
+    <string name="time_category_older">Médias plus anciens</string>
     <string name="rename">Renommer</string>
     <string name="rename_media">Renommer %1$s</string>
 </resources>
