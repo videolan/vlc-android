@@ -163,7 +163,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
 
     private fun addDeviceIfNeeded(path: String) {
         for (devicePath in medialibrary.devices) {
-            if (path.startsWith(Strings.removeFileProtocole(devicePath))) {
+            if (path.startsWith(devicePath.removeFileProtocole())) {
                 exitCommand()
                 return
             }
@@ -276,7 +276,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
             sb.setLength(0)
             when {
                 parsing > 0 -> sb.append(getString(R.string.ml_parse_media)).append(' ').append(parsing).append("%")
-                currentDiscovery != null -> sb.append(getString(R.string.ml_discovering)).append(' ').append(Uri.decode(Strings.removeFileProtocole(currentDiscovery)))
+                currentDiscovery != null -> sb.append(getString(R.string.ml_discovering)).append(' ').append(Uri.decode(currentDiscovery?.removeFileProtocole()))
                 else -> sb.append(getString(R.string.ml_parse_media))
             }
             val progressText = sb.toString()

@@ -191,7 +191,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     public override fun getSubTitle(): String? {
         if (isRootDirectory) return null
-        var mrl = Strings.removeFileProtocole(mrl)
+        var mrl = mrl?.removeFileProtocole() ?: ""
         if (!TextUtils.isEmpty(mrl)) {
             if (this is FileBrowserFragment && mrl.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY))
                 mrl = getString(R.string.internal_memory) + mrl.substring(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY.length)
