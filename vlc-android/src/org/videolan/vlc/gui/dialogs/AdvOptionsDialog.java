@@ -278,7 +278,7 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
                     UiTools.getResourceFromAttribute(mActivity, R.attr.ic_speed_normal_style),
                     0, 0);
         } else {
-            mPlaybackSpeed.setText(Strings.INSTANCE.formatRateString(mService.getRate()));
+            mPlaybackSpeed.setText(Strings.formatRateString(mService.getRate()));
             mPlaybackSpeed.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ic_speed_on, 0, 0);
         }
     }

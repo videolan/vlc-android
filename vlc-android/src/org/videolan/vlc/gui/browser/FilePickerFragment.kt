@@ -40,7 +40,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.Strings
+import org.videolan.vlc.util.removeFileProtocole
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_PICKER
 
@@ -98,7 +98,7 @@ class FilePickerFragment : FileBrowserFragment() {
     fun browseUp() {
         when {
             isRootDirectory -> requireActivity().finish()
-            TextUtils.equals(Strings.removeFileProtocole(mrl), AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) -> {
+            TextUtils.equals(mrl?.removeFileProtocole(), AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) -> {
                 mrl = null
                 isRootDirectory = true
                 viewModel.fetch()
@@ -112,7 +112,7 @@ class FilePickerFragment : FileBrowserFragment() {
 
     override fun defineIsRoot() = mrl?.run {
         if (startsWith("file")) {
-            val path = Strings.removeFileProtocole(this@run)
+            val path = removeFileProtocole()
             val rootDirectories = runBlocking(Dispatchers.IO) { DirectoryRepository.getInstance(requireContext()).getMediaDirectories() }
             for (directory in rootDirectories) if (path.startsWith(directory)) return false
             return true
