@@ -7,21 +7,22 @@
     <string name="other">Outro</string>
     <string name="sortby">Ordenar por…</string>
     <string name="sortby_name">Nome</string>
-    <string name="sortby_name_desc">Nome (desc)</string>
+    <string name="sortby_name_desc">Nome (desc.)</string>
     <string name="sortby_filename">Nome do ficheiro</string>
-    <string name="sortby_filename_desc">Nome do ficheiro (desc)</string>
+    <string name="sortby_filename_desc">Nome do ficheiro (desc.)</string>
     <string name="sortby_artist_name">Nome do artista</string>
-    <string name="sortby_artist_name_desc">Nome do artista (desc)</string>
+    <string name="sortby_artist_name_desc">Nome do artista (desc.)</string>
     <string name="sortby_album_name">Nome do álbum</string>
-    <string name="sortby_album_name_desc">Nome do álbum (desc)</string>
+    <string name="sortby_album_name_desc">Nome do álbum (desc.)</string>
     <string name="sortby_length">Duração</string>
-    <string name="sortby_length_desc">Duração (desc)</string>
+    <string name="sortby_length_desc">Duração (desc.)</string>
     <string name="sortby_date">Data</string>
-    <string name="sortby_date_desc">Data (desc)</string>
-    <string name="sortby_last_modified_date">Recentemente adicionado</string>
+    <string name="sortby_date_desc">Data (desc.)</string>
+    <string name="sortby_last_modified_date">Adicionado recentemente</string>
+    <string name="sortby_last_modified_date_desc">Adicionado recentemente (desc.)</string>
     <string name="sortby_number">Número de faixas</string>
-    <string name="sortby_number_desc">Número de faixas (desc)</string>
-    <string name="searchable_hint">Procurar …</string>
+    <string name="sortby_number_desc">Número de faixas (desc.)</string>
+    <string name="searchable_hint">Procurar…</string>
     <string name="history">Histórico</string>
 
     <plurals name="search_found_results_quantity">
@@ -39,14 +40,14 @@
     <string name="play_as_video">Reproduzir como vídeo</string>
     <string name="video_app_switch_title">Modo de segundo plano / PiP</string>
     <string name="video_app_switch_summary">Selecione o comportamento do VLC quando mudar para outra aplicação da reprodução do vídeo</string>
-    <string name="play_pip_title">Reproduzir vídeos no modo Imagem a imagem</string>
+    <string name="play_pip_title">Reproduzir vídeos no modo \'Imagem a imagem\'</string>
     <string name="play_as_audio_background">Reproduzir vídeos em segundo plano</string>
     <string name="append">Acrescentar</string>
     <string name="insert_next">Inserir seguinte</string>
     <string name="play_all">Reproduzir tudo</string>
     <string name="append_all">Acrescentar tudo</string>
     <string name="last_playlist">Última lista de reprodução</string>
-    <string name="delete">Apagar</string>
+    <string name="delete">Eliminar</string>
     <string name="remove">Remover</string>
     <string name="set_song">Definir como toque de chamada</string>
     <string name="info">Informação</string>
@@ -56,7 +57,7 @@
     <string name="confirm_remove_from_playlist">Remover \'%1$s\' da lista de reprodução?</string>
     <string name="confirm_remove_from_playlist_anonymous">Remover da lista de reprodução?</string>
     <string name="ringtone_set">O ficheiro \'%1$s\' foi definido como toque de chamada.</string>
-    <string name="ringtone_error">Ocorreu um erro ao configurar o toque de chamada.</string>
+    <string name="ringtone_error">Ocorreu um erro ao definir o toque de chamada.</string>
     <string name="pause">Pausar</string>
     <string name="not_show_again">Não voltar a mostrar esta mensagem.</string>
     <string name="info_title">VLC</string>
@@ -83,12 +84,12 @@
         <item quantity="other">%d subpastas</item>
     </plurals>
     <plurals name="mediafiles_quantity">
-        <item quantity="one">1 ficheiro media</item>
-        <item quantity="other">%d ficheiros de media</item>
+        <item quantity="one">1 ficheiro de média</item>
+        <item quantity="other">%d ficheiros de média</item>
     </plurals>
     <plurals name="videos_quantity">
-        <item quantity="one">1 video</item>
-        <item quantity="other">%d videos</item>
+        <item quantity="one">1 vídeo</item>
+        <item quantity="other">%d vídeos</item>
     </plurals>
 
     <string name="internal_memory">Memória interna</string>
@@ -103,15 +104,15 @@
     <string name="title">Título</string>
     <string name="artist">Artista</string>
     <string name="album">Álbum</string>
-    <string name="directory">Diretório</string>
-    <string name="directories">Diretórios</string>
+    <string name="directory">Diretoria</string>
+    <string name="directories">Diretorias</string>
     <string name="loading">A carregar</string>
     <string name="please_wait">Por favor, aguarde…</string>
     <string name="nomedia">Não foram encontrados ficheiros de multimédia, por favor, transfira alguns ficheiros para o seu dispositivo ou ajuste as suas preferências.</string>
     <string name="noplaylist">Não foi encontrada nenhuma lista de reprodução.</string>
-    <string name="mediafiles">Ficheiros de media</string>
+    <string name="mediafiles">Ficheiros de média</string>
     <string name="notavailable">não disponível</string>
-    <string name="nosubdirectory">Sem subdiretórios.</string>
+    <string name="nosubdirectory">Sem subdiretorias.</string>
     <string name="directorynotfound">Não foi encontrado o caminho da  diretoria \'%1$s\'.</string>
     <string name="nohistory">Ainda não tem um histórico de listas de reprodução.</string>
     <string name="validation">Tem a certeza?</string>
@@ -184,7 +185,7 @@
     <string name="password">Palavra-passe</string>
 
     <string name="search_results">Resultados da procura</string>
-    <string name="search_no_result">Não foi encontrado nenhuma multimédia</string>
+    <string name="search_no_result">Não foi encontrado nenhuma média</string>
     <string name="favorites_add">Adicionar aos favoritos</string>
     <string name="favorites_remove">Remover dos favoritos</string>
     <string name="favorites_edit">Editar</string>
@@ -225,7 +226,7 @@
     <string name="playlist_tips">Dicas da lista de reprodução</string>
     <string name="remove_song">Remover faixa</string>
     <string name="remove_playlist_item">%1$s foi ignorado da lista de reprodução</string>
-    <string name="rearrange_order">Rearranjar ordem</string>
+    <string name="rearrange_order">Reordenar ordem</string>
     <string name="hold_to_seek">Segure para procurar</string>
 
     <string name="audio_player_tips">Dicas do reprodutor de áudio</string>
@@ -288,7 +289,7 @@
     <string name="video_min_group_length_first">Apenas primeira letra</string>
     <string name="video_min_group_length_short">Número de letras (6)</string>
     <string name="video_min_group_length_long">Número de letras (9)</string>
-    <string name="media_fast_seek">Procura rápida</string>
+    <string name="media_fast_seek">Pesquisa rápida</string>
     <string name="media_fast_seek_summary">Procurar numa multimédia é mais rápido mas menos preciso</string>
     <string name="media_seen">Mostrar marcador de vídeo visto</string>
     <string name="media_seen_summary">Marcar vídeo como visto se reproduzido até ao final</string>
@@ -340,7 +341,7 @@
     <string name="audio_title_alignment_left">Esquerda</string>
     <string name="audio_title_alignment_centre">Centro</string>
     <string name="audio_title_alignment_right">Direita</string>
-    <string name="audio_title_alignment_marquee">Logotipo</string>
+    <string name="audio_title_alignment_marquee">Logótipo</string>
     <string name="audio_save_repeat_title">Guardar modo de repetição</string>
     <string name="audio_save_repeat_summary">Memorizar modo de repetição ao carregar as listas de reprodução áudio</string>
     <string name="audio_boost_title">Amplificação áudio</string>
@@ -398,7 +399,7 @@
     <string name="auto_rescan_summary">Ao iniciar a aplicação, analisar o dispositivo para procurar alterações à coleção.</string>
     <string name="dump_media_db">Limpar base de dados multimédia</string>
     <string name="dump_media_db_summary">Copiar base de dados para raiz do armazenamento interno</string>
-    <string name="clear_media_db">Limpar a base de dados da media</string>
+    <string name="clear_media_db">Limpar base de dados de multimédia</string>
     <string name="clear_media_db_summary">Aceda à info do VLC para limpar os dados</string>
     <string name="clear_history">Limpe o histórico da procura</string>
     <string name="media_db_cleared">A base de dados da media foi limpa!</string>
