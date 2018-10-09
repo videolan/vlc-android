@@ -112,7 +112,7 @@ class FilePickerFragment : FileBrowserFragment() {
 
     override fun defineIsRoot() = mrl?.run {
         if (startsWith("file")) {
-            val path = this@run.removeFileProtocole()
+            val path = removeFileProtocole()
             val rootDirectories = runBlocking(Dispatchers.IO) { DirectoryRepository.getInstance(requireContext()).getMediaDirectories() }
             for (directory in rootDirectories) if (path.startsWith(directory)) return false
             return true
