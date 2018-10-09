@@ -261,7 +261,12 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         if (!list.isEmpty()) {
             switch (item.getItemId()) {
                 case R.id.action_video_play:
-                    MediaUtils.INSTANCE.openList(getActivity(), list, 0);
+                    final List<MediaWrapper> videos = new ArrayList();
+                    for (MediaWrapper mw : list) {
+                        if (mw.getType() == MediaWrapper.TYPE_GROUP) videos.addAll(((MediaGroup)mw).getAll());
+                        else videos.add(mw);
+                    }
+                    MediaUtils.INSTANCE.openList(getActivity(), videos, 0);
                     break;
                 case R.id.action_video_append:
                     MediaUtils.INSTANCE.appendMedia(getActivity(), list);
