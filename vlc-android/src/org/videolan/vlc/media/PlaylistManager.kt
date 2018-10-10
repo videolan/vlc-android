@@ -10,7 +10,6 @@ import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -136,7 +135,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             return false
         }
         val locations = settings.getString(if (audio) "audio_list" else "media_list", null)?.split(" ".toRegex())?.dropLastWhile({ it.isEmpty() })?.toTypedArray()
-        if (locations?.isNotEmpty() != false) {
+        if (locations?.isNotEmpty() != true) {
             loadingLastPlaylist = false
             return false
         }
@@ -446,7 +445,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         for (mw in mediaList.all) locations.append(" ").append(Uri.encode(Uri.decode(mw.uri.toString())))
         //We save a concatenated String because putStringSet is APIv11.
         settings.edit()
-                .putString(if (!isAudioList()) "media_list" else "audio_list", locations.toString().trim { it <= ' ' })
+                .putString(if (isAudioList()) "audio_list" else "media_list", locations.toString().trim())
                 .apply()
     }
 
