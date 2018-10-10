@@ -26,6 +26,7 @@ import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.database.models.CustomDirectory
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.models.Slave
+import java.io.File
 
 object TestUtil {
     private const val fakeUri: String = "https://www.videolan.org/fake_"
@@ -70,13 +71,18 @@ object TestUtil {
     }
 
 
-    fun createExternalSub(uri: String, mediaName: String): ExternalSub {
-        return ExternalSub(uri, mediaName)
+    fun createExternalSub(
+            idSubtitle: String,
+            subtitlePath: String,
+            mediaPath: String,
+            subLanguageID: String,
+            movieReleaseName: String ): ExternalSub {
+        return ExternalSub(idSubtitle, subtitlePath, mediaPath, subLanguageID, movieReleaseName)
     }
 
-    fun createExternalSubsForMedia(mediaName: String, count: Int): List<ExternalSub> {
+    fun createExternalSubsForMedia(mediaPath: String, mediaName: String, count: Int): List<ExternalSub> {
         return (0 until count).map {
-            ExternalSub("$fakeSubUri$mediaName$it", mediaName)
+            ExternalSub(it.toString(),"${fakeSubUri}$mediaName$it", mediaPath, "en", mediaName)
         }
     }
 

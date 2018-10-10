@@ -533,4 +533,15 @@ public class UiTools {
         }
         return new LocalePair(localesEntry, localesEntryValues);
     }
+
+    public static void deleteSubtitleDialog(Context context, final DialogInterface.OnClickListener positiveListener, final DialogInterface.OnClickListener negativeListener) {
+        new AlertDialog.Builder(context)
+                .setTitle(context.getResources().getString(R.string.delete_sub_title))
+                .setMessage(context.getResources().getString(R.string.delete_sub_message))
+                .setPositiveButton(R.string.delete_sub_yes, positiveListener)
+                .setNegativeButton(R.string.delete_sub_no, negativeListener)
+                .create()
+                .show();
+    }
+
 }

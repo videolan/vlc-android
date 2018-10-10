@@ -34,7 +34,7 @@ import org.videolan.vlc.database.models.Slave
 
 private const val DB_NAME = "vlc_database"
 
-@Database(entities = [ExternalSub::class, Slave::class, BrowserFav::class, CustomDirectory::class], version = 28)
+@Database(entities = [ExternalSub::class, Slave::class, BrowserFav::class, CustomDirectory::class], version = 29)
 @TypeConverters(Converters::class)
 abstract class MediaDatabase: RoomDatabase() {
     abstract fun externalSubDao(): ExternalSubDao
@@ -47,6 +47,7 @@ abstract class MediaDatabase: RoomDatabase() {
 
 private fun buildDatabase(context: Context) = Room.databaseBuilder(context.applicationContext,
         MediaDatabase::class.java, DB_NAME)
+//        .fallbackToDestructiveMigration()
         .addMigrations(migration_1_2, migration_2_3, migration_3_4, migration_4_5,
                 migration_5_6, migration_6_7, migration_7_8, migration_8_9,
                 migration_9_10, migration_10_11, migration_11_12, migration_12_13,

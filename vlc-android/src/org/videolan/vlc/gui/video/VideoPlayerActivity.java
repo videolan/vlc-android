@@ -25,6 +25,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.PictureInPictureParams;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.bluetooth.BluetoothA2dp;
@@ -43,7 +44,6 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -108,6 +108,7 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RendererDelegate;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.database.models.ExternalSub;
 import org.videolan.vlc.databinding.PlayerHudBinding;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaybackServiceActivity;
@@ -132,7 +133,6 @@ import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.Strings;
-import org.videolan.vlc.util.SubtitlesDownloader;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.viewmodels.PlaylistModel;
 
@@ -300,6 +300,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private AlertDialog mAlertDialog;
 
     protected boolean mIsBenchmark = false;
+
+    private ArrayList<ExternalSub> addedExternalSubs = new ArrayList<>();
+    private LiveData downloadedSubtitleLiveData = null;
+    private String previousMediaPath = null;
 
     @Override
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -611,9 +615,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         editor.apply();
 
         saveBrightness();
-
-        if (mSubtitlesGetTask != null)
-            mSubtitlesGetTask.cancel(true);
 
         if (mService != null) mService.removeCallback(this);
         mHelper.onStop();
@@ -1605,7 +1606,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mTitle != null && mTitle.length() == 0)
             mTitle.setText(mw.getTitle());
         // Get possible subtitles
-        getSubtitles();
+        observeDownloadedSubtitles();
     }
 
     private void encounteredError() {
@@ -2026,14 +2027,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 } else if (item.getItemId() == R.id.video_menu_subtitles_download) {
                     if (mUri == null)
                         return false;
-                    MediaUtils.INSTANCE.getSubs(VideoPlayerActivity.this, mService.getCurrentMediaWrapper(), new SubtitlesDownloader.Callback() {
-                        @Override
-                        public void onRequestEnded(boolean success) {
-                            if (success)
-                                getSubtitles();
-                        }
-                    });
+                    MediaUtils.INSTANCE.getSubs(getSupportFragmentManager(), mService.getCurrentMediaWrapper());
                 }
+
                 hideOverlay(true);
                 return false;
             }
@@ -2829,43 +2825,32 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     }
 
-    private SubtitlesGetTask mSubtitlesGetTask = null;
-    private class SubtitlesGetTask extends AsyncTask<Void, Void, List<String>> {
+    private Observer downloadedSubtitleObserver = new Observer<List<ExternalSub>>() {
         @Override
-        protected List<String> doInBackground(Void... voids) {
-            List<String> externalSubList = new ArrayList<>();
-
-            String mediaTitle = null;
-            if (mUri != null && !TextUtils.equals(mUri.getScheme(), "content")) mediaTitle = mUri.getLastPathSegment();
-            else if (mService != null) {
-                final MediaWrapper mw = mService.getCurrentMediaWrapper();
-                if (mw != null) mediaTitle = FileUtils.getFileNameFromPath(mService.getCurrentMediaWrapper().getLocation());
+        public void onChanged
+                (@android.support.annotation.Nullable List < ExternalSub > externalSubs) {
+            for (ExternalSub externalSub : externalSubs) {
+                if (!addedExternalSubs.contains(externalSub)) {
+                    mService.addSubtitleTrack(externalSub.getSubtitlePath(), false);
+                    addedExternalSubs.add(externalSub);
+                }
             }
-            if (mediaTitle != null) externalSubList.addAll(ExternalSubRepository.Companion.getInstance(VideoPlayerActivity.this).getSubtitles(mediaTitle));
-            return externalSubList;
         }
+    };
 
-        @Override
-        protected void onPostExecute(List<String> externalSubList) {
-            for (String file : externalSubList) {
-                Log.i(TAG, "Adding user-selected subtitle " + file);
-                mService.addSubtitleTrack(file, true);
-            }
-            mSubtitlesGetTask = null;
-        }
-
-        @Override
-        protected void onCancelled() {
-            mSubtitlesGetTask = null;
-        }
+    public void removeDownloadedSubtitlesObserver() {
+        if (downloadedSubtitleLiveData != null)
+            downloadedSubtitleLiveData.removeObserver(downloadedSubtitleObserver);
+        downloadedSubtitleLiveData = null;
     }
 
-    public void getSubtitles() {
-        if (mSubtitlesGetTask != null || mService == null)
-            return;
-
-        mSubtitlesGetTask = new SubtitlesGetTask();
-        mSubtitlesGetTask.execute();
+    public void observeDownloadedSubtitles() {
+        if (previousMediaPath == null || !mService.getCurrentMediaWrapper().getUri().getPath().equals(previousMediaPath)) {
+            previousMediaPath = mService.getCurrentMediaWrapper().getUri().getPath();
+            removeDownloadedSubtitlesObserver();
+            downloadedSubtitleLiveData = ExternalSubRepository.Companion.getInstance(VideoPlayerActivity.this).getDownloadedSubtitles(mService.getCurrentMediaWrapper().getUri().getPath());
+            downloadedSubtitleLiveData.observe(this, downloadedSubtitleObserver);
+        }
     }
 
     @SuppressWarnings("deprecation")

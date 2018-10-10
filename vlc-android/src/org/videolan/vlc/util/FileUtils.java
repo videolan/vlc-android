@@ -31,9 +31,11 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.os.storage.StorageManager;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v4.provider.DocumentFile;
 import android.text.TextUtils;
@@ -47,6 +49,7 @@ import org.videolan.vlc.media.MediaUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -54,12 +57,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.LongBuffer;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public class FileUtils {
 
@@ -309,7 +316,7 @@ public class FileUtils {
 
     }
 
-    static String computeHash(File file) {
+    public static String computeHash(File file) {
         long size = file.length();
         long chunkSizeForFile = Math.min(HASH_CHUNK_SIZE, size);
         long head, tail;
@@ -426,5 +433,50 @@ public class FileUtils {
             volumeDescription = (String) getBestVolumeDescription.invoke(storageManager, volumeInfo);
         } catch (Throwable ignored) {}
         return volumeDescription;
+    }
+
+    public static ArrayList<String> unpackZip(String path, String unzipDirectory)
+    {
+        InputStream is;
+        ZipInputStream zis;
+        ArrayList<String> unzippedFiles = new ArrayList();
+        try
+        {
+            is = new FileInputStream(path);
+            zis = new ZipInputStream(new BufferedInputStream(is));
+            ZipEntry ze;
+
+            while((ze = zis.getNextEntry()) != null)
+            {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int count;
+
+                String filename = ze.getName();
+                File fileToUnzip = new File(unzipDirectory, filename);
+                FileOutputStream fout = new FileOutputStream(fileToUnzip);
+
+                // reading and writing
+                while((count = zis.read(buffer)) != -1)
+                {
+                    baos.write(buffer, 0, count);
+                    byte[] bytes = baos.toByteArray();
+                    fout.write(bytes);
+                    baos.reset();
+                }
+
+                unzippedFiles.add(fileToUnzip.getAbsolutePath());
+                fout.close();
+                zis.closeEntry();
+            }
+
+            zis.close();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return unzippedFiles;
     }
 }

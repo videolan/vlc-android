@@ -67,7 +67,7 @@ class DirectoryRepositoryTest {
         assertThat(inserted.allValues[0], `is`(fakeCustomDirectories[0]))
         assertThat(inserted.allValues[1], `is`(fakeCustomDirectories[1]))
 
-        directoryRepository.deleteCustomDirectory(fakeCustomDirectories[0].path)
+        directoryRepository.deleteCustomDirectory(fakeCustomDirectories[0].path).join()
 
         val deleted = argumentCaptor<CustomDirectory>()
         verify(customDirectoryDao).delete(deleted.capture() ?: uninitialized())

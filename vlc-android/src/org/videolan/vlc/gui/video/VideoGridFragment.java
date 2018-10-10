@@ -411,7 +411,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 else MediaUtils.INSTANCE.appendMedia(activity, media);
                 break;
             case Constants.CTX_DOWNLOAD_SUBTITLES:
-                MediaUtils.INSTANCE.getSubs(requireActivity(), media);
+                MediaUtils.INSTANCE.getSubs(requireActivity().getSupportFragmentManager(), media);
                 break;
         }
     }

@@ -45,7 +45,6 @@ private const val SLAVES_TABLE_NAME = "SLAVES_table"
 private const val FAV_TABLE_NAME = "fav_table"
 private const val CUSTOM_DIRECTORY_TABLE_NAME = "CustomDirectory"
 
-
 fun dropUnnecessaryTables(database: SupportSQLiteDatabase) {
     database.execSQL("DROP TABLE IF EXISTS $DIR_TABLE_NAME;")
     database.execSQL("DROP TABLE IF EXISTS $MEDIA_TABLE_NAME;")
@@ -194,6 +193,14 @@ val migration_27_28 = object:Migration(27, 28) {
         oldPaths?.forEach {
             database.execSQL("INSERT INTO $CUSTOM_DIRECTORY_TABLE_NAME(path) VALUES (\"$it\")")
         }
+    }
+}
+
+val migration_28_29 = object:Migration(28, 29) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        // Drop old External Subtitle Table
+        database.execSQL("DROP TABLE IF EXISTS $EXTERNAL_SUBTITLES_TABLE_NAME;")
+        database.execSQL("CREATE TABLE IF NOT EXISTS `${EXTERNAL_SUBTITLES_TABLE_NAME}` (`idSubtitle` TEXT NOT NULL, `subtitlePath` TEXT NOT NULL, `mediaPath` TEXT NOT NULL, `subLanguageID` TEXT NOT NULL, `movieReleaseName` TEXT NOT NULL, PRIMARY KEY(`mediaPath`, `idSubtitle`))")
     }
 }
 

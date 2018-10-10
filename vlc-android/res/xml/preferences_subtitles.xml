@@ -30,13 +30,6 @@
         android:defaultValue="false"
         android:key="subtitles_bold"
         android:title="@string/subtitles_bold_title" />
-    <android.support.v14.preference.MultiSelectListPreference
-        android:dialogTitle="@string/preferences_languages_download"
-        android:entries="@array/language_entries"
-        android:entryValues="@array/language_values"
-        android:key="languages_download_list"
-        android:summary="@string/list_languages_download_summary"
-        android:title="@string/list_languages_download_title" />
     <ListPreference
         android:defaultValue=""
         android:entries="@array/subtitles_encoding_list"

@@ -23,8 +23,8 @@ import org.videolan.medialibrary.media.Playlist
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
 import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.SubtitlesDownloader
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.getFromMl
 import org.videolan.vlc.viewmodels.paged.MLPagedModel
@@ -38,11 +38,10 @@ private const val PAGE_SIZE = 1000
 object MediaUtils : CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
 
-    private val subtitlesDownloader by lazy { SubtitlesDownloader() }
-
     @JvmOverloads
-    fun getSubs(activity: Activity, mediaList: List<MediaWrapper>, cb: SubtitlesDownloader.Callback? = null) {
-        subtitlesDownloader.downloadSubs(activity, mediaList, cb)
+    fun getSubs(activity: Activity, mediaList: List<MediaWrapper>) {
+        //Todo: Fix this
+//        subtitlesDownloader.downloadSubs(activity, mediaList, cb)
     }
 
     fun loadlastPlaylist(context: Context?, type: Int) {
@@ -55,8 +54,8 @@ object MediaUtils : CoroutineScope {
     }
 
     @JvmOverloads
-    fun getSubs(activity: Activity, media: MediaWrapper, cb: SubtitlesDownloader.Callback? = null) {
-        getSubs(activity, mutableListOf(media), cb)
+    fun getSubs(supportFragmentManager: android.support.v4.app.FragmentManager, media: MediaWrapper) {
+        SubtitleDownloaderDialogFragment.newInstance(media.uri.path).show(supportFragmentManager, "Subtitle_downloader");
     }
 
     fun appendMedia(context: Context?, media: List<MediaWrapper>?) {

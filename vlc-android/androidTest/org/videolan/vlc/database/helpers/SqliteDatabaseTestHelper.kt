@@ -45,7 +45,7 @@ fun createSlavesTable(helper: SqliteTestDbOpenHelper) {
     db.close()
 }
 
-fun createExternalSubsTable(helper: SqliteTestDbOpenHelper) {
+fun createExternalSubsTable_V26(helper: SqliteTestDbOpenHelper) {
     val db = helper.writableDatabase
     db.execSQL("CREATE TABLE IF NOT EXISTS $EXTERNAL_SUBTITLES_TABLE_NAME ( uri TEXT PRIMARY KEY NOT NULL, media_name TEXT NOT NULL);")
     db.close()

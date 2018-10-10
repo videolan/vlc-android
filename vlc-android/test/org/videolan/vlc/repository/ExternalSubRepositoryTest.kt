@@ -21,7 +21,9 @@
 package org.videolan.vlc.repository
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.arch.lifecycle.MutableLiveData
 import android.net.Uri
+import kotlinx.coroutines.experimental.runBlocking
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.hasItem
 import org.hamcrest.MatcherAssert.assertThat
@@ -34,15 +36,11 @@ import org.mockito.Mockito.*
 import org.powermock.api.mockito.PowerMockito
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
-import org.videolan.vlc.database.BrowserFavDao
 import org.videolan.vlc.database.ExternalSubDao
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.models.ExternalSub
-import org.videolan.vlc.util.TestUtil
-import org.videolan.vlc.util.argumentCaptor
-import org.videolan.vlc.util.mock
-import org.videolan.vlc.util.uninitialized
 import org.junit.rules.TemporaryFolder
+import org.videolan.vlc.util.*
 
 
 @RunWith(PowerMockRunner::class)
@@ -65,19 +63,19 @@ class ExternalSubRepositoryTest {
         externalSubRepository = ExternalSubRepository(externalSubDao)
     }
 
-    @Test fun saveTwoSubtitleForTwoMedia_GetShouldReturnZero() {
-        val foo = "foo.mkv"
-        val bar = "bar.mkv"
+    @Test fun saveTwoSubtitleForTwoMedia_GetShouldReturnZero() = runBlocking {
+        val foo = "/storage/emulated/foo.mkv"
+        val bar = "/storage/emulated/bar.mkv"
 
-        val fakeFooSubtitles = TestUtil.createExternalSubsForMedia(foo, 2)
-        val fakeBarSubtitles = TestUtil.createExternalSubsForMedia(bar, 2)
+        val fakeFooSubtitles = TestUtil.createExternalSubsForMedia(foo, "foo", 2)
+        val fakeBarSubtitles = TestUtil.createExternalSubsForMedia(bar, "bar", 2)
 
         fakeFooSubtitles.forEach {
-            externalSubRepository.saveSubtitle(it.uri, foo)
+            externalSubRepository.saveDownloadedSubtitle(it.idSubtitle, it.subtitlePath, it.mediaPath, it.subLanguageID, it.movieReleaseName)
         }
 
         fakeBarSubtitles.forEach {
-            externalSubRepository.saveSubtitle(it.uri, bar)
+            externalSubRepository.saveDownloadedSubtitle(it.idSubtitle, it.subtitlePath, it.mediaPath, it.subLanguageID, it.movieReleaseName)
         }
 
 
@@ -87,35 +85,39 @@ class ExternalSubRepositoryTest {
         val inserted = argumentCaptor<ExternalSub>()
         verify(externalSubDao, times(4)).insert(inserted.capture() ?: uninitialized())
         assertThat(inserted.allValues.size, `is`(4))
-        assertThat(inserted.allValues[0], `is`(fakeFooSubtitles[0]))
-        assertThat(inserted.allValues[1], `is`(fakeFooSubtitles[1]))
-        assertThat(inserted.allValues[2], `is`(fakeBarSubtitles[0]))
-        assertThat(inserted.allValues[3], `is`(fakeBarSubtitles[1]))
+        assertThat(inserted.allValues, hasItem(fakeFooSubtitles[0]))
+        assertThat(inserted.allValues, hasItem(fakeFooSubtitles[1]))
+        assertThat(inserted.allValues, hasItem(fakeBarSubtitles[0]))
+        assertThat(inserted.allValues, hasItem(fakeBarSubtitles[1]))
 
-        `when`(externalSubDao.get(foo)).thenReturn(fakeFooSubtitles)
-        `when`(externalSubDao.get(bar)).thenReturn(fakeBarSubtitles)
+        val fakeFooLiveDataSubtitles = MutableLiveData<List<ExternalSub>>()
+        val fakeBarLiveDataSubtitles = MutableLiveData<List<ExternalSub>>()
+        fakeFooLiveDataSubtitles.value = fakeFooSubtitles
+        fakeBarLiveDataSubtitles.value = fakeBarSubtitles
+        `when`(externalSubDao.get(foo)).thenReturn(fakeFooLiveDataSubtitles)
+        `when`(externalSubDao.get(bar)).thenReturn(fakeBarLiveDataSubtitles)
 
-        val fooSubtitles = externalSubRepository.getSubtitles(foo)
-        val barSubtitles = externalSubRepository.getSubtitles(bar)
+        val fooSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(foo))
+        val barSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(bar))
         verify(externalSubDao, times(2)).get(ArgumentMatchers.anyString())
         assertThat(fooSubtitles.size, `is`(0))
     }
 
 
     @Test fun saveTwoSubtitleForTwoMediaCreateTemporaryFilesForThem_GetShouldReturnTwoForEach() {
-        val foo = "foo.mkv"
-        val bar = "bar.mkv"
+        val foo = "/storage/emulated/foo.mkv"
+        val bar = "/storage/emulated/bar.mkv"
 
         val fakeFooSubtitles = (0 until 2).map {
-            val file = temp.newFile("$foo.$it.srt")
-            externalSubRepository.saveSubtitle(file.path, foo)
-            TestUtil.createExternalSub(file.path, foo)
+            val file = temp.newFile("foo.$it.srt")
+            externalSubRepository.saveDownloadedSubtitle("1$it", file.path, foo, "en", "foo" )
+            TestUtil.createExternalSub("1$it", file.path, foo, "en", "foo")
         }
 
         val fakeBarSubtitles = (0 until 2).map {
-            val file = temp.newFile("$bar.$it.srt")
-            externalSubRepository.saveSubtitle(file.path, bar)
-            TestUtil.createExternalSub(file.path, bar)
+            val file = temp.newFile("bar.$it.srt")
+            externalSubRepository.saveDownloadedSubtitle("2$it", file.path, bar, "en", "bar")
+            TestUtil.createExternalSub("2$it", file.path, bar, "en", "bar")
         }
 
         PowerMockito.mockStatic(Uri::class.java)
@@ -124,24 +126,29 @@ class ExternalSubRepositoryTest {
         val inserted = argumentCaptor<ExternalSub>()
         verify(externalSubDao, times(4)).insert(inserted.capture() ?: uninitialized())
         assertThat(inserted.allValues.size, `is`(4))
-        assertThat(inserted.allValues[0], `is`(fakeFooSubtitles[0]))
-        assertThat(inserted.allValues[1], `is`(fakeFooSubtitles[1]))
-        assertThat(inserted.allValues[2], `is`(fakeBarSubtitles[0]))
-        assertThat(inserted.allValues[3], `is`(fakeBarSubtitles[1]))
+        assertThat(inserted.allValues, hasItem(fakeFooSubtitles[0]))
+        assertThat(inserted.allValues, hasItem(fakeFooSubtitles[1]))
+        assertThat(inserted.allValues, hasItem(fakeBarSubtitles[0]))
+        assertThat(inserted.allValues, hasItem(fakeBarSubtitles[1]))
 
-        `when`(externalSubDao.get(foo)).thenReturn(fakeFooSubtitles)
-        `when`(externalSubDao.get(bar)).thenReturn(fakeBarSubtitles)
+        val fakeFooLiveDataSubtitles = MutableLiveData<List<ExternalSub>>()
+        val fakeBarLiveDataSubtitles = MutableLiveData<List<ExternalSub>>()
+        fakeFooLiveDataSubtitles.value = fakeFooSubtitles
+        fakeBarLiveDataSubtitles.value = fakeBarSubtitles
 
-        val fooSubtitles = externalSubRepository.getSubtitles(foo)
-        val barSubtitles = externalSubRepository.getSubtitles(bar)
+        `when`(externalSubDao.get(foo)).thenReturn(fakeFooLiveDataSubtitles)
+        `when`(externalSubDao.get(bar)).thenReturn(fakeBarLiveDataSubtitles)
+
+        val fooSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(foo))
+        val barSubtitles = getValue(externalSubRepository.getDownloadedSubtitles(bar))
         verify(externalSubDao, times(2)).get(ArgumentMatchers.anyString())
         assertThat(fooSubtitles.size, `is`(2))
         assertThat(barSubtitles.size, `is`(2))
 
-        assertThat(fooSubtitles, hasItem(fakeFooSubtitles[0].uri))
-        assertThat(fooSubtitles, hasItem(fakeFooSubtitles[1].uri))
-        assertThat(barSubtitles, hasItem(fakeBarSubtitles[0].uri))
-        assertThat(barSubtitles, hasItem(fakeBarSubtitles[1].uri))
+        assertThat(fooSubtitles, hasItem(fakeFooSubtitles[0]))
+        assertThat(fooSubtitles, hasItem(fakeFooSubtitles[1]))
+        assertThat(barSubtitles, hasItem(fakeBarSubtitles[0]))
+        assertThat(barSubtitles, hasItem(fakeBarSubtitles[1]))
     }
 
 }
