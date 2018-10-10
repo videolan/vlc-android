@@ -20,32 +20,58 @@
 
 package org.videolan.vlc.repository
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Transformations
 import android.content.Context
 import android.net.Uri
-import android.support.annotation.WorkerThread
+import kotlinx.coroutines.experimental.*
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.ExternalSubDao
 import org.videolan.vlc.database.MediaDatabase
+import org.videolan.vlc.gui.dialogs.State
+import org.videolan.vlc.gui.dialogs.SubtitleItem
+import org.videolan.vlc.util.LiveDataMap
 import java.io.File
 
-
 class ExternalSubRepository(private val externalSubDao: ExternalSubDao ) {
-    fun saveSubtitle(path: String, mediaName: String) {
-        externalSubDao.insert(ExternalSub(path, mediaName))
+
+    private var _downloadingSubtitles = LiveDataMap<Long, SubtitleItem>()
+
+    val downloadingSubtitles: LiveData<Map<Long, SubtitleItem>>
+        get() = _downloadingSubtitles as LiveData<Map<Long, SubtitleItem>>
+
+    fun saveDownloadedSubtitle(idSubtitle: String, subtitlePath: String, mediaPath: String, language: String, movieReleaseName: String): Job {
+        return GlobalScope.launch(Dispatchers.IO) { externalSubDao.insert(ExternalSub(idSubtitle, subtitlePath, mediaPath, language, movieReleaseName)) }
     }
 
-    @WorkerThread
-    fun getSubtitles(mediaName: String): List<String> {
-        val externalSubs = externalSubDao.get(mediaName)
-        val existExternalSubs: MutableList<String> = mutableListOf()
-
-        externalSubs.map {
-            if (File(Uri.decode(it.uri)).exists()) existExternalSubs.add(it.uri)
-            else externalSubDao.delete(it)
+    fun getDownloadedSubtitles(mediaPath: String): LiveData<List<ExternalSub>> {
+        val externalSubs = externalSubDao.get(mediaPath)
+        return Transformations.map(externalSubs) {
+            val existExternalSubs: MutableList<ExternalSub> = mutableListOf()
+            it.forEach {
+                if (File(Uri.decode(it.subtitlePath)).exists())
+                    existExternalSubs.add(it)
+                else
+                    deleteSubtitle(it.mediaPath, it.idSubtitle)
+            }
+            existExternalSubs
         }
-        return existExternalSubs
     }
+
+    fun deleteSubtitle(mediaPath: String, idSubtitle: String) {
+        GlobalScope.launch { externalSubDao.delete(mediaPath, idSubtitle) }
+    }
+
+    fun addDownloadingItem(key: Long, item: SubtitleItem) {
+        _downloadingSubtitles.add(key, item.copy(state = State.Downloading))
+    }
+
+    fun removeDownloadingItem(key: Long) {
+        _downloadingSubtitles.remove(key)
+    }
+
+    fun getDownloadingSubtitle(key: Long) = _downloadingSubtitles.get(key)
 
     companion object : SingletonHolder<ExternalSubRepository, Context>({ ExternalSubRepository(MediaDatabase.getInstance(it).externalSubDao()) })
 }

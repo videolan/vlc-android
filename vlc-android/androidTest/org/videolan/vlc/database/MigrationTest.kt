@@ -29,8 +29,7 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.hasItem
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertThat
+import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,6 +42,7 @@ import org.videolan.vlc.database.models.Slave
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.TYPE_NETWORK_FAV
 import org.videolan.vlc.util.TestUtil
+import org.videolan.vlc.util.getValue
 
 private const val TEST_DB_NAME = "test-db"
 
@@ -54,7 +54,7 @@ class MigrationTest {
             MediaDatabase::class.java.canonicalName,
             FrameworkSQLiteOpenHelperFactory())
 
-    @Test fun migrate26To27() {
+    @Test fun migrateFrom26() {
         // Slave
         val slaveMedia1Path = "/storage/emulated/0/Android/data/org.videolan.vlc.debug/files/subs/file1.mkv"
         val slaveMedia1UriFa = "file:///storage/emulated/0/Android/data/org.videolan.vlc.debug/files/subs/file1.fa.srt"
@@ -68,7 +68,7 @@ class MigrationTest {
 
         val sqliteTestDbOpenHelper = SqliteTestDbOpenHelper(InstrumentationRegistry.getTargetContext(), TEST_DB_NAME, 26)
         createSlavesTable(sqliteTestDbOpenHelper)
-        createExternalSubsTable(sqliteTestDbOpenHelper)
+        createExternalSubsTable_V26(sqliteTestDbOpenHelper)
         createNetworkFavsTable(sqliteTestDbOpenHelper)
 
         // Insert Data before migration
@@ -76,12 +76,12 @@ class MigrationTest {
         saveExSubtitle(exSubfile1Sub1, exSubMedia1Name, sqliteTestDbOpenHelper)
         saveNetworkFavItem(favUri, favTitle, null, sqliteTestDbOpenHelper)
 
-        migrationTestHelper.runMigrationsAndValidate(TEST_DB_NAME, 27, true, migration_26_27, migration_27_28)
+        migrationTestHelper.runMigrationsAndValidate(TEST_DB_NAME, 29, true, migration_26_27, migration_27_28, migration_28_29)
 
-        val migratedDb = getMigratedRoomDatabase(migration_26_27, migration_27_28)
+        val migratedDb = getMigratedRoomDatabase(migration_26_27, migration_27_28, migration_28_29)
 
         val slave: Slave = migratedDb.slaveDao().get(slaveMedia1Path)[0]
-        val exSub: ExternalSub = migratedDb.externalSubDao().get(exSubMedia1Name)[0]
+        val exSub: List<ExternalSub> = getValue(migratedDb.externalSubDao().get(exSubMedia1Name))
         val fav: BrowserFav = migratedDb.browserFavDao().get(favUri)[0]
 
         assertEquals(slave.mediaPath, slaveMedia1Path)
@@ -89,8 +89,7 @@ class MigrationTest {
         assertEquals(slave.priority, 2)
         assertEquals(slave.uri, slaveMedia1UriFa)
 
-        assertEquals(exSub.uri, exSubfile1Sub1)
-        assertEquals(exSub.mediaName, exSubMedia1Name)
+        assertTrue(exSub.isEmpty())
 
         assertEquals(fav.uri, favUri)
         assertEquals(fav.title, favTitle)
@@ -100,7 +99,7 @@ class MigrationTest {
         clearDatabase(sqliteTestDbOpenHelper)
     }
 
-    @Test fun migrate27to28() {
+    @Test fun migrateFrom27() {
         migrationTestHelper.createDatabase(TEST_DB_NAME, 27)
         val preferences = Settings.getInstance(VLCApplication.getAppContext()).edit()
         val fakeCustomDirectories = TestUtil.createCustomDirectories(2)
@@ -108,8 +107,8 @@ class MigrationTest {
         val prefCustomDirectories = fakeCustomDirectories.map { it.path }.reduce{ acc, path -> "$acc:$path" }
         preferences.putString("custom_paths", prefCustomDirectories ).commit()
 
-        migrationTestHelper.runMigrationsAndValidate(TEST_DB_NAME, 28, true, migration_27_28)
-        val roomCustomDirectories = getMigratedRoomDatabase(migration_27_28).customDirectoryDao().getAll()
+        migrationTestHelper.runMigrationsAndValidate(TEST_DB_NAME, 28, true, migration_27_28, migration_28_29)
+        val roomCustomDirectories = getMigratedRoomDatabase(migration_27_28, migration_28_29).customDirectoryDao().getAll()
         assertThat(roomCustomDirectories.size, `is`(2))
         assertThat(roomCustomDirectories, hasItem(fakeCustomDirectories[0]))
         assertThat(roomCustomDirectories, hasItem(fakeCustomDirectories[1]))

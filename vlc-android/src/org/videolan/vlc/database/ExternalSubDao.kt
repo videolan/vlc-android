@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.database
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
 import org.videolan.vlc.database.models.ExternalSub
 
@@ -29,13 +30,9 @@ interface ExternalSubDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(externalSub: ExternalSub)
 
-    @Delete
-    fun delete(externalSub: ExternalSub)
+    @Query("DELETE FROM external_subtitles_table WHERE idSubtitle = :idSubtitle and mediaPath = :mediaPath")
+    fun delete(mediaPath: String, idSubtitle: String)
 
-    @Query("SELECT * from external_subtitles_table where media_name = :mediaName")
-    fun get(mediaName: String): List<ExternalSub>
-
-
-
-
+    @Query("SELECT * from external_subtitles_table where mediaPath = :mediaPath")
+    fun get(mediaPath: String): LiveData<List<ExternalSub>>
 }

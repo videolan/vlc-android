@@ -20,15 +20,13 @@
 
 package org.videolan.vlc.database.models
 
-import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
 
-@Entity(tableName = "external_subtitles_table")
+@Entity(tableName = "external_subtitles_table", primaryKeys = ["mediaPath", "idSubtitle"])
 data class ExternalSub (
-    @PrimaryKey
-    @ColumnInfo(name = "uri")
-    val uri: String,
-    @ColumnInfo(name = "media_name")
-    val mediaName: String
+    val idSubtitle: String,
+    val subtitlePath: String,
+    val mediaPath: String,
+    val subLanguageID: String,
+    val movieReleaseName: String
 )

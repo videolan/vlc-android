@@ -26,16 +26,17 @@ import org.junit.Assert.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.videolan.vlc.util.TestUtil
+import org.videolan.vlc.util.getValue
 
 @RunWith(AndroidJUnit4::class)
 class ExternalSubDaoTest: DbTest() {
     private lateinit var database: MediaDatabase
     @Test fun insertTwoSubtitleForEachOfTwoMedias_GetShouldReturnTwoForEachOne() {
-        val foo = "foo.mkv"
-        val bar = "bar.mkv"
+        val foo = "/storage/emulated/foo.mkv"
+        val bar = "/storage/emulated/bar.mkv"
 
-        val fakeFooSubtitles = TestUtil.createExternalSubsForMedia(foo, 2)
-        val fakeBarSubtitles = TestUtil.createExternalSubsForMedia(bar, 2)
+        val fakeFooSubtitles = TestUtil.createExternalSubsForMedia(foo, "foo", 2)
+        val fakeBarSubtitles = TestUtil.createExternalSubsForMedia(bar, "bar", 2)
 
         fakeFooSubtitles.forEach {
             db.externalSubDao().insert(it)
@@ -47,21 +48,21 @@ class ExternalSubDaoTest: DbTest() {
 
         /*===========================================================*/
 
-        val fooSubtitles = db.externalSubDao().get(foo)
+        val fooSubtitles = getValue(db.externalSubDao().get(foo))
         assertThat(fooSubtitles.size, equalTo(2))
         assertThat(fooSubtitles, hasItem(fakeFooSubtitles[0]))
         assertThat(fooSubtitles, hasItem(fakeFooSubtitles[1]))
 
-        val barSubtitles = db.externalSubDao().get(bar)
+        val barSubtitles = getValue(db.externalSubDao().get(bar))
         assertThat(barSubtitles.size, equalTo(2))
         assertThat(barSubtitles, hasItem(fakeBarSubtitles[0]))
         assertThat(barSubtitles, hasItem(fakeBarSubtitles[1]))
     }
 
     @Test fun InsertTwoSubtitleForOneMedia_DeleteOne() {
-        val foo = "foo.mkv"
+        val foo = "/storage/emulated/foo.mkv"
 
-        val fakeFooSubtitles = TestUtil.createExternalSubsForMedia(foo, 2)
+        val fakeFooSubtitles = TestUtil.createExternalSubsForMedia(foo,  "foo",2)
 
         fakeFooSubtitles.forEach {
             db.externalSubDao().insert(it)
@@ -69,17 +70,17 @@ class ExternalSubDaoTest: DbTest() {
 
         /*===========================================================*/
 
-        db.externalSubDao().delete(fakeFooSubtitles[0])
-        var fooSubtitles = db.externalSubDao().get(foo)
+        db.externalSubDao().delete(fakeFooSubtitles[0].mediaPath, fakeFooSubtitles[0].idSubtitle)
+        var fooSubtitles = getValue(db.externalSubDao().get(foo))
         assertThat(fooSubtitles, not(hasItem(fakeFooSubtitles[0])))
         assertThat(fooSubtitles, hasItem(fakeFooSubtitles[1]))
     }
 
 
     @Test fun InsertTwoSubtitleForOneMedia_DeleteAll() {
-        val foo = "foo.mkv"
+        val foo = "/storage/emulated/foo.mkv"
 
-        val fakeFooSubtitles = TestUtil.createExternalSubsForMedia(foo, 2)
+        val fakeFooSubtitles = TestUtil.createExternalSubsForMedia(foo, "foo",  2)
 
         fakeFooSubtitles.forEach {
             db.externalSubDao().insert(it)
@@ -87,10 +88,10 @@ class ExternalSubDaoTest: DbTest() {
 
         /*===========================================================*/
 
-        db.externalSubDao().delete(fakeFooSubtitles[0])
-        db.externalSubDao().delete(fakeFooSubtitles[1])
+        db.externalSubDao().delete(fakeFooSubtitles[0].mediaPath, fakeFooSubtitles[0].idSubtitle)
+        db.externalSubDao().delete(fakeFooSubtitles[1].mediaPath, fakeFooSubtitles[1].idSubtitle)
 
-        var fooSubtitles = db.externalSubDao().get(foo)
+        var fooSubtitles = getValue(db.externalSubDao().get(foo))
         assertThat(fooSubtitles.size, `is`(0))
     }
 }
