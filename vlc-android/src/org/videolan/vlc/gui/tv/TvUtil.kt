@@ -36,8 +36,9 @@ import android.support.v17.leanback.widget.Row
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -182,7 +183,7 @@ object TvUtil {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     fun updateBackground(bm: BackgroundManager?, item: Any?) {
         if (bm === null || item === null) return
-        if (item is MediaLibraryItem) GlobalScope.launch(Dispatchers.Main.immediate){
+        if (item is MediaLibraryItem) AppScope.launch {
             val crop = item.itemType != MediaLibraryItem.TYPE_MEDIA || (item as MediaWrapper).type == MediaWrapper.TYPE_AUDIO
             val artworkMrl = item.artworkMrl
             if (!TextUtils.isEmpty(artworkMrl)) {

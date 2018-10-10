@@ -13,12 +13,14 @@ import android.support.v4.view.ViewCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BR
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.HttpImageLoader
 import org.videolan.vlc.util.ThumbnailsProvider
 
@@ -38,12 +40,12 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
     val cacheKey = if (isGroup) "group: ${item.title}" else ThumbnailsProvider.getMediaCacheKey(isMedia, item)
     val bitmap = if (cacheKey !== null) sBitmapCache.getBitmapFromMemCache(cacheKey) else null
     if (bitmap !== null) updateImageView(bitmap, v, binding)
-    else GlobalScope.launch(Dispatchers.Main, CoroutineStart.UNDISPATCHED) { getImage(v, findInLibrary(item, isMedia, isGroup), binding) }
+    else AppScope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding) }
 }
 
 @BindingAdapter("imageUri")
 fun downloadIcon(v: View, imageUri: Uri?) {
-    if (imageUri != null && imageUri.scheme == "http") GlobalScope.launch(Dispatchers.Main, CoroutineStart.UNDISPATCHED) {
+    if (imageUri != null && imageUri.scheme == "http") AppScope.launch {
         val image = withContext(Dispatchers.IO) { HttpImageLoader.downloadBitmap(imageUri.toString()) }
         updateImageView(image, v, DataBindingUtil.findBinding(v))
     }

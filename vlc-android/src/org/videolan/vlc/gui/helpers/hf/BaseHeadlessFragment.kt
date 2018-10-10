@@ -27,15 +27,13 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.SendChannel
 import kotlinx.coroutines.experimental.launch
+import org.videolan.vlc.util.AppScope
 
-open class BaseHeadlessFragment : Fragment() {
+open class
+BaseHeadlessFragment : Fragment() {
     protected var mActivity: FragmentActivity? = null
     var channel: SendChannel<Unit>? = null
 
@@ -66,7 +64,7 @@ open class BaseHeadlessFragment : Fragment() {
     companion object {
 
         internal fun waitForIt(channel: Channel<Unit>, cb: Runnable) {
-            GlobalScope.launch(Dispatchers.Main.immediate) {
+            AppScope.launch {
                 channel.receive()
                 channel.close()
                 cb.run()

@@ -39,7 +39,6 @@ import android.support.v4.content.LocalBroadcastManager
 import android.text.TextUtils
 import android.util.Log
 import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
@@ -421,7 +420,7 @@ fun reload(ctx: Context) {
     ContextCompat.startForegroundService(ctx, Intent(ACTION_RELOAD, null, ctx, MediaParsingService::class.java))
 }
 
-fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true) = GlobalScope.launch(Dispatchers.Main.immediate) {
+fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true) = AppScope.launch {
     if (Medialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@launch
     val prefs = withContext(Dispatchers.IO) { Settings.getInstance(this@startMedialibrary) }
     val scanOpt = if (AndroidDevices.showTvUi(this@startMedialibrary)) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
