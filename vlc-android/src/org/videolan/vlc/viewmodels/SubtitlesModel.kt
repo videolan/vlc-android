@@ -16,6 +16,7 @@ import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.R
 import org.videolan.vlc.util.Settings
 import java.io.File
+import java.util.*
 
 private const val LAST_USED_LANGUAGE = "last_used_subtitle"
 
@@ -156,7 +157,7 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
         ExternalSubRepository.getInstance(context).deleteSubtitle(mediaPath, idSubtitle)
     }
 
-    fun getLastUsedLanguage() = Settings.getInstance(context).getString(LAST_USED_LANGUAGE, "")
+    fun getLastUsedLanguage() = Settings.getInstance(context).getString(LAST_USED_LANGUAGE, Locale.getDefault().isO3Language)
 
     fun saveLastUsedLanguage(lastUsedLang: String) = Settings.getInstance(context).edit().putString(LAST_USED_LANGUAGE, lastUsedLang).apply()
 
