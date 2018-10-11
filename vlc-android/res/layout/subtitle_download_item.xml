@@ -55,7 +55,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@{subtitleItem.state == State.Downloaded ? @drawable/cone : @drawable/ic_ctx_download_subtitles_normal }"/>
+            android:src="@{subtitleItem.state == State.Downloaded ? @drawable/ic_done_black_24dp : @drawable/ic_ctx_download_subtitles_normal }"/>
 
         <ProgressBar
             android:id="@+id/loading"
