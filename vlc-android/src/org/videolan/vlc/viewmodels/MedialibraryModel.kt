@@ -44,7 +44,7 @@ abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context) : BaseM
     }
 
     override fun onCleared() {
-        super.onCleared()
         medialibrary.removeOnMedialibraryReadyListener(this)
+        super.onCleared()
     }
 }
