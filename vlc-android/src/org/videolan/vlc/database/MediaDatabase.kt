@@ -47,14 +47,13 @@ abstract class MediaDatabase: RoomDatabase() {
 
 private fun buildDatabase(context: Context) = Room.databaseBuilder(context.applicationContext,
         MediaDatabase::class.java, DB_NAME)
-//        .fallbackToDestructiveMigration()
         .addMigrations(migration_1_2, migration_2_3, migration_3_4, migration_4_5,
                 migration_5_6, migration_6_7, migration_7_8, migration_8_9,
                 migration_9_10, migration_10_11, migration_11_12, migration_12_13,
                 migration_13_14, migration_14_15, migration_15_16, migration_16_17,
                 migration_17_18, migration_18_19, migration_19_20, migration_20_21,
                 migration_21_22, migration_22_23, migration_23_24, migration_24_25,
-                migration_25_26, migration_26_27, migration_27_28)
+                migration_25_26, migration_26_27, migration_27_28, migration_28_29)
         .addCallback(object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) { populateDB(context) }
         })
