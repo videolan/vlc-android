@@ -42,7 +42,7 @@ const val ACTIVITY_RESULT_OPEN = 2
 const val ACTIVITY_RESULT_SECONDARY = 3
 
 // PlaybackService
-@JvmField val ACTION_REMOTE_GENERIC = Strings.buildPkgString("remote.")!!
+@JvmField val ACTION_REMOTE_GENERIC = "remote.".buildPkgString()!!
 @JvmField val EXTRA_SEARCH_BUNDLE = "${ACTION_REMOTE_GENERIC}extra_search_bundle"
 @JvmField val ACTION_PLAY_FROM_SEARCH = "${ACTION_REMOTE_GENERIC}play_from_search"
 @JvmField val ACTION_REMOTE_SWITCH_VIDEO = "${ACTION_REMOTE_GENERIC}SwitchToVideo"
@@ -73,9 +73,9 @@ const val ACTION_RESUME_SCAN = "action_resume_scan"
 const val ACTION_PAUSE_SCAN = "action_pause_scan"
 
 // VideoPlayerActivity
-@JvmField val PLAY_FROM_VIDEOGRID = Strings.buildPkgString("gui.video.PLAY_FROM_VIDEOGRID")
-@JvmField val PLAY_FROM_SERVICE = Strings.buildPkgString("gui.video.PLAY_FROM_SERVICE")
-@JvmField val EXIT_PLAYER = Strings.buildPkgString("gui.video.EXIT_PLAYER")
+@JvmField val PLAY_FROM_VIDEOGRID = "gui.video.PLAY_FROM_VIDEOGRID".buildPkgString()
+@JvmField val PLAY_FROM_SERVICE = "gui.video.PLAY_FROM_SERVICE".buildPkgString()
+@JvmField val EXIT_PLAYER = "gui.video.EXIT_PLAYER".buildPkgString()
 const val PLAY_EXTRA_ITEM_LOCATION = "item_location"
 const val PLAY_EXTRA_SUBTITLES_LOCATION = "subtitles_location"
 const val PLAY_EXTRA_ITEM_TITLE = "title"
