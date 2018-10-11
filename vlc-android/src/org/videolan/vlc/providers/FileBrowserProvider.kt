@@ -25,7 +25,10 @@ import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.net.Uri
 import android.text.TextUtils
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.cancelAndJoin
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -133,12 +136,12 @@ open class FileBrowserProvider(
         }
     }
 
-    override fun release(): Job {
+    override fun release() {
         if (url == null) {
             ExternalMonitor.devices.removeObserver(this)
             if (showFavorites) favorites?.removeObserver(favoritesObserver)
         }
-        return super.release()
+        super.release()
     }
 
     override fun onChanged(list: MutableList<UsbDevice>?) {

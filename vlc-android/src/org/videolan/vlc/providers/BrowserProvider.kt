@@ -27,9 +27,7 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
 import android.support.v4.util.SimpleArrayMap
-import android.util.Log
 import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import kotlinx.coroutines.experimental.channels.mapTo
@@ -61,11 +59,11 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     internal val medialibrary = Medialibrary.getInstance()
 
     private val browserActor = actor<BrowserAction>(Dispatchers.IO, Channel.UNLIMITED) {
-        for (action in channel) when (action) {
+        for (action in channel) if (isActive) when (action) {
             is Browse -> browseImpl(action.url)
             is Refresh -> refreshImpl()
             is ParseSubDirectories -> parseSubDirectoriesImpl()
-        }
+        } else channel.close()
     }
 
     init {
@@ -93,7 +91,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open fun browse(url: String? = null) {
-        browserActor.offer(Browse(url))
+        if (!browserActor.isClosedForSend) browserActor.offer(Browse(url))
     }
 
     private fun browseImpl(url: String? = null) {
@@ -109,13 +107,13 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     protected open fun addMedia(media: MediaLibraryItem) = dataset.add(media)
 
     open fun refresh() : Boolean {
-        if (url === null) return false
+        if (url === null || browserActor.isClosedForSend) return false
         browserActor.offer(Refresh)
         return true
     }
 
     internal open fun parseSubDirectories() {
-        browserActor.offer(ParseSubDirectories)
+        if (!browserActor.isClosedForSend) browserActor.offer(ParseSubDirectories)
     }
 
     open fun refreshImpl() {
@@ -220,12 +218,15 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     fun stop() = job?.cancel()
 
-    open fun release() = launch(Dispatchers.IO) {
-        if (this@BrowserProvider::browserChannel.isInitialized) browserChannel.close()
-        job?.cancelAndJoin()
-        mediabrowser?.let {
-            it.release()
-            mediabrowser = null
+    open fun release() {
+        browserActor.close()
+        launch(Dispatchers.IO) {
+            if (this@BrowserProvider::browserChannel.isInitialized) browserChannel.close()
+            job?.cancelAndJoin()
+            mediabrowser?.let {
+                it.release()
+                mediabrowser = null
+            }
         }
     }
 

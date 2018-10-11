@@ -23,9 +23,9 @@ package org.videolan.vlc.viewmodels
 import android.arch.lifecycle.MediatorLiveData
 import android.content.Context
 import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
+import kotlinx.coroutines.experimental.isActive
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -64,28 +64,35 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
     @Suppress("UNCHECKED_CAST")
     protected val updateActor by lazy {
         actor<Update>(capacity = Channel.UNLIMITED) {
-            for (update in channel) when (update) {
+            for (update in channel) if (isActive) when (update) {
                 Refresh -> updateList()
                 is Filter -> filter.filter(update.query)
                 is MediaUpdate -> updateItems(update.mediaList as List<T>)
                 is MediaAddition -> addMedia(update.media as T)
                 is MediaListAddition -> addMedia(update.mediaList as List<T>)
                 is Remove -> removeMedia(update.media as T)
-            }
+            } else channel.close()
         }
     }
 
-    override fun refresh() = updateActor.offer(Refresh)
+    override fun refresh() : Boolean {
+        if (!updateActor.isClosedForSend) updateActor.offer(Refresh)
+        return true
+    }
 
-    fun remove(mw: T) = updateActor.offer(Remove(mw))
+    fun remove(mw: T) {
+        if (!updateActor.isClosedForSend) updateActor.offer(Remove(mw))
+    }
 
     override fun filter(query: String?) {
-        filtering = true
-        updateActor.offer(Filter(query))
+        if (!updateActor.isClosedForSend) {
+            filtering = true
+            updateActor.offer(Filter(query))
+        }
     }
 
     override fun restore() {
-        if (filtering) updateActor.offer(Filter(null))
+        if (filtering && !updateActor.isClosedForSend) updateActor.offer(Filter(null))
         filtering = false
     }
 
@@ -113,6 +120,11 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
     protected open suspend fun updateList() {}
 
     protected abstract fun fetch()
+
+    override fun onCleared() {
+        updateActor.close()
+        super.onCleared()
+    }
 }
 
 sealed class Update

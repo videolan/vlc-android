@@ -27,7 +27,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.support.v4.app.Fragment
 import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.IO
+import kotlinx.coroutines.experimental.isActive
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
@@ -42,7 +42,7 @@ open class VideosModel(context: Context, private val group: String?, private val
     override fun canSortByDuration() = true
     override fun canSortByLastModified() = true
 
-    private val thumbObs = Observer<MediaWrapper> { media -> updateActor.offer(MediaUpdate(listOf(media!!))) }
+    private val thumbObs = Observer<MediaWrapper> { media -> if (!updateActor.isClosedForSend) updateActor.offer(MediaUpdate(listOf(media!!))) }
 
     init {
         sort = if (customSort != Medialibrary.SORT_DEFAULT) customSort
@@ -64,7 +64,9 @@ open class VideosModel(context: Context, private val group: String?, private val
     }
 
     override suspend fun updateList() {
+        if (!isActive) return
         dataset.value = withContext(Dispatchers.IO) {
+            if (!isActive) return@withContext mutableListOf<MediaWrapper>()
             val list = medialibrary.getVideos(sort, desc)
             val displayList = mutableListOf<MediaWrapper>()
             when {

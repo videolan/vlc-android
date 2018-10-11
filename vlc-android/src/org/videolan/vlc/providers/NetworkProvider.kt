@@ -22,15 +22,12 @@ package org.videolan.vlc.providers
 
 import android.arch.lifecycle.Observer
 import android.content.Context
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
-import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.LiveDataset
 
@@ -62,9 +59,9 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         if (url != null) super.parseSubDirectories()
     }
 
-    override fun release(): Job {
+    override fun release() {
         favorites?.removeObserver(this)
-        return super.release()
+        super.release()
     }
 
     override fun onChanged(favs: List<MediaWrapper>?) {
