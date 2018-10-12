@@ -84,6 +84,9 @@
         <item name="ic_audiodelay">@drawable/ic_audiodelay</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay</item>
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
+        <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
+        <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
+        <item name="ic_dial">@drawable/ic_dial</item>
         <item name="progress_background">@color/grey600transparent</item>
     </style>
 
@@ -182,6 +185,9 @@
         <item name="ic_audiodelay">@drawable/ic_audiodelay_w</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
+        <item name="ic_abrepeat">@drawable/ic_abrepeat_w</item>
+        <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset_w</item>
+        <item name="ic_dial">@drawable/ic_dial_w</item>
         <item name="progress_background">@color/grey400transparent</item>
     </style>
    <style name="Theme.VLC.TV" parent="Theme.Leanback">
@@ -259,6 +265,7 @@
         <item name="ic_audiodelay">@drawable/ic_audiodelay_w</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
+        <item name="ic_abrepeat">@drawable/ic_abrepeat_w</item>
         <item name="ic_repeat">@drawable/ic_repeat_w</item>
         <item name="ic_repeat_all">@drawable/ic_repeat_all</item>
         <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
