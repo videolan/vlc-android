@@ -28,12 +28,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentActivity;
 import android.view.MenuItem;
 
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.Settings;
+
+import androidx.fragment.app.FragmentActivity;
 
 @SuppressWarnings("deprecation")
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -56,9 +57,6 @@ public class PreferencesActivity extends FragmentActivity implements PlaybackSer
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.tv_preferences_activity);
-        getFragmentManager().beginTransaction()
-                .add(R.id.fragment_placeholder, new PreferencesFragment())
-                .commit();
     }
 
     @Override
@@ -76,15 +74,14 @@ public class PreferencesActivity extends FragmentActivity implements PlaybackSer
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (!getFragmentManager().popBackStackImmediate())
-                finish();
+            if (!getFragmentManager().popBackStackImmediate()) finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void applyTheme() {
-        SharedPreferences pref = Settings.INSTANCE.getInstance(this);
+        final SharedPreferences pref = Settings.INSTANCE.getInstance(this);
         boolean enableBlackTheme = pref.getBoolean("enable_black_theme", false);
         if (enableBlackTheme) {
             setTheme(R.style.Theme_VLC_Black);
@@ -122,7 +119,6 @@ public class PreferencesActivity extends FragmentActivity implements PlaybackSer
     }
 
     public void detectHeadset(boolean detect){
-        if (mService != null)
-            mService.detectHeadset(detect);
+        if (mService != null) mService.detectHeadset(detect);
     }
 }

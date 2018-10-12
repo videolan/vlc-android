@@ -49,16 +49,20 @@
     <PreferenceCategory android:title="@string/extra_prefs_category" >
         <Preference
             android:title="@string/interface_prefs_screen"
-            android:key="ui_category" />
+            android:key="ui_category"
+            android:fragment="org.videolan.vlc.gui.tv.preferences.PreferencesUi"/>
         <Preference
             android:title="@string/video_prefs_category"
-            android:key="video_category" />
+            android:key="video_category"
+            android:fragment="org.videolan.vlc.gui.tv.preferences.PreferencesVideo"/>
         <Preference
             android:title="@string/subtitles_prefs_category"
-            android:key="subtitles_category" />
+            android:key="subtitles_category"
+            android:fragment="org.videolan.vlc.gui.tv.preferences.PreferencesSubtitles"/>
         <Preference
             android:title="@string/audio_prefs_category"
-            android:key="audio_category" />
+            android:key="audio_category"
+            android:fragment="org.videolan.vlc.gui.tv.preferences.PreferencesAudio"/>
         <Preference
             android:title="@string/casting_category"
             android:key="casting_category" />
@@ -67,7 +71,8 @@
             android:key="extensions_category" />
         <Preference
             android:title="@string/advanced_prefs_category"
-            android:key="adv_category" />
+            android:key="adv_category"
+            android:fragment="org.videolan.vlc.gui.tv.preferences.PreferencesAdvanced" />
 
     </PreferenceCategory>
 

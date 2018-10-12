@@ -218,7 +218,7 @@
    </style>
 
     <style name="Theme.VLC.Leanback.Preferences" parent="Theme.Leanback">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
     </style>
 
     <style name="Theme.VLC.List" parent="android:style/Widget.AbsListView">

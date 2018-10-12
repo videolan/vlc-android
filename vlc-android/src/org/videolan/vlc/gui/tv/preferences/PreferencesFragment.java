@@ -24,11 +24,10 @@
 package org.videolan.vlc.gui.tv.preferences;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentActivity;
-import androidx.preference.Preference;
 import android.widget.Toast;
 
 import org.videolan.vlc.R;
@@ -36,6 +35,9 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Permissions;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.preference.Preference;
 
 import static org.videolan.vlc.gui.preferences.PreferencesActivity.KEY_VIDEO_APP_SWITCH;
 
@@ -72,38 +74,21 @@ public class PreferencesFragment extends BasePreferenceFragment {
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
+        final Context context = getActivity();
+        if (context == null) return false;
         switch (preference.getKey()){
             case "directories":
                 if (VLCApplication.getMLInstance().isWorking())
-                    Toast.makeText(getContext(), getString(R.string.settings_ml_block_scan), Toast.LENGTH_SHORT).show();
-                else if (Permissions.canReadStorage(getContext())) {
-                    final Intent intent = new Intent(getContext().getApplicationContext(), SecondaryActivity.class);
+                    Toast.makeText(context, getString(R.string.settings_ml_block_scan), Toast.LENGTH_SHORT).show();
+                else if (Permissions.canReadStorage(context)) {
+                    final Intent intent = new Intent(context.getApplicationContext(), SecondaryActivity.class);
                     intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER);
                     startActivity(intent);
                     getActivity().setResult(PreferencesActivity.RESULT_RESTART);
                 } else Permissions.showStoragePermissionDialog((FragmentActivity) getActivity(), false);
                 return true;
-            case "ui_category":
-                loadFragment(new PreferencesUi());
-                break;
-            case "video_category":
-                loadFragment(new PreferencesVideo());
-                break;
-            case "subtitles_category":
-                loadFragment(new PreferencesSubtitles());
-                break;
-            case "audio_category":
-                loadFragment(new PreferencesAudio());
-                break;
-            case "adv_category":
-                loadFragment(new PreferencesAdvanced());
-                break;
-            case PLAYBACK_HISTORY:
-                getActivity().setResult(PreferencesActivity.RESULT_RESTART);
-                return true;
             default:
                 return super.onPreferenceTreeClick(preference);
         }
-        return true;
     }
 }
