@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="20"
+   height="20"
+   id="svg3428"
+   version="1.1"
+   inkscape:version="0.92.3 (unknown)"
+   sodipodi:docname="ic_dial_circle_normal.svg">
+  <defs
+     id="defs3430" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="22.4"
+     inkscape:cx="5.5206454"
+     inkscape:cy="11.97441"
+     inkscape:document-units="px"
+     inkscape:current-layer="g3755"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1052"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3436"
+       empspacing="4"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata3433">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1032.3622)">
+    <g
+       id="g4552"
+       transform="translate(3,1.0000035)">
+      <g
+         transform="translate(-1965.6949,565.00001)"
+         id="g6375">
+        <g
+           id="g3755">
+          <g
+             id="g859"
+             transform="matrix(0.61538462,0,0,0.61538462,775.34415,182.60084)">
+            <circle
+               transform="scale(-1)"
+               id="circle6122"
+               style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#ff8800;fill-opacity:0.85098039;fill-rule:nonzero;stroke:none;stroke-width:0.13;marker:none;enable-background:accumulate"
+               cx="-1945.6949"
+               cy="-477.36218"
+               r="13" />
+            <circle
+               r="1.5"
+               cy="471.86218"
+               cx="1941.1949"
+               id="path5395"
+               style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate" />
+            <circle
+               style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate"
+               id="circle5397"
+               cx="1945.6949"
+               cy="471.86218"
+               r="1.5" />
+            <circle
+               r="1.5"
+               cy="471.86218"
+               cx="1950.1949"
+               id="circle5399"
+               style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate" />
+            <circle
+               style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate"
+               id="circle5401"
+               cx="1941.1949"
+               cy="475.86218"
+               r="1.5" />
+            <circle
+               r="1.5"
+               cy="475.86218"
+               cx="1945.6949"
+               id="circle5403"
+               style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate" />
+            <circle
+               style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate"
+               id="circle5405"
+               cx="1950.1949"
+               cy="475.86218"
+               r="1.5" />
+            <circle
+               r="1.5"
+               cy="479.86218"
+               cx="1941.1949"
+               id="circle5407"
+               style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate" />
+            <circle
+               style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate"
+               id="circle5409"
+               cx="1945.6949"
+               cy="479.86218"
+               r="1.5" />
+            <circle
+               r="1.5"
+               cy="479.86218"
+               cx="1950.1949"
+               id="circle5411"
+               style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate" />
+            <circle
+               r="1.5"
+               cy="483.86218"
+               cx="1945.6949"
+               id="circle5413"
+               style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#eeeeee;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

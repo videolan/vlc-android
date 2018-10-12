@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="28"
+   height="28"
+   id="svg3428"
+   version="1.1"
+   inkscape:version="0.92.3 (unknown)"
+   sodipodi:docname="ic_abrepeat_seta_circle_pressed.svg">
+  <defs
+     id="defs3430" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="22.4"
+     inkscape:cx="-0.78347007"
+     inkscape:cy="9.7953218"
+     inkscape:document-units="px"
+     inkscape:current-layer="g915"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1052"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3436"
+       empspacing="4"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true"
+       spacingx="1"
+       spacingy="1"
+       originx="1"
+       originy="1" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata3433">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1024.3622)">
+    <g
+       id="g4951"
+       transform="translate(-3.0000002,1.999999)">
+      <g
+         id="g915"
+         transform="matrix(0.84615385,0,0,0.84615385,-11.076923,149.44035)">
+        <g
+           id="g826"
+           transform="matrix(1.1818182,0,0,1.1818182,-4.6363642,-191.97496)">
+          <circle
+             transform="scale(-1)"
+             id="circle6286"
+             style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#fecb65;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.13;marker:none;enable-background:accumulate"
+             cx="-32"
+             cy="-1049.3622"
+             r="13" />
+          <path
+             inkscape:connector-curvature="0"
+             id="path6280"
+             d="m 37,1039.3613 v 3 H 27 25 v 6 h 2 v -4 h 10 v 3 l 4,-4 z m 0,11 v 4 H 27 v -3 l -4,4 4,4 v -3 h 10 2 v -6 z"
+             style="fill:#ff7200;fill-opacity:1;stroke:none" />
+          <path
+             sodipodi:nodetypes="ssccccccsssccccc"
+             inkscape:connector-curvature="0"
+             id="path6282"
+             d="m 29,1046.3622 c -0.55228,0 -1,0.4477 -1,1 v 5 h 1 v -2 h 1.5 v 2 h 1 v -5 c 0,-0.5523 -0.44772,-1 -1,-1 z m 0,1 h 1.5 v 2 H 29 Z"
+             style="fill:#212121;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+          <path
+             id="path6284"
+             d="m 33,1047.3622 v 5 h 2 c 0.13807,0 0.26903,-0.027 0.38867,-0.078 0.35892,-0.152 0.61133,-0.5078 0.61133,-0.922 v -0.5 c 0,-0.5523 -0.44772,-1 -1,-1 0.55228,0 1,-0.4477 1,-1 v -0.5 c 0,-0.1381 -0.0275,-0.269 -0.0781,-0.3887 -0.15182,-0.3589 -0.50767,-0.6113 -0.92188,-0.6113 z m 1,1 h 1 v 1 h -1 z m 0,2 h 1 v 1 h -1 z"
+             style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#ff7200;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:47.29829788;stroke-opacity:1;marker:none;enable-background:accumulate"
+             inkscape:connector-curvature="0" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
