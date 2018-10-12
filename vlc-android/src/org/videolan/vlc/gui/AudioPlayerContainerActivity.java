@@ -55,7 +55,6 @@ import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.ScanProgress;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.audio.AudioPlayer;
 import org.videolan.vlc.gui.browser.StorageBrowserFragment;
 import org.videolan.vlc.gui.helpers.BottomSheetBehavior;
@@ -306,6 +305,11 @@ public class AudioPlayerContainerActivity extends BaseActivity {
             }
         } else if (mScanProgressLayout != null)
             mScanProgressLayout.setVisibility(View.VISIBLE);
+        final ScanProgress sp = MediaParsingService.Companion.getProgress().getValue();
+        if (sp != null) {
+            if (mScanProgressText != null) mScanProgressText.setText(sp.getDiscovery());
+            if (mScanProgressBar != null) mScanProgressBar.setProgress(sp.getParsing());
+        }
     }
 
     protected void updateContainerPadding(boolean show) {

@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scan_progress_layout"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/progress_layout_height"
-    android:visibility="gone">
+    android:layout_height="@dimen/progress_layout_height" >
     <ProgressBar
         android:id="@+id/scan_progress_bar"
         android:layout_width="match_parent"
