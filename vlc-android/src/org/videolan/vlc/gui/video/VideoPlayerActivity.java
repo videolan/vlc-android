@@ -2948,8 +2948,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public void showConfirmResumeDialog() {
-        if (isFinishing())
-            return;
+        if (isFinishing()) return;
         mService.pause();
         /* Encountered Error, exit player with a message */
         mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
@@ -2966,6 +2965,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 })
                 .create();
         mAlertDialog.setCancelable(false);
+        mAlertDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    dialog.dismiss();
+                    finish();
+                    return true;
+                }
+                return false;
+            }
+        });
         mAlertDialog.show();
     }
 
