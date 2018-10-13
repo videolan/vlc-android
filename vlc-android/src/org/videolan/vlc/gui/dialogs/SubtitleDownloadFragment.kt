@@ -15,6 +15,7 @@ import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloadFragmentBinding
 import org.videolan.vlc.gui.helpers.UiTools.deleteSubtitleDialog
+import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.VLCDownloadManager
 import org.videolan.vlc.viewmodels.SubtitlesModel
 
@@ -45,6 +46,10 @@ class SubtitleDownloadFragment : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         val binding = SubtitleDownloadFragmentBinding.inflate(inflater, container, false)
         binding.viewmodel = viewModel
+
+        if (!AndroidDevices.isAndroidTv)
+            //Prevent opening soft keyboard automatically
+            binding.constraintLayout.isFocusableInTouchMode = true
 
         adapter = SubtitlesAdapter(listEventActor)
         val recyclerView = binding.subtitleList

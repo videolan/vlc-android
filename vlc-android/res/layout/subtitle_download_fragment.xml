@@ -12,9 +12,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:layout_height="wrap_content">
 
         <CheckBox
             android:id="@+id/manual_search_checkBox"
@@ -23,6 +21,7 @@
             android:layout_marginStart="8dp"
             android:onCheckedChanged="@{(v, checked) -> viewmodel.onCheckedChanged(checked)}"
             android:paddingStart="0dp"
+            android:focusable="true"
             android:text="@string/manual_search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/language_list_spinner" />
@@ -46,6 +45,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:focusable="true"
+            android:nextFocusDown="@id/season"
             android:hint="@string/subtitle_search_name_hint"
             android:inputType="textNoSuggestions"
             android:text="@={viewmodel.observableSearchName}"
@@ -58,6 +59,8 @@
             android:layout_width="72dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:focusable="true"
+            android:nextFocusDown="@id/subtitle_list"
             android:ems="10"
             android:hint="@string/subtitle_search_episode_hint"
             android:inputType="textPersonName|number"
@@ -74,6 +77,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:ems="10"
+            android:nextFocusDown="@id/subtitle_list"
+            android:focusable="true"
             android:hint="@string/subtitle_search_season_hint"
             android:inputType="textPersonName|number"
             android:text="@={viewmodel.observableSearchSeason}"
@@ -111,6 +116,7 @@
             app:layout_constraintTop_toBottomOf="@id/barrier" >
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/subtitle_list"
+                android:focusable="true"
                 android:layout_width="0dp"
                 android:layout_height="0dp"/>
         </android.support.v4.widget.SwipeRefreshLayout>
@@ -122,6 +128,7 @@
             android:enabled="@{!TextUtils.isEmpty(viewmodel.observableSearchName.get().trim())}"
             android:onClick="@{(v) -> viewmodel.search(false)}"
             android:text="@android:string/search_go"
+            android:focusable="true"
             app:layout_constraintBaseline_toBaselineOf="@+id/episode"
             app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
             app:layout_constraintHorizontal_bias="0.5"
