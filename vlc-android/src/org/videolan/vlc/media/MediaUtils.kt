@@ -9,9 +9,9 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.provider.OpenableColumns
+import android.support.v4.app.FragmentActivity
 import android.text.TextUtils
 import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
@@ -25,6 +25,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
 import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.getFromMl
 import org.videolan.vlc.viewmodels.paged.MLPagedModel
@@ -54,8 +55,13 @@ object MediaUtils : CoroutineScope {
     }
 
     @JvmOverloads
-    fun getSubs(supportFragmentManager: android.support.v4.app.FragmentManager, media: MediaWrapper) {
-        SubtitleDownloaderDialogFragment.newInstance(media.uri.path).show(supportFragmentManager, "Subtitle_downloader");
+    fun getSubs(activity: FragmentActivity, media: MediaWrapper) {
+        val callBack = java.lang.Runnable {
+            SubtitleDownloaderDialogFragment.newInstance(media.uri.path).show(activity.supportFragmentManager, "Subtitle_downloader")
+        }
+
+        if (Permissions.canWriteStorage()) callBack.run()
+        else Permissions.askWriteStoragePermission(activity, false, callBack)
     }
 
     fun appendMedia(context: Context?, media: List<MediaWrapper>?) {

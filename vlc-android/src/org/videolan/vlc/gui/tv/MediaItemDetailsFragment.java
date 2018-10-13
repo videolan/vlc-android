@@ -166,7 +166,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
                         TvUtil.INSTANCE.openMedia(activity, media, null);
                         break;
                     case ID_DL_SUBS:
-                        MediaUtils.INSTANCE.getSubs(getActivity().getSupportFragmentManager(), media);
+                        MediaUtils.INSTANCE.getSubs(getActivity(), media);
                         break;
                     case ID_PLAY_ALL:
                         if (mediaList != null) {
