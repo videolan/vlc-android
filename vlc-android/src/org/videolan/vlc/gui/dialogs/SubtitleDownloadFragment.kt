@@ -14,6 +14,7 @@ import kotlinx.coroutines.experimental.channels.actor
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloadFragmentBinding
+import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.deleteSubtitleDialog
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.VLCDownloadManager
@@ -59,6 +60,11 @@ class SubtitleDownloadFragment : Fragment() {
         viewModel.result.observe(this, Observer {
             adapter.setList(it)
         })
+
+        binding.searchButton.setOnClickListener {
+            UiTools.setKeyboardVisibility(it, false)
+            viewModel.search(false)
+        }
 
         val allValuesOfLanguages = resources.getStringArray(R.array.language_values)
         binding.languageListSpinner.setSelection(allValuesOfLanguages.indexOf(viewModel.getLastUsedLanguage()))
