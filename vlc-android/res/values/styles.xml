@@ -266,6 +266,7 @@
         <item name="ic_trash">@drawable/ic_trash_w</item>
         <item name="ic_reset">@drawable/ic_reset_w</item>
         <item name="ic_save">@drawable/ic_save_w</item>
+        <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
 
         <item name="list_subtitle">@color/grey400</item>

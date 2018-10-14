@@ -180,6 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/language_to_download"
+            android:textColor="?attr/font_default"
             app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
             app:layout_constraintTop_toTopOf="@+id/top_horizontal_guideline" />
 
