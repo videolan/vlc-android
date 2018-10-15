@@ -175,7 +175,12 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         }
     }
 
-    override fun onMediaAdded(index: Int, media: Media) { if (!browserChannel.isClosedForReceive) browserChannel.offer(media) }
+    override fun onMediaAdded(index: Int, media: Media) {
+        if (!browserChannel.isClosedForReceive) {
+            media.retain()
+            browserChannel.offer(media)
+        }
+    }
     override fun onBrowseEnd() { browserChannel.close() }
     override fun onMediaRemoved(index: Int, media: Media){}
 
@@ -194,6 +199,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     private suspend fun findMedia(media: Media): MediaWrapper {
         val mw = MediaWrapper(media)
+        media.release()
         val uri = mw.uri
         if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)
                 && "file" == uri.scheme) return withContext(Dispatchers.IO) { medialibrary.getMedia(uri) ?: mw }
