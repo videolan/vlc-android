@@ -85,6 +85,8 @@
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay</item>
         <item name="ic_passthrough">@drawable/ic_passthrough</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat</item>
+        <item name="ic_abrepeat_seta">@drawable/ic_abrepeat_seta</item>
+        <item name="ic_abrepeat_setb">@drawable/ic_abrepeat_setb</item>
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_dial">@drawable/ic_dial</item>
         <item name="progress_background">@color/grey600transparent</item>
@@ -186,6 +188,8 @@
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat_w</item>
+        <item name="ic_abrepeat_seta">@drawable/ic_abrepeat_seta_w</item>
+        <item name="ic_abrepeat_setb">@drawable/ic_abrepeat_setb_w</item>
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset_w</item>
         <item name="ic_dial">@drawable/ic_dial_w</item>
         <item name="progress_background">@color/grey400transparent</item>
