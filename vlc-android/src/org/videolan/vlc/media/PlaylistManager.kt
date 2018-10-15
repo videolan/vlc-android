@@ -112,6 +112,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             Log.w(TAG, "Warning: empty media list, nothing to play !")
             return
         }
+        medialibrary.pauseBackgroundOperations()
         currentIndex = if (isValidPosition(position)) position else 0
 
         // Add handler after loading the list
@@ -210,6 +211,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         mediaList.clear()
         showAudioPlayer.value = false
         service.onPlaybackStopped(systemExit)
+        medialibrary.resumeBackgroundOperations()
     }
 
     @MainThread
@@ -253,6 +255,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     suspend fun playIndex(index: Int, flags: Int = 0) {
         if (mediaList.size() == 0) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
+            medialibrary.resumeBackgroundOperations()
             return
         }
         currentIndex = if (isValidPosition(index)) {
