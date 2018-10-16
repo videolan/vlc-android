@@ -106,6 +106,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         mediaList.removeEventListener(this)
         mediaList.clear()
         previous.clear()
+        videoBackground = false
         for (media in list) mediaList.add(media)
         if (!hasMedia()) {
             Log.w(TAG, "Warning: empty media list, nothing to play !")
@@ -187,13 +188,14 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             stop()
             return
         }
-        videoBackground = !player.isVideoPlaying() && player.canSwitchToVideo()
+        videoBackground = videoBackground || (!player.isVideoPlaying() && player.canSwitchToVideo())
         launch { playIndex(currentIndex) }
     }
 
     fun stop(systemExit: Boolean = false) {
         clearABRepeat()
         stopAfter = -1
+        videoBackground = false
         getCurrentMedia()?.let {
             savePosition()
             saveMediaMeta()
@@ -692,7 +694,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             when (event.type) {
                 MediaPlayer.Event.Playing -> {
                     medialibrary.pauseBackgroundOperations()
-                    videoBackground = false
                     val mw = withContext(Dispatchers.IO) {
                         val current = getCurrentMedia()
                         medialibrary.findMedia(current).apply { if (type == -1) type = current?.type ?: -1 }
