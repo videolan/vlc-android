@@ -262,11 +262,9 @@ public class FileUtils {
     }
 
     public static boolean canSave(MediaWrapper mw) {
-        if (mw == null || mw.getUri() == null)
-            return false;
+        if (mw == null || mw.getUri() == null) return false;
         final String scheme = mw.getUri().getScheme();
-        return !TextUtils.equals(scheme, "file") &&
-                (TextUtils.equals(scheme, "smb")
+        return (TextUtils.equals(scheme, "file") || TextUtils.equals(scheme, "smb")
                         || TextUtils.equals(scheme, "nfs") || TextUtils.equals(scheme, "ftp")
                         || TextUtils.equals(scheme, "ftps") || TextUtils.equals(scheme, "sftp"));
     }

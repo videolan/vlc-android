@@ -204,5 +204,5 @@ fun populateDB(context: Context) = GlobalScope.launch(Dispatchers.IO) {
             AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI,
             AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI,
             AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI)
-    for (uri in uris) favRepo.addLocalFavItem(uri, uri.lastPathSegment)
+    for (uri in uris) favRepo.addLocalFavItem(uri, uri.lastPathSegment ?: "")
 }

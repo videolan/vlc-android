@@ -31,6 +31,7 @@ import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.database.models.CustomDirectory
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.models.Slave
+import org.videolan.vlc.util.AndroidDevices
 
 private const val DB_NAME = "vlc_database"
 
@@ -55,7 +56,7 @@ private fun buildDatabase(context: Context) = Room.databaseBuilder(context.appli
                 migration_21_22, migration_22_23, migration_23_24, migration_24_25,
                 migration_25_26, migration_26_27, migration_27_28)
         .addCallback(object : RoomDatabase.Callback() {
-            override fun onCreate(db: SupportSQLiteDatabase) { populateDB(context) }
+            override fun onCreate(db: SupportSQLiteDatabase) { if (!AndroidDevices.isTv) populateDB(context) }
         })
         .build()
 

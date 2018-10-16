@@ -145,7 +145,10 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
                         activity.finish();
                         break;
                     case ID_FAVORITE_ADD:
-                        mBrowserFavRepository.addNetworkFavItem(Uri.parse(mMedia.getLocation()), mMedia.getTitle(), mMedia.getArtworkUrl());
+                        final Uri uri = Uri.parse(mMedia.getLocation());
+                        final boolean local = "file".equals(uri.getScheme());
+                        if (local) mBrowserFavRepository.addLocalFavItem(uri, mMedia.getTitle(), mMedia.getArtworkUrl());
+                        else mBrowserFavRepository.addNetworkFavItem(uri, mMedia.getTitle(), mMedia.getArtworkUrl());
                         detailsOverview.removeAction(actionAdd);
                         detailsOverview.addAction(actionDelete);
                         mRowsAdapter.notifyArrayItemRangeChanged(0, mRowsAdapter.size());
@@ -184,7 +187,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
                         break;
                     case ID_PLAY_FROM_START:
                         VideoPlayerActivity.start(getActivity(), media.getUri(), true);
-                        getActivity().finish();
+                        activity.finish();
                         break;
                 }
             }
@@ -221,7 +224,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
                             if (cover == null)
                                 detailsOverview.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_default_cone));
                             else
-                                detailsOverview.setImageBitmap(getActivity(), cover);
+                                detailsOverview.setImageBitmap(activity, cover);
 
                             detailsOverview.addAction(new Action(ID_PLAY, getString(R.string.play)));
                             detailsOverview.addAction(new Action(ID_LISTEN, getString(R.string.listen)));
