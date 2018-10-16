@@ -84,6 +84,9 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
                 case "tv_ui":
                     ((PreferencesActivity) getActivity()).setRestartApp();
                     break;
+                case "browser_show_all_files":
+                    ((PreferencesActivity) getActivity()).setRestart();
+                    break;
             }
     }
 

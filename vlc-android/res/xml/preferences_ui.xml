@@ -42,6 +42,12 @@
 
     <CheckBoxPreference
         android:defaultValue="true"
+        android:key="browser_show_all_files"
+        android:summary="@string/browser_show_all_summary"
+        android:title="@string/browser_show_all_title" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
         android:key="blurred_cover_background"
         android:summary="@string/blurred_cover_background_summary"
         android:title="@string/blurred_cover_background_title" />

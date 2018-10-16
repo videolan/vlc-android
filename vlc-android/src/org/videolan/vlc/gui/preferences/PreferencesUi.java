@@ -86,8 +86,8 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
     }
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("set_locale"))
-            UiTools.restartDialog(getActivity());
+        if (key.equals("set_locale")) UiTools.restartDialog(getActivity());
+        else if (key.equals("browser_show_all_files")) ((PreferencesActivity) getActivity()).setRestart();
     }
 
     private void prepareLocaleList() {

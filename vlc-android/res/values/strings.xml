@@ -443,6 +443,8 @@
     <string name="restart_message">Changes will take effect once application has restarted.\n\nRestart now?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Later</string>
+    <string name="browser_show_all_title">Show all files in browser</string>
+    <string name="browser_show_all_summary">Display files that are not recognized as audio or video in browsers</string>
 
     <string name="developer_prefs_category">Developer</string>
     <string name="enable_verbose_mode">Verbose</string>
