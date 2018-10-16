@@ -8,10 +8,12 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.preference.PreferenceManager
 import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.startMedialibrary
 import java.io.File
@@ -58,6 +60,8 @@ suspend fun retry (
 }
 
 fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
+fun MediaWrapper?.isMedia() = this != null && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO)
+fun MediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == MediaWrapper.TYPE_DIR || type == MediaWrapper.TYPE_PLAYLIST)
 
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)!!
 
