@@ -4,8 +4,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
-import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.util.isOnline
+import org.videolan.vlc.ExternalMonitor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
@@ -42,7 +41,7 @@ private class ConnectivityInterceptor: Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        if (!VLCApplication.getAppContext().isOnline()) throw NoConnectivityException()
+        if (!ExternalMonitor.isConnected()) throw NoConnectivityException()
 
         val builder = chain.request().newBuilder()
         return chain.proceed(builder.build())

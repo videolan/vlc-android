@@ -63,12 +63,6 @@ fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type =
 
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)!!
 
-fun Context.isOnline(): Boolean {
-    val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val netInfo = connectivityManager.activeNetworkInfo
-    return netInfo != null && netInfo.isConnected
-}
-
 fun Long.random() = (Random().nextFloat() * this).toLong()
 
 suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary.() -> T) = withContext(Dispatchers.IO) {
