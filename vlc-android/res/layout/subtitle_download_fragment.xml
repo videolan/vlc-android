@@ -106,7 +106,6 @@
             android:id="@+id/swipeContainer"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             app:refreshing="@{viewmodel.isApiLoading}"
             app:onRefreshListener="@{()-> viewmodel.onRefresh()}"
@@ -140,23 +139,15 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="16dp" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/bottom_horizontal_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_end="16dp" />
-
-
         <TextView
             android:id="@+id/message"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="18dp"
             android:text="@{viewmodel.observableMessage}"
             android:textAlignment="viewStart"
             android:textColor="@color/red"
             android:visibility="@{TextUtils.isEmpty(viewmodel.observableMessage) ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_horizontal_guideline"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"

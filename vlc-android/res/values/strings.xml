@@ -128,7 +128,6 @@
     <string name="repeat_all">Repeat all</string>
     <string name="previous">Previous</string>
     <string name="stop">Stop</string>
-    <string name="next">Next</string>
     <string name="firstsong">First song of the playlist</string>
     <string name="lastsong">Last song of the playlist</string>
 
@@ -646,4 +645,5 @@
     <string name="subtitle_search_episode_hint">Episode</string>
     <string name="subtitle_search_season_hint">Season</string>
     <string name="language_to_download">Language</string>
+    <string name="next">Next</string>
 </resources>

@@ -1,6 +1,5 @@
 package org.videolan.vlc.media
 
-import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -39,10 +38,21 @@ private const val PAGE_SIZE = 1000
 object MediaUtils : CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
 
-    @JvmOverloads
-    fun getSubs(activity: Activity, mediaList: List<MediaWrapper>) {
-        //Todo: Fix this
-//        subtitlesDownloader.downloadSubs(activity, mediaList, cb)
+    fun getSubs(activity: FragmentActivity, mediaList: List<MediaWrapper>) {
+        showSubtitleDownloaderDialogFragment(activity, mediaList.map { it.uri.path })
+    }
+
+    fun getSubs(activity: FragmentActivity, media: MediaWrapper) {
+        showSubtitleDownloaderDialogFragment(activity, listOf(media.uri.path))
+    }
+
+    fun showSubtitleDownloaderDialogFragment(activity: FragmentActivity, mediaPaths: List<String>) {
+        val callBack = java.lang.Runnable {
+            SubtitleDownloaderDialogFragment.newInstance(mediaPaths).show(activity.supportFragmentManager, "Subtitle_downloader")
+        }
+
+        if (Permissions.canWriteStorage()) callBack.run()
+        else Permissions.askWriteStoragePermission(activity, false, callBack)
     }
 
     fun loadlastPlaylist(context: Context?, type: Int) {
@@ -52,16 +62,6 @@ object MediaUtils : CoroutineScope {
                 service.loadLastPlaylist(type)
             }
         })
-    }
-
-    @JvmOverloads
-    fun getSubs(activity: FragmentActivity, media: MediaWrapper) {
-        val callBack = java.lang.Runnable {
-            SubtitleDownloaderDialogFragment.newInstance(media.uri.path).show(activity.supportFragmentManager, "Subtitle_downloader")
-        }
-
-        if (Permissions.canWriteStorage()) callBack.run()
-        else Permissions.askWriteStoragePermission(activity, false, callBack)
     }
 
     fun appendMedia(context: Context?, media: List<MediaWrapper>?) {
