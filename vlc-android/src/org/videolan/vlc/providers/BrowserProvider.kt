@@ -28,8 +28,10 @@ import android.os.HandlerThread
 import android.os.Process
 import android.support.v4.util.SimpleArrayMap
 import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
+import kotlinx.coroutines.experimental.channels.mapNotNullTo
 import kotlinx.coroutines.experimental.channels.mapTo
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.MediaBrowser
@@ -39,8 +41,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
-import org.videolan.vlc.util.LiveDataset
-import org.videolan.vlc.util.VLCInstance
+import org.videolan.vlc.util.*
 import java.util.*
 
 const val TAG = "VLC/BrowserProvider"
@@ -54,6 +55,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
     private lateinit var browserChannel : Channel<Media>
     protected var job : Job? = null
+    private val showAll = Settings.getInstance(context).getBoolean("browser_show_all_files", true)
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = Medialibrary.getInstance()
@@ -98,7 +100,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         browserChannel = Channel(Channel.UNLIMITED)
         requestBrowsing(url)
         job = launch {
-            for (media in browserChannel) addMedia(findMedia(media))
+            for (media in browserChannel) findMedia(media)?.let { addMedia(it) }
             if (dataset.value.isNotEmpty()) parseSubDirectories()
             else dataset.clear() // send observable event when folder is empty
         }
@@ -120,7 +122,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         browserChannel = Channel(Channel.UNLIMITED)
         requestBrowsing(url)
         job = launch {
-            dataset.value = browserChannel.mapTo(mutableListOf()) { findMedia(it) }
+            dataset.value = browserChannel.mapNotNullTo(mutableListOf()) { findMedia(it) }
             parseSubDirectories()
         }
     }
@@ -155,10 +157,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             mediabrowser?.browse(current.uri, 0)
             // retrieve subitems
             for (media in browserChannel) {
-                val type = media.type
-                val mw = findMedia(media)
-                if (type == Media.Type.Directory) directories.add(mw)
-                else if (type == Media.Type.File) files.add(mw)
+                val mw = findMedia(media) ?: continue
+                val type = mw.type
+                if (type == MediaWrapper.TYPE_DIR) directories.add(mw)
+                else files.add(mw)
             }
             // all subitems are in
             getDescription(directories.size, files.size).takeIf { it.isNotEmpty() }?.let {
@@ -197,9 +199,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         return sb.toString()
     }
 
-    private suspend fun findMedia(media: Media): MediaWrapper {
+    private suspend fun findMedia(media: Media): MediaWrapper? {
         val mw = MediaWrapper(media)
         media.release()
+        if (!showAll && !mw.isBrowserMedia()) return null
         val uri = mw.uri
         if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)
                 && "file" == uri.scheme) return withContext(Dispatchers.IO) { medialibrary.getMedia(uri) ?: mw }
