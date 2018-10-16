@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 
+import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.gui.dialogs.VlcDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.gui.dialogs.VlcProgressDialog;
@@ -39,6 +40,7 @@ public class DialogActivity extends BaseActivity {
     public static final String KEY_QUESTION = "QuestionDialog";
     public static final String KEY_PROGRESS = "ProgressDialog";
     public static final String KEY_STREAM = "streamDialog";
+    public static final String KEY_SERVER = "serverDialog";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +58,16 @@ public class DialogActivity extends BaseActivity {
             setupProgressDialog(key);
         else if (KEY_STREAM.equals(key))
             setupStreamDialog();
+        else if (KEY_SERVER.equals(key))
+            setupServerDialog();
     }
 
     private void setupStreamDialog() {
         new MRLPanelFragment().show(getSupportFragmentManager(), "fragment_mrl");
+    }
+
+    private void setupServerDialog() {
+        new NetworkServerDialog().show(getSupportFragmentManager(), "fragment_mrl");
     }
 
     private void setupLoginDialog(String key) {

@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.database.MediaDatabase;
+import org.videolan.vlc.gui.DialogActivity;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.repository.BrowserFavRepository;
 import org.videolan.vlc.util.WorkersKt;
@@ -65,7 +68,8 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AppCompatDialog dialog = new AppCompatDialog(getActivity(), getTheme());
+        final FragmentActivity activity = getActivity();
+        final AppCompatDialog dialog = new AppCompatDialog(activity, getTheme());
         dialog.setTitle(R.string.server_add_title);
 
         dialog.setCancelable(true);
@@ -100,17 +104,17 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
 
         View v = inflater.inflate(R.layout.network_server_dialog, container, false);
 
-        mEditAddressLayout = (TextInputLayout) v.findViewById(R.id.server_domain);
+        mEditAddressLayout = v.findViewById(R.id.server_domain);
         mEditAddress = mEditAddressLayout.getEditText();
         mEditFolder = ((TextInputLayout)v.findViewById(R.id.server_folder)).getEditText();
         mEditUsername = ((TextInputLayout)v.findViewById(R.id.server_username)).getEditText();
         mEditServername = ((TextInputLayout)v.findViewById(R.id.server_name)).getEditText();
-        mSpinnerProtocol = (Spinner) v.findViewById(R.id.server_protocol);
-        mEditPort = (EditText) v.findViewById(R.id.server_port);
-        mUrl = (TextView) v.findViewById(R.id.server_url);
-        mSave = (Button) v.findViewById(R.id.server_save);
-        mCancel = (Button) v.findViewById(R.id.server_cancel);
-        mPortTitle = (TextView) v.findViewById(R.id.server_port_text);
+        mSpinnerProtocol = v.findViewById(R.id.server_protocol);
+        mEditPort = v.findViewById(R.id.server_port);
+        mUrl = v.findViewById(R.id.server_url);
+        mSave = v.findViewById(R.id.server_save);
+        mCancel = v.findViewById(R.id.server_cancel);
+        mPortTitle = v.findViewById(R.id.server_port_text);
 
         mProtocols = getResources().getStringArray(R.array.server_protocols);
         return v;
@@ -120,7 +124,7 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(), R.layout.dropdown_item, getResources().getStringArray(R.array.server_protocols));
+        final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(view.getContext(), R.layout.dropdown_item, getResources().getStringArray(R.array.server_protocols));
         mSpinnerProtocol.setAdapter(spinnerArrayAdapter);
 
         if (mUri != null) {
@@ -151,9 +155,9 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     }
 
     private void saveServer() {
-        String name = (TextUtils.isEmpty(mEditServername.getText().toString())) ?
+        final String name = (TextUtils.isEmpty(mEditServername.getText().toString())) ?
                 mEditAddress.getText().toString() : mEditServername.getText().toString();
-        Uri uri = Uri.parse(mUrl.getText().toString());
+        final Uri uri = Uri.parse(mUrl.getText().toString());
         if (mUri != null) {
             WorkersKt.runIO(new Runnable() {
                 @Override
@@ -290,5 +294,12 @@ public class NetworkServerDialog extends DialogFragment implements AdapterView.O
     public void setServer(MediaWrapper mw) {
         mUri = mw.getUri();
         mName = mw.getTitle();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        final Activity activity = getActivity();
+        if (activity instanceof DialogActivity) activity.finish();
     }
 }

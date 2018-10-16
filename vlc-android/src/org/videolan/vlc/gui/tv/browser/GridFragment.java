@@ -20,11 +20,11 @@
  *****************************************************************************/
 package org.videolan.vlc.gui.tv.browser;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v17.leanback.app.VerticalGridSupportFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
 import android.support.v17.leanback.widget.VerticalGridPresenter;
+import android.support.v4.app.FragmentActivity;
 
 import org.videolan.vlc.gui.tv.CardPresenter;
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface;
@@ -36,7 +36,7 @@ public class GridFragment extends VerticalGridSupportFragment implements Browser
     private static final int NUM_COLUMNS = 4;
 
     protected ArrayObjectAdapter mAdapter;
-    Activity mContext;
+    FragmentActivity mContext;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

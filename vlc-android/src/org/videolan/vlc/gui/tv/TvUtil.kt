@@ -33,6 +33,7 @@ import android.support.v17.leanback.app.BackgroundManager
 import android.support.v17.leanback.widget.DiffCallback
 import android.support.v17.leanback.widget.ListRow
 import android.support.v17.leanback.widget.Row
+import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
@@ -45,6 +46,7 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.DialogActivity
+import org.videolan.vlc.gui.dialogs.NetworkServerDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.UiTools
@@ -107,7 +109,7 @@ object TvUtil {
             MediaUtils.openMedia(activity, media)
     }
 
-    fun openMedia(activity: Activity, item: Any?, row: Row?) {
+    fun openMedia(activity: FragmentActivity, item: Any?, row: Row?) {
         when (item) {
             is MediaWrapper -> when {
                 item.type == MediaWrapper.TYPE_AUDIO -> openAudioCategory(activity, item)
@@ -126,13 +128,16 @@ object TvUtil {
                 }
                 else -> MediaUtils.openMedia(activity, item)
             }
-            is DummyItem -> if (item.id == HEADER_STREAM) {
-                activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_STREAM)
+            is DummyItem -> when {
+                item.id == HEADER_STREAM -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_STREAM)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-            } else {
-                val intent = Intent(activity, VerticalGridActivity::class.java)
-                intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)
-                activity.startActivity(intent)
+                item.id == HEADER_SERVER -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                else -> {
+                    val intent = Intent(activity, VerticalGridActivity::class.java)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)
+                    activity.startActivity(intent)
+                }
             }
             is MediaLibraryItem -> openAudioCategory(activity, item)
         }
@@ -225,7 +230,7 @@ object TvUtil {
                 return when (mediaLibraryItem.id) {
                     HEADER_VIDEO -> R.drawable.ic_video_collection_big
                     HEADER_DIRECTORIES -> R.drawable.ic_menu_folder_big
-                    HEADER_NETWORK -> R.drawable.ic_menu_network_big
+                    HEADER_SERVER, HEADER_NETWORK -> R.drawable.ic_menu_network_big
                     HEADER_STREAM -> R.drawable.ic_menu_stream_big
                     ID_SETTINGS -> R.drawable.ic_menu_preferences_big
                     ID_ABOUT_TV, ID_LICENCE -> R.drawable.ic_default_cone

@@ -8,7 +8,7 @@
         android:id="@+id/server_protocol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:entries="@array/server_protocols"/>
 
@@ -16,12 +16,12 @@
         android:id="@+id/server_port_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/server_protocol"
+        android:layout_toEndOf="@+id/server_protocol"
         android:layout_alignBaseline="@+id/server_protocol"
         android:layout_alignTop="@+id/server_protocol"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:gravity="right"
+        android:gravity="end"
         android:text="@string/server_port"/>
 
     <EditText
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:minWidth="30dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/server_port_text"
+        android:layout_toEndOf="@+id/server_port_text"
         android:layout_alignParentTop="true"
         android:layout_alignBaseline="@+id/server_protocol"
         android:layout_alignTop="@+id/server_protocol"
@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/server_domain"
-        android:layout_alignParentLeft="true" >
+        android:layout_alignParentStart="true" >
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/server_username"
-        android:layout_alignParentLeft="true" >
+        android:layout_alignParentStart="true" >
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/server_url"
-        android:layout_alignParentLeft="true" >
+        android:layout_alignParentStart="true" >
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,16 +114,13 @@
         android:layout_height="wrap_content"
         android:text="@android:string/cancel"
         android:layout_below="@id/server_name"
-        android:layout_toLeftOf="@+id/server_save"
-        tools:targetApi="11"
-        style="?android:attr/borderlessButtonStyle"/>
+        android:layout_toStartOf="@+id/server_save" />
     <Button
         android:id="@+id/server_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="8dp"
         android:text="@android:string/ok"
-        android:layout_below="@id/server_name"
-        tools:targetApi="11"
-        style="?android:attr/borderlessButtonStyle"/>
+        android:layout_below="@id/server_name" />
 </RelativeLayout>

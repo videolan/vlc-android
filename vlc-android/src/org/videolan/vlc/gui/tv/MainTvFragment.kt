@@ -111,9 +111,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
         favorites = browserFavRepository.networkFavorites
         favorites.observe(this, Observer{
-            it?.let{
-                updatedFavoritList = it
-            }
+            it?.let{ list ->  updatedFavoritList = list }
             updateBrowsers()
         })
     }
@@ -215,6 +213,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         if (ExternalMonitor.isLan()) {
             list.add(DummyItem(HEADER_NETWORK, getString(R.string.network_browsing), null))
             list.add(DummyItem(HEADER_STREAM, getString(R.string.open_mrl), null))
+            list.add(DummyItem(HEADER_SERVER, getString(R.string.server_add_title), null))
 
             updatedFavoritList.forEach{
                 it.description = it.uri.scheme
