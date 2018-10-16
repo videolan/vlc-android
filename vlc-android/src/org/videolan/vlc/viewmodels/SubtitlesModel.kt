@@ -157,7 +157,7 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
         ExternalSubRepository.getInstance(context).deleteSubtitle(mediaPath, idSubtitle)
     }
 
-    fun getLastUsedLanguage() = Settings.getInstance(context).getString(LAST_USED_LANGUAGE, Locale.getDefault().isO3Language)
+    fun getLastUsedLanguage() = Settings.getInstance(context).getString(LAST_USED_LANGUAGE, Locale.getDefault().isO3Language).getCompliantLanguageID()
 
     fun saveLastUsedLanguage(lastUsedLang: String) = Settings.getInstance(context).edit().putString(LAST_USED_LANGUAGE, lastUsedLang).apply()
 
@@ -165,6 +165,22 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return SubtitlesModel(context.applicationContext, mediaPath) as T
+        }
+    }
+
+    // Locale ID Control, because of OpenSubtitle support of ISO639-2 codes
+    // e.g. French ID can be 'fra' or 'fre', OpenSubtitles considers 'fre' but Android Java Locale provides 'fra'
+    fun String.getCompliantLanguageID(): String {
+        return when(this) {
+            "fra" -> "fre"
+            "deu" -> "ger"
+            "zho" -> "chi"
+            "ces" -> "cze"
+            "fas" -> "per"
+            "nld" -> "dut"
+            "ron" -> "rum"
+            "slk" -> "slo"
+            else  -> this
         }
     }
 }
