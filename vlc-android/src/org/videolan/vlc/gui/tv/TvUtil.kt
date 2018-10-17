@@ -230,7 +230,8 @@ object TvUtil {
                 return when (mediaLibraryItem.id) {
                     HEADER_VIDEO -> R.drawable.ic_video_collection_big
                     HEADER_DIRECTORIES -> R.drawable.ic_menu_folder_big
-                    HEADER_SERVER, HEADER_NETWORK -> R.drawable.ic_menu_network_big
+                    HEADER_NETWORK -> R.drawable.ic_menu_network_big
+                    HEADER_SERVER -> R.drawable.ic_menu_network_add_big
                     HEADER_STREAM -> R.drawable.ic_menu_stream_big
                     ID_SETTINGS -> R.drawable.ic_menu_preferences_big
                     ID_ABOUT_TV, ID_LICENCE -> R.drawable.ic_default_cone
