@@ -221,7 +221,7 @@ dependencies {
     implementation "android.arch.paging:runtime:$paging_version"
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
-    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.converterGson"
+    implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
     implementation project(':tools')
     // Test
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$rootProject.espressoVersion"

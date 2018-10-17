@@ -6,7 +6,7 @@ import okhttp3.Request
 import okhttp3.Response
 import org.videolan.vlc.ExternalMonitor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -23,7 +23,7 @@ private fun buildClient() =
                         .readTimeout(10, TimeUnit.SECONDS)
                         .connectTimeout(5, TimeUnit.SECONDS)
                         .build())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(MoshiConverterFactory.create())
                 .build()
                 .create(IOpenSubtitleService::class.java)
 
