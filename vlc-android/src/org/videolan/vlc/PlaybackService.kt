@@ -1165,13 +1165,13 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope {
     fun addSubtitleTrack(uri: Uri, select: Boolean) = playlistManager.player.addSubtitleTrack(uri, select)
 
     @MainThread
-    fun setSpuTrack(index: Int) = playlistManager.player.setSpuTrack(index)
+    fun setSpuTrack(index: Int) = playlistManager.setSpuTrack(index)
 
     @MainThread
-    fun setAudioDelay(delay: Long) = playlistManager.player.setAudioDelay(delay)
+    fun setAudioDelay(delay: Long) = playlistManager.setAudioDelay(delay)
 
     @MainThread
-    fun setSpuDelay(delay: Long) = playlistManager.player.setSpuDelay(delay)
+    fun setSpuDelay(delay: Long) = playlistManager.setSpuDelay(delay)
 
     @MainThread
     fun hasRenderer() = playlistManager.player.hasRenderer

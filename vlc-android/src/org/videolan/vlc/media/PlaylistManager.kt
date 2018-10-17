@@ -415,13 +415,26 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             media.time = if (progress == 0f) 0L else time
             media.setLongMeta(MediaWrapper.META_PROGRESS, media.time)
         }
-        if (canSwitchToVideo) {
-            //Save audio delay
-            if (settings.getBoolean("save_individual_audio_delay", false))
-                media.setLongMeta(MediaWrapper.META_AUDIODELAY, player.getAudioDelay())
-            media.setLongMeta(MediaWrapper.META_SUBTITLE_DELAY, player.getSpuDelay())
-            media.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, player.getSpuTrack().toLong())
+    }
+
+    fun setSpuTrack(index: Int) {
+        if (!player.setSpuTrack(index)) return
+        val media = getCurrentMedia() ?: return
+        if (media.id != 0L) launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, player.getSpuTrack().toLong()) }
+    }
+
+    fun setAudioDelay(delay: Long) {
+        if (!player.setAudioDelay(delay)) return
+        val media = getCurrentMedia() ?: return
+        if (media.id != 0L && settings.getBoolean("save_individual_audio_delay", false)) {
+            launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_AUDIODELAY, player.getAudioDelay()) }
         }
+    }
+
+    fun setSpuDelay(delay: Long) {
+        if (!player.setSpuDelay(delay)) return
+        val media = getCurrentMedia() ?: return
+        if (media.id != 0L) launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_SUBTITLE_DELAY, player.getSpuDelay()) }
     }
 
     private fun loadMediaMeta(media: MediaWrapper) {
