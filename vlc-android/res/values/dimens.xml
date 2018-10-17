@@ -79,5 +79,7 @@
     <dimen name="dialog_sd_wisard_height">420dp</dimen>
 
     <!--MRLPanel-->
-    <dimen name="mrl_panel_min_width">300dp</dimen>
+    <dimen name="mrl_panel_min_width">320dp</dimen>
+    <dimen name="subs_dl_dialog_width">320dp</dimen>
+    <dimen name="subs_dl_dialog_height">448dp</dimen>
 </resources>

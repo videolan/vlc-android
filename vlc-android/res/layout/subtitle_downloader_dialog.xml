@@ -8,10 +8,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/movieName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
+            android:singleLine="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
-            android:layout_width="300dp"
-            android:layout_height="400dp"
+            android:layout_width="@dimen/subs_dl_dialog_width"
+            android:layout_height="@dimen/subs_dl_dialog_height"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -21,13 +32,13 @@
             style="@style/Widget.Design.TabLayout"
             android:id="@+id/tabLayout"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/movieName">
         </android.support.design.widget.TabLayout>
 
         <Button
@@ -38,16 +49,6 @@
             android:text="@string/next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pager" />
-
-        <TextView
-            android:id="@+id/movieName"
-            android:layout_width="150dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:gravity="center_vertical"
-            android:singleLine="true"
-            app:layout_constraintBaseline_toBaselineOf="@+id/nextButton"
-            app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

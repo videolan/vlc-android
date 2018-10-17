@@ -3,4 +3,5 @@
 <resources>
     <!--MRLPanel-->
     <dimen name="mrl_panel_min_width">380dp</dimen>
+    <dimen name="subs_dl_dialog_width">512dp</dimen>
 </resources>

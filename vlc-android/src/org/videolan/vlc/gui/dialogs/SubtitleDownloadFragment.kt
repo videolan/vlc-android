@@ -1,7 +1,6 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.arch.lifecycle.Observer
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -30,11 +29,8 @@ class SubtitleDownloadFragment : Fragment() {
                 State.NotDownloaded -> {
                     VLCDownloadManager.download(context!!, subtitleItem)
                 }
-
                 State.Downloaded -> deleteSubtitleDialog(context,
-                        DialogInterface.OnClickListener { dialog, which ->
-                            viewModel.deleteSubtitle(subtitleItem.mediaPath, subtitleItem.idSubtitle)
-                        }, DialogInterface.OnClickListener { _, _ -> })
+                        { _, _ -> viewModel.deleteSubtitle(subtitleItem.mediaPath, subtitleItem.idSubtitle) }, { _, _ -> })
             }
     }
 
