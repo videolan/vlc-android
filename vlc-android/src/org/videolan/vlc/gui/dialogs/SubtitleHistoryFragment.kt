@@ -2,6 +2,7 @@ package org.videolan.vlc.gui.dialogs
 
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -18,6 +19,7 @@ import org.videolan.vlc.viewmodels.SubtitlesModel
 class SubtitleHistoryFragment : Fragment() {
     private lateinit var viewModel: SubtitlesModel
     private lateinit var adapter: SubtitlesAdapter
+    lateinit var mediaPath: String
 
     private val listEventActor = coroutineScope.actor<SubtitleItem> {
         for (event in channel)
@@ -30,7 +32,8 @@ class SubtitleHistoryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = (parentFragment as SubtitleDownloaderDialogFragment).viewModel
+        mediaPath = arguments?.getString(MEDIA_PATH, "") ?: ""
+        viewModel = ViewModelProviders.of(parentFragment!!, SubtitlesModel.Factory(requireContext(), mediaPath)).get(SubtitlesModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,6 +50,18 @@ class SubtitleHistoryFragment : Fragment() {
         })
 
         return binding.root
+    }
+
+    companion object {
+        lateinit var subtitleHistoryFragment: SubtitleHistoryFragment
+        fun newInstance(mediaPath: String): SubtitleHistoryFragment {
+            subtitleHistoryFragment = SubtitleHistoryFragment()
+
+            val args = Bundle()
+            args.putString(MEDIA_PATH, mediaPath)
+            subtitleHistoryFragment.arguments = args
+            return subtitleHistoryFragment
+        }
     }
 
 
