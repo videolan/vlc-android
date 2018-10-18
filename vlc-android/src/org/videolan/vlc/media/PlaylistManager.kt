@@ -1,14 +1,13 @@
 package org.videolan.vlc.media
 
-import androidx.lifecycle.MutableLiveData
 import android.content.Intent
 import android.net.Uri
-import androidx.annotation.MainThread
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.MainThread
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.experimental.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
