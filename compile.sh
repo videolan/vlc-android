@@ -156,7 +156,9 @@ else
 fi
 
 if [ ! -f gradle.properties ]; then
-    echo keyStoreFile=$KEYSTORE_FILE > gradle.properties
+    echo android.enableJetifier=true > gradle.properties
+    echo android.useAndroidX=true >> gradle.properties
+    echo keyStoreFile=$KEYSTORE_FILE >> gradle.properties
     echo storealias=$STOREALIAS >> gradle.properties
     if [ -z "$PASSWORD_KEYSTORE" ]; then
         echo storepwd=android >> gradle.properties
