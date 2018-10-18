@@ -88,6 +88,8 @@ android {
             storealias=androiddebugkey
             storepwd=android
              */
+
+            /*
             storeFile file(keyStoreFile)
             keyAlias storealias
             if (System.getenv('PASSWORD_KEYSTORE') != null && !System.getenv('PASSWORD_KEYSTORE').isEmpty()){
@@ -97,6 +99,7 @@ android {
                 storePassword storepwd
                 keyPassword storepwd
             }
+            */
         }
     }
 
