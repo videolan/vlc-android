@@ -143,7 +143,7 @@
         <TextView
             android:id="@+id/message"
             android:layout_width="0dp"
-            android:layout_height="16dp"
+            android:layout_height="20dp"
             android:text="@{viewmodel.observableMessage}"
             android:textColor="@color/red"
             android:gravity="center_horizontal"
