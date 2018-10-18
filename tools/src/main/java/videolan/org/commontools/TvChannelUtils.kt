@@ -27,9 +27,9 @@ import android.content.SharedPreferences
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.annotation.WorkerThread
-import android.support.media.tv.*
+import androidx.annotation.RequiresApi
+import androidx.annotation.WorkerThread
+import androidx.tvprovider.media.tv.*
 import android.util.Log
 
 typealias ProgramsList = MutableList<TvPreviewProgram>

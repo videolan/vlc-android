@@ -27,7 +27,7 @@ import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.preference.ListPreference;
+import androidx.preference.ListPreference;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.UiTools;

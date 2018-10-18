@@ -1,12 +1,12 @@
 package org.videolan.vlc.gui.tv
 
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
 
-class AboutActivity : FragmentActivity() {
+class AboutActivity : androidx.fragment.app.FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.about_main)

@@ -20,7 +20,7 @@
 
 package org.videolan.vlc.viewmodels
 
-import android.arch.lifecycle.MediatorLiveData
+import androidx.lifecycle.MediatorLiveData
 import android.content.Context
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.channels.Channel

@@ -20,7 +20,7 @@
 
 package org.videolan.vlc.providers
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.net.Uri

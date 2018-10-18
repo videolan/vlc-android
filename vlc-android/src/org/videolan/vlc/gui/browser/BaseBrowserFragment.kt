@@ -22,19 +22,19 @@
  */
 package org.videolan.vlc.gui.browser
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Message
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.view.ActionMode
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.appcompat.view.ActionMode
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.*
 import kotlinx.coroutines.experimental.*
@@ -67,10 +67,10 @@ private const val MSG_SHOW_LOADING = 0
 internal const val MSG_HIDE_LOADING = 1
 private const val MSG_REFRESH = 3
 
-abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler, CtxActionReceiver {
+abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler, CtxActionReceiver {
 
     protected val handler = BrowserFragmentHandler(this)
-    private lateinit var layoutManager: LinearLayoutManager
+    private lateinit var layoutManager: androidx.recyclerview.widget.LinearLayoutManager
     var mrl: String? = null
     protected var currentMedia: MediaWrapper? = null
     private var savedPosition = -1
@@ -84,7 +84,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     protected lateinit var browserFavRepository: BrowserFavRepository
 
 
-    protected abstract fun createFragment(): Fragment
+    protected abstract fun createFragment(): androidx.fragment.app.Fragment
     protected abstract fun browseRoot()
 
     override fun onCreate(bundle: Bundle?) {
@@ -123,7 +123,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (!this::adapter.isInitialized) adapter = BaseBrowserAdapter(this)
-        layoutManager = LinearLayoutManager(activity)
+        layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         binding.networkList.layoutManager = layoutManager
         binding.networkList.adapter = adapter
         registerSwiperRefreshlayout()
@@ -134,14 +134,14 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     open fun registerSwiperRefreshlayout() = mSwipeRefreshLayout.setOnRefreshListener(this)
 
     override fun setBreadcrumb() {
-        val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane) ?: return
+        val ariane = requireActivity().findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.ariane) ?: return
         val media = currentMedia
         if (media != null && isSchemeSupported(media.uri?.scheme)) {
             ariane.visibility = View.VISIBLE
-            ariane.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            ariane.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext(), androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
             ariane.adapter = PathAdapter(this, media)
             if (ariane.itemDecorationCount == 0) {
-                val did = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL)
+                val did = androidx.recyclerview.widget.DividerItemDecoration(requireContext(), androidx.recyclerview.widget.DividerItemDecoration.HORIZONTAL)
                 did.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider_grey_50_18dp)!!)
                 ariane.addItemDecoration(did)
             }
@@ -150,7 +150,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     fun backTo(tag: String) {
-        requireActivity().supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        requireActivity().supportFragmentManager.popBackStack(tag, androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
 
@@ -457,7 +457,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
-    override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
+    override fun onUpdateFinished(adapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>) {
         if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.isRefreshing = false
         handler.sendEmptyMessage(MSG_HIDE_LOADING)
         updateEmptyView()

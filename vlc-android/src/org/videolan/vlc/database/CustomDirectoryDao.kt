@@ -1,6 +1,6 @@
 package org.videolan.vlc.database
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import org.videolan.vlc.database.models.CustomDirectory
 
 @Dao

@@ -21,10 +21,10 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.os.Bundle
-import android.support.design.widget.BottomSheetDialogFragment
-import android.support.v4.app.FragmentActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +39,7 @@ const val CTX_TITLE_KEY = "CTX_TITLE_KEY"
 const val CTX_POSITION_KEY = "CTX_POSITION_KEY"
 const val CTX_FLAGS_KEY = "CTX_FLAGS_KEY"
 
-class ContextSheet : BottomSheetDialogFragment() {
+class ContextSheet : com.google.android.material.bottomsheet.BottomSheetDialogFragment() {
 
     private lateinit var options : List<CtxOption>
     lateinit var receiver : CtxActionReceiver
@@ -70,8 +70,8 @@ class ContextSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<TextView>(R.id.ctx_title).text = arguments?.getString(CTX_TITLE_KEY) ?: ""
-        val list = view.findViewById<RecyclerView>(R.id.ctx_list)
-        list.layoutManager = LinearLayoutManager(requireContext())
+        val list = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.ctx_list)
+        list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
         list.adapter = ContextAdapter()
         val flags = arguments?.getInt(CTX_FLAGS_KEY) ?: 0
         options = populateOptions(flags)
@@ -99,11 +99,11 @@ class ContextSheet : BottomSheetDialogFragment() {
         if (flags and CTX_RENAME != 0) add(Simple(CTX_RENAME, getString(R.string.rename), R.drawable.ic_ctx_edit_normal))
     }
 
-    inner class ContextAdapter : RecyclerView.Adapter<ContextAdapter.ViewHolder>() {
+    inner class ContextAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<ContextAdapter.ViewHolder>() {
 
         private val inflater: LayoutInflater by lazy(LazyThreadSafetyMode.NONE) { LayoutInflater.from(requireContext()) }
 
-        inner class ViewHolder(val binding : ContextItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        inner class ViewHolder(val binding : ContextItemBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
             init {
                 itemView.setOnClickListener {
                     receiver.onCtxAction(itemPosition, options[layoutPosition].id)
@@ -130,7 +130,7 @@ interface CtxActionReceiver {
     fun onCtxAction(position: Int, option: Int)
 }
 
-fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver, position: Int, title: String, flags: Int) {
+fun showContext(activity: androidx.fragment.app.FragmentActivity, receiver: CtxActionReceiver, position: Int, title: String, flags: Int) {
     val ctxDialog = ContextSheet()
     ctxDialog.arguments = Bundle(3).apply {
         putString(CTX_TITLE_KEY, title)

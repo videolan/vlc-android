@@ -24,7 +24,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.support.v4.content.LocalBroadcastManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.startMedialibrary
@@ -34,12 +34,12 @@ internal class PBSMedialibraryReceiver(private val service: PlaybackService) : B
     private val pendingActions by lazy(LazyThreadSafetyMode.NONE) { LinkedList<Runnable>() }
 
     init {
-        LocalBroadcastManager.getInstance(service).registerReceiver(this, IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY))
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(service).registerReceiver(this, IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY))
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         service.libraryReceiver = null
-        LocalBroadcastManager.getInstance(service).unregisterReceiver(this)
+        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(service).unregisterReceiver(this)
         for (r in pendingActions) r.run()
     }
 

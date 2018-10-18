@@ -23,16 +23,16 @@
 
 package org.videolan.vlc.gui.tv
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v17.leanback.app.BackgroundManager
-import android.support.v17.leanback.app.BrowseSupportFragment
-import android.support.v17.leanback.widget.*
-import android.support.v4.content.ContextCompat
+import androidx.leanback.app.BackgroundManager
+import androidx.leanback.app.BrowseSupportFragment
+import androidx.leanback.widget.*
+import androidx.core.content.ContextCompat
 import android.view.View
 import kotlinx.coroutines.experimental.launch
 import org.videolan.libvlc.util.AndroidUtil

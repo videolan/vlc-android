@@ -20,7 +20,7 @@
  *****************************************************************************/
 package org.videolan.vlc.media;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaWrapper;

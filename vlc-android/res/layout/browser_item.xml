@@ -32,7 +32,7 @@
             name="bgColor"
             type="int" />
     </data>
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
@@ -130,5 +130,5 @@
             android:visibility="@{hasContextMenu ? View.VISIBLE : View.GONE, default=gone}"
             android:onClick="@{holder::onMoreClick}"
             android:clickable="@{hasContextMenu}" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

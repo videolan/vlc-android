@@ -11,7 +11,7 @@
             name="showCover"
             type="boolean" />
     </data>
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,7 +47,7 @@
             android:paddingRight="0px"
             android:progressDrawable="?attr/progress_mini_player" />
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header"
             android:layout_width="0dp"
             android:layout_height="60dp"
@@ -81,7 +81,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/barrier"
                 android:background="#00000000" />
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/playlist_search_text"
@@ -94,7 +94,7 @@
                     android:hint="@string/search_hint"
                     android:inputType="textFilter"
                     android:imeOptions="actionSearch"/>
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
                 android:id="@+id/playlist_ab_repeat"
@@ -180,7 +180,7 @@
                 android:onLongClick="@{fragment::onStopClick}"
                 android:src="?attr/ic_pause" />
 
-            <android.support.constraint.Barrier
+            <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -189,9 +189,9 @@
                 app:barrierDirection="start"
                 app:constraint_referenced_ids="header_time, playlist_ab_repeat"/>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/songs_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -345,5 +345,5 @@
             android:scaleType="fitXY"
             android:onClick="@{fragment::onPreviousClick}"
             android:src="?attr/ic_previous" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

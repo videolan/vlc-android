@@ -23,14 +23,14 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/searchButton"
         android:layout_centerHorizontal="true" >
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <include layout="@layout/audio_recyclerview" />
             <include layout="@layout/audio_recyclerview" />
-        </android.support.v4.view.ViewPager>
+        </androidx.viewpager.widget.ViewPager>
     </org.videolan.vlc.gui.view.SwipeRefreshLayout>
     <org.videolan.vlc.gui.view.FastScroller
         android:id="@+id/songs_fast_scroller"

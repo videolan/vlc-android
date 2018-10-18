@@ -1,6 +1,6 @@
 package org.videolan.vlc.util
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 
 
 class LiveDataset<T> : MutableLiveData<MutableList<T>>() {

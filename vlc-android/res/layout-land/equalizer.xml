@@ -7,14 +7,14 @@
             type="org.videolan.vlc.gui.audio.EqualizerFragment.EqualizerState" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:minHeight="320dp"
         android:minWidth="448dp"
         android:padding="@dimen/default_margin">
 
-        <android.support.v7.widget.SwitchCompat
+        <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/equalizer_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             app:layout_constraintRight_toLeftOf="@+id/equalizer_presets"
             app:layout_constraintHorizontal_chainStyle="spread_inside" />
 
-        <android.support.v7.widget.AppCompatSpinner
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/equalizer_presets"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -69,7 +69,7 @@
             app:layout_constraintLeft_toLeftOf="@+id/equalizer_save"
             app:layout_constraintRight_toRightOf="@+id/equalizer_save" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideine"
             android:orientation="vertical"
             android:layout_width="0dp"
@@ -113,5 +113,5 @@
                 app:layout_constraintBottom_toBottomOf="parent"/>
         </HorizontalScrollView>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

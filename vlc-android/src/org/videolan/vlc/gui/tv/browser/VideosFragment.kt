@@ -1,6 +1,6 @@
 package org.videolan.vlc.gui.tv.browser
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
 import org.videolan.vlc.R
 import org.videolan.vlc.util.KEY_GROUP

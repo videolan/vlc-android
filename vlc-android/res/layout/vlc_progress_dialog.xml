@@ -20,7 +20,7 @@
                 android:layout_alignParentTop="true"
                 android:text="@{dialog.text}"
                 android:layout_margin="10dp" />
-            <android.support.v4.widget.ContentLoadingProgressBar
+            <androidx.core.widget.ContentLoadingProgressBar
                 android:id="@+id/progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -26,7 +26,7 @@ package org.videolan.vlc.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import org.videolan.vlc.gui.helpers.BitmapCache;
 

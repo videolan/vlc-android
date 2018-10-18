@@ -20,10 +20,10 @@
 
 package org.videolan.vlc.repository
 
-import android.arch.lifecycle.MediatorLiveData
+import androidx.lifecycle.MediatorLiveData
 import android.content.Context
 import android.net.Uri
-import android.support.annotation.WorkerThread
+import androidx.annotation.WorkerThread
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.launch

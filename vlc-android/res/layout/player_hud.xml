@@ -6,7 +6,7 @@
         <import type="org.videolan.medialibrary.Tools" />
         <variable
             name="progress"
-            type="android.arch.lifecycle.LiveData&lt;org.videolan.vlc.media.Progress>" />
+            type="androidx.lifecycle.LiveData&lt;org.videolan.vlc.media.Progress>" />
         <variable
             name="player"
             type="org.videolan.vlc.gui.video.VideoPlayerActivity" />

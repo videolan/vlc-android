@@ -1,8 +1,8 @@
 package org.videolan.vlc.gui
 
-import android.support.v7.recyclerview.extensions.ListAdapter
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -32,7 +32,7 @@ class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, S
 
     fun isEmpty() = itemCount == 0
 
-    class ViewHolder(handler: ClickHandler, val binding: SimpleItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(handler: ClickHandler, val binding: SimpleItemBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
         init {
             binding.handler = handler
         }

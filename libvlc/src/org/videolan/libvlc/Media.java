@@ -22,7 +22,7 @@ package org.videolan.libvlc;
 
 import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;

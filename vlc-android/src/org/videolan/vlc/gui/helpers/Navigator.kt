@@ -23,16 +23,16 @@
 
 package org.videolan.vlc.gui.helpers
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.util.SimpleArrayMap
+import com.google.android.material.navigation.NavigationView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.collection.SimpleArrayMap
 import android.util.Log
 import android.view.MenuItem
 import org.videolan.vlc.R
@@ -54,12 +54,12 @@ class Navigator(private val activity: MainActivity,
         private val settings: SharedPreferences,
         private val extensionsService: ExtensionManagerService?,
         state: Bundle?
-): NavigationView.OnNavigationItemSelectedListener, LifecycleObserver {
+): com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener, LifecycleObserver {
 
-    private val fragmentsStack = SimpleArrayMap<String, WeakReference<Fragment>>()
+    private val fragmentsStack = androidx.collection.SimpleArrayMap<String, WeakReference<androidx.fragment.app.Fragment>>()
     private val defaultFragmentId inline get() = if (settings.getInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_OFF) == ML_SCAN_ON) R.id.nav_video else R.id.nav_directories
     var currentFragmentId = 0
-    var currentFragment: Fragment? = null
+    var currentFragment: androidx.fragment.app.Fragment? = null
         private set
 
     init {
@@ -74,7 +74,7 @@ class Navigator(private val activity: MainActivity,
         }
     }
 
-    private fun getNewFragment(id: Int): Fragment {
+    private fun getNewFragment(id: Int): androidx.fragment.app.Fragment {
         return when (id) {
             R.id.nav_audio -> AudioBrowserFragment()
             R.id.nav_directories -> FileBrowserFragment()
@@ -96,10 +96,10 @@ class Navigator(private val activity: MainActivity,
         showFragment(fragment, id, tag)
     }
 
-    private fun showFragment(fragment: Fragment, id: Int, tag: String = getTag(id), backTag: String? = null) {
+    private fun showFragment(fragment: androidx.fragment.app.Fragment, id: Int, tag: String = getTag(id), backTag: String? = null) {
         val fm = activity.supportFragmentManager
         if (currentFragment is BaseBrowserFragment && !(currentFragment as BaseBrowserFragment).isRootDirectory)
-            fm.popBackStackImmediate("root", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            fm.popBackStackImmediate("root", androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
         val ft = fm.beginTransaction()
         ft.replace(R.id.fragment_placeholder, fragment, tag)
         if (backTag !== null) ft.addToBackStack(backTag)
@@ -109,7 +109,7 @@ class Navigator(private val activity: MainActivity,
         currentFragmentId = id
     }
 
-    private fun restoreFragmentsStack(fm: FragmentManager) {
+    private fun restoreFragmentsStack(fm: androidx.fragment.app.FragmentManager) {
         val fragments = fm.fragments
         if (fragments != null) {
             val ft = fm.beginTransaction()
@@ -188,7 +188,7 @@ class Navigator(private val activity: MainActivity,
             if (currentFragmentId == id) { /* Already selected */
                 // Go back at root level of current mProvider
                 if (current is BaseBrowserFragment && !current.isRootDirectory) {
-                    activity.supportFragmentManager.popBackStackImmediate(getTag(id), FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    activity.supportFragmentManager.popBackStackImmediate(getTag(id), androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 } else {
                     activity.closeDrawer()
                     return false

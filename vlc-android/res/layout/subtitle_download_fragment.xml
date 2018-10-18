@@ -9,7 +9,7 @@
             type="org.videolan.vlc.viewmodels.SubtitlesModel"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -26,14 +26,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/language_list_spinner" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/left_vertical_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="16dp" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/right_vertical_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,21 +88,21 @@
             app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
             app:layout_constraintTop_toBottomOf="@+id/name"/>
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="manual_search_checkBox,name,episode,season"/>
 
-        <android.support.constraint.Group
+        <androidx.constraintlayout.widget.Group
             android:id="@+id/manual_search_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{viewmodel.manualSearchEnabled ? View.VISIBLE : View.GONE}"
             app:constraint_referenced_ids="episode,season,name,search_button" />
 
-        <android.support.v4.widget.SwipeRefreshLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeContainer"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -113,13 +113,13 @@
             app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
             app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
             app:layout_constraintTop_toBottomOf="@id/barrier" >
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/subtitle_list"
                 android:focusable="true"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintHeight_default="wrap"/>
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <Button
             android:id="@+id/search_button"
@@ -133,7 +133,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/episode" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/top_horizontal_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -176,5 +176,5 @@
             app:layout_constraintEnd_toStartOf="@+id/language_list_spinner"
             app:layout_constraintTop_toTopOf="@+id/top_horizontal_guideline" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

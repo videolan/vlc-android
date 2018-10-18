@@ -26,7 +26,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-public class SwipeRefreshLayout extends android.support.v4.widget.SwipeRefreshLayout {
+public class SwipeRefreshLayout extends androidx.swiperefreshlayout.widget.SwipeRefreshLayout {
     public SwipeRefreshLayout(Context context) {
         super(context);
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.AppBarLayout
+<com.google.android.material.appbar.AppBarLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,7 +9,7 @@
     android:background="?attr/background_actionbar"
     app:theme="@style/Toolbar.VLC"
     android:fitsSystemWindows="true">
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         app:layout_scrollFlags="scroll|enterAlways"
         android:keyboardNavigationCluster="true"
         tools:targetApi="o" />
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ariane"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,4 +30,4 @@
         android:visibility="gone"
         android:layout_marginStart="16dp"
         app:layout_scrollFlags="scroll|enterAlways" />
-</android.support.design.widget.AppBarLayout>
+</com.google.android.material.appbar.AppBarLayout>

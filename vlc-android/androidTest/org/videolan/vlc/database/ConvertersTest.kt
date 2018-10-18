@@ -21,7 +21,7 @@
 package org.videolan.vlc.database
 
 import android.net.Uri
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.runner.AndroidJUnit4
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

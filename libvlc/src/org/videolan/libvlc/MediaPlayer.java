@@ -33,7 +33,7 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.util.SparseArray;
 
 import org.videolan.libvlc.util.AndroidUtil;

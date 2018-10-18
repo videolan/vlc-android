@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:background="?attr/background_default">
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <include layout="@layout/button_search"
@@ -19,7 +19,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@android:id/list"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -45,6 +45,6 @@
                 android:text="@string/nohistory"
                 android:textSize="20sp"
                 android:visibility="gone"/>
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 </FrameLayout>

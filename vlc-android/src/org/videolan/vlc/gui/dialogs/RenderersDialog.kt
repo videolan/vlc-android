@@ -20,11 +20,11 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.app.Dialog
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.DialogFragment
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +42,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 
 const private val TAG = "VLC/RenderersDialog"
 
-class RenderersDialog : DialogFragment(), PlaybackService.Client.Callback {
+class RenderersDialog : androidx.fragment.app.DialogFragment(), PlaybackService.Client.Callback {
     private var renderers = RendererDelegate.renderers.value
     private lateinit var mBinding: DialogRenderersBinding
     private val mAdapter = RendererAdapter()
@@ -71,14 +71,14 @@ class RenderersDialog : DialogFragment(), PlaybackService.Client.Callback {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setStyle(DialogFragment.STYLE_NO_FRAME, 0)
+        setStyle(androidx.fragment.app.DialogFragment.STYLE_NO_FRAME, 0)
         mBinding = DialogRenderersBinding.inflate(inflater, container, false)
         return mBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mBinding.holder = mClickHandler;
-        mBinding.renderersList.layoutManager = LinearLayoutManager(view.context)
+        mBinding.renderersList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
         mBinding.renderersList.adapter = mAdapter
         mBinding.renderersDisconnect.isEnabled = RendererDelegate.hasRenderer()
         mBinding.renderersDisconnect.setTextColor(ContextCompat.getColor(view.context, if (RendererDelegate.hasRenderer()) R.color.orange800 else R.color.grey400))

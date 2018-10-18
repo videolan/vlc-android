@@ -24,7 +24,7 @@ package org.videolan.vlc
 
 import android.annotation.SuppressLint
 import android.app.Service
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -33,9 +33,9 @@ import android.net.Uri
 import android.os.Binder
 import android.os.IBinder
 import android.os.PowerManager
-import android.support.v4.app.NotificationManagerCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.content.LocalBroadcastManager
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.text.TextUtils
 import android.util.Log
 import kotlinx.coroutines.experimental.*
@@ -57,7 +57,7 @@ private const val NOTIFICATION_DELAY = 1000L
 class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
     private lateinit var wakeLock: PowerManager.WakeLock
-    private lateinit var localBroadcastManager: LocalBroadcastManager
+    private lateinit var localBroadcastManager: androidx.localbroadcastmanager.content.LocalBroadcastManager
 
     private val binder = LocalBinder()
     private lateinit var medialibrary: Medialibrary
@@ -89,7 +89,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     @SuppressLint("WakelockTimeout")
     override fun onCreate() {
         super.onCreate()
-        localBroadcastManager = LocalBroadcastManager.getInstance(this)
+        localBroadcastManager = androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this)
         medialibrary = Medialibrary.getInstance()
         medialibrary.addDeviceDiscoveryCb(this@MediaParsingService)
         val filter = IntentFilter()

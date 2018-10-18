@@ -20,7 +20,7 @@
 
         <variable
             name="showFilename"
-            type="android.databinding.ObservableBoolean" />
+            type="androidx.databinding.ObservableBoolean" />
 
         <variable
             name="bgColor"
@@ -47,7 +47,7 @@
             type="org.videolan.vlc.gui.video.VideoListAdapter.ViewHolder" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -144,5 +144,5 @@
             android:secondaryProgress="@{max}"
             android:progressDrawable="?attr/gridview_progressbar"
             android:visibility="@{max == 0 ? View.INVISIBLE : View.VISIBLE}" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

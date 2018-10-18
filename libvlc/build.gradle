@@ -95,6 +95,6 @@ clean {
 }
 
 dependencies {
-    api "com.android.support:support-annotations:$rootProject.ext.appCompatVersion"
-    api "com.android.support:support-v4:$rootProject.ext.appCompatVersion"
+    api "androidx.annotation:annotation:$rootProject.ext.androidxVersion"
+    api "androidx.legacy:legacy-support-v4:$rootProject.ext.androidxVersion"
 }

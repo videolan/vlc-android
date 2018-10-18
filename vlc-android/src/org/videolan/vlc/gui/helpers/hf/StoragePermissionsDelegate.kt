@@ -28,8 +28,8 @@ import android.annotation.TargetApi
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.experimental.channels.Channel
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.startMedialibrary
@@ -100,10 +100,10 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
 
         const val TAG = "VLC/StorageHF"
 
-        fun askStoragePermission(activity: FragmentActivity, write: Boolean, cb: Runnable?) {
+        fun askStoragePermission(activity: androidx.fragment.app.FragmentActivity, write: Boolean, cb: Runnable?) {
             if (activity.isFinishing) return
             val fm = activity.supportFragmentManager
-            var fragment: Fragment? = fm.findFragmentByTag(TAG)
+            var fragment: androidx.fragment.app.Fragment? = fm.findFragmentByTag(TAG)
             val channel = if (cb != null) Channel<Unit>(1) else null
             if (fragment == null) {
                 val args = Bundle()

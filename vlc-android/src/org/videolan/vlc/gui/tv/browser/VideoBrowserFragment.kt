@@ -24,7 +24,7 @@
 package org.videolan.vlc.gui.tv.browser
 
 import android.annotation.TargetApi
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.os.Build
 import android.os.Bundle
 import org.videolan.vlc.util.KEY_GROUP

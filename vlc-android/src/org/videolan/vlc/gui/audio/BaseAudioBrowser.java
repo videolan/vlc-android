@@ -23,9 +23,9 @@
 
 package org.videolan.vlc.gui.audio;
 
-import android.support.annotation.NonNull;
-import android.support.v7.view.ActionMode;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.view.ActionMode;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;

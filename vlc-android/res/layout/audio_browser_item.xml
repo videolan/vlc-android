@@ -25,7 +25,7 @@
             type="org.videolan.vlc.gui.audio.AudioBrowserAdapter.MediaItemViewHolder" />
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/audio_browser_item_size"
@@ -105,5 +105,5 @@
             android:src="@drawable/ic_more"
             android:contentDescription="@string/more_actions"
             android:onClick="@{holder::onMoreClick}" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

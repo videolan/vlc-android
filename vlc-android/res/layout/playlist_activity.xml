@@ -8,18 +8,18 @@
             name="cover"
             type="android.graphics.drawable.BitmapDrawable"/>
     </data>
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:vlc="http://schemas.android.com/apk/res-auto"
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:fitsSystemWindows="true">
-            <android.support.design.widget.CollapsingToolbarLayout
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -39,7 +39,7 @@
                     android:scaleType="centerCrop"
                     android:src="@{cover}"
                     vlc:layout_collapseMode="parallax" />
-                <android.support.v7.widget.Toolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/main_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
@@ -50,8 +50,8 @@
                     vlc:titleMarginStart="@dimen/default_margin"
                     vlc:layout_scrollFlags="scroll|enterAlways"
                     vlc:layout_collapseMode="pin"/>
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout
             android:id="@+id/container_list"
@@ -60,7 +60,7 @@
             vlc:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:keyboardNavigationCluster="true"
             tools:targetApi="o"  >
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/songs"
                 android:layout_width="@dimen/default_content_width"
                 android:layout_height="match_parent"
@@ -73,7 +73,7 @@
                 android:background="?attr/background_default" />
         </FrameLayout>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             vlc:rippleColor="@color/orange50"
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -86,5 +86,5 @@
             android:tint="@color/grey50" />
 
         <include layout="@layout/audioplayercontainer"/>
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

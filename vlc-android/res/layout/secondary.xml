@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -18,7 +18,7 @@
             android:keyboardNavigationCluster="true"
             tools:targetApi="o" />
 
-        <android.support.v7.widget.ViewStubCompat
+        <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/scan_viewstub"
             android:layout_width="match_parent"
             android:layout_height="@dimen/progress_layout_height"
@@ -27,7 +27,7 @@
 
         <include layout="@layout/audioplayercontainer"/>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             vlc:borderWidth="0dp"
             vlc:rippleColor="@color/orange50"
             android:id="@+id/fab"
@@ -40,15 +40,15 @@
             vlc:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
             android:visibility="invisible"
             android:layout_margin="16dp"/>
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <android.support.v7.widget.ViewStubCompat
+    <androidx.appcompat.widget.ViewStubCompat
         android:id="@+id/audio_playlist_tips"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout="@layout/audio_playlist_tips"/>
 
-    <android.support.v7.widget.ViewStubCompat
+    <androidx.appcompat.widget.ViewStubCompat
         android:id="@+id/audio_player_tips"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

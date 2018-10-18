@@ -20,7 +20,7 @@
 
 package org.videolan.vlc.database.models
 
-import android.arch.persistence.room.Entity
+import androidx.room.Entity
 
 @Entity(tableName = "external_subtitles_table", primaryKeys = ["mediaPath", "idSubtitle"])
 data class ExternalSub (

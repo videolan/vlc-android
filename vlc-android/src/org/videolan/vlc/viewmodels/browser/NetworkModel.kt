@@ -20,8 +20,8 @@
 
 package org.videolan.vlc.viewmodels.browser
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import android.content.Context
 
 class NetworkModel(context: Context, url: String? = null, showHiddenFiles: Boolean): BrowserModel(context, url, TYPE_NETWORK, showHiddenFiles) {

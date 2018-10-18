@@ -1,8 +1,8 @@
 package org.videolan.vlc.gui.browser
 
 import android.net.Uri
-import android.support.v4.util.SimpleArrayMap
-import android.support.v7.widget.RecyclerView
+import androidx.collection.SimpleArrayMap
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -11,9 +11,9 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.util.AndroidDevices
 
-private val storages = SimpleArrayMap<String, String>()
+private val storages = androidx.collection.SimpleArrayMap<String, String>()
 
-class PathAdapter(val browser: BaseBrowserFragment, media: MediaWrapper) : RecyclerView.Adapter<PathAdapter.ViewHolder>() {
+class PathAdapter(val browser: BaseBrowserFragment, media: MediaWrapper) : androidx.recyclerview.widget.RecyclerView.Adapter<PathAdapter.ViewHolder>() {
 
     init {
         if (media.hasStateFlags(MediaLibraryItem.FLAG_STORAGE)) storages.put(Uri.decode(media.uri.path), media.title)
@@ -34,7 +34,7 @@ class PathAdapter(val browser: BaseBrowserFragment, media: MediaWrapper) : Recyc
         holder.root.text = segments[position]
     }
 
-    inner class ViewHolder(val root : TextView) : RecyclerView.ViewHolder(root) {
+    inner class ViewHolder(val root : TextView) : androidx.recyclerview.widget.RecyclerView.ViewHolder(root) {
         init {
             root.setOnClickListener {
                 browser.backTo(adapterPosition.let { when (it) {

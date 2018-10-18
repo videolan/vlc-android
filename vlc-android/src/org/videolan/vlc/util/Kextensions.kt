@@ -1,13 +1,13 @@
 package org.videolan.vlc.util
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v7.preference.PreferenceManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.preference.PreferenceManager
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.delay
@@ -44,9 +44,9 @@ fun String.validateLocation(): Boolean {
     return true
 }
 
-inline fun <reified T : ViewModel> Fragment.getModelWithActivity() = ViewModelProviders.of(requireActivity()).get(T::class.java)
-inline fun <reified T : ViewModel> Fragment.getModel() = ViewModelProviders.of(this).get(T::class.java)
-inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProviders.of(this).get(T::class.java)
+inline fun <reified T : ViewModel> androidx.fragment.app.Fragment.getModelWithActivity() = ViewModelProviders.of(requireActivity()).get(T::class.java)
+inline fun <reified T : ViewModel> androidx.fragment.app.Fragment.getModel() = ViewModelProviders.of(this).get(T::class.java)
+inline fun <reified T : ViewModel> androidx.fragment.app.FragmentActivity.getModel() = ViewModelProviders.of(this).get(T::class.java)
 
 suspend fun retry (
         times: Int = 3,

@@ -2,8 +2,8 @@ package org.videolan.vlc.gui.video
 
 import android.content.res.Configuration
 import android.media.AudioManager
-import android.support.v4.view.GestureDetectorCompat
-import android.support.v4.view.ScaleGestureDetectorCompat
+import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.ScaleGestureDetectorCompat
 import android.util.DisplayMetrics
 import android.view.*
 import org.videolan.medialibrary.Tools

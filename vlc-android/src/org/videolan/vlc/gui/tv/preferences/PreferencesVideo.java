@@ -25,7 +25,7 @@ package org.videolan.vlc.gui.tv.preferences;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.preference.Preference;
+import androidx.preference.Preference;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;

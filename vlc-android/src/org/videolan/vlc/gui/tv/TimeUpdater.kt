@@ -21,14 +21,14 @@
 package org.videolan.vlc.gui.tv
 
 import android.app.Activity
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import android.widget.TextView
 import java.util.*
 
@@ -57,4 +57,4 @@ class TimeUpdater(private val activity: Activity, private val tv: TextView) : Li
     }
 }
 
-fun FragmentActivity.registerTimeView(tv: TextView?) = tv?.let { lifecycle.addObserver(TimeUpdater(this, it)) }
+fun androidx.fragment.app.FragmentActivity.registerTimeView(tv: TextView?) = tv?.let { lifecycle.addObserver(TimeUpdater(this, it)) }

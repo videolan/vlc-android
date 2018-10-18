@@ -20,8 +20,8 @@
 
 package org.videolan.vlc.repository
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Transformations
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import android.content.Context
 import android.net.Uri
 import kotlinx.coroutines.experimental.*

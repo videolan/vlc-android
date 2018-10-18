@@ -20,7 +20,7 @@
 
 package org.videolan.libvlc;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 @SuppressWarnings("unused, JniMissingFunction")
 public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {

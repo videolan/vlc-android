@@ -38,6 +38,8 @@ import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 
+import androidx.fragment.app.FragmentManager;
+
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MainTvActivity extends BaseTvActivity {
 
@@ -67,7 +69,7 @@ public class MainTvActivity extends BaseTvActivity {
 
         setContentView(R.layout.tv_main);
 
-        final android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        final FragmentManager fragmentManager = getSupportFragmentManager();
         mBrowseFragment = (MainTvFragment) fragmentManager.findFragmentById(R.id.browse_fragment);
         mProgressBar = findViewById(R.id.tv_main_progress);
     }

@@ -3,5 +3,5 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-sdk
-        tools:overrideLibrary="android.support.media.tv" />
+        tools:overrideLibrary="android.support.media.tv,androidx.tvprovider" />
 </manifest>

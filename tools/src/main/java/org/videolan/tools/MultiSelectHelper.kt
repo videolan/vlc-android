@@ -1,6 +1,6 @@
 package org.videolan.tools
 
-import android.support.annotation.MainThread
+import androidx.annotation.MainThread
 import android.util.SparseBooleanArray
 
 

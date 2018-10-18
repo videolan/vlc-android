@@ -23,7 +23,7 @@
 package org.videolan.vlc.gui;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;

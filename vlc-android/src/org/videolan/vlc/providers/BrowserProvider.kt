@@ -20,13 +20,13 @@
 
 package org.videolan.vlc.providers
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.content.Context
 import android.net.Uri
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
-import android.support.v4.util.SimpleArrayMap
+import androidx.collection.SimpleArrayMap
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.channels.Channel
@@ -52,7 +52,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     protected var mediabrowser: MediaBrowser? = null
 
-    private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
+    private val foldersContentMap = androidx.collection.SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
     private lateinit var browserChannel : Channel<Media>
     protected var job : Job? = null
     private val showAll = Settings.getInstance(context).getBoolean("browser_show_all_files", true)

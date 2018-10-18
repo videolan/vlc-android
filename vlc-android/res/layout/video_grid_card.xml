@@ -23,7 +23,7 @@
 
         <variable
             name="showFilename"
-            type="android.databinding.ObservableBoolean" />
+            type="androidx.databinding.ObservableBoolean" />
 
         <variable
             name="max"
@@ -49,7 +49,7 @@
             name="holder"
             type="org.videolan.vlc.gui.video.VideoListAdapter.ViewHolder" />
     </data>
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="@dimen/grid_card_thumb_width"
         android:layout_height="@dimen/grid_card_thumb_height"
         android:clickable="true"
@@ -159,5 +159,5 @@
             android:progressDrawable="@drawable/gridview_progressbar"
             android:secondaryProgress="0"
             android:visibility="@{progress == 0 ? View.INVISIBLE : View.VISIBLE}" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

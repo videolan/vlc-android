@@ -23,7 +23,7 @@
 package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
-import android.databinding.ViewDataBinding;
+import androidx.databinding.ViewDataBinding;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;

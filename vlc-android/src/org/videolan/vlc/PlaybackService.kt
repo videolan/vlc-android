@@ -28,15 +28,15 @@ import android.media.AudioManager
 import android.media.audiofx.AudioEffect
 import android.net.Uri
 import android.os.*
-import android.support.annotation.MainThread
-import android.support.v4.app.NotificationManagerCompat
-import android.support.v4.app.ServiceCompat
-import android.support.v4.content.ContextCompat
+import androidx.annotation.MainThread
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.ServiceCompat
+import androidx.core.content.ContextCompat
 import android.support.v4.media.MediaBrowserCompat
-import android.support.v4.media.MediaBrowserServiceCompat
+import androidx.media.MediaBrowserServiceCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
-import android.support.v4.media.session.MediaButtonReceiver
+import androidx.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.telephony.TelephonyManager
@@ -70,7 +70,7 @@ import java.util.*
 
 private const val TAG = "VLC/PlaybackService"
 
-class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope {
+class PlaybackService : androidx.media.MediaBrowserServiceCompat(), CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
 
     lateinit var playlistManager: PlaylistManager
@@ -500,7 +500,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope {
         if (AndroidUtil.isOOrLater && !isForeground && !VLCApplication.isForeground()) forceForeground()
         when (intent?.action) {
             Intent.ACTION_MEDIA_BUTTON -> {
-                if (AndroidDevices.hasTsp || AndroidDevices.hasPlayServices) MediaButtonReceiver.handleIntent(mediaSession, intent)
+                if (AndroidDevices.hasTsp || AndroidDevices.hasPlayServices) androidx.media.session.MediaButtonReceiver.handleIntent(mediaSession, intent)
             }
             ACTION_REMOTE_PLAYPAUSE,
             ACTION_REMOTE_PLAY,
@@ -534,7 +534,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope {
     }
 
     override fun onBind(intent: Intent): IBinder? {
-        return if (MediaBrowserServiceCompat.SERVICE_INTERFACE == intent.action) super.onBind(intent) else mBinder
+        return if (androidx.media.MediaBrowserServiceCompat.SERVICE_INTERFACE == intent.action) super.onBind(intent) else mBinder
     }
 
     val vout : IVLCVout?
@@ -715,9 +715,9 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope {
     private fun initMediaSession() {
         val mediaButtonIntent = Intent(Intent.ACTION_MEDIA_BUTTON)
 
-        mediaButtonIntent.setClass(this, MediaButtonReceiver::class.java)
+        mediaButtonIntent.setClass(this, androidx.media.session.MediaButtonReceiver::class.java)
         val mbrIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0)
-        val mbrName = ComponentName(this, MediaButtonReceiver::class.java)
+        val mbrName = ComponentName(this, androidx.media.session.MediaButtonReceiver::class.java)
 
         mediaSession = MediaSessionCompat(this, "VLC", mbrName, mbrIntent)
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
@@ -1267,18 +1267,18 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope {
      * Browsing
      */
 
-    override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): MediaBrowserServiceCompat.BrowserRoot? {
-        return if (Permissions.canReadStorage(this@PlaybackService)) MediaBrowserServiceCompat.BrowserRoot(BrowserProvider.ID_ROOT, null) else null
+    override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): androidx.media.MediaBrowserServiceCompat.BrowserRoot? {
+        return if (Permissions.canReadStorage(this@PlaybackService)) androidx.media.MediaBrowserServiceCompat.BrowserRoot(BrowserProvider.ID_ROOT, null) else null
     }
 
-    override fun onLoadChildren(parentId: String, result: MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>) {
+    override fun onLoadChildren(parentId: String, result: androidx.media.MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>) {
         result.detach()
         if (!medialibrary.isInitiated || libraryReceiver != null)
             registerMedialibrary(Runnable { sendResults(result, parentId) })
         else sendResults(result, parentId)
     }
 
-    private fun sendResults(result: MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>, parentId: String) {
+    private fun sendResults(result: androidx.media.MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>, parentId: String) {
         launch(Dispatchers.IO) {
             try {
                 result.sendResult(BrowserProvider.browse(applicationContext, parentId))

@@ -21,10 +21,10 @@
 package org.videolan.vlc.gui
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.tabs.TabLayout
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,10 +46,10 @@ import org.videolan.vlc.util.Util
 private const val TAG = "VLC/AboutFragment"
 private const val MODE_TOTAL = 2 // Number of audio browser modes
 
-class AboutFragment : Fragment() {
+class AboutFragment : androidx.fragment.app.Fragment() {
 
-    private lateinit var viewPager: ViewPager
-    private lateinit var tabLayout: TabLayout
+    private lateinit var viewPager: androidx.viewpager.widget.ViewPager
+    private lateinit var tabLayout: com.google.android.material.tabs.TabLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.about, container, false)

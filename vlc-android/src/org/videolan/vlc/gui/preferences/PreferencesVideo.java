@@ -23,7 +23,7 @@
 package org.videolan.vlc.gui.preferences;
 
 import android.os.Bundle;
-import android.support.v7.preference.Preference;
+import androidx.preference.Preference;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;

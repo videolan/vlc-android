@@ -8,7 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import android.text.TextUtils
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.channels.Channel
@@ -38,15 +38,15 @@ private const val PAGE_SIZE = 1000
 object MediaUtils : CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
 
-    fun getSubs(activity: FragmentActivity, mediaList: List<MediaWrapper>) {
+    fun getSubs(activity: androidx.fragment.app.FragmentActivity, mediaList: List<MediaWrapper>) {
         showSubtitleDownloaderDialogFragment(activity, mediaList.map { it.uri.path })
     }
 
-    fun getSubs(activity: FragmentActivity, media: MediaWrapper) {
+    fun getSubs(activity: androidx.fragment.app.FragmentActivity, media: MediaWrapper) {
         showSubtitleDownloaderDialogFragment(activity, listOf(media.uri.path))
     }
 
-    fun showSubtitleDownloaderDialogFragment(activity: FragmentActivity, mediaPaths: List<String>) {
+    fun showSubtitleDownloaderDialogFragment(activity: androidx.fragment.app.FragmentActivity, mediaPaths: List<String>) {
         val callBack = java.lang.Runnable {
             SubtitleDownloaderDialogFragment.newInstance(mediaPaths).show(activity.supportFragmentManager, "Subtitle_downloader")
         }

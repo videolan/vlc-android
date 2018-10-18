@@ -1,6 +1,6 @@
 package org.videolan.vlc.util
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import android.util.Log
 import org.videolan.vlc.gui.dialogs.SubtitleItem
 

@@ -22,23 +22,23 @@ package org.videolan.vlc.gui.audio
 
 import android.Manifest
 import android.annotation.TargetApi
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.support.annotation.MainThread
-import android.support.annotation.RequiresPermission
-import android.support.constraint.ConstraintSet
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.Snackbar
-import android.support.transition.AutoTransition
-import android.support.transition.TransitionManager
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.annotation.MainThread
+import androidx.annotation.RequiresPermission
+import androidx.constraintlayout.widget.ConstraintSet
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.Snackbar
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -79,7 +79,7 @@ private const val TAG = "VLC/AudioPlayer"
 private const val SEARCH_TIMEOUT_MILLIS = 5000
 
 @Suppress("UNUSED_PARAMETER")
-class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackService.Client.Callback {
+class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackService.Client.Callback {
 
     private lateinit var binding: AudioPlayerBinding
     private lateinit var playlistAdapter: PlaylistAdapter
@@ -125,7 +125,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         super.onViewCreated(view, savedInstanceState)
         DEFAULT_BACKGROUND_DARKER_ID = UiTools.getResourceFromAttribute(view.context, R.attr.background_default_darker)
         DEFAULT_BACKGROUND_ID = UiTools.getResourceFromAttribute(view.context, R.attr.background_default)
-        binding.songsList.layoutManager = LinearLayoutManager(view.context)
+        binding.songsList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
         binding.songsList.adapter = playlistAdapter
         binding.audioMediaSwitcher.setAudioMediaSwitcherListener(headerMediaSwitcherListener)
         binding.coverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener)
@@ -283,7 +283,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
                         binding.backgroundView.setImageBitmap(blurredCover)
                         binding.backgroundView.visibility = View.VISIBLE
                         binding.songsList.setBackgroundResource(0)
-                        if (playerState == BottomSheetBehavior.STATE_EXPANDED) binding.header.setBackgroundResource(0)
+                        if (playerState == com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED) binding.header.setBackgroundResource(0)
                     } else setDefaultBackground()
                 }
             }
@@ -300,7 +300,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     }
 
     override fun onSelectionSet(position: Int) {
-        if (playerState != BottomSheetBehavior.STATE_COLLAPSED && playerState != BottomSheetBehavior.STATE_HIDDEN) {
+        if (playerState != com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED && playerState != com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN) {
             binding.songsList.scrollToPosition(position)
         }
     }
@@ -327,14 +327,14 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     fun onNextClick(view: View) {
         service?.run {
             if (hasNext()) next()
-            else Snackbar.make(binding.root, R.string.lastsong, Snackbar.LENGTH_SHORT).show()
+            else com.google.android.material.snackbar.Snackbar.make(binding.root, R.string.lastsong, com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show()
         }
     }
 
     fun onPreviousClick(view: View) {
         service?.run {
             if (hasPrevious() || isSeekable) previous(false)
-            else Snackbar.make(binding.root, R.string.firstsong, Snackbar.LENGTH_SHORT).show()
+            else com.google.android.material.snackbar.Snackbar.make(binding.root, R.string.firstsong, com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show()
         }
     }
 
@@ -403,16 +403,16 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
         binding.progressBar.visibility = if (progressBarVisible) View.VISIBLE else View.GONE
         val cl = binding.header
         TransitionManager.beginDelayedTransition(cl, AutoTransition().setDuration(200))
-        ConstraintSet().apply {
+        androidx.constraintlayout.widget.ConstraintSet().apply {
             clone(cl)
-            setVisibility(R.id.playlist_ab_repeat, if (abVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            setVisibility(R.id.playlist_search, if (searchVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            setVisibility(R.id.playlist_switch, if (playlistSwitchVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            setVisibility(R.id.adv_function, if (advFuncVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            setVisibility(R.id.header_play_pause, if (headerPlayPauseVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            setVisibility(R.id.header_time, if (headerTimeVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            setVisibility(R.id.playlist_search_text, if (searchTextVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
-            setVisibility(R.id.audio_media_switcher, if (searchTextVisible) ConstraintSet.GONE else ConstraintSet.VISIBLE)
+            setVisibility(R.id.playlist_ab_repeat, if (abVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
+            setVisibility(R.id.playlist_search, if (searchVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
+            setVisibility(R.id.playlist_switch, if (playlistSwitchVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
+            setVisibility(R.id.adv_function, if (advFuncVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
+            setVisibility(R.id.header_play_pause, if (headerPlayPauseVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
+            setVisibility(R.id.header_time, if (headerTimeVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
+            setVisibility(R.id.playlist_search_text, if (searchTextVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
+            setVisibility(R.id.audio_media_switcher, if (searchTextVisible) androidx.constraintlayout.widget.ConstraintSet.GONE else androidx.constraintlayout.widget.ConstraintSet.VISIBLE)
             applyTo(cl)
         }
     }
@@ -445,7 +445,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
             addTextChangedListener(this@AudioPlayer)
         }
         UiTools.setKeyboardVisibility(binding.playlistSearchText, false)
-        if (playerState == BottomSheetBehavior.STATE_COLLAPSED) setHeaderVisibilities(false, false, true, true, true, false, false)
+        if (playerState == com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED) setHeaderVisibilities(false, false, true, true, true, false, false)
         else setHeaderVisibilities(true, true, false, false, false, true, true)
         return true
     }
@@ -568,12 +568,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackSe
     fun onStateChanged(newState: Int) {
         playerState = newState
         when (newState) {
-            BottomSheetBehavior.STATE_COLLAPSED -> {
+            com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED -> {
                 hideSearchField()
                 binding.header.setBackgroundResource(DEFAULT_BACKGROUND_DARKER_ID)
                 setHeaderVisibilities(false, false, true, true, true, false, false)
             }
-            BottomSheetBehavior.STATE_EXPANDED -> {
+            com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED -> {
                 binding.header.setBackgroundResource(0)
                 setHeaderVisibilities(true, true, false, false, false, true, true)
                 showPlaylistTips()

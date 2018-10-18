@@ -21,7 +21,7 @@
 package org.videolan.libvlc.util;
 
 import android.net.Uri;
-import android.support.annotation.MainThread;
+import androidx.annotation.MainThread;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;

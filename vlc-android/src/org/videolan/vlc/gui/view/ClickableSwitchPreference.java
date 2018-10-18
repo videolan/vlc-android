@@ -1,9 +1,9 @@
 package org.videolan.vlc.gui.view;
 
 import android.content.Context;
-import android.support.v7.preference.PreferenceViewHolder;
-import android.support.v7.preference.TwoStatePreference;
-import android.support.v7.widget.SwitchCompat;
+import androidx.preference.PreferenceViewHolder;
+import androidx.preference.TwoStatePreference;
+import androidx.appcompat.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
 
@@ -13,13 +13,13 @@ public class ClickableSwitchPreference extends TwoStatePreference {
     private View.OnClickListener switchClickListener;
 
     public ClickableSwitchPreference(Context context) {
-        super(context, null, android.support.v7.preference.R.attr.switchPreferenceCompatStyle, 0);
+        super(context, null, androidx.preference.R.attr.switchPreferenceCompatStyle, 0);
     }
 
     @Override
     public void onBindViewHolder(PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
-        switchView = holder.findViewById(android.support.v7.preference.R.id.switchWidget);
+        switchView = holder.findViewById(androidx.preference.R.id.switchWidget);
         switchView.setOnClickListener(switchClickListener);
 
         //for some reason, it does not initialize itself;

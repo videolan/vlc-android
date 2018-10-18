@@ -3,9 +3,9 @@
     <data>
         <variable
             name="progress"
-            type="android.arch.lifecycle.LiveData&lt;org.videolan.vlc.viewmodels.PlaybackProgress>" />
+            type="androidx.lifecycle.LiveData&lt;org.videolan.vlc.viewmodels.PlaybackProgress>" />
     </data>
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -179,7 +179,7 @@
             tools:src="@drawable/ic_shuffle" />
 
         <!-- Playlist -->
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/playlist"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -192,5 +192,5 @@
             android:nextFocusRight="@+id/playlist"
             android:nextFocusDown="@+id/playlist"
             android:layout_margin="@dimen/half_default_margin" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

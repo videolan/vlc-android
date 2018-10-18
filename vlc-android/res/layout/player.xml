@@ -42,7 +42,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true" >
 
-        <android.support.v7.widget.ViewStubCompat
+        <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/player_overlay_tips"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -57,7 +57,7 @@
             android:visibility="invisible"
             android:src="@drawable/ic_cone_o" />
 
-        <android.support.v7.widget.ViewStubCompat
+        <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/player_info_stub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             android:layout_marginBottom="@dimen/default_margin"
             android:layout="@layout/player_overlay_info"/>
 
-        <android.support.v7.widget.ViewStubCompat
+        <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/player_overlay_settings_stub"
             android:layout="@layout/player_overlay_settings"
             android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/default_margin" />
 
-        <android.support.v7.widget.ViewStubCompat
+        <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/player_hud_stub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/video_playlist"
         android:layout_width="480dp"
         android:layout_height="wrap_content"

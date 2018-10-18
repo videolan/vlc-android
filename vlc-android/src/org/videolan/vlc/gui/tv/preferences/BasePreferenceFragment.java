@@ -27,7 +27,7 @@ import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v17.preference.LeanbackPreferenceFragment;
+import androidx.leanback.preference.LeanbackPreferenceFragment;
 
 import org.videolan.vlc.R;
 

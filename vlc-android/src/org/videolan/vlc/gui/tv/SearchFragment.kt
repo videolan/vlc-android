@@ -26,8 +26,8 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.support.v17.leanback.app.SearchSupportFragment
-import android.support.v17.leanback.widget.*
+import androidx.leanback.app.SearchSupportFragment
+import androidx.leanback.widget.*
 import android.text.TextUtils
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Tools

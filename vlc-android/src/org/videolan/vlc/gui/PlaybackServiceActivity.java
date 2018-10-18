@@ -23,8 +23,8 @@
 package org.videolan.vlc.gui;
 
 import android.content.Context;
-import android.support.annotation.MainThread;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.MainThread;
+import androidx.fragment.app.FragmentActivity;
 
 import org.videolan.vlc.PlaybackService;
 

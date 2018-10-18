@@ -24,16 +24,16 @@
 package org.videolan.vlc.gui.browser
 
 import android.annotation.TargetApi
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.content.DialogInterface
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v4.util.SimpleArrayMap
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.AppCompatEditText
+import com.google.android.material.snackbar.Snackbar
+import androidx.fragment.app.Fragment
+import androidx.collection.SimpleArrayMap
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatEditText
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
@@ -67,14 +67,14 @@ const val KEY_IN_MEDIALIB = "key_in_medialib"
 class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
 
     internal var mScannedDirectory = false
-    private val mProcessingFolders = SimpleArrayMap<String, CheckBox>()
-    private var mSnack: Snackbar? = null
+    private val mProcessingFolders = androidx.collection.SimpleArrayMap<String, CheckBox>()
+    private var mSnack: com.google.android.material.snackbar.Snackbar? = null
     private var mAlertDialog: AlertDialog? = null
 
     override val categoryTitle: String
         get() = getString(R.string.directories_summary)
 
-    override fun createFragment(): Fragment {
+    override fun createFragment(): androidx.fragment.app.Fragment {
         return StorageBrowserFragment()
     }
 
@@ -90,7 +90,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (isRootDirectory && AndroidDevices.showTvUi(view.context)) {
-            mSnack = Snackbar.make(view, R.string.tv_settings_hint, Snackbar.LENGTH_INDEFINITE)
+            mSnack = com.google.android.material.snackbar.Snackbar.make(view, R.string.tv_settings_hint, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE)
             if (AndroidUtil.isLolliPopOrLater) mSnack?.view?.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         }
     }

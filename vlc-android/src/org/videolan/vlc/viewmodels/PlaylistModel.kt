@@ -20,11 +20,11 @@
 
 package org.videolan.vlc.viewmodels
 
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v4.app.Fragment
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.Fragment
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
@@ -91,7 +91,7 @@ class PlaylistModel(private val service: PlaybackService) : ScopedModel(), Playb
     }
 
     companion object {
-        fun get(fragment: Fragment, service: PlaybackService) = ViewModelProviders.of(fragment, PlaylistModel.Factory(service)).get(PlaylistModel::class.java)
+        fun get(fragment: androidx.fragment.app.Fragment, service: PlaybackService) = ViewModelProviders.of(fragment, PlaylistModel.Factory(service)).get(PlaylistModel::class.java)
     }
 
     class Factory(val service: PlaybackService): ViewModelProvider.NewInstanceFactory() {

@@ -6,7 +6,7 @@
     android:padding="@dimen/default_margin">
 
     <!--TODO : textColorHint doesn't work -->
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/dialog_playlist_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
             android:textColorHint="?attr/font_default"
             android:inputType="text"
             android:imeOptions="actionSend"/>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:id="@+id/dialog_playlist_cancel"
         android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
         android:layout_marginTop="@dimen/half_default_margin"
         android:layout_marginStart="@dimen/half_default_margin"
         android:layout_below="@+id/dialog_playlist_cancel">
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

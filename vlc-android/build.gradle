@@ -46,7 +46,7 @@ android {
         resValue "string", "build_revision", revision()
         resValue "string", "build_vlc_revision", vlcRevision()
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // The following argument makes the Android Test Orchestrator run its
         // "pm clear" command after each test invocation. This command ensures
         // that the app's state is completely cleared between tests.
@@ -73,7 +73,7 @@ android {
     }
 
     testOptions {
-        execution 'ANDROID_TEST_ORCHESTRATOR'
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
         unitTests {
             includeAndroidResources = true
         }
@@ -196,42 +196,41 @@ task generateSources (type: Jar) {
 }
 
 dependencies {
-    def paging_version = "1.0.1"
     implementation project(':libvlc')
     implementation project(':medialibrary')
     implementation project(':api')
     // AppCompat
-    implementation "com.android.support:recyclerview-v7:$rootProject.ext.appCompatVersion"
-    implementation "com.android.support:design:$rootProject.ext.appCompatVersion"
-    implementation "com.android.support:support-annotations:$rootProject.ext.appCompatVersion"
-    implementation "com.android.support:preference-v7:$rootProject.ext.appCompatVersion"
-    implementation "com.android.support.constraint:constraint-layout:$rootProject.ext.constraintLayoutVersion"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.androidxVersion"
+    implementation "com.google.android.material:material:$rootProject.ext.androidxVersion"
+    implementation "androidx.annotation:annotation:$rootProject.ext.androidxVersion"
+    implementation "androidx.preference:preference:$rootProject.ext.androidxVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
     //TV
-    implementation "com.android.support:leanback-v17:$rootProject.ext.appCompatVersion"
-    implementation "com.android.support:preference-leanback-v17:$rootProject.ext.appCompatVersion"
-    implementation "com.android.support:support-tv-provider:$rootProject.ext.appCompatVersion"
+    implementation "androidx.leanback:leanback:$rootProject.ext.androidxVersion"
+    implementation "androidx.leanback:leanback-preference:$rootProject.ext.androidxVersion"
+    implementation "androidx.tvprovider:tvprovider:$rootProject.ext.androidxVersion"
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.kotlinx_version"
-    implementation "android.arch.lifecycle:extensions:$rootProject.ext.archVersion"
-    kapt "android.arch.lifecycle:compiler:$rootProject.ext.archVersion"
-    implementation "android.arch.persistence.room:runtime:$rootProject.ext.roomVersion"
-    kapt "android.arch.persistence.room:compiler:$rootProject.ext.roomVersion"
-    implementation "android.arch.paging:runtime:$paging_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.archVersion"
+    kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.archVersion"
+    implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
+    kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
+    implementation "androidx.paging:paging-runtime:$rootProject.ext.pagingVersion"
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
-    implementation project(':tools')
+    implementation project(":tools")
     // Test
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$rootProject.espressoVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    androidTestImplementation "android.arch.persistence.room:testing:$rootProject.ext.roomVersion"
-    testImplementation "android.arch.core:core-testing:$rootProject.ext.archVersion"
-    androidTestImplementation "android.arch.core:core-testing:$rootProject.ext.archVersion"
-    androidTestImplementation "com.android.support.test:runner:$rootProject.ext.supportTest"
-    androidTestUtil "com.android.support.test:orchestrator:$rootProject.ext.supportTest"
+    androidTestImplementation "androidx.room:room-testing:$rootProject.ext.roomVersion"
+    testImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
+    androidTestImplementation "androidx.test:runner:$rootProject.ext.supportTest"
+    androidTestUtil "androidx.test:orchestrator:$rootProject.ext.supportTest"
     testImplementation "org.mockito:mockito-core:$rootProject.ext.mockito"
     testImplementation "org.powermock:powermock-api-mockito2:$rootProject.ext.powerMock"
     testImplementation "org.powermock:powermock-module-junit4:$rootProject.ext.powerMock"

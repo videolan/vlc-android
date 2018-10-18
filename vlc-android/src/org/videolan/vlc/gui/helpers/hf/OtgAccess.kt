@@ -20,14 +20,14 @@
 
 package org.videolan.vlc.gui.helpers.hf
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.annotation.WorkerThread
-import android.support.v4.app.FragmentActivity
-import android.support.v4.provider.DocumentFile
+import androidx.annotation.WorkerThread
+import androidx.fragment.app.FragmentActivity
+import androidx.documentfile.provider.DocumentFile
 import android.util.Log
 import org.videolan.medialibrary.media.MediaWrapper
 import videolan.org.commontools.LiveEvent
@@ -53,7 +53,7 @@ class OtgAccess : BaseHeadlessFragment() {
     }
 
     companion object {
-        fun requestOtgRoot(activity: FragmentActivity?) {
+        fun requestOtgRoot(activity: androidx.fragment.app.FragmentActivity?) {
             activity?.supportFragmentManager?.beginTransaction()?.add(OtgAccess(), TAG)?.commitAllowingStateLoss()
         }
         var otgRoot : LiveData<Uri> = LiveEvent()
@@ -67,7 +67,7 @@ fun getDocumentFiles(context: Context, path: String) : List<MediaWrapper>? {
 //            .authority(OTG_CONTENT_AUTHORITY)
 //            .path(path.substringBefore(':'))
 //            .build()
-    var documentFile = DocumentFile.fromTreeUri(context, rootUri)
+    var documentFile = androidx.documentfile.provider.DocumentFile.fromTreeUri(context, rootUri)
 
     val parts = path.substringAfterLast(':').split("/".toRegex()).dropLastWhile { it.isEmpty() }
     for (part in parts) {

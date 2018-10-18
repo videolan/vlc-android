@@ -3,9 +3,9 @@ package org.videolan.vlc.gui.dialogs
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +16,7 @@ import org.videolan.vlc.media.MediaUtils
 private const val MEDIA_PATHS = "MEDIA_PATHS"
 const val MEDIA_PATH = "MEDIA_PATH"
 
-class SubtitleDownloaderDialogFragment: DialogFragment() {
+class SubtitleDownloaderDialogFragment: androidx.fragment.app.DialogFragment() {
     private lateinit var adapter: ViewPagerAdapter
     lateinit var paths: List<String>
 
@@ -62,7 +62,7 @@ class SubtitleDownloaderDialogFragment: DialogFragment() {
         }
     }
 
-    class ViewPagerAdapter(context: Context, fragmentManager: FragmentManager, private val paths: List<String>): FragmentPagerAdapter(fragmentManager) {
+    class ViewPagerAdapter(context: Context, fragmentManager: androidx.fragment.app.FragmentManager, private val paths: List<String>): androidx.fragment.app.FragmentPagerAdapter(fragmentManager) {
         private val tabTitles = arrayOf(context.getString(R.string.download), context.getString(R.string.history))
 
         override fun getPageTitle(position: Int): String? = tabTitles[position]

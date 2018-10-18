@@ -1,13 +1,13 @@
 package org.videolan.vlc.gui.helpers;
 
 import android.content.Context;
-import android.support.design.widget.CoordinatorLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 
-public class BottomSheetBehavior<V extends View> extends android.support.design.widget.BottomSheetBehavior<V> {
+public class BottomSheetBehavior<V extends View> extends com.google.android.material.bottomsheet.BottomSheetBehavior<V> {
     public static final String TAG = "VLC/BottomSheetBehavior";
     private boolean lock = false;
 

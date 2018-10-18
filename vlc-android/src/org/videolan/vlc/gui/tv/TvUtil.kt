@@ -28,13 +28,13 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.v17.leanback.app.BackgroundManager
-import android.support.v17.leanback.widget.DiffCallback
-import android.support.v17.leanback.widget.ListRow
-import android.support.v17.leanback.widget.Row
-import android.support.v4.app.FragmentActivity
-import android.support.v4.content.ContextCompat
+import androidx.annotation.RequiresApi
+import androidx.leanback.app.BackgroundManager
+import androidx.leanback.widget.DiffCallback
+import androidx.leanback.widget.ListRow
+import androidx.leanback.widget.Row
+import androidx.fragment.app.FragmentActivity
+import androidx.core.content.ContextCompat
 import android.text.TextUtils
 import android.view.View
 import kotlinx.coroutines.experimental.Dispatchers
@@ -109,7 +109,7 @@ object TvUtil {
             MediaUtils.openMedia(activity, media)
     }
 
-    fun openMedia(activity: FragmentActivity, item: Any?, row: Row?) {
+    fun openMedia(activity: androidx.fragment.app.FragmentActivity, item: Any?, row: Row?) {
         when (item) {
             is MediaWrapper -> when {
                 item.type == MediaWrapper.TYPE_AUDIO -> openAudioCategory(activity, item)

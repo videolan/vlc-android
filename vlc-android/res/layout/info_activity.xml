@@ -32,18 +32,18 @@
             name="progress"
             type="int" />
     </data>
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:vlc="http://schemas.android.com/apk/res-auto"
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/info_appbar_height"
             android:fitsSystemWindows="true">
-            <android.support.design.widget.CollapsingToolbarLayout
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -61,7 +61,7 @@
                     android:scaleType="centerCrop"
                     android:src="@{cover}"
                     vlc:layout_collapseMode="parallax" />
-                <android.support.v7.widget.Toolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/main_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
@@ -72,10 +72,10 @@
                     vlc:titleMarginStart="@dimen/default_margin"
                     vlc:layout_scrollFlags="scroll|enterAlways"
                     vlc:layout_collapseMode="pin"/>
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -149,7 +149,7 @@
                 android:textColor="?attr/font_light"
                 android:text="@{sizeValueText}"
                 android:visibility="@{sizeValue != null ? View.VISIBLE : View.INVISIBLE}" />
-            <android.support.constraint.Barrier
+            <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -187,7 +187,7 @@
                 vlc:layout_constraintEnd_toEndOf="parent"
                 android:src="@drawable/ic_audiosub_circle_normal_o"
                 android:visibility="gone" />
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -199,9 +199,9 @@
                 android:paddingBottom="@dimen/listview_bottom_padding"
                 android:visibility="@{item.itemType == MediaLibraryItem.TYPE_MEDIA ? View.VISIBLE : View.INVISIBLE}" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             vlc:rippleColor="@color/orange50"
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -215,5 +215,5 @@
 
         <include layout="@layout/audioplayercontainer"/>
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

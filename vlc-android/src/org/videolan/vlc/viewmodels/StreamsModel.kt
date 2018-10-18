@@ -20,8 +20,8 @@
 
 package org.videolan.vlc.viewmodels
 
-import android.arch.lifecycle.MutableLiveData
-import android.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.ObservableField
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.launch

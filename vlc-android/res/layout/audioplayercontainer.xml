@@ -9,7 +9,7 @@
     android:visibility="gone"
     app:layout_behavior="org.videolan.vlc.gui.helpers.BottomSheetBehavior"
     tools:targetApi="lollipop">
-    <android.support.v7.widget.ViewStubCompat
+    <androidx.appcompat.widget.ViewStubCompat
         android:id="@+id/audio_player_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

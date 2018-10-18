@@ -6,11 +6,11 @@
             type="org.videolan.vlc.viewmodels.StreamsModel"/>
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mrl_root"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
             android:padding="16dp"
             android:minWidth="@dimen/mrl_panel_min_width">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/mrl_edit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
 
                 <!--android:paddingTop ==> Space between cursor and top hint-->
                 <!--android:paddingBottom ==> Space between cursor and bottom border-->
-                <android.support.design.widget.TextInputEditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -48,7 +48,7 @@
                     android:text="@={viewmodel.observableSearchText}"
                     android:textColor="?font_default"
                     android:textCursorDrawable="@drawable/cursor_o" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
                 android:id="@+id/play"
@@ -62,7 +62,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/mrl_edit" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mrl_list"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -71,6 +71,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mrl_edit" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

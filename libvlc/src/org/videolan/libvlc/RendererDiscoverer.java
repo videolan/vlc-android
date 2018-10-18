@@ -20,7 +20,7 @@
 
 package org.videolan.libvlc;
 
-import android.support.v4.util.LongSparseArray;
+import androidx.collection.LongSparseArray;
 
 public class RendererDiscoverer extends VLCObject<RendererDiscoverer.Event> {
     private final static String TAG = "LibVLC/RendererDiscoverer";

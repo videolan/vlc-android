@@ -14,7 +14,7 @@
         android:orderInCategory="1"
         android:id="@+id/ml_menu_filter"
         android:icon="@drawable/ic_menu_search_normal_w"
-        vlc:actionViewClass="android.support.v7.widget.SearchView"
+        vlc:actionViewClass="androidx.appcompat.widget.SearchView"
         android:title="@string/searchable_hint"
         vlc:showAsAction="always|collapseActionView"/>
     <item

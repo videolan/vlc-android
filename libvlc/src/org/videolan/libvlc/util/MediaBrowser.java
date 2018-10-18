@@ -22,7 +22,7 @@ package org.videolan.libvlc.util;
 
 import android.net.Uri;
 import android.os.Handler;
-import android.support.annotation.MainThread;
+import androidx.annotation.MainThread;
 import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;

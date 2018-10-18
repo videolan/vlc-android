@@ -1,6 +1,6 @@
 package org.videolan.vlc.gui.tv
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.vlc.PlaybackService

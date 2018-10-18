@@ -23,7 +23,7 @@ package org.videolan.libvlc;
 import android.annotation.TargetApi;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
-import android.support.annotation.MainThread;
+import androidx.annotation.MainThread;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;

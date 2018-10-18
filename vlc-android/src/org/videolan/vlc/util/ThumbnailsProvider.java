@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.WorkerThread;
 import android.text.TextUtils;
 
 import org.videolan.medialibrary.Medialibrary;

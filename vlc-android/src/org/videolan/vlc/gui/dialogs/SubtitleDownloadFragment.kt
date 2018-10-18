@@ -1,11 +1,11 @@
 package org.videolan.vlc.gui.dialogs
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +20,7 @@ import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.VLCDownloadManager
 import org.videolan.vlc.viewmodels.SubtitlesModel
 
-class SubtitleDownloadFragment : Fragment() {
+class SubtitleDownloadFragment : androidx.fragment.app.Fragment() {
     private lateinit var viewModel: SubtitlesModel
     private lateinit var adapter: SubtitlesAdapter
     lateinit var mediaPath: String
@@ -53,9 +53,9 @@ class SubtitleDownloadFragment : Fragment() {
 
         adapter = SubtitlesAdapter(listEventActor)
         val recyclerView = binding.subtitleList
-        recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        recyclerView.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(activity, androidx.recyclerview.widget.DividerItemDecoration.VERTICAL))
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         viewModel.result.observe(this, Observer {
             adapter.setList(it)
         })

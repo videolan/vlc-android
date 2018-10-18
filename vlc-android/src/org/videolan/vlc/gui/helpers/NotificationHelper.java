@@ -28,9 +28,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.media.session.MediaButtonReceiver;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
+import androidx.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
@@ -87,7 +87,7 @@ public class NotificationHelper {
                 R.drawable.ic_widget_close_w, ctx.getString(R.string.stop), piStop));
 
         if (AndroidDevices.showMediaStyle) {
-            builder.setStyle(new android.support.v4.media.app.NotificationCompat.MediaStyle()
+            builder.setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                     .setMediaSession(sessionToken)
                     .setShowActionsInCompactView(0,1,2)
                     .setShowCancelButton(true)
@@ -97,7 +97,7 @@ public class NotificationHelper {
         return builder.build();
     }
 
-    private static android.support.v4.app.NotificationCompat.Builder scanCompatBuilder;
+    private static androidx.core.app.NotificationCompat.Builder scanCompatBuilder;
     private static final Intent notificationIntent = new Intent();
     public static Notification createScanNotification(Context ctx, String progressText, boolean updateActions, boolean paused) {
         if (scanCompatBuilder == null) {

@@ -21,7 +21,7 @@
 package org.videolan.vlc.gui.tv;
 
 import android.net.Uri;
-import android.support.v17.leanback.widget.AbstractDetailsDescriptionPresenter;
+import androidx.leanback.widget.AbstractDetailsDescriptionPresenter;
 
 public class DetailsDescriptionPresenter extends
         AbstractDetailsDescriptionPresenter {

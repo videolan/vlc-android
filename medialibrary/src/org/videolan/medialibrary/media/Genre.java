@@ -2,7 +2,7 @@ package org.videolan.medialibrary.media;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.videolan.medialibrary.Medialibrary;
 

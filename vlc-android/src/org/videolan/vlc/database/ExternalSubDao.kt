@@ -20,8 +20,8 @@
 
 package org.videolan.vlc.database
 
-import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.*
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import org.videolan.vlc.database.models.ExternalSub
 
 

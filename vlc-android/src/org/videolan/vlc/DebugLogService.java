@@ -32,7 +32,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import android.text.format.DateFormat;
 
 import org.videolan.vlc.gui.DebugLogActivity;

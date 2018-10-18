@@ -20,15 +20,15 @@
  */
 package org.videolan.vlc.gui.network
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.TextInputLayout
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import com.google.android.material.textfield.TextInputLayout
+import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -54,10 +54,10 @@ import org.videolan.vlc.viewmodels.StreamsModel
 
 const val TAG = "VLC/MrlPanelFragment"
 
-class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener, CtxActionReceiver {
+class MRLPanelFragment : androidx.fragment.app.DialogFragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener, CtxActionReceiver {
 
     private lateinit var adapter: MRLAdapter
-    private lateinit var editText: TextInputLayout
+    private lateinit var editText: com.google.android.material.textfield.TextInputLayout
     private lateinit var viewModel: StreamsModel
 
     private val listEventActor = coroutineScope.actor<MrlAction> {
@@ -69,7 +69,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NO_FRAME, 0)
+        setStyle(androidx.fragment.app.DialogFragment.STYLE_NO_FRAME, 0)
         viewModel = ViewModelProviders.of(this).get(StreamsModel::class.java)
     }
 
@@ -82,8 +82,8 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
 
         adapter = MRLAdapter(listEventActor)
         val recyclerView = binding.mrlList
-        recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(activity, androidx.recyclerview.widget.DividerItemDecoration.VERTICAL))
+        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         recyclerView.adapter = adapter
         viewModel.observableHistory.observe(this, Observer { adapter.setList(it) })
         binding.play.setOnClickListener(this)

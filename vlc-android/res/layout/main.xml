@@ -12,7 +12,7 @@
     android:nextFocusDown="@+id/ml_menu_search"
     android:nextFocusForward="@+id/ml_menu_search"
     android:fitsSystemWindows="true" >
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
@@ -27,7 +27,7 @@
             android:keyboardNavigationCluster="true"
             tools:targetApi="o" />
 
-        <android.support.v7.widget.ViewStubCompat
+        <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/scan_viewstub"
             android:layout_width="match_parent"
             android:layout_height="@dimen/progress_layout_height"
@@ -36,7 +36,7 @@
 
         <include layout="@layout/audioplayercontainer"/>
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,10 +49,10 @@
             app:layout_behavior="org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior"
             android:visibility="invisible"
             android:layout_margin="16dp"/>
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- The navigation drawer -->
-    <android.support.design.widget.NavigationView
+    <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -63,13 +63,13 @@
         android:keyboardNavigationCluster="true"
         tools:targetApi="o" />
 
-    <android.support.v7.widget.ViewStubCompat
+    <androidx.appcompat.widget.ViewStubCompat
         android:id="@+id/audio_playlist_tips"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout="@layout/audio_playlist_tips"/>
 
-    <android.support.v7.widget.ViewStubCompat
+    <androidx.appcompat.widget.ViewStubCompat
         android:id="@+id/audio_player_tips"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

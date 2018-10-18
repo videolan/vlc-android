@@ -58,7 +58,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api "com.android.support:appcompat-v7:$rootProject.ext.appCompatVersion"
+    api "androidx.appcompat:appcompat:$rootProject.ext.androidxVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
 }
 

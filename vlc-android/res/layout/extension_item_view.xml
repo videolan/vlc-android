@@ -16,7 +16,7 @@
             type="android.graphics.drawable.BitmapDrawable"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_margin="5dp"
@@ -93,5 +93,5 @@
             android:layout_marginRight="1dp"
             tools:src="@drawable/ic_more"
             android:onClick="@{holder::onMoreClick}" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

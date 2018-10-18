@@ -1,10 +1,10 @@
 package org.videolan.vlc.viewmodels
 
-import android.arch.lifecycle.*
+import androidx.lifecycle.*
 import android.content.Context
-import android.databinding.Observable
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableField
+import androidx.databinding.Observable
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import kotlinx.coroutines.experimental.*
 import org.videolan.vlc.R
 import org.videolan.vlc.api.NoConnectivityException

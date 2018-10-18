@@ -25,16 +25,16 @@ package org.videolan.vlc.gui.helpers.hf
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.SendChannel
 import kotlinx.coroutines.experimental.launch
 import org.videolan.vlc.util.AppScope
 
 open class
-BaseHeadlessFragment : Fragment() {
-    protected var mActivity: FragmentActivity? = null
+BaseHeadlessFragment : androidx.fragment.app.Fragment() {
+    protected var mActivity: androidx.fragment.app.FragmentActivity? = null
     var channel: SendChannel<Unit>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +44,7 @@ BaseHeadlessFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is FragmentActivity) mActivity = context
+        if (context is androidx.fragment.app.FragmentActivity) mActivity = context
     }
 
     override fun onDetach() {

@@ -8,7 +8,7 @@
             name="holder"
             type="org.videolan.vlc.gui.dialogs.RenderersDialog.RendererClickhandler" />
     </data>
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="384dp">
@@ -20,7 +20,7 @@
             android:text="@string/renderer_list_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
             android:padding="16dp" />
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/renderers_list"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -43,5 +43,5 @@
             android:textColor="@color/orange800"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:onClick="@{() -> holder.connect((RendererItem)null)}" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

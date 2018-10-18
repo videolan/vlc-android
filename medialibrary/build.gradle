@@ -69,9 +69,9 @@ clean {
 
 dependencies {
     implementation project(':libvlc')
-    api "com.android.support:support-v4:$rootProject.ext.appCompatVersion"
-    api "com.android.support:support-compat:$rootProject.ext.appCompatVersion"
-    api "com.android.support:support-fragment:$rootProject.ext.appCompatVersion"
+    api "androidx.legacy:legacy-support-v4:$rootProject.ext.androidxVersion"
+    api "androidx.core:core:$rootProject.ext.androidxVersion"
+    api "androidx.fragment:fragment:$rootProject.ext.androidxVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     implementation project(':tools')
 }

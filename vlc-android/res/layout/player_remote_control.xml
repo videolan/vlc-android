@@ -46,7 +46,7 @@
             android:layout_centerInParent="true"
             android:src="@drawable/renderer_background_cone" />
 
-        <android.support.v7.widget.ViewStubCompat
+        <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/player_info_stub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
 
         </RelativeLayout>
 
-        <android.support.v7.widget.ViewStubCompat
+        <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/player_overlay_settings_stub"
             android:layout="@layout/player_overlay_settings"
             android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
             android:layout_marginEnd="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"/>
 
-        <android.support.v7.widget.ViewStubCompat
+        <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/player_hud_stub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/video_playlist"
         android:layout_width="480dp"
         android:layout_height="480dp"

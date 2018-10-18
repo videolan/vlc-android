@@ -21,14 +21,14 @@ package org.videolan.vlc;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.ProcessLifecycleOwner;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ProcessLifecycleOwner;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.util.SimpleArrayMap;
+import androidx.fragment.app.DialogFragment;
+import androidx.collection.SimpleArrayMap;
 import android.util.Log;
 
 import org.videolan.libvlc.Dialog;

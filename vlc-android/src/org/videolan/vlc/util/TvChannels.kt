@@ -25,9 +25,9 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.media.tv.TvContractCompat
-import android.support.media.tv.WatchNextProgram
+import androidx.annotation.RequiresApi
+import androidx.tvprovider.media.tv.TvContractCompat
+import androidx.tvprovider.media.tv.WatchNextProgram
 import android.text.TextUtils
 import android.util.Log
 import kotlinx.coroutines.experimental.*

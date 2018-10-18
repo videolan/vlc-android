@@ -3,7 +3,7 @@ package org.videolan.vlc.gui.video
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Presentation
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.PixelFormat

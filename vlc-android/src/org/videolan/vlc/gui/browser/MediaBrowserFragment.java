@@ -27,16 +27,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.support.design.widget.FloatingActionButton;
-import android.support.transition.TransitionManager;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.transition.TransitionManager;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,7 +66,7 @@ import org.videolan.vlc.viewmodels.SortableModel;
 
 import java.util.LinkedList;
 
-public abstract class MediaBrowserFragment<T extends SortableModel> extends Fragment implements android.support.v7.view.ActionMode.Callback, Filterable {
+public abstract class MediaBrowserFragment<T extends SortableModel> extends Fragment implements androidx.appcompat.view.ActionMode.Callback, Filterable {
 
     public final static String TAG = "VLC/MediaBrowserFragment";
 

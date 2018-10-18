@@ -1,15 +1,15 @@
 package org.videolan.vlc.gui.helpers
 
-import android.databinding.BindingAdapter
-import android.databinding.DataBindingUtil
-import android.databinding.OnRebindCallback
-import android.databinding.ViewDataBinding
+import androidx.databinding.BindingAdapter
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.OnRebindCallback
+import androidx.databinding.ViewDataBinding
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import android.support.annotation.MainThread
-import android.support.v17.leanback.widget.ImageCardView
-import android.support.v4.view.ViewCompat
+import androidx.annotation.MainThread
+import androidx.leanback.widget.ImageCardView
+import androidx.core.view.ViewCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView

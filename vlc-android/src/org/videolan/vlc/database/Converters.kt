@@ -20,7 +20,7 @@
 
 package org.videolan.vlc.database
 
-import android.arch.persistence.room.TypeConverter
+import androidx.room.TypeConverter
 import android.net.Uri
 import org.videolan.libvlc.Media
 import org.videolan.vlc.database.models.Slave

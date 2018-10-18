@@ -2,14 +2,14 @@ package org.videolan.vlc.gui.tv
 
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 import android.view.View
 import android.webkit.WebView
 
 import org.videolan.vlc.R
 import org.videolan.vlc.util.Util
 
-class LicenceActivity : FragmentActivity() {
+class LicenceActivity : androidx.fragment.app.FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

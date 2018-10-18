@@ -1,10 +1,10 @@
 package org.videolan.vlc.viewmodels.paged
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.paging.DataSource
-import android.arch.paging.LivePagedListBuilder
-import android.arch.paging.PagedList
-import android.arch.paging.PositionalDataSource
+import androidx.lifecycle.MutableLiveData
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import androidx.paging.PositionalDataSource
 import android.content.Context
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Medialibrary

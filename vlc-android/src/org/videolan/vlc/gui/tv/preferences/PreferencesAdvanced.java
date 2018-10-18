@@ -31,8 +31,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v7.preference.EditTextPreference;
-import android.support.v7.preference.Preference;
+import androidx.preference.EditTextPreference;
+import androidx.preference.Preference;
 import android.widget.Toast;
 
 import org.videolan.vlc.R;

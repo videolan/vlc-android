@@ -20,9 +20,9 @@
  */
 package org.videolan.vlc.gui.network
 
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.net.Uri
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +31,7 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlItemBinding
 
-internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : RecyclerView.Adapter<MRLAdapter.ViewHolder>() {
+internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : androidx.recyclerview.widget.RecyclerView.Adapter<MRLAdapter.ViewHolder>() {
     private var dataset: Array<MediaWrapper>? = null
 
     val isEmpty: Boolean
@@ -62,7 +62,7 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : Recy
 
     override fun getItemCount() = dataset?.size ?: 0
 
-    inner class ViewHolder(val binding: MrlItemBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    inner class ViewHolder(val binding: MrlItemBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root), View.OnClickListener {
 
         init {
             itemView.setOnClickListener(this)

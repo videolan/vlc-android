@@ -24,7 +24,7 @@
 package org.videolan.vlc.gui;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 import android.text.TextUtils;
 
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;

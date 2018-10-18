@@ -4,7 +4,7 @@
     android:layout_width="wrap_content" android:layout_height="wrap_content"
     android:padding="20dp">
 
-    <android.support.v7.widget.AppCompatSpinner
+    <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/server_protocol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         android:inputType="number"
         android:singleLine="true" />
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/server_domain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,9 +52,9 @@
             android:singleLine="true">
             <requestFocus/>
         </EditText>
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/server_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -67,10 +67,10 @@
             android:hint="@string/server_username_hint"
             android:inputType="text"
             android:singleLine="true" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/server_folder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
             android:hint="@string/server_folder_hint"
             android:inputType="textUri"
             android:singleLine="true" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/server_url"
@@ -93,7 +93,7 @@
         android:layout_margin="5dp"
        android:gravity="center_horizontal"/>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/server_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
             android:hint="@string/server_servername_hint"
             android:inputType="text"
             android:singleLine="true" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/server_cancel"

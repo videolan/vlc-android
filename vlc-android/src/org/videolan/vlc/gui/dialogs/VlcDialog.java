@@ -22,12 +22,12 @@
 
 package org.videolan.vlc.gui.dialogs;
 
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.appcompat.app.AppCompatDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +36,7 @@ import org.videolan.libvlc.Dialog;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.VLCApplication;
 
-public abstract class VlcDialog<T extends Dialog, B extends android.databinding.ViewDataBinding> extends DialogFragment {
+public abstract class VlcDialog<T extends Dialog, B extends androidx.databinding.ViewDataBinding> extends DialogFragment {
 
     T mVlcDialog;
     B mBinding;

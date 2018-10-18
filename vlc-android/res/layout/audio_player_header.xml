@@ -8,7 +8,7 @@
             name="fragment"
             type="org.videolan.vlc.gui.audio.AudioPlayer" />
     </data>
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/header"
         android:layout_width="0dp"
         android:layout_height="60dp"
@@ -39,7 +39,7 @@
             app:layout_constraintEnd_toStartOf="@+id/playlist_ab_repeat"
             android:background="#00000000" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/playlist_search_text"
@@ -52,7 +52,7 @@
                 android:hint="@string/search_hint"
                 android:inputType="textFilter"
                 android:imeOptions="actionSearch"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
             android:id="@+id/playlist_ab_repeat"
@@ -138,5 +138,5 @@
             android:onLongClick="@{fragment::onStopClick}"
             android:src="?attr/ic_pause" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
