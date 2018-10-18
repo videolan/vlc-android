@@ -32,6 +32,7 @@ ext {
     junitVersion = '4.12'
     mockito = '2.8.9'
     powerMock = '1.7.4'
+    retrofit = '2.4.0'
     espressoVersion = '3.0.1'
     supportTest = '1.0.2'
     minSdkVersion = 17

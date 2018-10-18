@@ -259,7 +259,7 @@ class BrowserFavRepositoryTest {
             TestUtil.createNetworkFav(parsedUri, "network$index", null)
         }
 
-        browserFavRepository.deleteBrowserFav(fakeLocalFavs[0].uri)
+        browserFavRepository.deleteBrowserFav(fakeLocalFavs[0].uri).join()
         verify(browserFavDao).delete(ArgumentMatchers.any(Uri::class.java) ?: uninitialized())
 
 

@@ -128,7 +128,6 @@
     <string name="repeat_all">Repeat all</string>
     <string name="previous">Previous</string>
     <string name="stop">Stop</string>
-    <string name="next">Next</string>
     <string name="firstsong">First song of the playlist</string>
     <string name="lastsong">Last song of the playlist</string>
 
@@ -468,6 +467,16 @@
     <string name="send_log">Send the log</string>
     <string name="sending_log">Sending the log…</string>
 
+    <string name="delete_sub_title">Delete subtitle</string>
+    <string name="delete_sub_message">Do you want to delete this subtitle?</string>
+    <string name="delete_sub_yes">Yes</string>
+    <string name="delete_sub_no">No</string>
+    <string name="download_subtitle_title">Download Subtitle</string>
+
+    <string name="no_result">No results found</string>
+    <string name="no_internet_connection">Check your internet connection</string>
+    <string name="some_error_occurred">Some error occurred. Please try again in a few seconds</string>
+
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="network_browsing">Local Network</string>
@@ -633,4 +642,10 @@
     <string name="time_category_older">Older media</string>
     <string name="rename">Rename</string>
     <string name="rename_media">Rename %1$s</string>
+    <string name="manual_search">Manual search</string>
+    <string name="subtitle_search_name_hint">Name</string>
+    <string name="subtitle_search_episode_hint">Episode</string>
+    <string name="subtitle_search_season_hint">Season</string>
+    <string name="language_to_download">Language</string>
+    <string name="next">Next</string>
 </resources>

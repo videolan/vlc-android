@@ -200,7 +200,6 @@ dependencies {
     implementation project(':libvlc')
     implementation project(':medialibrary')
     implementation project(':api')
-    implementation project(':axmlrpc')
     // AppCompat
     implementation "com.android.support:recyclerview-v7:$rootProject.ext.appCompatVersion"
     implementation "com.android.support:design:$rootProject.ext.appCompatVersion"
@@ -220,7 +219,9 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:$rootProject.ext.roomVersion"
     kapt "android.arch.persistence.room:compiler:$rootProject.ext.roomVersion"
     implementation "android.arch.paging:runtime:$paging_version"
-
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
+    implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
     implementation project(':tools')
     // Test
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$rootProject.espressoVersion"

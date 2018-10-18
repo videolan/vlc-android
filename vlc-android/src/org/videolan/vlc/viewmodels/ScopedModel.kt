@@ -1,6 +1,7 @@
 package org.videolan.vlc.viewmodels
 
 import android.arch.lifecycle.ViewModel
+import android.util.Log
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.SupervisorJob
