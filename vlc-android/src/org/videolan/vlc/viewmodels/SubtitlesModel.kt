@@ -25,6 +25,7 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
     val observableSearchEpisode = ObservableField<String>()
     val observableSearchSeason = ObservableField<String>()
     val observableSearchLanguage = ObservableField<String>()
+    private var previousSearchLanguage: String? = null
     val manualSearchEnabled = ObservableBoolean(false)
 
     val isApiLoading = ObservableBoolean(false)
@@ -44,8 +45,11 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
     init {
         observableSearchLanguage.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                saveLastUsedLanguage(observableSearchLanguage.get() ?: "")
-                search(!manualSearchEnabled.get())
+                if (observableSearchLanguage.get() != previousSearchLanguage) {
+                    previousSearchLanguage = observableSearchLanguage.get()
+                    saveLastUsedLanguage(observableSearchLanguage.get() ?: "")
+                    search(!manualSearchEnabled.get())
+                }
             }
         })
 
