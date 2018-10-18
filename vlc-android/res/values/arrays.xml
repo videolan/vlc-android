@@ -236,12 +236,14 @@
     </string-array>
 
     <string-array name="screen_orientation_list">
+        <item>@string/screen_orientation_button</item>
         <item>@string/screen_orientation_sensor</item>
         <item>@string/screen_orientation_start_lock</item>
         <item>@string/screen_orientation_landscape</item>
         <item>@string/screen_orientation_portrait</item>
     </string-array>
     <string-array name="screen_orientation_values" translatable="false">
+        <item>98</item>
         <item>99</item>
         <item>100</item>
         <item>101</item>

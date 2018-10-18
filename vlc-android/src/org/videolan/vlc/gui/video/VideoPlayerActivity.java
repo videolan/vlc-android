@@ -174,6 +174,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private PlaylistAdapter mPlaylistAdapter;
     private PlaylistModel mPlaylistModel;
 
+    private ImageView mOrientationToggle;
+
     static final int SURFACE_BEST_FIT = 0;
     static final int SURFACE_FIT_SCREEN = 1;
     private static final int SURFACE_FILL = 2;
@@ -339,10 +341,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlaylistToggle = findViewById(R.id.playlist_toggle);
         mPlaylist = findViewById(R.id.video_playlist);
 
-
+        mOrientationToggle = findViewById(R.id.orientation_toggle);
 
         mScreenOrientation = Integer.valueOf(
-                mSettings.getString("screen_orientation", "99" /*SCREEN ORIENTATION SENSOR*/));
+                mSettings.getString("screen_orientation", "98" /*Rotate button*/));
 
         mSurfaceView = findViewById(R.id.player_surface);
         mSubtitlesSurfaceView = findViewById(R.id.subtitles_surface);
@@ -446,6 +448,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void setListeners(boolean enabled) {
         if (mHudBinding != null) mHudBinding.playerOverlaySeekbar.setOnSeekBarChangeListener(enabled ? mSeekListener : null);
         if (mNavMenu != null) mNavMenu.setOnClickListener(enabled ? this : null);
+        if (mOrientationToggle != null) mOrientationToggle.setOnClickListener(enabled ? this : null);
+
         UiTools.setViewOnClickListener(mRendererBtn, enabled ? this : null);
     }
 
@@ -2072,6 +2076,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.orientation_toggle:
+                toggleOrientation();
+                break;
             case R.id.playlist_toggle:
                 togglePlaylist();
                 break;
@@ -2493,6 +2500,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mHudBinding.lockOverlayButton.setVisibility(View.GONE);
                 mHudBinding.playerOverlaySize.setVisibility(View.GONE);
             }
+
+            if (mScreenOrientation == 98)
+                mOrientationToggle.setVisibility(View.VISIBLE);
         }
     }
 
@@ -2869,6 +2879,19 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private int getScreenOrientation(int mode){
         switch(mode) {
+            case 98: //toggle button
+                int orientation;
+                if (mCurrentScreenOrientation == 0 ) { //not initialized yet so the activity just started and we keep the user orientation
+                    orientation = getResources().getConfiguration().orientation;
+                    if (orientation == 1)
+                        return ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
+                    else
+                        return ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
+                } else if (mCurrentScreenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    return ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
+                } else {
+                    return ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
+                }
             case 99: //screen orientation user
                 return AndroidUtil.isJellyBeanMR2OrLater ?
                         ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR :
@@ -2979,6 +3002,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         });
         advOptionsDialog.show(fm, "fragment_adv_options");
         hideOverlay(false);
+    }
+
+    void toggleOrientation() {
+        setRequestedOrientation(getScreenOrientation(mScreenOrientation));
     }
 
     void togglePlaylist() {
