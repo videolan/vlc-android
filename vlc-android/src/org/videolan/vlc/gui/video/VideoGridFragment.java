@@ -22,8 +22,6 @@ package org.videolan.vlc.gui.video;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -31,11 +29,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import androidx.annotation.MainThread;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.view.ActionMode;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -67,6 +60,14 @@ import org.videolan.vlc.viewmodels.VideosModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.view.ActionMode;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class VideoGridFragment extends MediaBrowserFragment<VideosModel> implements SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<List<MediaWrapper>>, CtxActionReceiver {
 
@@ -257,16 +258,15 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        final List<MediaWrapper> list = multiSelectHelper.getSelection();
+        final List<MediaWrapper> list = new ArrayList();
+        for (MediaWrapper mw : multiSelectHelper.getSelection()) {
+            if (mw.getType() == MediaWrapper.TYPE_GROUP) list.addAll(((MediaGroup)mw).getAll());
+            else list.add(mw);
+        }
         if (!list.isEmpty()) {
             switch (item.getItemId()) {
                 case R.id.action_video_play:
-                    final List<MediaWrapper> videos = new ArrayList();
-                    for (MediaWrapper mw : list) {
-                        if (mw.getType() == MediaWrapper.TYPE_GROUP) videos.addAll(((MediaGroup)mw).getAll());
-                        else videos.add(mw);
-                    }
-                    MediaUtils.INSTANCE.openList(getActivity(), videos, 0);
+                    MediaUtils.INSTANCE.openList(getActivity(), list, 0);
                     break;
                 case R.id.action_video_append:
                     MediaUtils.INSTANCE.appendMedia(getActivity(), list);
