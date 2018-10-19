@@ -23,18 +23,13 @@
 
 package org.videolan.vlc.gui.helpers
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import com.google.android.material.navigation.NavigationView
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.collection.SimpleArrayMap
-import android.util.Log
 import android.view.MenuItem
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.api.VLCExtensionItem
@@ -67,11 +62,14 @@ class Navigator(private val activity: MainActivity,
         state?.let {
             val fm = activity.supportFragmentManager
             currentFragment = fm.getFragment(it, "current_fragment")
-            currentFragmentId = it.getInt("current", settings.getInt("fragment_id", defaultFragmentId))
-            Log.d(TAG, "init currentFragmentId $currentFragmentId, default $defaultFragmentId")
             //Restore fragments stack
             restoreFragmentsStack(fm)
         }
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun onStart() {
+        if (currentFragment === null && !currentIdIsExtension()) showFragment(settings.getInt("fragment_id", defaultFragmentId))
     }
 
     private fun getNewFragment(id: Int): androidx.fragment.app.Fragment {
@@ -121,11 +119,6 @@ class Navigator(private val activity: MainActivity,
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart() {
-        if (currentFragment === null && !currentIdIsExtension()) showFragment(currentFragmentId)
-    }
-
     /**
      * Show a secondary fragment.
      */
@@ -141,7 +134,7 @@ class Navigator(private val activity: MainActivity,
 
     fun currentIdIsExtension() = idIsExtension(currentFragmentId)
 
-    private fun idIsExtension(id: Int) = id <= 100
+    private fun idIsExtension(id: Int) = id in 1..100
 
     private fun clearBackstackFromClass(clazz: Class<*>) {
         val fm = activity.supportFragmentManager

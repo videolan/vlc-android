@@ -29,18 +29,11 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.navigation.NavigationView;
-import androidx.fragment.app.Fragment;
-import androidx.core.view.GravityCompat;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.view.ActionMode;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.FilterQueryProvider;
+
+import com.google.android.material.navigation.NavigationView;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
@@ -69,6 +62,14 @@ import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.view.ActionMode;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
 
 public class MainActivity extends ContentActivity implements FilterQueryProvider, ExtensionManagerService.ExtensionManagerActivity {
     public final static String TAG = "VLC/MainActivity";
@@ -111,7 +112,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                     }
                 }, 500);
             }
-            mNavigator.reloadPreferences();
         }
 
         /* Set up the action bar */
@@ -420,10 +420,11 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
                 return;
             default:
                 final int currentId = mNavigator.getCurrentFragmentId();
-                if (id != currentId && mNavigationView.getMenu().findItem(id) != null) {
-                    if (mNavigationView.getMenu().findItem(currentId) != null)
-                        mNavigationView.getMenu().findItem(currentId).setChecked(false);
-                    mNavigationView.getMenu().findItem(id).setChecked(true);
+                final MenuItem target = mNavigationView.getMenu().findItem(id);
+                if (id != currentId && target != null) {
+                    final MenuItem current = mNavigationView.getMenu().findItem(currentId);
+                    if (current != null) current.setChecked(false);
+                    target.setChecked(true);
                     /* Save the tab status in pref */
                     mSettings.edit().putInt("fragment_id", id).apply();
                 }
