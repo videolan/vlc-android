@@ -72,7 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             vlc:layout_constraintVertical_chainStyle="packed"
-            vlc:layout_constraintTop_toTopOf="@+id/media_cover"
+            vlc:layout_constraintTop_toBottomOf="@+id/section_header"
             vlc:layout_constraintStart_toEndOf="@+id/media_cover"
             vlc:layout_constraintEnd_toStartOf="@+id/item_more"
             vlc:layout_constraintBottom_toTopOf="@+id/subtitle"
@@ -89,7 +89,7 @@
             vlc:layout_constraintTop_toBottomOf="@+id/title"
             vlc:layout_constraintStart_toStartOf="@+id/title"
             vlc:layout_constraintEnd_toEndOf="@+id/title"
-            vlc:layout_constraintBottom_toBottomOf="@id/media_cover"
+            vlc:layout_constraintBottom_toBottomOf="parent"
             android:text="@{item.description}"
             style="@style/VLC.TextViewDescription"
             android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE}"/>
