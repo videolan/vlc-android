@@ -647,8 +647,8 @@
     <string name="subtitle_search_episode_hint">Episode</string>
     <string name="subtitle_search_season_hint">Season</string>
     <string name="language_to_download">Language</string>
-    <string name="delete_the_selected">Delete the selected</string>
-    <string name="download_the_selected">Download the selected</string>
+    <string name="delete_the_selected">Delete selection</string>
+    <string name="download_the_selected">Download selection</string>
     <string name="next">Next</string>
     <string name="download">Download</string>
 </resources>
