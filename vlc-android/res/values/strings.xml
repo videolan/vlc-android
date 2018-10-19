@@ -277,7 +277,6 @@
     <string name="dev_hardware_decoder_mediacodec_dr" translatable="false">mediacodec-dr</string>
     <string name="automatic">Automatic</string>
     <string name="screen_orientation">Video screen orientation</string>
-    <string name="screen_orientation_button">Rotate Button</string>
     <string name="screen_orientation_sensor">Automatic (sensor)</string>
     <string name="screen_orientation_start_lock">Locked at start</string>
     <string name="screen_orientation_portrait">Portrait</string>

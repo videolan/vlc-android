@@ -344,7 +344,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mOrientationToggle = findViewById(R.id.orientation_toggle);
 
         mScreenOrientation = Integer.valueOf(
-                mSettings.getString("screen_orientation", "98" /*Rotate button*/));
+                mSettings.getString("screen_orientation", "99" /*SCREEN ORIENTATION SENSOR*/));
 
         mSurfaceView = findViewById(R.id.player_surface);
         mSubtitlesSurfaceView = findViewById(R.id.subtitles_surface);
@@ -2501,7 +2501,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 mHudBinding.playerOverlaySize.setVisibility(View.GONE);
             }
 
-            if (mScreenOrientation == 98)
+            if(!mIsTv)
                 mOrientationToggle.setVisibility(View.VISIBLE);
         }
     }
@@ -2880,18 +2880,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private int getScreenOrientation(int mode){
         switch(mode) {
             case 98: //toggle button
-                int orientation;
-                if (mCurrentScreenOrientation == 0 ) { //not initialized yet so the activity just started and we keep the user orientation
-                    orientation = getResources().getConfiguration().orientation;
-                    if (orientation == 1)
-                        return ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
-                    else
-                        return ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
-                } else if (mCurrentScreenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                if (mCurrentScreenOrientation == Configuration.ORIENTATION_LANDSCAPE)
                     return ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT;
-                } else {
+                else
                     return ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
-                }
             case 99: //screen orientation user
                 return AndroidUtil.isJellyBeanMR2OrLater ?
                         ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR :
@@ -3005,6 +2997,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     void toggleOrientation() {
+        mScreenOrientation = 98; //Rotate button
         setRequestedOrientation(getScreenOrientation(mScreenOrientation));
     }
 
