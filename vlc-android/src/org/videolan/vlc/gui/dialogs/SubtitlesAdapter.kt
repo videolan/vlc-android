@@ -1,14 +1,12 @@
 package org.videolan.vlc.gui.dialogs
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.coroutines.experimental.channels.SendChannel
-import org.videolan.vlc.api.OpenSubtitle
 import org.videolan.vlc.databinding.SubtitleDownloadItemBinding
 
-internal class SubtitlesAdapter(private val eventActor: SendChannel<SubtitleItem>) : androidx.recyclerview.widget.RecyclerView.Adapter<SubtitlesAdapter.ViewHolder>() {
+internal class SubtitlesAdapter(private val eventActor: SendChannel<SubtitleEvent>) : androidx.recyclerview.widget.RecyclerView.Adapter<SubtitlesAdapter.ViewHolder>() {
     private var dataset: List<SubtitleItem>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubtitlesAdapter.ViewHolder {
@@ -29,15 +27,27 @@ internal class SubtitlesAdapter(private val eventActor: SendChannel<SubtitleItem
 
     override fun getItemCount() = dataset?.size ?: 0
 
-    inner class ViewHolder(val binding: SubtitleDownloadItemBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    inner class ViewHolder(val binding: SubtitleDownloadItemBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root), View.OnClickListener, View.OnLongClickListener {
 
         init {
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
         }
 
         override fun onClick(v: View) {
-            dataset?.get(layoutPosition)?.let { eventActor.offer(it) }
+            dataset?.get(layoutPosition)?.let {
+                if(!eventActor.isClosedForSend)
+                    eventActor.offer(Click(it)) }
         }
+
+        override fun onLongClick(v: View): Boolean {
+            dataset?.get(layoutPosition)?.let {
+                if(!eventActor.isClosedForSend)
+                    eventActor.offer(LongClick(it))
+            }
+            return true
+        }
+
 
         fun bind(subtitleItem: SubtitleItem?) {
             binding.subtitleItem = subtitleItem
@@ -45,3 +55,7 @@ internal class SubtitlesAdapter(private val eventActor: SendChannel<SubtitleItem
         }
     }
 }
+
+sealed class SubtitleEvent
+class Click(val item: SubtitleItem) : SubtitleEvent()
+class LongClick(val item: SubtitleItem) : SubtitleEvent()

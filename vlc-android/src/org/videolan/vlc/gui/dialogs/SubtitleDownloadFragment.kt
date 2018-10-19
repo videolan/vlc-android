@@ -3,21 +3,14 @@ package org.videolan.vlc.gui.dialogs
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import kotlinx.coroutines.experimental.channels.actor
-import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloadFragmentBinding
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.helpers.UiTools.deleteSubtitleDialog
 import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.VLCDownloadManager
 import org.videolan.vlc.viewmodels.SubtitlesModel
 
 class SubtitleDownloadFragment : androidx.fragment.app.Fragment() {
@@ -25,16 +18,6 @@ class SubtitleDownloadFragment : androidx.fragment.app.Fragment() {
     private lateinit var adapter: SubtitlesAdapter
     lateinit var mediaPath: String
 
-    private val listEventActor = coroutineScope.actor<SubtitleItem> {
-        for (subtitleItem in channel)
-            when (subtitleItem.state) {
-                State.NotDownloaded -> {
-                    VLCDownloadManager.download(context!!, subtitleItem)
-                }
-                State.Downloaded -> deleteSubtitleDialog(context,
-                        { _, _ -> viewModel.deleteSubtitle(subtitleItem.mediaPath, subtitleItem.idSubtitle) }, { _, _ -> })
-            }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +34,7 @@ class SubtitleDownloadFragment : androidx.fragment.app.Fragment() {
             //Prevent opening soft keyboard automatically
             binding.constraintLayout.isFocusableInTouchMode = true
 
-        adapter = SubtitlesAdapter(listEventActor)
+        adapter = SubtitlesAdapter((parentFragment as SubtitleDownloaderDialogFragment).listEventActor)
         val recyclerView = binding.subtitleList
         recyclerView.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(activity, androidx.recyclerview.widget.DividerItemDecoration.VERTICAL))
         recyclerView.adapter = adapter
