@@ -20,26 +20,20 @@
 
 package org.videolan.vlc.gui.audio;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import androidx.annotation.Nullable;
-import com.google.android.material.tabs.TabLayout;
-import androidx.viewpager.widget.ViewPager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.android.material.tabs.TabLayout;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -60,6 +54,17 @@ import org.videolan.vlc.viewmodels.paged.PagedArtistsModel;
 import org.videolan.vlc.viewmodels.paged.PagedGenresModel;
 import org.videolan.vlc.viewmodels.paged.PagedPlaylistsModel;
 import org.videolan.vlc.viewmodels.paged.PagedTracksModel;
+
+import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
@@ -84,6 +89,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private FastScroller mFastScroller;
     private SharedPreferences mSettings;
 
+    private static final String KEY_LISTS_POSITIONS = "key_lists_position";
     private static final int SET_REFRESHING = 103;
     private static final int UNSET_REFRESHING = 104;
     private static final int UPDATE_EMPTY_VIEW = 105;
@@ -133,16 +139,28 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         mViewPager.setAdapter(new AudioPagerAdapter(mLists, titles));
         mViewPager.setCurrentItem(mSettings.getInt(Constants.KEY_AUDIO_CURRENT_TAB, 0));
         final RecyclerView.RecycledViewPool rvp = new RecyclerView.RecycledViewPool();
+        final ArrayList<Integer> positions = savedInstanceState != null ? savedInstanceState.getIntegerArrayList(KEY_LISTS_POSITIONS) : null;
         for (int i = 0; i< MODE_TOTAL; ++i) {
             final LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             llm.setRecycleChildrenOnDetach(true);
             mLists[i].setLayoutManager(llm);
             mLists[i].setRecycledViewPool(rvp);
             mLists[i].setAdapter(mAdapters[i]);
+            if (positions != null) mLists[i].scrollToPosition(positions.get(i));
         }
         mViewPager.setOnTouchListener(mSwipeFilter);
         setupTabLayout();
         mSwipeRefreshLayout.setOnRefreshListener(this);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        final ArrayList<Integer> positions = new ArrayList<>(MODE_TOTAL);
+        for (int i = 0; i< MODE_TOTAL; ++i) {
+            positions.add(((LinearLayoutManager)mLists[i].getLayoutManager()).findFirstCompletelyVisibleItemPosition());
+        }
+        outState.putIntegerArrayList(KEY_LISTS_POSITIONS, positions);
+        super.onSaveInstanceState(outState);
     }
 
     private void setupModels() {
