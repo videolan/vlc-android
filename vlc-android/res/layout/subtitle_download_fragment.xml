@@ -110,8 +110,8 @@
             app:refreshing="@{viewmodel.isApiLoading}"
             app:onRefreshListener="@{()-> viewmodel.onRefresh()}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
-            app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/barrier" >
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/subtitle_list"
