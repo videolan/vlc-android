@@ -25,6 +25,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.PictureInPictureParams;
+
+import androidx.annotation.StringRes;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -76,6 +78,7 @@ import android.view.Surface;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -145,7 +148,7 @@ import java.util.Locale;
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
         IVLCVout.OnNewVideoLayoutListener, IPlaybackSettingsController,
         PlaybackService.Client.Callback, PlaybackService.Callback,PlaylistAdapter.IPlayer,
-        OnClickListener, StoragePermissionsDelegate.CustomActionController {
+        OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController {
 
     private final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -448,7 +451,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private void setListeners(boolean enabled) {
         if (mHudBinding != null) mHudBinding.playerOverlaySeekbar.setOnSeekBarChangeListener(enabled ? mSeekListener : null);
         if (mNavMenu != null) mNavMenu.setOnClickListener(enabled ? this : null);
-        if (mOrientationToggle != null) mOrientationToggle.setOnClickListener(enabled ? this : null);
+        if (mOrientationToggle != null) {
+            mOrientationToggle.setOnClickListener(enabled ? this : null);
+            mOrientationToggle.setOnLongClickListener(enabled ? this : null);
+        }
 
         UiTools.setViewOnClickListener(mRendererBtn, enabled ? this : null);
     }
@@ -553,6 +559,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mCurrentScreenOrientation = newConfig.orientation;
+        if (mScreenOrientation == 98) {
+            @StringRes int message;
+            if (mCurrentScreenOrientation == Configuration.ORIENTATION_LANDSCAPE)
+                message = R.string.locked_in_landscape_mode;
+            else
+                message = R.string.locked_in_portrait_mode;
+            showInfo(message, 1000);
+        }
+
         if (mTouchDelegate != null) {
             final DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -2114,6 +2129,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
     }
 
+    @Override
+    public boolean onLongClick(View v) {
+        switch (v.getId()) {
+            case R.id.orientation_toggle:
+                return resetOrientation();
+        }
+
+        return false;
+    }
+
     public void toggleTimeDisplay() {
         sDisplayRemainingTime = !sDisplayRemainingTime;
         showOverlay();
@@ -2169,6 +2194,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     public void onStorageAccessGranted() {
         mHandler.sendEmptyMessage(START_PLAYBACK);
     }
+
 
     private interface TrackSelectedListener {
         void onTrackSelected(int trackID);
@@ -2996,9 +3022,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         hideOverlay(false);
     }
 
-    void toggleOrientation() {
+    private void toggleOrientation() {
         mScreenOrientation = 98; //Rotate button
         setRequestedOrientation(getScreenOrientation(mScreenOrientation));
+    }
+
+    private boolean resetOrientation() {
+        if (mScreenOrientation == 98) {
+            mScreenOrientation = Integer.valueOf(
+                    mSettings.getString("screen_orientation", "99" /*SCREEN ORIENTATION SENSOR*/));
+            showInfo(R.string.reset_orientation, 1000);
+            setRequestedOrientation(getScreenOrientation(mScreenOrientation));
+            return true;
+        }
+        return false;
     }
 
     void togglePlaylist() {
