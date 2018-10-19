@@ -1,11 +1,11 @@
 package org.videolan.vlc.viewmodels.paged
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.paging.PositionalDataSource
-import android.content.Context
 import kotlinx.coroutines.experimental.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -14,7 +14,7 @@ import org.videolan.vlc.viewmodels.SortableModel
 abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableModel(context), Medialibrary.OnMedialibraryReadyListener {
     protected val medialibrary = Medialibrary.getInstance()
     protected var filter : String? = null
-    val loading = MutableLiveData<Boolean>().apply { value = true }
+    val loading = MutableLiveData<Boolean>().apply { value = false }
 
     private val pagingConfig = PagedList.Config.Builder()
             .setPageSize(100)
@@ -71,8 +71,10 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     }
 
     override fun refresh(): Boolean {
-        loading.postValue(true)
-        pagedList.value?.dataSource?.invalidate()
+        if (pagedList.value?.dataSource?.isInvalid == false) {
+            loading.postValue(true)
+            pagedList.value?.dataSource?.invalidate()
+        }
         return true
     }
 
