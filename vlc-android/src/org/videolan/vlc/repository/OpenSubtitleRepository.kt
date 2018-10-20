@@ -49,6 +49,48 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
                 languageId = actualLanguageId) }
     }
 
+    suspend fun queryWithImdbid(imdbId: Int, tag: String?, episode: Int? , season: Int?, languageIds: List<String> ): List<OpenSubtitle> {
+        val actualEpisode = episode ?: 0
+        val actualSeason = season ?: 0
+        val actualLanguageIds = languageIds.toSet().run { if (contains("")) setOf("") else this }
+        val actualTag = tag ?: ""
+        return actualLanguageIds.flatMap {
+            retrofitResponseCall { openSubtitleService.query(
+                    imdbId = String.format("%07d", imdbId),
+                    tag = actualTag,
+                    episode = actualEpisode,
+                    season = actualSeason,
+                    languageId = it) }
+        }
+    }
+
+    suspend fun queryWithHash(movieByteSize: Long, movieHash: String, languageIds: List<String>): List<OpenSubtitle> {
+        val actualLanguageIds = languageIds.toSet().run { if (contains("")) setOf("") else this }
+        return actualLanguageIds.flatMap {
+            retrofitResponseCall {
+                openSubtitleService.query(
+                        movieByteSize = movieByteSize.toString(),
+                        movieHash = movieHash,
+                        languageId = it)
+            }
+        }
+    }
+
+    suspend fun queryWithName(name: String, episode: Int?, season: Int?, languageIds: List<String>): List<OpenSubtitle> {
+        val actualEpisode = episode ?: 0
+        val actualSeason = season ?: 0
+        val actualLanguageIds = languageIds.toSet().run { if (contains("")) setOf("") else this }
+        return actualLanguageIds.flatMap {
+            retrofitResponseCall {
+                openSubtitleService.query(
+                        name = name,
+                        episode = actualEpisode,
+                        season = actualSeason,
+                        languageId = it)
+            }
+        }
+    }
+
     companion object { fun getInstance() = OpenSubtitleRepository(OpenSubtitleClient.instance)}
 
     private suspend inline fun <reified T> retrofitResponseCall(crossinline call: () -> Call<T>) : T {
