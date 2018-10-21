@@ -24,8 +24,8 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
     val observableSearchName = ObservableField<String>()
     val observableSearchEpisode = ObservableField<String>()
     val observableSearchSeason = ObservableField<String>()
-    val observableSearchLanguage = ObservableField<String>()
-    private var previousSearchLanguage: String? = null
+    val observableSearchLanguage = ObservableField<List<String>>()
+    private var previousSearchLanguage: List<String>? = null
     val manualSearchEnabled = ObservableBoolean(false)
 
     val isApiLoading = ObservableBoolean(false)
@@ -47,7 +47,7 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 if (observableSearchLanguage.get() != previousSearchLanguage) {
                     previousSearchLanguage = observableSearchLanguage.get()
-                    saveLastUsedLanguage(observableSearchLanguage.get() ?: "")
+                    saveLastUsedLanguage(observableSearchLanguage.get() ?: listOf())
                     search(!manualSearchEnabled.get())
                 }
             }
@@ -106,12 +106,12 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
         if (!isChecked) search(true)
     }
 
-    private suspend fun getSubtitleByName(name: String, episode: Int?, season: Int?, languageId: String?): List<OpenSubtitle> {
-        return OpenSubtitleRepository.getInstance().queryWithName(name ,episode, season, languageId)
+    private suspend fun getSubtitleByName(name: String, episode: Int?, season: Int?, languageIds: List<String>?): List<OpenSubtitle> {
+        return OpenSubtitleRepository.getInstance().queryWithName(name ,episode, season, languageIds)
     }
 
-    private suspend fun getSubtitleByHash(movieByteSize: Long, movieHash: String, languageId: String?): List<OpenSubtitle> {
-        return OpenSubtitleRepository.getInstance().queryWithHash(movieByteSize, movieHash, languageId)
+    private suspend fun getSubtitleByHash(movieByteSize: Long, movieHash: String, languageIds: List<String>?): List<OpenSubtitle> {
+        return OpenSubtitleRepository.getInstance().queryWithHash(movieByteSize, movieHash, languageIds)
     }
 
     fun onRefresh() {
@@ -156,9 +156,9 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
         ExternalSubRepository.getInstance(context).deleteSubtitle(mediaPath, idSubtitle)
     }
 
-    fun getLastUsedLanguage() = Settings.getInstance(context).getString(LAST_USED_LANGUAGE, Locale.getDefault().isO3Language).getCompliantLanguageID()
+    fun getLastUsedLanguage() = Settings.getInstance(context).getStringSet(LAST_USED_LANGUAGE, setOf(Locale.getDefault().isO3Language)).map { it.getCompliantLanguageID() }
 
-    fun saveLastUsedLanguage(lastUsedLang: String) = Settings.getInstance(context).edit().putString(LAST_USED_LANGUAGE, lastUsedLang).apply()
+    fun saveLastUsedLanguage(lastUsedLanguages: List<String>) = Settings.getInstance(context).edit().putStringSet(LAST_USED_LANGUAGE, lastUsedLanguages.toSet()).apply()
 
     class Factory(private val context: Context, private val mediaPath: String): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

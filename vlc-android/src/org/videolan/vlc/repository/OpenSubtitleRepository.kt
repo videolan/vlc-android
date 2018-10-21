@@ -49,10 +49,10 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
                 languageId = actualLanguageId) }
     }
 
-    suspend fun queryWithImdbid(imdbId: Int, tag: String?, episode: Int? , season: Int?, languageIds: List<String> ): List<OpenSubtitle> {
+    suspend fun queryWithImdbid(imdbId: Int, tag: String?, episode: Int? , season: Int?, languageIds: List<String>? ): List<OpenSubtitle> {
         val actualEpisode = episode ?: 0
         val actualSeason = season ?: 0
-        val actualLanguageIds = languageIds.toSet().run { if (contains("")) setOf("") else this }
+        val actualLanguageIds = languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this } ?: setOf("")
         val actualTag = tag ?: ""
         return actualLanguageIds.flatMap {
             retrofitResponseCall { openSubtitleService.query(
@@ -64,8 +64,8 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
         }
     }
 
-    suspend fun queryWithHash(movieByteSize: Long, movieHash: String, languageIds: List<String>): List<OpenSubtitle> {
-        val actualLanguageIds = languageIds.toSet().run { if (contains("")) setOf("") else this }
+    suspend fun queryWithHash(movieByteSize: Long, movieHash: String, languageIds: List<String>?): List<OpenSubtitle> {
+        val actualLanguageIds = languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this } ?: setOf("")
         return actualLanguageIds.flatMap {
             retrofitResponseCall {
                 openSubtitleService.query(
@@ -76,10 +76,10 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
         }
     }
 
-    suspend fun queryWithName(name: String, episode: Int?, season: Int?, languageIds: List<String>): List<OpenSubtitle> {
+    suspend fun queryWithName(name: String, episode: Int?, season: Int?, languageIds: List<String>?): List<OpenSubtitle> {
         val actualEpisode = episode ?: 0
         val actualSeason = season ?: 0
-        val actualLanguageIds = languageIds.toSet().run { if (contains("")) setOf("") else this }
+        val actualLanguageIds = languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this } ?: setOf("")
         return actualLanguageIds.flatMap {
             retrofitResponseCall {
                 openSubtitleService.query(

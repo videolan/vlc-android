@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloadFragmentBinding
+import org.videolan.vlc.gui.OnItemSelectListener
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.viewmodels.SubtitlesModel
@@ -49,16 +49,16 @@ class SubtitleDownloadFragment : androidx.fragment.app.Fragment() {
         }
 
         val allValuesOfLanguages = resources.getStringArray(R.array.language_values)
-        binding.languageListSpinner.setSelection(allValuesOfLanguages.indexOf(viewModel.getLastUsedLanguage()))
-        binding.languageListSpinner.onItemSelectedListener = object :AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) { }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val selectedLanguage = allValuesOfLanguages[position]
-                viewModel.observableSearchLanguage.set(selectedLanguage)
+        val allEntriesOfLanguages = resources.getStringArray(R.array.language_entries)
+        binding.languageListSpinner.setOnItemsSelectListener(object: OnItemSelectListener {
+            override fun onItemSelect(selectedItems: List<Int>) {
+                val selectedLanguages = selectedItems.map { allValuesOfLanguages[it] }
+                viewModel.observableSearchLanguage.set(selectedLanguages)
             }
+        })
+        binding.languageListSpinner.setItems(allEntriesOfLanguages.toList())
+        binding.languageListSpinner.setSelection(viewModel.getLastUsedLanguage().map { allValuesOfLanguages.indexOf(it) })
 
-        }
         return binding.root
     }
 

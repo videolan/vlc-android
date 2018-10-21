@@ -11,7 +11,6 @@
     </string-array>
 
     <string-array name="language_entries">
-        <item>All</item>
         <item>Albanian</item>
         <item>Arabic</item>
         <item>Armenian</item>
@@ -80,7 +79,6 @@
     </string-array>
 
     <string-array name="language_values">
-        <item></item>
         <item>alb</item>
         <item>ara</item>
         <item>arm</item>

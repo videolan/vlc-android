@@ -155,12 +155,12 @@
             app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
             app:layout_goneMarginTop="40dp" />
 
-        <Spinner
+        <org.videolan.vlc.gui.MultiSelectionSpinner
             android:id="@+id/language_list_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:entries="@array/language_entries"
+            android:focusable="true"
             app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintTop_toTopOf="@+id/top_horizontal_guideline" />
