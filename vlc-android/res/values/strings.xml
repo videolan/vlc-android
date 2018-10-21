@@ -154,8 +154,8 @@
     <string name="navmenu">navigation menu</string>
     <string name="advanced">advanced options</string>
     <string name="audio_boost_warning">Slide up again to go beyond 100%</string>
-    <string name="locked_in_portrait_mode">Locked in portrait mode</string>
-    <string name="locked_in_landscape_mode">Locked in landscape mode</string>
+    <string name="locked_in_portrait_mode">Locked in portrait mode\nLong press to reset to previous mode</string>
+    <string name="locked_in_landscape_mode">Locked in landscape mode\nLong press to reset to previous mode</string>
     <string name="reset_orientation">Reset Orientation</string>
 
     <plurals name="track_channels_info_quantity">

@@ -1428,12 +1428,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     void showInfo(int textid, int duration) {
-        initInfoOverlay();
-        UiTools.setViewVisibility(mVerticalBar, View.GONE);
-        UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
-        mInfo.setText(textid);
-        mHandler.removeMessages(FADE_OUT_INFO);
-        mHandler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration);
+        showInfo(getString(textid), duration);
     }
 
     /**
