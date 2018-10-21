@@ -83,10 +83,9 @@ class MultiSelectionSpinner : AppCompatSpinner, OnMultiChoiceClickListener, Dial
             if (it >= 0 && it < selection.size) selection[it] = true
             else throw IllegalArgumentException("Index $it is out of bounds.")
         }
-
         adapter.clear()
         adapter.add(buildSelectedItemString())
-        listener?.onItemSelect(this.selectedIndices)
+        listener?.onItemSelect(selectedIndices)
     }
 
     private fun buildSelectedItemString(): String {
@@ -94,7 +93,7 @@ class MultiSelectionSpinner : AppCompatSpinner, OnMultiChoiceClickListener, Dial
 
         val selectedItems = items.filterIndexed { index, _ -> selection[index] }
 
-        if (selectedItems.isEmpty()) sb.append("All")
+        if (selectedItems.isEmpty() || selectedItems.size == items.size) sb.append("All")
         else selectedItems.forEachIndexed { index, s ->
             if (index > 0) sb.append(',')
             sb.append(s)
