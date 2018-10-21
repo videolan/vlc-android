@@ -18,7 +18,7 @@ import org.videolan.vlc.util.Settings
 import java.io.File
 import java.util.*
 
-private const val LAST_USED_LANGUAGE = "last_used_subtitle"
+private const val LAST_USED_LANGUAGES = "last_used_subtitles"
 
 class SubtitlesModel(private val context: Context, private val mediaPath: String): ScopedModel() {
     val observableSearchName = ObservableField<String>()
@@ -156,9 +156,9 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
         ExternalSubRepository.getInstance(context).deleteSubtitle(mediaPath, idSubtitle)
     }
 
-    fun getLastUsedLanguage() = Settings.getInstance(context).getStringSet(LAST_USED_LANGUAGE, setOf(Locale.getDefault().isO3Language)).map { it.getCompliantLanguageID() }
+    fun getLastUsedLanguage() = Settings.getInstance(context).getStringSet(LAST_USED_LANGUAGES, setOf(Locale.getDefault().isO3Language)).map { it.getCompliantLanguageID() }
 
-    fun saveLastUsedLanguage(lastUsedLanguages: List<String>) = Settings.getInstance(context).edit().putStringSet(LAST_USED_LANGUAGE, lastUsedLanguages.toSet()).apply()
+    fun saveLastUsedLanguage(lastUsedLanguages: List<String>) = Settings.getInstance(context).edit().putStringSet(LAST_USED_LANGUAGES, lastUsedLanguages.toSet()).apply()
 
     class Factory(private val context: Context, private val mediaPath: String): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -52,10 +52,12 @@ class SubtitleDownloadFragment : androidx.fragment.app.Fragment() {
         val allEntriesOfLanguages = resources.getStringArray(R.array.language_entries)
         binding.languageListSpinner.setOnItemsSelectListener(object: OnItemSelectListener {
             override fun onItemSelect(selectedItems: List<Int>) {
-                val selectedLanguages = selectedItems.map { allValuesOfLanguages[it] }
+                val selectedLanguages = if (selectedItems.size == allValuesOfLanguages.size) listOf<String>()
+                else selectedItems.map { allValuesOfLanguages[it] }
                 viewModel.observableSearchLanguage.set(selectedLanguages)
             }
         })
+
         binding.languageListSpinner.setItems(allEntriesOfLanguages.toList())
         binding.languageListSpinner.setSelection(viewModel.getLastUsedLanguage().map { allValuesOfLanguages.indexOf(it) })
 
