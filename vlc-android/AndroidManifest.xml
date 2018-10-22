@@ -82,7 +82,7 @@
             android:resource="@drawable/icon" />
         <meta-data
             android:name="android.max_aspect"
-            android:value="2.1" />
+            android:value="3" />
         <activity android:name=".StartActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
