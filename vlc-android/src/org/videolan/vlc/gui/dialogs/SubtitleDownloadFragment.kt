@@ -1,11 +1,11 @@
 package org.videolan.vlc.gui.dialogs
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloadFragmentBinding
 import org.videolan.vlc.gui.OnItemSelectListener
@@ -65,13 +65,9 @@ class SubtitleDownloadFragment : androidx.fragment.app.Fragment() {
     }
 
     companion object {
-        lateinit var subtitleDownloadFragment: SubtitleDownloadFragment
         fun newInstance(mediaPath: String): SubtitleDownloadFragment {
-            subtitleDownloadFragment = SubtitleDownloadFragment()
-
-            val args = Bundle()
-            args.putString(MEDIA_PATH, mediaPath)
-            subtitleDownloadFragment.arguments = args
+            val subtitleDownloadFragment = SubtitleDownloadFragment()
+            subtitleDownloadFragment.arguments = Bundle(1).apply { putString(MEDIA_PATH, mediaPath) }
             return subtitleDownloadFragment
         }
     }

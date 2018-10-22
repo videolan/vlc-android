@@ -24,15 +24,20 @@
 package org.videolan.vlc.gui;
 
 import android.os.Bundle;
-import androidx.fragment.app.FragmentManager;
 import android.text.TextUtils;
 
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.gui.dialogs.VlcDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.gui.dialogs.VlcProgressDialog;
 import org.videolan.vlc.gui.dialogs.VlcQuestionDialog;
 import org.videolan.vlc.gui.network.MRLPanelFragment;
+import org.videolan.vlc.media.MediaUtils;
+
+import java.util.List;
+
+import androidx.fragment.app.FragmentManager;
 
 public class DialogActivity extends BaseActivity {
 
@@ -41,6 +46,8 @@ public class DialogActivity extends BaseActivity {
     public static final String KEY_PROGRESS = "ProgressDialog";
     public static final String KEY_STREAM = "streamDialog";
     public static final String KEY_SERVER = "serverDialog";
+    public static final String KEY_SUBS_DL = "subsdlDialog";
+    public static final String EXTRA_MEDIALIST = "extra_media";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +57,12 @@ public class DialogActivity extends BaseActivity {
             finish();
             return;
         }
-        if (key.startsWith(KEY_LOGIN))
-            setupLoginDialog(key);
-        else if (key.startsWith(KEY_QUESTION))
-            setupQuestionDialog(key);
-        else if (key.startsWith(KEY_PROGRESS))
-            setupProgressDialog(key);
-        else if (KEY_STREAM.equals(key))
-            setupStreamDialog();
-        else if (KEY_SERVER.equals(key))
-            setupServerDialog();
+        if (key.startsWith(KEY_LOGIN)) setupLoginDialog(key);
+        else if (key.startsWith(KEY_QUESTION)) setupQuestionDialog(key);
+        else if (key.startsWith(KEY_PROGRESS)) setupProgressDialog(key);
+        else if (KEY_STREAM.equals(key)) setupStreamDialog();
+        else if (KEY_SERVER.equals(key)) setupServerDialog();
+        else if (KEY_SUBS_DL.equals(key)) setupSubsDialog();
     }
 
     private void setupStreamDialog() {
@@ -68,6 +71,12 @@ public class DialogActivity extends BaseActivity {
 
     private void setupServerDialog() {
         new NetworkServerDialog().show(getSupportFragmentManager(), "fragment_mrl");
+    }
+
+    private void setupSubsDialog() {
+        final List<MediaWrapper> medialist = getIntent().getParcelableArrayListExtra(EXTRA_MEDIALIST);
+        if (medialist != null) MediaUtils.INSTANCE.getSubs(this, medialist);
+        else finish();
     }
 
     private void setupLoginDialog(String key) {

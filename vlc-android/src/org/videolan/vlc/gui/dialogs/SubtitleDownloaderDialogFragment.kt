@@ -4,9 +4,6 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +15,7 @@ import kotlinx.coroutines.experimental.isActive
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloaderDialogBinding
+import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.helpers.UiTools.deleteSubtitleDialog
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.VLCDownloadManager
@@ -28,20 +26,16 @@ const val MEDIA_PATH = "MEDIA_PATH"
 
 class SubtitleDownloaderDialogFragment: androidx.fragment.app.DialogFragment() {
     private lateinit var adapter: ViewPagerAdapter
-    lateinit var paths: List<String>
+    private lateinit var paths: List<String>
     private lateinit var viewModel: SubtitlesModel
     private lateinit var toast: Toast
 
     val listEventActor = coroutineScope.actor<SubtitleEvent> {
         for (subtitleEvent in channel) if(isActive) when (subtitleEvent) {
-            is Click -> {
-                when(subtitleEvent.item.state) {
-                    State.NotDownloaded -> {
-                        VLCDownloadManager.download(context!!, subtitleEvent.item)
-                    }
-                    State.Downloaded -> deleteSubtitleDialog(context,
-                            { _, _ -> viewModel.deleteSubtitle(subtitleEvent.item.mediaPath, subtitleEvent.item.idSubtitle) }, { _, _ -> })
-                }
+            is Click -> when(subtitleEvent.item.state) {
+                State.NotDownloaded -> VLCDownloadManager.download(context!!, subtitleEvent.item)
+                State.Downloaded -> deleteSubtitleDialog(context,
+                        { _, _ -> viewModel.deleteSubtitle(subtitleEvent.item.mediaPath, subtitleEvent.item.idSubtitle) }, { _, _ -> })
             }
             is LongClick -> {
                 @StringRes val message = when(subtitleEvent.item.state) {
@@ -51,8 +45,7 @@ class SubtitleDownloaderDialogFragment: androidx.fragment.app.DialogFragment() {
                     else -> return@actor
                 }
 
-                if (::toast.isInitialized)
-                    toast.cancel()
+                if (::toast.isInitialized) toast.cancel()
                 toast = Toast.makeText(activity, message, Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP,0,100)
                 toast.show()
@@ -92,6 +85,11 @@ class SubtitleDownloaderDialogFragment: androidx.fragment.app.DialogFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putStringArrayList(MEDIA_PATHS, ArrayList(paths))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity as? DialogActivity)?.finish()
     }
 
     companion object {

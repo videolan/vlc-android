@@ -27,18 +27,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.DetailsSupportFragment;
-import androidx.leanback.widget.Action;
-import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.ClassPresenterSelector;
-import androidx.leanback.widget.DetailsOverviewRow;
-import androidx.leanback.widget.FullWidthDetailsOverviewRowPresenter;
-import androidx.leanback.widget.ListRow;
-import androidx.leanback.widget.ListRowPresenter;
-import androidx.leanback.widget.OnActionClickedListener;
-import androidx.fragment.app.FragmentActivity;
-import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -57,6 +45,19 @@ import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WorkersKt;
 
 import java.util.List;
+
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.leanback.app.BackgroundManager;
+import androidx.leanback.app.DetailsSupportFragment;
+import androidx.leanback.widget.Action;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.ClassPresenterSelector;
+import androidx.leanback.widget.DetailsOverviewRow;
+import androidx.leanback.widget.FullWidthDetailsOverviewRowPresenter;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.ListRowPresenter;
+import androidx.leanback.widget.OnActionClickedListener;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class MediaItemDetailsFragment extends DetailsSupportFragment implements PlaybackService.Client.Callback {
@@ -170,7 +171,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
                         TvUtil.INSTANCE.openMedia(activity, media, null);
                         break;
                     case ID_DL_SUBS:
-                        MediaUtils.INSTANCE.getSubs(getActivity(), media);
+                        MediaUtils.INSTANCE.getSubs(requireActivity(), media);
                         break;
                     case ID_PLAY_ALL:
                         if (mediaList != null) {

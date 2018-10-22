@@ -3,13 +3,15 @@ package org.videolan.vlc.media
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.provider.OpenableColumns
-import androidx.fragment.app.FragmentActivity
 import android.text.TextUtils
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
@@ -22,6 +24,7 @@ import org.videolan.medialibrary.media.Playlist
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Permissions
@@ -29,6 +32,7 @@ import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.getFromMl
 import org.videolan.vlc.viewmodels.paged.MLPagedModel
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.min
 
 private const val TAG = "VLC/MediaUtils"
@@ -39,18 +43,23 @@ object MediaUtils : CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
 
     fun getSubs(activity: androidx.fragment.app.FragmentActivity, mediaList: List<MediaWrapper>) {
-        showSubtitleDownloaderDialogFragment(activity, mediaList.map { it.uri.path })
+        if (activity is AppCompatActivity) showSubtitleDownloaderDialogFragment(activity, mediaList.map { it.uri.path })
+        else {
+            val intent = Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SUBS_DL)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.putParcelableArrayListExtra(DialogActivity.EXTRA_MEDIALIST, mediaList as? ArrayList ?: ArrayList(mediaList))
+            ContextCompat.startActivity(activity, intent, null)
+        }
     }
 
     fun getSubs(activity: androidx.fragment.app.FragmentActivity, media: MediaWrapper) {
-        showSubtitleDownloaderDialogFragment(activity, listOf(media.uri.path))
+        getSubs(activity, listOf(media))
     }
 
     fun showSubtitleDownloaderDialogFragment(activity: androidx.fragment.app.FragmentActivity, mediaPaths: List<String>) {
         val callBack = java.lang.Runnable {
             SubtitleDownloaderDialogFragment.newInstance(mediaPaths).show(activity.supportFragmentManager, "Subtitle_downloader")
         }
-
         if (Permissions.canWriteStorage()) callBack.run()
         else Permissions.askWriteStoragePermission(activity, false, callBack)
     }
