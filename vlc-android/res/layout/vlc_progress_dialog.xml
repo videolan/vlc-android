@@ -7,11 +7,13 @@
         <variable name="dialog" type="org.videolan.libvlc.Dialog.ProgressDialog"/>
         <variable name="handler" type="org.videolan.vlc.gui.dialogs.VlcProgressDialog"/>
     </data>
-    <ScrollView>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp">
+            android:layout_height="wrap_content"
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/text"
@@ -19,11 +21,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:text="@{dialog.text}"
-                android:layout_margin="10dp" />
+                android:layout_margin="8dp" />
             <androidx.core.widget.ContentLoadingProgressBar
                 android:id="@+id/progress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/text"
                 android:max="100"
                 android:indeterminate="@{dialog.isIndeterminate()}"/>
             <Button
@@ -32,11 +35,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/progress"
                 android:text="@android:string/cancel"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp"
                 android:onClick="@{handler::onCancel}"
                 tools:targetApi="11"
                 style="?android:attr/borderlessButtonStyle"
                 android:visibility="@{TextUtils.isEmpty(dialog.cancelText) ? View.GONE : View.VISIBLE}"/>
+                tools:visibility="visible"/>
         </RelativeLayout>
     </ScrollView>
 </layout>

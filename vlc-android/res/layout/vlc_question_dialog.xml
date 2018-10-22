@@ -7,11 +7,13 @@
         <variable name="dialog" type="org.videolan.libvlc.Dialog.QuestionDialog"/>
         <variable name="handler" type="org.videolan.vlc.gui.dialogs.VlcQuestionDialog"/>
     </data>
-    <ScrollView>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp">
+            android:layout_height="wrap_content"
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/text"
@@ -19,14 +21,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:text="@{dialog.text}"
-                android:layout_margin="10dp" />
+                android:layout_margin="8dp" />
             <Button
                 android:id="@+id/cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text"
                 android:text="@{TextUtils.isEmpty(dialog.cancelText) ? @android:string/cancel : dialog.cancelText}"
-                android:layout_toLeftOf="@+id/action2"
+                android:layout_toStartOf="@+id/action2"
+                android:layout_marginStart="@dimen/default_margin"
                 android:onClick="@{handler::onCancel}"
                 tools:targetApi="11"
                 style="?android:attr/borderlessButtonStyle" />
@@ -35,7 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text"
-                android:layout_toLeftOf="@+id/action1"
+                android:layout_toStartOf="@+id/action1"
+                android:layout_marginStart="@dimen/default_margin"
                 android:text="@{dialog.action2Text}"
                 android:visibility="@{TextUtils.isEmpty(dialog.action2Text) ? View.GONE : View.VISIBLE}"
                 android:onClick="@{handler::onAction2}"
@@ -45,7 +49,9 @@
                 android:id="@+id/action1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="8dp"
                 android:layout_below="@+id/text"
                 android:text="@{dialog.action1Text}"
                 android:visibility="@{TextUtils.isEmpty(dialog.action1Text) ? View.GONE : View.VISIBLE}"

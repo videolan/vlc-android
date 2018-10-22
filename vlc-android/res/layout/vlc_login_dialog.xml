@@ -13,7 +13,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/text"
@@ -21,19 +21,19 @@
                 android:layout_height="wrap_content"
                 android:minWidth="600dip"
                 android:layout_alignParentTop="true"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
                 android:text="@{dialog.text}"/>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/login_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text"
-                android:layout_margin="10dp" >
+                android:layout_margin="8dp" >
                 <EditText
                     android:id="@+id/login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minWidth="200dp"
+                    android:minWidth="192dp"
                     android:hint="@string/login"
                     android:text="@{dialog.getDefaultUsername()}"
                     android:inputType="textNoSuggestions"
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/login_container"
-                android:layout_margin="10dp" >
+                android:layout_margin="8dp" >
                 <EditText
                     android:id="@+id/password"
                     android:layout_width="match_parent"
@@ -60,8 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/password_container"
                 android:text="@string/store_password"
-                android:layout_alignParentLeft="true"
-                android:layout_margin="5dp"
+                android:layout_alignParentStart="true"
+                android:layout_margin="4dp"
                 android:checked="@{handler.store()}"
                 android:visibility="@{dialog.asksStore() ? View.VISIBLE : View.GONE}"/>
             <TextView
@@ -69,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/store"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
                 android:text="@string/encryption_warning"
                 android:visibility="@{dialog.asksStore() &amp;&amp; !AndroidUtil.isMarshMallowOrLater ? View.VISIBLE : View.GONE}" />
             <Button
@@ -77,7 +77,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/warning"
-                android:layout_toLeftOf="@+id/action"
                 android:layout_toStartOf="@+id/action"
                 android:focusable="true"
                 android:text="@android:string/cancel"
@@ -88,8 +87,9 @@
                 android:id="@+id/action"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="8dp"
                 android:focusable="true"
                 android:layout_below="@+id/warning"
                 android:text="@android:string/ok"
