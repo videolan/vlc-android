@@ -94,6 +94,8 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
         env->DeleteLocalRef(mrl);
     if (thumbnail != NULL)
         env->DeleteLocalRef(thumbnail);
+    if (filename != NULL)
+        env->DeleteLocalRef(filename);
     return item;
 }
 
