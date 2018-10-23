@@ -30,7 +30,7 @@
 
 #include <vlc/vlc.h>
 
-#include "jniloader.h"
+#include <jni.h>
 
 #include <android/api-level.h>
 
@@ -39,6 +39,8 @@
 #include "std_logger.h"
 
 struct fields fields;
+
+#define VLC_JNI_VERSION JNI_VERSION_1_2
 
 #define THREAD_NAME "libvlcjni"
 JNIEnv *jni_get_env(const char *name);
@@ -97,9 +99,14 @@ JNIEnv *jni_get_env(const char *name)
 static std_logger *p_std_logger = NULL;
 #endif
 
-int VLCJNI_OnLoad(JavaVM *vm, JNIEnv* env)
+jint JNI_OnLoad(JavaVM *vm, void *reserved)
 {
+    JNIEnv* env = NULL;
+    // Keep a reference on the Java VM.
     myVm = vm;
+
+    if ((*vm)->GetEnv(vm, (void**) &env, VLC_JNI_VERSION) != JNI_OK)
+        return -1;
 
     /* Create a TSD area and setup a destroy callback when a thread that
      * previously set the jni_env_key is canceled or exited */
@@ -342,11 +349,17 @@ int VLCJNI_OnLoad(JavaVM *vm, JNIEnv* env)
 #undef GET_CLASS
 #undef GET_ID
 
-    return 0;
+    LOGD("JNI interface loaded.");
+    return VLC_JNI_VERSION;
 }
 
-void VLCJNI_OnUnload(JavaVM *vm, JNIEnv *env)
+void JNI_OnUnload(JavaVM* vm, void* reserved)
 {
+    JNIEnv* env = NULL;
+
+    if ((*vm)->GetEnv(vm, (void**) &env, VLC_JNI_VERSION) != JNI_OK)
+        return;
+
     (*env)->DeleteGlobalRef(env, fields.IllegalStateException.clazz);
     (*env)->DeleteGlobalRef(env, fields.IllegalArgumentException.clazz);
     (*env)->DeleteGlobalRef(env, fields.RuntimeException.clazz);
