@@ -1,7 +1,6 @@
 #include "AndroidMediaLibrary.h"
 #define LOG_TAG "VLC/JNI/AndroidMediaLibrary"
 #include "log.h"
-#include "jniloader.h"
 #define THREAD_NAME "AndroidMedialibrary"
 
 #define FLAG_MEDIA_UPDATED_AUDIO       1 << 0

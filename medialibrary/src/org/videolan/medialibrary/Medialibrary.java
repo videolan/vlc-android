@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
@@ -100,6 +101,14 @@ public class Medialibrary {
                 || dbDirectory == null || !dbDirectory.canWrite())
             return ML_INIT_FAILED;
         LibVLC.loadLibraries();
+        try {
+            System.loadLibrary("c++_shared");
+            System.loadLibrary("mla");
+        } catch (UnsatisfiedLinkError ule)
+        {
+            Log.e(TAG, "Can't load mla: " + ule);
+            return ML_INIT_FAILED;
+        }
         int initCode = nativeInit(dbDirectory+ VLC_MEDIA_DB_NAME, extFilesDir+ THUMBS_FOLDER_NAME);
         mIsInitiated = initCode != ML_INIT_FAILED;
         return initCode;

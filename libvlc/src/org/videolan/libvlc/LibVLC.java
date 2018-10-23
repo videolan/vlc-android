@@ -136,8 +136,9 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
         sLoaded = true;
 
         try {
+            System.loadLibrary("c++_shared");
+            System.loadLibrary("vlc");
             System.loadLibrary("vlcjni");
-            System.loadLibrary("jniloader");
         } catch (UnsatisfiedLinkError ule) {
             Log.e(TAG, "Can't load vlcjni library: " + ule);
             /// FIXME Alert user
