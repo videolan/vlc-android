@@ -497,6 +497,9 @@ echo "AR=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ar" >> config.mak
 echo "RANLIB=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ranlib" >> config.mak
 echo "LD=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-ld" >> config.mak
 
+# fix modplug endianess check (narrowing error)
+export ac_cv_c_bigendian=no
+
 make $MAKEFLAGS fetch
 checkfail "contribs: make fetch failed"
 
