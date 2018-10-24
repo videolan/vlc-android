@@ -53,8 +53,8 @@
     <string name="confirm_delete">是否要删除文件「%1$s」?</string>
     <string name="confirm_delete_folder">是否删除文件夹「%1$s」及其全部内容?</string>
     <string name="confirm_delete_playlist">是否删除播放列表「%1$s」?</string>
-    <string name="confirm_remove_from_playlist">将 \'%1$s\' 从播放列表中移除？</string>
-    <string name="confirm_remove_from_playlist_anonymous">从播放列表中移除？</string>
+    <string name="confirm_remove_from_playlist">将「%1$s」从播放列表中移除？</string>
+    <string name="confirm_remove_from_playlist_anonymous">从播放列表移除？</string>
     <string name="ringtone_set">文件「%1$s」已被设为铃声。</string>
     <string name="ringtone_error">设置铃声时发生错误。</string>
     <string name="pause">暂停</string>
@@ -121,7 +121,6 @@
     <string name="repeat_all">全部重复</string>
     <string name="previous">上一曲</string>
     <string name="stop">停止</string>
-    <string name="next">下一曲</string>
     <string name="firstsong">播放列表第一首</string>
     <string name="lastsong">播放列表最后一首</string>
 
@@ -148,6 +147,9 @@
     <string name="navmenu">导航菜单</string>
     <string name="advanced">高级选项</string>
     <string name="audio_boost_warning">再次上滑可超越 100%</string>
+    <string name="locked_in_portrait_mode">锁定垂直模式\n(长按解除)</string>
+    <string name="locked_in_landscape_mode">锁定水平模式\n(长按解除)</string>
+    <string name="reset_orientation">方向重置</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d 声道\n</item>
@@ -305,7 +307,7 @@
     <string name="popup_keepscreen_title">浮层模式保持屏幕常亮</string>
     <string name="popup_keepscreen_summary">浮层模式显示时总保持屏幕常亮，即使视频已暂停。</string>
     <string name="browser_show_hidden_files_title">显示隐藏文件</string>
-    <string name="browser_show_hidden_files_summary">在浏览器中显示隐藏文件</string>
+    <string name="browser_show_hidden_files_summary">浏览器中显示隐藏文件</string>
 
     <string name="subtitles_prefs_category">字幕</string>
     <string name="subtitles_size_title">字幕大小</string>
@@ -416,6 +418,8 @@
     <string name="restart_message">改动将在应用重新启动后生效。\n\n是否现在重启?</string>
     <string name="restart_message_OK">确定</string>
     <string name="restart_message_Later">稍后</string>
+    <string name="browser_show_all_title">浏览器中显示所有文件</string>
+    <string name="browser_show_all_summary">在浏览器中显示未被识别为音视频的文件</string>
 
     <string name="developer_prefs_category">开发人员</string>
     <string name="enable_verbose_mode">详尽模式</string>
@@ -438,6 +442,16 @@
     <string name="restart_vlc">重新启动 VLC</string>
     <string name="send_log">发送日志</string>
     <string name="sending_log">正在发送日志…</string>
+
+    <string name="delete_sub_title">删除字幕</string>
+    <string name="delete_sub_message">是否删除该字幕?</string>
+    <string name="delete_sub_yes">是</string>
+    <string name="delete_sub_no">否</string>
+    <string name="download_subtitle_title">下载字幕</string>
+
+    <string name="no_result">未找到结果</string>
+    <string name="no_internet_connection">请检查网络连接</string>
+    <string name="some_error_occurred">出现错误。请稍候再试</string>
 
     <string name="drawer_open">打开导航栏</string>
     <string name="drawer_close">关闭导航栏</string>
@@ -602,4 +616,13 @@
     <string name="time_category_older">较旧媒体</string>
     <string name="rename">重命名</string>
     <string name="rename_media">重命名 %1$s</string>
+    <string name="manual_search">手动搜索</string>
+    <string name="subtitle_search_name_hint">名称</string>
+    <string name="subtitle_search_episode_hint">集</string>
+    <string name="subtitle_search_season_hint">季</string>
+    <string name="language_to_download">语言</string>
+    <string name="delete_the_selected">删除选中项</string>
+    <string name="download_the_selected">下载选中项</string>
+    <string name="next">下一曲</string>
+    <string name="download">下载</string>
 </resources>
