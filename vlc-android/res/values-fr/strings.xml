@@ -127,7 +127,6 @@
     <string name="repeat_all">Tout répéter</string>
     <string name="previous">Précédent</string>
     <string name="stop">Arrêter</string>
-    <string name="next">Suivant</string>
     <string name="firstsong">Premier morceau de la liste de lecture</string>
     <string name="lastsong">Dernier morceau de la liste de lecture</string>
 
@@ -154,6 +153,9 @@
     <string name="navmenu">menu de navigation</string>
     <string name="advanced">options avancées</string>
     <string name="audio_boost_warning">Défilez encore vers le haut pour dépasser 100 %</string>
+    <string name="locked_in_portrait_mode">Verrouillé en mode portrait\n(Appui long sur le bouton pour annuler)</string>
+    <string name="locked_in_landscape_mode">Verrouillé en mode paysage\n(Appui long sur le bouton pour annuler)</string>
+    <string name="reset_orientation">Réinitialiser l’orientation</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
@@ -423,6 +425,8 @@
     <string name="restart_message">Les changements ne seront pris en compte qu’après le redémarrage de l’application.\n\nRedémarrer maintenant ?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Plus tard</string>
+    <string name="browser_show_all_title">Afficher tous les fichiers dans le navigateur</string>
+    <string name="browser_show_all_summary">Afficher les fichiers qui ne sont pas reconnus comme audio ou vidéo dans les navigateurs</string>
 
     <string name="developer_prefs_category">Développeur</string>
     <string name="enable_verbose_mode">Verbosité</string>
@@ -445,6 +449,16 @@
     <string name="restart_vlc">Redémarrer VLC</string>
     <string name="send_log">Envoyer le rapport</string>
     <string name="sending_log">Envoi du rapport…</string>
+
+    <string name="delete_sub_title">Supprimer les sous-titres</string>
+    <string name="delete_sub_message">Voulez-vous supprimer ces sous-titres ?</string>
+    <string name="delete_sub_yes">Oui</string>
+    <string name="delete_sub_no">Non</string>
+    <string name="download_subtitle_title">Télécharger les sous-titres</string>
+
+    <string name="no_result">Aucun résultat trouvé</string>
+    <string name="no_internet_connection">Vérifiez votre connexion Internet</string>
+    <string name="some_error_occurred">Une erreur s’est produite. Veuillez réessayer dans quelques secondes</string>
 
     <string name="drawer_open">Ouvrir le volet de navigation</string>
     <string name="drawer_close">Fermer le volet de navigation</string>
@@ -609,4 +623,13 @@
     <string name="time_category_older">Médias plus anciens</string>
     <string name="rename">Renommer</string>
     <string name="rename_media">Renommer %1$s</string>
+    <string name="manual_search">Recherche manuelle</string>
+    <string name="subtitle_search_name_hint">Nom</string>
+    <string name="subtitle_search_episode_hint">Épisode</string>
+    <string name="subtitle_search_season_hint">Saison</string>
+    <string name="language_to_download">Langue</string>
+    <string name="delete_the_selected">Supprimer la sélection</string>
+    <string name="download_the_selected">Télécharger la sélection</string>
+    <string name="next">Suivant</string>
+    <string name="download">Télécharger</string>
 </resources>
