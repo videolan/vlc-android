@@ -127,7 +127,6 @@
     <string name="repeat_all">Tümü yinelensin</string>
     <string name="previous">Önceki</string>
     <string name="stop">Durdur</string>
-    <string name="next">Sonraki</string>
     <string name="firstsong">Oynatma listesinin ilk parçası</string>
     <string name="lastsong">Oynatma listesinin son parçası</string>
 
@@ -154,6 +153,9 @@
     <string name="navmenu">gezinme menüsü</string>
     <string name="advanced">gelişmiş ayarlar</string>
     <string name="audio_boost_warning">%100 üzerine çıkmak için yeniden yukarı kaydırın</string>
+    <string name="locked_in_portrait_mode">Dikey doğrultuya kilitlenmiş\n(İptal etmek için düğmeye uzun basın)</string>
+    <string name="locked_in_landscape_mode">Yatay doğrultuya kilitlenmiş\n(İptal etmek için düğmeye uzun basın)</string>
+    <string name="reset_orientation">Doğrultuyu sıfırla</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
@@ -423,6 +425,8 @@
     <string name="restart_message">Değişikliklerin etkili olması için uygulamanın yeniden başlatılması gerekiyor.\n\nYeniden başlatılsın mı?</string>
     <string name="restart_message_OK">Tamam</string>
     <string name="restart_message_Later">Sonra</string>
+    <string name="browser_show_all_title">Tüm dosyalar web tarayıcısında görüntülensin</string>
+    <string name="browser_show_all_summary">Ses ya da görüntü olduğu anlaşılmayan dosyalar web tarayıcıda görüntülenir</string>
 
     <string name="developer_prefs_category">Geliştirici</string>
     <string name="enable_verbose_mode">Ayrıntıları görüntüle</string>
@@ -445,6 +449,16 @@
     <string name="restart_vlc">VLC uygulamasını yeniden başlatın</string>
     <string name="send_log">Günlüğü gönder</string>
     <string name="sending_log">Günlük gönderiliyor…</string>
+
+    <string name="delete_sub_title">Alt yazıyı sil</string>
+    <string name="delete_sub_message">Bu alt yazı silinsin mi?</string>
+    <string name="delete_sub_yes">Evet</string>
+    <string name="delete_sub_no">Hayır</string>
+    <string name="download_subtitle_title">Alt Yazıyı İndir</string>
+
+    <string name="no_result">Herhangi bir sonuç bulunamadı</string>
+    <string name="no_internet_connection">İnternet bağlantınızı denetleyin</string>
+    <string name="some_error_occurred">Bazı sorunlar çıktı. Lütfen bir kaç saniye sonra yeniden deneyin</string>
 
     <string name="drawer_open">Gezinme menüsünü aç</string>
     <string name="drawer_close">Gezinme menüsünü kapat</string>
@@ -609,4 +623,13 @@
     <string name="time_category_older">Daha eski ortamlar</string>
     <string name="rename">Yeniden Adlandır</string>
     <string name="rename_media">%1$s Yeniden Adlandır</string>
+    <string name="manual_search">El ile arama</string>
+    <string name="subtitle_search_name_hint">Ad</string>
+    <string name="subtitle_search_episode_hint">Bölüm</string>
+    <string name="subtitle_search_season_hint">Sezon</string>
+    <string name="language_to_download">Dil</string>
+    <string name="delete_the_selected">Seçimi sil</string>
+    <string name="download_the_selected">Seçimi indir</string>
+    <string name="next">Sonraki</string>
+    <string name="download">İndir</string>
 </resources>
