@@ -139,7 +139,6 @@
     <string name="repeat_all">Повторити все</string>
     <string name="previous">Попередній</string>
     <string name="stop">Зупинити</string>
-    <string name="next">Наступний</string>
     <string name="firstsong">Перша пісня зі списку</string>
     <string name="lastsong">Остання пісня зі списку</string>
 
@@ -166,6 +165,9 @@
     <string name="navmenu">меню навігації</string>
     <string name="advanced">додаткові параметри</string>
     <string name="audio_boost_warning">Проведіть вгору, щоби перевищити 100%</string>
+    <string name="locked_in_portrait_mode">Заблоковано у книжковому режимі\n(Для скасування натисніть та утримуйте кнопку)</string>
+    <string name="locked_in_landscape_mode">Заблоковано в альбомному режимі\n(Для скасування натисніть та утримуйте кнопку)</string>
+    <string name="reset_orientation">Очистити орієнтацію</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 канал\n</item>
@@ -437,6 +439,8 @@
     <string name="restart_message">Зміни набудуть сили після перезапуску програми.\n\nПерезапустити зараз?</string>
     <string name="restart_message_OK">Гаразд</string>
     <string name="restart_message_Later">Пізніше</string>
+    <string name="browser_show_all_title">Показати всі файли в оглядачі</string>
+    <string name="browser_show_all_summary">Показувати файли, що не розпізнані як аудіо та відео у переглядачах</string>
 
     <string name="developer_prefs_category">Розробник</string>
     <string name="enable_verbose_mode">Інформативність</string>
@@ -459,6 +463,16 @@
     <string name="restart_vlc">Перезапустити VLC</string>
     <string name="send_log">Надіслати журнал</string>
     <string name="sending_log">Відправка журналу…</string>
+
+    <string name="delete_sub_title">Вилучити субтитр</string>
+    <string name="delete_sub_message">Справді вилучити цей субтитр?</string>
+    <string name="delete_sub_yes">Так</string>
+    <string name="delete_sub_no">Ні</string>
+    <string name="download_subtitle_title">Звантажити субтитр</string>
+
+    <string name="no_result">Результатів не знайдено</string>
+    <string name="no_internet_connection">Перевірте ваше з\'єднання з інтернетом</string>
+    <string name="some_error_occurred">Трапилася деяка помилка. Будь ласка, спробуйте знову за декілька секунд.</string>
 
     <string name="drawer_open">Відкрити меню навігації</string>
     <string name="drawer_close">Закрити меню навігації</string>
@@ -623,4 +637,13 @@
     <string name="time_category_older">Старіші медіа</string>
     <string name="rename">Перейменувати</string>
     <string name="rename_media">Перейменувати %1$s</string>
+    <string name="manual_search">Ручний пошук</string>
+    <string name="subtitle_search_name_hint">Назва</string>
+    <string name="subtitle_search_episode_hint">Епізод</string>
+    <string name="subtitle_search_season_hint">Сезон</string>
+    <string name="language_to_download">Мова</string>
+    <string name="delete_the_selected">Вилучити обране</string>
+    <string name="download_the_selected">Завантажити обране</string>
+    <string name="next">Наступний</string>
+    <string name="download">Завантажити</string>
 </resources>
