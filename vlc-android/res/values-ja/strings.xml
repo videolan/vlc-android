@@ -121,7 +121,6 @@
     <string name="repeat_all">すべてをリピート</string>
     <string name="previous">前へ</string>
     <string name="stop">停止</string>
-    <string name="next">次へ</string>
     <string name="firstsong">プレイリストの最初の曲</string>
     <string name="lastsong">プレイリストの最後の曲</string>
 
@@ -148,6 +147,9 @@
     <string name="navmenu">ナビゲーションメニュー</string>
     <string name="advanced">詳細設定オプション</string>
     <string name="audio_boost_warning">スライドアップで100%を超過</string>
+    <string name="locked_in_portrait_mode">ポートレートモードに固定\n(ボタン長押しでキャンセル)</string>
+    <string name="locked_in_landscape_mode">ランドスケープモードに固定\n(ボタン長押しでキャンセル)</string>
+    <string name="reset_orientation">方向リセット</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d チャンネル\n</item>
@@ -416,6 +418,8 @@
     <string name="restart_message">変更はアプリケーションの再起動後に有効になります。\n\n今すぐ再起動しますか?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">後で</string>
+    <string name="browser_show_all_title">ブラウザですべてのファイルを表示</string>
+    <string name="browser_show_all_summary">ブラウザでオーディオまたはビデオと識別されていないファイルも表示する</string>
 
     <string name="developer_prefs_category">開発者</string>
     <string name="enable_verbose_mode">出力レベル</string>
@@ -438,6 +442,16 @@
     <string name="restart_vlc">VLCの再起動</string>
     <string name="send_log">ログの送信</string>
     <string name="sending_log">ログを送信中…</string>
+
+    <string name="delete_sub_title">字幕の削除</string>
+    <string name="delete_sub_message">この字幕を削除しますか?</string>
+    <string name="delete_sub_yes">はい</string>
+    <string name="delete_sub_no">いいえ</string>
+    <string name="download_subtitle_title">字幕をダウンロード</string>
+
+    <string name="no_result">結果がみつかりません</string>
+    <string name="no_internet_connection">インターネット接続を確認してください</string>
+    <string name="some_error_occurred">何らかのエラーが発生しました。数秒後に再度試行してみてください。</string>
 
     <string name="drawer_open">ナビゲーションドロワーを開く</string>
     <string name="drawer_close">ナビゲーションドロワーを閉じる</string>
@@ -602,4 +616,13 @@
     <string name="time_category_older">古いメディア</string>
     <string name="rename">変名</string>
     <string name="rename_media">変名 %1$s</string>
+    <string name="manual_search">手動による検索</string>
+    <string name="subtitle_search_name_hint">名前</string>
+    <string name="subtitle_search_episode_hint">エピソード</string>
+    <string name="subtitle_search_season_hint">シーズン</string>
+    <string name="language_to_download">言語</string>
+    <string name="delete_the_selected">削除するものを選択</string>
+    <string name="download_the_selected">ダウンロードするものを選択</string>
+    <string name="next">次へ</string>
+    <string name="download">ダウンロード</string>
 </resources>
