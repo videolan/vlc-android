@@ -565,7 +565,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 message = R.string.locked_in_landscape_mode;
             else
                 message = R.string.locked_in_portrait_mode;
-            showInfo(message, 1000);
+            UiTools.snacker(mRootView, message);
         }
 
         if (mTouchDelegate != null) {
@@ -3026,7 +3026,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mScreenOrientation == 98) {
             mScreenOrientation = Integer.valueOf(
                     mSettings.getString("screen_orientation", "99" /*SCREEN ORIENTATION SENSOR*/));
-            showInfo(R.string.reset_orientation, 1000);
+            UiTools.snacker(mRootView, R.string.reset_orientation);
             setRequestedOrientation(getScreenOrientation(mScreenOrientation));
             return true;
         }
