@@ -127,7 +127,6 @@
     <string name="repeat_all">Alles herhalen</string>
     <string name="previous">Vorige</string>
     <string name="stop">Stop</string>
-    <string name="next">Volgende</string>
     <string name="firstsong">Eerste nummer van de afspeellijst</string>
     <string name="lastsong">Laatste nummer van de afspeellijst</string>
 
@@ -154,6 +153,9 @@
     <string name="navmenu">navigatiemenu</string>
     <string name="advanced">geavanceerde opties</string>
     <string name="audio_boost_warning">Nogmaals omhoog slepen om boven 100 % te gaan</string>
+    <string name="locked_in_portrait_mode">Vergrendeld in staande modus\n(Lang drukken op knop om te annuleren)</string>
+    <string name="locked_in_landscape_mode">Vergrendeld in liggende modus\n(Lang drukken op knop om te annuleren)</string>
+    <string name="reset_orientation">Oriëntatie herstellen</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanaal\n</item>
@@ -423,6 +425,8 @@
     <string name="restart_message">Wijzigingen zullen van kracht worden van zodra de toepassing opnieuw gestart is.\n\nNu opnieuw starten?</string>
     <string name="restart_message_OK">Ok</string>
     <string name="restart_message_Later">Later</string>
+    <string name="browser_show_all_title">Alle bestanden in browser weergeven</string>
+    <string name="browser_show_all_summary">Bestanden in browsers weergeven die niet als audio of video herkend worden</string>
 
     <string name="developer_prefs_category">Ontwikkelaar</string>
     <string name="enable_verbose_mode">Uitgebreid</string>
@@ -445,6 +449,16 @@
     <string name="restart_vlc">VLC opnieuw starten</string>
     <string name="send_log">Log verzenden</string>
     <string name="sending_log">Log verzenden…</string>
+
+    <string name="delete_sub_title">Ondertitel verwijderen</string>
+    <string name="delete_sub_message">Wilt u deze ondertitel verwijderen?</string>
+    <string name="delete_sub_yes">Ja</string>
+    <string name="delete_sub_no">Nee</string>
+    <string name="download_subtitle_title">Ondertitel downloaden</string>
+
+    <string name="no_result">Geen resultaten gevonden</string>
+    <string name="no_internet_connection">Controleer uw internetverbinding</string>
+    <string name="some_error_occurred">Er trad een fout op. Probeer het binnen enkele seconden opnieuw</string>
 
     <string name="drawer_open">Navigatielade openen</string>
     <string name="drawer_close">Navigatielade sluiten</string>
@@ -609,4 +623,13 @@
     <string name="time_category_older">Oudere media</string>
     <string name="rename">Hernoemen</string>
     <string name="rename_media">%1$s hernoemen</string>
+    <string name="manual_search">Manueel zoeken</string>
+    <string name="subtitle_search_name_hint">Naam</string>
+    <string name="subtitle_search_episode_hint">Aflevering</string>
+    <string name="subtitle_search_season_hint">Seizoen</string>
+    <string name="language_to_download">Taal</string>
+    <string name="delete_the_selected">Selectie verwijderen</string>
+    <string name="download_the_selected">Selectie downloaden</string>
+    <string name="next">Volgende</string>
+    <string name="download">Downloaden</string>
 </resources>
