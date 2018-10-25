@@ -139,7 +139,6 @@
     <string name="repeat_all">Opakovat všechno</string>
     <string name="previous">Předchozí</string>
     <string name="stop">Zastavit</string>
-    <string name="next">Následující</string>
     <string name="firstsong">První skladba seznamu skladeb</string>
     <string name="lastsong">Poslední skladba seznamu skladeb</string>
 
@@ -166,6 +165,9 @@
     <string name="navmenu">navigační nabídka</string>
     <string name="advanced">pokročilé možnosti</string>
     <string name="audio_boost_warning">Znovu posuňte nahoru pro překročení 100%</string>
+    <string name="locked_in_portrait_mode">Uzamčeno v režimu na výšku\n(Dlouze podržte tlačítko pro zrušení)</string>
+    <string name="locked_in_landscape_mode">Uzamčeno v režimu na šířku\n(Dlouze podržte tlačítko pro zrušení)</string>
+    <string name="reset_orientation">Obnovení orientace</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanál\n</item>
@@ -437,6 +439,8 @@
     <string name="restart_message">Změny se projeví po restartu aplikace\n\nRestartovat nyní?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Později</string>
+    <string name="browser_show_all_title">Zobrazovat všechny soubory v prohlížeči</string>
+    <string name="browser_show_all_summary">Zobrazí v prohlížeči soubory, které nejsou rozpoznány jako soubory videa, nebo zvuku</string>
 
     <string name="developer_prefs_category">Pro vývojáře</string>
     <string name="enable_verbose_mode">Podrobné</string>
@@ -459,6 +463,16 @@
     <string name="restart_vlc">Restartovat VLC</string>
     <string name="send_log">Zaslat záznam</string>
     <string name="sending_log">Zasílám záznam…</string>
+
+    <string name="delete_sub_title">Smazat titulky</string>
+    <string name="delete_sub_message">Opravdu chcete smazat titulky?</string>
+    <string name="delete_sub_yes">Ano</string>
+    <string name="delete_sub_no">Ne</string>
+    <string name="download_subtitle_title">Stáhnout titulky</string>
+
+    <string name="no_result">Nenalezeny žádné výsledky</string>
+    <string name="no_internet_connection">Zkontrolujte své internetové připojení</string>
+    <string name="some_error_occurred">Nastala chyba. Prosím opakujte akci  za pár vteřin</string>
 
     <string name="drawer_open">Otevřít navigační šuplík</string>
     <string name="drawer_close">Zavřít navigační šuplík</string>
@@ -623,4 +637,13 @@
     <string name="time_category_older">Starší média</string>
     <string name="rename">Přejmenovat</string>
     <string name="rename_media">Přejmenovat %1$s</string>
+    <string name="manual_search">Ruční hledání</string>
+    <string name="subtitle_search_name_hint">Název</string>
+    <string name="subtitle_search_episode_hint">Epizoda</string>
+    <string name="subtitle_search_season_hint">Série</string>
+    <string name="language_to_download">Jazyk</string>
+    <string name="delete_the_selected">Smazat výběr</string>
+    <string name="download_the_selected">Stáhnout výběr</string>
+    <string name="next">Následující</string>
+    <string name="download">Stáhnout</string>
 </resources>
