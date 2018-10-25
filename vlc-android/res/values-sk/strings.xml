@@ -139,7 +139,6 @@
     <string name="repeat_all">Zopakovať všetko</string>
     <string name="previous">Dozadu</string>
     <string name="stop">Stop</string>
-    <string name="next">Ďalej</string>
     <string name="firstsong">Prvá skladba playlistu</string>
     <string name="lastsong">Posledná skladba playlistu</string>
 
@@ -166,6 +165,9 @@
     <string name="navmenu">navigačné menu</string>
     <string name="advanced">pokročilé nastavenia</string>
     <string name="audio_boost_warning">Opätovným posunutím prstom prejdete za úroveň 100 %</string>
+    <string name="locked_in_portrait_mode">Uzamknuté v režime na výšku\n(Zakážete dlhým stlačením tlačidla)</string>
+    <string name="locked_in_landscape_mode">Uzamknuté v režime na šírku\n(Zakážete dlhým stlačením tlačidla)</string>
+    <string name="reset_orientation">Reset orientácie</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanál\n</item>
@@ -437,6 +439,8 @@
     <string name="restart_message">Zmeny sa prejavia po reštartovaní aplikácie.\n\nReštartovať teraz?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Neskôr</string>
+    <string name="browser_show_all_title">Zobraziť všetky súbory v prehliadači</string>
+    <string name="browser_show_all_summary">Zobraziť nerozpoznané súbory ako audio alebo video v prehliadačoch</string>
 
     <string name="developer_prefs_category">Vývojár</string>
     <string name="enable_verbose_mode">Komunikatívnosť</string>
@@ -459,6 +463,16 @@
     <string name="restart_vlc">Reštartovať VLC</string>
     <string name="send_log">Odoslať záznam</string>
     <string name="sending_log">Odosiela sa záznam…</string>
+
+    <string name="delete_sub_title">Vymazať titulok</string>
+    <string name="delete_sub_message">Chcete vymazať tento titulok?</string>
+    <string name="delete_sub_yes">Áno</string>
+    <string name="delete_sub_no">Nie</string>
+    <string name="download_subtitle_title">Stiahnuť titulok</string>
+
+    <string name="no_result">Nenašli sa žiadne výsledky</string>
+    <string name="no_internet_connection">Skontrolujte pripojenie na internet</string>
+    <string name="some_error_occurred">Nastala chyba. Prosím skúste to znovu o pár sekúnd</string>
 
     <string name="drawer_open">Otvoriť vykresľovač navigovania</string>
     <string name="drawer_close">Zatvoriť vykresľovač navigovania</string>
@@ -623,4 +637,13 @@
     <string name="time_category_older">Staršie médium</string>
     <string name="rename">Premenovať</string>
     <string name="rename_media">Premenovať %1$s</string>
+    <string name="manual_search">Manuálne vyhľadávanie</string>
+    <string name="subtitle_search_name_hint">Názov</string>
+    <string name="subtitle_search_episode_hint">Epizóda</string>
+    <string name="subtitle_search_season_hint">Sezóna</string>
+    <string name="language_to_download">Jazyk</string>
+    <string name="delete_the_selected">Vymazať výber</string>
+    <string name="download_the_selected">Stiahnuť výber</string>
+    <string name="next">Ďalej</string>
+    <string name="download">Stiahnuť</string>
 </resources>
