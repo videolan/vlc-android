@@ -55,6 +55,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     public final static int MEDIA_PAUSED = 0x4;
     public final static int MEDIA_FORCE_AUDIO = 0x8;
     public final static int MEDIA_BENCHMARK = 0x10;
+    public final static int MEDIA_FROM_START = 0x20;
 
     //MetaData flags
     public final static int META_RATING = 1;

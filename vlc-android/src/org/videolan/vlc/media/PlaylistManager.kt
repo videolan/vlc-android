@@ -592,11 +592,18 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun getMedia(position: Int) = mediaList.getMedia(position)
 
     private suspend fun getStartTime(mw: MediaWrapper) : Long {
-        val start = if (savedTime <= 0L) when {
-            mw.time >= 0L -> mw.time
-            mw.type == MediaWrapper.TYPE_VIDEO || mw.isPodcast -> withContext(IO) { medialibrary.findMedia(mw).getMetaLong(MediaWrapper.META_PROGRESS) }
-            else -> 0L
-        } else savedTime
+        val start = when {
+            mw.hasFlag(MediaWrapper.MEDIA_FROM_START) -> {
+                mw.removeFlags(MediaWrapper.MEDIA_FROM_START)
+                0L
+            }
+            savedTime <= 0L -> when {
+                mw.time >= 0L -> mw.time
+                mw.type == MediaWrapper.TYPE_VIDEO || mw.isPodcast -> withContext(Dispatchers.IO) { medialibrary.findMedia(mw).getMetaLong(MediaWrapper.META_PROGRESS) }
+                else -> 0L
+            }
+            else -> savedTime
+        }
         savedTime = 0L
         return start/1000L
     }

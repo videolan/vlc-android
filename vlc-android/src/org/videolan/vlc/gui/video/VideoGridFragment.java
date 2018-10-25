@@ -192,7 +192,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     protected void playVideo(MediaWrapper media, boolean fromStart) {
         media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-        VideoPlayerActivity.start(getActivity(), media.getUri(), fromStart);
+        if (fromStart) media.addFlags(MediaWrapper.MEDIA_FROM_START);
+        MediaUtils.INSTANCE.openMedia(requireContext(), media);
     }
 
     protected void playAudio(MediaWrapper media) {
