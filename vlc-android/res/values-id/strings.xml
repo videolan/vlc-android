@@ -7,7 +7,10 @@
     <string name="other">Lainnya</string>
     <string name="sortby">Urutkan berdasar…</string>
     <string name="sortby_name">Nama</string>
+    <string name="sortby_artist_name">Nama artis</string>
+    <string name="sortby_album_name">Nama album</string>
     <string name="sortby_length">Panjang</string>
+    <string name="sortby_date">Tanggal</string>
     <string name="searchable_hint">Mencari…</string>
     <string name="history">Riwayat</string>
 
@@ -32,6 +35,7 @@
     <string name="ringtone_error">Terjadi kesalahan ketika mengatur ringtone.</string>
     <string name="pause">Jeda</string>
     <string name="not_show_again">Jangan tampilkan pesan ini lagi.</string>
+    <string name="info_title">VLC</string>
     <string name="unknown_artist">Artis tak dikenal</string>
     <string name="unknown_album">Album tak dikenal</string>
     <string name="unknown_genre">Jenis musik tak dikenal</string>
@@ -40,6 +44,9 @@
     </plurals>
 
     <string name="artists">Artis</string>
+    <string name="albums">Album</string>
+    <string name="tracks">Trek</string>
+
     <plurals name="albums_quantity">
         <item quantity="other">%d album</item>
     </plurals>
@@ -77,9 +84,9 @@
     <string name="validation">Anda yakin?</string>
 
     <string name="cover_art">Sampul album</string>
+    <string name="repeat_title">Mode perulangan</string>
     <string name="previous">Sebelumnya</string>
     <string name="stop">Henti</string>
-    <string name="next">Selanjutya</string>
     <string name="locked">Terkunci</string>
     <string name="unlocked">Terbuka</string>
     <string name="surface_best_fit">Paling sesuai</string>
@@ -90,6 +97,7 @@
     <string name="refresh">Muat ulang</string>
     <string name="track_audio">Trek audio</string>
     <string name="track_video">Trek video</string>
+    <string name="track_text">Trek terjemahan</string>
     <string name="track_unknown">Trek tidak dikenal</string>
     <string name="volume">Volume</string>
     <string name="brightness">Kecerahan</string>
@@ -98,11 +106,17 @@
     <string name="sleep_title">Waktu tidur</string>
     <string name="sleep_cancel">Batalkan waktu tidur</string>
     <string name="jump_to_time">Lompat ke Waktu</string>
-    <string name="subtitle_label">Tambah file subtitle</string>
-    <string name="subtitle_select">Pilih file subtitle</string>
+    <string name="subtitle_label">Tambah file terjemahan</string>
+    <string name="subtitle_select">Pilih file terjemahan</string>
     <string name="no_file_picker_found">Tidak ada pemilih berkas pada sistem.</string>
 
+    <string name="server_username_hint">Username</string>
+    <string name="server_port">Port: </string>
+    <string name="password">Password</string>
+
+    <string name="favorites_edit">Sunting</string>
     <string name="open">Buka</string>
+    <string name="open_mrl">Stream</string>
     <string name="open_mrl_dialog_title">Buka stream jaringan</string>
     <string name="error_not_compatible">Maaf, perangkat Anda belum didukung oleh VLC untuk Android™ versi ini.</string>
     <string name="error_problem">Maaf, VLC untuk Android memiliki masalah dalam memuat dan harus ditutup.</string>
@@ -116,7 +130,8 @@
     <!-- Tips -->
     <string name="video_player_tips">Tip pemutar video:</string>
     <string name="seek">Cari</string>
-    <string name="subtitles">Subtitel</string>
+    <string name="subtitles">Terjemahan</string>
+    <string name="audio_sub">Trek audio\ndan terjemahan</string>
     <string name="resize">Ubah ukuran</string>
     <string name="options">Pilihan</string>
     <string name="lock">Kunci</string>
@@ -130,16 +145,21 @@
     <string name="show_playlist">Tampilkan daftar putar</string>
     <string name="hold_to_stop">Tahan untuk berhenti</string>
 
+    <!-- About -->
+    <string name="app_name_full">VLC untuk Android</string>
     <string name="licence">Lisensi</string>
     <string name="revision">Revisi</string>
     <string name="about">Tentang</string>
     <string name="about_text">VLC untuk Android™ merupakan port dari VLC media player, media player open source popular. Versi Android™ dapat membaca hampir semua file dan stream jaringan.</string>
     <string name="compiled_by">Versi VLC ini dikompilasi oleh:</string>
 
+    <!-- Preferences -->
+    <string name="preferences">Pengaturan</string>
+
     <string name="general_prefs_category">Umum</string>
     <string name="directories_summary">Pilih direktori untuk dimasukkan ke pustaka media</string>
     <string name="add_custom_path">Tambah jejak manual</string>
-    <string name="add_custom_path_description">Maskukkan tambahan direktori untuk di pindai:</string>
+    <string name="add_custom_path_description">Masukkan direktori tambahan untuk dipindai:</string>
     <string name="remove_custom_path">Buang jalur manual</string>
     <string name="hardware_acceleration">Akselerasi Perangkat Keras</string>
     <string name="hardware_acceleration_disabled">Dimatikan</string>
@@ -153,19 +173,49 @@
     <string name="screen_orientation_landscape">Pemandangan</string>
     <string name="screen_orientation_reverse_portrait">Balik portrait</string>
     <string name="screen_orientation_reverse_landscape">Balik landscape</string>
-    <string name="subtitle_text_encoding">Pengkodean teks subtitle</string>
-    <string name="extra_prefs_category">Setting ekstra</string>
+    <string name="subtitle_text_encoding">Pengkodean teks terjemahan</string>
+    <string name="extra_prefs_category">Pengaturan tambahan</string>
 
-    <string name="interface_prefs_screen">Tampilan</string>
+    <string name="interface_prefs_screen">Antarmuka</string>
     <string name="enable_clone_mode">Pilih klon</string>
     <string name="enable_clone_mode_summary">Klon layar perangkat tampa remot pengendali.</string>
-    <string name="interface_other_category">Tampilan - Lainnya</string>
+    <string name="interface_other_category">Antarmuka - Lainnya</string>
 
+    <string name="video_prefs_category">Video</string>
     <string name="enable_brightness_gesture_summary">Mengendalikan kecerahan dengan gesture ketika video dimainkan</string>
+    <string name="subtitles_prefs_category">Terjemahan</string>
+    <string name="subtitles_size_title">Ukuran terjemahan</string>
+    <string name="subtitles_size_small">Kecil</string>
+    <string name="subtitles_size_normal">Normal</string>
+    <string name="subtitles_size_big">Besar</string>
+    <string name="subtitles_size_huge">Sangat besar</string>
+    <string name="subtitles_color_title">Warna Terjemahan</string>
+    <string name="subtitles_color_white">Putih</string>
+    <string name="subtitles_color_pink">Merah muda</string>
+    <string name="subtitles_color_blue">Biru</string>
+    <string name="subtitles_color_yellow">Kuning</string>
+    <string name="subtitles_color_green">Hijau</string>
+    <string name="subtitles_background_title">Latar Belakang Terjemahan</string>
+    <string name="subtitles_bold_title">Tebalkan terjemahan</string>
+    <string name="subtitles_autoload_title">Muat otomatis terjemahan</string>
+
+    <string name="audio_prefs_category">Audio</string>
+    <string name="audio_title_alignment_left">Kiri</string>
+    <string name="audio_title_alignment_centre">Tengah</string>
+    <string name="audio_title_alignment_right">Kanan</string>
+    <string name="headset_prefs_category">Headset</string>
     <string name="enable_headset_detection">Deteksi headset</string>
     <string name="enable_steal_remote_control">Remot kontrol headset ekslusif</string>
     <string name="aout">Output audio</string>
     <string name="aout_summary">Ubah metode yang digunakan untuk menghasilkan output audio.</string>
+    <string name="casting_conversion_quality_title">Kualitas konversi</string>
+    <string name="casting_quality_high">Tinggi</string>
+    <string name="casting_quality_medium">Sedang</string>
+    <string name="casting_quality_low">Rendah</string>
+    <string name="casting_quality_lowcpu">Paling rendah</string>
+    <string name="artists_show_all_title">Tampilkan semua artis</string>
+    <string name="extensions_prefs_category">Ekstensi</string>
+    <string name="extensions_empty">Tidak ada ekstensi yang terdeteksi</string>
     <string name="performance_prefs_category">Performa</string>
     <string name="chroma_format">Paksa kroma video</string>
     <string name="deblocking">Deblocking pengaturan penyaringan</string>
@@ -187,6 +237,7 @@
     <string name="set_locale_popup">Keluar dan hidupkan kembali VLC untuk melihat perubahan.</string>
     <string name="network_caching">Nilai cache jaringan</string>
     <string name="quit">Keluar dan restart aplikasi</string>
+    <string name="restart_message_OK">OK</string>
     <string name="developer_prefs_category">Pengembang</string>
     <string name="enable_verbose_mode">Tampilkan</string>
     <string name="debug_logs">Catatan debug</string>
@@ -204,4 +255,33 @@
     <string name="send_log">Kirim catatan</string>
     <string name="sending_log">Mengirim catatan…</string>
 
+    <string name="delete_sub_title">Hapus terjemahan</string>
+    <string name="delete_sub_yes">Ya</string>
+    <string name="delete_sub_no">Tidak</string>
+    <string name="download_subtitle_title">Unduh Terjemahan</string>
+
+    <string name="network_browsing">Jaringan Lokal</string>
+    <string name="audio_delay">Penundaan audio</string>
+    <string name="spu_delay">Penundaan terjemahan</string>
+    <string name="network_empty">Direktori ini kosong.</string>
+    <string name="chapter">Bab</string>
+    <string name="no_subs_found">Tidak ada terjemahan dalam direktori ini</string>
+    <string name="exit_app">Tutup VLC</string>
+    <string name="opengl_automatic">Otomatis</string>
+    <string name="snack_subloader_sub_not_found">Terjemahan tidak ditemukan</string>
+    <string name="download_subtitles">Unduh terjemahan</string>
+    <string name="preferences_languages_download">Bahasa terjemahan</string>
+    <string name="downloading_subtitles">Mengunduh terjemahan</string>
+    <string name="videos">video</string>
+    <string name="videos_all">Semua video</string>
+    <string name="ml_external_storage_accept">Ya</string>
+    <string name="ml_external_storage_decline">Tidak</string>
+    <string name="no">Tidak</string>
+    <string name="yes">Ya</string>
+
+    <string name="save">Simpan</string>
+    <string name="equalizer_new_preset_name">Baru</string>
+    <string name="browser_storages">Penyimpanan</string>
+    <string name="language_to_download">Bahasa</string>
+    <string name="next">Selanjutya</string>
     </resources>
