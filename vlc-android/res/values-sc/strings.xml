@@ -19,7 +19,7 @@
     <string name="sortby_date">Data</string>
     <string name="sortby_date_desc">Data (decresc)</string>
     <string name="sortby_last_modified_date">Annantu dae pagu</string>
-    <string name="sortby_last_modified_date_desc">Annantu dae pagu (desc)</string>
+    <string name="sortby_last_modified_date_desc">Annantos dae pagu (decr)</string>
     <string name="sortby_number">Nùm. rastas</string>
     <string name="sortby_number_desc">Nùm. rastas (decresc)</string>
     <string name="searchable_hint">Chirca…</string>
@@ -127,7 +127,6 @@
     <string name="repeat_all">Ripite totu</string>
     <string name="previous">Antepostu</string>
     <string name="stop">Firma</string>
-    <string name="next">Imbeniente</string>
     <string name="firstsong">Primu branu de s\'iscalita</string>
     <string name="lastsong">Ùrtimu branu de s\'iscalita</string>
 
@@ -154,6 +153,9 @@
     <string name="navmenu">menù de navigatzione</string>
     <string name="advanced">optziones avantzadas</string>
     <string name="audio_boost_warning">Iscurre galu pro andare prus a in antis de su 100%</string>
+    <string name="locked_in_portrait_mode">Blocadu in modalidade verticale\n(Incarca a longu pro annullare)</string>
+    <string name="locked_in_landscape_mode">Blocadu in modalidade orizontale\n(Incarca a longu pro annullare)</string>
+    <string name="reset_orientation">Riprìstinu de s\'orientamentu</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canale\n</item>
@@ -423,6 +425,8 @@
     <string name="restart_message">Sas modìficas ant a tènnere efetu cando s\'aplicatzione at a èssere torrada a allùghere\n\n\Torrare a l\'allùghere como?</string>
     <string name="restart_message_OK">AB</string>
     <string name="restart_message_Later">Prus a tardu</string>
+    <string name="browser_show_all_title">Ammustra totu sos documentos in s\'esploradore</string>
+    <string name="browser_show_all_summary">Ammustra sos documentos chi non sunt reconnotos comente àudio o vìdeos in sos esploradores</string>
 
     <string name="developer_prefs_category">Isvilupadore</string>
     <string name="enable_verbose_mode">Verbosu</string>
@@ -445,6 +449,16 @@
     <string name="restart_vlc">Torra a allùghere VLC</string>
     <string name="send_log">Imbia su registru</string>
     <string name="sending_log">Imbiende su registru…</string>
+
+    <string name="delete_sub_title">Iscantzella sutatìtulos</string>
+    <string name="delete_sub_message">Cheres iscantzellare custos sutatìtulos?</string>
+    <string name="delete_sub_yes">Eja</string>
+    <string name="delete_sub_no">Nono</string>
+    <string name="download_subtitle_title">Iscàrriga sutatìtulos</string>
+
+    <string name="no_result">Perunu risultadu agatadu</string>
+    <string name="no_internet_connection">Verìfica sa connessione a ìnternet tua</string>
+    <string name="some_error_occurred">B\'est istadu carchi errore. Pro praghere torra a proare a pustis de carchi segundu</string>
 
     <string name="drawer_open">Aberi su calàsciu de navigatzione</string>
     <string name="drawer_close">Serra su calàsciu de navigatzione</string>
@@ -609,4 +623,13 @@
     <string name="time_category_older">Documentos prus betzos</string>
     <string name="rename">Càmbia nùmene</string>
     <string name="rename_media">Càmbia su nùmene a %1$s</string>
+    <string name="manual_search">Chirca manuale</string>
+    <string name="subtitle_search_name_hint">Nùmene</string>
+    <string name="subtitle_search_episode_hint">Episòdiu</string>
+    <string name="subtitle_search_season_hint">Istajone</string>
+    <string name="language_to_download">Limba</string>
+    <string name="delete_the_selected">Iscantzella sa seletzione</string>
+    <string name="download_the_selected">Iscàrriga sa seletzione</string>
+    <string name="next">Imbeniente</string>
+    <string name="download">Iscàrriga</string>
 </resources>
