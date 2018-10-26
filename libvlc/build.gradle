@@ -1,7 +1,12 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        compileSdkVersion rootProject.ext.compileSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion rootProject.ext.minSdkVersion
+    }
 
     sourceSets {
     main {

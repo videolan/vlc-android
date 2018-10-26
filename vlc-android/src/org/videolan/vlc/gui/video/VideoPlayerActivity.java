@@ -25,11 +25,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.app.PictureInPictureParams;
-
-import androidx.annotation.StringRes;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothHeadset;
 import android.content.BroadcastReceiver;
@@ -40,8 +35,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import androidx.databinding.BindingAdapter;
-import androidx.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
@@ -52,20 +45,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
-import androidx.annotation.NonNull;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.FragmentManager;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.ViewStubCompat;
-import androidx.recyclerview.widget.ItemTouchHelper;
-
-import android.os.RemoteException;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
@@ -80,8 +59,8 @@ import android.view.Surface;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.View.OnLayoutChangeListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
@@ -99,12 +78,15 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import org.jetbrains.annotations.Nullable;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.RendererItem;
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.libvlc.util.DisplayManager;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -146,6 +128,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.ViewStubCompat;
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
         IVLCVout.OnNewVideoLayoutListener, IPlaybackSettingsController,
@@ -327,7 +327,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         audioBoostEnabled = mSettings.getBoolean("audio_boost", false);
 
         mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
-        mDisplayManager = new DisplayManager(this, mEnableCloneMode, mIsBenchmark);
+        mDisplayManager = new DisplayManager(this, AndroidDevices.isChromeBook ? RendererDelegate.INSTANCE.getSelectedRenderer() : null, false, mEnableCloneMode, mIsBenchmark);
         setContentView(mDisplayManager.isPrimary() ? R.layout.player : R.layout.player_remote_control);
 
         /** initialize Views an their Events */
@@ -766,7 +766,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         surfaceFrameAddLayoutListener(true);
 
         /* Listen for changes to media routes. */
-        if (!mIsBenchmark) mDisplayManager.mediaRouterAddCallback(true);
+        if (!mIsBenchmark) mDisplayManager.setMediaRouterCallback();
 
         if (mRootView != null) mRootView.setKeepScreenOn(true);
     }
@@ -834,7 +834,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mRootView != null) mRootView.setKeepScreenOn(false);
 
         /* Stop listening for changes to media routes. */
-        if (!mIsBenchmark) mDisplayManager.mediaRouterAddCallback(false);
+        if (!mIsBenchmark) mDisplayManager.removeMediaRouterCallback();
 
         surfaceFrameAddLayoutListener(false);
 
