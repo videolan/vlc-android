@@ -127,7 +127,6 @@
     <string name="repeat_all">Gentag alle</string>
     <string name="previous">Forrige</string>
     <string name="stop">Stop</string>
-    <string name="next">Næste</string>
     <string name="firstsong">Første nummer i spillelisten</string>
     <string name="lastsong">Sidste nummer i spillelisten</string>
 
@@ -154,6 +153,9 @@
     <string name="navmenu">navigationsmenu</string>
     <string name="advanced">avancerede indstillinger</string>
     <string name="audio_boost_warning">Stryg op igen for at gå over 100%</string>
+    <string name="locked_in_portrait_mode">Låst i portræt-tilstand\n(tryk længe på knappen for at annullere)</string>
+    <string name="locked_in_landscape_mode">Låst i landskab-tilstand\n(tryk længe på knappen for at annullere)</string>
+    <string name="reset_orientation">Orientering nulstillet</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
@@ -423,6 +425,8 @@
     <string name="restart_message">Ændringerne træder i kraft når programmet er blevet genstartet.\n\nGenstart nu?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Senere</string>
+    <string name="browser_show_all_title">Vis alle filer i browser</string>
+    <string name="browser_show_all_summary">Vis filer som ikke genkendes som lyd eller video i browsere</string>
 
     <string name="developer_prefs_category">Udvikler</string>
     <string name="enable_verbose_mode">Uddybende</string>
@@ -445,6 +449,16 @@
     <string name="restart_vlc">Genstart VLC</string>
     <string name="send_log">Send loggen</string>
     <string name="sending_log">Sender loggen …</string>
+
+    <string name="delete_sub_title">Slet undertekst</string>
+    <string name="delete_sub_message">Vil du slette underteksten?</string>
+    <string name="delete_sub_yes">Ja</string>
+    <string name="delete_sub_no">Nej</string>
+    <string name="download_subtitle_title">Download untertekst</string>
+
+    <string name="no_result">Ingen resultater fundet</string>
+    <string name="no_internet_connection">Tjek din internetforbindelse</string>
+    <string name="some_error_occurred">Der opstod en fejl. Prøv igen om nogle få sekunder</string>
 
     <string name="drawer_open">Åbn navigationsskuffen</string>
     <string name="drawer_close">Luk navigationsskuffen</string>
@@ -609,4 +623,13 @@
     <string name="time_category_older">Ældre medie</string>
     <string name="rename">Omdøb</string>
     <string name="rename_media">Omdøb %1$s</string>
+    <string name="manual_search">Manuel søgning</string>
+    <string name="subtitle_search_name_hint">Navn</string>
+    <string name="subtitle_search_episode_hint">Episode</string>
+    <string name="subtitle_search_season_hint">Sæson</string>
+    <string name="language_to_download">Sprog</string>
+    <string name="delete_the_selected">Slet valgte</string>
+    <string name="download_the_selected">Download valgte</string>
+    <string name="next">Næste</string>
+    <string name="download">Download</string>
 </resources>
