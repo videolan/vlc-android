@@ -127,7 +127,6 @@
     <string name="repeat_all">Slinga alla</string>
     <string name="previous">Föregående</string>
     <string name="stop">Stoppa</string>
-    <string name="next">Nästa</string>
     <string name="firstsong">Första låten i spellistan</string>
     <string name="lastsong">Sista låten i spellistan</string>
 
@@ -154,6 +153,9 @@
     <string name="navmenu">navigeringsmeny</string>
     <string name="advanced">avancerade alternativ</string>
     <string name="audio_boost_warning">Svep uppåt igen för att gå över 100 %</string>
+    <string name="locked_in_portrait_mode">Låst i porträttläge\n(Håll ned knappen för att avbryta)</string>
+    <string name="locked_in_landscape_mode">Låst i landskapsläge\n(Håll ned knappen för att avbryta)</string>
+    <string name="reset_orientation">Återställ orientering</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
@@ -423,6 +425,8 @@
     <string name="restart_message">Ändringarna kommer att träda i kraft när applikationen har startats om.\n\nStarta om nu?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Senare</string>
+    <string name="browser_show_all_title">Visa alla filer i filbläddraren</string>
+    <string name="browser_show_all_summary">Visa filer som inte känns igen som ljud eller video i filbläddrare</string>
 
     <string name="developer_prefs_category">Utvecklare</string>
     <string name="enable_verbose_mode">Detaljerad loggdata</string>
@@ -445,6 +449,16 @@
     <string name="restart_vlc">Starta om VLC</string>
     <string name="send_log">Skicka loggen</string>
     <string name="sending_log">Skickar loggen…</string>
+
+    <string name="delete_sub_title">Radera undertext</string>
+    <string name="delete_sub_message">Vill du radera denna undertext?</string>
+    <string name="delete_sub_yes">Ja</string>
+    <string name="delete_sub_no">Nej</string>
+    <string name="download_subtitle_title">Ladda ned undertext</string>
+
+    <string name="no_result">Inga resultat hittades</string>
+    <string name="no_internet_connection">Kontrollera din Internetanslutning</string>
+    <string name="some_error_occurred">Ett fel uppstod. Försök igen om några sekunder</string>
 
     <string name="drawer_open">Öppna navigeringsmenyn</string>
     <string name="drawer_close">Stäng navigeringsmenyn</string>
@@ -609,4 +623,13 @@
     <string name="time_category_older">Äldre media</string>
     <string name="rename">Byt namn</string>
     <string name="rename_media">Byt namn på %1$s</string>
+    <string name="manual_search">Manuell sökning</string>
+    <string name="subtitle_search_name_hint">Namn</string>
+    <string name="subtitle_search_episode_hint">Episod</string>
+    <string name="subtitle_search_season_hint">Säsong</string>
+    <string name="language_to_download">Språk</string>
+    <string name="delete_the_selected">Radera markering</string>
+    <string name="download_the_selected">Ladda ned markering</string>
+    <string name="next">Nästa</string>
+    <string name="download">Ladda ned</string>
 </resources>
