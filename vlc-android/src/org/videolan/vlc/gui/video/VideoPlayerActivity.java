@@ -731,13 +731,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         loadMedia();
     }
 
+    private Observer<List<MediaWrapper>> mPlaylistObserver = new Observer<List<MediaWrapper>>() {
+        @Override
+        public void onChanged(List<MediaWrapper> mediaWrappers) {
+            if (mediaWrappers != null) mPlaylistAdapter.update(mediaWrappers);
+        }
+    };
+
     private void initPlaylistUi() {
-        if (mService.hasPlaylist()) {
+        if (mService != null && mService.hasPlaylist()) {
             mHasPlaylist = true;
             mPlaylistAdapter = new PlaylistAdapter(this);
             mPlaylistModel = ViewModelProviders.of(this, new PlaylistModel.Factory(mService)).get(PlaylistModel.class);
             mPlaylistModel.setup();
             mPlaylistAdapter.setModel(mPlaylistModel);
+            mPlaylistModel.getDataset().observe(this, mPlaylistObserver);
             final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             mPlaylist.setLayoutManager(layoutManager);
@@ -1461,7 +1469,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void update() {
         if (mService == null || mPlaylistAdapter == null) return;
-        mPlaylistAdapter.update(mService.getMedias());
+        mPlaylistModel.update();
     }
 
     @Override
@@ -3171,6 +3179,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void onDisconnected() {
         mService = null;
+        if (mPlaylistModel != null) mPlaylistModel.getDataset().removeObserver(mPlaylistObserver);
         mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
     }
 
