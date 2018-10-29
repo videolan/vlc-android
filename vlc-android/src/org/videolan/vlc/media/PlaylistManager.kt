@@ -104,7 +104,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     @MainThread
-    fun load(list: List<MediaWrapper>, position: Int) {
+    fun load(list: List<MediaWrapper>, position: Int, mlUpdate: Boolean = false) {
         mediaList.removeEventListener(this)
         mediaList.clear()
         previous.clear()
@@ -124,6 +124,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             clearABRepeat()
             playIndex(currentIndex)
             onPlaylistLoaded()
+            if (mlUpdate) launch(Dispatchers.IO) { mediaList.updateWithMLMeta() }
         }
     }
 
@@ -159,7 +160,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 val rate = settings.getFloat(PreferencesActivity.VIDEO_SPEED, player.getRate())
                 if (rate != 1.0f) player.setRate(rate, false)
             }
-            load(playList, position)
+            load(playList, position, true)
             loadingLastPlaylist = false
         }
         return true
@@ -168,7 +169,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private suspend fun onPlaylistLoaded() {
         service.onPlaylistLoaded()
         determinePrevAndNextIndices()
-//        launch(Dispatchers.IO) { mediaList.updateWithMLMeta() }
     }
 
     fun play() {
