@@ -121,7 +121,6 @@
     <string name="repeat_all">全部重複</string>
     <string name="previous">上一個</string>
     <string name="stop">停止</string>
-    <string name="next">下一個</string>
     <string name="firstsong">播放清單中的第一首歌曲</string>
     <string name="lastsong">播放清單中的最後一首歌曲</string>
 
@@ -148,6 +147,9 @@
     <string name="navmenu">側邊欄</string>
     <string name="advanced">進階選項</string>
     <string name="audio_boost_warning">再次向上滑動，以超過 100％</string>
+    <string name="locked_in_portrait_mode">鎖定在直向模式\n（在按鈕上長按來取消）</string>
+    <string name="locked_in_landscape_mode">鎖定在橫向模式\n（在按鈕上長按來取消）</string>
+    <string name="reset_orientation">方向重設</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d 聲道\n</item>
@@ -241,12 +243,12 @@
 
     <string name="general_prefs_category">一般</string>
     <string name="directories_summary">選擇要加到媒體櫃的目錄</string>
-    <string name="add_custom_path">增加自訂路徑</string>
+    <string name="add_custom_path">加入自訂路徑</string>
     <string name="add_custom_path_description">輸入額外的自訂目錄以掃瞄:</string>
     <string name="remove_custom_path">移除自訂路徑</string>
     <string name="hardware_acceleration">硬體加速</string>
-    <string name="hardware_acceleration_summary">停用: 較為穩定。\n解碼: 可提升性能。\n完全: 可進一步提升性能。</string>
-    <string name="hardware_acceleration_disabled">關閉</string>
+    <string name="hardware_acceleration_summary">停用：較為穩定。\n解碼：可提升性能。\n全開：可進一步提升性能。</string>
+    <string name="hardware_acceleration_disabled">停用</string>
     <string name="hardware_acceleration_decoding">解碼加速</string>
     <string name="hardware_acceleration_full">加速全開</string>
     <string name="dev_hardware_decoder">進階硬體解碼器</string>
@@ -255,8 +257,8 @@
     <string name="screen_orientation">畫面方向</string>
     <string name="screen_orientation_sensor">自動（感應）</string>
     <string name="screen_orientation_start_lock">開始時鎖定</string>
-    <string name="screen_orientation_portrait">直式</string>
-    <string name="screen_orientation_landscape">橫式</string>
+    <string name="screen_orientation_portrait">直向</string>
+    <string name="screen_orientation_landscape">橫向</string>
     <string name="screen_orientation_reverse_portrait">直向反轉</string>
     <string name="screen_orientation_reverse_landscape">橫向反轉</string>
     <string name="enable_black_theme">黑色佈景主題</string>
@@ -277,7 +279,7 @@
 
     <string name="video_prefs_category">視訊</string>
     <string name="video_min_group_length_title">影片群組</string>
-    <string name="video_min_group_length_summary">若影片的第一個字母相同時，影片會被分到同一組。</string>
+    <string name="video_min_group_length_summary">若影片前面的字母相同時，影片會被分到同一組。</string>
     <string name="video_min_group_length_disable">停用</string>
     <string name="video_min_group_length_first">僅第一個字母</string>
     <string name="video_min_group_length_short">短數量的字母 (6)</string>
@@ -385,9 +387,9 @@
     <string name="deblocking_nonref">中等去區塊</string>
     <string name="deblocking_nonkey">少量去區塊</string>
     <string name="deblocking_all">沒有去區塊 (最快)</string>
-    <string name="enable_frame_skip">跳過畫面</string>
+    <string name="enable_frame_skip">跳幀 (Frame skip)</string>
     <string name="enable_frame_skip_summary">加快解碼，但可能會降低視訊品質。</string>
-    <string name="enable_time_stretching_audio">時域伸縮音訊</string>
+    <string name="enable_time_stretching_audio">音訊時域伸縮</string>
     <string name="enable_time_stretching_audio_summary">加速或減速音訊但不會改變音調 (需要較快的裝置)</string>
 
     <string name="advanced_prefs_category">進階</string>
@@ -416,6 +418,8 @@
     <string name="restart_message">應用程式重新啟動後，變更才會生效。\n\n現在要重新啟動嗎？</string>
     <string name="restart_message_OK">確定</string>
     <string name="restart_message_Later">稍後</string>
+    <string name="browser_show_all_title">在瀏覽器中顯示所有檔案</string>
+    <string name="browser_show_all_summary">在瀏覽器中顯示不被視為音訊或視訊的檔案</string>
 
     <string name="developer_prefs_category">開發者</string>
     <string name="enable_verbose_mode">Verbose</string>
@@ -438,6 +442,16 @@
     <string name="restart_vlc">重新啟動 VLC</string>
     <string name="send_log">發送紀錄</string>
     <string name="sending_log">正在發送紀錄…</string>
+
+    <string name="delete_sub_title">刪除字幕</string>
+    <string name="delete_sub_message">你要刪除這個字幕嗎？</string>
+    <string name="delete_sub_yes">是</string>
+    <string name="delete_sub_no">否</string>
+    <string name="download_subtitle_title">下載字幕</string>
+
+    <string name="no_result">沒有找到結果</string>
+    <string name="no_internet_connection">檢查您的網路連線</string>
+    <string name="some_error_occurred">發生錯誤。請在幾秒後再試一次</string>
 
     <string name="drawer_open">開啟側邊欄</string>
     <string name="drawer_close">關閉側邊欄</string>
@@ -602,4 +616,13 @@
     <string name="time_category_older">較舊的媒體</string>
     <string name="rename">重新命名</string>
     <string name="rename_media">重新命名 %1$s</string>
+    <string name="manual_search">手動搜尋</string>
+    <string name="subtitle_search_name_hint">名稱</string>
+    <string name="subtitle_search_episode_hint">插曲</string>
+    <string name="subtitle_search_season_hint">季節</string>
+    <string name="language_to_download">語言</string>
+    <string name="delete_the_selected">刪除選取</string>
+    <string name="download_the_selected">下載選取</string>
+    <string name="next">下一個</string>
+    <string name="download">下載</string>
 </resources>
