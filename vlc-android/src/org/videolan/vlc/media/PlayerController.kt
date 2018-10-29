@@ -30,7 +30,8 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     val progress by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<Progress>().apply { value = Progress() } }
     private val slaveRepository by lazy { SlaveRepository.getInstance(context) }
 
-    private var mediaplayer = newMediaPlayer()
+    var mediaplayer = newMediaPlayer()
+        private set
     var switchToVideo = false
     var seekable = false
     var pausable = false

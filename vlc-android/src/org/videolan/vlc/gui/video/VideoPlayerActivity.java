@@ -35,8 +35,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.PixelFormat;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
@@ -46,7 +44,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Rational;
@@ -59,7 +56,6 @@ import android.view.Surface;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLayoutChangeListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -69,7 +65,6 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.RotateAnimation;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -87,6 +82,7 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.RendererItem;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.DisplayManager;
+import org.videolan.libvlc.util.VLCVideoLayout;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -125,7 +121,6 @@ import org.videolan.vlc.viewmodels.PlaylistModel;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -147,8 +142,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.Callback,
-        IVLCVout.OnNewVideoLayoutListener, IPlaybackSettingsController,
+public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackSettingsController,
         PlaybackService.Client.Callback, PlaybackService.Callback,PlaylistAdapter.IPlayer,
         OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController {
 
@@ -166,11 +160,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
     private Medialibrary mMedialibrary;
-    private SurfaceView mSurfaceView = null;
-    private SurfaceView mSubtitlesSurfaceView = null;
+    private VLCVideoLayout mVideoLayout;
     protected DisplayManager mDisplayManager;
     private View mRootView;
-    private FrameLayout mSurfaceFrame;
     private Uri mUri;
     private boolean mAskResume = true;
 
@@ -181,16 +173,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private ImageView mOrientationToggle;
 
-    static final int SURFACE_BEST_FIT = 0;
-    static final int SURFACE_FIT_SCREEN = 1;
-    private static final int SURFACE_FILL = 2;
-    private static final int SURFACE_16_9 = 3;
-    private static final int SURFACE_4_3 = 4;
-    private static final int SURFACE_ORIGINAL = 5;
-    private static final int SURFACE_SIZE_COUNT = 6;
-
-    private int mCurrentSize;
-
     private SharedPreferences mSettings;
 
     /** Overlay */
@@ -200,15 +182,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private static final int OVERLAY_TIMEOUT = 4000;
     private static final int OVERLAY_INFINITE = -1;
     private static final int FADE_OUT = 1;
-    private static final int SHOW_PROGRESS = 2;
-    private static final int FADE_OUT_INFO = 3;
-    private static final int START_PLAYBACK = 4;
-    private static final int AUDIO_SERVICE_CONNECTION_FAILED = 5;
-    private static final int RESET_BACK_LOCK = 6;
-    private static final int CHECK_VIDEO_TRACKS = 7;
-    private static final int LOADING_ANIMATION = 8;
-    static final int SHOW_INFO = 9;
-    static final int HIDE_INFO = 10;
+    private static final int FADE_OUT_INFO = 2;
+    private static final int START_PLAYBACK = 3;
+    private static final int AUDIO_SERVICE_CONNECTION_FAILED = 4;
+    private static final int RESET_BACK_LOCK = 5;
+    private static final int CHECK_VIDEO_TRACKS = 6;
+    private static final int LOADING_ANIMATION = 7;
+    static final int SHOW_INFO = 8;
+    static final int HIDE_INFO = 9;
 
     private static final int LOADING_ANIMATION_DELAY = 1000;
 
@@ -217,8 +198,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private boolean mShowingDialog;
     private DelayState mPlaybackSetting = DelayState.OFF;
     private TextView mTitle;
-    private TextView mSysTime;
-    private TextView mBattery;
     private TextView mInfo;
     private View mOverlayInfo;
     private View mVerticalBar;
@@ -256,15 +235,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
      */
     private boolean mSwitchingView;
     private boolean mSwitchToPopup;
-    private boolean mHasSubItems = false;
-
-    // size of the video
-    private int mVideoHeight;
-    private int mVideoWidth;
-    private int mVideoVisibleHeight;
-    private int mVideoVisibleWidth;
-    private int mSarNum;
-    private int mSarDen;
 
     //Volume
     private AudioManager mAudioManager;
@@ -303,7 +273,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     private long mForcedTime = -1;
     private long mLastTime = -1;
 
-    private OnLayoutChangeListener mOnLayoutChangeListener;
     private AlertDialog mAlertDialog;
 
     protected boolean mIsBenchmark = false;
@@ -351,13 +320,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mScreenOrientation = Integer.valueOf(
                 mSettings.getString("screen_orientation", "99" /*SCREEN ORIENTATION SENSOR*/));
 
-        mSurfaceView = findViewById(R.id.player_surface);
-        mSubtitlesSurfaceView = findViewById(R.id.subtitles_surface);
-
-        mSubtitlesSurfaceView.setZOrderMediaOverlay(true);
-        mSubtitlesSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-
-        mSurfaceFrame = findViewById(R.id.player_surface_frame);
+        mVideoLayout = findViewById(R.id.video_layout);
 
         /* Loading view */
         mLoading = findViewById(R.id.player_overlay_loading);
@@ -377,7 +340,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         editor.apply();
 
         final IntentFilter filter = new IntentFilter();
-        if (mBattery != null) filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         filter.addAction(VLCApplication.SLEEP_INTENT);
         registerReceiver(mReceiver, filter);
 
@@ -412,11 +374,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         }
 
 
-        if (mIsBenchmark) {
-            mCurrentSize = SURFACE_FILL;
-        } else {
-            mCurrentSize = mSettings.getInt(PreferencesActivity.VIDEO_RATIO, SURFACE_BEST_FIT);
-        }
         mMedialibrary = VLCApplication.getMLInstance();
         final int touch;
         if (!mIsTv) {
@@ -518,10 +475,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         final MediaWrapper mw = mService != null ? mService.getCurrentMediaWrapper() : null;
         if (mw == null) return;
         if (AndroidDevices.hasPiP) {
-            if (AndroidUtil.isOOrLater)
-                try {
-                    final int height = mVideoHeight != 0 ? mVideoHeight : mw.getHeight();
-                    final int width = Math.min(mVideoWidth != 0 ? mVideoWidth : mw.getWidth(), (int) (height*2.39f));
+            if (AndroidUtil.isOOrLater) try {
+                    final SurfaceView videoSurface = mVideoLayout.findViewById(R.id.surface_video);
+                    final int height = videoSurface != null && videoSurface.getHeight() != 0 ? videoSurface.getHeight() : mw.getHeight();
+                    final int width = Math.min(videoSurface != null && videoSurface.getWidth() != 0 ? videoSurface.getWidth() : mw.getWidth(), (int) (height*2.39f));
                     enterPictureInPictureMode(new PictureInPictureParams.Builder().setAspectRatio(new Rational(width, height)).build());
                 } catch (IllegalArgumentException e) { // Fallback with default parameters
                     //noinspection deprecation
@@ -672,36 +629,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mAudioManager = null;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void surfaceFrameAddLayoutListener(boolean add) {
-        if (mSurfaceFrame == null || add == (mOnLayoutChangeListener != null)) return;
-        if (add) {
-            mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
-                private final Runnable mRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        changeSurfaceLayout();
-                    }
-                };
-                @Override
-                public void onLayoutChange(View v, int left, int top, int right,
-                                           int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    if (left != oldLeft || top != oldTop || right != oldRight || bottom != oldBottom) {
-                        /* changeSurfaceLayout need to be called after the layout changed */
-                        mHandler.removeCallbacks(mRunnable);
-                        mHandler.post(mRunnable);
-                    }
-                }
-            };
-            mSurfaceFrame.addOnLayoutChangeListener(mOnLayoutChangeListener);
-            changeSurfaceLayout();
-        }
-        else {
-            mSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
-            mOnLayoutChangeListener = null;
-        }
-    }
-
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void startPlayback() {
         /* start playback only when audio service and both surfaces are ready */
@@ -712,19 +639,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mPlaybackStarted = true;
 
         IVLCVout vlcVout = mService.getVout();
-        if (vlcVout.areViewsAttached()) {
+        if (vlcVout != null && vlcVout.areViewsAttached()) {
             if (mService.isPlayingPopup()) {
                 mService.stop();
-                vlcVout = mService.getVout();
             } else
                 vlcVout.detachViews();
         }
-        final DisplayManager.SecondaryDisplay sd = mDisplayManager.getPresentation();
-        vlcVout.setVideoView(sd != null ? sd.getSurfaceView() : mSurfaceView);
-        vlcVout.setSubtitlesView(sd != null ? sd.getSubtitlesSurfaceView() : mSubtitlesSurfaceView);
-        vlcVout.addCallback(this);
-        vlcVout.attachViews(this);
-        mService.setVideoTrackEnabled(true);
+        final MediaPlayer mediaPlayer = mService.getMediaplayer();
+        mediaPlayer.attachViews(mVideoLayout, mDisplayManager, true, false);
+        final int size = mIsBenchmark ? MediaPlayer.SURFACE_FILL : mSettings.getInt(PreferencesActivity.VIDEO_RATIO, MediaPlayer.SURFACE_BEST_FIT);
+        mediaPlayer.setVideoSurfacesize(size);
 
         initUI();
 
@@ -771,8 +695,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
         });
 
-        surfaceFrameAddLayoutListener(true);
-
         /* Listen for changes to media routes. */
         if (!mIsBenchmark) mDisplayManager.setMediaRouterCallback();
 
@@ -806,13 +728,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
         mPlaybackStarted = false;
 
-        mService.setVideoTrackEnabled(false);
         mService.removeCallback(this);
 
         mHandler.removeCallbacksAndMessages(null);
-        final IVLCVout vlcVout = mService.getVout();
-        vlcVout.removeCallback(this);
-        vlcVout.detachViews();
+        mService.getMediaplayer().detachViews();
         if (mService.hasMedia() && mSwitchingView) {
             if (BuildConfig.DEBUG) Log.d(TAG, "mLocation = \"" + mUri + "\"");
             if (mSwitchToPopup)
@@ -844,7 +763,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         /* Stop listening for changes to media routes. */
         if (!mIsBenchmark) mDisplayManager.removeMediaRouterCallback();
 
-        surfaceFrameAddLayoutListener(false);
+        mService.getMediaplayer().detachViews();
 
         mActionBarView.setOnTouchListener(null);
     }
@@ -906,22 +825,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent)
-        {
+        public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
-            if (Intent.ACTION_BATTERY_CHANGED.equalsIgnoreCase(action)) {
-                if (mBattery == null) return;
-                int batteryLevel = intent.getIntExtra("level", 0);
-                if (batteryLevel >= 50)
-                    mBattery.setTextColor(Color.GREEN);
-                else if (batteryLevel >= 30)
-                    mBattery.setTextColor(Color.YELLOW);
-                else
-                    mBattery.setTextColor(Color.RED);
-                mBattery.setText(String.format("%d%%", batteryLevel));
-            } else if (VLCApplication.SLEEP_INTENT.equalsIgnoreCase(action)) {
-                exitOK();
-            }
+            if (VLCApplication.SLEEP_INTENT.equalsIgnoreCase(action)) exitOK();
         }
     };
 
@@ -1480,18 +1386,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 break;
             case Media.Event.MetaChanged:
                 break;
-            case Media.Event.SubItemTreeAdded:
-                mHasSubItems = true;
-                break;
         }
     }
 
     @Override
     public void onMediaPlayerEvent(MediaPlayer.Event event) {
         switch (event.type) {
-            case MediaPlayer.Event.Opening:
-                mHasSubItems = false;
-                break;
             case MediaPlayer.Event.Playing:
                 onPlaying();
                 break;
@@ -1503,8 +1403,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 break;
             case MediaPlayer.Event.Vout:
                 updateNavStatus();
-                if (event.getVoutCount() > 0)
-                    changeSurfaceLayout();
+                if (event.getVoutCount() > 0 && mService != null)
+                    mService.getMediaplayer().changeSurfaceLayout();
                 if (mMenuIdx == -1)
                     handleVout(event.getVoutCount());
                 break;
@@ -1571,12 +1471,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                 case FADE_OUT:
                     hideOverlay(false);
                     break;
-                case SHOW_PROGRESS:
-                    if (mSysTime != null && canShowProgress()) {
-                        mSysTime.setText(DateFormat.getTimeFormat(VideoPlayerActivity.this).format(new Date(System.currentTimeMillis())));
-                        mHandler.sendEmptyMessageDelayed(SHOW_PROGRESS, 10000L);
-                    }
-                    break;
                 case FADE_OUT_INFO:
                     fadeOutInfo();
                     break;
@@ -1607,10 +1501,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             }
         }
     };
-
-    private boolean canShowProgress() {
-        return !mDragging && mShowing && mService != null &&  mService.isPlaying();
-    }
 
     private void onPlaying() {
         mIsPlaying = true;
@@ -1687,64 +1577,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         exitOK();
     }
 
-    private void changeMediaPlayerLayout(int displayW, int displayH) {
-        /* Change the video placement using MediaPlayer API */
-        switch (mCurrentSize) {
-            case SURFACE_BEST_FIT:
-                mService.setVideoAspectRatio(null);
-                mService.setVideoScale(0);
-                break;
-            case SURFACE_FIT_SCREEN:
-            case SURFACE_FILL: {
-                Media.VideoTrack vtrack = mService.getCurrentVideoTrack();
-                if (vtrack == null)
-                    return;
-                final boolean videoSwapped = vtrack.orientation == Media.VideoTrack.Orientation.LeftBottom
-                        || vtrack.orientation == Media.VideoTrack.Orientation.RightTop;
-                if (mCurrentSize == SURFACE_FIT_SCREEN) {
-                    int videoW = vtrack.width;
-                    int videoH = vtrack.height;
-
-                    if (videoSwapped) {
-                        int swap = videoW;
-                        videoW = videoH;
-                        videoH = swap;
-                    }
-                    if (vtrack.sarNum != vtrack.sarDen)
-                        videoW = videoW * vtrack.sarNum / vtrack.sarDen;
-
-                    float ar = videoW / (float) videoH;
-                    float dar = displayW / (float) displayH;
-
-                    float scale;
-                    if (dar >= ar)
-                        scale = displayW / (float) videoW; /* horizontal */
-                    else
-                        scale = displayH / (float) videoH; /* vertical */
-                    mService.setVideoScale(scale);
-                    mService.setVideoAspectRatio(null);
-                } else {
-                    mService.setVideoScale(0);
-                    mService.setVideoAspectRatio(!videoSwapped ? ""+displayW+":"+displayH
-                            : ""+displayH+":"+displayW);
-                }
-                break;
-            }
-            case SURFACE_16_9:
-                mService.setVideoAspectRatio("16:9");
-                mService.setVideoScale(0);
-                break;
-            case SURFACE_4_3:
-                mService.setVideoAspectRatio("4:3");
-                mService.setVideoScale(0);
-                break;
-            case SURFACE_ORIGINAL:
-                mService.setVideoAspectRatio(null);
-                mService.setVideoScale(1);
-                break;
-        }
-    }
-
     @Override
     public boolean isInPictureInPictureMode() {
         return AndroidUtil.isNougatOrLater && super.isInPictureInPictureMode();
@@ -1753,143 +1585,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     @Override
     public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode);
-        changeSurfaceLayout();
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void changeSurfaceLayout() {
-        int sw;
-        int sh;
-
-        // get screen size
-        if (mDisplayManager.isPrimary()) {
-            sw = getWindow().getDecorView().getWidth();
-            sh = getWindow().getDecorView().getHeight();
-        } else if (mDisplayManager.getPresentation() != null) {
-            sw = mDisplayManager.getPresentation().getWindow().getDecorView().getWidth();
-            sh = mDisplayManager.getPresentation().getWindow().getDecorView().getHeight();
-        } else return;
-
-        // sanity check
-        if (sw * sh == 0) {
-            Log.e(TAG, "Invalid surface size");
-            return;
-        }
-
-        if (mService != null) {
-            final IVLCVout vlcVout = mService.getVout();
-            vlcVout.setWindowSize(sw, sh);
-        }
-
-        SurfaceView surface;
-        SurfaceView subtitlesSurface;
-        FrameLayout surfaceFrame;
-        if (mDisplayManager.isPrimary()) {
-            surface = mSurfaceView;
-            subtitlesSurface = mSubtitlesSurfaceView;
-            surfaceFrame = mSurfaceFrame;
-        } else if (mDisplayManager.getDisplayType() == DisplayManager.DisplayType.PRESENTATION) {
-            surface = mDisplayManager.getPresentation().getSurfaceView();
-            subtitlesSurface = mDisplayManager.getPresentation().getSubtitlesSurfaceView();
-            surfaceFrame = mDisplayManager.getPresentation().getSurfaceFrame();
-        } else return;
-        LayoutParams lp = surface.getLayoutParams();
-
-        if (mVideoWidth * mVideoHeight == 0 || isInPictureInPictureMode()) {
-            /* Case of OpenGL vouts: handles the placement of the video using MediaPlayer API */
-            lp.width = LayoutParams.MATCH_PARENT;
-            lp.height = LayoutParams.MATCH_PARENT;
-            surface.setLayoutParams(lp);
-            lp = surfaceFrame.getLayoutParams();
-            lp.width = LayoutParams.MATCH_PARENT;
-            lp.height = LayoutParams.MATCH_PARENT;
-            surfaceFrame.setLayoutParams(lp);
-            if (mService != null && mVideoWidth * mVideoHeight == 0)
-                changeMediaPlayerLayout(sw, sh);
-            return;
-        }
-
-        if (mService != null && lp.width == lp.height && lp.width == LayoutParams.MATCH_PARENT) {
-            /* We handle the placement of the video using Android View LayoutParams */
-            mService.setVideoAspectRatio(null);
-            mService.setVideoScale(0);
-        }
-
-        double dw = sw, dh = sh;
-        boolean isPortrait;
-
-        // getWindow().getDecorView() doesn't always take orientation into account, we have to correct the values
-        isPortrait = mDisplayManager.isPrimary() && mCurrentScreenOrientation == Configuration.ORIENTATION_PORTRAIT;
-
-        if (sw > sh && isPortrait || sw < sh && !isPortrait) {
-            dw = sh;
-            dh = sw;
-        }
-
-        // compute the aspect ratio
-        double ar, vw;
-        if (mSarDen == mSarNum) {
-            /* No indication about the density, assuming 1:1 */
-            vw = mVideoVisibleWidth;
-            ar = (double) mVideoVisibleWidth / (double) mVideoVisibleHeight;
-        } else {
-            /* Use the specified aspect ratio */
-            vw = mVideoVisibleWidth * (double) mSarNum / mSarDen;
-            ar = vw / mVideoVisibleHeight;
-        }
-
-        // compute the display aspect ratio
-        double dar = dw / dh;
-
-        switch (mCurrentSize) {
-            case SURFACE_BEST_FIT:
-                if (dar < ar)
-                    dh = dw / ar;
-                else
-                    dw = dh * ar;
-                break;
-            case SURFACE_FIT_SCREEN:
-                if (dar >= ar)
-                    dh = dw / ar; /* horizontal */
-                else
-                    dw = dh * ar; /* vertical */
-                break;
-            case SURFACE_FILL:
-                break;
-            case SURFACE_16_9:
-                ar = 16.0 / 9.0;
-                if (dar < ar)
-                    dh = dw / ar;
-                else
-                    dw = dh * ar;
-                break;
-            case SURFACE_4_3:
-                ar = 4.0 / 3.0;
-                if (dar < ar)
-                    dh = dw / ar;
-                else
-                    dw = dh * ar;
-                break;
-            case SURFACE_ORIGINAL:
-                dh = mVideoVisibleHeight;
-                dw = vw;
-                break;
-        }
-
-        // set display size
-        lp.width = (int) Math.ceil(dw * mVideoWidth / mVideoVisibleWidth);
-        lp.height = (int) Math.ceil(dh * mVideoHeight / mVideoVisibleHeight);
-        surface.setLayoutParams(lp);
-        subtitlesSurface.setLayoutParams(lp);
-
-        // set frame size (crop if necessary)
-        lp = surfaceFrame.getLayoutParams();
-        lp.width = (int) Math.floor(dw);
-        lp.height = (int) Math.floor(dh);
-        surfaceFrame.setLayoutParams(lp);
-
-        surface.invalidate();
-        subtitlesSurface.invalidate();
+        if (mService != null) mService.getMediaplayer().changeSurfaceLayout();
     }
 
     void sendMouseEvent(int action, int x, int y) {
@@ -2180,7 +1876,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public int getCurrentSize() {
-        return mCurrentSize;
+        return mService == null ? 0 : mService.getMediaplayer().getVideoSurfacesize();
     }
 
     public boolean toggleLoop(View v) {
@@ -2389,34 +2085,35 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     }
 
     public void resizeVideo() {
-        setVideoSurfacesize((mCurrentSize+1)%SURFACE_SIZE_COUNT);
+        final int size = mService.getMediaplayer().getVideoSurfacesize();
+        setVideoSurfacesize((size+1)%MediaPlayer.SURFACE_SIZE_COUNT);
     }
 
     void setVideoSurfacesize(int size) {
-        mCurrentSize = size;
-        changeSurfaceLayout();
-        switch (mCurrentSize) {
-            case SURFACE_BEST_FIT:
+        mService.getMediaplayer().setVideoSurfacesize(size);
+        final int newSize = mService.getMediaplayer().getVideoSurfacesize();
+        switch (newSize) {
+            case MediaPlayer.SURFACE_BEST_FIT:
                 showInfo(R.string.surface_best_fit, 1000);
                 break;
-            case SURFACE_FIT_SCREEN:
+            case MediaPlayer.SURFACE_FIT_SCREEN:
                 showInfo(R.string.surface_fit_screen, 1000);
                 break;
-            case SURFACE_FILL:
+            case MediaPlayer.SURFACE_FILL:
                 showInfo(R.string.surface_fill, 1000);
                 break;
-            case SURFACE_16_9:
+            case MediaPlayer.SURFACE_16_9:
                 showInfo("16:9", 1000);
                 break;
-            case SURFACE_4_3:
+            case MediaPlayer.SURFACE_4_3:
                 showInfo("4:3", 1000);
                 break;
-            case SURFACE_ORIGINAL:
+            case MediaPlayer.SURFACE_ORIGINAL:
                 showInfo(R.string.surface_original, 1000);
                 break;
         }
         mSettings.edit()
-                .putInt(PreferencesActivity.VIDEO_RATIO, mCurrentSize)
+                .putInt(PreferencesActivity.VIDEO_RATIO, newSize)
                 .apply();
     }
 
@@ -2449,7 +2146,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
             mShowing = true;
             return;
         }
-        if (mSysTime != null) mHandler.sendEmptyMessage(SHOW_PROGRESS);
         if (!mShowing) {
             mShowing = true;
             if (!mIsLocked) {
@@ -2544,7 +2240,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
     void hideOverlay(boolean fromUser) {
         if (mShowing) {
             mHandler.removeMessages(FADE_OUT);
-            mHandler.removeMessages(SHOW_PROGRESS);
             Log.i(TAG, "remove View!");
             UiTools.setViewVisibility(mOverlayTips, View.INVISIBLE);
             if (!mDisplayManager.isPrimary()) {
@@ -3181,26 +2876,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         mService = null;
         if (mPlaylistModel != null) mPlaylistModel.getDataset().removeObserver(mPlaylistObserver);
         mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
-    }
-
-    @Override
-    public void onNewVideoLayout(IVLCVout vlcVout, int width, int height, int visibleWidth, int visibleHeight, int sarNum, int sarDen) {
-        // store video size
-        mVideoWidth = width;
-        mVideoHeight = height;
-        mVideoVisibleWidth  = visibleWidth;
-        mVideoVisibleHeight = visibleHeight;
-        mSarNum = sarNum;
-        mSarDen = sarDen;
-        changeSurfaceLayout();
-    }
-
-    @Override
-    public void onSurfacesCreated(IVLCVout vlcVout) {
-    }
-
-    @Override
-    public void onSurfacesDestroyed(IVLCVout vlcVout) {
     }
 
     private BroadcastReceiver mServiceReceiver = new BroadcastReceiver() {

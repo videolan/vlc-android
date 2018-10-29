@@ -2,10 +2,11 @@ package org.videolan.vlc.gui.video
 
 import android.content.res.Configuration
 import android.media.AudioManager
-import androidx.core.view.GestureDetectorCompat
-import androidx.core.view.ScaleGestureDetectorCompat
 import android.util.DisplayMetrics
 import android.view.*
+import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.ScaleGestureDetectorCompat
+import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Tools
 import org.videolan.vlc.R
 import org.videolan.vlc.util.AndroidDevices
@@ -294,14 +295,14 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         override fun onScaleEnd(detector: ScaleGestureDetector) {
             if (player.fov == 0f && !player.isLocked) {
                 val grow = detector.scaleFactor > 1.0f
-                if (grow && player.currentSize != VideoPlayerActivity.SURFACE_FIT_SCREEN) {
+                if (grow && player.currentSize != MediaPlayer.SURFACE_FIT_SCREEN) {
                     savedSize = player.currentSize
-                    player.setVideoSurfacesize(VideoPlayerActivity.SURFACE_FIT_SCREEN)
+                    player.setVideoSurfacesize(MediaPlayer.SURFACE_FIT_SCREEN)
                 } else if (!grow && savedSize != -1) {
                     player.setVideoSurfacesize(savedSize)
                     savedSize = -1
-                } else if (!grow && player.currentSize == VideoPlayerActivity.SURFACE_FIT_SCREEN) {
-                    player.setVideoSurfacesize(VideoPlayerActivity.SURFACE_BEST_FIT)
+                } else if (!grow && player.currentSize == MediaPlayer.SURFACE_FIT_SCREEN) {
+                    player.setVideoSurfacesize(MediaPlayer.SURFACE_BEST_FIT)
                 }
             }
         }

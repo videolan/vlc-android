@@ -11,30 +11,11 @@
      (which requires the surface not be centered), while keeping the result centered
     -->
 
-    <FrameLayout
+    <org.videolan.libvlc.util.VLCVideoLayout
+        android:id="@+id/video_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="false" >
-
-        <FrameLayout
-            android:id="@+id/player_surface_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:foregroundGravity="clip_horizontal|clip_vertical"
-            tools:ignore="true">
-
-            <SurfaceView
-                android:id="@+id/player_surface"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <SurfaceView
-                android:id="@+id/subtitles_surface"
-                android:layout_width="1dp"
-                android:layout_height="1dp" />
-        </FrameLayout>
-    </FrameLayout>
+        android:fitsSystemWindows="false"/>
 
     <RelativeLayout
         android:id="@+id/player_ui_container"

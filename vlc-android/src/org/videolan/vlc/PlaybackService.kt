@@ -72,6 +72,8 @@ class PlaybackService : androidx.media.MediaBrowserServiceCompat(), CoroutineSco
 
     lateinit var playlistManager: PlaylistManager
         private set
+    val mediaplayer: MediaPlayer
+        get() = playlistManager.player.mediaplayer
     private lateinit var keyguardManager: KeyguardManager
     internal lateinit var settings: SharedPreferences
     private val mBinder = LocalBinder()
