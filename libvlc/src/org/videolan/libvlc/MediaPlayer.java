@@ -33,13 +33,16 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
-import androidx.annotation.RequiresApi;
 import android.util.SparseArray;
 
 import org.videolan.libvlc.util.AndroidUtil;
+import org.videolan.libvlc.util.DisplayManager;
 import org.videolan.libvlc.util.VLCUtil;
+import org.videolan.libvlc.util.VLCVideoLayout;
 
 import java.io.File;
+
+import androidx.annotation.RequiresApi;
 
 @SuppressWarnings("unused, JniMissingFunction")
 public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
@@ -359,6 +362,15 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         private native boolean nativeSetAmp(int index, float amp);
     }
 
+    //Video size constants
+    public static final int SURFACE_BEST_FIT = 0;
+    public static final int SURFACE_FIT_SCREEN = 1;
+    public static final int SURFACE_FILL = 2;
+    public static final int SURFACE_16_9 = 3;
+    public static final int SURFACE_4_3 = 4;
+    public static final int SURFACE_ORIGINAL = 5;
+    public static final int SURFACE_SIZE_COUNT = 6;
+
     private Media mMedia = null;
     private boolean mPlaying = false;
     private boolean mPlayRequested = false;
@@ -373,6 +385,9 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private String mAudioPlugOutputDevice = "stereo";
 
     private boolean mCanDoPassthrough;
+
+    // Video tools
+    private VideoHelper mVideoHelper = null;
 
     interface SurfaceListener {
         void onSurfaceCreated();
@@ -571,6 +586,30 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      */
     public IVLCVout getVLCVout() {
         return mWindow;
+    }
+
+    public void attachViews(VLCVideoLayout surfaceFrame, DisplayManager dm, boolean subtitles, boolean textureView) {
+        mVideoHelper = new VideoHelper(this, surfaceFrame, dm, subtitles, textureView);
+        mVideoHelper.attachViews();
+    }
+
+    public void detachViews() {
+        if (mVideoHelper != null) {
+            mVideoHelper.release();
+            mVideoHelper = null;
+        }
+    }
+
+    public void changeSurfaceLayout() {
+        if (mVideoHelper != null) mVideoHelper.updateVideoSurfaces();
+    }
+
+    public void setVideoSurfacesize(int size) {
+        if (mVideoHelper != null) mVideoHelper.setVideoSurfacesize(size);
+    }
+
+    public int getVideoSurfacesize() {
+        return mVideoHelper != null ? mVideoHelper.getVideoSurfacesize() : SURFACE_BEST_FIT;
     }
 
     /**
