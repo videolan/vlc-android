@@ -64,6 +64,8 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.ViewStubCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
+
+import android.os.RemoteException;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
@@ -1939,7 +1941,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
                     // High Volume warning can block volume setting
                     if (mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) != vol)
                         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI);
-                } catch (SecurityException ignored) {} //Some device won't allow us to change volume
+                } catch (RuntimeException ignored) {} //Some device won't allow us to change volume
             }
             vol = Math.round(vol * 100 / mAudioMax);
         } else {
