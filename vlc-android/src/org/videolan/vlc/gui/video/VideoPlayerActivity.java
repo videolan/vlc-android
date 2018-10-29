@@ -390,7 +390,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IVLCVout.C
         if (mDisplayManager.isPrimary()) {
             // Orientation
             // Tips
-            if (!BuildConfig.DEBUG && !mIsTv && !mSettings.getBoolean(PREF_TIPS_SHOWN, false)) {
+            if (!BuildConfig.DEBUG && !mIsTv && !mSettings.getBoolean(PREF_TIPS_SHOWN, false)
+                    && !mIsBenchmark) {
                 ((ViewStubCompat) findViewById(R.id.player_overlay_tips)).inflate();
                 mOverlayTips = findViewById(R.id.overlay_tips_layout);
             }
