@@ -28,23 +28,20 @@ import android.media.AudioManager
 import android.media.audiofx.AudioEffect
 import android.net.Uri
 import android.os.*
-import androidx.annotation.MainThread
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.app.ServiceCompat
-import androidx.core.content.ContextCompat
 import android.support.v4.media.MediaBrowserCompat
-import androidx.media.MediaBrowserServiceCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
-import androidx.media.session.MediaButtonReceiver
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.MainThread
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.ServiceCompat
+import androidx.core.content.ContextCompat
 import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
 import kotlinx.coroutines.experimental.channels.Channel
 import kotlinx.coroutines.experimental.channels.actor
 import org.videolan.libvlc.IVLCVout
@@ -1066,7 +1063,7 @@ class PlaybackService : androidx.media.MediaBrowserServiceCompat(), CoroutineSco
     fun append(mediaList: Array<MediaWrapper>) = append(mediaList.toList())
 
     @MainThread
-    fun append(mediaList: List<MediaWrapper>) {
+    fun append(mediaList: List<MediaWrapper>) = launch {
         playlistManager.append(mediaList)
         onMediaListChanged()
     }

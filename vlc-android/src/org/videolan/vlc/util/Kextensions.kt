@@ -1,21 +1,18 @@
 package org.videolan.vlc.util
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.SharedPreferences
-import android.net.ConnectivityManager
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
 import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.IO
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.SingletonHolder
+import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.startMedialibrary
 import java.io.File
 import java.net.URI
@@ -80,5 +77,36 @@ suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary
             override fun onMedialibraryIdle() {}
         })
         startMedialibrary(false, false, false)
+    }
+}
+
+
+fun List<MediaWrapper>.getWithMLMeta() : List<MediaWrapper> {
+    if (this is MutableList<MediaWrapper>) return apply { updateWithMLMeta() }
+    val list = mutableListOf<MediaWrapper>()
+    val ml = VLCApplication.getMLInstance()
+    for (media in this) {
+        if (media.id == 0L) {
+            val mw = ml.findMedia(media)
+            if (mw.id != 0L) if (mw.type == MediaWrapper.TYPE_ALL) mw.type = media.type
+            list.add(mw)
+        }
+    }
+    return list
+}
+
+
+fun MutableList<MediaWrapper>.updateWithMLMeta() {
+    val iter = listIterator()
+    val ml = VLCApplication.getMLInstance()
+    while (iter.hasNext()) {
+        val media = iter.next()
+        if (media.id == 0L) {
+            val mw = ml.findMedia(media)
+            if (mw!!.id != 0L) {
+                if (mw.type == MediaWrapper.TYPE_ALL) mw.type = media.getType()
+                iter.set(mw)
+            }
+        }
     }
 }

@@ -60,6 +60,8 @@ const val PLAYLIST_TYPE_VIDEO = 1
 const val REPEAT_NONE = 0
 const val REPEAT_ONE = 1
 const val REPEAT_ALL = 2
+const val PLAYBACK_LOAD_SIZE = 500
+
 
 // MediaParsingService
 const val ACTION_INIT = "medialibrary_init"

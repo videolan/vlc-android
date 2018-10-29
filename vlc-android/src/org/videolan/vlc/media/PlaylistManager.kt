@@ -106,21 +106,21 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         mediaList.clear()
         previous.clear()
         videoBackground = false
-        for (media in list) mediaList.add(media)
-        if (!hasMedia()) {
-            Log.w(TAG, "Warning: empty media list, nothing to play !")
-            return
-        }
-        medialibrary.pauseBackgroundOperations()
-        currentIndex = if (isValidPosition(position)) position else 0
-
-        // Add handler after loading the list
-        mediaList.addEventListener(this)
-        stopAfter = -1
-        clearABRepeat()
         launch {
-            playIndex(position)
-            onPlaylistLoaded()
+            launch(Dispatchers.IO) { for (media in list) mediaList.add(medialibrary.findMedia(media)) }.join()
+            if (!hasMedia()) {
+                Log.w(TAG, "Warning: empty media list, nothing to play !")
+                return@launch
+            }
+            medialibrary.pauseBackgroundOperations()
+            currentIndex = if (isValidPosition(position)) position else 0
+
+            // Add handler after loading the list
+            mediaList.addEventListener(this@PlaylistManager)
+            stopAfter = -1
+            clearABRepeat()
+                playIndex(position)
+                onPlaylistLoaded()
         }
     }
 
@@ -165,7 +165,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private suspend fun onPlaylistLoaded() {
         service.onPlaylistLoaded()
         determinePrevAndNextIndices()
-        launch(Dispatchers.IO) { mediaList.updateWithMLMeta() }
+//        launch(Dispatchers.IO) { mediaList.updateWithMLMeta() }
     }
 
     fun play() {
@@ -628,11 +628,12 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      * Append to the current existing playlist
      */
     @MainThread
-    fun append(list: List<MediaWrapper>) {
+    suspend fun append(list: List<MediaWrapper>) {
         if (!hasCurrentMedia()) {
             load(list, 0)
             return
         }
+        val list = withContext(Dispatchers.IO) { list.getWithMLMeta() }
         mediaList.removeEventListener(this)
         for (media in list) mediaList.add(media)
         mediaList.addEventListener(this)

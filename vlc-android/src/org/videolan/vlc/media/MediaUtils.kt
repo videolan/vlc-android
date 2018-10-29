@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
+import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
@@ -26,18 +27,13 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
-import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.Util
-import org.videolan.vlc.util.getFromMl
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.paged.MLPagedModel
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.min
 
 private const val TAG = "VLC/MediaUtils"
-
-private const val PAGE_SIZE = 1000
 
 object MediaUtils : CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
@@ -175,22 +171,23 @@ object MediaUtils : CoroutineScope {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { model.getTotalCount() }
-            when (count) {
-                0 -> null
-                in 1..PAGE_SIZE -> withContext(Dispatchers.IO) { model.getAll().toList() }
-                else -> withContext(Dispatchers.IO) {
-                    mutableListOf<MediaWrapper>().apply {
-                        var index = 0
-                        while (index < count) {
-                            val pageCount = min(PAGE_SIZE, count - index)
-                            addAll(withContext(Dispatchers.IO) { model.getPage(pageCount, index) })
-                            index += pageCount
-                        }
-                    }
-                }
-            }?.takeIf { it.isNotEmpty() }?.let { list ->
+            fun play(list : List<MediaWrapper>) {
                 service.load(list, if (shuffle) Random().nextInt(count) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
+            }
+            when (count) {
+                0 -> return@SuspendDialogCallback
+                in 1..PAGE_SIZE -> play(withContext(Dispatchers.IO) { model.getAll().toList() })
+                else -> {
+                    var index = 0
+                    while (index < count) {
+                        val pageCount = min(PLAYBACK_LOAD_SIZE, count - index)
+                        val list = withContext(Dispatchers.IO) { model.getPage(pageCount, index).toList() }
+                        if (index == 0) play(list)
+                        else service.append(list)
+                        index += pageCount
+                    }
+                }
             }
         }
     }
