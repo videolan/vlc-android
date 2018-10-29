@@ -24,9 +24,8 @@ import androidx.lifecycle.MediatorLiveData
 import android.content.Context
 import android.net.Uri
 import androidx.annotation.WorkerThread
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder

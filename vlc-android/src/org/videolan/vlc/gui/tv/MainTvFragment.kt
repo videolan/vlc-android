@@ -34,7 +34,7 @@ import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
 import androidx.core.content.ContextCompat
 import android.view.View
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.DummyItem

@@ -41,9 +41,9 @@ import androidx.annotation.MainThread
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.channels.Channel
-import kotlinx.coroutines.experimental.channels.actor
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.IVLCVout
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer

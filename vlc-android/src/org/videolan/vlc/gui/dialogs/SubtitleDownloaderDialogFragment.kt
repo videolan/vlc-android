@@ -10,8 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.coroutines.experimental.channels.actor
-import kotlinx.coroutines.experimental.isActive
+import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.isActive
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloaderDialogBinding

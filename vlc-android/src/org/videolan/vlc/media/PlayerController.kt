@@ -6,9 +6,9 @@ import android.support.v4.media.session.PlaybackStateCompat
 import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.channels.Channel
-import kotlinx.coroutines.experimental.channels.actor
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.*
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig

@@ -23,10 +23,9 @@ package org.videolan.vlc.database
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.room.migration.Migration
 import android.content.Context
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.GlobalScope
-import kotlinx.coroutines.experimental.IO
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.AndroidDevices

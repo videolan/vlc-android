@@ -22,10 +22,9 @@ package org.videolan.vlc.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.databinding.ObservableField
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.IO
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.VLCApplication
 

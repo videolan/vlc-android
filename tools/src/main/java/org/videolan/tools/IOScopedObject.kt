@@ -1,9 +1,7 @@
 package org.videolan.tools
 
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.IO
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 open class IOScopedObject : CoroutineScope {
     override val coroutineContext = Dispatchers.IO

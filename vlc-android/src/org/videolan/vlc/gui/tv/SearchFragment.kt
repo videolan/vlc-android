@@ -29,7 +29,7 @@ import android.os.Bundle
 import androidx.leanback.app.SearchSupportFragment
 import androidx.leanback.widget.*
 import android.text.TextUtils
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.*
 import org.videolan.tools.coroutineScope

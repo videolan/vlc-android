@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.coroutines.experimental.channels.SendChannel
+import kotlinx.coroutines.channels.SendChannel
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlItemBinding

@@ -21,7 +21,7 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 

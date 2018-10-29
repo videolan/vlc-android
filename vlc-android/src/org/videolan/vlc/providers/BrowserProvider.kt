@@ -20,19 +20,16 @@
 
 package org.videolan.vlc.providers
 
-import androidx.lifecycle.MutableLiveData
 import android.content.Context
 import android.net.Uri
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
-import androidx.collection.SimpleArrayMap
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
-import kotlinx.coroutines.experimental.channels.Channel
-import kotlinx.coroutines.experimental.channels.actor
-import kotlinx.coroutines.experimental.channels.mapNotNullTo
-import kotlinx.coroutines.experimental.channels.mapTo
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.channels.mapNotNullTo
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
@@ -41,7 +38,10 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.LiveDataset
+import org.videolan.vlc.util.Settings
+import org.videolan.vlc.util.VLCInstance
+import org.videolan.vlc.util.isBrowserMedia
 import java.util.*
 
 const val TAG = "VLC/BrowserProvider"
@@ -84,7 +84,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 parseSubDirectories()
             }
             list?.isEmpty() == false -> launch(Dispatchers.Main) {
-                dataset.value = list
+                dataset.value = list ?: return@launch
                 prefetchLists.remove(url)
                 parseSubDirectories()
             }

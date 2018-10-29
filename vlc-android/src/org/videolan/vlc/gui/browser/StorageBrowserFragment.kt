@@ -24,25 +24,20 @@
 package org.videolan.vlc.gui.browser
 
 import android.annotation.TargetApi
-import androidx.lifecycle.ViewModelProviders
 import android.content.DialogInterface
-import androidx.databinding.DataBindingUtil
 import android.os.Build
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.fragment.app.Fragment
-import androidx.collection.SimpleArrayMap
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatEditText
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
-import kotlinx.coroutines.experimental.CoroutineExceptionHandler
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -53,13 +48,13 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
-import org.videolan.vlc.gui.dialogs.*
+import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.CTX_CUSTOM_REMOVE
 import org.videolan.vlc.viewmodels.browser.BrowserModel
-import org.videolan.vlc.viewmodels.browser.*
-
+import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
 import java.io.File
 
 const val KEY_IN_MEDIALIB = "key_in_medialib"

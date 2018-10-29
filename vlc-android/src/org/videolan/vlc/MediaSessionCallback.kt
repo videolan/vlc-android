@@ -5,9 +5,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
 import android.view.KeyEvent
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -25,11 +27,10 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     }
 
     override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
-        val keyEvent by lazy(LazyThreadSafetyMode.NONE) {  mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT) as KeyEvent? }
-        if (!playbackService.hasMedia() && keyEvent != null
+        val keyEvent = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT) as KeyEvent? ?: return false
+        if (!playbackService.hasMedia()
                 && (keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY || keyEvent.keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE)) {
             return if (keyEvent.action == KeyEvent.ACTION_DOWN) {
-                Log.d(TAG, KeyEvent.keyCodeToString(keyEvent.keyCode))
                 PlaybackService.loadLastAudio(playbackService)
                 true
             } else false

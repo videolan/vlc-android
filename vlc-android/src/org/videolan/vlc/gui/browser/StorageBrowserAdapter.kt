@@ -25,12 +25,10 @@ package org.videolan.vlc.gui.browser
 
 import android.content.Context
 import android.net.Uri
-import android.preference.PreferenceManager
 import android.view.View
 import android.widget.CheckBox
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper

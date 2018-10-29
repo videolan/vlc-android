@@ -2,9 +2,9 @@ package org.videolan.vlc.repository
 
 import android.content.Context
 import android.text.TextUtils
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.IOScopedObject

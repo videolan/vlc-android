@@ -37,7 +37,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
-import kotlinx.coroutines.experimental.channels.actor
+import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R

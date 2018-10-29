@@ -22,7 +22,7 @@ package org.videolan.vlc.providers
 
 import androidx.lifecycle.Observer
 import android.content.Context
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper

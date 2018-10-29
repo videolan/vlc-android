@@ -20,15 +20,14 @@
 
 package org.videolan.vlc.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import android.content.Context
-import androidx.fragment.app.Fragment
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.isActive
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R

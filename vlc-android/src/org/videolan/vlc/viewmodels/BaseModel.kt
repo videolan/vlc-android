@@ -22,12 +22,12 @@ package org.videolan.vlc.viewmodels
 
 import androidx.lifecycle.MediatorLiveData
 import android.content.Context
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.channels.Channel
-import kotlinx.coroutines.experimental.channels.actor
-import kotlinx.coroutines.experimental.isActive
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.FilterDelegate
 import org.videolan.vlc.util.LiveDataset

@@ -30,7 +30,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.channels.Channel
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.startMedialibrary
 import org.videolan.vlc.util.EXTRA_FIRST_RUN

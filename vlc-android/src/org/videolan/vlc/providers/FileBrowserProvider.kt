@@ -25,10 +25,10 @@ import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.net.Uri
 import android.text.TextUtils
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.cancelAndJoin
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem

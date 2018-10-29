@@ -193,8 +193,6 @@ android {
     }
 }
 
-kotlin.experimental.coroutines = "enable"
-
 task generateSources (type: Jar) {
     classifier = 'sources'
     from android.sourceSets.main.java.srcDirs

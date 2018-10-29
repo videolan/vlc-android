@@ -12,7 +12,7 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.PreferenceManager
 import android.text.TextUtils
-import kotlinx.coroutines.experimental.channels.Channel
+import kotlinx.coroutines.channels.Channel
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication

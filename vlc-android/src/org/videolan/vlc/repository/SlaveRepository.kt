@@ -22,7 +22,7 @@ package org.videolan.vlc.repository
 
 import android.content.Context
 import android.net.Uri
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.IOScopedObject

@@ -24,7 +24,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import android.content.Context
 import android.net.Uri
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.*
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.ExternalSubDao

@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.*
 import org.videolan.vlc.R
 import org.videolan.vlc.api.NoConnectivityException
 import org.videolan.vlc.api.OpenSubtitle

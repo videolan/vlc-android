@@ -1,7 +1,7 @@
 package org.videolan.vlc.util
 
 import android.os.Looper
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.*
 
 fun runBackground(runnable: Runnable) {
     if (Looper.myLooper() != Looper.getMainLooper()) runnable.run()

@@ -3,7 +3,7 @@ package org.videolan.vlc.gui.dialogs
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.coroutines.experimental.channels.SendChannel
+import kotlinx.coroutines.channels.SendChannel
 import org.videolan.vlc.databinding.SubtitleDownloadItemBinding
 
 internal class SubtitlesAdapter(private val eventActor: SendChannel<SubtitleEvent>) : androidx.recyclerview.widget.RecyclerView.Adapter<SubtitlesAdapter.ViewHolder>() {

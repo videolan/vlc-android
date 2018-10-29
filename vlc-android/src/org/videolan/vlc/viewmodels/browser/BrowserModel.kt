@@ -20,13 +20,13 @@
 
 package org.videolan.vlc.viewmodels.browser
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import android.content.Context
 import androidx.annotation.MainThread
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.providers.*
