@@ -127,7 +127,6 @@
     <string name="repeat_all">Alle wiederholen</string>
     <string name="previous">Vorherige</string>
     <string name="stop">Stopp</string>
-    <string name="next">Nächste</string>
     <string name="firstsong">Erstes Lied der Wiedergabeliste</string>
     <string name="lastsong">Letztes Lied der Wiedergabeliste</string>
 
@@ -154,6 +153,9 @@
     <string name="navmenu">Navigationsmenü</string>
     <string name="advanced">Erweiterte Optionen</string>
     <string name="audio_boost_warning">Für mehr als 100% nach oben schieben</string>
+    <string name="locked_in_portrait_mode">Im Hochformat gesperrt\n(Langer Tastendruck zum Entsperren)</string>
+    <string name="locked_in_landscape_mode">Im Querformat gesperrt\n(Langer Tastendruck zum Entsperren)</string>
+    <string name="reset_orientation">Ausrichtung zurücksetzen</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 Kanal\n</item>
@@ -409,7 +411,7 @@
     <string name="clear_media_db_summary">Android-VLC-Informationen zum Löschen der Daten öffnen</string>
     <string name="clear_history">Suchverlauf löschen</string>
     <string name="media_db_cleared">Mediendatenbank geleert!</string>
-    <string name="set_locale">Landessprache einstellen</string>
+    <string name="set_locale">Sprache ändern</string>
     <string name="set_locale_detail">Leer lassen, um zurückzusetzen</string>
     <string name="set_locale_popup">VLC beenden und zurücksetzen, damit die Änderungen wirksam werden.</string>
     <string name="network_caching">Wert zum Zwischenspeichern im Netzwerk</string>
@@ -423,6 +425,8 @@
     <string name="restart_message">Änderungen werden nach einem Neustart übernommen.\n\nJetzt neu starten?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Später</string>
+    <string name="browser_show_all_title">Alle Dateien im Browser anzeigen</string>
+    <string name="browser_show_all_summary">Anzeige von Dateien, die in Browsern nicht als Audio oder Video erkannt werden</string>
 
     <string name="developer_prefs_category">Entwickler</string>
     <string name="enable_verbose_mode">Ausführlichkeit</string>
@@ -445,6 +449,16 @@
     <string name="restart_vlc">VLC neu starten</string>
     <string name="send_log">Fehlerbericht senden</string>
     <string name="sending_log">Fehlerbericht wird gesendet …</string>
+
+    <string name="delete_sub_title">Untertitel löschen</string>
+    <string name="delete_sub_message">Möchten Sie diese Untertitel löschen?</string>
+    <string name="delete_sub_yes">Ja</string>
+    <string name="delete_sub_no">Nein</string>
+    <string name="download_subtitle_title">Untertitel herunterladen</string>
+
+    <string name="no_result">Keine Ergebnisse gefunden</string>
+    <string name="no_internet_connection">Überprüfen Sie Ihre Internetverbindung</string>
+    <string name="some_error_occurred">Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut in ein paar Sekunden.</string>
 
     <string name="drawer_open">Navigationsleiste öffnen</string>
     <string name="drawer_close">Navigationsleiste schließen</string>
@@ -609,4 +623,13 @@
     <string name="time_category_older">Ältere Medien</string>
     <string name="rename">Umbenennen</string>
     <string name="rename_media">Umbenennen von %1$s</string>
+    <string name="manual_search">Manuelle Suche</string>
+    <string name="subtitle_search_name_hint">Name</string>
+    <string name="subtitle_search_episode_hint">Episode</string>
+    <string name="subtitle_search_season_hint">Staffel</string>
+    <string name="language_to_download">Sprache</string>
+    <string name="delete_the_selected">Auswahl löschen</string>
+    <string name="download_the_selected">Auswahl herunterladen</string>
+    <string name="next">Nächstes</string>
+    <string name="download">Herunterladen</string>
 </resources>
