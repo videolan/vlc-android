@@ -172,12 +172,12 @@ object MediaUtils : CoroutineScope {
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { model.getTotalCount() }
             fun play(list : List<MediaWrapper>) {
-                service.load(list, if (shuffle) Random().nextInt(count) else position)
+                service.load(list, if (shuffle) Random().nextInt(min(count, PLAYBACK_LOAD_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
             when (count) {
                 0 -> return@SuspendDialogCallback
-                in 1..PAGE_SIZE -> play(withContext(Dispatchers.IO) { model.getAll().toList() })
+                in 1..PLAYBACK_LOAD_SIZE -> play(withContext(Dispatchers.IO) { model.getAll().toList() })
                 else -> {
                     var index = 0
                     while (index < count) {

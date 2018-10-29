@@ -8,7 +8,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -107,7 +110,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         previous.clear()
         videoBackground = false
         launch {
-            launch(Dispatchers.IO) { for (media in list) mediaList.add(medialibrary.findMedia(media)) }.join()
+            withContext(Dispatchers.IO) { for (media in list) mediaList.add(medialibrary.findMedia(media)) }
             if (!hasMedia()) {
                 Log.w(TAG, "Warning: empty media list, nothing to play !")
                 return@launch
@@ -119,8 +122,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             mediaList.addEventListener(this@PlaylistManager)
             stopAfter = -1
             clearABRepeat()
-                playIndex(position)
-                onPlaylistLoaded()
+            playIndex(currentIndex)
+            onPlaylistLoaded()
         }
     }
 
