@@ -32,7 +32,7 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
         return PreviewSession(this)
     }
 
-    private inner class PreviewSession(private val context: Context
+    private inner class PreviewSession(context: Context
     ) : TvInputService.Session(context), MediaPlayerEventListener {
 
         val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController(applicationContext) }
@@ -81,7 +81,7 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
             return true
         }
 
-        override fun onOverlayViewSizeChanged(width: Int, height: Int) {
+        override fun onSurfaceChanged(format: Int, width: Int, height: Int) {
             this.width = width
             this.height = height
         }
