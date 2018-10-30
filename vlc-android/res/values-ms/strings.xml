@@ -121,7 +121,6 @@
     <string name="repeat_all">Ulang semua</string>
     <string name="previous">Terdahulu</string>
     <string name="stop">Henti</string>
-    <string name="next">Berikut</string>
     <string name="firstsong">Lagu pertama senarai main</string>
     <string name="lastsong">Lagu akhir senarai main</string>
 
@@ -148,6 +147,9 @@
     <string name="navmenu">menu navigasi</string>
     <string name="advanced">pilihan lanjutan</string>
     <string name="audio_boost_warning">Leret ke atas sekali lagi untuk melangkaui 100%</string>
+    <string name="locked_in_portrait_mode">Dikunci dalam mod potrait\n(Tahan pada butang untuk batalkan)</string>
+    <string name="locked_in_landscape_mode">Dikunci dalam mod lanskap\n(Tahan pada butang untuk batalkan)</string>
+    <string name="reset_orientation">Tetap semua orientasi</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d saluran\n</item>
@@ -416,6 +418,8 @@
     <string name="restart_message">Perubahan akan berkesan sebaik sahaja aplikasi dimulakan semula.\n\nMula Semula sekarang?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Kemudian</string>
+    <string name="browser_show_all_title">Tunjuk semua fail dalam pelayar</string>
+    <string name="browser_show_all_summary">Papar fail yang tidak dikenali sebagai audio atau video di dalam pelayar</string>
 
     <string name="developer_prefs_category">Pembangun</string>
     <string name="enable_verbose_mode">Berjela</string>
@@ -438,6 +442,16 @@
     <string name="restart_vlc">Mula semula VLC</string>
     <string name="send_log">Hantar log</string>
     <string name="sending_log">Menghantar log…</string>
+
+    <string name="delete_sub_title">Padam sarikata</string>
+    <string name="delete_sub_message">Anda pasti mahu memadam sarikata ini?</string>
+    <string name="delete_sub_yes">Ya</string>
+    <string name="delete_sub_no">Tidak</string>
+    <string name="download_subtitle_title">Muat Turun Sarikata</string>
+
+    <string name="no_result">Tiada keputusan ditemui</string>
+    <string name="no_internet_connection">Periksa sambungan internet anda</string>
+    <string name="some_error_occurred">Terdapat beberapa ralat berlaku. Cuba sekali lagi dalam tempoh beberapa saat</string>
 
     <string name="drawer_open">Buka laci navigasi</string>
     <string name="drawer_close">Tutup laci navigasi</string>
@@ -602,4 +616,13 @@
     <string name="time_category_older">Media lebih lama</string>
     <string name="rename">Nama semula</string>
     <string name="rename_media">Nama semula %1$s</string>
+    <string name="manual_search">Gelintar manual</string>
+    <string name="subtitle_search_name_hint">Nama</string>
+    <string name="subtitle_search_episode_hint">Episod</string>
+    <string name="subtitle_search_season_hint">Musim</string>
+    <string name="language_to_download">Bahasa</string>
+    <string name="delete_the_selected">Padam pemilihan</string>
+    <string name="download_the_selected">Muat turun pemilihan</string>
+    <string name="next">Berikut</string>
+    <string name="download">Muat Turun</string>
 </resources>
