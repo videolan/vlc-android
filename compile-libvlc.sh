@@ -62,6 +62,32 @@ if [ -z "$ANDROID_ABI" ]; then
     exit 1
 fi
 
+# Make in //
+if [ -z "$MAKEFLAGS" ]; then
+    UNAMES=$(uname -s)
+    MAKEFLAGS=
+    if which nproc >/dev/null; then
+        MAKEFLAGS=-j`nproc`
+    elif [ "$UNAMES" == "Darwin" ] && which sysctl >/dev/null; then
+        MAKEFLAGS=-j`sysctl -n machdep.cpu.thread_count`
+    fi
+fi
+
+###########################
+# Build buildsystem tools #
+###########################
+
+export PATH="`pwd`/vlc/extras/tools/build/bin:$PATH"
+echo "Building tools"
+cd vlc/extras/tools
+./bootstrap
+checkfail "buildsystem tools: bootstrap failed"
+make $MAKEFLAGS
+checkfail "buildsystem tools: make failed"
+make $MAKEFLAGS .gas
+checkfail "buildsystem tools: make failed"
+cd ../../..
+
 ###########################
 # VLC BOOTSTRAP ARGUMENTS #
 ###########################
@@ -339,17 +365,6 @@ echo "ABI:        $ANDROID_ABI"
 echo "API:        $ANDROID_API"
 echo "PATH:       $PATH"
 
-# Make in //
-if [ -z "$MAKEFLAGS" ]; then
-    UNAMES=$(uname -s)
-    MAKEFLAGS=
-    if which nproc >/dev/null; then
-        MAKEFLAGS=-j`nproc`
-    elif [ "$UNAMES" == "Darwin" ] && which sysctl >/dev/null; then
-        MAKEFLAGS=-j`sysctl -n machdep.cpu.thread_count`
-    fi
-fi
-
 ##########
 # CFLAGS #
 ##########
@@ -422,21 +437,6 @@ echo "VLC_CFLAGS:        ${VLC_CFLAGS}"
 echo "VLC_CXXFLAGS:      ${VLC_CXXFLAGS}"
 
 cd vlc
-
-###########################
-# Build buildsystem tools #
-###########################
-
-export PATH="`pwd`/extras/tools/build/bin:$PATH"
-echo "Building tools"
-cd extras/tools
-./bootstrap
-checkfail "buildsystem tools: bootstrap failed"
-make $MAKEFLAGS
-checkfail "buildsystem tools: make failed"
-make $MAKEFLAGS .gas
-checkfail "buildsystem tools: make failed"
-cd ../..
 
 #############
 # BOOTSTRAP #
