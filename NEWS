@@ -6,17 +6,22 @@ Application:
  * Medialibrary scan is now optional
  * OTG devices support in file browser
  * Favorites in local file browser
- * Playback notification now persits after service is removed by Android
+ * Refactored subtitles downloader
+ * A-B repeat
+ * Manual orientation lock in video player
+ * Playback notification now persists after service is removed by Android
  * Android Auto is back
  * Sorting preferences are now saved
  * Breadcrumb is browsers
  * Use start-time to resume a media, loading should be faster
  * Bottomsheet style for context menus
+ * Improve support of very large media libraries
 
 TV:
  * Homescreen channels support
  * Support for media sorting
  * Support of videos grouping
+ * Manual network share setting
 
 Changes between 3.0.12 and 3.0.13:
 ----------------------------------
