@@ -647,8 +647,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         }
         final MediaPlayer mediaPlayer = mService.getMediaplayer();
         mediaPlayer.attachViews(mVideoLayout, mDisplayManager, true, false);
-        final int size = mIsBenchmark ? MediaPlayer.SURFACE_FILL : mSettings.getInt(PreferencesActivity.VIDEO_RATIO, MediaPlayer.SURFACE_BEST_FIT);
-        mediaPlayer.setVideoSurfacesize(size);
+        final MediaPlayer.ScaleType size = mIsBenchmark ? MediaPlayer.ScaleType.SURFACE_FILL : MediaPlayer.ScaleType.values()[mSettings.getInt(PreferencesActivity.VIDEO_RATIO, MediaPlayer.ScaleType.SURFACE_BEST_FIT.ordinal())];
+        mediaPlayer.setVideoScale(size);
 
         initUI();
 
@@ -1875,8 +1875,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         return mDisplayManager.isPrimary();
     }
 
-    public int getCurrentSize() {
-        return mService == null ? 0 : mService.getMediaplayer().getVideoSurfacesize();
+    public MediaPlayer.ScaleType getCurrentScaleType() {
+        return mService == null ? MediaPlayer.ScaleType.SURFACE_BEST_FIT : mService.getMediaplayer().getVideoScale();
     }
 
     public boolean toggleLoop(View v) {
@@ -2085,35 +2085,36 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     }
 
     public void resizeVideo() {
-        final int size = mService.getMediaplayer().getVideoSurfacesize();
-        setVideoSurfacesize((size+1)%MediaPlayer.SURFACE_SIZE_COUNT);
+        final int next = (mService.getMediaplayer().getVideoScale().ordinal()+1)%MediaPlayer.SURFACE_SCALES_COUNT;
+        final MediaPlayer.ScaleType scale = MediaPlayer.ScaleType.values()[next];
+        setVideoScale(scale);
     }
 
-    void setVideoSurfacesize(int size) {
-        mService.getMediaplayer().setVideoSurfacesize(size);
-        final int newSize = mService.getMediaplayer().getVideoSurfacesize();
+    void setVideoScale(MediaPlayer.ScaleType scale) {
+        mService.getMediaplayer().setVideoScale(scale);
+        final MediaPlayer.ScaleType newSize = mService.getMediaplayer().getVideoScale();
         switch (newSize) {
-            case MediaPlayer.SURFACE_BEST_FIT:
+            case SURFACE_BEST_FIT:
                 showInfo(R.string.surface_best_fit, 1000);
                 break;
-            case MediaPlayer.SURFACE_FIT_SCREEN:
+            case SURFACE_FIT_SCREEN:
                 showInfo(R.string.surface_fit_screen, 1000);
                 break;
-            case MediaPlayer.SURFACE_FILL:
+            case SURFACE_FILL:
                 showInfo(R.string.surface_fill, 1000);
                 break;
-            case MediaPlayer.SURFACE_16_9:
+            case SURFACE_16_9:
                 showInfo("16:9", 1000);
                 break;
-            case MediaPlayer.SURFACE_4_3:
+            case SURFACE_4_3:
                 showInfo("4:3", 1000);
                 break;
-            case MediaPlayer.SURFACE_ORIGINAL:
+            case SURFACE_ORIGINAL:
                 showInfo(R.string.surface_original, 1000);
                 break;
         }
         mSettings.edit()
-                .putInt(PreferencesActivity.VIDEO_RATIO, newSize)
+                .putInt(PreferencesActivity.VIDEO_RATIO, newSize.ordinal())
                 .apply();
     }
 

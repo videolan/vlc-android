@@ -42,6 +42,8 @@ import org.videolan.libvlc.util.VLCVideoLayout;
 
 import java.io.File;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 @SuppressWarnings("unused, JniMissingFunction")
@@ -363,13 +365,15 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     //Video size constants
-    public static final int SURFACE_BEST_FIT = 0;
-    public static final int SURFACE_FIT_SCREEN = 1;
-    public static final int SURFACE_FILL = 2;
-    public static final int SURFACE_16_9 = 3;
-    public static final int SURFACE_4_3 = 4;
-    public static final int SURFACE_ORIGINAL = 5;
-    public static final int SURFACE_SIZE_COUNT = 6;
+    public enum ScaleType {
+        SURFACE_BEST_FIT,
+        SURFACE_FIT_SCREEN,
+        SURFACE_FILL,
+        SURFACE_16_9,
+        SURFACE_4_3,
+        SURFACE_ORIGINAL
+    }
+    public static final int SURFACE_SCALES_COUNT = ScaleType.values().length;
 
     private Media mMedia = null;
     private boolean mPlaying = false;
@@ -572,7 +576,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @param media a valid Media object
      */
-    public MediaPlayer(Media media) {
+    public MediaPlayer(@NonNull Media media) {
         super(media);
         if (media == null || media.isReleased())
             throw new IllegalArgumentException("Media is null or released");
@@ -588,7 +592,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         return mWindow;
     }
 
-    public void attachViews(VLCVideoLayout surfaceFrame, DisplayManager dm, boolean subtitles, boolean textureView) {
+    public void attachViews(@NonNull VLCVideoLayout surfaceFrame, @Nullable DisplayManager dm, boolean subtitles, boolean textureView) {
         mVideoHelper = new VideoHelper(this, surfaceFrame, dm, subtitles, textureView);
         mVideoHelper.attachViews();
     }
@@ -604,12 +608,13 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         if (mVideoHelper != null) mVideoHelper.updateVideoSurfaces();
     }
 
-    public void setVideoSurfacesize(int size) {
-        if (mVideoHelper != null) mVideoHelper.setVideoSurfacesize(size);
+    public void setVideoScale(@NonNull ScaleType type) {
+        if (mVideoHelper != null) mVideoHelper.setVideoScale(type);
     }
 
-    public int getVideoSurfacesize() {
-        return mVideoHelper != null ? mVideoHelper.getVideoSurfacesize() : SURFACE_BEST_FIT;
+    @NonNull
+    public ScaleType getVideoScale() {
+        return mVideoHelper != null ? mVideoHelper.getVideoScale() : ScaleType.SURFACE_BEST_FIT;
     }
 
     /**

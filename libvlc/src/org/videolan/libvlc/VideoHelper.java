@@ -22,7 +22,7 @@ import org.videolan.libvlc.util.VLCVideoLayout;
 class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
     private static final String TAG = "LibVLC/VideoHelper";
 
-    private int mCurrentSize = MediaPlayer.SURFACE_BEST_FIT;
+    private MediaPlayer.ScaleType mCurrentScaleType = MediaPlayer.ScaleType.SURFACE_BEST_FIT;
 
     private int mVideoHeight = 0;
     private int mVideoWidth = 0;
@@ -127,19 +127,19 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
 
     private void changeMediaPlayerLayout(int displayW, int displayH) {
         /* Change the video placement using the MediaPlayer API */
-        switch (mCurrentSize) {
-            case MediaPlayer.SURFACE_BEST_FIT:
+        switch (mCurrentScaleType) {
+            case SURFACE_BEST_FIT:
                 mMediaPlayer.setAspectRatio(null);
                 mMediaPlayer.setScale(0);
                 break;
-            case MediaPlayer.SURFACE_FIT_SCREEN:
-            case MediaPlayer.SURFACE_FILL: {
+            case SURFACE_FIT_SCREEN:
+            case SURFACE_FILL: {
                 Media.VideoTrack vtrack = mMediaPlayer.getCurrentVideoTrack();
                 if (vtrack == null)
                     return;
                 final boolean videoSwapped = vtrack.orientation == Media.VideoTrack.Orientation.LeftBottom
                         || vtrack.orientation == Media.VideoTrack.Orientation.RightTop;
-                if (mCurrentSize == MediaPlayer.SURFACE_FIT_SCREEN) {
+                if (mCurrentScaleType == MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
                     int videoW = vtrack.width;
                     int videoH = vtrack.height;
 
@@ -168,15 +168,15 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
                 }
                 break;
             }
-            case MediaPlayer.SURFACE_16_9:
+            case SURFACE_16_9:
                 mMediaPlayer.setAspectRatio("16:9");
                 mMediaPlayer.setScale(0);
                 break;
-            case MediaPlayer.SURFACE_4_3:
+            case SURFACE_4_3:
                 mMediaPlayer.setAspectRatio("4:3");
                 mMediaPlayer.setScale(0);
                 break;
-            case MediaPlayer.SURFACE_ORIGINAL:
+            case SURFACE_ORIGINAL:
                 mMediaPlayer.setAspectRatio(null);
                 mMediaPlayer.setScale(1);
                 break;
@@ -251,36 +251,36 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
         // compute the display aspect ratio
         double dar = dw / dh;
 
-        switch (mCurrentSize) {
-            case MediaPlayer.SURFACE_BEST_FIT:
+        switch (mCurrentScaleType) {
+            case SURFACE_BEST_FIT:
                 if (dar < ar)
                     dh = dw / ar;
                 else
                     dw = dh * ar;
                 break;
-            case MediaPlayer.SURFACE_FIT_SCREEN:
+            case SURFACE_FIT_SCREEN:
                 if (dar >= ar)
                     dh = dw / ar; /* horizontal */
                 else
                     dw = dh * ar; /* vertical */
                 break;
-            case MediaPlayer.SURFACE_FILL:
+            case SURFACE_FILL:
                 break;
-            case MediaPlayer.SURFACE_16_9:
+            case SURFACE_16_9:
                 ar = 16.0 / 9.0;
                 if (dar < ar)
                     dh = dw / ar;
                 else
                     dw = dh * ar;
                 break;
-            case MediaPlayer.SURFACE_4_3:
+            case SURFACE_4_3:
                 ar = 4.0 / 3.0;
                 if (dar < ar)
                     dh = dw / ar;
                 else
                     dw = dh * ar;
                 break;
-            case MediaPlayer.SURFACE_ORIGINAL:
+            case SURFACE_ORIGINAL:
                 dh = mVideoVisibleHeight;
                 dw = vw;
                 break;
@@ -314,12 +314,12 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
         updateVideoSurfaces();
     }
 
-    void setVideoSurfacesize(int size) {
-        mCurrentSize = size;
+    void setVideoScale(MediaPlayer.ScaleType type) {
+        mCurrentScaleType = type;
         updateVideoSurfaces();
     }
 
-    int getVideoSurfacesize() {
-        return mCurrentSize;
+    MediaPlayer.ScaleType getVideoScale() {
+        return mCurrentScaleType;
     }
 }

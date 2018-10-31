@@ -276,7 +276,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
     private val mScaleListener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
 
-        private var savedSize = -1
+        private var savedScale : MediaPlayer.ScaleType? = null
         override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
             return screenConfig.xRange != 0 || player.fov == 0f
         }
@@ -295,14 +295,14 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         override fun onScaleEnd(detector: ScaleGestureDetector) {
             if (player.fov == 0f && !player.isLocked) {
                 val grow = detector.scaleFactor > 1.0f
-                if (grow && player.currentSize != MediaPlayer.SURFACE_FIT_SCREEN) {
-                    savedSize = player.currentSize
-                    player.setVideoSurfacesize(MediaPlayer.SURFACE_FIT_SCREEN)
-                } else if (!grow && savedSize != -1) {
-                    player.setVideoSurfacesize(savedSize)
-                    savedSize = -1
-                } else if (!grow && player.currentSize == MediaPlayer.SURFACE_FIT_SCREEN) {
-                    player.setVideoSurfacesize(MediaPlayer.SURFACE_BEST_FIT)
+                if (grow && player.currentScaleType != MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
+                    savedScale = player.currentScaleType
+                    player.setVideoScale(MediaPlayer.ScaleType.SURFACE_FIT_SCREEN)
+                } else if (!grow && savedScale != null) {
+                    player.setVideoScale(savedScale)
+                    savedScale = null
+                } else if (!grow && player.currentScaleType == MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
+                    player.setVideoScale(MediaPlayer.ScaleType.SURFACE_BEST_FIT)
                 }
             }
         }
