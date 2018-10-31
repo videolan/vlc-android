@@ -464,6 +464,25 @@ AndroidMediaLibrary::PlaylistDelete( int64_t playlistId )
     return p_ml->deletePlaylist(playlistId);
 }
 
+medialibrary::Query<medialibrary::IFolder>
+AndroidMediaLibrary::folders(const medialibrary::QueryParameters* params )
+{
+    return p_ml->folders();
+}
+
+medialibrary::Query<medialibrary::IMedia>
+AndroidMediaLibrary::mediaFromFolder(int64_t folderId, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params )
+{
+    medialibrary::FolderPtr folder = p_ml->folder(folderId);
+    return folder != nullptr ? folder->media(type, params) : nullptr;
+}
+
+medialibrary::Query<medialibrary::IFolder> AndroidMediaLibrary::subFolders(int64_t folderId, const medialibrary::QueryParameters* params )
+{
+    medialibrary::FolderPtr folder = p_ml->folder(folderId);
+    return folder != nullptr ? folder->subfolders(params) : nullptr;
+}
+
 void
 AndroidMediaLibrary::requestThumbnail( int64_t media_id )
 {

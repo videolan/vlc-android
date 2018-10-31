@@ -91,6 +91,11 @@ public:
     medialibrary::Query<medialibrary::IAlbum> albumsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params );
     medialibrary::Query<medialibrary::IArtist> artistsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params );
     medialibrary::Query<medialibrary::IMedia> mediaFromPlaylist( int64_t playlistId );
+    // Folders
+    medialibrary::Query<medialibrary::IMedia> mediaFromFolder(int64_t folderId, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params );
+    medialibrary::Query<medialibrary::IFolder> folders(const medialibrary::QueryParameters* params );
+    medialibrary::Query<medialibrary::IFolder> subFolders(int64_t folderId, const medialibrary::QueryParameters* params );
+    //PLaylists
     bool playlistAppend(int64_t playlistId, int64_t mediaId);
     bool playlistAdd(int64_t playlistId, int64_t mediaId, unsigned int position);
     bool playlistMove(int64_t playlistId, int64_t mediaId, unsigned int position);

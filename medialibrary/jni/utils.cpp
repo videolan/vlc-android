@@ -8,6 +8,7 @@
 #include <medialibrary/IGenre.h>
 #include <medialibrary/IAlbum.h>
 #include <medialibrary/IPlaylist.h>
+#include <medialibrary/IFolder.h>
 #include <medialibrary/IMediaLibrary.h>
 #include <medialibrary/IMetadata.h>
 #define LOG_TAG "VLC/JNI/Utils"
@@ -148,6 +149,18 @@ convertPlaylistObject(JNIEnv* env, fields *fields, medialibrary::PlaylistPtr con
     jobject item = env->NewObject(fields->Playlist.clazz, fields->Playlist.initID,
                           (jlong) playlistPtr->id(), name, (jint)playlistPtr->media()->count());
     env->DeleteLocalRef(name);
+    return item;
+}
+
+jobject
+convertFolderObject(JNIEnv* env, fields *fields, medialibrary::FolderPtr const& folderPtr)
+{
+    jstring name = env->NewStringUTF(folderPtr->name().c_str());
+    jstring mrl = env->NewStringUTF(folderPtr->mrl().c_str());
+    jobject item = env->NewObject(fields->Folder.clazz, fields->Folder.initID,
+                          (jlong) folderPtr->id(), name, mrl);
+    env->DeleteLocalRef(name);
+    env->DeleteLocalRef(mrl);
     return item;
 }
 

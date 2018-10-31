@@ -1585,6 +1585,69 @@ playlistDelete(JNIEnv* env, jobject thiz, jobject medialibrary, jlong playlistId
 }
 
  /*
+  * Folder methods
+  */
+jobjectArray
+mediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, medialibrary::IMedia::Type type, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    const auto query = aml->mediaFromFolder(id, type, &params);
+    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
+    int index = -1;
+    for(medialibrary::MediaPtr const& media : mediaList) {
+        jobject item = mediaToMediaWrapper(env, &ml_fields, media);
+        env->SetObjectArrayElement(mediaRefs, ++index, item);
+        env->DeleteLocalRef(item);
+    }
+    return mediaRefs;
+}
+
+jobjectArray
+subFolders(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    const auto query = aml->subFolders(id, &params);
+    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    std::vector<medialibrary::FolderPtr> foldersList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
+    jobjectArray foldersRefs = (jobjectArray) env->NewObjectArray(foldersList.size(), ml_fields.Folder.clazz, NULL);
+    int index = -1;
+    for(medialibrary::FolderPtr const& folder : foldersList) {
+        jobject item = convertFolderObject(env, &ml_fields, folder);
+        env->SetObjectArrayElement(foldersRefs, ++index, item);
+        env->DeleteLocalRef(item);
+    }
+    return foldersRefs;
+}
+
+jobjectArray
+folders(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    const auto query = aml->folders(&params);
+    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    std::vector<medialibrary::FolderPtr> foldersList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
+    jobjectArray foldersRefs = (jobjectArray) env->NewObjectArray(foldersList.size(), ml_fields.Folder.clazz, NULL);
+    int index = -1;
+    for(medialibrary::FolderPtr const& folder : foldersList) {
+        jobject item = convertFolderObject(env, &ml_fields, folder);
+        env->SetObjectArrayElement(foldersRefs, ++index, item);
+        env->DeleteLocalRef(item);
+    }
+    return foldersRefs;
+}
+
+ /*
   * JNI stuff
   */
 static JNINativeMethod methods[] = {
@@ -1652,6 +1715,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetPagedPlaylists", "(IZII)[Lorg/videolan/medialibrary/media/Playlist;", (void*)getPagedPlaylists },
     {"nativeGetPlaylistsCount", "()I", (void*)getPlaylistsCount },
     {"nativeGetPlaylist", "(J)Lorg/videolan/medialibrary/media/Playlist;", (void*)getPlaylist },
+    {"nativeGetFolders", "(IZII)[Lorg/videolan/medialibrary/media/Folder;", (void*)folders },
     {"nativePauseBackgroundOperations", "()V", (void*)pauseBackgroundOperations },
     {"nativeResumeBackgroundOperations", "()V", (void*)resumeBackgroundOperations },
     {"nativeReload", "()V", (void*)reload },
@@ -1709,6 +1773,11 @@ static JNINativeMethod genre_methods[] = {
     {"nativeGetArtistsCount", "(Lorg/videolan/medialibrary/Medialibrary;J)I", (void*)getGenreArtistsCount },
     {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)I", (void*)getSearchMediaFromGenreCount },
     {"nativeGetSearchAlbumCount", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)I", (void*)getSearchAlbumsFromGenreCount },
+};
+
+static JNINativeMethod folder_methods[] = {
+    {"nativeMedia", "(Lorg/videolan/medialibrary/Medialibrary;JIIZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)mediaFromFolder },
+    {"nativeSubfolders", "(Lorg/videolan/medialibrary/Medialibrary;JIZII)[Lorg/videolan/medialibrary/media/Folder;", (void*)subFolders },
 };
 
 static JNINativeMethod playlist_methods[] = {
@@ -1848,6 +1917,13 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.SearchAggregate.initID,
            ml_fields.SearchAggregate.clazz,
            "<init>", "([Lorg/videolan/medialibrary/media/Album;[Lorg/videolan/medialibrary/media/Artist;[Lorg/videolan/medialibrary/media/Genre;[Lorg/videolan/medialibrary/media/MediaWrapper;[Lorg/videolan/medialibrary/media/MediaWrapper;[Lorg/videolan/medialibrary/media/Playlist;)V");
+
+    GET_CLASS(ml_fields.Folder.clazz, "org/videolan/medialibrary/media/Folder", true);
+
+    GET_ID(GetMethodID,
+           ml_fields.Folder.initID,
+           ml_fields.Folder.clazz,
+           "<init>", "(JLjava/lang/String;Ljava/lang/String;)V");
 
     GET_ID(GetFieldID,
            ml_fields.MediaLibrary.instanceID,

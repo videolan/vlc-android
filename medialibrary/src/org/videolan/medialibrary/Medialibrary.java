@@ -1,27 +1,21 @@
 package org.videolan.medialibrary;
 
 import android.Manifest;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.util.Log;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.WorkerThread;
-import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb;
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
+import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
@@ -32,6 +26,13 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.WorkerThread;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import videolan.org.commontools.LiveEvent;
 
 public class Medialibrary {
@@ -412,6 +413,11 @@ public class Medialibrary {
         final String vlcMrl = Tools.encodeVLCMrl(mrl);
         final String vlcTitle = Tools.encodeVLCMrl(title);
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeAddStream(vlcMrl, vlcTitle) : null;
+    }
+
+    @Nullable
+    public Folder[] getFolders(int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetFolders(sort, desc, nbItems, offset) : new Folder[0];
     }
 
     public void requestThumbnail(long id) {
@@ -928,6 +934,7 @@ public class Medialibrary {
     private native int nativeGetPlaylistsCount();
     private native Playlist nativeGetPlaylist(long playlistId);
     private native Playlist nativePlaylistCreate(String name);
+    private native Folder[] nativeGetFolders(int sort, boolean desc, int nbItems, int offset);
     private native void nativePauseBackgroundOperations();
     private native void nativeResumeBackgroundOperations();
     private native void nativeReload();
