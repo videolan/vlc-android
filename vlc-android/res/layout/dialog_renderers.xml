@@ -34,13 +34,12 @@
             android:id="@+id/renderers_disconnect"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:text="@string/renderers_disconnect"
-            tools:targetApi="11"
-            style="?android:attr/borderlessButtonStyle"
-            android:textColor="@color/orange800"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:onClick="@{() -> holder.connect((RendererItem)null)}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
