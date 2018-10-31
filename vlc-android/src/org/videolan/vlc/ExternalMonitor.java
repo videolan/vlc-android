@@ -106,7 +106,7 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
             });
         }
         final UsbManager usbManager = (UsbManager) ctx.getSystemService(Context.USB_SERVICE);
-        devices.add(new ArrayList<>(usbManager.getDeviceList().values()));
+        if (usbManager != null) devices.add(new ArrayList<>(usbManager.getDeviceList().values()));
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
