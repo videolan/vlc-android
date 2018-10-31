@@ -1607,6 +1607,12 @@ mediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, media
     return mediaRefs;
 }
 
+jint
+mediaFromFolderCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, medialibrary::IMedia::Type type) {
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromFolder(id, type);
+    return (jint) (query != nullptr ? query->count() : 0);
+}
+
 jobjectArray
 subFolders(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
@@ -1627,6 +1633,12 @@ subFolders(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sorti
     return foldersRefs;
 }
 
+jint
+subFoldersCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->subFolders(id);
+    return (jint) (query != nullptr ? query->count() : 0);
+}
+
 jobjectArray
 folders(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
@@ -1645,6 +1657,12 @@ folders(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint nbI
         env->DeleteLocalRef(item);
     }
     return foldersRefs;
+}
+
+jint
+foldersCount(JNIEnv* env, jobject thiz) {
+    const auto query = MediaLibrary_getInstance(env, thiz)->folders();
+    return (jint) (query != nullptr ? query->count() : 0);
 }
 
  /*
@@ -1716,6 +1734,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetPlaylistsCount", "()I", (void*)getPlaylistsCount },
     {"nativeGetPlaylist", "(J)Lorg/videolan/medialibrary/media/Playlist;", (void*)getPlaylist },
     {"nativeGetFolders", "(IZII)[Lorg/videolan/medialibrary/media/Folder;", (void*)folders },
+    {"nativeGetFoldersCount", "()I", (void*)foldersCount },
     {"nativePauseBackgroundOperations", "()V", (void*)pauseBackgroundOperations },
     {"nativeResumeBackgroundOperations", "()V", (void*)resumeBackgroundOperations },
     {"nativeReload", "()V", (void*)reload },
@@ -1778,6 +1797,8 @@ static JNINativeMethod genre_methods[] = {
 static JNINativeMethod folder_methods[] = {
     {"nativeMedia", "(Lorg/videolan/medialibrary/Medialibrary;JIIZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)mediaFromFolder },
     {"nativeSubfolders", "(Lorg/videolan/medialibrary/Medialibrary;JIZII)[Lorg/videolan/medialibrary/media/Folder;", (void*)subFolders },
+    {"nativeMediaCount", "(Lorg/videolan/medialibrary/Medialibrary;JI)I", (void*)mediaFromFolderCount },
+    {"nativeSubfoldersCount", "(Lorg/videolan/medialibrary/Medialibrary;J)I", (void*)subFoldersCount },
 };
 
 static JNINativeMethod playlist_methods[] = {

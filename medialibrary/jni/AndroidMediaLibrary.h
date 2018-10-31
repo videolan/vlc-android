@@ -84,17 +84,17 @@ public:
     medialibrary::Query<medialibrary::IPlaylist> playlists(const medialibrary::QueryParameters* params);
     medialibrary::PlaylistPtr playlist( int64_t playlistId );
     medialibrary::PlaylistPtr PlaylistCreate( const std::string &name );
-    medialibrary::Query<medialibrary::IMedia> tracksFromAlbum( int64_t albumId, const medialibrary::QueryParameters* params );
-    medialibrary::Query<medialibrary::IMedia> mediaFromArtist( int64_t artistId, const medialibrary::QueryParameters* params );
-    medialibrary::Query<medialibrary::IAlbum> albumsFromArtist( int64_t artistId, const medialibrary::QueryParameters* params );
-    medialibrary::Query<medialibrary::IMedia> mediaFromGenre( int64_t genreId, const medialibrary::QueryParameters* params );
-    medialibrary::Query<medialibrary::IAlbum> albumsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params );
-    medialibrary::Query<medialibrary::IArtist> artistsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params );
+    medialibrary::Query<medialibrary::IMedia> tracksFromAlbum( int64_t albumId, const medialibrary::QueryParameters* params = nullptr );
+    medialibrary::Query<medialibrary::IMedia> mediaFromArtist( int64_t artistId, const medialibrary::QueryParameters* params = nullptr );
+    medialibrary::Query<medialibrary::IAlbum> albumsFromArtist( int64_t artistId, const medialibrary::QueryParameters* params = nullptr );
+    medialibrary::Query<medialibrary::IMedia> mediaFromGenre( int64_t genreId, const medialibrary::QueryParameters* params = nullptr );
+    medialibrary::Query<medialibrary::IAlbum> albumsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params = nullptr );
+    medialibrary::Query<medialibrary::IArtist> artistsFromGenre( int64_t genreId, const medialibrary::QueryParameters* params = nullptr );
     medialibrary::Query<medialibrary::IMedia> mediaFromPlaylist( int64_t playlistId );
     // Folders
-    medialibrary::Query<medialibrary::IMedia> mediaFromFolder(int64_t folderId, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params );
-    medialibrary::Query<medialibrary::IFolder> folders(const medialibrary::QueryParameters* params );
-    medialibrary::Query<medialibrary::IFolder> subFolders(int64_t folderId, const medialibrary::QueryParameters* params );
+    medialibrary::Query<medialibrary::IMedia> mediaFromFolder(int64_t folderId, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params = nullptr );
+    medialibrary::Query<medialibrary::IFolder> folders(const medialibrary::QueryParameters* params = nullptr );
+    medialibrary::Query<medialibrary::IFolder> subFolders(int64_t folderId, const medialibrary::QueryParameters* params = nullptr );
     //PLaylists
     bool playlistAppend(int64_t playlistId, int64_t mediaId);
     bool playlistAdd(int64_t playlistId, int64_t mediaId, unsigned int position);

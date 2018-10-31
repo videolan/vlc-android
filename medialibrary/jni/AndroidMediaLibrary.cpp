@@ -467,7 +467,7 @@ AndroidMediaLibrary::PlaylistDelete( int64_t playlistId )
 medialibrary::Query<medialibrary::IFolder>
 AndroidMediaLibrary::folders(const medialibrary::QueryParameters* params )
 {
-    return p_ml->folders();
+    return p_ml->folders(params);
 }
 
 medialibrary::Query<medialibrary::IMedia>

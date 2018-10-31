@@ -420,6 +420,11 @@ public class Medialibrary {
         return mIsInitiated ? nativeGetFolders(sort, desc, nbItems, offset) : new Folder[0];
     }
 
+    @Nullable
+    public int getFoldersCount() {
+        return mIsInitiated ? nativeGetFoldersCount() : 0;
+    }
+
     public void requestThumbnail(long id) {
         if (mIsInitiated) nativeRequestThumbnail(id);
     }
@@ -935,6 +940,7 @@ public class Medialibrary {
     private native Playlist nativeGetPlaylist(long playlistId);
     private native Playlist nativePlaylistCreate(String name);
     private native Folder[] nativeGetFolders(int sort, boolean desc, int nbItems, int offset);
+    private native int nativeGetFoldersCount();
     private native void nativePauseBackgroundOperations();
     private native void nativeResumeBackgroundOperations();
     private native void nativeReload();
