@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import org.videolan.medialibrary.Medialibrary;
 
+@SuppressWarnings("JniMissingFunction")
 public class Folder extends MediaLibraryItem {
 
     private String mMrl;

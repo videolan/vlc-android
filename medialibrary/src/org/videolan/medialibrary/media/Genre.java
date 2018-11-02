@@ -2,10 +2,12 @@ package org.videolan.medialibrary.media;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.NonNull;
 
 import org.videolan.medialibrary.Medialibrary;
 
+import androidx.annotation.NonNull;
+
+@SuppressWarnings("JniMissingFunction")
 public class Genre extends MediaLibraryItem {
 
     public Genre(long id, String title) {

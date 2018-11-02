@@ -24,7 +24,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.Media;
@@ -38,6 +37,9 @@ import org.videolan.medialibrary.Tools;
 
 import java.util.Locale;
 
+import androidx.annotation.Nullable;
+
+@SuppressWarnings("JniMissingFunction")
 public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     public final static String TAG = "VLC/MediaWrapper";
 

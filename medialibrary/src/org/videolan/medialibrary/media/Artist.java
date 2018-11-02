@@ -2,12 +2,14 @@ package org.videolan.medialibrary.media;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.annotation.NonNull;
 
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.R;
 
+import androidx.annotation.NonNull;
+
+@SuppressWarnings("JniMissingFunction")
 public class Artist extends MediaLibraryItem {
 
     private String shortBio;

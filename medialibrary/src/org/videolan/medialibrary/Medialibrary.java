@@ -35,6 +35,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import videolan.org.commontools.LiveEvent;
 
+@SuppressWarnings("JniMissingFunction")
 public class Medialibrary {
     private static final String TAG = "VLC/JMedialibrary";
 

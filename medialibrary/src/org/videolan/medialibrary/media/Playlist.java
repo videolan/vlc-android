@@ -7,6 +7,7 @@ import org.videolan.medialibrary.Medialibrary;
 
 import java.util.List;
 
+@SuppressWarnings("JniMissingFunction")
 public class Playlist extends MediaLibraryItem {
 
     private int mTracksCount;

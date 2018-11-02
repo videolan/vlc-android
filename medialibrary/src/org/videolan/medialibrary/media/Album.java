@@ -8,6 +8,7 @@ import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.R;
 
+@SuppressWarnings("JniMissingFunction")
 public class Album extends MediaLibraryItem {
     public static final String TAG = "VLC/Album";
     public static class SpecialRes {
