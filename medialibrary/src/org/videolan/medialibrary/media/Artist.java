@@ -59,33 +59,33 @@ public class Artist extends MediaLibraryItem {
 
     public Album[] getAlbums(int sort, boolean desc) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetAlbums(ml, mId, sort, desc) : new Album[0];
+        return ml.isInitiated() ? nativeGetAlbums(ml, mId, sort, desc) : new Album[0];
     }
 
     @NonNull
     public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetPagedAlbums(ml, mId, sort, desc, nbItems, offset) : new Album[0];
+        return ml.isInitiated() ? nativeGetPagedAlbums(ml, mId, sort, desc, nbItems, offset) : new Album[0];
     }
 
     public Album[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeSearchAlbums(ml, mId, query, sort, desc, nbItems, offset) : new Album[0];
+        return ml.isInitiated() ? nativeSearchAlbums(ml, mId, query, sort, desc, nbItems, offset) : new Album[0];
     }
 
     public int searchAlbumsCount(String query) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetSearchAlbumCount(ml, mId, query) : 0;
+        return ml.isInitiated() ? nativeGetSearchAlbumCount(ml, mId, query) : 0;
     }
 
     public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeSearch(ml, mId, query, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeSearch(ml, mId, query, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
     public int searchTracksCount(String query) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
+        return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
     }
 
     public int getAlbumsCount() {
@@ -99,12 +99,12 @@ public class Artist extends MediaLibraryItem {
 
     public MediaWrapper[] getTracks(int sort, boolean desc) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetMedia(ml, mId, sort, desc) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeGetMedia(ml, mId, sort, desc) : Medialibrary.EMPTY_COLLECTION;
     }
 
     public MediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetPagedMedia(ml, mId, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeGetPagedMedia(ml, mId, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
     public int getTracksCount() {

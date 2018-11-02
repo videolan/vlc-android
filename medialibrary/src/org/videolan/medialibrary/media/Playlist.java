@@ -19,12 +19,12 @@ public class Playlist extends MediaLibraryItem {
 
     public MediaWrapper[] getTracks() {
         Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetTracks(ml, mId) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeGetTracks(ml, mId) : Medialibrary.EMPTY_COLLECTION;
     }
 
     public MediaWrapper[] getPagedTracks(int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetPagedTracks(ml, mId, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeGetPagedTracks(ml, mId, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
     public int getTracksCount() {
@@ -43,12 +43,12 @@ public class Playlist extends MediaLibraryItem {
 
     public boolean append(long mediaId) {
         Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() && nativePlaylistAppend(ml, mId, mediaId);
+        return ml.isInitiated() && nativePlaylistAppend(ml, mId, mediaId);
     }
 
     public boolean append(long[] mediaIds) {
         Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() && nativePlaylistAppendGroup(ml, mId, mediaIds);
+        return ml.isInitiated() && nativePlaylistAppendGroup(ml, mId, mediaIds);
     }
 
     public boolean append(List<Long> mediaIds) {
@@ -63,32 +63,32 @@ public class Playlist extends MediaLibraryItem {
 
     public boolean add(long mediaId, int position) {
         Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() && nativePlaylistAdd(ml, mId, mediaId, position);
+        return ml.isInitiated() && nativePlaylistAdd(ml, mId, mediaId, position);
     }
 
     public boolean move(long mediaId, int position) {
         Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() && nativePlaylistMove(ml, mId, mediaId, position);
+        return ml.isInitiated() && nativePlaylistMove(ml, mId, mediaId, position);
     }
 
     public boolean remove(long mediaId) {
         Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() && nativePlaylistRemove(ml, mId, mediaId);
+        return ml.isInitiated() && nativePlaylistRemove(ml, mId, mediaId);
     }
 
     public boolean delete() {
         Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() && nativePlaylistDelete(ml, mId);
+        return ml.isInitiated() && nativePlaylistDelete(ml, mId);
     }
 
     public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeSearch(ml, mId, query, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
+        return ml.isInitiated() ? nativeSearch(ml, mId, query, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
     public int searchTracksCount(String query) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml != null && ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
+        return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
     }
 
     public static Parcelable.Creator<Playlist> CREATOR
