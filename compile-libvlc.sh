@@ -473,6 +473,10 @@ mkdir -p contrib/${TARGET_TUPLE}/lib/pkgconfig
 gen_pc_file EGL 1.1
 gen_pc_file GLESv2 2
 
+# Add vulkan.so even for older API
+cp ${ANDROID_NDK}/platforms/android-24/arch-${PLATFORM_SHORT_ARCH}/usr/lib/libvulkan.so ${VLC_CONTRIB}/lib
+gen_pc_file vulkan 1.1
+
 cd contrib/contrib-android-${TARGET_TUPLE}
 
 export USE_FFMPEG=1

@@ -23,6 +23,7 @@ package org.videolan.libvlc;
 import android.content.Context;
 import android.util.Log;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
 
 import java.util.ArrayList;
@@ -135,7 +136,30 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
             return;
         sLoaded = true;
 
+        boolean vulkanLoaded = false;
+        if (AndroidUtil.isNougatOrLater) {
+            /* Load the real vulkan library from system path */
+            String searchPaths = System.getProperty("java.library.path");
+            if (searchPaths != null) {
+                String searchPathList[] = searchPaths.split(":");
+                for (String searchPath : searchPathList)
+                {
+                    try {
+                        System.load(searchPath + "/libvulkan.so");
+                        vulkanLoaded = true;
+                    } catch (Exception ignored) {
+                    }
+                    if (vulkanLoaded)
+                        break;
+                }
+            }
+        }
+
         try {
+            if (!vulkanLoaded) {
+                /* Load our vulkan dummy libary in order to satify link dependency */
+                System.loadLibrary("vulkan");
+            }
             System.loadLibrary("c++_shared");
             System.loadLibrary("vlc");
             System.loadLibrary("vlcjni");

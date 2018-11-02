@@ -39,3 +39,9 @@ LOCAL_LDLIBS := \
 	-llog
 LOCAL_CXXFLAGS := -std=c++11
 include $(BUILD_SHARED_LIBRARY)
+
+# vulkan: dummy lib to satisfy link dependency on older devices
+include $(CLEAR_VARS)
+LOCAL_MODULE    := libvulkan
+LOCAL_SRC_FILES := vulkan-dummy.c
+include $(BUILD_SHARED_LIBRARY)
