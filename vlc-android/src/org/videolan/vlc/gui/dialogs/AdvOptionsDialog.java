@@ -27,7 +27,6 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import androidx.lifecycle.Observer;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,10 +35,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -69,6 +64,12 @@ import org.videolan.vlc.util.VLCOptions;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AdvOptionsDialog extends DismissDialogFragment implements View.OnClickListener, PlaybackService.Client.Callback, View.OnFocusChangeListener, DialogInterface.OnKeyListener {
 
@@ -394,9 +395,9 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
         public void onChanged(@Nullable ABRepeat abr) {
             if (abr == null) return;
             int resid;
-            if (abr.getStart() == -1L) resid = R.attr.ic_repeat;
-            else if (abr.getStop() == -1L) resid = R.attr.ic_repeat_one;
-            else resid = R.attr.ic_repeat_all;
+            if (abr.getStart() == -1L) resid = R.attr.ic_abrepeat_seta;
+            else if (abr.getStop() == -1L) resid = R.attr.ic_abrepeat_setb;
+            else resid = R.attr.ic_abrepeat_reset;
             final int icon = UiTools.getResourceFromAttribute(mABRepeat.getContext(), resid);
             mABRepeat.setCompoundDrawablesWithIntrinsicBounds(0, icon, 0, 0);
         }
@@ -578,7 +579,7 @@ public class AdvOptionsDialog extends DismissDialogFragment implements View.OnCl
             mAdapter.addOption(new Option(ID_REPEAT, R.attr.ic_repeat, getString(R.string.repeat_title)));
             if (mService.canShuffle())
                 mAdapter.addOption(new Option(ID_SHUFFLE, R.attr.ic_shuffle, getString(R.string.shuffle_title)));
-            mAdapter.addOption(new Option(ID_ABREPEAT, R.attr.ic_repeat, getString(R.string.ab_repeat)));
+            mAdapter.addOption(new Option(ID_ABREPEAT, R.attr.ic_abrepeat, getString(R.string.ab_repeat)));
 
             final MediaPlayer.Chapter[] chapters = mService.getChapters(-1);
             final int chaptersCount = chapters != null ? chapters.length : 0;

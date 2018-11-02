@@ -269,7 +269,6 @@
         <item name="ic_audiodelay">@drawable/ic_audiodelay_w</item>
         <item name="ic_subtitledelay">@drawable/ic_subtitledelay_w</item>
         <item name="ic_passthrough">@drawable/ic_passthrough_w</item>
-        <item name="ic_abrepeat">@drawable/ic_abrepeat_w</item>
         <item name="ic_repeat">@drawable/ic_repeat_w</item>
         <item name="ic_repeat_all">@drawable/ic_repeat_all</item>
         <item name="ic_repeat_one">@drawable/ic_repeat_one</item>
@@ -284,6 +283,11 @@
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/bt_list_title</item>
         <item name="progress_background">@color/grey400transparent</item>
+        <item name="ic_abrepeat">@drawable/ic_abrepeat_w</item>
+        <item name="ic_abrepeat_seta">@drawable/ic_abrepeat_seta_w</item>
+        <item name="ic_abrepeat_setb">@drawable/ic_abrepeat_setb_w</item>
+        <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset_w</item>
+        <item name="ic_dial">@drawable/ic_dial_w</item>
     </style>
 
     <style name="VLCTransparentTheme" parent="Theme.VLC">
