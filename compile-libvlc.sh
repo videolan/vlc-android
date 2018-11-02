@@ -460,8 +460,6 @@ fi
 echo "Building the contribs"
 mkdir -p contrib/contrib-android-${TARGET_TUPLE}
 
-# don't use the dummy uchar.c
-
 gen_pc_file() {
     echo "Generating $1 pkg-config file"
     echo "Name: $1
