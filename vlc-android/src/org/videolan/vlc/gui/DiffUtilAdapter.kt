@@ -17,7 +17,7 @@ abstract class DiffUtilAdapter<D, VH : androidx.recyclerview.widget.RecyclerView
     private val updateActor = actor<List<D>>(capacity = Channel.CONFLATED) {
         for (list in channel) internalUpdate(list)
     }
-    protected abstract fun onUpdateFinished()
+    protected open fun onUpdateFinished() {}
 
     @MainThread
     fun update (list: List<D>) {
@@ -42,6 +42,8 @@ abstract class DiffUtilAdapter<D, VH : androidx.recyclerview.widget.RecyclerView
     fun isEmpty() = dataset.isEmpty()
 
     open fun getItem(position: Int) = dataset[position]
+
+    override fun getItemCount() = dataset.size
 
     protected open fun detectMoves() = false
 
