@@ -23,6 +23,10 @@
 apply plugin: 'com.android.library'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+    }
 
     sourceSets {
         main {
