@@ -68,6 +68,20 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/options_list"
+        android:layout_width="256dp"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/default_margin"
+        android:paddingTop="@dimen/default_margin"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/rounded_corners"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:fitsSystemWindows="false"/>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/video_playlist"
         android:layout_width="480dp"
         android:layout_height="wrap_content"

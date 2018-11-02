@@ -11,6 +11,7 @@ import org.videolan.medialibrary.Tools
 import org.videolan.vlc.R
 import org.videolan.vlc.util.AndroidDevices
 
+
 const val TOUCH_FLAG_AUDIO_VOLUME = 1
 const val TOUCH_FLAG_BRIGHTNESS = 1 shl 1
 const val TOUCH_FLAG_SEEK = 1 shl 2
@@ -34,6 +35,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
     private var mTouchAction = TOUCH_NONE
     private var mInitTouchY = 0f
+    private var mInitTouchX = 0f
     private var mTouchY = -1f
     private var mTouchX = -1f
 
@@ -49,89 +51,112 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     // Brightness
     private var mIsFirstBrightnessGesture = true
 
-    fun onTouchEvent(event: MotionEvent): Boolean {
-        if (player.isPlaybackSettingActive) {
-            if (event.action == MotionEvent.ACTION_UP) {
-                player.endPlaybackSetting()
-                mTouchAction = TOUCH_NONE
-            }
-            return true
-        } else if (player.isPlaylistVisible) {
-            mTouchAction = TOUCH_IGNORE
-            player.togglePlaylist()
-            return true
-        }
-        mScaleGestureDetector.onTouchEvent(event)
-        if (mScaleGestureDetector.isInProgress || mDetector.onTouchEvent(event)) {
-            mTouchAction = TOUCH_IGNORE
-            return true
-        }
-        if (mTouchControls == 0 || player.isLocked) {
-            // locked or swipe disabled, only handle show/hide & ignore all actions
-            if (event.action == MotionEvent.ACTION_UP && mTouchAction != TOUCH_IGNORE) player.toggleOverlay()
-            return false
-        }
-
-        val xChanged = if (mTouchX != -1f && mTouchY != -1f) event.rawX - mTouchX else 0f
-        val yChanged = if (xChanged != 0f) event.rawY - mTouchY else 0f
+    fun onTouchEvent(event: MotionEvent): Boolean {// Mouse events for the core
+        // Seek
+// Seek (Right or Left move)
+        // No volume/brightness action if coef < 2 or a secondary display is connected
+        //TODO : Volume action when a secondary display is connected
+// Mouse events for the core
+        // Audio
+        // Seek
+        // Mouse events for the core
+        // locked or swipe disabled, only handle show/hide & ignore all actions
 
         // coef is the gradient's move to determine a neutral zone
-        val coef = Math.abs(yChanged / xChanged)
-        val xgesturesize = xChanged / screenConfig.metrics.xdpi * 2.54f
-        val deltaY = Math.max(1f, (Math.abs(mInitTouchY - event.rawY) / screenConfig.metrics.xdpi + 0.5f) * 2f)
-
-        val xTouch = Math.round(event.rawX)
-        val yTouch = Math.round(event.rawY)
-
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                // Audio
-                mInitTouchY = event.rawY
-                mTouchY = mInitTouchY
-                player.initAudioVolume()
-                mTouchAction = TOUCH_NONE
-                // Seek
-                mTouchX = event.rawX
-                // Mouse events for the core
-                player.sendMouseEvent(MotionEvent.ACTION_DOWN, xTouch, yTouch)
-            }
-            MotionEvent.ACTION_MOVE -> {
-                if (mTouchAction == TOUCH_IGNORE) return false
-                // Mouse events for the core
-                player.sendMouseEvent(MotionEvent.ACTION_MOVE, xTouch, yTouch)
-
-                if (player.fov == 0f) {
-                    // No volume/brightness action if coef < 2 or a secondary display is connected
-                    //TODO : Volume action when a secondary display is connected
-                    if (mTouchAction != TOUCH_SEEK && coef > 2 && player.isOnPrimaryDisplay) {
-                        if (Math.abs(yChanged / screenConfig.yRange) < 0.05) return false
-                        mTouchY = event.rawY
-                        mTouchX = event.rawX
-                        doVerticalTouchAction(yChanged)
-                    } else {
-                        // Seek (Right or Left move)
-                        doSeekTouch(Math.round(deltaY), if (rtl) -xgesturesize else xgesturesize, false)
-                    }
-                } else {
-                    mTouchY = event.rawY
-                    mTouchX = event.rawX
-                    mTouchAction = TOUCH_MOVE
-                    val yaw = player.fov * -xChanged / screenConfig.xRange.toFloat()
-                    val pitch = player.fov * -yChanged / screenConfig.xRange.toFloat()
-                    player.updateViewpoint(yaw, pitch, 0f)
+        when {
+            player.isPlaybackSettingActive -> {
+                if (event.action == MotionEvent.ACTION_UP) {
+                    player.endPlaybackSetting()
+                    mTouchAction = TOUCH_NONE
                 }
+                return true
             }
-            MotionEvent.ACTION_UP -> {
-                if (mTouchAction == TOUCH_IGNORE) mTouchAction = TOUCH_NONE
-                // Mouse events for the core
-                player.sendMouseEvent(MotionEvent.ACTION_UP, xTouch, yTouch)
-                // Seek
-                if (mTouchAction == TOUCH_SEEK) doSeekTouch(Math.round(deltaY), if (rtl) -xgesturesize else xgesturesize, true)
-                mTouchX = -1f
-                mTouchY = -1f
+            player.isPlaylistVisible -> {
+                mTouchAction = TOUCH_IGNORE
+                player.togglePlaylist()
+                return true
+            }
+            else -> {
+                mScaleGestureDetector.onTouchEvent(event)
+                if (mScaleGestureDetector.isInProgress || mDetector.onTouchEvent(event)) {
+                    mTouchAction = TOUCH_IGNORE
+                    return true
+                }
+                if (player.isOptionsListShowing) {
+                    mTouchAction = TOUCH_IGNORE
+                    player.hideOptions()
+                    return true
+                }
+                if (mTouchControls == 0 || player.isLocked) {
+                    // locked or swipe disabled, only handle show/hide & ignore all actions
+                    if (event.action == MotionEvent.ACTION_UP && mTouchAction != TOUCH_IGNORE) player.toggleOverlay()
+                    return false
+                }
+
+                val xChanged = if (mTouchX != -1f && mTouchY != -1f) event.rawX - mTouchX else 0f
+                val yChanged = if (xChanged != 0f) event.rawY - mTouchY else 0f
+
+                // coef is the gradient's move to determine a neutral zone
+                val coef = Math.abs(yChanged / xChanged)
+                val xgesturesize = xChanged / screenConfig.metrics.xdpi * 2.54f
+                val deltaY = Math.max(1f, (Math.abs(mInitTouchY - event.rawY) / screenConfig.metrics.xdpi + 0.5f) * 2f)
+
+                val xTouch = Math.round(event.rawX)
+                val yTouch = Math.round(event.rawY)
+
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        // Audio
+                        mInitTouchY = event.rawY
+                        mInitTouchX = event.rawX
+                        mTouchY = mInitTouchY
+                        player.initAudioVolume()
+                        mTouchAction = TOUCH_NONE
+                        // Seek
+                        mTouchX = event.rawX
+                        // Mouse events for the core
+                        player.sendMouseEvent(MotionEvent.ACTION_DOWN, xTouch, yTouch)
+                    }
+                    MotionEvent.ACTION_MOVE -> {
+                        if (mTouchAction == TOUCH_IGNORE) return false
+                        // Mouse events for the core
+                        player.sendMouseEvent(MotionEvent.ACTION_MOVE, xTouch, yTouch)
+
+                        if (player.fov == 0f) {
+                            // No volume/brightness action if coef < 2 or a secondary display is connected
+                            //TODO : Volume action when a secondary display is connected
+                            if (mTouchAction != TOUCH_SEEK && coef > 2 && player.isOnPrimaryDisplay) {
+                                if (Math.abs(yChanged / screenConfig.yRange) < 0.05) return false
+                                mTouchY = event.rawY
+                                mTouchX = event.rawX
+                                doVerticalTouchAction(yChanged)
+                            } else if (mInitTouchX < screenConfig.metrics.widthPixels * 0.95) {
+                                // Seek (Right or Left move)
+                                doSeekTouch(Math.round(deltaY), if (rtl) -xgesturesize else xgesturesize, false)
+                            }
+                        } else {
+                            mTouchY = event.rawY
+                            mTouchX = event.rawX
+                            mTouchAction = TOUCH_MOVE
+                            val yaw = player.fov * -xChanged / screenConfig.xRange.toFloat()
+                            val pitch = player.fov * -yChanged / screenConfig.xRange.toFloat()
+                            player.updateViewpoint(yaw, pitch, 0f)
+                        }
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        if (mTouchAction == TOUCH_IGNORE) mTouchAction = TOUCH_NONE
+                        // Mouse events for the core
+                        player.sendMouseEvent(MotionEvent.ACTION_UP, xTouch, yTouch)
+                        // Seek
+                        if (mTouchAction == TOUCH_SEEK) doSeekTouch(Math.round(deltaY), if (rtl) -xgesturesize else xgesturesize, true)
+                        mTouchX = -1f
+                        mTouchY = -1f
+                    }
+                }
+                return mTouchAction != TOUCH_NONE
             }
         }
-        return mTouchAction != TOUCH_NONE
+
     }
 
     fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
@@ -223,10 +248,10 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
         //Show the jump's size
         if (length > 0) player.showInfo(String.format("%s%s (%s)%s",
-                    if (jump >= 0) "+" else "",
-                    Tools.millisToString(jump.toLong()),
-                    Tools.millisToString(time + jump),
-                    if (coef > 1) String.format(" x%.1g", 1.0 / coef) else ""), 50)
+                if (jump >= 0) "+" else "",
+                Tools.millisToString(jump.toLong()),
+                Tools.millisToString(time + jump),
+                if (coef > 1) String.format(" x%.1g", 1.0 / coef) else ""), 50)
         else player.showInfo(R.string.unseekable_stream, 1000)
     }
 
@@ -310,6 +335,9 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
     private val mGestureListener = object : GestureDetector.SimpleOnGestureListener() {
 
+        private val SWIPE_THRESHOLD = 100
+        private val SWIPE_VELOCITY_THRESHOLD = 100
+
         override fun onSingleTapUp(e: MotionEvent): Boolean {
             player.handler.sendEmptyMessageDelayed(if (player.isShowing) VideoPlayerActivity.HIDE_INFO else VideoPlayerActivity.SHOW_INFO, 200)
             return true
@@ -334,6 +362,39 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             }
             return false
         }
+
+        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float ) = if (e1.x < screenConfig.metrics.widthPixels * 0.95) false
+        else try {
+            val diffY = e2.y - e1.y
+            val diffX = e2.x - e1.x
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                    if (diffX > 0) onSwipeRight()
+                    else onSwipeLeft()
+                    true
+                } else false
+            }
+            else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                if (diffY > 0) onSwipeBottom()
+                else onSwipeTop()
+                true
+            } else false
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+            false
+        }
+
+        fun onSwipeRight() {
+            player.hideOptions()
+        }
+
+        fun onSwipeLeft() {
+            player.showAdvancedOptions()
+        }
+
+        fun onSwipeTop() {}
+
+        fun onSwipeBottom() {}
     }
 }
 

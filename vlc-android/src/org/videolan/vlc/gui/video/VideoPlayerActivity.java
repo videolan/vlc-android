@@ -101,6 +101,7 @@ import org.videolan.vlc.gui.browser.FilePickerFragmentKt;
 import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.dialogs.RenderersDialog;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
+import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate;
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate;
@@ -161,7 +162,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     protected PlaybackService mService;
     private Medialibrary mMedialibrary;
     private VLCVideoLayout mVideoLayout;
-    protected DisplayManager mDisplayManager;
+    public DisplayManager mDisplayManager;
     private View mRootView;
     private Uri mUri;
     private boolean mAskResume = true;
@@ -445,6 +446,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             setPlaybackParameters();
             mForcedTime = mLastTime = -1;
             enableSubs();
+            if (mOptionsDelegate != null) mOptionsDelegate.setup();
         }
     }
 
@@ -862,7 +864,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
 
     @Override
     public void onBackPressed() {
-        if (mLockBackButton) {
+        if (mOptionsDelegate != null && mOptionsDelegate.isShowing()) {
+            mOptionsDelegate.hide();
+        } else if (mLockBackButton) {
             mLockBackButton = false;
             mHandler.sendEmptyMessageDelayed(RESET_BACK_LOCK, 2000);
             Toast.makeText(getApplicationContext(), getString(R.string.back_quit_lock), Toast.LENGTH_SHORT).show();
@@ -882,8 +886,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (mService == null || keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_BUTTON_B)
             return super.onKeyDown(keyCode, event);
-        if (isPlaybackSettingActive())
-            return false;
+        if (isPlaybackSettingActive() || isOptionsListShowing()) return false;
         if (mIsLoading) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_S:
@@ -1897,6 +1900,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         mHandler.sendEmptyMessage(START_PLAYBACK);
     }
 
+    public boolean isOptionsListShowing() {
+        return mOptionsDelegate != null && mOptionsDelegate.isShowing();
+    }
+
+    public void hideOptions() {
+        if (mOptionsDelegate != null) mOptionsDelegate.hide();
+    }
+
 
     private interface TrackSelectedListener {
         void onTrackSelected(int trackID);
@@ -2707,20 +2718,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         mAlertDialog.show();
     }
 
+    private PlayerOptionsDelegate mOptionsDelegate;
     public void showAdvancedOptions() {
-        final FragmentManager fm = getSupportFragmentManager();
-        final AdvOptionsDialog advOptionsDialog = new AdvOptionsDialog();
-        final Bundle args = new Bundle(1);
-        args.putBoolean(AdvOptionsDialog.PRIMARY_DISPLAY, mDisplayManager.isPrimary());
-        args.putBoolean(AdvOptionsDialog.PASSTHROUGH, mService.getPlaylistManager().getPlayer().canDoPassthrough());
-        advOptionsDialog.setArguments(args);
-        advOptionsDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                dimStatusBar(true);
-            }
-        });
-        advOptionsDialog.show(fm, "fragment_adv_options");
+        if (mOptionsDelegate == null) mOptionsDelegate = new PlayerOptionsDelegate(this, mService);
+        mOptionsDelegate.show();
         hideOverlay(false);
     }
 
