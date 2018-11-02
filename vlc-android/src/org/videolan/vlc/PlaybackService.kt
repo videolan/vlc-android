@@ -41,6 +41,9 @@ import androidx.annotation.MainThread
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ServiceLifecycleDispatcher
+import androidx.media.MediaBrowserServiceCompat
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
@@ -67,8 +70,9 @@ import java.util.*
 
 private const val TAG = "VLC/PlaybackService"
 
-class PlaybackService : androidx.media.MediaBrowserServiceCompat(), CoroutineScope {
+class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOwner {
     override val coroutineContext = Dispatchers.Main.immediate
+    private val dispatcher = ServiceLifecycleDispatcher(this)
 
     lateinit var playlistManager: PlaylistManager
         private set
@@ -444,6 +448,7 @@ class PlaybackService : androidx.media.MediaBrowserServiceCompat(), CoroutineSco
     }
 
     override fun onCreate() {
+        dispatcher.onServicePreSuperOnCreate()
         super.onCreate()
         settings = Settings.getInstance(this)
         playlistManager = PlaylistManager(this)
@@ -486,6 +491,11 @@ class PlaybackService : androidx.media.MediaBrowserServiceCompat(), CoroutineSco
         keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
     }
 
+    override fun onStart(intent: Intent?, startId: Int) {
+        dispatcher.onServicePreSuperOnStart()
+        super.onStart(intent, startId)
+    }
+
     private fun updateHasWidget() {
         val manager = AppWidgetManager.getInstance(this)
         widget = when {
@@ -522,6 +532,7 @@ class PlaybackService : androidx.media.MediaBrowserServiceCompat(), CoroutineSco
     }
 
     override fun onDestroy() {
+        dispatcher.onServicePreSuperOnDestroy()
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
         if (this::mediaSession.isInitialized) mediaSession.release()
@@ -533,6 +544,7 @@ class PlaybackService : androidx.media.MediaBrowserServiceCompat(), CoroutineSco
     }
 
     override fun onBind(intent: Intent): IBinder? {
+        dispatcher.onServicePreSuperOnBind()
         return if (androidx.media.MediaBrowserServiceCompat.SERVICE_INTERFACE == intent.action) super.onBind(intent) else mBinder
     }
 
@@ -1194,6 +1206,8 @@ class PlaybackService : androidx.media.MediaBrowserServiceCompat(), CoroutineSco
 
     @MainThread
     fun setVideoAspectRatio(aspect: String?) = playlistManager.player.setVideoAspectRatio(aspect)
+
+    override fun getLifecycle() = dispatcher.lifecycle!!
 
     class Client(private val mContext: Context?, private val mCallback: Callback?) {
 
