@@ -1,3 +1,2 @@
-include ':libvlc', ':api', ':axmlrpc', ':medialibrary', ':tools'
+include ':libvlc', ':api', ':medialibrary', ':tools'
 include ':vlc-android'
-project(':axmlrpc').projectDir = new File('java-libs/axmlrpc')
