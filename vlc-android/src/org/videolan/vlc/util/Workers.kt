@@ -1,7 +1,10 @@
 package org.videolan.vlc.util
 
 import android.os.Looper
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.launch
 
 fun runBackground(runnable: Runnable) {
     if (Looper.myLooper() != Looper.getMainLooper()) runnable.run()
@@ -16,6 +19,6 @@ fun runIO(runnable: Runnable) {
     AppScope.launch(Dispatchers.IO) { runnable.run() }
 }
 
-object AppScope : CoroutineScope by GlobalScope {
+object AppScope : CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
 }
