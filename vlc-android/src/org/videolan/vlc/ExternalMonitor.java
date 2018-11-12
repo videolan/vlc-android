@@ -75,7 +75,12 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
     public static LiveDataset<UsbDevice> devices = new LiveDataset<>();
 
     public ExternalMonitor() {
-        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                ProcessLifecycleOwner.get().getLifecycle().addObserver(instance);
+            }
+        });
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
