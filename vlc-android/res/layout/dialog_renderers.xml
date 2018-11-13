@@ -39,7 +39,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
             android:text="@string/renderers_disconnect"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:onClick="@{() -> holder.connect((RendererItem)null)}" />

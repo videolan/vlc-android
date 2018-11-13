@@ -30,7 +30,7 @@
                 android:layout_toStartOf="@+id/action2"
                 android:layout_marginStart="@dimen/default_margin"
                 android:onClick="@{handler::onCancel}"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
             <Button
                 android:id="@+id/action2"
                 android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
                 android:text="@{dialog.action2Text}"
                 android:visibility="@{TextUtils.isEmpty(dialog.action2Text) ? View.GONE : View.VISIBLE}"
                 android:onClick="@{handler::onAction2}"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
             <Button
                 android:id="@+id/action1"
                 android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
                 android:text="@{dialog.action1Text}"
                 android:visibility="@{TextUtils.isEmpty(dialog.action1Text) ? View.GONE : View.VISIBLE}"
                 android:onClick="@{handler::onAction1}"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
         </RelativeLayout>
     </ScrollView>
 </layout>

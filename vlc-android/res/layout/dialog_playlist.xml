@@ -28,7 +28,7 @@
         android:layout_below="@+id/dialog_playlist_name"
         android:layout_toStartOf="@+id/dialog_playlist_save"
         android:layout_marginEnd="8dp"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
     <Button
         android:id="@+id/dialog_playlist_save"
         android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
         android:layout_alignParentEnd="true"
         android:text="@android:string/ok"
         android:layout_below="@+id/dialog_playlist_name"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
     <FrameLayout
         android:id="@+id/dialog_list_container"
         android:layout_width="match_parent"
