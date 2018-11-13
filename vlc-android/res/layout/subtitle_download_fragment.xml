@@ -152,7 +152,8 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/episode"
             app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/episode" />
+            app:layout_constraintStart_toEndOf="@+id/episode"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/top_horizontal_guideline"
