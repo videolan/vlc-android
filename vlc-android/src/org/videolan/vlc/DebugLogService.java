@@ -32,10 +32,11 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.RemoteCallbackList;
 import android.os.RemoteException;
-import androidx.core.app.NotificationCompat;
 import android.text.format.DateFormat;
 
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.DebugLogActivity;
+import org.videolan.vlc.gui.helpers.NotificationHelper;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Logcat;
 import org.videolan.vlc.util.Util;
@@ -47,6 +48,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.LinkedList;
 import java.util.List;
+
+import androidx.core.app.NotificationCompat;
 
 public class DebugLogService extends Service implements Logcat.Callback, Runnable {
 
@@ -129,8 +132,7 @@ public class DebugLogService extends Service implements Logcat.Callback, Runnabl
     }
 
     public synchronized void start() {
-        if (mLogcat != null)
-            return;
+        if (mLogcat != null) return;
         clear();
         mLogcat = new Logcat();
         mLogcat.start(this);
@@ -140,7 +142,7 @@ public class DebugLogService extends Service implements Logcat.Callback, Runnabl
         debugLogIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
         final PendingIntent pi = PendingIntent.getActivity(this, 0, debugLogIntent, 0);
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NotificationHelper.VLC_DEBUG_CHANNEL);
         builder.setContentTitle(getResources().getString(R.string.log_service_title));
         builder.setContentText(getResources().getString(R.string.log_service_text));
         builder.setSmallIcon(R.drawable.ic_stat_vlc);
@@ -186,6 +188,7 @@ public class DebugLogService extends Service implements Logcat.Callback, Runnabl
                 }
             }
         } catch (FileNotFoundException e) {
+
             saved = false;
         } catch (IOException ioe) {
             saved = false;
@@ -317,6 +320,7 @@ public class DebugLogService extends Service implements Logcat.Callback, Runnabl
             synchronized (this) {
                 if (mIDebugLogService != null) {
                     try {
+                        if (AndroidUtil.isOOrLater) NotificationHelper.createDebugServcieChannel(mContext.getApplicationContext());
                         mIDebugLogService.start();
                         return true;
                     } catch (RemoteException e) {

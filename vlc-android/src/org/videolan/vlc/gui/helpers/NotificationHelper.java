@@ -28,15 +28,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
-import androidx.media.session.MediaButtonReceiver;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.util.AndroidDevices;
+
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
+import androidx.media.session.MediaButtonReceiver;
 
 import static org.videolan.vlc.util.Constants.ACTION_PAUSE_SCAN;
 import static org.videolan.vlc.util.Constants.ACTION_RESUME_SCAN;
@@ -46,6 +47,7 @@ public class NotificationHelper {
     public final static String TAG = "VLC/NotificationHelper";
 
     private final static StringBuilder sb = new StringBuilder();
+    public static final String VLC_DEBUG_CHANNEL = "vlc_debug";
 
     public static Notification createPlaybackNotification(Context ctx, boolean video, String title, String artist,
                                                           String album, Bitmap cover, boolean playing,
@@ -149,5 +151,16 @@ public class NotificationHelper {
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             notificationManager.createNotificationChannel(channel);
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static void createDebugServcieChannel(Context appCtx) {
+        final NotificationManager notificationManager = (NotificationManager) appCtx.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager == null) return;
+        // Playback channel
+        final CharSequence name = appCtx.getString(R.string.debug_logs);
+        final NotificationChannel channel = new NotificationChannel(VLC_DEBUG_CHANNEL, name, NotificationManager.IMPORTANCE_LOW);
+        channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        notificationManager.createNotificationChannel(channel);
     }
 }

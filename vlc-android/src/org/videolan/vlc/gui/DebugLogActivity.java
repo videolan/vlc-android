@@ -20,22 +20,27 @@
  *****************************************************************************/
 package org.videolan.vlc.gui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.DebugLogService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.util.Permissions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DebugLogActivity extends Activity implements DebugLogService.Client.Callback {
+import androidx.fragment.app.FragmentActivity;
+
+public class DebugLogActivity extends FragmentActivity implements DebugLogService.Client.Callback {
     public final static String TAG = "VLC/DebugLogActivity";
     private DebugLogService.Client mClient = null;
     private Button mStartButton = null;
@@ -52,12 +57,12 @@ public class DebugLogActivity extends Activity implements DebugLogService.Client
         super.onCreate(savedInstanceState);
         setContentView(R.layout.debug_log);
 
-        mStartButton = (Button)findViewById(R.id.start_log);
-        mStopButton = (Button)findViewById(R.id.stop_log);
-        mLogView = (ListView) findViewById(R.id.log_list);
-        mCopyButton = (Button)findViewById(R.id.copy_to_clipboard);
-        mClearButton = (Button)findViewById(R.id.clear_log);
-        mSaveButton = (Button)findViewById(R.id.save_to_file);
+        mStartButton = findViewById(R.id.start_log);
+        mStopButton = findViewById(R.id.stop_log);
+        mLogView = findViewById(R.id.log_list);
+        mCopyButton = findViewById(R.id.copy_to_clipboard);
+        mClearButton = findViewById(R.id.clear_log);
+        mSaveButton = findViewById(R.id.save_to_file);
 
         mClient = new DebugLogService.Client(this, this);
 
@@ -118,7 +123,13 @@ public class DebugLogActivity extends Activity implements DebugLogService.Client
     private View.OnClickListener mSaveClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mClient.save();
+            if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage()) Permissions.askWriteStoragePermission(DebugLogActivity.this, false, new Runnable() {
+                @Override
+                public void run() {
+                    mClient.save();
+                }
+            });
+            else mClient.save();
         }
     };
 
@@ -143,8 +154,8 @@ public class DebugLogActivity extends Activity implements DebugLogService.Client
         mStopButton.setEnabled(true);
         if (logList.size() > 0)
             setOptionsButtonsEnabled(true);
-        mLogList = new ArrayList<String>(logList);
-        mLogAdapter = new ArrayAdapter<String>(this, R.layout.debug_log_item, mLogList);
+        mLogList = new ArrayList<>(logList);
+        mLogAdapter = new ArrayAdapter<>(this, R.layout.debug_log_item, mLogList);
         mLogView.setAdapter(mLogAdapter);
         mLogView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
         if (mLogList.size() > 0)
@@ -169,9 +180,9 @@ public class DebugLogActivity extends Activity implements DebugLogService.Client
     @Override
     public void onSaved(boolean success, String path) {
         if (success) {
-            UiTools.snacker(getWindow().getDecorView().findViewById(android.R.id.content), String.format(
+            Snackbar.make(mLogView, String.format(
                     VLCApplication.getAppResources().getString(R.string.dump_logcat_success),
-                    path));
+                    path), Snackbar.LENGTH_LONG).show();
         } else {
             UiTools.snacker(getWindow().getDecorView().findViewById(android.R.id.content), R.string.dump_logcat_failure);
         }
