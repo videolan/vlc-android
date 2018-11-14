@@ -28,12 +28,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import androidx.appcompat.app.AlertDialog;
-import androidx.preference.EditTextPreference;
-import androidx.preference.Preference;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DebugLogActivity;
@@ -46,6 +45,10 @@ import org.videolan.vlc.util.WorkersKt;
 
 import java.io.File;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.preference.EditTextPreference;
+import androidx.preference.Preference;
+
 public class PreferencesAdvanced extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
     @Override
     protected int getXml() {
@@ -56,6 +59,12 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
     @Override
     protected int getTitleId() {
         return R.string.advanced_prefs_category;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (BuildConfig.DEBUG) findPreference("debug_logs").setVisible(false);
     }
 
     @Override

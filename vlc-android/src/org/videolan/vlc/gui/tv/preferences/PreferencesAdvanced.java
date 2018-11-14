@@ -31,14 +31,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
-import androidx.preference.EditTextPreference;
-import androidx.preference.Preference;
+import android.os.Bundle;
 import android.widget.Toast;
 
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.DebugLogActivity;
 import org.videolan.vlc.util.VLCInstance;
+
+import androidx.preference.EditTextPreference;
+import androidx.preference.Preference;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class PreferencesAdvanced extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -51,6 +54,12 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
     @Override
     protected int getTitleId() {
         return R.string.advanced_prefs_category;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (BuildConfig.DEBUG) findPreference("debug_logs").setVisible(false);
     }
 
     @Override

@@ -18,4 +18,11 @@
     <uses-permission android:name="org.videolan.vlc.permission.READ_EXTENSION_DATA" />
     <uses-permission android:name="org.videolan.vlc.permission.BIND_DATA_CONSUMER" />
 
+    <application>
+        <activity android:name=".gui.DebugLogActivity"
+            android:launchMode="singleTop" />
+        <service android:name=".DebugLogService"
+            android:process=":logger" />
+    </application>
+
 </manifest>
