@@ -62,6 +62,9 @@ while [ $# -gt 0 ]; do
             BUILD_LIBVLC=1
             NO_ML=1
             ;;
+        -ml)
+            BUILD_MEDIALIB=1
+            ;;
         run)
             RUN=1
             ;;
@@ -267,11 +270,15 @@ fi
 if [ "$ASAN" = 1 ]; then
     OPTS="$OPTS --asan"
 fi
-if [ "$NO_ML" = 1 ]; then
-    OPTS="$OPTS --no-ml"
+
+# Build LibVLC if asked for it, or needed by medialibrary
+if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/$ANDROID_ABI" ]; then
+    GRADLE_ABI=$GRADLE_ABI ./compile-libvlc.sh $OPTS
 fi
 
-./compile-libvlc.sh $OPTS
+if [ "$NO_ML" != 1 ]; then
+    GRADLE_ABI=$GRADLE_ABI ./compile-medialibrary.sh $OPTS
+fi
 
 ##################
 # Compile the UI #
@@ -288,6 +295,10 @@ if [ "$CHROME_OS" = 1 ]; then
 fi
 if [ "$BUILD_LIBVLC" = 1 ];then
     ./gradlew -p libvlc assemble${BUILDTYPE}
+    RUN=0
+    CHROME_OS=0
+elif [ "$BUILD_MEDIALIB" = 1 ]; then
+    ./gradlew -p medialibrary assemble${BUILDTYPE}
     RUN=0
     CHROME_OS=0
 else
