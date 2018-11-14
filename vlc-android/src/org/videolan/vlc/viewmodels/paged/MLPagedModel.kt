@@ -81,8 +81,9 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     inner class MLDataSource : PositionalDataSource<T>() {
 
         override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
-            val count = getTotalCount()
-            callback.onResult(getPage(params.requestedLoadSize, params.requestedStartPosition).toList(), params.requestedStartPosition, count)
+            val page = getPage(params.requestedLoadSize, params.requestedStartPosition)
+            val count = if (page.size < params.requestedLoadSize) page.size else getTotalCount()
+            callback.onResult(page.toList(), params.requestedStartPosition, count)
             loading.postValue(false)
         }
         override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
