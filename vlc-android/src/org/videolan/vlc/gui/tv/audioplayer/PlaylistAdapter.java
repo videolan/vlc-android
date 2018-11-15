@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui.tv.audioplayer;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,16 +28,16 @@ import android.view.ViewGroup;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.TvSimpleListItemBinding;
+import org.videolan.vlc.gui.DiffUtilAdapter;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.util.Util;
 
 import java.util.List;
 
-public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
+public class PlaylistAdapter extends DiffUtilAdapter<MediaWrapper, PlaylistAdapter.ViewHolder> {
     public static final String TAG = "VLC/PlaylistAdapter";
 
     private AudioPlayerActivity audioPlayerActivity;
-    private List<MediaWrapper> dataset;
     private int selectedItem = -1;
 
     public class ViewHolder extends SelectorViewHolder<TvSimpleListItemBinding> implements View.OnClickListener {
@@ -54,8 +53,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         }
     }
 
-    PlaylistAdapter(AudioPlayerActivity audioPlayerActivity, List<MediaWrapper> myDataset) {
-        dataset = myDataset;
+    PlaylistAdapter(AudioPlayerActivity audioPlayerActivity) {
         this.audioPlayerActivity = audioPlayerActivity;
     }
 
@@ -66,7 +64,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.binding.setMedia(dataset.get(position));
+        holder.binding.setMedia(getDataset().get(position));
         final int textAppearance = position == selectedItem ? R.style.TextAppearance_AppCompat_Title : R.style.TextAppearance_AppCompat_Medium;
         final Context ctx = holder.itemView.getContext();
         holder.binding.artist.setTextAppearance(ctx, textAppearance);
@@ -84,11 +82,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return dataset.size();
-    }
-
     int getSelectedItem(){
         return selectedItem;
     }
@@ -101,8 +94,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         if (pos != -1) notifyItemChanged(selectedItem, true);
     }
 
-    public void updateList(List<MediaWrapper> list){
-        dataset = list;
-        notifyDataSetChanged();
+    @Override
+    protected void onUpdateFinished() {
+        audioPlayerActivity.onUpdateFinished();
+
     }
 }

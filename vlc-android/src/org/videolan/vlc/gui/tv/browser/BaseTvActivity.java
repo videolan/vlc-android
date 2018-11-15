@@ -24,13 +24,11 @@
 package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
-import androidx.lifecycle.Observer;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.Nullable;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
@@ -41,7 +39,6 @@ import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
 import org.videolan.vlc.ScanProgress;
 import org.videolan.vlc.VLCApplication;
-import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.tv.SearchActivity;
 import org.videolan.vlc.gui.tv.TimeUpdaterKt;
@@ -49,8 +46,12 @@ import org.videolan.vlc.util.Settings;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
+
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public abstract class BaseTvActivity extends PlaybackServiceActivity {
+public abstract class BaseTvActivity extends FragmentActivity {
 
     private static final String TAG = "VLC/BaseTvActivity";
 

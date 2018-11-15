@@ -22,23 +22,12 @@ package org.videolan.vlc.gui.audio
 
 import android.Manifest
 import android.annotation.TargetApi
-import androidx.lifecycle.Observer
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import androidx.annotation.MainThread
-import androidx.annotation.RequiresPermission
-import androidx.constraintlayout.widget.ConstraintSet
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.snackbar.Snackbar
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -49,14 +38,24 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
-import kotlinx.coroutines.*
+import androidx.annotation.MainThread
+import androidx.annotation.RequiresPermission
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.coroutineScope
-import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.RendererDelegate.hasRenderer
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -67,10 +66,10 @@ import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
 import org.videolan.vlc.media.ABRepeat
+import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
@@ -79,7 +78,7 @@ private const val TAG = "VLC/AudioPlayer"
 private const val SEARCH_TIMEOUT_MILLIS = 5000
 
 @Suppress("UNUSED_PARAMETER")
-class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, TextWatcher, PlaybackService.Client.Callback {
+class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
 
     private lateinit var binding: AudioPlayerBinding
     private lateinit var playlistAdapter: PlaylistAdapter
@@ -87,7 +86,6 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
     private val updateActor = coroutineScope.actor<Unit>(capacity = Channel.CONFLATED) { for (entry in channel) doUpdate() }
     private lateinit var helper: PlaybackServiceActivity.Helper
-    private var service: PlaybackService? = null
     private lateinit var playlistModel: PlaylistModel
 
     private var showRemainingTime = false
@@ -113,7 +111,12 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
         savedInstanceState?.let { playerState = it.getInt("player_state")}
         playlistAdapter = PlaylistAdapter(this)
         settings = Settings.getInstance(requireContext())
-        helper = PlaybackServiceActivity.Helper(activity, this)
+        playlistModel = PlaylistModel.get(this)
+        playlistModel.progress.observe(this@AudioPlayer,  Observer { it?.let { updateProgress(it) } })
+        playlistModel.dataset.observe(this@AudioPlayer, playlistObserver)
+        playlistModel.abRepeat?.observe(this, abRepeatObserver)
+        helper = PlaybackServiceActivity.Helper(activity, playlistModel)
+        playlistAdapter.setModel(playlistModel)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -176,12 +179,12 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
                 }
                 CTX_REMOVE_FROM_PLAYLIST -> view?.let {
                     val mw = playlistAdapter.getItem(position)
-                    val cancelAction = Runnable { service?.insertItem(position, mw) }
+                    val cancelAction = Runnable { playlistModel.insertMedia(position, mw) }
                     val message = String.format(VLCApplication.getAppResources().getString(R.string.remove_playlist_item), mw.title)
                     UiTools.snackerWithCancel(it, message, null, cancelAction)
-                    service?.remove(position)
+                    playlistModel.remove(position)
                 }
-                CTX_STOP_AFTER_THIS -> service?.playlistManager?.stopAfter = position
+                CTX_STOP_AFTER_THIS -> playlistModel.stopAfter(position)
             }
         }
     }
@@ -194,20 +197,10 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
     }
 
     private fun doUpdate() {
-        if (activity === null) return
-        service?.apply {
-            if (hasMedia() && !isVideoPlaying && isVisible
-                    && settings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
-                settings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply()
-                currentMediaWrapper?.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                switchToVideo()
-                return
-            }
-            binding.audioMediaSwitcher.updateMedia(this)
-            binding.coverMediaSwitcher.updateMedia(this)
-
-            binding.playlistPlayasaudioOff.visibility = if (videoTracksCount > 0) View.VISIBLE else View.GONE
-        }
+        if (activity === null || (isVisible && playlistModel.switchToVideo())) return
+        binding.playlistPlayasaudioOff.visibility = if (playlistModel.videoTrackCount > 0) View.VISIBLE else View.GONE
+        binding.audioMediaSwitcher.updateMedia(playlistModel.service)
+        binding.coverMediaSwitcher.updateMedia(playlistModel.service)
 
         updatePlayPause()
         updateShuffleMode()
@@ -217,7 +210,7 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
     }
 
     private fun updatePlayPause() {
-        val playing = service?.isPlaying ?: false
+        val playing = playlistModel.playing
         val imageResId = UiTools.getResourceFromAttribute(activity, if (playing) R.attr.ic_pause else R.attr.ic_play)
         val text = getString(if (playing) R.string.pause else R.string.play)
         binding.playPause.setImageResource(imageResId)
@@ -227,15 +220,13 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
     }
 
     private fun updateShuffleMode() {
-        service?.let {
-            binding.shuffle.setImageResource(UiTools.getResourceFromAttribute(activity, if (it.isShuffling) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
-            binding.shuffle.contentDescription = resources.getString(if (it.isShuffling) R.string.shuffle_on else R.string.shuffle)
-            binding.shuffle.visibility = if (it.canShuffle()) View.VISIBLE else View.INVISIBLE
-        }
+        binding.shuffle.setImageResource(UiTools.getResourceFromAttribute(activity, if (playlistModel.shuffling) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
+        binding.shuffle.contentDescription = resources.getString(if (playlistModel.shuffling) R.string.shuffle_on else R.string.shuffle)
+        binding.shuffle.visibility = if (playlistModel.canShuffle) View.VISIBLE else View.INVISIBLE
     }
 
     private fun updateRepeatMode() {
-        when (service?.repeatType) {
+        when (playlistModel.repeatType) {
             REPEAT_ONE -> {
                 binding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_one))
                 binding.repeat.contentDescription = resources.getString(R.string.repeat_single)
@@ -269,7 +260,7 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
     private fun updateBackground() {
         if (settings.getBoolean("blurred_cover_background", true)) {
             coroutineScope.launch {
-                val mw = service?.currentMediaWrapper
+                val mw = playlistModel.currentMediaWrapper
                 if (mw === null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return@launch
                 currentCoverArt = mw.artworkMrl
                 if (TextUtils.isEmpty(mw.artworkMrl)) {
@@ -307,43 +298,36 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
 
     override fun playItem(position: Int, item: MediaWrapper) {
         clearSearch()
-        service?.playIndex(playlistModel.getPlaylistPosition(position, item))
+        playlistModel.play(playlistModel.getPlaylistPosition(position, item))
     }
 
     fun onTimeLabelClick(view: View) {
         showRemainingTime = !showRemainingTime
-        playlistModel.progress.value?.let { updateProgress(it) }
+        playlistModel.progress?.value?.let { updateProgress(it) }
     }
 
     fun onPlayPauseClick(view: View) {
-        service?.run { if (isPlaying) pause() else play() }
+        playlistModel.togglePlayPause()
     }
 
     fun onStopClick(view: View): Boolean {
-        service?.stop()
+        playlistModel.stop()
         return true
     }
 
     fun onNextClick(view: View) {
-        service?.run {
-            if (hasNext()) next()
-            else com.google.android.material.snackbar.Snackbar.make(binding.root, R.string.lastsong, com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show()
-        }
+        if (!playlistModel.next()) Snackbar.make(binding.root, R.string.lastsong, com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show()
     }
 
     fun onPreviousClick(view: View) {
-        service?.run {
-            if (hasPrevious() || isSeekable) previous(false)
-            else com.google.android.material.snackbar.Snackbar.make(binding.root, R.string.firstsong, com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show()
-        }
+        if (!playlistModel.previous()) Snackbar.make(binding.root, R.string.firstsong, com.google.android.material.snackbar.Snackbar.LENGTH_SHORT).show()
     }
 
     fun onRepeatClick(view: View) {
-        if (service === null) return
-        when (service?.repeatType) {
-            REPEAT_NONE -> service?.repeatType = REPEAT_ALL
-            REPEAT_ALL -> service?.repeatType = REPEAT_ONE
-            else -> service?.repeatType = REPEAT_NONE
+        when (playlistModel.repeatType) {
+            REPEAT_NONE -> playlistModel.repeatType = REPEAT_ALL
+            REPEAT_ALL -> playlistModel.repeatType = REPEAT_ONE
+            else -> playlistModel.repeatType = REPEAT_NONE
         }
         updateRepeatMode()
     }
@@ -355,21 +339,17 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
     }
 
     fun onShuffleClick(view: View) {
-        service?.apply {
-            shuffle()
-            updateShuffleMode()
-        }
+        playlistModel.shuffle()
+        updateShuffleMode()
     }
 
     fun onResumeToVideoClick(v: View) {
-        service?.apply {
-            currentMediaWrapper?.let {
-                if (hasRenderer()) VideoPlayerActivity.startOpened(VLCApplication.getAppContext(),
-                        it.uri, currentMediaPosition)
-                else if (hasMedia()) {
-                    it.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                    switchToVideo()
-                }
+        playlistModel.currentMediaWrapper?.let {
+            if (hasRenderer()) VideoPlayerActivity.startOpened(v.context,
+                    it.uri, playlistModel.currentMediaPosition)
+            else if (hasMedia()) {
+                it.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                playlistModel.switchToVideo()
             }
         }
     }
@@ -418,7 +398,7 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
     }
 
     fun onABRepeat(v: View) {
-        service?.playlistManager?.toggleABRepeat()
+        playlistModel.toggleABRepeat()
     }
 
     fun onSearchClick(v: View) {
@@ -476,20 +456,11 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
         updateActor.offer(Unit)
     }
 
-    override fun onConnected(service: PlaybackService) {
-        this.service = service
-        playlistModel = PlaylistModel.get(this, service).apply { setup() }
-        playlistModel.progress.observe(this,  Observer { it?.let { updateProgress(it) } })
-        playlistModel.dataset.observe(this, playlistObserver)
-        playlistAdapter.setModel(playlistModel)
-        service.playlistManager.abRepeat.observe(this, abRepeatObserver)
-    }
-
-    override fun onDisconnected() {
+    override fun onDestroy() {
+        super.onDestroy()
+        playlistModel.abRepeat.removeObserver(abRepeatObserver)
         playlistModel.dataset.removeObserver(playlistObserver)
         playlistModel.onCleared()
-        service?.playlistManager?.abRepeat?.removeObserver(abRepeatObserver)
-        service = null
     }
 
     private inner class LongSeekListener(internal var forward: Boolean, internal var normal: Int, internal var pressed: Int) : View.OnTouchListener {
@@ -522,14 +493,13 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
         }
 
         override fun onTouch(v: View, event: MotionEvent): Boolean {
-            if (service === null) return false
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
                     (if (forward) binding.next else binding.previous).setImageResource(this.pressed)
-                    possibleSeek = service?.time?.toInt() ?: 0
+                    possibleSeek = playlistModel.time.toInt()
                     previewingSeek = true
                     vibrated = false
-                    length = service?.length ?: 0L
+                    length = playlistModel.length
                     handler.postDelayed(seekRunnable, 1000)
                     return true
                 }
@@ -542,13 +512,13 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
                         if (forward) onNextClick(v) else onPreviousClick(v)
                     } else {
                         if (forward) {
-                            if (possibleSeek < service?.length ?: 0L)
-                                service?.time = possibleSeek.toLong()
+                            if (possibleSeek < playlistModel.length)
+                                playlistModel.time = possibleSeek.toLong()
                             else
                                 onNextClick(v)
                         } else {
                             if (possibleSeek > 0)
-                                service?.time = possibleSeek.toLong()
+                                playlistModel.time = possibleSeek.toLong()
                             else
                                 onPreviousClick(v)
                         }
@@ -577,7 +547,7 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
                 binding.header.setBackgroundResource(0)
                 setHeaderVisibilities(true, true, false, false, false, true, true)
                 showPlaylistTips()
-                service?.apply { playlistAdapter.currentIndex = playlistModel.selection }
+                playlistAdapter.currentIndex = playlistModel.currentMediaPosition
             }
 //            else -> binding.header.setBackgroundResource(0)
         }
@@ -590,9 +560,9 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
         override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
         override fun onProgressChanged(sb: SeekBar, progress: Int, fromUser: Boolean) {
-            if (fromUser) service?.apply {
-                time = progress.toLong()
-                binding.time.text = Tools.millisToString(if (showRemainingTime) progress - length else progress.toLong())
+            if (fromUser)  {
+                playlistModel.time = progress.toLong()
+                binding.time.text = Tools.millisToString(if (showRemainingTime) progress - playlistModel.length else progress.toLong())
                 binding.headerTime.text = Tools.millisToString(progress.toLong())
             }
         }
@@ -603,12 +573,10 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
         override fun onMediaSwitching() {}
 
         override fun onMediaSwitched(position: Int) {
-            service?.apply {
                 when (position) {
-                    AudioMediaSwitcherListener.PREVIOUS_MEDIA -> previous(true)
-                    AudioMediaSwitcherListener.NEXT_MEDIA ->  next()
+                    AudioMediaSwitcherListener.PREVIOUS_MEDIA -> playlistModel.previous(true)
+                    AudioMediaSwitcherListener.NEXT_MEDIA ->  playlistModel.next()
                 }
-            }
         }
 
         override fun onTouchClick() {
@@ -628,11 +596,9 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
         }
 
         override fun onMediaSwitched(position: Int) {
-            service?.apply {
-                when (position) {
-                    AudioMediaSwitcherListener.PREVIOUS_MEDIA -> previous(true)
-                    AudioMediaSwitcherListener.NEXT_MEDIA -> next()
-                }
+            when (position) {
+                AudioMediaSwitcherListener.PREVIOUS_MEDIA -> playlistModel.previous(true)
+                AudioMediaSwitcherListener.NEXT_MEDIA -> playlistModel.next()
             }
             (activity as? AudioPlayerContainerActivity)?.mBottomSheetBehavior?.lock(false)
         }

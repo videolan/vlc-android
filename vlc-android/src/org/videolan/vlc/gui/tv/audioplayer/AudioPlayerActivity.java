@@ -21,137 +21,129 @@
 package org.videolan.vlc.gui.tv.audioplayer;
 
 import android.annotation.TargetApi;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.SharedPreferences;
-import androidx.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
-import org.videolan.libvlc.Media;
-import org.videolan.libvlc.MediaPlayer;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.TvAudioPlayerBinding;
+import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
+import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.WorkersKt;
+import org.videolan.vlc.viewmodels.PlayerState;
 import org.videolan.vlc.viewmodels.PlaylistModel;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class AudioPlayerActivity extends BaseTvActivity implements PlaybackService.Client.Callback,
-        PlaybackService.Callback {
+public class AudioPlayerActivity extends BaseTvActivity {
     public static final String TAG = "VLC/AudioPlayerActivity";
 
     public static final String MEDIA_LIST = "media_list";
     public static final String MEDIA_POSITION = "media_position";
+    private PlaybackServiceActivity.Helper mHelper;
 
     private TvAudioPlayerBinding mBinding;
     private PlaylistAdapter mAdapter;
-    private List<MediaWrapper> mMediaList;
+    private final Handler mHandler = new Handler();
 
     //PAD navigation
     private static final int JOYSTICK_INPUT_DELAY = 300;
     private long mLastMove;
-    private int mCurrentlyPlaying;
     private boolean mShuffling = false;
     private String mCurrentCoverArt;
     private PlaylistModel model;
+    private SharedPreferences mSettings;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.tv_audio_player);
+        mSettings = Settings.INSTANCE.getInstance(this);
 
-        mMediaList = getIntent().getParcelableArrayListExtra(MEDIA_LIST);
-        if (mMediaList == null) mMediaList = new ArrayList<>();
-        mCurrentlyPlaying = getIntent().getIntExtra(MEDIA_POSITION, 0);
         mBinding.playlist.setLayoutManager(new LinearLayoutManager(this));
         mBinding.playlist.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        mAdapter = new PlaylistAdapter(this, mMediaList);
+        mAdapter = new PlaylistAdapter(this);
         mBinding.playlist.setAdapter(mAdapter);
         mBinding.setLifecycleOwner(this);
+        model = ViewModelProviders.of(this).get(PlaylistModel.class);
+        mBinding.setProgress(model.getProgress());
+        mHelper = new PlaybackServiceActivity.Helper(this, model);
+        model.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
+            @Override
+            public void onChanged(List<MediaWrapper> mediaWrappers) {
+                if (mediaWrappers != null) {
+                    mAdapter.setSelection(-1);
+                    mAdapter.update(mediaWrappers);
+                }
+            }
+        });
+        model.getPlayerState().observe(this, new Observer<PlayerState>() {
+            @Override
+            public void onChanged(PlayerState playerState) {
+                update(playerState);
+            }
+        });
+        final List<MediaWrapper> medialist = getIntent().getParcelableArrayListExtra(MEDIA_LIST);
+        final int position = getIntent().getIntExtra(MEDIA_POSITION, 0);
+        if (medialist != null) MediaUtils.INSTANCE.openList(this, medialist, position);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mHelper.onStart();
     }
 
     @Override
     protected void onStop() {
-        /* unregister before super.onStop() since mService is set to null from this call */
-        if (mService != null) mService.removeCallback(this);
+        mHelper.onStop();
         super.onStop();
     }
 
     @Override
-    public void onConnected(PlaybackService service) {
-        super.onConnected(service);
+    protected void refresh() {}
 
-        mService.addCallback(this);
-        final List<MediaWrapper> medias = mService.getMedias();
-        if (!mMediaList.isEmpty() && !mMediaList.equals(medias)) {
-            mService.load(mMediaList, mCurrentlyPlaying);
-        } else {
-            mMediaList = medias;
-            if (mCurrentlyPlaying != mService.getCurrentMediaPosition())
-                mService.playIndex(mCurrentlyPlaying);
-            update();
-            mAdapter.updateList(mMediaList);
-        }
-        model = ViewModelProviders.of(this, new PlaylistModel.Factory(service)).get(PlaylistModel.class);
-        model.setup();
-        mBinding.setProgress(model.getProgress());
-    }
 
-    @Override
-    public void onDisconnected() {
-        mBinding.setProgress(null);
-        super.onDisconnected();
-    }
-
-    @Override
-    protected void refresh() {
-        update();
-    }
-
-    @Override
-    public void onNetworkConnectionChanged(boolean connected) {
-        update();
-    }
-
-    @Override
-    public void update() {
-        if (mService == null || !mService.hasMedia()) return;
-        mBinding.buttonPlay.setImageResource(mService.isPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
-        final SharedPreferences mSettings= Settings.INSTANCE.getInstance(this);
+    public void update(PlayerState state) {
+        if (state == null) return;
+        mBinding.buttonPlay.setImageResource(state.getPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
         if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
             mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
-            mService.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
-            mService.switchToVideo();
+            model.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+            model.switchToVideo();
             finish();
             return;
         }
-        mBinding.mediaTitle.setText(mService.getTitle());
-        mBinding.mediaArtist.setText(mService.getArtist());
-        mCurrentlyPlaying = mService.getCurrentMediaPosition();
-        mAdapter.setSelection(mCurrentlyPlaying);
-        final MediaWrapper mw = mService.getCurrentMediaWrapper();
-        if (TextUtils.equals(mCurrentCoverArt, mw.getArtworkMrl())) return;
+        mBinding.mediaTitle.setText(state.getTitle());
+        mBinding.mediaArtist.setText(state.getArtist());
+        mBinding.buttonShuffle.setImageResource(mShuffling ? R.drawable.ic_shuffle_on :
+                R.drawable.ic_shuffle_w);
+        final MediaWrapper mw = model.getCurrentMediaWrapper();
+        if (mw == null || TextUtils.equals(mCurrentCoverArt, mw.getArtworkMrl())) return;
         mCurrentCoverArt = mw.getArtworkMrl();
         updateBackground();
     }
@@ -180,12 +172,6 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
         });
     }
 
-    @Override
-    public void onMediaEvent(Media.Event event) {}
-
-    @Override
-    public void onMediaPlayerEvent(MediaPlayer.Event event) {}
-
     public boolean onKeyDown(int keyCode, KeyEvent event){
         switch (keyCode){
             /*
@@ -197,7 +183,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
                 togglePlayPause();
                 return true;
             case KeyEvent.KEYCODE_MEDIA_STOP:
-                mService.stop();
+                model.stop();
                 finish();
                 return true;
             case KeyEvent.KEYCODE_F:
@@ -232,9 +218,7 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     }
 
     public void playSelection() {
-        if (mService == null) return;
-        mService.playIndex(mAdapter.getSelectedItem());
-        mCurrentlyPlaying = mAdapter.getSelectedItem();
+        model.play(mAdapter.getSelectedItem());
     }
 
     public boolean dispatchGenericMotionEvent(MotionEvent event){
@@ -262,10 +246,9 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     }
 
     private void seek(int delta) {
-        if (mService == null) return;
-        int time = (int) mService.getTime()+delta;
-        if (time < 0 || time > mService.getLength()) return;
-        mService.setTime(time);
+        int time = (int) model.getTime()+delta;
+        if (time < 0 || time > model.getLength()) return;
+        model.setTime(time);
     }
 
     public void onClick(View v){
@@ -289,44 +272,50 @@ public class AudioPlayerActivity extends BaseTvActivity implements PlaybackServi
     }
 
     private void setShuffleMode(boolean shuffle) {
-        if (mService == null) return;
         mShuffling = shuffle;
-        mBinding.buttonShuffle.setImageResource(shuffle ? R.drawable.ic_shuffle_on :
-                R.drawable.ic_shuffle_w);
-        final List<MediaWrapper> medias = mService.getMedias();
+        final List<MediaWrapper> medias = model.getMedias();
+        if (medias == null) return;
         if (shuffle) Collections.shuffle(medias);
         else Collections.sort(medias, MediaComparators.byTrackNumber);
-        mService.load(medias, 0);
-        mAdapter.updateList(medias);
-        update();
+        model.load(medias, 0);
     }
 
     private void updateRepeatMode() {
-        if (mService == null) return;
-        int type = mService.getRepeatType();
+        int type = model.getRepeatType();
         if (type == Constants.REPEAT_NONE){
-            mService.setRepeatType(Constants.REPEAT_ALL);
+            model.setRepeatType(Constants.REPEAT_ALL);
             mBinding.buttonRepeat.setImageResource(R.drawable.ic_repeat_all);
         } else if (type == Constants.REPEAT_ALL) {
-            mService.setRepeatType(Constants.REPEAT_ONE);
+            model.setRepeatType(Constants.REPEAT_ONE);
             mBinding.buttonRepeat.setImageResource(R.drawable.ic_repeat_one);
         } else if (type == Constants.REPEAT_ONE) {
-            mService.setRepeatType(Constants.REPEAT_NONE);
+            model.setRepeatType(Constants.REPEAT_NONE);
             mBinding.buttonRepeat.setImageResource(R.drawable.ic_repeat_w);
         }
     }
 
     private void goPrevious() {
-        if (mService != null && mService.hasPrevious()) mService.previous(false);
+        model.previous(false);
     }
 
     private void goNext() {
-        if (mService != null && mService.hasNext()) mService.next();
+        model.next();
     }
 
     private void togglePlayPause() {
-        if (mService == null) return;
-        if (mService.isPlaying()) mService.pause();
-        else if (mService.hasMedia()) mService.play();
+        model.togglePlayPause();
+    }
+
+    public void onUpdateFinished() {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                final int position = model.getCurrentMediaPosition();
+                mAdapter.setSelection(position);
+                int first = ((LinearLayoutManager)mBinding.playlist.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                int last = ((LinearLayoutManager)mBinding.playlist.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                if (position < first || position > last) mBinding.playlist.smoothScrollToPosition(position);
+            }
+        });
     }
 }

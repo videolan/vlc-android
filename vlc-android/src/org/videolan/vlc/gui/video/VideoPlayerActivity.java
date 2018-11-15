@@ -98,7 +98,6 @@ import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.audio.PlaylistAdapter;
 import org.videolan.vlc.gui.browser.FilePickerActivity;
 import org.videolan.vlc.gui.browser.FilePickerFragmentKt;
-import org.videolan.vlc.gui.dialogs.AdvOptionsDialog;
 import org.videolan.vlc.gui.dialogs.RenderersDialog;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate;
@@ -134,7 +133,6 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.ViewStubCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -626,6 +624,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mReceiver);
+        if (mPlaylistModel != null) {
+            mPlaylistModel.getDataset().removeObserver(mPlaylistObserver);
+            mPlaylistModel.onCleared();
+        }
 
         // Dismiss the presentation when the activity is not visible.
         mDisplayManager.release();
@@ -668,14 +670,17 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private void initPlaylistUi() {
         if (mService != null && mService.hasPlaylist()) {
             mHasPlaylist = true;
-            mPlaylistAdapter = new PlaylistAdapter(this);
-            mPlaylistModel = ViewModelProviders.of(this, new PlaylistModel.Factory(mService)).get(PlaylistModel.class);
-            mPlaylistModel.setup();
-            mPlaylistAdapter.setModel(mPlaylistModel);
-            mPlaylistModel.getDataset().observe(this, mPlaylistObserver);
-            final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            mPlaylist.setLayoutManager(layoutManager);
+            if (mPlaylistAdapter == null) {
+                mPlaylistAdapter = new PlaylistAdapter(this);
+                final LinearLayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+                mPlaylist.setLayoutManager(layoutManager);
+            }
+            if (mPlaylistModel == null) {
+                mPlaylistModel = ViewModelProviders.of(this).get(PlaylistModel.class);
+                if (mService != null) mPlaylistModel.onConnected(mService);
+                mPlaylistAdapter.setModel(mPlaylistModel);
+                mPlaylistModel.getDataset().observe(this, mPlaylistObserver);
+            }
             mPlaylistToggle.setVisibility(View.VISIBLE);
             mHudBinding.playlistPrevious.setVisibility(View.VISIBLE);
             mHudBinding.playlistNext.setVisibility(View.VISIBLE);
@@ -2864,6 +2869,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
 
     @Override
     public void onConnected(PlaybackService service) {
+        if (mPlaylistModel != null) mPlaylistModel.onConnected(service);
         mService = service;
         //We may not have the permission to access files
         if (Permissions.checkReadStoragePermission(this, true) && !mSwitchingView)
@@ -2876,8 +2882,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
 
     @Override
     public void onDisconnected() {
+        if (mPlaylistModel != null) mPlaylistModel.onDisconnected();
         mService = null;
-        if (mPlaylistModel != null) mPlaylistModel.getDataset().removeObserver(mPlaylistObserver);
         mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
     }
 

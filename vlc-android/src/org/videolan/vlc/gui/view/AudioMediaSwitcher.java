@@ -45,6 +45,7 @@ public abstract class AudioMediaSwitcher extends FlingViewGroup {
     }
 
     public void updateMedia(final PlaybackService service) {
+        if (service == null) return;
         final String artMrl = service.getCoverArt();
         final String prevArtMrl = service.getPrevCoverArt();
         final String nextArtMrl = service.getNextCoverArt();
