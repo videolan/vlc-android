@@ -591,6 +591,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     /**
      * Get the IVLCVout helper.
      */
+    @NonNull
     public IVLCVout getVLCVout() {
         return mWindow;
     }
@@ -647,7 +648,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      *
      * @param media a valid Media object
      */
-    public void setMedia(Media media) {
+    public void setMedia(@Nullable Media media) {
         if (media != null) {
             if (media.isReleased())
                 throw new IllegalArgumentException("Media is released");
@@ -668,7 +669,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * Set a renderer
      * @param item {@link RendererItem}. if null VLC play on default output
      */
-    public int setRenderer(RendererItem item) {
+    public int setRenderer(@Nullable RendererItem item) {
         return nativeSetRenderer(item);
     }
 
@@ -683,6 +684,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     /**
      * Get the Media used by this MediaPlayer. This Media should be released with {@link #release()}.
      */
+    @Nullable
     public synchronized Media getMedia() {
         if (mMedia != null)
             mMedia.retain();
