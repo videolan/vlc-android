@@ -3,16 +3,23 @@ package org.videolan.libvlc.util;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.SurfaceView;
+import android.view.TextureView;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import org.videolan.R;
+import org.videolan.libvlc.MediaPlayer;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-
+/**
+ * VLC-ready layout which includes 2 {@link SurfaceView} (video+subtitles) and 1 {@link TextureView}
+ * All these surfaces are stubs, only the relevant one(s) will be inflated
+ * Use it preferably with {@link MediaPlayer}.attachViews()
+ */
 public class VLCVideoLayout extends FrameLayout {
 
     public VLCVideoLayout(@NonNull Context context) {

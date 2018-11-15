@@ -1413,7 +1413,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             case MediaPlayer.Event.Vout:
                 updateNavStatus();
                 if (event.getVoutCount() > 0 && mService != null)
-                    mService.getMediaplayer().changeSurfaceLayout();
+                    mService.getMediaplayer().updateVideoSurfaces();
                 if (mMenuIdx == -1)
                     handleVout(event.getVoutCount());
                 break;
@@ -1594,7 +1594,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     @Override
     public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode);
-        if (mService != null) mService.getMediaplayer().changeSurfaceLayout();
+        if (mService != null) mService.getMediaplayer().updateVideoSurfaces();
     }
 
     void sendMouseEvent(int action, int x, int y) {

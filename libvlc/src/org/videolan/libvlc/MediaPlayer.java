@@ -27,6 +27,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.AssetFileDescriptor;
 import android.media.AudioDeviceCallback;
 import android.media.AudioDeviceInfo;
 import android.media.AudioFormat;
@@ -41,6 +42,7 @@ import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.libvlc.util.VLCVideoLayout;
 
 import java.io.File;
+import java.io.IOException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -376,6 +378,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     public static final int SURFACE_SCALES_COUNT = ScaleType.values().length;
 
     private Media mMedia = null;
+    private AssetFileDescriptor mAfd = null;
     private boolean mPlaying = false;
     private boolean mPlayRequested = false;
     private boolean mListenAudioPlug = true;
@@ -592,11 +595,22 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         return mWindow;
     }
 
+    /**
+     * Attach a video layout to the player
+     *
+     * @param surfaceFrame {@link VLCVideoLayout} in which the video will be displayed
+     * @param dm Optional {@link DisplayManager} to help switch between renderers, primary and secondary displays
+     * @param subtitles Whether you wish to show subtitles
+     * @param textureView If true, {@link VLCVideoLayout} will use a {@link android.view.TextureView} instead of a {@link android.view.SurfaceView}
+     */
     public void attachViews(@NonNull VLCVideoLayout surfaceFrame, @Nullable DisplayManager dm, boolean subtitles, boolean textureView) {
         mVideoHelper = new VideoHelper(this, surfaceFrame, dm, subtitles, textureView);
         mVideoHelper.attachViews();
     }
 
+    /**
+     * Detach the video layout
+     */
     public void detachViews() {
         if (mVideoHelper != null) {
             mVideoHelper.release();
@@ -604,14 +618,25 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         }
     }
 
-    public void changeSurfaceLayout() {
+    /**
+     * Update the video surfaces, either to switch from one to another or to resize it
+     */
+    public void updateVideoSurfaces() {
         if (mVideoHelper != null) mVideoHelper.updateVideoSurfaces();
     }
 
+    /**
+     * Set the video scale type, by default, scaletype is set to ScaleType.SURFACE_BEST_FIT
+     * @param {@link ScaleType} to rule the video surface filling
+     */
     public void setVideoScale(@NonNull ScaleType type) {
         if (mVideoHelper != null) mVideoHelper.setVideoScale(type);
     }
 
+    /**
+     * Get the current video scale type
+     * @return the current {@link ScaleType} used by MediaPlayer
+     */
     @NonNull
     public ScaleType getVideoScale() {
         return mVideoHelper != null ? mVideoHelper.getVideoScale() : ScaleType.SURFACE_BEST_FIT;
@@ -639,10 +664,18 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         }
     }
 
+    /**
+     * Set a renderer
+     * @param item {@link RendererItem}. if null VLC play on default output
+     */
     public int setRenderer(RendererItem item) {
         return nativeSetRenderer(item);
     }
 
+    /**
+     * Is a media in use by this MediaPlayer
+     * @return true if a media is set
+     */
     public synchronized boolean hasMedia() {
         return mMedia != null;
     }
@@ -683,6 +716,54 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     /**
+     * Load an asset and starts playback
+     * @param context An application context, mandatory to access assets
+     * @param assetFilename relative path of the asset in app assets folder
+     * @throws IOException
+     */
+    public void playAsset(@NonNull Context context, @NonNull String assetFilename) throws IOException {
+        mAfd = context.getAssets().openFd(assetFilename);
+        play(mAfd);
+    }
+
+    /**
+     * Load an asset and starts playback
+     * @param afd The {@link AssetFileDescriptor} to play
+     */
+    public void play(@NonNull AssetFileDescriptor afd) {
+        final Media media = new Media(mLibVLC, afd);
+        play(media);
+    }
+
+    /**
+     * Play a media via its mrl
+     * @param mrl MRL of the media to play
+     */
+    public void play(@NonNull String mrl) {
+        final Media media = new Media(mLibVLC, mrl);
+        play(media);
+    }
+
+    /**
+     * Play a media via its Uri
+     * @param uri {@link Uri} of the media to play
+     */
+    public void play(@NonNull Uri uri) {
+        final Media media = new Media(mLibVLC, uri);
+        play(media);
+    }
+
+    /**
+     * Starts playback from an already prepared Media
+     * @param media The {@link Media} to play
+     */
+    public void play(@NonNull Media media) {
+        setMedia(media);
+        media.release();
+        play();
+    }
+
+    /**
      * Stops the playing media
      *
      */
@@ -693,6 +774,9 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
             mAudioReset = true;
         }
         nativeStop();
+        if (mAfd != null) try {
+            mAfd.close();
+        } catch (IOException ignored) {}
     }
 
     /**

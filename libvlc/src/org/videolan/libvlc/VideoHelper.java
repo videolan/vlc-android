@@ -31,7 +31,6 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
     private int mVideoSarNum = 0;
     private int mVideoSarDen = 0;
 
-    private FrameLayout mVideoLayout;
     private FrameLayout mVideoSurfaceFrame;
     private SurfaceView mVideoSurface = null;
     private SurfaceView mSubtitlesSurface = null;
@@ -50,10 +49,9 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
     private void init(MediaPlayer player, VLCVideoLayout surfaceFrame, DisplayManager dm, boolean subtitles, boolean useSurfaceView) {
         mMediaPlayer = player;
         mDisplayManager = dm;
-        mVideoLayout = surfaceFrame;
         final boolean isPrimary = mDisplayManager == null || mDisplayManager.isPrimary();
         if (isPrimary) {
-            mVideoSurfaceFrame = mVideoLayout.findViewById(R.id.player_surface_frame);
+            mVideoSurfaceFrame = surfaceFrame.findViewById(R.id.player_surface_frame);
             if (useSurfaceView) {
                 ViewStub stub = mVideoSurfaceFrame.findViewById(R.id.surface_stub);
                 mVideoSurface = stub != null ? (SurfaceView) stub.inflate() : (SurfaceView) mVideoSurfaceFrame.findViewById(R.id.surface_video);
@@ -74,7 +72,7 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
         }
     }
 
-    public void release() {
+    void release() {
         if (mMediaPlayer.getVLCVout().areViewsAttached()) detachViews();
         mMediaPlayer = null;
         mVideoSurfaceFrame = null;
@@ -84,7 +82,7 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
         mVideoTexture = null;
     }
 
-    public void attachViews() {
+    void attachViews() {
         final IVLCVout vlcVout = mMediaPlayer.getVLCVout();
         if (mVideoSurface != null) {
             vlcVout.setVideoView(mVideoSurface);
@@ -116,7 +114,7 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
         mMediaPlayer.setVideoTrackEnabled(true);
     }
 
-    public void detachViews() {
+    void detachViews() {
         if (mOnLayoutChangeListener != null) {
             mVideoSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
             mOnLayoutChangeListener = null;
