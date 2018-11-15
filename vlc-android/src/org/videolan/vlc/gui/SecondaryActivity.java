@@ -25,11 +25,10 @@ package org.videolan.vlc.gui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.appbar.AppBarLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.fragment.app.Fragment;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.google.android.material.appbar.AppBarLayout;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.MediaParsingServiceKt;
@@ -43,6 +42,9 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.TvUtil;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.util.AndroidDevices;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.Fragment;
 
 public class SecondaryActivity extends ContentActivity {
     public final static String TAG = "VLC/SecondaryActivity";
@@ -117,7 +119,7 @@ public class SecondaryActivity extends ContentActivity {
         switch (item.getItemId()) {
             case R.id.ml_menu_refresh:
                 Medialibrary ml = VLCApplication.getMLInstance();
-                if (!ml.isWorking()) MediaParsingServiceKt.reload(this);
+                if (!ml.isWorking()) MediaParsingServiceKt.rescan(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);

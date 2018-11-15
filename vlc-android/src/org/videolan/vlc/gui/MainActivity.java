@@ -333,7 +333,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             if(current != null && current instanceof IRefreshable)
                 ((IRefreshable) current).refresh();
             else
-                MediaParsingServiceKt.reload(this);
+                MediaParsingServiceKt.rescan(this);
         }
     }
 

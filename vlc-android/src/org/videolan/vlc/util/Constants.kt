@@ -66,6 +66,7 @@ const val PLAYBACK_LOAD_SIZE = 500
 // MediaParsingService
 const val ACTION_INIT = "medialibrary_init"
 const val ACTION_RELOAD = "medialibrary_reload"
+const val ACTION_FORCE_RELOAD = "medialibrary_force_reload"
 const val ACTION_DISCOVER = "medialibrary_discover"
 const val ACTION_DISCOVER_DEVICE = "medialibrary_discover_device"
 const val ACTION_CHECK_STORAGES = "medialibrary_check_storages"

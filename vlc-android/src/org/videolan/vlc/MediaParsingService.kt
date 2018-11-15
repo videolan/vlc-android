@@ -125,6 +125,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
                 setupMedialibrary(upgrade, parse)
             }
             ACTION_RELOAD -> reload(intent.getStringExtra(EXTRA_PATH))
+            ACTION_FORCE_RELOAD -> medialibrary.forceRescan()
             ACTION_DISCOVER -> discover(intent.getStringExtra(EXTRA_PATH))
             ACTION_DISCOVER_DEVICE -> discoverStorage(intent.getStringExtra(EXTRA_PATH))
             ACTION_CHECK_STORAGES -> if (scanActivated) actions.offer(UpdateStorages) else exitCommand()
@@ -416,8 +417,12 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
 
 data class ScanProgress(val parsing: Int, val discovery: String)
 
-fun reload(ctx: Context) {
-    ContextCompat.startForegroundService(ctx, Intent(ACTION_RELOAD, null, ctx, MediaParsingService::class.java))
+fun Context.reload() {
+    ContextCompat.startForegroundService(this, Intent(ACTION_RELOAD, null, this, MediaParsingService::class.java))
+}
+
+fun Context.rescan() {
+    ContextCompat.startForegroundService(this, Intent(ACTION_FORCE_RELOAD, null, this, MediaParsingService::class.java))
 }
 
 fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true) = AppScope.launch {
