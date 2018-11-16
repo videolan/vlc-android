@@ -1,12 +1,17 @@
 package org.videolan.vlc.gui.helpers
 
 import android.annotation.SuppressLint
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.ViewStubCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
@@ -21,7 +26,6 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.PlayerOptionItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.audio.EqualizerFragment
-import org.videolan.vlc.gui.dialogs.AdvOptionsDialog.setSleep
 import org.videolan.vlc.gui.dialogs.JumpToTimeDialog
 import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
 import org.videolan.vlc.gui.dialogs.SelectChapterDialog
@@ -30,6 +34,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.ABRepeat
 import org.videolan.vlc.util.*
+import java.util.*
 
 private const val ACTION_AUDIO_DELAY = 2
 private const val ACTION_SPU_DELAY = 3
@@ -53,7 +58,7 @@ private const val ID_ABREPEAT = 13
 @SuppressLint("ShowToast")
 class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: PlaybackService) : LifecycleObserver {
 
-    private val recyclerview = activity.findViewById<RecyclerView>(R.id.options_list)!!
+    private lateinit var recyclerview : RecyclerView
     private val toast by lazy(LazyThreadSafetyMode.NONE) { Toast.makeText(activity, "", Toast.LENGTH_SHORT) }
 
     private val primary = activity is VideoPlayerActivity && activity.mDisplayManager.isPrimary
@@ -78,15 +83,8 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         abrBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, resid))
     }
 
-    init {
-        activity.lifecycle.addObserver(this)
-        service.lifecycle.addObserver(this)
-        if (recyclerview.layoutManager == null) recyclerview.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        recyclerview.adapter = OptionsAdapter()
-        setup()
-    }
-
     fun setup() {
+        if (!this::recyclerview.isInitialized) return
         val options = mutableListOf<PlayerOption>()
         options.add(PlayerOption(ID_SLEEP, R.attr.ic_sleep_normal_style, res.getString(R.string.sleep_title)))
         options.add(PlayerOption(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
@@ -112,6 +110,14 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     }
 
     fun show() {
+        activity.findViewById<ViewStubCompat>(R.id.player_options_stub)?.let {
+            recyclerview = it.inflate() as RecyclerView
+            activity.lifecycle.addObserver(this)
+            service.lifecycle.addObserver(this)
+            if (recyclerview.layoutManager == null) recyclerview.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            recyclerview.adapter = OptionsAdapter()
+            setup()
+        }
         recyclerview.visibility = View.VISIBLE
     }
 
@@ -335,5 +341,16 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         }
     }
 }
+
+fun setSleep(time: Calendar?) {
+    val alarmMgr = VLCApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val intent = Intent(VLCApplication.SLEEP_INTENT)
+    val sleepPendingIntent = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+    if (time != null) alarmMgr.set(AlarmManager.RTC_WAKEUP, time.timeInMillis, sleepPendingIntent)
+    else alarmMgr.cancel(sleepPendingIntent)
+    VLCApplication.sPlayerSleepTime = time
+}
+
 
 class PlayerOption(val id: Int, val icon: Int, val title: String)

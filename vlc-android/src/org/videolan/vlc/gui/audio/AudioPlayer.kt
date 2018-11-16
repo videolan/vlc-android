@@ -40,10 +40,12 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.MainThread
 import androidx.annotation.RequiresPermission
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
@@ -60,10 +62,10 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.PlaybackServiceActivity
-import org.videolan.vlc.gui.dialogs.AdvOptionsDialog
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
+import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.video.VideoPlayerActivity
@@ -87,6 +89,7 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
     private val updateActor = coroutineScope.actor<Unit>(capacity = Channel.CONFLATED) { for (entry in channel) doUpdate() }
     private lateinit var helper: PlaybackServiceActivity.Helper
     private lateinit var playlistModel: PlaylistModel
+    private lateinit var optionsDelegate: PlayerOptionsDelegate
 
     private var showRemainingTime = false
     private var previewingSeek = false
@@ -357,11 +360,12 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
 
     fun showAdvancedOptions(v: View) {
         if (!isVisible) return
-        activity?.let {
-            val advOptionsDialog = AdvOptionsDialog()
-            advOptionsDialog.arguments = Bundle().apply { putInt(AdvOptionsDialog.MODE_KEY, AdvOptionsDialog.MODE_AUDIO) }
-            advOptionsDialog.show(it.supportFragmentManager, "fragment_adv_options")
+        if (!this::optionsDelegate.isInitialized) {
+            val service = playlistModel.service ?: return
+            val activity = activity as? AppCompatActivity ?: return
+            optionsDelegate = PlayerOptionsDelegate(activity, service)
         }
+        optionsDelegate.show()
     }
 
     private fun setHeaderVisibilities(advFuncVisible: Boolean, playlistSwitchVisible: Boolean,
@@ -412,7 +416,15 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
 
     override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {}
 
-    fun clearSearch(): Boolean {
+    fun backPressed() : Boolean {
+        if (this::optionsDelegate.isInitialized && optionsDelegate.isShowing()) {
+            optionsDelegate.hide()
+            return true
+        }
+        return clearSearch()
+    }
+
+    private fun clearSearch(): Boolean {
         if (this::playlistModel.isInitialized) playlistModel.filter(null)
         return hideSearchField()
     }
@@ -538,12 +550,12 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
     fun onStateChanged(newState: Int) {
         playerState = newState
         when (newState) {
-            com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED -> {
-                hideSearchField()
+            BottomSheetBehavior.STATE_COLLAPSED -> {
+                backPressed()
                 binding.header.setBackgroundResource(DEFAULT_BACKGROUND_DARKER_ID)
                 setHeaderVisibilities(false, false, true, true, true, false, false)
             }
-            com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED -> {
+            BottomSheetBehavior.STATE_EXPANDED -> {
                 binding.header.setBackgroundResource(0)
                 setHeaderVisibilities(true, true, false, false, false, true, true)
                 showPlaylistTips()

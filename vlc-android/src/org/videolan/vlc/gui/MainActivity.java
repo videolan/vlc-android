@@ -270,7 +270,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         }
 
         /* Close playlist search if open or Slide down the audio player if it is shown entirely. */
-        if (isAudioPlayerReady() && (mAudioPlayer.clearSearch() || slideDownAudioPlayer()))
+        if (isAudioPlayerReady() && (mAudioPlayer.backPressed() || slideDownAudioPlayer()))
             return;
 
         // If it's the directory view, a "backpressed" action shows a parent.

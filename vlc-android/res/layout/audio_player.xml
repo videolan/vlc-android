@@ -345,5 +345,14 @@
             android:scaleType="fitXY"
             android:onClick="@{fragment::onPreviousClick}"
             android:src="?attr/ic_previous" />
+
+        <androidx.appcompat.widget.ViewStubCompat
+            android:id="@+id/player_options_stub"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout="@layout/player_options" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

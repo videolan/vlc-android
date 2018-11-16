@@ -84,4 +84,5 @@
     <!--Subtitle Downloader Dialog-->
     <dimen name="subs_dl_dialog_width">320dp</dimen>
     <dimen name="subs_dl_dialog_height">160dp</dimen>
+    <dimen name="player_option_width">256dp</dimen>
 </resources>
