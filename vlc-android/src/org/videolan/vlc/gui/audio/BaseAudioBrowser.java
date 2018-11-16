@@ -57,8 +57,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel> implements IEventsHandler, CtxActionReceiver {
 
-    public ContentActivity mActivity;
-    protected AudioBrowserAdapter[] mAdapters;
+    ContentActivity mActivity;
+    AudioBrowserAdapter[] mAdapters;
     protected AudioBrowserAdapter mAdapter;
 
     public AudioBrowserAdapter getCurrentAdapter() {
@@ -144,7 +144,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
         onDestroyActionMode(getCurrentAdapter());
     }
 
-    public void onDestroyActionMode(AudioBrowserAdapter adapter) {
+    void onDestroyActionMode(AudioBrowserAdapter adapter) {
         setFabPlayVisibility(true);
         mActionMode = null;
         adapter.getMultiSelectHelper().clearSelection();
@@ -234,9 +234,13 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
         }
     }
 
-    protected final RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
+    final RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+            if (newState != RecyclerView.SCROLL_STATE_IDLE) {
+                mSwipeRefreshLayout.setEnabled(false);
+                return;
+            }
             final LinearLayoutManager llm = (LinearLayoutManager)getCurrentRV().getLayoutManager();
             if (llm == null) return;
             mSwipeRefreshLayout.setEnabled(llm.findFirstVisibleItemPosition() <= 0);
