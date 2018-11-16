@@ -24,20 +24,14 @@
 package org.videolan.vlc.util;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.os.storage.StorageManager;
-import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import androidx.documentfile.provider.DocumentFile;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -57,7 +51,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -67,6 +60,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+
+import androidx.annotation.WorkerThread;
+import androidx.documentfile.provider.DocumentFile;
 
 public class FileUtils {
 
@@ -118,6 +114,7 @@ public class FileUtils {
         return Uri.parse(uri.toString().replace("/sdcard", AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY));
     }
 
+    @WorkerThread
     public static String getPathFromURI(Uri contentUri) {
         Cursor cursor = null;
         try {
@@ -135,6 +132,7 @@ public class FileUtils {
         }
     }
 
+    @WorkerThread
     static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
         try {
             final String[] files = assetManager.list(fromAssetPath);
@@ -157,6 +155,7 @@ public class FileUtils {
         }
     }
 
+    @WorkerThread
     private static boolean copyAsset(AssetManager assetManager,
                                      String fromAssetPath, String toPath) {
         final File destFile = new File(toPath);
@@ -179,6 +178,7 @@ public class FileUtils {
         }
     }
 
+    @WorkerThread
     private static void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
@@ -187,6 +187,7 @@ public class FileUtils {
         }
     }
 
+    @WorkerThread
     public static boolean copyFile(File src, File dst){
         boolean ret = true;
         if (src.isDirectory()) {
@@ -217,6 +218,8 @@ public class FileUtils {
         }
         return ret;
     }
+
+    @WorkerThread
     public static boolean deleteFile (Uri uri) {
         if (!AndroidUtil.isLolliPopOrLater || uri.getPath().startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) return deleteFile(uri.getPath());
         final DocumentFile docFile = FileUtils.findFile(uri);
@@ -226,18 +229,29 @@ public class FileUtils {
         return false;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static boolean deleteFile (String path){
-        boolean deleted = false;
-        path = Uri.decode(Strings.removeFileProtocole(path));
+    @WorkerThread
+    public static boolean deleteFile (String path) {
+        return deleteFile(new File(path));
+    }
+
+    @WorkerThread
+    public static boolean deleteFile (File file){
+        boolean deleted;
         //Delete from Android Medialib, for consistency with device MTP storing and other apps listing content:// media
-        final ContentResolver cr = VLCApplication.getAppContext().getContentResolver();
-        try {
-            deleted = cr.delete(MediaStore.Files.getContentUri("external"),
-                    MediaStore.Files.FileColumns.DATA + "=?", new String[]{path}) > 0;
-        } catch (IllegalArgumentException|SecurityException ignored) {} // Can happen on some devices...
-        final File file = new File(path);
-        if (file.exists()) deleted |= file.delete();
+        if (file.isDirectory()) {
+            deleted = true;
+            for (File child : file.listFiles()) deleted &= deleteFile(child);
+            if (deleted) deleted &= file.delete();
+        } else {
+            final ContentResolver cr = VLCApplication.getAppContext().getContentResolver();
+            try {
+                deleted = cr.delete(MediaStore.Files.getContentUri("external"),
+                        MediaStore.Files.FileColumns.DATA + "=?", new String[]{file.getPath()}) > 0;
+            } catch (IllegalArgumentException | SecurityException ignored) {
+                deleted = false;
+            } // Can happen on some devices...
+            if (file.exists()) deleted |= file.delete();
+        }
         return deleted;
     }
 
@@ -276,6 +290,7 @@ public class FileUtils {
                         || TextUtils.equals(scheme, "ftps") || TextUtils.equals(scheme, "sftp"));
     }
 
+    @WorkerThread
     public static boolean canWrite(Uri uri) {
         if (uri == null) return false;
         if (TextUtils.equals("file", uri.getScheme()))
@@ -283,12 +298,14 @@ public class FileUtils {
         return TextUtils.equals("content", uri.getScheme()) && canWrite(getPathFromURI(uri));
     }
 
+    @WorkerThread
     public static boolean canWrite(String path){
         if (TextUtils.isEmpty(path)) return false;
         if (path.startsWith("file://")) path = path.substring(7);
         return path.startsWith("/");
     }
 
+    @WorkerThread
     public static String getMediaStorage(Uri uri) {
         if (uri == null || !"file".equals(uri.getScheme())) return null;
         final String path = uri.getPath();
@@ -298,6 +315,7 @@ public class FileUtils {
         return null;
     }
 
+    @WorkerThread
     public static DocumentFile findFile(Uri uri) {
         final String storage = getMediaStorage(uri);
         final String treePref = Settings.INSTANCE.getInstance(VLCApplication.getAppContext()).getString("tree_uri_"+ storage, null);
@@ -314,6 +332,7 @@ public class FileUtils {
 
     }
 
+    @WorkerThread
     public static String computeHash(File file) {
         long size = file.length();
         long chunkSizeForFile = Math.min(HASH_CHUNK_SIZE, size);
@@ -342,6 +361,7 @@ public class FileUtils {
         }
     }
 
+    @WorkerThread
     private static long computeHashForChunk(ByteBuffer buffer) {
         final LongBuffer longBuffer = buffer.order(ByteOrder.LITTLE_ENDIAN).asLongBuffer();
         long hash = 0;
@@ -350,6 +370,7 @@ public class FileUtils {
     }
 
 
+    @WorkerThread
     public static Uri getUri(Uri data) {
         Uri uri = data;
         final Context ctx = VLCApplication.getAppContext();
