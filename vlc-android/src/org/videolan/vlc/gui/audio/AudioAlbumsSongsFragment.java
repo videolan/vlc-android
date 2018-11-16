@@ -21,25 +21,17 @@
 package org.videolan.vlc.gui.audio;
 
 import android.app.Activity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.tabs.TabLayout;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager.widget.ViewPager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.tabs.TabLayout;
 
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -47,7 +39,6 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Util;
@@ -56,6 +47,16 @@ import org.videolan.vlc.viewmodels.paged.PagedAlbumsModel;
 import org.videolan.vlc.viewmodels.paged.PagedTracksModel;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, TabLayout.OnTabSelectedListener {
 
@@ -72,8 +73,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     private MLPagedModel<MediaLibraryItem>[] audioModels;
     private AudioBrowserAdapter mSongsAdapter;
     private AudioBrowserAdapter mAlbumsAdapter;
-    private FastScroller mFastScroller;
-    //private View mSearchButtonView;
 
     private final static int MODE_ALBUM = 0;
     private final static int MODE_SONG = 1;
@@ -126,8 +125,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         mViewPager.setOffscreenPageLimit(MODE_TOTAL - 1);
         mViewPager.setAdapter(new AudioPagerAdapter(mLists, titles));
 
-        mFastScroller = v.findViewById(R.id.songs_fast_scroller);
-
         mViewPager.setOnTouchListener(mSwipeFilter);
         mTabLayout = v.findViewById(R.id.sliding_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -148,6 +145,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
             llm.setRecycleChildrenOnDetach(true);
             rv.setLayoutManager(llm);
             rv.setRecycledViewPool(rvp);
+            rv.addOnScrollListener(mScrollListener);
         }
         mFabPlay.setImageResource(R.drawable.ic_fab_play);
         mTabLayout.addOnTabSelectedListener(this);
@@ -195,7 +193,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mFastScroller.setRecyclerView(getCurrentRV(), getViewModel().getTotalCount());
                 mSwipeRefreshLayout.setRefreshing(false);
                 final List<Album> albums = albumModel.getPagedList().getValue();
                 if (Util.isListEmpty(albums) && !getViewModel().isFiltering()) mViewPager.setCurrentItem(1);
@@ -238,7 +235,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         final FragmentActivity activity = getActivity();
         if (activity == null) return;
         activity.invalidateOptionsMenu();
-        mFastScroller.setRecyclerView(mLists[tab.getPosition()], getViewModel().getTotalCount());
     }
 
     @Override
@@ -258,7 +254,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         return (AudioBrowserAdapter) getCurrentRV().getAdapter();
     }
 
-    private RecyclerView getCurrentRV() {
+    protected RecyclerView getCurrentRV() {
         return mLists[mViewPager.getCurrentItem()];
     }
 

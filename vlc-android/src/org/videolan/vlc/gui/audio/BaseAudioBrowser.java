@@ -23,9 +23,6 @@
 
 package org.videolan.vlc.gui.audio;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.view.ActionMode;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,6 +50,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.view.ActionMode;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel> implements IEventsHandler, CtxActionReceiver {
 
     public ContentActivity mActivity;
@@ -62,6 +64,8 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
     public AudioBrowserAdapter getCurrentAdapter() {
         return mAdapter;
     }
+
+    abstract protected RecyclerView getCurrentRV();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -228,6 +232,17 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
                 AudioUtil.setRingtone((MediaWrapper) media, requireActivity());
                 break;
         }
-
     }
+
+    protected final RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+            final LinearLayoutManager llm = (LinearLayoutManager)getCurrentRV().getLayoutManager();
+            if (llm == null) return;
+            mSwipeRefreshLayout.setEnabled(llm.findFirstVisibleItemPosition() <= 0);
+        }
+
+        @Override
+        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {}
+    };
 }

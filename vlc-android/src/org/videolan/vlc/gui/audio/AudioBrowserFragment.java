@@ -42,7 +42,6 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
-import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
@@ -86,7 +85,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private TextView mEmptyView;
     private final RecyclerView[] mLists = new RecyclerView[MODE_TOTAL];
     private MLPagedModel<MediaLibraryItem>[] models;
-    private FastScroller mFastScroller;
     private SharedPreferences mSettings;
 
     private static final String KEY_LISTS_POSITIONS = "key_lists_position";
@@ -119,7 +117,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         super.onViewCreated(view, savedInstanceState);
         mEmptyView = view.findViewById(R.id.no_media);
         mViewPager = view.findViewById(R.id.pager);
-        mFastScroller = view.findViewById(R.id.songs_fast_scroller);
         mTabLayout = view.findViewById(R.id.sliding_tabs);
     }
 
@@ -147,6 +144,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             mLists[i].setRecycledViewPool(rvp);
             mLists[i].setAdapter(mAdapters[i]);
             if (positions != null) mLists[i].scrollToPosition(positions.get(i));
+            mLists[i].addOnScrollListener(mScrollListener);
         }
         mViewPager.setOnTouchListener(mSwipeFilter);
         setupTabLayout();
@@ -306,7 +304,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         requireActivity().invalidateOptionsMenu();
-        mFastScroller.setRecyclerView(mLists[tab.getPosition()], getViewModel().getTotalCount());
         mSettings.edit().putInt(Constants.KEY_AUDIO_CURRENT_TAB, tab.getPosition()).apply();
         final Boolean loading = getViewModel().getLoading().getValue();
         if (loading == null || loading == false) mHandler.sendEmptyMessage(UNSET_REFRESHING);
@@ -367,7 +364,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         if (adapter == getCurrentAdapter()) {
             mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)getCurrentRV().getLayoutManager()).findFirstVisibleItemPosition() <= 0);
             updateEmptyView(mViewPager.getCurrentItem());
-            mFastScroller.setRecyclerView(getCurrentRV(), getViewModel().getTotalCount());
         }
     }
 
@@ -380,7 +376,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         return (AudioBrowserAdapter) (getCurrentRV()).getAdapter();
     }
 
-    private RecyclerView getCurrentRV() {
+    protected RecyclerView getCurrentRV() {
         return mLists[mViewPager.getCurrentItem()];
     }
 

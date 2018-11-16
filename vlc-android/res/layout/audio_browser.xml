@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintTop_toBottomOf="@+id/searchButton"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent" >
             <include layout="@layout/audio_recyclerview" />
             <include layout="@layout/audio_recyclerview" />
             <include layout="@layout/audio_recyclerview" />
@@ -58,16 +58,4 @@
         android:text="@string/nomedia"
         android:textSize="20sp"
         android:visibility="gone"/>
-
-    <org.videolan.vlc.gui.view.FastScroller
-        android:fitsSystemWindows="true"
-        android:id="@+id/songs_fast_scroller"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@+id/swipeLayout"
-        app:layout_constraintTop_toTopOf="@+id/swipeLayout"
-        android:visibility="invisible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
