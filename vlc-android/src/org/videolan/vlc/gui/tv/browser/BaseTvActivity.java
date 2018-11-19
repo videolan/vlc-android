@@ -101,7 +101,6 @@ public abstract class BaseTvActivity extends FragmentActivity {
     }
 
     protected abstract void refresh();
-    public void onNetworkConnectionChanged(boolean connected) {}
 
     protected boolean isVisible() {
         return mIsVisible;
@@ -112,12 +111,6 @@ public abstract class BaseTvActivity extends FragmentActivity {
     protected void onParsingServiceFinished() {}
 
     private void registerLiveData() {
-        ExternalMonitor.connected.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean connected) {
-                onNetworkConnectionChanged(connected);
-            }
-        });
         MediaParsingService.Companion.getProgress().observe(this, new Observer<ScanProgress>() {
             @Override
             public void onChanged(@Nullable ScanProgress scanProgress) {

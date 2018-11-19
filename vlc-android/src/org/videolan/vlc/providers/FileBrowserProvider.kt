@@ -20,11 +20,11 @@
 
 package org.videolan.vlc.providers
 
-import androidx.lifecycle.Observer
 import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.net.Uri
 import android.text.TextUtils
+import androidx.lifecycle.Observer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
@@ -99,7 +99,8 @@ open class FileBrowserProvider(
         val devices = mutableListOf<MediaLibraryItem>()
         if (!filePicker) devices.add(DummyItem(browserStorage))
         for (mediaDirLocation in storages) {
-            if (!File(mediaDirLocation).exists()) continue
+            val file = File(mediaDirLocation)
+            if (!file.exists() || !file.canRead()) continue
             val directory = MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation))
             directory.type = MediaWrapper.TYPE_DIR
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation)) {

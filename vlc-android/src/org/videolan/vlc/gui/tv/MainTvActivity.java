@@ -140,9 +140,4 @@ public class MainTvActivity extends BaseTvActivity {
     protected void refresh() {
         mMediaLibrary.reload();
     }
-
-    @Override
-    public void onNetworkConnectionChanged(boolean connected) {
-        mBrowseFragment.updateBrowsers();
-    }
 }

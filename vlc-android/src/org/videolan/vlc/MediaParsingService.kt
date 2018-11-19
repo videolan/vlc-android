@@ -24,7 +24,6 @@ package org.videolan.vlc
 
 import android.annotation.SuppressLint
 import android.app.Service
-import androidx.lifecycle.MutableLiveData
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -33,11 +32,11 @@ import android.net.Uri
 import android.os.Binder
 import android.os.IBinder
 import android.os.PowerManager
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import android.text.TextUtils
 import android.util.Log
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
@@ -211,8 +210,8 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
         for (device in devices) {
             val isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
             val uuid = FileUtils.getFileNameFromPath(device)
-            if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid)) continue
-            val isNew = (isMainStorage || (addExternal && withContext(Dispatchers.IO) { File(device).canRead() } ))
+            if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid) || !device.scanAllowed()) continue
+            val isNew = (isMainStorage || addExternal)
                     && medialibrary.addDevice(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
             val isIgnored = sharedPreferences.getBoolean("ignore_$uuid", false)
             if (!isMainStorage && isNew && !isIgnored) showStorageNotification(device)
@@ -254,7 +253,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
         missingDevices.remove("file://${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}")
         for (device in devices) {
             val uuid = FileUtils.getFileNameFromPath(device)
-            if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid)) continue
+            if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid) || !device.scanAllowed()) continue
             if (ExternalMonitor.containsDevice(knownDevices, device)) {
                 missingDevices.remove("file://$device")
                 continue

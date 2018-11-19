@@ -2,6 +2,7 @@ package org.videolan.vlc.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
@@ -18,8 +19,8 @@ import java.io.File
 import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
-import kotlin.coroutines.suspendCoroutine
 import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManager.getDefaultSharedPreferences(it) })
 
@@ -110,4 +111,12 @@ fun MutableList<MediaWrapper>.updateWithMLMeta() {
             }
         }
     }
+}
+
+suspend fun String.scanAllowed() = withContext(Dispatchers.IO) {
+    val file = File(Uri.parse(this@scanAllowed).path)
+    if (!file.exists() || !file.canRead()) return@withContext false
+    val children = file.list() ?: return@withContext true
+    for (child in children) if (child == ".nomedia") return@withContext false
+    true
 }

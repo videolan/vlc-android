@@ -23,28 +23,27 @@
 
 package org.videolan.vlc.gui.tv
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
-import androidx.core.content.ContextCompat
-import android.view.View
-import kotlinx.coroutines.launch
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.actor
+import kotlinx.coroutines.delay
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.coroutineScope
-import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.ExternalMonitor
-import org.videolan.vlc.R
-import org.videolan.vlc.RecommendationsService
+import org.videolan.vlc.*
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.tv.MainTvActivity.ACTIVITY_RESULT_PREFERENCES
@@ -113,7 +112,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         favorites = browserFavRepository.browserFavorites
         favorites.observe(this, Observer{
             updatedFavoritList = convertFavorites(it)
-            updateBrowsers()
+            updateActor.offer(Browsers)
         })
     }
 
@@ -137,9 +136,9 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         //Browser section
         browserAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val browserHeader = HeaderItem(HEADER_NETWORK, getString(R.string.browsing))
-        updateBrowsers()
         browsersRow = ListRow(browserHeader, browserAdapter)
         rowsAdapter.add(browsersRow)
+        updateActor.offer(Browsers)
         //Misc. section
         otherAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val miscHeader = HeaderItem(HEADER_MISC, getString(R.string.other))
@@ -156,7 +155,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             updateVideos(it)
             (requireActivity() as MainTvActivity).hideLoading()
         })
-        ExternalMonitor.connected.observe(this, Observer { updateBrowsers() })
+        ExternalMonitor.connected.observe(this, Observer { updateActor.offer(Browsers) })
         onItemViewClickedListener = this
         onItemViewSelectedListener = this
     }
@@ -205,11 +204,13 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         return true
     }
 
-    fun updateBrowsers() = coroutineScope.launch {
+    suspend fun updateBrowsers() {
         val list = mutableListOf<MediaLibraryItem>()
         val directories = DirectoryRepository.getInstance(requireContext()).getMediaDirectoriesList(requireContext().applicationContext).toMutableList()
         if (!AndroidDevices.showInternalStorage && !directories.isEmpty()) directories.removeAt(0)
-        for (directory in directories) list.add(directory)
+        for (directory in directories) {
+            if (directory.location.scanAllowed()) list.add(directory)
+        }
 
         if (ExternalMonitor.isLan()) {
             list.add(DummyItem(HEADER_NETWORK, getString(R.string.network_browsing), null))
@@ -299,4 +300,16 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             videoAdapter.setItems(list, diffCallback)
         }
     }
+
+    private val updateActor = coroutineScope.actor<Update>(capacity = Channel.CONFLATED) {
+        for (action in channel) when (action) {
+            Browsers -> {
+                updateBrowsers()
+                delay(500L)
+            }
+        }
+    }
 }
+
+private sealed class Update
+private object Browsers : Update()
