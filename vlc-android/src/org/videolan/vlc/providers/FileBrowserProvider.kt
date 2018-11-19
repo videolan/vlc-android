@@ -115,7 +115,7 @@ open class FileBrowserProvider(
         }
         if (AndroidUtil.isLolliPopOrLater && !ExternalMonitor.devices.value.isEmpty()) {
             val otg = MediaWrapper(Uri.parse("otg://")).apply {
-                title = "OTG Device"
+                title = context.getString(R.string.otg_device_title)
                 type = MediaWrapper.TYPE_DIR
             }
             otgPosition = devices.size
