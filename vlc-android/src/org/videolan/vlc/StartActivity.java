@@ -29,15 +29,12 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import androidx.fragment.app.FragmentActivity;
-import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SearchActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
@@ -45,9 +42,11 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Settings;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import videolan.org.commontools.TvChannelUtilsKt;
 
-public class StartActivity extends FragmentActivity implements StoragePermissionsDelegate.CustomActionController {
+public class StartActivity extends FragmentActivity {
 
     public final static String TAG = "VLC/StartActivity";
 
@@ -126,10 +125,5 @@ public class StartActivity extends FragmentActivity implements StoragePermission
     private boolean showTvUi() {
         return AndroidDevices.isAndroidTv || (!AndroidDevices.isChromeBook && !AndroidDevices.hasTsp) ||
                 Settings.INSTANCE.getInstance(this).getBoolean("tv_ui", false);
-    }
-
-    @Override
-    public void onStorageAccessGranted() {
-        startPlaybackFromApp(getIntent());
     }
 }
