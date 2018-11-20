@@ -451,15 +451,14 @@ public class Medialibrary {
     // If media is not in ML, find it with its path
     public MediaWrapper findMedia(MediaWrapper mw) {
         if (mIsInitiated && mw != null && mw.getId() == 0L) {
-            Uri uri = mw.getUri();
-            MediaWrapper libraryMedia = getMedia(uri);
-            if (libraryMedia == null && TextUtils.equals("file", uri.getScheme()) &&
+            final Uri uri = mw.getUri();
+            final MediaWrapper libraryMedia = getMedia(uri);
+            if (libraryMedia != null) return libraryMedia;
+            if (TextUtils.equals("file", uri.getScheme()) &&
                     uri.getPath() != null && uri.getPath().startsWith("/sdcard")) {
-                uri = Tools.convertLocalUri(uri);
-                libraryMedia = getMedia(uri);
+                final MediaWrapper alternateMedia = getMedia(Tools.convertLocalUri(uri));
+                if (alternateMedia != null) return alternateMedia;
             }
-            if (libraryMedia != null)
-                return libraryMedia;
         }
         return mw;
     }
