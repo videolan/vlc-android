@@ -393,12 +393,14 @@ public class Medialibrary {
 
     @Nullable
     public MediaWrapper getMedia(Uri uri) {
+        if ("content".equals(uri.getScheme())) return null;
         final String vlcMrl = Tools.encodeVLCMrl(uri.toString());
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeGetMediaFromMrl(vlcMrl) : null;
     }
 
     @Nullable
     public MediaWrapper getMedia(String mrl) {
+        if (mrl != null && mrl.startsWith("content:")) return null;
         final String vlcMrl = Tools.encodeVLCMrl(mrl);
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeGetMediaFromMrl(vlcMrl) : null;
     }
