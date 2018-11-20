@@ -21,14 +21,14 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.os.Bundle
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.TextView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
@@ -75,7 +75,15 @@ class ContextSheet : com.google.android.material.bottomsheet.BottomSheetDialogFr
         list.adapter = ContextAdapter()
         val flags = arguments?.getInt(CTX_FLAGS_KEY) ?: 0
         options = populateOptions(flags)
-        if (!AndroidDevices.isPhone) coroutineScope.launch { dialog.window.setLayout(resources.getDimensionPixelSize(R.dimen.default_context_width), ViewGroup.LayoutParams.MATCH_PARENT) }
+        if (!AndroidDevices.isPhone) coroutineScope.launch {
+            dialog.window.setLayout(resources.getDimensionPixelSize(R.dimen.default_context_width), ViewGroup.LayoutParams.MATCH_PARENT)
+        }
+        coroutineScope.launch(Dispatchers.Main) {
+            val bottomSheet = (dialog as BottomSheetDialog).findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
+            bottomSheet?.let {
+                val bsb = BottomSheetBehavior.from(it)
+                if (bsb.state == BottomSheetBehavior.STATE_COLLAPSED) bsb.state = BottomSheetBehavior.STATE_EXPANDED }
+        }
     }
 
     private fun populateOptions(flags: Int) = mutableListOf<CtxOption>().apply {
