@@ -654,4 +654,8 @@
     <string name="download_the_selected">Download selection</string>
     <string name="next">Next</string>
     <string name="download">Download</string>
+    <string name="ctx_player_video_track">Select video track</string>
+    <string name="ctx_player_audio_track">Audio track</string>
+    <string name="ctx_player_subs_track">Subtitles track</string>
+    <string name="ctx_player_tracks_title">Media tracks</string>
 </resources>

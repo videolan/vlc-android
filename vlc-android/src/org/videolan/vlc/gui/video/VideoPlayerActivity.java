@@ -98,6 +98,8 @@ import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.audio.PlaylistAdapter;
 import org.videolan.vlc.gui.browser.FilePickerActivity;
 import org.videolan.vlc.gui.browser.FilePickerFragmentKt;
+import org.videolan.vlc.gui.dialogs.ContextSheetKt;
+import org.videolan.vlc.gui.dialogs.CtxActionReceiver;
 import org.videolan.vlc.gui.dialogs.RenderersDialog;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate;
@@ -143,7 +145,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackSettingsController,
         PlaybackService.Client.Callback, PlaybackService.Callback,PlaylistAdapter.IPlayer,
-        OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController {
+        OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, CtxActionReceiver {
 
     private final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -1718,53 +1720,43 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         }
     };
 
-    public void onAudioSubClick(View anchor){
-        if (anchor == null) {
-            initOverlay();
-            anchor = mHudBinding.playerOverlayTracks;
+    public void onAudioSubClick(View anchor) {
+        int flags = 0;
+        if (enableSubs) {
+            flags |= Constants.CTX_DOWNLOAD_SUBTITLES;
+            if (mDisplayManager.isPrimary()) flags |= Constants.CTX_PICK_SUBS;
         }
-        final AppCompatActivity context = this;
-        final PopupMenu popupMenu = new PopupMenu(this, anchor);
-        final Menu menu = popupMenu.getMenu();
-        popupMenu.getMenuInflater().inflate(R.menu.audiosub_tracks, menu);
-        //FIXME network subs cannot be enabled & screen cast display is broken with picker
-        menu.findItem(R.id.video_menu_subtitles_picker).setEnabled(mDisplayManager.isPrimary() && enableSubs);
-        menu.findItem(R.id.video_menu_subtitles_download).setEnabled(enableSubs);
-        menu.findItem(R.id.video_menu_video_track).setVisible(mService.getVideoTracksCount() > 2);
-        menu.findItem(R.id.video_menu_audio_track).setEnabled(mService.getAudioTracksCount() > 0);
-        menu.findItem(R.id.video_menu_subtitles).setEnabled(mService.getSpuTracksCount() > 0);
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.video_menu_audio_track) {
-                    selectAudioTrack();
-                    return true;
-                } else if (item.getItemId() == R.id.video_menu_video_track) {
-                    selectVideoTrack();
-                    return true;
-                } else if (item.getItemId() == R.id.video_menu_subtitles) {
-                    selectSubtitles();
-                    return true;
-                } else if (item.getItemId() == R.id.video_menu_subtitles_picker) {
-                    if (mUri == null)
-                        return false;
-                    mShowingDialog = true;
-                    final Intent filePickerIntent = new Intent(context, FilePickerActivity.class);
-                    filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
-                    context.startActivityForResult(filePickerIntent, 0);
-                    return true;
-                } else if (item.getItemId() == R.id.video_menu_subtitles_download) {
-                    if (mUri == null)
-                        return false;
-                    MediaUtils.INSTANCE.getSubs(VideoPlayerActivity.this, mService.getCurrentMediaWrapper());
-                }
+        if (mService.getVideoTracksCount() > 2) flags |= Constants.CTX_VIDEO_TRACK;
+        if (mService.getAudioTracksCount() > 0) flags |= Constants.CTX_AUDIO_TRACK;
+        if (mService.getSpuTracksCount() > 0) flags |= Constants.CTX_SUBS_TRACK;
+        ContextSheetKt.showContext(this, this, -1, getString(R.string.ctx_player_tracks_title), flags);
+        hideOverlay(false);
+    }
 
-                hideOverlay(true);
-                return false;
-            }
-        });
-        popupMenu.show();
-        showOverlay();
+    @Override
+    public void onCtxAction(int position, int option) {
+        if (mUri == null) return;
+        switch (option) {
+            case Constants.CTX_VIDEO_TRACK:
+                selectVideoTrack();
+                break;
+            case Constants.CTX_AUDIO_TRACK:
+                selectAudioTrack();
+                break;
+            case Constants.CTX_SUBS_TRACK:
+                selectSubtitles();
+                break;
+            case Constants.CTX_PICK_SUBS:
+                mShowingDialog = true;
+                final Intent filePickerIntent = new Intent(this, FilePickerActivity.class);
+                filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
+                startActivityForResult(filePickerIntent, 0);
+                break;
+            case Constants.CTX_DOWNLOAD_SUBTITLES:
+                final MediaWrapper mw = mService != null ? mService.getCurrentMediaWrapper() : null;
+                if (mw != null) MediaUtils.INSTANCE.getSubs(VideoPlayerActivity.this, mw);
+                break;
+        }
     }
 
     @Override

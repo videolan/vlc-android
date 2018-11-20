@@ -257,6 +257,7 @@
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorAccent">@color/orange800</item>
 
+        <item name="background_default">@color/grey850</item>
         <item name="rounded_bg">@drawable/rounded_corners</item>
         <item name="advanced_options_style">@style/Theme.MaterialComponents.Dialog</item>
         <item name="ic_playasaudio_on">@drawable/ic_playasaudio_on_w</item>
