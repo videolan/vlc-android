@@ -372,7 +372,9 @@ object MediaUtils : CoroutineScope {
                 if (!it.isNull(nameIndex)) mw.title = it.getString(nameIndex)
             }
         }
-    } catch (ignored: UnsupportedOperationException) {}
+    } catch (ignored: UnsupportedOperationException) {
+    } catch (ignored: IllegalArgumentException) {
+    } catch (ignored: SecurityException) {}
 
     fun deletePlaylist(playlist: Playlist) = launch(Dispatchers.IO) { playlist.delete() }
 }
