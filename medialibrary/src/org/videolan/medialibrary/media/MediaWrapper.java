@@ -87,6 +87,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
 
     // threshold lentgh between song and podcast ep, set to 15 minutes
     private static final long PODCAST_THRESHOLD = 900000L;
+    private static final long PODCAST_ABSOLUTE = 3600000L;
 
     protected String mDisplayTitle;
     private String mArtist;
@@ -415,7 +416,8 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     }
 
     public boolean isPodcast() {
-        return mType == TYPE_AUDIO && (TextUtils.isEmpty(mAlbum) && mLength > PODCAST_THRESHOLD
+        return mType == TYPE_AUDIO && (mLength > PODCAST_ABSOLUTE
+                || TextUtils.isEmpty(mAlbum) && mLength > PODCAST_THRESHOLD
                 || "podcast".equalsIgnoreCase(mGenre)
                 || "audiobooks".equalsIgnoreCase(mGenre)
                 || "audiobook".equalsIgnoreCase(mGenre)
