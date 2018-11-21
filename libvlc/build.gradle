@@ -1,5 +1,15 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
+def abi = System.getenv('GRADLE_ABI')?.toLowerCase()
+ext {
+    library_version = '3.1.0'
+    repoName = 'LibVLC'
+    libraryName = 'LibVLC-Android'
+    lib_artifact = "libvlc-$abi"
+
+    libraryDescription = 'Android bindings and API for VLC'
+}
 android {
 
     defaultConfig {
@@ -9,17 +19,17 @@ android {
     }
 
     sourceSets {
-    main {
-        jni.srcDirs = [] // Prevent gradle from building native code with ndk; we have our own Makefile for it.
-        jniLibs.srcDirs = [ 'jni/libs' ] // Where generated .so files are placed.
-        manifest.srcFile 'AndroidManifest.xml'
-        java.srcDirs = ['src']
-        resources.srcDirs = ['src']
-        aidl.srcDirs = ['src']
-        renderscript.srcDirs = ['src']
-        res.srcDirs = ['res']
-        assets.srcDirs = ['assets' ]
-    }
+        main {
+            jni.srcDirs = [] // Prevent gradle from building native code with ndk; we have our own Makefile for it.
+            jniLibs.srcDirs = [ 'jni/libs' ] // Where generated .so files are placed.
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets' ]
+        }
     }
 
     buildTypes {
@@ -49,50 +59,61 @@ android {
 //    packageTask.include(['**/gdbserver', '**/gdb.setup'])
 //}
 
-class BuildNative extends Exec {}
-
-tasks.withType(BuildNative){
-    /*
-    Properties set for Android Studio own shell.
-    when you run gradlew from cli, OS shell env variables will be used
-
-    To be able to build from Android Studio, you have to set ndk.dir & sdk.dir
-    properties in local.properties in the root folder, like this (for example):
-    sdk.dir=/home/<username>/SDK/android-sdk-linux
-    ndk.dir=/home/<username>/SDK/android-ndk-r10b
-     */
-    if (System.getenv('ANDROID_SDK') == null || System.getenv('ANDROID_NDK') == null) {
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
-        environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
-    }
-    workingDir '..'
-    commandLine './compile-libvlc.sh'
-}
-
-task buildDebugARMv7(type:BuildNative) {
-    args('-a', "armeabi-v7a")
-}
-task buildDebugARM64(type:BuildNative) {
-    args('-a', "arm64-v8a")
-}
-task buildDebugx86(type:BuildNative) {
-    args('-a', "x86")
-}
-task buildDebugx86_64(type:BuildNative) {
-    args('-a', "x86_64")
-}
-task buildDebugMIPS(type:BuildNative) {
-    args('-a', "mips")
-}
-task buildDebugMIPS64(type:BuildNative) {
-    args('-a', "mips64")
-}
-
+//class BuildNative extends Exec {}
+//
+//tasks.withType(BuildNative){
+//    /*
+//    Properties set for Android Studio own shell.
+//    when you run gradlew from cli, OS shell env variables will be used
+//
+//    To be able to build from Android Studio, you have to set ndk.dir & sdk.dir
+//    properties in local.properties in the root folder, like this (for example):
+//    sdk.dir=/home/<username>/SDK/android-sdk-linux
+//    ndk.dir=/home/<username>/SDK/android-ndk-r10b
+//     */
+//    if (System.getenv('ANDROID_SDK') == null || System.getenv('ANDROID_NDK') == null) {
+//        Properties properties = new Properties()
+//        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+//        environment 'ANDROID_NDK', properties.getProperty('ndk.dir')
+//        environment 'ANDROID_SDK', properties.getProperty('sdk.dir')
+//    }
+//    workingDir '..'
+//    commandLine './compile-libvlc.sh'
+//}
+//
+//task buildDebugARMv7(type:BuildNative) {
+//    args('-a', "armeabi-v7a")
+//}
+//task buildDebugARM64(type:BuildNative) {
+//    args('-a', "arm64-v8a")
+//}
+//task buildDebugx86(type:BuildNative) {
+//    args('-a', "x86")
+//}
+//task buildDebugx86_64(type:BuildNative) {
+//    args('-a', "x86_64")
+//}
+//task buildDebugMIPS(type:BuildNative) {
+//    args('-a', "mips")
+//}
+//task buildDebugMIPS64(type:BuildNative) {
+//    args('-a', "mips64")
+//}
+//
 task generateSources (type: Jar) {
     classifier = 'sources'
     from android.sourceSets.main.java.srcDirs
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    failOnError false
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
 }
 
 clean {
@@ -103,3 +124,10 @@ dependencies {
     api "androidx.annotation:annotation:$rootProject.ext.androidxVersion"
     api "androidx.legacy:legacy-support-v4:$rootProject.ext.androidxVersion"
 }
+
+artifacts {
+    archives javadocJar
+    archives generateSources
+}
+
+apply from: '../publish.gradle'
