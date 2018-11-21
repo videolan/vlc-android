@@ -47,7 +47,7 @@
     <dimen name="file_picker_height">-1px</dimen>
 
     <dimen name="default_content_width">-1px</dimen>
-    <dimen name="default_context_width">-1px</dimen>
+    <dimen name="default_context_width">512dp</dimen>
 
 
     <!-- Default -->

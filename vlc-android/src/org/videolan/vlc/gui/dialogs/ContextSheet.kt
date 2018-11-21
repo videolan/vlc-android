@@ -26,11 +26,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ContextItemBinding
 import org.videolan.vlc.util.*
@@ -75,10 +75,8 @@ class ContextSheet : com.google.android.material.bottomsheet.BottomSheetDialogFr
         list.adapter = ContextAdapter()
         val flags = arguments?.getInt(CTX_FLAGS_KEY) ?: 0
         options = populateOptions(flags)
-        if (!AndroidDevices.isPhone) coroutineScope.launch {
+        AppScope.launch(Dispatchers.Main) {
             dialog.window.setLayout(resources.getDimensionPixelSize(R.dimen.default_context_width), ViewGroup.LayoutParams.MATCH_PARENT)
-        }
-        coroutineScope.launch(Dispatchers.Main) {
             val bottomSheet = (dialog as BottomSheetDialog).findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
             bottomSheet?.let {
                 val bsb = BottomSheetBehavior.from(it)
@@ -116,11 +114,14 @@ class ContextSheet : com.google.android.material.bottomsheet.BottomSheetDialogFr
         private val inflater: LayoutInflater by lazy(LazyThreadSafetyMode.NONE) { LayoutInflater.from(requireContext()) }
 
         inner class ViewHolder(val binding : ContextItemBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
+            private val textColor = binding.contextOptionTitle.currentTextColor
+            private val focusedColor by lazy(LazyThreadSafetyMode.NONE) { ContextCompat.getColor(itemView.context, R.color.orange500transparent) }
             init {
                 itemView.setOnClickListener {
                     receiver.onCtxAction(itemPosition, options[layoutPosition].id)
                     dismiss()
                 }
+                itemView.setOnFocusChangeListener { v, hasFocus -> binding.contextOptionTitle.setTextColor( if (hasFocus) focusedColor else textColor) }
             }
         }
 
