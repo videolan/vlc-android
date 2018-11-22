@@ -308,7 +308,7 @@
     </style>
 
     <style name="VLC.CtxTitle" parent="VLC.TextView">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">?attr/list_title</item>
         <item name="android:maxLines">1</item>
         <item name="android:singleLine">true</item>

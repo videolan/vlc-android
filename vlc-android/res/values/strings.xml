@@ -658,4 +658,5 @@
     <string name="ctx_player_audio_track">Audio track</string>
     <string name="ctx_player_subs_track">Subtitles track</string>
     <string name="ctx_player_tracks_title">Media tracks</string>
+    <string name="ctx_pip_title">Pop-Up player</string>
 </resources>

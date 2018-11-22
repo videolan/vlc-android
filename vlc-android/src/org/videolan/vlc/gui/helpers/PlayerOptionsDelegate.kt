@@ -96,7 +96,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             options.add(PlayerOption(ID_SPU_DELAY, R.attr.ic_subtitledelay, res.getString(R.string.spu_delay)))
             options.add(PlayerOption(ID_AUDIO_DELAY, R.attr.ic_audiodelay, res.getString(R.string.audio_delay)))
             if (primary && (!tvUi || AndroidDevices.hasPiP) && !AndroidDevices.isDex(activity))
-                options.add(PlayerOption(ID_POPUP_VIDEO, R.attr.ic_popup_dim, res.getString(R.string.popup_playback_title)))
+                options.add(PlayerOption(ID_POPUP_VIDEO, R.attr.ic_popup_dim, res.getString(R.string.ctx_pip_title)))
             options.add(PlayerOption(ID_REPEAT, R.attr.ic_repeat, res.getString(R.string.repeat_title)))
             if (service.canShuffle()) options.add(PlayerOption(ID_SHUFFLE, R.attr.ic_shuffle, res.getString(R.string.shuffle_title)))
             options.add(PlayerOption(ID_ABREPEAT, R.attr.ic_abrepeat, res.getString(R.string.ab_repeat)))

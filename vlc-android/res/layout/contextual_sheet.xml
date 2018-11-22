@@ -8,10 +8,10 @@
     <TextView
         android:id="@+id/ctx_title"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         style="@style/VLC.TextViewTitle"
         android:textColor="@color/orange800"
-        android:layout_margin="@dimen/default_margin"/>
+        android:layout_margin="@dimen/default_margin" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ctx_list"
         android:layout_height="wrap_content"
