@@ -61,8 +61,7 @@ class VLCAudioFocusHelper(private val service: PlaybackService) {
 
     private fun createOnAudioFocusChangeListener(): AudioManager.OnAudioFocusChangeListener {
         return object : AudioManager.OnAudioFocusChangeListener {
-            internal var audioDuckLevel = -1
-            private var mLossTransientVolume = -1
+            private var lossTransientVolume = -1
             private var wasPlaying = false
 
             override fun onAudioFocusChange(focusChange: Int) {
@@ -88,30 +87,18 @@ class VLCAudioFocusHelper(private val service: PlaybackService) {
                             if (AndroidDevices.isAmazon) {
                                 pausePlayback()
                             } else if (service.settings.getBoolean("audio_ducking", true)) {
-                                val volume = if (AndroidDevices.isAndroidTv)
-                                    service.volume
-                                else
-                                    audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
-                                if (audioDuckLevel == -1)
-                                    audioDuckLevel = if (AndroidDevices.isAndroidTv) 50
-                                    else audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC) / 5
-                                if (volume > audioDuckLevel) {
-                                    mLossTransientVolume = volume
-                                    if (AndroidDevices.isAndroidTv) service.setVolume(audioDuckLevel)
-                                    else audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, audioDuckLevel, 0)
-                                }
+                                val volume = service.volume
+                                lossTransientVolume = volume
+                                service.setVolume(volume/3)
                             }
                         }
                     }
                     AudioManager.AUDIOFOCUS_GAIN -> {
                         if (BuildConfig.DEBUG) Log.i(TAG, "AUDIOFOCUS_GAIN: ")
                         // Resume playback
-                        if (mLossTransientVolume != -1) {
-                            if (AndroidDevices.isAndroidTv)
-                                service.setVolume(mLossTransientVolume)
-                            else
-                                audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mLossTransientVolume, 0)
-                            mLossTransientVolume = -1
+                        if (lossTransientVolume != -1) {
+                            service.setVolume(lossTransientVolume)
+                            lossTransientVolume = -1
                         }
                         if (lossTransient) {
                             if (wasPlaying && service.settings.getBoolean("resume_playback", true))
