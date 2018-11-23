@@ -127,7 +127,6 @@
     <string name="repeat_all">Ripeti tutto</string>
     <string name="previous">Precedente</string>
     <string name="stop">Ferma</string>
-    <string name="next">Successiva</string>
     <string name="firstsong">Primo brano della scaletta</string>
     <string name="lastsong">Ultimo brano della scaletta</string>
 
@@ -154,6 +153,9 @@
     <string name="navmenu">menu di navigazione</string>
     <string name="advanced">opzioni avanzate</string>
     <string name="audio_boost_warning">Scorri ancora per andare oltre il 100%</string>
+    <string name="locked_in_portrait_mode">Bloccato in modalità verticale\n(Pressione lunga sul pulsante per annullare)</string>
+    <string name="locked_in_landscape_mode">Bloccato in modalità orizzontale\n(Pressione lunga sul pulsante per annullare)</string>
+    <string name="reset_orientation">Ripristina orientazione</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canale\n</item>
@@ -423,6 +425,8 @@
     <string name="restart_message">Le modifiche avranno effetto solo dopo il riavvio dell\'applicazione.\n\nVuoi riavviare ora?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Più tardi</string>
+    <string name="browser_show_all_title">Mostra tutti i file nel browser</string>
+    <string name="browser_show_all_summary">Visualizza i file che non sono riconosciuti come audio o video nei browser</string>
 
     <string name="developer_prefs_category">Sviluppatore</string>
     <string name="enable_verbose_mode">Verboso</string>
@@ -445,6 +449,16 @@
     <string name="restart_vlc">Riavvia VLC</string>
     <string name="send_log">Invia il registro</string>
     <string name="sending_log">Invio del registro in corso…</string>
+
+    <string name="delete_sub_title">Elimina sottotitoli</string>
+    <string name="delete_sub_message">Vuoi eliminare questi sottotitoli?</string>
+    <string name="delete_sub_yes">Sì</string>
+    <string name="delete_sub_no">No</string>
+    <string name="download_subtitle_title">Scarica sottotitoli</string>
+
+    <string name="no_result">Nessun risultato trovato</string>
+    <string name="no_internet_connection">Controlla la tua connessione a Internet</string>
+    <string name="some_error_occurred">Si sono verificati alcuni errori. Prova ancora tra pochi secondi</string>
 
     <string name="drawer_open">Apri cassetto di navigazione</string>
     <string name="drawer_close">Chiudi cassetto di navigazione</string>
@@ -609,4 +623,18 @@
     <string name="time_category_older">Media più datati</string>
     <string name="rename">Rinomina</string>
     <string name="rename_media">Rinomina %1$s</string>
+    <string name="manual_search">Ricerca manuale</string>
+    <string name="subtitle_search_name_hint">Nome</string>
+    <string name="subtitle_search_episode_hint">Episodio</string>
+    <string name="subtitle_search_season_hint">Stagione</string>
+    <string name="language_to_download">Lingua</string>
+    <string name="delete_the_selected">Elimina selezione</string>
+    <string name="download_the_selected">Scarica selezione</string>
+    <string name="next">Successiva</string>
+    <string name="download">Scarica</string>
+    <string name="ctx_player_video_track">Seleziona traccia video</string>
+    <string name="ctx_player_audio_track">Traccia audio</string>
+    <string name="ctx_player_subs_track">Traccia sottotitoli</string>
+    <string name="ctx_player_tracks_title">Tracce multimediali</string>
+    <string name="ctx_pip_title">Lettore a comparsa</string>
 </resources>
