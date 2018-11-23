@@ -155,7 +155,7 @@
     <string name="audio_boost_warning">Iscurre galu pro andare prus a in antis de su 100%</string>
     <string name="locked_in_portrait_mode">Blocadu in modalidade verticale\n(Incarca a longu pro annullare)</string>
     <string name="locked_in_landscape_mode">Blocadu in modalidade orizontale\n(Incarca a longu pro annullare)</string>
-    <string name="reset_orientation">Riprìstinu de s\'orientamentu</string>
+    <string name="reset_orientation">Riprìstina s\'orientamentu</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canale\n</item>
@@ -632,4 +632,9 @@
     <string name="download_the_selected">Iscàrriga sa seletzione</string>
     <string name="next">Imbeniente</string>
     <string name="download">Iscàrriga</string>
+    <string name="ctx_player_video_track">Seletziona una rasta vìdeo</string>
+    <string name="ctx_player_audio_track">Rasta àudio</string>
+    <string name="ctx_player_subs_track">Rasta de sutatìtulos</string>
+    <string name="ctx_player_tracks_title">Rastas multimediales</string>
+    <string name="ctx_pip_title">Leghidore a cumparsa</string>
 </resources>
