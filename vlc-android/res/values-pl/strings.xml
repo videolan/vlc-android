@@ -314,7 +314,7 @@
     <string name="force_play_all_summary">Odtwórz wszystkie filmy, zaczynając od tego, którego kliknąłeś</string>
     <string name="force_play_all_title">Tryb listy odtwarzania widea</string>
     <string name="save_brightness_summary">Zapamiętaj poziom jasności w odtwarzaczu</string>
-    <string name="save_brightness_title">Zapisz poziomu jasności widea</string>
+    <string name="save_brightness_title">Zapisz poziom jasności widea</string>
     <string name="save_audiodelay_summary">Zapisz indywidualne opóźnienie dźwięku dla każdego filmu</string>
     <string name="save_audiodelay_title">Zapisz opóźnienie dźwięku</string>
     <string name="enable_brightness_gesture_title">Gesty jasności</string>
@@ -323,7 +323,7 @@
     <string name="enable_volume_gesture_summary">Regulacja głośności gestem podczas odtwarzania wideo</string>
     <string name="enable_seek_buttons">Przyciski przeszukiwania</string>
     <string name="enable_seek_buttons_summary">Pokaż przyciski przewijania do przodu i do tyłu w interfejsie widea</string>
-    <string name="enable_double_tap_seek_title">Dotknij dwukrotnie, aby przeszukiwać</string>
+    <string name="enable_double_tap_seek_title">Dotknij dwukrotnie, aby przeszukać</string>
     <string name="enable_double_tap_seek_summary">Dotknij dwukrotnie na krawędziach ekranu, aby przeszukiwać co 10 sekund</string>
     <string name="popup_keepscreen_title">Ekran włączony w trybie pop-up</string>
     <string name="popup_keepscreen_summary">Zawsze pozostaw ekran włączony podczas wyświetlania w trybie pop-up, nawet jeśli film został wstrzymany.</string>
@@ -352,11 +352,11 @@
     <string name="lockscreen_cover_summary">Jeśli jest dostępna, ustaw aktualną okładkę albumu jako tapetę ekranu blokady</string>
     <string name="playlist_animate_scroll_title">Animuj automatyczne przewijanie bieżącej listy odtwarzania</string>
     <string name="playlist_animate_scroll_summary">Animuj przewijanie podczas zmiany mediów</string>
-    <string name="audio_title_alignment">Wyrównanie tytułów dźwięku</string>
+    <string name="audio_title_alignment">Wyrównanie tytułu ścieżki</string>
     <string name="audio_title_alignment_default">Domyślnie</string>
-    <string name="audio_title_alignment_left">Lewy</string>
-    <string name="audio_title_alignment_centre">Środkowy</string>
-    <string name="audio_title_alignment_right">Prawy</string>
+    <string name="audio_title_alignment_left">Wyrównaj do lewej</string>
+    <string name="audio_title_alignment_centre">Wyrównaj do środka</string>
+    <string name="audio_title_alignment_right">Wyrównaj do prawej</string>
     <string name="audio_title_alignment_marquee">Przewijający się tekst</string>
     <string name="audio_save_repeat_title">Zapisz tryb powtórz</string>
     <string name="audio_save_repeat_summary">Zapamiętaj tryb powtórz podczas ładowania list odtwarzania dźwięku</string>
@@ -498,8 +498,8 @@
     <string name="chapter">Rozdział</string>
     <string name="resume_from_position">Wznów od ostatniej pozycji</string>
     <string name="confirm_resume">Wznowić od ostatniej pozycji?</string>
-    <string name="confirm_resume_title">Wyświetl potwierdzenie, aby wznowić</string>
-    <string name="confirm_resume_summary">jeśli włączone, będziesz proszony o potwierdzenie, czy wideo ma zostać wznowione z ostatniej pozycji</string>
+    <string name="confirm_resume_title">Potwierdzenie, aby wznowić</string>
+    <string name="confirm_resume_summary">Jeśli włączone, będziesz proszony o potwierdzenie, czy wideo ma zostać wznowione z ostatniej pozycji</string>
     <string name="directory_empty">Katalog jest pusty</string>
     <string name="tv_ui_title">Interfejs Android TV</string>
     <string name="tv_ui_summary">Zmień interfejs użytkownika do dopasowanego przez TV</string>
@@ -615,7 +615,7 @@
     <string name="dialog_sd_wizard">Pokaż mi</string>
     <string name="renderers_disconnect">Rozłącz</string>
     <string name="audio_digital_failed">Nie udało się zmienić stanu wyjścia dźwięku cyfrowego</string>
-    <string name="audio_digital_output_enabled">Wyjście dźwięku cyfrowego włączone</string>
+    <string name="audio_digital_output_enabled">Wyjście dźwięku cyfrowego (przejściówka) włączone</string>
     <string name="audio_digital_output_disabled">Wyjście dźwięku cyfrowego (przejściówka) wyłączone</string>
     <string name="audio_digital_title">Cyfrowe wyjście dźwiękowe</string>
     <string name="audio_task_removed_title">Zatrzymaj odtwarzanie po zamknięciu aplikacji</string>
@@ -646,4 +646,9 @@
     <string name="download_the_selected">Pobierz wybór</string>
     <string name="next">Następny</string>
     <string name="download">Pobierz</string>
+    <string name="ctx_player_video_track">Wybierz ścieżkę wideo</string>
+    <string name="ctx_player_audio_track">Ścieżka dźwiękowa</string>
+    <string name="ctx_player_subs_track">Ścieżka napisów</string>
+    <string name="ctx_player_tracks_title">Ścieżki multimedialne</string>
+    <string name="ctx_pip_title">Odtwarzacz w oknie pop-up</string>
 </resources>
