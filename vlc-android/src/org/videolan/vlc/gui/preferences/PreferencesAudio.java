@@ -83,7 +83,7 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
         if (preference.getKey() == null) return false;
         switch (preference.getKey()){
             case "enable_headset_detection":
-                ((PreferencesActivity)getActivity()).detectHeadset(((TwoStatePreference) preference).isChecked());
+                ((PreferencesActivity)requireActivity()).detectHeadset(((TwoStatePreference) preference).isChecked());
                 return true;
         }
         return super.onPreferenceTreeClick(preference);

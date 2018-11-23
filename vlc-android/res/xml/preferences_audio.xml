@@ -7,7 +7,8 @@
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="audio_task_removed"
-        android:title="@string/audio_task_removed_title" />
+        android:title="@string/audio_task_cleared_title"
+        android:summary="@string/audio_task_cleared_summary"/>
 
     <CheckBoxPreference
         android:defaultValue="false"
