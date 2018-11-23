@@ -625,4 +625,9 @@
     <string name="download_the_selected">ダウンロードするものを選択</string>
     <string name="next">次へ</string>
     <string name="download">ダウンロード</string>
+    <string name="ctx_player_video_track">ビデオトラックを選択</string>
+    <string name="ctx_player_audio_track">オーディオトラック</string>
+    <string name="ctx_player_subs_track">字幕トラック</string>
+    <string name="ctx_player_tracks_title">メディアトラック</string>
+    <string name="ctx_pip_title">ポップアッププレイヤー</string>
 </resources>
