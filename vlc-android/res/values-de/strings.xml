@@ -189,7 +189,7 @@
     <string name="search_results">Suchergebnisse</string>
     <string name="search_no_result">Keine Medien gefunden</string>
     <string name="favorites_add">Zu Favoriten hinzufügen</string>
-    <string name="favorites_remove">Von Favoriten entfernen</string>
+    <string name="favorites_remove">Aus Favoriten entfernen</string>
     <string name="favorites_edit">Bearbeiten</string>
     <string name="favorite_added">In Favoriten gespeichert</string>
     <string name="favorite_removed">Von Favoriten entfernt</string>
@@ -198,9 +198,9 @@
     <string name="open_mrl">Stream</string>
     <string name="open_mrl_dialog_title">Netzwerkstream öffnen</string>
     <string name="open_mrl_dialog_msg">Netzwerkmedienadresse eingeben: z.B. http://, mms:// oder rtsp://</string>
-    <string name="error_not_compatible">Entschuldigung, VLC für Android™ unterstützt dieses Gerät derzeit leider nicht.</string>
+    <string name="error_not_compatible">Es tut uns leid, Ihr Gerät wird derzeit von dieser Version von VLC für Android™ nicht unterstützt.</string>
     <string name="error_problem">Es tut uns leid, VLC für Android hatte ein Problem beim Laden und musste geschlossen werden.</string>
-    <string name="error_message_is">Die Fehlermeldung ist (bitte bei der Fehlersuche angeben):\n</string>
+    <string name="error_message_is">Die Fehlermeldung lautet (bitte bei der Fehlersuche angeben):\n</string>
     <string name="encountered_error_title">Wiedergabefehler</string>
     <string name="encountered_error_message">VLC stellte einen Fehler mit diesem Medium fest.\nBitte versuchen Sie die Medienbibliothek zu aktualisieren.</string>
     <string name="invalid_location">Ort %1$s kann nicht abgespielt werden.</string>
@@ -211,8 +211,8 @@
 
     <string name="playback_history_title">Wiedergabeverlauf</string>
     <string name="playback_history_summary">Alle abgespielten Medien im Verlaufsbereich speichern</string>
-    <string name="playback_speed_title">Wiedergabegeschwindigkeit speichern</string>
-    <string name="playback_speed_summary">Wiedergabegeschwindigkeit merken</string>
+    <string name="playback_speed_title">Geschwindigkeit speichern</string>
+    <string name="playback_speed_summary">Die eingestellte Wiedergabegeschwindigkeit wird gespeichert</string>
 
     <string name="play_button">Wiedergabe-Knopf</string>
     <!-- Tips -->
@@ -249,12 +249,12 @@
     <string name="preferences">Einstellungen</string>
 
     <string name="general_prefs_category">Allgemein</string>
-    <string name="directories_summary">Die Verzeichnisse auswählen, die zur Medienbibliothek hinzugefügt werden sollen</string>
+    <string name="directories_summary">Verzeichnisse auswählen, die zur Medienbibliothek hinzugefügt werden sollen</string>
     <string name="add_custom_path">Benutzerdefinierten Pfad hinzufügen</string>
     <string name="add_custom_path_description">Ein zusätzliches, benutzerdefiniertes Verzeichnis zum Durchsuchen eingeben:</string>
     <string name="remove_custom_path">Benutzerdefinierten Pfad entfernen</string>
     <string name="hardware_acceleration">Hardwarebeschleunigung</string>
-    <string name="hardware_acceleration_summary">Deaktiviert: bessere Stabilität.\nDekodierung: kann die Leistung verbessern.\nVoll: kann die Leistung noch weiter verbessern.</string>
+    <string name="hardware_acceleration_summary">Deaktiviert: bessere Stabilität\nDekodierung: kann die Leistung verbessern\nVoll: kann die Leistung noch weiter verbessern</string>
     <string name="hardware_acceleration_disabled">Deaktiviert</string>
     <string name="hardware_acceleration_decoding">Dekodierbeschleunigung</string>
     <string name="hardware_acceleration_full">Volle Beschleunigung</string>
@@ -286,7 +286,7 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Videos gruppieren</string>
-    <string name="video_min_group_length_summary">Videos werden nach ihren gleichen ersten Buchstaben gruppiert.</string>
+    <string name="video_min_group_length_summary">Videos werden nach ihren gleichen ersten Buchstaben gruppiert</string>
     <string name="video_min_group_length_disable">Deaktivieren</string>
     <string name="video_min_group_length_first">Nur erster Buchstabe</string>
     <string name="video_min_group_length_short">Mind. Anzahl der Buchstaben (6)</string>
@@ -299,8 +299,8 @@
     <string name="force_list_portrait_summary">Videos in einer Liste anstatt als Gitter im Portrait-Modus anzeigen</string>
     <string name="force_play_all_summary">Alle Videos wiedergeben, mit dem angeklickten Video beginnen</string>
     <string name="force_play_all_title">Modus für Video-Wiedergabelisten</string>
-    <string name="save_brightness_summary">Helligkeitseinstellung im Videoplayer merken</string>
-    <string name="save_brightness_title">Helligkeitseinstellung für Videos speichern</string>
+    <string name="save_brightness_summary">Die eingestellte Helligkeitseinstellung wird im Videoplayer gespeichert</string>
+    <string name="save_brightness_title">Helligkeitseinstellung speichern</string>
     <string name="save_audiodelay_summary">Individuelle Audioverzögerung für jedes einzelne Video speichern</string>
     <string name="save_audiodelay_title">Audioverzögerung speichern</string>
     <string name="enable_brightness_gesture_title">Helligkeitsgeste</string>
@@ -334,8 +334,8 @@
     <string name="subtitles_autoload_title">Untertitel automatisch laden</string>
 
     <string name="audio_prefs_category">Audio</string>
-    <string name="lockscreen_cover_title">Medien-Cover auf dem Sperrbildschirm</string>
-    <string name="lockscreen_cover_summary">Wenn verfügbar, wird das Medien-Cover Sperrbildschirm-Hintergrund angezeigt</string>
+    <string name="lockscreen_cover_title">Medien-Cover auf Sperrbildschirm</string>
+    <string name="lockscreen_cover_summary">Wenn verfügbar, wird das Medien-Cover als Sperrbildschirm-Hintergrund angezeigt</string>
     <string name="playlist_animate_scroll_title">Automatischen Bildlauf der aktuellen Wiedergabeliste animieren</string>
     <string name="playlist_animate_scroll_summary">Bildlauf beim Medienübergang animieren</string>
     <string name="audio_title_alignment">Audiotitelausrichtung</string>
@@ -353,7 +353,7 @@
     <string name="enable_headset_detection_summary">An- und Abstecken des Kopfhörers erkennen</string>
     <string name="enable_headset_actions_title">Tastenkombinationen für die Fernbedienung</string>
     <string name="enable_headset_actions_summary">Drücken Sie zweimal auf \'Wiedergabe\', um zum nächsten Titel zu springen und drücken Sie länger darauf, um zum vorherigen Titel zu springen.</string>
-    <string name="enable_play_on_headset_insertion">Fortsetzen wenn Kopfhörer angesteckt</string>
+    <string name="enable_play_on_headset_insertion">Weiter wenn Kopfhörer angesteckt</string>
     <string name="enable_play_on_headset_insertion_summary">Andernfalls pausieren</string>
     <string name="enable_steal_remote_control">Exklusive Kopfhörerfernbedienung</string>
     <string name="enable_steal_remote_control_summary">Vermeidet Konflikte, durch die Übernahme der Fernbedienung, von anderen Anwendungen. Dies verhindert auf HTC-Handys Anrufe bei Doppelklicks.</string>
@@ -388,7 +388,7 @@
     <string name="performance_prefs_category">Leistung</string>
     <string name="chroma_format">Farbsättigung erzwingen</string>
     <string name="chroma_format_summary">RGB 32-Bit: Standardfarbsättigung\nRGB 16-bit: Bessere Leistung aber schlechtere Qualität\nYUV: Beste Leistung, funktioniert aber nicht auf allen Geräten. Nur für Android 2.3 und später.</string>
-    <string name="deblocking">Einstellungen für Anti-Klötzchenfilter</string>
+    <string name="deblocking">Anti-Klötzchen-Filtereinstellungen</string>
     <string name="deblocking_summary">Einstellungen des Anti-Klötzchenfilter ändern. Verbessert möglicherweise die Videoqualität. Nur für fortgeschrittene Anwender.</string>
     <string name="deblocking_always">Vollständiges Klötzchen entfernen (am langsamsten)</string>
     <string name="deblocking_nonref">Mittleres Klötzchen entfernen</string>
@@ -414,7 +414,7 @@
     <string name="set_locale">Sprache ändern</string>
     <string name="set_locale_detail">Leer lassen, um zurückzusetzen</string>
     <string name="set_locale_popup">VLC beenden und zurücksetzen, damit die Änderungen wirksam werden.</string>
-    <string name="network_caching">Wert zum Zwischenspeichern im Netzwerk</string>
+    <string name="network_caching">Zwischenspeicher-Wert im Netzwerk</string>
     <string name="network_caching_summary">Der Zeitwert, um das Netzwerkmedium zu puffern (in ms). Funktioniert nicht in Verbindung mit Hardware-Dekodierung. Zum Zurückzusetzen leer lassen.</string>
     <string name="resume_playback_title">Wiedergabe nach Anruf fortsetzen</string>
     <string name="resume_playback_summary">Andernfalls im Pausieren verbleiben</string>
@@ -458,7 +458,7 @@
 
     <string name="no_result">Keine Ergebnisse gefunden</string>
     <string name="no_internet_connection">Überprüfen Sie Ihre Internetverbindung</string>
-    <string name="some_error_occurred">Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut in ein paar Sekunden.</string>
+    <string name="some_error_occurred">Ein Fehler ist aufgetreten. Bitte versuchen Sie es in einigen Sekunden erneut.</string>
 
     <string name="drawer_open">Navigationsleiste öffnen</string>
     <string name="drawer_close">Navigationsleiste schließen</string>
@@ -484,8 +484,8 @@
     <string name="chapter">Kapitel</string>
     <string name="resume_from_position">Fortsetzen von letzter Position</string>
     <string name="confirm_resume">Von letzter Position fortsetzen?</string>
-    <string name="confirm_resume_title">Nach Bestätigung zum Fortsetzen fragen</string>
-    <string name="confirm_resume_summary">Wenn aktiviert, werden Sie nach einer Bestätigung gefragt, wenn ein Video von der letzten Position fortgesetzt werden kann</string>
+    <string name="confirm_resume_title">Bestätigung zum Fortsetzen</string>
+    <string name="confirm_resume_summary">Wenn aktiviert, wird eine Bestätigung eingeblendet, wenn ein Video von der letzten Position fortgesetzt werden kann</string>
     <string name="directory_empty">Verzeichnis ist leer</string>
     <string name="tv_ui_title">Android-TV-Schnittstelle</string>
     <string name="tv_ui_summary">Benutzeroberfläche zum TV angepassten Thema ändern</string>
@@ -525,7 +525,7 @@
     <string name="download_on_device">Herunterladen</string>
     <string name="extension_empty">Kein Element zum Anzeigen,  gehen Sie in die Erweiterungseinstellungen um einige zu erhalten.</string>
 
-    <string name="opengl_title">Verwendung von OpenGL ES2</string>
+    <string name="opengl_title">OpenGL ES2-Nutzung</string>
     <string name="opengl_summary">Standardmäßig wird OpenGL ES2, wenn benötigt (z.B. 360°Videos), bei der Software-Dekodierung und Hardware-Dekodierung verwendet.</string>
     <string name="opengl_automatic">Automatisch</string>
     <string name="opengl_on">Ein erzwingen</string>
@@ -600,16 +600,16 @@
     <string name="sdcard_permission_dialog_message">VLC kann diese Datei nicht ohne Schreibzugriffsberechtigung löschen.\nBitte wechseln Sie auf Ihre SD-Karte und klicken Sie auf »Auswählen«.\nSie müssen möglicherweise zuerst auf »SD-Karte anzeigen« im Menü oben rechts klicken.</string>
     <string name="dialog_sd_wizard">Mir anzeigen</string>
     <string name="renderers_disconnect">Trennen</string>
-    <string name="audio_digital_failed">Änderung des Audio-Digital-Ausgabestatus fehlgeschlagen</string>
-    <string name="audio_digital_output_enabled">Audio-Digital-Ausgabe aktiviert</string>
-    <string name="audio_digital_output_disabled">Audio-Digital-Ausgabe deaktiviert</string>
-    <string name="audio_digital_title">Audio-Digital-Ausgabe (Passthrough)</string>
+    <string name="audio_digital_failed">Status des Audio-Digitalausgangs konnte nicht geändert werden</string>
+    <string name="audio_digital_output_enabled">Audio-Digitalausgang (Passthrough) aktiviert</string>
+    <string name="audio_digital_output_disabled">Audio-Digitalausgang (Passthrough) deaktiviert</string>
+    <string name="audio_digital_title">Digitaler Audio-Ausgang</string>
     <string name="audio_task_removed_title">Wiedergabe stoppen, wenn die Anwendung geschlossen wird</string>
     <string name="playback_rewind">Zurückspulen </string>
     <string name="playback_forward">Schnell vorspulen</string>
     <string name="ml_wizard_title">Auswahl der VLC-Medienbibliothek</string>
     <string name="ml_wizard_scan_checkbox">Gerät nach Medieninhalten durchsuchen</string>
-    <string name="ml_wizard_description">Auswahl zum Durchsuchen des Gerätespeichers durch den VLC um die Medienbibliothek zu organisieren, oder VLC als einfachen Player mit integriertem Browser verwenden.</string>
+    <string name="ml_wizard_description">Wählen Sie aus, ob VLC den Gerätespeicher durchsuchen soll, um Ihre Medienbibliothek zu organisieren, oder verwenden Sie VLC als einfachen Player mit integriertem Browser.</string>
     <string name="tv_my_new_videos">Meine neuen Videos</string>
     <string name="cast_option_title">Medien auf einen anderen Bildschirm übertragen</string>
     <string name="otg_device_title">OTG-Gerät</string>
@@ -632,4 +632,9 @@
     <string name="download_the_selected">Auswahl herunterladen</string>
     <string name="next">Nächstes</string>
     <string name="download">Herunterladen</string>
+    <string name="ctx_player_video_track">Videospur auswählen</string>
+    <string name="ctx_player_audio_track">Audiospur</string>
+    <string name="ctx_player_subs_track">Untertitelspur</string>
+    <string name="ctx_player_tracks_title">Medienspuren</string>
+    <string name="ctx_pip_title">Pop-Up -Wiedergabe</string>
 </resources>
