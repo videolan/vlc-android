@@ -632,4 +632,9 @@
     <string name="download_the_selected">Selectie downloaden</string>
     <string name="next">Volgende</string>
     <string name="download">Downloaden</string>
+    <string name="ctx_player_video_track">Videospoor selecteren</string>
+    <string name="ctx_player_audio_track">Audiospoor</string>
+    <string name="ctx_player_subs_track">Ondertitelspoor</string>
+    <string name="ctx_player_tracks_title">Mediasporen</string>
+    <string name="ctx_pip_title">Pop-up-speler</string>
 </resources>
