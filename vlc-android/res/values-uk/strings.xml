@@ -618,7 +618,8 @@
     <string name="audio_digital_output_enabled">Цифровий вивід аудіо ввімкнено</string>
     <string name="audio_digital_output_disabled">Цифровий вивід аудіо вимкнено</string>
     <string name="audio_digital_title">Цифровий вивід аудіо (роз\'єм)</string>
-    <string name="audio_task_removed_title">Призупиняти відтворення, якщо програму відхилено</string>
+    <string name="audio_task_cleared_title">Зупиняти при натисканні на програму</string>
+    <string name="audio_task_cleared_summary">Призупиняти відтворення, якщо програму відхилено</string>
     <string name="playback_rewind">Перемотати</string>
     <string name="playback_forward">Перемотування вперед</string>
     <string name="ml_wizard_title">Вибір медіабібліотеки VLC</string>
@@ -646,4 +647,9 @@
     <string name="download_the_selected">Завантажити обране</string>
     <string name="next">Наступний</string>
     <string name="download">Завантажити</string>
+    <string name="ctx_player_video_track">Вибрати відеодоріжку</string>
+    <string name="ctx_player_audio_track">Звукова доріжка</string>
+    <string name="ctx_player_subs_track">Доріжка субтитрів</string>
+    <string name="ctx_player_tracks_title">Медійні доріжки</string>
+    <string name="ctx_pip_title">Вигулькний гравець</string>
 </resources>
