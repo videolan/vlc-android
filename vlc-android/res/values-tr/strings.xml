@@ -604,7 +604,8 @@
     <string name="audio_digital_output_enabled">Sayısal Ses Çıkışı etkinleştirildi</string>
     <string name="audio_digital_output_disabled">Sayısal Ses Çıkışı devre dışı bırakıldı</string>
     <string name="audio_digital_title">Sayısal Ses Çıkışı (geçiş)</string>
-    <string name="audio_task_removed_title">Uygulama art alana gönderildiğinde oynatım durdurulsun</string>
+    <string name="audio_task_cleared_title">Uygulama ekran dışına kaydırıldığında durdurulsun</string>
+    <string name="audio_task_cleared_summary">Uygulama yok sayıldığında oynatma durdurulsun</string>
     <string name="playback_rewind">Geri Sar</string>
     <string name="playback_forward">İleri Sar</string>
     <string name="ml_wizard_title">VLC ortam kitaplığı seçimi</string>
@@ -632,4 +633,9 @@
     <string name="download_the_selected">Seçimi indir</string>
     <string name="next">Sonraki</string>
     <string name="download">İndir</string>
+    <string name="ctx_player_video_track">Görüntü izini seçin</string>
+    <string name="ctx_player_audio_track">Ses izi</string>
+    <string name="ctx_player_subs_track">Alt yazı izi</string>
+    <string name="ctx_player_tracks_title">Ortam izleri</string>
+    <string name="ctx_pip_title">Açılan pencerede oynatıcı</string>
 </resources>
