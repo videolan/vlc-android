@@ -127,7 +127,6 @@
     <string name="repeat_all">Összes ismétlése</string>
     <string name="previous">Előző</string>
     <string name="stop">Leállítás</string>
-    <string name="next">Következő</string>
     <string name="firstsong">A lejátszólista első száma</string>
     <string name="lastsong">A lejátszólista utolsó száma</string>
 
@@ -154,6 +153,9 @@
     <string name="navmenu">navigációs menü</string>
     <string name="advanced">speciális beállítások</string>
     <string name="audio_boost_warning">Húzza fel újra, hogy 100% fölé menjen</string>
+    <string name="locked_in_portrait_mode">Álló módban zárolva\n(A megszakításhoz nyomja hosszan a gombot)</string>
+    <string name="locked_in_landscape_mode">Fekvő módban zárolva\n(A megszakításhoz nyomja hosszan a gombot)</string>
+    <string name="reset_orientation">Tájolás visszaállítása</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 csatorna\n</item>
@@ -423,6 +425,8 @@
     <string name="restart_message">A változások az alkalmazás újraindítása után lépnek érvénybe.\n\nÚjraindítja most?</string>
     <string name="restart_message_OK">OK</string>
     <string name="restart_message_Later">Később</string>
+    <string name="browser_show_all_title">Összes fájl megjelenítése a böngészőben</string>
+    <string name="browser_show_all_summary">Fájlok megjelenítése, melyeket nem ismernek fel hangként vagy videóként a böngészők</string>
 
     <string name="developer_prefs_category">Fejlesztő</string>
     <string name="enable_verbose_mode">Részletes</string>
@@ -445,6 +449,16 @@
     <string name="restart_vlc">VLC újraindítása</string>
     <string name="send_log">Naplófájl küldése</string>
     <string name="sending_log">Naplófájl küldése…</string>
+
+    <string name="delete_sub_title">Felirat törlése</string>
+    <string name="delete_sub_message">Biztos, hogy törölni akarja ezt a feliratot?</string>
+    <string name="delete_sub_yes">Igen</string>
+    <string name="delete_sub_no">Nem</string>
+    <string name="download_subtitle_title">Felirat letöltése</string>
+
+    <string name="no_result">Nincs találat</string>
+    <string name="no_internet_connection">Ellenőrizze az internetkapcsolatát</string>
+    <string name="some_error_occurred">Valami hiba történt. Próbálja újra néhány másodperc múlva</string>
 
     <string name="drawer_open">Navigációs fiók megnyitása</string>
     <string name="drawer_close">Navigációs fiók bezárása</string>
@@ -590,7 +604,8 @@
     <string name="audio_digital_output_enabled">Digitális hangkimenet engedélyezve</string>
     <string name="audio_digital_output_disabled">Digitális hangkimenet letiltva</string>
     <string name="audio_digital_title">Digitális hangkimenet (áteresztés)</string>
-    <string name="audio_task_removed_title">Lejátszás szüneteltetése az alkalmazás eltüntetésekor</string>
+    <string name="audio_task_cleared_title">Szüneteltetés alkalmazásváltáskor</string>
+    <string name="audio_task_cleared_summary">Lejátszás szüneteltetése az alkalmazás eltüntetésekor</string>
     <string name="playback_rewind">Visszatekerés</string>
     <string name="playback_forward">Előretekerés</string>
     <string name="ml_wizard_title">VLC Medialibrary kiválasztása</string>
@@ -609,4 +624,18 @@
     <string name="time_category_older">Régebbi média</string>
     <string name="rename">Átnevezés</string>
     <string name="rename_media">%1$s átnevezése</string>
+    <string name="manual_search">Kézi keresés</string>
+    <string name="subtitle_search_name_hint">Név</string>
+    <string name="subtitle_search_episode_hint">Epizód</string>
+    <string name="subtitle_search_season_hint">Évad</string>
+    <string name="language_to_download">Nyelv</string>
+    <string name="delete_the_selected">Kiválasztás törlése</string>
+    <string name="download_the_selected">Kiválasztás letöltése</string>
+    <string name="next">Következő</string>
+    <string name="download">Letöltés</string>
+    <string name="ctx_player_video_track">Videosáv kiválasztása</string>
+    <string name="ctx_player_audio_track">Hangsáv</string>
+    <string name="ctx_player_subs_track">Feliratsáv</string>
+    <string name="ctx_player_tracks_title">Médiasávok</string>
+    <string name="ctx_pip_title">Felugró lejátszó</string>
 </resources>
