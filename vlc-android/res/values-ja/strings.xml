@@ -597,7 +597,8 @@
     <string name="audio_digital_output_enabled">オーディオデジタル出力を有効化</string>
     <string name="audio_digital_output_disabled">オーディオデジタル出力を無効化</string>
     <string name="audio_digital_title">デジタルオーディオ出力 (パススルー)</string>
-    <string name="audio_task_removed_title">アプリケーションが閉じられた時に再生を停止</string>
+    <string name="audio_task_cleared_title">スワイプで再生を停止</string>
+    <string name="audio_task_cleared_summary">アプリケーションが閉じられた時に再生を停止</string>
     <string name="playback_rewind">戻す</string>
     <string name="playback_forward">高速に進める</string>
     <string name="ml_wizard_title">VLCメディアライブラリー選択</string>
