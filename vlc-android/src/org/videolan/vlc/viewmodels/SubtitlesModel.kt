@@ -115,6 +115,14 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
     }
 
     fun onRefresh() {
+        if (manualSearchEnabled.get() && observableSearchName.get().isNullOrEmpty()) {
+            isApiLoading.set(false)
+            // As it's already false we need to notify it to
+            // disable refreshing animation
+            isApiLoading.notifyChange()
+            return
+        }
+
         search(!manualSearchEnabled.get())
     }
 
