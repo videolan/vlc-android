@@ -103,6 +103,7 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
         apiResultLiveData.postValue(listOf())
         searchJob?.cancel()
 
+        observableMessage.set("")
         if (!isChecked) search(true)
     }
 
