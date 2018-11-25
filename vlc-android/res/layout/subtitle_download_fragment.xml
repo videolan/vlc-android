@@ -13,7 +13,6 @@
         android:id="@+id/constraintLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
         <org.videolan.vlc.gui.MultiSelectionSpinner
             android:id="@+id/language_list_spinner"
             android:layout_width="wrap_content"
@@ -41,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:onCheckedChanged="@{(v, checked) -> viewmodel.onCheckedChanged(checked)}"
+            android:checked="@{viewmodel.manualSearchEnabled}"
             android:paddingStart="0dp"
             android:focusable="true"
             android:text="@string/manual_search"
@@ -176,6 +176,5 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/left_vertical_guideline"
             app:layout_goneMarginTop="40dp" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
