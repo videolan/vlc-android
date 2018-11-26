@@ -604,7 +604,8 @@
     <string name="audio_digital_output_enabled">Audio Digital Output aktiveret</string>
     <string name="audio_digital_output_disabled">Audio Digital Output deaktiveret</string>
     <string name="audio_digital_title">Digital audio output (gennemsendelse)</string>
-    <string name="audio_task_removed_title">Stop afspilning når programmet skjules</string>
+    <string name="audio_task_cleared_title">Handling ved strygning af program</string>
+    <string name="audio_task_cleared_summary">Stop afspilning når programmet skjules</string>
     <string name="playback_rewind">Spol tilbage</string>
     <string name="playback_forward">Hurtigere</string>
     <string name="ml_wizard_title">Udvalg i VLC-mediebibliotek</string>
@@ -632,4 +633,9 @@
     <string name="download_the_selected">Download valgte</string>
     <string name="next">Næste</string>
     <string name="download">Download</string>
+    <string name="ctx_player_video_track">Vælg videospor</string>
+    <string name="ctx_player_audio_track">Lydspor</string>
+    <string name="ctx_player_subs_track">Undertekstspor</string>
+    <string name="ctx_player_tracks_title">Mediespor</string>
+    <string name="ctx_pip_title">Pop op-afspiller</string>
 </resources>
