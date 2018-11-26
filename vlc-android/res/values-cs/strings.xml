@@ -618,7 +618,8 @@
     <string name="audio_digital_output_enabled">Digitální výstup zvuku povolen</string>
     <string name="audio_digital_output_disabled">Digitální výstup zvuku zakázán</string>
     <string name="audio_digital_title">Digitální výstup zvuku (průchod)</string>
-    <string name="audio_task_removed_title">Zastavit přehrávání při přesunutí aplikace na pozadí</string>
+    <string name="audio_task_cleared_title">Zastavit při odsunutí aplikace</string>
+    <string name="audio_task_cleared_summary">Zastavit přehrávání při přesunutí aplikace na pozadí</string>
     <string name="playback_rewind">Vzad</string>
     <string name="playback_forward">Vpřed</string>
     <string name="ml_wizard_title">Výběr knihovny médií VLC</string>
@@ -646,4 +647,9 @@
     <string name="download_the_selected">Stáhnout výběr</string>
     <string name="next">Následující</string>
     <string name="download">Stáhnout</string>
+    <string name="ctx_player_video_track">Vyberte stopu videa</string>
+    <string name="ctx_player_audio_track">Stopa zvuku</string>
+    <string name="ctx_player_subs_track">Stopa titulků</string>
+    <string name="ctx_player_tracks_title">Stopy média</string>
+    <string name="ctx_pip_title">Vyskakovací přehrávač</string>
 </resources>
