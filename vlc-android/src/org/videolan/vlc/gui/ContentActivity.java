@@ -195,7 +195,10 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     }
 
     public void closeSearchView() {
-        if (mToolbar.getMenu() != null) mToolbar.getMenu().findItem(R.id.ml_menu_filter).collapseActionView();
+        if (mToolbar.getMenu() != null) {
+            final MenuItem item = mToolbar.getMenu().findItem(R.id.ml_menu_filter);
+            item.collapseActionView();
+        }
     }
 
     public void restoreCurrentList() {
