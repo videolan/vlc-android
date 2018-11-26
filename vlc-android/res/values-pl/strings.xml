@@ -268,7 +268,7 @@
     <string name="add_custom_path_description">Wprowadź własny, dodatkowy katalog do skanowania:</string>
     <string name="remove_custom_path">Usuń własną ścieżkę</string>
     <string name="hardware_acceleration">Przyspieszenie sprzętowe</string>
-    <string name="hardware_acceleration_summary">Wyłączona: lepsza stabilność.\nDekodowanie: może poprawić wydajność.\nPełna: może dodatkowo zwiększyć wydajność.</string>
+    <string name="hardware_acceleration_summary">Wyłączona: lepsza stabilność\nDekodowanie: może poprawić wydajność\nPełna: może dodatkowo zwiększyć wydajność</string>
     <string name="hardware_acceleration_disabled">Wyłączona</string>
     <string name="hardware_acceleration_decoding">Akceleracja dekodowania</string>
     <string name="hardware_acceleration_full">Pełna akceleracja</string>
@@ -299,8 +299,8 @@
     <string name="interface_other_category">Interfejs - inne</string>
 
     <string name="video_prefs_category">Obraz</string>
-    <string name="video_min_group_length_title">Zgrupuj widea</string>
-    <string name="video_min_group_length_summary">Widea są zgrupowane, gdy pierwsza litera jest taka sama.</string>
+    <string name="video_min_group_length_title">Grupuj filmy</string>
+    <string name="video_min_group_length_summary">Filmy są pogrupowane, jeśli ich pierwsze litery tytułu są takie same.</string>
     <string name="video_min_group_length_disable">Wyłącz</string>
     <string name="video_min_group_length_first">Tylko pierwsza litera</string>
     <string name="video_min_group_length_short">Krótka liczba liter (6)</string>
@@ -312,9 +312,9 @@
     <string name="force_list_portrait">Brak kratki w trybie portretowym</string>
     <string name="force_list_portrait_summary">Pokaż filmy w liście zamiast w kratkę w trybie portretowym</string>
     <string name="force_play_all_summary">Odtwórz wszystkie filmy, zaczynając od tego, którego kliknąłeś</string>
-    <string name="force_play_all_title">Tryb listy odtwarzania widea</string>
-    <string name="save_brightness_summary">Zapamiętaj poziom jasności w odtwarzaczu</string>
-    <string name="save_brightness_title">Zapisz poziom jasności widea</string>
+    <string name="force_play_all_title">Tryb odtwarzania listy filmów</string>
+    <string name="save_brightness_summary">Zapamiętaj ustawiony poziom jasności w odtwarzaczu</string>
+    <string name="save_brightness_title">Zapisz poziom jasności</string>
     <string name="save_audiodelay_summary">Zapisz indywidualne opóźnienie dźwięku dla każdego filmu</string>
     <string name="save_audiodelay_title">Zapisz opóźnienie dźwięku</string>
     <string name="enable_brightness_gesture_title">Gesty jasności</string>
@@ -364,11 +364,11 @@
     <string name="audio_boost_summary">Zezwól na głośność do 200%</string>
     <string name="headset_prefs_category">Słuchawki</string>
     <string name="enable_headset_detection">Wykrywanie słuchawek</string>
-    <string name="enable_headset_detection_summary">Wykrywanie wkładania i wyjmowania zestawu słuchawkowego</string>
+    <string name="enable_headset_detection_summary">Wykrywanie włożenia i wyjmowania zestawu słuchawkowego</string>
     <string name="enable_headset_actions_title">Skróty zdalnego sterowania</string>
     <string name="enable_headset_actions_summary">Dwukrotnie naciśnij przycisk \'Odtwórz\', aby przejść do następnego utworu lub naciśnij dłużnej, aby przejść do poprzedniego.</string>
     <string name="enable_play_on_headset_insertion">Wznowienie po włożeniu słuchawek</string>
-    <string name="enable_play_on_headset_insertion_summary">Przerwij w przeciwnym razie</string>
+    <string name="enable_play_on_headset_insertion_summary">Przerwanie odtwarzania w przeciwnym razie</string>
     <string name="enable_steal_remote_control">Ekskluzywny pilot słuchawek</string>
     <string name="enable_steal_remote_control_summary">Unikanie konfliktów poprzez zapożyczenie pilota z innych aplikacji. Zapobiega to wybieraniu numeru przy podwójnym kliknięciu na telefonach firmy HTC.</string>
     <string name="aout">Wyjście dźwiękowe</string>
@@ -618,7 +618,8 @@
     <string name="audio_digital_output_enabled">Wyjście dźwięku cyfrowego (przejściówka) włączone</string>
     <string name="audio_digital_output_disabled">Wyjście dźwięku cyfrowego (przejściówka) wyłączone</string>
     <string name="audio_digital_title">Cyfrowe wyjście dźwiękowe</string>
-    <string name="audio_task_removed_title">Zatrzymaj odtwarzanie po zamknięciu aplikacji</string>
+    <string name="audio_task_cleared_title">Zatrzymaj po przesunięciu aplikacji</string>
+    <string name="audio_task_cleared_summary">Zatrzymaj odtwarzanie po zamknięciu aplikacji</string>
     <string name="playback_rewind">Przewijanie do tyłu</string>
     <string name="playback_forward">Przewijanie do przodu</string>
     <string name="ml_wizard_title">Wybór biblioteki multimediów VLC</string>
