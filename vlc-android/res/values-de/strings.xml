@@ -212,7 +212,7 @@
     <string name="playback_history_title">Wiedergabeverlauf</string>
     <string name="playback_history_summary">Alle abgespielten Medien im Verlaufsbereich speichern</string>
     <string name="playback_speed_title">Geschwindigkeit speichern</string>
-    <string name="playback_speed_summary">Die eingestellte Wiedergabegeschwindigkeit wird gespeichert</string>
+    <string name="playback_speed_summary">Eingestellte Wiedergabegeschwindigkeit wird gespeichert</string>
 
     <string name="play_button">Wiedergabe-Knopf</string>
     <!-- Tips -->
@@ -269,7 +269,7 @@
     <string name="screen_orientation_reverse_portrait">Hochformat gedreht</string>
     <string name="screen_orientation_reverse_landscape">Querformat gedreht</string>
     <string name="enable_black_theme">Schwarzes Design</string>
-    <string name="enable_black_theme_summary">Die Schnittstellenfarben ändern, um eine bessere Annehmlichkeit in lichtschwachen Umgebungen zu erreichen.</string>
+    <string name="enable_black_theme_summary">Schnittstellenfarben ändern, um eine bessere Annehmlichkeit in lichtschwachen Umgebungen zu erreichen</string>
     <string name="subtitle_text_encoding">Untertiteltextkodierung</string>
     <string name="daynight_title">Tag-/Nachtmodus</string>
     <string name="daynight_summary">Zur passenden Zeit automatisch in den Nachtmodus wechseln</string>
@@ -281,12 +281,12 @@
     <string name="interface_secondary_display_category_title">Zweiter Bildschirm</string>
     <string name="interface_secondary_display_category_summary">Einstellungen für verbundenen zweiten Bildschirm (HDMI/Chromecast).</string>
     <string name="enable_clone_mode">Klonen bevorzugen</string>
-    <string name="enable_clone_mode_summary">Klont den Gerätebildschirm ohne Fernbedienungsmöglichkeit.</string>
+    <string name="enable_clone_mode_summary">Gerätebildschirm wird ohne Fernbedienungsmöglichkeit geklont</string>
     <string name="interface_other_category">Schnittstelle - Andere</string>
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Videos gruppieren</string>
-    <string name="video_min_group_length_summary">Videos werden nach ihren gleichen ersten Buchstaben gruppiert</string>
+    <string name="video_min_group_length_summary">Videos werden gruppiert, wenn ihre Anfangsbuchstaben des Titels gleich sind.</string>
     <string name="video_min_group_length_disable">Deaktivieren</string>
     <string name="video_min_group_length_first">Nur erster Buchstabe</string>
     <string name="video_min_group_length_short">Mind. Anzahl der Buchstaben (6)</string>
@@ -299,17 +299,17 @@
     <string name="force_list_portrait_summary">Videos in einer Liste anstatt als Gitter im Portrait-Modus anzeigen</string>
     <string name="force_play_all_summary">Alle Videos wiedergeben, mit dem angeklickten Video beginnen</string>
     <string name="force_play_all_title">Modus für Video-Wiedergabelisten</string>
-    <string name="save_brightness_summary">Die eingestellte Helligkeitseinstellung wird im Videoplayer gespeichert</string>
+    <string name="save_brightness_summary">Eingestellte Helligkeitseinstellung wird im Videoplayer gespeichert</string>
     <string name="save_brightness_title">Helligkeitseinstellung speichern</string>
     <string name="save_audiodelay_summary">Individuelle Audioverzögerung für jedes einzelne Video speichern</string>
     <string name="save_audiodelay_title">Audioverzögerung speichern</string>
     <string name="enable_brightness_gesture_title">Helligkeitsgeste</string>
-    <string name="enable_brightness_gesture_summary">Die Helligkeit durch Gesten während der Videowiedergabe kontrollieren</string>
+    <string name="enable_brightness_gesture_summary">Helligkeit durch Gesten während der Videowiedergabe steuern</string>
     <string name="enable_volume_gesture_title">Lautstärkengeste</string>
-    <string name="enable_volume_gesture_summary">Die Lautstärke durch Gesten während der Videowiedergabe kontrollieren</string>
+    <string name="enable_volume_gesture_summary">Lautstärke durch Gesten während der Videowiedergabe steuern</string>
     <string name="enable_seek_buttons">Suchen-Knöpfe</string>
     <string name="enable_seek_buttons_summary">Rückwärts- und Vorwärtsknöpfe im Videomodus anzeigen</string>
-    <string name="enable_double_tap_seek_title">Zum springen doppelt antippen</string>
+    <string name="enable_double_tap_seek_title">Doppelt antippen zum springen</string>
     <string name="enable_double_tap_seek_summary">Für einen 10 Sekunden Sprung, in den Bildschirmecken doppelt antippen</string>
     <string name="popup_keepscreen_title">Im Pop-Up-Modus Anzeige nicht ausschalten</string>
     <string name="popup_keepscreen_summary">Anzeige während einer Pop-Up-Wiedergabe immer eingeschaltet lassen, auch wenn das Video angehalten wird.</string>
@@ -350,15 +350,15 @@
     <string name="audio_boost_summary">Lautstärke bis zu 200% erlauben</string>
     <string name="headset_prefs_category">Kopfhörer</string>
     <string name="enable_headset_detection">Kopfhörer erkennen</string>
-    <string name="enable_headset_detection_summary">An- und Abstecken des Kopfhörers erkennen</string>
+    <string name="enable_headset_detection_summary">Das Einsetzen und Entfernen des Kopfhörers erkennen</string>
     <string name="enable_headset_actions_title">Tastenkombinationen für die Fernbedienung</string>
     <string name="enable_headset_actions_summary">Drücken Sie zweimal auf \'Wiedergabe\', um zum nächsten Titel zu springen und drücken Sie länger darauf, um zum vorherigen Titel zu springen.</string>
-    <string name="enable_play_on_headset_insertion">Weiter wenn Kopfhörer angesteckt</string>
-    <string name="enable_play_on_headset_insertion_summary">Andernfalls pausieren</string>
+    <string name="enable_play_on_headset_insertion">Weiter wenn Kopfhörer eingesetzt</string>
+    <string name="enable_play_on_headset_insertion_summary">Andernfalls Wiedergabe pausieren</string>
     <string name="enable_steal_remote_control">Exklusive Kopfhörerfernbedienung</string>
     <string name="enable_steal_remote_control_summary">Vermeidet Konflikte, durch die Übernahme der Fernbedienung, von anderen Anwendungen. Dies verhindert auf HTC-Handys Anrufe bei Doppelklicks.</string>
     <string name="aout">Audioausgabe</string>
-    <string name="aout_summary">Die Methode ändern, die VLC zur Tonausgabe benutzt.</string>
+    <string name="aout_summary">Methode ändern, die VLC zur Tonausgabe verwendet</string>
     <string name="audio_ducking_title">VLC-Lautstärke bei Benachrichtigungen</string>
     <string name="audio_ducking_summary">Verringert die VLC-Lautstärke, um Audio-Benachrichtigungen, Navigationsanweisungen oder den Assistenten besser zu hören</string>
     <string name="casting_category">Streaming</string>
@@ -389,7 +389,7 @@
     <string name="chroma_format">Farbsättigung erzwingen</string>
     <string name="chroma_format_summary">RGB 32-Bit: Standardfarbsättigung\nRGB 16-bit: Bessere Leistung aber schlechtere Qualität\nYUV: Beste Leistung, funktioniert aber nicht auf allen Geräten. Nur für Android 2.3 und später.</string>
     <string name="deblocking">Anti-Klötzchen-Filtereinstellungen</string>
-    <string name="deblocking_summary">Einstellungen des Anti-Klötzchenfilter ändern. Verbessert möglicherweise die Videoqualität. Nur für fortgeschrittene Anwender.</string>
+    <string name="deblocking_summary">Einstellungen des Anti-Klötzchenfilter ändern. Verbessert möglicherweise die Videoqualität.\nNur für fortgeschrittene Anwender.</string>
     <string name="deblocking_always">Vollständiges Klötzchen entfernen (am langsamsten)</string>
     <string name="deblocking_nonref">Mittleres Klötzchen entfernen</string>
     <string name="deblocking_nonkey">Niedriges Klötzchen entfernen</string>
@@ -588,7 +588,7 @@
     <string name="custom_set_restored">Eigene Equalizer-Einstellung wiederhergestellt.</string>
     <string name="unsaved_set_deleted_message">Nicht gespeicherte Equalizer-Einstellung gelöscht.</string>
     <string name="equalizer_new_preset_name">Neu</string>
-    <string name="settings_ml_block_scan">Die Medienbibliothek durchsucht Ihr Gerät gerade</string>
+    <string name="settings_ml_block_scan">Die Medienbibliothek durchsucht gerade Ihre Geräte</string>
     <string name="recommendations">Empfehlungen</string>
     <string name="recommendations_desc">Empfehlungen im Launcher</string>
     <string name="browser_quick_access">Schnellzugriff</string>
@@ -604,7 +604,8 @@
     <string name="audio_digital_output_enabled">Audio-Digitalausgang (Passthrough) aktiviert</string>
     <string name="audio_digital_output_disabled">Audio-Digitalausgang (Passthrough) deaktiviert</string>
     <string name="audio_digital_title">Digitaler Audio-Ausgang</string>
-    <string name="audio_task_removed_title">Wiedergabe stoppen, wenn die Anwendung geschlossen wird</string>
+    <string name="audio_task_cleared_title">Wiedergabe stoppen beim Wischen</string>
+    <string name="audio_task_cleared_summary">Wiedergabe wird gestoppt, wenn die Anwendung mit einem Wisch geschlossen wurde</string>
     <string name="playback_rewind">Zurückspulen </string>
     <string name="playback_forward">Schnell vorspulen</string>
     <string name="ml_wizard_title">Auswahl der VLC-Medienbibliothek</string>
