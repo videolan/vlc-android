@@ -501,10 +501,9 @@ $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
 
 checkfail "ndk-build libvlc failed"
 
-echo "Dumping dbg symbols info ${OUT_DBG_DIR}"
-
 cd ${SRC_DIR}
 OUT_DBG_DIR=.dbg/${ANDROID_ABI}
+echo "Dumping dbg symbols info ${OUT_DBG_DIR}"
 
 mkdir -p $OUT_DBG_DIR
 cp -a libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
