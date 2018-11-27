@@ -224,6 +224,8 @@ public class BenchActivity extends ShallowVideoPlayer {
 
         // blocking display in landscape orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        // Minimum apk for benchmark is 21, so this warning is a non-issue
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LOCKED);
 
         // Check for write permission, if false will ask
         // for them after asking for screenshot permission
