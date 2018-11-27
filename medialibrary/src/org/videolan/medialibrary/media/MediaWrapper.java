@@ -110,6 +110,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     private final Uri mUri;
     private String mFilename;
     private long mTime = 0;
+    private long mDisplayTime = 0;
     /* -1 is a valid track (Disabled) */
     private int mAudioTrack = -2;
     private int mSpuTrack = -2;
@@ -279,6 +280,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
                       long seen, Media.Slave[] slaves) {
         mFilename = null;
         mTime = time;
+        mDisplayTime = time;
         mAudioTrack = audio;
         mSpuTrack = spu;
         mLength = length;
@@ -385,6 +387,14 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
 
     public void setTime(long time) {
         mTime = time;
+    }
+
+    public long getDisplayTime() {
+        return mDisplayTime;
+    }
+
+    public void setDisplayTime(long time) {
+        mDisplayTime = time;
     }
 
     public int getAudioTrack() {

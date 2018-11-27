@@ -22,14 +22,7 @@ package org.videolan.vlc.gui.video;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import androidx.databinding.BindingAdapter;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ObservableBoolean;
-import androidx.databinding.ViewDataBinding;
 import android.os.Build;
-import androidx.annotation.MainThread;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +46,14 @@ import org.videolan.vlc.util.MediaItemDiffCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.MainThread;
+import androidx.annotation.Nullable;
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ViewDataBinding;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAdapter.ViewHolder> implements MultiSelectAdapter<MediaWrapper> {
 
@@ -165,7 +166,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
             /* Time / Duration */
             resolution = Tools.getResolution(media);
             if (media.getLength() > 0) {
-                final long lastTime = media.getTime();
+                final long lastTime = media.getDisplayTime();
                 if (lastTime > 0) {
                     max = (int) (media.getLength() / 1000);
                     progress = (int) (lastTime / 1000);
@@ -289,7 +290,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
         public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
             final MediaWrapper oldItem = oldList.get(oldItemPosition);
             final MediaWrapper newItem = newList.get(newItemPosition);
-            return oldItem == newItem || (oldItem.getTime() == newItem.getTime()
+            return oldItem == newItem || (oldItem.getDisplayTime() == newItem.getDisplayTime()
                     && TextUtils.equals(oldItem.getArtworkMrl(), newItem.getArtworkMrl())
                     && oldItem.getSeen() == newItem.getSeen());
         }
@@ -299,7 +300,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
         public Object getChangePayload(int oldItemPosition, int newItemPosition) {
             final MediaWrapper oldItem = oldList.get(oldItemPosition);
             final MediaWrapper newItem = newList.get(newItemPosition);
-            if (oldItem.getTime() != newItem.getTime())
+            if (oldItem.getDisplayTime() != newItem.getDisplayTime())
                 return Constants.UPDATE_TIME;
             if (!TextUtils.equals(oldItem.getArtworkMrl(), newItem.getArtworkMrl()))
                 return Constants.UPDATE_THUMB;
