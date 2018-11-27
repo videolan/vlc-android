@@ -236,7 +236,7 @@ public class UiTools {
         final TextView compiled = v.findViewById(R.id.main_compiled);
         compiled.setText(builder + " (" + builddate + ")");
         final TextView textview_rev = v.findViewById(R.id.main_revision);
-        textview_rev.setText(v.getContext().getString(R.string.revision) + " " + revision + " (" + builddate + ") " + BuildConfig.FLAVOR_abi);
+        textview_rev.setText(v.getContext().getString(R.string.revision) + " " + revision + " (" + builddate + ") " + BuildConfig.FLAVOR);
 
         final ImageView logo = v.findViewById(R.id.logo);
         logo.setOnClickListener(new View.OnClickListener() {

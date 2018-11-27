@@ -20,6 +20,9 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url "https://dl.bintray.com/videolan/LibVLC"
+        }
     }
 }
 
@@ -29,6 +32,8 @@ ext {
     minSdkVersion = 17
     targetSdkVersion = 28
     compileSdkVersion = 28
+    libvlcVersion = '3.1.0'
+    medialibraryVersion = '0.4'
     androidxVersion = '1.0.0'
     constraintLayoutVersion = '2.0.0-alpha2'
     archVersion = '2.0.0'

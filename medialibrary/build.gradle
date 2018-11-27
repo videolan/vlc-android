@@ -66,6 +66,10 @@ android {
             minifyEnabled false
             proguardFile 'proguard.cfg'
         }
+        dev {
+            initWith debug
+            matchingFallbacks = ['debug']
+        }
     }
 
     dataBinding {
@@ -88,7 +92,9 @@ clean {
 }
 
 dependencies {
-    implementation project(':libvlc')
+    releaseImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    debugImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    devImplementation project(':libvlc')
     api "androidx.legacy:legacy-support-v4:$rootProject.ext.androidxVersion"
     api "androidx.core:core:$rootProject.ext.androidxVersion"
     api "androidx.fragment:fragment:$rootProject.ext.androidxVersion"

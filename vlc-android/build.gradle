@@ -1,3 +1,5 @@
+import com.android.build.OutputFile
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
@@ -20,7 +22,7 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    flavorDimensions "target", "abi"
+    flavorDimensions "abi"
 
     lintOptions {
         abortOnError false
@@ -122,49 +124,40 @@ android {
             applicationIdSuffix ".debug"
             jniDebuggable true
         }
-    }
-    productFlavors {
-        vanilla {
-            dimension "target"
-            versionCode = 1
-        }
-        ARMv7 {
-            dimension "abi"
-            versionCode = 4
-        }
-        x86 {
-            dimension "abi"
-            versionCode = 5
-        }
-        MIPS {
-            dimension "abi"
-            versionCode = 6
-        }
-        ARMv8 {
-            dimension "abi"
-            versionCode = 7
-        }
-        x86_64 {
-            dimension "abi"
-            versionCode = 8
-        }
-        MIPS64 {
-            dimension "abi"
-            versionCode = 9
+        dev {
+            initWith debug
+            matchingFallbacks = ['debug']
         }
     }
 
+    splits {
+        abi {
+            def isReleaseBuild = false
+            gradle.startParameter.taskNames.find {
+                // Enable split for release builds in different build flavors
+                // (assemblePaidRelease, assembleFreeRelease, etc.).
+                if (it.toLowerCase() ==~ /assemble.*Release/.toLowerCase()) {
+                    isReleaseBuild = true
+                    return true // break
+                }
+                return false // continue
+            }
+            enable isReleaseBuild
+            reset()
+            include "x86", "x86_64", "armeabi-v7a", "arm64-v8a"
+//            universalApk !isReleaseBuild
+        }
+    }
+
+    def abiCodes = ['x86':5, 'x86_64':8, 'armeabi-v7a':4, 'arm64-v8a':7]
     // make per-variant version code
     applicationVariants.all { variant ->
-
-        def generatedCode = variant.productFlavors.get(0).versionCode * 10000000 + defaultConfig.versionCode + variant.productFlavors.get(1).versionCode
         //Custom APK name and versionCode
         variant.outputs.each { output ->
-            output.versionCodeOverride = generatedCode
+            def abiName = output.getFilter(OutputFile.ABI) ?: "all"
+            output.versionCodeOverride = 10000000 + defaultConfig.versionCode + abiCodes.get(abiName, 0)
             def outputName = "VLC-Android-"
-            if (variant.productFlavors.get(0).name != "vanilla")
-                outputName += variant.productFlavors.get(0).name.toUpperCase() + "-"
-            outputName += variant.versionName + "-" + variant.productFlavors.get(1).name + ".apk"
+            outputName += variant.versionName + "-" + abiName + ".apk"
             output.outputFileName = outputName
         }
     }
@@ -199,9 +192,14 @@ task generateSources (type: Jar) {
 }
 
 dependencies {
-    implementation project(':libvlc')
-    implementation project(':medialibrary')
+    devImplementation project(':libvlc')
+    devImplementation project(':medialibrary')
+    debugImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    debugImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    releaseImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    releaseImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
     implementation project(':api')
+    implementation project(':tools')
     // AppCompat
     implementation "androidx.recyclerview:recyclerview:$rootProject.ext.androidxVersion"
     implementation "com.google.android.material:material:$rootProject.ext.androidxVersion"
@@ -224,7 +222,6 @@ dependencies {
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
-    implementation project(":tools")
     // Test
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"

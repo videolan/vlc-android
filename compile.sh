@@ -40,9 +40,6 @@ while [ $# -gt 0 ]; do
             ANDROID_ABI=$2
             shift
             ;;
-        -c)
-            CHROME_OS=1
-            ;;
         -r|release|--release)
             RELEASE=1
             ;;
@@ -73,6 +70,10 @@ while [ $# -gt 0 ]; do
             ;;
         --no-ml)
             NO_ML=1
+            ;;
+        --publish)
+            RELEASE=1
+            PUBLISH=1
             ;;
         *)
             diagnostic "$0: Invalid option '$1'."
@@ -275,7 +276,7 @@ compile() {
     fi
 
     # Build LibVLC if asked for it, or needed by medialibrary
-    if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/$ANDROID_ABI" ]; then
+    if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/$1" ]; then
         ./compile-libvlc.sh $OPTS
     fi
 
@@ -283,51 +284,60 @@ compile() {
         ./compile-medialibrary.sh $OPTS
     fi
 }
-if [ "$ANDROID_ABI" = "all" ]; then
-    if [ -d libvlc/tmp ]; then
-        rm -rf libvlc/tmp
+if [ "$BUILD_MEDIALIB" = 1 -o "$BUILD_LIBVLC" = 1 -o "$RELEASE" != 1 ]; then
+    if [ "$ANDROID_ABI" = "all" ]; then
+        if [ -d tmp ]; then
+            rm -rf tmp
+        fi
+        mkdir tmp
+        LIB_DIR="libvlc"
+        if [ "$NO_ML" != 1 ]; then
+            LIB_DIR="medialibrary"
+        fi
+        compile armeabi-v7a
+        cp -r $LIB_DIR/jni/libs/armeabi-v7a tmp
+        compile arm64-v8a
+        cp -r $LIB_DIR/jni/libs/arm64-v8a tmp
+        compile x86
+        cp -r $LIB_DIR/jni/libs/x86 tmp
+        compile x86_64
+        mv tmp/* $LIB_DIR/jni/libs
+        rm -rf tmp
+    else
+        compile $ANDROID_ABI
     fi
-    mkdir libvlc/tmp
-    compile armeabi-v7a
-    mv libvlc/jni/libs/armeabi-v7a libvlc/tmp
-    compile arm64-v8a
-    mv libvlc/jni/libs/arm64-v8a libvlc/tmp
-    compile x86
-    mv libvlc/jni/libs/x86 libvlc/tmp
-    compile x86_64
-    mv libvlc/tmp/* libvlc/jni/libs
-else
-    compile $ANDROID_ABI
 fi
 
 ##################
 # Compile the UI #
 ##################
-PLATFORM="Vanilla"
-BUILDTYPE="Debug"
+BUILDTYPE="Dev"
 if [ "$SIGNED_RELEASE" = 1 ]; then
     BUILDTYPE="signedRelease"
 elif [ "$RELEASE" = 1 ]; then
     BUILDTYPE="Release"
 fi
-if [ "$CHROME_OS" = 1 ]; then
-    PLATFORM="Chrome"
-fi
 if [ "$BUILD_LIBVLC" = 1 ];then
     GRADLE_ABI=$GRADLE_ABI ./gradlew -p libvlc assemble${BUILDTYPE}
     RUN=0
     CHROME_OS=0
+    if [ "$PUBLISH" = 1 ];then
+        GRADLE_ABI=$GRADLE_ABI ./gradlew -p libvlc install bintrayUpload
+    fi
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
     GRADLE_ABI=$GRADLE_ABI ./gradlew -p medialibrary assemble${BUILDTYPE}
     RUN=0
     CHROME_OS=0
+    if [ "$PUBLISH" = 1 ];then
+        GRADLE_ABI=$GRADLE_ABI ./gradlew -p medialibrary install bintrayUpload
+    fi
 else
     if [ "$RUN" = 1 ]; then
         ACTION="install"
     else
         ACTION="assemble"
     fi
-    TARGET="${ACTION}${PLATFORM}${GRADLE_ABI}${BUILDTYPE}"
+    TARGET="${ACTION}${BUILDTYPE}"
     CLI="" ./gradlew $TARGET
 fi
 
