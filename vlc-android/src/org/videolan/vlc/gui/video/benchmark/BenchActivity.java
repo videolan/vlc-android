@@ -71,11 +71,14 @@ import java.util.List;
 
 public class BenchActivity extends ShallowVideoPlayer {
 
-    private static final String SCREENSHOTS = "org.videolan.vlc.gui.video.benchmark.ACTION_SCREENSHOTS";
-    private static final String PLAYBACK = "org.videolan.vlc.gui.video.benchmark.ACTION_PLAYBACK";
+    private static final String EXTRA_TIMESTAMPS = "extra_benchmark_timestamps";
+    private static final String EXTRA_ACTION_QUALITY = "extra_benchmark_action_quality";
+    private static final String EXTRA_ACTION_PLAYBACK = "extra_benchmark_action_playback";
+    private static final String EXTRA_SCREENSHOT_DIR = "extra_benchmark_screenshot_dir";
+    private static final String EXTRA_ACTION = "extra_benchmark_action";
+    private static final String EXTRA_HARDWARE = "extra_benchmark_disable_hardware";
+    public static final String EXTRA_BENCHMARK = "extra_benchmark";
 
-    private static final String TIMESTAMPS = "org.videolan.vlc.gui.video.benchmark.TIMESTAMPS";
-    private static final String INTENT_SCREENSHOT_DIR = "SCREENSHOT_DIR";
     private static final String TAG = "VLCBenchmark";
     private static final int REQUEST_SCREENSHOT = 666;
 
@@ -179,38 +182,44 @@ public class BenchActivity extends ShallowVideoPlayer {
         StartActivityOnCrash.setUp(this);
 
         Intent intent = getIntent();
+
         /* Enabling hardware mode if necessary*/
         /* Stops the hardware decoder falling back to software */
-        if (!intent.hasExtra("disable_hardware")) {
-            mIsHardware = true;
-        }
+        mIsHardware = !intent.getBooleanExtra(EXTRA_HARDWARE, true);
         mIsBenchmark = true;
-
-        if (!intent.hasExtra(INTENT_SCREENSHOT_DIR)) {
-            errorFinish("Failed to get screenshot directory location");
-        }
-        screenshotDir = intent.getStringExtra(INTENT_SCREENSHOT_DIR);
 
         super.onCreate(savedInstanceState);
 
         /* Determining the benchmark mode */
-        switch (intent.getAction()) {
-            case PLAYBACK:
+        if (!intent.hasExtra(EXTRA_ACTION)) {
+            errorFinish("Missing action intent extra");
+            return;
+        }
+        switch (intent.getStringExtra(EXTRA_ACTION)) {
+            case EXTRA_ACTION_PLAYBACK:
                 break;
-            case SCREENSHOTS:
-                mIsScreenshot = intent.hasExtra(TIMESTAMPS);
+            case EXTRA_ACTION_QUALITY:
+                if (!intent.hasExtra(EXTRA_SCREENSHOT_DIR)) {
+                    errorFinish("Failed to get screenshot directory location");
+                    return;
+                }
+                screenshotDir = intent.getStringExtra(EXTRA_SCREENSHOT_DIR);
+                mIsScreenshot = intent.hasExtra(EXTRA_TIMESTAMPS);
                 if (!mIsScreenshot) {
                     errorFinish("Missing screenshots timestamps");
+                    return;
                 }
-                if (intent.getSerializableExtra(TIMESTAMPS) instanceof List) {
-                    mTimestamp = (List<Long>) intent.getSerializableExtra(TIMESTAMPS);
+                if (intent.getSerializableExtra(EXTRA_TIMESTAMPS) instanceof List) {
+                    mTimestamp = (List<Long>) intent.getSerializableExtra(EXTRA_TIMESTAMPS);
                 } else {
                     errorFinish("Failed to get timestamps");
+                    return;
                 }
 
                 /* Deactivates secondary displays */
                 mEnableCloneMode = true;
                 mDisplayManager.release();
+                break;
         }
 
         // blocking display in landscape orientation
@@ -413,6 +422,7 @@ public class BenchActivity extends ShallowVideoPlayer {
      * @param resultString error description for display in VLCBenchmark
      */
     private void errorFinish(String resultString) {
+        Log.e(TAG, "errorFinish: " + resultString);
         Intent sendIntent = new Intent();
         sendIntent.putExtra("Error", resultString);
         setResult(RESULT_FAILED, sendIntent);
