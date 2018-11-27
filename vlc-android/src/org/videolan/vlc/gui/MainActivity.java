@@ -97,7 +97,7 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
         mDrawerLayout = findViewById(R.id.root_container);
         setupNavigationView();
         initAudioPlayerContainerActivity();
-        mNavigator = new Navigator(this, mSettings, mExtensionManagerService, savedInstanceState);
+        mNavigator = new Navigator(this, mSettings, mExtensionManagerService, savedInstanceState, getIntent().getIntExtra(Constants.EXTRA_TARGET, 0));
         if (savedInstanceState == null) {
             if (getIntent().getBooleanExtra(Constants.EXTRA_UPGRADE, false)) {
                 /*

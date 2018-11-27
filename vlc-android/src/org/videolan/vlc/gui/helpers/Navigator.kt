@@ -48,12 +48,13 @@ private const val TAG = "Navigator"
 class Navigator(private val activity: MainActivity,
         private val settings: SharedPreferences,
         private val extensionsService: ExtensionManagerService?,
-        state: Bundle?
+        state: Bundle?,
+        target: Int
 ): com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener, LifecycleObserver {
 
     private val fragmentsStack = androidx.collection.SimpleArrayMap<String, WeakReference<androidx.fragment.app.Fragment>>()
     private val defaultFragmentId inline get() = if (settings.getInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_OFF) == ML_SCAN_ON) R.id.nav_video else R.id.nav_directories
-    var currentFragmentId = 0
+    var currentFragmentId = target
     var currentFragment: androidx.fragment.app.Fragment? = null
         private set
 
@@ -69,7 +70,7 @@ class Navigator(private val activity: MainActivity,
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
-        if (currentFragment === null && !currentIdIsExtension()) showFragment(settings.getInt("fragment_id", defaultFragmentId))
+        if (currentFragment === null && !currentIdIsExtension()) showFragment(if (currentFragmentId != 0) currentFragmentId else settings.getInt("fragment_id", defaultFragmentId))
     }
 
     private fun getNewFragment(id: Int): androidx.fragment.app.Fragment {

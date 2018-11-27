@@ -26,6 +26,7 @@ const val PREF_FIRST_RUN = "first_run"
 const val EXTRA_FIRST_RUN = "extra_first_run"
 const val EXTRA_UPGRADE = "extra_upgrade"
 const val EXTRA_PARSE = "extra_parse"
+const val EXTRA_TARGET = "extra_parse"
 
 //UI Navigation
 const val ID_VIDEO = "video"

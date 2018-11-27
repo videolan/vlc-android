@@ -109,9 +109,11 @@ public class StartActivity extends FragmentActivity {
 
     private void startApplication(boolean tv, boolean firstRun, boolean upgrade) {
         MediaParsingServiceKt.startMedialibrary(this, firstRun, upgrade, true);
+
+        final int target = getIdFromShortcut();
         startActivity(new Intent(this, tv ? MainTvActivity.class : MainActivity.class)
                 .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
-                .putExtra(Constants.EXTRA_UPGRADE, upgrade));
+                .putExtra(Constants.EXTRA_TARGET, target));
     }
 
     private void startPlaybackFromApp(Intent intent) {
@@ -124,5 +126,26 @@ public class StartActivity extends FragmentActivity {
     private boolean showTvUi() {
         return AndroidDevices.isAndroidTv || (!AndroidDevices.isChromeBook && !AndroidDevices.hasTsp) ||
                 Settings.INSTANCE.getInstance(this).getBoolean("tv_ui", false);
+    }
+
+    private int getIdFromShortcut() {
+        if (!AndroidUtil.isNougatMR1OrLater) return 0;
+        final Intent intent = getIntent();
+        final String action = intent != null ? intent.getAction() : null;
+        if (!TextUtils.isEmpty(action)) {
+            switch (action) {
+                case "vlc.shortcut.video":
+                    return R.id.nav_video;
+                case "vlc.shortcut.audio":
+                    return R.id.nav_audio;
+                case "vlc.shortcut.browser":
+                    return R.id.nav_directories;
+                case "vlc.shortcut.network":
+                    return R.id.nav_network;
+                default:
+                    return 0;
+            }
+        }
+        return 0;
     }
 }
