@@ -40,7 +40,7 @@
     <string name="play_from_start">Odtwórz od początku</string>
     <string name="play_as_audio">Odtwórz jako dźwięk</string>
     <string name="play_as_video">Odtwórz jako wideo</string>
-    <string name="video_app_switch_title">Działanie na przełączaniu aplikacji</string>
+    <string name="video_app_switch_title">Działanie po przełączaniu aplikacji</string>
     <string name="video_app_switch_summary">Wybierz zachowanie VLC, gdy przełączasz z odtwarzania widea do innej aplikacji</string>
     <string name="play_pip_title">Odtwarzaj widea w trybie obraz w obrazie</string>
     <string name="play_as_audio_background">Odtwarzaj widea w tle</string>
@@ -618,8 +618,8 @@
     <string name="audio_digital_output_enabled">Wyjście dźwięku cyfrowego (przejściówka) włączone</string>
     <string name="audio_digital_output_disabled">Wyjście dźwięku cyfrowego (przejściówka) wyłączone</string>
     <string name="audio_digital_title">Cyfrowe wyjście dźwiękowe</string>
-    <string name="audio_task_cleared_title">Zatrzymaj po przesunięciu aplikacji</string>
-    <string name="audio_task_cleared_summary">Zatrzymaj odtwarzanie po zamknięciu aplikacji</string>
+    <string name="audio_task_cleared_title">Zatrzymaj po zamknięciu aplikacji</string>
+    <string name="audio_task_cleared_summary">Zatrzymaj odtwarzanie po usunięciu VLC z listy ostatnich aplikacji</string>
     <string name="playback_rewind">Przewijanie do tyłu</string>
     <string name="playback_forward">Przewijanie do przodu</string>
     <string name="ml_wizard_title">Wybór biblioteki multimediów VLC</string>
