@@ -83,11 +83,6 @@ android {
     }
 }
 
-task generateSources (type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.srcDirs
-}
-
 clean {
     delete 'build', 'jni/libs', 'jni/obj'
 }
