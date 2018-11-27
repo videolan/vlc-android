@@ -140,8 +140,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         registerForContextMenu(mBinding.videoGrid);
         setSearchVisibility(false);
         updateViewMode();
-        mFabPlay.setImageResource(R.drawable.ic_fab_play);
         setFabPlayVisibility(true);
+        mFabPlay.setImageResource(R.drawable.ic_fab_play);
         if (restart) viewModel.refresh();
     }
 

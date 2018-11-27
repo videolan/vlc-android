@@ -117,6 +117,12 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
         }
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        setFabPlayVisibility(false);
+    }
+
     public void updateActionBar() {
         final AppCompatActivity activity = (AppCompatActivity)getActivity();
         if (activity == null) return;
@@ -135,8 +141,10 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
     }
 
     public void setFabPlayVisibility(boolean enable) {
-        if (enable == (mFabPlay.getVisibility() == View.VISIBLE)) return;
-        if (mFabPlay != null) mFabPlay.setVisibility(enable ? View.VISIBLE : View.GONE);
+        if (mFabPlay != null) {
+            if (enable) mFabPlay.show();
+            else mFabPlay.hide();
+        }
     }
 
     public void onFabPlayClick(View view) {}
