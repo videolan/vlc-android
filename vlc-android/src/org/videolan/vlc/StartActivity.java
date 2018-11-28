@@ -98,22 +98,26 @@ public class StartActivity extends FragmentActivity {
         } else if(Intent.ACTION_VIEW.equals(action) && intent.getData() != null) { //launch from TV Channel
             final Uri data = intent.getData();
             final String path = data.getPath();
-            if (TextUtils.equals(path,"/"+TvChannelUtilsKt.TV_CHANNEL_PATH_APP)) startApplication(tv, firstRun, upgrade);
+            if (TextUtils.equals(path,"/"+TvChannelUtilsKt.TV_CHANNEL_PATH_APP)) startApplication(tv, firstRun, upgrade, 0);
             else if (TextUtils.equals(path,"/"+TvChannelUtilsKt.TV_CHANNEL_PATH_VIDEO)) {
                 final long id = Long.valueOf(data.getQueryParameter(TvChannelUtilsKt.TV_CHANNEL_QUERY_VIDEO_ID));
                 MediaUtils.INSTANCE.openMediaNoUi(this, id);
             }
-        } else startApplication(tv, firstRun, upgrade);
+        } else {
+            final int target = getIdFromShortcut();
+            if (target == R.id.ml_menu_last_playlist) PlaybackService.Companion.loadLastAudio(this);
+            else startApplication(tv, firstRun, upgrade, target);
+        }
         finish();
     }
 
-    private void startApplication(boolean tv, boolean firstRun, boolean upgrade) {
+    private void startApplication(boolean tv, boolean firstRun, boolean upgrade, int target) {
         MediaParsingServiceKt.startMedialibrary(this, firstRun, upgrade, true);
+        final Intent intent = new Intent(this, tv ? MainTvActivity.class : MainActivity.class)
+                .putExtra(Constants.EXTRA_FIRST_RUN, firstRun);
+        if (target != 0) intent.putExtra(Constants.EXTRA_TARGET, target);
 
-        final int target = getIdFromShortcut();
-        startActivity(new Intent(this, tv ? MainTvActivity.class : MainActivity.class)
-                .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
-                .putExtra(Constants.EXTRA_TARGET, target));
+        startActivity(intent);
     }
 
     private void startPlaybackFromApp(Intent intent) {
@@ -142,6 +146,8 @@ public class StartActivity extends FragmentActivity {
                     return R.id.nav_directories;
                 case "vlc.shortcut.network":
                     return R.id.nav_network;
+                case "vlc.shortcut.resume":
+                    return R.id.ml_menu_last_playlist;
                 default:
                     return 0;
             }
