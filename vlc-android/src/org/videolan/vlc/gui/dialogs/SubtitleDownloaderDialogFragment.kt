@@ -1,6 +1,7 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.content.Context
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
@@ -17,6 +18,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloaderDialogBinding
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.helpers.UiTools.deleteSubtitleDialog
+import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.VLCDownloadManager
 import org.videolan.vlc.viewmodels.SubtitlesModel
@@ -80,6 +82,17 @@ class SubtitleDownloaderDialogFragment: androidx.fragment.app.DialogFragment() {
         binding.movieName.text = Uri.parse(paths[0]).lastPathSegment
 
         return binding.root
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        // In manifest for VideoPlayerActivity defined
+        // android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"
+        // so dialog size breaks on orientation
+        if (requireActivity() is VideoPlayerActivity) {
+            MediaUtils.showSubtitleDownloaderDialogFragment(requireActivity(), paths)
+            dismiss()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
