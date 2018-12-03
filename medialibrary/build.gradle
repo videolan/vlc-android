@@ -99,7 +99,6 @@ dependencies {
     api "androidx.core:core:$rootProject.ext.androidxVersion"
     api "androidx.fragment:fragment:$rootProject.ext.androidxVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
-    implementation project(':tools')
 }
 
 apply from: '../publish.gradle'
