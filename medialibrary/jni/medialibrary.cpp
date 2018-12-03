@@ -134,12 +134,14 @@ entryPoints(JNIEnv* env, jobject thiz)
 }
 
 jboolean
-removeDevice(JNIEnv* env, jobject thiz, jstring uuid)
+removeDevice(JNIEnv* env, jobject thiz, jstring uuid, jstring storagePath)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     const char *uuidChar = env->GetStringUTFChars(uuid, JNI_FALSE);
-    jboolean removed = aml->removeDevice(uuidChar);
+    const char *path = env->GetStringUTFChars(storagePath, JNI_FALSE);
+    jboolean removed = aml->removeDevice(uuidChar, path);
     env->ReleaseStringUTFChars(uuid, uuidChar);
+    env->ReleaseStringUTFChars(storagePath, path);
     return removed;
 }
 
@@ -1677,7 +1679,7 @@ static JNINativeMethod methods[] = {
     {"nativeDiscover", "(Ljava/lang/String;)V", (void*)discover },
     {"nativeRemoveEntryPoint", "(Ljava/lang/String;)V", (void*)removeEntryPoint },
     {"nativeEntryPoints", "()[Ljava/lang/String;", (void*)entryPoints },
-    {"nativeRemoveDevice", "(Ljava/lang/String;)Z", (void*)removeDevice },
+    {"nativeRemoveDevice", "(Ljava/lang/String;Ljava/lang/String;)Z", (void*)removeDevice },
     {"nativeBanFolder", "(Ljava/lang/String;)V", (void*)banFolder },
     {"nativeUnbanFolder", "(Ljava/lang/String;)V", (void*)unbanFolder },
     {"nativeLastMediaPlayed", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)lastMediaPLayed },

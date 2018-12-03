@@ -64,7 +64,7 @@ bool
 AndroidMediaLibrary::addDevice(const std::string& uuid, const std::string& path, bool removable)
 {
     p_lister->addDevice(uuid, path, removable);
-    return p_DeviceListerCb != nullptr && (m_started ? p_DeviceListerCb->onDevicePlugged(uuid, path) : !p_DeviceListerCb->isDeviceKnown(uuid));
+    return p_DeviceListerCb != nullptr && (m_started ? p_DeviceListerCb->onDeviceMounted(uuid, path) : !p_DeviceListerCb->isDeviceKnown(uuid));
 }
 
 std::vector<std::tuple<std::string, std::string, bool>>
@@ -74,11 +74,11 @@ AndroidMediaLibrary::devices()
 }
 
 bool
-AndroidMediaLibrary::removeDevice(const std::string& uuid)
+AndroidMediaLibrary::removeDevice(const std::string& uuid, const std::string& path)
 {
     bool removed = p_lister->removeDevice(uuid);
     if (removed && p_DeviceListerCb != nullptr)
-        p_DeviceListerCb->onDeviceUnplugged(uuid);
+        p_DeviceListerCb->onDeviceUnmounted(uuid, path);
     return removed;
 }
 

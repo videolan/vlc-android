@@ -168,8 +168,8 @@ public class Medialibrary {
         return nativeEntryPoints();
     }
 
-    public boolean removeDevice(String uuid) {
-        return mIsInitiated && !TextUtils.isEmpty(uuid) && nativeRemoveDevice(Tools.encodeVLCMrl(uuid));
+    public boolean removeDevice(String uuid, String path) {
+        return mIsInitiated && !TextUtils.isEmpty(uuid) && !TextUtils.isEmpty(path) && nativeRemoveDevice(Tools.encodeVLCMrl(uuid), Tools.encodeVLCMrl(path));
     }
 
     @Override
@@ -906,7 +906,7 @@ public class Medialibrary {
     private native void nativeDiscover(String path);
     private native void nativeRemoveEntryPoint(String path);
     private native String[] nativeEntryPoints();
-    private native boolean nativeRemoveDevice(String uuid);
+    private native boolean nativeRemoveDevice(String uuid, String path);
     private native MediaWrapper[] nativeLastMediaPlayed();
     private native MediaWrapper[] nativeLastStreamsPlayed();
     private native  boolean nativeAddToHistory(String mrl, String title);

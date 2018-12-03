@@ -33,7 +33,7 @@ public:
     void start();
     bool addDevice(const std::string& uuid, const std::string& path, bool removable);
     std::vector<std::tuple<std::string, std::string, bool>> devices();
-    bool removeDevice(const std::string& uuid);
+    bool removeDevice(const std::string& uuid, const std::string& path);
     void banFolder(const std::string& path);
     void unbanFolder(const std::string& path);
     void discover(const std::string&);

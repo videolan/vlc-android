@@ -174,9 +174,9 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
         public void handleMessage(Message msg) {
             final Context appCtx = VLCApplication.getAppContext();
             final String uuid = ((Uri) msg.obj).getLastPathSegment();
+            final String path = ((Uri) msg.obj).getPath();
             switch (msg.what) {
                 case ACTION_MEDIA_MOUNTED:
-                    final String path = ((Uri) msg.obj).getPath();
                     removeMessages(ACTION_MEDIA_UNMOUNTED);
                     if (!TextUtils.isEmpty(uuid)
                             && !Settings.INSTANCE.getInstance(appCtx).getBoolean("ignore_" + uuid, false)) {
@@ -188,7 +188,7 @@ public class ExternalMonitor extends BroadcastReceiver implements LifecycleObser
                     }
                     break;
                 case ACTION_MEDIA_UNMOUNTED:
-                    VLCApplication.getMLInstance().removeDevice(uuid);
+                    VLCApplication.getMLInstance().removeDevice(uuid, path);
                     MediaParsingService.Companion.getStarted().setValue(false);
                     break;
             }
