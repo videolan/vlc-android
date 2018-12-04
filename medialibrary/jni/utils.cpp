@@ -11,6 +11,7 @@
 #include <medialibrary/IFolder.h>
 #include <medialibrary/IMediaLibrary.h>
 #include <medialibrary/IMetadata.h>
+#include<medialibrary/filesystem/IDevice.h>
 #define LOG_TAG "VLC/JNI/Utils"
 #include "log.h"
 
@@ -62,7 +63,11 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     jint  spuTrack = metaSpuTrack.isSet() ? metaSpuTrack.integer() : -2;
     title = mediaPtr->title().empty() ? NULL : env->NewStringUTF(mediaPtr->title().c_str());
     filename = mediaPtr->fileName().empty() ? NULL : env->NewStringUTF(mediaPtr->fileName().c_str());
-    mrl = env->NewStringUTF(files.at(0)->mrl().c_str());
+    try {
+        mrl = env->NewStringUTF(files.at(0)->mrl().c_str());
+    } catch(const medialibrary::fs::DeviceRemovedException&) {
+        return nullptr;
+    }
     thumbnail = mediaPtr->thumbnail().empty() ? NULL : env->NewStringUTF(mediaPtr->thumbnail().c_str());
     std::vector<medialibrary::VideoTrackPtr> videoTracks = mediaPtr->videoTracks()->all();
     bool hasVideoTracks = !videoTracks.empty();
