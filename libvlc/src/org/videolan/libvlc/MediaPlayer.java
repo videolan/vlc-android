@@ -1334,6 +1334,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
     @Override
     protected void onReleaseNative() {
+        detachViews();
         mWindow.detachViews();
         registerAudioPlug(false);
 
