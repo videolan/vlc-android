@@ -43,7 +43,10 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.coroutineScope
-import org.videolan.vlc.*
+import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.ExternalMonitor
+import org.videolan.vlc.R
+import org.videolan.vlc.RecommendationsService
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.tv.MainTvActivity.ACTIVITY_RESULT_PREFERENCES
@@ -53,6 +56,7 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
+import org.videolan.vlc.repository.createDirectory
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.HistoryModel
 import org.videolan.vlc.viewmodels.VideosModel
@@ -160,6 +164,12 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         onItemViewSelectedListener = this
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val browsePath = activity?.intent?.getStringExtra(EXTRA_PATH) ?: return
+        TvUtil.openMedia(requireActivity(), createDirectory(browsePath, requireContext()), null)
+    }
+
     fun updateAudioCategories(current: DummyItem? = null) {
         val list = mutableListOf<MediaLibraryItem>(
                 DummyItem(CATEGORY_ARTISTS, getString(R.string.artists), ""),
@@ -212,7 +222,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             if (directory.location.scanAllowed()) list.add(directory)
         }
 
-        if (ExternalMonitor.isLan()) {
+        if (ExternalMonitor.isLan) {
             list.add(DummyItem(HEADER_NETWORK, getString(R.string.network_browsing), null))
             list.add(DummyItem(HEADER_STREAM, getString(R.string.open_mrl), null))
             list.add(DummyItem(HEADER_SERVER, getString(R.string.server_add_title), null))

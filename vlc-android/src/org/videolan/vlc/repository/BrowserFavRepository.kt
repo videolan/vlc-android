@@ -75,7 +75,7 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) : IOScopedO
     private fun List<MediaWrapper>.filterNetworkFavs() : List<MediaWrapper> {
         return when {
             isEmpty() -> this
-            !ExternalMonitor.isConnected() -> emptyList()
+            !ExternalMonitor.isConnected -> emptyList()
             !ExternalMonitor.allowLan() -> {
                 val schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https")
                 mutableListOf<MediaWrapper>().apply { this@filterNetworkFavs.filterTo(this) { schemes.contains(it.uri.scheme) } }

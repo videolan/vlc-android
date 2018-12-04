@@ -77,7 +77,7 @@ public abstract class BaseTvActivity extends FragmentActivity {
 
     @Override
     protected void onStart() {
-        ExternalMonitor.subscribeStorageCb(this);
+        ExternalMonitor.INSTANCE.subscribeStorageCb(this);
 
         // super.onStart must be called after receiver registration
         super.onStart();
@@ -87,7 +87,7 @@ public abstract class BaseTvActivity extends FragmentActivity {
     @Override
     protected void onStop() {
         mIsVisible = false;
-        ExternalMonitor.unsubscribeStorageCb(this);
+        ExternalMonitor.INSTANCE.unsubscribeStorageCb(this);
         super.onStop();
     }
 

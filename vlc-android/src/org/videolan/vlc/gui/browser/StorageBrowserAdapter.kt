@@ -95,7 +95,7 @@ internal class StorageBrowserAdapter(fragment: BaseBrowserFragment) : BaseBrowse
         val tscb = v as ThreeStatesCheckbox
         val state = tscb.state
         if (state == ThreeStatesCheckbox.STATE_CHECKED) {
-            MedialibraryUtils.addDir(mrl)
+            MedialibraryUtils.addDevice(mrl, v.context.applicationContext)
             val prefs = Settings.getInstance(v.getContext())
             if (prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_ON) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
         } else

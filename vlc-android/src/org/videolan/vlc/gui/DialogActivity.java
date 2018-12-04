@@ -23,10 +23,13 @@
 
 package org.videolan.vlc.gui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.R;
+import org.videolan.vlc.gui.dialogs.DeviceDialog;
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog;
 import org.videolan.vlc.gui.dialogs.VlcDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
@@ -47,11 +50,17 @@ public class DialogActivity extends BaseActivity {
     public static final String KEY_STREAM = "streamDialog";
     public static final String KEY_SERVER = "serverDialog";
     public static final String KEY_SUBS_DL = "subsdlDialog";
+    public static final String KEY_DEVICE = "deviceDialog";
+
     public static final String EXTRA_MEDIALIST = "extra_media";
+    public static final String EXTRA_PATH = "extra_path";
+    public static final String EXTRA_UUID = "extra_uuid";
+    public static final String EXTRA_SCAN = "extra_scan";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.transparent);
         String key = getIntent().getAction();
         if (TextUtils.isEmpty(key)) {
             finish();
@@ -63,6 +72,14 @@ public class DialogActivity extends BaseActivity {
         else if (KEY_STREAM.equals(key)) setupStreamDialog();
         else if (KEY_SERVER.equals(key)) setupServerDialog();
         else if (KEY_SUBS_DL.equals(key)) setupSubsDialog();
+        else if (KEY_DEVICE.equals(key)) setupDeviceDialog();
+    }
+
+    private void setupDeviceDialog() {
+        final DeviceDialog dialog = new DeviceDialog();
+        final Intent intent = getIntent();
+        dialog.setDevice(intent.getStringExtra(EXTRA_PATH), intent.getStringExtra(EXTRA_UUID), intent.getBooleanExtra(EXTRA_SCAN, false));
+        dialog.show(getSupportFragmentManager(), "device_dialog");
     }
 
     private void setupStreamDialog() {

@@ -99,7 +99,7 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
                     .add(R.id.tv_fragment_placeholder, ((Fragment)mFragment))
                     .commit();
         }
-        ExternalMonitor.connected.observe(this, new Observer<Boolean>() {
+        ExternalMonitor.INSTANCE.getConnected().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean connected) {
                 onNetworkConnectionChanged(connected);

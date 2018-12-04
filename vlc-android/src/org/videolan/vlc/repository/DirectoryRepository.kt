@@ -13,7 +13,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.database.CustomDirectoryDao
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.models.CustomDirectory
-import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY
 import org.videolan.vlc.util.AndroidDevices.getExternalStorageDirectories
 import org.videolan.vlc.util.FileUtils
@@ -35,15 +34,7 @@ class DirectoryRepository (private val customDirectoryDao: CustomDirectoryDao) :
         val storages = getMediaDirectories()
 
         return storages.filter { File(it).exists() }.map {
-            val directory = MediaWrapper(AndroidUtil.PathToUri(it))
-            directory.type = MediaWrapper.TYPE_DIR
-            if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, it)) {
-                directory.setDisplayTitle(context.resources.getString(R.string.internal_memory))
-            } else {
-                val deviceName = FileUtils.getStorageTag(directory.title)
-                if (deviceName != null) directory.setDisplayTitle(deviceName)
-            }
-            directory
+            createDirectory(it, context)
         }.toList()
     }
 
@@ -58,4 +49,16 @@ class DirectoryRepository (private val customDirectoryDao: CustomDirectoryDao) :
     }
 
     companion object : SingletonHolder<DirectoryRepository, Context>({ DirectoryRepository(MediaDatabase.getInstance(it).customDirectoryDao()) })
+}
+
+fun createDirectory(it: String, context: Context): MediaWrapper {
+    val directory = MediaWrapper(AndroidUtil.PathToUri(it))
+    directory.type = MediaWrapper.TYPE_DIR
+    if (TextUtils.equals(EXTERNAL_PUBLIC_DIRECTORY, it)) {
+        directory.setDisplayTitle(context.resources.getString(R.string.internal_memory))
+    } else {
+        val deviceName = FileUtils.getStorageTag(directory.title)
+        if (deviceName != null) directory.setDisplayTitle(deviceName)
+    }
+    return directory
 }

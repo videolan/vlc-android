@@ -115,8 +115,8 @@ public class StartActivity extends FragmentActivity {
         MediaParsingServiceKt.startMedialibrary(this, firstRun, upgrade, true);
         final Intent intent = new Intent(this, tv ? MainTvActivity.class : MainActivity.class)
                 .putExtra(Constants.EXTRA_FIRST_RUN, firstRun);
+        if (tv && getIntent().hasExtra(Constants.EXTRA_PATH)) intent.putExtra(Constants.EXTRA_PATH, getIntent().getStringExtra(Constants.EXTRA_PATH));
         if (target != 0) intent.putExtra(Constants.EXTRA_TARGET, target);
-
         startActivity(intent);
     }
 

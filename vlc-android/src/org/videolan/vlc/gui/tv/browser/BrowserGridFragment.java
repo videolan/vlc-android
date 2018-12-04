@@ -69,7 +69,7 @@ public class BrowserGridFragment extends GridFragment implements OnItemViewSelec
                 mAdapter.setItems(mediaLibraryItems, TvUtil.INSTANCE.getDiffCallback());
             }
         });
-        ExternalMonitor.connected.observe(this, new Observer<Boolean>() {
+        ExternalMonitor.INSTANCE.getConnected().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean connected) {
                 if (connected != null && connected) provider.refresh();

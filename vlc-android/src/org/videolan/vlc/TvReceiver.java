@@ -69,6 +69,7 @@ public class TvReceiver extends BroadcastReceiver {
             case Intent.ACTION_BOOT_COMPLETED:
                 Log.d(TAG, "onReceive: ACTION_BOOT_COMPLETED ");
                 if (!AndroidUtil.isOOrLater) scheduleRecommendationUpdate(context);
+                if (AndroidDevices.watchDevices) ExternalMonitor.INSTANCE.register();
                 break;
         }
     }

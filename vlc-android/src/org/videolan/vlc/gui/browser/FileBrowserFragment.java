@@ -23,13 +23,8 @@
 
 package org.videolan.vlc.gui.browser;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,6 +44,12 @@ import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.browser.BrowserModel;
 import org.videolan.vlc.viewmodels.browser.BrowserModelKt;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 public class FileBrowserFragment extends BaseBrowserFragment {
 
@@ -107,7 +108,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
                 final String title = getString(R.string.otg_device_title);
                 final LiveData<Uri> otgRoot = OtgAccess.Companion.getOtgRoot();
                 final Uri rootUri = otgRoot.getValue();
-                if (rootUri != null && ExternalMonitor.devices.getValue().size() == 1) {
+                if (rootUri != null && ExternalMonitor.INSTANCE.getDevices().getValue().size() == 1) {
                     browseOtgDevice(rootUri, title);
                 } else {
                     otgRoot.observeForever(new Observer<Uri>() {

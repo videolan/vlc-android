@@ -144,7 +144,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     }
 
     private fun discoverStorage(path: String) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "discoverStorage: $path")
         if (TextUtils.isEmpty(path)) {
             exitCommand()
             return

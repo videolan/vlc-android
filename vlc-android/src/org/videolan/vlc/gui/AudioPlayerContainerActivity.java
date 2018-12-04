@@ -132,7 +132,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
 
     @Override
     protected void onStart() {
-        ExternalMonitor.subscribeStorageCb(this);
+        ExternalMonitor.INSTANCE.subscribeStorageCb(this);
         super.onStart();
         if (PlaylistManager.Companion.getShowAudioPlayer().getValue()) showAudioPlayer();
     }
@@ -155,7 +155,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        ExternalMonitor.unsubscribeStorageCb(this);
+        ExternalMonitor.INSTANCE.unsubscribeStorageCb(this);
     }
 
     @Override

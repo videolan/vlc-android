@@ -23,18 +23,12 @@
 
 package org.videolan.vlc.gui.browser;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,6 +45,13 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 public class NetworkBrowserFragment extends BaseBrowserFragment {
 
     @Override
@@ -62,7 +63,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ExternalMonitor.connected.observe(this, new Observer<Boolean>() {
+        ExternalMonitor.INSTANCE.getConnected().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean connected) {
                 refresh(connected);
@@ -108,7 +109,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
 
     @Override
     public void refresh() {
-        refresh(ExternalMonitor.isConnected());
+        refresh(ExternalMonitor.INSTANCE.isConnected());
     }
 
     public void refresh(boolean connected) {
@@ -152,7 +153,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     protected void browseRoot() {}
 
     private boolean allowLAN() {
-        return ExternalMonitor.isLan() || ExternalMonitor.isVPN();
+        return ExternalMonitor.INSTANCE.isLan() || ExternalMonitor.INSTANCE.isVPN();
     }
 
     @Override
@@ -165,7 +166,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
      */
     protected void updateEmptyView() {
         if (getBinding() == null) return;
-        if (ExternalMonitor.isConnected()) {
+        if (ExternalMonitor.INSTANCE.isConnected()) {
             if (Util.isListEmpty(getViewModel().getDataset().getValue())) {
                 if (mSwipeRefreshLayout == null || mSwipeRefreshLayout.isRefreshing()) {
                     getBinding().empty.setText(R.string.loading);

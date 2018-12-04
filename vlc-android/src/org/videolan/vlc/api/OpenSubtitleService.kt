@@ -41,7 +41,7 @@ private class ConnectivityInterceptor: Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        if (!ExternalMonitor.isConnected()) throw NoConnectivityException()
+        if (!ExternalMonitor.isConnected) throw NoConnectivityException()
 
         val builder = chain.request().newBuilder()
         return chain.proceed(builder.build())

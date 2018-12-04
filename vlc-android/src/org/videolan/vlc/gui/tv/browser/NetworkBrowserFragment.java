@@ -24,16 +24,12 @@
 package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.ExternalMonitor;
@@ -43,6 +39,11 @@ import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class NetworkBrowserFragment extends MediaSortedFragment<NetworkModel> {
@@ -60,7 +61,7 @@ public class NetworkBrowserFragment extends MediaSortedFragment<NetworkModel> {
                 if (stringListMap != null) update(stringListMap);
             }
         });
-        ExternalMonitor.connected.observe(this, new Observer<Boolean>() {
+        ExternalMonitor.INSTANCE.getConnected().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean connected) {
                 refresh(connected);

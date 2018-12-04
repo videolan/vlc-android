@@ -163,8 +163,7 @@ public class Medialibrary {
     }
 
     public String[] getFoldersList() {
-        if (!mIsInitiated)
-            return new String[0];
+        if (!mIsInitiated) return new String[0];
         return nativeEntryPoints();
     }
 
@@ -174,8 +173,7 @@ public class Medialibrary {
 
     @Override
     protected void finalize() throws Throwable {
-        if (mIsInitiated)
-            nativeRelease();
+        if (mIsInitiated) nativeRelease();
         super.finalize();
     }
 
