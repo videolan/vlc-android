@@ -93,7 +93,7 @@ public:
     medialibrary::Query<medialibrary::IMedia> mediaFromPlaylist( int64_t playlistId );
     // Folders
     medialibrary::Query<medialibrary::IMedia> mediaFromFolder(int64_t folderId, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params = nullptr );
-    medialibrary::Query<medialibrary::IFolder> folders(const medialibrary::QueryParameters* params = nullptr );
+    medialibrary::Query<medialibrary::IFolder> folders(const medialibrary::QueryParameters* params = nullptr, medialibrary::IMedia::Type type = medialibrary::IMedia::Type::Unknown );
     medialibrary::Query<medialibrary::IFolder> subFolders(int64_t folderId, const medialibrary::QueryParameters* params = nullptr );
     //PLaylists
     bool playlistAppend(int64_t playlistId, int64_t mediaId);
