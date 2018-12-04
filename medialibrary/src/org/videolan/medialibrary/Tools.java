@@ -3,7 +3,6 @@ package org.videolan.medialibrary;
 
 import android.net.Uri;
 import android.os.Environment;
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -12,6 +11,8 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
+
+import androidx.annotation.Nullable;
 
 public class Tools {
 
@@ -121,8 +122,12 @@ public class Tools {
         return sb.toString();
     }
 
+    public static String encodeVLCString(String mrl) {
+        return Uri.encode(Uri.decode(mrl), ".-_~/()&!$*+,;='@:");
+    }
+
     public static String encodeVLCMrl(String mrl) {
         if (mrl.startsWith("/")) mrl = "file://"+mrl;
-        return Uri.encode(Uri.decode(mrl), ".-_~/()&!$*+,;='@:");
+        return encodeVLCString(mrl);
     }
 }

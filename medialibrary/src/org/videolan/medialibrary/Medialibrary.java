@@ -83,6 +83,7 @@ public class Medialibrary {
     private final List<GenresCb> mGenreCbs = new ArrayList<>();
     private final List<PlaylistsCb> mPlaylistCbs = new ArrayList<>();
     private final List<OnMedialibraryReadyListener> onMedialibraryReadyListeners = new ArrayList<>();
+    private final List<OnDeviceChangeListener> onDeviceChangeListeners = new ArrayList<>();
     private volatile boolean isMedialibraryStarted = false;
     private final List<DevicesDiscoveryCb> devicesDiscoveryCbList = new ArrayList<>();
     private final List<EntryPointsEventsCb> entryPointsEventsCbList = new ArrayList<>();
@@ -145,7 +146,12 @@ public class Medialibrary {
     }
 
     public boolean addDevice(@NonNull String uuid, @NonNull String path, boolean removable) {
-        return nativeAddDevice(Tools.encodeVLCMrl(uuid), Tools.encodeVLCMrl(path), removable);
+        if (!mIsInitiated) return false;
+        final boolean added = nativeAddDevice(Tools.encodeVLCString(uuid), Tools.encodeVLCMrl(path), removable);
+        synchronized (onDeviceChangeListeners) {
+            for (OnDeviceChangeListener listener : onDeviceChangeListeners) listener.onDeviceChange();
+        }
+        return added;
     }
 
     public void discover(@NonNull String path) {
@@ -168,7 +174,12 @@ public class Medialibrary {
     }
 
     public boolean removeDevice(String uuid, String path) {
-        return mIsInitiated && !TextUtils.isEmpty(uuid) && !TextUtils.isEmpty(path) && nativeRemoveDevice(Tools.encodeVLCMrl(uuid), Tools.encodeVLCMrl(path));
+        if (!mIsInitiated) return false;
+        final boolean removed = !TextUtils.isEmpty(uuid) && !TextUtils.isEmpty(path) && nativeRemoveDevice(Tools.encodeVLCString(uuid), Tools.encodeVLCMrl(path));
+        synchronized (onDeviceChangeListeners) {
+            for (OnDeviceChangeListener listener : onDeviceChangeListeners) listener.onDeviceChange();
+        }
+        return removed;
     }
 
     @Override
@@ -856,6 +867,19 @@ public class Medialibrary {
         }
     }
 
+    public void addOnDeviceChangeListener(OnDeviceChangeListener listener) {
+        synchronized (onDeviceChangeListeners) {
+            if (!onDeviceChangeListeners.contains(listener))
+                onDeviceChangeListeners.add(listener);
+        }
+    }
+
+    public void removeOnDeviceChangeListener(OnDeviceChangeListener listener) {
+        synchronized (onDeviceChangeListeners) {
+            onDeviceChangeListeners.remove(listener);
+        }
+    }
+
     public static String[] getBlackList() {
         return new String[] {
                 "/Android/data/",
@@ -1010,5 +1034,9 @@ public class Medialibrary {
     public interface OnMedialibraryReadyListener {
         void onMedialibraryReady();
         void onMedialibraryIdle();
+    }
+
+    public interface OnDeviceChangeListener {
+        void onDeviceChange();
     }
 }
