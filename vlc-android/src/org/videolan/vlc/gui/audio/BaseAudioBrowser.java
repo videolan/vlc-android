@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.audio;
 
+import android.content.Context;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,6 +69,12 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
     abstract protected RecyclerView getCurrentRV();
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivity = (ContentActivity) context;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.ml_menu_last_playlist:
@@ -81,8 +88,6 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         mode.getMenuInflater().inflate(R.menu.action_mode_audio_browser, menu);
-        if (playlistModeSelected())
-            menu.findItem(R.id.action_mode_audio_add_playlist).setVisible(false);
         return true;
     }
 
@@ -158,10 +163,6 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
 
     @Override
     public void onRefresh() {}
-
-    protected boolean playlistModeSelected() {
-        return false;
-    }
 
     @Override
     public void onClick(@NonNull View v, int position, @NonNull MediaLibraryItem item) {

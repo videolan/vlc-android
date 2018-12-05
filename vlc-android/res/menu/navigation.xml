@@ -14,6 +14,10 @@
             android:title="@string/audio"
             android:icon="@drawable/ic_menu_audio" />
         <item
+            android:id="@+id/nav_playlists"
+            android:title="@string/playlists"
+            android:icon="@drawable/ic_menu_audio" />
+        <item
             android:id="@+id/nav_directories"
             android:title="@string/directories"
             android:icon="@drawable/ic_menu_folder" />

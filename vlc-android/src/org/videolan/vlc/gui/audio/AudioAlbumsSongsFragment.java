@@ -21,7 +21,6 @@
 package org.videolan.vlc.gui.audio;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,7 +37,6 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaylistActivity;
-import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Util;
@@ -166,12 +164,6 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                 }
             }
         });
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mActivity = (SecondaryActivity) context;
     }
 
     @Override

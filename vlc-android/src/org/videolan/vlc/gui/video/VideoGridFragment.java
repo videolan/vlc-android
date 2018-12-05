@@ -48,6 +48,7 @@ import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.dialogs.ContextSheetKt;
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver;
+import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IEventsHandler;
@@ -286,6 +287,9 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                     for (MediaWrapper media : list) media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
                     MediaUtils.INSTANCE.openList(getActivity(), list, 0);
                     break;
+                case R.id.action_mode_audio_add_playlist:
+                    UiTools.addToPlaylist(getActivity(), list);
+                    break;
                 default:
                     stopActionMode();
                     return false;
@@ -413,6 +417,9 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 break;
             case Constants.CTX_DOWNLOAD_SUBTITLES:
                 MediaUtils.INSTANCE.getSubs(requireActivity(), media);
+                break;
+            case Constants.CTX_ADD_TO_PLAYLIST:
+                UiTools.addToPlaylist(requireActivity(), media.getTracks(), SavePlaylistDialog.KEY_NEW_TRACKS);
                 break;
         }
     }

@@ -424,8 +424,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 val isVideo = mw.type == MediaWrapper.TYPE_VIDEO
                 val isAudio = mw.type == MediaWrapper.TYPE_AUDIO
                 val isMedia = isVideo || isAudio
-                if (isMedia) flags = flags or CTX_PLAY_ALL or CTX_APPEND or CTX_INFORMATION
-                flags = if (!isAudio) flags or CTX_PLAY_AS_AUDIO else flags or CTX_ADD_TO_PLAYLIST
+                if (isMedia) flags = flags or CTX_PLAY_ALL or CTX_APPEND or CTX_INFORMATION or CTX_ADD_TO_PLAYLIST
+                if (!isAudio) flags = flags or CTX_PLAY_AS_AUDIO
                 if (isVideo) flags = flags or CTX_DOWNLOAD_SUBTITLES
             }
             if (flags != 0) showContext(requireActivity(), this@BaseBrowserFragment, position, item.getTitle(), flags)

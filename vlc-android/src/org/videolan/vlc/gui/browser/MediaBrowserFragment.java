@@ -27,19 +27,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.transition.TransitionManager;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ActionMode;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
@@ -65,6 +57,16 @@ import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.SortableModel;
 
 import java.util.LinkedList;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.TransitionManager;
 
 public abstract class MediaBrowserFragment<T extends SortableModel> extends Fragment implements androidx.appcompat.view.ActionMode.Callback, Filterable {
 
@@ -93,9 +95,13 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
         super.onViewCreated(view, savedInstanceState);
         mSearchButtonView = view.findViewById(R.id.searchButton);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
-        if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
-            mFabPlay = getActivity().findViewById(R.id.fab);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
+        if (hasFAB()) mFabPlay = requireActivity().findViewById(R.id.fab);
         setBreadcrumb();
+    }
+
+    protected boolean hasFAB() {
+        return mSwipeRefreshLayout != null;
     }
 
     protected void setBreadcrumb() {

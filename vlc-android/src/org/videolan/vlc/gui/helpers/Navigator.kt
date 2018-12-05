@@ -35,6 +35,7 @@ import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.api.VLCExtensionItem
 import org.videolan.vlc.gui.HistoryFragment
 import org.videolan.vlc.gui.MainActivity
+import org.videolan.vlc.gui.PlaylistFragment
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.*
@@ -77,6 +78,7 @@ class Navigator(private val activity: MainActivity,
         return when (id) {
             R.id.nav_audio -> AudioBrowserFragment()
             R.id.nav_directories -> FileBrowserFragment()
+            R.id.nav_playlists -> PlaylistFragment()
             R.id.nav_history -> HistoryFragment()
             R.id.nav_network -> NetworkBrowserFragment()
             else -> VideoGridFragment()
@@ -153,6 +155,7 @@ class Navigator(private val activity: MainActivity,
         R.id.nav_about -> ID_ABOUT
         R.id.nav_settings -> ID_PREFERENCES
         R.id.nav_audio -> ID_AUDIO
+        R.id.nav_playlists -> ID_PLAYLISTS
         R.id.nav_directories -> ID_DIRECTORIES
         R.id.nav_history -> ID_HISTORY
         R.id.nav_mrl -> ID_MRL
