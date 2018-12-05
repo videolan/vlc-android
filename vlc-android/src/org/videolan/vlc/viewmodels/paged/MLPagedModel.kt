@@ -11,7 +11,7 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.viewmodels.SortableModel
 
-abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableModel(context), Medialibrary.OnMedialibraryReadyListener {
+abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableModel(context), Medialibrary.OnMedialibraryReadyListener, Medialibrary.OnDeviceChangeListener {
     protected val medialibrary = Medialibrary.getInstance()
     protected var filter : String? = null
     val loading = MutableLiveData<Boolean>().apply { value = false }
@@ -28,6 +28,8 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     init {
         @Suppress("LeakingThis")
         medialibrary.addOnMedialibraryReadyListener(this)
+        @Suppress("LeakingThis")
+        medialibrary.addOnDeviceChangeListener(this)
         if (medialibrary.isStarted) onMedialibraryReady()
     }
 
@@ -39,8 +41,15 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
         launch { refresh() }
     }
 
+    override fun onDeviceChange() {
+        launch {
+            refresh()
+        }
+    }
+
     override fun onCleared() {
         medialibrary.removeOnMedialibraryReadyListener(this)
+        medialibrary.removeOnDeviceChangeListener(this)
         super.onCleared()
     }
 
