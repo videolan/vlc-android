@@ -76,6 +76,7 @@ public class Medialibrary {
 
     private volatile boolean mIsInitiated = false;
     private volatile boolean mIsWorking = false;
+    private static MutableLiveData<Boolean> sRunning = new MutableLiveData<>();
 
     private final List<ArtistsCb> mArtistsCbs = new ArrayList<>();
     private final List<AlbumsCb> mAlbumsCbs = new ArrayList<>();
@@ -93,6 +94,10 @@ public class Medialibrary {
 
     public static Context getContext() {
         return sContext;
+    }
+
+    public static LiveData<Boolean> getState() {
+        return sRunning;
     }
 
     public int init(Context context) {
@@ -627,6 +632,7 @@ public class Medialibrary {
     @SuppressWarnings("unused")
     public void onBackgroundTasksIdleChanged(boolean isIdle) {
         mIsWorking = !isIdle;
+        sRunning.postValue(mIsWorking);
         LocalBroadcastManager.getInstance(sContext).sendBroadcast(new Intent(ACTION_IDLE).putExtra(STATE_IDLE, isIdle));
         if (isIdle) {
             synchronized (onMedialibraryReadyListeners) {

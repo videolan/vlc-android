@@ -133,7 +133,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
                 return Service.START_NOT_STICKY
             }
         }
-        started.value = true
         return Service.START_NOT_STICKY
     }
 
@@ -337,7 +336,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     }
 
     override fun onDestroy() {
-        started.value = false
         notificationActor.offer(Hide)
         medialibrary.removeDeviceDiscoveryCb(this)
         unregisterReceiver(receiver)
@@ -410,7 +408,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
 
     companion object {
         val progress = MutableLiveData<ScanProgress>()
-        val started = MutableLiveData<Boolean>()
         val newStorages = MutableLiveData<MutableList<String>>()
         var wizardShowing = false
     }

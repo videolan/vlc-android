@@ -117,7 +117,7 @@ public abstract class BaseTvActivity extends FragmentActivity {
                 if (scanProgress != null) onParsingServiceProgress();
             }
         });
-        MediaParsingService.Companion.getStarted().observe(this, new Observer<Boolean>() {
+        Medialibrary.getState().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean started) {
                 if (started == null) return;

@@ -94,7 +94,6 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             is MediaUnmounted -> {
                 delay(100L)
                 VLCApplication.getMLInstance().removeDevice(action.uuid, action.path)
-                MediaParsingService.started.setValue(false)
 
             }
         }

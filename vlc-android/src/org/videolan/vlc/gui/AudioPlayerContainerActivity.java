@@ -386,11 +386,10 @@ public class AudioPlayerContainerActivity extends BaseActivity {
                 if (mScanProgressBar != null) mScanProgressBar.setProgress(scanProgress.getParsing());
             }
         });
-        MediaParsingService.Companion.getStarted().observe(this, new Observer<Boolean>() {
+        Medialibrary.getState().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean started) {
-                if (started == null) return;
-                updateProgressVisibility(started);
+                if (started != null) updateProgressVisibility(started);
             }
         });
         MediaParsingService.Companion.getNewStorages().observe(this, new Observer<List<String>>() {
