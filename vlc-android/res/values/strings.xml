@@ -660,4 +660,6 @@
     <string name="ctx_player_subs_track">Subtitles track</string>
     <string name="ctx_player_tracks_title">Media tracks</string>
     <string name="ctx_pip_title">Pop-Up player</string>
+    <string name="device_dialog_title">External device inserted</string>
+    <string name="device_dialog_message">New device detected, do you want to handle it with VLC?</string>
 </resources>

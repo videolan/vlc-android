@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.databinding.DialogExtDeviceBinding
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
@@ -25,7 +26,7 @@ class DeviceDialog : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        dialog.setTitle("External device inserted")
+        dialog.setTitle(getString(R.string.device_dialog_title))
         val binding = DialogExtDeviceBinding.inflate(inflater, container, false)
         binding.handler = clickHandler
         if (scan) binding.extDeviceScan.visibility = View.VISIBLE
