@@ -1583,8 +1583,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         if (showUI) {
             Intent i = new Intent(this, mIsTv ? AudioPlayerActivity.class : MainActivity.class);
             startActivity(i);
-        } else
-            mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, true).apply();
+        }
         exitOK();
     }
 
@@ -2867,7 +2866,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         if (Permissions.checkReadStoragePermission(this, true) && !mSwitchingView)
             mHandler.sendEmptyMessage(START_PLAYBACK);
         mSwitchingView = false;
-        mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
         if (mService.getVolume() > 100 && !audioBoostEnabled)
             mService.setVolume(100);
     }

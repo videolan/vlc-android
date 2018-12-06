@@ -40,7 +40,6 @@ import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
@@ -131,9 +130,8 @@ public class AudioPlayerActivity extends BaseTvActivity {
     public void update(PlayerState state) {
         if (state == null) return;
         mBinding.buttonPlay.setImageResource(state.getPlaying() ? R.drawable.ic_pause_w : R.drawable.ic_play_w);
-        if (mSettings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
-            mSettings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply();
-            model.getCurrentMediaWrapper().removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
+        final MediaWrapper mw = model.getCurrentMediaWrapper();
+        if (mw != null && !mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && model.canSwitchToVideo()) {
             model.switchToVideo();
             finish();
             return;
@@ -142,7 +140,6 @@ public class AudioPlayerActivity extends BaseTvActivity {
         mBinding.mediaArtist.setText(state.getArtist());
         mBinding.buttonShuffle.setImageResource(mShuffling ? R.drawable.ic_shuffle_on :
                 R.drawable.ic_shuffle_w);
-        final MediaWrapper mw = model.getCurrentMediaWrapper();
         if (mw == null || TextUtils.equals(mCurrentCoverArt, mw.getArtworkMrl())) return;
         mCurrentCoverArt = mw.getArtworkMrl();
         updateBackground();

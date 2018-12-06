@@ -27,7 +27,6 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.PlaybackService
-import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.media.ABRepeat
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
@@ -166,16 +165,19 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
 
     fun switchToVideo() : Boolean {
         service?.apply {
-            if (PlaylistManager.hasMedia() && !isVideoPlaying
-                    && settings.getBoolean(PreferencesActivity.VIDEO_RESTORE, false)) {
-                settings.edit().putBoolean(PreferencesActivity.VIDEO_RESTORE, false).apply()
-                currentMediaWrapper?.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                switchToVideo()
-                return true
+            if (PlaylistManager.hasMedia() && !isVideoPlaying) {
+                currentMediaWrapper?.run {
+                    if (!hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
+                        switchToVideo()
+                        return true
+                    }
+                }
             }
         }
         return false
     }
+
+    fun canSwitchToVideo() = service?.playlistManager?.player?.canSwitchToVideo() ?: false
 
     fun toggleABRepeat() = service?.playlistManager?.toggleABRepeat()
 
