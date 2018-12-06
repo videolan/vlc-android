@@ -221,11 +221,14 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         initBrowser()
         mediabrowser?.let {
             if (url != null) it.browse(Uri.parse(url), getFlags())
-            else it.discoverNetworkShares()
+            else {
+                it.changeEventListener(this@BrowserProvider)
+                it.discoverNetworkShares()
+            }
         }
     }
 
-    fun stop() = job?.cancel()
+    open fun stop() = job?.cancel()
 
     open fun release() {
         browserActor.close()
