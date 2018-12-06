@@ -277,6 +277,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         }
     }
 
+    fun updateHistory() {
+        if (displayHistory) historyModel.refresh()
+    }
+
     override fun onChanged(list: MutableList<MediaWrapper>?) {
         list?.let {
             if (!it.isEmpty()) {

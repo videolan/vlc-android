@@ -42,6 +42,7 @@ class NowPlayingDelegate(private val fragment: MainTvFragment): PlaybackService.
         fragment.updateAudioCategories(service?.currentMediaWrapper?.let {
             DummyItem(CATEGORY_NOW_PLAYING, it.title, it.artist).apply { setArtWork(service?.coverArt) }
         })
+        fragment.updateHistory()
     }
 
     override fun onConnected(service: PlaybackService) {
