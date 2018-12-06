@@ -72,7 +72,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mEmptyView = view.findViewById(android.R.id.empty);
+        mEmptyView = view.findViewById(R.id.empty);
         mRecyclerView = view.findViewById(android.R.id.list);
         viewModel = ViewModelProviders.of(requireActivity(), new HistoryModel.Factory(requireContext())).get(HistoryModel.class);
         viewModel.getDataset().observe(this, new Observer<List<MediaWrapper>>() {

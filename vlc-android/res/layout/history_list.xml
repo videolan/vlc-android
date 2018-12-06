@@ -33,7 +33,7 @@
                 android:paddingLeft="@dimen/listview_side_padding"
                 android:paddingRight="@dimen/listview_side_padding" />
             <TextView
-                android:id="@+id/android:empty"
+                android:id="@+id/empty"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@+id/searchButton"
