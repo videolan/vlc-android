@@ -47,6 +47,7 @@
     <string name="play_all">Riprodui totu</string>
     <string name="append_all">Annanghe totu</string>
     <string name="last_playlist">Ùrtima iscalita</string>
+    <string name="last_playlist_shortcut">Sighi cun sa riprodutzione</string>
     <string name="delete">Iscantzella</string>
     <string name="remove">Boga</string>
     <string name="set_song">Imposta comente suoneria</string>
@@ -604,7 +605,7 @@
     <string name="audio_digital_output_enabled">Essida àudio digitale abilitada</string>
     <string name="audio_digital_output_disabled">Essida àudio digitale disabilitada</string>
     <string name="audio_digital_title">Essida àudio digitale (coladòrgiu àudio)</string>
-    <string name="audio_task_cleared_title">Firma si s\'aplicatzione benit serrada</string>
+    <string name="audio_task_cleared_title">Firma in casu de trisinadura</string>
     <string name="audio_task_cleared_summary">Firma sa riprodutzione cando s\'aplicatzione benit serrada</string>
     <string name="playback_rewind">Torra in segus</string>
     <string name="playback_forward">In antis lestru</string>
@@ -638,4 +639,6 @@
     <string name="ctx_player_subs_track">Rasta de sutatìtulos</string>
     <string name="ctx_player_tracks_title">Rastas multimediales</string>
     <string name="ctx_pip_title">Leghidore a cumparsa</string>
+    <string name="device_dialog_title">Dispositivu esternu insertadu</string>
+    <string name="device_dialog_message">Est istadu agatadu unu dispositivu nou, lu cheres gestire cun VLC?</string>
 </resources>
