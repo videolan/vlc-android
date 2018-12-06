@@ -49,6 +49,7 @@
     <string name="play_all">Prehrať všetko</string>
     <string name="append_all">Pripojiť všetko</string>
     <string name="last_playlist">Posledný playlist</string>
+    <string name="last_playlist_shortcut">Pokračovať v prehrávaní</string>
     <string name="delete">Vymazať</string>
     <string name="remove">Odstrániť</string>
     <string name="set_song">Nastaviť ako zvonenie</string>
@@ -618,7 +619,8 @@
     <string name="audio_digital_output_enabled">Zvukový digitálny výstup zapnutý</string>
     <string name="audio_digital_output_disabled">Zvukový digitálny výstup vypnutý</string>
     <string name="audio_digital_title">Zvukový digitálny výstup (prechod)</string>
-    <string name="audio_task_removed_title">Pri zmiznutí aplikácie zastaviť prehrávanie</string>
+    <string name="audio_task_cleared_title">Zastaviť pri presune apl. prstom</string>
+    <string name="audio_task_cleared_summary">Zastaviť prehrávanie ak aplikácia zmizla</string>
     <string name="playback_rewind">Previnúť</string>
     <string name="playback_forward">Rýchlo dopredu</string>
     <string name="ml_wizard_title">Výber knižnice médií VLC</string>
@@ -646,4 +648,11 @@
     <string name="download_the_selected">Stiahnuť výber</string>
     <string name="next">Ďalej</string>
     <string name="download">Stiahnuť</string>
+    <string name="ctx_player_video_track">Vyberte stopu s videom</string>
+    <string name="ctx_player_audio_track">Zvuková stopa</string>
+    <string name="ctx_player_subs_track">Stopa s titulkami</string>
+    <string name="ctx_player_tracks_title">Stopy s médiami</string>
+    <string name="ctx_pip_title">Vyskakovací prehrávač</string>
+    <string name="device_dialog_title">Bolo vložené externé zariadenie</string>
+    <string name="device_dialog_message">Bolo detegované nové zariadenie, chcete ho používať s VLC?</string>
 </resources>
