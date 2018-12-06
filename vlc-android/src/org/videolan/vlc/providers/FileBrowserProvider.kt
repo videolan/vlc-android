@@ -36,6 +36,7 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.database.models.BrowserFav
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.gui.helpers.hf.getDocumentFiles
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
@@ -92,7 +93,10 @@ open class FileBrowserProvider(
         showFavorites = url == null && !filePicker && this !is StorageProvider
     }
 
+    private lateinit var storageObserver : Observer<Boolean>
+
     override suspend fun browseRoot() {
+        var storageAccess = false
         val internalmemoryTitle = context.getString(R.string.internal_memory)
         val browserStorage = context.getString(R.string.browser_storages)
         val storages = DirectoryRepository.getInstance(context).getMediaDirectories()
@@ -101,6 +105,7 @@ open class FileBrowserProvider(
         for (mediaDirLocation in storages) {
             val file = File(mediaDirLocation)
             if (!file.exists() || !file.canRead()) continue
+            storageAccess = true
             val directory = MediaWrapper(AndroidUtil.PathToUri(mediaDirLocation))
             directory.type = MediaWrapper.TYPE_DIR
             if (TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mediaDirLocation)) {
@@ -113,6 +118,11 @@ open class FileBrowserProvider(
             }
             devices.add(directory)
         }
+        if (AndroidUtil.isMarshMallowOrLater && !storageAccess) {
+            storageObserver = Observer { if (it == true) launch { browseRoot() } }
+            StoragePermissionsDelegate.storageAccessGranted.observeForever(storageObserver)
+        }
+        if (!storageAccess) return // For first launch, storage access may not already be granted
         if (AndroidUtil.isLolliPopOrLater && !ExternalMonitor.devices.value.isEmpty()) {
             val otg = MediaWrapper(Uri.parse("otg://")).apply {
                 title = context.getString(R.string.otg_device_title)
@@ -141,6 +151,9 @@ open class FileBrowserProvider(
         if (url == null) {
             ExternalMonitor.devices.removeObserver(this)
             if (showFavorites) favorites?.removeObserver(favoritesObserver)
+            if (this::storageObserver.isInitialized) {
+                StoragePermissionsDelegate.storageAccessGranted.removeObserver(storageObserver)
+            }
         }
         super.release()
     }

@@ -28,8 +28,6 @@ import android.annotation.TargetApi
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.channels.Channel
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.startMedialibrary
@@ -37,6 +35,7 @@ import org.videolan.vlc.util.EXTRA_FIRST_RUN
 import org.videolan.vlc.util.EXTRA_UPGRADE
 import org.videolan.vlc.util.Permissions
 import org.videolan.vlc.util.Permissions.canReadStorage
+import videolan.org.commontools.LiveEvent
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class StoragePermissionsDelegate : BaseHeadlessFragment() {
@@ -85,6 +84,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (ctx is CustomActionController) ctx.onStorageAccessGranted()
                     else ctx.startMedialibrary(mFirstRun, mUpgrade, true)
+                    storageAccessGranted.value = true
                     exit()
                 } else if (mActivity != null) {
                     Permissions.showStoragePermissionDialog(mActivity, false)
@@ -99,6 +99,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
     companion object {
 
         const val TAG = "VLC/StorageHF"
+        val storageAccessGranted = LiveEvent<Boolean>()
 
         fun askStoragePermission(activity: androidx.fragment.app.FragmentActivity, write: Boolean, cb: Runnable?) {
             if (activity.isFinishing) return

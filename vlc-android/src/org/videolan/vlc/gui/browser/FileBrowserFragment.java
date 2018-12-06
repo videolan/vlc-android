@@ -64,6 +64,19 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         setupBrowser();
     }
 
+    private boolean needsRefresh;
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (needsRefresh) viewModel.browserRoot();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (isRootDirectory() && adapter.isEmpty()) needsRefresh = true;
+    }
+
     @Override
     public void registerSwiperRefreshlayout() {
         if (!isRootDirectory()) super.registerSwiperRefreshlayout();
