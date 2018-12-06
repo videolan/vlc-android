@@ -91,7 +91,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         options.add(PlayerOption(ID_JUMP_TO, R.attr.ic_jumpto_normal_style, res.getString(R.string.jump_to_time)))
         options.add(PlayerOption(ID_EQUALIZER, R.attr.ic_equalizer_normal_style, res.getString(R.string.equalizer)))
         if (video) {
-            if (primary && tvUi && service.audioTracksCount > 0)
+            if (primary && !tvUi && service.audioTracksCount > 0)
                 options.add(PlayerOption(ID_PLAY_AS_AUDIO, R.attr.ic_playasaudio_on, res.getString(R.string.play_as_audio)))
             options.add(PlayerOption(ID_SPU_DELAY, R.attr.ic_subtitledelay, res.getString(R.string.spu_delay)))
             options.add(PlayerOption(ID_AUDIO_DELAY, R.attr.ic_audiodelay, res.getString(R.string.audio_delay)))
