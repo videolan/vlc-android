@@ -47,6 +47,7 @@
     <string name="play_all">Összes lejátszása</string>
     <string name="append_all">Összes hozzáfűzése</string>
     <string name="last_playlist">Előző lejátszási lista</string>
+    <string name="last_playlist_shortcut">Lejátszás folytatása</string>
     <string name="delete">Törlés</string>
     <string name="remove">Eltávolítás</string>
     <string name="set_song">Beállítás csengőhangként</string>
@@ -638,4 +639,6 @@
     <string name="ctx_player_subs_track">Feliratsáv</string>
     <string name="ctx_player_tracks_title">Médiasávok</string>
     <string name="ctx_pip_title">Felugró lejátszó</string>
+    <string name="device_dialog_title">Külső eszköz behelyezve</string>
+    <string name="device_dialog_message">Új eszköz észlelve, a VLC-vel akarja kezelni?</string>
 </resources>
