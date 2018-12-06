@@ -129,7 +129,10 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             Intent.ACTION_MEDIA_UNMOUNTED,
             Intent.ACTION_MEDIA_EJECT -> {
                 if (AndroidDevices.watchDevices || storageObserver != null && storageObserver!!.get() != null)
-                    intent.data?.let { actor.offer(MediaUnmounted(it)) }
+                    intent.data?.let {
+                        actor.offer(MediaUnmounted(it))
+                        storageUnplugged.postValue(it)
+                    }
             }
             UsbManager.ACTION_USB_DEVICE_ATTACHED -> {
                 if (intent.hasExtra(UsbManager.EXTRA_DEVICE)) {
@@ -167,8 +170,8 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         }
     }
 
-    @Volatile
-    var connected = MutableLiveData<Boolean>()
+    val connected = MutableLiveData<Boolean>()
+    val storageUnplugged = LiveEvent<Uri>()
     @Volatile
     var isMobile = true
         private set
