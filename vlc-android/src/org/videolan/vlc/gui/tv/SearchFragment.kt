@@ -26,9 +26,9 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.leanback.app.SearchSupportFragment
 import androidx.leanback.widget.*
-import android.text.TextUtils
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.*
@@ -76,8 +76,10 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
     }
 
     private fun loadRows(query: String?) = coroutineScope.launch {
-        val searchAggregate = context?.getFromMl { search(query) } ?: return@launch
-        val empty = searchAggregate.isEmpty
+        val searchAggregate = context?.getFromMl { search(query) }
+        val empty = searchAggregate == null || searchAggregate.isEmpty
+        updateEmtyView(empty)
+        if (searchAggregate == null || empty) return@launch
         val mediaEmpty = empty || (Tools.isArrayEmpty(searchAggregate.tracks) && Tools.isArrayEmpty(searchAggregate.videos))
         val cp = CardPresenter(requireActivity())
         val videoAdapter = ArrayObjectAdapter(cp)
@@ -108,6 +110,10 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
             rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.albums)), albumsAdapter))
         if (!empty && genresAdapter.size() > 0)
             rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.genres)), genresAdapter))
+    }
+
+    private fun updateEmtyView(empty: Boolean) {
+        (activity as? SearchActivity)?.updateEmptyView(empty)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {

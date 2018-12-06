@@ -23,15 +23,19 @@ package org.videolan.vlc.gui.tv;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentActivity;
+import android.view.View;
+import android.widget.TextView;
 
 import org.videolan.vlc.R;
+
+import androidx.fragment.app.FragmentActivity;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class SearchActivity extends FragmentActivity {
     private static final String TAG = "VLC/SearchActivity";
 
     private SearchFragment mFragment;
+    private TextView mEmptyView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,11 @@ public class SearchActivity extends FragmentActivity {
         setContentView(R.layout.tv_search);
         mFragment = (SearchFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.search_fragment);
+        mEmptyView = findViewById(R.id.empty);
+    }
+
+    public void updateEmptyView(boolean empty) {
+        mEmptyView.setVisibility(empty ? View.VISIBLE : View.GONE);
     }
 
     @Override
