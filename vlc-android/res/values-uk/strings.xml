@@ -49,6 +49,7 @@
     <string name="play_all">Відтворити все</string>
     <string name="append_all">Додати все</string>
     <string name="last_playlist">Останній список</string>
+    <string name="last_playlist_shortcut">Відновити відтворення</string>
     <string name="delete">Видалити</string>
     <string name="remove">Видалити</string>
     <string name="set_song">Встановити як мелодію</string>
@@ -652,4 +653,6 @@
     <string name="ctx_player_subs_track">Доріжка субтитрів</string>
     <string name="ctx_player_tracks_title">Медійні доріжки</string>
     <string name="ctx_pip_title">Вигулькний гравець</string>
+    <string name="device_dialog_title">Вставлено зовнішній пристрій</string>
+    <string name="device_dialog_message">Виявлено новий пристрій. Хочете його відкривати через VLC?</string>
 </resources>
