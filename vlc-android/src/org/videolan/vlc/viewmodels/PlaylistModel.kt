@@ -167,7 +167,7 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
         service?.apply {
             if (PlaylistManager.hasMedia() && !isVideoPlaying) {
                 currentMediaWrapper?.run {
-                    if (!hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
+                    if (!hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && canSwitchToVideo()) {
                         switchToVideo()
                         return true
                     }
