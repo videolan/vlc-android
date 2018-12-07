@@ -27,17 +27,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.2"
-     inkscape:cx="-8.4300506"
-     inkscape:cy="19.441799"
+     inkscape:zoom="15.839192"
+     inkscape:cx="10.329859"
+     inkscape:cy="14.021257"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1920"
-     inkscape:window-height="1052"
-     inkscape:window-x="1920"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
+     inkscape:window-width="960"
+     inkscape:window-height="1025"
+     inkscape:window-x="960"
+     inkscape:window-y="27"
+     inkscape:window-maximized="0"
      inkscape:snap-bbox="true"
      inkscape:bbox-nodes="true"
      inkscape:bbox-paths="true"
@@ -72,10 +72,10 @@
      id="layer1"
      transform="translate(0,-1032.3622)">
     <path
-       sodipodi:nodetypes="cccccccccccccccccccccccccccc"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.75;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3.70000005;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       d="m 5.5,1037.3622 c -0.831,0 -1.5,0.669 -1.5,1.5 v 7 c 0,0.831 0.669,1.5 1.5,1.5 h 9 c 0.831,0 1.5,-0.669 1.5,-1.5 v -7 c 0,-0.831 -0.669,-1.5 -1.5,-1.5 h -3.75 v 2 h 1.75 l -2.5,2.5 -2.5,-2.5 h 1.75 v -2 z m 0,5.5 h 2 v 1 h -2 z m 3,0 h 6 v 1 h -6 z m -3,2 h 6 v 1 h -6 z m 7,0 h 2 v 1 h -2 z"
+       id="path5562-59"
        inkscape:connector-curvature="0"
-       id="path5143"
-       d="m 8.875,1036.3622 v 3 H 7.00001 l 2.99999,3 2.99999,-3 H 11.125 v -3 z m -4.87498,7.5 v 1.5 H 6 v -1.5 z m 3.49998,0 v 1.5 h 8.49998 v -1.5 z m -3.49998,3 v 1.5 H 11.5 v -1.5 z m 8.99997,0 v 1.5 h 2.99999 v -1.5 z"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.74999785;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3.70000005;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
+       sodipodi:nodetypes="sssssssscccccccscccccccccccccccccccc" />
   </g>
 </svg>

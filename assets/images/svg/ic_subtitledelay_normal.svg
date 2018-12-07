@@ -13,7 +13,7 @@
    height="24"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.3 (unknown)"
    sodipodi:docname="ic_subtitledelay_normal.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="15.839192"
-     inkscape:cx="12.120332"
+     inkscape:cx="10.952343"
      inkscape:cy="5.4965663"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -36,7 +36,7 @@
      inkscape:window-width="960"
      inkscape:window-height="1028"
      inkscape:window-x="1920"
-     inkscape:window-y="24"
+     inkscape:window-y="22"
      inkscape:window-maximized="0"
      inkscape:snap-bbox="true"
      inkscape:bbox-paths="true"
@@ -78,9 +78,9 @@
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
        transform="translate(-64,740.00002)" />
     <path
-       id="path6681-2"
-       d="m 8,1034.3622 c -1.108,0 -2,0.892 -2,2 l 0,6 -2,0 0,-2 -3,3 3,3 0,-2 2,0 c 0,1.108 0.892,2 2,2 l 8,0 c 1.108,0 2,-0.892 2,-2 l 2,0 0,2 3,-3 -3,-3 0,2 -2,0 0,-6 c 0,-1.108 -0.892,-2 -2,-2 l -8,0 z m -1,7.002 1.6504,0 0,1.5 -1.6504,0 0,-1.5 z m 3,0 7,0 0,1.5 -7,0 0,-1.5 z m -3,2.5 6.5,0 0,1.5 -6.5,0 0,-1.5 z m 8,0 2,0 0,1.5 -2,0 0,-1.5 z"
+       inkscape:connector-curvature="0"
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3.70000005;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       inkscape:connector-curvature="0" />
+       d="m 7,1034.3622 c -1.108,0 -2.07524,0.8946 -2,2 v 6 H 4 v -2 l -3,3 3,3 v -2 h 1 c 0,1.108 0.892,2 2,2 h 10 c 1.108,0 2,-0.892 2,-2 h 1 v 2 l 3,-3 -3,-3 v 2 h -1 v -6 c 0,-1.108 -0.892,-2 -2,-2 z m 0,6 h 2 v 1.5 H 7 Z m 3.5,0 H 17 v 1.5 h -6.5 z m -3.5,2.5 h 5.5 v 1.5 H 7 Z m 7,0 h 3 v 1.5 h -3 z"
+       id="path6681-2-4" />
   </g>
 </svg>

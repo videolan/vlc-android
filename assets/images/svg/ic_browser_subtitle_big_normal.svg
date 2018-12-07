@@ -13,7 +13,7 @@
    height="48"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.92.1 r15371"
+   inkscape:version="0.92.3 (unknown)"
    sodipodi:docname="ic_browser_subtitle_big_normal.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -28,15 +28,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="0.47934429"
-     inkscape:cy="27.939419"
+     inkscape:cx="-7.6667048"
+     inkscape:cy="27.631795"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1027"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-height="1052"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
      inkscape:window-maximized="1">
     <inkscape:grid
        type="xygrid"
@@ -60,10 +60,10 @@
      id="layer1"
      transform="translate(0,-1004.3622)">
     <path
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.56249952;marker:none;enable-background:accumulate"
-       d="m 12.468771,1010.3622 c -3.583682,0 -6.468739,2.8854 -6.468739,6.4694 v 12.9387 c 0,3.584 2.885058,6.4694 6.468739,6.4694 h 9.070296 l -1.599606,8.781 c -0.232109,0.921 1.110689,1.7474 1.828122,1.125 l 11.373026,-9.906 h 2.39062 c 3.583681,0 6.468739,-2.8854 6.468739,-6.4694 v -12.9387 c 0,-3.584 -2.885058,-6.4694 -6.468739,-6.4694 z m -1.968748,4.5005 h 26.999953 v 3.3752 H 10.500024 Z m 0,6.7506 h 15.749972 v 3.3753 H 10.500024 Z m 19.124968,0 h 7.874985 v 3.3753 h -7.874985 z m -19.124968,6.7505 h 20.249965 v 3.3754 H 10.500024 Z m 23.62496,0 h 3.374993 v 3.3754 h -3.374993 z"
-       id="rect4758"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ssssccccsssssccccccccccccccccccccccccc" />
+       id="path6104"
+       d="m 12,1014.3622 c -2.216,0 -4,1.784 -4,4 v 20 c 0,2.216 1.784,4 4,4 h 24 c 2.216,0 4,-1.784 4,-4 v -20 c 0,-2.216 -1.784,-4 -4,-4 z m 0,16 h 5 v 3 h -5 z m 8,0 h 16 v 3 H 20 Z m -8,5 h 16 v 3 H 12 Z m 19,0 h 5 v 3 h -5 z"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#757575;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3.70000005;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+       sodipodi:nodetypes="cssssssccccccccccccccccccsccc" />
   </g>
 </svg>
