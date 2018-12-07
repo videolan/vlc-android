@@ -38,6 +38,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
@@ -329,6 +330,9 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
                 i.putExtra(TAG_ITEM, item);
                 break;
             case MediaLibraryItem.TYPE_ALBUM:
+                i = new Intent(getActivity(), PlaylistActivity.class);
+                i.putExtra(TAG_ITEM, item);
+                break;
             default:
                 return;
         }
