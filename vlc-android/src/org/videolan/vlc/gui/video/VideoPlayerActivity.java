@@ -2239,6 +2239,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
 
             if(!mIsTv)
                 mOrientationToggle.setVisibility(View.VISIBLE);
+        } else {
+            mHudBinding.setProgress(mService.getPlaylistManager().getPlayer().getProgress());
+            mHudBinding.setLifecycleOwner(this);
         }
     }
 
