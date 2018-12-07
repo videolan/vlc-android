@@ -49,7 +49,6 @@ import android.util.Log;
 import android.util.Rational;
 import android.view.Display;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -724,7 +723,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private void stopPlayback() {
         if (!mPlaybackStarted) return;
 
-        if (mDisplayManager.isOnRenderer() && !isFinishing()) {
+        if (!mDisplayManager.isPrimary() && !isFinishing()) {
             mPlaybackStarted = false;
             return;
         }
@@ -773,7 +772,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         /* Stop listening for changes to media routes. */
         if (!mIsBenchmark) mDisplayManager.removeMediaRouterCallback();
 
-        mService.getMediaplayer().detachViews();
+        if (!mDisplayManager.isSecondary()) mService.getMediaplayer().detachViews();
 
         mActionBarView.setOnTouchListener(null);
     }
