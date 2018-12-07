@@ -1559,11 +1559,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private final Runnable mSwitchAudioRunnable = new Runnable() {
         @Override
         public void run() {
-            if (mService.hasMedia()) {
+            if (mDisplayManager.isPrimary() && mService.hasMedia() && mService.getVideoTracksCount() == 0) {
                 Log.i(TAG, "Video track lost, switching to audio");
                 mSwitchingView = true;
+                exit(RESULT_VIDEO_TRACK_LOST);
             }
-            exit(RESULT_VIDEO_TRACK_LOST);
         }
     };
 
@@ -1571,9 +1571,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         mHandler.removeCallbacks(mSwitchAudioRunnable);
 
         final IVLCVout vlcVout = mService.getVout();
-        if (vlcVout.areViewsAttached() && voutCount == 0) {
+        if (vlcVout == null) return;
+        if (mDisplayManager.isPrimary() && vlcVout.areViewsAttached() && voutCount == 0) {
             mHandler.postDelayed(mSwitchAudioRunnable, 4000);
         }
+    }
+
+    @Override
+    public void recreate() {
+        mHandler.removeCallbacks(mSwitchAudioRunnable);
+        super.recreate();
     }
 
     public void switchToAudioMode(boolean showUI) {
