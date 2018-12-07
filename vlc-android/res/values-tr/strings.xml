@@ -47,6 +47,7 @@
     <string name="play_all">Tümünü oynat</string>
     <string name="append_all">Tümünü ekle</string>
     <string name="last_playlist">Son oynatma listesi</string>
+    <string name="last_playlist_shortcut">Oynatmayı sürdür</string>
     <string name="delete">Sil</string>
     <string name="remove">Kaldır</string>
     <string name="set_song">Zil sesi olarak ayarla</string>
@@ -638,4 +639,6 @@
     <string name="ctx_player_subs_track">Alt yazı izi</string>
     <string name="ctx_player_tracks_title">Ortam izleri</string>
     <string name="ctx_pip_title">Açılan pencerede oynatıcı</string>
+    <string name="device_dialog_title">Bir dış aygıt takıldı</string>
+    <string name="device_dialog_message">Yeni bir aygıt algılandı. VLC tarafından işlenmesini ister misiniz?</string>
 </resources>
