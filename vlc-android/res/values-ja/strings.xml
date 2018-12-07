@@ -46,6 +46,7 @@
     <string name="play_all">すべて再生</string>
     <string name="append_all">すべて追加</string>
     <string name="last_playlist">最新プレイリスト</string>
+    <string name="last_playlist_shortcut">再生を再開</string>
     <string name="delete">削除</string>
     <string name="remove">削除</string>
     <string name="set_song">呼び出し音に設定</string>
@@ -631,4 +632,6 @@
     <string name="ctx_player_subs_track">字幕トラック</string>
     <string name="ctx_player_tracks_title">メディアトラック</string>
     <string name="ctx_pip_title">ポップアッププレイヤー</string>
+    <string name="device_dialog_title">外部デバイスが接続されました</string>
+    <string name="device_dialog_message">新しいデバイスが検出されました。VLCで使用するようにしますか?</string>
 </resources>
