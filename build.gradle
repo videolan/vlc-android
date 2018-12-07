@@ -33,7 +33,7 @@ ext {
     targetSdkVersion = 28
     compileSdkVersion = 28
     libvlcVersion = '3.1.0'
-    medialibraryVersion = '0.4'
+    medialibraryVersion = '0.3.90'
     androidxVersion = '1.0.0'
     constraintLayoutVersion = '2.0.0-alpha2'
     archVersion = '2.0.0'
