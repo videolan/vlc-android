@@ -44,10 +44,11 @@ public class DisplayManager {
         mMediaRouter = (MediaRouter) activity.getApplicationContext().getSystemService(Context.MEDIA_ROUTER_SERVICE);
         mTextureView = textureView;
         mPresentation = !(cloneMode || benchmark) ? createPresentation() : null;
-        mDisplayType = benchmark ? DisplayType.PRIMARY : getCurrentType();
         if (mSelectedRenderer != null) {
             mSelectedRenderer.observeForever(mRendererObs);
+            mRendererItem = mSelectedRenderer.getValue();
         }
+        mDisplayType = benchmark ? DisplayType.PRIMARY : getCurrentType();
     }
 
     public boolean isPrimary() {
