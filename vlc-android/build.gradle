@@ -177,6 +177,9 @@ android {
     sourceSets.debug {
         res.srcDirs = ['flavors/debug/res']
     }
+    sourceSets.dev {
+        res.srcDirs = ['flavors/debug/res']
+    }
     sourceSets.test {
         java.srcDirs = ['test', 'test-common']
     }
