@@ -13,7 +13,7 @@
    height="24"
    id="svg4682"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.3 (unknown)"
    sodipodi:docname="ic_audiodelay_pressed.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="15.839192"
-     inkscape:cx="11.685881"
+     inkscape:cx="10.517892"
      inkscape:cy="20.749633"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -36,7 +36,7 @@
      inkscape:window-width="960"
      inkscape:window-height="1028"
      inkscape:window-x="1920"
-     inkscape:window-y="24"
+     inkscape:window-y="22"
      inkscape:window-maximized="0"
      inkscape:snap-bbox="true"
      inkscape:bbox-paths="true"
@@ -64,7 +64,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -78,9 +78,9 @@
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
        transform="translate(-64,740.00002)" />
     <path
-       id="path6688-0"
-       d="m 7.9999998,1033.3622 c -1.108,0 -2,0.892 -2,2 l 0,2 -2,0 0,-2 -3.00000001,3 3.00000001,3 0,-2 2,0 0,2.5 c 0,1.108 0.892,2 2,2 l 3.3594002,0 -0.8438,3.3789 c -0.1212,0.4908 0.4793,0.8309 0.8379,0.4746 l 3.8535,-3.8535 0.793,0 c 1.108,0 2,-0.892 2,-2 l 0,-2.5 2,0 0,2 3,-3 -3,-3 0,2 -2,0 0,-2 c 0,-1.108 -0.892,-2 -2,-2 l -8.0000002,0 z m -1,2 1.6504,0 0,1.5 -1.6504,0 0,-1.5 z m 3,0 7.0000002,0 0,1.5 -7.0000002,0 0,-1.5 z m -3,2.5 6.5000002,0 0,1.5 -6.5000002,0 0,-1.5 z m 8.0000002,0 2,0 0,1.5 -2,0 0,-1.5 z m -8.0000002,2.5 4.5000002,0 0,1.5 -4.5000002,0 0,-1.5 z m 6.0000002,0 4,0 0,1.5 -4,0 0,-1.5 z"
+       inkscape:connector-curvature="0"
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#ffb54c;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3.70000005;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       inkscape:connector-curvature="0" />
+       d="m 8,1033.3622 c -1.108,0 -2,0.892 -2,2 v 2 H 4 v -2 l -3,3 3,3 v -2 h 2 v 3 c 0,1.108 0.892,2 2,2 h 3 l -0.48438,3.3789 c -0.1212,0.4908 0.4793,0.8309 0.8379,0.4746 L 15,1044.3622 h 1 c 1.108,0 2,-0.892 2,-2 v -3 h 2 v 2 l 3,-3 -3,-3 v 2 h -2 v -2 c 0,-1.108 -0.892,-2 -2,-2 z m 0,2 h 1.65039 v 1.5 H 8 Z m 3,0 h 5 v 1.5 h -5 z m -3,2.5 h 4.5 v 1.5 H 8 Z m 6,0 h 2 v 1.5 h -2 z m -6,2.5 h 3.5 v 1.5 H 8 Z m 5,0 h 3 v 1.5 h -3 z"
+       id="path5685" />
   </g>
 </svg>
