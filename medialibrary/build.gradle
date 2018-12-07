@@ -26,7 +26,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 def abi = System.getenv('GRADLE_ABI')?.toLowerCase()
 ext {
     library_version = '0.3.90'
-    repoName = 'LibVLC'
+    repoName = 'Android'
     libraryName = 'Medialibrary-Android'
     lib_artifact = "medialibrary-$abi"
 

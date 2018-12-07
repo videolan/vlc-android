@@ -21,7 +21,7 @@ allprojects {
         google()
         jcenter()
         maven {
-            url "https://dl.bintray.com/videolan/LibVLC"
+            url "https://dl.bintray.com/videolan/Android"
         }
     }
 }

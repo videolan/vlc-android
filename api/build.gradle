@@ -26,7 +26,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 ext {
     library_version = '0.1'
-    repoName = 'LibVLC'
+    repoName = 'Android'
     libraryName = 'VLC-API'
     desc = 'SDK for VLC-Android extensions'
     lib_artifact = 'vlc-extensions'
