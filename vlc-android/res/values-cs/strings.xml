@@ -49,6 +49,7 @@
     <string name="play_all">Přehrát vše</string>
     <string name="append_all">Připojit vše</string>
     <string name="last_playlist">Poslední seznam skladeb</string>
+    <string name="last_playlist_shortcut">Obnovit přehrávání</string>
     <string name="delete">Smazat</string>
     <string name="remove">Odstranit</string>
     <string name="set_song">Nastavit jako vyzváněcí melodii</string>
@@ -652,4 +653,6 @@
     <string name="ctx_player_subs_track">Stopa titulků</string>
     <string name="ctx_player_tracks_title">Stopy média</string>
     <string name="ctx_pip_title">Vyskakovací přehrávač</string>
+    <string name="device_dialog_title">Vloženo externí zařízení</string>
+    <string name="device_dialog_message">Bylo zjištěno nové zařízení, chcete s ním manipulovat pomocí VLC? </string>
 </resources>
