@@ -32,6 +32,6 @@
         android:id="@+id/action_mode_file_subtitles_download"
         android:title="@string/download_subtitles"
         android:visible="false"
-        android:icon="@drawable/ic_am_downsub_w"
+        android:icon="@drawable/ic_downsub_w"
         app:showAsAction="always"/>
 </menu>

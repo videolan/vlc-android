@@ -28,8 +28,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="15.839192"
-     inkscape:cx="0.85081775"
-     inkscape:cy="5.4965663"
+     inkscape:cx="13.667128"
+     inkscape:cy="2.971185"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -64,7 +64,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -78,9 +78,10 @@
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
        transform="translate(-64,740.00002)" />
     <path
-       inkscape:connector-curvature="0"
+       id="path5683"
+       d="m 8,1035.3622 c -1.108,0 -2.07524,0.8946 -2,2 v 5 H 4 v -2 l -3,3 3,3 v -2 h 2 c 0,1.108 0.892,2 2,2 H 15.78454 16 c 1.108,0 2,-0.892 2,-2 h 2 v 2 l 3,-3 -3,-3 v 2 h -2 v -5 c 0,-1.108 -0.892,-2 -2,-2 z m 0,5 h 2 v 1.5 H 8 Z m 3.5,0 H 16 v 1.5 h -4.5 z m -3.5,2.5 h 4.5 v 1.5 H 8 Z m 6,0 h 2 v 1.5 h -2 z"
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:3.70000005;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="m 7,1034.3622 c -1.108,0 -2.07524,0.8946 -2,2 v 6 H 4 v -2 l -3,3 3,3 v -2 h 1 c 0,1.108 0.892,2 2,2 h 10 c 1.108,0 2,-0.892 2,-2 h 1 v 2 l 3,-3 -3,-3 v 2 h -1 v -6 c 0,-1.108 -0.892,-2 -2,-2 z m 0,6 h 2 v 1.5 H 7 Z m 3.5,0 H 17 v 1.5 h -6.5 z m -3.5,2.5 h 5.5 v 1.5 H 7 Z m 7,0 h 3 v 1.5 h -3 z"
-       id="path6681-2-4" />
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="sccccccccscscccccccssscccccccccccccccccccc" />
   </g>
 </svg>

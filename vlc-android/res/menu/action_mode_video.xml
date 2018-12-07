@@ -37,6 +37,6 @@
     <item
         android:id="@+id/action_video_download_subtitles"
         android:title="@string/download_subtitles"
-        android:icon="@drawable/ic_am_downsub_w"
+        android:icon="@drawable/ic_downsub_w"
         app:showAsAction="always" />
 </menu>
