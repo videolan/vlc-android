@@ -49,6 +49,7 @@
     <string name="play_all">נגינת הכול</string>
     <string name="append_all">הוספת הכול</string>
     <string name="last_playlist">רשימת הנגינה האחרונה</string>
+    <string name="last_playlist_shortcut">להמשיך נגינה</string>
     <string name="delete">מחיקה</string>
     <string name="remove">הסרה</string>
     <string name="set_song">הגדרה כצלצול</string>
@@ -56,6 +57,8 @@
     <string name="confirm_delete">למחוק את הקובץ „%1$s“?</string>
     <string name="confirm_delete_folder">למחוק את התיקייה „%1$s“ על כל תכניה?</string>
     <string name="confirm_delete_playlist">למחוק את רשימת הנגינה „%1$s“?</string>
+    <string name="confirm_remove_from_playlist">להסיר את ‚%1$s’ מרשימת הנגינה?</string>
+    <string name="confirm_remove_from_playlist_anonymous">להסיר מרשימת הנגינה?</string>
     <string name="ringtone_set">הקובץ „%1$s“ הוגדר בתור הצלצול של המכשיר.</string>
     <string name="ringtone_error">אירעה שגיאה בעת הגדרת הצלצול.</string>
     <string name="pause">השהיה</string>
@@ -137,7 +140,6 @@
     <string name="repeat_all">לחזור על הכול</string>
     <string name="previous">הקודם</string>
     <string name="stop">עצירה</string>
-    <string name="next">הבא</string>
     <string name="firstsong">השיר הראשון ברשימת הנגינה</string>
     <string name="lastsong">השיר האחרון ברשימת הנגינה</string>
 
@@ -164,6 +166,9 @@
     <string name="navmenu">תפריט ניווט</string>
     <string name="advanced">אפשרויות מתקדמות</string>
     <string name="audio_boost_warning">יש להחליק כלפי מעלה שוב כדי לעלות מעבר ל־100%</string>
+    <string name="locked_in_portrait_mode">נעול במצב אנכי\n(לחיצה ארוכה על הכפתור כדי לבטל)</string>
+    <string name="locked_in_landscape_mode">נעול במצב אופקי\n(לחיצה ארוכה על הכפתור כדי לבטל)</string>
+    <string name="reset_orientation">איפוס כיוון</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">ערוץ אחד\n</item>
@@ -435,6 +440,8 @@
     <string name="restart_message">השינויים יחולו עם הפעלת היישום מחדש.\n\nלהפעיל מחדש כעת?</string>
     <string name="restart_message_OK">אישור</string>
     <string name="restart_message_Later">אחר כך</string>
+    <string name="browser_show_all_title">הצגת כל הקבצים בדפדפן</string>
+    <string name="browser_show_all_summary">להציג את כל הקבצים שאינם מזוהים כשמע או וידאו בדפדפנים</string>
 
     <string name="developer_prefs_category">למתכנתים</string>
     <string name="enable_verbose_mode">פירוט</string>
@@ -457,6 +464,16 @@
     <string name="restart_vlc">הפעלת VLC מחדש</string>
     <string name="send_log">שליחת הדוח</string>
     <string name="sending_log">הדוח נשלח…</string>
+
+    <string name="delete_sub_title">מחיקת כתוביות</string>
+    <string name="delete_sub_message">למחוק את הכתוביות האלה?</string>
+    <string name="delete_sub_yes">כן</string>
+    <string name="delete_sub_no">לא</string>
+    <string name="download_subtitle_title">הורדת כתוביות</string>
+
+    <string name="no_result">לא נמצאו תוצאות</string>
+    <string name="no_internet_connection">נא לבדוק את החיבור שלך לאינטרנט</string>
+    <string name="some_error_occurred">אירעו שגיאות. נא לנסות שוב בעוד מספר שניות.</string>
 
     <string name="drawer_open">פתיחת מגירת הניווט</string>
     <string name="drawer_close">סגירת מגירת הניווט</string>
@@ -602,7 +619,8 @@
     <string name="audio_digital_output_enabled">פלט שמע דיגיטלי פעיל</string>
     <string name="audio_digital_output_disabled">פלט שמע דיגיטלי מושבת</string>
     <string name="audio_digital_title">פלט שמע דיגיטלי (מעקף)</string>
-    <string name="audio_task_removed_title">לעצור את הנגינה כאשר היישום מועבר לרקע</string>
+    <string name="audio_task_cleared_title">לעצור עם החלקה על היישומון</string>
+    <string name="audio_task_cleared_summary">לעצור את הנגינה כאשר היישומון מוסתר</string>
     <string name="playback_rewind">חזרה אחורה</string>
     <string name="playback_forward">האצה קדימה</string>
     <string name="ml_wizard_title">בחירה מתיקיית המדיה של VLC</string>
@@ -621,4 +639,20 @@
     <string name="time_category_older">מדיה ישנה יותר</string>
     <string name="rename">שינוי שם</string>
     <string name="rename_media">שינוי השם של %1$s</string>
+    <string name="manual_search">חיפוש ידני</string>
+    <string name="subtitle_search_name_hint">שם</string>
+    <string name="subtitle_search_episode_hint">פרק</string>
+    <string name="subtitle_search_season_hint">עונה</string>
+    <string name="language_to_download">שפה</string>
+    <string name="delete_the_selected">מחיקת הבחירה</string>
+    <string name="download_the_selected">הורדת הבחירה</string>
+    <string name="next">הבא</string>
+    <string name="download">הורדה</string>
+    <string name="ctx_player_video_track">בחירת רצועת וידאו</string>
+    <string name="ctx_player_audio_track">בחירת רצועת שמע</string>
+    <string name="ctx_player_subs_track">רצועת כתוביות</string>
+    <string name="ctx_player_tracks_title">רצועות מדיה</string>
+    <string name="ctx_pip_title">נגן קופץ</string>
+    <string name="device_dialog_title">חובר מכשיר חיצוני</string>
+    <string name="device_dialog_message">התגלה מכשיר חדש, לטפל בו בעזרת VLC?</string>
 </resources>
