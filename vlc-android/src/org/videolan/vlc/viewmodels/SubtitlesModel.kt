@@ -98,6 +98,7 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
     }
 
     fun onCheckedChanged(isChecked: Boolean) {
+        if (manualSearchEnabled.get() == isChecked) return
         manualSearchEnabled.set(isChecked)
         isApiLoading.set(false)
         apiResultLiveData.postValue(listOf())
