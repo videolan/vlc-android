@@ -4,7 +4,6 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-
     baseFeature true
 
     defaultConfig {
@@ -27,7 +26,7 @@ android {
 }
 
 dependencies {
-    api "androidx.appcompat:appcompat:$rootProject.ext.androidxVersion"
+    api "androidx.appcompat:appcompat:$rootProject.ext.androidxAppcompatVersion"
     api "androidx.tvprovider:tvprovider:$rootProject.ext.androidxVersion"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
