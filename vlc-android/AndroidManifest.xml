@@ -547,7 +547,8 @@
 
         <activity
             android:name=".gui.video.benchmark.BenchActivity"
-            android:screenOrientation="landscape"
+            android:screenOrientation="nosensor"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"
             android:exported="true"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.VLC.Player" />
