@@ -16,6 +16,7 @@ android {
         compileSdkVersion rootProject.ext.compileSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         minSdkVersion rootProject.ext.minSdkVersion
+        resValue "string", "build_vlc_revision", vlcRevision()
     }
 
     sourceSets {
@@ -61,6 +62,15 @@ clean {
 dependencies {
     api "androidx.annotation:annotation:$rootProject.ext.androidxVersion"
     api "androidx.legacy:legacy-support-v4:$rootProject.ext.androidxVersion"
+}
+
+def vlcRevision() {
+    def vlc = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = vlc
+    }
+    return vlc.toString()
 }
 
 apply from: '../publish.gradle'

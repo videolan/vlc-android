@@ -51,7 +51,6 @@ android {
         resValue "string", "build_time", buildTime()
         resValue "string", "build_host", hostName()
         resValue "string", "build_revision", revision()
-        resValue "string", "build_vlc_revision", vlcRevision()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // The following argument makes the Android Test Orchestrator run its
@@ -254,14 +253,4 @@ def revision() {
         standardOutput = code
     }
     return code.toString()
-}
-
-def vlcRevision() {
-    def vlc = new ByteArrayOutputStream()
-    exec {
-        commandLine 'git', 'rev-parse', '--short', 'HEAD'
-        workingDir '../vlc'
-        standardOutput = vlc
-    }
-    return vlc.toString()
 }
