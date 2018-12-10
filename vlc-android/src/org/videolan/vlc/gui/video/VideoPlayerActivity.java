@@ -1728,7 +1728,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     public void onAudioSubClick(View anchor) {
         int flags = 0;
         if (enableSubs) {
-            flags |= Constants.CTX_DOWNLOAD_SUBTITLES;
+            flags |= Constants.CTX_DOWNLOAD_SUBTITLES_PLAYER;
             if (mDisplayManager.isPrimary()) flags |= Constants.CTX_PICK_SUBS;
         }
         if (mService.getVideoTracksCount() > 2) flags |= Constants.CTX_VIDEO_TRACK;
@@ -1757,7 +1757,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
                 startActivityForResult(filePickerIntent, 0);
                 break;
-            case Constants.CTX_DOWNLOAD_SUBTITLES:
+            case Constants.CTX_DOWNLOAD_SUBTITLES_PLAYER:
                 final MediaWrapper mw = mService != null ? mService.getCurrentMediaWrapper() : null;
                 if (mw != null) MediaUtils.INSTANCE.getSubs(VideoPlayerActivity.this, mw);
                 break;
