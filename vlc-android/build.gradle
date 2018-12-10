@@ -94,14 +94,16 @@ android {
             storealias=androiddebugkey
             storepwd=android
              */
-            storeFile file(keyStoreFile)
-            keyAlias storealias
-            if (System.getenv('PASSWORD_KEYSTORE') != null && !System.getenv('PASSWORD_KEYSTORE').isEmpty()){
-                storePassword = System.getenv('PASSWORD_KEYSTORE')
-                keyPassword = System.getenv('PASSWORD_KEYSTORE')
-            } else {
-                storePassword storepwd
-                keyPassword storepwd
+            if (project.hasProperty('keyStoreFile')) {
+                storeFile file(project.findProperty('keyStoreFile'))
+                keyAlias project.findProperty('storealias')
+                if (System.getenv('PASSWORD_KEYSTORE') != null && !System.getenv('PASSWORD_KEYSTORE').isEmpty()){
+                    storePassword = System.getenv('PASSWORD_KEYSTORE')
+                    keyPassword = System.getenv('PASSWORD_KEYSTORE')
+                } else {
+                    storePassword project.findProperty('storepwd')
+                    keyPassword project.findProperty('storepwd')
+                }
             }
         }
     }
