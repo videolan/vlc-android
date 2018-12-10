@@ -12,12 +12,12 @@ import org.videolan.vlc.gui.OnItemSelectListener
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.viewmodels.SubtitlesModel
+import androidx.core.widget.NestedScrollView
 
 class SubtitleDownloadFragment : androidx.fragment.app.Fragment() {
     private lateinit var viewModel: SubtitlesModel
     private lateinit var adapter: SubtitlesAdapter
     lateinit var mediaPath: String
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,12 +41,15 @@ class SubtitleDownloadFragment : androidx.fragment.app.Fragment() {
         recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         viewModel.result.observe(this, Observer {
             adapter.setList(it)
+            if (it.isNotEmpty()) focusOnView(binding.scrollView, binding.swipeContainer)
         })
 
         binding.searchButton.setOnClickListener {
             UiTools.setKeyboardVisibility(it, false)
             viewModel.search(false)
+            focusOnView(binding.scrollView, binding.swipeContainer)
         }
+
 
         val allValuesOfLanguages = resources.getStringArray(R.array.language_values)
         val allEntriesOfLanguages = resources.getStringArray(R.array.language_entries)
@@ -62,6 +65,10 @@ class SubtitleDownloadFragment : androidx.fragment.app.Fragment() {
         binding.languageListSpinner.setSelection(viewModel.getLastUsedLanguage().map { allValuesOfLanguages.indexOf(it) })
 
         return binding.root
+    }
+
+    private fun focusOnView(scrollView: NestedScrollView, view: View) {
+        scrollView.smoothScrollTo(0, view.top)
     }
 
     companion object {
