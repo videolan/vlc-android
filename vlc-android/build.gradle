@@ -153,11 +153,12 @@ android {
     applicationVariants.all { variant ->
         //Custom APK name and versionCode
         variant.outputs.each { output ->
-            def abiName = output.getFilter(OutputFile.ABI) ?: "all"
+            def abiName = output.getFilter(OutputFile.ABI) ?: System.getenv('GRADLE_ABI')?.toLowerCase() ?: "all"
             output.versionCodeOverride = 10000000 + defaultConfig.versionCode + abiCodes.get(abiName, 0)
             def outputName = "VLC-Android-"
             outputName += variant.versionName + "-" + abiName + ".apk"
             output.outputFileName = outputName
+            resValue "string", "build_abi", abiName
         }
     }
 

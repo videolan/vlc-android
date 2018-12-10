@@ -338,7 +338,7 @@ else
         ACTION="assemble"
     fi
     TARGET="${ACTION}${BUILDTYPE}"
-    CLI="" ./gradlew $TARGET
+    CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew $TARGET
 fi
 
 #######
