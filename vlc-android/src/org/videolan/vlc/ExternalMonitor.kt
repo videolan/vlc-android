@@ -101,7 +101,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
 
     init {
         launch {
-            ProcessLifecycleOwner.get().lifecycle.addObserver(this@ExternalMonitor)
+            if (!AndroidDevices.watchDevices) ProcessLifecycleOwner.get().lifecycle.addObserver(this@ExternalMonitor)
         }
     }
 
