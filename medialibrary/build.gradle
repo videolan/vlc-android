@@ -25,7 +25,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 def abi = System.getenv('GRADLE_ABI')?.toLowerCase()
 ext {
-    library_version = '0.3.90'
+    library_version = '0.4.0'
     repoName = 'Android'
     libraryName = 'Medialibrary-Android'
     lib_artifact = "medialibrary-$abi"
