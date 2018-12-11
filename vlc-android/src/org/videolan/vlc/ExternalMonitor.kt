@@ -37,7 +37,6 @@ import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.text.TextUtils
-import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -64,6 +63,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
 
     private lateinit var cm: ConnectivityManager
     private lateinit var ctx: Context
+    private var registered = false
 
     private val actor = actor<DeviceAction>(capacity = Channel.CONFLATED) {
         for (action in channel) when (action){
@@ -101,7 +101,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
 
     init {
         launch {
-            if (!AndroidDevices.watchDevices) ProcessLifecycleOwner.get().lifecycle.addObserver(this@ExternalMonitor)
+            ProcessLifecycleOwner.get().lifecycle.addObserver(this@ExternalMonitor)
         }
     }
 
@@ -188,7 +188,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun register() {
-        Log.d(TAG, "register: ")
+        if (registered) return
         val ctx = VLCApplication.getAppContext()
         val networkFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         val storageFilter = IntentFilter(Intent.ACTION_MEDIA_MOUNTED)
@@ -200,6 +200,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         ctx.registerReceiver(this, networkFilter)
         ctx.registerReceiver(this, storageFilter)
         ctx.registerReceiver(this, otgFilter)
+        registered = true
         checkNewStorages(ctx)
     }
 
@@ -219,6 +220,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         if (AndroidDevices.watchDevices) return
         val ctx = VLCApplication.getAppContext()
         ctx.unregisterReceiver(this)
+        registered = false
         connected.value = false
         devices.clear()
     }
