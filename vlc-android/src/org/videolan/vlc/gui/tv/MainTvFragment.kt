@@ -160,6 +160,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             (requireActivity() as MainTvActivity).hideLoading()
         })
         ExternalMonitor.connected.observe(this, Observer { updateActor.offer(Browsers) })
+        ExternalMonitor.storageUnplugged.observe(this, Observer { updateActor.offer(Browsers) })
+        ExternalMonitor.storagePlugged.observe(this, Observer { updateActor.offer(Browsers) })
         onItemViewClickedListener = this
         onItemViewSelectedListener = this
     }
