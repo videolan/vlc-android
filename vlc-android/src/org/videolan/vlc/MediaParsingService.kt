@@ -440,7 +440,7 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
     ContextCompat.startForegroundService(this@startMedialibrary, intent
             .putExtra(EXTRA_FIRST_RUN, firstRun)
             .putExtra(EXTRA_UPGRADE, upgrade)
-            .putExtra(EXTRA_PARSE, parse && scanOpt == ML_SCAN_ON))
+            .putExtra(EXTRA_PARSE, parse && scanOpt != ML_SCAN_OFF))
 }
 
 private suspend fun dbExists(context: Context) = withContext(Dispatchers.IO) {
