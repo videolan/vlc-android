@@ -547,7 +547,7 @@
 
         <activity
             android:name=".gui.video.benchmark.BenchActivity"
-            android:screenOrientation="nosensor"
+            android:screenOrientation="landscape"
             android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"
             android:exported="true"
             android:launchMode="singleInstance"
