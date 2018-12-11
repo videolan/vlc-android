@@ -49,6 +49,7 @@
     <string name="play_all">Odtwórz wszystko</string>
     <string name="append_all">Dołącz wszystko</string>
     <string name="last_playlist">Ostatnia lista odtwarzania</string>
+    <string name="last_playlist_shortcut">Wznowienie odtwarzania</string>
     <string name="delete">Usuń</string>
     <string name="remove">Usuń</string>
     <string name="set_song">Ustaw jako dzwonek</string>
@@ -652,4 +653,6 @@
     <string name="ctx_player_subs_track">Ścieżka napisów</string>
     <string name="ctx_player_tracks_title">Ścieżki multimedialne</string>
     <string name="ctx_pip_title">Odtwarzacz w oknie pop-up</string>
+    <string name="device_dialog_title">Włożono urządzenie zewnętrzne</string>
+    <string name="device_dialog_message">Wykryto nowe urządzenie, czy chcesz obsłużyć je za pomocą VLC?</string>
 </resources>
