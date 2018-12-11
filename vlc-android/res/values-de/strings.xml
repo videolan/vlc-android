@@ -47,6 +47,7 @@
     <string name="play_all">Alle wiedergeben</string>
     <string name="append_all">Alle anhängen</string>
     <string name="last_playlist">Letzte Wiedergabeliste</string>
+    <string name="last_playlist_shortcut">Wiedergabe fortsetzen</string>
     <string name="delete">Löschen</string>
     <string name="remove">Entfernen</string>
     <string name="set_song">Als Klingelton festlegen</string>
@@ -638,4 +639,6 @@
     <string name="ctx_player_subs_track">Untertitelspur</string>
     <string name="ctx_player_tracks_title">Medienspuren</string>
     <string name="ctx_pip_title">Pop-Up -Wiedergabe</string>
+    <string name="device_dialog_title">Externes Gerät angeschlossen</string>
+    <string name="device_dialog_message">Neues Gerät erkannt, soll es mit VLC verwendet werden?</string>
 </resources>
