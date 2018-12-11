@@ -47,6 +47,7 @@
     <string name="play_all">Spela upp alla</string>
     <string name="append_all">Kölägg alla</string>
     <string name="last_playlist">Senaste spellista</string>
+    <string name="last_playlist_shortcut">Återuppta uppspelning</string>
     <string name="delete">Radera</string>
     <string name="remove">Ta bort</string>
     <string name="set_song">Ange som ringsignal</string>
@@ -604,7 +605,8 @@
     <string name="audio_digital_output_enabled">Digital ljudutmatning aktiverades</string>
     <string name="audio_digital_output_disabled">Digital ljudutmatning inaktiverades</string>
     <string name="audio_digital_title">Digital ljudutmatning (passthrough)</string>
-    <string name="audio_task_removed_title">Stoppa uppspelningen när applikationen stängs</string>
+    <string name="audio_task_cleared_title">Stoppa när appen avvisas</string>
+    <string name="audio_task_cleared_summary">Stoppa uppspelningen när applikationen avvisas</string>
     <string name="playback_rewind">Spola tillbaka</string>
     <string name="playback_forward">Spola framåt</string>
     <string name="ml_wizard_title">Val av mediabibliotek för VLC</string>
@@ -632,4 +634,11 @@
     <string name="download_the_selected">Ladda ned markering</string>
     <string name="next">Nästa</string>
     <string name="download">Ladda ned</string>
+    <string name="ctx_player_video_track">Välj videospår</string>
+    <string name="ctx_player_audio_track">Ljudspår</string>
+    <string name="ctx_player_subs_track">Undertextspår</string>
+    <string name="ctx_player_tracks_title">Mediaspår</string>
+    <string name="ctx_pip_title">Popup-spelare</string>
+    <string name="device_dialog_title">Extern enhet matades in</string>
+    <string name="device_dialog_message">Ny enhet upptäcktes, vill du hantera den med VLC?</string>
 </resources>
