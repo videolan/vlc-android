@@ -27,13 +27,13 @@ allprojects {
 }
 
 ext {
-    versionName = '3.0.13'
-    versionCode = 3001300
+    versionName = '3.0.90'
+    versionCode = 3009000
+    libvlcVersion = '3.1.0'
+    medialibraryVersion = '0.4.0'
     minSdkVersion = 17
     targetSdkVersion = 28
     compileSdkVersion = 28
-    libvlcVersion = '3.1.0'
-    medialibraryVersion = '0.3.90'
     androidxCoreVersion = '1.0.1'
     androidxVersion = '1.0.0'
     androidxAppcompatVersion = '1.0.2'
