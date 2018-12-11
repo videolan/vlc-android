@@ -19,11 +19,12 @@
             android:layout_height="match_parent">
             <org.videolan.vlc.gui.MultiSelectionSpinner
                 android:id="@+id/language_list_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:focusable="true"
                 app:layout_constraintEnd_toStartOf="@+id/right_vertical_guideline"
+                app:layout_constraintStart_toEndOf="@+id/languages_list"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintTop_toTopOf="@+id/top_horizontal_guideline" />
 
