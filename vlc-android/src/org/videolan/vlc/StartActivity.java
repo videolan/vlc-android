@@ -146,6 +146,8 @@ public class StartActivity extends FragmentActivity {
                     return R.id.nav_directories;
                 case "vlc.shortcut.network":
                     return R.id.nav_network;
+                case "vlc.shortcut.playlists":
+                    return R.id.nav_playlists;
                 case "vlc.shortcut.resume":
                     return R.id.ml_menu_last_playlist;
                 default:
