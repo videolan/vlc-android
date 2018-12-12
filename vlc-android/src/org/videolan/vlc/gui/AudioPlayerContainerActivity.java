@@ -23,21 +23,12 @@
 
 package org.videolan.vlc.gui;
 
-import androidx.lifecycle.Observer;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.appbar.AppBarLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.core.view.ViewCompat;
-import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.widget.ViewStubCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,6 +36,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.google.android.material.appbar.AppBarLayout;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
@@ -66,6 +59,16 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.WeakHandler;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.widget.ViewStubCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 
 public class AudioPlayerContainerActivity extends BaseActivity {
 
@@ -336,6 +339,8 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     final AudioPlayerBottomSheetCallback mAudioPlayerBottomSheetCallback = new AudioPlayerBottomSheetCallback();
 
     private static final int ACTION_DISPLAY_PROGRESSBAR = 1339;
+    private static final int ACTION_SHOW_PLAYER = 1340;
+    private static final int ACTION_HIDE_PLAYER = 1341;
 
     public boolean isAudioPlayerReady() {
         return mAudioPlayer != null;
@@ -374,8 +379,8 @@ public class AudioPlayerContainerActivity extends BaseActivity {
         PlaylistManager.Companion.getShowAudioPlayer().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean showPlayer) {
-                if (showPlayer) showAudioPlayer();
-                else hideAudioPlayer();
+                if (showPlayer) mActivityHandler.sendEmptyMessageDelayed(ACTION_SHOW_PLAYER, 100L);
+                else mActivityHandler.sendEmptyMessage(ACTION_HIDE_PLAYER);
             }
         });
         MediaParsingService.Companion.getProgress().observe(this, new Observer<ScanProgress>() {
@@ -422,6 +427,13 @@ public class AudioPlayerContainerActivity extends BaseActivity {
                 case ACTION_DISPLAY_PROGRESSBAR:
                     removeMessages(ACTION_DISPLAY_PROGRESSBAR);
                     owner.showProgressBar();
+                    break;
+                case ACTION_SHOW_PLAYER:
+                    owner.showAudioPlayer();
+                    break;
+                case ACTION_HIDE_PLAYER:
+                    removeMessages(ACTION_SHOW_PLAYER);
+                    owner.hideAudioPlayer();
                     break;
             }
         }
