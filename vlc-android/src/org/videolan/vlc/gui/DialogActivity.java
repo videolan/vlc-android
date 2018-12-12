@@ -76,6 +76,7 @@ public class DialogActivity extends BaseActivity {
     }
 
     private void setupDeviceDialog() {
+        getWindow().getDecorView().setAlpha(0.f);
         final DeviceDialog dialog = new DeviceDialog();
         final Intent intent = getIntent();
         dialog.setDevice(intent.getStringExtra(EXTRA_PATH), intent.getStringExtra(EXTRA_UUID), intent.getBooleanExtra(EXTRA_SCAN, false));
