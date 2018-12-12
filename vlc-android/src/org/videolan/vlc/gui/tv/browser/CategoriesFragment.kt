@@ -25,12 +25,12 @@ package org.videolan.vlc.gui.tv.browser
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
-import androidx.core.content.ContextCompat
-import android.view.View
-import android.widget.ImageView
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
@@ -98,13 +98,17 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
     }
 
     protected fun update(map: Map<String, List<MediaLibraryItem>>?) {
-        if (map === null) return
+        if (map.isNullOrEmpty()) {
+            (activity as? VerticalGridActivity)?.run { updateEmptyView(true) }
+            return
+        }
         val rows = mutableMapOf<String, ListRow>()
         for ((key, list) in map) {
             val row = getCategoryRow(key)
             (row.adapter as ArrayObjectAdapter).setItems(list, TvUtil.diffCallback)
             rows[key] = row
         }
+        (activity as? VerticalGridActivity)?.run { updateEmptyView(false) }
         //TODO  Activate animations once IndexOutOfRange Exception is fixed
         rowsAdapter.setItems(rows.values.toList(), null /*TvUtil.listDiffCallback*/)
         categoryRows = rows
