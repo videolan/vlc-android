@@ -203,6 +203,8 @@ dependencies {
     debugImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
     releaseImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
     releaseImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
+    signedReleaseImplementation "org.videolan.android:libvlc-all:$rootProject.ext.libvlcVersion"
+    signedReleaseImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
     implementation project(':api')
     implementation project(':tools')
     // AppCompat
