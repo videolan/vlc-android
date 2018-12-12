@@ -90,6 +90,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     // Playback management
     internal lateinit var mediaSession: MediaSessionCompat
+    @Volatile private var notificationShowing = false
 
     private var widget = 0
     /**
@@ -633,7 +634,10 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         }
     }
 
-    fun showNotification() = cbActor.offer(ShowNotification)
+    fun showNotification() : Boolean {
+        notificationShowing = true
+        return cbActor.offer(ShowNotification)
+    }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun showNotificationInternal() {
@@ -650,7 +654,8 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
             val ctx = this
             val metaData = mediaSession.controller.metadata
             launch(Dispatchers.Default) {
-                if (isPlayingPopup) return@launch
+                delay(100)
+                if (isPlayingPopup || !notificationShowing) return@launch
                 try {
                     val title = if (metaData == null) mw.title else metaData.getString(MediaMetadataCompat.METADATA_KEY_TITLE)
                     val artist = if (metaData == null) mw.artist else metaData.getString(MediaMetadataCompat.METADATA_KEY_ALBUM_ARTIST)
@@ -694,7 +699,10 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         return mw != null && mw.hasFlag(flag)
     }
 
-    private fun hideNotification(remove: Boolean) = cbActor.offer(HideNotification(remove))
+    private fun hideNotification(remove: Boolean) : Boolean {
+        notificationShowing = false
+        return cbActor.offer(HideNotification(remove))
+    }
 
     private fun hideNotificationInternal(remove: Boolean) {
         if (!isPlayingPopup && isForeground) {
