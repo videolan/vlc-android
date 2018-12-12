@@ -41,6 +41,7 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
+import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
@@ -157,6 +158,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             setImageResource(R.drawable.ic_fab_play)
             updateFab()
         }
+        (activity as? AudioPlayerContainerActivity)?.expandAppBar()
     }
 
     override fun onResume() {

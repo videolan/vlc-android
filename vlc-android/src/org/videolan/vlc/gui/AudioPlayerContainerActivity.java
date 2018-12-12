@@ -130,6 +130,10 @@ public class AudioPlayerContainerActivity extends BaseActivity {
         showTipViewIfNeeded(R.id.audio_player_tips, Constants.PREF_AUDIOPLAYER_TIPS_SHOWN);
     }
 
+    public void expandAppBar() {
+        mAppBarLayout.setExpanded(true);
+    }
+
     @Override
     protected void onStart() {
         ExternalMonitor.INSTANCE.subscribeStorageCb(this);
