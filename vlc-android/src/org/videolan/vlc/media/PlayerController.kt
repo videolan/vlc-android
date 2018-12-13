@@ -306,7 +306,8 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         }
     }
 
-    private fun updateProgress(newTime: Long = progress.value?.time ?: 0L, newLength: Long = progress.value?.length ?: 0L) {
+    @JvmOverloads
+    fun updateProgress(newTime: Long = progress.value?.time ?: 0L, newLength: Long = progress.value?.length ?: 0L) {
         progress.value = progress.value?.apply { time = newTime; length = newLength }
     }
 
