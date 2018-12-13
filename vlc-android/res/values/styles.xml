@@ -361,14 +361,62 @@
     </style>
 
     <!--Preferences-->
-    <style name="VLCPreferenceTheme.Light" parent="PreferenceThemeOverlay.v14.Material">
+    <style name="VLCPreferenceTheme.Light" parent="PreferenceThemeOverlay">
         <item name="android:textColorPrimary">@color/grey900</item>
         <item name="android:textColorSecondary">@color/grey700</item>
+        <item name="preferenceStyle">@style/VLCPreferenceStyle</item>
+        <item name="editTextPreferenceStyle">@style/VLCEditPreferenceStyle</item>
+        <item name="switchPreferenceCompatStyle">@style/VLCSwitchPreferenceStyle</item>
+        <item name="dialogPreferenceStyle">@style/VLCDialogPreferenceStyle</item>
+        <item name="checkBoxPreferenceStyle">@style/VLCCheckBoxPreferenceStyle</item>
+        <item name="preferenceFragmentCompatStyle">@style/PreferenceFragment.Material</item>
+        <item name="preferenceCategoryStyle">@style/VLCPreferenceCategoryStyle</item>
+        <item name="preferenceScreenStyle">@style/VLCPreferenceScreenStyle</item>
     </style>
 
-    <style name="VLCPreferenceTheme.Dark" parent="PreferenceThemeOverlay.v14.Material">
+    <style name="VLCPreferenceTheme.Dark" parent="PreferenceThemeOverlay">
         <item name="android:textColorPrimary">@color/grey50</item>
         <item name="android:textColorSecondary">@color/grey600</item>
+        <item name="preferenceStyle">@style/VLCPreferenceStyle</item>
+        <item name="editTextPreferenceStyle">@style/VLCEditPreferenceStyle</item>
+        <item name="switchPreferenceCompatStyle">@style/VLCSwitchPreferenceStyle</item>
+        <item name="dialogPreferenceStyle">@style/VLCDialogPreferenceStyle</item>
+        <item name="checkBoxPreferenceStyle">@style/VLCCheckBoxPreferenceStyle</item>
+        <item name="preferenceFragmentCompatStyle">@style/PreferenceFragment.Material</item>
+        <item name="preferenceCategoryStyle">@style/VLCPreferenceCategoryStyle</item>
+        <item name="preferenceScreenStyle">@style/VLCPreferenceScreenStyle</item>
+    </style>
+
+    <style name="VLCEditPreferenceStyle" parent="Preference.DialogPreference.EditTextPreference.Material">
+    <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="VLCSwitchPreferenceStyle" parent="Preference.SwitchPreferenceCompat.Material">
+    <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="VLCDialogPreferenceStyle" parent="Preference.DialogPreference.Material">
+    <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="VLCCheckBoxPreferenceStyle" parent="Preference.CheckBoxPreference.Material">
+    <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="VLCPreferenceFragmentStyle" parent="PreferenceFragment.Material">
+    <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="VLCPreferenceScreenStyle" parent="Preference.PreferenceScreen.Material">
+    <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="VLCPreferenceStyle" parent="Preference.Material">
+    <item name="iconSpaceReserved">false</item>
+    </style>
+
+    <style name="VLCPreferenceCategoryStyle" parent="Preference.Category.Material">
+        <item name="iconSpaceReserved">false</item>
     </style>
 
     <!-- Tips Apearance-->
