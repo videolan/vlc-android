@@ -9,6 +9,7 @@ import androidx.paging.PositionalDataSource
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
 abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableModel(context), Medialibrary.OnMedialibraryReadyListener, Medialibrary.OnDeviceChangeListener {
@@ -63,6 +64,10 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
             desc = false
         } else desc = !desc
         refresh()
+        Settings.getInstance(context).edit()
+                .putInt(sortKey, sort)
+                .putBoolean("${sortKey}_desc", desc)
+                .apply()
     }
 
     fun isFiltering() = filter != null

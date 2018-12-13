@@ -295,13 +295,7 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
     }
 
     protected void sortBy(int sort) {
-        final T model = getViewModel();
-        model.sort(sort);
-        final String key = model.getKey();
-        Settings.INSTANCE.getInstance(requireContext()).edit()
-                .putInt(key, sort)
-                .putBoolean(key+"_desc", model.getDesc())
-                .apply();
+        getViewModel().sort(sort);
     }
 
     public Menu getMenu() {

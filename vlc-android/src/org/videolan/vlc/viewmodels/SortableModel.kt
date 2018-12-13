@@ -3,6 +3,7 @@ package org.videolan.vlc.viewmodels
 import android.content.Context
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.vlc.util.RefreshModel
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.canSortBy
 
 abstract class SortableModel(protected val context: Context): ScopedModel(), RefreshModel {
@@ -35,6 +36,10 @@ abstract class SortableModel(protected val context: Context): ScopedModel(), Ref
             }
             this.sort = sort
             refresh()
+            Settings.getInstance(context).edit()
+                    .putInt(sortKey, sort)
+                    .putBoolean("${sortKey}_desc", desc)
+                    .apply()
         }
     }
 
