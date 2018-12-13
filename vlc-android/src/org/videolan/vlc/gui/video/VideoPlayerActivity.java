@@ -2072,6 +2072,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         mForcedTime = position;
         mLastTime = mService.getTime();
         mService.seek(position, length);
+        mService.getPlaylistManager().getPlayer().updateProgress(position);
     }
 
     void seekDelta(int delta) {
