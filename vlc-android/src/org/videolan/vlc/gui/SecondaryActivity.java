@@ -70,7 +70,7 @@ public class SecondaryActivity extends ContentActivity {
         final CoordinatorLayout.LayoutParams params =
                 (CoordinatorLayout.LayoutParams) fph.getLayoutParams();
 
-        if (AndroidDevices.showTvUi(this)) {
+        if (AndroidDevices.isTv) {
             TvUtil.INSTANCE.applyOverscanMargin(this);
             params.topMargin = getResources().getDimensionPixelSize(UiTools.getResourceFromAttribute(this, R.attr.actionBarSize));
         } else

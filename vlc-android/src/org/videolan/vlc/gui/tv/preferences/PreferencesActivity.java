@@ -51,9 +51,6 @@ public class PreferencesActivity extends FragmentActivity implements PlaybackSer
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /* Theme must be applied before super.onCreate */
-        applyTheme();
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.tv_preferences_activity);
