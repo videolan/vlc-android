@@ -158,7 +158,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         rowsAdapter.add(miscRow)
 
         adapter = rowsAdapter
-        videoModel = VideosModel.get(requireContext(), this, null, Medialibrary.SORT_INSERTIONDATE, -1, desc = true)
+        videoModel = VideosModel.get(requireContext(), this, Medialibrary.SORT_INSERTIONDATE, -1, desc = true, group = null)
         videoModel.dataset.observe(this, Observer {
             updateVideos(it)
             (requireActivity() as MainTvActivity).hideLoading()

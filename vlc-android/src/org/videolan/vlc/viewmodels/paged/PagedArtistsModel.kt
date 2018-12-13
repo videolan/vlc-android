@@ -11,11 +11,6 @@ import org.videolan.vlc.util.Settings
 
 class PagedArtistsModel(context: Context, private var showAll: Boolean = false): MLPagedModel<Artist>(context), Medialibrary.ArtistsCb by EmptyMLCallbacks {
 
-    init {
-        sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)
-        desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
-    }
-
     override fun onArtistsAdded() {
         refresh()
     }

@@ -30,13 +30,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.media.MediaGroup
+import org.videolan.vlc.media.getAll
 import org.videolan.vlc.util.Settings
 
 @ExperimentalCoroutinesApi
-open class VideosModel(context: Context, private val group: String?, private val minGroupLen: Int, customSort : Int, customDesc: Boolean?) : MedialibraryModel<MediaWrapper>(context), Medialibrary.MediaCb {
+open class VideosModel(context: Context, private val group: String?, val folder : Folder?, private val minGroupLen: Int, customSort : Int, customDesc: Boolean?) : MedialibraryModel<MediaWrapper>(context), Medialibrary.MediaCb {
 
     override val sortKey = "${super.sortKey}_$group"
     override fun canSortByFileNameName() = true
@@ -71,6 +73,7 @@ open class VideosModel(context: Context, private val group: String?, private val
             val list = medialibrary.getVideos(sort, desc)
             val displayList = mutableListOf<MediaWrapper>()
             when {
+                folder != null -> displayList.addAll(folder.getAll(Folder.TYPE_FOLDER_VIDEO, sort, desc))
                 group !== null -> {
                     val loGroup = group.toLowerCase()
                     for (item in list) {
@@ -114,11 +117,18 @@ open class VideosModel(context: Context, private val group: String?, private val
         return position + offset
     }
 
-    class Factory(private val context: Context, val group: String?, private val minGroupLen : Int, private val sort : Int, private val desc : Boolean?): ViewModelProvider.NewInstanceFactory() {
+    class Factory(
+            private val context: Context,
+            val group: String?,
+            private val folder : Folder?,
+            private val minGroupLen : Int,
+            private val sort : Int,
+            private val desc : Boolean?
+    ): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             val length = if (minGroupLen == 0) Integer.valueOf(Settings.getInstance(context).getString("video_min_group_length", "6")!!) else minGroupLen
             @Suppress("UNCHECKED_CAST")
-            return VideosModel(context.applicationContext, group, length, sort, desc) as T
+            return VideosModel(context.applicationContext, group, folder, length, sort, desc) as T
         }
     }
 
@@ -126,12 +136,13 @@ open class VideosModel(context: Context, private val group: String?, private val
         fun get(
                 context: Context,
                 fragment: androidx.fragment.app.Fragment,
-                group: String?,
                 sort : Int = Medialibrary.SORT_DEFAULT,
                 minGroupLen : Int = 0,
-                desc : Boolean? = null
+                desc : Boolean? = null,
+                group: String? = null,
+                folder: Folder? = null
         ) : VideosModel {
-            return ViewModelProviders.of(fragment, Factory(context, group, minGroupLen, sort, desc)).get(VideosModel::class.java)
+            return ViewModelProviders.of(fragment, Factory(context, group, folder, minGroupLen, sort, desc)).get(VideosModel::class.java)
         }
     }
 }

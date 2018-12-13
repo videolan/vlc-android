@@ -451,14 +451,16 @@ public class Medialibrary {
         return mIsInitiated && !TextUtils.isEmpty(vlcMrl) ? nativeAddStream(vlcMrl, vlcTitle) : null;
     }
 
-    @Nullable
-    public Folder[] getFolders(int sort, boolean desc, int nbItems, int offset) {
-        return mIsInitiated ? nativeGetFolders(sort, desc, nbItems, offset) : new Folder[0];
+    @NonNull
+    @WorkerThread
+    public Folder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetFolders(type, sort, desc, nbItems, offset) : new Folder[0];
     }
 
-    @Nullable
-    public int getFoldersCount() {
-        return mIsInitiated ? nativeGetFoldersCount() : 0;
+    @NonNull
+    @WorkerThread
+    public int getFoldersCount(int type) {
+        return mIsInitiated ? nativeGetFoldersCount(type) : 0;
     }
 
     public void requestThumbnail(long id) {
@@ -994,8 +996,8 @@ public class Medialibrary {
     private native int nativeGetPlaylistsCount();
     private native Playlist nativeGetPlaylist(long playlistId);
     private native Playlist nativePlaylistCreate(String name);
-    private native Folder[] nativeGetFolders(int sort, boolean desc, int nbItems, int offset);
-    private native int nativeGetFoldersCount();
+    private native Folder[] nativeGetFolders(int type, int sort, boolean desc, int nbItems, int offset);
+    private native int nativeGetFoldersCount(int type);
     private native void nativePauseBackgroundOperations();
     private native void nativeResumeBackgroundOperations();
     private native void nativeReload();

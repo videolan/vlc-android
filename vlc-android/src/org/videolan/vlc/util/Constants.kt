@@ -30,6 +30,7 @@ const val EXTRA_TARGET = "extra_parse"
 
 //UI Navigation
 const val ID_VIDEO = "video"
+const val ID_VIDEO_FOLDERS = "video_folders"
 const val ID_AUDIO = "audio"
 const val ID_PLAYLISTS = "playlists"
 const val ID_NETWORK = "network"
@@ -172,6 +173,7 @@ const val CTX_AUDIO_FLAGS = CTX_PLAY or CTX_APPEND or CTX_PLAY_NEXT or CTX_ADD_T
 const val CTX_PLAYLIST_FLAGS = CTX_AUDIO_FLAGS or CTX_DELETE
 const val CTX_PLAYLIST_ITEM_FLAGS = CTX_APPEND or CTX_PLAY_NEXT or CTX_ADD_TO_PLAYLIST or CTX_INFORMATION or CTX_DELETE or CTX_SET_RINGTONE
 const val CTX_VIDEO_GOUP_FLAGS = CTX_APPEND or CTX_PLAY_GROUP
+const val CTX_FOLDER_FLAGS = CTX_PLAY or CTX_APPEND or CTX_ADD_TO_PLAYLIST
 
 // Database
 const val TYPE_NETWORK_FAV = 0

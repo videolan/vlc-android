@@ -6,10 +6,10 @@ import android.graphics.Canvas;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore;
-import androidx.annotation.WorkerThread;
 import android.text.TextUtils;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.VLCApplication;
@@ -21,6 +21,10 @@ import org.videolan.vlc.media.MediaGroup;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Arrays;
+import java.util.List;
+
+import androidx.annotation.WorkerThread;
 
 import static org.videolan.medialibrary.Medialibrary.THUMBS_FOLDER_NAME;
 import static org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap;
@@ -34,8 +38,15 @@ public class ThumbnailsProvider {
     private static final int MAX_IMAGES = 4;
 
     @WorkerThread
+    public static Bitmap getFolderThumbnail(final Folder folder, int width) {
+        final List<MediaWrapper> media = Arrays.asList(folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, true, 4, 0));
+        final Bitmap img = ThumbnailsProvider.getComposedImage("folder:"+folder.getTitle(), media, width);
+        return img;
+    }
+
+    @WorkerThread
     public static Bitmap getMediaThumbnail(final MediaWrapper item, int width) {
-        if (item.getType() == MediaWrapper.TYPE_GROUP) return ThumbnailsProvider.getComposedImage((MediaGroup) item, width);
+        if (item.getType() == MediaWrapper.TYPE_GROUP) return ThumbnailsProvider.getComposedImage("group:"+item.getTitle(), ((MediaGroup) item).getAll(), width);
         if (item.getType() == MediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.getArtworkMrl())) return getVideoThumbnail(item, width);
         else return AudioUtil.readCoverBitmap(Uri.decode(item.getArtworkMrl()), width);
     }
@@ -74,25 +85,24 @@ public class ThumbnailsProvider {
     }
 
     @WorkerThread
-    private static Bitmap getComposedImage(MediaGroup group, int width) {
+    private static Bitmap getComposedImage(String key, List<MediaWrapper> mediaList, int width) {
         final BitmapCache bmc = BitmapCache.getInstance();
-        final String key = "group:"+group.getTitle();
         Bitmap composedImage = bmc.getBitmapFromMemCache(key);
         if (composedImage == null) {
-            composedImage = composeImage(group, width);
+            composedImage = composeImage(mediaList, width);
             if (composedImage != null) bmc.addBitmapToMemCache(key, composedImage);
         }
         return composedImage;
     }
     /**
      * Compose 1 image from combined media thumbnails
-     * @param group The MediaGroup instance
+     * @param mediaList The media list fromwhich will extract thumbnails
      * @return a Bitmap object
      */
-    private static Bitmap composeImage(MediaGroup group, int imageWidth) {
-        final Bitmap[] sourcesImages = new Bitmap[Math.min(MAX_IMAGES, group.size())];
+    private static Bitmap composeImage(List<MediaWrapper> mediaList, int imageWidth) {
+        final Bitmap[] sourcesImages = new Bitmap[Math.min(MAX_IMAGES, mediaList.size())];
         int count = 0, minWidth = Integer.MAX_VALUE, minHeight = Integer.MAX_VALUE;
-        for (MediaWrapper media : group.getAll()) {
+        for (MediaWrapper media : mediaList) {
             final Bitmap bm = getVideoThumbnail(media, imageWidth);
             if (bm != null) {
                 int width = bm.getWidth();

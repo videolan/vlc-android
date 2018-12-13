@@ -5,23 +5,21 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
-import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.text.TextUtils
+import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.media.Album
-import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.medialibrary.media.Playlist
+import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -143,7 +141,7 @@ object MediaUtils : CoroutineScope {
             val count = withContext(Dispatchers.IO) { model.getTotalCount() }
             when (count) {
                 0 -> null
-                in 1..PAGE_SIZE -> withContext(Dispatchers.IO) {
+                in 1..PLAYBACK_LOAD_SIZE -> withContext(Dispatchers.IO) {
                     mutableListOf<MediaWrapper>().apply {
                         for (album in model.getAll()) album.tracks?.let { addAll(it) }
                     }
@@ -152,7 +150,7 @@ object MediaUtils : CoroutineScope {
                     mutableListOf<MediaWrapper>().apply {
                         var index = 0
                         while (index < count) {
-                            val pageCount = min(PAGE_SIZE, count-index)
+                            val pageCount = min(PLAYBACK_LOAD_SIZE, count-index)
                             val albums = withContext(Dispatchers.IO) { model.getPage(pageCount, index) }
                             for (album in albums) addAll(album.tracks)
                             index += pageCount
@@ -164,7 +162,6 @@ object MediaUtils : CoroutineScope {
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
         }
-
     }
 
     fun playAll(context: Context?, model: MLPagedModel<MediaWrapper>, position: Int, shuffle: Boolean) {
@@ -378,6 +375,24 @@ object MediaUtils : CoroutineScope {
     } catch (ignored: SecurityException) {}
 
     fun deletePlaylist(playlist: Playlist) = launch(Dispatchers.IO) { playlist.delete() }
+}
+
+@WorkerThread
+fun Folder.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) : List<MediaWrapper> {
+    var index = 0
+    val count = mediaCount(type)
+    val all = mutableListOf<MediaWrapper>()
+    while (index < count) {
+        val pageCount = min(PLAYBACK_LOAD_SIZE, count - index)
+        val list = media(type, sort, desc, pageCount, index)
+        all.addAll(list)
+        index += pageCount
+    }
+    return all
+}
+
+fun List<Folder>.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) : List<MediaWrapper> {
+    return flatMap { it.getAll(type, sort, desc) }
 }
 
 private sealed class Action

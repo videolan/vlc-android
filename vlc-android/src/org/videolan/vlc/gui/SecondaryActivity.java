@@ -31,6 +31,7 @@ import android.view.View;
 import com.google.android.material.appbar.AppBarLayout;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.media.Folder;
 import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -139,6 +140,7 @@ public class SecondaryActivity extends ContentActivity {
             case VIDEO_GROUP_LIST:
                 mFragment = new VideoGridFragment();
                 ((VideoGridFragment) mFragment).setGroup(getIntent().getStringExtra("param"));
+                ((VideoGridFragment) mFragment).setFolder((Folder) getIntent().getParcelableExtra("folder"));
                 break;
             case STORAGE_BROWSER:
                 mFragment = new StorageBrowserFragment();

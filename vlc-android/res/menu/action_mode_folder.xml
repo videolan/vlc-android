@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_folder_play"
+        android:title="@string/play"
+        android:icon="@drawable/ic_play_w"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_folder_append"
+        android:title="@string/append"
+        android:icon="@drawable/ic_am_append_w"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_folder_add_playlist"
+        android:title="@string/add_to_playlist"
+        android:icon="@drawable/ic_am_addtoplaylist_w"
+        app:showAsAction="always"/>
+</menu>

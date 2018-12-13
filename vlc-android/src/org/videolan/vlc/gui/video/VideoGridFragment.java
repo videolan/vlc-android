@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.tools.MultiSelectHelper;
@@ -78,6 +79,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     private MultiSelectHelper<MediaWrapper> multiSelectHelper;
     private VideoGridBinding mBinding;
     private String mGroup;
+    private Folder mFolder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,7 +89,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
             final boolean seenMarkVisible = preferences.getBoolean("media_seen", true);
             mAdapter = new VideoListAdapter(this, seenMarkVisible);
             multiSelectHelper = mAdapter.getMultiSelectHelper();
-            viewModel = ViewModelProviders.of(requireActivity(), new VideosModel.Factory(requireContext(), mGroup, 0, Medialibrary.SORT_DEFAULT, null)).get(VideosModel.class);
+            viewModel = ViewModelProviders.of(requireActivity(), new VideosModel.Factory(requireContext(), mGroup, mFolder, 0, Medialibrary.SORT_DEFAULT, null)).get(VideosModel.class);
             viewModel.getDataset().observe(this, this);
         }
         if (savedInstanceState != null) setGroup(savedInstanceState.getString(Constants.KEY_GROUP));
@@ -165,7 +167,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     }
 
     public String getTitle() {
-        return mGroup == null ? getString(R.string.video) : mGroup + "\u2026";
+        return mGroup == null ? mFolder == null ? getString(R.string.video) : mFolder.getTitle() : mGroup + "\u2026";
     }
 
     private void updateViewMode() {
@@ -221,6 +223,10 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     public void setGroup(String prefix) {
         mGroup = prefix;
+    }
+
+    public void setFolder(Folder folder) {
+        mFolder = folder;
     }
 
     @Override

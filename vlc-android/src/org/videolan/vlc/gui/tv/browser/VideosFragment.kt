@@ -13,7 +13,7 @@ class VideosFragment : MediaLibBrowserFragment<VideosModel>() {
         super.onCreate(savedInstanceState)
         val group = arguments?.getString(KEY_GROUP)
         title = group ?: getString(R.string.videos)
-        model = VideosModel.get(requireContext(), this, group)
+        model = VideosModel.get(requireContext(), this, group = group)
         model.dataset.observe(this, Observer { update(it!!) })
     }
 

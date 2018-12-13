@@ -34,7 +34,7 @@ import org.videolan.vlc.viewmodels.VideosModel
 class VideoBrowserFragment : CategoriesFragment<VideosModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        viewModel = VideosModel.get(requireContext(), this, arguments?.getString(KEY_GROUP))
+        viewModel = VideosModel.get(requireContext(), this, group = arguments?.getString(KEY_GROUP))
         viewModel.categories.observe(this, Observer { update(it) })
         super.onCreate(savedInstanceState)
     }

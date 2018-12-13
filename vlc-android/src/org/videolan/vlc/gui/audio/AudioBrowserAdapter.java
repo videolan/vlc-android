@@ -271,7 +271,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                 @Override
                 public boolean areContentsTheSame(
                         @NonNull MediaLibraryItem oldMedia, @NonNull MediaLibraryItem newMedia) {
-                    return false;
+                    return true;
                 }
 
                 @Override

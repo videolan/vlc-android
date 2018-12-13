@@ -1,21 +1,22 @@
 package org.videolan.vlc.gui.helpers
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.annotation.MainThread
+import androidx.core.view.ViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.OnRebindCallback
 import androidx.databinding.ViewDataBinding
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
-import androidx.annotation.MainThread
 import androidx.leanback.widget.ImageCardView
-import androidx.core.view.ViewCompat
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BR
@@ -26,6 +27,7 @@ import org.videolan.vlc.util.ThumbnailsProvider
 
 private val sBitmapCache = BitmapCache.getInstance()
 private val sMedialibrary = VLCApplication.getMLInstance()
+private const val TAG = "ImageLoader"
 
 @MainThread
 @BindingAdapter("media")
@@ -37,7 +39,12 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
     val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
     val isMedia = item.itemType == MediaLibraryItem.TYPE_MEDIA
     val isGroup = isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_GROUP
-    val cacheKey = if (isGroup) "group: ${item.title}" else ThumbnailsProvider.getMediaCacheKey(isMedia, item)
+    val isFolder = !isMedia && item.itemType == MediaLibraryItem.TYPE_FOLDER;
+    val cacheKey = when {
+        isGroup -> "group:${item.title}"
+        isFolder -> "folder:${item.title}"
+        else -> ThumbnailsProvider.getMediaCacheKey(isMedia, item)
+    }
     val bitmap = if (cacheKey !== null) sBitmapCache.getBitmapFromMemCache(cacheKey) else null
     if (bitmap !== null) updateImageView(bitmap, v, binding)
     else AppScope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding) }
@@ -69,8 +76,11 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
 }
 
 private suspend fun obtainBitmap(item: MediaLibraryItem, width: Int) = withContext(Dispatchers.IO) {
-    if (item.itemType == MediaLibraryItem.TYPE_MEDIA) ThumbnailsProvider.getMediaThumbnail(item as MediaWrapper, width)
-    else AudioUtil.readCoverBitmap(Uri.decode(item.artworkMrl), width)
+    when {
+        item is MediaWrapper -> ThumbnailsProvider.getMediaThumbnail(item, width)
+        item is Folder -> ThumbnailsProvider.getFolderThumbnail(item, width)
+        else -> AudioUtil.readCoverBitmap(Uri.decode(item.artworkMrl), width)
+    }
 }
 
 @MainThread

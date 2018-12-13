@@ -1590,13 +1590,13 @@ playlistDelete(JNIEnv* env, jobject thiz, jobject medialibrary, jlong playlistId
   * Folder methods
   */
 jobjectArray
-mediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, medialibrary::IMedia::Type type, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
+mediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint type, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
         static_cast<bool>( desc )
     };
-    const auto query = aml->mediaFromFolder(id, type, &params);
+    const auto query = aml->mediaFromFolder(id, (medialibrary::IMedia::Type)type, &params);
     if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
     std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
@@ -1610,8 +1610,8 @@ mediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, media
 }
 
 jint
-mediaFromFolderCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, medialibrary::IMedia::Type type) {
-    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromFolder(id, type);
+mediaFromFolderCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint type) {
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->mediaFromFolder(id, (medialibrary::IMedia::Type)type);
     return (jint) (query != nullptr ? query->count() : 0);
 }
 
@@ -1642,14 +1642,14 @@ subFoldersCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id) {
 }
 
 jobjectArray
-folders(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
+folders(JNIEnv* env, jobject thiz, jint type, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
     medialibrary::QueryParameters params {
         static_cast<medialibrary::SortingCriteria>(sortingCriteria),
         static_cast<bool>( desc )
     };
-    const auto query = aml->folders(&params);
-    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    const auto query = aml->folders(&params, (medialibrary::IMedia::Type) type);
+    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.Folder.clazz, NULL);
     std::vector<medialibrary::FolderPtr> foldersList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray foldersRefs = (jobjectArray) env->NewObjectArray(foldersList.size(), ml_fields.Folder.clazz, NULL);
     int index = -1;
@@ -1662,8 +1662,8 @@ folders(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint nbI
 }
 
 jint
-foldersCount(JNIEnv* env, jobject thiz) {
-    const auto query = MediaLibrary_getInstance(env, thiz)->folders();
+foldersCount(JNIEnv* env, jobject thiz, jint type) {
+    const auto query = MediaLibrary_getInstance(env, thiz)->folders(nullptr, (medialibrary::IMedia::Type)type);
     return (jint) (query != nullptr ? query->count() : 0);
 }
 
@@ -1735,8 +1735,8 @@ static JNINativeMethod methods[] = {
     {"nativeGetPagedPlaylists", "(IZII)[Lorg/videolan/medialibrary/media/Playlist;", (void*)getPagedPlaylists },
     {"nativeGetPlaylistsCount", "()I", (void*)getPlaylistsCount },
     {"nativeGetPlaylist", "(J)Lorg/videolan/medialibrary/media/Playlist;", (void*)getPlaylist },
-    {"nativeGetFolders", "(IZII)[Lorg/videolan/medialibrary/media/Folder;", (void*)folders },
-    {"nativeGetFoldersCount", "()I", (void*)foldersCount },
+    {"nativeGetFolders", "(IIZII)[Lorg/videolan/medialibrary/media/Folder;", (void*)folders },
+    {"nativeGetFoldersCount", "(I)I", (void*)foldersCount },
     {"nativePauseBackgroundOperations", "()V", (void*)pauseBackgroundOperations },
     {"nativeResumeBackgroundOperations", "()V", (void*)resumeBackgroundOperations },
     {"nativeReload", "()V", (void*)reload },
@@ -1800,7 +1800,7 @@ static JNINativeMethod folder_methods[] = {
     {"nativeMedia", "(Lorg/videolan/medialibrary/Medialibrary;JIIZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)mediaFromFolder },
     {"nativeSubfolders", "(Lorg/videolan/medialibrary/Medialibrary;JIZII)[Lorg/videolan/medialibrary/media/Folder;", (void*)subFolders },
     {"nativeMediaCount", "(Lorg/videolan/medialibrary/Medialibrary;JI)I", (void*)mediaFromFolderCount },
-    {"nativeSubfoldersCount", "(Lorg/videolan/medialibrary/Medialibrary;J)I", (void*)subFoldersCount },
+    {"nativeSubfoldersCount", "(Lorg/videolan/medialibrary/Medialibrary;JI)I", (void*)subFoldersCount },
 };
 
 static JNINativeMethod playlist_methods[] = {
@@ -1893,6 +1893,16 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.Album.initID,
            ml_fields.Album.clazz,
            "<init>", "(JLjava/lang/String;ILjava/lang/String;Ljava/lang/String;JII)V");
+
+    GET_CLASS(ml_fields.Folder.clazz, "org/videolan/medialibrary/media/Folder", true);
+    if (env->RegisterNatives(ml_fields.Folder.clazz, folder_methods, sizeof(folder_methods) / sizeof(folder_methods[0])) < 0) {
+        LOGE("RegisterNatives failed for org/videolan/medialibrary/media/Folder");
+        return -1;
+    }
+    GET_ID(GetMethodID,
+           ml_fields.Folder.initID,
+           ml_fields.Folder.clazz,
+           "<init>", "(JLjava/lang/String;Ljava/lang/String;)V");
 
     GET_CLASS(ml_fields.Genre.clazz, "org/videolan/medialibrary/media/Genre", true);
     if (env->RegisterNatives(ml_fields.Genre.clazz, genre_methods, sizeof(genre_methods) / sizeof(genre_methods[0])) < 0) {
