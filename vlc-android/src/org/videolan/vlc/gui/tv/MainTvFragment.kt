@@ -186,7 +186,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     override fun onStart() {
         super.onStart()
         if (restart) {
-            historyModel.refresh()
+            if (this::historyModel.isInitialized) historyModel.refresh()
             videoModel.refresh()
         } else restart = true
         if (selectedItem is MediaWrapper) TvUtil.updateBackground(backgroundManager, selectedItem)
@@ -280,7 +280,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     }
 
     fun updateHistory() {
-        if (displayHistory) historyModel.refresh()
+        if (this::historyModel.isInitialized) historyModel.refresh()
     }
 
     override fun onChanged(list: MutableList<MediaWrapper>?) {
