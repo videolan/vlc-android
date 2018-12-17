@@ -12,6 +12,8 @@ abstract class SortableModel(protected val context: Context): ScopedModel(), Ref
     var sort = Medialibrary.SORT_ALPHA
     var desc = false
 
+    var filterQuery : String? = null
+
     open fun canSortByName() = true
     open fun canSortByFileNameName() = false
     open fun canSortByDuration() = false

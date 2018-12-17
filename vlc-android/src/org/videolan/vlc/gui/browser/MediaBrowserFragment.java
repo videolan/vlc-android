@@ -52,7 +52,6 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Permissions;
-import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.SortableModel;
 
@@ -72,7 +71,7 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
 
     public final static String TAG = "VLC/MediaBrowserFragment";
 
-    private View mSearchButtonView;
+    protected View mSearchButtonView;
     protected SwipeRefreshLayout mSwipeRefreshLayout;
     protected Medialibrary mMediaLibrary;
     protected ActionMode mActionMode;
@@ -342,6 +341,11 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
     @Override
     public boolean enableSearchOption() {
         return true;
+    }
+
+    @Override
+    public String getFilterQuery() {
+        return getViewModel().getFilterQuery();
     }
 
     @Override

@@ -58,32 +58,32 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
 
     override fun getAll(): Array<MediaWrapper> = parent?.tracks ?: medialibrary.getAudio(sort, desc)
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<MediaWrapper> = if (filter == null) when(parent) {
+    override fun getPage(loadSize: Int, startposition: Int) : Array<MediaWrapper> = if (filterQuery == null) when(parent) {
         is Artist -> parent.getPagedTracks(sort, desc, loadSize, startposition)
         is Album -> parent.getPagedTracks(sort, desc, loadSize, startposition)
         is Genre -> parent.getPagedTracks(sort, desc, loadSize, startposition)
         is Playlist -> parent.getPagedTracks(loadSize, startposition)
         else -> medialibrary.getPagedAudio(sort, desc, loadSize, startposition)
     } else when(parent) {
-        is Artist -> parent.searchTracks(filter, sort, desc, loadSize, startposition)
-        is Album -> parent.searchTracks(filter, sort, desc, loadSize, startposition)
-        is Genre -> parent.searchTracks(filter, sort, desc, loadSize, startposition)
-        is Playlist -> parent.searchTracks(filter, sort, desc, loadSize, startposition)
-        else -> medialibrary.searchAudio(filter, sort, desc, loadSize, startposition)
+        is Artist -> parent.searchTracks(filterQuery, sort, desc, loadSize, startposition)
+        is Album -> parent.searchTracks(filterQuery, sort, desc, loadSize, startposition)
+        is Genre -> parent.searchTracks(filterQuery, sort, desc, loadSize, startposition)
+        is Playlist -> parent.searchTracks(filterQuery, sort, desc, loadSize, startposition)
+        else -> medialibrary.searchAudio(filterQuery, sort, desc, loadSize, startposition)
     }
 
-    override fun getTotalCount() = if (filter == null) when (parent) {
+    override fun getTotalCount() = if (filterQuery == null) when (parent) {
         is Album -> parent.realTracksCount
         is Playlist -> parent.realTracksCount
         is Artist,
         is Genre -> parent.tracksCount
         else -> medialibrary.audioCount
     } else when(parent) {
-        is Artist -> parent.searchTracksCount(filter)
-        is Album -> parent.searchTracksCount(filter)
-        is Genre -> parent.searchTracksCount(filter)
-        is Playlist -> parent.searchTracksCount(filter)
-        else ->medialibrary.getAudioCount(filter)
+        is Artist -> parent.searchTracksCount(filterQuery)
+        is Album -> parent.searchTracksCount(filterQuery)
+        is Genre -> parent.searchTracksCount(filterQuery)
+        is Playlist -> parent.searchTracksCount(filterQuery)
+        else ->medialibrary.getAudioCount(filterQuery)
     }
 
     class Factory(private val context: Context, private val parent: MediaLibraryItem?): ViewModelProvider.NewInstanceFactory() {

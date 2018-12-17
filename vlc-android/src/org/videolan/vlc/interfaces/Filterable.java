@@ -6,4 +6,5 @@ public interface Filterable {
     void filter(String query);
     void restoreList();
     void setSearchVisibility(boolean visible);
+    String getFilterQuery();
 }

@@ -25,12 +25,9 @@ package org.videolan.vlc.gui;
 
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
-import androidx.lifecycle.Observer;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.widget.SearchView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +47,11 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Util;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 
 @SuppressLint("Registered")
 public class ContentActivity extends AudioPlayerContainerActivity implements SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
@@ -89,7 +91,7 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         if (AndroidDevices.isAndroidTv) return false;
         if (getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder) instanceof AboutFragment)
             return true;
@@ -99,11 +101,24 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
             menu.findItem(R.id.ml_menu_sortby).setVisible(false);
         }
         if (getCurrentFragment() instanceof Filterable) {
+            final Filterable filterable = (Filterable) getCurrentFragment();
             final MenuItem searchItem = menu.findItem(R.id.ml_menu_filter);
             mSearchView = (SearchView) searchItem.getActionView();
             mSearchView.setQueryHint(getString(R.string.search_list_hint));
             mSearchView.setOnQueryTextListener(this);
             searchItem.setOnActionExpandListener(this);
+            final String query = filterable.getFilterQuery();
+            if (!TextUtils.isEmpty(query)) {
+                mActivityHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        searchItem.expandActionView();
+                        mSearchView.clearFocus();
+                        UiTools.setKeyboardVisibility(mSearchView, false);
+                        mSearchView.setQuery(query, false);
+                    }
+                });
+            }
         } else menu.findItem(R.id.ml_menu_filter).setVisible(false);
         menu.findItem(R.id.ml_menu_renderers).setVisible(showRenderers);
         menu.findItem(R.id.ml_menu_renderers).setIcon(!RendererDelegate.INSTANCE.hasRenderer() ? R.drawable.ic_am_renderer_normal_w : R.drawable.ic_am_renderer_on_w);
@@ -181,12 +196,15 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     // Hide options menu items to make room for filter EditText
     protected void makeRoomForSearch(Fragment current, boolean hide) {
         final Menu menu = mToolbar.getMenu();
-        menu.findItem(R.id.ml_menu_renderers).setVisible(!hide && showRenderers);
+        final MenuItem renderersItem = menu.findItem(R.id.ml_menu_renderers);
+        if (renderersItem != null) renderersItem.setVisible(!hide && showRenderers);
         if (current instanceof MediaBrowserFragment) {
-            menu.findItem(R.id.ml_menu_sortby).setVisible(!hide && ((MediaBrowserFragment) current).getViewModel().canSortByName());
+        final MenuItem sortItem = menu.findItem(R.id.ml_menu_sortby);
+            if (sortItem != null) sortItem.setVisible(!hide && ((MediaBrowserFragment) current).getViewModel().canSortByName());
         }
         if (current instanceof VideoGridFragment || current instanceof AudioBrowserFragment) {
-            menu.findItem(R.id.ml_menu_last_playlist).setVisible(!hide);
+            final MenuItem lastItem = menu.findItem(R.id.ml_menu_last_playlist);
+            if (lastItem != null) lastItem.setVisible(!hide);
         }
     }
 
@@ -197,7 +215,7 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     public void closeSearchView() {
         if (mToolbar.getMenu() != null) {
             final MenuItem item = mToolbar.getMenu().findItem(R.id.ml_menu_filter);
-            item.collapseActionView();
+            if (item != null) item.collapseActionView();
         }
     }
 

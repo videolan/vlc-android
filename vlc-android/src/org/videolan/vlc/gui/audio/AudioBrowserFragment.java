@@ -98,7 +98,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (mSettings == null) mSettings = Settings.INSTANCE.getInstance(requireContext());
-        setupModels();
+        if (models == null) setupModels();
     }
 
     @Override
@@ -210,12 +210,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         mViewPager.addOnPageChangeListener(this);
         mFabPlay.setImageResource(R.drawable.ic_fab_shuffle);
         setFabPlayShuffleAllVisibility();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setSearchVisibility(false);
     }
 
     @Override

@@ -6,6 +6,8 @@ import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.paging.PositionalDataSource
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -14,7 +16,6 @@ import org.videolan.vlc.viewmodels.SortableModel
 
 abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableModel(context), Medialibrary.OnMedialibraryReadyListener, Medialibrary.OnDeviceChangeListener {
     protected val medialibrary = Medialibrary.getInstance()
-    protected var filter : String? = null
     val loading = MutableLiveData<Boolean>().apply { value = false }
 
     private val pagingConfig = PagedList.Config.Builder()
@@ -70,21 +71,26 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
                 .apply()
     }
 
-    fun isFiltering() = filter != null
+    fun isFiltering() = filterQuery != null
 
     override fun filter(query: String?) {
-        filter = query
+        filterQuery = query
         refresh()
     }
 
+    private lateinit var restoreJob : Job
     override fun restore() {
-        if (filter != null) {
-            filter = null
-            refresh()
+        restoreJob = launch {
+            delay(500L)
+            if (filterQuery != null) {
+                filterQuery = null
+                refresh()
+            }
         }
     }
 
     override fun refresh(): Boolean {
+        if (this::restoreJob.isInitialized && restoreJob.isActive) restoreJob.cancel()
         if (pagedList.value?.dataSource?.isInvalid == false) {
             loading.postValue(true)
             pagedList.value?.dataSource?.invalidate()

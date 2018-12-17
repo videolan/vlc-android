@@ -1,8 +1,8 @@
 package org.videolan.vlc.viewmodels.paged
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import android.content.Context
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Artist
 import org.videolan.vlc.util.EmptyMLCallbacks
@@ -27,12 +27,12 @@ class PagedArtistsModel(context: Context, private var showAll: Boolean = false):
     override fun getAll() : Array<Artist> = medialibrary.getArtists(showAll, sort, desc)
 
     override fun getPage(loadSize: Int, startposition: Int): Array<Artist> {
-        return if (filter == null) medialibrary.getPagedArtists(showAll, sort, desc, loadSize, startposition)
-        else medialibrary.searchArtist(filter, sort, desc, loadSize, startposition)
+        return if (filterQuery == null) medialibrary.getPagedArtists(showAll, sort, desc, loadSize, startposition)
+        else medialibrary.searchArtist(filterQuery, sort, desc, loadSize, startposition)
     }
 
-    override fun getTotalCount() = if (filter == null) medialibrary.getArtistsCount(showAll)
-    else medialibrary.getArtistsCount(filter)
+    override fun getTotalCount() = if (filterQuery == null) medialibrary.getArtistsCount(showAll)
+    else medialibrary.getArtistsCount(filterQuery)
 
     override fun onMedialibraryReady() {
         super.onMedialibraryReady()

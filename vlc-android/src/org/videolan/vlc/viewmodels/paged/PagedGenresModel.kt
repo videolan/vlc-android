@@ -28,11 +28,11 @@ class PagedGenresModel(context: Context): MLPagedModel<Genre>(context), Medialib
     override fun getAll() : Array<Genre> = medialibrary.getGenres(sort, desc)
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<Genre> {
-        return if (filter == null) medialibrary.getPagedGenres(sort, desc, loadSize, startposition)
-        else medialibrary.searchGenre(filter, sort, desc, loadSize, startposition)
+        return if (filterQuery == null) medialibrary.getPagedGenres(sort, desc, loadSize, startposition)
+        else medialibrary.searchGenre(filterQuery, sort, desc, loadSize, startposition)
     }
 
-    override fun getTotalCount() = if (filter == null) medialibrary.genresCount else medialibrary.getGenresCount(filter)
+    override fun getTotalCount() = if (filterQuery == null) medialibrary.genresCount else medialibrary.getGenresCount(filterQuery)
 
     override fun onGenresAdded() {
         refresh()

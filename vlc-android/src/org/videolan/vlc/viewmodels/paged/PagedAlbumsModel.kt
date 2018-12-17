@@ -34,24 +34,24 @@ class PagedAlbumsModel(context: Context, val parent: MediaLibraryItem? = null) :
         else -> medialibrary.getAlbums(sort, desc)
     }
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<Album> = if (filter == null) when(parent) {
+    override fun getPage(loadSize: Int, startposition: Int) : Array<Album> = if (filterQuery == null) when(parent) {
         is Artist -> parent.getPagedAlbums(sort, desc, loadSize, startposition)
         is Genre -> parent.getPagedAlbums(sort, desc, loadSize, startposition)
         else -> medialibrary.getPagedAlbums(sort, desc, loadSize, startposition)
     } else when(parent) {
-        is Artist -> parent.searchAlbums(filter, sort, desc, loadSize, startposition)
-        is Genre -> parent.searchAlbums(filter, sort, desc, loadSize, startposition)
-        else -> medialibrary.searchAlbum(filter, sort, desc, loadSize, startposition)
+        is Artist -> parent.searchAlbums(filterQuery, sort, desc, loadSize, startposition)
+        is Genre -> parent.searchAlbums(filterQuery, sort, desc, loadSize, startposition)
+        else -> medialibrary.searchAlbum(filterQuery, sort, desc, loadSize, startposition)
     }
 
-    override fun getTotalCount() = if (filter == null) when(parent) {
+    override fun getTotalCount() = if (filterQuery == null) when(parent) {
         is Artist -> parent.albumsCount
         is Genre -> parent.albumsCount
         else -> medialibrary.albumsCount
     } else when (parent) {
-        is Artist -> parent.searchAlbumsCount(filter)
-        is Genre -> parent.searchAlbumsCount(filter)
-        else -> medialibrary.getAlbumsCount(filter)
+        is Artist -> parent.searchAlbumsCount(filterQuery)
+        is Genre -> parent.searchAlbumsCount(filterQuery)
+        else -> medialibrary.getAlbumsCount(filterQuery)
     }
 
     override fun onMedialibraryReady() {

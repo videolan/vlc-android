@@ -139,11 +139,10 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     public void onStart() {
         super.onStart();
         registerForContextMenu(mBinding.videoGrid);
-        setSearchVisibility(false);
         updateViewMode();
         setFabPlayVisibility(true);
         mFabPlay.setImageResource(R.drawable.ic_fab_play);
-        if (restart) viewModel.refresh();
+        if (restart && getFilterQuery() == null) viewModel.refresh();
     }
 
     @Override

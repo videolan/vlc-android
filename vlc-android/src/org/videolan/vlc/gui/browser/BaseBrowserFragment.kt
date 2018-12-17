@@ -163,9 +163,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onResume() {
         super.onResume()
-        if (currentMedia != null) setSearchVisibility(false)
         if (goBack) goBack()
-        else restoreList()
     }
 
     override fun onStop() {

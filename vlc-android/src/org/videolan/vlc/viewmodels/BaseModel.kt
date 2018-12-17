@@ -20,8 +20,8 @@
 
 package org.videolan.vlc.viewmodels
 
-import androidx.lifecycle.MediatorLiveData
 import android.content.Context
+import androidx.lifecycle.MediatorLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
@@ -35,8 +35,6 @@ import org.videolan.vlc.util.ModelsHelper
 
 private const val TAG = "VLC/BaseModel"
 abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel(context) {
-
-    private var filtering = false
 
     private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelegate(dataset) }
 
@@ -86,14 +84,13 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
 
     override fun filter(query: String?) {
         if (!updateActor.isClosedForSend) {
-            filtering = true
+            filterQuery = query
             updateActor.offer(Filter(query))
         }
     }
 
     override fun restore() {
-        if (filtering && !updateActor.isClosedForSend) updateActor.offer(Filter(null))
-        filtering = false
+        if (filterQuery !== null ) filter(null)
     }
 
     protected open fun removeMedia(media: T) = dataset.remove(media)
