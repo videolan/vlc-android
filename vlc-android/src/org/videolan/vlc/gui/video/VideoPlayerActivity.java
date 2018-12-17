@@ -384,13 +384,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         } else touch = 0;
         mCurrentScreenOrientation = getResources().getConfiguration().orientation;
         if (touch != 0) {
-            boolean isRtl = TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_RTL;
             final DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
             int yRange = Math.min(dm.widthPixels, dm.heightPixels);
             int xRange = Math.max(dm.widthPixels, dm.heightPixels);
             final ScreenConfig sc = new ScreenConfig(dm, xRange, yRange, mCurrentScreenOrientation);
-            mTouchDelegate = new VideoTouchDelegate(this, touch, sc, isRtl, mIsTv);
+            mTouchDelegate = new VideoTouchDelegate(this, touch, sc, mIsTv);
         }
         UiTools.setRotationAnimation(this);
     }

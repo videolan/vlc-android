@@ -30,7 +30,6 @@ private const val JOYSTICK_INPUT_DELAY = 300
 class VideoTouchDelegate(private val player: VideoPlayerActivity,
                          private val mTouchControls : Int,
                          var screenConfig : ScreenConfig,
-                         private val rtl: Boolean,
                          private val tv : Boolean) {
 
     private var mTouchAction = TOUCH_NONE
@@ -132,7 +131,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                                 doVerticalTouchAction(yChanged)
                             } else if (mInitTouchX < screenConfig.metrics.widthPixels * 0.95) {
                                 // Seek (Right or Left move)
-                                doSeekTouch(Math.round(deltaY), if (rtl) -xgesturesize else xgesturesize, false)
+                                doSeekTouch(Math.round(deltaY), xgesturesize, false)
                             }
                         } else {
                             mTouchY = event.rawY
@@ -148,7 +147,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_UP, xTouch, yTouch)
                         // Seek
-                        if (mTouchAction == TOUCH_SEEK) doSeekTouch(Math.round(deltaY), if (rtl) -xgesturesize else xgesturesize, true)
+                        if (mTouchAction == TOUCH_SEEK) doSeekTouch(Math.round(deltaY), xgesturesize, true)
                         mTouchX = -1f
                         mTouchY = -1f
                     }
@@ -214,7 +213,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         val brightness = mTouchControls and TOUCH_FLAG_BRIGHTNESS != 0
         if (!audio && !brightness)
             return
-        if (rightAction xor rtl) {
+        if (rightAction) {
             if (audio) doVolumeTouch(y_changed)
             else doBrightnessTouch(y_changed)
         } else {

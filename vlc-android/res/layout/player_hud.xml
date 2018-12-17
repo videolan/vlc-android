@@ -31,6 +31,7 @@
         android:paddingRight="@dimen/time_margin_sides"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
+        android:layoutDirection="ltr"
         android:layout_alignParentTop="true"
         android:progressDrawable="@drawable/po_seekbar"
         android:thumb="@drawable/seekbar_thumb"

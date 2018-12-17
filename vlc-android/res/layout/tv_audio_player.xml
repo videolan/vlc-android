@@ -79,6 +79,7 @@
             app:layout_constraintTop_toBottomOf="@+id/media_artist"
             app:layout_constraintRight_toLeftOf="@+id/media_length"
             app:layout_constraintBottom_toTopOf="@+id/button_play"
+            android:layoutDirection="ltr"
             android:progress="@{(int)progress.time}"
             android:max="@{(int)progress.length}"
             android:focusable="true"
