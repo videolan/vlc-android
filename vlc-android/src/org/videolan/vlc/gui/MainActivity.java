@@ -71,7 +71,7 @@ import androidx.appcompat.view.ActionMode;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 
-public class MainActivity extends ContentActivity implements FilterQueryProvider, ExtensionManagerService.ExtensionManagerActivity {
+public class MainActivity extends ContentActivity implements ExtensionManagerService.ExtensionManagerActivity {
     public final static String TAG = "VLC/MainActivity";
 
     private Medialibrary mMediaLibrary;
@@ -395,17 +395,6 @@ public class MainActivity extends ContentActivity implements FilterQueryProvider
             return true;
         }
         return super.onKeyUp(keyCode, event);
-    }
-
-    @Override
-    public Cursor runQuery(final CharSequence constraint) {
-        return null;
-    }
-
-    //Filtering
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
     }
 
     public void closeDrawer() {
