@@ -123,7 +123,6 @@ import org.videolan.vlc.viewmodels.PlaylistModel;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
@@ -179,6 +178,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private ActionBar mActionBar;
     private ViewGroup mActionBarView;
     private View mOverlayBackground;
+    private static final String KEY_TIME = "saved_time";
+    private static final String KEY_URI = "saved_uri";
     private static final int OVERLAY_TIMEOUT = 4000;
     private static final int OVERLAY_INFINITE = -1;
     private static final int FADE_OUT = 1;
@@ -392,6 +393,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             mTouchDelegate = new VideoTouchDelegate(this, touch, sc, mIsTv);
         }
         UiTools.setRotationAnimation(this);
+        if (savedInstanceState != null) {
+            mSavedTime = savedInstanceState.getLong(KEY_TIME);
+            mUri = (Uri) savedInstanceState.getParcelable(KEY_URI);
+        }
     }
 
     @Override
@@ -468,6 +473,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             else if (!isFinishing() && !mShowingDialog && "2".equals(mSettings.getString(PreferencesActivity.KEY_VIDEO_APP_SWITCH, "0")) && isInteractive()) {
                 switchToPopup();
             }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mUri != null && !"content".equals(mUri.getScheme())) {
+            outState.putLong(KEY_TIME, mSavedTime);
+            outState.putParcelable(KEY_URI, mUri);
         }
     }
 
@@ -640,7 +654,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         if (mPlaybackStarted || mService == null)
             return;
 
-        mSavedTime = -1;
         mPlaybackStarted = true;
 
         IVLCVout vlcVout = mService.getVout();
@@ -2409,7 +2422,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     @SuppressWarnings({ "unchecked" })
     protected void loadMedia() {
         if (mService == null) return;
-        mUri = null;
         mIsPlaying = false;
         String title = null;
         boolean fromStart = false;
@@ -2443,8 +2455,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             intent.putExtra(Constants.PLAY_EXTRA_FROM_START, false);
             mAskResume &= !fromStart;
             savedTime = fromStart ? 0L : extras.getLong(Constants.PLAY_EXTRA_START_TIME); // position passed in by intent (ms)
-            if (!fromStart && savedTime == 0L)
+            if (!fromStart && savedTime == 0L) {
                 savedTime = extras.getInt(Constants.PLAY_EXTRA_START_TIME);
+            }
             positionInPlaylist = extras.getInt(Constants.PLAY_EXTRA_OPENED_POSITION, -1);
 
             if (intent.hasExtra(Constants.PLAY_EXTRA_SUBTITLES_LOCATION))
@@ -2452,6 +2465,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             if (intent.hasExtra(Constants.PLAY_EXTRA_ITEM_TITLE))
                 itemTitle = extras.getString(Constants.PLAY_EXTRA_ITEM_TITLE);
         }
+        if (savedTime == 0L && mSavedTime > 0L) savedTime = mSavedTime;
         final boolean restorePlayback = hasMedia && mService.getCurrentMediaWrapper().getUri().equals(mUri);
 
         MediaWrapper openedMedia = null;
