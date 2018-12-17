@@ -345,7 +345,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     val medias: List<MediaWrapper>
         @MainThread
-        get() = playlistManager.getMediaList().toList()
+        get() = playlistManager.getMediaList()
 
     val mediaLocations: List<String>
         @MainThread

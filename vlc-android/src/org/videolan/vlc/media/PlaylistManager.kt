@@ -675,7 +675,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun getMediaListSize()= mediaList.size()
 
-    fun getMediaList(): MutableList<MediaWrapper> = mediaList.all
+    fun getMediaList(): List<MediaWrapper> = mediaList.all.toList()
 
     fun toggleABRepeat() {
         val time = player.getCurrentTime()
