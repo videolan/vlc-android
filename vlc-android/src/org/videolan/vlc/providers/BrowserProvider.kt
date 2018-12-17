@@ -30,6 +30,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.mapNotNullTo
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
@@ -50,6 +52,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     override val coroutineContext = Dispatchers.Main.immediate
 
+    private val mutex= Mutex()
     protected var mediabrowser: MediaBrowser? = null
 
     private val foldersContentMap = androidx.collection.SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
@@ -133,7 +136,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         val directories: MutableList<MediaWrapper> = ArrayList()
         val files: MutableList<MediaWrapper> = ArrayList()
         foldersContentMap.clear()
-        initBrowser()
+        mutex.withLock { initBrowser() }
         var currentParsedPosition = -1
         loop@ while (++currentParsedPosition < currentMediaList.size) {
             if (!isActive) {
@@ -154,7 +157,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             }
             // request parsing
             browserChannel = Channel(Channel.UNLIMITED)
-            mediabrowser?.browse(current.uri, 0)
+            mutex.withLock { mediabrowser?.browse(current.uri, 0) }
             // retrieve subitems
             for (media in browserChannel) {
                 val mw = findMedia(media) ?: continue
@@ -218,12 +221,14 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     private fun requestBrowsing(url: String?) = launch(Dispatchers.IO) {
-        initBrowser()
-        mediabrowser?.let {
-            if (url != null) it.browse(Uri.parse(url), getFlags())
-            else {
-                it.changeEventListener(this@BrowserProvider)
-                it.discoverNetworkShares()
+        mutex.withLock {
+            initBrowser()
+            mediabrowser?.let {
+                if (url != null) it.browse(Uri.parse(url), getFlags())
+                else {
+                    it.changeEventListener(this@BrowserProvider)
+                    it.discoverNetworkShares()
+                }
             }
         }
     }
@@ -235,9 +240,11 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         launch(Dispatchers.IO) {
             if (this@BrowserProvider::browserChannel.isInitialized) browserChannel.close()
             job?.cancelAndJoin()
-            mediabrowser?.let {
-                it.release()
-                mediabrowser = null
+            mutex.withLock {
+                mediabrowser?.let {
+                    it.release()
+                    mediabrowser = null
+                }
             }
         }
     }
