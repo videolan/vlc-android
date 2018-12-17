@@ -772,7 +772,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         /* Stop listening for changes to media routes. */
         if (!mIsBenchmark) mDisplayManager.removeMediaRouterCallback();
 
-        if (!mDisplayManager.isSecondary()) mService.getMediaplayer().detachViews();
+        if (!mDisplayManager.isSecondary() && mService != null) mService.getMediaplayer().detachViews();
 
         mActionBarView.setOnTouchListener(null);
     }
