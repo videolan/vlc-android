@@ -131,7 +131,7 @@
             android:id="@+id/ml_item_progress"
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="0dp"
-            android:layout_height="4dp"
+            android:layout_height="3dp"
             android:background="@color/black"
             vlc:layout_constraintStart_toStartOf="@+id/ml_item_thumbnail"
             vlc:layout_constraintBottom_toBottomOf="@+id/ml_item_thumbnail"
