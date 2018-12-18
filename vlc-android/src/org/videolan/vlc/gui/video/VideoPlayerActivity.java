@@ -539,7 +539,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 message = R.string.locked_in_landscape_mode;
             else
                 message = R.string.locked_in_portrait_mode;
-            UiTools.snacker(mRootView, message);
+            if (mRootView != null) UiTools.snacker(mRootView, message);
         }
 
         if (mTouchDelegate != null) {
