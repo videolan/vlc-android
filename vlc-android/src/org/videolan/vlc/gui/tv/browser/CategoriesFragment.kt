@@ -60,7 +60,7 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
         // UI setting
         headersState = BrowseSupportFragment.HEADERS_DISABLED
         brandColor = ContextCompat.getColor(activity!!, R.color.orange800)
-        if (savedInstanceState == null) backgroundManager = BackgroundManager.getInstance(requireActivity())
+        if (!this::backgroundManager.isInitialized) backgroundManager = BackgroundManager.getInstance(requireActivity())
         setOnSearchClickedListener { sort(requireActivity().findViewById(R.id.title_orb)) }
     }
 
