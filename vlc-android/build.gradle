@@ -160,7 +160,6 @@ android {
             def outputName = "VLC-Android-"
             outputName += variant.versionName + "-" + abiName + ".apk"
             output.outputFileName = outputName
-            resValue "string", "build_abi", abiName
         }
     }
 
