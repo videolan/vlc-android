@@ -149,13 +149,6 @@ echo -e "\e[1m\e[36mEXTRA_CFLAGS:      ${EXTRA_CFLAGS}\e[0m"
 
 cd ${MEDIALIBRARY_BUILD_DIR}
 
-sed "s#@prefix@#${MEDIALIBRARY_MODULE_DIR}/medialibrary/libvlcpp#g" $SRC_DIR/pkgs/libvlcpp.pc.in > \
-    $SRC_DIR/pkgs/libvlcpp.pc;
-sed "s#@libdir@#$SRC_DIR/libvlc/jni/libs/$ANDROID_ABI#g" $SRC_DIR/pkgs/libvlc.pc.in > \
-    $SRC_DIR/pkgs/libvlc.pc;
-sed -i".backup" "s#@includedirs@#-I${SRC_DIR}/vlc/include \
--I${SRC_DIR}/vlc/build-android-$TARGET_TUPLE/include#g" $SRC_DIR/pkgs/libvlc.pc;
-
 if [ ! -d "build-android-$ANDROID_ABI/" ]; then
     mkdir "build-android-$ANDROID_ABI/";
 fi;
@@ -177,7 +170,7 @@ if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
     NM="${CROSS_TOOLS}nm" \
     STRIP="${CROSS_TOOLS}strip" \
     RANLIB="${CROSS_TOOLS}ranlib" \
-    PKG_CONFIG_LIBDIR="$SRC_DIR/pkgs/" \
+    PKG_CONFIG_LIBDIR="$SRC_DIR/vlc/build-android-${TARGET_TUPLE}/install/lib/pkgconfig" \
     LIBJPEG_LIBS="-L$SRC_DIR/vlc/contrib/contrib-android-$TARGET_TUPLE/jpeg/.libs -ljpeg" \
     LIBJPEG_CFLAGS="-I$SRC_DIR/vlc/contrib/$TARGET_TUPLE/include/" \
     SQLITE_LIBS="-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3" \

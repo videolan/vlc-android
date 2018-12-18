@@ -331,6 +331,7 @@ fi
 if [ "${ASAN}" = 1 ];then
     VLC_BUILD_DIR=${VLC_BUILD_DIR}-asan
 fi
+VLC_BUILD_DIR=`realpath ${VLC_BUILD_DIR}`
 mkdir -p $VLC_BUILD_DIR && cd $VLC_BUILD_DIR
 
 #############
@@ -381,6 +382,7 @@ PKG_CONFIG_PATH=$VLC_SRC_DIR/contrib/$TARGET_TUPLE/lib/pkgconfig \
 PATH=../contrib/bin:$PATH \
 sh ../configure --host=$TARGET_TUPLE --build=x86_64-unknown-linux \
     --with-contrib=${VLC_SRC_DIR}/contrib/${TARGET_TUPLE} \
+    --prefix=${VLC_BUILD_DIR}/install/ \
     ${EXTRA_PARAMS} ${VLC_CONFIGURE_ARGS} ${OPTS}
 checkfail "vlc: configure failed"
 fi
@@ -392,6 +394,8 @@ fi
 echo "Building"
 make $MAKEFLAGS
 checkfail "vlc: make failed"
+make install
+checkfail "vlc: make install failed"
 
 cd $SRC_DIR
 
@@ -402,7 +406,7 @@ echo ok
 # libVLC modules #
 ##################
 
-REDEFINED_VLC_MODULES_DIR=$SRC_DIR/.modules/${VLC_BUILD_DIR}
+REDEFINED_VLC_MODULES_DIR=${VLC_BUILD_DIR}/install/lib/vlc/plugins
 rm -rf ${REDEFINED_VLC_MODULES_DIR}
 mkdir -p ${REDEFINED_VLC_MODULES_DIR}
 
@@ -428,7 +432,7 @@ get_symbol()
     echo "$1" | grep vlc_entry_$2|cut -d" " -f 3
 }
 
-VLC_MODULES=$(find_modules vlc/$VLC_BUILD_DIR/modules)
+VLC_MODULES=$(find_modules ${VLC_BUILD_DIR}/modules)
 DEFINITION="";
 BUILTINS="const void *vlc_static_modules[] = {\n";
 for file in $VLC_MODULES; do
@@ -490,7 +494,7 @@ $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     APP_STL="c++_shared" \
     APP_CPPFLAGS="-frtti -fexceptions" \
     VLC_SRC_DIR="$VLC_SRC_DIR" \
-    VLC_BUILD_DIR="$VLC_SRC_DIR/$VLC_BUILD_DIR" \
+    VLC_BUILD_DIR="$VLC_BUILD_DIR" \
     VLC_CONTRIB="$VLC_CONTRIB" \
     VLC_CONTRIB_LDFLAGS="$VLC_CONTRIB_LDFLAGS" \
     VLC_MODULES="$VLC_MODULES" \
