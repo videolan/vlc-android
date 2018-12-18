@@ -1,3 +1,12 @@
+Changes between 3.0.91 and 3.0.92:
+------------------
+
+Application:
+ - bugfixes
+ - Reduce progress bars in video list cards
+ - Set players progress bars LTR (#690)
+ - Preserve search on rotation
+
 Changes between 3.0.13 and 3.0.90:
 ------------------
 
