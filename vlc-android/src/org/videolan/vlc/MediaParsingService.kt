@@ -332,7 +332,10 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     }
 
     private fun exitCommand() = launch {
-        if (!medialibrary.isWorking && !serviceLock) stopSelf()
+        if (!medialibrary.isWorking && !serviceLock) {
+            lastNotificationTime = 0L
+            stopSelf()
+        }
     }
 
     override fun onDestroy() {
