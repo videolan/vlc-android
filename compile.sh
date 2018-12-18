@@ -75,6 +75,9 @@ while [ $# -gt 0 ]; do
             RELEASE=1
             PUBLISH=1
             ;;
+        --init)
+            GRADLE_SETUP=1
+            ;;
         *)
             diagnostic "$0: Invalid option '$1'."
             diagnostic "$0: Try --help for more information."
@@ -232,6 +235,9 @@ if [ ! -d "$ANDROID_SDK/licenses" ]; then
     echo "84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_SDK/licenses/android-sdk-preview-license"
 fi
 
+if [ "$GRADLE_SETUP = 1" ]; then
+    exit 0
+fi
 ####################
 # Fetch VLC source #
 ####################
