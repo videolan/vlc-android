@@ -2430,7 +2430,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         final Intent intent = getIntent();
         final Bundle extras = intent.getExtras();
         long savedTime = 0L;
-        final boolean hasMedia = mService.hasMedia();
+        final MediaWrapper currentMedia = mService.getCurrentMediaWrapper();
+        final boolean hasMedia = currentMedia != null;
         final boolean isPlaying = mService.isPlaying();
         /*
          * If the activity has been paused by pressing the power button, then
@@ -2466,7 +2467,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 itemTitle = extras.getString(Constants.PLAY_EXTRA_ITEM_TITLE);
         }
         if (savedTime == 0L && mSavedTime > 0L) savedTime = mSavedTime;
-        final boolean restorePlayback = hasMedia && mService.getCurrentMediaWrapper().getUri().equals(mUri);
+        final boolean restorePlayback = hasMedia && currentMedia.getUri().equals(mUri);
 
         MediaWrapper openedMedia = null;
         final boolean resumePlaylist = mService.isValidIndex(positionInPlaylist);
@@ -2533,12 +2534,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             // Start playback & seek
             /* prepare playback */
             final boolean medialoaded = media != null;
-            if (!medialoaded) {
-                if (hasMedia)
-                    media = mService.getCurrentMediaWrapper();
-                else
-                    media = new MediaWrapper(mUri);
-            }
+            if (!medialoaded) media = hasMedia ? currentMedia : new MediaWrapper(mUri);
             if (mWasPaused)
                 media.addFlags(MediaWrapper.MEDIA_PAUSED);
             if (intent.hasExtra(Constants.PLAY_DISABLE_HARDWARE))
