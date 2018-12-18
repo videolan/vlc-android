@@ -21,14 +21,10 @@ package org.videolan.vlc;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.ProcessLifecycleOwner;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import androidx.fragment.app.DialogFragment;
-import androidx.collection.SimpleArrayMap;
 import android.util.Log;
 
 import org.videolan.libvlc.Dialog;
@@ -48,6 +44,11 @@ import org.videolan.vlc.util.WorkersKt;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
+
+import androidx.collection.SimpleArrayMap;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ProcessLifecycleOwner;
 
 import static org.videolan.vlc.gui.helpers.UiTools.setLocale;
 
@@ -76,10 +77,15 @@ public class VLCApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        locale = Settings.INSTANCE.getInstance(this).getString("set_locale", "");
+        WorkersKt.runIO(new Runnable() {
+            @Override
+            public void run() {
+                locale = Settings.INSTANCE.getInstance(instance).getString("set_locale", "");
 
-        // Set the locale for API < 24 and set application resources and direction for API >=24
-        setLocale(getAppContext());
+                // Set the locale for API < 24 and set application resources and direction for API >=24
+                setLocale(getAppContext());
+            }
+        });
 
         WorkersKt.runIO(new Runnable() {
             @Override
@@ -129,10 +135,10 @@ public class VLCApplication extends Application {
         else {
             try {
                 instance = (VLCApplication) Class.forName("android.app.ActivityThread").getDeclaredMethod("currentApplication").invoke(null);
-            } catch (IllegalAccessException e) {}
-              catch (InvocationTargetException e) {}
-              catch (NoSuchMethodException e) {}
-              catch (ClassNotFoundException e) {}
+            } catch (IllegalAccessException ignored) {}
+            catch (InvocationTargetException ignored) {}
+            catch (NoSuchMethodException ignored) {}
+            catch (ClassNotFoundException ignored) {}
             return instance;
         }
     }

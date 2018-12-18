@@ -25,13 +25,11 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.widget.FilterQueryProvider;
 
 import com.google.android.material.navigation.NavigationView;
 
