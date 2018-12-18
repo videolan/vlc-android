@@ -20,15 +20,8 @@
  */
 package org.videolan.vlc.gui.network
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.net.Uri
 import android.os.Bundle
-import com.google.android.material.textfield.TextInputLayout
-import androidx.fragment.app.DialogFragment
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -37,6 +30,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.coroutineScope
@@ -122,7 +118,7 @@ class MRLPanelFragment : androidx.fragment.app.DialogFragment(), View.OnKeyListe
         dismiss()
     }
 
-    override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent) = false
+    override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?) = false
 
     override fun onClick(v: View) {
         processUri()
