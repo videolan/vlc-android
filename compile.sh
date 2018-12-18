@@ -235,7 +235,7 @@ if [ ! -d "$ANDROID_SDK/licenses" ]; then
     echo "84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_SDK/licenses/android-sdk-preview-license"
 fi
 
-if [ "$GRADLE_SETUP = 1" ]; then
+if [ "$GRADLE_SETUP" = 1 ]; then
     exit 0
 fi
 ####################
