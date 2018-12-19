@@ -28,11 +28,11 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.widget.*
-import androidx.core.content.ContextCompat
-import android.widget.ImageView
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.TvUtil
@@ -79,11 +79,16 @@ abstract class MediaLibBrowserFragment<T : BaseModel<out MediaLibraryItem>> : Gr
         mAdapter.setItems(list, TvUtil.diffCallback)
     }
 
+    private var currentArt : String? = null
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     override fun onItemSelected(itemViewHolder: Presenter.ViewHolder?, item: Any?,
                                 rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
         mSelectedItem = item
-        item?.run { TvUtil.updateBackground(mBackgroundManager, this) }
+        (item as? MediaLibraryItem)?.run {
+            if (currentArt == artworkMrl) return@run
+            currentArt = artworkMrl
+            TvUtil.updateBackground(mBackgroundManager, this)
+        }
     }
 
     override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?,

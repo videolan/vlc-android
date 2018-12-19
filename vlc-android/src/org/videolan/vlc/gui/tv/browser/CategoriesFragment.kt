@@ -81,9 +81,12 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
         restart = true
     }
 
+    private var currentArt : String? = null
     override fun onItemSelected(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
         if (item === null) return
         selecteditem = item as MediaWrapper
+        if (currentArt == item.artworkMrl) return
+        currentArt = item.artworkMrl
         TvUtil.updateBackground(backgroundManager, item)
     }
 
