@@ -662,5 +662,5 @@
     <string name="ctx_player_tracks_title">Media tracks</string>
     <string name="ctx_pip_title">Pop-Up player</string>
     <string name="device_dialog_title">External device inserted</string>
-    <string name="device_dialog_message">New device detected, do you want to handle it with VLC?</string>
+    <string name="device_dialog_message">You just plugged a new storage device to your TV box, do you want to open it with VLC?</string>
 </resources>
