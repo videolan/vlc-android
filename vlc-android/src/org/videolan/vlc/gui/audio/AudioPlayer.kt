@@ -460,7 +460,7 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
 
     override fun onDestroy() {
         super.onDestroy()
-        optionsDelegate.release()
+        if (this::optionsDelegate.isInitialized) optionsDelegate.release()
         playlistModel.dataset.removeObserver(playlistObserver)
         playlistModel.onCleared()
     }
