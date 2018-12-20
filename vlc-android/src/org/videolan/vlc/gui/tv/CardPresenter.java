@@ -29,9 +29,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import androidx.leanback.widget.ImageCardView;
-import androidx.leanback.widget.Presenter;
-import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +45,10 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Settings;
 
 import java.util.List;
+
+import androidx.core.content.ContextCompat;
+import androidx.leanback.widget.ImageCardView;
+import androidx.leanback.widget.Presenter;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class CardPresenter extends Presenter {
@@ -85,7 +86,8 @@ public class CardPresenter extends Presenter {
                 final MediaWrapper media = (MediaWrapper) item;
                 final boolean group = media.getType() == MediaWrapper.TYPE_GROUP;
                 final boolean folder = media.getType() == MediaWrapper.TYPE_DIR;
-                if (!folder && (group || !media.isThumbnailGenerated())) {
+                final boolean video = media.getType() == MediaWrapper.TYPE_VIDEO;
+                if (!folder && (group || (video && !media.isThumbnailGenerated()))) {
                      ImageLoaderKt.loadImage(mCardView, item);
                      return;
                 }
