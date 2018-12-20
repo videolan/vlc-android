@@ -444,7 +444,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 mPlaylistAdapter.setCurrentIndex(mService.getCurrentMediaPosition());
                 mPlaylist.setVisibility(View.GONE);
             }
-            showTitle();
+            if (mSettings.getBoolean("video_transition_show", true)) showTitle();
             initUI();
             setPlaybackParameters();
             mForcedTime = mLastTime = -1;

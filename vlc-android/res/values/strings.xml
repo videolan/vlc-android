@@ -312,6 +312,8 @@
     <string name="video_min_group_length_long">Long number of letters (9)</string>
     <string name="media_fast_seek">Fast seek</string>
     <string name="media_fast_seek_summary">Seeking in a media is faster but less accurate</string>
+    <string name="video_transition_title">Videos transition</string>
+    <string name="video_transition_summary">Show new video title on transition</string>
     <string name="media_seen">Show seen video marker</string>
     <string name="media_seen_summary">Mark a video as seen when you play it until the end</string>
     <string name="force_list_portrait">No grid in portrait mode</string>
