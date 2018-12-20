@@ -85,6 +85,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
 
     fun setup() {
         if (!this::recyclerview.isInitialized) return
+        service.playlistManager.abRepeat.observe(activity, abrObs)
         val options = mutableListOf<PlayerOption>()
         options.add(PlayerOption(ID_SLEEP, R.attr.ic_sleep_normal_style, res.getString(R.string.sleep_title)))
         options.add(PlayerOption(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
@@ -99,11 +100,11 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                 options.add(PlayerOption(ID_POPUP_VIDEO, R.attr.ic_popup_dim, res.getString(R.string.ctx_pip_title)))
             options.add(PlayerOption(ID_REPEAT, R.attr.ic_repeat, res.getString(R.string.repeat_title)))
             if (service.canShuffle()) options.add(PlayerOption(ID_SHUFFLE, R.attr.ic_shuffle, res.getString(R.string.shuffle_title)))
-            options.add(PlayerOption(ID_ABREPEAT, R.attr.ic_abrepeat, res.getString(R.string.ab_repeat)))
-            service.playlistManager.abRepeat.observe(activity, abrObs)
             val chaptersCount = service.getChapters(-1)?.size ?: 0
             if (chaptersCount > 1) options.add(PlayerOption(ID_CHAPTER_TITLE, R.attr.ic_chapter_normal_style, res.getString(R.string.go_to_chapter)))
-        } else options.add(PlayerOption(ID_SAVE_PLAYLIST, R.attr.ic_save, res.getString(R.string.playlist_save)))
+        }
+        options.add(PlayerOption(ID_ABREPEAT, R.attr.ic_abrepeat, res.getString(R.string.ab_repeat)))
+        options.add(PlayerOption(ID_SAVE_PLAYLIST, R.attr.ic_save, res.getString(R.string.playlist_save)))
         if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
         options.add(PlayerOption(ID_PASSTHROUGH, R.attr.ic_passthrough, res.getString(R.string.audio_digital_title)))
         (recyclerview.adapter as OptionsAdapter).update(options)

@@ -70,7 +70,6 @@ import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.gui.view.AudioMediaSwitcher.AudioMediaSwitcherListener
-import org.videolan.vlc.media.ABRepeat
 import org.videolan.vlc.media.PlaylistManager.Companion.hasMedia
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.PlaybackProgress
@@ -117,7 +116,6 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
         playlistModel = PlaylistModel.get(this)
         playlistModel.progress.observe(this@AudioPlayer,  Observer { it?.let { updateProgress(it) } })
         playlistModel.dataset.observe(this@AudioPlayer, playlistObserver)
-        playlistModel.abRepeat?.observe(this, abRepeatObserver)
         helper = PlaybackServiceActivity.Helper(activity, playlistModel)
         playlistAdapter.setModel(playlistModel)
     }
@@ -455,14 +453,6 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
 
     override fun afterTextChanged(editable: Editable) {}
 
-    private val abRepeatObserver = Observer<ABRepeat> { abr ->
-        if (abr != null) binding.playlistAbRepeat.setImageResource(when {
-            abr.start == -1L -> R.drawable.ic_repeat
-            abr.stop == -1L -> R.drawable.ic_repeat_one
-            else -> R.drawable.ic_repeat_all
-        })
-    }
-
     private val playlistObserver = Observer<MutableList<MediaWrapper>> {
         playlistAdapter.update(it!!)
         updateActor.offer(Unit)
@@ -470,7 +460,7 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
 
     override fun onDestroy() {
         super.onDestroy()
-        playlistModel.abRepeat.removeObserver(abRepeatObserver)
+        optionsDelegate.release()
         playlistModel.dataset.removeObserver(playlistObserver)
         playlistModel.onCleared()
     }

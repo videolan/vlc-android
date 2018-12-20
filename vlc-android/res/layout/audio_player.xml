@@ -98,21 +98,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
-                android:id="@+id/playlist_ab_repeat"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="center"
-                app:layout_constraintEnd_toStartOf="@+id/playlist_search"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginEnd="8dp"
-                android:focusable="true"
-                android:scaleType="fitXY"
-                android:onClick="@{fragment::onABRepeat}"
-                android:contentDescription="@string/ab_repeat"
-                android:src="?attr/ic_repeat" />
-
-            <ImageView
                 android:id="@+id/playlist_search"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
