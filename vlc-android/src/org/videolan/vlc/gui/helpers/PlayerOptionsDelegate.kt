@@ -20,6 +20,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -72,7 +74,6 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     private lateinit var shuffleBinding : PlayerOptionItemBinding
     private lateinit var sleepBinding : PlayerOptionItemBinding
 
-
     private val abrObs = Observer<ABRepeat> { abr ->
         if (abr == null || !this::abrBinding.isInitialized) return@Observer
         val resid = when {
@@ -83,9 +84,12 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         abrBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, resid))
     }
 
+    init {
+        service.playlistManager.abRepeat.observe(activity, abrObs)
+    }
+
     fun setup() {
         if (!this::recyclerview.isInitialized) return
-        service.playlistManager.abRepeat.observe(activity, abrObs)
         val options = mutableListOf<PlayerOption>()
         options.add(PlayerOption(ID_SLEEP, R.attr.ic_sleep_normal_style, res.getString(R.string.sleep_title)))
         options.add(PlayerOption(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
@@ -290,6 +294,16 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         }
     }
 
+    private fun initRepeat(binding: PlayerOptionItemBinding) {
+        repeatBinding = binding
+        AppScope.launch(Dispatchers.Main) {
+            repeatBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, when (service.repeatType) {
+            REPEAT_ONE -> R.attr.ic_repeat_one
+            REPEAT_ALL -> R.attr.ic_repeat_all
+            else -> R.attr.ic_repeat
+        })) }
+    }
+
     private fun togglePassthrough() {
         val enabled = !VLCOptions.isAudioDigitalOutputEnabled(settings)
         if (service.setAudioDigitalOutputEnabled(enabled)) {
@@ -319,7 +333,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             when {
                 option.id == ID_ABREPEAT -> abrBinding = holder.binding
                 option.id == ID_PASSTHROUGH -> ptBinding = holder.binding
-                option.id == ID_REPEAT -> repeatBinding = holder.binding
+                option.id == ID_REPEAT -> initRepeat(holder.binding)
                 option.id == ID_SHUFFLE -> shuffleBinding = holder.binding
                 option.id == ID_SLEEP -> sleepBinding = holder.binding
                 option.id == ID_CHAPTER_TITLE -> initChapters(holder.binding)
