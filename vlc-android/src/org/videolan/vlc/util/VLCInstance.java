@@ -37,16 +37,6 @@ public class VLCInstance {
 
     private static LibVLC sLibVLC = null;
 
-    private static Runnable sCopyLua = new Runnable() {
-        @Override
-        public void run() {
-            final String destinationFolder = VLCApplication.getAppContext().getDir("vlc",
-                    Context.MODE_PRIVATE).getAbsolutePath() + "/.share/lua";
-            AssetManager am = VLCApplication.getAppResources().getAssets();
-            FileUtils.copyAssetFolder(am, "lua", destinationFolder);
-        }
-    };
-
     /** A set of utility functions for the VLC application */
     public synchronized static LibVLC get() throws IllegalStateException {
         if (sLibVLC == null) {
@@ -60,7 +50,6 @@ public class VLCInstance {
 
             // TODO change LibVLC signature to accept a List instead of an ArrayList
             sLibVLC = new LibVLC(context, VLCOptions.getLibOptions());
-            WorkersKt.runIO(sCopyLua);
         }
         return sLibVLC;
     }

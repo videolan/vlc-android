@@ -132,8 +132,20 @@ public class FileUtils {
         }
     }
 
+    public static void copyLua(final Context context, final boolean force) {
+        WorkersKt.runIO(new Runnable() {
+            @Override
+            public void run() {
+                final String destinationFolder = context.getDir("vlc",
+                        Context.MODE_PRIVATE).getAbsolutePath() + "/.share/lua";
+                final AssetManager am = VLCApplication.getAppResources().getAssets();
+                copyAssetFolder(am, "lua", destinationFolder, force);
+            }
+        });
+    }
+
     @WorkerThread
-    static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath) {
+    static boolean copyAssetFolder(AssetManager assetManager, String fromAssetPath, String toPath, boolean force) {
         try {
             final String[] files = assetManager.list(fromAssetPath);
             if (files.length == 0) return false;
@@ -143,11 +155,13 @@ public class FileUtils {
                 if (file.contains("."))
                     res &= copyAsset(assetManager,
                             fromAssetPath + "/" + file,
-                            toPath + "/" + file);
+                            toPath + "/" + file,
+                            force);
                 else
                     res &= copyAssetFolder(assetManager,
                             fromAssetPath + "/" + file,
-                            toPath + "/" + file);
+                            toPath + "/" + file,
+                            force);
             return res;
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,10 +170,9 @@ public class FileUtils {
     }
 
     @WorkerThread
-    private static boolean copyAsset(AssetManager assetManager,
-                                     String fromAssetPath, String toPath) {
+    private static boolean copyAsset(AssetManager assetManager, String fromAssetPath, String toPath, boolean force) {
         final File destFile = new File(toPath);
-        if (destFile.exists()) return true;
+        if (!force && destFile.exists()) return true;
         InputStream in = null;
         OutputStream out = null;
         try {

@@ -40,6 +40,7 @@ import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Settings;
 
 import androidx.core.content.ContextCompat;
@@ -86,6 +87,7 @@ public class StartActivity extends FragmentActivity {
         final boolean firstRun = savedVersionNumber == -1;
         final boolean upgrade = firstRun || savedVersionNumber != currentVersionNumber;
         if (upgrade) settings.edit().putInt(Constants.PREF_FIRST_RUN, currentVersionNumber).apply();
+        FileUtils.copyLua(getApplicationContext(), upgrade);
         // Route search query
         if (Intent.ACTION_SEARCH.equals(action) || "com.google.android.gms.actions.SEARCH_ACTION".equals(action)) {
             startActivity(intent.setClass(this, tv ? org.videolan.vlc.gui.tv.SearchActivity.class : SearchActivity.class));
