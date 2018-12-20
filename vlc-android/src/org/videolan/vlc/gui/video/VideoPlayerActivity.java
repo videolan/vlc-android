@@ -2461,8 +2461,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             }
             positionInPlaylist = extras.getInt(Constants.PLAY_EXTRA_OPENED_POSITION, -1);
 
-            if (intent.hasExtra(Constants.PLAY_EXTRA_SUBTITLES_LOCATION))
-                mService.addSubtitleTrack(extras.getString(Constants.PLAY_EXTRA_SUBTITLES_LOCATION), true);
+            final String path = extras.getString(Constants.PLAY_EXTRA_SUBTITLES_LOCATION);
+            if (!TextUtils.isEmpty(path)) mService.addSubtitleTrack(path, true);
             if (intent.hasExtra(Constants.PLAY_EXTRA_ITEM_TITLE))
                 itemTitle = extras.getString(Constants.PLAY_EXTRA_ITEM_TITLE);
         }
