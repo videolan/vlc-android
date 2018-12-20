@@ -32,13 +32,13 @@ public class MediaGroup extends MediaWrapper {
 
     private List<MediaWrapper> mMedias;
 
-    private MediaGroup(MediaWrapper media) {
+    private MediaGroup(MediaWrapper media, boolean filename) {
         super(media.getUri(),
                 media.getTime(),
                 media.getLength(),
                 MediaWrapper.TYPE_GROUP,
                 BitmapUtil.getPicture(media),
-                media.getTitle(),
+                filename ? media.getFileName() : media.getTitle(),
                 media.getArtist(),
                 media.getGenre(),
                 media.getAlbum(),
@@ -52,13 +52,19 @@ public class MediaGroup extends MediaWrapper {
                 media.getDiscNumber(),
                 media.getLastModified(),
                 media.getSeen());
-        mMedias = new ArrayList<MediaWrapper>();
+        mMedias = new ArrayList<>();
         mMedias.add(media);
     }
 
     public String getDisplayTitle() {
         return getTitle() + "\u2026";
     }
+
+    @Override
+    public String getFileName() {
+        return mTitle;
+    }
+
     public void add(MediaWrapper media) {
         mMedias.add(media);
     }
@@ -84,22 +90,16 @@ public class MediaGroup extends MediaWrapper {
         this.mTitle = title;
     }
 
-    public static List<MediaGroup> group(MediaWrapper[] mediaList, int minGroupLengthValue) {
+    public static List<MediaGroup> group(MediaWrapper[] mediaList, int minGroupLengthValue, boolean filename) {
         final ArrayList<MediaGroup> groups = new ArrayList<>();
-        for (MediaWrapper media : mediaList) if (media != null) insertInto(groups, media, minGroupLengthValue);
+        for (MediaWrapper media : mediaList) if (media != null) insertInto(groups, media, minGroupLengthValue, filename);
         return groups;
     }
 
-    public static List<MediaGroup> group(List<MediaWrapper> mediaList, int minGroupLengthValue) {
-        final ArrayList<MediaGroup> groups = new ArrayList<>();
-        for (MediaWrapper media : mediaList) if (media != null) insertInto(groups, media, minGroupLengthValue);
-        return groups;
-    }
-
-    private static void insertInto(ArrayList<MediaGroup> groups, MediaWrapper media, int minGroupLengthValue) {
+    private static void insertInto(ArrayList<MediaGroup> groups, MediaWrapper media, int minGroupLengthValue, boolean filename) {
         for (MediaGroup mediaGroup : groups) {
             final String group = mediaGroup.getTitle().toLowerCase();
-            String title = media.getTitle().toLowerCase();
+            String title = (filename ? media.getFileName() : media.getTitle()).toLowerCase();
 
             //Handle titles starting with "The"
             int groupOffset = group.startsWith("the") ? 4 : 0;
@@ -127,6 +127,6 @@ public class MediaGroup extends MediaWrapper {
         }
 
         // does not match any group, so add one
-        groups.add(new MediaGroup(media));
+        groups.add(new MediaGroup(media, filename));
     }
 }

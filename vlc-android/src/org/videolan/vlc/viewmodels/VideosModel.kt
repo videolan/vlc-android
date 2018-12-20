@@ -76,7 +76,7 @@ open class VideosModel(context: Context, private val group: String?, private val
                         if (title.startsWith(loGroup)) displayList.add(item)
                     }
                 }
-                minGroupLen > 0 -> MediaGroup.group(list, minGroupLen).mapTo(displayList) {
+                minGroupLen > 0 -> MediaGroup.group(list, minGroupLen, sort == Medialibrary.SORT_FILENAME).mapTo(displayList) {
                     if (it.size() > 1) { it.description = context.resources.getQuantityString(R.plurals.videos_quantity, it.size(), it.size()) }
                     it.media
                 }
