@@ -89,7 +89,7 @@ public class PreferencesAdvanced extends BasePreferenceFragment implements Share
                 startActivity(intent);
                 return true;
             case "clear_history":
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(requireContext())
                         .setTitle(R.string.clear_playback_history)
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
