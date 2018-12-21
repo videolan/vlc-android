@@ -57,7 +57,6 @@ public class StartActivity extends FragmentActivity {
         if (AndroidUtil.isNougatOrLater)
             UiTools.setLocale(this);
         final Intent intent = getIntent();
-        final boolean tv =  showTvUi();
         final String action = intent != null ? intent.getAction(): null;
 
         if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null
@@ -88,6 +87,7 @@ public class StartActivity extends FragmentActivity {
         final boolean upgrade = firstRun || savedVersionNumber != currentVersionNumber;
         if (upgrade) settings.edit().putInt(Constants.PREF_FIRST_RUN, currentVersionNumber).apply();
         FileUtils.copyLua(getApplicationContext(), upgrade);
+        final boolean tv = showTvUi();
         // Route search query
         if (Intent.ACTION_SEARCH.equals(action) || "com.google.android.gms.actions.SEARCH_ACTION".equals(action)) {
             startActivity(intent.setClass(this, tv ? org.videolan.vlc.gui.tv.SearchActivity.class : SearchActivity.class));

@@ -139,6 +139,7 @@ public class VLCApplication extends Application {
             catch (InvocationTargetException ignored) {}
             catch (NoSuchMethodException ignored) {}
             catch (ClassNotFoundException ignored) {}
+            catch (ClassCastException ignored) {}
             return instance;
         }
     }
