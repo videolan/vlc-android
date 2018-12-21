@@ -20,6 +20,7 @@
 
     <application>
         <activity android:name=".gui.DebugLogActivity"
+            android:theme="@style/Theme.VLC"
             android:launchMode="singleTop" />
         <service android:name=".DebugLogService"
             android:process=":logger" />
