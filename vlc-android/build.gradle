@@ -175,6 +175,9 @@ android {
     sourceSets.release {
         manifest.srcFile 'flavors/release/AndroidManifest.xml'
     }
+    sourceSets.signedRelease {
+        manifest.srcFile 'flavors/release/AndroidManifest.xml'
+    }
     sourceSets.debug {
         res.srcDirs = ['flavors/debug/res']
     }
@@ -206,16 +209,19 @@ dependencies {
     signedReleaseImplementation "org.videolan.android:medialibrary-all:$rootProject.ext.medialibraryVersion"
     implementation project(':api')
     implementation project(':tools')
+
     // AppCompat
     implementation "androidx.recyclerview:recyclerview:$rootProject.ext.androidxVersion"
     implementation "com.google.android.material:material:$rootProject.ext.androidxVersion"
     implementation "androidx.annotation:annotation:$rootProject.ext.androidxVersion"
     implementation "androidx.preference:preference:$rootProject.ext.androidxVersion"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
+
     //TV
     implementation "androidx.leanback:leanback:$rootProject.ext.androidxVersion"
     implementation "androidx.leanback:leanback-preference:$rootProject.ext.androidxVersion"
     implementation "androidx.tvprovider:tvprovider:$rootProject.ext.androidxVersion"
+
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.kotlinx_version"
@@ -225,9 +231,11 @@ dependencies {
     implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
     implementation "androidx.paging:paging-runtime:$rootProject.ext.pagingVersion"
+
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
+
     // Test
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
