@@ -24,6 +24,7 @@ package org.videolan.vlc.gui.preferences
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.preference.Preference
 import org.videolan.vlc.R
 import org.videolan.vlc.util.VLCInstance
 
@@ -38,6 +39,15 @@ class PreferencesCasting : BasePreferenceFragment(), SharedPreferences.OnSharedP
         preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
     }
 
+    override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+        return when (preference?.key) {
+            "enable_casting" -> {
+                (activity as PreferencesActivity).setRestartApp()
+                true
+            }
+            else -> super.onPreferenceTreeClick(preference)
+        }
+    }
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         when (key) {
             "casting_passthrough", "casting_quality" -> {

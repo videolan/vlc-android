@@ -44,6 +44,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.Util;
 
 import java.util.List;
@@ -63,7 +64,8 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     @Override
     protected void initAudioPlayerContainerActivity() {
         super.initAudioPlayerContainerActivity();
-        if (!AndroidDevices.isChromeBook && !AndroidDevices.isAndroidTv) {
+        if (!AndroidDevices.isChromeBook && !AndroidDevices.isAndroidTv
+                && Settings.INSTANCE.getInstance(this).getBoolean("enable_casting", true)) {
             RendererDelegate.INSTANCE.getSelectedRenderer().observe(this, new Observer<RendererItem>() {
                 @Override
                 public void onChanged(@Nullable RendererItem rendererItem) {
@@ -120,7 +122,7 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
                 });
             }
         } else menu.findItem(R.id.ml_menu_filter).setVisible(false);
-        menu.findItem(R.id.ml_menu_renderers).setVisible(showRenderers);
+        menu.findItem(R.id.ml_menu_renderers).setVisible(showRenderers && Settings.INSTANCE.getInstance(this).getBoolean("enable_casting", true));
         menu.findItem(R.id.ml_menu_renderers).setIcon(!RendererDelegate.INSTANCE.hasRenderer() ? R.drawable.ic_am_renderer_normal_w : R.drawable.ic_am_renderer_on_w);
         return super.onCreateOptionsMenu(menu);
     }

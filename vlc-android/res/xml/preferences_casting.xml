@@ -4,17 +4,25 @@
     android:key="audio_category"
     android:title="@string/casting_category">
     <PreferenceCategory android:title="@string/casting_category">
+        <androidx.preference.SwitchPreferenceCompat
+            android:key="enable_casting"
+            android:defaultValue="true"
+            android:switchTextOff="Disabled"
+            android:switchTextOn="Enabled"
+            android:title="Enable wireless casting" />
         <CheckBoxPreference
             android:key="casting_passthrough"
             android:defaultValue="false"
             android:summary="@string/casting_passthrough_summary"
-            android:title="@string/casting_passthrough_title" />
+            android:title="@string/casting_passthrough_title"
+            android:dependency="enable_casting" />
         <ListPreference
             android:defaultValue="2"
             android:entries="@array/casting_quality"
             android:entryValues="@array/casting_quality_values"
             android:key="casting_quality"
             android:summary="@string/casting_conversion_quality_summary"
-            android:title="@string/casting_conversion_quality_title" />
+            android:title="@string/casting_conversion_quality_title"
+            android:dependency="enable_casting" />
     </PreferenceCategory>
 </PreferenceScreen>

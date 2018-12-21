@@ -2228,7 +2228,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             mHudBinding.progressOverlay.setLayoutParams(layoutParams);
             mOverlayBackground = findViewById(R.id.player_overlay_background);
             mNavMenu = findViewById(R.id.player_overlay_navmenu);
-            if (!AndroidDevices.isChromeBook && !mIsTv) {
+            if (!AndroidDevices.isChromeBook && !mIsTv
+                    && Settings.INSTANCE.getInstance(this).getBoolean("enable_casting", true)) {
                 mRendererBtn = findViewById(R.id.video_renderer);
                 RendererDelegate.INSTANCE.getSelectedRenderer().observe(this, new Observer<RendererItem>() {
                     @Override
