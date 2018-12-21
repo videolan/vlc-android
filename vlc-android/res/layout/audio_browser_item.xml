@@ -40,7 +40,7 @@
             android:id="@+id/section_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="8dp"
+            android:padding="8dp"
             vlc:layout_constraintTop_toTopOf="parent"
             android:singleLine="true"
             android:text="@{header}"
