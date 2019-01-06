@@ -9,4 +9,6 @@
     <dimen name="default_margin">16dp</dimen>
     <dimen name="half_default_margin">8dp</dimen>
     <dimen name="info_progress_end_margin">64dp</dimen>
+
+    <dimen name="default_margin_plus_audio_margin">36dp</dimen>
 </resources>
