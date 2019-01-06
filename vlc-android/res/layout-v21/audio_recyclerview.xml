@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
     app:fastScrollEnabled="true"
     app:fastScrollHorizontalThumbDrawable="@drawable/fastscroll_thumb_drawable"
     app:fastScrollHorizontalTrackDrawable="@drawable/fastscroll_track_drawable"
