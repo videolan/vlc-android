@@ -1525,8 +1525,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     };
 
     private void onPlaying() {
+        final PlaybackService service = mService;
+        if (service == null) return;
         mIsPlaying = true;
-        final MediaWrapper mw = mService.getCurrentMediaWrapper();
+        final MediaWrapper mw = service.getCurrentMediaWrapper();
         if (mw == null) return;
         setPlaybackParameters();
         stopLoading();
