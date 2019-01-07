@@ -24,12 +24,12 @@
 package org.videolan.vlc.gui.browser
 
 import android.app.Activity
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -99,7 +99,7 @@ class FilePickerFragment : FileBrowserFragment() {
             TextUtils.equals(mrl?.removeFileProtocole(), AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) -> {
                 mrl = null
                 isRootDirectory = true
-                viewModel.fetch()
+                viewModel.refresh()
             }
             mrl != null -> {
                 val mw = MediaWrapper(Uri.parse(FileUtils.getParent(mrl)))

@@ -38,10 +38,7 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
 
     private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelegate(dataset) }
 
-    val dataset by lazy {
-        fetch()
-        LiveDataset<T>()
-    }
+    val dataset = LiveDataset<T>()
 
     val categories by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<Map<String, List<MediaLibraryItem>>>().apply {
@@ -115,8 +112,6 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
     }
 
     protected open suspend fun updateList() {}
-
-    protected abstract fun fetch()
 
     override fun onCleared() {
         updateActor.close()

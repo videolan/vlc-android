@@ -20,9 +20,9 @@
 
 package org.videolan.vlc.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import android.content.Context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Medialibrary
@@ -31,10 +31,6 @@ import org.videolan.medialibrary.media.MediaWrapper
 class HistoryModel(context: Context) : BaseModel<MediaWrapper>(context) {
 
     override fun canSortByName() = false
-
-    override fun fetch() {
-        refresh()
-    }
 
     override suspend fun updateList() {
         dataset.value = withContext(Dispatchers.Default) { Medialibrary.getInstance().lastMediaPlayed().toMutableList() }

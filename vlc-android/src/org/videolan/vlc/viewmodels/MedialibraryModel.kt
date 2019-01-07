@@ -31,12 +31,11 @@ abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context) : BaseM
     val medialibrary = Medialibrary.getInstance()
 
     init {
-        medialibrary.addOnMedialibraryReadyListener(this)
-        medialibrary.addOnDeviceChangeListener(this)
-    }
-
-    override fun fetch() {
-        if (medialibrary.isStarted) onMedialibraryReady()
+        medialibrary.apply {
+            addOnMedialibraryReadyListener(this@MedialibraryModel)
+            medialibrary.addOnDeviceChangeListener(this@MedialibraryModel)
+            if (isStarted) refresh()
+        }
     }
 
     override fun onMedialibraryReady() {
@@ -48,9 +47,7 @@ abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context) : BaseM
     }
 
     override fun onDeviceChange() {
-        launch {
-            refresh()
-        }
+        launch { refresh() }
     }
 
     override fun onCleared() {

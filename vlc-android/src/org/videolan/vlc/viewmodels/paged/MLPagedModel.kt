@@ -28,11 +28,11 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
             .build()
 
     init {
-        @Suppress("LeakingThis")
-        medialibrary.addOnMedialibraryReadyListener(this)
-        @Suppress("LeakingThis")
-        medialibrary.addOnDeviceChangeListener(this)
-        if (medialibrary.isStarted) onMedialibraryReady()
+        medialibrary.apply {
+            medialibrary.addOnMedialibraryReadyListener(this@MLPagedModel)
+            medialibrary.addOnDeviceChangeListener(this@MLPagedModel)
+            if (isStarted) refresh()
+        }
     }
 
     override fun onMedialibraryReady() {
