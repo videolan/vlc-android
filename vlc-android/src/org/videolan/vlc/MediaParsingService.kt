@@ -53,6 +53,8 @@ import java.util.*
 private const val TAG = "VLC/MediaParsingService"
 private const val NOTIFICATION_DELAY = 1000L
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
     private lateinit var wakeLock: PowerManager.WakeLock
@@ -97,7 +99,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
         registerReceiver(receiver, filter)
         localBroadcastManager.registerReceiver(receiver, IntentFilter(Medialibrary.ACTION_IDLE))
         val pm = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
-        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG)
+        wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "VLC:MediaParsigService")
         wakeLock.acquire()
 
         if (lastNotificationTime == 5L) stopSelf()

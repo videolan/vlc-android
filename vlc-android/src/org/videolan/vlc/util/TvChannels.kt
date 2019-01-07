@@ -25,11 +25,11 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.os.Build
+import android.text.TextUtils
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.tvprovider.media.tv.TvContractCompat
 import androidx.tvprovider.media.tv.WatchNextProgram
-import android.text.TextUtils
-import android.util.Log
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
@@ -42,6 +42,7 @@ import videolan.org.commontools.*
 private const val TAG = "VLC/TvChannels"
 private const val MAX_RECOMMENDATIONS = 3
 
+@ExperimentalCoroutinesApi
 @RequiresApi(Build.VERSION_CODES.O)
 fun setChannel(context: Context) = GlobalScope.launch(start = CoroutineStart.UNDISPATCHED) {
     val channelId = withContext(Dispatchers.IO) {

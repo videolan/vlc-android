@@ -32,10 +32,7 @@ import androidx.appcompat.view.ActionMode
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Runnable
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.coroutineScope
@@ -65,6 +62,7 @@ private const val MSG_SHOW_LOADING = 0
 internal const val MSG_HIDE_LOADING = 1
 private const val MSG_REFRESH = 3
 
+@ExperimentalCoroutinesApi
 abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler, CtxActionReceiver {
 
     protected val handler = BrowserFragmentHandler(this)

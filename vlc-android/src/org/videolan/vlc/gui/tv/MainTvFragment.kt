@@ -34,6 +34,8 @@ import androidx.leanback.widget.*
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.delay
@@ -64,6 +66,8 @@ import org.videolan.vlc.viewmodels.VideosModel
 private const val NUM_ITEMS_PREVIEW = 5
 private const val TAG = "VLC/MainTvFragment"
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener, View.OnClickListener, Observer<MutableList<MediaWrapper>> {
 
     private var backgroundManager: BackgroundManager? = null

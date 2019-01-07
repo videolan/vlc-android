@@ -320,6 +320,7 @@ object MediaUtils : CoroutineScope {
         }
     }
 
+    @ObsoleteCoroutinesApi
     private class SuspendDialogCallback (context: Context, private val task: suspend (service: PlaybackService) -> Unit) : BaseCallBack() {
         private lateinit var dialog: ProgressDialog
         var job = Job()

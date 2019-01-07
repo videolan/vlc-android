@@ -70,6 +70,7 @@ import java.util.*
 
 private const val TAG = "VLC/PlaybackService"
 
+@ObsoleteCoroutinesApi
 class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOwner {
     override val coroutineContext = Dispatchers.Main.immediate
     private val dispatcher = ServiceLifecycleDispatcher(this)
@@ -492,11 +493,6 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
     }
 
-    override fun onStart(intent: Intent?, startId: Int) {
-        dispatcher.onServicePreSuperOnStart()
-        super.onStart(intent, startId)
-    }
-
     private fun updateHasWidget() {
         val manager = AppWidgetManager.getInstance(this)
         widget = when {
@@ -508,6 +504,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (AndroidUtil.isOOrLater && !isForeground && !VLCApplication.isForeground()) forceForeground()
+        dispatcher.onServicePreSuperOnStart()
         when (intent?.action) {
             Intent.ACTION_MEDIA_BUTTON -> {
                 if (AndroidDevices.hasTsp || AndroidDevices.hasPlayServices) androidx.media.session.MediaButtonReceiver.handleIntent(mediaSession, intent)

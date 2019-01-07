@@ -47,12 +47,9 @@ import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.coroutineScope
@@ -78,6 +75,7 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 private const val TAG = "VLC/AudioPlayer"
 private const val SEARCH_TIMEOUT_MILLIS = 5000
 
+@ExperimentalCoroutinesApi
 @Suppress("UNUSED_PARAMETER")
 class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
 

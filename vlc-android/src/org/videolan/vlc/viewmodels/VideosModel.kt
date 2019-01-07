@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Medialibrary
@@ -34,6 +35,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.media.MediaGroup
 import org.videolan.vlc.util.Settings
 
+@ExperimentalCoroutinesApi
 open class VideosModel(context: Context, private val group: String?, private val minGroupLen: Int, customSort : Int, customDesc: Boolean?) : MedialibraryModel<MediaWrapper>(context), Medialibrary.MediaCb {
 
     override val sortKey = "${super.sortKey}_$group"

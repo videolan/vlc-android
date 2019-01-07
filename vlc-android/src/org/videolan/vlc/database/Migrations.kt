@@ -20,9 +20,9 @@
 
 package org.videolan.vlc.database
 
-import androidx.sqlite.db.SupportSQLiteDatabase
-import androidx.room.migration.Migration
 import android.content.Context
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -186,7 +186,7 @@ val migration_27_28 = object:Migration(27, 28) {
         val preferences = Settings.getInstance(VLCApplication.getAppContext())
         val customPaths = preferences.getString("custom_paths", "")
         var oldPaths : List<String>? = null
-        if (customPaths.isNotEmpty()) oldPaths = customPaths?.split(":")
+        if (!customPaths.isNullOrEmpty()) oldPaths = customPaths.split(":")
 
         database.execSQL("CREATE TABLE IF NOT EXISTS $CUSTOM_DIRECTORY_TABLE_NAME(path TEXT PRIMARY KEY NOT NULL);")
         oldPaths?.forEach {

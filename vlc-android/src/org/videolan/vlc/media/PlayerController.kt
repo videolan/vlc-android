@@ -20,6 +20,8 @@ import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.VLCOptions
 import kotlin.math.abs
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 @Suppress("EXPERIMENTAL_FEATURE_WARNING")
 class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.EventListener, CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate

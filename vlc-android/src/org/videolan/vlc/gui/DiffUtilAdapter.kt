@@ -2,12 +2,12 @@ package org.videolan.vlc.gui
 
 import androidx.annotation.MainThread
 import androidx.recyclerview.widget.DiffUtil
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.withContext
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 abstract class DiffUtilAdapter<D, VH : androidx.recyclerview.widget.RecyclerView.ViewHolder> : androidx.recyclerview.widget.RecyclerView.Adapter<VH>(), CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
 

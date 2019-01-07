@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.Surface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
@@ -26,6 +27,7 @@ private const val TAG = "PreviewInputService"
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class PreviewVideoInputService : TvInputService(), CoroutineScope {
+    @ExperimentalCoroutinesApi
     override val coroutineContext = Dispatchers.Main.immediate
 
     override fun onCreateSession(inputId: String): TvInputService.Session? {

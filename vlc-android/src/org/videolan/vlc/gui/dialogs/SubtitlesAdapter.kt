@@ -3,6 +3,7 @@ package org.videolan.vlc.gui.dialogs
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.SendChannel
 import org.videolan.vlc.databinding.SubtitleDownloadItemBinding
 
@@ -27,6 +28,7 @@ internal class SubtitlesAdapter(private val eventActor: SendChannel<SubtitleEven
 
     override fun getItemCount() = dataset?.size ?: 0
 
+    @ExperimentalCoroutinesApi
     inner class ViewHolder(val binding: SubtitleDownloadItemBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root), View.OnClickListener, View.OnLongClickListener {
 
         init {

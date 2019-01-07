@@ -33,6 +33,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.coroutineScope
@@ -50,6 +52,8 @@ import org.videolan.vlc.viewmodels.StreamsModel
 
 const val TAG = "VLC/MrlPanelFragment"
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 class MRLPanelFragment : androidx.fragment.app.DialogFragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener, CtxActionReceiver {
 
     private lateinit var adapter: MRLAdapter

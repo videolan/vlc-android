@@ -112,14 +112,12 @@ class Navigator(private val activity: MainActivity,
 
     private fun restoreFragmentsStack(fm: androidx.fragment.app.FragmentManager) {
         val fragments = fm.fragments
-        if (fragments != null) {
-            val ft = fm.beginTransaction()
-            for (fragment in fragments) {
-                if (fragment is ExtensionBrowser) ft.remove(fragment)
-                else if (fragment is MediaBrowserFragment<*>) fragmentsStack.put(fragment.tag, WeakReference(fragment))
-            }
-            ft.commit()
+        val ft = fm.beginTransaction()
+        for (fragment in fragments) {
+            if (fragment is ExtensionBrowser) ft.remove(fragment)
+            else if (fragment is MediaBrowserFragment<*>) fragmentsStack.put(fragment.tag, WeakReference(fragment))
         }
+        ft.commit()
     }
 
     /**

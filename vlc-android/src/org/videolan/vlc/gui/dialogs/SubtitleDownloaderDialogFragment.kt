@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModelProviders
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
 import org.videolan.tools.coroutineScope
@@ -26,6 +27,7 @@ import org.videolan.vlc.viewmodels.SubtitlesModel
 private const val MEDIA_PATHS = "MEDIA_PATHS"
 const val MEDIA_PATH = "MEDIA_PATH"
 
+@ObsoleteCoroutinesApi
 class SubtitleDownloaderDialogFragment: androidx.fragment.app.DialogFragment() {
     private lateinit var adapter: ViewPagerAdapter
     private lateinit var paths: List<String>
@@ -38,6 +40,7 @@ class SubtitleDownloaderDialogFragment: androidx.fragment.app.DialogFragment() {
                 State.NotDownloaded -> VLCDownloadManager.download(context!!, subtitleEvent.item)
                 State.Downloaded -> deleteSubtitleDialog(context,
                         { _, _ -> viewModel.deleteSubtitle(subtitleEvent.item.mediaPath, subtitleEvent.item.idSubtitle) }, { _, _ -> })
+                else -> return@actor
             }
             is LongClick -> {
                 @StringRes val message = when(subtitleEvent.item.state) {
@@ -46,7 +49,6 @@ class SubtitleDownloaderDialogFragment: androidx.fragment.app.DialogFragment() {
                     // Todo else -> {"Cancel download"}
                     else -> return@actor
                 }
-
                 if (::toast.isInitialized) toast.cancel()
                 toast = Toast.makeText(activity, message, Toast.LENGTH_SHORT)
                 toast.setGravity(Gravity.TOP,0,100)

@@ -1,16 +1,16 @@
 package org.videolan.vlc.util
 
 import android.app.DownloadManager
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Environment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.dialogs.SubtitleItem
@@ -20,16 +20,16 @@ import java.io.File
 
 object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
     private val downloadManager = VLCApplication.getAppContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-    override fun onReceive(context: Context?, intent: Intent?) {
+    override fun onReceive(context: Context, intent: Intent?) {
         intent?.let {
             val id = it.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0L)
             id.let {
-                val subtitleItem = ExternalSubRepository.getInstance(context!!).getDownloadingSubtitle(it)
+                val subtitleItem = ExternalSubRepository.getInstance(context).getDownloadingSubtitle(it)
                 subtitleItem?.let {
                     val (state, localUri) = getDownloadState(id)
                     when(state) {
-                        DownloadManager.STATUS_SUCCESSFUL -> downloadSuccessful(id, subtitleItem, localUri, context!!)
-                        DownloadManager.STATUS_FAILED -> downloadFailed(id, context!!)
+                        DownloadManager.STATUS_SUCCESSFUL -> downloadSuccessful(id, subtitleItem, localUri, context)
+                        DownloadManager.STATUS_FAILED -> downloadFailed(id, context)
                     }
                 }
             }
