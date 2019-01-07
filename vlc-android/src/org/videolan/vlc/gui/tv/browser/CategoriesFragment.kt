@@ -31,6 +31,7 @@ import androidx.core.content.ContextCompat
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
+import androidx.lifecycle.Observer
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
@@ -72,6 +73,7 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
         backgroundManager.attachToView(view)
         searchAffordanceColor = ContextCompat.getColor(requireContext(), R.color.orange500)
         requireActivity().findViewById<ImageView>(R.id.icon).setImageResource(R.drawable.ic_menu_sort)
+        if (this::viewModel.isInitialized) viewModel.loading.observe(this, Observer { (activity as? VerticalGridActivity)?.showProgress(it) })
     }
 
     override fun onStart() {

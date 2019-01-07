@@ -47,6 +47,8 @@ open class BrowserModel(context: Context, val url: String?, type: Int, showHidde
         else -> FileBrowserProvider(context, dataset, url, showHiddenFiles = showHiddenFiles)
     }
 
+    override val loading = provider.loading
+
     override fun refresh() = provider.refresh()
 
     fun browserRoot() = launch { provider.browseRoot() }

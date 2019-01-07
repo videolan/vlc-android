@@ -96,6 +96,7 @@ open class FileBrowserProvider(
     private lateinit var storageObserver : Observer<Boolean>
 
     override suspend fun browseRoot() {
+        loading.postValue(true)
         var storageAccess = false
         val internalmemoryTitle = context.getString(R.string.internal_memory)
         val browserStorage = context.getString(R.string.browser_storages)
@@ -135,13 +136,16 @@ open class FileBrowserProvider(
         // observe devices & favorites
         ExternalMonitor.devices.observeForever(this@FileBrowserProvider)
         if (showFavorites) favorites?.observeForever(favoritesObserver)
+        loading.postValue(false)
     }
 
 
     override fun browse(url: String?) {
         when {
             url == "otg://" || url?.startsWith("content:") == true -> launch {
+                loading.postValue(true)
                 dataset.value = withContext(Dispatchers.IO) { getDocumentFiles(context, Uri.parse(url).path?.substringAfterLast(':') ?: "") as? MutableList<MediaLibraryItem> ?: mutableListOf() }
+                loading.postValue(false)
             }
             else -> super.browse(url)
         }

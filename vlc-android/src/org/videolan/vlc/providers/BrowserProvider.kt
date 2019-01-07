@@ -50,6 +50,7 @@ const val TAG = "VLC/BrowserProvider"
 abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private val showHiddenFiles: Boolean) : EventListener, CoroutineScope {
 
     override val coroutineContext = Dispatchers.Main.immediate
+    val loading = MutableLiveData<Boolean>().apply { value = false }
 
     protected val mutex= Mutex()
     protected var mediabrowser: MediaBrowser? = null
@@ -95,6 +96,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open fun browse(url: String? = null) {
+        loading.value = true
         if (!browserActor.isClosedForSend) browserActor.offer(Browse(url))
     }
 
@@ -105,6 +107,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             for (media in browserChannel) findMedia(media)?.let { addMedia(it) }
             if (dataset.value.isNotEmpty()) parseSubDirectories()
             else dataset.clear() // send observable event when folder is empty
+            loading.value = false
         }
     }
 
@@ -112,6 +115,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     open fun refresh() : Boolean {
         if (url === null || browserActor.isClosedForSend) return false
+        loading.value = true
         browserActor.offer(Refresh)
         return true
     }
@@ -126,6 +130,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         job = launch {
             dataset.value = browserChannel.mapNotNullTo(mutableListOf()) { findMedia(it) }
             parseSubDirectories()
+            loading.value = false
         }
     }
 
@@ -249,6 +254,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 }
             }
         }
+        loading.value = false
     }
 
     fun saveList(media: MediaWrapper) = foldersContentMap[media]?.let { if (!it.isEmpty()) prefetchLists[media.location] = it }

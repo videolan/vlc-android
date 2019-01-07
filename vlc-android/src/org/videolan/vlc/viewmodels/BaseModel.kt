@@ -22,6 +22,7 @@ package org.videolan.vlc.viewmodels
 
 import android.content.Context
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
@@ -38,6 +39,7 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
     private val filter by lazy(LazyThreadSafetyMode.NONE) { FilterDelegate(dataset) }
 
     val dataset = LiveDataset<T>()
+    open val loading = MutableLiveData<Boolean>().apply { value = false }
 
     val categories by lazy(LazyThreadSafetyMode.NONE) {
         MediatorLiveData<Map<String, List<MediaLibraryItem>>>().apply {
