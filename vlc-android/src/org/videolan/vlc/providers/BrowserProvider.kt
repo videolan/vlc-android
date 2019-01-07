@@ -52,7 +52,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     override val coroutineContext = Dispatchers.Main.immediate
 
-    private val mutex= Mutex()
+    protected val mutex= Mutex()
     protected var mediabrowser: MediaBrowser? = null
 
     private val foldersContentMap = androidx.collection.SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()

@@ -22,7 +22,9 @@ package org.videolan.vlc.providers
 
 import android.content.Context
 import androidx.lifecycle.Observer
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.withLock
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -61,7 +63,11 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
     }
 
     override fun stop(): Unit? {
-        if (url == null) mediabrowser?.changeEventListener(null)
+        launch(Dispatchers.IO) {
+            if (url == null) mutex.withLock {
+                mediabrowser?.changeEventListener(null)
+            }
+        }
         return super.stop()
     }
 
