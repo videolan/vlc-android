@@ -20,15 +20,16 @@
 
 package org.videolan.vlc.gui.helpers.hf
 
-import androidx.lifecycle.LiveData
+import android.annotation.TargetApi
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import androidx.annotation.WorkerThread
-import androidx.fragment.app.FragmentActivity
-import androidx.documentfile.provider.DocumentFile
 import android.util.Log
+import androidx.annotation.WorkerThread
+import androidx.lifecycle.LiveData
 import org.videolan.medialibrary.media.MediaWrapper
 import videolan.org.commontools.LiveEvent
 
@@ -38,12 +39,17 @@ const val TAG = "OtgAccess"
 const val OTG_CONTENT_AUTHORITY = "com.android.externalstorage.documents"
 const val OTG_SCHEME = "otg"
 
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class OtgAccess : BaseHeadlessFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val safIntent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
-        startActivityForResult(safIntent, SAF_REQUEST)
+        try {
+            startActivityForResult(safIntent, SAF_REQUEST)
+        } catch (e: ActivityNotFoundException) {
+            exit()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
