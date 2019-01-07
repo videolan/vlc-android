@@ -40,7 +40,7 @@ object ModelsHelper {
                     val letter = if (title.isEmpty() || !Character.isLetter(title[0]) || ModelsHelper.isSpecialItem(item)) "#" else title.substring(0, 1).toUpperCase()
                     if (currentLetter === null || !TextUtils.equals(currentLetter, letter)) {
                         currentLetter = letter
-                        array[letter] = mutableListOf()
+                        if (array[letter].isNullOrEmpty()) array[letter] = mutableListOf()
                     }
                     array[letter]?.add(item)
                 }
@@ -53,7 +53,7 @@ object ModelsHelper {
                     val lengthCategory = ModelsHelper.lengthToCategory(length)
                     if (currentLengthCategory == null || !TextUtils.equals(currentLengthCategory, lengthCategory)) {
                         currentLengthCategory = lengthCategory
-                        array[currentLengthCategory] = mutableListOf()
+                        if (array[currentLengthCategory].isNullOrEmpty()) array[currentLengthCategory] = mutableListOf()
                     }
                     array[currentLengthCategory]?.add(item)
                 }
@@ -65,7 +65,7 @@ object ModelsHelper {
                     val year = ModelsHelper.getYear(item)
                     if (currentYear === null || !TextUtils.equals(currentYear, year)) {
                         currentYear = year
-                        array[currentYear] = mutableListOf()
+                        if (array[currentYear].isNullOrEmpty()) array[currentYear] = mutableListOf()
                     }
                     array[currentYear]?.add(item)
                 }
@@ -77,7 +77,7 @@ object ModelsHelper {
                     val artist = (item as MediaWrapper).artist ?: ""
                     if (currentArtist === null || !TextUtils.equals(currentArtist, artist)) {
                         currentArtist = artist
-                        array[currentArtist] = mutableListOf()
+                        if (array[currentArtist].isNullOrEmpty()) array[currentArtist] = mutableListOf()
                     }
                     array[currentArtist]?.add(item)
                 }
@@ -89,7 +89,7 @@ object ModelsHelper {
                     val album = (item as MediaWrapper).album ?: ""
                     if (currentAlbum === null || !TextUtils.equals(currentAlbum, album)) {
                         currentAlbum = album
-                        array[currentAlbum] = mutableListOf()
+                        if (array[currentAlbum].isNullOrEmpty()) array[currentAlbum] = mutableListOf()
                     }
                     array[currentAlbum]?.add(item)
                 }

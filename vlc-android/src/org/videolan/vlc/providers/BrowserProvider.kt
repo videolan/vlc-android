@@ -40,10 +40,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
-import org.videolan.vlc.util.LiveDataset
-import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.VLCInstance
-import org.videolan.vlc.util.isBrowserMedia
+import org.videolan.vlc.util.*
 import java.util.*
 
 const val TAG = "VLC/BrowserProvider"
@@ -207,7 +204,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     private suspend fun findMedia(media: Media): MediaWrapper? {
         val mw = MediaWrapper(media)
         media.release()
-        if (!showAll && !mw.isBrowserMedia()) return null
+        if (!mw.isMedia()) {
+            if (mw.isBrowserMedia()) return mw
+            else if (!showAll) return null
+        }
         val uri = mw.uri
         if ((mw.type == MediaWrapper.TYPE_AUDIO || mw.type == MediaWrapper.TYPE_VIDEO)
                 && "file" == uri.scheme) return withContext(Dispatchers.IO) { medialibrary.getMedia(uri) ?: mw }

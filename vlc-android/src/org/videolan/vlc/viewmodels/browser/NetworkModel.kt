@@ -20,15 +20,11 @@
 
 package org.videolan.vlc.viewmodels.browser
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import android.content.Context
 
 class NetworkModel(context: Context, url: String? = null, showHiddenFiles: Boolean): BrowserModel(context, url, TYPE_NETWORK, showHiddenFiles) {
-
-    override fun refresh() : Boolean {
-        return provider.refresh()
-    }
 
     class Factory(val context: Context, val url: String?, private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
