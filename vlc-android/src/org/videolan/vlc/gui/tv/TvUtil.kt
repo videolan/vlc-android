@@ -28,15 +28,14 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
+import android.text.TextUtils
+import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.widget.DiffCallback
 import androidx.leanback.widget.ListRow
 import androidx.leanback.widget.Row
-import androidx.fragment.app.FragmentActivity
-import androidx.core.content.ContextCompat
-import android.text.TextUtils
-import android.view.View
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -46,7 +45,6 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.DialogActivity
-import org.videolan.vlc.gui.dialogs.NetworkServerDialog
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.UiTools
@@ -199,14 +197,18 @@ object TvUtil {
                         cover = BitmapUtil.centerCrop(cover, cover!!.width, cover.width * 10 / 16)
                     UiTools.blurBitmap(cover, 10f)
                 }
-                bm.color = 0
-                bm.drawable = BitmapDrawable(VLCApplication.getAppResources(), blurred)
+                @Suppress("SENSELESS_COMPARISON")
+                if (bm !== null) {
+                    bm.color = 0
+                    bm.drawable = BitmapDrawable(VLCApplication.getAppResources(), blurred)
+                }
             }
         }
         clearBackground(bm)
     }
 
-    private fun clearBackground(bm: BackgroundManager) {
+    private fun clearBackground(bm: BackgroundManager?) {
+        if (bm === null) return
         bm.color = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.tv_bg)
         bm.drawable = null
     }
