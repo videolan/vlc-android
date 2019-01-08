@@ -21,7 +21,6 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -30,6 +29,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.FilterDelegate
 import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.ModelsHelper
+import org.videolan.vlc.util.map
 
 private const val TAG = "VLC/BaseModel"
 @ExperimentalCoroutinesApi
@@ -42,19 +42,11 @@ abstract class BaseModel<T : MediaLibraryItem>(context: Context) : SortableModel
     open val loading = MutableLiveData<Boolean>().apply { value = false }
 
     val categories by lazy(LazyThreadSafetyMode.NONE) {
-        MediatorLiveData<Map<String, List<MediaLibraryItem>>>().apply {
-            addSource(dataset) {
-                launch { value = withContext(Dispatchers.Default) { ModelsHelper.splitList(sort, it!!.toList()) } }
-            }
-        }
+        map(dataset) { ModelsHelper.splitList(sort, it!!.toList()) }
     }
 
     val sections by lazy(LazyThreadSafetyMode.NONE) {
-        MediatorLiveData<List<MediaLibraryItem>>().apply {
-            addSource(dataset) {
-                launch { value = withContext(Dispatchers.Default) { ModelsHelper.generateSections(sort, it!!.toList()) } }
-            }
-        }
+        map(dataset) { ModelsHelper.generateSections(sort, it!!.toList()) }
     }
 
     @Suppress("UNCHECKED_CAST")

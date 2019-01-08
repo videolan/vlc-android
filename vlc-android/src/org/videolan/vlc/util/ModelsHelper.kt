@@ -2,6 +2,8 @@ package org.videolan.vlc.util
 
 import android.content.Context
 import android.text.TextUtils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Medialibrary
@@ -17,17 +19,17 @@ private const val LENGTH_2_YEAR = 2* LENGTH_YEAR
 
 object ModelsHelper {
 
-    fun generateSections(sort: Int, items: List<MediaLibraryItem>) : MutableList<MediaLibraryItem> {
+    suspend fun generateSections(sort: Int, items: List<MediaLibraryItem>) = withContext(Dispatchers.IO) {
         val array = splitList(sort, items)
         val datalist = mutableListOf<MediaLibraryItem>()
         for ((key, list) in array) {
             datalist.add(DummyItem(key))
             datalist.addAll(list)
         }
-        return datalist
+        datalist
     }
 
-    internal fun splitList(sort: Int, items: Collection<MediaLibraryItem>) : Map<String, List<MediaLibraryItem>> {
+    internal suspend fun splitList(sort: Int, items: Collection<MediaLibraryItem>) = withContext(Dispatchers.IO) {
         val array = mutableMapOf<String, MutableList<MediaLibraryItem>>()
         when (sort) {
             Medialibrary.SORT_DEFAULT,
@@ -95,7 +97,7 @@ object ModelsHelper {
                 }
             }
         }
-        return array
+        array
     }
 
     fun getHeader(context: Context, sort: Int, item: MediaLibraryItem, aboveItem: MediaLibraryItem?) = when (sort) {

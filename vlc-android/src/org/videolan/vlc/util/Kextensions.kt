@@ -3,12 +3,12 @@ package org.videolan.vlc.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
@@ -119,4 +119,15 @@ suspend fun String.scanAllowed() = withContext(Dispatchers.IO) {
     val children = file.list() ?: return@withContext true
     for (child in children) if (child == ".nomedia") return@withContext false
     true
+}
+
+fun <X, Y> CoroutineScope.map(
+        source: LiveData<X>,
+        f : suspend (value: X?) -> Y
+): LiveData<Y> {
+    return MediatorLiveData<Y>().apply {
+        addSource(source) {
+            launch { value = f(it) }
+        }
+    }
 }
