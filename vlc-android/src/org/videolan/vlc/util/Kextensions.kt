@@ -73,8 +73,9 @@ suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary
     else suspendCoroutine { continuation ->
         ml.addOnMedialibraryReadyListener(object : Medialibrary.OnMedialibraryReadyListener {
             override fun onMedialibraryReady() {
-                ml.removeOnMedialibraryReadyListener(this)
+                val listener = this
                 continuation.resume(block.invoke(ml))
+                launch { ml.removeOnMedialibraryReadyListener(listener) }
             }
             override fun onMedialibraryIdle() {}
         })

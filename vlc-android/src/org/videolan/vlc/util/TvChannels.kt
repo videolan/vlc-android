@@ -60,8 +60,11 @@ suspend fun updatePrograms(context: Context, channelId: Long) {
         ml.addOnMedialibraryReadyListener(object : Medialibrary.OnMedialibraryReadyListener {
             override fun onMedialibraryIdle() {}
             override fun onMedialibraryReady() {
-                ml.removeOnMedialibraryReadyListener(this)
-                GlobalScope.launch { updatePrograms(context, channelId) }
+                val listener = this
+                GlobalScope.launch {
+                    ml.removeOnMedialibraryReadyListener(listener)
+                    updatePrograms(context, channelId)
+                }
             }
 
         })
