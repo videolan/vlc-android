@@ -400,22 +400,26 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     fun saveMediaMeta() {
-        val media = medialibrary.findMedia(getCurrentMedia())
-        if (media === null || media.id == 0L) return
+        val currentMedia = getCurrentMedia() ?: return
+        if (currentMedia.uri.scheme == "fd") return
+        //Save progress
+        val time = player.getCurrentTime()
+        val length = player.getLength()
         val canSwitchToVideo = player.canSwitchToVideo()
-        if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
-            //Save progress
-            val time = player.getCurrentTime()
-            val length = player.getLength()
-            var progress = time / length.toFloat()
-            if (progress > 0.95f || length - time < 10000) {
-                //increase seen counter if more than 95% of the media have been seen
-                //and reset progress to 0
-                media.setLongMeta(MediaWrapper.META_SEEN, ++media.seen)
-                progress = 0f
+        launch {
+            val media = withContext(Dispatchers.IO) { medialibrary.findMedia(currentMedia) }
+            if (media === null || media.id == 0L) return@launch
+            if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
+                var progress = time / length.toFloat()
+                if (progress > 0.95f || length - time < 10000) {
+                    //increase seen counter if more than 95% of the media have been seen
+                    //and reset progress to 0
+                    launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_SEEN, ++media.seen) }
+                    progress = 0f
+                }
+                media.time = if (progress == 0f) 0L else time
+                launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_PROGRESS, media.time) }
             }
-            media.time = if (progress == 0f) 0L else time
-            media.setLongMeta(MediaWrapper.META_PROGRESS, media.time)
         }
     }
 
@@ -575,10 +579,17 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 child.release()
             }
             if (mrl !== null && ml.count == 1) {
-                if (stream) {
-                    getCurrentMedia()!!.type = MediaWrapper.TYPE_STREAM
-                    medialibrary.addStream(mrl, getCurrentMedia()!!.title)
-                } else medialibrary.addToHistory(mrl, getCurrentMedia()!!.title)
+                getCurrentMedia()?.apply {
+                    launch(Dispatchers.IO) {
+                        if (stream) {
+                            type = MediaWrapper.TYPE_STREAM
+                            medialibrary.addStream(mrl, title)
+                        } else if (uri.scheme != "fd") {
+                            medialibrary.addToHistory(mrl, title)
+                        }
+                    }
+                }
+
             }
             ret = index
         }
