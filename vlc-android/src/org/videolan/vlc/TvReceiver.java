@@ -44,8 +44,8 @@ public class TvReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
-        Log.d(TAG, "onReceive: "+action);
         if (action == null || !AndroidDevices.isAndroidTv) return;
+        Log.d(TAG, "onReceive: "+action);
         switch (action) {
             case TvContract.ACTION_INITIALIZE_PROGRAMS:
                 Log.d(TAG, "onReceive: ACTION_INITIALIZE_PROGRAMS ");
@@ -69,7 +69,7 @@ public class TvReceiver extends BroadcastReceiver {
             case Intent.ACTION_BOOT_COMPLETED:
                 Log.d(TAG, "onReceive: ACTION_BOOT_COMPLETED ");
                 if (!AndroidUtil.isOOrLater) scheduleRecommendationUpdate(context);
-                if (AndroidDevices.watchDevices) ExternalMonitor.INSTANCE.register();
+                if (AndroidDevices.watchDevices) StoragesMonitorKt.enableStorageMonitoring(context);
                 break;
         }
     }

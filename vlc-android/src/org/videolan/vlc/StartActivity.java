@@ -86,7 +86,6 @@ public class StartActivity extends FragmentActivity {
         final boolean firstRun = savedVersionNumber == -1;
         final boolean upgrade = firstRun || savedVersionNumber != currentVersionNumber;
         if (upgrade) settings.edit().putInt(Constants.PREF_FIRST_RUN, currentVersionNumber).apply();
-        FileUtils.copyLua(getApplicationContext(), upgrade);
         final boolean tv = showTvUi();
         // Route search query
         if (Intent.ACTION_SEARCH.equals(action) || "com.google.android.gms.actions.SEARCH_ACTION".equals(action)) {
@@ -110,6 +109,8 @@ public class StartActivity extends FragmentActivity {
             if (target == R.id.ml_menu_last_playlist) PlaybackService.Companion.loadLastAudio(this);
             else startApplication(tv, firstRun, upgrade, target);
         }
+        FileUtils.copyLua(getApplicationContext(), upgrade);
+        if (AndroidDevices.watchDevices) StoragesMonitorKt.enableStorageMonitoring(this);
         finish();
     }
 

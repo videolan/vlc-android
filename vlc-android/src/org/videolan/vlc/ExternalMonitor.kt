@@ -45,7 +45,6 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
 import org.videolan.vlc.util.*
@@ -69,26 +68,12 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         for (action in channel) when (action){
             is MediaMounted -> {
                 if (TextUtils.isEmpty(action.uuid)) return@actor
-                if (ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
-                    if (!Settings.getInstance(ctx).getBoolean("ignore_${action.uuid}", false)) {
-                        val ml = VLCApplication.getMLInstance()
-                        val knownDevices = ctx.getFromMl { devices }
-                        if (!containsDevice(knownDevices, action.path) && ml.addDevice(action.uuid, action.path, true)) {
-                            notifyStorageChanges(action.path)
-                        }
-                    }
-                } else if (AndroidDevices.watchDevices && action.path.scanAllowed()) {
-                    val knownDevices = ctx.getFromMl { devices }
+                if (!Settings.getInstance(ctx).getBoolean("ignore_${action.uuid}", false)) {
                     val ml = VLCApplication.getMLInstance()
-                    val scan = !containsDevice(knownDevices, action.path) && ml.addDevice(action.uuid, action.path, true)
-                    val intent = Intent(ctx, DialogActivity::class.java).apply {
-                        setAction(DialogActivity.KEY_DEVICE)
-                        putExtra(DialogActivity.EXTRA_PATH, action.path)
-                        putExtra(DialogActivity.EXTRA_UUID, action.uuid)
-                        putExtra(DialogActivity.EXTRA_SCAN, scan)
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    val knownDevices = ctx.getFromMl { devices }
+                    if (!containsDevice(knownDevices, action.path) && ml.addDevice(action.uuid, action.path, true)) {
+                        notifyStorageChanges(action.path)
                     }
-                    ctx.startActivity(intent)
                 }
             }
             is MediaUnmounted -> {
@@ -122,7 +107,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
                 }
             }
             Intent.ACTION_MEDIA_MOUNTED -> {
-                if (AndroidDevices.watchDevices || storageObserver != null && storageObserver!!.get() != null) {
+                if (storageObserver != null && storageObserver!!.get() != null) {
                     intent.data?.let {
                         actor.offer(MediaMounted(it))
                         storagePlugged.postValue(it)
@@ -131,7 +116,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             }
             Intent.ACTION_MEDIA_UNMOUNTED,
             Intent.ACTION_MEDIA_EJECT -> {
-                if (AndroidDevices.watchDevices || storageObserver != null && storageObserver!!.get() != null)
+                if (storageObserver != null && storageObserver!!.get() != null)
                     intent.data?.let {
                         actor.offer(MediaUnmounted(it))
                         storageUnplugged.postValue(it)
@@ -217,7 +202,6 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     internal fun unregister() {
-        if (AndroidDevices.watchDevices) return
         val ctx = VLCApplication.getAppContext()
         ctx.unregisterReceiver(this)
         registered = false
@@ -256,12 +240,12 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
             storageObserver = null
         }
     }
+}
 
-    fun containsDevice(devices: Array<String>, device: String): Boolean {
-        if (Util.isArrayEmpty(devices)) return false
-        for (dev in devices) if (device.startsWith(dev.removeFileProtocole())) return true
-        return false
-    }
+fun containsDevice(devices: Array<String>, device: String): Boolean {
+    if (Util.isArrayEmpty(devices)) return false
+    for (dev in devices) if (device.startsWith(dev.removeFileProtocole())) return true
+    return false
 }
 
 private sealed class DeviceAction

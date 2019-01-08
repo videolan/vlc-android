@@ -254,7 +254,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
         for (device in devices) {
             val uuid = FileUtils.getFileNameFromPath(device)
             if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid) || !device.scanAllowed()) continue
-            if (ExternalMonitor.containsDevice(knownDevices, device)) {
+            if (containsDevice(knownDevices, device)) {
                 missingDevices.remove("file://$device")
                 continue
             }

@@ -611,6 +611,18 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".StoragesMonitor"
+            android:enabled="false"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_MOUNTED"/>
+                <action android:name="android.intent.action.MEDIA_REMOVED"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+            </intent-filter>
+        </receiver>
+
         <provider
             android:authorities="${applicationId}.thumbprovider"
             android:name=".FileProvider"
