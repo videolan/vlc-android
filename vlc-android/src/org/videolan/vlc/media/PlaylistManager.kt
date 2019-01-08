@@ -728,7 +728,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     }
                     if (newMedia) {
                         loadMediaMeta(mw)
-                        if (mw.type == MediaWrapper.TYPE_STREAM) medialibrary.addToHistory(mw.location, mw.title)
                         saveMediaList()
                         savePosition(true)
                         saveCurrentMedia()
