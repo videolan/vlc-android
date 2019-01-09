@@ -23,6 +23,7 @@ package org.videolan.vlc.gui.tv;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -204,46 +205,47 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
                 ? AudioUtil.readCoverBitmap(mMedia.getArtworkUrl(), 512) : null;
                 final Bitmap blurred = cover != null ? UiTools.blurBitmap(cover) : null;
                 final Boolean browserFavExists = mBrowserFavRepository.browserFavExists((Uri.parse(mMedia.getLocation())));
+                final boolean isDir = media.getType() == MediaWrapper.TYPE_DIR;
+                final boolean canSave = isDir && FileUtils.canSave(media);
                 WorkersKt.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (isDetached())
-                            return;
-                        if (media.getType() == MediaWrapper.TYPE_DIR && FileUtils.canSave(media)) {
-                            detailsOverview.setImageDrawable(ContextCompat.getDrawable(activity, TextUtils.equals(media.getUri().getScheme(),"file")
+                        if (isDetached()) return;
+                        final Activity context = getActivity();
+                        if (context == null || context.isFinishing()) return;
+                        final Resources res = getResources();
+                        if (isDir) {
+                            detailsOverview.setImageDrawable(ContextCompat.getDrawable(context, TextUtils.equals(media.getUri().getScheme(),"file")
                                     ? R.drawable.ic_menu_folder_big
                                     : R.drawable.ic_menu_network_big));
                             detailsOverview.setImageScaleUpAllowed(true);
-                            detailsOverview.addAction(new Action(ID_BROWSE, getString(R.string.browse_folder)));
-                            if (browserFavExists)
-                                detailsOverview.addAction(actionDelete);
-                            else
-                                detailsOverview.addAction(actionAdd);
+                            detailsOverview.addAction(new Action(ID_BROWSE, res.getString(R.string.browse_folder)));
+                            if (canSave) detailsOverview.addAction(browserFavExists ? actionDelete : actionAdd);
 
                         } else if (media.getType() == MediaWrapper.TYPE_AUDIO) {
                             // Add images and action buttons to the details view
                             if (cover == null)
-                                detailsOverview.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_default_cone));
+                                detailsOverview.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_default_cone));
                             else
-                                detailsOverview.setImageBitmap(activity, cover);
+                                detailsOverview.setImageBitmap(context, cover);
 
-                            detailsOverview.addAction(new Action(ID_PLAY, getString(R.string.play)));
-                            detailsOverview.addAction(new Action(ID_LISTEN, getString(R.string.listen)));
+                            detailsOverview.addAction(new Action(ID_PLAY, res.getString(R.string.play)));
+                            detailsOverview.addAction(new Action(ID_LISTEN, res.getString(R.string.listen)));
                             if (mediaList != null && mediaList.contains(media))
-                                detailsOverview.addAction(new Action(ID_PLAY_ALL, getString(R.string.play_all)));
+                                detailsOverview.addAction(new Action(ID_PLAY_ALL, res.getString(R.string.play_all)));
                         } else if (media.getType() == MediaWrapper.TYPE_VIDEO) {
                             // Add images and action buttons to the details view
                             if (cover == null)
-                                detailsOverview.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_default_cone));
+                                detailsOverview.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_default_cone));
                             else
-                                detailsOverview.setImageBitmap(getActivity(), cover);
+                                detailsOverview.setImageBitmap(context, cover);
 
-                            detailsOverview.addAction(new Action(ID_PLAY, getString(R.string.play)));
-                            detailsOverview.addAction(new Action(ID_PLAY_FROM_START, getString(R.string.play_from_start)));
+                            detailsOverview.addAction(new Action(ID_PLAY, res.getString(R.string.play)));
+                            detailsOverview.addAction(new Action(ID_PLAY_FROM_START, res.getString(R.string.play_from_start)));
                             if (FileUtils.canWrite(media.getUri()))
-                                detailsOverview.addAction(new Action(ID_DL_SUBS, getString(R.string.download_subtitles)));
+                                detailsOverview.addAction(new Action(ID_DL_SUBS, res.getString(R.string.download_subtitles)));
                             if (mediaList != null && mediaList.contains(media))
-                                detailsOverview.addAction(new Action(ID_PLAY_ALL, getString(R.string.play_all)));
+                                detailsOverview.addAction(new Action(ID_PLAY_ALL, res.getString(R.string.play_all)));
                         }
                         mRowsAdapter.add(detailsOverview);
                         setAdapter(mRowsAdapter);
