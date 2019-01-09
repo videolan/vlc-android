@@ -1,10 +1,12 @@
 package org.videolan.vlc.gui.helpers;
 
 import android.content.Context;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 
 public class BottomSheetBehavior<V extends View> extends com.google.android.material.bottomsheet.BottomSheetBehavior<V> {
@@ -30,6 +32,14 @@ public class BottomSheetBehavior<V extends View> extends com.google.android.mate
             // BottomSheetBehavior receives input events too soon and mNestedScrollingChildRef is not set yet.
             return false;
         }
+    }
+
+    @Override
+    public void onStopNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull V child, @NonNull View target, int type) {
+        if (lock) return;
+        try {
+            super.onStopNestedScroll(coordinatorLayout, child, target, type);
+        } catch (NullPointerException ignored) {}
     }
 
     @Override
