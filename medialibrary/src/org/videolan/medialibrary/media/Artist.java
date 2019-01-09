@@ -94,7 +94,7 @@ public class Artist extends MediaLibraryItem {
     }
 
     public MediaWrapper[] getTracks() {
-        return getTracks(Medialibrary.SORT_ALBUM, false);
+        return getTracks(Medialibrary.SORT_ALBUM, true);
     }
 
     public MediaWrapper[] getTracks(int sort, boolean desc) {

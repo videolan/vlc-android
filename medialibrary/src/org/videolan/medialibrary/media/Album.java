@@ -74,7 +74,7 @@ public class Album extends MediaLibraryItem {
     }
 
     public MediaWrapper[] getTracks() {
-        return getTracks(Medialibrary.SORT_DEFAULT, false);
+        return getTracks(Medialibrary.SORT_ALBUM, false);
     }
 
     public MediaWrapper[] getTracks(int sort, boolean desc) {

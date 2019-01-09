@@ -24,7 +24,7 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
 
     init {
         sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)
-        desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
+        desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", parent is Artist)
         if (sort == Medialibrary.SORT_ALPHA) sort = when (parent) {
             is Artist -> Medialibrary.SORT_ALBUM
             is Album -> Medialibrary.SORT_DEFAULT
