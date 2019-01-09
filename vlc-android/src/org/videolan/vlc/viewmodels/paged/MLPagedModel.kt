@@ -1,6 +1,7 @@
 package org.videolan.vlc.viewmodels.paged
 
 import android.content.Context
+import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
@@ -22,10 +23,12 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
             .setPageSize(100)
             .setPrefetchDistance(100)
             .setEnablePlaceholders(true)
-            .build()!!
+            .build()
 
     val pagedList = LivePagedListBuilder(MLDatasourceFactory(), pagingConfig)
             .build()
+
+    private val handler by lazy { Handler() }
 
     init {
         medialibrary.apply {
@@ -99,12 +102,21 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     }
 
     inner class MLDataSource : PositionalDataSource<T>() {
+        private var retry = true
 
         override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
             val page = getPage(params.requestedLoadSize, params.requestedStartPosition)
             val count = if (page.size < params.requestedLoadSize) page.size else getTotalCount()
-            callback.onResult(page.toList(), params.requestedStartPosition, count)
-            loading.postValue(false)
+            try {
+                callback.onResult(page.toList(), params.requestedStartPosition, count)
+                loading.postValue(false)
+                retry = true
+            } catch (e: IllegalArgumentException) {
+                if (retry) {
+                    retry = false
+                    handler.postDelayed({ loadInitial(params, callback) }, 500L)
+                } else retry = true
+            }
         }
         override fun loadRange(params: LoadRangeParams, callback: LoadRangeCallback<T>) {
             callback.onResult(getPage(params.loadSize, params.startPosition).toList())
