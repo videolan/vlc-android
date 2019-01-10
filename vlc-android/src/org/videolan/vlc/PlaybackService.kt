@@ -20,7 +20,10 @@
 package org.videolan.vlc
 
 import android.annotation.TargetApi
-import android.app.*
+import android.app.KeyguardManager
+import android.app.PendingIntent
+import android.app.SearchManager
+import android.app.Service
 import android.appwidget.AppWidgetManager
 import android.content.*
 import android.graphics.BitmapFactory
@@ -504,7 +507,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (AndroidUtil.isOOrLater && !isForeground && !VLCApplication.isForeground()) forceForeground()
+        if (AndroidUtil.isOOrLater && !isForeground) forceForeground()
         dispatcher.onServicePreSuperOnStart()
         when (intent?.action) {
             Intent.ACTION_MEDIA_BUTTON -> {
