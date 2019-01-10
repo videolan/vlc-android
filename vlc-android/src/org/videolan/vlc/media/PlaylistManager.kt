@@ -300,7 +300,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
             }
             media.setEventListener(this@PlaylistManager)
-            player.startPlayback(media, mediaplayerEventListener)
+            withContext(Dispatchers.Main) { player.startPlayback(media, mediaplayerEventListener) }
             player.setSlaves(media, mw)
             newMedia = true
             determinePrevAndNextIndices()
@@ -466,11 +466,14 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private fun saveMediaList() {
         if (getCurrentMedia() === null) return
         val locations = StringBuilder()
-        for (mw in mediaList.all) locations.append(" ").append(Uri.encode(Uri.decode(mw.uri.toString())))
-        //We save a concatenated String because putStringSet is APIv11.
-        settings.edit()
-                .putString(if (isAudioList()) "audio_list" else "media_list", locations.toString().trim())
-                .apply()
+        launch(Dispatchers.Main) {
+            val list = mediaList.all.takeIf { it.isNotEmpty() } ?: return@launch
+            for (mw in list) locations.append(" ").append(Uri.encode(Uri.decode(mw.uri.toString())))
+            //We save a concatenated String because putStringSet is APIv11.
+            settings.edit()
+                    .putString(if (isAudioList()) "audio_list" else "media_list", locations.toString().trim())
+                    .apply()
+        }
     }
 
     override fun onItemMoved(indexBefore: Int, indexAfter: Int, mrl: String?) {
