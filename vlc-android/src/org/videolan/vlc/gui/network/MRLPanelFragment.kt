@@ -69,7 +69,7 @@ class MRLPanelFragment : androidx.fragment.app.DialogFragment(), View.OnKeyListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(androidx.fragment.app.DialogFragment.STYLE_NO_FRAME, 0)
+        setStyle(androidx.fragment.app.DialogFragment.STYLE_NORMAL, 0)
         viewModel = ViewModelProviders.of(this).get(StreamsModel::class.java)
     }
 
