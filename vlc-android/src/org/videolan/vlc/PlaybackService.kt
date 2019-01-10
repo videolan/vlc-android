@@ -70,6 +70,7 @@ import java.util.*
 
 private const val TAG = "VLC/PlaybackService"
 
+@ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOwner {
     override val coroutineContext = Dispatchers.Main.immediate
@@ -517,7 +518,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
             }
             ACTION_PLAY_FROM_SEARCH -> {
                 if (!this::mediaSession.isInitialized) initMediaSession()
-                val extras = intent!!.getBundleExtra(EXTRA_SEARCH_BUNDLE)
+                val extras = intent.getBundleExtra(EXTRA_SEARCH_BUNDLE)
                 mediaSession.controller.transportControls
                         .playFromSearch(extras.getString(SearchManager.QUERY), extras)
             }
@@ -615,7 +616,6 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     private class PlaybackServiceHandler(owner: PlaybackService) : WeakHandler<PlaybackService>(owner) {
-        private var lastPublicationDate = 0L
 
         override fun handleMessage(msg: Message) {
             val service = owner ?: return
@@ -1246,8 +1246,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         fun connect() {
             if (mBound) throw IllegalStateException("already connected")
             val serviceIntent = getServiceIntent(mContext!!)
-            if (mContext is Activity) mContext.startService(serviceIntent)
-            else ContextCompat.startForegroundService(mContext, serviceIntent)
+            ContextCompat.startForegroundService(mContext, serviceIntent)
             mBound = mContext.bindService(serviceIntent, mServiceConnection, Context.BIND_AUTO_CREATE)
         }
 

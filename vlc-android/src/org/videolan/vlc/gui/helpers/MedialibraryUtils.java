@@ -9,6 +9,8 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.WorkersKt;
 
+import androidx.core.content.ContextCompat;
+
 public class MedialibraryUtils {
 
     public static void removeDir(final String path) {
@@ -27,12 +29,12 @@ public class MedialibraryUtils {
     public static void addDir(final String path, Context context) {
         final Intent intent = new Intent(Constants.ACTION_DISCOVER, null, context, MediaParsingService.class);
         intent.putExtra(Constants.EXTRA_PATH, path);
-        context.startService(intent);
+        ContextCompat.startForegroundService(context, intent);
     }
 
     public static void addDevice(final String path, Context context) {
         final Intent intent = new Intent(Constants.ACTION_DISCOVER_DEVICE, null, context, MediaParsingService.class);
         intent.putExtra(Constants.EXTRA_PATH, path);
-        context.startService(intent);
+        ContextCompat.startForegroundService(context, intent);
     }
 }

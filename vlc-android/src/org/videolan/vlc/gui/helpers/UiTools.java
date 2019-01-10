@@ -389,7 +389,7 @@ public class UiTools {
         final String uuid = FileUtils.getFileNameFromPath(path);
         final String deviceName = FileUtils.getStorageTag(uuid);
         final String message = String.format(activity.getString(R.string.ml_external_storage_msg), deviceName != null ? deviceName : uuid);
-        final Intent serviceInent = new Intent(Constants.ACTION_DISCOVER_DEVICE, null, activity, MediaParsingService.class)
+        final Intent si = new Intent(Constants.ACTION_DISCOVER_DEVICE, null, activity, MediaParsingService.class)
                 .putExtra(Constants.EXTRA_PATH, path);
         if (activity instanceof AppCompatActivity) {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity)
@@ -398,8 +398,7 @@ public class UiTools {
                     .setMessage(message)
                     .setPositiveButton(R.string.ml_external_storage_accept, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            if (activity != null)
-                                activity.startService(serviceInent);
+                            if (activity != null) ContextCompat.startForegroundService(activity, si);
                         }
                     })
                     .setNegativeButton(R.string.ml_external_storage_decline, new DialogInterface.OnClickListener() {
@@ -419,8 +418,7 @@ public class UiTools {
                 .setMessage(message)
                 .setPositiveButton(R.string.ml_external_storage_accept, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        if (activity != null)
-                            activity.startService(serviceInent);
+                        if (activity != null) ContextCompat.startForegroundService(activity, si);
                     }
                 })
                 .setNegativeButton(R.string.ml_external_storage_decline, new DialogInterface.OnClickListener() {

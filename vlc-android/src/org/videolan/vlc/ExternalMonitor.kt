@@ -37,13 +37,11 @@ import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.text.TextUtils
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
@@ -189,12 +187,14 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         checkNewStorages(ctx)
     }
 
+    @ExperimentalCoroutinesApi
+    @ObsoleteCoroutinesApi
     private fun checkNewStorages(ctx: Context) {
         if (VLCApplication.getMLInstance().isStarted) {
             val scanOpt = if (AndroidDevices.showTvUi(ctx)) ML_SCAN_ON
             else Settings.getInstance(ctx).getInt(KEY_MEDIALIBRARY_SCAN, -1)
             if (scanOpt == ML_SCAN_ON)
-                AppScope.launch { ctx.startService(Intent(ACTION_CHECK_STORAGES, null, ctx, MediaParsingService::class.java)) }
+                AppScope.launch { ContextCompat.startForegroundService(ctx,Intent(ACTION_CHECK_STORAGES, null, ctx, MediaParsingService::class.java)) }
         }
         val usbManager = ctx.getSystemService(Context.USB_SERVICE) as? UsbManager ?: return
         devices.add(ArrayList(usbManager.deviceList.values))
