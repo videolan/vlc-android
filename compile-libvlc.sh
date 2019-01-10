@@ -356,7 +356,12 @@ if [ ${ANDROID_API} -lt "21" ] ; then
     # force uselocale using libandroid_support since it's present in libc++
     export ac_cv_func_uselocale=yes
 
+    # -l order is important here
     VLC_LDFLAGS="${VLC_LDFLAGS} -L${NDK_LIB_DIR} -landroid_support"
+    if [ "${ANDROID_ABI}" = "armeabi-v7a" ]; then
+        VLC_LDFLAGS="${VLC_LDFLAGS} -lunwind"
+    fi
+    VLC_LDFLAGS="${VLC_LDFLAGS} -latomic -lgcc"
 fi
 
 # always use fixups for search.h and tdestroy
@@ -491,7 +496,7 @@ $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
     VLC_CONTRIB="$VLC_CONTRIB" \
     VLC_CONTRIB_LDFLAGS="$VLC_CONTRIB_LDFLAGS" \
     VLC_MODULES="$VLC_MODULES" \
-    VLC_LDFLAGS="$VLC_LDFLAGS -latomic" \
+    VLC_LDFLAGS="$VLC_LDFLAGS" \
     APP_BUILD_SCRIPT=jni/Android.mk \
     APP_PLATFORM=android-${ANDROID_API} \
     APP_ABI=${ANDROID_ABI} \
