@@ -40,7 +40,7 @@ class StreamsModel: ScopedModel() {
 
     fun rename(position: Int, name: String) {
         val media = observableHistory.value?.get(position) ?: return
-        media.rename(name)
+        launch(Dispatchers.IO) { media.rename(name) }
         updateHistory()
     }
 }
