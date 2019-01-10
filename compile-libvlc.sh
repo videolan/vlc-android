@@ -16,8 +16,6 @@ checkfail()
 # ARGUMENTS #
 #############
 
-MEDIALIBRARY_HASH=740e21f
-
 RELEASE=0
 ASAN=0
 while [ $# -gt 0 ]; do
