@@ -419,7 +419,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             mOrientationToggle.setOnClickListener(enabled ? this : null);
             mOrientationToggle.setOnLongClickListener(enabled ? this : null);
         }
-
         UiTools.setViewOnClickListener(mRendererBtn, enabled ? this : null);
     }
 
@@ -433,10 +432,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 return;
             if (TextUtils.equals("file", uri.getScheme()) && uri.getPath().startsWith("/sdcard")) {
                 Uri convertedUri = FileUtils.convertLocalUri(uri);
-                if (convertedUri == null || convertedUri.equals(mUri))
-                    return;
-                else
-                    uri = convertedUri;
+                if (convertedUri == null || convertedUri.equals(mUri)) return;
+                else uri = convertedUri;
             }
             mUri = uri;
             mTitle.setText(mService.getCurrentMediaWrapper().getTitle());
@@ -456,10 +453,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onPause() {
-        if (isFinishing())
-            overridePendingTransition(0, 0);
-        else
-            hideOverlay(true);
+        if (isFinishing()) overridePendingTransition(0, 0);
+        else hideOverlay(true);
         super.onPause();
         setListeners(false);
 
@@ -481,11 +476,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         super.onSaveInstanceState(outState);
         if (mUri != null && !"content".equals(mUri.getScheme())) {
             outState.putLong(KEY_TIME, mSavedTime);
-            outState.putParcelable(KEY_URI, mUri);
+            if (mPlaylistModel == null) outState.putParcelable(KEY_URI, mUri);
         }
+        mUri = null;
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
+    @TargetApi(Build.VERSION_CODES.O)
     public void switchToPopup() {
         final MediaWrapper mw = mService != null ? mService.getCurrentMediaWrapper() : null;
         if (mw == null) return;
@@ -511,8 +507,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                     mw.addFlags(MediaWrapper.MEDIA_PAUSED);
                 cleanUI();
                 exitOK();
-            } else
-                Permissions.checkDrawOverlaysPermission(this);
+            } else Permissions.checkDrawOverlaysPermission(this);
         }
     }
 
