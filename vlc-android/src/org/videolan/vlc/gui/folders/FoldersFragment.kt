@@ -71,7 +71,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
             adapter = FoldersAdapter(actor)
             viewModel = ViewModelProviders.of(requireActivity(), PagedFoldersModel.Factory(requireContext(), Folder.TYPE_FOLDER_VIDEO)).get(PagedFoldersModel::class.java)
             viewModel.pagedList.observe(requireActivity(), Observer {
-                mSwipeRefreshLayout.isRefreshing = false
+                mSwipeRefreshLayout?.isRefreshing = false
                 adapter.submitList(it)
             })
         }
