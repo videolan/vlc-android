@@ -11,6 +11,8 @@ if [ -z "$MAKEFLAGS" ]; then
     fi
 fi
 
+echo "MAKEFLAGS: ${MAKEFLAGS}"
+
 #########
 # FLAGS #
 #########
