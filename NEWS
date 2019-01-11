@@ -1,3 +1,14 @@
+Changes between 3.0.92 and 3.0.93:
+------------------
+
+Application:
+ * Option to group videos by folders
+ * SMB 2/3 support
+ * Add a preference to disable Casting
+ * Option to not show video title during transitions
+ * Play artists tracks sorted by correct album order
+ * Bugfixes
+
 Changes between 3.0.91 and 3.0.92:
 ------------------
 
