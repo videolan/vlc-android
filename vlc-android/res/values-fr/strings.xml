@@ -47,6 +47,7 @@
     <string name="play_all">Lire tout</string>
     <string name="append_all">Lire tout à la suite</string>
     <string name="last_playlist">Dernière liste de lecture</string>
+    <string name="last_playlist_shortcut">Reprendre la lecture</string>
     <string name="delete">Supprimer</string>
     <string name="remove">Retirer</string>
     <string name="set_song">Définir comme sonnerie</string>
@@ -141,7 +142,7 @@
     <string name="refresh">Actualiser</string>
     <string name="track_audio">Piste audio</string>
     <string name="track_video">Piste vidéo</string>
-    <string name="track_text">Piste sous-titres</string>
+    <string name="track_text">Piste de sous-titres</string>
     <string name="track_unknown">Piste inconnue</string>
     <string name="track_bitrate_info">Débit binaire  : %1$s/s\n</string>
     <string name="track_codec_info">Codec : %1$s\n</string>
@@ -195,7 +196,7 @@
     <string name="favorite_removed">Retiré des favoris</string>
 
     <string name="open">Ouvrir</string>
-    <string name="open_mrl">Ouvrir MRL</string>
+    <string name="open_mrl">Streams</string>
     <string name="open_mrl_dialog_title">Ouvrir un flux réseau</string>
     <string name="open_mrl_dialog_msg">Entrez une addresse réseau : p. ex. http://, mms:// ou rtsp://</string>
     <string name="error_not_compatible">Désolé, mais votre appareil n\'est pas supporté pour l\'instant par cette version de VLC pour Android™.</string>
@@ -219,7 +220,7 @@
     <string name="video_player_tips">Astuces du lecteur vidéo :</string>
     <string name="seek">Naviguer</string>
     <string name="subtitles">Sous-titres</string>
-    <string name="audio_sub">Pistes audio\net sous-titres</string>
+    <string name="audio_sub">Pistes audio\net de sous-titres</string>
     <string name="resize">Redimensionner</string>
     <string name="options">Options</string>
     <string name="lock">Verrouiller</string>
@@ -288,11 +289,14 @@
     <string name="video_min_group_length_title">Regrouper les vidéos</string>
     <string name="video_min_group_length_summary">Les vidéos sont regroupées si la première lettre de leur titre est la même.</string>
     <string name="video_min_group_length_disable">Désactiver</string>
+    <string name="video_min_group_length_folder">Grouper par dossier</string>
     <string name="video_min_group_length_first">Première lettre seulement</string>
     <string name="video_min_group_length_short">Courte suite de lettre (6)</string>
     <string name="video_min_group_length_long">Longue suite de lettres (9)</string>
     <string name="media_fast_seek">Déplacement rapide</string>
     <string name="media_fast_seek_summary">Le déplacement dans un média est plus rapide mais moins précis</string>
+    <string name="video_transition_title">Transition entre les vidéos</string>
+    <string name="video_transition_summary">Afficher le titre de la nouvelle vidéo en transition</string>
     <string name="media_seen">Afficher le marqueur de vidéo vue</string>
     <string name="media_seen_summary">Marquer une vidéo comme vue lorsque vous la regardez jusqu\'à la fin</string>
     <string name="force_list_portrait">Pas de grille en mode portrait</string>
@@ -560,7 +564,7 @@
     <string name="videos">vidéos</string>
     <string name="videos_all">Toutes les vidéos</string>
     <string name="clear_playback_history">Supprimer l\'historique de lecture</string>
-    <string name="various_artists">Artistes dvers</string>
+    <string name="various_artists">Artistes divers</string>
     <string name="ml_scanning">Recherche de fichiers multimédia</string>
     <string name="ml_parse_media">Analyse des médias</string>
     <string name="ml_discovering">Exploration</string>
@@ -604,7 +608,8 @@
     <string name="audio_digital_output_enabled">Sortie audio activée</string>
     <string name="audio_digital_output_disabled">Sortie audio désactivée</string>
     <string name="audio_digital_title">Sortie audio (bitstream)</string>
-    <string name="audio_task_removed_title">Stopper la lecture quand l\'application est arrêtée</string>
+    <string name="audio_task_cleared_title">Arrêter lors d\'un balayage de l\'application</string>
+    <string name="audio_task_cleared_summary">Arrêter la lecture lorsque l\'application est fermée</string>
     <string name="playback_rewind">Retour</string>
     <string name="playback_forward">Avance Rapide</string>
     <string name="ml_wizard_title">Sélection Médialibrary de VLC</string>
@@ -632,6 +637,12 @@
     <string name="download_the_selected">Télécharger la sélection</string>
     <string name="next">Suivant</string>
     <string name="download">Télécharger</string>
-    <string name="device_dialog_title">Stockage externe connecté</string>
-    <string name="device_dialog_message">Vous venez d\'insérer un appareil de stockage sur votre boitier TV, souhaitez-vous l\'ouvrir avec VLC ?</string>
+    <string name="ctx_player_video_track">Sélectionner une piste vidéo</string>
+    <string name="ctx_player_audio_track">Sélectionner une piste audio</string>
+    <string name="ctx_player_subs_track">Sélectionner une piste de sous-titres</string>
+    <string name="ctx_player_tracks_title">Sélectionner une piste multimédia</string>
+    <string name="ctx_pip_title">Lecteur pop-up</string>
+    <string name="device_dialog_title">Périphérique externe inséré</string>
+    <string name="device_dialog_message">Vous venez de brancher un nouveau périphérique de stockage à votre box TV, voulez-vous l\'ouvrir avec VLC ?</string>
+    <string name="videos_folders_title">Vidéos par dossiers</string>
 </resources>
