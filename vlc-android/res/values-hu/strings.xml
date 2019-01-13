@@ -289,11 +289,14 @@
     <string name="video_min_group_length_title">Videók csoportosítása</string>
     <string name="video_min_group_length_summary">Videók csoportosításra kerülnek, ha a kezdőbetűik azonosak.</string>
     <string name="video_min_group_length_disable">Letiltás</string>
+    <string name="video_min_group_length_folder">Csoportosítás mappa szerint</string>
     <string name="video_min_group_length_first">Csak a kezdőbetű</string>
     <string name="video_min_group_length_short">Kevés betű (6)</string>
     <string name="video_min_group_length_long">Sok betű (9)</string>
     <string name="media_fast_seek">Gyors tekerés</string>
     <string name="media_fast_seek_summary">A tekerés a médiában gyorsabb, de kevésbe pontos</string>
+    <string name="video_transition_title">Videoátmenetek</string>
+    <string name="video_transition_summary">Az új videó címének megjelenítése átváltáskor</string>
     <string name="media_seen">Megtekintett videók megjelölése</string>
     <string name="media_seen_summary">A videók megjelölése megtekintettként, ha végignézte</string>
     <string name="force_list_portrait">Álló módban nincs rács</string>
@@ -640,5 +643,6 @@
     <string name="ctx_player_tracks_title">Médiasávok</string>
     <string name="ctx_pip_title">Felugró lejátszó</string>
     <string name="device_dialog_title">Külső eszköz behelyezve</string>
-    <string name="device_dialog_message">Új eszköz észlelve, a VLC-vel akarja kezelni?</string>
+    <string name="device_dialog_message">Egy új tárolóeszközt csatlakoztatott a TV-jéhez, a VLC-vel akarja megnyitni?</string>
+    <string name="videos_folders_title">Videók mappák szerint</string>
 </resources>
