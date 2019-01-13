@@ -25,6 +25,7 @@ import android.net.Uri
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
+import androidx.collection.SimpleArrayMap
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -55,7 +56,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     protected val mutex= Mutex()
     protected var mediabrowser: MediaBrowser? = null
 
-    private val foldersContentMap = androidx.collection.SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
+    private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
     private lateinit var browserChannel : Channel<Media>
     protected var job : Job? = null
     private val showAll = Settings.getInstance(context).getBoolean("browser_show_all_files", true)

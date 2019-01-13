@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
@@ -187,7 +188,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (size == 0 || currentIndex < 0 || currentIndex >= size) {
             Log.w(TAG, "Warning: invalid next index, aborted !")
             //Close video player if started
-            androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(ctx).sendBroadcast(Intent(EXIT_PLAYER))
+            LocalBroadcastManager.getInstance(ctx).sendBroadcast(Intent(EXIT_PLAYER))
             stop()
             return
         }
@@ -344,7 +345,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         videoBackground = false
         if (player.isVideoPlaying() && !hasRenderer) {//Player is already running, just send it an intent
             player.setVideoTrackEnabled(true)
-            androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(service).sendBroadcast(
+            LocalBroadcastManager.getInstance(service).sendBroadcast(
                     VideoPlayerActivity.getIntent(PLAY_FROM_SERVICE,
                             media, false, currentIndex))
         } else if (!player.switchToVideo) { //Start the video player

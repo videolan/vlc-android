@@ -37,6 +37,7 @@ import android.util.Log
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
@@ -58,7 +59,7 @@ private const val NOTIFICATION_DELAY = 1000L
 class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
     private lateinit var wakeLock: PowerManager.WakeLock
-    private lateinit var localBroadcastManager: androidx.localbroadcastmanager.content.LocalBroadcastManager
+    private lateinit var localBroadcastManager: LocalBroadcastManager
 
     private val binder = LocalBinder()
     private lateinit var medialibrary: Medialibrary
@@ -90,7 +91,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     @SuppressLint("WakelockTimeout")
     override fun onCreate() {
         super.onCreate()
-        localBroadcastManager = androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this)
+        localBroadcastManager = LocalBroadcastManager.getInstance(this)
         medialibrary = Medialibrary.getInstance()
         medialibrary.addDeviceDiscoveryCb(this@MediaParsingService)
         val filter = IntentFilter()

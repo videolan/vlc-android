@@ -27,6 +27,9 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.collection.SimpleArrayMap
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -54,10 +57,10 @@ class Navigator(private val activity: MainActivity,
         target: Int
 ): com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener, LifecycleObserver {
 
-    private val fragmentsStack = androidx.collection.SimpleArrayMap<String, WeakReference<androidx.fragment.app.Fragment>>()
+    private val fragmentsStack = SimpleArrayMap<String, WeakReference<Fragment>>()
     private val defaultFragmentId inline get() = if (settings.getInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_OFF) == ML_SCAN_ON) R.id.nav_video else R.id.nav_directories
     var currentFragmentId = target
-    var currentFragment: androidx.fragment.app.Fragment? = null
+    var currentFragment: Fragment? = null
         private set
 
     init {
@@ -75,7 +78,7 @@ class Navigator(private val activity: MainActivity,
         if (currentFragment === null && !currentIdIsExtension()) showFragment(if (currentFragmentId != 0) currentFragmentId else settings.getInt("fragment_id", defaultFragmentId))
     }
 
-    private fun getNewFragment(id: Int): androidx.fragment.app.Fragment {
+    private fun getNewFragment(id: Int): Fragment {
         return when (id) {
             R.id.nav_audio -> AudioBrowserFragment()
             R.id.nav_directories -> FileBrowserFragment()
@@ -102,10 +105,10 @@ class Navigator(private val activity: MainActivity,
         showFragment(fragment, id, tag)
     }
 
-    private fun showFragment(fragment: androidx.fragment.app.Fragment, id: Int, tag: String = getTag(id)) {
+    private fun showFragment(fragment: Fragment, id: Int, tag: String = getTag(id)) {
         val fm = activity.supportFragmentManager
         if (currentFragment is BaseBrowserFragment && !(currentFragment as BaseBrowserFragment).isRootDirectory)
-            fm.popBackStackImmediate("root", androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            fm.popBackStackImmediate("root", FragmentManager.POP_BACK_STACK_INCLUSIVE)
         val ft = fm.beginTransaction()
         ft.replace(R.id.fragment_placeholder, fragment, tag)
         ft.commitNow()
@@ -114,7 +117,7 @@ class Navigator(private val activity: MainActivity,
         currentFragmentId = id
     }
 
-    private fun restoreFragmentsStack(fm: androidx.fragment.app.FragmentManager) {
+    private fun restoreFragmentsStack(fm: FragmentManager) {
         val fragments = fm.fragments
         val ft = fm.beginTransaction()
         for (fragment in fragments) {
@@ -187,7 +190,7 @@ class Navigator(private val activity: MainActivity,
             if (currentFragmentId == id) { /* Already selected */
                 // Go back at root level of current mProvider
                 if (current is BaseBrowserFragment && !current.isRootDirectory) {
-                    activity.supportFragmentManager.popBackStackImmediate(getTag(id), androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    activity.supportFragmentManager.popBackStackImmediate(getTag(id), FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 } else {
                     activity.closeDrawer()
                     return false

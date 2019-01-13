@@ -26,7 +26,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.RendererItem
@@ -43,7 +45,7 @@ const private val TAG = "VLC/RenderersDialog"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class RenderersDialog : androidx.fragment.app.DialogFragment() {
+class RenderersDialog : DialogFragment() {
     private var renderers = RendererDelegate.renderers.value
     private lateinit var mBinding: DialogRenderersBinding
     private val mAdapter = RendererAdapter()
@@ -69,14 +71,14 @@ class RenderersDialog : androidx.fragment.app.DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setStyle(androidx.fragment.app.DialogFragment.STYLE_NO_FRAME, 0)
+        setStyle(DialogFragment.STYLE_NO_FRAME, 0)
         mBinding = DialogRenderersBinding.inflate(inflater, container, false)
         return mBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mBinding.holder = mClickHandler;
-        mBinding.renderersList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
+        mBinding.renderersList.layoutManager = LinearLayoutManager(view.context)
         mBinding.renderersList.adapter = mAdapter
         mBinding.renderersDisconnect.isEnabled = PlaybackService.hasRenderer()
         mBinding.renderersDisconnect.setTextColor(ContextCompat.getColor(view.context, if (PlaybackService.hasRenderer()) R.color.orange800 else R.color.grey400))

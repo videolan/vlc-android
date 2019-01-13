@@ -32,7 +32,7 @@ class SimpleAdapter(val handler: ClickHandler) : ListAdapter<MediaLibraryItem, S
 
     fun isEmpty() = itemCount == 0
 
-    class ViewHolder(handler: ClickHandler, val binding: SimpleItemBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(handler: ClickHandler, val binding: SimpleItemBinding) : RecyclerView.ViewHolder(binding.root) {
         init {
             binding.handler = handler
         }

@@ -34,12 +34,12 @@ internal class PBSMedialibraryReceiver(private val service: PlaybackService) : B
     private val pendingActions by lazy(LazyThreadSafetyMode.NONE) { LinkedList<Runnable>() }
 
     init {
-        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(service).registerReceiver(this, IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY))
+        LocalBroadcastManager.getInstance(service).registerReceiver(this, IntentFilter(VLCApplication.ACTION_MEDIALIBRARY_READY))
     }
 
     override fun onReceive(context: Context, intent: Intent) {
         service.libraryReceiver = null
-        androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(service).unregisterReceiver(this)
+        LocalBroadcastManager.getInstance(service).unregisterReceiver(this)
         for (r in pendingActions) r.run()
     }
 

@@ -67,7 +67,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.TransitionManager;
 
-public abstract class MediaBrowserFragment<T extends SortableModel> extends Fragment implements androidx.appcompat.view.ActionMode.Callback, Filterable {
+public abstract class MediaBrowserFragment<T extends SortableModel> extends Fragment implements ActionMode.Callback, Filterable {
 
     public final static String TAG = "VLC/MediaBrowserFragment";
 

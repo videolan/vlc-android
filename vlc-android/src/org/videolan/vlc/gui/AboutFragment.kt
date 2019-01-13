@@ -27,6 +27,8 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -41,9 +43,9 @@ import org.videolan.vlc.util.Util
 private const val TAG = "VLC/AboutFragment"
 private const val MODE_TOTAL = 2 // Number of audio browser modes
 
-class AboutFragment : androidx.fragment.app.Fragment() {
+class AboutFragment : Fragment() {
 
-    private lateinit var viewPager: androidx.viewpager.widget.ViewPager
+    private lateinit var viewPager: ViewPager
     private lateinit var tabLayout: com.google.android.material.tabs.TabLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

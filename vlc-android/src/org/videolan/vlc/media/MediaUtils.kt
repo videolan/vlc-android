@@ -13,6 +13,7 @@ import android.text.TextUtils
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
@@ -36,7 +37,7 @@ private const val TAG = "VLC/MediaUtils"
 object MediaUtils : CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
 
-    fun getSubs(activity: androidx.fragment.app.FragmentActivity, mediaList: List<MediaWrapper>) {
+    fun getSubs(activity: FragmentActivity, mediaList: List<MediaWrapper>) {
         if (activity is AppCompatActivity) showSubtitleDownloaderDialogFragment(activity, mediaList.map { it.uri.path })
         else {
             val intent = Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SUBS_DL)
@@ -46,11 +47,11 @@ object MediaUtils : CoroutineScope {
         }
     }
 
-    fun getSubs(activity: androidx.fragment.app.FragmentActivity, media: MediaWrapper) {
+    fun getSubs(activity: FragmentActivity, media: MediaWrapper) {
         getSubs(activity, listOf(media))
     }
 
-    fun showSubtitleDownloaderDialogFragment(activity: androidx.fragment.app.FragmentActivity, mediaPaths: List<String>) {
+    fun showSubtitleDownloaderDialogFragment(activity: FragmentActivity, mediaPaths: List<String>) {
         val callBack = java.lang.Runnable {
             SubtitleDownloaderDialogFragment.newInstance(mediaPaths).show(activity.supportFragmentManager, "Subtitle_downloader")
         }

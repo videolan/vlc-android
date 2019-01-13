@@ -3,6 +3,8 @@ package org.videolan.vlc.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
@@ -43,9 +45,9 @@ fun String.validateLocation(): Boolean {
     return true
 }
 
-inline fun <reified T : ViewModel> androidx.fragment.app.Fragment.getModelWithActivity() = ViewModelProviders.of(requireActivity()).get(T::class.java)
-inline fun <reified T : ViewModel> androidx.fragment.app.Fragment.getModel() = ViewModelProviders.of(this).get(T::class.java)
-inline fun <reified T : ViewModel> androidx.fragment.app.FragmentActivity.getModel() = ViewModelProviders.of(this).get(T::class.java)
+inline fun <reified T : ViewModel> Fragment.getModelWithActivity() = ViewModelProviders.of(requireActivity()).get(T::class.java)
+inline fun <reified T : ViewModel> Fragment.getModel() = ViewModelProviders.of(this).get(T::class.java)
+inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProviders.of(this).get(T::class.java)
 
 suspend fun retry (
         times: Int = 3,

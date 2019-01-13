@@ -32,6 +32,7 @@ import android.text.TextUtils
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.widget.DiffCallback
 import androidx.leanback.widget.ListRow
@@ -107,7 +108,7 @@ object TvUtil {
             MediaUtils.openMedia(activity, media)
     }
 
-    fun openMedia(activity: androidx.fragment.app.FragmentActivity, item: Any?, row: Row?) {
+    fun openMedia(activity: FragmentActivity, item: Any?, row: Row?) {
         when (item) {
             is MediaWrapper -> when {
                 item.type == MediaWrapper.TYPE_AUDIO -> openAudioCategory(activity, item)

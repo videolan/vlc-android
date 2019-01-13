@@ -1,16 +1,18 @@
 package org.videolan.vlc.gui.dialogs
 
-
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import org.videolan.vlc.databinding.SubtitleHistoryFragmentBinding
 import org.videolan.vlc.viewmodels.SubtitlesModel
 
-class SubtitleHistoryFragment : androidx.fragment.app.Fragment() {
+class SubtitleHistoryFragment : Fragment() {
     private lateinit var viewModel: SubtitlesModel
     private lateinit var adapter: SubtitlesAdapter
     lateinit var mediaPath: String
@@ -27,9 +29,9 @@ class SubtitleHistoryFragment : androidx.fragment.app.Fragment() {
 
         adapter = SubtitlesAdapter((parentFragment as SubtitleDownloaderDialogFragment).listEventActor)
         val recyclerView = binding.subtitleList
-        recyclerView.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(activity, androidx.recyclerview.widget.DividerItemDecoration.VERTICAL))
+        recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         viewModel.history.observe(this, Observer {
             adapter.setList(it)
         })

@@ -9,7 +9,7 @@ import android.webkit.WebView
 import org.videolan.vlc.R
 import org.videolan.vlc.util.Util
 
-class LicenceActivity : androidx.fragment.app.FragmentActivity() {
+class LicenceActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

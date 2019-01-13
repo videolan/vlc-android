@@ -2230,7 +2230,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 mRendererBtn = findViewById(R.id.video_renderer);
                 PlaybackService.Companion.getRenderer().observe(this, new Observer<RendererItem>() {
                     @Override
-                    public void onChanged(@androidx.annotation.Nullable RendererItem rendererItem) {
+                    public void onChanged(@Nullable RendererItem rendererItem) {
                         if (mRendererBtn != null) mRendererBtn.setImageResource(rendererItem == null ? R.drawable.ic_renderer_circle : R.drawable.ic_renderer_on_circle);
                     }
                 });
@@ -2590,7 +2590,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private Observer downloadedSubtitleObserver = new Observer<List<ExternalSub>>() {
         @Override
         public void onChanged
-                (@androidx.annotation.Nullable List < ExternalSub > externalSubs) {
+                (@Nullable List <ExternalSub> externalSubs) {
             for (ExternalSub externalSub : externalSubs) {
                 if (!addedExternalSubs.contains(externalSub)) {
                     mService.addSubtitleTrack(externalSub.getSubtitlePath(), false);

@@ -41,8 +41,11 @@ import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.MainThread
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -77,7 +80,7 @@ private const val SEARCH_TIMEOUT_MILLIS = 5000
 
 @ExperimentalCoroutinesApi
 @Suppress("UNUSED_PARAMETER")
-class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
+class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
 
     private lateinit var binding: AudioPlayerBinding
     private lateinit var playlistAdapter: PlaylistAdapter
@@ -127,7 +130,7 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
         super.onViewCreated(view, savedInstanceState)
         DEFAULT_BACKGROUND_DARKER_ID = UiTools.getResourceFromAttribute(view.context, R.attr.background_default_darker)
         DEFAULT_BACKGROUND_ID = UiTools.getResourceFromAttribute(view.context, R.attr.background_default)
-        binding.songsList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(view.context)
+        binding.songsList.layoutManager = LinearLayoutManager(view.context)
         binding.songsList.adapter = playlistAdapter
         binding.audioMediaSwitcher.setAudioMediaSwitcherListener(headerMediaSwitcherListener)
         binding.coverMediaSwitcher.setAudioMediaSwitcherListener(mCoverMediaSwitcherListener)
@@ -383,16 +386,16 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
         binding.progressBar.visibility = if (progressBarVisible) View.VISIBLE else View.GONE
         val cl = binding.header
         TransitionManager.beginDelayedTransition(cl, AutoTransition().setDuration(200))
-        androidx.constraintlayout.widget.ConstraintSet().apply {
+        ConstraintSet().apply {
             clone(cl)
-            setVisibility(R.id.playlist_ab_repeat, if (abVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
-            setVisibility(R.id.playlist_search, if (searchVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
-            setVisibility(R.id.playlist_switch, if (playlistSwitchVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
-            setVisibility(R.id.adv_function, if (advFuncVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
-            setVisibility(R.id.header_play_pause, if (headerPlayPauseVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
-            setVisibility(R.id.header_time, if (headerTimeVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
-            setVisibility(R.id.playlist_search_text, if (searchTextVisible) androidx.constraintlayout.widget.ConstraintSet.VISIBLE else androidx.constraintlayout.widget.ConstraintSet.GONE)
-            setVisibility(R.id.audio_media_switcher, if (searchTextVisible) androidx.constraintlayout.widget.ConstraintSet.GONE else androidx.constraintlayout.widget.ConstraintSet.VISIBLE)
+            setVisibility(R.id.playlist_ab_repeat, if (abVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.playlist_search, if (searchVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.playlist_switch, if (playlistSwitchVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.adv_function, if (advFuncVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.header_play_pause, if (headerPlayPauseVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.header_time, if (headerTimeVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.playlist_search_text, if (searchTextVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
+            setVisibility(R.id.audio_media_switcher, if (searchTextVisible) ConstraintSet.GONE else ConstraintSet.VISIBLE)
             applyTo(cl)
         }
     }
