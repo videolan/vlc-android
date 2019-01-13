@@ -282,11 +282,14 @@
     <string name="video_min_group_length_title">ビデオをグループ化</string>
     <string name="video_min_group_length_summary">最初の一文字が同じ場合、ビデオがグループ化されます。</string>
     <string name="video_min_group_length_disable">無効化</string>
+    <string name="video_min_group_length_folder">フォルダーごとにグループ化</string>
     <string name="video_min_group_length_first">最初一文字のみ</string>
     <string name="video_min_group_length_short">短い文字列 (6)</string>
     <string name="video_min_group_length_long">長い文字列 (9)</string>
     <string name="media_fast_seek">高速シーク</string>
     <string name="media_fast_seek_summary">メディアを高速にシークしますが、正確でない可能性があります</string>
+    <string name="video_transition_title">ビデオの切替</string>
+    <string name="video_transition_summary">新しいビデオのタイトルを切替時に表示</string>
     <string name="media_seen">ビデオの再生記録マーカー</string>
     <string name="media_seen_summary">ビデオを終わりまで再生した場合に再生済みとマーク</string>
     <string name="force_list_portrait">ポートレートモードでグリッド表示しない</string>
@@ -633,5 +636,6 @@
     <string name="ctx_player_tracks_title">メディアトラック</string>
     <string name="ctx_pip_title">ポップアッププレイヤー</string>
     <string name="device_dialog_title">外部デバイスが接続されました</string>
-    <string name="device_dialog_message">新しいデバイスが検出されました。VLCで使用するようにしますか?</string>
+    <string name="device_dialog_message">TVボックスに新しいストレージデバイスが接続されました。そのデバイスをVLCで使用しますか?</string>
+    <string name="videos_folders_title">フォルダーごとにビデオをグループ化</string>
 </resources>
