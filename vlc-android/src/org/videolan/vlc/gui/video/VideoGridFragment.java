@@ -50,6 +50,7 @@ import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.dialogs.ContextSheetKt;
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
+import org.videolan.vlc.gui.helpers.ItemOffsetDecoration;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IEventsHandler;
@@ -80,6 +81,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     private VideoGridBinding mBinding;
     private String mGroup;
     private Folder mFolder;
+    private RecyclerView.ItemDecoration mGridItemDecoration;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -161,6 +163,12 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mGridItemDecoration = null;
+    }
+
+    @Override
     public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
         mAdapter.showFilename(viewModel.getSort() == Medialibrary.SORT_FILENAME);
         if (mediaWrappers != null) mAdapter.update(mediaWrappers);
@@ -177,6 +185,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
             return;
         }
         final Resources res = getResources();
+        if (mGridItemDecoration == null) mGridItemDecoration = new ItemOffsetDecoration(getResources(), R.dimen.left_right_1610_margin, R.dimen.top_bottom_1610_margin);
         final boolean listMode = res.getBoolean(R.bool.list_mode)
                 || (res.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT &&
                 Settings.INSTANCE.getInstance(requireContext()).getBoolean("force_list_portrait", false));
@@ -185,8 +194,12 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         if (!listMode) {
             final int thumbnailWidth = res.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
             final int margin = mBinding.videoGrid.getPaddingStart() + mBinding.videoGrid.getPaddingEnd();
-            mBinding.videoGrid.setColumnWidth(mBinding.videoGrid.getPerfectColumnWidth(thumbnailWidth, margin));
+            final int columnWidth = mBinding.videoGrid.getPerfectColumnWidth(thumbnailWidth, margin) - (res.getDimensionPixelSize(R.dimen.left_right_1610_margin) * 2);
+            mBinding.videoGrid.setColumnWidth(columnWidth);
             mAdapter.setGridCardWidth(mBinding.videoGrid.getColumnWidth());
+            mBinding.videoGrid.addItemDecoration(mGridItemDecoration);
+        } else {
+            mBinding.videoGrid.removeItemDecoration(mGridItemDecoration);
         }
         mBinding.videoGrid.setNumColumns(listMode ? 1 : -1);
         if (mAdapter.isListMode() != listMode) mAdapter.setListMode(listMode);
