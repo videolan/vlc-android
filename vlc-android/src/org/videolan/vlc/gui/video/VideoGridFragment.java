@@ -50,6 +50,7 @@ import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.dialogs.ContextSheetKt;
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
+import org.videolan.vlc.gui.helpers.ItemOffsetDecoration;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IEventsHandler;
@@ -115,6 +116,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        final View view = inflater.inflate(R.layout.video_grid, container,false);
         mBinding = VideoGridBinding.inflate(inflater, container, false);
         return mBinding.getRoot();
     }
@@ -124,6 +126,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         super.onViewCreated(view, savedInstanceState);
         restart = false;
         final boolean empty = viewModel.getDataset().getValue().isEmpty();
+        mBinding.videoGrid.addItemDecoration(new ItemOffsetDecoration(getResources(), R.dimen.left_right_1610_margin, R.dimen.top_bottom_1610_margin));
         mBinding.loadingFlipper.setVisibility(empty ? View.VISIBLE : View.GONE);
         mBinding.loadingTitle.setVisibility(empty ? View.VISIBLE : View.GONE);
         mBinding.setEmpty(empty);
@@ -184,7 +187,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         if (!listMode) {
             final int thumbnailWidth = res.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
             final int margin = mBinding.videoGrid.getPaddingStart() + mBinding.videoGrid.getPaddingEnd();
-            mBinding.videoGrid.setColumnWidth(mBinding.videoGrid.getPerfectColumnWidth(thumbnailWidth, margin));
+            final int columnWidth = mBinding.videoGrid.getPerfectColumnWidth(thumbnailWidth, margin) - (res.getDimensionPixelSize(R.dimen.left_right_1610_margin) * 2);
+            mBinding.videoGrid.setColumnWidth(columnWidth);
             mAdapter.setGridCardWidth(mBinding.videoGrid.getColumnWidth());
         }
         mBinding.videoGrid.setNumColumns(listMode ? 1 : -1);

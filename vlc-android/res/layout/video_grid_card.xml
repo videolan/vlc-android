@@ -57,10 +57,6 @@
         android:longClickable="true"
         android:onClick="@{holder::onClick}"
         android:onLongClick="@{holder::onLongClick}"
-        android:paddingLeft="@dimen/left_right_1610_margin"
-        android:paddingRight="@dimen/left_right_1610_margin"
-        android:paddingBottom="@dimen/top_bottom_1610_margin"
-        android:paddingTop="@dimen/top_bottom_1610_margin"
         android:background="@{bgColor}" >
 
         <!-- Image loading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
