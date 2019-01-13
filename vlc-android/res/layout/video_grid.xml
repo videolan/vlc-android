@@ -33,7 +33,7 @@
             android:layout_height="match_parent"
             android:padding="@dimen/half_default_margin"
             android:clipToPadding="false"
-            android:scrollbarStyle="outsideInset"
+            android:scrollbarStyle="outsideOverlay"
             android:numColumns="auto_fit"
             android:fastScrollEnabled="true"
             android:scrollbars="vertical"
