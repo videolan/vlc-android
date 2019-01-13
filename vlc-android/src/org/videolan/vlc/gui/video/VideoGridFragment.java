@@ -184,7 +184,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         // Select between grid or list
         if (!listMode) {
             final int thumbnailWidth = res.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
-            final int margin = res.getDimensionPixelSize(R.dimen.default_margin);
+            final int margin = mBinding.videoGrid.getPaddingStart() + mBinding.videoGrid.getPaddingEnd();
             mBinding.videoGrid.setColumnWidth(mBinding.videoGrid.getPerfectColumnWidth(thumbnailWidth, margin));
             mAdapter.setGridCardWidth(mBinding.videoGrid.getColumnWidth());
         }
