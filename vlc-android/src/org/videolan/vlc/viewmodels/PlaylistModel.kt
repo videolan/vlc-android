@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.viewmodels
 
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
@@ -205,7 +206,7 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
     }
 
     companion object {
-        fun get(fragment: androidx.fragment.app.Fragment) = ViewModelProviders.of(fragment).get(PlaylistModel::class.java)
+        fun get(fragment: Fragment) = ViewModelProviders.of(fragment).get(PlaylistModel::class.java)
     }
 }
 

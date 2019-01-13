@@ -13,8 +13,11 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.viewmodels.SubtitlesModel
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 
-class SubtitleDownloadFragment : androidx.fragment.app.Fragment() {
+class SubtitleDownloadFragment : Fragment() {
     private lateinit var viewModel: SubtitlesModel
     private lateinit var adapter: SubtitlesAdapter
     lateinit var mediaPath: String
@@ -36,9 +39,9 @@ class SubtitleDownloadFragment : androidx.fragment.app.Fragment() {
 
         adapter = SubtitlesAdapter((parentFragment as SubtitleDownloaderDialogFragment).listEventActor)
         val recyclerView = binding.subtitleList
-        recyclerView.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(activity, androidx.recyclerview.widget.DividerItemDecoration.VERTICAL))
+        recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         viewModel.result.observe(this, Observer {
             adapter.setList(it)
             if (it.isNotEmpty()) focusOnView(binding.scrollView, binding.swipeContainer)

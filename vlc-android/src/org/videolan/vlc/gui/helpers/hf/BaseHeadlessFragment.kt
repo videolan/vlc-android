@@ -33,8 +33,8 @@ import kotlinx.coroutines.launch
 import org.videolan.vlc.util.AppScope
 
 open class
-BaseHeadlessFragment : androidx.fragment.app.Fragment() {
-    protected var mActivity: androidx.fragment.app.FragmentActivity? = null
+BaseHeadlessFragment : Fragment() {
+    protected var mActivity: FragmentActivity? = null
     var channel: SendChannel<Unit>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +44,7 @@ BaseHeadlessFragment : androidx.fragment.app.Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is androidx.fragment.app.FragmentActivity) mActivity = context
+        if (context is FragmentActivity) mActivity = context
     }
 
     override fun onDetach() {

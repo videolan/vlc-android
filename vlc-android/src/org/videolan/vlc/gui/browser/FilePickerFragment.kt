@@ -29,6 +29,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -49,7 +50,7 @@ class FilePickerFragment : FileBrowserFragment() {
         get() = false
 
 
-    override fun createFragment(): androidx.fragment.app.Fragment {
+    override fun createFragment(): Fragment {
         return FilePickerFragment()
     }
 

@@ -26,6 +26,7 @@ import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.DialogFragment;
 import androidx.appcompat.app.AppCompatDialog;
 import android.view.LayoutInflater;
@@ -36,7 +37,7 @@ import org.videolan.libvlc.Dialog;
 import org.videolan.vlc.BR;
 import org.videolan.vlc.VLCApplication;
 
-public abstract class VlcDialog<T extends Dialog, B extends androidx.databinding.ViewDataBinding> extends DialogFragment {
+public abstract class VlcDialog<T extends Dialog, B extends ViewDataBinding> extends DialogFragment {
 
     T mVlcDialog;
     B mBinding;

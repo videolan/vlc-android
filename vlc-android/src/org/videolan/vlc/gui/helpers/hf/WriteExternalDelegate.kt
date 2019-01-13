@@ -10,7 +10,6 @@ import android.provider.DocumentsContract
 import androidx.fragment.app.FragmentActivity
 import androidx.documentfile.provider.DocumentFile
 import androidx.appcompat.app.AlertDialog
-import androidx.preference.PreferenceManager
 import android.text.TextUtils
 import kotlinx.coroutines.channels.Channel
 import org.videolan.libvlc.util.AndroidUtil
@@ -62,13 +61,13 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
                 Settings.getInstance(context).edit()
                         .putString("tree_uri_$storage", treeUri.toString())
                         .apply()
-                val treeFile = androidx.documentfile.provider.DocumentFile.fromTreeUri(context, treeUri)
+                val treeFile = DocumentFile.fromTreeUri(context, treeUri)
                 val contentResolver = context.contentResolver
 
                 // revoke access if a permission already exists
                 val persistedUriPermissions = contentResolver.persistedUriPermissions
                 for (uriPermission in persistedUriPermissions) {
-                    val file = androidx.documentfile.provider.DocumentFile.fromTreeUri(context, uriPermission.uri)
+                    val file = DocumentFile.fromTreeUri(context, uriPermission.uri)
                     if (treeFile?.name == file?.name) {
                         contentResolver.releasePersistableUriPermission(uriPermission.uri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                         return
@@ -91,7 +90,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
         private var permissions = VLCApplication.getAppContext().contentResolver.persistedUriPermissions
         private lateinit var storage: String
 
-        fun askForExtWrite(activity: androidx.fragment.app.FragmentActivity?, uri: Uri, cb: Runnable? = null) {
+        fun askForExtWrite(activity: FragmentActivity?, uri: Uri, cb: Runnable? = null) {
             if (activity === null) return
             val fragment = WriteExternalDelegate()
             val channel = if (cb != null) Channel<Unit>(1) else null

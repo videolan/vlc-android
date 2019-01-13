@@ -31,8 +31,11 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
@@ -54,7 +57,7 @@ const val TAG = "VLC/MrlPanelFragment"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class MRLPanelFragment : androidx.fragment.app.DialogFragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener, CtxActionReceiver {
+class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener, CtxActionReceiver {
 
     private lateinit var adapter: MRLAdapter
     private lateinit var editText: com.google.android.material.textfield.TextInputLayout
@@ -69,7 +72,7 @@ class MRLPanelFragment : androidx.fragment.app.DialogFragment(), View.OnKeyListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(androidx.fragment.app.DialogFragment.STYLE_NORMAL, 0)
+        setStyle(DialogFragment.STYLE_NORMAL, 0)
         viewModel = ViewModelProviders.of(this).get(StreamsModel::class.java)
     }
 
@@ -82,8 +85,8 @@ class MRLPanelFragment : androidx.fragment.app.DialogFragment(), View.OnKeyListe
 
         adapter = MRLAdapter(listEventActor)
         val recyclerView = binding.mrlList
-        recyclerView.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(activity, androidx.recyclerview.widget.DividerItemDecoration.VERTICAL))
-        recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
         viewModel.observableHistory.observe(this, Observer { adapter.setList(it) })
         binding.play.setOnClickListener(this)

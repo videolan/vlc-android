@@ -34,7 +34,9 @@ import android.view.View
 import android.widget.CheckBox
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.collection.SimpleArrayMap
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
@@ -62,14 +64,14 @@ const val KEY_IN_MEDIALIB = "key_in_medialib"
 class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
 
     internal var mScannedDirectory = false
-    private val mProcessingFolders = androidx.collection.SimpleArrayMap<String, CheckBox>()
+    private val mProcessingFolders = SimpleArrayMap<String, CheckBox>()
     private var mSnack: com.google.android.material.snackbar.Snackbar? = null
     private var mAlertDialog: AlertDialog? = null
 
     override val categoryTitle: String
         get() = getString(R.string.directories_summary)
 
-    override fun createFragment(): androidx.fragment.app.Fragment {
+    override fun createFragment(): Fragment {
         return StorageBrowserFragment()
     }
 

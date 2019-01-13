@@ -21,6 +21,7 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -135,7 +136,7 @@ open class VideosModel(context: Context, private val group: String?, val folder 
     companion object {
         fun get(
                 context: Context,
-                fragment: androidx.fragment.app.Fragment,
+                fragment: Fragment,
                 sort : Int = Medialibrary.SORT_DEFAULT,
                 minGroupLen : Int = 0,
                 desc : Boolean? = null,

@@ -57,4 +57,4 @@ class TimeUpdater(private val activity: Activity, private val tv: TextView) : Li
     }
 }
 
-fun androidx.fragment.app.FragmentActivity.registerTimeView(tv: TextView?) = tv?.let { lifecycle.addObserver(TimeUpdater(this, it)) }
+fun FragmentActivity.registerTimeView(tv: TextView?) = tv?.let { lifecycle.addObserver(TimeUpdater(this, it)) }

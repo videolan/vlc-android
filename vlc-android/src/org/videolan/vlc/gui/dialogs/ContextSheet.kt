@@ -27,6 +27,9 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Dispatchers
@@ -70,8 +73,8 @@ class ContextSheet : com.google.android.material.bottomsheet.BottomSheetDialogFr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<TextView>(R.id.ctx_title).text = arguments?.getString(CTX_TITLE_KEY) ?: ""
-        val list = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.ctx_list)
-        list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext())
+        val list = view.findViewById<RecyclerView>(R.id.ctx_list)
+        list.layoutManager = LinearLayoutManager(requireContext())
         list.adapter = ContextAdapter()
         val flags = arguments?.getInt(CTX_FLAGS_KEY) ?: 0
         options = populateOptions(flags)
@@ -110,11 +113,11 @@ class ContextSheet : com.google.android.material.bottomsheet.BottomSheetDialogFr
         if (flags and CTX_DELETE != 0) add(Simple(CTX_DELETE, getString(R.string.delete), R.drawable.ic_ctx_delete_normal))
     }
 
-    inner class ContextAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<ContextAdapter.ViewHolder>() {
+    inner class ContextAdapter : RecyclerView.Adapter<ContextAdapter.ViewHolder>() {
 
         private val inflater: LayoutInflater by lazy(LazyThreadSafetyMode.NONE) { LayoutInflater.from(requireContext()) }
 
-        inner class ViewHolder(val binding : ContextItemBinding) : androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
+        inner class ViewHolder(val binding : ContextItemBinding) : RecyclerView.ViewHolder(binding.root) {
             private val textColor = binding.contextOptionTitle.currentTextColor
             private val focusedColor by lazy(LazyThreadSafetyMode.NONE) { ContextCompat.getColor(itemView.context, R.color.orange500transparent) }
             init {
@@ -144,7 +147,7 @@ interface CtxActionReceiver {
     fun onCtxAction(position: Int, option: Int)
 }
 
-fun showContext(activity: androidx.fragment.app.FragmentActivity, receiver: CtxActionReceiver, position: Int, title: String, flags: Int) {
+fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver, position: Int, title: String, flags: Int) {
     val ctxDialog = ContextSheet()
     ctxDialog.arguments = Bundle(3).apply {
         putString(CTX_TITLE_KEY, title)

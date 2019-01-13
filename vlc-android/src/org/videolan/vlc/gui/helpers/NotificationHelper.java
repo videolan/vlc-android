@@ -99,7 +99,7 @@ public class NotificationHelper {
         return builder.build();
     }
 
-    private static androidx.core.app.NotificationCompat.Builder scanCompatBuilder;
+    private static NotificationCompat.Builder scanCompatBuilder;
     private static final Intent notificationIntent = new Intent();
     public static Notification createScanNotification(Context ctx, String progressText, boolean updateActions, boolean paused) {
         if (scanCompatBuilder == null) {

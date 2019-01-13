@@ -10,7 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModelProviders
+import kotlinx.coroutines.NonCancellable.isActive
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
@@ -28,7 +32,7 @@ private const val MEDIA_PATHS = "MEDIA_PATHS"
 const val MEDIA_PATH = "MEDIA_PATH"
 
 @ObsoleteCoroutinesApi
-class SubtitleDownloaderDialogFragment: androidx.fragment.app.DialogFragment() {
+class SubtitleDownloaderDialogFragment: DialogFragment() {
     private lateinit var adapter: ViewPagerAdapter
     private lateinit var paths: List<String>
     private lateinit var viewModel: SubtitlesModel
@@ -117,7 +121,7 @@ class SubtitleDownloaderDialogFragment: androidx.fragment.app.DialogFragment() {
         }
     }
 
-    class ViewPagerAdapter(context: Context, fragmentManager: androidx.fragment.app.FragmentManager, private val paths: List<String>): androidx.fragment.app.FragmentPagerAdapter(fragmentManager) {
+    class ViewPagerAdapter(context: Context, fragmentManager: FragmentManager, private val paths: List<String>): FragmentPagerAdapter(fragmentManager) {
         private val tabTitles = arrayOf(context.getString(R.string.download), context.getString(R.string.history))
 
         override fun getPageTitle(position: Int): String? = tabTitles[position]
