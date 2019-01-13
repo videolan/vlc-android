@@ -94,6 +94,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
         if (!mBackgroundManager.isAttached()) mBackgroundManager.attachToView(getView());
     }
 
+    @Override
     public void onPause() {
         mBackgroundManager.release();
         super.onPause();

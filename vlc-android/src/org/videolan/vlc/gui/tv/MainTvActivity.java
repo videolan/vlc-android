@@ -137,6 +137,7 @@ public class MainTvActivity extends BaseTvActivity {
         }
     };
 
+    @Override
     protected void refresh() {
         mMediaLibrary.reload();
     }

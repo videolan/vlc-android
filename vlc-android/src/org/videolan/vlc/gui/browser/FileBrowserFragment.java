@@ -88,6 +88,7 @@ public class FileBrowserFragment extends BaseBrowserFragment {
         else viewModel = ViewModelProviders.of(this, new BrowserModel.Factory(requireContext(), getMrl(), BrowserModelKt.TYPE_FILE, getShowHiddenFiles())).get(BrowserModel.class);
     }
 
+    @Override
     public String getTitle() {
         if (isRootDirectory()) return getCategoryTitle();
         else {

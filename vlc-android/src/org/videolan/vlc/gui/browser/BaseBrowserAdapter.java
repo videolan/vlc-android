@@ -179,6 +179,7 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
             fragment.browse(mw, binding.browserCheckbox.isChecked());
         }
 
+        @Override
         public void onCheckBoxClick(View v) {
             if (getItem(getLayoutPosition()).getItemType() == TYPE_STORAGE)
                 checkBoxAction(v, ((Storage) getItem(getLayoutPosition())).getUri().toString());
@@ -189,18 +190,21 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
             return TYPE_MEDIA;
         }
 
+        @Override
         public void onClick(View v){
             int position = getLayoutPosition();
             if (position < getDataset().size() && position >= 0)
                 fragment.onClick(v, position, getDataset().get(position));
         }
 
+        @Override
         public void onMoreClick(View v) {
             int position = getLayoutPosition();
             if (position < getDataset().size() && position >= 0)
                 fragment.onCtxClick(v, position, getDataset().get(position));
         }
 
+        @Override
         public boolean onLongClick(View v) {
             int position = getLayoutPosition();
             if (getItem(position).getItemType() == TYPE_STORAGE && AndroidDevices.showTvUi(itemView.getContext())) {
@@ -238,12 +242,14 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
         return getDataset();
     }
 
+    @Override
     public MediaLibraryItem getItem(int position){
         if (position < 0 || position >= getDataset().size())
             return null;
         return getDataset().get(position);
     }
 
+    @Override
     public int getItemViewType(int position){
         return getItem(position).getItemType();
     }

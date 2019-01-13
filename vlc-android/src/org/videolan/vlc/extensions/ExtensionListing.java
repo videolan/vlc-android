@@ -188,10 +188,12 @@ public class ExtensionListing implements Parcelable {
      */
     public static final Creator<ExtensionListing> CREATOR
             = new Creator<ExtensionListing>() {
+        @Override
         public ExtensionListing createFromParcel(Parcel in) {
             return new ExtensionListing(in);
         }
 
+        @Override
         public ExtensionListing[] newArray(int size) {
             return new ExtensionListing[size];
         }

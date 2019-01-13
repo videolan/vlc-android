@@ -44,6 +44,7 @@ public class HistoryItem extends MediaLibraryItem {
         return mrl;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
@@ -70,10 +71,12 @@ public class HistoryItem extends MediaLibraryItem {
 
     public static Parcelable.Creator<HistoryItem> CREATOR
             = new Parcelable.Creator<HistoryItem>() {
+        @Override
         public HistoryItem createFromParcel(Parcel in) {
             return new HistoryItem(in);
         }
 
+        @Override
         public HistoryItem[] newArray(int size) {
             return new HistoryItem[size];
         }

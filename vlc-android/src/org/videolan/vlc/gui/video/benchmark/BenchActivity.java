@@ -375,6 +375,7 @@ public class BenchActivity extends ShallowVideoPlayer {
      * @param resultCode  activity result code
      * @param resultData  activity result data
      */
+    @Override
     @TargetApi(21)
     public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         if (requestCode == REQUEST_SCREENSHOT && resultData != null && resultCode == RESULT_OK) {

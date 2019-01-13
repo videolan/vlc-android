@@ -78,6 +78,7 @@ public class AudioPlayerActivity extends BaseTvActivity {
     private PlaylistModel model;
     private SharedPreferences mSettings;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.tv_audio_player);
@@ -169,6 +170,7 @@ public class AudioPlayerActivity extends BaseTvActivity {
         });
     }
 
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event){
         switch (keyCode){
             /*
@@ -218,6 +220,7 @@ public class AudioPlayerActivity extends BaseTvActivity {
         model.play(mAdapter.getSelectedItem());
     }
 
+    @Override
     public boolean dispatchGenericMotionEvent(MotionEvent event){
         //Check for a joystick event
         if ((event.getSource() & InputDevice.SOURCE_JOYSTICK) !=

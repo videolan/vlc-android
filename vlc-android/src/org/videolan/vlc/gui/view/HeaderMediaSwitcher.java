@@ -37,6 +37,7 @@ public class HeaderMediaSwitcher extends AudioMediaSwitcher {
         super(context, attrs);
     }
 
+    @Override
     protected void addMediaView(LayoutInflater inflater, String title, String artist, Bitmap cover) {
         View v = inflater.inflate(R.layout.audio_media_switcher_item, this, false);
 

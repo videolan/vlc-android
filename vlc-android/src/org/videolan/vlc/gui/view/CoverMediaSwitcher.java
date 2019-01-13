@@ -35,6 +35,7 @@ public class CoverMediaSwitcher extends AudioMediaSwitcher {
         super(context, attrs);
     }
 
+    @Override
     protected void addMediaView(LayoutInflater inflater, String title, String artist, Bitmap cover) {
 
         if (cover == null) cover = BitmapFactory.decodeResource(getResources(), R.drawable.icon);

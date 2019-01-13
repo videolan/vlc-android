@@ -325,6 +325,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         return TYPE_MEDIA;
     }
 
+    @Override
     public long getId() {
         return mId;
     }
@@ -478,6 +479,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         mDisplayTitle = title;
     }
 
+    @Override
     public void setTitle(String title){
         mTitle = title;
     }
@@ -491,6 +493,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         mArtist = artist;
     }
 
+    @Override
     public String getTitle() {
         if (!TextUtils.isEmpty(mDisplayTitle))
             return mDisplayTitle;
@@ -586,6 +589,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         return mThumbnailGenerated;
     }
 
+    @Override
     public String getArtworkMrl() {
         return mArtworkURL;
     }
@@ -731,9 +735,11 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     }
 
     public static final Parcelable.Creator<MediaWrapper> CREATOR = new Parcelable.Creator<MediaWrapper>() {
+        @Override
         public MediaWrapper createFromParcel(Parcel in) {
             return new MediaWrapper(in);
         }
+        @Override
         public MediaWrapper[] newArray(int size) {
             return new MediaWrapper[size];
         }

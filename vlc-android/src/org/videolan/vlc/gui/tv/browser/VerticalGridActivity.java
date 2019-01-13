@@ -116,6 +116,7 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
         if (mFragment instanceof NetworkBrowserFragment) refresh();
     }
 
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if ((mFragment instanceof DetailsFragment)
                 && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
@@ -125,6 +126,7 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
     public void showProgress(final boolean show){
         runOnUiThread(new Runnable() {
             @Override

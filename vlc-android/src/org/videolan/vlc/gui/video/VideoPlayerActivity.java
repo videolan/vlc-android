@@ -871,6 +871,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         return true;
     }
 
+    @Override
     public boolean dispatchGenericMotionEvent(MotionEvent event) {
         return !mIsLoading && mTouchDelegate != null && mTouchDelegate.dispatchGenericMotionEvent(event);
     }
@@ -2706,11 +2707,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         mAlertDialog = new AlertDialog.Builder(VideoPlayerActivity.this)
                 .setMessage(R.string.confirm_resume)
                 .setPositiveButton(R.string.resume_from_position, new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int id) {
                         loadMedia(false);
                     }
                 })
                 .setNegativeButton(R.string.play_from_start, new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int id) {
                         loadMedia(true);
                     }

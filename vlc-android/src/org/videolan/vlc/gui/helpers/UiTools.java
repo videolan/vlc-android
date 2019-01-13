@@ -373,11 +373,13 @@ public class UiTools {
                 .setMessage(R.string.exit_app_msg)
                 .setTitle(R.string.exit_app)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int id) {
                 activity.finish();
             }
         })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
             }
@@ -397,11 +399,13 @@ public class UiTools {
                     .setCancelable(false)
                     .setMessage(message)
                     .setPositiveButton(R.string.ml_external_storage_accept, new DialogInterface.OnClickListener() {
+                        @Override
                         public void onClick(DialogInterface dialog, int id) {
                             if (activity != null) ContextCompat.startForegroundService(activity, si);
                         }
                     })
                     .setNegativeButton(R.string.ml_external_storage_decline, new DialogInterface.OnClickListener() {
+                        @Override
                         public void onClick(DialogInterface dialog, int id) {
                             Settings.INSTANCE.getInstance(activity)
                                     .edit()
@@ -417,11 +421,13 @@ public class UiTools {
                     .setCancelable(false)
                 .setMessage(message)
                 .setPositiveButton(R.string.ml_external_storage_accept, new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int id) {
                         if (activity != null) ContextCompat.startForegroundService(activity, si);
                     }
                 })
                 .setNegativeButton(R.string.ml_external_storage_decline, new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int id) {
                         Settings.INSTANCE.getInstance(activity)
                                 .edit()

@@ -69,6 +69,7 @@ public abstract class PlaybackServiceFragment extends Fragment implements Playba
         unregisterPlaybackService(fragment.getActivity(), cb);
     }
 
+    @Override
     public void onStart(){
         super.onStart();
         registerPlaybackService(this, this);

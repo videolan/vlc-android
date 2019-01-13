@@ -195,6 +195,7 @@ public abstract class Dialog {
             mId = id;
         }
 
+        @Override
         @MainThread
         public void dismiss() {
             if (mId != 0) {

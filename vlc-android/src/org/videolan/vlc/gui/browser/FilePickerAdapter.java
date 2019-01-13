@@ -31,6 +31,7 @@ public class FilePickerAdapter extends BaseBrowserAdapter {
         super(fragment);
     }
 
+    @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         if (holder instanceof MediaViewHolder) {
             final MediaViewHolder vh = (MediaViewHolder) holder;

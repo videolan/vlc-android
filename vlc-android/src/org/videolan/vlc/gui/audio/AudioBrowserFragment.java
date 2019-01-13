@@ -347,10 +347,12 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         return models[mViewPager.getCurrentItem()];
     }
 
+    @Override
     public AudioBrowserAdapter getCurrentAdapter() {
         return (AudioBrowserAdapter) (getCurrentRV()).getAdapter();
     }
 
+    @Override
     protected RecyclerView getCurrentRV() {
         return mLists[mViewPager.getCurrentItem()];
     }

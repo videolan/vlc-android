@@ -108,6 +108,7 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
         if (ariane != null) ariane.setVisibility(View.GONE);
     }
 
+    @Override
     public void onStart() {
         super.onStart();
         updateActionBar();
@@ -334,6 +335,7 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
         getViewModel().filter(query);
     }
 
+    @Override
     public void restoreList() {
         getViewModel().restore();
     }

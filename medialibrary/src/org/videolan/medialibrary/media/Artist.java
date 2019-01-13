@@ -37,6 +37,7 @@ public class Artist extends MediaLibraryItem {
         return shortBio;
     }
 
+    @Override
     public String getArtworkMrl() {
         return artworkMrl;
     }
@@ -93,6 +94,7 @@ public class Artist extends MediaLibraryItem {
         return ml.isInitiated() ? nativeGetAlbumsCount(ml, mId) : 0;
     }
 
+    @Override
     public MediaWrapper[] getTracks() {
         return getTracks(Medialibrary.SORT_ALBUM, true);
     }
@@ -107,6 +109,7 @@ public class Artist extends MediaLibraryItem {
         return ml.isInitiated() ? nativeGetPagedMedia(ml, mId, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
+    @Override
     public int getTracksCount() {
         Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetTracksCount(ml, mId) : 0;
@@ -138,10 +141,12 @@ public class Artist extends MediaLibraryItem {
 
     public static Parcelable.Creator<Artist> CREATOR
             = new Parcelable.Creator<Artist>() {
+        @Override
         public Artist createFromParcel(Parcel in) {
             return new Artist(in);
         }
 
+        @Override
         public Artist[] newArray(int size) {
             return new Artist[size];
         }

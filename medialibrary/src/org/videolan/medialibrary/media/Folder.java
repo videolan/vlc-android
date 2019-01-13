@@ -70,10 +70,12 @@ public class Folder extends MediaLibraryItem {
     }
 
     public static Parcelable.Creator<Folder> CREATOR = new Parcelable.Creator<Folder>() {
+        @Override
         public Folder createFromParcel(Parcel in) {
             return new Folder(in);
         }
 
+        @Override
         public Folder[] newArray(int size) {
             return new Folder[size];
         }

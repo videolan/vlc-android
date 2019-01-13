@@ -281,6 +281,7 @@ public class AudioUtil {
             final String name = f.getName().substring(0, index);
             final String ext  = f.getName().substring(index);
             final File[] files = folder.listFiles(new FilenameFilter() {
+                @Override
                 public boolean accept(File dir, String filename) {
                     return filename.startsWith(name) && Arrays.asList(imageExt).contains(ext);
                 }

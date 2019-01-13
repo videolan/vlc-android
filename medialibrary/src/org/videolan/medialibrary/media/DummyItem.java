@@ -50,10 +50,12 @@ public class DummyItem extends MediaLibraryItem {
 
     public static Parcelable.Creator<DummyItem> CREATOR
             = new Parcelable.Creator<DummyItem>() {
+        @Override
         public DummyItem createFromParcel(Parcel in) {
             return new DummyItem(in);
         }
 
+        @Override
         public DummyItem[] newArray(int size) {
             return new DummyItem[size];
         }

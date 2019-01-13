@@ -50,5 +50,6 @@ public class GridFragment extends VerticalGridSupportFragment implements Browser
         setAdapter(mAdapter);
     }
 
+    @Override
     public void refresh() {}
 }

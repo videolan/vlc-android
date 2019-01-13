@@ -99,6 +99,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
         });
     }
 
+    @Override
     public void onStart() {
         super.onStart();
         if (!isRootDirectory()) LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
@@ -164,6 +165,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     /**
      * Update views visibility and emptiness info
      */
+    @Override
     protected void updateEmptyView() {
         if (getBinding() == null) return;
         if (ExternalMonitor.INSTANCE.isConnected()) {
