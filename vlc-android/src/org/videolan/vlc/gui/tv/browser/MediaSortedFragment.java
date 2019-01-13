@@ -59,6 +59,7 @@ public abstract class MediaSortedFragment<T extends BaseModel<? extends MediaLib
         mShowHiddenFiles = Settings.INSTANCE.getInstance(requireContext()).getBoolean("browser_show_hidden_files", false);
     }
 
+    @Override
     public void onPause(){
         super.onPause();
         ((BrowserActivityInterface)getActivity()).updateEmptyView(false);

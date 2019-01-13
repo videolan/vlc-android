@@ -146,6 +146,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
         return getString(R.string.history);
     }
 
+    @Override
     public void clear(){}
 
     private void updateEmptyView() {
@@ -158,6 +159,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
         }
     }
 
+    @Override
     public boolean isEmpty() {
         return mHistoryAdapter.isEmpty();
     }

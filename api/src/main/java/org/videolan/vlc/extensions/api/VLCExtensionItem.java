@@ -185,10 +185,12 @@ public class VLCExtensionItem implements Parcelable {
 
     public static final Parcelable.Creator<VLCExtensionItem> CREATOR = new
             Parcelable.Creator<VLCExtensionItem>() {
+                @Override
                 public VLCExtensionItem createFromParcel(Parcel in) {
                     return new VLCExtensionItem(in);
                 }
 
+                @Override
                 public VLCExtensionItem[] newArray(int size) {
                     return new VLCExtensionItem[size];
                 }

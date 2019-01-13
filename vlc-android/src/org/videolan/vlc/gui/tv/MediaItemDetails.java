@@ -72,10 +72,12 @@ public class MediaItemDetails implements Parcelable {
 
     public static final Parcelable.Creator<MediaItemDetails> CREATOR
             = new Parcelable.Creator<MediaItemDetails>() {
+        @Override
         public MediaItemDetails createFromParcel(Parcel in) {
             return new MediaItemDetails(in);
         }
 
+        @Override
         public MediaItemDetails[] newArray(int size) {
             return new MediaItemDetails[size];
         }

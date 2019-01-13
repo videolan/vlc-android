@@ -34,12 +34,14 @@ public class MultiSelectListPreferenceDialogFragmentCompat extends PreferenceDia
         return (MultiSelectListPreference)this.getPreference();
     }
 
+   @Override
    protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
         super.onPrepareDialogBuilder(builder);
         final MultiSelectListPreference preference = getListPreference();
         if (preference.getEntries() != null && preference.getEntryValues() != null) {
             boolean[] checkedItems = getSelectedItems();
             builder.setMultiChoiceItems(preference.getEntries(), checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+                @Override
                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                     mPreferenceChanged = true;
                     if (isChecked) {
@@ -56,6 +58,7 @@ public class MultiSelectListPreferenceDialogFragmentCompat extends PreferenceDia
         }
     }
 
+    @Override
     public void onDialogClosed(boolean positiveResult) {
         MultiSelectListPreference preference = getListPreference();
         if (positiveResult && mPreferenceChanged) {

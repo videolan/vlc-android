@@ -38,6 +38,7 @@ public class Album extends MediaLibraryItem {
         }
     }
 
+    @Override
     public long getId() {
         return mId;
     }
@@ -51,6 +52,7 @@ public class Album extends MediaLibraryItem {
         return releaseYear;
     }
 
+    @Override
     public String getArtworkMrl() {
         return artworkMrl;
     }
@@ -60,6 +62,7 @@ public class Album extends MediaLibraryItem {
         return null;
     }
 
+    @Override
     public int getTracksCount() {
         return mTracksCount;
     }
@@ -73,6 +76,7 @@ public class Album extends MediaLibraryItem {
         return duration;
     }
 
+    @Override
     public MediaWrapper[] getTracks() {
         return getTracks(Medialibrary.SORT_ALBUM, false);
     }
@@ -121,10 +125,12 @@ public class Album extends MediaLibraryItem {
 
     public static Parcelable.Creator<Album> CREATOR
             = new Parcelable.Creator<Album>() {
+        @Override
         public Album createFromParcel(Parcel in) {
             return new Album(in);
         }
 
+        @Override
         public Album[] newArray(int size) {
             return new Album[size];
         }

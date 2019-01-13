@@ -24,10 +24,12 @@ import org.videolan.vlc.R;
 
 public class VLCAppWidgetProviderWhite extends VLCAppWidgetProvider {
 
+    @Override
     protected int getLayout() {
         return R.layout.widget_w;
     }
 
+    @Override
     protected int getPlayPauseImage(boolean isPlaying){
         return isPlaying ? R.drawable.ic_widget_pause : R.drawable.ic_widget_play;
     }

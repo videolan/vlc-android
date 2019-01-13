@@ -245,6 +245,7 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
             mExtensionServiceConnection = null;
     }
 
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         final Fragment current = mNavigator.getCurrentFragment();
         if (!(current instanceof ExtensionBrowser)) getSupportFragmentManager().putFragment(outState, "current_fragment", current);

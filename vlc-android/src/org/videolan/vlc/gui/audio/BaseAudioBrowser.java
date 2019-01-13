@@ -145,6 +145,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
         return true;
     }
 
+    @Override
     public void onDestroyActionMode(ActionMode actionMode) {
         onDestroyActionMode(getCurrentAdapter());
     }

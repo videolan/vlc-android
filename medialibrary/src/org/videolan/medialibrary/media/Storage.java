@@ -41,10 +41,12 @@ public class Storage extends MediaLibraryItem {
         mTitle = name;
     }
 
+    @Override
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }
@@ -62,10 +64,12 @@ public class Storage extends MediaLibraryItem {
 
     public static Parcelable.Creator<Storage> CREATOR
             = new Parcelable.Creator<Storage>() {
+        @Override
         public Storage createFromParcel(Parcel in) {
             return new Storage(in);
         }
 
+        @Override
         public Storage[] newArray(int size) {
             return new Storage[size];
         }

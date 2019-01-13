@@ -38,6 +38,7 @@ public class Genre extends MediaLibraryItem {
         return ml.isInitiated() ? nativeGetArtists(ml, mId, sort, desc) : new Artist[0];
     }
 
+    @Override
     public MediaWrapper[] getTracks() {
         return getTracks(Medialibrary.SORT_ALBUM, false);
     }
@@ -52,6 +53,7 @@ public class Genre extends MediaLibraryItem {
         return ml.isInitiated() ? nativeGetPagedTracks(ml, mId, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
+    @Override
     public int getTracksCount() {
         Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetTracksCount(ml, mId) : 0;
@@ -104,10 +106,12 @@ public class Genre extends MediaLibraryItem {
 
     public static Parcelable.Creator<Genre> CREATOR
             = new Parcelable.Creator<Genre>() {
+        @Override
         public Genre createFromParcel(Parcel in) {
             return new Genre(in);
         }
 
+        @Override
         public Genre[] newArray(int size) {
             return new Genre[size];
         }

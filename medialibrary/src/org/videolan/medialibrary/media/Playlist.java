@@ -17,6 +17,7 @@ public class Playlist extends MediaLibraryItem {
         mTracksCount = trackCount;
     }
 
+    @Override
     public MediaWrapper[] getTracks() {
         Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetTracks(ml, mId) : Medialibrary.EMPTY_COLLECTION;
@@ -27,6 +28,7 @@ public class Playlist extends MediaLibraryItem {
         return ml.isInitiated() ? nativeGetPagedTracks(ml, mId, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
+    @Override
     public int getTracksCount() {
         return mTracksCount;
     }
@@ -93,10 +95,12 @@ public class Playlist extends MediaLibraryItem {
 
     public static Parcelable.Creator<Playlist> CREATOR
             = new Parcelable.Creator<Playlist>() {
+        @Override
         public Playlist createFromParcel(Parcel in) {
             return new Playlist(in);
         }
 
+        @Override
         public Playlist[] newArray(int size) {
             return new Playlist[size];
         }

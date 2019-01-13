@@ -250,6 +250,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
             }
         }
 
+        @Override
         public int getType() {
             return MediaLibraryItem.TYPE_MEDIA;
         }

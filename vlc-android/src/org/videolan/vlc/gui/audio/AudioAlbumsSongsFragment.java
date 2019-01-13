@@ -203,6 +203,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         }
     };
 
+    @Override
     public void clear() {
         mAlbumsAdapter.clear();
         mSongsAdapter.clear();
@@ -242,10 +243,12 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         mLists[tab.getPosition()].smoothScrollToPosition(0);
     }
 
+    @Override
     public AudioBrowserAdapter getCurrentAdapter() {
         return (AudioBrowserAdapter) getCurrentRV().getAdapter();
     }
 
+    @Override
     protected RecyclerView getCurrentRV() {
         return mLists[mViewPager.getCurrentItem()];
     }

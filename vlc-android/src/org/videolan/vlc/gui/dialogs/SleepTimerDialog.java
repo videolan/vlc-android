@@ -53,6 +53,7 @@ public class SleepTimerDialog extends PickTimeFragment {
     }
 
 
+    @Override
     protected void executeAction() {
         long hours = !mHours.equals("") ? Long.parseLong(mHours) * HOURS_IN_MICROS : 0l;
         long minutes = !mMinutes.equals("") ? Long.parseLong(mMinutes) * MINUTES_IN_MICROS : 0l;

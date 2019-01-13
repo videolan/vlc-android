@@ -95,6 +95,7 @@ public class PlaylistAdapter extends DiffUtilAdapter<MediaWrapper, PlaylistAdapt
         return getDataset().size();
     }
 
+    @Override
     @MainThread
     public MediaWrapper getItem(int position) {
         if (position >= 0 && position < getItemCount())

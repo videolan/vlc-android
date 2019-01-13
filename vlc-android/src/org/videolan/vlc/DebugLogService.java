@@ -76,21 +76,27 @@ public class DebugLogService extends Service implements Logcat.Callback, Runnabl
         DebugLogServiceStub(DebugLogService service) {
             mService = service;
         }
+        @Override
         public void start() {
             mService.start();
         }
+        @Override
         public void stop() {
             mService.stop();
         }
+        @Override
         public void clear() {
             mService.clear();
         }
+        @Override
         public void save() {
             mService.save();
         }
+        @Override
         public void registerCallback(IDebugLogServiceCallback cb) {
             mService.registerCallback(cb);
         }
+        @Override
         public void unregisterCallback(IDebugLogServiceCallback cb) {
             mService.unregisterCallback(cb);
         }
@@ -214,6 +220,7 @@ public class DebugLogService extends Service implements Logcat.Callback, Runnabl
         mSaveThread.start();
     }
 
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         return START_STICKY;
     }

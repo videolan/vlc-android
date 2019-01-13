@@ -35,6 +35,7 @@ public class JumpToTimeDialog extends PickTimeFragment {
         return new JumpToTimeDialog();
     }
 
+    @Override
     protected void executeAction() {
         if (mService == null)
             return;
@@ -50,6 +51,7 @@ public class JumpToTimeDialog extends PickTimeFragment {
         return R.string.jump_to_time;
     }
 
+    @Override
     protected int getIcon() {
         return R.attr.ic_jumpto_normal_style;
     }

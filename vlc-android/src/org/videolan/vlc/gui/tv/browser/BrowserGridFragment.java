@@ -57,6 +57,7 @@ public class BrowserGridFragment extends GridFragment implements OnItemViewSelec
     private MediaWrapper mItemSelected;
     private NetworkModel provider;
 
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setOnItemViewSelectedListener(this);
@@ -78,11 +79,13 @@ public class BrowserGridFragment extends GridFragment implements OnItemViewSelec
         });
     }
 
+    @Override
     public void onPause() {
         super.onPause();
         ((BrowserActivityInterface)mContext).updateEmptyView(false);
     }
 
+    @Override
     public void showDetails() {
         if (mItemSelected.getType() == MediaWrapper.TYPE_DIR) {
             final Intent intent = new Intent(getActivity(), DetailsActivity.class);

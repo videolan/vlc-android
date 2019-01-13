@@ -166,6 +166,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         if (mediaWrappers != null) mAdapter.update(mediaWrappers);
     }
 
+    @Override
     public String getTitle() {
         return mGroup == null ? mFolder == null ? getString(R.string.video) : mFolder.getTitle() : mGroup + "\u2026";
     }
@@ -235,6 +236,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         if (activity != null) MediaParsingServiceKt.reload(activity);
     }
 
+    @Override
     public void clear(){
         mAdapter.clear();
     }

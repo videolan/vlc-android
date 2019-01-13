@@ -69,6 +69,7 @@ public class OnRepeatListener implements View.OnTouchListener {
         this(DEFAULT_INITIAL_DELAY, DEFAULT_NORMAL_DELAY, clickListener);
     }
 
+    @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
