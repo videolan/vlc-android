@@ -29,9 +29,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:clipToPadding="false"
                 android:paddingTop="10dp"
-                android:paddingBottom="@dimen/listview_bottom_padding"
-                android:paddingLeft="@dimen/listview_side_padding"
-                android:paddingRight="@dimen/listview_side_padding" />
+                android:paddingBottom="@dimen/listview_bottom_padding" />
             <TextView
                 android:id="@+id/empty"
                 android:layout_width="0dp"
