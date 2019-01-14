@@ -46,10 +46,6 @@ import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
@@ -75,6 +71,7 @@ import org.videolan.vlc.util.*
 import org.videolan.vlc.widget.VLCAppWidgetProvider
 import org.videolan.vlc.widget.VLCAppWidgetProviderBlack
 import org.videolan.vlc.widget.VLCAppWidgetProviderWhite
+import videolan.org.commontools.LiveEvent
 import java.util.*
 
 private const val TAG = "VLC/PlaybackService"
@@ -502,6 +499,8 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
         keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
         renderer.observe(this, Observer { setRenderer(it) })
+        restartPlayer.observe(this, Observer { restartMediaPlayer() })
+        headSetDetection.observe(this, Observer { detectHeadset(it) })
     }
 
     private fun updateHasWidget() {
@@ -1331,7 +1330,9 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     companion object {
 
-        var renderer = MutableLiveData<RendererItem>()
+        val renderer = MutableLiveData<RendererItem>()
+        val restartPlayer = LiveEvent<Boolean>()
+        val headSetDetection = LiveEvent<Boolean>()
 
         private const val SHOW_TOAST = 1
         private const val END_MEDIASESSION = 2

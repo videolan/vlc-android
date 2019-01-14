@@ -35,10 +35,11 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.util.Settings;
 
 import androidx.fragment.app.FragmentActivity;
+import videolan.org.commontools.LiveEvent;
 
 @SuppressWarnings("deprecation")
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class PreferencesActivity extends FragmentActivity implements PlaybackService.Client.Callback {
+public class PreferencesActivity extends FragmentActivity {
 
     public final static String TAG = "VLC/PreferencesActivity";
 
@@ -46,26 +47,11 @@ public class PreferencesActivity extends FragmentActivity implements PlaybackSer
     public final static int RESULT_RESTART = RESULT_FIRST_USER + 2;
     public final static int RESULT_RESTART_APP = RESULT_FIRST_USER + 3;
 
-    private PlaybackService.Client mClient = new PlaybackService.Client(this, this);
-    private PlaybackService mService;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.tv_preferences_activity);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mClient.connect();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mClient.disconnect();
     }
 
     @Override
@@ -85,19 +71,9 @@ public class PreferencesActivity extends FragmentActivity implements PlaybackSer
         }
     }
 
-    @Override
-    public void onConnected(PlaybackService service) {
-        mService = service;
-    }
-
-    @Override
-    public void onDisconnected() {
-        mService = null;
-    }
-
-    public void restartMediaPlayer(){
-        if (mService != null)
-            mService.restartMediaPlayer();
+    public void restartMediaPlayer() {
+        final LiveEvent<Boolean> le = PlaybackService.Companion.getRestartPlayer();
+        if (le.hasObservers()) le.setValue(true);
     }
 
     public void setRestart(){
@@ -115,7 +91,8 @@ public class PreferencesActivity extends FragmentActivity implements PlaybackSer
         startActivity(intent);
     }
 
-    public void detectHeadset(boolean detect){
-        if (mService != null) mService.detectHeadset(detect);
+    public void detectHeadset(boolean detect) {
+        final LiveEvent<Boolean> le = PlaybackService.Companion.getHeadSetDetection();
+        if (le.hasObservers()) le.setValue(detect);
     }
 }
