@@ -289,11 +289,14 @@
     <string name="video_min_group_length_title">Agrupa sos vìdeos</string>
     <string name="video_min_group_length_summary">Sos vìdeos benint agrupados si sa prima lìtera est sa matessi.</string>
     <string name="video_min_group_length_disable">Disabìlita</string>
+    <string name="video_min_group_length_folder">Agrupa pro cartella</string>
     <string name="video_min_group_length_first">Petzi sa prima lìtera</string>
     <string name="video_min_group_length_short">Nùmeru minore de lìteras (6)</string>
     <string name="video_min_group_length_long">Nùmeru mannu de lìteras (9)</string>
     <string name="media_fast_seek">Abìlita s\'optzione de positzionamentu lestru</string>
     <string name="media_fast_seek_summary">Su positzionamentu in unu documentu multimediale est prus lestru, ma prus pagu acuradu</string>
+    <string name="video_transition_title">Transitzione de sos vìdeos</string>
+    <string name="video_transition_summary">Ammustra su tìtulu de su vìdeu nou in sa transitzione</string>
     <string name="media_seen">Ammustra su marcadore de su vìdeu abbaidadu</string>
     <string name="media_seen_summary">Marca unu vìdeu comente bidu cando l\'as riproduidu finas a sa fine</string>
     <string name="force_list_portrait">Peruna griglia in modalidade verticale</string>
@@ -640,5 +643,6 @@
     <string name="ctx_player_tracks_title">Rastas multimediales</string>
     <string name="ctx_pip_title">Leghidore a cumparsa</string>
     <string name="device_dialog_title">Dispositivu esternu insertadu</string>
-    <string name="device_dialog_message">Est istadu agatadu unu dispositivu nou, lu cheres gestire cun VLC?</string>
+    <string name="device_dialog_message">As collegadu como unu dispositivu de archiviatzione nou a s\'iscàtula (box) TV tua, lu cheres abèrrere cun VLC?</string>
+    <string name="videos_folders_title">Vìdeos pro cartella</string>
 </resources>
