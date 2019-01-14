@@ -415,7 +415,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 if (progress > 0.95f || length - time < 10000) {
                     //increase seen counter if more than 95% of the media have been seen
                     //and reset progress to 0
-                    launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_SEEN, ++media.seen) }
+                    launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_SEEN, media.seen+1) }
                     progress = 0f
                 }
                 media.time = if (progress == 0f) 0L else time
