@@ -12,10 +12,7 @@ import kotlinx.android.synthetic.main.folders_fragment.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.media.Folder
-import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
-import org.videolan.vlc.R.id.folders_list
-import org.videolan.vlc.R.id.swipeLayout
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
@@ -88,7 +85,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
         mSwipeRefreshLayout.setOnRefreshListener { activity?.reload() }
     }
 
-    override fun getTitle() = getString(R.string.videos_folders_title)
+    override fun getTitle() = getString(R.string.videos)
 
     override fun onRefresh() {
         viewModel.refresh()
