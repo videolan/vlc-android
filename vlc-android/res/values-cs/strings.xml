@@ -303,11 +303,14 @@
     <string name="video_min_group_length_title">Skupinová videa</string>
     <string name="video_min_group_length_summary">Videa jsou seskupena, pokud začínají stejným prvním písmenem.</string>
     <string name="video_min_group_length_disable">Zakázat</string>
+    <string name="video_min_group_length_folder">Seskupit dle složky</string>
     <string name="video_min_group_length_first">Pouze první písmeno</string>
     <string name="video_min_group_length_short">Krátký počet písmen (6)</string>
     <string name="video_min_group_length_long">Dlouhý počet písmen (9)</string>
     <string name="media_fast_seek">Rychlý posun</string>
     <string name="media_fast_seek_summary">Posun v médiu je rychlejší, ale méně přesný</string>
+    <string name="video_transition_title">Přechod videa</string>
+    <string name="video_transition_summary">Při přechodu zobrazovat název nového videa</string>
     <string name="media_seen">Zobrazit značku videa \'zhlédnuto\'</string>
     <string name="media_seen_summary">Označit video jako zhlédnuté pokud jej přehrajete až do konce</string>
     <string name="force_list_portrait">Bez mřížky v režimu na výšku</string>
@@ -654,5 +657,6 @@
     <string name="ctx_player_tracks_title">Stopy média</string>
     <string name="ctx_pip_title">Vyskakovací přehrávač</string>
     <string name="device_dialog_title">Vloženo externí zařízení</string>
-    <string name="device_dialog_message">Bylo zjištěno nové zařízení, chcete s ním manipulovat pomocí VLC? </string>
+    <string name="device_dialog_message">U vaši TV bylo zjištěno připojení nového úložného zařízení, chcete s ním manipulovat pomocí VLC? </string>
+    <string name="videos_folders_title">Videa podle složek</string>
 </resources>
