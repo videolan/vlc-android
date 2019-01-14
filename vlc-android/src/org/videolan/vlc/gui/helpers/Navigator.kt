@@ -108,7 +108,7 @@ class Navigator(private val activity: MainActivity,
             fm.popBackStackImmediate("root", androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
         val ft = fm.beginTransaction()
         ft.replace(R.id.fragment_placeholder, fragment, tag)
-        ft.commit()
+        ft.commitNow()
         activity.updateCheckedItem(id)
         currentFragment = fragment
         currentFragmentId = id
