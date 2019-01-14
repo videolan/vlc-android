@@ -36,7 +36,6 @@ import org.videolan.vlc.RendererDelegate
 import org.videolan.vlc.databinding.DialogRenderersBinding
 import org.videolan.vlc.databinding.ItemRendererBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
-import org.videolan.vlc.gui.PlaybackServiceActivity
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
 
@@ -44,17 +43,14 @@ const private val TAG = "VLC/RenderersDialog"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class RenderersDialog : androidx.fragment.app.DialogFragment(), PlaybackService.Client.Callback {
+class RenderersDialog : androidx.fragment.app.DialogFragment() {
     private var renderers = RendererDelegate.renderers.value
     private lateinit var mBinding: DialogRenderersBinding
     private val mAdapter = RendererAdapter()
     private val mClickHandler = RendererClickhandler()
-    private lateinit var mHelper: PlaybackServiceActivity.Helper
-    private var mService: PlaybackService? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mHelper = PlaybackServiceActivity.Helper(activity, this)
         RendererDelegate.renderers.observe(this, Observer {
             if (it !== null) {
                 renderers = it
@@ -85,24 +81,6 @@ class RenderersDialog : androidx.fragment.app.DialogFragment(), PlaybackService.
         mBinding.renderersDisconnect.isEnabled = PlaybackService.hasRenderer()
         mBinding.renderersDisconnect.setTextColor(ContextCompat.getColor(view.context, if (PlaybackService.hasRenderer()) R.color.orange800 else R.color.grey400))
         mAdapter.update(renderers)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        mHelper.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        mHelper.onStop()
-    }
-
-    override fun onConnected(service: PlaybackService) {
-        mService = service
-    }
-
-    override fun onDisconnected() {
-        mService = null
     }
 
     private inner class RendererAdapter : DiffUtilAdapter<RendererItem, SelectorViewHolder<ItemRendererBinding>>() {
