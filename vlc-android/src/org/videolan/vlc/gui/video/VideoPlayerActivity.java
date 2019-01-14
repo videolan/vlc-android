@@ -297,7 +297,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         audioBoostEnabled = mSettings.getBoolean("audio_boost", false);
 
         mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
-        mDisplayManager = new DisplayManager(this, AndroidDevices.isChromeBook ? RendererDelegate.INSTANCE.getSelectedRenderer() : null, false, mEnableCloneMode, mIsBenchmark);
+        mDisplayManager = new DisplayManager(this, AndroidDevices.isChromeBook ? PlaybackService.Companion.getRenderer() : null, false, mEnableCloneMode, mIsBenchmark);
         setContentView(mDisplayManager.isPrimary() ? R.layout.player : R.layout.player_remote_control);
 
         /** initialize Views an their Events */
@@ -2228,7 +2228,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             if (!AndroidDevices.isChromeBook && !mIsTv
                     && Settings.INSTANCE.getInstance(this).getBoolean("enable_casting", true)) {
                 mRendererBtn = findViewById(R.id.video_renderer);
-                RendererDelegate.INSTANCE.getSelectedRenderer().observe(this, new Observer<RendererItem>() {
+                PlaybackService.Companion.getRenderer().observe(this, new Observer<RendererItem>() {
                     @Override
                     public void onChanged(@androidx.annotation.Nullable RendererItem rendererItem) {
                         if (mRendererBtn != null) mRendererBtn.setImageResource(rendererItem == null ? R.drawable.ic_renderer_circle : R.drawable.ic_renderer_on_circle);

@@ -45,6 +45,12 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ServiceLifecycleDispatcher
 import androidx.media.MediaBrowserServiceCompat
 import kotlinx.coroutines.*
@@ -495,6 +501,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         registerReceiver(receiver, filter)
 
         keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        renderer.observe(this, Observer { setRenderer(it) })
     }
 
     private fun updateHasWidget() {
@@ -1324,6 +1331,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     companion object {
 
+        var renderer = MutableLiveData<RendererItem>()
 
         private const val SHOW_TOAST = 1
         private const val END_MEDIASESSION = 2
@@ -1337,6 +1345,8 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
             val i = PlaybackService.Client.getServiceIntent(context).apply { action = ACTION_REMOTE_LAST_PLAYLIST }
             ContextCompat.startForegroundService(context, i)
         }
+
+        fun hasRenderer() = renderer.value != null
 
         private const val PLAYBACK_BASE_ACTIONS = (PlaybackStateCompat.ACTION_PLAY_FROM_SEARCH
                 or PlaybackStateCompat.ACTION_PLAY_FROM_MEDIA_ID or PlaybackStateCompat.ACTION_PLAY_FROM_URI

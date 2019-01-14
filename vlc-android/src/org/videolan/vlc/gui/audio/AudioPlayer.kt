@@ -53,8 +53,8 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.coroutineScope
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.RendererDelegate.hasRenderer
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -344,7 +344,7 @@ class AudioPlayer : androidx.fragment.app.Fragment(), PlaylistAdapter.IPlayer, T
 
     fun onResumeToVideoClick(v: View) {
         playlistModel.currentMediaWrapper?.let {
-            if (hasRenderer()) VideoPlayerActivity.startOpened(v.context,
+            if (PlaybackService.hasRenderer()) VideoPlayerActivity.startOpened(v.context,
                     it.uri, playlistModel.currentMediaPosition)
             else if (hasMedia()) {
                 it.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)

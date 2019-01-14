@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.Build;
-import androidx.annotation.MainThread;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -34,13 +33,15 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.RendererDelegate;
 import org.videolan.vlc.VLCApplication;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import androidx.annotation.MainThread;
 
 
 public class VLCOptions {
@@ -235,7 +236,7 @@ public class VLCOptions {
         if (!prefs.getBoolean("subtitles_autoload", true)) media.addOption(":sub-language=none");
         if (!benchmark && prefs.getBoolean("media_fast_seek", true)) media.addOption(":input-fast-seek");
 
-        if (RendererDelegate.INSTANCE.hasRenderer()) {
+        if (PlaybackService.Companion.hasRenderer()) {
             media.addOption(":sout-chromecast-audio-passthrough="+prefs.getBoolean("casting_passthrough", true));
             media.addOption(":sout-chromecast-conversion-quality="+prefs.getString("casting_quality", "2"));
         }

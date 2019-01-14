@@ -33,6 +33,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.videolan.libvlc.RendererItem;
+import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RendererDelegate;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
@@ -66,13 +67,13 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
         super.initAudioPlayerContainerActivity();
         if (!AndroidDevices.isChromeBook && !AndroidDevices.isAndroidTv
                 && Settings.INSTANCE.getInstance(this).getBoolean("enable_casting", true)) {
-            RendererDelegate.INSTANCE.getSelectedRenderer().observe(this, new Observer<RendererItem>() {
+            PlaybackService.Companion.getRenderer().observe(this, new Observer<RendererItem>() {
                 @Override
                 public void onChanged(@Nullable RendererItem rendererItem) {
                     final MenuItem item = mToolbar.getMenu().findItem(R.id.ml_menu_renderers);
                     if (item == null) return;
                     item.setVisible(showRenderers);
-                    item.setIcon(!RendererDelegate.INSTANCE.hasRenderer() ? R.drawable.ic_am_renderer_normal_w : R.drawable.ic_am_renderer_on_w);
+                    item.setIcon(!PlaybackService.Companion.hasRenderer() ? R.drawable.ic_am_renderer_normal_w : R.drawable.ic_am_renderer_on_w);
                 }
             });
             RendererDelegate.INSTANCE.getRenderers().observe(this, new Observer<List<RendererItem>>() {
@@ -123,7 +124,7 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
             }
         } else menu.findItem(R.id.ml_menu_filter).setVisible(false);
         menu.findItem(R.id.ml_menu_renderers).setVisible(showRenderers && Settings.INSTANCE.getInstance(this).getBoolean("enable_casting", true));
-        menu.findItem(R.id.ml_menu_renderers).setIcon(!RendererDelegate.INSTANCE.hasRenderer() ? R.drawable.ic_am_renderer_normal_w : R.drawable.ic_am_renderer_on_w);
+        menu.findItem(R.id.ml_menu_renderers).setIcon(!PlaybackService.Companion.hasRenderer() ? R.drawable.ic_am_renderer_normal_w : R.drawable.ic_am_renderer_on_w);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -139,10 +140,10 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
                 startActivity(new Intent(Intent.ACTION_SEARCH, null, this, SearchActivity.class));
                 return true;
             case R.id.ml_menu_renderers:
-                if (!RendererDelegate.INSTANCE.hasRenderer()
+                if (!PlaybackService.Companion.hasRenderer()
                         && RendererDelegate.INSTANCE.getRenderers().getValue().size() == 1) {
                     final RendererItem renderer = RendererDelegate.INSTANCE.getRenderers().getValue().get(0);
-                    RendererDelegate.INSTANCE.selectRenderer(renderer);
+                    PlaybackService.Companion.getRenderer().setValue(renderer);
                     final View v = findViewById(R.id.audio_player_container);
                     if (v != null) UiTools.snacker(v, getString(R.string.casting_connected_renderer, renderer.displayName));
                 } else if (getSupportFragmentManager().findFragmentByTag("renderers") == null)

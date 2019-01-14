@@ -12,7 +12,7 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.*
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.RendererDelegate
+import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.Settings
@@ -211,7 +211,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         return MediaPlayer(VLCInstance.get()).apply {
             setAudioDigitalOutputEnabled(VLCOptions.isAudioDigitalOutputEnabled(settings))
             VLCOptions.getAout(settings)?.let { setAudioOutput(it) }
-            setRenderer(RendererDelegate.selectedRenderer.value)
+            setRenderer(PlaybackService.Companion.renderer.value)
             this.vlcVout.addCallback(this@PlayerController)
         }
     }
