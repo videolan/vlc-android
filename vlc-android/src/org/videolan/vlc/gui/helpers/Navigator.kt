@@ -102,13 +102,12 @@ class Navigator(private val activity: MainActivity,
         showFragment(fragment, id, tag)
     }
 
-    private fun showFragment(fragment: androidx.fragment.app.Fragment, id: Int, tag: String = getTag(id), backTag: String? = null) {
+    private fun showFragment(fragment: androidx.fragment.app.Fragment, id: Int, tag: String = getTag(id)) {
         val fm = activity.supportFragmentManager
         if (currentFragment is BaseBrowserFragment && !(currentFragment as BaseBrowserFragment).isRootDirectory)
             fm.popBackStackImmediate("root", androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE)
         val ft = fm.beginTransaction()
         ft.replace(R.id.fragment_placeholder, fragment, tag)
-        if (backTag !== null) ft.addToBackStack(backTag)
         ft.commit()
         activity.updateCheckedItem(id)
         currentFragment = fragment
@@ -220,12 +219,12 @@ class Navigator(private val activity: MainActivity,
             fragment.setExtensionService(extensionsService)
             when {
                 currentFragment !is ExtensionBrowser -> //case: non-extension to extension root
-                    showFragment(fragment, extensionId, title, null)
+                    showFragment(fragment, extensionId, title)
                 currentFragmentId == extensionId -> //case: extension root to extension sub dir
-                    showFragment(fragment, extensionId, title, getTag(currentFragmentId))
+                    showFragment(fragment, extensionId, title)
                 else -> { //case: extension to other extension root
                     clearBackstackFromClass(ExtensionBrowser::class.java)
-                    showFragment(fragment, extensionId, title, null)
+                    showFragment(fragment, extensionId, title)
                 }
             }
         }
