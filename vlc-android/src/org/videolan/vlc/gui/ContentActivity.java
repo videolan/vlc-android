@@ -37,7 +37,6 @@ import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.RendererDelegate;
 import org.videolan.vlc.gui.audio.AudioBrowserFragment;
-import org.videolan.vlc.gui.audio.EqualizerFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.dialogs.RenderersDialog;
@@ -133,9 +132,6 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
 
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.ml_menu_equalizer:
-                new EqualizerFragment().show(getSupportFragmentManager(), "equalizer");
-                return true;
             case R.id.ml_menu_search:
                 startActivity(new Intent(Intent.ACTION_SEARCH, null, this, SearchActivity.class));
                 return true;

@@ -79,11 +79,6 @@
         android:title="@string/refresh"/>
     <item
         android:orderInCategory="3"
-        android:id="@+id/ml_menu_equalizer"
-        android:icon="@drawable/ic_menu_equalizer"
-        android:title="@string/equalizer" />
-    <item
-        android:orderInCategory="3"
         android:id="@+id/ml_menu_custom_dir"
         android:title="@string/add_custom_path"
         android:contentDescription="@string/add_custom_path_description"
