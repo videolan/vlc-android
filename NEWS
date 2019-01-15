@@ -1,3 +1,11 @@
+Changes between 3.0.93 and 3.0.94:
+------------------
+
+Application:
+ * Fix persisting playback icon
+ * Improve app startup
+ * Bugfixes
+
 Changes between 3.0.92 and 3.0.93:
 ------------------
 
