@@ -191,6 +191,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 Settings.INSTANCE.getInstance(requireContext()).getBoolean("force_list_portrait", false));
 
         // Select between grid or list
+        mBinding.videoGrid.removeItemDecoration(mGridItemDecoration);
         if (!listMode) {
             final int thumbnailWidth = res.getDimensionPixelSize(R.dimen.grid_card_thumb_width);
             final int margin = mBinding.videoGrid.getPaddingStart() + mBinding.videoGrid.getPaddingEnd();
@@ -198,8 +199,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
             mBinding.videoGrid.setColumnWidth(columnWidth);
             mAdapter.setGridCardWidth(mBinding.videoGrid.getColumnWidth());
             mBinding.videoGrid.addItemDecoration(mGridItemDecoration);
-        } else {
-            mBinding.videoGrid.removeItemDecoration(mGridItemDecoration);
         }
         mBinding.videoGrid.setNumColumns(listMode ? 1 : -1);
         if (mAdapter.isListMode() != listMode) mAdapter.setListMode(listMode);
