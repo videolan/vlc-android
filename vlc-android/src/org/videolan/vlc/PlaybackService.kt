@@ -502,6 +502,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         renderer.observe(this, Observer { setRenderer(it) })
         restartPlayer.observe(this, Observer { restartMediaPlayer() })
         headSetDetection.observe(this, Observer { detectHeadset(it) })
+        equalizer.observe(this, Observer { setEqualizer(it) })
     }
 
     private fun updateHasWidget() {
@@ -1335,6 +1336,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         val renderer = MutableLiveData<RendererItem>()
         val restartPlayer = LiveEvent<Boolean>()
         val headSetDetection = LiveEvent<Boolean>()
+        val equalizer = LiveEvent<MediaPlayer.Equalizer>()
 
         private const val SHOW_TOAST = 1
         private const val END_MEDIASESSION = 2
