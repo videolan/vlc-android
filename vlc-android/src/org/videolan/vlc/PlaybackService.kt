@@ -569,6 +569,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
                 false, mediaSession.sessionToken, sessionPendingIntent)
         startForeground(3, notification)
         isForeground = true
+        if (isVideoPlaying || AndroidDevices.showTvUi(this)) hideNotification(true)
     }
 
     private fun sendStartSessionIdIntent() {
