@@ -142,7 +142,7 @@ object MediaUtils : CoroutineScope {
             val count = withContext(Dispatchers.IO) { model.getTotalCount() }
             when (count) {
                 0 -> null
-                in 1..PLAYBACK_LOAD_SIZE -> withContext(Dispatchers.IO) {
+                in 1..MEDIALIBRARY_PAGE_SIZE -> withContext(Dispatchers.IO) {
                     mutableListOf<MediaWrapper>().apply {
                         for (album in model.getAll()) album.tracks?.let { addAll(it) }
                     }
@@ -151,7 +151,7 @@ object MediaUtils : CoroutineScope {
                     mutableListOf<MediaWrapper>().apply {
                         var index = 0
                         while (index < count) {
-                            val pageCount = min(PLAYBACK_LOAD_SIZE, count-index)
+                            val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count-index)
                             val albums = withContext(Dispatchers.IO) { model.getPage(pageCount, index) }
                             for (album in albums) addAll(album.tracks)
                             index += pageCount
@@ -170,16 +170,16 @@ object MediaUtils : CoroutineScope {
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { model.getTotalCount() }
             fun play(list : List<MediaWrapper>) {
-                service.load(list, if (shuffle) Random().nextInt(min(count, PLAYBACK_LOAD_SIZE)) else position)
+                service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
             when (count) {
                 0 -> return@SuspendDialogCallback
-                in 1..PLAYBACK_LOAD_SIZE -> play(withContext(Dispatchers.IO) { model.getAll().toList() })
+                in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) { model.getAll().toList() })
                 else -> {
                     var index = 0
                     while (index < count) {
-                        val pageCount = min(PLAYBACK_LOAD_SIZE, count - index)
+                        val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                         val list = withContext(Dispatchers.IO) { model.getPage(pageCount, index).toList() }
                         if (index == 0) play(list)
                         else service.append(list)
@@ -384,7 +384,7 @@ fun Folder.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary
     val count = mediaCount(type)
     val all = mutableListOf<MediaWrapper>()
     while (index < count) {
-        val pageCount = min(PLAYBACK_LOAD_SIZE, count - index)
+        val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
         val list = media(type, sort, desc, pageCount, index)
         all.addAll(list)
         index += pageCount

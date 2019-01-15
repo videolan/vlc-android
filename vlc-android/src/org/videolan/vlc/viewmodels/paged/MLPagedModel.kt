@@ -12,6 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
@@ -20,8 +21,8 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     val loading = MutableLiveData<Boolean>().apply { value = false }
 
     private val pagingConfig = PagedList.Config.Builder()
-            .setPageSize(100)
-            .setPrefetchDistance(100)
+            .setPageSize(MEDIALIBRARY_PAGE_SIZE)
+            .setPrefetchDistance(MEDIALIBRARY_PAGE_SIZE/2)
             .setEnablePlaceholders(true)
             .build()
 
