@@ -37,7 +37,7 @@ ext {
     androidxCoreVersion = '1.0.1'
     androidxVersion = '1.0.0'
     androidxAppcompatVersion = '1.0.2'
-    constraintLayoutVersion = '2.0.0-alpha2'
+    constraintLayoutVersion = '2.0.0-alpha3'
     archVersion = '2.0.0'
     roomVersion = '2.1.0-alpha03'
     pagingVersion = '2.1.0-rc01'
