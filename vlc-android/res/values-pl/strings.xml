@@ -269,16 +269,16 @@
     <string name="add_custom_path_description">Wprowadź własny, dodatkowy katalog do skanowania:</string>
     <string name="remove_custom_path">Usuń własną ścieżkę</string>
     <string name="hardware_acceleration">Przyspieszenie sprzętowe</string>
-    <string name="hardware_acceleration_summary">Wyłączona: lepsza stabilność\nDekodowanie: może poprawić wydajność\nPełna: może dodatkowo zwiększyć wydajność</string>
-    <string name="hardware_acceleration_disabled">Wyłączona</string>
-    <string name="hardware_acceleration_decoding">Akceleracja dekodowania</string>
-    <string name="hardware_acceleration_full">Pełna akceleracja</string>
+    <string name="hardware_acceleration_summary">Wyłączone: lepsza stabilność\nDekodowanie: może poprawić wydajność\nPełne: może dodatkowo zwiększyć wydajność</string>
+    <string name="hardware_acceleration_disabled">Wyłączone</string>
+    <string name="hardware_acceleration_decoding">Przyspieszenie dekodowania</string>
+    <string name="hardware_acceleration_full">Pełne przyspieszenie</string>
     <string name="dev_hardware_decoder">Zaawansowany dekoder sprzętowy</string>
     <string name="dev_hardware_decoder_summary">Wymuś dekoder sprzętowy, tylko dla zaawansowanych użytkowników</string>
     <string name="automatic">Automatycznie</string>
     <string name="screen_orientation">Orientacja ekranu</string>
     <string name="screen_orientation_sensor">Automatycznie (czujnik)</string>
-    <string name="screen_orientation_start_lock">Zablokowany przy starcie</string>
+    <string name="screen_orientation_start_lock">Zablokowana przy starcie</string>
     <string name="screen_orientation_portrait">Portret</string>
     <string name="screen_orientation_landscape">Pejzaż</string>
     <string name="screen_orientation_reverse_portrait">Odwrócony portret</string>
@@ -303,11 +303,14 @@
     <string name="video_min_group_length_title">Grupuj filmy</string>
     <string name="video_min_group_length_summary">Filmy są pogrupowane, jeśli ich pierwsze litery tytułu są takie same.</string>
     <string name="video_min_group_length_disable">Wyłącz</string>
+    <string name="video_min_group_length_folder">Grupuj według folderu</string>
     <string name="video_min_group_length_first">Tylko pierwsza litera</string>
     <string name="video_min_group_length_short">Krótka liczba liter (6)</string>
     <string name="video_min_group_length_long">Długa liczba liter (9)</string>
     <string name="media_fast_seek">Szybkie przeszukiwanie</string>
     <string name="media_fast_seek_summary">Przeszukiwanie w mediach jest szybsze, ale mniej dokładne</string>
+    <string name="video_transition_title">Przejścia widea</string>
+    <string name="video_transition_summary">Pokaż tytuł widea podczas przejścia</string>
     <string name="media_seen">Pokaż znacznik obejrzanego filmu</string>
     <string name="media_seen_summary">Oznacz film jako obejrzany, gdy odtworzysz go do końca</string>
     <string name="force_list_portrait">Brak kratki w trybie portretowym</string>
@@ -654,5 +657,6 @@
     <string name="ctx_player_tracks_title">Ścieżki multimedialne</string>
     <string name="ctx_pip_title">Odtwarzacz w oknie pop-up</string>
     <string name="device_dialog_title">Włożono urządzenie zewnętrzne</string>
-    <string name="device_dialog_message">Wykryto nowe urządzenie, czy chcesz obsłużyć je za pomocą VLC?</string>
+    <string name="device_dialog_message">Podłączyłeś nowe urządzenie pamięci masowej do twojego telewizora, czy chcesz je otworzyć za pomocą VLC?</string>
+    <string name="videos_folders_title">Filmy grupowane według folderów</string>
 </resources>
