@@ -39,8 +39,8 @@
     <string name="video_app_switch_summary">비디오 재생 중에 다른 앱으로 전환시 VLC의 동작을 선택합니다</string>
     <string name="play_pip_title">PIP 모드에서 비디오 재생하기</string>
     <string name="play_as_audio_background">백그라운드로 비디오 재생하기</string>
-    <string name="append">추가</string>
-    <string name="insert_next">다음을 넣으세요</string>
+    <string name="append">큐에 추가</string>
+    <string name="insert_next">바로 다음곡으로 추가</string>
     <string name="play_all">모두 재생</string>
     <string name="append_all">모두 추가</string>
     <string name="last_playlist">마지막 재생목록</string>
@@ -158,7 +158,7 @@
     <string name="sleep_title">수면 타이머</string>
     <string name="sleep_in">잠자기 시간:</string>
     <string name="sleep_cancel">수면 타이머 취소</string>
-    <string name="jump_to_time">시간으로 이동하기</string>
+    <string name="jump_to_time">재생시간 이동</string>
     <string name="subtitle_label">자막 파일 추가하기</string>
     <string name="subtitle_select">자막 파일 선택하기</string>
     <string name="no_file_picker_found">시스템에 파일 선택기가 없습니다.</string>
@@ -278,7 +278,7 @@
     <string name="video_min_group_length_short">짧은 글자수 (6)</string>
     <string name="video_min_group_length_long">긴 글자수 (9)</string>
     <string name="media_fast_seek">빠른 탐색</string>
-    <string name="media_fast_seek_summary">미디어 탐색은 더 빠르나 정확도가 떨어집니</string>
+    <string name="media_fast_seek_summary">미디어 탐색은 더 빠르나 정확도가 떨어집니다</string>
     <string name="media_seen">시청한 비디오에 마커 표시하기</string>
     <string name="media_seen_summary">끝까지 재생한 비디오를 본 것으로 표시합니다</string>
     <string name="force_list_portrait">세로 화면에서 격자선 표시하지 않기</string>
@@ -340,13 +340,13 @@
     <string name="enable_headset_actions_title">리모콘 단축키</string>
     <string name="enable_headset_actions_summary">다음으로 건너뛰려면 \'재생\'을 두 번 누르고, 이전 트랙으로 건너뛰려면 길게 누르세요</string>
     <string name="enable_play_on_headset_insertion">헤드셋 연결시 이어서 재생하기</string>
-    <string name="enable_play_on_headset_insertion_summary">아니면 일시중지하기</string>
+    <string name="enable_play_on_headset_insertion_summary">체크해제 시 재생하지 않음</string>
     <string name="enable_steal_remote_control">헤드셋 원격 조작 독점 사용하기</string>
     <string name="enable_steal_remote_control_summary">다른 앱의 원격 조작 시도에 의한 충돌을 회피합니다. HTC 폰의 더블 클릭 전화걸기를 방지합니다</string>
     <string name="aout">오디오 출력</string>
     <string name="aout_summary">VLC가 오디오 출력을 위해 사용하는 방식을 변경합니다</string>
     <string name="audio_ducking_title">알림시 VLC 볼륨 낮추기</string>
-    <string name="audio_ducking_summary">오디오 알림, 네비게이션 안내 또는 어시스턴트 음성출력시 듣는데 도움이 됩니다</string>
+    <string name="audio_ducking_summary">오디오 알림, 네비게이션 안내 또는 어시스턴트 음성이 더 잘 들립니다</string>
     <string name="casting_category">캐스팅</string>
     <string name="casting_passthrough_title">오디오 패스쓰루</string>
     <string name="casting_passthrough_summary">TV가 오디오 렌더링을 관리하도록 합니다</string>
@@ -383,7 +383,7 @@
     <string name="enable_frame_skip">프레임 건너뛰기</string>
     <string name="enable_frame_skip_summary">디코딩 속도는 빠르지만 품질이 저하될 수 있습니다</string>
     <string name="enable_time_stretching_audio">음정 변화 없는 오디오</string>
-    <string name="enable_time_stretching_audio_summary">음정 변경 없이 오디오를 빠르게/느리게  재생합니다 (빠른 장치 필요)</string>
+    <string name="enable_time_stretching_audio_summary">음정 변경 없이 오디오를 빠르게/느리게  재생합니다 (고성능 장치 필요)</string>
 
     <string name="advanced_prefs_category">고급</string>
     <string name="save_video_none">속도 저장하지 않기</string>
@@ -402,8 +402,8 @@
     <string name="set_locale_popup">변경 사항을 적용하려면 VLC를 재시작하세요.</string>
     <string name="network_caching">네트워크 캐쉬 값</string>
     <string name="network_caching_summary">네트워크 미디어의 버퍼 크기(단위: ms)로, 하드웨어 디코딩 사용시는 동작하지 않습니다. 초기화하려면 비워 두세요</string>
-    <string name="resume_playback_title">통화 후 재생 계속하기</string>
-    <string name="resume_playback_summary">만약 그렇지 않으면 일시중지한 상태로 있습니다</string>
+    <string name="resume_playback_title">통화 종료 후 이어서 재생하기</string>
+    <string name="resume_playback_summary">체크해제 시 일시중지를 유지합니다</string>
     <string name="blurred_cover_background_title">흐릿한 음반 전면을 배경으로</string>
     <string name="blurred_cover_background_summary">흐릿한 음반 전면을 오디오 플레이어 배경으로</string>
     <string name="network_caching_popup">0에서 6000 ms 사이의 값만 사용할 수 있습니다</string>
