@@ -158,7 +158,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        val mw = MediaWrapper((item as Storage).uri)
+        val mw = (item as? Storage)?.let { MediaWrapper(it.uri) } ?: return
         mw.type = MediaWrapper.TYPE_DIR
         browse(mw, position, (DataBindingUtil.findBinding<BrowserItemBinding>(v))?.browserCheckbox?.state == ThreeStatesCheckbox.STATE_CHECKED)
     }
