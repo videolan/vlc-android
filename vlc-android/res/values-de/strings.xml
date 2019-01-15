@@ -212,7 +212,7 @@
 
     <string name="playback_history_title">Wiedergabeverlauf</string>
     <string name="playback_history_summary">Alle abgespielten Medien im Verlaufsbereich speichern</string>
-    <string name="playback_speed_title">Geschwindigkeit speichern</string>
+    <string name="playback_speed_title">Wiedergabegeschwindigkeit speichern</string>
     <string name="playback_speed_summary">Eingestellte Wiedergabegeschwindigkeit wird gespeichert</string>
 
     <string name="play_button">Wiedergabe-Knopf</string>
@@ -287,13 +287,16 @@
 
     <string name="video_prefs_category">Video</string>
     <string name="video_min_group_length_title">Videos gruppieren</string>
-    <string name="video_min_group_length_summary">Videos werden gruppiert, wenn ihre Anfangsbuchstaben des Titels gleich sind.</string>
+    <string name="video_min_group_length_summary">Videos werden gruppiert, wenn ihre Anfangsbuchstaben des Titels gleich sind</string>
     <string name="video_min_group_length_disable">Deaktivieren</string>
+    <string name="video_min_group_length_folder">Nach Ordner gruppieren</string>
     <string name="video_min_group_length_first">Nur erster Buchstabe</string>
     <string name="video_min_group_length_short">Mind. Anzahl der Buchstaben (6)</string>
     <string name="video_min_group_length_long">Max. Anzahl der Buchstaben (9)</string>
     <string name="media_fast_seek">Schnelles durchsuchen</string>
     <string name="media_fast_seek_summary">Durchsuchen in einem Medium ist schneller, aber weniger genau</string>
+    <string name="video_transition_title">Videoübergänge</string>
+    <string name="video_transition_summary">Video-Titel beim Übergang anzeigen</string>
     <string name="media_seen">\"Markierung gesehen\" einblenden</string>
     <string name="media_seen_summary">Ein Video als gesehen markieren, wenn es bis zum Ende wiedergegeben wurde</string>
     <string name="force_list_portrait">Kein Gitter im Portrait-Modus</string>
@@ -310,7 +313,7 @@
     <string name="enable_volume_gesture_summary">Lautstärke durch Gesten während der Videowiedergabe steuern</string>
     <string name="enable_seek_buttons">Suchen-Knöpfe</string>
     <string name="enable_seek_buttons_summary">Rückwärts- und Vorwärtsknöpfe im Videomodus anzeigen</string>
-    <string name="enable_double_tap_seek_title">Doppelt antippen zum springen</string>
+    <string name="enable_double_tap_seek_title">Doppelt antippen zum Suchen</string>
     <string name="enable_double_tap_seek_summary">Für einen 10 Sekunden Sprung, in den Bildschirmecken doppelt antippen</string>
     <string name="popup_keepscreen_title">Im Pop-Up-Modus Anzeige nicht ausschalten</string>
     <string name="popup_keepscreen_summary">Anzeige während einer Pop-Up-Wiedergabe immer eingeschaltet lassen, auch wenn das Video angehalten wird.</string>
@@ -354,7 +357,7 @@
     <string name="enable_headset_detection_summary">Das Einsetzen und Entfernen des Kopfhörers erkennen</string>
     <string name="enable_headset_actions_title">Tastenkombinationen für die Fernbedienung</string>
     <string name="enable_headset_actions_summary">Drücken Sie zweimal auf \'Wiedergabe\', um zum nächsten Titel zu springen und drücken Sie länger darauf, um zum vorherigen Titel zu springen.</string>
-    <string name="enable_play_on_headset_insertion">Weiter wenn Kopfhörer eingesetzt</string>
+    <string name="enable_play_on_headset_insertion">Fortsetzen wenn Kopfhörer eingesetzt</string>
     <string name="enable_play_on_headset_insertion_summary">Andernfalls Wiedergabe pausieren</string>
     <string name="enable_steal_remote_control">Exklusive Kopfhörerfernbedienung</string>
     <string name="enable_steal_remote_control_summary">Vermeidet Konflikte, durch die Übernahme der Fernbedienung, von anderen Anwendungen. Dies verhindert auf HTC-Handys Anrufe bei Doppelklicks.</string>
@@ -602,9 +605,9 @@
     <string name="dialog_sd_wizard">Mir anzeigen</string>
     <string name="renderers_disconnect">Trennen</string>
     <string name="audio_digital_failed">Status des Audio-Digitalausgangs konnte nicht geändert werden</string>
-    <string name="audio_digital_output_enabled">Audio-Digitalausgang (Passthrough) aktiviert</string>
-    <string name="audio_digital_output_disabled">Audio-Digitalausgang (Passthrough) deaktiviert</string>
-    <string name="audio_digital_title">Digitaler Audio-Ausgang</string>
+    <string name="audio_digital_output_enabled">Audio-Digitalausgang aktiviert</string>
+    <string name="audio_digital_output_disabled">Audio-Digitalausgang deaktiviert</string>
+    <string name="audio_digital_title">Digitaler Audio-Ausgang (Passthrough)</string>
     <string name="audio_task_cleared_title">Wiedergabe stoppen beim Beenden</string>
     <string name="audio_task_cleared_summary">Wiedergabe wird gestoppt, wenn VLC aus der Liste der letzten Anwendungen entfernt wurde</string>
     <string name="playback_rewind">Zurückspulen </string>
@@ -638,7 +641,8 @@
     <string name="ctx_player_audio_track">Audiospur</string>
     <string name="ctx_player_subs_track">Untertitelspur</string>
     <string name="ctx_player_tracks_title">Medienspuren</string>
-    <string name="ctx_pip_title">Pop-Up -Wiedergabe</string>
+    <string name="ctx_pip_title">Pop-Up-Wiedergabe</string>
     <string name="device_dialog_title">Externes Gerät angeschlossen</string>
-    <string name="device_dialog_message">Neues Gerät erkannt, soll es mit VLC verwendet werden?</string>
+    <string name="device_dialog_message">Sie haben ein neues Speichermedium an Ihre TV-Box angeschlossen, möchten Sie dieses mit VLC öffnen?</string>
+    <string name="videos_folders_title">Videos nach Ordnern sortiert</string>
 </resources>
