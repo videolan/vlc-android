@@ -632,4 +632,6 @@
     <string name="download_the_selected">Télécharger la sélection</string>
     <string name="next">Suivant</string>
     <string name="download">Télécharger</string>
+    <string name="device_dialog_title">Stockage externe connecté</string>
+    <string name="device_dialog_message">Vous venez d\'insérer un appareil de stockage sur votre boitier TV, souhaitez-vous l\'ouvrir avec VLC ?</string>
 </resources>
