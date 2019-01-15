@@ -76,7 +76,7 @@ import org.videolan.vlc.viewmodels.PlaybackProgress
 import org.videolan.vlc.viewmodels.PlaylistModel
 
 private const val TAG = "VLC/AudioPlayer"
-private const val SEARCH_TIMEOUT_MILLIS = 5000
+private const val SEARCH_TIMEOUT_MILLIS = 10000L
 
 @ExperimentalCoroutinesApi
 @Suppress("UNUSED_PARAMETER")
@@ -410,7 +410,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
         if (binding.showCover) onPlaylistSwitchClick(binding.playlistSwitch)
         val imm = v.context.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding.playlistSearchText.editText, InputMethodManager.SHOW_IMPLICIT)
-        handler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS.toLong())
+        handler.postDelayed(hideSearchRunnable, SEARCH_TIMEOUT_MILLIS)
     }
 
     override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {}
