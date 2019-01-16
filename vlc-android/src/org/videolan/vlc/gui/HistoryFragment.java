@@ -84,8 +84,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    protected void onRestart() {
         viewModel.refresh();
     }
 
