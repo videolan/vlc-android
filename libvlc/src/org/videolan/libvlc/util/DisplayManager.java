@@ -43,10 +43,10 @@ public class DisplayManager {
         mSelectedRenderer = selectedRender;
         mMediaRouter = (MediaRouter) activity.getApplicationContext().getSystemService(Context.MEDIA_ROUTER_SERVICE);
         mTextureView = textureView;
-        mPresentation = !(cloneMode || benchmark) ? createPresentation() : null;
+        mPresentation = !cloneMode && !benchmark && selectedRender.getValue() == null ? createPresentation() : null;
         if (mSelectedRenderer != null) {
-            mSelectedRenderer.observeForever(mRendererObs);
             mRendererItem = mSelectedRenderer.getValue();
+            mSelectedRenderer.observeForever(mRendererObs);
         }
         mDisplayType = benchmark ? DisplayType.PRIMARY : getCurrentType();
     }
@@ -66,8 +66,10 @@ public class DisplayManager {
     private Observer<RendererItem> mRendererObs = new Observer<RendererItem>() {
         @Override
         public void onChanged(RendererItem rendererItem) {
-            mRendererItem = rendererItem;
-            updateDisplayType();
+            if (mRendererItem != rendererItem) {
+                mRendererItem = rendererItem;
+                updateDisplayType();
+            }
         }
     };
 
