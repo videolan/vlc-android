@@ -141,22 +141,12 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     protected void onStart() {
         ExternalMonitor.INSTANCE.subscribeStorageCb(this);
         super.onStart();
-        if (PlaylistManager.Companion.getShowAudioPlayer().getValue()) showAudioPlayer();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         mPreventRescan = true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mBottomSheetBehavior != null && mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-            updateContainerPadding(true);
-            applyMarginToProgressBar(mBottomSheetBehavior.getPeekHeight());
-        }
     }
 
     @Override
@@ -201,10 +191,9 @@ public class AudioPlayerContainerActivity extends BaseActivity {
             mPreventRescan = false;
             return;
         }
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment current = fm.findFragmentById(R.id.fragment_placeholder);
-        if (current != null && current instanceof IRefreshable)
-            ((IRefreshable) current).refresh();
+        final FragmentManager fm = getSupportFragmentManager();
+        final Fragment current = fm.findFragmentById(R.id.fragment_placeholder);
+        if (current instanceof IRefreshable) ((IRefreshable) current).refresh();
     }
 
     /**
@@ -250,8 +239,6 @@ public class AudioPlayerContainerActivity extends BaseActivity {
         if (!isAudioPlayerReady()) initAudioPlayer();
         if (mAudioPlayerContainer.getVisibility() == View.GONE) {
             mAudioPlayerContainer.setVisibility(View.VISIBLE);
-            updateContainerPadding(true);
-            applyMarginToProgressBar(mBottomSheetBehavior.getPeekHeight());
         }
         if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -306,10 +293,6 @@ public class AudioPlayerContainerActivity extends BaseActivity {
             mScanProgressLayout = findViewById(R.id.scan_progress_layout);
             mScanProgressText = findViewById(R.id.scan_progress_text);
             mScanProgressBar = findViewById(R.id.scan_progress_bar);
-            if (mBottomSheetBehavior != null && mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
-                updateContainerPadding(true);
-                applyMarginToProgressBar(mBottomSheetBehavior.getPeekHeight());
-            }
         } else if (mScanProgressLayout != null)
             mScanProgressLayout.setVisibility(View.VISIBLE);
         final ScanProgress sp = MediaParsingService.Companion.getProgress().getValue();
@@ -322,9 +305,10 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     protected void updateContainerPadding(boolean show) {
         if (mFragmentContainer == null) return;
         int factor = show ? 1 : 0;
+        final int peekHeight = show && mBottomSheetBehavior != null ? mBottomSheetBehavior.getPeekHeight() : 0;
         mFragmentContainer.setPadding(mFragmentContainer.getPaddingLeft(),
                 mFragmentContainer.getPaddingTop(), mFragmentContainer.getPaddingRight(),
-                mOriginalBottomPadding+factor*mBottomSheetBehavior.getPeekHeight());
+                mOriginalBottomPadding+factor*peekHeight);
     }
 
     private void applyMarginToProgressBar(int marginValue) {
@@ -358,13 +342,9 @@ public class AudioPlayerContainerActivity extends BaseActivity {
             switch (newState) {
                 case BottomSheetBehavior.STATE_COLLAPSED:
                     removeTipViewIfDisplayed();
-                    updateContainerPadding(true);
-                    applyMarginToProgressBar(mBottomSheetBehavior.getPeekHeight());
                     break;
                 case BottomSheetBehavior.STATE_HIDDEN:
                     removeTipViewIfDisplayed();
-                    updateContainerPadding(false);
-                    applyMarginToProgressBar(0);
                     break;
             }
         }
@@ -430,10 +410,14 @@ public class AudioPlayerContainerActivity extends BaseActivity {
                     break;
                 case ACTION_SHOW_PLAYER:
                     owner.showAudioPlayer();
+                    owner.updateContainerPadding(true);
+                    owner.applyMarginToProgressBar(owner.mBottomSheetBehavior.getPeekHeight());
                     break;
                 case ACTION_HIDE_PLAYER:
                     removeMessages(ACTION_SHOW_PLAYER);
                     owner.hideAudioPlayer();
+                    owner.updateContainerPadding(false);
+                    owner.applyMarginToProgressBar(0);
                     break;
             }
         }
