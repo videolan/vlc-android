@@ -65,7 +65,6 @@ object RendererDelegate : RendererDiscoverer.EventListener {
     private fun clear() {
         discoverers.clear()
         renderers.clear()
-        PlaybackService.renderer.value = null
     }
 
     override fun onEvent(event: RendererDiscoverer.Event?) {
