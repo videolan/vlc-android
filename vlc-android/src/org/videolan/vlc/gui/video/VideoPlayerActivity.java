@@ -443,10 +443,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             }
             if (mSettings.getBoolean("video_transition_show", true)) showTitle();
             initUI();
-            setPlaybackParameters();
             mForcedTime = mLastTime = -1;
             enableSubs();
-            if (mOptionsDelegate != null) mOptionsDelegate.setup();
         }
     }
 
@@ -1541,6 +1539,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             mTitle.setText(mw.getTitle());
         // Get possible subtitles
         observeDownloadedSubtitles();
+        if (mOptionsDelegate != null) mOptionsDelegate.setup();
     }
 
     private void encounteredError() {
