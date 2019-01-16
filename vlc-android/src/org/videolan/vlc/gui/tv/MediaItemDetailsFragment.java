@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.tv;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -33,9 +34,7 @@ import android.widget.Toast;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.PlaybackServiceFragment;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
@@ -60,8 +59,10 @@ import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.OnActionClickedListener;
 
+import static org.videolan.vlc.util.Constants.ACTION_REMOTE_STOP;
+
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class MediaItemDetailsFragment extends DetailsSupportFragment implements PlaybackService.Client.Callback {
+public class MediaItemDetailsFragment extends DetailsSupportFragment {
     private static final String TAG = "MediaItemDetailsFragment";
     private static final int ID_PLAY = 1;
     private static final int ID_LISTEN = 2;
@@ -77,7 +78,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
     private MediaItemDetails mMedia;
     private MediaWrapper mMediaWrapper;
     private BrowserFavRepository mBrowserFavRepository;
-    private PlaybackService mService;
+    private boolean mMediaStarted;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
         mBackgroundManager = BackgroundManager.getInstance(requireActivity());
         mBackgroundManager.setAutoReleaseOnStop(false);
         mBrowserFavRepository = BrowserFavRepository.Companion.getInstance(requireContext());
+        mMediaStarted = false;
         buildDetails();
     }
 
@@ -98,18 +100,12 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
     public void onPause() {
         mBackgroundManager.release();
         super.onPause();
-        if (mService != null && mService.isPlaying()) mService.stop();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        PlaybackServiceFragment.unregisterPlaybackService(this, this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+        if (mMediaStarted) {
+            final Context ctx = getContext();
+            if (ctx != null) {
+                ctx.sendBroadcast(new Intent(ACTION_REMOTE_STOP));
+            }
+        }
     }
 
     private void buildDetails() {
@@ -141,9 +137,11 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
             public void onActionClicked(Action action) {
                 switch ((int)action.getId()){
                     case ID_LISTEN:
-                        PlaybackServiceFragment.registerPlaybackService(MediaItemDetailsFragment.this, MediaItemDetailsFragment.this);
+                        MediaUtils.INSTANCE.openMedia(activity, mMediaWrapper);
+                        mMediaStarted = true;
                         break;
                     case ID_PLAY:
+                        mMediaStarted = false;
                         TvUtil.INSTANCE.playMedia(activity, media);
                         activity.finish();
                         break;
@@ -189,6 +187,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
                         }
                         break;
                     case ID_PLAY_FROM_START:
+                        mMediaStarted = false;
                         VideoPlayerActivity.start(getActivity(), media.getUri(), true);
                         activity.finish();
                         break;
@@ -205,7 +204,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
                 final Bitmap cover = media.getType() == MediaWrapper.TYPE_AUDIO || media.getType() == MediaWrapper.TYPE_VIDEO
                 ? AudioUtil.readCoverBitmap(mMedia.getArtworkUrl(), 512) : null;
                 final Bitmap blurred = cover != null ? UiTools.blurBitmap(cover) : null;
-                final Boolean browserFavExists = mBrowserFavRepository.browserFavExists((Uri.parse(mMedia.getLocation())));
+                final boolean browserFavExists = mBrowserFavRepository.browserFavExists((Uri.parse(mMedia.getLocation())));
                 final boolean isDir = media.getType() == MediaWrapper.TYPE_DIR;
                 final boolean canSave = isDir && FileUtils.canSave(media);
                 WorkersKt.runOnMainThread(new Runnable() {
@@ -255,16 +254,5 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment implements 
                 });
             }
         });
-    }
-
-    @Override
-    public void onConnected(PlaybackService service) {
-        mService = service;
-        mService.load(mMediaWrapper);
-    }
-
-    @Override
-    public void onDisconnected() {
-        mService = null;
     }
 }

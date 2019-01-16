@@ -43,12 +43,13 @@ import org.videolan.vlc.util.WorkersKt;
 
 import java.util.Locale;
 
+import static org.videolan.vlc.util.Constants.ACTION_REMOTE_BACKWARD;
+import static org.videolan.vlc.util.Constants.ACTION_REMOTE_FORWARD;
+import static org.videolan.vlc.util.Constants.ACTION_REMOTE_PLAYPAUSE;
+import static org.videolan.vlc.util.Constants.ACTION_REMOTE_STOP;
+
 abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
     public static final String TAG = "VLC/VLCAppWidgetProvider";
-    public static final String ACTION_REMOTE_BACKWARD = Strings.buildPkgString("remote.Backward");
-    public static final String ACTION_REMOTE_PLAYPAUSE = Strings.buildPkgString("remote.PlayPause");
-    public static final String ACTION_REMOTE_STOP = Strings.buildPkgString("remote.Stop");
-    public static final String ACTION_REMOTE_FORWARD = Strings.buildPkgString("remote.Forward");
     public static final String ACTION_WIDGET_PREFIX = Strings.buildPkgString("widget.");
     public static final String ACTION_WIDGET_INIT = ACTION_WIDGET_PREFIX+"INIT";
     public static final String ACTION_WIDGET_UPDATE = ACTION_WIDGET_PREFIX+"UPDATE";
@@ -107,8 +108,8 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
         }
 
         if (ACTION_WIDGET_UPDATE.equals(action)) {
-            String title = intent.getStringExtra("title");
-            String artist = intent.getStringExtra("artist");
+            final String title = intent.getStringExtra("title");
+            final String artist = intent.getStringExtra("artist");
             final boolean isplaying = intent.getBooleanExtra("isplaying", false);
 
             views.setTextViewText(R.id.songName, title);
