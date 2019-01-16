@@ -77,6 +77,7 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
     protected ActionMode mActionMode;
     public FloatingActionButton mFabPlay;
     protected T viewModel;
+    private boolean restart = false;
 
     public T getViewModel() {
         return viewModel;
@@ -121,12 +122,16 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
                 }
             });
         }
+        if (restart) onRestart();
     }
+
+    protected void onRestart() {}
 
     @Override
     public void onStop() {
         super.onStop();
         setFabPlayVisibility(false);
+        restart = true;
     }
 
     public void updateActionBar() {

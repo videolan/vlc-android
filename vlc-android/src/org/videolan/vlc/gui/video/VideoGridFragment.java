@@ -137,8 +137,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mBinding.videoGrid.setAdapter(mAdapter);
     }
-
-    private boolean restart = false;
     @Override
     public void onStart() {
         super.onStart();
@@ -146,14 +144,17 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         updateViewMode();
         setFabPlayVisibility(true);
         mFabPlay.setImageResource(R.drawable.ic_fab_play);
-        if (restart && getFilterQuery() == null) viewModel.refresh();
+    }
+
+    @Override
+    protected void onRestart() {
+        if (getFilterQuery() == null) viewModel.refresh();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         unregisterForContextMenu(mBinding.videoGrid);
-        restart = true;
     }
 
     @Override
