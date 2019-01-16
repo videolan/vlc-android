@@ -45,6 +45,8 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
     private var filtering = false
     val progress = MediatorLiveData<PlaybackProgress>()
     val playerState = MutableLiveData<PlayerState>()
+    val connected : Boolean
+        get() = service !== null
 
     private val filter by lazy(LazyThreadSafetyMode.NONE) { PlaylistFilterDelegate(dataset) }
 
@@ -85,7 +87,11 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
         get() = service?.artist
 
     public override fun onCleared() {
-        service?.removeCallback(this)
+        service?.apply {
+            removeCallback(this@PlaylistModel)
+            abRepeat.removeSource(playlistManager.abRepeat)
+            progress.removeSource(playlistManager.player.progress)
+        }
         super.onCleared()
     }
 

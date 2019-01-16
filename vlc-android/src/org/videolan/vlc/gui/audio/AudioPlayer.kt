@@ -158,12 +158,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
 
     override fun onStart() {
         super.onStart()
-        helper.onStart()
+        if (!playlistModel.connected) helper.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        helper.onStop()
+        if (playlistModel.connected) helper.onStop()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
