@@ -297,7 +297,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         audioBoostEnabled = mSettings.getBoolean("audio_boost", false);
 
         mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
-        mDisplayManager = new DisplayManager(this, AndroidDevices.isChromeBook ? PlaybackService.Companion.getRenderer() : null, false, mEnableCloneMode, mIsBenchmark);
+        mDisplayManager = new DisplayManager(this, AndroidDevices.isChromeBook ? null : PlaybackService.Companion.getRenderer(), false, mEnableCloneMode, mIsBenchmark);
         setContentView(mDisplayManager.isPrimary() ? R.layout.player : R.layout.player_remote_control);
 
         /** initialize Views an their Events */
@@ -451,7 +451,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onPause() {
-        if (isFinishing()) overridePendingTransition(0, 0);
+        final boolean finishing = isFinishing();
+        if (finishing) overridePendingTransition(0, 0);
         else hideOverlay(true);
         super.onPause();
         setListeners(false);
@@ -459,11 +460,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         /* Stop the earliest possible to avoid vout error */
 
         if (!isInPictureInPictureMode()) {
-            if (isFinishing() ||
+            if (finishing ||
                     (AndroidUtil.isNougatOrLater && !AndroidUtil.isOOrLater //Video on background on Nougat Android TVs
                             && AndroidDevices.isAndroidTv && !requestVisibleBehind(true)))
                 stopPlayback();
-            else if (!isFinishing() && !mShowingDialog && "2".equals(mSettings.getString(PreferencesActivity.KEY_VIDEO_APP_SWITCH, "0")) && isInteractive()) {
+            else if (!mShowingDialog && "2".equals(mSettings.getString(PreferencesActivity.KEY_VIDEO_APP_SWITCH, "0"))
+                    && isInteractive() && (mService == null || !mService.hasRenderer())) {
                 switchToPopup();
             }
         }
@@ -657,9 +659,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 vlcVout.detachViews();
         }
         final MediaPlayer mediaPlayer = mService.getMediaplayer();
-        mediaPlayer.attachViews(mVideoLayout, mDisplayManager, true, false);
-        final MediaPlayer.ScaleType size = mIsBenchmark ? MediaPlayer.ScaleType.SURFACE_FILL : MediaPlayer.ScaleType.values()[mSettings.getInt(PreferencesActivity.VIDEO_RATIO, MediaPlayer.ScaleType.SURFACE_BEST_FIT.ordinal())];
-        mediaPlayer.setVideoScale(size);
+        if (!mDisplayManager.isOnRenderer()) {
+            mediaPlayer.attachViews(mVideoLayout, mDisplayManager, true, false);
+            final MediaPlayer.ScaleType size = mIsBenchmark ? MediaPlayer.ScaleType.SURFACE_FILL : MediaPlayer.ScaleType.values()[mSettings.getInt(PreferencesActivity.VIDEO_RATIO, MediaPlayer.ScaleType.SURFACE_BEST_FIT.ordinal())];
+            mediaPlayer.setVideoScale(size);
+        }
 
         initUI();
 
