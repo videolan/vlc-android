@@ -33,6 +33,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.api.VLCExtensionItem
@@ -50,11 +52,13 @@ import org.videolan.vlc.util.*
 import java.lang.ref.WeakReference
 
 private const val TAG = "Navigator"
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 class Navigator(private val activity: MainActivity,
-        private val settings: SharedPreferences,
-        private val extensionsService: ExtensionManagerService?,
-        state: Bundle?,
-        target: Int
+                private val settings: SharedPreferences,
+                private val extensionsService: ExtensionManagerService?,
+                state: Bundle?,
+                target: Int
 ): com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener, LifecycleObserver {
 
     private val fragmentsStack = SimpleArrayMap<String, WeakReference<Fragment>>()
@@ -111,7 +115,7 @@ class Navigator(private val activity: MainActivity,
             fm.popBackStackImmediate("root", FragmentManager.POP_BACK_STACK_INCLUSIVE)
         val ft = fm.beginTransaction()
         ft.replace(R.id.fragment_placeholder, fragment, tag)
-        ft.commitNow()
+        ft.commitAllowingStateLoss()
         activity.updateCheckedItem(id)
         currentFragment = fragment
         currentFragmentId = id
