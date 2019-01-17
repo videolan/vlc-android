@@ -237,7 +237,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="@dimen/audio_player_seekbar_bottom_margin"
             android:focusable="true"
             android:maxHeight="1dip"
             android:minHeight="1dip"

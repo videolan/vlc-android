@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="subs_dl_dialog_height">448dp</dimen>
+    <dimen name="audio_player_seekbar_bottom_margin">32dp</dimen>
 </resources>
