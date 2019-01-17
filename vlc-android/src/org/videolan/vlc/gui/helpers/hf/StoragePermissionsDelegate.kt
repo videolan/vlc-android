@@ -83,7 +83,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                 val ctx = activity ?: return
                 if (grantResults.isGranted()) {
                     storageAccessGranted.value = true
-                    deferred.complete(true)
+                    deferredGrant.complete(true)
                     exit()
                 } else {
                     if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -91,14 +91,14 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                         return
                     } else {
                         storageAccessGranted.value = false
-                        deferred.complete(false)
+                        deferredGrant.complete(false)
                         exit()
                     }
                 }
                 storageAccessGranted.value = false
-                deferred.complete(false)
+                deferredGrant.complete(false)
             }
-            Permissions.PERMISSION_WRITE_STORAGE_TAG -> deferred.complete(grantResults.isGranted())
+            Permissions.PERMISSION_WRITE_STORAGE_TAG -> deferredGrant.complete(grantResults.isGranted())
         }
     }
 
@@ -130,7 +130,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                 (fragment as StoragePermissionsDelegate).requestStorageAccess(write)
                 return false //Fragment is already waiting for answear
             }
-            return fragment.deferred.await()
+            return fragment.awaitGrant()
         }
 
         private fun getAction(activity: FragmentActivity, firstRun: Boolean, upgrade: Boolean) = Runnable {

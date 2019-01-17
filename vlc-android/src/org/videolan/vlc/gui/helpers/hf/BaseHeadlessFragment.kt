@@ -29,7 +29,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.coroutines.CompletableDeferred
 
 open class BaseHeadlessFragment : Fragment() {
-    val deferred = CompletableDeferred<Boolean>()
+    protected val deferredGrant = CompletableDeferred<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,12 +37,15 @@ open class BaseHeadlessFragment : Fragment() {
     }
 
     protected fun exit() {
-        activity?.run { if (!isFinishing) supportFragmentManager
-                    .beginTransaction()
-                    .remove(this@BaseHeadlessFragment)
-                    .commitAllowingStateLoss()
+        activity?.run {
+            if (!isFinishing) supportFragmentManager
+                .beginTransaction()
+                .remove(this@BaseHeadlessFragment)
+                .commitAllowingStateLoss()
         }
     }
-}
 
-internal fun IntArray.isGranted() = isNotEmpty() && get(0) == PackageManager.PERMISSION_GRANTED
+    suspend fun awaitGrant() = deferredGrant.await()
+
+    protected fun IntArray.isGranted() = isNotEmpty() && get(0) == PackageManager.PERMISSION_GRANTED
+}

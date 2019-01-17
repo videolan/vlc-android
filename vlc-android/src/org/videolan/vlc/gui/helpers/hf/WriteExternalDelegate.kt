@@ -38,7 +38,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
                 .setPositiveButton(R.string.ok) { _, _ ->
                     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
                     storage = arguments?.getString(KEY_STORAGE_PATH)?.apply { intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse(this)) }
-                    startActivityForResult(intent, REQUEST_CODE_STORAGE_ACCES)
+                    startActivityForResult(intent, REQUEST_CODE_STORAGE_ACCESS)
                 }
                 .setNeutralButton(getString(R.string.dialog_sd_wizard)) { _, _ -> showHelpDialog() }.create().show()
     }
@@ -56,7 +56,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
     @TargetApi(Build.VERSION_CODES.KITKAT)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (data !== null && requestCode == REQUEST_CODE_STORAGE_ACCES) {
+        if (data !== null && requestCode == REQUEST_CODE_STORAGE_ACCESS) {
             if (resultCode == Activity.RESULT_OK) {
                 val context = context ?: return
                 val treeUri = data.data ?: return
@@ -72,24 +72,24 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
                     val file = DocumentFile.fromTreeUri(context, uriPermission.uri)
                     if (treeFile?.name == file?.name) {
                         contentResolver.releasePersistableUriPermission(uriPermission.uri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                        deferred.complete(false)
+                        deferredGrant.complete(false)
                         return
                     }
                 }
 
                 // else set permission
                 contentResolver.takePersistableUriPermission(treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                deferred.complete(true)
+                deferredGrant.complete(true)
                 return
             }
         }
-        deferred.complete(false)
+        deferredGrant.complete(false)
     }
 
     companion object {
         internal const val TAG = "VLC/WriteExternal"
         internal const val KEY_STORAGE_PATH = "VLC/storage_path"
-        private const val REQUEST_CODE_STORAGE_ACCES = 42
+        private const val REQUEST_CODE_STORAGE_ACCESS = 42
 
         fun askForExtWrite(activity: FragmentActivity?, uri: Uri, cb: Runnable? = null) {
             AppScope.launch {
@@ -103,7 +103,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
             val fragment = WriteExternalDelegate()
             fragment.arguments = Bundle(1).apply { putString(KEY_STORAGE_PATH, storage) }
             activity.supportFragmentManager.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
-            return fragment.deferred.await()
+            return fragment.awaitGrant()
         }
 
         fun needsWritePermission(uri: Uri) : Boolean {
