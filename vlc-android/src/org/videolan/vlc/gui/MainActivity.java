@@ -89,7 +89,7 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Util.checkCpuCompatibility(this);
-        Permissions.checkReadStoragePermission(this, false);
+        if (savedInstanceState == null) Permissions.checkReadStoragePermission(this, false);
         /*** Start initializing the UI ***/
         setContentView(R.layout.main);
         mDrawerLayout = findViewById(R.id.root_container);
