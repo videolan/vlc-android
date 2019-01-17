@@ -176,7 +176,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     @Override
     public String getTitle() {
-        return mGroup == null ? mFolder == null ? getString(R.string.videos) : mFolder.getTitle() : mGroup + "\u2026";
+        return mGroup == null ? mFolder == null ? getString(R.string.video) : mFolder.getTitle() : mGroup + "\u2026";
     }
 
     private void updateViewMode() {

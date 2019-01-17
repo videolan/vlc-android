@@ -85,7 +85,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
         mSwipeRefreshLayout.setOnRefreshListener { activity?.reload() }
     }
 
-    override fun getTitle() = getString(R.string.videos)
+    override fun getTitle() = getString(R.string.video)
 
     override fun onRefresh() {
         viewModel.refresh()
