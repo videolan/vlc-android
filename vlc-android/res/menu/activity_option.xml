@@ -22,14 +22,14 @@
         android:id="@+id/ml_menu_last_playlist"
         android:icon="@drawable/ic_menu_lastplaylist"
         android:title="@string/last_playlist"
-        vlc:showAsAction="always|collapseActionView"
+        vlc:showAsAction="ifRoom|collapseActionView"
         android:visible="false"/>
     <item
         android:orderInCategory="2"
         android:title="@string/sortby"
         android:icon="@drawable/ic_menu_sort"
         android:id="@+id/ml_menu_sortby"
-        vlc:showAsAction="always|collapseActionView"
+        vlc:showAsAction="ifRoom|collapseActionView"
         android:visible="false">
         <menu>
             <item
