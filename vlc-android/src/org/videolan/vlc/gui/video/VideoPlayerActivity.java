@@ -118,6 +118,7 @@ import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.PlaylistModel;
 
 import java.lang.reflect.Method;
@@ -126,6 +127,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import androidx.annotation.WorkerThread;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -1430,19 +1432,32 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 break;
             case MediaPlayer.Event.ESAdded:
                 if (mMenuIdx == -1) {
-                    MediaWrapper media = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
-                    if (media == null)
-                        return;
+                    final MediaWrapper media = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
+                    if (media == null) return;
                     if (event.getEsChangedType() == Media.Track.Type.Audio) {
                         setESTrackLists();
-                        int audioTrack = (int) media.getMetaLong(MediaWrapper.META_AUDIOTRACK);
-                        if (audioTrack != 0 || mCurrentAudioTrack != -2)
-                            mService.setAudioTrack(media.getId() == 0L ? mCurrentAudioTrack : audioTrack);
+                        WorkersKt.runIO(new Runnable() {
+                            @Override
+                            public void run() {
+                                int audioTrack = (int) media.getMetaLong(MediaWrapper.META_AUDIOTRACK);
+                                if (audioTrack != 0 || mCurrentAudioTrack != -2)
+                                    mService.setAudioTrack(media.getId() == 0L ? mCurrentAudioTrack : audioTrack);
+                            }
+                        });
                     } else if (event.getEsChangedType() == Media.Track.Type.Text) {
                         setESTrackLists();
-                        int spuTrack = (int) media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK);
-                        if (spuTrack != 0 || mCurrentSpuTrack != -2)
-                            mService.setSpuTrack(media.getId() == 0L ? mCurrentAudioTrack : spuTrack);
+                        WorkersKt.runIO(new Runnable() {
+                            @Override
+                            public void run() {
+                                int spuTrack = (int) media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK);
+                                if (spuTrack != 0 || mCurrentSpuTrack != -2)
+                                    mService.setSpuTrack(media.getId() == 0L ? mCurrentSpuTrack : spuTrack);
+                                else if (mService.getSpuTracksCount() == 2){
+                                    final MediaPlayer.TrackDescription[] tracks = mService.getSpuTracks();
+                                    if (tracks != null) setSpuTrack(tracks[1].id);
+                                }
+                            }
+                        });
                     }
                 }
             case MediaPlayer.Event.ESDeleted:
@@ -1942,8 +1957,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             idList[i] = track.id;
             nameList[i] = track.name;
             // map the track position to the list position
-            if (track.id == currentTrack)
-                listPosition = i;
+            if (track.id == currentTrack) listPosition = i;
             i++;
         }
 
@@ -1990,12 +2004,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         selectTrack(mAudioTracksList, mService.getAudioTrack(), R.string.track_audio,
                 new TrackSelectedListener() {
                     @Override
-                    public void onTrackSelected(int trackID) {
+                    public void onTrackSelected(final int trackID) {
                         if (trackID < -1 || mService == null) return;
                         mService.setAudioTrack(trackID);
-                        MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
-                        if (mw != null && mw.getId() != 0L)
-                            mw.setLongMeta(MediaWrapper.META_AUDIOTRACK, trackID);
+                            WorkersKt.runIO(new Runnable() {
+                                @Override
+                                public void run() {
+                                    final MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
+                                    if (mw != null && mw.getId() != 0L) mw.setLongMeta(MediaWrapper.META_AUDIOTRACK, trackID);
+                                }
+                            });
                     }
                 });
     }
@@ -2005,15 +2023,24 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         selectTrack(mSubtitleTracksList, mService.getSpuTrack(), R.string.track_text,
                 new TrackSelectedListener() {
                     @Override
-                    public void onTrackSelected(int trackID) {
-                        if (trackID < -1 || mService == null)
-                            return;
-                        mService.setSpuTrack(trackID);
-                        final MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
-                        if (mw != null && mw.getId() != 0L)
-                            mw.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID);
+                    public void onTrackSelected(final int trackID) {
+                        if (trackID < -1 || mService == null) return;
+                        WorkersKt.runIO(new Runnable() {
+                            @Override
+                            public void run() {
+                                setSpuTrack(trackID);
+                            }
+                        });
                     }
                 });
+    }
+
+    @WorkerThread
+    private void setSpuTrack(final int trackID) {
+        mService.setSpuTrack(trackID);
+        final MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
+        if (mw != null && mw.getId() != 0L)
+            mw.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID);
     }
 
     private void showNavMenu() {
@@ -2593,8 +2620,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
 
     private Observer downloadedSubtitleObserver = new Observer<List<ExternalSub>>() {
         @Override
-        public void onChanged
-                (@Nullable List <ExternalSub> externalSubs) {
+        public void onChanged(@Nullable List <ExternalSub> externalSubs) {
             for (ExternalSub externalSub : externalSubs) {
                 if (!addedExternalSubs.contains(externalSub)) {
                     mService.addSubtitleTrack(externalSub.getSubtitlePath(), false);
@@ -2869,9 +2895,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
              * transmitted to navigation handling.
              */
             hideOverlay(false);
-        }
-        else if (mMenuIdx != -1)
-            setESTracks();
+        } else if (mMenuIdx != -1) setESTracks();
 
         UiTools.setViewVisibility(mNavMenu, mMenuIdx >= 0 && mNavMenu != null ? View.VISIBLE : View.GONE);
         supportInvalidateOptionsMenu();
