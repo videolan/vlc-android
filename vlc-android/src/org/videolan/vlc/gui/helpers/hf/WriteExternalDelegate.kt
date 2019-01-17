@@ -11,17 +11,17 @@ import androidx.fragment.app.FragmentActivity
 import androidx.documentfile.provider.DocumentFile
 import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
-import androidx.annotation.RequiresApi
-import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.util.Settings
 
 
 class WriteExternalDelegate : BaseHeadlessFragment() {
+    private var storage : String? = null
 
     @TargetApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,12 +32,12 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
     @TargetApi(Build.VERSION_CODES.O)
     private fun showDialog() {
         if (!isAdded) return
-        val builder = AlertDialog.Builder(activity!!)
+        val builder = AlertDialog.Builder(requireActivity())
         builder.setMessage(R.string.sdcard_permission_dialog_message)
                 .setTitle(R.string.sdcard_permission_dialog_title)
                 .setPositiveButton(R.string.ok) { _, _ ->
                     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
-                    arguments?.getString(KEY_STORAGE_PATH)?.let { intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse(it)) }
+                    storage = arguments?.getString(KEY_STORAGE_PATH)?.apply { intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse(this)) }
                     startActivityForResult(intent, REQUEST_CODE_STORAGE_ACCES)
                 }
                 .setNeutralButton(getString(R.string.dialog_sd_wizard)) { _, _ -> showHelpDialog() }.create().show()
@@ -72,35 +72,38 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
                     val file = DocumentFile.fromTreeUri(context, uriPermission.uri)
                     if (treeFile?.name == file?.name) {
                         contentResolver.releasePersistableUriPermission(uriPermission.uri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                        deferred.complete(false)
                         return
                     }
                 }
 
                 // else set permission
                 contentResolver.takePersistableUriPermission(treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                permissions = contentResolver.persistedUriPermissions
-                executePendingAction()
+                deferred.complete(true)
                 return
             }
         }
+        deferred.complete(false)
     }
 
     companion object {
         internal const val TAG = "VLC/WriteExternal"
         internal const val KEY_STORAGE_PATH = "VLC/storage_path"
         private const val REQUEST_CODE_STORAGE_ACCES = 42
-        private var permissions = VLCApplication.getAppContext().contentResolver.persistedUriPermissions
-        private lateinit var storage: String
 
         fun askForExtWrite(activity: FragmentActivity?, uri: Uri, cb: Runnable? = null) {
-            if (activity === null) return
+            AppScope.launch {
+                if (getExtWritePermission(activity, uri)) cb?.run()
+            }
+        }
+
+        suspend fun getExtWritePermission(activity: FragmentActivity?, uri: Uri) : Boolean {
+            if (activity === null) return false
+            val storage = FileUtils.getMediaStorage(uri) ?: return false
             val fragment = WriteExternalDelegate()
-            val channel = if (cb != null) Channel<Unit>(1) else null
-            storage = FileUtils.getMediaStorage(uri) ?: return
             fragment.arguments = Bundle(1).apply { putString(KEY_STORAGE_PATH, storage) }
-            channel?.let { fragment.channel = it }
             activity.supportFragmentManager.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
-            channel?.let { waitForIt(it, cb!!) }
+            return fragment.deferred.await()
         }
 
         fun needsWritePermission(uri: Uri) : Boolean {

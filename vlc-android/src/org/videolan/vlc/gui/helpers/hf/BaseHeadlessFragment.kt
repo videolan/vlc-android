@@ -23,55 +23,23 @@
 
 package org.videolan.vlc.gui.helpers.hf
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.SendChannel
-import kotlinx.coroutines.launch
-import org.videolan.vlc.util.AppScope
+import kotlinx.coroutines.CompletableDeferred
 
 open class BaseHeadlessFragment : Fragment() {
-    protected var fragmentActivity: FragmentActivity? = null
-    var channel: SendChannel<Unit>? = null
+    val deferred = CompletableDeferred<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        fragmentActivity = context as? FragmentActivity
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        fragmentActivity = null
-    }
-
     protected fun exit() {
-        fragmentActivity?.run { if (!isFinishing) supportFragmentManager
+        activity?.run { if (!isFinishing) supportFragmentManager
                     .beginTransaction()
                     .remove(this@BaseHeadlessFragment)
                     .commitAllowingStateLoss()
-        }
-    }
-
-    fun executePendingAction() {
-        channel?.offer(Unit)
-        channel = null
-    }
-
-    companion object {
-
-        internal fun waitForIt(channel: Channel<Unit>, cb: Runnable) {
-            AppScope.launch {
-                channel.receive()
-                channel.close()
-                cb.run()
-            }
         }
     }
 }
