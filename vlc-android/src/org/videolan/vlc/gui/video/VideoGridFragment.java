@@ -360,7 +360,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         final Activity activity = getActivity();
         if (media instanceof MediaGroup) {
             final String title = media.getTitle().substring(media.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
-            ((MainActivity)activity).getNavigator().showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
+            if (activity instanceof MainActivity)
+                ((MainActivity)activity).getNavigator().showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
         } else {
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             final SharedPreferences settings = Settings.INSTANCE.getInstance(v.getContext());
