@@ -25,12 +25,10 @@ package org.videolan.vlc.gui.helpers.hf
 
 import android.Manifest
 import android.annotation.TargetApi
-import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.startMedialibrary
@@ -58,11 +56,9 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         if (intent !== null && intent.getBooleanExtra(EXTRA_UPGRADE, false)) {
             upgrade = true
             firstRun = intent.getBooleanExtra(EXTRA_FIRST_RUN, false)
-            intent.removeExtra(EXTRA_UPGRADE)
-            intent.removeExtra(EXTRA_FIRST_RUN)
         }
         write = arguments?.getBoolean("write") ?: false
-        if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(activity!!)) {
+        if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(requireContext())) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
                 Permissions.showStoragePermissionDialog(requireActivity(), false)
             else
@@ -85,18 +81,24 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             Permissions.PERMISSION_STORAGE_TAG -> {
                 // If request is cancelled, the result arrays are empty.
                 val ctx = activity ?: return
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ctx is CustomActionController) ctx.onStorageAccessGranted()
-                    else ctx.startMedialibrary(firstRun, upgrade, true)
+                if (grantResults.isGranted()) {
                     storageAccessGranted.value = true
+                    deferred.complete(true)
                     exit()
                 } else {
-                    Permissions.showStoragePermissionDialog(ctx, false)
-                    if (!shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        Permissions.showStoragePermissionDialog(ctx, false)
+                        return
+                    } else {
+                        storageAccessGranted.value = false
+                        deferred.complete(false)
                         exit()
+                    }
                 }
+                storageAccessGranted.value = false
+                deferred.complete(false)
             }
-            Permissions.PERMISSION_WRITE_STORAGE_TAG -> deferred.complete(true)
+            Permissions.PERMISSION_WRITE_STORAGE_TAG -> deferred.complete(grantResults.isGranted())
         }
     }
 
@@ -106,8 +108,11 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         val storageAccessGranted = LiveEvent<Boolean>()
 
         fun askStoragePermission(activity: FragmentActivity, write: Boolean, cb: Runnable?) {
+            val intent = activity.intent
+            val upgrade = intent?.getBooleanExtra(EXTRA_UPGRADE, false) ?: false
+            val firstRun = upgrade && intent.getBooleanExtra(EXTRA_FIRST_RUN, false)
             AppScope.launch {
-                if (getStoragePermission(activity, write)) (cb ?: getAction(activity)).run()
+                if (getStoragePermission(activity, write)) (cb ?: getAction(activity, firstRun, upgrade)).run()
             }
         }
 
@@ -123,18 +128,14 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                 fm.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
             } else {
                 (fragment as StoragePermissionsDelegate).requestStorageAccess(write)
+                return false //Fragment is already waiting for answear
             }
             return fragment.deferred.await()
         }
 
-        private fun getAction(activity: FragmentActivity) = Runnable {
+        private fun getAction(activity: FragmentActivity, firstRun: Boolean, upgrade: Boolean) = Runnable {
             if (activity is CustomActionController) activity.onStorageAccessGranted()
             else {
-                val intent = activity.intent
-                val upgrade = intent.getBooleanExtra(EXTRA_UPGRADE, false)
-                val firstRun = upgrade && intent.getBooleanExtra(EXTRA_FIRST_RUN, false)
-                intent.removeExtra(EXTRA_UPGRADE)
-                intent.removeExtra(EXTRA_FIRST_RUN)
                 activity.startMedialibrary(firstRun, upgrade, true)
             }
         }

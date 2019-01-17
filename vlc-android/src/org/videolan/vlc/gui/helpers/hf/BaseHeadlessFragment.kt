@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.helpers.hf
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.CompletableDeferred
@@ -43,3 +44,5 @@ open class BaseHeadlessFragment : Fragment() {
         }
     }
 }
+
+internal fun IntArray.isGranted() = isNotEmpty() && get(0) == PackageManager.PERMISSION_GRANTED

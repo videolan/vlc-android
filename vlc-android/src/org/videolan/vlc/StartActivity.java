@@ -125,7 +125,8 @@ public class StartActivity extends FragmentActivity {
             }
         });
         final Intent intent = new Intent(StartActivity.this, tv ? MainTvActivity.class : MainActivity.class)
-                .putExtra(Constants.EXTRA_FIRST_RUN, firstRun);
+                .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
+                .putExtra(Constants.EXTRA_UPGRADE, upgrade);
         if (tv && getIntent().hasExtra(Constants.EXTRA_PATH)) intent.putExtra(Constants.EXTRA_PATH, getIntent().getStringExtra(Constants.EXTRA_PATH));
         if (target != 0) intent.putExtra(Constants.EXTRA_TARGET, target);
         startActivity(intent);
