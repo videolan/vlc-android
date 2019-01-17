@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.documentfile.provider.DocumentFile
 import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
+import androidx.annotation.RequiresApi
 import kotlinx.coroutines.channels.Channel
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.R
@@ -28,6 +29,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
         showDialog()
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     private fun showDialog() {
         if (!isAdded) return
         val builder = AlertDialog.Builder(activity!!)
@@ -57,7 +59,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
         if (data !== null && requestCode == REQUEST_CODE_STORAGE_ACCES) {
             if (resultCode == Activity.RESULT_OK) {
                 val context = context ?: return
-                val treeUri = data.data
+                val treeUri = data.data ?: return
                 Settings.getInstance(context).edit()
                         .putString("tree_uri_$storage", treeUri.toString())
                         .apply()
@@ -102,7 +104,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
         }
 
         fun needsWritePermission(uri: Uri) : Boolean {
-            val path = uri.path
+            val path = uri.path ?: return false
             return AndroidUtil.isLolliPopOrLater && "file" == uri.scheme
                     && !TextUtils.isEmpty(path) && path.startsWith('/')
                     && !path.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)

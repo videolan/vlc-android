@@ -42,9 +42,9 @@ import videolan.org.commontools.LiveEvent
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class StoragePermissionsDelegate : BaseHeadlessFragment() {
 
-    private var mFirstRun: Boolean = false
-    private var mUpgrade: Boolean = false
-    private var mWrite: Boolean = false
+    private var firstRun: Boolean = false
+    private var upgrade: Boolean = false
+    private var write: Boolean = false
 
     interface CustomActionController {
         fun onStorageAccessGranted()
@@ -52,22 +52,22 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val intent = if (mActivity == null) null else mActivity!!.intent
+        val intent = if (fragmentActivity == null) null else fragmentActivity!!.intent
         if (intent !== null && intent.getBooleanExtra(EXTRA_UPGRADE, false)) {
-            mUpgrade = true
-            mFirstRun = intent.getBooleanExtra(EXTRA_FIRST_RUN, false)
+            upgrade = true
+            firstRun = intent.getBooleanExtra(EXTRA_FIRST_RUN, false)
             intent.removeExtra(EXTRA_UPGRADE)
             intent.removeExtra(EXTRA_FIRST_RUN)
         }
-        mWrite = arguments?.getBoolean("write") ?: false
+        write = arguments?.getBoolean("write") ?: false
         if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(activity!!)) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
-                Permissions.showStoragePermissionDialog(mActivity, false)
+                Permissions.showStoragePermissionDialog(fragmentActivity, false)
             else
                 requestStorageAccess(false)
-        } else if (mWrite) {
+        } else if (write) {
             if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
-                Permissions.showStoragePermissionDialog(mActivity, false)
+                Permissions.showStoragePermissionDialog(fragmentActivity, false)
             else
                 requestStorageAccess(true)
         }
@@ -85,11 +85,11 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                 val ctx = activity ?: return
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (ctx is CustomActionController) ctx.onStorageAccessGranted()
-                    else ctx.startMedialibrary(mFirstRun, mUpgrade, true)
+                    else ctx.startMedialibrary(firstRun, upgrade, true)
                     storageAccessGranted.value = true
                     exit()
-                } else if (mActivity != null) {
-                    Permissions.showStoragePermissionDialog(mActivity, false)
+                } else if (fragmentActivity != null) {
+                    Permissions.showStoragePermissionDialog(fragmentActivity, false)
                     if (!shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
                         exit()
                 }

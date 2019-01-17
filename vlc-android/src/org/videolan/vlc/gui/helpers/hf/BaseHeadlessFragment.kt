@@ -32,9 +32,8 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.launch
 import org.videolan.vlc.util.AppScope
 
-open class
-BaseHeadlessFragment : Fragment() {
-    protected var mActivity: FragmentActivity? = null
+open class BaseHeadlessFragment : Fragment() {
+    protected var fragmentActivity: FragmentActivity? = null
     var channel: SendChannel<Unit>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,20 +43,24 @@ BaseHeadlessFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is FragmentActivity) mActivity = context
+        fragmentActivity = context as? FragmentActivity
     }
 
     override fun onDetach() {
         super.onDetach()
-        mActivity = null
+        fragmentActivity = null
     }
 
     protected fun exit() {
-        if (mActivity?.isFinishing == false) mActivity!!.supportFragmentManager.beginTransaction().remove(this).commitAllowingStateLoss()
+        fragmentActivity?.run { if (!isFinishing) supportFragmentManager
+                    .beginTransaction()
+                    .remove(this@BaseHeadlessFragment)
+                    .commitAllowingStateLoss()
+        }
     }
 
     fun executePendingAction() {
-        channel?.let { it.offer(Unit) }
+        channel?.offer(Unit)
         channel = null
     }
 
