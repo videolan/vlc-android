@@ -21,6 +21,7 @@ package org.videolan.vlc
 
 import android.annotation.TargetApi
 import android.app.KeyguardManager
+import android.app.Notification
 import android.app.PendingIntent
 import android.app.SearchManager
 import android.app.Service
@@ -565,13 +566,14 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     private fun forceForeground() {
         val ctx = this@PlaybackService
-        val notification = NotificationHelper.createPlaybackNotification(ctx,false,
+        val stopped = playlistManager.player.playbackState == PlaybackStateCompat.STATE_STOPPED
+        val notification = if (this::notification.isInitialized && !stopped) notification
+        else NotificationHelper.createPlaybackNotification(ctx,false,
                 ctx.resources.getString(R.string.loading), "", "",null,
                 false, mediaSession.sessionToken, sessionPendingIntent)
         startForeground(3, notification)
         isForeground = true
-        if (isVideoPlaying || AndroidDevices.showTvUi(this)
-                || playlistManager.player.playbackState == PlaybackStateCompat.STATE_STOPPED) hideNotification(true)
+        if (isVideoPlaying || AndroidDevices.showTvUi(this) || stopped) hideNotification(true)
     }
 
     private fun sendStartSessionIdIntent() {
@@ -677,7 +679,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
                     if (cover == null || cover.isRecycled)
                         cover = BitmapFactory.decodeResource(ctx.resources, R.drawable.ic_no_media)
 
-                    val notification = NotificationHelper.createPlaybackNotification(ctx,
+                    notification = NotificationHelper.createPlaybackNotification(ctx,
                             mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO), title, artist, album,
                             cover, playing, sessionToken, sessionPendingIntent)
                     if (isPlayingPopup) return@launch
@@ -703,6 +705,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
             }
         }
     }
+    private lateinit var notification : Notification
 
     private fun currentMediaHasFlag(flag: Int): Boolean {
         val mw = playlistManager.getCurrentMedia()
