@@ -173,7 +173,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:barrierDirection="start"
-                app:constraint_referenced_ids="header_time, playlist_ab_repeat"/>
+                app:constraint_referenced_ids="header_time, playlist_search"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
