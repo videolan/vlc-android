@@ -35,6 +35,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.api.VLCExtensionItem
@@ -115,7 +116,8 @@ class Navigator(private val activity: MainActivity,
             fm.popBackStackImmediate("root", FragmentManager.POP_BACK_STACK_INCLUSIVE)
         val ft = fm.beginTransaction()
         ft.replace(R.id.fragment_placeholder, fragment, tag)
-        ft.commitAllowingStateLoss()
+        if (BuildConfig.DEBUG) ft.commit()
+        else ft.commitAllowingStateLoss()
         activity.updateCheckedItem(id)
         currentFragment = fragment
         currentFragmentId = id
