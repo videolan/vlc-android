@@ -98,7 +98,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         mBinding = DataBindingUtil.setContentView(this, R.layout.playlist_activity);
 
         initAudioPlayerContainerActivity();
-        mFragmentContainer = findViewById(R.id.container_list);
+        mFragmentContainer = mBinding.songs;
         mOriginalBottomPadding = mFragmentContainer.getPaddingBottom();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -146,8 +146,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                     });
                 }
             });
-        } else
-            fabFallback();
+        } else fabFallback();
         mBinding.fab.setOnClickListener(this);
     }
 
@@ -155,18 +154,12 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         mBinding.appbar.setExpanded(false);
         ViewCompat.setNestedScrollingEnabled(mBinding.songs, false);
         final CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mBinding.fab.getLayoutParams();
-        lp.setAnchorId(R.id.container_list);
+        lp.setAnchorId(R.id.songs);
         lp.anchorGravity = Gravity.BOTTOM|Gravity.RIGHT|Gravity.END;
         lp.bottomMargin = getResources().getDimensionPixelSize(R.dimen.default_margin);
         lp.setBehavior(new FloatingActionButtonBehavior(PlaylistActivity.this, null));
         mBinding.fab.setLayoutParams(lp);
         mBinding.fab.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        mFragmentContainer = mBinding.songs;
-        super.onPostCreate(savedInstanceState);
     }
 
     @Override

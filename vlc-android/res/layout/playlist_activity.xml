@@ -53,8 +53,7 @@
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <FrameLayout
-            android:id="@+id/container_list"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             vlc:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -66,12 +65,13 @@
                 android:layout_height="match_parent"
                 android:fastScrollEnabled="true"
                 android:layout_gravity="center_horizontal"
+                android:paddingTop="16dp"
                 android:paddingBottom="@dimen/listview_bottom_padding"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 style="@style/Theme.VLC.List"
                 android:background="?attr/background_default" />
-        </FrameLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             vlc:rippleColor="@color/orange50"
