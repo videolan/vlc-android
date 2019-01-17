@@ -1,0 +1,25 @@
+From 7daadc49d786987a0edcc75652cccf02e6f8ae76 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Thu, 17 Jan 2019 10:01:34 +0100
+Subject: [PATCH] smb2: Fix potential NULL dereference
+
+---
+ modules/access/smb2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/modules/access/smb2.c b/modules/access/smb2.c
+index 280c544174..f3bb23a358 100644
+--- a/modules/access/smb2.c
++++ b/modules/access/smb2.c
+@@ -476,7 +476,7 @@ vlc_smb2_open_share(stream_t *access, const struct smb2_url *smb2_url,
+         password = "";
+     }
+ 
+-    smb2_set_password(sys->smb2, password);
++    smb2_set_password(sys->smb2, password ? password : "");
+     smb2_set_domain(sys->smb2, domain ? domain : "");
+ 
+     if (smb2_connect_share_async(sys->smb2, smb2_url->server, share,
+-- 
+2.20.1
+
