@@ -77,11 +77,8 @@
 
     <androidx.appcompat.widget.ViewStubCompat
         android:id="@+id/player_options_stub"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:fitsSystemWindows="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout="@layout/player_options" />
 
 </RelativeLayout>

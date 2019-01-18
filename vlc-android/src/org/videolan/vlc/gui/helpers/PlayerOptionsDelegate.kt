@@ -9,6 +9,7 @@ import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.ViewStubCompat
@@ -61,6 +62,7 @@ private const val ID_ABREPEAT = 13
 class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: PlaybackService) : LifecycleObserver {
 
     private lateinit var recyclerview : RecyclerView
+    private lateinit var rootView : FrameLayout
     private val toast by lazy(LazyThreadSafetyMode.NONE) { Toast.makeText(activity, "", Toast.LENGTH_SHORT) }
 
     private val primary = activity is VideoPlayerActivity && activity.mDisplayManager.isPrimary
@@ -116,18 +118,20 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
 
     fun show() {
         activity.findViewById<ViewStubCompat>(R.id.player_options_stub)?.let {
-            recyclerview = it.inflate() as RecyclerView
-            activity.lifecycle.addObserver(this)
+            rootView = it.inflate() as FrameLayout
+            recyclerview = rootView.findViewById(R.id.options_list)
             service.lifecycle.addObserver(this)
+            activity.lifecycle.addObserver(this)
             if (recyclerview.layoutManager == null) recyclerview.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             recyclerview.adapter = OptionsAdapter()
+            rootView.setOnClickListener { hide() }
             setup()
         }
-        recyclerview.visibility = View.VISIBLE
+        rootView.visibility = View.VISIBLE
     }
 
     fun hide() {
-        recyclerview.visibility = View.GONE
+        rootView.visibility = View.GONE
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
@@ -316,7 +320,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         toast.show()
     }
 
-    fun isShowing() = recyclerview.visibility == View.VISIBLE
+    fun isShowing() = rootView.visibility == View.VISIBLE
 
     private inner class OptionsAdapter : DiffUtilAdapter<PlayerOption, OptionsAdapter.ViewHolder>() {
 
