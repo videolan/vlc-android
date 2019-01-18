@@ -8,6 +8,7 @@ import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.ScaleGestureDetectorCompat
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Tools
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.util.AndroidDevices
 
@@ -362,24 +363,25 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             return false
         }
 
-        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float ) = if (e1.x < screenConfig.metrics.widthPixels * 0.95) false
-        else try {
-            val diffY = e2.y - e1.y
-            val diffX = e2.x - e1.x
-            if (Math.abs(diffX) > Math.abs(diffY)) {
-                if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                    if (diffX > 0) onSwipeRight()
-                    else onSwipeLeft()
+        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float ) = try {
+            if (e1.x < screenConfig.metrics.widthPixels * 0.95) false
+            else {
+                val diffY = e2.y - e1.y
+                val diffX = e2.x - e1.x
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffX > 0) onSwipeRight()
+                        else onSwipeLeft()
+                        true
+                    } else false
+                } else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                    if (diffY > 0) onSwipeBottom()
+                    else onSwipeTop()
                     true
                 } else false
             }
-            else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                if (diffY > 0) onSwipeBottom()
-                else onSwipeTop()
-                true
-            } else false
         } catch (exception: Exception) {
-            exception.printStackTrace()
+            if (BuildConfig.DEBUG) exception.printStackTrace()
             false
         }
 
