@@ -56,6 +56,7 @@ import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
+import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_PLAYLIST;
 
 public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> implements MultiSelectAdapter<MediaLibraryItem> {
 
@@ -75,7 +76,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         mType = type;
         mDefaultCover = getIconDrawable();
         mSort = sort;
-        setHasStableIds(true);
+        setHasStableIds(type != TYPE_PLAYLIST);
     }
 
     void setSort(int sort) {
@@ -159,7 +160,9 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
 
     @Override
     public long getItemId(int position) {
-        return isPositionValid(position) ? getItem(position).getId() : -1;
+        if (!isPositionValid(position)) return -1;
+        final MediaLibraryItem item = getItem(position);
+        return item != null ? item.getId() : -1;
     }
 
     @Nullable
