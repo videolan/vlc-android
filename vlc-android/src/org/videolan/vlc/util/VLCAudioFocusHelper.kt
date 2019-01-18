@@ -23,17 +23,28 @@
  */
 package org.videolan.vlc.util
 
+import android.annotation.TargetApi
 import android.content.Context
+import android.media.AudioAttributes
+import android.media.AudioFocusRequest
 import android.media.AudioManager
+import android.os.Build
 import android.util.Log
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 
 private const val TAG = "VLCAudioFocusHelper"
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
+@Suppress("DEPRECATION")
 class VLCAudioFocusHelper(private val service: PlaybackService) {
 
     private lateinit var audioManager: AudioManager
+    private lateinit var audioFocusRequest : AudioFocusRequest
     private var hasAudioFocus = false
     @Volatile
     internal var lossTransient = false
@@ -45,18 +56,39 @@ class VLCAudioFocusHelper(private val service: PlaybackService) {
 
         if (acquire && !service.hasRenderer()) {
             if (!hasAudioFocus) {
-                val result = audioManager.requestAudioFocus(audioFocusListener,
-                        AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
+                val result = requestAudioFocus()
                 if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                     audioManager.setParameters("bgm_state=true")
                     hasAudioFocus = true
                 }
             }
         } else if (hasAudioFocus) {
-            audioManager.abandonAudioFocus(audioFocusListener)
+            abandonAudioFocus()
             audioManager.setParameters("bgm_state=false")
             hasAudioFocus = false
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun abandonAudioFocus() = if (AndroidUtil.isOOrLater) {
+        audioManager.abandonAudioFocusRequest(audioFocusRequest)
+    } else {
+        audioManager.abandonAudioFocus(audioFocusListener)
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private fun requestAudioFocus() = if (AndroidUtil.isOOrLater) {
+        val attributes = AudioAttributes.Builder()
+                .setContentType(if (service.isVideoPlaying) AudioAttributes.CONTENT_TYPE_MOVIE else AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build()
+        audioFocusRequest = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                .setOnAudioFocusChangeListener(audioFocusListener)
+                .setAudioAttributes(attributes)
+                .build()
+        audioManager.requestAudioFocus(audioFocusRequest)
+    } else {
+        audioManager.requestAudioFocus(audioFocusListener,
+                AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
     }
 
     private fun createOnAudioFocusChangeListener(): AudioManager.OnAudioFocusChangeListener {
