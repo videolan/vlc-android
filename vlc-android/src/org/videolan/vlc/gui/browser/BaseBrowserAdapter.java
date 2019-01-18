@@ -23,7 +23,6 @@
 package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
-import androidx.databinding.ViewDataBinding;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -49,6 +48,8 @@ import org.videolan.vlc.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.databinding.ViewDataBinding;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_MEDIA;
 import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_STORAGE;
@@ -125,7 +126,7 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
         vh.binding.setHasContextMenu((!mNetworkRoot || isFavorite)
                 && !"content".equals(media.getUri().getScheme())
                 && !"otg".equals(media.getUri().getScheme()));
-        if (media.getType() != MediaWrapper.TYPE_DIR) vh.binding.setFilename(media.getFileName());
+        vh.binding.setFilename(media.getType() != MediaWrapper.TYPE_DIR ? media.getFileName() : null);
         if (mNetworkRoot) vh.binding.setProtocol(getProtocol(media));
         vh.binding.setCover(getIcon(media, mSpecialIcons));
         vh.selectView(multiSelectHelper.isSelected(position));
