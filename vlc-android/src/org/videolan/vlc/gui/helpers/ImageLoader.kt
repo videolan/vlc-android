@@ -36,8 +36,10 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
             || item.itemType == MediaLibraryItem.TYPE_GENRE
             || item.itemType == MediaLibraryItem.TYPE_PLAYLIST)
         return
-    val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
     val isMedia = item.itemType == MediaLibraryItem.TYPE_MEDIA
+    if (isMedia && (item as MediaWrapper).uri.scheme != "file") {
+        return
+    }
     val isGroup = isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_GROUP
     val isFolder = !isMedia && item.itemType == MediaLibraryItem.TYPE_FOLDER;
     val cacheKey = when {
@@ -46,6 +48,7 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
         else -> ThumbnailsProvider.getMediaCacheKey(isMedia, item)
     }
     val bitmap = if (cacheKey !== null) sBitmapCache.getBitmapFromMemCache(cacheKey) else null
+    val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
     if (bitmap !== null) updateImageView(bitmap, v, binding)
     else AppScope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding) }
 }
