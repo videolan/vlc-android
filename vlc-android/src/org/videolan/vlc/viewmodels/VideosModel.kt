@@ -44,7 +44,7 @@ open class VideosModel(context: Context, private val group: String?, val folder 
     override val sortKey = "${super.sortKey}_$group"
     override fun canSortByFileNameName() = true
     override fun canSortByDuration() = true
-    override fun canSortByLastModified() = true
+    override fun canSortByLastModified() = folder == null
 
     private val thumbObs = Observer<MediaWrapper> { media -> if (!updateActor.isClosedForSend) updateActor.offer(MediaUpdate(listOf(media!!))) }
 
