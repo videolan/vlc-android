@@ -25,16 +25,21 @@
 package org.videolan.vlc.gui.helpers;
 
 import android.content.Context;
-import androidx.annotation.Keep;
-import com.google.android.material.appbar.AppBarLayout;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
 import org.videolan.vlc.R;
+
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 @Keep
 public class FloatingActionButtonBehavior extends FloatingActionButton.Behavior {
@@ -58,11 +63,13 @@ public class FloatingActionButtonBehavior extends FloatingActionButton.Behavior 
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
-        return dependency.getId() == R.id.audio_player_container || dependency instanceof Snackbar.SnackbarLayout || dependency instanceof AppBarLayout;
+        return dependency.getId() == R.id.audio_player_container
+                || dependency instanceof Snackbar.SnackbarLayout
+                || dependency instanceof RecyclerView;
     }
 
     @Override
-    public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View directTargetChild, View target, int nestedScrollAxes) {
+    public boolean onStartNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) {
         return true;
     }
 
@@ -70,15 +77,15 @@ public class FloatingActionButtonBehavior extends FloatingActionButton.Behavior 
     public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
         if (dependency.getId() == R.id.audio_player_container && dependency.getVisibility() == View.VISIBLE) {
             int childHeight = ((CoordinatorLayout.LayoutParams)child.getLayoutParams()).bottomMargin + child.getHeight();
-            ViewCompat.setY(child, ViewCompat.getY(dependency) - childHeight);
+            child.setY(dependency.getY()-childHeight);
             return true;
         } else
             return super.onDependentViewChanged(parent, child, dependency);
     }
 
     @Override
-    public void onNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-        super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
+    public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull FloatingActionButton child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
+        super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type);
         if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE)
             child.hide(mOnVisibilityChangedListener);
         else if (dyConsumed < 0 && child.getVisibility() == View.INVISIBLE)
