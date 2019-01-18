@@ -24,29 +24,20 @@
 package org.videolan.vlc.gui;
 
 import android.annotation.TargetApi;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
 import android.content.Intent;
-import androidx.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.view.ViewCompat;
-import androidx.appcompat.view.ActionMode;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -78,6 +69,16 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.view.ActionMode;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 public class PlaylistActivity extends AudioPlayerContainerActivity implements IEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver {
 
     public final static String TAG = "VLC/PlaylistActivity";
@@ -92,7 +93,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     private PagedTracksModel tracksModel;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.playlist_activity);
@@ -121,7 +122,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 }
             }
         });
-        final int fabVisibility =  savedInstanceState != null ? savedInstanceState.getInt(TAG_FAB_VISIBILITY) : -1;
+        final boolean fabVisibility = savedInstanceState != null && savedInstanceState.getBoolean(TAG_FAB_VISIBILITY);
 
         if (!TextUtils.isEmpty(mPlaylist.getArtworkMrl())) {
             WorkersKt.runIO(new Runnable() {
@@ -134,8 +135,10 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                             @Override
                             public void run() {
                                 mBinding.appbar.setExpanded(true, true);
-                                if (fabVisibility != -1)
-                                    mBinding.fab.setVisibility(fabVisibility);
+                                if (savedInstanceState != null) {
+                                    if (fabVisibility) mBinding.fab.show();
+                                    else mBinding.fab.hide();
+                                }
                             }
                         });
                     } else WorkersKt.runOnMainThread(new Runnable() {
@@ -152,14 +155,13 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     private void fabFallback() {
         mBinding.appbar.setExpanded(false);
-        ViewCompat.setNestedScrollingEnabled(mBinding.songs, false);
         final CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) mBinding.fab.getLayoutParams();
         lp.setAnchorId(R.id.songs);
-        lp.anchorGravity = Gravity.BOTTOM|Gravity.RIGHT|Gravity.END;
+        lp.anchorGravity = Gravity.BOTTOM|Gravity.END;
         lp.bottomMargin = getResources().getDimensionPixelSize(R.dimen.default_margin);
         lp.setBehavior(new FloatingActionButtonBehavior(PlaylistActivity.this, null));
         mBinding.fab.setLayoutParams(lp);
-        mBinding.fab.setVisibility(View.VISIBLE);
+        mBinding.fab.show();
     }
 
     @Override
@@ -171,7 +173,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putParcelable(AudioBrowserFragment.TAG_ITEM, mPlaylist);
-        outState.putInt(TAG_FAB_VISIBILITY, mBinding.fab.getVisibility());
+        outState.putBoolean(TAG_FAB_VISIBILITY, mBinding.fab.getVisibility() == View.VISIBLE);
         super.onSaveInstanceState(outState);
     }
 
