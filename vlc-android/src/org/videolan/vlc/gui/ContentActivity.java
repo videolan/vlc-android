@@ -40,6 +40,7 @@ import org.videolan.vlc.gui.audio.AudioBrowserFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.browser.MediaBrowserFragment;
 import org.videolan.vlc.gui.dialogs.RenderersDialog;
+import org.videolan.vlc.gui.folders.FoldersFragment;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.interfaces.Filterable;
@@ -201,7 +202,8 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
         final MenuItem sortItem = menu.findItem(R.id.ml_menu_sortby);
             if (sortItem != null) sortItem.setVisible(!hide && ((MediaBrowserFragment) current).getViewModel().canSortByName());
         }
-        if (current instanceof VideoGridFragment || current instanceof AudioBrowserFragment) {
+        if (current instanceof VideoGridFragment || current instanceof AudioBrowserFragment
+            || current instanceof FoldersFragment) {
             final MenuItem lastItem = menu.findItem(R.id.ml_menu_last_playlist);
             if (lastItem != null) lastItem.setVisible(!hide);
         }

@@ -18,13 +18,11 @@ import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.reload
-import org.videolan.vlc.util.CTX_ADD_TO_PLAYLIST
-import org.videolan.vlc.util.CTX_APPEND
-import org.videolan.vlc.util.CTX_FOLDER_FLAGS
-import org.videolan.vlc.util.CTX_PLAY
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.paged.PagedFoldersModel
 import kotlin.coroutines.CoroutineContext
 
@@ -89,6 +87,20 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
 
     override fun onRefresh() {
         viewModel.refresh()
+    }
+
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        super.onPrepareOptionsMenu(menu)
+        menu!!.findItem(R.id.ml_menu_last_playlist).isVisible = true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?)= when (item!!.itemId) {
+        R.id.ml_menu_last_playlist -> {
+            MediaUtils.loadlastPlaylist(activity, PLAYLIST_TYPE_VIDEO)
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onCtxAction(position: Int, option: Int) {
