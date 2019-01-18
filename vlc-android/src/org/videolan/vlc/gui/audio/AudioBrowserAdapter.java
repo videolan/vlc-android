@@ -24,15 +24,9 @@
 package org.videolan.vlc.gui.audio;
 
 import android.annotation.TargetApi;
-import androidx.paging.PagedList;
-import androidx.paging.PagedListAdapter;
 import android.content.Context;
-import androidx.databinding.ViewDataBinding;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DiffUtil;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +48,13 @@ import org.videolan.vlc.util.Util;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.ViewDataBinding;
+import androidx.paging.PagedList;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
+
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 
 public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> implements MultiSelectAdapter<MediaLibraryItem> {
@@ -74,6 +75,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         mType = type;
         mDefaultCover = getIconDrawable();
         mSort = sort;
+        setHasStableIds(true);
     }
 
     void setSort(int sort) {
