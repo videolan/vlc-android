@@ -64,7 +64,7 @@
             android:paddingBottom="@dimen/listview_bottom_padding"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            style="@style/Theme.VLC.List"
+            android:scrollbars="vertical"
             vlc:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
