@@ -67,7 +67,7 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="25dp"
+            android:layout_margin="16dp"
             vlc:layout_anchor="@+id/appbar"
             vlc:layout_anchorGravity="bottom|right|end"
             android:src="@drawable/ic_fab_play"
