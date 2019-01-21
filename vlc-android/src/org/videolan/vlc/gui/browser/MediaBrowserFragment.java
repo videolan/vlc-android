@@ -43,7 +43,6 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.ContentActivity;
 import org.videolan.vlc.gui.InfoActivity;
-import org.videolan.vlc.gui.audio.BaseAudioBrowser;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
@@ -81,6 +80,10 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
 
     public T getViewModel() {
         return viewModel;
+    }
+
+    protected boolean hasTabs() {
+        return false;
     }
 
     @Override
@@ -143,7 +146,7 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
             activity.getSupportActionBar().setSubtitle(getSubTitle());
             activity.supportInvalidateOptionsMenu();
         }
-        if (activity instanceof ContentActivity) ((ContentActivity)activity).toggleAppBarElevation(!(this instanceof BaseAudioBrowser));
+        if (activity instanceof ContentActivity) ((ContentActivity)activity).setTabLayoutVisibility(hasTabs());
     }
 
     @Override

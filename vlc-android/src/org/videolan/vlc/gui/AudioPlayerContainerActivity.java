@@ -38,6 +38,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.tabs.TabLayout;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
@@ -76,6 +77,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
 
     protected AppBarLayout mAppBarLayout;
     protected Toolbar mToolbar;
+    private TabLayout mTabLayout;
     protected AudioPlayer mAudioPlayer;
     private FrameLayout mAudioPlayerContainer;
     protected PlaybackService mService;
@@ -108,8 +110,13 @@ public class AudioPlayerContainerActivity extends BaseActivity {
         mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
         mAppBarLayout = findViewById(R.id.appbar);
+        mTabLayout = findViewById(R.id.sliding_tabs);
         mAppBarLayout.setExpanded(true);
         mAudioPlayerContainer = findViewById(R.id.audio_player_container);
+    }
+
+    public void setTabLayoutVisibility(boolean show) {
+        mTabLayout.setVisibility( show ? View.VISIBLE : View.GONE);
     }
 
     private float elevation = 0f;

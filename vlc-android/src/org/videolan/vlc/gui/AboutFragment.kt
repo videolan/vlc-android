@@ -29,7 +29,9 @@ import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
@@ -43,10 +45,8 @@ import org.videolan.vlc.util.Util
 private const val TAG = "VLC/AboutFragment"
 private const val MODE_TOTAL = 2 // Number of audio browser modes
 
+@ExperimentalCoroutinesApi
 class AboutFragment : Fragment() {
-
-    private lateinit var viewPager: ViewPager
-    private lateinit var tabLayout: com.google.android.material.tabs.TabLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.about, container, false)
@@ -58,8 +58,7 @@ class AboutFragment : Fragment() {
         (activity as? AppCompatActivity)?.supportActionBar?.title = "VLC ${BuildConfig.VERSION_NAME}"
         //Fix android 7 Locale problem with webView
         //https://stackoverflow.com/questions/40398528/android-webview-locale-changes-abruptly-on-android-n
-        if (AndroidUtil.isNougatOrLater)
-            UiTools.setLocale(activity)
+        if (AndroidUtil.isNougatOrLater) UiTools.setLocale(activity)
 
         val aboutMain = view.findViewById<ScrollView>(R.id.about_main)
         val webView = view.findViewById<WebView>(R.id.webview)
@@ -67,12 +66,14 @@ class AboutFragment : Fragment() {
 
         val lists = arrayOf(aboutMain, webView)
         val titles = arrayOf(getString(R.string.about), getString(R.string.licence))
-        viewPager = view.findViewById(R.id.pager)
-        viewPager.offscreenPageLimit = MODE_TOTAL - 1
-        viewPager.adapter = AudioPagerAdapter(lists, titles)
-
-        tabLayout = view.findViewById(R.id.sliding_tabs)
-        tabLayout.setupWithViewPager(viewPager)
+        val viewPager = view.findViewById<ViewPager>(R.id.pager).apply {
+            offscreenPageLimit = MODE_TOTAL - 1
+            adapter = AudioPagerAdapter(lists, titles)
+        }
+        requireActivity().findViewById<TabLayout>(R.id.sliding_tabs).apply {
+            visibility = View.VISIBLE
+            setupWithViewPager(viewPager)
+        }
         coroutineScope.launch {
             val asset = withContext(Dispatchers.IO) {
                 Util.readAsset("licence.htm", "").replace("!COMMITID!", revision)

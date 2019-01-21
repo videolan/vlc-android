@@ -30,4 +30,7 @@
         android:visibility="gone"
         android:layout_marginStart="16dp"
         app:layout_scrollFlags="scroll|enterAlways" />
+
+    <include layout="@layout/tab_layout"
+        android:visibility="gone"/>
 </com.google.android.material.appbar.AppBarLayout>

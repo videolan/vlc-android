@@ -60,9 +60,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
+public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefreshLayout.OnRefreshListener {
     public final static String TAG = "VLC/AudioBrowserFragment";
 
     private AudioBrowserAdapter mSongsAdapter;
@@ -75,8 +74,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private PagedTracksModel tracksModel;
     private PagedGenresModel genresModel;
 
-    private ViewPager mViewPager;
-    private TabLayout mTabLayout;
     private TextView mEmptyView;
     private final RecyclerView[] mLists = new RecyclerView[MODE_TOTAL];
     private MLPagedModel<MediaLibraryItem>[] models;
@@ -95,6 +92,11 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     public final static String TAG_ITEM = "ML_ITEM";
 
     @Override
+    protected boolean hasTabs() {
+        return true;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (mSettings == null) mSettings = Settings.INSTANCE.getInstance(requireContext());
@@ -110,8 +112,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mEmptyView = view.findViewById(R.id.no_media);
-        mViewPager = view.findViewById(R.id.pager);
-        mTabLayout = view.findViewById(R.id.sliding_tabs);
     }
 
     @Override
@@ -140,7 +140,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             mLists[i].addOnScrollListener(mScrollListener);
         }
         mViewPager.setOnTouchListener(mSwipeFilter);
-        setupTabLayout();
         mSwipeRefreshLayout.setOnRefreshListener(this);
     }
 
@@ -198,24 +197,11 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         }
     }
 
-    private void setupTabLayout() {
-        mTabLayout.setupWithViewPager(mViewPager);
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-        mTabLayout.addOnTabSelectedListener(this);
-    }
-
     @Override
     public void onStart() {
         super.onStart();
-        mViewPager.addOnPageChangeListener(this);
-        mFabPlay.setImageResource(R.drawable.ic_fab_shuffle);
         setFabPlayShuffleAllVisibility();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mViewPager.removeOnPageChangeListener(this);
+        mFabPlay.setImageResource(R.drawable.ic_fab_shuffle);
     }
 
     @Override
@@ -264,13 +250,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         setFabPlayShuffleAllVisibility();
     }
 
-    private final TabLayout.TabLayoutOnPageChangeListener tcl = new TabLayout.TabLayoutOnPageChangeListener(mTabLayout);
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        tcl.onPageScrolled(position, positionOffset, positionOffsetPixels);
-    }
-
     @Override
     public void onPageSelected(int position) {
         updateEmptyView();
@@ -279,7 +258,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        requireActivity().invalidateOptionsMenu();
+        super.onTabSelected(tab);
         mSettings.edit().putInt(Constants.KEY_AUDIO_CURRENT_TAB, tab.getPosition()).apply();
         final Boolean loading = getViewModel().getLoading().getValue();
         if (loading == null || !loading) mHandler.sendEmptyMessage(UNSET_REFRESHING);
@@ -288,20 +267,14 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
 
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
-        stopActionMode();
+        super.onTabUnselected(tab);
         onDestroyActionMode((AudioBrowserAdapter) mLists[tab.getPosition()].getAdapter());
-        mActivity.closeSearchView();
         models[tab.getPosition()].restore();
     }
 
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
         mLists[tab.getPosition()].smoothScrollToPosition(0);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-        tcl.onPageScrollStateChanged(state);
     }
 
     @Override

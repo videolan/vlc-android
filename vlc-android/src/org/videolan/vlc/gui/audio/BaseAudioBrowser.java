@@ -24,9 +24,12 @@
 package org.videolan.vlc.gui.audio;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.google.android.material.tabs.TabLayout;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -52,15 +55,22 @@ import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.view.ActionMode;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
-public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel> implements IEventsHandler, CtxActionReceiver {
+public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel> implements IEventsHandler, CtxActionReceiver, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
 
     ContentActivity mActivity;
     AudioBrowserAdapter[] mAdapters;
     protected AudioBrowserAdapter mAdapter;
+    protected TabLayout mTabLayout;
+    protected ViewPager mViewPager;
+
+    private final TabLayout.TabLayoutOnPageChangeListener tcl = new TabLayout.TabLayoutOnPageChangeListener(mTabLayout);
 
     public AudioBrowserAdapter getCurrentAdapter() {
         return mAdapter;
@@ -73,6 +83,71 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
         super.onAttach(context);
         mActivity = (ContentActivity) context;
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mViewPager = view.findViewById(R.id.pager);
+        mTabLayout = requireActivity().findViewById(R.id.sliding_tabs);
+    }
+
+    private TabLayout.TabLayoutOnPageChangeListener mLayoutOnPageChangeListener;
+    private void setupTabLayout() {
+        if (mTabLayout == null || mViewPager == null) return;
+        mTabLayout.setupWithViewPager(mViewPager);
+        if (mLayoutOnPageChangeListener == null) mLayoutOnPageChangeListener = new TabLayout.TabLayoutOnPageChangeListener(mTabLayout);
+        mViewPager.addOnPageChangeListener(mLayoutOnPageChangeListener);
+        mTabLayout.addOnTabSelectedListener(this);
+        mViewPager.addOnPageChangeListener(this);
+    }
+
+    private void unSetTabLayout() {
+        if (mTabLayout == null || mViewPager == null) return;
+        mViewPager.removeOnPageChangeListener(mLayoutOnPageChangeListener);
+        mTabLayout.removeOnTabSelectedListener(this);
+        mViewPager.removeOnPageChangeListener(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setupTabLayout();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        unSetTabLayout();
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        final FragmentActivity activity = getActivity();
+        if (activity == null) return;
+        activity.invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+        stopActionMode();
+        mActivity.closeSearchView();
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {}
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        tcl.onPageScrolled(position, positionOffset, positionOffsetPixels);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        tcl.onPageScrollStateChanged(state);
+    }
+
+    @Override
+    public void onPageSelected(int position) {}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -110,38 +185,36 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
     public boolean onActionItemClicked(ActionMode mode, final MenuItem item) {
         final List<MediaLibraryItem> list = getCurrentAdapter().getMultiSelectHelper().getSelection();
         stopActionMode();
-        if (!list.isEmpty()) {
-            WorkersKt.runIO(new Runnable() {
-                @Override
-                public void run() {
-                    final List<MediaWrapper> tracks = new ArrayList<>();
-                    for (MediaLibraryItem mediaItem : list)
-                        tracks.addAll(Arrays.asList(mediaItem.getTracks()));
-                    WorkersKt.runOnMainThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            switch (item.getItemId()) {
-                                case R.id.action_mode_audio_play:
-                                    MediaUtils.INSTANCE.openList(getActivity(), tracks, 0);
-                                    break;
-                                case R.id.action_mode_audio_append:
-                                    MediaUtils.INSTANCE.appendMedia(getActivity(), tracks);
-                                    break;
-                                case R.id.action_mode_audio_add_playlist:
-                                    UiTools.addToPlaylist(getActivity(), tracks);
-                                    break;
-                                case R.id.action_mode_audio_info:
-                                    showInfoDialog(list.get(0));
-                                    break;
-                                case R.id.action_mode_audio_set_song:
-                                    AudioUtil.setRingtone((MediaWrapper) list.get(0), getActivity());
-                                    break;
-                            }
+        if (!list.isEmpty()) WorkersKt.runIO(new Runnable() {
+            @Override
+            public void run() {
+                final List<MediaWrapper> tracks = new ArrayList<>();
+                for (MediaLibraryItem mediaItem : list)
+                    tracks.addAll(Arrays.asList(mediaItem.getTracks()));
+                WorkersKt.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        switch (item.getItemId()) {
+                            case R.id.action_mode_audio_play:
+                                MediaUtils.INSTANCE.openList(getActivity(), tracks, 0);
+                                break;
+                            case R.id.action_mode_audio_append:
+                                MediaUtils.INSTANCE.appendMedia(getActivity(), tracks);
+                                break;
+                            case R.id.action_mode_audio_add_playlist:
+                                UiTools.addToPlaylist(getActivity(), tracks);
+                                break;
+                            case R.id.action_mode_audio_info:
+                                showInfoDialog(list.get(0));
+                                break;
+                            case R.id.action_mode_audio_set_song:
+                                AudioUtil.setRingtone((MediaWrapper) list.get(0), getActivity());
+                                break;
                         }
-                    });
-                }
-            });
-        }
+                    }
+                });
+            }
+        });
         return true;
     }
 
