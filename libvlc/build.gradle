@@ -60,7 +60,7 @@ clean {
 }
 
 dependencies {
-    api "androidx.annotation:annotation:$rootProject.ext.androidxVersion"
+    api "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
     api "androidx.legacy:legacy-support-v4:$rootProject.ext.androidxVersion"
 }
 

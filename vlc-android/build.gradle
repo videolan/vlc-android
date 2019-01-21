@@ -214,7 +214,7 @@ dependencies {
     // AppCompat
     implementation "androidx.recyclerview:recyclerview:$rootProject.ext.androidxVersion"
     implementation "com.google.android.material:material:$rootProject.ext.androidxVersion"
-    implementation "androidx.annotation:annotation:$rootProject.ext.androidxVersion"
+    implementation "androidx.annotation:annotation:$rootProject.ext.androidxAnnotationVersion"
     implementation "androidx.preference:preference:$rootProject.ext.androidxVersion"
     implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintLayoutVersion"
 
