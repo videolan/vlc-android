@@ -42,7 +42,6 @@ import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Settings;
-import org.videolan.vlc.util.WorkersKt;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -118,12 +117,12 @@ public class StartActivity extends FragmentActivity {
     private void startApplication(final boolean tv, final boolean firstRun, final boolean upgrade, final int target) {
         // Start Medialibrary from background to workaround Dispatchers.Main causing ANR
         // cf https://github.com/Kotlin/kotlinx.coroutines/issues/878
-        WorkersKt.runBackground(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 MediaParsingServiceKt.startMedialibrary(StartActivity.this, firstRun, upgrade, true);
             }
-        });
+        }).start();
         final Intent intent = new Intent(StartActivity.this, tv ? MainTvActivity.class : MainActivity.class)
                 .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
                 .putExtra(Constants.EXTRA_UPGRADE, upgrade);

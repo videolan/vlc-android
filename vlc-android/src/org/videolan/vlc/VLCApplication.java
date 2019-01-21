@@ -20,11 +20,13 @@
 package org.videolan.vlc;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.util.Log;
 
 import org.videolan.libvlc.Dialog;
@@ -77,28 +79,35 @@ public class VLCApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        WorkersKt.runIO(new Runnable() {
+        //Initiate Kotlinx Dispatchers in a thread to prevent ANR
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                locale = Settings.INSTANCE.getInstance(instance).getString("set_locale", "");
+                WorkersKt.runIO(new Runnable() {
+                    @Override
+                    public void run() {
+                        locale = Settings.INSTANCE.getInstance(instance).getString("set_locale", "");
 
-                // Set the locale for API < 24 and set application resources and direction for API >=24
-                setLocale(getAppContext());
+                        // Set the locale for API < 24 and set application resources and direction for API >=24
+                        setLocale(getAppContext());
+                    }
+                });
+
+                WorkersKt.runIO(new Runnable() {
+                    @TargetApi(Build.VERSION_CODES.O)
+                    @Override
+                    public void run() {
+
+                        if (AndroidUtil.isOOrLater) NotificationHelper.createNotificationChannels(VLCApplication.this);
+                        // Prepare cache folder constants
+                        AudioUtil.prepareCacheFolder(getAppContext());
+
+                        if (!VLCInstance.testCompatibleCPU(getAppContext())) return;
+                        Dialog.setCallbacks(VLCInstance.get(), mDialogCallbacks);
+                    }
+                });
             }
-        });
-
-        WorkersKt.runIO(new Runnable() {
-            @Override
-            public void run() {
-
-                if (AndroidUtil.isOOrLater) NotificationHelper.createNotificationChannels(VLCApplication.this);
-                // Prepare cache folder constants
-                AudioUtil.prepareCacheFolder(getAppContext());
-
-                if (!VLCInstance.testCompatibleCPU(getAppContext())) return;
-                Dialog.setCallbacks(VLCInstance.get(), mDialogCallbacks);
-            }
-        });
+        }).start();
     }
 
     @Override

@@ -5,7 +5,7 @@ import kotlinx.coroutines.*
 
 fun runBackground(runnable: Runnable) {
     if (Looper.myLooper() != Looper.getMainLooper()) runnable.run()
-    else GlobalScope.launch(Dispatchers.Default) { runnable.run() }
+    else AppScope.launch(Dispatchers.Default) { runnable.run() }
 }
 
 fun runOnMainThread(runnable: Runnable) {
@@ -13,9 +13,10 @@ fun runOnMainThread(runnable: Runnable) {
 }
 
 fun runIO(runnable: Runnable) {
-    GlobalScope.launch(Dispatchers.IO) { runnable.run() }
+    AppScope.launch(Dispatchers.IO) { runnable.run() }
 }
 
 object AppScope : CoroutineScope {
+    @ExperimentalCoroutinesApi
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
 }
