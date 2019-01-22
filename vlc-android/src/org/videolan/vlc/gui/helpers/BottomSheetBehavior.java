@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import org.videolan.vlc.gui.AudioPlayerContainerActivity;
+
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
@@ -13,7 +15,9 @@ public class BottomSheetBehavior<V extends View> extends com.google.android.mate
     public static final String TAG = "VLC/BottomSheetBehavior";
     private boolean lock = false;
 
-    public BottomSheetBehavior() {}
+    public BottomSheetBehavior() {
+        setHideable(true);
+    }
 
     public BottomSheetBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -31,6 +35,18 @@ public class BottomSheetBehavior<V extends View> extends com.google.android.mate
         } catch (NullPointerException ignored) {
             // BottomSheetBehavior receives input events too soon and mNestedScrollingChildRef is not set yet.
             return false;
+        }
+    }
+
+    @Override
+    public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull V child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
+        if (lock) return;
+        if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
+            final AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity) child.getContext();
+            activity.hideAudioPlayer();
+        } else if (dyConsumed < 0 && getState() == BottomSheetBehavior.STATE_HIDDEN) {
+            final AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity) child.getContext();
+            activity.showAudioPlayer();
         }
     }
 

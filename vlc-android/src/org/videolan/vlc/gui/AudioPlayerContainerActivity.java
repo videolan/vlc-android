@@ -28,7 +28,6 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -242,15 +241,20 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     /**
      * Show the audio player.
      */
-    public synchronized void showAudioPlayer() {
+    public void showAudioPlayer() {
+        mActivityHandler.sendEmptyMessageDelayed(ACTION_SHOW_PLAYER, 100L);
+    }
+
+    private void showAudioPlayerImpl() {
         if (!isAudioPlayerReady()) initAudioPlayer();
-        if (mAudioPlayerContainer.getVisibility() == View.GONE) {
+        if (mAudioPlayerContainer.getVisibility() != View.VISIBLE) {
             mAudioPlayerContainer.setVisibility(View.VISIBLE);
         }
         if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }
         mBottomSheetBehavior.setHideable(false);
+        mBottomSheetBehavior.lock(false);
     }
 
     /**
@@ -278,6 +282,10 @@ public class AudioPlayerContainerActivity extends BaseActivity {
      * Hide the audio player.
      */
     public void hideAudioPlayer() {
+        mActivityHandler.sendEmptyMessage(ACTION_HIDE_PLAYER);
+    }
+
+    private void hideAudioPlayerImpl() {
         if (!isAudioPlayerReady()) return;
         mBottomSheetBehavior.setHideable(true);
         mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
@@ -366,8 +374,11 @@ public class AudioPlayerContainerActivity extends BaseActivity {
         PlaylistManager.Companion.getShowAudioPlayer().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(@Nullable Boolean showPlayer) {
-                if (showPlayer) mActivityHandler.sendEmptyMessageDelayed(ACTION_SHOW_PLAYER, 100L);
-                else mActivityHandler.sendEmptyMessage(ACTION_HIDE_PLAYER);
+                if (showPlayer) showAudioPlayer();
+                else {
+                    hideAudioPlayer();
+                    if (mBottomSheetBehavior != null) mBottomSheetBehavior.lock(true);
+                }
             }
         });
         MediaParsingService.Companion.getProgress().observe(this, new Observer<ScanProgress>() {
@@ -416,13 +427,13 @@ public class AudioPlayerContainerActivity extends BaseActivity {
                     owner.showProgressBar();
                     break;
                 case ACTION_SHOW_PLAYER:
-                    owner.showAudioPlayer();
+                    owner.showAudioPlayerImpl();
                     owner.updateContainerPadding(true);
                     owner.applyMarginToProgressBar(owner.mBottomSheetBehavior.getPeekHeight());
                     break;
                 case ACTION_HIDE_PLAYER:
                     removeMessages(ACTION_SHOW_PLAYER);
-                    owner.hideAudioPlayer();
+                    owner.hideAudioPlayerImpl();
                     owner.updateContainerPadding(false);
                     owner.applyMarginToProgressBar(0);
                     break;
