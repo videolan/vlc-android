@@ -27,6 +27,8 @@ cache:
             - build-common
             - compile.sh
             - compile-libvlc.sh
+    except:
+        - schedules
     variables:
         EXTRA_BUILD_PARAM: -l
 
@@ -43,6 +45,8 @@ cache:
             - build-common
             - compile-libvlc.sh
             - compile-medialibrary.sh
+    except:
+        - schedules
     variables:
         EXTRA_BUILD_PARAM: -ml
 
