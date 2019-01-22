@@ -35,6 +35,7 @@ ext {
     targetSdkVersion = 28
     compileSdkVersion = 28
     androidxCoreVersion = '1.0.1'
+    androidxPreferencesVersion = '1.1.0-alpha02'
     androidxVersion = '1.0.0'
     androidxAnnotationVersion = '1.0.1'
     androidxAppcompatVersion = '1.0.2'

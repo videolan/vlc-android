@@ -26,7 +26,7 @@ class DeviceDialog : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        dialog.setTitle(getString(R.string.device_dialog_title))
+        dialog?.setTitle(getString(R.string.device_dialog_title))
         val binding = DialogExtDeviceBinding.inflate(inflater, container, false)
         binding.handler = clickHandler
         if (scan) binding.extDeviceScan.visibility = View.VISIBLE

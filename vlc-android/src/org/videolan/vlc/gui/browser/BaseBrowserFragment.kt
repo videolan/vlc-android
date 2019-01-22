@@ -106,9 +106,9 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val item = menu!!.findItem(R.id.ml_menu_filter)
+        val item = menu.findItem(R.id.ml_menu_filter)
         if (item != null) item.isVisible = enableSearchOption()
         val sortItem = menu.findItem(R.id.ml_menu_sortby)
         if (sortItem != null) sortItem.isVisible = !isRootDirectory
@@ -353,7 +353,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         adapter.multiSelectHelper.clearSelection()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item!!.itemId) {
             R.id.ml_menu_save -> {
                 toggleFavorite()

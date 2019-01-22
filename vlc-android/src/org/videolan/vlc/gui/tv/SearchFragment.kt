@@ -118,7 +118,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
         (activity as? SearchActivity)?.updateEmptyView(empty)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_SPEECH && resultCode == Activity.RESULT_OK) setSearchQuery(data, true)
     }
 }

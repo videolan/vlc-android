@@ -91,7 +91,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
         viewModel.observableHistory.observe(this, Observer { adapter.setList(it) })
         binding.play.setOnClickListener(this)
 
-        dialog.setTitle(R.string.open_mrl_dialog_title)
+        dialog?.setTitle(R.string.open_mrl_dialog_title)
         return binding.root
     }
 

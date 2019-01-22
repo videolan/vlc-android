@@ -14,7 +14,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.coroutines.NonCancellable.isActive
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.isActive
@@ -90,7 +89,7 @@ class SubtitleDownloaderDialogFragment: DialogFragment() {
         return binding.root
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         // In manifest for VideoPlayerActivity defined
         // android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout"
