@@ -132,13 +132,11 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        final RecyclerView.RecycledViewPool rvp = new RecyclerView.RecycledViewPool();
         for (RecyclerView rv : mLists) {
             rv.setLayoutManager(new LinearLayoutManager(view.getContext()));
             final LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             llm.setRecycleChildrenOnDetach(true);
             rv.setLayoutManager(llm);
-            rv.setRecycledViewPool(rvp);
             rv.addOnScrollListener(mScrollListener);
         }
         mFabPlay.setImageResource(R.drawable.ic_fab_play);

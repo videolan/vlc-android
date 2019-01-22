@@ -128,13 +128,11 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         mViewPager.setOffscreenPageLimit(MODE_TOTAL - 1);
         mViewPager.setAdapter(new AudioPagerAdapter(mLists, titles));
         mViewPager.setCurrentItem(mSettings.getInt(Constants.KEY_AUDIO_CURRENT_TAB, 0));
-        final RecyclerView.RecycledViewPool rvp = new RecyclerView.RecycledViewPool();
         final ArrayList<Integer> positions = savedInstanceState != null ? savedInstanceState.getIntegerArrayList(KEY_LISTS_POSITIONS) : null;
         for (int i = 0; i< MODE_TOTAL; ++i) {
             final LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             llm.setRecycleChildrenOnDetach(true);
             mLists[i].setLayoutManager(llm);
-            mLists[i].setRecycledViewPool(rvp);
             mLists[i].setAdapter(mAdapters[i]);
             if (positions != null) mLists[i].scrollToPosition(positions.get(i));
             mLists[i].addOnScrollListener(mScrollListener);
