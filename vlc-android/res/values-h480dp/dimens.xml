@@ -5,4 +5,8 @@
     <dimen name="subs_dl_dialog_height">350dp</dimen>
     <dimen name="toolbar_height">40dp</dimen>
     <dimen name="tab_layout_height">32dp</dimen>
+    <dimen name="audio_item_header_padding">8dp</dimen>
+    <dimen name="audio_item_padding_botom">8dp</dimen>
+    <dimen name="audio_browser_item_size">48dp</dimen>
+    <dimen name="audio_item_title_size">16sp</dimen>
 </resources>

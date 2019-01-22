@@ -1,7 +1,6 @@
 <resources>
     <dimen name="shadow_width">6px</dimen>
     <dimen name="widget_margin">0dp</dimen>
-    <dimen name="audio_browser_item_size">48dp</dimen>
     <dimen name="directory_browser_item_size">40dp</dimen>
     <dimen name="listview_bottom_padding">8dp</dimen>
     <dimen name="listview_side_padding">4dp</dimen>
@@ -89,4 +88,10 @@
     <dimen name="audio_player_seekbar_bottom_margin">16dp</dimen>
     <dimen name="toolbar_height">40dp</dimen>
     <dimen name="tab_layout_height">24dp</dimen>
+
+    <!-- Audio items -->
+    <dimen name="audio_browser_item_size">40dp</dimen>
+    <dimen name="audio_item_header_padding">4dp</dimen>
+    <dimen name="audio_item_padding_botom">4dp</dimen>
+    <dimen name="audio_item_title_size">14sp</dimen>
 </resources>

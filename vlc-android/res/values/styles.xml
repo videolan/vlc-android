@@ -319,7 +319,7 @@
     </style>
 
     <style name="VLC.TextViewTitle" parent="VLC.TextView">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/audio_item_title_size</item>
         <item name="android:textColor">?attr/list_title</item>
         <item name="android:maxLines">2</item>
         <item name="android:lineSpacingMultiplier">1.1</item>
