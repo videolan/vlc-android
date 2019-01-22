@@ -86,6 +86,6 @@
     <dimen name="subs_dl_dialog_height">170dp</dimen>
     <dimen name="player_option_width">224dp</dimen>
 
-    <dimen name="default_margin_plus_audio_margin">28dp</dimen>
+    <dimen name="default_margin_plus_audio_margin">24dp</dimen>
     <dimen name="audio_player_seekbar_bottom_margin">16dp</dimen>
 </resources>
