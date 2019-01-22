@@ -60,8 +60,8 @@ continuous-app-build:
         - ./gradlew assembleDebug
     only:
         changes:
-            - vlc-android/*
-            - assets/*
+            - vlc-android/**/*
+            - assets/**/*
             - .gitlab-ci.yml
     except:
         - schedules
