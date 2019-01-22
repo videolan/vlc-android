@@ -1,3 +1,17 @@
+Changes between 3.0.94 and 3.0.95:
+------------------
+
+Application:
+ * Fix behavior while Chromecasting
+ * Fix subs not automatically loaded
+ * Open VLC app from widget
+ * Free more space on screen while scrolling
+ * Various bug fixes
+
+VLC:
+ * Fix Chromecast support on updated devices
+ * Update youtube script
+
 Changes between 3.0.93 and 3.0.94:
 ------------------
 
