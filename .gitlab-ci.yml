@@ -24,6 +24,9 @@ cache:
             - master
         changes:
             - libvlc/*
+            - build-common
+            - compile.sh
+            - compile-libvlc.sh
     variables:
         EXTRA_BUILD_PARAM: -l
 
@@ -36,6 +39,10 @@ cache:
             - master/*
         changes:
             - medialibrary/*
+            - compile.sh
+            - build-common
+            - compile-libvlc.sh
+            - compile-medialibrary.sh
     variables:
         EXTRA_BUILD_PARAM: -ml
 
