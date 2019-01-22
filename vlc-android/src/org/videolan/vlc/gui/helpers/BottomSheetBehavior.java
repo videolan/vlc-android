@@ -40,7 +40,7 @@ public class BottomSheetBehavior<V extends View> extends com.google.android.mate
 
     @Override
     public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull V child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
-        if (lock) return;
+        if (lock || getState() == BottomSheetBehavior.STATE_EXPANDED) return;
         if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
             final AudioPlayerContainerActivity activity = (AudioPlayerContainerActivity) child.getContext();
             activity.hideAudioPlayer();
