@@ -80,6 +80,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toEndOf="@+id/playlist_playasaudio_off"
                 app:layout_constraintEnd_toStartOf="@+id/barrier"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:background="#00000000" />
 
             <com.google.android.material.textfield.TextInputLayout
