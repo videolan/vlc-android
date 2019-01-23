@@ -69,6 +69,16 @@ public class BottomSheetBehavior<V extends View> extends com.google.android.mate
     }
 
     @Override
+    public void onNestedPreScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull V child, @NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
+        if (lock) return;
+        try {
+            super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type);
+        } catch (NullPointerException ignored) {
+            //Same crash, weakref not already set.
+        }
+    }
+
+    @Override
     public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, V child, View target, int dx, int dy, int[] consumed) {
         if (lock) return;
         try {
