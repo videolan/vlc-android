@@ -36,8 +36,6 @@ import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -55,6 +53,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.Buffer;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 /**
  * BenchActivity is a class that overrides VideoPlayerActivity through ShallowVideoPlayer.
@@ -130,9 +131,8 @@ public class BenchActivity extends ShallowVideoPlayer {
 
 
     @Override
-    public void onConnected(PlaybackService service) {
-        /* Changing preference to set the android_display vout on hardware benchmarks */
-        super.onConnected(service);
+    public void onChanged(PlaybackService service) {
+        super.onChanged(service);
         if (mIsHardware && mService != null) {
             final SharedPreferences sharedPref = Settings.INSTANCE.getInstance(this);
             mOldOpenglValue = sharedPref.getString("opengl", "-1");

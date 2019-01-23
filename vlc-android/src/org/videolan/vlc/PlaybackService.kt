@@ -20,11 +20,7 @@
 package org.videolan.vlc
 
 import android.annotation.TargetApi
-import android.app.KeyguardManager
-import android.app.Notification
-import android.app.PendingIntent
-import android.app.SearchManager
-import android.app.Service
+import android.app.*
 import android.appwidget.AppWidgetManager
 import android.content.*
 import android.graphics.BitmapFactory
@@ -46,6 +42,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ServiceLifecycleDispatcher
@@ -504,6 +501,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         restartPlayer.observe(this, Observer { restartMediaPlayer() })
         headSetDetection.observe(this, Observer { detectHeadset(it) })
         equalizer.observe(this, Observer { setEqualizer(it) })
+        (service as MutableLiveData).value = this
     }
 
     private fun updateHasWidget() {
@@ -543,6 +541,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     override fun onDestroy() {
+        (service as MutableLiveData).value = null
         dispatcher.onServicePreSuperOnDestroy()
         super.onDestroy()
         handler.removeCallbacksAndMessages(null)
@@ -1230,72 +1229,6 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     override fun getLifecycle() = dispatcher.lifecycle!!
 
-    class Client(private val mContext: Context?, private val mCallback: Callback?) {
-
-        private var mBound = false
-
-        private val mServiceConnection = object : ServiceConnection {
-            override fun onServiceConnected(name: ComponentName, iBinder: IBinder) {
-                if (!mBound) return
-
-                val service = PlaybackService.getService(iBinder)
-                if (service != null) mCallback?.onConnected(service)
-            }
-
-            override fun onServiceDisconnected(name: ComponentName) {
-                mBound = false
-                mCallback?.onDisconnected()
-            }
-        }
-
-        @MainThread
-        interface Callback {
-            fun onConnected(service: PlaybackService)
-            fun onDisconnected()
-        }
-
-        init {
-            if (mContext == null || mCallback == null) throw IllegalArgumentException("Context and callback can't be null")
-        }
-
-        @MainThread
-        fun connect() {
-            if (mBound) throw IllegalStateException("already connected")
-            val serviceIntent = getServiceIntent(mContext!!)
-            ContextCompat.startForegroundService(mContext, serviceIntent)
-            mBound = mContext.bindService(serviceIntent, mServiceConnection, Context.BIND_AUTO_CREATE)
-        }
-
-        @MainThread
-        fun disconnect() {
-            if (mBound) {
-                mBound = false
-                mContext?.unbindService(mServiceConnection)
-            }
-        }
-
-        companion object {
-            const val TAG = "PlaybackService.Client"
-
-            fun getServiceIntent(context: Context): Intent {
-                return Intent(context, PlaybackService::class.java)
-            }
-
-            private fun startService(context: Context) {
-                ContextCompat.startForegroundService(context, getServiceIntent(context))
-            }
-
-            private fun stopService(context: Context) {
-                context.stopService(getServiceIntent(context))
-            }
-
-            fun restartService(context: Context) {
-                stopService(context)
-                startService(context)
-            }
-        }
-    }
-
     /*
      * Browsing
      */
@@ -1336,7 +1269,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     companion object {
-
+        val service: LiveData<PlaybackService> = MutableLiveData<PlaybackService>()
         val renderer = MutableLiveData<RendererItem>()
         val restartPlayer = LiveEvent<Boolean>()
         val headSetDetection = LiveEvent<Boolean>()
@@ -1345,13 +1278,19 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         private const val SHOW_TOAST = 1
         private const val END_MEDIASESSION = 2
 
+        fun start(context: Context) {
+            if (service.value != null) return
+            val serviceIntent = Intent(context, PlaybackService::class.java)
+            ContextCompat.startForegroundService(context, serviceIntent)
+        }
+
         fun getService(iBinder: IBinder): PlaybackService? {
             val binder = iBinder as LocalBinder
             return binder.service
         }
 
         fun loadLastAudio(context: Context) {
-            val i = PlaybackService.Client.getServiceIntent(context).apply { action = ACTION_REMOTE_LAST_PLAYLIST }
+            val i = Intent(context, PlaybackService::class.java).apply { action = ACTION_REMOTE_LAST_PLAYLIST }
             ContextCompat.startForegroundService(context, i)
         }
 

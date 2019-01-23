@@ -34,6 +34,8 @@ import kotlin.math.min
 
 private const val TAG = "VLC/MediaUtils"
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 object MediaUtils : CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
 
@@ -125,9 +127,11 @@ object MediaUtils : CoroutineScope {
     fun openMediaNoUi(context: Context?, media: MediaWrapper?) {
         if (media == null || context == null) return
         object : BaseCallBack(context) {
-            override fun onConnected(service: PlaybackService) {
-                service.load(media)
-                client.disconnect()
+            override fun onChanged(service: PlaybackService?) {
+                if (service != null) {
+                    service.load(media)
+                    disconnect()
+                }
             }
         }
     }
@@ -259,18 +263,20 @@ object MediaUtils : CoroutineScope {
         }
     }
 
-    private abstract class BaseCallBack : PlaybackService.Client.Callback {
-        protected lateinit var client: PlaybackService.Client
+    @Suppress("LeakingThis")
+    private abstract class BaseCallBack : androidx.lifecycle.Observer<PlaybackService> {
 
         internal constructor(context: Context) {
-            client = PlaybackService.Client(context, this)
-            client.connect()
+            PlaybackService.service.observeForever(this)
+            PlaybackService.start(context)
         }
 
         protected constructor()
 
 
-        override fun onDisconnected() {}
+        fun disconnect() {
+            PlaybackService.service.removeObserver(this)
+        }
     }
 
     private class DialogCallback (context: Context, private val runnable: Runnable) : BaseCallBack() {
@@ -282,7 +288,6 @@ object MediaUtils : CoroutineScope {
         }
 
         init {
-            client = PlaybackService.Client(context, this)
             handler.postDelayed({
                 dialog = ProgressDialog.show(
                         context,
@@ -293,28 +298,26 @@ object MediaUtils : CoroutineScope {
                 dialog.setOnCancelListener(object : DialogInterface.OnCancelListener {
                     override fun onCancel(dialog: DialogInterface) {
                         synchronized(this) {
-                            client.disconnect()
+                            disconnect()
                         }
                     }
                 })
             }, 300)
             synchronized(this) {
-                client.connect()
+                PlaybackService.service.observeForever(this)
+                PlaybackService.start(context)
             }
-
         }
 
-        override fun onConnected(service: PlaybackService) {
-            synchronized(this) {
-                runnable.run(service)
-                client.disconnect()
-            }
-            handler.removeCallbacksAndMessages(null)
-            if (this::dialog.isInitialized) dialog.cancel()
-        }
-
-        override fun onDisconnected() {
-            if (this::dialog.isInitialized) dialog.dismiss()
+        override fun onChanged(service: PlaybackService?) {
+            if (service != null) {
+                synchronized(this) {
+                    runnable.run(service)
+                    disconnect()
+                }
+                handler.removeCallbacksAndMessages(null)
+                if (this::dialog.isInitialized) dialog.cancel()
+            } else if (this::dialog.isInitialized) dialog.dismiss()
         }
     }
 
@@ -324,19 +327,21 @@ object MediaUtils : CoroutineScope {
         var job = Job()
         val actor = actor<Action>(capacity = Channel.UNLIMITED) {
             for (action in channel) when (action) {
-                Connect -> client.connect()
-                Disconnect -> client.disconnect()
+                Connect -> {
+                    PlaybackService.service.observeForever(this@SuspendDialogCallback)
+                    PlaybackService.start(context)
+                }
+                Disconnect -> disconnect()
                 is Task -> {
                     action.task.invoke(action.service)
                     job.cancel()
                     dismiss()
-                    client.disconnect()
+                    disconnect()
                 }
             }
         }
 
         init {
-            client = PlaybackService.Client(context, this)
             job = launch{
                 delay(300)
                 dialog = ProgressDialog.show(
@@ -349,12 +354,8 @@ object MediaUtils : CoroutineScope {
             actor.offer(Connect)
         }
 
-        override fun onConnected(service: PlaybackService) {
-            actor.offer(Task(service, task))
-            dismiss()
-        }
-
-        override fun onDisconnected() {
+        override fun onChanged(service: PlaybackService?) {
+            service?.let { actor.offer(Task(it, task)) }
             dismiss()
         }
 

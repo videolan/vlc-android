@@ -22,8 +22,6 @@
 package org.videolan.vlc.gui.dialogs;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,30 +33,24 @@ import android.widget.TextView;
 
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Strings;
 
-public class PlaybackSpeedDialog extends DismissDialogFragment implements PlaybackService.Client.Callback {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+
+public class PlaybackSpeedDialog extends DismissDialogFragment implements Observer<PlaybackService> {
 
     public final static String TAG = "VLC/PlaybackSpeedDialog";
 
     private TextView mSpeedValue;
     private SeekBar mSeekSpeed;
     private ImageView mPlaybackSpeedIcon;
-    private ImageView mPlaybackSpeedPlus;
-    private ImageView mPlaybackSpeedMinus;
 
-    private PlaybackServiceActivity.Helper mHelper;
-    protected PlaybackService mService;
-    protected int mTextColor;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mHelper = new PlaybackServiceActivity.Helper(getActivity(), this);
-    }
+    private PlaybackService mService;
+    private int mTextColor;
 
     public static PlaybackSpeedDialog newInstance() {
         return new PlaybackSpeedDialog();
@@ -71,16 +63,16 @@ public class PlaybackSpeedDialog extends DismissDialogFragment implements Playba
         mSpeedValue = view.findViewById(R.id.playback_speed_value);
         mSeekSpeed = view.findViewById(R.id.playback_speed_seek);
         mPlaybackSpeedIcon = view.findViewById(R.id.playback_speed_icon);
-        mPlaybackSpeedPlus = view.findViewById(R.id.playback_speed_plus);
-        mPlaybackSpeedMinus = view.findViewById(R.id.playback_speed_minus);
+        final ImageView playbackSpeedPlus = view.findViewById(R.id.playback_speed_plus);
+        final ImageView playbackSpeedMinus = view.findViewById(R.id.playback_speed_minus);
 
         mSeekSpeed.setOnSeekBarChangeListener(mSeekBarListener);
         mPlaybackSpeedIcon.setOnClickListener(mResetListener);
-        mPlaybackSpeedPlus.setOnClickListener(mSpeedUpListener);
-        mPlaybackSpeedMinus.setOnClickListener(mSpeedDownListener);
+        playbackSpeedPlus.setOnClickListener(mSpeedUpListener);
+        playbackSpeedMinus.setOnClickListener(mSpeedDownListener);
         mSpeedValue.setOnClickListener(mResetListener);
-        mPlaybackSpeedMinus.setOnTouchListener(new OnRepeatListener(mSpeedDownListener));
-        mPlaybackSpeedPlus.setOnTouchListener(new OnRepeatListener(mSpeedUpListener));
+        playbackSpeedMinus.setOnTouchListener(new OnRepeatListener(mSpeedDownListener));
+        playbackSpeedPlus.setOnTouchListener(new OnRepeatListener(mSpeedUpListener));
 
         mTextColor = mSpeedValue.getCurrentTextColor();
 
@@ -93,6 +85,10 @@ public class PlaybackSpeedDialog extends DismissDialogFragment implements Playba
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        PlaybackService.Companion.getService().observe(this, this);
+    }
 
     private void setRateProgress() {
         double speed = mService.getRate();
@@ -151,7 +147,7 @@ public class PlaybackSpeedDialog extends DismissDialogFragment implements Playba
         }
     };
 
-    public void changeSpeed(float delta){
+    private void changeSpeed(float delta){
         double initialRate = Math.round(mService.getRate() * 100d) / 100d;
         if (delta>0)
             initialRate = Math.floor((initialRate + 0.005d) / 0.05d) * 0.05d;
@@ -170,32 +166,17 @@ public class PlaybackSpeedDialog extends DismissDialogFragment implements Playba
             mPlaybackSpeedIcon.setImageResource(R.drawable.ic_speed_reset);
             mSpeedValue.setTextColor(getResources().getColor(R.color.orange500));
         } else {
-            mPlaybackSpeedIcon.setImageResource(UiTools.getResourceFromAttribute(getActivity(), R.attr.ic_speed_normal_style));
+            mPlaybackSpeedIcon.setImageResource(UiTools.getResourceFromAttribute(requireContext(), R.attr.ic_speed_normal_style));
             mSpeedValue.setTextColor(mTextColor);
         }
 
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        mHelper.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mHelper.onStop();
-    }
-
-    @Override
-    public void onConnected(PlaybackService service) {
-        mService = service;
-        setRateProgress();
-    }
-
-    @Override
-    public void onDisconnected() {
-        mService = null;
+    public void onChanged(PlaybackService service) {
+        if (service != null) {
+            mService = service;
+            setRateProgress();
+        } else mService = null;
     }
 }

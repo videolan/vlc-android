@@ -61,7 +61,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.AudioPlayerBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
-import org.videolan.vlc.gui.PlaybackServiceActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -78,6 +77,7 @@ import org.videolan.vlc.viewmodels.PlaylistModel
 private const val TAG = "VLC/AudioPlayer"
 private const val SEARCH_TIMEOUT_MILLIS = 10000L
 
+@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @Suppress("UNUSED_PARAMETER")
 class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
@@ -87,7 +87,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
     private lateinit var settings: SharedPreferences
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
     private val updateActor = coroutineScope.actor<Unit>(capacity = Channel.CONFLATED) { for (entry in channel) doUpdate() }
-    private lateinit var helper: PlaybackServiceActivity.Helper
     private lateinit var playlistModel: PlaylistModel
     private lateinit var optionsDelegate: PlayerOptionsDelegate
 
@@ -117,7 +116,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
         playlistModel = PlaylistModel.get(this)
         playlistModel.progress.observe(this@AudioPlayer,  Observer { it?.let { updateProgress(it) } })
         playlistModel.dataset.observe(this@AudioPlayer, playlistObserver)
-        helper = PlaybackServiceActivity.Helper(activity, playlistModel)
         playlistAdapter.setModel(playlistModel)
     }
 
@@ -154,16 +152,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
         userVisibleHint = true
         binding.showCover = settings.getBoolean("audio_player_show_cover", false)
         binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (binding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (!playlistModel.connected) helper.onStart()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if (playlistModel.connected) helper.onStop()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -305,7 +293,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
 
     fun onTimeLabelClick(view: View) {
         showRemainingTime = !showRemainingTime
-        playlistModel.progress?.value?.let { updateProgress(it) }
+        playlistModel.progress.value?.let { updateProgress(it) }
     }
 
     fun onPlayPauseClick(view: View) {

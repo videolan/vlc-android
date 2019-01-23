@@ -22,8 +22,6 @@
 package org.videolan.vlc.gui.dialogs;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +35,6 @@ import org.videolan.libvlc.MediaPlayer;
 import org.videolan.medialibrary.Tools;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 
 import java.util.ArrayList;
@@ -45,20 +42,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SelectChapterDialog extends DismissDialogFragment implements PlaybackService.Client.Callback {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
+
+public class SelectChapterDialog extends DismissDialogFragment implements Observer<PlaybackService> {
 
     public final static String TAG = "VLC/SelectChapterDialog";
 
     private ListView mChapterList;
 
-    private PlaybackServiceActivity.Helper mHelper;
     protected PlaybackService mService;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mHelper = new PlaybackServiceActivity.Helper(getActivity(), this);
-    }
 
     public static SelectChapterDialog newInstance() {
         return new SelectChapterDialog();
@@ -76,6 +70,11 @@ public class SelectChapterDialog extends DismissDialogFragment implements Playba
         window.setBackgroundDrawableResource(UiTools.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
         window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        PlaybackService.Companion.getService().observe(this, this);
     }
 
     private void initChapterList() {
@@ -111,33 +110,18 @@ public class SelectChapterDialog extends DismissDialogFragment implements Playba
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mHelper.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mHelper.onStop();
-    }
-
-    @Override
-    public void onConnected(PlaybackService service) {
-        mService = service;
-        initChapterList();
-    }
-
-    @Override
-    public void onDisconnected() {
-        mService = null;
-    }
-
     private Map<String, String> putData(String name, String time) {
         Map<String, String> item = new HashMap<String, String>();
         item.put("name", name);
         item.put("time", time);
         return item;
+    }
+
+    @Override
+    public void onChanged(PlaybackService service) {
+        if (service != null) {
+            mService = service;
+            initChapterList();
+        } else mService = null;
     }
 }

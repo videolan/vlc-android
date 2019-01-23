@@ -93,7 +93,6 @@ import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.database.models.ExternalSub;
 import org.videolan.vlc.databinding.PlayerHudBinding;
 import org.videolan.vlc.gui.MainActivity;
-import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.audio.PlaylistAdapter;
 import org.videolan.vlc.gui.browser.FilePickerActivity;
 import org.videolan.vlc.gui.browser.FilePickerFragmentKt;
@@ -143,9 +142,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackSettingsController,
-        PlaybackService.Client.Callback, PlaybackService.Callback,PlaylistAdapter.IPlayer,
-        OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, CtxActionReceiver {
+public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackSettingsController, PlaybackService.Callback,PlaylistAdapter.IPlayer,
+        OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, CtxActionReceiver, Observer<PlaybackService> {
 
     private final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -158,7 +156,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private final static int RESULT_VIDEO_TRACK_LOST = RESULT_FIRST_USER + 3;
     static final float DEFAULT_FOV = 80f;
 
-    private final PlaybackServiceActivity.Helper mHelper = new PlaybackServiceActivity.Helper(this, this);
     protected PlaybackService mService;
     private Medialibrary mMedialibrary;
     private VLCVideoLayout mVideoLayout;
@@ -289,6 +286,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        PlaybackService.Companion.start(this);
         Util.checkCpuCompatibility(this);
 
         mSettings = Settings.INSTANCE.getInstance(this);
@@ -301,6 +299,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
         mDisplayManager = new DisplayManager(this, AndroidDevices.isChromeBook ? null : PlaybackService.Companion.getRenderer(), false, mEnableCloneMode, mIsBenchmark);
         setContentView(mDisplayManager.isPrimary() ? R.layout.player : R.layout.player_remote_control);
+        PlaybackService.Companion.getService().observe(this, this);
 
         /** initialize Views an their Events */
         mActionBar = getSupportActionBar();
@@ -570,7 +569,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     @Override
     protected void onStart() {
         super.onStart();
-        mHelper.onStart();
         restoreBrightness();
         final IntentFilter filter = new IntentFilter(Constants.PLAY_FROM_SERVICE);
         filter.addAction(Constants.EXIT_PLAYER);
@@ -607,7 +605,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         saveBrightness();
 
         if (mService != null) mService.removeCallback(this);
-        mHelper.onStop();
         // Clear Intent to restore playlist on activity restart
         setIntent(new Intent());
     }
@@ -689,7 +686,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             }
             if (mPlaylistModel == null) {
                 mPlaylistModel = ViewModelProviders.of(this).get(PlaylistModel.class);
-                if (mService != null) mPlaylistModel.onConnected(mService);
                 mPlaylistAdapter.setModel(mPlaylistModel);
                 mPlaylistModel.getDataset().observe(this, mPlaylistObserver);
             }
@@ -2901,27 +2897,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         supportInvalidateOptionsMenu();
     }
 
-    public PlaybackServiceActivity.Helper getHelper() {
-        return mHelper;
-    }
-
     @Override
-    public void onConnected(PlaybackService service) {
-        if (mPlaylistModel != null) mPlaylistModel.onConnected(service);
-        mService = service;
-        //We may not have the permission to access files
-        if (Permissions.checkReadStoragePermission(this, true) && !mSwitchingView)
-            mHandler.sendEmptyMessage(START_PLAYBACK);
-        mSwitchingView = false;
-        if (mService.getVolume() > 100 && !audioBoostEnabled)
-            mService.setVolume(100);
-    }
-
-    @Override
-    public void onDisconnected() {
-        if (mPlaylistModel != null) mPlaylistModel.onDisconnected();
-        mService = null;
-        mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
+    public void onChanged(PlaybackService service) {
+        if (service != null) {
+            mService = service;
+            //We may not have the permission to access files
+            if (Permissions.checkReadStoragePermission(this, true) && !mSwitchingView)
+                mHandler.sendEmptyMessage(START_PLAYBACK);
+            mSwitchingView = false;
+            if (mService.getVolume() > 100 && !audioBoostEnabled)
+                mService.setVolume(100);
+        } else {
+            mService = null;
+            mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
+        }
     }
 
     private BroadcastReceiver mServiceReceiver = new BroadcastReceiver() {

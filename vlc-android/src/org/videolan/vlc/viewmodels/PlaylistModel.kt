@@ -23,19 +23,23 @@ package org.videolan.vlc.viewmodels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.PlaybackService
-import org.videolan.vlc.media.ABRepeat
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.EmptyPBSCallback
 import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.PlaylistFilterDelegate
 import org.videolan.vlc.util.REPEAT_NONE
 
-class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallback, PlaybackService.Client.Callback {
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
+class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallback, Observer<PlaybackService> {
 
     var service: PlaybackService? = null
     val dataset = LiveDataset<MediaWrapper>()
@@ -49,6 +53,10 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
         get() = service !== null
 
     private val filter by lazy(LazyThreadSafetyMode.NONE) { PlaylistFilterDelegate(dataset) }
+
+    init {
+        PlaybackService.service.observeForever(this)
+    }
 
     private fun setup(service: PlaybackService) {
         service.addCallback(this)
@@ -89,9 +97,9 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
     public override fun onCleared() {
         service?.apply {
             removeCallback(this@PlaylistModel)
-            abRepeat.removeSource(playlistManager.abRepeat)
             progress.removeSource(playlistManager.player.progress)
         }
+        PlaybackService.service.removeObserver(this)
         super.onCleared()
     }
 
@@ -161,8 +169,6 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
     val currentMediaPosition : Int
         get() = service?.currentMediaPosition ?: -1
 
-    val abRepeat = MediatorLiveData<ABRepeat>()
-
     val medias
         get() = service?.medias
 
@@ -191,24 +197,23 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
     val videoTrackCount
         get() = service?.videoTracksCount ?: 0
 
-    override fun onConnected(service: PlaybackService) {
-        this.service = service
-        abRepeat.addSource(service.playlistManager.abRepeat) { value -> value}
-        progress.apply {
-            addSource(service.playlistManager.player.progress) {
-                value = PlaybackProgress(it?.time ?: 0L, it?.length ?: 0L)
-            }
-        }
-        setup(service)
-    }
 
-    override fun onDisconnected() {
-        service?.apply {
-            removeCallback(this@PlaylistModel)
-            abRepeat.removeSource(playlistManager.abRepeat)
-            progress.removeSource(playlistManager.player.progress)
+    override fun onChanged(service: PlaybackService?) {
+        if (service != null) {
+            this.service = service
+            progress.apply {
+                addSource(service.playlistManager.player.progress) {
+                    value = PlaybackProgress(it?.time ?: 0L, it?.length ?: 0L)
+                }
+            }
+            setup(service)
+        } else {
+            this.service?.apply {
+                removeCallback(this@PlaylistModel)
+                progress.removeSource(playlistManager.player.progress)
+            }
+            this.service = null
         }
-        service = null
     }
 
     companion object {

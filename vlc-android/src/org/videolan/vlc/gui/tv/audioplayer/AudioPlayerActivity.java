@@ -36,7 +36,6 @@ import android.view.View;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.TvAudioPlayerBinding;
-import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.MediaComparators;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -64,7 +63,6 @@ public class AudioPlayerActivity extends BaseTvActivity {
 
     public static final String MEDIA_LIST = "media_list";
     public static final String MEDIA_POSITION = "media_position";
-    private PlaybackServiceActivity.Helper mHelper;
 
     private TvAudioPlayerBinding mBinding;
     private PlaylistAdapter mAdapter;
@@ -91,7 +89,6 @@ public class AudioPlayerActivity extends BaseTvActivity {
         mBinding.setLifecycleOwner(this);
         model = ViewModelProviders.of(this).get(PlaylistModel.class);
         mBinding.setProgress(model.getProgress());
-        mHelper = new PlaybackServiceActivity.Helper(this, model);
         model.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
             @Override
             public void onChanged(List<MediaWrapper> mediaWrappers) {
@@ -110,18 +107,6 @@ public class AudioPlayerActivity extends BaseTvActivity {
         final List<MediaWrapper> medialist = getIntent().getParcelableArrayListExtra(MEDIA_LIST);
         final int position = getIntent().getIntExtra(MEDIA_POSITION, 0);
         if (medialist != null) MediaUtils.INSTANCE.openList(this, medialist, position);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mHelper.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        mHelper.onStop();
-        super.onStop();
     }
 
     @Override

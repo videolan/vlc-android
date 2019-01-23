@@ -31,13 +31,14 @@ import android.widget.TextView;
 
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.PlaybackServiceActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 
 public abstract class PickTimeFragment extends DismissDialogFragment implements View.OnClickListener, View.OnFocusChangeListener,
-        PlaybackService.Client.Callback {
+        Observer<PlaybackService> {
 
     public final static String TAG = "VLC/PickTimeFragment";
 
@@ -55,14 +56,7 @@ public abstract class PickTimeFragment extends DismissDialogFragment implements 
     protected int mMaxTimeSize = 6;
     protected TextView mTVTimeToJump;
 
-    private PlaybackServiceActivity.Helper mHelper;
     protected PlaybackService mService;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mHelper = new PlaybackServiceActivity.Helper(getActivity(), this);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,6 +108,11 @@ public abstract class PickTimeFragment extends DismissDialogFragment implements 
             getDialog().getWindow().setBackgroundDrawableResource(UiTools.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
         }
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        PlaybackService.Companion.getService().observe(this, this);
     }
 
     @Override
@@ -219,25 +218,8 @@ public abstract class PickTimeFragment extends DismissDialogFragment implements 
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        mHelper.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mHelper.onStop();
-    }
-
-    @Override
-    public void onConnected(PlaybackService service) {
+    public void onChanged(PlaybackService service) {
         mService = service;
-    }
-
-    @Override
-    public void onDisconnected() {
-        mService = null;
     }
 
     abstract protected int getTitle();
