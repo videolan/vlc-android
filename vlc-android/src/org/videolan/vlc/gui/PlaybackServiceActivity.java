@@ -23,43 +23,15 @@
 package org.videolan.vlc.gui;
 
 import android.content.Context;
-import androidx.annotation.MainThread;
-import androidx.fragment.app.FragmentActivity;
 
 import org.videolan.vlc.PlaybackService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaybackServiceActivity extends FragmentActivity implements PlaybackService.Client.Callback {
-    final private Helper mHelper = new Helper(this, this);
-    protected PlaybackService mService;
+import androidx.annotation.MainThread;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mHelper.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mHelper.onStop();
-    }
-
-    public Helper getHelper() {
-        return mHelper;
-    }
-
-    @Override
-    public void onConnected(PlaybackService service) {
-        mService = service;
-    }
-
-    @Override
-    public void onDisconnected() {
-        mService = null;
-    }
+public class PlaybackServiceActivity {
 
     public static class Helper {
         private List<PlaybackService.Client.Callback> mFragmentCallbacks = new ArrayList<PlaybackService.Client.Callback>();
