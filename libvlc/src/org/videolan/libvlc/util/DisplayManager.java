@@ -43,7 +43,7 @@ public class DisplayManager {
         mSelectedRenderer = selectedRender;
         mMediaRouter = (MediaRouter) activity.getApplicationContext().getSystemService(Context.MEDIA_ROUTER_SERVICE);
         mTextureView = textureView;
-        mPresentation = !cloneMode && !benchmark && selectedRender.getValue() == null ? createPresentation() : null;
+        mPresentation = !cloneMode && !benchmark && selectedRender != null && selectedRender.getValue() == null ? createPresentation() : null;
         if (mSelectedRenderer != null) {
             mRendererItem = mSelectedRenderer.getValue();
             mSelectedRenderer.observeForever(mRendererObs);
