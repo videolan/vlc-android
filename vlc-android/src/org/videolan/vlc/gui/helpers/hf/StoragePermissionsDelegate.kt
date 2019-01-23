@@ -72,8 +72,9 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
     }
 
     private fun requestStorageAccess(write: Boolean) {
-        requestPermissions(arrayOf(if (write) Manifest.permission.WRITE_EXTERNAL_STORAGE else Manifest.permission.READ_EXTERNAL_STORAGE),
-                if (write) Permissions.PERMISSION_WRITE_STORAGE_TAG else Permissions.PERMISSION_STORAGE_TAG)
+        val code = if (write) Manifest.permission.WRITE_EXTERNAL_STORAGE else Manifest.permission.READ_EXTERNAL_STORAGE
+        val tag = if (write) Permissions.PERMISSION_WRITE_STORAGE_TAG else Permissions.PERMISSION_STORAGE_TAG
+        requestPermissions(arrayOf(code), tag)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -85,20 +86,21 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                     storageAccessGranted.value = true
                     deferredGrant.complete(true)
                     exit()
+                    return
                 } else {
                     if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                         Permissions.showStoragePermissionDialog(ctx, false)
                         return
-                    } else {
-                        storageAccessGranted.value = false
-                        deferredGrant.complete(false)
-                        exit()
                     }
                 }
                 storageAccessGranted.value = false
                 deferredGrant.complete(false)
+                exit()
             }
-            Permissions.PERMISSION_WRITE_STORAGE_TAG -> deferredGrant.complete(grantResults.isGranted())
+            Permissions.PERMISSION_WRITE_STORAGE_TAG -> {
+                deferredGrant.complete(grantResults.isGranted())
+                exit()
+            }
         }
     }
 

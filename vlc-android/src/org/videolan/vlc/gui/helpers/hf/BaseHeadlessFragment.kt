@@ -37,6 +37,7 @@ open class BaseHeadlessFragment : Fragment() {
     }
 
     protected fun exit() {
+        retainInstance = false
         activity?.run {
             if (!isFinishing) supportFragmentManager
                 .beginTransaction()

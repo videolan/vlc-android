@@ -7,10 +7,10 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.DocumentsContract
-import androidx.fragment.app.FragmentActivity
-import androidx.documentfile.provider.DocumentFile
-import androidx.appcompat.app.AlertDialog
 import android.text.TextUtils
+import androidx.appcompat.app.AlertDialog
+import androidx.documentfile.provider.DocumentFile
+import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.R
@@ -73,6 +73,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
                     if (treeFile?.name == file?.name) {
                         contentResolver.releasePersistableUriPermission(uriPermission.uri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                         deferredGrant.complete(false)
+                        exit()
                         return
                     }
                 }
@@ -80,10 +81,12 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
                 // else set permission
                 contentResolver.takePersistableUriPermission(treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                 deferredGrant.complete(true)
+                exit()
                 return
             }
         }
         deferredGrant.complete(false)
+        exit()
     }
 
     companion object {
