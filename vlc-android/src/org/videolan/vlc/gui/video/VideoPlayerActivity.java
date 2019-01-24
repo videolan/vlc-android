@@ -2280,7 +2280,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 mHudBinding.playerOverlaySize.setVisibility(View.GONE);
             }
 
-            if(!mIsTv)
+            if(!mIsTv && !AndroidDevices.isChromeBook)
                 mOrientationToggle.setVisibility(View.VISIBLE);
         } else {
             mHudBinding.setProgress(mService.getPlaylistManager().getPlayer().getProgress());
