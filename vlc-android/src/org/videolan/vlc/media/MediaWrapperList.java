@@ -20,13 +20,10 @@
  *****************************************************************************/
 package org.videolan.vlc.media;
 
-import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaWrapper;
-import org.videolan.vlc.VLCApplication;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 import androidx.annotation.Nullable;
 
@@ -155,15 +152,24 @@ public class MediaWrapperList {
         return isValid(position) ? mInternalList.get(position) : null;
     }
 
-    public synchronized List<MediaWrapper> getAll() {
-        return mInternalList;
+    public synchronized List<MediaWrapper> getCopy() {
+        return new ArrayList<>(mInternalList);
+    }
+
+    public synchronized void replaceWith(List<MediaWrapper> list) {
+        mInternalList.clear();
+        mInternalList.addAll(list);
+    }
+
+    public synchronized void map(List<MediaWrapper> list) {
+        mInternalList.addAll(list);
     }
 
     /**
      * @param position The index of the media in the list
      * @return null if not found
      */
-    public synchronized String getMRL(int position) {
+    private synchronized String getMRL(int position) {
         if (!isValid(position)) return null;
         return mInternalList.get(position).getLocation();
     }
@@ -171,21 +177,6 @@ public class MediaWrapperList {
     public synchronized boolean isAudioList() {
         return mVideoCount == 0;
     }
-
-    public void updateWithMLMeta() {
-    final ListIterator<MediaWrapper> iter = mInternalList.listIterator();
-    final Medialibrary ml = VLCApplication.getMLInstance();
-    while (iter.hasNext()) {
-        final MediaWrapper media = iter.next();
-        if (media.getId() == 0L) {
-            final MediaWrapper mw = ml.findMedia(media);
-            if (mw.getId() != 0) {
-                if (mw.getType() == MediaWrapper.TYPE_ALL) mw.setType(media.getType());
-                synchronized (this) { iter.set(mw); }
-            }
-        }
-    }
-}
 
     @Override
     public String toString() {

@@ -110,10 +110,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             saveMediaList()
             savePosition()
             mediaList.removeEventListener(this@PlaylistManager)
-            mediaList.clear()
             previous.clear()
             videoBackground = false
-            withContext(Dispatchers.IO) { for (media in list) mediaList.add(medialibrary.findMedia(media)) }
+            mediaList.replaceWith(list)
             if (!hasMedia()) {
                 Log.w(TAG, "Warning: empty media list, nothing to play !")
                 return@launch
@@ -127,7 +126,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             clearABRepeat()
             playIndex(currentIndex)
             onPlaylistLoaded()
-            if (mlUpdate) launch(Dispatchers.IO) { mediaList.updateWithMLMeta() }
+            if (mlUpdate) {
+                mediaList.replaceWith(withContext(Dispatchers.IO) { mediaList.copy.updateWithMLMeta() } )
+            }
         }
     }
 
@@ -469,7 +470,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (getCurrentMedia() === null) return
         val locations = StringBuilder()
         withContext(Dispatchers.Default) {
-            val list = mediaList.all.takeIf { it.isNotEmpty() } ?: return@withContext
+            val list = mediaList.copy.takeIf { it.isNotEmpty() } ?: return@withContext
             for (mw in list) locations.append(" ").append(Uri.encode(Uri.decode(mw.uri.toString())))
             //We save a concatenated String because putStringSet is APIv11.
             settings.edit()
@@ -690,7 +691,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     fun getMediaListSize()= mediaList.size()
 
-    fun getMediaList(): List<MediaWrapper> = mediaList.all.toList()
+    fun getMediaList(): List<MediaWrapper> = mediaList.copy
 
     fun toggleABRepeat() {
         val time = player.getCurrentTime()
