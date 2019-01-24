@@ -299,7 +299,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
         mDisplayManager = new DisplayManager(this, PlaybackService.Companion.getRenderer(), false, mEnableCloneMode, mIsBenchmark);
         setContentView(mDisplayManager.isPrimary() ? R.layout.player : R.layout.player_remote_control);
-        PlaybackService.Companion.getService().observe(this, this);
 
         /** initialize Views an their Events */
         mActionBar = getSupportActionBar();
@@ -488,14 +487,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         if (mw == null || !AndroidDevices.pipAllowed) return;
         if (AndroidDevices.hasPiP) {
             if (AndroidUtil.isOOrLater) try {
-                    final SurfaceView videoSurface = mVideoLayout.findViewById(R.id.surface_video);
-                    final int height = videoSurface != null && videoSurface.getHeight() != 0 ? videoSurface.getHeight() : mw.getHeight();
-                    final int width = Math.min(videoSurface != null && videoSurface.getWidth() != 0 ? videoSurface.getWidth() : mw.getWidth(), (int) (height*2.39f));
-                    enterPictureInPictureMode(new PictureInPictureParams.Builder().setAspectRatio(new Rational(width, height)).build());
-                } catch (IllegalArgumentException e) { // Fallback with default parameters
-                    //noinspection deprecation
-                    enterPictureInPictureMode();
-                }
+                final SurfaceView videoSurface = mVideoLayout.findViewById(R.id.surface_video);
+                final int height = videoSurface != null && videoSurface.getHeight() != 0 ? videoSurface.getHeight() : mw.getHeight();
+                final int width = Math.min(videoSurface != null && videoSurface.getWidth() != 0 ? videoSurface.getWidth() : mw.getWidth(), (int) (height*2.39f));
+                enterPictureInPictureMode(new PictureInPictureParams.Builder().setAspectRatio(new Rational(width, height)).build());
+            } catch (IllegalArgumentException e) { // Fallback with default parameters
+                //noinspection deprecation
+                enterPictureInPictureMode();
+            }
             else {
                 //noinspection deprecation
                 enterPictureInPictureMode();
@@ -569,6 +568,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     @Override
     protected void onStart() {
         super.onStart();
+        PlaybackService.Companion.getService().observe(this, this);
         restoreBrightness();
         final IntentFilter filter = new IntentFilter(Constants.PLAY_FROM_SERVICE);
         filter.addAction(Constants.EXIT_PLAYER);
@@ -584,6 +584,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     @Override
     protected void onStop() {
         super.onStop();
+        PlaybackService.Companion.getService().removeObservers(this);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mServiceReceiver);
 
         unregisterReceiver(mBtReceiver);
@@ -2002,13 +2003,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                     public void onTrackSelected(final int trackID) {
                         if (trackID < -1 || mService == null) return;
                         mService.setAudioTrack(trackID);
-                            WorkersKt.runIO(new Runnable() {
-                                @Override
-                                public void run() {
-                                    final MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
-                                    if (mw != null && mw.getId() != 0L) mw.setLongMeta(MediaWrapper.META_AUDIOTRACK, trackID);
-                                }
-                            });
+                        WorkersKt.runIO(new Runnable() {
+                            @Override
+                            public void run() {
+                                final MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
+                                if (mw != null && mw.getId() != 0L) mw.setLongMeta(MediaWrapper.META_AUDIOTRACK, trackID);
+                            }
+                        });
                     }
                 });
     }
@@ -2904,8 +2905,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             if (Permissions.checkReadStoragePermission(this, true) && !mSwitchingView)
                 mHandler.sendEmptyMessage(START_PLAYBACK);
             mSwitchingView = false;
-            if (mService.getVolume() > 100 && !audioBoostEnabled)
-                mService.setVolume(100);
+            if (mService.getVolume() > 100 && !audioBoostEnabled) mService.setVolume(100);
         } else {
             mService = null;
             mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
