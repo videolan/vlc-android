@@ -1,3 +1,14 @@
+Changes between 3.0.95 and 3.0.96:
+------------------
+
+Application:
+ * Disable R8
+ * Allow clear text traffic
+ * Use LiveData instead of binding to PlaybackService
+ * Compact audio lists on small screens
+ * Fix video player crash on Chromebooks
+ * Fix files name display on UPnP shares
+
 Changes between 3.0.94 and 3.0.95:
 ------------------
 
