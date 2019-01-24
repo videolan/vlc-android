@@ -485,7 +485,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     @TargetApi(Build.VERSION_CODES.O)
     public void switchToPopup() {
         final MediaWrapper mw = mService != null ? mService.getCurrentMediaWrapper() : null;
-        if (mw == null) return;
+        if (mw == null || !AndroidDevices.pipAllowed) return;
         if (AndroidDevices.hasPiP) {
             if (AndroidUtil.isOOrLater) try {
                     final SurfaceView videoSurface = mVideoLayout.findViewById(R.id.surface_video);
