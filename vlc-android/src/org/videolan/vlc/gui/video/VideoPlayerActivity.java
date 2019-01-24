@@ -720,7 +720,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private void setPlaybackParameters() {
         if (mAudioDelay != 0L && mAudioDelay != mService.getAudioDelay())
             mService.setAudioDelay(mAudioDelay);
-        else if (mAudioManager.isBluetoothA2dpOn() || mAudioManager.isBluetoothScoOn())
+        else if (mAudioManager != null && (mAudioManager.isBluetoothA2dpOn() || mAudioManager.isBluetoothScoOn()))
             toggleBtDelay(true);
         if (mSpuDelay != 0L && mSpuDelay != mService.getSpuDelay())
             mService.setSpuDelay(mSpuDelay);
