@@ -297,7 +297,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         audioBoostEnabled = mSettings.getBoolean("audio_boost", false);
 
         mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
-        mDisplayManager = new DisplayManager(this, AndroidDevices.isChromeBook ? null : PlaybackService.Companion.getRenderer(), false, mEnableCloneMode, mIsBenchmark);
+        mDisplayManager = new DisplayManager(this, PlaybackService.Companion.getRenderer(), false, mEnableCloneMode, mIsBenchmark);
         setContentView(mDisplayManager.isPrimary() ? R.layout.player : R.layout.player_remote_control);
         PlaybackService.Companion.getService().observe(this, this);
 
