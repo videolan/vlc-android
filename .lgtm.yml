@@ -1,0 +1,11 @@
+extraction:
+  java:
+    before_index:
+      - export ANDROID_SDK=/opt/extra/android
+      - export ANDROID_NDK=/opt/extra/android
+      - export PATH=$PATH:$ANDROID_SDK/platform-tools:$ANDROID_SDK/tools
+      - ./compile.sh --init
+    index:
+      build_command:
+        - ./gradlew assembleDebug
+
