@@ -70,21 +70,6 @@ public class BitmapUtil {
                 (width - (2 * left)), (height - (2 * top)));
     }
 
-    public static Bitmap scaleDownBitmap(Context context, Bitmap bitmap, int width) {
-        /*
-         * This method can lead to OutOfMemoryError!
-         * If the source size is more than twice the target size use
-         * the optimized version available in AudioUtil::readCoverBitmap
-         */
-        if (bitmap != null) {
-            final float densityMultiplier = context.getResources().getDisplayMetrics().density;
-            int w = (int) (width * densityMultiplier);
-            int h = (int) (w * bitmap.getHeight() / ((double) bitmap.getWidth()));
-            bitmap = Bitmap.createScaledBitmap(bitmap, w, h, true);
-        }
-        return bitmap;
-    }
-
     public static Bitmap getPictureFromCache(MediaWrapper media) {
         // mPicture is not null only if passed through
         // the ctor which is deprecated by now.
