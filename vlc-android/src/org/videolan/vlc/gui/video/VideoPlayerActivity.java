@@ -1313,22 +1313,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
      */
     private void showInfoWithVerticalBar(String text, int duration, int barNewValue, int max) {
         showInfo(text, duration);
-        if (mVerticalBarProgress == null)
-            return;
+        if (mVerticalBarProgress == null) return;
         LinearLayout.LayoutParams layoutParams;
         if (barNewValue <= 100) {
             layoutParams = (LinearLayout.LayoutParams) mVerticalBarProgress.getLayoutParams();
-            layoutParams.weight = barNewValue * 100 / max;
+            layoutParams.weight = barNewValue * 100 / (float)max;
             mVerticalBarProgress.setLayoutParams(layoutParams);
             layoutParams = (LinearLayout.LayoutParams) mVerticalBarBoostProgress.getLayoutParams();
             layoutParams.weight = 0;
             mVerticalBarBoostProgress.setLayoutParams(layoutParams);
         } else {
             layoutParams = (LinearLayout.LayoutParams) mVerticalBarProgress.getLayoutParams();
-            layoutParams.weight = 100 * 100 / max;
+            layoutParams.weight = 100 * 100 / (float)max;
             mVerticalBarProgress.setLayoutParams(layoutParams);
             layoutParams = (LinearLayout.LayoutParams) mVerticalBarBoostProgress.getLayoutParams();
-            layoutParams.weight = (barNewValue - 100) * 100 / max;
+            layoutParams.weight = (barNewValue - 100) * 100 / (float)max;
             mVerticalBarBoostProgress.setLayoutParams(layoutParams);
         }
         mVerticalBar.setVisibility(View.VISIBLE);
@@ -1687,9 +1686,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI);
                 } catch (RuntimeException ignored) {} //Some device won't allow us to change volume
             }
-            vol = Math.round(vol * 100 / mAudioMax);
+            vol = Math.round(vol * 100 / (float) mAudioMax);
         } else {
-            vol = Math.round(vol * 100 / mAudioMax);
+            vol = Math.round(vol * 100 / (float) mAudioMax);
             mService.setVolume(Math.round(vol));
         }
         showInfoWithVerticalBar(getString(R.string.volume) + "\n" + Integer.toString(vol) + '%', 1000, vol, audioBoostEnabled ? 200 : 100);
