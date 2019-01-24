@@ -106,11 +106,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
     @MainThread
     fun load(list: List<MediaWrapper>, position: Int, mlUpdate: Boolean = false) {
-        mediaList.removeEventListener(this)
-        mediaList.clear()
-        previous.clear()
-        videoBackground = false
         launch {
+            saveMediaList()
+            savePosition()
+            mediaList.removeEventListener(this@PlaylistManager)
+            mediaList.clear()
+            previous.clear()
+            videoBackground = false
             withContext(Dispatchers.IO) { for (media in list) mediaList.add(medialibrary.findMedia(media)) }
             if (!hasMedia()) {
                 Log.w(TAG, "Warning: empty media list, nothing to play !")
@@ -463,12 +465,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 .apply()
     }
 
-    @Synchronized
-    private fun saveMediaList() {
+    private suspend fun saveMediaList() {
         if (getCurrentMedia() === null) return
         val locations = StringBuilder()
-        launch(Dispatchers.Main) {
-            val list = mediaList.all.takeIf { it.isNotEmpty() } ?: return@launch
+        withContext(Dispatchers.Default) {
+            val list = mediaList.all.takeIf { it.isNotEmpty() } ?: return@withContext
             for (mw in list) locations.append(" ").append(Uri.encode(Uri.decode(mw.uri.toString())))
             //We save a concatenated String because putStringSet is APIv11.
             settings.edit()
