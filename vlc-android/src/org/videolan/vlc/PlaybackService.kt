@@ -903,7 +903,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
             widgetIntent.putExtra("artist", "")
         }
         widgetIntent.putExtra("isplaying", isPlaying)
-        sendWidgetBroadcast(widgetIntent)
+        launch(Dispatchers.Default) { sendWidgetBroadcast(widgetIntent) }
     }
 
     private fun updateWidgetCover() {
@@ -911,8 +911,10 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         val newWidgetCover = mw?.artworkMrl
         if (!TextUtils.equals(currentWidgetCover, newWidgetCover)) {
             currentWidgetCover = newWidgetCover
-            sendWidgetBroadcast(Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
-                    .putExtra("artworkMrl", newWidgetCover))
+            launch(Dispatchers.Default) {
+                sendWidgetBroadcast(Intent(VLCAppWidgetProvider.ACTION_WIDGET_UPDATE_COVER)
+                        .putExtra("artworkMrl", newWidgetCover))
+            }
         }
     }
 
@@ -931,13 +933,14 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     private fun broadcastMetadata() {
         val media = playlistManager.getCurrentMedia()
         if (media == null || isVideoPlaying) return
-        sendBroadcast(Intent("com.android.music.metachanged")
-                .putExtra("track", media.title)
-                .putExtra("artist", media.artist)
-                .putExtra("album", media.album)
-                .putExtra("duration", media.length)
-                .putExtra("playing", isPlaying)
-                .putExtra("package", "org.videolan.vlc"))
+        launch(Dispatchers.Default) { sendBroadcast(Intent("com.android.music.metachanged")
+                    .putExtra("track", media.title)
+                    .putExtra("artist", media.artist)
+                    .putExtra("album", media.album)
+                    .putExtra("duration", media.length)
+                    .putExtra("playing", isPlaying)
+                    .putExtra("package", "org.videolan.vlc"))
+        }
     }
 
     private fun loadLastAudioPlaylist() {
