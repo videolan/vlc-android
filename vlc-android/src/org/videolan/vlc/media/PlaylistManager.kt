@@ -86,22 +86,25 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
      */
     @MainThread
     fun loadLocations(mediaPathList: List<String>, position: Int) {
-        val mediaList = ArrayList<MediaWrapper>()
-
-        for (location in mediaPathList) {
-            var mediaWrapper = medialibrary.getMedia(location)
-            if (mediaWrapper === null) {
-                if (!location.validateLocation()) {
-                    Log.w(TAG, "Invalid location $location")
-                    service.showToast(service.resources.getString(R.string.invalid_location, location), Toast.LENGTH_SHORT)
-                    continue
+        launch {
+            val mediaList = ArrayList<MediaWrapper>()
+            withContext(Dispatchers.IO) {
+                for (location in mediaPathList) {
+                    var mediaWrapper = medialibrary.getMedia(location)
+                    if (mediaWrapper === null) {
+                        if (!location.validateLocation()) {
+                            Log.w(TAG, "Invalid location $location")
+                            service.showToast(service.resources.getString(R.string.invalid_location, location), Toast.LENGTH_SHORT)
+                            continue
+                        }
+                        Log.v(TAG, "Creating on-the-fly Media object for $location")
+                        mediaWrapper = MediaWrapper(Uri.parse(location))
+                    }
+                    mediaList.add(mediaWrapper)
                 }
-                Log.v(TAG, "Creating on-the-fly Media object for $location")
-                mediaWrapper = MediaWrapper(Uri.parse(location))
             }
-            mediaList.add(mediaWrapper)
+            load(mediaList, position)
         }
-        load(mediaList, position)
     }
 
     @MainThread
@@ -278,7 +281,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (isBenchmark) mw.addFlags(MediaWrapper.MEDIA_BENCHMARK)
         parsed = false
         player.switchToVideo = false
-        if (TextUtils.equals(mw.uri.scheme, "content")) MediaUtils.retrieveMediaTitle(mw)
+        if (TextUtils.equals(mw.uri.scheme, "content")) withContext(Dispatchers.IO) { MediaUtils.retrieveMediaTitle(mw) }
 
         if (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && player.getAudioTracksCount() == 0) {
             determinePrevAndNextIndices(true)
@@ -317,11 +320,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         id = internalMedia.id
                     else {
                         internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM) medialibrary.addStream(Uri.decode(mw.uri.toString()), mw.title) else medialibrary.addMedia(Uri.decode(mw.uri.toString()))
-                        if (internalMedia != null)
-                            id = internalMedia.id
+                        if (internalMedia != null) id = internalMedia.id
                     }
                 }
-                medialibrary.increasePlayCount(id)
+                if (id != 0L) medialibrary.increasePlayCount(id)
             }
             saveCurrentMedia()
         } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
