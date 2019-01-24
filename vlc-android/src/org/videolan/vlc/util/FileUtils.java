@@ -470,28 +470,26 @@ public class FileUtils {
 
     public static ArrayList<String> unpackZip(String path, String unzipDirectory)
     {
-        InputStream is;
-        ZipInputStream zis;
-        ArrayList<String> unzippedFiles = new ArrayList();
+        final InputStream is;
+        final ZipInputStream zis;
+        final ArrayList<String> unzippedFiles = new ArrayList<>();
         try
         {
             is = new FileInputStream(path);
             zis = new ZipInputStream(new BufferedInputStream(is));
             ZipEntry ze;
 
-            while((ze = zis.getNextEntry()) != null)
-            {
+            while((ze = zis.getNextEntry()) != null) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 byte[] buffer = new byte[1024];
                 int count;
 
-                String filename = ze.getName();
+                final String filename = ze.getName().replace('/', ' ');
                 File fileToUnzip = new File(unzipDirectory, filename);
                 FileOutputStream fout = new FileOutputStream(fileToUnzip);
 
                 // reading and writing
-                while((count = zis.read(buffer)) != -1)
-                {
+                while((count = zis.read(buffer)) != -1) {
                     baos.write(buffer, 0, count);
                     byte[] bytes = baos.toByteArray();
                     fout.write(bytes);
@@ -505,8 +503,7 @@ public class FileUtils {
 
             zis.close();
         }
-        catch(IOException e)
-        {
+        catch(IOException e) {
             e.printStackTrace();
         }
 
