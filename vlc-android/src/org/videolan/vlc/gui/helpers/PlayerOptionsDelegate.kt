@@ -22,6 +22,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -128,6 +129,11 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             setup()
         }
         rootView.visibility = View.VISIBLE
+        if (AndroidDevices.showTvUi(activity)) AppScope.launch {
+            delay(100L)
+            val position = (recyclerview.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+            (recyclerview.layoutManager as LinearLayoutManager).findViewByPosition(position)?.requestFocus()
+        }
     }
 
     fun hide() {
