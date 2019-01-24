@@ -386,6 +386,7 @@
     <string name="audio_ducking_title">Lower VLC volume on notifications</string>
     <string name="audio_ducking_summary">Helps to hear audio notifications, navigation instructions or assistant talking</string>
     <string name="casting_category">Casting</string>
+    <string name="casting_switch_title">Enable wireless casting</string>
     <string name="casting_passthrough_title">Audio Passthrough</string>
     <string name="casting_passthrough_summary">Let your TV manage audio rendering</string>
     <string name="casting_conversion_quality_title">Conversion quality</string>

@@ -9,7 +9,7 @@
             android:defaultValue="true"
             android:switchTextOff="Disabled"
             android:switchTextOn="Enabled"
-            android:title="Enable wireless casting" />
+            android:title="@string/casting_switch_title" />
         <CheckBoxPreference
             android:key="casting_passthrough"
             android:defaultValue="false"
