@@ -123,10 +123,11 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
         final MediaWrapper media = (MediaWrapper) getItem(position);
         final boolean isFavorite = media.hasStateFlags(MediaLibraryItem.FLAG_FAVORITE);
         vh.binding.setItem(media);
+        final String scheme = media.getUri().getScheme();
         vh.binding.setHasContextMenu((!mNetworkRoot || isFavorite)
-                && !"content".equals(media.getUri().getScheme())
-                && !"otg".equals(media.getUri().getScheme()));
-        vh.binding.setFilename(media.getType() != MediaWrapper.TYPE_DIR ? media.getFileName() : null);
+                && !"content".equals(scheme)
+                && !"otg".equals(scheme));
+        vh.binding.setFilename(media.getType() != MediaWrapper.TYPE_DIR && scheme.equals("file") ? media.getFileName() : null);
         if (mNetworkRoot) vh.binding.setProtocol(getProtocol(media));
         vh.binding.setCover(getIcon(media, mSpecialIcons));
         vh.selectView(multiSelectHelper.isSelected(position));
