@@ -28,6 +28,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.CompletableDeferred
 
+internal typealias PermissionResults = IntArray
+
 open class BaseHeadlessFragment : Fragment() {
     protected val deferredGrant = CompletableDeferred<Boolean>()
 
@@ -48,5 +50,5 @@ open class BaseHeadlessFragment : Fragment() {
 
     suspend fun awaitGrant() = deferredGrant.await()
 
-    protected fun IntArray.isGranted() = isNotEmpty() && get(0) == PackageManager.PERMISSION_GRANTED
+    protected fun PermissionResults.granted() = isNotEmpty() && get(0) == PackageManager.PERMISSION_GRANTED
 }

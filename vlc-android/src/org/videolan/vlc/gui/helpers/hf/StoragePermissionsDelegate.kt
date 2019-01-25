@@ -77,12 +77,12 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
         requestPermissions(arrayOf(code), tag)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: PermissionResults) {
         when (requestCode) {
             Permissions.PERMISSION_STORAGE_TAG -> {
                 // If request is cancelled, the result arrays are empty.
                 val ctx = activity ?: return
-                if (grantResults.isGranted()) {
+                if (grantResults.granted()) {
                     storageAccessGranted.value = true
                     deferredGrant.complete(true)
                     exit()
@@ -98,7 +98,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                 exit()
             }
             Permissions.PERMISSION_WRITE_STORAGE_TAG -> {
-                deferredGrant.complete(grantResults.isGranted())
+                deferredGrant.complete(grantResults.granted())
                 exit()
             }
         }
