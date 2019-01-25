@@ -60,7 +60,7 @@
             android:key="secondary_display_category_summary" />
 
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="enable_clone_mode"
             android:summary="@string/enable_clone_mode_summary"
             android:title="@string/enable_clone_mode" />

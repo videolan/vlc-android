@@ -23,6 +23,7 @@
 
 package org.videolan.vlc.gui.helpers;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ClipData;
@@ -34,6 +35,7 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaRouter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,6 +48,8 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.Display;
 import android.view.DragAndDropPermissions;
 import android.view.DragEvent;
 import android.view.Menu;
@@ -63,6 +67,7 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import org.videolan.BuildConfig;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -146,7 +151,7 @@ public class UiTools {
     /** Print an on-screen message to alert the user, with undo action */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void snackerWithCancel(@NonNull View view, @NonNull String message, @Nullable final Runnable action, @Nullable final Runnable cancelAction) {
-        Snackbar snack = Snackbar.make(view, message, DELETE_DURATION)
+        @SuppressLint("WrongConstant") Snackbar snack = Snackbar.make(view, message, DELETE_DURATION)
                 .setAction(android.R.string.cancel, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -551,4 +556,11 @@ public class UiTools {
                 .show();
     }
 
+    public static boolean hasSecondaryDisplay(Context context) {
+        final MediaRouter mediaRouter = (MediaRouter) context.getSystemService(Context.MEDIA_ROUTER_SERVICE);
+        if (mediaRouter == null) return false;
+        final MediaRouter.RouteInfo route = mediaRouter.getSelectedRoute(MediaRouter.ROUTE_TYPE_LIVE_VIDEO);
+        final Display presentationDisplay = route != null ? route.getPresentationDisplay() : null;
+        return presentationDisplay != null;
+    }
 }

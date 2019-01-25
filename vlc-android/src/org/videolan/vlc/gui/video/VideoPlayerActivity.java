@@ -208,6 +208,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private ImageView mLoading;
     private ImageView mNavMenu;
     private ImageView mRendererBtn;
+    private ImageView mSecondaryDisplayBtn;
     private ImageView mPlaybackSettingPlus;
     private ImageView mPlaybackSettingMinus;
     protected boolean mEnableCloneMode;
@@ -281,6 +282,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private LiveData downloadedSubtitleLiveData = null;
     private String previousMediaPath = null;
 
+    private static Boolean clone = null;
+
     @Override
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     protected void onCreate(Bundle savedInstanceState) {
@@ -296,7 +299,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         audioBoostEnabled = mSettings.getBoolean("audio_boost", false);
 
-        mEnableCloneMode = mSettings.getBoolean("enable_clone_mode", false);
+        mEnableCloneMode = clone != null ? clone : mSettings.getBoolean("enable_clone_mode", true);
         mDisplayManager = new DisplayManager(this, PlaybackService.Companion.getRenderer(), false, mEnableCloneMode, mIsBenchmark);
         setContentView(mDisplayManager.isPrimary() ? R.layout.player : R.layout.player_remote_control);
 
@@ -313,10 +316,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
 
         mTitle = mActionBarView.findViewById(R.id.player_overlay_title);
 
-        mPlaylistToggle = findViewById(R.id.playlist_toggle);
+        mPlaylistToggle = mActionBarView.findViewById(R.id.playlist_toggle);
         mPlaylist = findViewById(R.id.video_playlist);
 
-        mOrientationToggle = findViewById(R.id.orientation_toggle);
+        mSecondaryDisplayBtn = mActionBarView.findViewById(R.id.video_secondary_display);
+
+        mOrientationToggle = mActionBarView.findViewById(R.id.orientation_toggle);
 
         mScreenOrientation = Integer.valueOf(
                 mSettings.getString("screen_orientation", "99" /*SCREEN ORIENTATION SENSOR*/));
@@ -711,6 +716,19 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 return true;
             }
         });
+
+        final boolean secondary = mDisplayManager.isSecondary();
+        if (secondary) mSecondaryDisplayBtn.setImageResource(R.drawable.ic_stop_screen_share);
+        mSecondaryDisplayBtn.setVisibility(UiTools.hasSecondaryDisplay(getApplicationContext()) ? View.VISIBLE : View.GONE);
+        mSecondaryDisplayBtn.setContentDescription(getResources().getString(secondary ? R.string.video_remote_disable : R.string.video_remote_enable));
+        if (secondary && !mSettings.contains("enable_clone_mode")) {
+            UiTools.snackerConfirm(mSecondaryDisplayBtn, getString(R.string.video_save_remote_setting), new Runnable() {
+                @Override
+                public void run() {
+                    mSettings.edit().putBoolean("enable_clone_mode", false).apply();
+                }
+            });
+        }
 
         /* Listen for changes to media routes. */
         if (!mIsBenchmark) mDisplayManager.setMediaRouterCallback();
@@ -1857,6 +1875,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 if (getSupportFragmentManager().findFragmentByTag("renderers") == null)
                     new RenderersDialog().show(getSupportFragmentManager(), "renderers");
                 break;
+            case R.id.video_secondary_display:
+                clone = mDisplayManager.isSecondary();
+                recreate();
+                break;
         }
     }
 
@@ -2033,7 +2055,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
 
     @WorkerThread
     private void setSpuTrack(final int trackID) {
-        mService.setSpuTrack(trackID);
+        WorkersKt.runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                mService.setSpuTrack(trackID);
+            }
+        });
         final MediaWrapper mw = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
         if (mw != null && mw.getId() != 0L)
             mw.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID);
