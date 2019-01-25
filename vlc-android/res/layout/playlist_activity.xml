@@ -17,12 +17,11 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:fitsSystemWindows="true">
+            android:layout_height="wrap_content" >
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:fitsSystemWindows="true"
                 vlc:title="@{playlist.title}"
                 vlc:theme="@style/Toolbar.VLC"
@@ -35,7 +34,7 @@
                 <ImageView
                     android:id="@+id/playlist_cover"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="192dp"
                     android:scaleType="centerCrop"
                     android:src="@{cover}"
                     vlc:layout_collapseMode="parallax" />
@@ -57,8 +56,9 @@
             android:id="@+id/songs"
             android:layout_width="@dimen/default_content_width"
             android:layout_height="match_parent"
+            android:paddingTop="24dp"
+            android:clipToPadding="false"
             android:fastScrollEnabled="true"
-            android:layout_gravity="center_horizontal"
             android:scrollbars="vertical"
             vlc:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
