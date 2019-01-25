@@ -99,55 +99,60 @@ public class AudioUtil {
             Permissions.checkWriteSettingsPermission(context, Permissions.PERMISSION_SYSTEM_RINGTONE);
             return;
         }
-        WorkersKt.runIO(new Runnable() {
+        UiTools.snackerConfirm(context.getWindow().getDecorView(), context.getString(R.string.set_song_question, song.getTitle()), new Runnable() {
             @Override
             public void run() {
-                final File newRingtone = AndroidUtil.UriToFile(song.getUri());
-                if (!newRingtone.exists()) {
-                    Toast.makeText(context.getApplicationContext(),context.getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                final ContentValues values = new ContentValues();
-                values.put(MediaStore.MediaColumns.DATA, newRingtone.getAbsolutePath());
-                values.put(MediaStore.MediaColumns.TITLE, song.getTitle());
-                values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/*");
-                values.put(MediaStore.Audio.Media.ARTIST, song.getArtist());
-                values.put(MediaStore.Audio.Media.IS_RINGTONE, true);
-                values.put(MediaStore.Audio.Media.IS_NOTIFICATION, false);
-                values.put(MediaStore.Audio.Media.IS_ALARM, false);
-                values.put(MediaStore.Audio.Media.IS_MUSIC, false);
-
-                final Uri uri = MediaStore.Audio.Media.getContentUriForPath(newRingtone.getAbsolutePath());
-                final Uri newUri;
-                try {
-                    context.getContentResolver().delete(uri, MediaStore.MediaColumns.DATA + "=\"" + newRingtone.getAbsolutePath() + "\"", null);
-                    newUri = context.getContentResolver().insert(uri, values);
-                    RingtoneManager.setActualDefaultRingtoneUri(
-                            context.getApplicationContext(),
-                            RingtoneManager.TYPE_RINGTONE,
-                            newUri
-                    );
-                } catch(Exception e) {
-                    Log.e(TAG, "error setting ringtone", e);
-                    WorkersKt.runOnMainThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context.getApplicationContext(),
-                                    context.getString(R.string.ringtone_error),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    return;
-                }
-                WorkersKt.runOnMainThread(new Runnable() {
+                WorkersKt.runIO(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(
-                                context.getApplicationContext(),
-                                context.getString(R.string.ringtone_set, song.getTitle()),
-                                Toast.LENGTH_SHORT)
-                                .show();
+                        final File newRingtone = AndroidUtil.UriToFile(song.getUri());
+                        if (!newRingtone.exists()) {
+                            Toast.makeText(context.getApplicationContext(),context.getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        final ContentValues values = new ContentValues();
+                        values.put(MediaStore.MediaColumns.DATA, newRingtone.getAbsolutePath());
+                        values.put(MediaStore.MediaColumns.TITLE, song.getTitle());
+                        values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/*");
+                        values.put(MediaStore.Audio.Media.ARTIST, song.getArtist());
+                        values.put(MediaStore.Audio.Media.IS_RINGTONE, true);
+                        values.put(MediaStore.Audio.Media.IS_NOTIFICATION, false);
+                        values.put(MediaStore.Audio.Media.IS_ALARM, false);
+                        values.put(MediaStore.Audio.Media.IS_MUSIC, false);
+
+                        final Uri uri = MediaStore.Audio.Media.getContentUriForPath(newRingtone.getAbsolutePath());
+                        final Uri newUri;
+                        try {
+                            context.getContentResolver().delete(uri, MediaStore.MediaColumns.DATA + "=\"" + newRingtone.getAbsolutePath() + "\"", null);
+                            newUri = context.getContentResolver().insert(uri, values);
+                            RingtoneManager.setActualDefaultRingtoneUri(
+                                    context.getApplicationContext(),
+                                    RingtoneManager.TYPE_RINGTONE,
+                                    newUri
+                            );
+                        } catch(Exception e) {
+                            Log.e(TAG, "error setting ringtone", e);
+                            WorkersKt.runOnMainThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context.getApplicationContext(),
+                                            context.getString(R.string.ringtone_error),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            return;
+                        }
+                        WorkersKt.runOnMainThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(
+                                        context.getApplicationContext(),
+                                        context.getString(R.string.ringtone_set, song.getTitle()),
+                                        Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        });
                     }
                 });
             }

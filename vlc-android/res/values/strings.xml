@@ -52,6 +52,7 @@
     <string name="delete">Delete</string>
     <string name="remove">Remove</string>
     <string name="set_song">Set as ringtone</string>
+    <string name="set_song_question">Set \'%1$s\' as ringtone?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Delete the file \'%1$s\'?</string>
     <string name="confirm_delete_folder">Delete the folder \'%1$s\' and all its contents?</string>
