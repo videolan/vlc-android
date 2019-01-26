@@ -51,6 +51,7 @@
     <string name="delete">Verwijderen</string>
     <string name="remove">Verwijderen</string>
     <string name="set_song">Als beltoon instellen</string>
+    <string name="set_song_question">\'%1$s\' als beltoon instellen?</string>
     <string name="info">Informatie</string>
     <string name="confirm_delete">Het bestand \'%1$s\' verwijderen?</string>
     <string name="confirm_delete_folder">Map \'%1$s\' en de volledige inhoud verwijderen?</string>
@@ -366,6 +367,7 @@
     <string name="audio_ducking_title">VLC-volume verlagen bij meldingen</string>
     <string name="audio_ducking_summary">Helpt om audiomeldingen, navigatie-instructies of het praten van de assistent te horen</string>
     <string name="casting_category">Uitzenden</string>
+    <string name="casting_switch_title">Draadloos casten</string>
     <string name="casting_passthrough_title">Audiodoorvoer</string>
     <string name="casting_passthrough_summary">Laat uw tv het renderen van audio beheren</string>
     <string name="casting_conversion_quality_title">Conversiekwaliteit</string>
@@ -645,4 +647,7 @@
     <string name="device_dialog_title">Extern apparaat geplaatst</string>
     <string name="device_dialog_message">U heeft een nieuw opslagapparaat verbonden met uw tv-box. Wilt u het openen met VLC?</string>
     <string name="videos_folders_title">Video\'s volgens mappen</string>
+    <string name="video_save_remote_setting">Modus bediening op afstand automatisch inschakelen?</string>
+    <string name="video_remote_enable">Overschakelen naar modus bediening op afstand</string>
+    <string name="video_remote_disable">Scherm dupliceren</string>
 </resources>
