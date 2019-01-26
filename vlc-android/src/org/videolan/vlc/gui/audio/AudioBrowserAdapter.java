@@ -76,7 +76,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         mType = type;
         mDefaultCover = getIconDrawable();
         mSort = sort;
-        setHasStableIds(type != TYPE_PLAYLIST);
     }
 
     void setSort(int sort) {
