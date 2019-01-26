@@ -50,6 +50,7 @@
     <string name="delete">删除</string>
     <string name="remove">移除</string>
     <string name="set_song">设为铃声</string>
+    <string name="set_song_question">是否将「%1$s」设为铃声?</string>
     <string name="info">信息</string>
     <string name="confirm_delete">是否要删除文件「%1$s」?</string>
     <string name="confirm_delete_folder">是否删除文件夹「%1$s」及其全部内容?</string>
@@ -359,6 +360,7 @@
     <string name="audio_ducking_title">收到通知时降低 VLC 音量</string>
     <string name="audio_ducking_summary">有助于听清通知声音、导航语音或辅助功能讲解</string>
     <string name="casting_category">投屏</string>
+    <string name="casting_switch_title">无线投屏</string>
     <string name="casting_passthrough_title">音频直通</string>
     <string name="casting_passthrough_summary">让 TV 全权负责音频渲染</string>
     <string name="casting_conversion_quality_title">转换质量</string>
@@ -638,4 +640,7 @@
     <string name="device_dialog_title">已插入外部设备</string>
     <string name="device_dialog_message">您刚将新的存储设备插入机顶盒，是否希望 VLC 打开它?</string>
     <string name="videos_folders_title">按文件夹显示视频</string>
+    <string name="video_save_remote_setting">是否自动激活远程控制模式?</string>
+    <string name="video_remote_enable">切换到远程控制模式</string>
+    <string name="video_remote_disable">复制屏幕</string>
 </resources>
