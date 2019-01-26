@@ -46,9 +46,11 @@
     <string name="play_all">Main semua</string>
     <string name="append_all">Tambah semua</string>
     <string name="last_playlist">Senarai main terakhir</string>
+    <string name="last_playlist_shortcut">Sambung semula main balik</string>
     <string name="delete">Padam</string>
     <string name="remove">Buang</string>
     <string name="set_song">Tetapkan sebagai nada dering</string>
+    <string name="set_song_question">Tetapkan \'%1$s\' sebagai nada dering?</string>
     <string name="info">Maklumat</string>
     <string name="confirm_delete">Padam fail \'%1$s\' ?</string>
     <string name="confirm_delete_folder">Padam folder \'%1$s\' dan semua kandungannya?</string>
@@ -281,11 +283,14 @@
     <string name="video_min_group_length_title">Video kumpulan</string>
     <string name="video_min_group_length_summary">Video dikumpulkan jika abjad pertama mereka adalah serupa.</string>
     <string name="video_min_group_length_disable">Lumpuhkan</string>
+    <string name="video_min_group_length_folder">Kelompok mengikut folder</string>
     <string name="video_min_group_length_first">Abjad pertama sahaja</string>
     <string name="video_min_group_length_short">Bilangan abjad pendek (6)</string>
     <string name="video_min_group_length_long">Bilangan abjad panjang (9)</string>
     <string name="media_fast_seek">Jangkau pantas</string>
     <string name="media_fast_seek_summary">Menjangkau media lebih pantas tetapi kurang tepat</string>
+    <string name="video_transition_title">Peralihan video</string>
+    <string name="video_transition_summary">Tunjuk tajuk video baharu ketika peralihan</string>
     <string name="media_seen">Tunjuk penanda video ditonton</string>
     <string name="media_seen_summary">Tanda video yang telah ditonton yang anda telah mainkan sehingga tamat</string>
     <string name="force_list_portrait">Tiada grid dalam mod potret</string>
@@ -355,6 +360,7 @@
     <string name="audio_ducking_title">Rendahkan volum VLC ketika pemberitahuan</string>
     <string name="audio_ducking_summary">Bantu mendengar pemberitahuan audio, arahan navigasi atau percakapan pembantu</string>
     <string name="casting_category">Casting</string>
+    <string name="casting_switch_title">Penyiaran tanpa wayar</string>
     <string name="casting_passthrough_title">Passthrough Audio</string>
     <string name="casting_passthrough_summary">Biarkan TV anda mengurus penerapan audio</string>
     <string name="casting_conversion_quality_title">Kualiti penukaran</string>
@@ -597,7 +603,8 @@
     <string name="audio_digital_output_enabled">Output Digital Audio dibenarkan</string>
     <string name="audio_digital_output_disabled">Output Digital Audio dilumpuhkan</string>
     <string name="audio_digital_title">Output audio digital (passthrough)</string>
-    <string name="audio_task_removed_title">Henti main balik ketika aplikasi disingkirkan</string>
+    <string name="audio_task_cleared_title">Henti ketika leret aplikasi</string>
+    <string name="audio_task_cleared_summary">Henti main balik ketika aplikasi disinggirkan</string>
     <string name="playback_rewind">Mandir</string>
     <string name="playback_forward">Maju pantas</string>
     <string name="ml_wizard_title">Pemilihan Pustaka Media VLC</string>
@@ -625,4 +632,15 @@
     <string name="download_the_selected">Muat turun pemilihan</string>
     <string name="next">Berikut</string>
     <string name="download">Muat Turun</string>
+    <string name="ctx_player_video_track">Pilih trek video</string>
+    <string name="ctx_player_audio_track">Trek audio</string>
+    <string name="ctx_player_subs_track">Trek sarikata</string>
+    <string name="ctx_player_tracks_title">Trek media</string>
+    <string name="ctx_pip_title">Pemain timbul</string>
+    <string name="device_dialog_title">Peranti luar disisip</string>
+    <string name="device_dialog_message">Anda baru sahaja memalam peranti storan baharu ke dalam kotak TV anda, anda mahu membukanya dengan VLC?</string>
+    <string name="videos_folders_title">Video mengikut folder</string>
+    <string name="video_save_remote_setting">Aktifkan mod kawalan jauh secara automatik?</string>
+    <string name="video_remote_enable">Tukar ke mod kawalan jauh</string>
+    <string name="video_remote_disable">Duplikasikan skrin</string>
 </resources>
