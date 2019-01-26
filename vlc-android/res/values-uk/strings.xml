@@ -53,6 +53,7 @@
     <string name="delete">Видалити</string>
     <string name="remove">Видалити</string>
     <string name="set_song">Встановити як мелодію</string>
+    <string name="set_song_question">Встановити \'%1$s\' як мелодію дзвінків?</string>
     <string name="info">Інформація</string>
     <string name="confirm_delete">Видалити файл \'%1$s\'?</string>
     <string name="confirm_delete_folder">Вилучити теку \'%1$s\' та увесь її вміст?</string>
@@ -380,6 +381,7 @@
     <string name="audio_ducking_title">Нижча гучність VLC під час сповіщень</string>
     <string name="audio_ducking_summary">Допомагає почути звукові сповіщення, навігаційні вказівки та слова асистента</string>
     <string name="casting_category">Трансляція</string>
+    <string name="casting_switch_title">Безпровідний кастинг</string>
     <string name="casting_passthrough_title">Аудіо роз\'єм</string>
     <string name="casting_passthrough_summary">Дозвольте управляти відтворенням аудіо ТБ</string>
     <string name="casting_conversion_quality_title">Якість перетворення</string>
@@ -659,4 +661,7 @@
     <string name="device_dialog_title">Вставлено зовнішній пристрій</string>
     <string name="device_dialog_message">Ви під\'єднали новий накопичувач до вашого телевізора. Хочете його відкрити за допомогою VLC?</string>
     <string name="videos_folders_title">Відео за теками</string>
+    <string name="video_save_remote_setting">Автоматично увімкнути режим віддаленого управління?</string>
+    <string name="video_remote_enable">Перемкнутися у режим віддаленого управління</string>
+    <string name="video_remote_disable">Дублювати екран</string>
 </resources>
