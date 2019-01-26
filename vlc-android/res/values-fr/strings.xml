@@ -51,6 +51,7 @@
     <string name="delete">Supprimer</string>
     <string name="remove">Retirer</string>
     <string name="set_song">Définir comme sonnerie</string>
+    <string name="set_song_question">Définir « %1$s » comme sonnerie ?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Supprimer le fichier  « %1$s » ?</string>
     <string name="confirm_delete_folder">Supprimer le dossier « %1$s » ainsi que son contenu ?</string>
@@ -153,10 +154,10 @@
     <string name="brightness">Luminosité</string>
     <string name="navmenu">menu de navigation</string>
     <string name="advanced">options avancées</string>
-    <string name="audio_boost_warning">Défilez encore vers le haut pour dépasser 100 %</string>
+    <string name="audio_boost_warning">Défilez encore vers le haut pour dépasser 100 %</string>
     <string name="locked_in_portrait_mode">Verrouillé en mode portrait\n(Appui long sur le bouton pour annuler)</string>
     <string name="locked_in_landscape_mode">Verrouillé en mode paysage\n(Appui long sur le bouton pour annuler)</string>
-    <string name="reset_orientation">Réinitialiser l’orientation</string>
+    <string name="reset_orientation">Orientation réinitialisée</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
@@ -196,7 +197,7 @@
     <string name="favorite_removed">Retiré des favoris</string>
 
     <string name="open">Ouvrir</string>
-    <string name="open_mrl">Streams</string>
+    <string name="open_mrl">Flux</string>
     <string name="open_mrl_dialog_title">Ouvrir un flux réseau</string>
     <string name="open_mrl_dialog_msg">Entrez une addresse réseau : p. ex. http://, mms:// ou rtsp://</string>
     <string name="error_not_compatible">Désolé, mais votre appareil n\'est pas supporté pour l\'instant par cette version de VLC pour Android™.</string>
@@ -255,7 +256,7 @@
     <string name="add_custom_path_description">Entrer un dossier additionnel à analyser :</string>
     <string name="remove_custom_path">Supprimer le chemin personnalisé</string>
     <string name="hardware_acceleration">Accélération matérielle</string>
-    <string name="hardware_acceleration_summary">Désactivée: meilleure stabilité.\nAu décodage : peut améliorer les performances.\nComplète : peut encore améliorer les performances.</string>
+    <string name="hardware_acceleration_summary">Désactivée : meilleure stabilité.\nAu décodage : peut améliorer les performances.\nComplète : peut améliorer les performances davantage.</string>
     <string name="hardware_acceleration_disabled">Désactivée</string>
     <string name="hardware_acceleration_decoding">Accélération au décodage</string>
     <string name="hardware_acceleration_full">Accélération complète</string>
@@ -303,8 +304,8 @@
     <string name="force_list_portrait_summary">Afficher les vidéos par liste plutôt que par grille en mode portrait</string>
     <string name="force_play_all_summary">Jouer toutes les vidéos en commençant par celle sélectionnée</string>
     <string name="force_play_all_title">Mode liste de lecture vidéo</string>
-    <string name="save_brightness_summary">Mémoriser le niveau de rétroéclairage du lecteur video</string>
-    <string name="save_brightness_title">Enregistrer le niveau de rétroéclairage pour les videos</string>
+    <string name="save_brightness_summary">Mémorise le niveau de rétroéclairage du lecteur vidéo</string>
+    <string name="save_brightness_title">Enregistrer le niveau de rétroéclairage pour les vidéos</string>
     <string name="save_audiodelay_summary">Enregistrer le décalage audio pour chaque vidéo</string>
     <string name="save_audiodelay_title">Enregistrer le décalage audio</string>
     <string name="enable_brightness_gesture_title">Contrôler la luminosité au toucher</string>
@@ -318,7 +319,7 @@
     <string name="popup_keepscreen_title">Maintenir l\'écran allumé en mode Pop-Up</string>
     <string name="popup_keepscreen_summary">Maintenir l\'écran allumé en mode Pop-Up, y compris lorsque la vidéo est en pause</string>
     <string name="browser_show_hidden_files_title">Afficher les fichiers cachés</string>
-    <string name="browser_show_hidden_files_summary">Afficher les fichiers cachés dans les navigateurs</string>
+    <string name="browser_show_hidden_files_summary">Affiche les fichiers cachés dans les navigateurs</string>
 
     <string name="subtitles_prefs_category">Sous-titres</string>
     <string name="subtitles_size_title">Taille des sous-titres</string>
@@ -366,6 +367,7 @@
     <string name="audio_ducking_title">Baisser le volume de VLC à la réception d\'une notification</string>
     <string name="audio_ducking_summary">Aide à l\'écoute des notifications audio, instructions de navigation ou assistant vocal</string>
     <string name="casting_category">Diffusion</string>
+    <string name="casting_switch_title">Diffusion sans fil</string>
     <string name="casting_passthrough_title">Passerelle audio</string>
     <string name="casting_passthrough_summary">Laisser votre téléviseur gérer le rendu audio</string>
     <string name="casting_conversion_quality_title">Qualité de conversion</string>
@@ -375,7 +377,7 @@
     <string name="casting_quality_low">Bas</string>
     <string name="casting_quality_lowcpu">Le plus bas</string>
     <string name="cast_performance_warning">Diffuser cette vidéo requiert une conversion. Cette conversion risque d\'utiliser toute la puissance disponible et rapidement vider votre batterie.</string>
-    <string name="casting_connected_renderer">Connecté au moteur de rendu \'%1$s\'</string>
+    <string name="casting_connected_renderer">Connecté à l\'appareil \'%1$s\'</string>
     <string name="artists_show_all_title">Montrer tous les artistes</string>
     <string name="artists_show_all_summary">Montrer tous les artistes dans la liste des artistes, pas seulement les artistes de l\'album</string>
 
@@ -392,12 +394,12 @@
     <string name="performance_prefs_category">Performance</string>
     <string name="chroma_format">Chroma vidéo</string>
     <string name="chroma_format_summary">RGB 32-bit : mode par défaut\nRGB 16-bit : améliore les performances vidéos mais diminue la qualité\nYUV : améliore les performances vidéos mais ne fonctionne pas sur tous les appareils. Android 2.3 et supérieur uniquement.</string>
-    <string name="deblocking">Filtre de déblocage</string>
-    <string name="deblocking_summary">Modifier le réglage du filtre de déblocage. Peut améliorer la qualité vidéo. Pour utilisateurs expérimentés uniquement.</string>
-    <string name="deblocking_always">Déblocage max (plus lent)</string>
-    <string name="deblocking_nonref">Déblocage intermédiaire</string>
-    <string name="deblocking_nonkey">Déblocage faible</string>
-    <string name="deblocking_all">Sans déblocage (plus rapide)</string>
+    <string name="deblocking">Filtre anti-blocs</string>
+    <string name="deblocking_summary">Modifie le réglage du filtre anti-blocs. Peut améliorer la qualité vidéo. Pour utilisateurs expérimentés uniquement.</string>
+    <string name="deblocking_always">Anti-blocs max (plus lent)</string>
+    <string name="deblocking_nonref">Anti-blocs intermédiaire</string>
+    <string name="deblocking_nonkey">Anti-blocs faible</string>
+    <string name="deblocking_all">Sans anti-blocs (plus rapide)</string>
     <string name="enable_frame_skip">Saut d\'images</string>
     <string name="enable_frame_skip_summary">Accélère le décodage mais peut diminuer la qualité de la vidéo.</string>
     <string name="enable_time_stretching_audio">Étirement temporel audio</string>
@@ -409,8 +411,8 @@
     <string name="save_video_always">Conserver la vitesse entre les sessions</string>
     <string name="auto_rescan">Réanalyser automatiquement</string>
     <string name="auto_rescan_summary">Analyser automatiquement au démarrage de l\'application les médias ajoutés ou supprimés sur l\'appareil</string>
-    <string name="dump_media_db">Cliché de la base de données de médias</string>
-    <string name="dump_media_db_summary">Copier la base de données à la racine du stockage interne</string>
+    <string name="dump_media_db">Exporter la base de données de médias</string>
+    <string name="dump_media_db_summary">Copie la base de données à la racine du stockage interne</string>
     <string name="clear_media_db">Réinitialiser votre bibliothèque multimédia</string>
     <string name="clear_media_db_summary">Accédez aux informations d\'Android VLC pour effacer les données</string>
     <string name="clear_history">Supprimer l\'historique de vos recherches</string>
@@ -419,7 +421,7 @@
     <string name="set_locale_detail">Laisser vide pour réinitialiser</string>
     <string name="set_locale_popup">Quitter et redémarrer VLC pour que les changements soient appliqués.</string>
     <string name="network_caching">Taille du cache réseau</string>
-    <string name="network_caching_summary">Durée en ms pour le tampon réseau. Ne fonctionne pas avec le décodage matériel. Laissez vide pour ré-initialiser.</string>
+    <string name="network_caching_summary">Durée pour le tampon réseau (en ms). Ne fonctionne pas avec le décodage matériel. Laissez vide pour réinitialiser.</string>
     <string name="resume_playback_title">Reprendre la lecture après un appel</string>
     <string name="resume_playback_summary">Rester en pause dans le cas contraire</string>
     <string name="blurred_cover_background_title">Couverture floutée en arrière-plan</string>
@@ -434,7 +436,7 @@
 
     <string name="developer_prefs_category">Développeur</string>
     <string name="enable_verbose_mode">Verbosité</string>
-    <string name="enable_verbose_mode_summary">Augmenter la verbosité (logcat)</string>
+    <string name="enable_verbose_mode_summary">Augmente la verbosité (logcat)</string>
     <string name="debug_logs">Journal de débogage</string>
     <string name="start_logging">Démarrer l\'enregistrement</string>
     <string name="stop_logging">Arrêter l\'enregistrement</string>
@@ -471,8 +473,8 @@
 
     <string name="file_size">Taille du fichier :</string>
 
-    <string name="audio_delay">Délai audio</string>
-    <string name="spu_delay">Délai du sous-titrage</string>
+    <string name="audio_delay">Décalage audio</string>
+    <string name="spu_delay">Décalage du sous-titrage</string>
     <string name="sleep_time_not_set">non défini</string>
     <string name="network_shares_discovery">Recherche de partages réseau…</string>
     <string name="network_empty">Ce dossier est vide.</string>
@@ -611,7 +613,7 @@
     <string name="audio_task_cleared_title">Arrêter lors d\'un balayage de l\'application</string>
     <string name="audio_task_cleared_summary">Arrêter la lecture lorsque l\'application est fermée</string>
     <string name="playback_rewind">Retour</string>
-    <string name="playback_forward">Avance Rapide</string>
+    <string name="playback_forward">Avance rapide</string>
     <string name="ml_wizard_title">Sélection Médialibrary de VLC</string>
     <string name="ml_wizard_scan_checkbox">Recherche de contenu médias sur l\'appareil</string>
     <string name="ml_wizard_description">Choisissez si VLC analysera le stockage de votre appareil pour organiser votre médiathèque ou simplement l\'utiliser comme un simple lecteur avec un navigateur intégré.</string>
@@ -645,4 +647,7 @@
     <string name="device_dialog_title">Périphérique externe inséré</string>
     <string name="device_dialog_message">Vous venez de brancher un nouveau périphérique de stockage à votre box TV, voulez-vous l\'ouvrir avec VLC ?</string>
     <string name="videos_folders_title">Vidéos par dossiers</string>
+    <string name="video_save_remote_setting">Activer automatiquement le mode commande à distance ?</string>
+    <string name="video_remote_enable">Passer en mode commande à distance</string>
+    <string name="video_remote_disable">Dupliquer l’écran</string>
 </resources>
