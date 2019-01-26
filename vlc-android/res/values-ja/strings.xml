@@ -49,7 +49,8 @@
     <string name="last_playlist_shortcut">再生を再開</string>
     <string name="delete">削除</string>
     <string name="remove">削除</string>
-    <string name="set_song">呼び出し音に設定</string>
+    <string name="set_song">着信音に設定</string>
+    <string name="set_song_question">\'%1$s\' を着信音として設定?</string>
     <string name="info">情報</string>
     <string name="confirm_delete">ファイル \'%1$s\' を削除しますか？</string>
     <string name="confirm_delete_folder">\'%1$s\' フォルダーと含まれるすべてのファイルを削除しますか?</string>
@@ -359,6 +360,7 @@
     <string name="audio_ducking_title">通知時にVLCの音量を下げる</string>
     <string name="audio_ducking_summary">音声通知、ナビゲーションまたはアシスタント会話を聴き取りやすくする</string>
     <string name="casting_category">配信</string>
+    <string name="casting_switch_title">ワイヤレスキャスティング</string>
     <string name="casting_passthrough_title">オーディオパススルー</string>
     <string name="casting_passthrough_summary">TV側でオーディオレンダリングを管理</string>
     <string name="casting_conversion_quality_title">変換品質</string>
@@ -638,4 +640,7 @@
     <string name="device_dialog_title">外部デバイスが接続されました</string>
     <string name="device_dialog_message">TVボックスに新しいストレージデバイスが接続されました。そのデバイスをVLCで使用しますか?</string>
     <string name="videos_folders_title">フォルダーごとにビデオをグループ化</string>
+    <string name="video_save_remote_setting">自動的にリモートコントロールモードを有効化しますか?</string>
+    <string name="video_remote_enable">リモートコントロールモードに切替</string>
+    <string name="video_remote_disable">スクリーン複製</string>
 </resources>
