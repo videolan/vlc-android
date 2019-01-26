@@ -51,6 +51,7 @@
     <string name="delete">Sil</string>
     <string name="remove">Kaldır</string>
     <string name="set_song">Zil sesi olarak ayarla</string>
+    <string name="set_song_question">\'%1$s\' zil sesi olarak ayarlansın mı?</string>
     <string name="info">Bilgiler</string>
     <string name="confirm_delete">\'%1$s\' dosyası silinsin mi?</string>
     <string name="confirm_delete_folder">\'%1$s\' klasörü ve tüm içeriği silinsin mi?</string>
@@ -289,11 +290,14 @@
     <string name="video_min_group_length_title">Görüntüler gruplansın</string>
     <string name="video_min_group_length_summary">İlk harfi aynı olan görüntüleri gruplar.</string>
     <string name="video_min_group_length_disable">Devre dışı bırak</string>
+    <string name="video_min_group_length_folder">Klasöre göre grupla</string>
     <string name="video_min_group_length_first">Yalnız ilk harf</string>
     <string name="video_min_group_length_short">Kısa harf sayısı (6)</string>
     <string name="video_min_group_length_long">Uzun harf sayısı (9)</string>
     <string name="media_fast_seek">Hızlı tarama</string>
     <string name="media_fast_seek_summary">Ortam taraması daha hızlı ancak daha az hassastır</string>
+    <string name="video_transition_title">Görüntü dönüştürme</string>
+    <string name="video_transition_summary">Dönüştürme sırasında yeni görüntü başlığı görüntülensin</string>
     <string name="media_seen">Görüldü görüntü işareti görüntülensin</string>
     <string name="media_seen_summary">Sonuna dek oynatılmış görüntüleri görüldü olarak işaretler</string>
     <string name="force_list_portrait">Dikey konumda tablo olmasın</string>
@@ -363,6 +367,7 @@
     <string name="audio_ducking_title">Bildirim geldiğinde VLC ses düzeyi azaltılsın</string>
     <string name="audio_ducking_summary">Bu seçenek etkinleştirildiğinde, bildirim seslerinin, yol bulma bilgilendirmelerinin ya da yardımcı konuşmalarının duyulması kolaylaşır</string>
     <string name="casting_category">Aktarım</string>
+    <string name="casting_switch_title">Kablosuz yayın</string>
     <string name="casting_passthrough_title">Doğrudan Ses Geçişi</string>
     <string name="casting_passthrough_summary">Ses TV tarafından oluşturulsun</string>
     <string name="casting_conversion_quality_title">Dönüşüm kalitesi</string>
@@ -640,5 +645,9 @@
     <string name="ctx_player_tracks_title">Ortam izleri</string>
     <string name="ctx_pip_title">Açılan pencerede oynatıcı</string>
     <string name="device_dialog_title">Bir dış aygıt takıldı</string>
-    <string name="device_dialog_message">Yeni bir aygıt algılandı. VLC tarafından işlenmesini ister misiniz?</string>
+    <string name="device_dialog_message">TV kutunuza yeni bir depolama aygıtı bağladınız. Bu aygıtın VLC ile açılmasını ister misiniz?</string>
+    <string name="videos_folders_title">Klasörlere göre görüntüler</string>
+    <string name="video_save_remote_setting">Uzaktan kumanda kipi otomatik olarak etkinleştirilsin mi?</string>
+    <string name="video_remote_enable">Uzaktan kumanda kipine geç</string>
+    <string name="video_remote_disable">Ekranı yansıt</string>
 </resources>
