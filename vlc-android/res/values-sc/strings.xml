@@ -50,15 +50,16 @@
     <string name="last_playlist_shortcut">Sighi cun sa riprodutzione</string>
     <string name="delete">Iscantzella</string>
     <string name="remove">Boga</string>
-    <string name="set_song">Imposta comente suoneria</string>
+    <string name="set_song">Imposta comente soneria</string>
+    <string name="set_song_question">Impostare \'%1$s\' comente soneria?</string>
     <string name="info">Informatziones</string>
     <string name="confirm_delete">Cheres iscantzellare su documentu \'%1$s\'?</string>
     <string name="confirm_delete_folder">Cheres iscantzellare sa cartella \'%1$s\' e su chi b\'est in intro?</string>
     <string name="confirm_delete_playlist">Cheres iscantzellare s\'iscalita \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Bogare \'%1$s\' dae s\'iscalita?</string>
     <string name="confirm_remove_from_playlist_anonymous">Bogare dae s\'iscalita?</string>
-    <string name="ringtone_set">Su documentu \'%1$s\' est istadu impostadu comente suoneria.</string>
-    <string name="ringtone_error">B\'est istadu un\'errore cun s\'impostatzione de sa suoneria.</string>
+    <string name="ringtone_set">Su documentu \'%1$s\' est istadu impostadu comente soneria.</string>
+    <string name="ringtone_error">B\'est istadu un\'errore cun s\'impostatzione de sa soneria.</string>
     <string name="pause">Pàusa</string>
     <string name="not_show_again">No ammustres prus custu messàgiu.</string>
     <string name="info_title">VLC</string>
@@ -366,6 +367,7 @@
     <string name="audio_ducking_title">Volume de VLC prus bassu in casu de notìficas</string>
     <string name="audio_ducking_summary">Agiudat a intendere sas notìficas àudio, sas istrutziones chistionadas de navigatzione o assistèntzia</string>
     <string name="casting_category">Trasmissione</string>
+    <string name="casting_switch_title">Trasmissione chene filos</string>
     <string name="casting_passthrough_title">Coladòrgiu àudio</string>
     <string name="casting_passthrough_summary">Permiti a su televisore tuo de gestire sa renderizatzione àudio</string>
     <string name="casting_conversion_quality_title">Calidade de sa conversione</string>
@@ -510,8 +512,8 @@
     <string name="widget_name_b">Widget VLC nieddu</string>
     <string name="allow_storage_access_title">Permiti a VLC de atzèdere a documentos vìdeo e àudio</string>
     <string name="allow_storage_access_description">VLC tenet bisòngiu de custu permissu pro atzèdere a sos documentos multimediales in custu dispositivu.</string>
-    <string name="allow_settings_access_ringtone_title">Permiti a VLC de impostare sa suoneria</string>
-    <string name="allow_settings_access_ringtone_description">VLC tenet bisòngiu de custu permissu pro  impostare custu branu comente suoneria.</string>
+    <string name="allow_settings_access_ringtone_title">Permiti a VLC de impostare sa soneria</string>
+    <string name="allow_settings_access_ringtone_description">VLC tenet bisòngiu de custu permissu pro  impostare custu branu comente soneria.</string>
     <string name="allow_settings_access_brightness_title">Permiti a VLC de mudare sa luminosidade</string>
     <string name="allow_settings_access_brightness_description">VLC tenet bisòngiu de custu permissu pro  modificare sa luminosidade.</string>
     <string name="allow_draw_overlays_title">Permiti a su leghidore VLC de aparire in subra de sas àteras aplicatziones</string>
@@ -645,4 +647,7 @@
     <string name="device_dialog_title">Dispositivu esternu insertadu</string>
     <string name="device_dialog_message">As collegadu como unu dispositivu de archiviatzione nou a s\'iscàtula (box) TV tua, lu cheres abèrrere cun VLC?</string>
     <string name="videos_folders_title">Vìdeos pro cartella</string>
+    <string name="video_save_remote_setting">Allùghere automaticamente sa modalidade de controllu a distàntzia?</string>
+    <string name="video_remote_enable">Cola a sa modalidade de controllu a distàntzia</string>
+    <string name="video_remote_disable">Ischermu duplicadu</string>
 </resources>
