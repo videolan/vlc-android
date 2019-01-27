@@ -53,6 +53,7 @@
     <string name="delete">Vymazať</string>
     <string name="remove">Odstrániť</string>
     <string name="set_song">Nastaviť ako zvonenie</string>
+    <string name="set_song_question">Nastaviť „%1$s“ ako zvonenie?</string>
     <string name="info">Informácia</string>
     <string name="confirm_delete">Vymazať súbor \'%1$s\'?</string>
     <string name="confirm_delete_folder">Vymazať priečinok \'%1$s\' a všetok jeho obsah?</string>
@@ -380,6 +381,7 @@
     <string name="audio_ducking_title">Stíšiť VLC pri notifikáciách</string>
     <string name="audio_ducking_summary">Umožní počuť zvukové notifikácie, navigačné pokyny alebo rozprávanie asistenta</string>
     <string name="casting_category">Streamovanie</string>
+    <string name="casting_switch_title">Bezdrôtový casting</string>
     <string name="casting_passthrough_title">Prechod zvuku</string>
     <string name="casting_passthrough_summary">Prenechať správu vykresľovania zvuku na TV</string>
     <string name="casting_conversion_quality_title">Kvalita konverzie</string>
@@ -659,4 +661,7 @@
     <string name="device_dialog_title">Bolo vložené externé zariadenie</string>
     <string name="device_dialog_message">Práve ste pripojili nové úložné zariadenie ku svojmu TV boxu. Chcete ho otvoriť s použitím VLC?</string>
     <string name="videos_folders_title">Videá podľa priečinkov</string>
+    <string name="video_save_remote_setting">Automaticky aktivovať režim ovládania na diaľku?</string>
+    <string name="video_remote_enable">Prepnúť na režim ovládania na diaľku</string>
+    <string name="video_remote_disable">Duplikovať obrazovku</string>
 </resources>
