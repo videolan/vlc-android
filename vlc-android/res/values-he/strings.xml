@@ -53,6 +53,7 @@
     <string name="delete">מחיקה</string>
     <string name="remove">הסרה</string>
     <string name="set_song">הגדרה כצלצול</string>
+    <string name="set_song_question">להגדיר את ‚%1$s’ כצלצול?</string>
     <string name="info">מידע</string>
     <string name="confirm_delete">למחוק את הקובץ „%1$s“?</string>
     <string name="confirm_delete_folder">למחוק את התיקייה „%1$s“ על כל תכניה?</string>
@@ -303,11 +304,14 @@
     <string name="video_min_group_length_title">סרטונים קבוצתיים</string>
     <string name="video_min_group_length_summary">סרטונים מקובצים אם האותיות הראשונות שלהם זהות.</string>
     <string name="video_min_group_length_disable">השבתה</string>
+    <string name="video_min_group_length_folder">קיבוץ לפי תיקייה</string>
     <string name="video_min_group_length_first">אות ראשונה בלבד</string>
     <string name="video_min_group_length_short">מספר מוגבל של אותיות (6)</string>
     <string name="video_min_group_length_long">מספר מורחב של אותיות (9)</string>
     <string name="media_fast_seek">שיטוט מהיר</string>
     <string name="media_fast_seek_summary">שיטוט במדיה זה הוא פשוט יותר אך פחות מדויק</string>
+    <string name="video_transition_title">מעברונים בין סרטונים</string>
+    <string name="video_transition_summary">הצגת סרטון חדש עם המעבר</string>
     <string name="media_seen">הצגת סמן צפייה</string>
     <string name="media_seen_summary">סימון צפייה על הסרטון בעת נגינתו עד לסופו</string>
     <string name="force_list_portrait">אין רשת במצב אנכי</string>
@@ -377,6 +381,7 @@
     <string name="audio_ducking_title">הנמכת עצמת השמע של VLC כשמתקבלות התרעות</string>
     <string name="audio_ducking_summary">מסייע בהאזנה לצלילי התרעה, הנחיות ניווט או דיבור של יישומון סיוע</string>
     <string name="casting_category">שידור</string>
+    <string name="casting_switch_title">שידור אלחוטי</string>
     <string name="casting_passthrough_title">מעקף שמע</string>
     <string name="casting_passthrough_summary">לאפשר לטלוויזיה לנהל עיבוד שמע</string>
     <string name="casting_conversion_quality_title">איכות המרה</string>
@@ -654,5 +659,9 @@
     <string name="ctx_player_tracks_title">רצועות מדיה</string>
     <string name="ctx_pip_title">נגן קופץ</string>
     <string name="device_dialog_title">חובר מכשיר חיצוני</string>
-    <string name="device_dialog_message">התגלה מכשיר חדש, לטפל בו בעזרת VLC?</string>
+    <string name="device_dialog_message">חיברת התקן אחסון חדש למערכת הטלוויזיה שלך, לפתוח אותו עם VLC?</string>
+    <string name="videos_folders_title">סרטונים לפי תיקיות</string>
+    <string name="video_save_remote_setting">להפעיל את מצב השלט?</string>
+    <string name="video_remote_enable">מעבר למצב שלט</string>
+    <string name="video_remote_disable">שכפול מסך</string>
 </resources>
