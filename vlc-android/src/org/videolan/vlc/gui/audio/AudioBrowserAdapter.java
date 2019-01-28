@@ -46,6 +46,7 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.ModelsHelper;
 import org.videolan.vlc.util.Util;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -56,7 +57,6 @@ import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
-import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_PLAYLIST;
 
 public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> implements MultiSelectAdapter<MediaLibraryItem> {
 
@@ -68,6 +68,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     private final int mType;
     private int mSort;
     private final BitmapDrawable mDefaultCover;
+    final LinkedList<ViewDataBinding> mHeaderBindings = new LinkedList<>();
 
     public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, int sort) {
         super(DIFF_CALLBACK);
@@ -79,6 +80,8 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     }
 
     void setSort(int sort) {
+        for (ViewDataBinding binding : mHeaderBindings) binding.setVariable(BR.header, null);
+        mHeaderBindings.clear();
         mSort = sort;
     }
 
@@ -137,6 +140,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         if (mSort == -1) return;
         final MediaLibraryItem aboveItem = position > 0 ? getItem(position-1) : null;
         holder.binding.setVariable(BR.header, ModelsHelper.INSTANCE.getHeader(holder.itemView.getContext(), mSort, item, aboveItem));
+        mHeaderBindings.add(holder.binding);
     }
 
     public MultiSelectHelper<MediaLibraryItem> getMultiSelectHelper() {
