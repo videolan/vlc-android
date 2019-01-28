@@ -2310,7 +2310,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
 
             if(!mIsTv && !AndroidDevices.isChromeBook)
                 mOrientationToggle.setVisibility(View.VISIBLE);
-        } else {
+        } else if (mService != null) {
             mHudBinding.setProgress(mService.getPlaylistManager().getPlayer().getProgress());
             mHudBinding.setLifecycleOwner(this);
         }
