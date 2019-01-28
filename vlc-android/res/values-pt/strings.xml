@@ -51,6 +51,7 @@
     <string name="delete">Eliminar</string>
     <string name="remove">Remover</string>
     <string name="set_song">Definir como toque de chamada</string>
+    <string name="set_song_question">Definir \'%1$s\' como toque de chamada?</string>
     <string name="info">Informação</string>
     <string name="confirm_delete">Eliminar o ficheiro \'%1$s\'?</string>
     <string name="confirm_delete_folder">Eliminar a pasta \'%1$s\' e todo o seu conteúdo?</string>
@@ -114,7 +115,7 @@
     <string name="mediafiles">Ficheiros de média</string>
     <string name="notavailable">não disponível</string>
     <string name="nosubdirectory">Sem subdiretorias.</string>
-    <string name="directorynotfound">O caminho \'%1$s\' não foi encontrado.</string>
+    <string name="directorynotfound">O caminho da pasta \'%1$s\' não foi encontrado.</string>
     <string name="nohistory">Ainda não tem um histórico de reprodução.</string>
     <string name="validation">Tem a certeza?</string>
 
@@ -252,7 +253,7 @@
     <string name="general_prefs_category">Geral</string>
     <string name="directories_summary">Selecione as diretorias para incluir na mediateca</string>
     <string name="add_custom_path">Adicionar um caminho personalizado</string>
-    <string name="add_custom_path_description">Insira um diretório personalizado adicional para pesquisar:</string>
+    <string name="add_custom_path_description">Insira uma pasta personalizada adicional para pesquisar:</string>
     <string name="remove_custom_path">Remover caminho personalizado</string>
     <string name="hardware_acceleration">Aceleração por Hardware</string>
     <string name="hardware_acceleration_summary">Desativado: melhor estabilidade.\nDescodificação: poderá melhorar o desempenho.\nMáximo: poderá melhorar o desempenho ainda mais.</string>
@@ -365,11 +366,12 @@
     <string name="aout_summary">Alterar o método que o VLC usa para a saída de áudio.</string>
     <string name="audio_ducking_title">Reduzir o volume do VLC em caso de notificação</string>
     <string name="audio_ducking_summary">Ajuda a ouvir notificações de áudio, instruções de navegação ou conversa do assistente</string>
-    <string name="casting_category">Casting</string>
+    <string name="casting_category">Difusão</string>
+    <string name="casting_switch_title">Difusão sem fios</string>
     <string name="casting_passthrough_title">Passagem de áudio</string>
     <string name="casting_passthrough_summary">Deixar a TV gerir o processamento de áudio</string>
     <string name="casting_conversion_quality_title">Qualidade da conversão</string>
-    <string name="casting_conversion_quality_summary">Selecione a qualidade da conversão quando distribuir num ecrã remoto</string>
+    <string name="casting_conversion_quality_summary">Selecione a qualidade da conversão ao difundir num ecrã remoto</string>
     <string name="casting_quality_high">Alta</string>
     <string name="casting_quality_medium">Média</string>
     <string name="casting_quality_low">Baixa</string>
@@ -475,7 +477,7 @@
     <string name="spu_delay">Atraso de legendas</string>
     <string name="sleep_time_not_set">por definir</string>
     <string name="network_shares_discovery">A procurar partilhas de rede…</string>
-    <string name="network_empty">Este diretório está vazio.</string>
+    <string name="network_empty">Esta pasta está vazia.</string>
     <string name="network_connection_needed">Sem ligação à rede local</string>
     <string name="search_hint">Pesquisa multimédia</string>
     <string name="search_list_hint">Pesquisar na lista atual</string>
@@ -490,7 +492,7 @@
     <string name="confirm_resume">Retomar da última posição?</string>
     <string name="confirm_resume_title">Pedir confirmação para retomar</string>
     <string name="confirm_resume_summary">Se desativada, é solicitado se a reprodução do vídeo deve continuar da última posição.</string>
-    <string name="directory_empty">Diretório vazio</string>
+    <string name="directory_empty">A pasta está vazia</string>
     <string name="tv_ui_title">Interface Android TV</string>
     <string name="tv_ui_summary">Alterar interface para o tema adaptado de TV</string>
     <string name="medialibrary">Mediateca</string>
@@ -502,7 +504,7 @@
     <string name="back_quit_lock">Prima novamente em Anterior para sair do vídeo</string>
     <string name="playlist_deleted">Lista de reprodução apagada</string>
     <string name="file_deleted">Ficheiro apagado</string>
-    <string name="no_subs_found">Não existem legendas neste diretório</string>
+    <string name="no_subs_found">Não existem legendas nesta pasta</string>
     <string name="music_now_playing">A reproduzir</string>
 
     <!-- Widget -->
@@ -562,7 +564,7 @@
     <string name="episodes">episódios</string>
     <string name="movies">filmes</string>
     <string name="videos">vídeos</string>
-    <string name="videos_all">Todos os videos</string>
+    <string name="videos_all">Todos os vídeos</string>
     <string name="clear_playback_history">Limpar histórico de reprodução</string>
     <string name="various_artists">Vários artistas</string>
     <string name="ml_scanning">A procurar ficheiros multimédia</string>
@@ -570,7 +572,7 @@
     <string name="ml_discovering">Descobrir</string>
     <string name="resume">Continuar</string>
     <string name="length">Duração</string>
-    <string name="tv_settings_hint">Toque longo no botão OK para marcar/desmarcar diretórios</string>
+    <string name="tv_settings_hint">Toque longo no botão OK para marcar/desmarcar pastas</string>
     <string name="ml_external_storage_title">Detetado novo armazenamento externo</string>
     <string name="ml_external_storage_msg">Deseja que o VLC adicione o dispositivo %1$s à sua mediateca?</string>
     <string name="ml_external_storage_accept">Sim</string>
@@ -601,7 +603,7 @@
     <string name="renderer_list_title">Ecrãs</string>
     <string name="feedback_player_crashed">Desculpe, o VLC parou de funcionar. Por favor tente novamente.</string>
     <string name="sdcard_permission_dialog_title">Necessita de dar ao VLC acesso de escrita para o SD Card</string>
-    <string name="sdcard_permission_dialog_message">VLC não consegue eliminar este ficheiro sem a permissão de acesso de gravação.\nPor favor, vá para o seu cartão SD e clique em \'Selectionar.\nPode ter que clicar primeiro em \'Mostrar Cartão SD\' no menu no topo à direita</string>
+    <string name="sdcard_permission_dialog_message">VLC não consegue eliminar este ficheiro sem a permissão de acesso de gravação.\nPor favor, vá para o seu cartão SD e clique em \'Selecionar.\nPode ter que clicar primeiro em \'Mostrar Cartão SD\' no menu no topo à direita</string>
     <string name="dialog_sd_wizard">Mostrar</string>
     <string name="renderers_disconnect">Desligar</string>
     <string name="audio_digital_failed">Não foi possível alterar o estado de saída do áudio digital</string>
@@ -645,4 +647,7 @@
     <string name="device_dialog_title">Dispositivo externo inserido</string>
     <string name="device_dialog_message">Acabou de ligar um novo dispositivo de armazenamento à sua TV box, quer abri-lo com o VLC?</string>
     <string name="videos_folders_title">Vídeos por pastas</string>
+    <string name="video_save_remote_setting">Ativar automaticamente o modo de controlo remoto?</string>
+    <string name="video_remote_enable">Mudar para o modo de controlo remoto</string>
+    <string name="video_remote_disable">Duplicar ecrã</string>
 </resources>
