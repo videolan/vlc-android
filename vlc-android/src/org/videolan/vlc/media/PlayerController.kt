@@ -73,11 +73,11 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     private var mediaplayerEventListener: MediaPlayerEventListener? = null
-    internal fun startPlayback(media: Media, listener: MediaPlayerEventListener) {
+    internal suspend fun startPlayback(media: Media, listener: MediaPlayerEventListener) {
         mediaplayerEventListener = listener
         resetPlaybackState(media.duration)
         mediaplayer.setEventListener(null)
-        mediaplayer.media = media.apply { if (hasRenderer) parse() }
+        withContext(Dispatchers.IO) { mediaplayer.media = media.apply { if (hasRenderer) parse() } }
         mediaplayer.setEventListener(this@PlayerController)
         mediaplayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(context))
         mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)

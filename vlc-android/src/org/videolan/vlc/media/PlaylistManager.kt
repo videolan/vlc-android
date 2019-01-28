@@ -307,7 +307,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
             }
             media.setEventListener(this@PlaylistManager)
-            withContext(Dispatchers.Main) { player.startPlayback(media, mediaplayerEventListener) }
+            player.startPlayback(media, mediaplayerEventListener)
             player.setSlaves(media, mw)
             newMedia = true
             determinePrevAndNextIndices()
