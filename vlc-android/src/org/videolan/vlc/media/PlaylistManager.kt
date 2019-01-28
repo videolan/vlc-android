@@ -742,9 +742,12 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 MediaPlayer.Event.Playing -> {
                     medialibrary.pauseBackgroundOperations()
                     val mw = withContext(Dispatchers.IO) {
-                        val current = getCurrentMedia()
-                        medialibrary.findMedia(current).apply { if (type == -1) type = current?.type ?: -1 }
-                    }
+                        getCurrentMedia()?.let {
+                            medialibrary.findMedia(it).apply {
+                                if (type == -1) type = it.type
+                            }
+                        }
+                    } ?: return
                     if (newMedia) {
                         loadMediaMeta(mw)
                         saveMediaList()
