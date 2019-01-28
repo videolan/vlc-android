@@ -242,6 +242,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
      * Show the audio player.
      */
     public void showAudioPlayer() {
+        if (isFinishing()) return;
         mActivityHandler.sendEmptyMessageDelayed(ACTION_SHOW_PLAYER, 100L);
     }
 
@@ -282,6 +283,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
      * Hide the audio player.
      */
     public void hideAudioPlayer() {
+        if (isFinishing()) return;
         mActivityHandler.sendEmptyMessage(ACTION_HIDE_PLAYER);
     }
 
@@ -418,9 +420,8 @@ public class AudioPlayerContainerActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            AudioPlayerContainerActivity owner = getOwner();
-            if (owner == null)
-                return;
+            final AudioPlayerContainerActivity owner = getOwner();
+            if (owner == null) return;
             switch (msg.what){
                 case ACTION_DISPLAY_PROGRESSBAR:
                     removeMessages(ACTION_DISPLAY_PROGRESSBAR);
