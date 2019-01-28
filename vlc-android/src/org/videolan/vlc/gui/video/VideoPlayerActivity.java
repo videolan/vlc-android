@@ -749,7 +749,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private void stopPlayback() {
         if (!mPlaybackStarted) return;
 
-        if (!mDisplayManager.isPrimary() && !isFinishing()) {
+        if (!mDisplayManager.isPrimary() && !isFinishing() || mService == null) {
             mPlaybackStarted = false;
             return;
         }
