@@ -492,7 +492,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         if (mw == null || !AndroidDevices.pipAllowed) return;
         if (AndroidDevices.hasPiP) {
             if (AndroidUtil.isOOrLater) try {
-                final SurfaceView videoSurface = mVideoLayout.findViewById(R.id.surface_video);
+                final SurfaceView videoSurface = (SurfaceView) (mVideoLayout != null ? mVideoLayout.findViewById(R.id.surface_video) : null);
                 final int height = videoSurface != null && videoSurface.getHeight() != 0 ? videoSurface.getHeight() : mw.getHeight();
                 final int width = Math.min(videoSurface != null && videoSurface.getWidth() != 0 ? videoSurface.getWidth() : mw.getWidth(), (int) (height*2.39f));
                 enterPictureInPictureMode(new PictureInPictureParams.Builder().setAspectRatio(new Rational(width, height)).build());
