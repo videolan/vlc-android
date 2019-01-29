@@ -656,7 +656,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
 
         mPlaybackStarted = true;
 
-        IVLCVout vlcVout = mService.getVout();
+        final IVLCVout vlcVout = mService.getVout();
         if (vlcVout != null && vlcVout.areViewsAttached()) {
             if (mService.isPlayingPopup()) {
                 mService.stop();
@@ -2615,7 +2615,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             // Get the title
             if (itemTitle == null && !TextUtils.equals(mUri.getScheme(), "content"))
                 title = mUri.getLastPathSegment();
-        } else if (mService.hasMedia() && mService.hasRenderer()){
+        } else if (mService.hasMedia() && !mDisplayManager.isPrimary()){
             onPlaying();
         } else {
             mService.loadLastPlaylist(Constants.PLAYLIST_TYPE_VIDEO);
