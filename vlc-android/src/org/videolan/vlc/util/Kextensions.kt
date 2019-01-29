@@ -104,16 +104,18 @@ fun List<MediaWrapper>.getWithMLMeta() : List<MediaWrapper> {
 fun MutableList<MediaWrapper>.updateWithMLMeta() : MutableList<MediaWrapper> {
     val iter = listIterator()
     val ml = VLCApplication.getMLInstance()
-    while (iter.hasNext()) {
-        val media = iter.next()
-        if (media.id == 0L) {
-            val mw = ml.findMedia(media)
-            if (mw!!.id != 0L) {
-                if (mw.type == MediaWrapper.TYPE_ALL) mw.type = media.getType()
-                iter.set(mw)
+    try {
+        while (iter.hasNext()) {
+            val media = iter.next()
+            if (media.id == 0L) {
+                val mw = ml.findMedia(media)
+                if (mw!!.id != 0L) {
+                    if (mw.type == MediaWrapper.TYPE_ALL) mw.type = media.getType()
+                    iter.set(mw)
+                }
             }
         }
-    }
+    } catch (ignored: Exception) {}
     return this
 }
 
