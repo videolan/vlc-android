@@ -469,7 +469,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                     (AndroidUtil.isNougatOrLater && !AndroidUtil.isOOrLater //Video on background on Nougat Android TVs
                             && AndroidDevices.isAndroidTv && !requestVisibleBehind(true)))
                 stopPlayback();
-            else if (!mShowingDialog && "2".equals(mSettings.getString(PreferencesActivity.KEY_VIDEO_APP_SWITCH, "0"))
+            else if (mDisplayManager.isPrimary() && !mShowingDialog && "2".equals(mSettings.getString(PreferencesActivity.KEY_VIDEO_APP_SWITCH, "0"))
                     && isInteractive() && (mService != null && !mService.hasRenderer())) {
                 switchToPopup();
             }
