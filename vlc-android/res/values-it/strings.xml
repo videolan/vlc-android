@@ -51,6 +51,7 @@
     <string name="delete">Elimina</string>
     <string name="remove">Rimuovi</string>
     <string name="set_song">Imposta come suoneria</string>
+    <string name="set_song_question">Vuoi impostare \'%1$s\' come suoneria?</string>
     <string name="info">Informazioni</string>
     <string name="confirm_delete">Vuoi eliminare il file \'%1$s\'?</string>
     <string name="confirm_delete_folder">Vuoi eliminare la cartella \'%1$s\' e il suo contenuto?</string>
@@ -366,6 +367,7 @@
     <string name="audio_ducking_title">Volume di VLC più basso in caso di notifiche</string>
     <string name="audio_ducking_summary">Aiuta a sentire le notifiche audio, le istruzioni parlate di navigazione o assistenza</string>
     <string name="casting_category">Trasmissione</string>
+    <string name="casting_switch_title">Trasmissione wireless</string>
     <string name="casting_passthrough_title">Passthrough audio</string>
     <string name="casting_passthrough_summary">Consenti alla tua TV di gestire il rendering audio</string>
     <string name="casting_conversion_quality_title">Qualità della conversione</string>
@@ -645,4 +647,7 @@
     <string name="device_dialog_title">Dispositivo esterno inserito</string>
     <string name="device_dialog_message">Hia appena collegato un nuovo dispositivo di archiviazione al tuo box TV, vuoi aprirlo con VLC?</string>
     <string name="videos_folders_title">Video per cartelle</string>
+    <string name="video_save_remote_setting">Vuoi attivare automaticamente la modalità telecomando?</string>
+    <string name="video_remote_enable">Passa alla modalità telecomando</string>
+    <string name="video_remote_disable">Duplica schermo</string>
 </resources>
