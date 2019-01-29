@@ -21,14 +21,10 @@
 package org.videolan.vlc.providers
 
 import android.content.Context
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.withLock
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.util.LiveDataset
-
 
 class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?) : FileBrowserProvider(context, dataset, url, true, false) {
 
@@ -38,11 +34,7 @@ class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem
 
     override fun initBrowser() {
         super.initBrowser()
-        launch(Dispatchers.IO) {
-            mutex.withLock {
-                mediabrowser?.setIgnoreFileTypes("db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv")
-            }
-        }
+        mediabrowser?.setIgnoreFileTypes("db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv")
     }
 
     override fun addMedia(media: MediaLibraryItem) {
