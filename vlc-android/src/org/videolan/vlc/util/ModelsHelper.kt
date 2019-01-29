@@ -97,7 +97,9 @@ object ModelsHelper {
                 }
             }
         }
-        array
+        if (sort == Medialibrary.SORT_DEFAULT || sort == Medialibrary.SORT_FILENAME || sort == Medialibrary.SORT_ALPHA)
+            array.toSortedMap()
+        else array
     }
 
     fun getHeader(context: Context, sort: Int, item: MediaLibraryItem, aboveItem: MediaLibraryItem?) = when (sort) {
