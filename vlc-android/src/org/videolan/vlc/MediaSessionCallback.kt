@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.KeyEvent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Runnable
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -17,8 +14,11 @@ import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.media.BrowserProvider
 import org.videolan.vlc.util.*
 
+@Suppress("unused")
 private const val TAG = "VLC/MediaSessionCallback"
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 internal class MediaSessionCallback(private val playbackService: PlaybackService) : MediaSessionCompat.Callback() {
 
     override fun onPlay() {
@@ -72,7 +72,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             return
         }
         playbackService.mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, playbackService.time, 1.0f).build())
-        GlobalScope.launch(Dispatchers.IO) {
+        AppScope.launch(Dispatchers.IO) {
             val vsp = VoiceSearchParams(query, extras)
             var items: Array<out MediaLibraryItem>? = null
             var tracks: Array<MediaWrapper>? = null
@@ -86,18 +86,15 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                 vsp.isGenreFocus -> items = playbackService.medialibrary.searchGenre(vsp.genre)
                 vsp.isSongFocus -> tracks = playbackService.medialibrary.searchMedia(vsp.song)!!
             }
-            if (Tools.isArrayEmpty(tracks)) {
-                val result = playbackService.medialibrary.search(query)
-                if (result != null) {
-                    when {
-                        !Tools.isArrayEmpty(result.albums) -> tracks = result.albums[0].tracks
-                        !Tools.isArrayEmpty(result.artists) -> tracks = result.artists[0].tracks
-                        !Tools.isArrayEmpty(result.genres) -> tracks = result.genres[0].tracks
-                    }
+            if (Tools.isArrayEmpty(tracks)) playbackService.medialibrary.search(query)?.run {
+                when {
+                    !Tools.isArrayEmpty(albums) -> tracks = albums[0].tracks
+                    !Tools.isArrayEmpty(artists) -> tracks = artists[0].tracks
+                    !Tools.isArrayEmpty(genres) -> tracks = genres[0].tracks
                 }
             }
-            if (tracks == null && !Tools.isArrayEmpty(items)) tracks = items!![0].tracks
-            if (!Tools.isArrayEmpty(tracks)) playbackService.load(tracks, 0)
+            if (tracks == null && !items.isNullOrEmpty()) tracks = items[0].tracks
+            if (!tracks.isNullOrEmpty()) playbackService.load(tracks, 0)
         }
     }
 
