@@ -22,7 +22,6 @@ import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
 import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManager.getDefaultSharedPreferences(it) })
 
@@ -72,15 +71,16 @@ fun Long.random() = (Random().nextFloat() * this).toLong()
 suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary.() -> T) = withContext(Dispatchers.IO) {
     val ml = Medialibrary.getInstance()
     if (ml.isStarted) block.invoke(ml)
-    else suspendCoroutine { continuation ->
-        ml.addOnMedialibraryReadyListener(object : Medialibrary.OnMedialibraryReadyListener {
+    else suspendCancellableCoroutine { continuation ->
+        val listener = object : Medialibrary.OnMedialibraryReadyListener {
             override fun onMedialibraryReady() {
-                val listener = this
                 continuation.resume(block.invoke(ml))
-                launch { ml.removeOnMedialibraryReadyListener(listener) }
+                let { launch { ml.removeOnMedialibraryReadyListener(it) } }
             }
             override fun onMedialibraryIdle() {}
-        })
+        }
+        continuation.invokeOnCancellation { ml.removeOnMedialibraryReadyListener(listener) }
+        ml.addOnMedialibraryReadyListener(listener)
         startMedialibrary(false, false, false)
     }
 }
