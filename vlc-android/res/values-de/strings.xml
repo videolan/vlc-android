@@ -51,6 +51,7 @@
     <string name="delete">Löschen</string>
     <string name="remove">Entfernen</string>
     <string name="set_song">Als Klingelton festlegen</string>
+    <string name="set_song_question">\'%1$s\' als Klingelton festlegen?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Die Datei \'%1$s\' löschen?</string>
     <string name="confirm_delete_folder">Den Ordner \'%1$s\' mit dem gesamten Inhalt löschen?</string>
@@ -282,7 +283,7 @@
     <string name="interface_secondary_display_category_title">Zweiter Bildschirm</string>
     <string name="interface_secondary_display_category_summary">Einstellungen für verbundenen zweiten Bildschirm (HDMI/Chromecast).</string>
     <string name="enable_clone_mode">Klonen bevorzugen</string>
-    <string name="enable_clone_mode_summary">Gerätebildschirm wird ohne Fernbedienungsmöglichkeit geklont</string>
+    <string name="enable_clone_mode_summary">Gerätebildschirm wird ohne Fernbedienungsmöglichkeit geklont.</string>
     <string name="interface_other_category">Schnittstelle - Andere</string>
 
     <string name="video_prefs_category">Video</string>
@@ -366,10 +367,11 @@
     <string name="audio_ducking_title">VLC-Lautstärke bei Benachrichtigungen</string>
     <string name="audio_ducking_summary">Verringert die VLC-Lautstärke, um Audio-Benachrichtigungen, Navigationsanweisungen oder den Assistenten besser zu hören</string>
     <string name="casting_category">Streaming</string>
+    <string name="casting_switch_title">Dreahtloses streamen</string>
     <string name="casting_passthrough_title">Audio-Passthrough</string>
     <string name="casting_passthrough_summary">Lassen Sie Ihren Fernseher das Audio-Rendering verwalten</string>
     <string name="casting_conversion_quality_title">Konvertierungsqualität</string>
-    <string name="casting_conversion_quality_summary">Wählen Sie die Konvertierungsqualität beim Streamen auf dem Remote-Bildschirm</string>
+    <string name="casting_conversion_quality_summary">Wählen Sie die Konvertierungsqualität beim Streamen auf dem entfernten Bildschirm</string>
     <string name="casting_quality_high">Hoch</string>
     <string name="casting_quality_medium">Mittel</string>
     <string name="casting_quality_low">Niedrig</string>
@@ -645,4 +647,7 @@
     <string name="device_dialog_title">Externes Gerät angeschlossen</string>
     <string name="device_dialog_message">Sie haben ein neues Speichermedium an Ihre TV-Box angeschlossen, möchten Sie dieses mit VLC öffnen?</string>
     <string name="videos_folders_title">Videos nach Ordnern sortiert</string>
+    <string name="video_save_remote_setting">Fernbedienungsmodus automatisch aktivieren?</string>
+    <string name="video_remote_enable">In den Fernbedienungsmodus wechseln</string>
+    <string name="video_remote_disable">Bildschirm duplizieren</string>
 </resources>
