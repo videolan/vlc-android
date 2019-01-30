@@ -210,7 +210,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             savePosition()
             saveMediaMeta()
             if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !isAudioList()) setResumeProgram(service.applicationContext, it)
-
         }
         mediaList.removeEventListener(this)
         previous.clear()

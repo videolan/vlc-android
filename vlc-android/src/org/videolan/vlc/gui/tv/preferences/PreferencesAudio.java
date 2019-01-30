@@ -26,12 +26,13 @@ import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.preference.CheckBoxPreference;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.VLCInstance;
+
+import androidx.preference.CheckBoxPreference;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class PreferencesAudio extends BasePreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -55,6 +56,7 @@ public class PreferencesAudio extends BasePreferenceFragment implements SharedPr
         findPreference("headset_prefs_category").setVisible(false);
         findPreference("lockscreen_cover").setVisible(false);
         findPreference("audio_ducking").setVisible(!AndroidUtil.isOOrLater);
+        findPreference("audio_resume_card").setVisible(false);
 
         final HWDecoderUtil.AudioOutput aout = HWDecoderUtil.getAudioOutputFromDevice();
         if (aout != HWDecoderUtil.AudioOutput.ALL) {

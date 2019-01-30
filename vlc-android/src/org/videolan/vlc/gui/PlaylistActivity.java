@@ -39,6 +39,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -79,6 +80,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import kotlinx.coroutines.Job;
 
 public class PlaylistActivity extends AudioPlayerContainerActivity implements IEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver {
 
@@ -100,8 +102,8 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         mBinding = DataBindingUtil.setContentView(this, R.layout.playlist_activity);
 
         initAudioPlayerContainerActivity();
-        mFragmentContainer = mBinding.songs;
-        mOriginalBottomPadding = mFragmentContainer.getPaddingBottom();
+        setFragmentContainer(mBinding.songs);
+        setOriginalBottomPadding(getFragmentContainer().getPaddingBottom());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mPlaylist = (MediaLibraryItem) (savedInstanceState != null ?

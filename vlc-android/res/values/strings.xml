@@ -637,6 +637,8 @@
     <string name="audio_digital_title">Digital audio output (passthrough)</string>
     <string name="audio_task_cleared_title">Stop on application swipe</string>
     <string name="audio_task_cleared_summary">Stop playback when application is dismissed</string>
+    <string name="audio_resume_card_title">Load last playlist card</string>
+    <string name="audio_resume_card_summary">Shows a card helping you to resume audio playback on app start</string>
     <string name="playback_rewind">Rewind</string>
     <string name="playback_forward">Fast forward</string>
     <string name="ml_wizard_title">VLC Medialibrary selection</string>
@@ -690,4 +692,5 @@
     <string name="button_medialibrary_preferences">Go to Medialibrary preferences</string>
     <string name="light_theme">Light theme</string>
     <string name="theme_follow_system_mode">Follow system mode</string>
+    <string name="resume_card_message">Resume playback of %1$s?</string>
 </resources>

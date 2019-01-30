@@ -4,6 +4,12 @@
     android:key="audio_category"
     android:title="@string/audio_prefs_category">
 
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="audio_resume_card"
+        android:title="@string/audio_resume_card_title"
+        android:summary="@string/audio_resume_card_summary"/>
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="audio_task_removed"

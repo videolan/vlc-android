@@ -41,6 +41,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
@@ -113,6 +114,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         super.onCreate(savedInstanceState);
         if (mSettings == null) mSettings = Settings.INSTANCE.getInstance(requireContext());
         if (models == null) setupModels();
+        if (mSettings.getBoolean("audio_resume_card", true)) ((AudioPlayerContainerActivity)requireActivity()).proposeCard();
     }
 
     @Override

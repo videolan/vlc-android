@@ -106,7 +106,7 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
                  * the info dialog. If (for any reason) the dialog is not shown,
                  * open the menu after a short delay.
                  */
-                mActivityHandler.postDelayed(new Runnable() {
+                getActivityHandler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         mDrawerLayout.openDrawer(mNavigationView);
@@ -263,7 +263,7 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
         }
 
         /* Close playlist search if open or Slide down the audio player if it is shown entirely. */
-        if (isAudioPlayerReady() && (mAudioPlayer.backPressed() || slideDownAudioPlayer()))
+        if (isAudioPlayerReady() && (getAudioPlayer().backPressed() || slideDownAudioPlayer()))
             return;
 
         // If it's the directory view, a "backpressed" action shows a parent.
@@ -291,7 +291,7 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
     @Nullable
     @Override
     public ActionMode startSupportActionMode(@NonNull ActionMode.Callback callback) {
-        mAppBarLayout.setExpanded(true);
+        getAppBarLayout().setExpanded(true);
         return super.startSupportActionMode(callback);
     }
 
@@ -379,7 +379,7 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
                 (Build.MANUFACTURER.compareTo("LGE") == 0)) {
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
-            mToolbar.getMenu().findItem(R.id.ml_menu_filter).expandActionView();
+            getToolbar().getMenu().findItem(R.id.ml_menu_filter).expandActionView();
         }
         return super.onKeyDown(keyCode, event);
     }

@@ -586,7 +586,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
     private val mCoverMediaSwitcherListener = object : AudioMediaSwitcherListener {
 
         override fun onMediaSwitching() {
-            (activity as? AudioPlayerContainerActivity)?.mBottomSheetBehavior?.lock(true)
+            (activity as? AudioPlayerContainerActivity)?.bottomSheetBehavior?.lock(true)
         }
 
         override fun onMediaSwitched(position: Int) {
@@ -594,7 +594,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
                 AudioMediaSwitcherListener.PREVIOUS_MEDIA -> playlistModel.previous(true)
                 AudioMediaSwitcherListener.NEXT_MEDIA -> playlistModel.next()
             }
-            (activity as? AudioPlayerContainerActivity)?.mBottomSheetBehavior?.lock(false)
+            (activity as? AudioPlayerContainerActivity)?.bottomSheetBehavior?.lock(false)
         }
 
         override fun onTouchDown() {}
