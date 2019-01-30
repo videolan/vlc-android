@@ -53,6 +53,7 @@
     <string name="delete">Usuń</string>
     <string name="remove">Usuń</string>
     <string name="set_song">Ustaw jako dzwonek</string>
+    <string name="set_song_question">Ustaw \'%1$s\' jako dzwonek?</string>
     <string name="info">Informacje</string>
     <string name="confirm_delete">Usunąć plik \"%1$s\"?</string>
     <string name="confirm_delete_folder">Usunąć folder \'%1$s\' i całą jego zawartość?</string>
@@ -380,6 +381,7 @@
     <string name="audio_ducking_title">Głośność VLC przy powiadomieniach</string>
     <string name="audio_ducking_summary">Zmniejsza głośność VLC, aby lepiej usłyszeć powiadomienia dźwiękowe, instrukcje nawigacyjne lub mowę asystenta</string>
     <string name="casting_category">Transmisja</string>
+    <string name="casting_switch_title">Bezprzewodowa transmisja</string>
     <string name="casting_passthrough_title">Przekazywanie dźwięku</string>
     <string name="casting_passthrough_summary">Zezwól swojemu telewizorowi zarządzać renderowaniem dźwięku</string>
     <string name="casting_conversion_quality_title">Jakość konwersji</string>
@@ -659,4 +661,7 @@
     <string name="device_dialog_title">Włożono urządzenie zewnętrzne</string>
     <string name="device_dialog_message">Podłączyłeś nowe urządzenie pamięci masowej do twojego telewizora, czy chcesz je otworzyć za pomocą VLC?</string>
     <string name="videos_folders_title">Filmy grupowane według folderów</string>
+    <string name="video_save_remote_setting">Czy automatycznie włączyć tryb zdalnego sterowania?</string>
+    <string name="video_remote_enable">Przełącz na tryb zdalnego sterowania</string>
+    <string name="video_remote_disable">Powiel ekran</string>
 </resources>
