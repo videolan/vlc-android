@@ -25,7 +25,6 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 
-
 abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context) : BaseModel<T>(context), Medialibrary.OnMedialibraryReadyListener, Medialibrary.OnDeviceChangeListener {
 
     val medialibrary = Medialibrary.getInstance()
@@ -34,7 +33,6 @@ abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context) : BaseM
         medialibrary.apply {
             addOnMedialibraryReadyListener(this@MedialibraryModel)
             medialibrary.addOnDeviceChangeListener(this@MedialibraryModel)
-            if (isStarted) refresh()
         }
     }
 

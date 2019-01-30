@@ -13,6 +13,7 @@ class PagedGenresModel(context: Context): MLPagedModel<Genre>(context), Medialib
     init {
         sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
+        if (medialibrary.isStarted) refresh()
     }
 
     override fun onMedialibraryReady() {

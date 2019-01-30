@@ -11,6 +11,9 @@ import org.videolan.vlc.util.Settings
 
 class PagedArtistsModel(context: Context, private var showAll: Boolean = false): MLPagedModel<Artist>(context), Medialibrary.ArtistsCb by EmptyMLCallbacks {
 
+    init {
+        if (medialibrary.isStarted) refresh()
+    }
     override fun onArtistsAdded() {
         refresh()
     }

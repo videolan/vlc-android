@@ -22,6 +22,7 @@ class PagedAlbumsModel(context: Context, val parent: MediaLibraryItem? = null) :
         sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
         if (sort == Medialibrary.SORT_ALPHA && parent is Artist) sort = Medialibrary.SORT_RELEASEDATE
+        if (medialibrary.isStarted) refresh()
     }
 
     override fun onAlbumsAdded() {

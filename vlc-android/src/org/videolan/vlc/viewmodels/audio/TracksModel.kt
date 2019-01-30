@@ -43,6 +43,7 @@ class TracksModel(context: Context, val parent: MediaLibraryItem? = null): Audio
             is Album -> Medialibrary.SORT_DEFAULT
             else -> Medialibrary.SORT_ALPHA
         }
+        if (medialibrary.isStarted) refresh()
     }
 
     override fun onMedialibraryReady() {

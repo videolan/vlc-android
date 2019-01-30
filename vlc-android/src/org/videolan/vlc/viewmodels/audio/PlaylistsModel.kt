@@ -32,6 +32,10 @@ import org.videolan.vlc.util.EmptyMLCallbacks
 
 class PlaylistsModel(context: Context): AudioModel(context), Medialibrary.PlaylistsCb by EmptyMLCallbacks {
 
+    init {
+        if (medialibrary.isStarted) refresh()
+    }
+
     override fun onMedialibraryReady() {
         super.onMedialibraryReady()
         medialibrary.addPlaylistCb(this)

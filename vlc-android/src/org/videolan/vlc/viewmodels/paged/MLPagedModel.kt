@@ -31,7 +31,6 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
         medialibrary.apply {
             medialibrary.addOnMedialibraryReadyListener(this@MLPagedModel)
             medialibrary.addOnDeviceChangeListener(this@MLPagedModel)
-            if (isStarted) refresh()
         }
     }
 

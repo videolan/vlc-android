@@ -53,7 +53,10 @@ open class VideosModel(context: Context, private val group: String?, val folder 
         else Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)
         desc = customDesc ?: Settings.getInstance(context).getBoolean(sortKey+"_desc", false)
         Medialibrary.lastThumb.observeForever(thumbObs)
-        if (medialibrary.isStarted) medialibrary.addMediaCb(this)
+        if (medialibrary.isStarted) {
+            medialibrary.addMediaCb(this)
+            refresh()
+        }
     }
 
     override fun onMediaAdded() {

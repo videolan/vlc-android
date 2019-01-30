@@ -11,6 +11,11 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.getAll
 
 class PagedFoldersModel(context: Context, val type: Int) : MLPagedModel<Folder>(context) {
+
+    init {
+        if (medialibrary.isStarted) refresh()
+    }
+
     override fun getAll() = emptyArray<Folder>()
 
     override fun getTotalCount() = medialibrary.getFoldersCount(type)

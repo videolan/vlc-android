@@ -35,6 +35,7 @@ class ArtistModel(context: Context, private var showAll: Boolean = false): Audio
     init {
         sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
+        if (medialibrary.isStarted) refresh()
     }
 
     fun showAll(show: Boolean) {
