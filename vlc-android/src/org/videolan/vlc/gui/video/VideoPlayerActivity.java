@@ -1466,10 +1466,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                                 int spuTrack = (int) media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK);
                                 if (spuTrack != 0 || mCurrentSpuTrack != -2)
                                     mService.setSpuTrack(media.getId() == 0L ? mCurrentSpuTrack : spuTrack);
-                                else if (mService.getSpuTracksCount() == 2){
-                                    final MediaPlayer.TrackDescription[] tracks = mService.getSpuTracks();
-                                    if (tracks != null) setSpuTrack(tracks[1].id);
-                                }
                             }
                         });
                     }
