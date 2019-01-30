@@ -46,9 +46,11 @@
     <string name="play_all">全部播放</string>
     <string name="append_all">全部附加</string>
     <string name="last_playlist">前次播放清單</string>
+    <string name="last_playlist_shortcut">繼續播放</string>
     <string name="delete">刪除</string>
     <string name="remove">移除</string>
     <string name="set_song">設為鈴聲</string>
+    <string name="set_song_question">要將「%1$s」設為鈴聲嗎？</string>
     <string name="info">資訊</string>
     <string name="confirm_delete">是否刪除檔案「%1$s」？</string>
     <string name="confirm_delete_folder">是否刪除資料夾「%1$s」和其全部內容？</string>
@@ -281,11 +283,14 @@
     <string name="video_min_group_length_title">影片群組</string>
     <string name="video_min_group_length_summary">若影片前面的字母相同時，影片會被分到同一組。</string>
     <string name="video_min_group_length_disable">停用</string>
+    <string name="video_min_group_length_folder">依照資料夾分組</string>
     <string name="video_min_group_length_first">僅第一個字母</string>
     <string name="video_min_group_length_short">短數量的字母 (6)</string>
     <string name="video_min_group_length_long">長數量的字母 (9)</string>
     <string name="media_fast_seek">快速尋找</string>
     <string name="media_fast_seek_summary">在媒體中尋找會比較快，但比較不準確</string>
+    <string name="video_transition_title">影片轉場</string>
+    <string name="video_transition_summary">在轉場時顯示新影片標題</string>
     <string name="media_seen">顯示已看過影片的標記</string>
     <string name="media_seen_summary">將影片播放到最後之後，將它標示為已看過</string>
     <string name="force_list_portrait">直向模式時不使用格狀排列</string>
@@ -355,6 +360,7 @@
     <string name="audio_ducking_title">有通知時降低 VLC 音量</string>
     <string name="audio_ducking_summary">有助於聽到音訊通知、導航指示或助理說話</string>
     <string name="casting_category">投放</string>
+    <string name="casting_switch_title">無線投放</string>
     <string name="casting_passthrough_title">音訊傳遞(Passthrough)</string>
     <string name="casting_passthrough_summary">讓您的電視管理音訊繪製</string>
     <string name="casting_conversion_quality_title">轉換品質</string>
@@ -379,7 +385,7 @@
     <string name="controls_prefs_category">控制</string>
 
     <string name="performance_prefs_category">效能</string>
-    <string name="chroma_format">強制套用視頻色彩格式</string>
+    <string name="chroma_format">強制套用視訊色彩格式</string>
     <string name="chroma_format_summary">RGB 32 位元：預設彩度\nRGB 16 位元​​：性能更佳，但畫質下降\nYUV: 性能最佳，但並非所有設備可用。僅限 Android 2.3 及更高版本。</string>
     <string name="deblocking">去區塊濾波器設定</string>
     <string name="deblocking_summary">變更去區塊濾波器設定。可以改善視訊品質。僅適用於進階使用者。</string>
@@ -597,7 +603,8 @@
     <string name="audio_digital_output_enabled">音訊數位輸出已啟用</string>
     <string name="audio_digital_output_disabled">音訊數位輸出已停用</string>
     <string name="audio_digital_title">數位音訊輸出(passthrough)</string>
-    <string name="audio_task_removed_title">當應用程式關閉時停止播放</string>
+    <string name="audio_task_cleared_title">停用應用程式滑動</string>
+    <string name="audio_task_cleared_summary">在應用程式離開時停止播放</string>
     <string name="playback_rewind">倒帶</string>
     <string name="playback_forward">快速前進</string>
     <string name="ml_wizard_title">VLC 媒體櫃選擇</string>
@@ -625,4 +632,15 @@
     <string name="download_the_selected">下載選取</string>
     <string name="next">下一個</string>
     <string name="download">下載</string>
+    <string name="ctx_player_video_track">選取視訊軌</string>
+    <string name="ctx_player_audio_track">音訊軌</string>
+    <string name="ctx_player_subs_track">字幕軌</string>
+    <string name="ctx_player_tracks_title">媒體軌</string>
+    <string name="ctx_pip_title">彈出式播放器</string>
+    <string name="device_dialog_title">已插入外部裝置</string>
+    <string name="device_dialog_message">您剛插入了一個新儲存裝置到您的電視盒，您想要以 VLC 開啟它嗎？</string>
+    <string name="videos_folders_title">依照資料夾顯示影片</string>
+    <string name="video_save_remote_setting">要自動啟動遠端控制模式嗎？</string>
+    <string name="video_remote_enable">切換至遠端控制模式</string>
+    <string name="video_remote_disable">複製螢幕</string>
 </resources>
