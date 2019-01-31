@@ -1,3 +1,20 @@
+Changes between 3.0.96 and 3.0.97:
+------------------
+
+Application:
+ * Remote control is not the default mode in video player anymore
+ * Ask confirmation to set a track as ringtone
+ * Don't stop playback in multitask when screencasting
+ * Fix subs behind loaded despite user preference
+ * Fix sorting sometimes reverted back to default
+ * Translations update
+ * Various minor display improvements
+ * Fix misc. crashes & ANR
+
+TV:
+ * Fix folders/files sorting
+
+
 Changes between 3.0.95 and 3.0.96:
 ------------------
 
