@@ -304,6 +304,8 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     }
 
     private void showProgressBar() {
+        final ScanProgress progress = MediaParsingService.Companion.getProgress().getValue();
+        if (progress == null || !Medialibrary.getInstance().isWorking()) return;
         final View vsc = findViewById(R.id.scan_viewstub);
         if (vsc != null) {
             vsc.setVisibility(View.VISIBLE);
