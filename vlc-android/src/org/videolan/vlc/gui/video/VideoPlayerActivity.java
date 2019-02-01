@@ -2089,7 +2089,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     }
 
     public void doPlayPause() {
-        if (!mService.isPausable()) return;
+        if (mService == null || !mService.isPausable()) return;
         if (mService.isPlaying()) {
             showOverlayTimeout(OVERLAY_INFINITE);
             pause();
@@ -2306,7 +2306,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
 
             if(!mIsTv && !AndroidDevices.isChromeBook)
                 mOrientationToggle.setVisibility(View.VISIBLE);
-        } else if (mService != null) {
+        } else if (mService != null && mHudBinding != null) {
             mHudBinding.setProgress(mService.getPlaylistManager().getPlayer().getProgress());
             mHudBinding.setLifecycleOwner(this);
         }
