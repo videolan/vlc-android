@@ -582,7 +582,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             mediaList.remove(index)
             for (i in ml.count - 1 downTo 0) {
                 val child = ml.getMediaAt(i)
-                child.parse()
+                withContext(Dispatchers.IO) { child.parse() }
                 mediaList.insert(index, MediaWrapper(child))
                 child.release()
             }
