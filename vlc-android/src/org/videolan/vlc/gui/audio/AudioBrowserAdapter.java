@@ -31,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.tools.MultiSelectAdapter;
@@ -68,7 +69,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     private final int mType;
     private int mSort;
     private final BitmapDrawable mDefaultCover;
-    final LinkedList<ViewDataBinding> mHeaderBindings = new LinkedList<>();
 
     public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, int sort) {
         super(DIFF_CALLBACK);
@@ -80,8 +80,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     }
 
     void setSort(int sort) {
-        for (ViewDataBinding binding : mHeaderBindings) binding.setVariable(BR.header, null);
-        mHeaderBindings.clear();
         mSort = sort;
     }
 
@@ -140,7 +138,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         if (mSort == -1) return;
         final MediaLibraryItem aboveItem = position > 0 ? getItem(position-1) : null;
         holder.binding.setVariable(BR.header, ModelsHelper.INSTANCE.getHeader(holder.itemView.getContext(), mSort, item, aboveItem));
-        mHeaderBindings.add(holder.binding);
     }
 
     public MultiSelectHelper<MediaLibraryItem> getMultiSelectHelper() {
@@ -280,11 +277,11 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                 @Override
                 public boolean areContentsTheSame(
                         @NonNull MediaLibraryItem oldMedia, @NonNull MediaLibraryItem newMedia) {
-                    return true;
+                    return false;
                 }
 
                 @Override
-                public Object getChangePayload(MediaLibraryItem oldItem, MediaLibraryItem newItem) {
+                public Object getChangePayload(@NotNull MediaLibraryItem oldItem, @NotNull MediaLibraryItem newItem) {
                     return UPDATE_PAYLOAD;
                 }
             };
