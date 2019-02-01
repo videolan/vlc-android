@@ -24,7 +24,13 @@ class DirectoryRepository (private val customDirectoryDao: CustomDirectoryDao) :
             customDirectoryDao.insert(CustomDirectory(path))
     }
 
-    suspend fun getCustomDirectories() = withContext(coroutineContext) { customDirectoryDao.getAll() }
+    suspend fun getCustomDirectories() = withContext(coroutineContext) {
+        try {
+            customDirectoryDao.getAll()
+        } catch (e: Exception) {
+            emptyList<CustomDirectory>()
+        }
+    }
 
     fun deleteCustomDirectory(path: String) = launch { customDirectoryDao.delete(CustomDirectory(path)) }
 
