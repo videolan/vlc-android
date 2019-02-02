@@ -45,6 +45,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
+import org.videolan.tools.copy
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
@@ -55,10 +56,7 @@ import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.CTX_ADD_TO_PLAYLIST
-import org.videolan.vlc.util.CTX_APPEND
-import org.videolan.vlc.util.CTX_RENAME
-import org.videolan.vlc.util.Settings
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.StreamsModel
 
 const val TAG = "VLC/MrlPanelFragment"
@@ -165,12 +163,9 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
     }
 
     private fun showContext(position: Int) {
-        val flags = CTX_RENAME or CTX_APPEND or CTX_ADD_TO_PLAYLIST
+        val flags = CTX_RENAME or CTX_APPEND or CTX_ADD_TO_PLAYLIST or CTX_COPY
         val media = viewModel.dataset.value.get(position)
-        if (media == null)
-            return
-        else
-            showContext(requireActivity(), this, position, media.title, flags)
+        showContext(requireActivity(), this, position, media.title, flags)
     }
 
     override fun onCtxAction(position: Int, option: Int) {
@@ -183,6 +178,10 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
             CTX_ADD_TO_PLAYLIST -> {
                 val media = viewModel.dataset.value[position]
                 UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
+            }
+            CTX_COPY -> {
+                val media = viewModel.dataset.value[position]
+                requireContext().copy(media.title, media.location)
             }
         }
     }
