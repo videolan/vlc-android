@@ -296,6 +296,7 @@ public class AudioPlayerActivity extends BaseTvActivity {
             @Override
             public void run() {
                 final int position = model.getCurrentMediaPosition();
+                if (position < 0) return;
                 mAdapter.setSelection(position);
                 int first = ((LinearLayoutManager)mBinding.playlist.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
                 int last = ((LinearLayoutManager)mBinding.playlist.getLayoutManager()).findLastCompletelyVisibleItemPosition();
