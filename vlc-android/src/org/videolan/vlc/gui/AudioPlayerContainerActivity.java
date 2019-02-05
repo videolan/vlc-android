@@ -65,7 +65,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.widget.ViewStubCompat;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
@@ -118,19 +117,8 @@ public class AudioPlayerContainerActivity extends BaseActivity {
         mTabLayout.setVisibility( show ? View.VISIBLE : View.GONE);
     }
 
-    private float elevation = 0f;
-    public void toggleAppBarElevation(final boolean elevate) {
-        if (!AndroidUtil.isLolliPopOrLater) return;
-        if (elevation == 0f) elevation = getResources().getDimensionPixelSize(R.dimen.default_appbar_elevation);
-        mAppBarLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                ViewCompat.setElevation(mAppBarLayout, elevate ? elevation : 0f);
-            }
-        });
-    }
-
     private void initAudioPlayer() {
+        if (isFinishing()) return;
         findViewById(R.id.audio_player_stub).setVisibility(View.VISIBLE);
         mAudioPlayer = (AudioPlayer) getSupportFragmentManager().findFragmentById(R.id.audio_player);
         mBottomSheetBehavior = (BottomSheetBehavior) BottomSheetBehavior.from(mAudioPlayerContainer);
@@ -159,6 +147,12 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         ExternalMonitor.INSTANCE.unsubscribeStorageCb(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        mActivityHandler.removeMessages(ACTION_SHOW_PLAYER);
+        super.onDestroy();
     }
 
     @Override
@@ -251,11 +245,13 @@ public class AudioPlayerContainerActivity extends BaseActivity {
         if (mAudioPlayerContainer.getVisibility() != View.VISIBLE) {
             mAudioPlayerContainer.setVisibility(View.VISIBLE);
         }
-        if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
-            mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        if (mBottomSheetBehavior != null) {
+            if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
+                mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+            mBottomSheetBehavior.setHideable(false);
+            mBottomSheetBehavior.lock(false);
         }
-        mBottomSheetBehavior.setHideable(false);
-        mBottomSheetBehavior.lock(false);
     }
 
     /**
