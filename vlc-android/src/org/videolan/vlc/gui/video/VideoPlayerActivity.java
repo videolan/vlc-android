@@ -1442,7 +1442,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                     handleVout(event.getVoutCount());
                 break;
             case MediaPlayer.Event.ESAdded:
-                if (mMenuIdx == -1) {
+                if (mService != null && mMenuIdx == -1) {
                     final MediaWrapper media = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
                     if (media == null) return;
                     if (event.getEsChangedType() == Media.Track.Type.Audio) {
@@ -1468,14 +1468,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                     }
                 }
             case MediaPlayer.Event.ESDeleted:
-                if (mMenuIdx == -1 && event.getEsChangedType() == Media.Track.Type.Video) {
+                if (mService != null && mMenuIdx == -1 && event.getEsChangedType() == Media.Track.Type.Video) {
                     mHandler.removeMessages(CHECK_VIDEO_TRACKS);
                     mHandler.sendEmptyMessageDelayed(CHECK_VIDEO_TRACKS, 1000);
                 }
                 invalidateESTracks(event.getEsChangedType());
                 break;
             case MediaPlayer.Event.ESSelected:
-                if (event.getEsChangedType() == Media.VideoTrack.Type.Video) {
+                if (mService != null && event.getEsChangedType() == Media.VideoTrack.Type.Video) {
                     Media.VideoTrack vt = mService.getCurrentVideoTrack();
                     if (vt != null)
                         mFov = vt.projection == Media.VideoTrack.Projection.Rectangular ? 0f : DEFAULT_FOV;
