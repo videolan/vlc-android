@@ -224,7 +224,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
                 files = newFiles;
                 filesLength = files.length;
             }
-            for (int i = 0; i<filesLength ; ++i){
+            if (files != null) for (int i = 0; i<filesLength ; ++i){
                 filename = Uri.decode(files[i]);
                 int index = filename.lastIndexOf('.');
                 if (index <= 0)

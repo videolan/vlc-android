@@ -170,7 +170,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
                 CTX_REMOVE_FROM_PLAYLIST -> view?.let {
                     val mw = playlistAdapter.getItem(position)
                     val cancelAction = Runnable { playlistModel.insertMedia(position, mw) }
-                    val message = String.format(VLCApplication.getAppResources().getString(R.string.remove_playlist_item), mw.title)
+                    val message = String.format(getString(R.string.remove_playlist_item), mw.title)
                     UiTools.snackerWithCancel(it, message, null, cancelAction)
                     playlistModel.remove(position)
                 }

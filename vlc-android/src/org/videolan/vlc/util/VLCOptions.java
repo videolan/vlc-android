@@ -69,13 +69,13 @@ public class VLCOptions {
             AUDIOTRACK_SESSION_ID = audioManager.generateAudioSessionId();
         }
 
-        ArrayList<String> options = new ArrayList<String>(50);
+        final ArrayList<String> options = new ArrayList<String>(50);
 
-        final boolean timeStrechingDefault = VLCApplication.getAppResources().getBoolean(R.bool.time_stretching_default);
+        final boolean timeStrechingDefault = context.getResources().getBoolean(R.bool.time_stretching_default);
         final boolean timeStreching = pref.getBoolean("enable_time_stretching_audio", timeStrechingDefault);
         final String subtitlesEncoding = pref.getString("subtitle_text_encoding", "");
         final boolean frameSkip = pref.getBoolean("enable_frame_skip", false);
-        String chroma = pref.getString("chroma_format", VLCApplication.getAppResources().getString(R.string.chroma_format_default));
+        final String chroma = pref.getString("chroma_format", context.getResources().getString(R.string.chroma_format_default));
         final boolean verboseMode = pref.getBoolean("enable_verbose_mode", true);
 
         int deblocking = -1;
@@ -84,10 +84,8 @@ public class VLCOptions {
         } catch (NumberFormatException ignored) {}
 
         int networkCaching = pref.getInt("network_caching_value", 0);
-        if (networkCaching > 60000)
-            networkCaching = 60000;
-        else if (networkCaching < 0)
-            networkCaching = 0;
+        if (networkCaching > 60000) networkCaching = 60000;
+        else if (networkCaching < 0) networkCaching = 0;
 
         final String freetypeRelFontsize = pref.getString("subtitles_size", "16");
         final boolean freetypeBold = pref.getBoolean("subtitles_bold", false);
@@ -107,8 +105,7 @@ public class VLCOptions {
         options.add(subtitlesEncoding);
         options.add("--stats");
         /* XXX: why can't the default be fine ? #7792 */
-        if (networkCaching > 0)
-            options.add("--network-caching=" + networkCaching);
+        if (networkCaching > 0) options.add("--network-caching=" + networkCaching);
         options.add("--android-display-chroma");
         options.add(chroma);
         options.add("--audio-resampler");
@@ -116,24 +113,17 @@ public class VLCOptions {
         options.add("--audiotrack-session-id=" + AUDIOTRACK_SESSION_ID);
 
         options.add("--freetype-rel-fontsize=" + freetypeRelFontsize);
-        if (freetypeBold)
-            options.add("--freetype-bold");
+        if (freetypeBold) options.add("--freetype-bold");
         options.add("--freetype-color=" + freetypeColor);
-        if (freetypeBackground)
-            options.add("--freetype-background-opacity=128");
-        else
-            options.add("--freetype-background-opacity=0");
-        if (opengl == 1)
-            options.add("--vout=gles2,none");
-        else if (opengl == 0)
-            options.add("--vout=android_display,none");
+        if (freetypeBackground) options.add("--freetype-background-opacity=128");
+        else options.add("--freetype-background-opacity=0");
+        if (opengl == 1) options.add("--vout=gles2,none");
+        else if (opengl == 0) options.add("--vout=android_display,none");
 
         /* Configure keystore */
         options.add("--keystore");
-        if (AndroidUtil.isMarshMallowOrLater)
-            options.add("file_crypt,none");
-        else
-            options.add("file_plaintext,none");
+        if (AndroidUtil.isMarshMallowOrLater) options.add("file_crypt,none");
+        else options.add("file_plaintext,none");
         options.add("--keystore-file");
         options.add(new File(context.getDir("keystore", Context.MODE_PRIVATE), "file").getAbsolutePath());
 
@@ -149,7 +139,6 @@ public class VLCOptions {
             final String optionsArray[] = customOptions.split("\\r?\\n", -1);
             if (!Util.isArrayEmpty(optionsArray)) Collections.addAll(options, optionsArray);
         }
-
         return options;
     }
 

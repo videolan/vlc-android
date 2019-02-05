@@ -35,8 +35,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.IBinder;
-import androidx.annotation.NonNull;
-import androidx.annotation.WorkerThread;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 
@@ -56,6 +54,9 @@ import org.videolan.vlc.util.Settings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.WorkerThread;
 
 
 public class BrowserProvider implements ExtensionManagerService.ExtensionManagerActivity {
@@ -92,7 +93,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
         List<MediaBrowserCompat.MediaItem> results = new ArrayList<>();
         MediaLibraryItem[] list = null;
         boolean limitSize = false;
-        Resources res = VLCApplication.getAppResources();
+        final Resources res = context.getResources();
 
         //Extensions
         if (parentId.startsWith(ExtensionsManager.EXTENSION_PREFIX)) {

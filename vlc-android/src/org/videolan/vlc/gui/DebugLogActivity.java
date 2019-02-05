@@ -31,7 +31,6 @@ import com.google.android.material.snackbar.Snackbar;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.DebugLogService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Permissions;
 
@@ -181,7 +180,7 @@ public class DebugLogActivity extends FragmentActivity implements DebugLogServic
     public void onSaved(boolean success, String path) {
         if (success) {
             Snackbar.make(mLogView, String.format(
-                    VLCApplication.getAppResources().getString(R.string.dump_logcat_success),
+                    getString(R.string.dump_logcat_success),
                     path), Snackbar.LENGTH_LONG).show();
         } else {
             UiTools.snacker(getWindow().getDecorView().findViewById(android.R.id.content), R.string.dump_logcat_failure);
