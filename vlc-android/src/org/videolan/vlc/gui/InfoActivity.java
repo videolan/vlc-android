@@ -1,7 +1,6 @@
 package org.videolan.vlc.gui;
 
 
-import androidx.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -9,14 +8,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import androidx.annotation.Nullable;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 
 import org.videolan.libvlc.LibVLC;
 import org.videolan.libvlc.Media;
@@ -43,6 +39,12 @@ import org.videolan.vlc.util.WorkersKt;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.ViewCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class InfoActivity extends AudioPlayerContainerActivity implements View.OnClickListener {
 

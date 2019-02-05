@@ -48,7 +48,6 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Display;
 import android.view.DragAndDropPermissions;
 import android.view.DragEvent;
@@ -67,7 +66,6 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import org.videolan.BuildConfig;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
