@@ -317,7 +317,7 @@ object MediaUtils : CoroutineScope {
                 }
                 handler.removeCallbacksAndMessages(null)
                 if (this::dialog.isInitialized) dialog.cancel()
-            } else if (this::dialog.isInitialized) dialog.dismiss()
+            } else if (this::dialog.isInitialized && dialog.isShowing) dialog.dismiss()
         }
     }
 
@@ -360,7 +360,7 @@ object MediaUtils : CoroutineScope {
         }
 
         private fun dismiss() {
-            if (this::dialog.isInitialized) dialog.dismiss()
+            if (this::dialog.isInitialized && dialog.isShowing) dialog.dismiss()
         }
     }
 
@@ -400,4 +400,6 @@ fun List<Folder>.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medial
 private sealed class Action
 private object Connect : Action()
 private object Disconnect : Action()
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 private class Task(val service : PlaybackService, val task: suspend (service: PlaybackService) -> Unit): Action()
