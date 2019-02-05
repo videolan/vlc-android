@@ -357,7 +357,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             return false
         }
 
-        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float ) = false
+        override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float ) = false
     }
 }
 
