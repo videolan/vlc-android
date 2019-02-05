@@ -953,13 +953,14 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     fun showToast(text: String, duration: Int) {
-        val msg = Message().apply {
+        val msg = handler.obtainMessage().apply {
             what = SHOW_TOAST
             data = Bundle(2).apply {
                 putString("text", text)
                 putInt("duration", duration)
             }
         }
+        handler.removeMessages(SHOW_TOAST)
         handler.sendMessage(msg)
     }
 
