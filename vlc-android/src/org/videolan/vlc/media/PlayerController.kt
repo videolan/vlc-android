@@ -51,7 +51,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     fun getMedia(): Media? = mediaplayer.media
 
     fun play() {
-        if (mediaplayer.hasMedia()) mediaplayer.play()
+        if (mediaplayer.hasMedia() && !mediaplayer.isReleased) mediaplayer.play()
     }
 
     fun pause(): Boolean {
@@ -63,7 +63,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     fun stop() {
-        if (mediaplayer.hasMedia()) mediaplayer.stop()
+        if (mediaplayer.hasMedia() && !mediaplayer.isReleased) mediaplayer.stop()
         setPlaybackStopped()
     }
 
