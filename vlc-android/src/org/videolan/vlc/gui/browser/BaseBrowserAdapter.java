@@ -23,6 +23,7 @@
 package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -38,7 +39,6 @@ import org.videolan.medialibrary.media.Storage;
 import org.videolan.tools.MultiSelectAdapter;
 import org.videolan.tools.MultiSelectHelper;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.BrowserItemBinding;
 import org.videolan.vlc.databinding.BrowserItemSeparatorBinding;
 import org.videolan.vlc.gui.DiffUtilAdapter;
@@ -57,21 +57,18 @@ import static org.videolan.medialibrary.media.MediaLibraryItem.TYPE_STORAGE;
 public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBrowserAdapter.ViewHolder> implements MultiSelectAdapter<MediaLibraryItem> {
     protected static final String TAG = "VLC/BaseBrowserAdapter";
 
-    private static int FOLDER_RES_ID = R.drawable.ic_menu_folder;
-
     private MultiSelectHelper<MediaLibraryItem> multiSelectHelper;
 
-    private static class Images {
-        private static final BitmapDrawable IMAGE_FOLDER = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), FOLDER_RES_ID));
-        private static final BitmapDrawable IMAGE_AUDIO = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_audio_normal));
-        private static final BitmapDrawable IMAGE_VIDEO = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_video_normal));
-        private static final BitmapDrawable IMAGE_SUBTITLE = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_subtitle_normal));
-        private static final BitmapDrawable IMAGE_UNKNOWN = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_unknown_normal));
-        private static final BitmapDrawable IMAGE_QA_MOVIES = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_movies_normal));
-        private static final BitmapDrawable IMAGE_QA_MUSIC = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_music_normal));
-        private static final BitmapDrawable IMAGE_QA_PODCASTS = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_podcasts_normal));
-        private static final BitmapDrawable IMAGE_QA_DOWNLOAD = new BitmapDrawable(VLCApplication.getAppResources(), BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_browser_download_normal));
-    }
+    private final BitmapDrawable IMAGE_FOLDER;
+    private final BitmapDrawable IMAGE_AUDIO;
+    private final BitmapDrawable IMAGE_VIDEO;
+    private final BitmapDrawable IMAGE_SUBTITLE;
+    private final BitmapDrawable IMAGE_UNKNOWN;
+    private final BitmapDrawable IMAGE_QA_MOVIES;
+    private final BitmapDrawable IMAGE_QA_MUSIC;
+    private final BitmapDrawable IMAGE_QA_PODCASTS;
+    private final BitmapDrawable IMAGE_QA_DOWNLOAD;
+
     protected final BaseBrowserFragment fragment;
     private int mMediaCount = 0;
     private final boolean mNetworkRoot, mSpecialIcons;
@@ -85,6 +82,17 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
         mNetworkRoot = root && fragment instanceof NetworkBrowserFragment;
         final String mrl = fragment.getMrl();
         mSpecialIcons = filesRoot || fileBrowser && mrl != null && mrl.endsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
+        // Setup resources
+        final Resources res = fragment.requireContext().getResources();
+        IMAGE_FOLDER = new BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_menu_folder));
+        IMAGE_AUDIO = new BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_audio_normal));
+        IMAGE_VIDEO = new BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_video_normal));
+        IMAGE_SUBTITLE = new BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_subtitle_normal));
+        IMAGE_UNKNOWN = new BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_unknown_normal));
+        IMAGE_QA_MOVIES = new BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_movies_normal));
+        IMAGE_QA_MUSIC = new BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_music_normal));
+        IMAGE_QA_PODCASTS = new BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_podcasts_normal));
+        IMAGE_QA_DOWNLOAD = new BitmapDrawable(res, BitmapFactory.decodeResource(res, R.drawable.ic_browser_download_normal));
     }
 
     @Override
@@ -263,27 +271,27 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
     BitmapDrawable getIcon(MediaWrapper media, boolean specialFolders) {
         switch (media.getType()){
             case MediaWrapper.TYPE_AUDIO:
-                return Images.IMAGE_AUDIO;
+                return IMAGE_AUDIO;
             case MediaWrapper.TYPE_DIR:
                 if (specialFolders) {
                     final Uri uri = media.getUri();
                     if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI.equals(uri)
                             || AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI.equals(uri))
-                        return Images.IMAGE_QA_MOVIES;
+                        return IMAGE_QA_MOVIES;
                     if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI.equals(uri))
-                        return Images.IMAGE_QA_MUSIC;
+                        return IMAGE_QA_MUSIC;
                     if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI.equals(uri))
-                        return Images.IMAGE_QA_PODCASTS;
+                        return IMAGE_QA_PODCASTS;
                     if (AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.equals(uri))
-                        return Images.IMAGE_QA_DOWNLOAD;
+                        return IMAGE_QA_DOWNLOAD;
                 }
-                return Images.IMAGE_FOLDER;
+                return IMAGE_FOLDER;
             case MediaWrapper.TYPE_VIDEO:
-                return Images.IMAGE_VIDEO;
+                return IMAGE_VIDEO;
             case MediaWrapper.TYPE_SUBTITLE:
-                return Images.IMAGE_SUBTITLE;
+                return IMAGE_SUBTITLE;
             default:
-                return Images.IMAGE_UNKNOWN;
+                return IMAGE_UNKNOWN;
         }
     }
 
