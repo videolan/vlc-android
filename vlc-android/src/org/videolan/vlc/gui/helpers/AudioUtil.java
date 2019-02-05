@@ -357,8 +357,7 @@ public class AudioUtil {
                     if (cacheFile.length() > 0)
                         coverPath = cachePath;
                 }
-            } else
-
+            }
             // try to get it from VLC
             if (coverPath == null || !cacheFile.exists())
                 coverPath = getCoverFromVlc(context, media);
@@ -379,7 +378,6 @@ public class AudioUtil {
                 writeBitmap(cover, cachePath);
                 cache.addBitmapToMemCache(cachePath, cover);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
