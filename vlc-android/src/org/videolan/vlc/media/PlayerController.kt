@@ -119,7 +119,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun canSwitchToVideo() = mediaplayer.hasMedia() && mediaplayer.videoTracksCount > 0
 
-    fun getVideoTracksCount() = if (mediaplayer.hasMedia()) mediaplayer.videoTracksCount else 0
+    fun getVideoTracksCount() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.videoTracksCount else 0
 
     fun getVideoTracks(): Array<out MediaPlayer.TrackDescription>? = mediaplayer.videoTracks
 
@@ -127,7 +127,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun getCurrentVideoTrack(): Media.VideoTrack? = mediaplayer.currentVideoTrack
 
-    fun getAudioTracksCount() = mediaplayer.audioTracksCount
+    fun getAudioTracksCount() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.audioTracksCount else 0
 
     fun getAudioTracks(): Array<out MediaPlayer.TrackDescription>? = mediaplayer.audioTracks
 
