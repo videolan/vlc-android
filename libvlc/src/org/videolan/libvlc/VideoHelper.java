@@ -193,7 +193,7 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
         if (activity != null) {
             sw = activity.getWindow().getDecorView().getWidth();
             sh = activity.getWindow().getDecorView().getHeight();
-        } else if (mDisplayManager.getPresentation() != null && mDisplayManager.getPresentation().getWindow() != null) {
+        } else if (mDisplayManager != null && mDisplayManager.getPresentation() != null && mDisplayManager.getPresentation().getWindow() != null) {
             sw = mDisplayManager.getPresentation().getWindow().getDecorView().getWidth();
             sh = mDisplayManager.getPresentation().getWindow().getDecorView().getHeight();
         } else return;
