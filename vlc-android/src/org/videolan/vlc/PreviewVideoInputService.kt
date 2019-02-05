@@ -47,7 +47,7 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
             notifyVideoUnavailable(VIDEO_UNAVAILABLE_REASON_TUNING)
             val id = uri.lastPathSegment?.toLong() ?: return false
             launch {
-                val mw = this@PreviewVideoInputService.getFromMl { getMedia(id) }
+                val mw = getFromMl { getMedia(id) }
                 if (mw == null) {
                     Log.w(TAG, "Could not find video $id")
                     notifyVideoUnavailable(TvInputManager.VIDEO_UNAVAILABLE_REASON_UNKNOWN)
@@ -88,9 +88,7 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
             this.height = height
         }
 
-        override fun onSetStreamVolume(volume: Float) {
-            player.setVolume((volume*100).toInt())
-        }
+        override fun onSetStreamVolume(volume: Float) {}
 
         override fun onSetCaptionEnabled(enabled: Boolean) {}
 
