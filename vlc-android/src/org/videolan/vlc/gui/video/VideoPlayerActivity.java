@@ -2822,7 +2822,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         @TargetApi(Build.VERSION_CODES.HONEYCOMB)
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent == null) return;
+            if (intent == null || mService == null) return;
             switch (intent.getAction()) {
                 case BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED:
                 case BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED:
