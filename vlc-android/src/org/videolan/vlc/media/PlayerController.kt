@@ -272,7 +272,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun getVolume() = if (mediaplayer.hasMedia()) mediaplayer.volume else 100
 
-    fun setVolume(volume: Int) = mediaplayer.setVolume(volume)
+    fun setVolume(volume: Int) = if (!mediaplayer.isReleased) mediaplayer.setVolume(volume) else -1
 
     suspend fun expand(): MediaList? {
         return mediaplayer.media?.let {
