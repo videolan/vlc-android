@@ -138,7 +138,7 @@ public class FileUtils {
             public void run() {
                 final String destinationFolder = context.getDir("vlc",
                         Context.MODE_PRIVATE).getAbsolutePath() + "/.share/lua";
-                final AssetManager am = VLCApplication.getAppResources().getAssets();
+                final AssetManager am = context.getAssets();
                 copyAssetFolder(am, "lua", destinationFolder, force);
             }
         });
