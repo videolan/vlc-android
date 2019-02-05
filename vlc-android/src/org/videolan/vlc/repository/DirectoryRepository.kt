@@ -36,22 +36,14 @@ class DirectoryRepository (private val customDirectoryDao: CustomDirectoryDao) :
 
     suspend fun customDirectoryExists(path: String) = withContext(coroutineContext) { customDirectoryDao.get(path).isNotEmpty() }
 
-    suspend fun getMediaDirectoriesList(context: Context): List<MediaWrapper> {
-        val storages = getMediaDirectories()
+    suspend fun getMediaDirectoriesList(context: Context) = getMediaDirectories().filter {
+        File(it).exists()
+    }.map { createDirectory(it, context) }
 
-        return storages.filter { File(it).exists() }.map {
-            createDirectory(it, context)
-        }.toList()
-    }
-
-    suspend fun getMediaDirectories(): Array<String> {
-        val list = mutableListOf<String>()
-
-        list.add(EXTERNAL_PUBLIC_DIRECTORY)
-        list.addAll(getExternalStorageDirectories())
-        list.addAll(getCustomDirectories().map { it.path })
-
-        return list.toTypedArray()
+    suspend fun getMediaDirectories() = mutableListOf<String>().apply {
+        add(EXTERNAL_PUBLIC_DIRECTORY)
+        addAll(getExternalStorageDirectories())
+        addAll(getCustomDirectories().map { it.path })
     }
 
     companion object : SingletonHolder<DirectoryRepository, Context>({ DirectoryRepository(MediaDatabase.getInstance(it).customDirectoryDao()) })

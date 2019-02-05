@@ -49,7 +49,6 @@ import org.videolan.vlc.gui.wizard.startMLWizard
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
 import java.io.File
-import java.util.*
 
 private const val TAG = "VLC/MediaParsingService"
 private const val NOTIFICATION_DELAY = 1000L
@@ -205,8 +204,8 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     }
 
     private suspend fun addDevices(context: Context, addExternal: Boolean) {
-        val devices = ArrayList<String>()
-        Collections.addAll(devices, *DirectoryRepository.getInstance(context).getMediaDirectories())
+        val devices = mutableListOf<String>()
+        devices.addAll(DirectoryRepository.getInstance(context).getMediaDirectories())
         val sharedPreferences = Settings.getInstance(context)
         for (device in devices) {
             val isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)

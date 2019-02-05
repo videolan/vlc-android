@@ -81,8 +81,6 @@ open class BrowserModel(context: Context, val url: String?, type: Int, showHidde
 
     suspend fun customDirectoryExists(path: String) = DirectoryRepository.getInstance(context).customDirectoryExists(path)
 
-    suspend fun getMediaDirectories() = DirectoryRepository.getInstance(context).getMediaDirectories()
-
     class Factory(val context: Context, val url: String?, private val type: Int,  private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
