@@ -344,13 +344,11 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             @Override
             public void run() {
                 final LinkedList<String> foldersToReload = new LinkedList<>();
-                final LinkedList<String> mediaPaths = new LinkedList<>();
                 for (MediaWrapper media : mw.getTracks()) {
                     String path = media.getUri().getPath();
                     String parentPath = FileUtils.getParent(path);
                     if (FileUtils.deleteFile(path) && media.getId() > 0L && !foldersToReload.contains(parentPath)) {
                         foldersToReload.add(parentPath);
-                        mediaPaths.add(media.getLocation());
                     } else UiTools.snacker(mBinding.getRoot(), getString(R.string.msg_delete_failed, media.getTitle()));
                 }
                 for (String folder : foldersToReload) mMediaLibrary.reload(folder);
