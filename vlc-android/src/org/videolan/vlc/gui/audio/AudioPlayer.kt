@@ -451,7 +451,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
         super.onDestroy()
         if (this::optionsDelegate.isInitialized) optionsDelegate.release()
         playlistModel.dataset.removeObserver(playlistObserver)
-        playlistModel.onCleared()
     }
 
     private inner class LongSeekListener(internal var forward: Boolean, internal var normal: Int, internal var pressed: Int) : View.OnTouchListener {

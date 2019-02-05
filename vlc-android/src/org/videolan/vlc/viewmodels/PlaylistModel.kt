@@ -217,7 +217,7 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
     }
 
     companion object {
-        fun get(fragment: Fragment) = ViewModelProviders.of(fragment).get(PlaylistModel::class.java)
+        fun get(fragment: Fragment) = ViewModelProviders.of(fragment.requireActivity()).get(PlaylistModel::class.java)
     }
 }
 
