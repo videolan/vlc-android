@@ -1434,9 +1434,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             case MediaPlayer.Event.Paused:
                 updateOverlayPausePlay();
                 break;
-            case MediaPlayer.Event.EncounteredError:
-                encounteredError();
-                break;
             case MediaPlayer.Event.Vout:
                 updateNavStatus();
                 if (event.getVoutCount() > 0 && mService != null)
