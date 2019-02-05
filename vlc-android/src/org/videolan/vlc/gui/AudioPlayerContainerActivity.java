@@ -118,7 +118,6 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     }
 
     private void initAudioPlayer() {
-        if (isFinishing()) return;
         findViewById(R.id.audio_player_stub).setVisibility(View.VISIBLE);
         mAudioPlayer = (AudioPlayer) getSupportFragmentManager().findFragmentById(R.id.audio_player);
         mBottomSheetBehavior = (BottomSheetBehavior) BottomSheetBehavior.from(mAudioPlayerContainer);
@@ -241,6 +240,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
     }
 
     private void showAudioPlayerImpl() {
+        if (isFinishing()) return;
         if (!isAudioPlayerReady()) initAudioPlayer();
         if (mAudioPlayerContainer.getVisibility() != View.VISIBLE) {
             mAudioPlayerContainer.setVisibility(View.VISIBLE);
