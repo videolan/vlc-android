@@ -508,7 +508,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             if (Permissions.canDrawOverlays(this)) {
                 mSwitchingView = true;
                 mSwitchToPopup = true;
-                if (mService != null && !mService.isPlaying())
+                if (!mService.isPlaying())
                     mw.addFlags(MediaWrapper.MEDIA_PAUSED);
                 cleanUI();
                 exitOK();
