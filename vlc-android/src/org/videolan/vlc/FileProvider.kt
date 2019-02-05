@@ -27,6 +27,7 @@ class FileProvider : ContentProvider() {
     override fun getType(uri: Uri) = "image/${uri.path?.substringAfterLast('.')}"
 
     override fun openFile(uri: Uri, mode: String?): ParcelFileDescriptor {
+        if (uri.path.startsWith("/data")) throw SecurityException("Illegal access")
         val file = File(uri.path)
         if (file.exists()) {
             return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
