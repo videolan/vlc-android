@@ -83,12 +83,17 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
         mSwipeRefreshLayout.setOnRefreshListener { activity?.reload() }
     }
 
+    override fun onStart() {
+        super.onStart()
+        setFabPlayVisibility(true);
+        mFabPlay.setImageResource(R.drawable.ic_fab_play);
+    }
+
     override fun getTitle() = getString(R.string.video)
 
     override fun onRefresh() {
         viewModel.refresh()
     }
-
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
@@ -109,6 +114,10 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
             CTX_APPEND -> launch { viewModel.append(position) }
             CTX_ADD_TO_PLAYLIST -> viewModel.pagedList.value?.get(position)?.let { UiTools.addToPlaylist(requireActivity(), it.getAll()) }
         }
+    }
+
+    override fun onFabPlayClick(view: View?) {
+        MediaUtils.playAllTracks(context, viewModel, 0, false)
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?) : Boolean {
@@ -142,8 +151,6 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
         mActionMode = null
         adapter.multiSelectHelper.clearSelection()
     }
-
-    override fun hasFAB() = false
 }
 
 sealed class FolderAction

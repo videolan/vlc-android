@@ -28,6 +28,7 @@ import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.paged.MLPagedModel
+import org.videolan.vlc.viewmodels.paged.PagedFoldersModel
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.min
@@ -185,6 +186,39 @@ object MediaUtils : CoroutineScope {
                     while (index < count) {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                         val list = withContext(Dispatchers.IO) { model.getPage(pageCount, index).toList() }
+                        if (index == 0) play(list)
+                        else service.append(list)
+                        index += pageCount
+                    }
+                }
+            }
+        }
+    }
+
+    fun playAllTracks(context: Context?, model: PagedFoldersModel, position: Int, shuffle: Boolean) {
+        if (context == null) return
+        SuspendDialogCallback(context) { service ->
+            val count = withContext(Dispatchers.IO) { model.getTotalCount() }
+            fun play(list : List<MediaWrapper>) {
+                service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
+                if (shuffle && !service.isShuffling) service.shuffle()
+            }
+            when (count) {
+                0 -> return@SuspendDialogCallback
+                in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
+                    model.getAll().flatMap {
+                        it.media(model.type, Medialibrary.SORT_DEFAULT, false, it.mediaCount(model.type), 0).toList()
+                    }
+                })
+                else -> {
+                    var index = 0
+                    while (index < count) {
+                        val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
+                        val list = withContext(Dispatchers.IO) {
+                            model.getPage(pageCount, index).flatMap {
+                                it.media(model.type, Medialibrary.SORT_DEFAULT, false, it.mediaCount(model.type), 0).toList()
+                            }
+                        }
                         if (index == 0) play(list)
                         else service.append(list)
                         index += pageCount
