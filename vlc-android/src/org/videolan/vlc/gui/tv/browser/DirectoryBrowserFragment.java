@@ -29,7 +29,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.viewmodels.browser.BrowserModel;
 import org.videolan.vlc.viewmodels.browser.BrowserModelKt;
@@ -38,6 +40,9 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import androidx.leanback.widget.Presenter;
+import androidx.leanback.widget.Row;
+import androidx.leanback.widget.RowPresenter;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -69,5 +74,11 @@ public class DirectoryBrowserFragment extends MediaSortedFragment<BrowserModel> 
                 }
             }
         });
+    }
+
+    @Override
+    public void onItemClicked(@NotNull Presenter.ViewHolder viewHolder, @NotNull Object item, @NotNull RowPresenter.ViewHolder viewHolder1, @NotNull Row row) {
+        if (item instanceof MediaWrapper && ((MediaWrapper)item).getType() == MediaWrapper.TYPE_DIR) viewModel.saveList((MediaWrapper)item);
+        super.onItemClicked(viewHolder, item, viewHolder1, row);
     }
 }
