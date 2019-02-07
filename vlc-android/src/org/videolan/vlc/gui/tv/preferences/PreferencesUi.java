@@ -27,12 +27,13 @@ import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.preference.ListPreference;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.LocalePair;
+
+import androidx.preference.ListPreference;
 
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -59,6 +60,7 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
         findPreference("secondary_display_category_summary").setVisible(false);
         findPreference("daynight").setVisible(false);
         findPreference("blurred_cover_background").setVisible(false);
+        findPreference("resume_playback").setVisible(false);
         prepareLocaleList();
     }
 

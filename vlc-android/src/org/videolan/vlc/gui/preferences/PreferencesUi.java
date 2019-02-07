@@ -25,14 +25,16 @@ package org.videolan.vlc.gui.preferences;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import org.videolan.vlc.R;
+import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.LocalePair;
+
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreferenceCompat;
-
-import org.videolan.vlc.R;
-import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.util.LocalePair;
 
 
 
@@ -64,6 +66,7 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        findPreference("resume_playback").setVisible(AndroidDevices.isPhone);
         prepareLocaleList();
     }
 
