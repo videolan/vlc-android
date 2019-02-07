@@ -87,7 +87,7 @@ public class CardPresenter extends Presenter {
                 final boolean group = media.getType() == MediaWrapper.TYPE_GROUP;
                 final boolean folder = media.getType() == MediaWrapper.TYPE_DIR;
                 final boolean video = media.getType() == MediaWrapper.TYPE_VIDEO;
-                if (!folder && (group || (!noArt && video && !media.isThumbnailGenerated()))) {
+                if (!folder && (group || (video && !media.isThumbnailGenerated()))) {
                      ImageLoaderKt.loadImage(mCardView, item);
                      return;
                 }
