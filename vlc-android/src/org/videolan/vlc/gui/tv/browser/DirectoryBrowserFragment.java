@@ -45,6 +45,7 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import kotlin.Pair;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class DirectoryBrowserFragment extends MediaSortedFragment<BrowserModel> {
@@ -74,6 +75,12 @@ public class DirectoryBrowserFragment extends MediaSortedFragment<BrowserModel> 
                 }
             }
         });
+         viewModel.getDescriptionUpdate().observe(this, new Observer<Pair<Integer, String>>() {
+             @Override
+             public void onChanged(Pair<Integer, String> pair) {
+                 if (pair != null) getAdapter().notifyItemRangeChanged(0, getAdapter().size());
+             }
+         });
     }
 
     @Override
