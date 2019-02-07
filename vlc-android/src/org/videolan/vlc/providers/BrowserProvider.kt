@@ -223,7 +223,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     abstract suspend fun browseRoot()
 
     open fun getFlags() : Int {
-        var flags = MediaBrowser.Flag.Interact or MediaBrowser.Flag.NoSlavesAutodetect
+        var flags = MediaBrowser.Flag.Interact
         if (showHiddenFiles) flags = flags or MediaBrowser.Flag.ShowHiddenFiles
         return flags
     }
