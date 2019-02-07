@@ -34,6 +34,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.R;
@@ -51,6 +52,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class NetworkBrowserFragment extends BaseBrowserFragment {
 
@@ -129,8 +131,6 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     @Override
     public void onStop() {
         super.onStop();
-        setFabPlayVisibility(false);
-        mFabPlay.setOnClickListener(null);
         if (!isRootDirectory()) LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
         setGoBack(false);
     }
@@ -213,4 +213,10 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
             else setGoBack(true);
         }
     };
+
+    @Override
+    public void onUpdateFinished(@NotNull RecyclerView.Adapter<?> adapter) {
+        super.onUpdateFinished(adapter);
+        if (isRootDirectory()) mFabPlay.show();
+    }
 }
