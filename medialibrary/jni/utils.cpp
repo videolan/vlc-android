@@ -109,14 +109,14 @@ jobject
 convertAlbumObject(JNIEnv* env, fields *fields, medialibrary::AlbumPtr const& albumPtr)
 {
     jstring title = env->NewStringUTF(albumPtr->title().c_str());
-    jstring artworkMrl = env->NewStringUTF(albumPtr->artworkMrl().c_str());
+    jstring thumbnailMrl = env->NewStringUTF(albumPtr->thumbnailMrl().c_str());
     medialibrary::ArtistPtr artist = albumPtr->albumArtist();
     jlong albumArtistId = artist != nullptr ? albumPtr->albumArtist()->id() : 0;
     jstring artistName = artist != nullptr ? env->NewStringUTF(artist->name().c_str()) : NULL;
     jobject item = env->NewObject(fields->Album.clazz, fields->Album.initID,
-                          (jlong) albumPtr->id(), title, albumPtr->releaseYear(), artworkMrl, artistName, albumArtistId, (jint) albumPtr->nbTracks(), (jint) albumPtr->duration());
+                          (jlong) albumPtr->id(), title, albumPtr->releaseYear(), thumbnailMrl, artistName, albumArtistId, (jint) albumPtr->nbTracks(), (jint) albumPtr->duration());
     env->DeleteLocalRef(title);
-    env->DeleteLocalRef(artworkMrl);
+    env->DeleteLocalRef(thumbnailMrl);
     env->DeleteLocalRef(artistName);
     return item;
 }
@@ -125,13 +125,13 @@ jobject
 convertArtistObject(JNIEnv* env, fields *fields, medialibrary::ArtistPtr const& artistPtr)
 {
     jstring name = env->NewStringUTF(artistPtr->name().c_str());
-    jstring artworkMrl = env->NewStringUTF(artistPtr->artworkMrl().c_str());
+    jstring thumbnailMrl = env->NewStringUTF(artistPtr->thumbnailMrl().c_str());
     jstring shortBio = env->NewStringUTF(artistPtr->shortBio().c_str());
     jstring musicBrainzId = env->NewStringUTF(artistPtr->musicBrainzId().c_str());
     jobject item = env->NewObject(fields->Artist.clazz, fields->Artist.initID,
-                          (jlong) artistPtr->id(), name, shortBio, artworkMrl, musicBrainzId);
+                          (jlong) artistPtr->id(), name, shortBio, thumbnailMrl, musicBrainzId);
     env->DeleteLocalRef(name);
-    env->DeleteLocalRef(artworkMrl);
+    env->DeleteLocalRef(thumbnailMrl);
     env->DeleteLocalRef(shortBio);
     env->DeleteLocalRef(musicBrainzId);
     return item;
