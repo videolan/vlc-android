@@ -79,6 +79,7 @@
                 android:layout_toStartOf="@+id/action"
                 android:focusable="true"
                 android:text="@android:string/cancel"
+                android:textSize="14sp"
                 android:onClick="@{handler::onCancel}"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
             <Button
@@ -91,6 +92,7 @@
                 android:focusable="true"
                 android:layout_below="@+id/warning"
                 android:text="@android:string/ok"
+                android:textSize="14sp"
                 android:onClick="@{handler::onLogin}"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
         </RelativeLayout>
