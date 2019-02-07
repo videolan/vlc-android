@@ -199,12 +199,10 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         val slaves = mw.slaves
         slaves?.let { it.forEach { slave -> media.addSlave(slave) } }
         media.release()
-        slaves?.let {
-            slaveRepository.saveSlaves(mw)?.forEach { it.join() }
-        }
         slaveRepository.getSlaves(mw.location).forEach { slave ->
-            mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
+            if (!slaves.contains(slave)) mediaplayer.addSlave(slave.type, Uri.parse(slave.uri), false)
         }
+        slaves?.let { slaveRepository.saveSlaves(mw) }
     }
 
     private fun newMediaPlayer() : MediaPlayer {
@@ -335,4 +333,10 @@ class Progress(var time: Long = 0L, var length: Long = 0L)
 
 internal interface MediaPlayerEventListener {
     suspend fun onEvent(event: MediaPlayer.Event)
+}
+
+private fun Array<Media.Slave>?.contains(item: Media.Slave) : Boolean {
+    if (this == null) return false
+    for (slave in this) if (slave.uri == item.uri) return true
+    return false
 }
