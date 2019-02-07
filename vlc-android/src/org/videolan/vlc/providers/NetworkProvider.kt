@@ -49,13 +49,20 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
     override fun fetch() {}
 
     override fun refresh(): Boolean {
+        val list by lazy(LazyThreadSafetyMode.NONE) { getList(url!!) }
         return if (url == null) {
             dataset.value = mutableListOf<MediaLibraryItem>().apply {
                 getFavoritesList(favorites?.value)?.let { addAll(it) }
             }
             launch { browseRoot() }
             true
+        } else if (list !== null) {
+            dataset.value = list as MutableList<MediaLibraryItem>
+            removeList(url)
+            parseSubDirectories()
+            true
         } else super.refresh()
+
     }
 
     override fun parseSubDirectories() {

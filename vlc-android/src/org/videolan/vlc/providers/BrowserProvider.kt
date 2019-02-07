@@ -258,6 +258,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         loading.value = false
     }
 
+    protected fun getList(url: String) =  prefetchLists[url]
+
+    protected fun removeList(url: String) =  prefetchLists.remove(url)
+
     fun saveList(media: MediaWrapper) = foldersContentMap[media]?.let { if (!it.isEmpty()) prefetchLists[media.location] = it }
 
     fun isFolderEmpty(mw: MediaWrapper) = foldersContentMap[mw]?.isEmpty() ?: true
