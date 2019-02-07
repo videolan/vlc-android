@@ -37,18 +37,23 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.ExternalMonitor;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
+import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.viewmodels.browser.NetworkModel;
 
 import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
+import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.ObjectAdapter;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import kotlin.Pair;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class NetworkBrowserFragment extends MediaSortedFragment<NetworkModel> {
@@ -70,6 +75,21 @@ public class NetworkBrowserFragment extends MediaSortedFragment<NetworkModel> {
             @Override
             public void onChanged(@Nullable Boolean connected) {
                 refresh(connected);
+            }
+        });
+        viewModel.getDescriptionUpdate().observe(this, new Observer<Pair<Integer, String>>() {
+            @Override
+            public void onChanged(Pair<Integer, String> pair) {
+                final int position = pair.component1();
+                final ArrayObjectAdapter adapter = (ArrayObjectAdapter) getAdapter();
+                int index = -1;
+                for (int i = 0; i < adapter.size(); ++i) {
+                    final ObjectAdapter objectAdapter = ((ListRow) adapter.get(i)).getAdapter();
+                    if (position > index + objectAdapter.size()) index += objectAdapter.size();
+                    else for (int j = 0; j < objectAdapter.size(); ++j) {
+                        if (++index == position) objectAdapter.notifyItemRangeChanged(j, 1, Constants.UPDATE_DESCRIPTION);
+                    }
+                }
             }
         });
     }
