@@ -103,7 +103,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
     public void onStart() {
         super.onStart();
         if (!isRootDirectory()) LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
-        mFabPlay.setImageResource(R.drawable.ic_fab_add);
+        mFabPlay.setImageResource(isRootDirectory() ? R.drawable.ic_fab_add : R.drawable.ic_fab_play);
         mFabPlay.setOnClickListener(this);
         setFabPlayVisibility(true);
     }
