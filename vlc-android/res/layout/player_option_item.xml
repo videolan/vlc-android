@@ -10,7 +10,7 @@
         android:layout_width="@dimen/player_option_width"
         android:layout_height="wrap_content"
         android:focusable="true"
-        android:layout_margin="@dimen/default_margin">
+        android:layout_margin="6dp">
 
         <ImageView
             android:id="@+id/option_icon"
