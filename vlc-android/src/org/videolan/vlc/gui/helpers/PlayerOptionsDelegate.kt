@@ -104,8 +104,6 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                 if (video) {
                     if (primary && !tvUi && service.audioTracksCount > 0)
                         options.add(PlayerOption(playerOptionType, ID_PLAY_AS_AUDIO, R.attr.ic_playasaudio_on, res.getString(R.string.play_as_audio)))
-                    options.add(PlayerOption(playerOptionType, ID_SPU_DELAY, R.attr.ic_subtitledelay, res.getString(R.string.spu_delay)))
-                    options.add(PlayerOption(playerOptionType, ID_AUDIO_DELAY, R.attr.ic_audiodelay, res.getString(R.string.audio_delay)))
                     if (primary && AndroidDevices.pipAllowed && !AndroidDevices.isDex(activity))
                         options.add(PlayerOption(playerOptionType, ID_POPUP_VIDEO, R.attr.ic_popup_dim, res.getString(R.string.ctx_pip_title)))
                     options.add(PlayerOption(playerOptionType, ID_REPEAT, R.attr.ic_repeat, res.getString(R.string.repeat_title)))
@@ -120,8 +118,14 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             }
             PlayerOptionType.MEDIA_TRACKS -> {
                 if (flags and CTX_VIDEO_TRACK != 0) options.add(PlayerOption(playerOptionType, CTX_VIDEO_TRACK, R.drawable.ic_video_track_w, res.getString(R.string.ctx_player_video_track)))
-                if (flags and CTX_AUDIO_TRACK != 0) options.add(PlayerOption(playerOptionType, CTX_AUDIO_TRACK, R.drawable.ic_audiotrack_w, res.getString(R.string.ctx_player_audio_track)))
-                if (flags and CTX_SUBS_TRACK != 0) options.add(PlayerOption(playerOptionType, CTX_SUBS_TRACK, R.drawable.ic_subtitle_w, res.getString(R.string.ctx_player_subs_track)))
+                if (flags and CTX_AUDIO_TRACK != 0) {
+                    options.add(PlayerOption(playerOptionType, CTX_AUDIO_TRACK, R.drawable.ic_audiotrack_w, res.getString(R.string.ctx_player_audio_track)))
+                    options.add(PlayerOption(playerOptionType, ID_AUDIO_DELAY, R.drawable.ic_audiodelay_w, res.getString(R.string.audio_delay)))
+                }
+                if (flags and CTX_SUBS_TRACK != 0) {
+                    options.add(PlayerOption(playerOptionType, CTX_SUBS_TRACK, R.drawable.ic_subtitle_w, res.getString(R.string.ctx_player_subs_track)))
+                    options.add(PlayerOption(playerOptionType, ID_SPU_DELAY, R.drawable.ic_subtitledelay_w, res.getString(R.string.spu_delay)))
+                }
                 if (flags and CTX_PICK_SUBS != 0) options.add(PlayerOption(playerOptionType, CTX_PICK_SUBS, R.drawable.ic_subtitle_open_w, res.getString(R.string.subtitle_select)))
                 if (flags and CTX_DOWNLOAD_SUBTITLES_PLAYER != 0) options.add(PlayerOption(playerOptionType, CTX_DOWNLOAD_SUBTITLES_PLAYER, R.drawable.ic_downsub_w, res.getString(R.string.download_subtitles)))
             }
@@ -174,8 +178,6 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                             initSleep()
                         }
                     }
-                    ID_AUDIO_DELAY -> showValueControls(ACTION_AUDIO_DELAY)
-                    ID_SPU_DELAY -> showValueControls(ACTION_SPU_DELAY)
                     ID_PLAY_AS_AUDIO -> (activity as VideoPlayerActivity).switchToAudioMode(true)
                     ID_POPUP_VIDEO -> {
                         (activity as VideoPlayerActivity).switchToPopup()
@@ -195,6 +197,8 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                 if (service.currentMediaWrapper == null) return
                 (activity as VideoPlayerActivity).run {
                     when (option.id) {
+                        ID_AUDIO_DELAY -> showValueControls(ACTION_AUDIO_DELAY)
+                        ID_SPU_DELAY -> showValueControls(ACTION_SPU_DELAY)
                         CTX_VIDEO_TRACK -> selectVideoTrack()
                         CTX_AUDIO_TRACK -> selectAudioTrack()
                         CTX_SUBS_TRACK -> selectSubtitles()
