@@ -93,7 +93,7 @@ abstract class MediaLibBrowserFragment<T : BaseModel<out MediaLibraryItem>> : Gr
 
     override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?,
                                rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
-        TvUtil.openMedia(mContext, item, row)
+        TvUtil.openMedia(mContext, item, model)
     }
 
     override fun getVM(): BaseModel<out MediaLibraryItem> = this.model

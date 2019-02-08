@@ -36,13 +36,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.widget.DiffCallback
 import androidx.leanback.widget.ListRow
-import androidx.leanback.widget.Row
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.getposition
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.DialogActivity
@@ -53,9 +51,12 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.*
+import org.videolan.vlc.viewmodels.BaseModel
 import java.util.*
 import kotlin.collections.ArrayList
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 object TvUtil {
 
@@ -108,10 +109,15 @@ object TvUtil {
             MediaUtils.openMedia(activity, media)
     }
 
-    fun openMedia(activity: FragmentActivity, item: Any?, row: Row?) {
+    @Suppress("UNCHECKED_CAST")
+    fun openMedia(activity: FragmentActivity, item: Any?, model: BaseModel<out MediaLibraryItem>?) {
         when (item) {
             is MediaWrapper -> when {
-                item.type == MediaWrapper.TYPE_AUDIO -> openAudioCategory(activity, item)
+                item.type == MediaWrapper.TYPE_AUDIO -> {
+                    val list = (model!!.dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR } as ArrayList<MediaWrapper>
+                    val position = list.getposition(item)
+                    playAudioList(activity, list, position)
+                }
                 item.type == MediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
@@ -125,7 +131,11 @@ object TvUtil {
                     intent.putExtra(KEY_GROUP, title)
                     activity.startActivity(intent)
                 }
-                else -> MediaUtils.openMedia(activity, item)
+                else -> {
+                    val list = (model!!.dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                    val position = list.getposition(item)
+                    MediaUtils.openList(activity, list, position)
+                }
             }
             is DummyItem -> when {
                 item.id == HEADER_STREAM -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_STREAM)

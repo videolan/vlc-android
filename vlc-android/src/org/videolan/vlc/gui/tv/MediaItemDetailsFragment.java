@@ -1,7 +1,7 @@
 /*****************************************************************************
  * MediaItemDetailsFragment.java
  *****************************************************************************
- * Copyright © 2014-2015 VLC authors, VideoLAN and VideoLabs
+ * Copyright © 2014-2019 VLC authors, VideoLAN and VideoLabs
  * Author: Geoffrey Métais
  *
  * This program is free software; you can redistribute it and/or modify
@@ -37,14 +37,11 @@ import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.repository.BrowserFavRepository;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.WorkersKt;
-
-import java.util.List;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -70,8 +67,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment {
     private static final int ID_FAVORITE_DELETE = 4;
     private static final int ID_BROWSE = 5;
     private static final int ID_DL_SUBS = 6;
-    private static final int ID_PLAY_ALL = 7;
-    private static final int ID_PLAY_FROM_START = 8;
+    private static final int ID_PLAY_FROM_START = 7;
 
     private BackgroundManager mBackgroundManager;
     private ArrayObjectAdapter mRowsAdapter;
@@ -121,7 +117,6 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment {
         mMediaWrapper = media;
         setTitle(media.getTitle());
 
-        final List<MediaWrapper> mediaList = null;
         // Attach your media item details presenter to the row presenter:
         FullWidthDetailsOverviewRowPresenter rowPresenter = new FullWidthDetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
 
@@ -173,19 +168,6 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment {
                     case ID_DL_SUBS:
                         MediaUtils.INSTANCE.getSubs(requireActivity(), media);
                         break;
-                    case ID_PLAY_ALL:
-                        if (mediaList != null) {
-                            int position = -1;
-                            for (int i= 0; i < mediaList.size(); ++i)
-                                if (media.equals(mediaList.get(i)))
-                                    position = i;
-                            Activity activity = getActivity();
-                            MediaUtils.INSTANCE.openList(activity, mediaList, position);
-                            if (media.getType() == MediaWrapper.TYPE_AUDIO)
-                                getActivity().startActivity(new Intent(activity, AudioPlayerActivity.class));
-                            getActivity().finish();
-                        }
-                        break;
                     case ID_PLAY_FROM_START:
                         mMediaStarted = false;
                         VideoPlayerActivity.start(getActivity(), media.getUri(), true);
@@ -231,8 +213,6 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment {
 
                             detailsOverview.addAction(new Action(ID_PLAY, res.getString(R.string.play)));
                             detailsOverview.addAction(new Action(ID_LISTEN, res.getString(R.string.listen)));
-                            if (mediaList != null && mediaList.contains(media))
-                                detailsOverview.addAction(new Action(ID_PLAY_ALL, res.getString(R.string.play_all)));
                         } else if (media.getType() == MediaWrapper.TYPE_VIDEO) {
                             // Add images and action buttons to the details view
                             if (cover == null)
@@ -244,8 +224,6 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment {
                             detailsOverview.addAction(new Action(ID_PLAY_FROM_START, res.getString(R.string.play_from_start)));
                             if (FileUtils.canWrite(media.getUri()))
                                 detailsOverview.addAction(new Action(ID_DL_SUBS, res.getString(R.string.download_subtitles)));
-                            if (mediaList != null && mediaList.contains(media))
-                                detailsOverview.addAction(new Action(ID_PLAY_ALL, res.getString(R.string.play_all)));
                         }
                         mRowsAdapter.add(detailsOverview);
                         setAdapter(mRowsAdapter);

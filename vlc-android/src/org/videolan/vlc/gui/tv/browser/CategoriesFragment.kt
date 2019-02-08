@@ -95,7 +95,7 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
     override fun onItemClicked(viewHolder: Presenter.ViewHolder, item: Any, viewHolder1: RowPresenter.ViewHolder, row: Row) {
         val media = item as MediaWrapper
         if (media.type == MediaWrapper.TYPE_DIR) TvUtil.browseFolder(requireActivity(), getCategoryId(), item.uri)
-        else TvUtil.openMedia(requireActivity(), item, null)
+        else TvUtil.openMedia(requireActivity(), item, viewModel)
     }
 
     override fun refresh() {

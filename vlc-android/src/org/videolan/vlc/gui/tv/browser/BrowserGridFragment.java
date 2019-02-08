@@ -109,6 +109,6 @@ public class BrowserGridFragment extends GridFragment implements OnItemViewSelec
         if (media.getType() == MediaWrapper.TYPE_DIR)
             TvUtil.INSTANCE.browseFolder(requireActivity(), Constants.HEADER_NETWORK, ((MediaWrapper) item).getUri());
         else
-            TvUtil.INSTANCE.openMedia(requireActivity(), item, null);
+            TvUtil.INSTANCE.openMedia(requireActivity(), item, provider);
     }
 }

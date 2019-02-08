@@ -58,7 +58,6 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.vlc.repository.createDirectory
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.HistoryModel
 import org.videolan.vlc.viewmodels.VideosModel
@@ -173,7 +172,6 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val browsePath = activity?.intent?.getStringExtra(EXTRA_PATH) ?: return
-        TvUtil.openMedia(requireActivity(), createDirectory(browsePath, requireContext()), null)
     }
 
     fun updateAudioCategories(current: DummyItem? = null) {
@@ -262,7 +260,12 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                     ID_LICENCE -> startActivity(Intent(activity, org.videolan.vlc.gui.tv.LicenceActivity::class.java))
                 }
             }
-            else -> TvUtil.openMedia(activity, item, row)
+            else -> {
+                val model = if (row?.id == HEADER_HISTORY && this::historyModel.isInitialized) historyModel
+                else if (row?.id == HEADER_VIDEO && this::videoModel.isInitialized) videoModel
+                else null
+                TvUtil.openMedia(activity, item, model)
+            }
         }
     }
 

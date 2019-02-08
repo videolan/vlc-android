@@ -25,10 +25,11 @@ package org.videolan.vlc.gui.tv.preferences;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.preference.Preference;
 
 import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
+
+import androidx.preference.Preference;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class PreferencesVideo extends BasePreferenceFragment {
@@ -53,11 +54,7 @@ public class PreferencesVideo extends BasePreferenceFragment {
         findPreference("enable_volume_gesture").setVisible(AndroidDevices.hasTsp);
         findPreference("enable_brightness_gesture").setVisible(AndroidDevices.hasTsp);
         findPreference("popup_keepscreen").setVisible(false);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
+        findPreference("force_play_all").setVisible(false);
     }
 
     @Override

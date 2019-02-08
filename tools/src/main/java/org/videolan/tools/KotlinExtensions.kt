@@ -28,3 +28,8 @@ val LifecycleOwner.coroutineScope: CoroutineScope
         it.invokeOnCompletion { lifecycleCoroutineScopes -= lifecycle }
         newScope
     }
+
+fun <T> List<T>.getposition(target: T) : Int {
+    for ((index, item) in this.withIndex())  if (item == target) return index
+    return -1
+}
