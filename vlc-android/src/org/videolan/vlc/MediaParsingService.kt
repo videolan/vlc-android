@@ -139,8 +139,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     }
 
     private fun forceForeground() {
-        val ctx = this@MediaParsingService
-        val notification = NotificationHelper.createScanNotification(ctx, getString(R.string.loading_medialibrary), false, scanPaused)
+        val notification = NotificationHelper.createScanNotification(applicationContext, getString(R.string.loading_medialibrary), false, scanPaused)
         startForeground(43, notification)
     }
 
@@ -285,7 +284,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
             val updateAction = wasWorking != medialibrary.isWorking
             if (updateAction) wasWorking = !wasWorking
             if (!isActive) return@withContext ""
-            val notification = NotificationHelper.createScanNotification(this@MediaParsingService, progressText, updateAction, scanPaused)
+            val notification = NotificationHelper.createScanNotification(applicationContext, progressText, updateAction, scanPaused)
             if (lastNotificationTime != -1L) {
                 try {
                     startForeground(43, notification)
