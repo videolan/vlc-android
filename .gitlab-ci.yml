@@ -38,7 +38,7 @@ cache:
     extends: .build-all-base
     only:
         refs:
-            - master/*
+            - master
         changes:
             - medialibrary/*
             - compile.sh
