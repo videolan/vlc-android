@@ -96,10 +96,9 @@ import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.audio.PlaylistAdapter;
 import org.videolan.vlc.gui.browser.FilePickerActivity;
 import org.videolan.vlc.gui.browser.FilePickerFragmentKt;
-import org.videolan.vlc.gui.dialogs.ContextSheetKt;
-import org.videolan.vlc.gui.dialogs.CtxActionReceiver;
 import org.videolan.vlc.gui.dialogs.RenderersDialog;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
+import org.videolan.vlc.gui.helpers.PlayerOptionType;
 import org.videolan.vlc.gui.helpers.PlayerOptionsDelegate;
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.helpers.UiTools;
@@ -143,7 +142,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackSettingsController, PlaybackService.Callback,PlaylistAdapter.IPlayer,
-        OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, CtxActionReceiver, Observer<PlaybackService> {
+        OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController,  Observer<PlaybackService> {
 
     private final static String TAG = "VLC/VideoPlayerActivity";
 
@@ -1769,35 +1768,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         if (mService.getVideoTracksCount() > 2) flags |= Constants.CTX_VIDEO_TRACK;
         if (mService.getAudioTracksCount() > 0) flags |= Constants.CTX_AUDIO_TRACK;
         if (mService.getSpuTracksCount() > 0) flags |= Constants.CTX_SUBS_TRACK;
-        ContextSheetKt.showContext(this, this, -1, getString(R.string.ctx_player_tracks_title), flags);
+
+        if (mOptionsDelegate == null) mOptionsDelegate = new PlayerOptionsDelegate(this, mService);
+        mOptionsDelegate.setFlags(flags);
+        mOptionsDelegate.show(PlayerOptionType.MEDIA_TRACKS);
         hideOverlay(false);
     }
 
-    @Override
-    public void onCtxAction(int position, int option) {
-        if (mUri == null) return;
-        switch (option) {
-            case Constants.CTX_VIDEO_TRACK:
-                selectVideoTrack();
-                break;
-            case Constants.CTX_AUDIO_TRACK:
-                selectAudioTrack();
-                break;
-            case Constants.CTX_SUBS_TRACK:
-                selectSubtitles();
-                break;
-            case Constants.CTX_PICK_SUBS:
-                mShowingDialog = true;
-                final Intent filePickerIntent = new Intent(this, FilePickerActivity.class);
-                filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
-                startActivityForResult(filePickerIntent, 0);
-                break;
-            case Constants.CTX_DOWNLOAD_SUBTITLES_PLAYER:
-                final MediaWrapper mw = mService != null ? mService.getCurrentMediaWrapper() : null;
-                if (mw != null) MediaUtils.INSTANCE.getSubs(VideoPlayerActivity.this, mw);
-                break;
-        }
-    }
+
 
     @Override
     public void onPopupMenu(View anchor, final int position, MediaWrapper media) {
@@ -1997,7 +1975,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         }
     }
 
-    private void selectVideoTrack() {
+    public void selectVideoTrack() {
         setESTrackLists();
         selectTrack(mVideoTracksList, mService.getVideoTrack(), R.string.track_video,
                 new TrackSelectedListener() {
@@ -2010,7 +1988,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 });
     }
 
-    private void selectAudioTrack() {
+    public void selectAudioTrack() {
         setESTrackLists();
         selectTrack(mAudioTracksList, mService.getAudioTrack(), R.string.track_audio,
                 new TrackSelectedListener() {
@@ -2029,7 +2007,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 });
     }
 
-    private void selectSubtitles() {
+    public void selectSubtitles() {
         setESTrackLists();
         selectTrack(mSubtitleTracksList, mService.getSpuTrack(), R.string.track_text,
                 new TrackSelectedListener() {
@@ -2045,6 +2023,20 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                     }
                 });
     }
+
+    public void pickSubtitles() {
+        mShowingDialog = true;
+        final Intent filePickerIntent = new Intent(this, FilePickerActivity.class);
+        filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
+        startActivityForResult(filePickerIntent, 0);
+    }
+
+
+    public void downloadSubtitles() {
+        final MediaWrapper mw = mService != null ? mService.getCurrentMediaWrapper() : null;
+        if (mw != null) MediaUtils.INSTANCE.getSubs(VideoPlayerActivity.this, mw);
+    }
+
 
     @WorkerThread
     private void setSpuTrack(final int trackID) {
@@ -2782,7 +2774,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private PlayerOptionsDelegate mOptionsDelegate;
     public void showAdvancedOptions() {
         if (mOptionsDelegate == null) mOptionsDelegate = new PlayerOptionsDelegate(this, mService);
-        mOptionsDelegate.show();
+        mOptionsDelegate.show(PlayerOptionType.ADVANCED);
         hideOverlay(false);
     }
 

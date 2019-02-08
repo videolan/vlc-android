@@ -9,6 +9,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center|end"
+    android:clipToPadding="false"
     android:paddingBottom="@dimen/default_margin"
     android:paddingTop="@dimen/default_margin"
     android:background="?attr/rounded_bg" />

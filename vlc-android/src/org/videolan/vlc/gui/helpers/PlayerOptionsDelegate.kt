@@ -21,9 +21,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -58,12 +56,15 @@ private const val ID_SHUFFLE = 11
 private const val ID_PASSTHROUGH = 12
 private const val ID_ABREPEAT = 13
 
-
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 @SuppressLint("ShowToast")
 class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: PlaybackService) : LifecycleObserver {
 
-    private lateinit var recyclerview : RecyclerView
-    private lateinit var rootView : FrameLayout
+    private lateinit var recyclerview: RecyclerView
+    private lateinit var rootView: FrameLayout
+    private lateinit var playerOptionType: PlayerOptionType
+    var flags: Int = 0
     private val toast by lazy(LazyThreadSafetyMode.NONE) { Toast.makeText(activity, "", Toast.LENGTH_SHORT) }
 
     private val primary = activity is VideoPlayerActivity && activity.mDisplayManager.isPrimary
@@ -71,11 +72,11 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     private val res = activity.resources
     private val tvUi by lazy(LazyThreadSafetyMode.NONE) { AndroidDevices.showTvUi(activity) }
     private val settings = Settings.getInstance(activity)
-    private lateinit var abrBinding : PlayerOptionItemBinding
-    private lateinit var ptBinding : PlayerOptionItemBinding
-    private lateinit var repeatBinding : PlayerOptionItemBinding
-    private lateinit var shuffleBinding : PlayerOptionItemBinding
-    private lateinit var sleepBinding : PlayerOptionItemBinding
+    private lateinit var abrBinding: PlayerOptionItemBinding
+    private lateinit var ptBinding: PlayerOptionItemBinding
+    private lateinit var repeatBinding: PlayerOptionItemBinding
+    private lateinit var shuffleBinding: PlayerOptionItemBinding
+    private lateinit var sleepBinding: PlayerOptionItemBinding
 
     private val abrObs = Observer<ABRepeat> { abr ->
         if (abr == null || !this::abrBinding.isInitialized) return@Observer
@@ -94,30 +95,44 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     fun setup() {
         if (!this::recyclerview.isInitialized) return
         val options = mutableListOf<PlayerOption>()
-        options.add(PlayerOption(ID_SLEEP, R.attr.ic_sleep_normal_style, res.getString(R.string.sleep_title)))
-        options.add(PlayerOption(ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
-        options.add(PlayerOption(ID_JUMP_TO, R.attr.ic_jumpto_normal_style, res.getString(R.string.jump_to_time)))
-        options.add(PlayerOption(ID_EQUALIZER, R.attr.ic_equalizer_normal_style, res.getString(R.string.equalizer)))
-        if (video) {
-            if (primary && !tvUi && service.audioTracksCount > 0)
-                options.add(PlayerOption(ID_PLAY_AS_AUDIO, R.attr.ic_playasaudio_on, res.getString(R.string.play_as_audio)))
-            options.add(PlayerOption(ID_SPU_DELAY, R.attr.ic_subtitledelay, res.getString(R.string.spu_delay)))
-            options.add(PlayerOption(ID_AUDIO_DELAY, R.attr.ic_audiodelay, res.getString(R.string.audio_delay)))
-            if (primary && AndroidDevices.pipAllowed && !AndroidDevices.isDex(activity))
-                options.add(PlayerOption(ID_POPUP_VIDEO, R.attr.ic_popup_dim, res.getString(R.string.ctx_pip_title)))
-            options.add(PlayerOption(ID_REPEAT, R.attr.ic_repeat, res.getString(R.string.repeat_title)))
-            if (service.canShuffle()) options.add(PlayerOption(ID_SHUFFLE, R.attr.ic_shuffle, res.getString(R.string.shuffle_title)))
-            val chaptersCount = service.getChapters(-1)?.size ?: 0
-            if (chaptersCount > 1) options.add(PlayerOption(ID_CHAPTER_TITLE, R.attr.ic_chapter_normal_style, res.getString(R.string.go_to_chapter)))
+        when (playerOptionType) {
+            PlayerOptionType.ADVANCED -> {
+                options.add(PlayerOption(playerOptionType, ID_SLEEP, R.attr.ic_sleep_normal_style, res.getString(R.string.sleep_title)))
+                options.add(PlayerOption(playerOptionType, ID_PLAYBACK_SPEED, R.attr.ic_speed_normal_style, res.getString(R.string.playback_speed)))
+                options.add(PlayerOption(playerOptionType, ID_JUMP_TO, R.attr.ic_jumpto_normal_style, res.getString(R.string.jump_to_time)))
+                options.add(PlayerOption(playerOptionType, ID_EQUALIZER, R.attr.ic_equalizer_normal_style, res.getString(R.string.equalizer)))
+                if (video) {
+                    if (primary && !tvUi && service.audioTracksCount > 0)
+                        options.add(PlayerOption(playerOptionType, ID_PLAY_AS_AUDIO, R.attr.ic_playasaudio_on, res.getString(R.string.play_as_audio)))
+                    options.add(PlayerOption(playerOptionType, ID_SPU_DELAY, R.attr.ic_subtitledelay, res.getString(R.string.spu_delay)))
+                    options.add(PlayerOption(playerOptionType, ID_AUDIO_DELAY, R.attr.ic_audiodelay, res.getString(R.string.audio_delay)))
+                    if (primary && AndroidDevices.pipAllowed && !AndroidDevices.isDex(activity))
+                        options.add(PlayerOption(playerOptionType, ID_POPUP_VIDEO, R.attr.ic_popup_dim, res.getString(R.string.ctx_pip_title)))
+                    options.add(PlayerOption(playerOptionType, ID_REPEAT, R.attr.ic_repeat, res.getString(R.string.repeat_title)))
+                    if (service.canShuffle()) options.add(PlayerOption(playerOptionType, ID_SHUFFLE, R.attr.ic_shuffle, res.getString(R.string.shuffle_title)))
+                    val chaptersCount = service.getChapters(-1)?.size ?: 0
+                    if (chaptersCount > 1) options.add(PlayerOption(playerOptionType, ID_CHAPTER_TITLE, R.attr.ic_chapter_normal_style, res.getString(R.string.go_to_chapter)))
+                }
+                options.add(PlayerOption(playerOptionType, ID_ABREPEAT, R.attr.ic_abrepeat, res.getString(R.string.ab_repeat)))
+                options.add(PlayerOption(playerOptionType, ID_SAVE_PLAYLIST, R.attr.ic_save, res.getString(R.string.playlist_save)))
+                if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
+                    options.add(PlayerOption(playerOptionType, ID_PASSTHROUGH, R.attr.ic_passthrough, res.getString(R.string.audio_digital_title)))
+            }
+            PlayerOptionType.MEDIA_TRACKS -> {
+                if (flags and CTX_VIDEO_TRACK != 0) options.add(PlayerOption(playerOptionType, CTX_VIDEO_TRACK, R.drawable.ic_video_track_w, res.getString(R.string.ctx_player_video_track)))
+                if (flags and CTX_AUDIO_TRACK != 0) options.add(PlayerOption(playerOptionType, CTX_AUDIO_TRACK, R.drawable.ic_audiotrack_w, res.getString(R.string.ctx_player_audio_track)))
+                if (flags and CTX_SUBS_TRACK != 0) options.add(PlayerOption(playerOptionType, CTX_SUBS_TRACK, R.drawable.ic_subtitle_w, res.getString(R.string.ctx_player_subs_track)))
+                if (flags and CTX_PICK_SUBS != 0) options.add(PlayerOption(playerOptionType, CTX_PICK_SUBS, R.drawable.ic_subtitle_open_w, res.getString(R.string.subtitle_select)))
+                if (flags and CTX_DOWNLOAD_SUBTITLES_PLAYER != 0) options.add(PlayerOption(playerOptionType, CTX_DOWNLOAD_SUBTITLES_PLAYER, R.drawable.ic_downsub_w, res.getString(R.string.download_subtitles)))
+            }
         }
-        options.add(PlayerOption(ID_ABREPEAT, R.attr.ic_abrepeat, res.getString(R.string.ab_repeat)))
-        options.add(PlayerOption(ID_SAVE_PLAYLIST, R.attr.ic_save, res.getString(R.string.playlist_save)))
-        if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
-        options.add(PlayerOption(ID_PASSTHROUGH, R.attr.ic_passthrough, res.getString(R.string.audio_digital_title)))
+
         (recyclerview.adapter as OptionsAdapter).update(options)
     }
 
-    fun show() {
+
+    fun show(type: PlayerOptionType) {
+        this.playerOptionType = type
         activity.findViewById<ViewStubCompat>(R.id.player_options_stub)?.let {
             rootView = it.inflate() as FrameLayout
             recyclerview = rootView.findViewById(R.id.options_list)
@@ -125,9 +140,11 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             activity.lifecycle.addObserver(this)
             if (recyclerview.layoutManager == null) recyclerview.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             recyclerview.adapter = OptionsAdapter()
+            recyclerview.itemAnimator = null
+
             rootView.setOnClickListener { hide() }
-            setup()
         }
+        setup()
         rootView.visibility = View.VISIBLE
         if (AndroidDevices.showTvUi(activity)) AppScope.launch {
             delay(100L)
@@ -146,30 +163,47 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     }
 
     fun onClick(option: PlayerOption) {
-        when (option.id) {
-            ID_SLEEP -> {
-                if (VLCApplication.sPlayerSleepTime == null)
-                    showFragment(ID_SLEEP)
-                else {
-                    setSleep(null)
-                    initSleep()
+        when (option.type) {
+            PlayerOptionType.ADVANCED -> {
+                when (option.id) {
+                    ID_SLEEP -> {
+                        if (VLCApplication.sPlayerSleepTime == null)
+                            showFragment(ID_SLEEP)
+                        else {
+                            setSleep(null)
+                            initSleep()
+                        }
+                    }
+                    ID_AUDIO_DELAY -> showValueControls(ACTION_AUDIO_DELAY)
+                    ID_SPU_DELAY -> showValueControls(ACTION_SPU_DELAY)
+                    ID_PLAY_AS_AUDIO -> (activity as VideoPlayerActivity).switchToAudioMode(true)
+                    ID_POPUP_VIDEO -> {
+                        (activity as VideoPlayerActivity).switchToPopup()
+                        hide()
+                    }
+                    ID_REPEAT -> setRepeatMode()
+                    ID_SHUFFLE -> {
+                        service.shuffle()
+                        initShuffle()
+                    }
+                    ID_PASSTHROUGH -> togglePassthrough()
+                    ID_ABREPEAT -> service.playlistManager.toggleABRepeat()
+                    else -> showFragment(option.id)
                 }
             }
-            ID_AUDIO_DELAY -> showValueControls(ACTION_AUDIO_DELAY)
-            ID_SPU_DELAY -> showValueControls(ACTION_SPU_DELAY)
-            ID_PLAY_AS_AUDIO -> (activity as VideoPlayerActivity).switchToAudioMode(true)
-            ID_POPUP_VIDEO -> {
-                (activity as VideoPlayerActivity).switchToPopup()
+            PlayerOptionType.MEDIA_TRACKS -> {
+                if (service.currentMediaWrapper == null) return
+                (activity as VideoPlayerActivity).run {
+                    when (option.id) {
+                        CTX_VIDEO_TRACK -> selectVideoTrack()
+                        CTX_AUDIO_TRACK -> selectAudioTrack()
+                        CTX_SUBS_TRACK -> selectSubtitles()
+                        CTX_PICK_SUBS -> pickSubtitles()
+                        CTX_DOWNLOAD_SUBTITLES_PLAYER -> downloadSubtitles()
+                    }
+                }
                 hide()
             }
-            ID_REPEAT -> setRepeatMode()
-            ID_SHUFFLE -> {
-                service.shuffle()
-                initShuffle()
-            }
-            ID_PASSTHROUGH -> togglePassthrough()
-            ID_ABREPEAT -> service.playlistManager.toggleABRepeat()
-            else -> showFragment(option.id)
         }
     }
 
@@ -279,7 +313,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         binding.root.isEnabled = service.isSeekable
         binding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, if (service.isSeekable)
             UiTools.getResourceFromAttribute(activity, R.attr.ic_jumpto_normal_style)
-            else R.drawable.ic_jumpto_disable))
+        else R.drawable.ic_jumpto_disable))
     }
 
     private fun initAudioDelay(binding: PlayerOptionItemBinding) {
@@ -308,10 +342,11 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         repeatBinding = binding
         AppScope.launch(Dispatchers.Main) {
             repeatBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, when (service.repeatType) {
-            REPEAT_ONE -> R.attr.ic_repeat_one
-            REPEAT_ALL -> R.attr.ic_repeat_all
-            else -> R.attr.ic_repeat
-        })) }
+                REPEAT_ONE -> R.attr.ic_repeat_one
+                REPEAT_ALL -> R.attr.ic_repeat_all
+                else -> R.attr.ic_repeat
+            }))
+        }
     }
 
     private fun togglePassthrough() {
@@ -352,11 +387,15 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                 option.id == ID_JUMP_TO -> initJumpTo(holder.binding)
                 option.id == ID_SPU_DELAY -> initSpuDelay(holder.binding)
             }
-            holder.binding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, option.icon))
+            when (option.type) {
+                PlayerOptionType.ADVANCED -> holder.binding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, option.icon))
+                PlayerOptionType.MEDIA_TRACKS -> holder.binding.optionIcon.setImageDrawable(ContextCompat.getDrawable(activity, option.icon))
+            }
         }
 
         inner class ViewHolder(val binding: PlayerOptionItemBinding) : RecyclerView.ViewHolder(binding.root) {
             val textColor = binding.optionTitle.currentTextColor
+
             init {
                 itemView.setOnClickListener { onClick(dataset[layoutPosition]) }
                 itemView.setOnFocusChangeListener { _, hasFocus ->
@@ -377,5 +416,8 @@ fun setSleep(time: Calendar?) {
     VLCApplication.sPlayerSleepTime = time
 }
 
+class PlayerOption(val type: PlayerOptionType, val id: Int, val icon: Int, val title: String)
 
-class PlayerOption(val id: Int, val icon: Int, val title: String)
+enum class PlayerOptionType {
+    ADVANCED, MEDIA_TRACKS
+}
