@@ -120,9 +120,9 @@ checkfail "sqlite build failed"
 if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
     echo -e "\e[1m\e[32mmedialibrary source not found, cloning\e[0m"
     git clone http://code.videolan.org/videolan/medialibrary.git "${SRC_DIR}/medialibrary/medialibrary"
-    git checkout 0.4.x
     checkfail "medialibrary source: git clone failed"
     cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
+    git checkout 0.4.x
     git submodule update --init libvlcpp
 else
     cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
