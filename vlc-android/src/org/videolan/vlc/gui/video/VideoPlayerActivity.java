@@ -2653,17 +2653,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         }
     }
 
-    @SuppressWarnings("deprecation")
     private int getScreenRotation(){
         final WindowManager wm = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-        if (wm == null) return Surface.ROTATION_0;
-        final Display display = wm.getDefaultDisplay();
-        try {
-            final Method m = display.getClass().getDeclaredMethod("getRotation");
-            return (Integer) m.invoke(display);
-        } catch (Exception e) {
-            return Surface.ROTATION_0;
-        }
+        return wm == null ? Surface.ROTATION_0 : wm.getDefaultDisplay().getRotation();
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
