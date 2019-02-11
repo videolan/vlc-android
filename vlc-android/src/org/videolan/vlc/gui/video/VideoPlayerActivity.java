@@ -341,7 +341,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         final SharedPreferences.Editor editor = mSettings.edit();
         editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1);
         // Paused flag - per session too, like the subs list.
-        editor.remove(PreferencesActivity.VIDEO_PAUSED);
         editor.apply();
 
         final IntentFilter filter = new IntentFilter();
@@ -752,7 +751,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             mPlaybackStarted = false;
             return;
         }
-        mWasPaused = !mService.isPlaying();
+        mWasPaused = !(mService.isPlaying() && isInteractive());
+        if (mWasPaused) mSettings.edit().putBoolean(PreferencesActivity.VIDEO_PAUSED, true).apply();
         if (!isFinishing()) {
             mCurrentAudioTrack = mService.getAudioTrack();
             mCurrentSpuTrack = mService.getSpuTrack();
@@ -1565,6 +1565,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         // Get possible subtitles
         observeDownloadedSubtitles();
         if (mOptionsDelegate != null) mOptionsDelegate.setup();
+        mSettings.edit().remove(PreferencesActivity.VIDEO_PAUSED).apply();
     }
 
     private void encounteredError() {

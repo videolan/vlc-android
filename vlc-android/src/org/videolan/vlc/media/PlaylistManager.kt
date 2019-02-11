@@ -640,7 +640,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         editor.putInt(if (audio) "position_in_audio_list" else "position_in_media_list", if (reset) 0 else currentIndex)
         editor.putLong(if (audio) "position_in_song" else "position_in_media", if (reset) 0L else player.getCurrentTime())
         if (!audio) {
-            editor.putBoolean(PreferencesActivity.VIDEO_PAUSED, !player.isPlaying())
             editor.putFloat(PreferencesActivity.VIDEO_SPEED, player.getRate())
         }
         editor.apply()
