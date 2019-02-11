@@ -282,7 +282,7 @@
     <string name="interface_gui">Ecrã</string>
     <string name="interface_secondary_display_category_title">Ecrã secundário</string>
     <string name="interface_secondary_display_category_summary">Definições para quando são ligados os  ecrãs secundários (HDMI/Chromecast).</string>
-    <string name="enable_clone_mode">Prefir clone</string>
+    <string name="enable_clone_mode">Preferir clone</string>
     <string name="enable_clone_mode_summary">Clone o ecrã do dispositivo sem controlo remoto.</string>
     <string name="interface_other_category">Interface - Outro</string>
 
@@ -648,6 +648,7 @@
     <string name="device_dialog_message">Acabou de ligar um novo dispositivo de armazenamento à sua TV box, quer abri-lo com o VLC?</string>
     <string name="videos_folders_title">Vídeos por pastas</string>
     <string name="video_save_remote_setting">Ativar automaticamente o modo de controlo remoto?</string>
+    <string name="video_save_clone_mode">Ativar automaticamente o modo clone?</string>
     <string name="video_remote_enable">Mudar para o modo de controlo remoto</string>
     <string name="video_remote_disable">Duplicar ecrã</string>
 </resources>
