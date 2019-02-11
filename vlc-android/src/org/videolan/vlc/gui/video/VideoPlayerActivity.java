@@ -133,6 +133,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.ViewStubCompat;
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -2877,29 +2878,40 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         mIsNavMenu = false;
         mMenuIdx = -1;
 
-        final MediaPlayer.Title[] titles = mService.getTitles();
-        if (titles != null) {
-            final int currentIdx = mService.getTitleIdx();
-            for (int i = 0; i < titles.length; ++i) {
-                final MediaPlayer.Title title = titles[i];
-                if (title.isMenu()) {
-                    mMenuIdx = i;
-                    break;
-                }
+        WorkersKt.runIO(new Runnable() {
+            @Override
+            public void run() {
+                final MediaPlayer.Title[] titles = mService.getTitles();
+                WorkersKt.runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isFinishing() || !getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
+                        if (titles != null) {
+                            final int currentIdx = mService.getTitleIdx();
+                            for (int i = 0; i < titles.length; ++i) {
+                                final MediaPlayer.Title title = titles[i];
+                                if (title.isMenu()) {
+                                    mMenuIdx = i;
+                                    break;
+                                }
+                            }
+                            mIsNavMenu = mMenuIdx == currentIdx;
+                        }
+
+                        if (mIsNavMenu) {
+                            /*
+                             * Keep the overlay hidden in order to have touch events directly
+                             * transmitted to navigation handling.
+                             */
+                            hideOverlay(false);
+                        } else if (mMenuIdx != -1) setESTracks();
+
+                        UiTools.setViewVisibility(mNavMenu, mMenuIdx >= 0 && mNavMenu != null ? View.VISIBLE : View.GONE);
+                        supportInvalidateOptionsMenu();
+                    }
+                });
             }
-            mIsNavMenu = mMenuIdx == currentIdx;
-        }
-
-        if (mIsNavMenu) {
-            /*
-             * Keep the overlay hidden in order to have touch events directly
-             * transmitted to navigation handling.
-             */
-            hideOverlay(false);
-        } else if (mMenuIdx != -1) setESTracks();
-
-        UiTools.setViewVisibility(mNavMenu, mMenuIdx >= 0 && mNavMenu != null ? View.VISIBLE : View.GONE);
-        supportInvalidateOptionsMenu();
+        });
     }
 
     @Override
