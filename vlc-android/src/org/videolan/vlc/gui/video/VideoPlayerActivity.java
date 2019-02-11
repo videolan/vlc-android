@@ -299,7 +299,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         audioBoostEnabled = mSettings.getBoolean("audio_boost", false);
 
-        mEnableCloneMode = clone != null ? clone : mSettings.getBoolean("enable_clone_mode", true);
+        mEnableCloneMode = clone != null ? clone : mSettings.getBoolean("enable_clone_mode", false);
         mDisplayManager = new DisplayManager(this, PlaybackService.Companion.getRenderer(), false, mEnableCloneMode, mIsBenchmark);
         setContentView(mDisplayManager.isPrimary() ? R.layout.player : R.layout.player_remote_control);
 
@@ -720,11 +720,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         if (secondary) mSecondaryDisplayBtn.setImageResource(R.drawable.ic_stop_screen_share);
         mSecondaryDisplayBtn.setVisibility(UiTools.hasSecondaryDisplay(getApplicationContext()) ? View.VISIBLE : View.GONE);
         mSecondaryDisplayBtn.setContentDescription(getResources().getString(secondary ? R.string.video_remote_disable : R.string.video_remote_enable));
-        if (secondary && !mSettings.contains("enable_clone_mode")) {
-            UiTools.snackerConfirm(mSecondaryDisplayBtn, getString(R.string.video_save_remote_setting), new Runnable() {
+        if (mEnableCloneMode && !mSettings.contains("enable_clone_mode")) {
+            UiTools.snackerConfirm(mSecondaryDisplayBtn, getString(R.string.video_save_clone_mode), new Runnable() {
                 @Override
                 public void run() {
-                    mSettings.edit().putBoolean("enable_clone_mode", false).apply();
+                    mSettings.edit().putBoolean("enable_clone_mode", true).apply();
                 }
             });
         }
