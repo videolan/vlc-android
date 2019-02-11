@@ -2631,7 +2631,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         public void onChanged(@Nullable List <ExternalSub> externalSubs) {
             for (ExternalSub externalSub : externalSubs) {
                 if (!addedExternalSubs.contains(externalSub)) {
-                    mService.addSubtitleTrack(externalSub.getSubtitlePath(), false);
+                    mService.addSubtitleTrack(externalSub.getSubtitlePath(), mCurrentSpuTrack == -2);
                     addedExternalSubs.add(externalSub);
                 }
             }
