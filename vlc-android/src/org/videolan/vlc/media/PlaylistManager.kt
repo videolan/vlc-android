@@ -324,7 +324,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
                 if (id != 0L) medialibrary.increasePlayCount(id)
             }
-            saveCurrentMedia()
         } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
             player.stop()
             VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
