@@ -25,6 +25,7 @@ import androidx.room.Room
 import androidx.room.migration.Migration
 import androidx.room.testing.MigrationTestHelper
 import android.net.Uri
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
 import org.hamcrest.CoreMatchers.`is`
@@ -48,6 +49,9 @@ private const val TEST_DB_NAME = "test-db"
 
 @RunWith(AndroidJUnit4::class)
 class MigrationTest {
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
+
     @get:Rule
     val migrationTestHelper = MigrationTestHelper(
             InstrumentationRegistry.getInstrumentation(),

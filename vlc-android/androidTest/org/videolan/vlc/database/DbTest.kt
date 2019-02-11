@@ -21,6 +21,7 @@
 package org.videolan.vlc.database
 
 import androidx.arch.core.executor.testing.CountingTaskExecutorRule
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.InstrumentationRegistry
 import org.junit.After
@@ -30,6 +31,9 @@ import java.util.concurrent.TimeUnit
 
 
 abstract class DbTest {
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
+
     @Rule
     @JvmField
     val countingTaskExecutorRule = CountingTaskExecutorRule()
