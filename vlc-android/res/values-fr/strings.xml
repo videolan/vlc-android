@@ -648,6 +648,7 @@
     <string name="device_dialog_message">Vous venez de brancher un nouveau périphérique de stockage à votre box TV, voulez-vous l\'ouvrir avec VLC ?</string>
     <string name="videos_folders_title">Vidéos par dossiers</string>
     <string name="video_save_remote_setting">Activer automatiquement le mode commande à distance ?</string>
+    <string name="video_save_clone_mode">Activer automatiquement le mode clone ?</string>
     <string name="video_remote_enable">Passer en mode commande à distance</string>
     <string name="video_remote_disable">Dupliquer l’écran</string>
 </resources>
