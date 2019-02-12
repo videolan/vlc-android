@@ -648,6 +648,7 @@
     <string name="device_dialog_message">U heeft een nieuw opslagapparaat verbonden met uw tv-box. Wilt u het openen met VLC?</string>
     <string name="videos_folders_title">Video\'s volgens mappen</string>
     <string name="video_save_remote_setting">Modus bediening op afstand automatisch inschakelen?</string>
+    <string name="video_save_clone_mode">Kloon-modus automatisch inschakelen?</string>
     <string name="video_remote_enable">Overschakelen naar modus bediening op afstand</string>
     <string name="video_remote_disable">Scherm dupliceren</string>
 </resources>
