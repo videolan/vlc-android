@@ -10,6 +10,8 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.MutableLiveData
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
@@ -375,7 +377,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     override fun onItemAdded(index: Int, mrl: String?) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemAdded")
         if (currentIndex >= index && !expanding) ++currentIndex
-        launch {
+        addUpdateActor.offer(Unit)
+    }
+
+    private val addUpdateActor = actor<Unit>(capacity = Channel.CONFLATED) {
+        for (update in channel) {
             determinePrevAndNextIndices()
             executeUpdate()
             saveMediaList()
