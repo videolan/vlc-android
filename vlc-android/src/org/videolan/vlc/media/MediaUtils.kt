@@ -183,13 +183,15 @@ object MediaUtils : CoroutineScope {
                 in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) { model.getAll().toList() })
                 else -> {
                     var index = 0
+                    val appendList = mutableListOf<MediaWrapper>()
                     while (index < count) {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                         val list = withContext(Dispatchers.IO) { model.getPage(pageCount, index).toList() }
                         if (index == 0) play(list)
-                        else service.append(list)
+                        else appendList.addAll(list)
                         index += pageCount
                     }
+                    service.append(appendList)
                 }
             }
         }
