@@ -662,6 +662,7 @@
     <string name="device_dialog_message">Ви під\'єднали новий накопичувач до вашого телевізора. Хочете його відкрити за допомогою VLC?</string>
     <string name="videos_folders_title">Відео за теками</string>
     <string name="video_save_remote_setting">Автоматично увімкнути режим віддаленого управління?</string>
+    <string name="video_save_clone_mode">Автоматично увімкнути режим клонування?</string>
     <string name="video_remote_enable">Перемкнутися у режим віддаленого управління</string>
     <string name="video_remote_disable">Дублювати екран</string>
 </resources>
