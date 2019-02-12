@@ -93,7 +93,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
     private var playlistSwitchVisible = false
     private var searchVisible = false
     private var searchTextVisible = false
-    private var abVisible = false
     private var headerPlayPauseVisible = false
     private var progressBarVisible = false
     private var headerTimeVisible = false
@@ -135,7 +134,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(binding.songsList)
 
-        setHeaderVisibilities(false, false, true, true, true, false, false)
+        setHeaderVisibilities(false, false, true, true, true, false)
         binding.fragment = this
 
         binding.next.setOnTouchListener(LongSeekListener(true,
@@ -149,6 +148,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
         userVisibleHint = true
         binding.showCover = settings.getBoolean("audio_player_show_cover", false)
         binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (binding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))
+        binding.timeline.setOnSeekBarChangeListener(timelineListener)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -192,28 +192,37 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
         updatePlayPause()
         updateShuffleMode()
         updateRepeatMode()
-        binding.timeline.setOnSeekBarChangeListener(timelineListener)
         updateBackground()
     }
 
+    private var wasPlaying = false
     private fun updatePlayPause() {
         val playing = playlistModel.playing
+        if (playing == wasPlaying) return
         val imageResId = UiTools.getResourceFromAttribute(activity, if (playing) R.attr.ic_pause else R.attr.ic_play)
         val text = getString(if (playing) R.string.pause else R.string.play)
         binding.playPause.setImageResource(imageResId)
         binding.playPause.contentDescription = text
         binding.headerPlayPause.setImageResource(imageResId)
         binding.headerPlayPause.contentDescription = text
+        wasPlaying = playing
     }
 
+    private var wasShuffling = false
     private fun updateShuffleMode() {
-        binding.shuffle.setImageResource(UiTools.getResourceFromAttribute(activity, if (playlistModel.shuffling) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
-        binding.shuffle.contentDescription = resources.getString(if (playlistModel.shuffling) R.string.shuffle_on else R.string.shuffle)
-        binding.shuffle.visibility = if (playlistModel.canShuffle) View.VISIBLE else View.INVISIBLE
+        val shuffling = playlistModel.shuffling
+        if (wasShuffling == shuffling) return
+        binding.shuffle.setImageResource(UiTools.getResourceFromAttribute(activity, if (shuffling) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
+        binding.shuffle.contentDescription = resources.getString(if (shuffling) R.string.shuffle_on else R.string.shuffle)
+        binding.shuffle.visibility = if (shuffling) View.VISIBLE else View.INVISIBLE
+        wasShuffling = shuffling
     }
 
+    private var previousRepeatType = -1
     private fun updateRepeatMode() {
-        when (playlistModel.repeatType) {
+        val repeatType = playlistModel.repeatType
+        if (previousRepeatType == repeatType) return
+        when (repeatType) {
             REPEAT_ONE -> {
                 binding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_one))
                 binding.repeat.contentDescription = resources.getString(R.string.repeat_single)
@@ -227,6 +236,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
                 binding.repeat.contentDescription = resources.getString(R.string.repeat)
             }
         }
+        previousRepeatType = repeatType
     }
 
     private fun updateProgress(progress: PlaybackProgress) {
@@ -266,8 +276,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
                 }
             }
         }
-        if ((activity as AudioPlayerContainerActivity).isAudioPlayerExpanded && !searchTextVisible)
-            setHeaderVisibilities(true, true, false, false, false, true, true)
     }
 
     @MainThread
@@ -355,14 +363,13 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
     private fun setHeaderVisibilities(advFuncVisible: Boolean, playlistSwitchVisible: Boolean,
                                       headerPlayPauseVisible: Boolean, progressBarVisible: Boolean,
                                       headerTimeVisible: Boolean, searchVisible: Boolean,
-                                      abVisible: Boolean, filter: Boolean = false) {
+                                      filter: Boolean = false) {
         this.advFuncVisible = !filter && advFuncVisible
         this.playlistSwitchVisible = !filter && playlistSwitchVisible
         this.headerPlayPauseVisible = !filter && headerPlayPauseVisible
         this.progressBarVisible = !filter && progressBarVisible
         this.headerTimeVisible = !filter && headerTimeVisible
         this.searchVisible = !filter && searchVisible
-        this.abVisible = !filter && abVisible
         this.searchTextVisible = filter
         restoreHeaderButtonVisibilities()
     }
@@ -373,7 +380,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
         TransitionManager.beginDelayedTransition(cl, AutoTransition().setDuration(200))
         ConstraintSet().apply {
             clone(cl)
-            setVisibility(R.id.playlist_ab_repeat, if (abVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
             setVisibility(R.id.playlist_search, if (searchVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
             setVisibility(R.id.playlist_switch, if (playlistSwitchVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
             setVisibility(R.id.adv_function, if (advFuncVisible) ConstraintSet.VISIBLE else ConstraintSet.GONE)
@@ -390,7 +396,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
     }
 
     fun onSearchClick(v: View) {
-        setHeaderVisibilities(false, false, false, false, false, false, false, true)
+        setHeaderVisibilities(false, false, false, false, false, false, true)
         binding.playlistSearchText.editText?.requestFocus()
         if (binding.showCover) onPlaylistSwitchClick(binding.playlistSwitch)
         val imm = v.context.applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -421,8 +427,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
             addTextChangedListener(this@AudioPlayer)
         }
         UiTools.setKeyboardVisibility(binding.playlistSearchText, false)
-        if (playerState == com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED) setHeaderVisibilities(false, false, true, true, true, false, false)
-        else setHeaderVisibilities(true, true, false, false, false, true, true)
+        if (playerState == com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED) setHeaderVisibilities(false, false, true, true, true, false)
+        else setHeaderVisibilities(true, true, false, false, false, true)
         return true
     }
 
@@ -528,11 +534,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
             BottomSheetBehavior.STATE_COLLAPSED -> {
                 backPressed()
                 binding.header.setBackgroundResource(DEFAULT_BACKGROUND_DARKER_ID)
-                setHeaderVisibilities(false, false, true, true, true, false, false)
+                setHeaderVisibilities(false, false, true, true, true, false)
             }
             BottomSheetBehavior.STATE_EXPANDED -> {
                 binding.header.setBackgroundResource(0)
-                setHeaderVisibilities(true, true, false, false, false, true, true)
+                setHeaderVisibilities(true, true, false, false, false, true)
                 showPlaylistTips()
                 playlistAdapter.currentIndex = playlistModel.currentMediaPosition
             }
