@@ -213,6 +213,8 @@ $ANDROID_NDK/ndk-build$OSCMD -C medialibrary \
     MEDIALIBRARY_INCLUDE_DIR=${MEDIALIBRARY_BUILD_DIR}/include \
     NDK_DEBUG=${NDK_DEBUG}
 
+checkfail "nkd-build medialibrary failed"
+
 echo "Dumping dbg symbols info ${OUT_DBG_DIR}"
 
 cd ${SRC_DIR}
