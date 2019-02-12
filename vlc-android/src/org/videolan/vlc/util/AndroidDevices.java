@@ -134,7 +134,7 @@ public class AndroidDevices {
 
                 final StringTokenizer tokens = new StringTokenizer(line, " ");
                 final String device = tokens.nextToken();
-                final String mountpoint = tokens.nextToken();
+                final String mountpoint = tokens.nextToken().replaceAll("\\\\040", " ");
                 final String type = tokens.hasMoreTokens() ? tokens.nextToken() : null;
 
                 // skip if already in list or if type/mountpoint is blacklisted
