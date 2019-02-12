@@ -580,10 +580,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         if (ml != null && ml.count > 0) {
             val mrl = if (updateHistory) getCurrentMedia()?.location else null
             mediaList.remove(index)
-            for (i in ml.count - 1 downTo 0) {
+            for (i in 0 until ml.count) {
                 val child = ml.getMediaAt(i)
                 withContext(Dispatchers.IO) { child.parse() }
-                mediaList.insert(index, MediaWrapper(child))
+                mediaList.insert(index+i, MediaWrapper(child))
                 child.release()
             }
             if (mrl !== null && ml.count == 1) {
