@@ -42,6 +42,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -68,7 +69,7 @@ public class AndroidDevices {
 
     //Devices mountpoints management
     private static final List<String> typeWL = Arrays.asList("vfat", "exfat", "sdcardfs", "fuse", "ntfs", "fat32", "ext3", "ext4", "esdfs");
-    private static final List<String> typeBL = Arrays.asList("tmpfs");
+    private static final List<String> typeBL = Collections.singletonList("tmpfs");
     private static final String[] mountWL = {"/mnt", "/Removable", "/storage"};
     private static final String[] mountBL = {
             EXTERNAL_PUBLIC_DIRECTORY,
@@ -86,7 +87,8 @@ public class AndroidDevices {
     private static final String[] deviceWL = {
             "/dev/block/vold",
             "/dev/fuse",
-            "/mnt/media_rw"
+            "/mnt/media_rw",
+            "passthrough"
     };
 
     static {
@@ -144,8 +146,7 @@ public class AndroidDevices {
                 // check that device is in whitelist, and either type or mountpoint is in a whitelist
                 if (Strings.startsWith(deviceWL, device) && (typeWL.contains(type) || Strings.startsWith(mountWL, mountpoint))) {
                     final int position = Strings.containsName(list, FileUtils.getFileNameFromPath(mountpoint));
-                    if (position > -1)
-                        list.remove(position);
+                    if (position > -1) list.remove(position);
                     list.add(mountpoint);
                 }
             }
