@@ -29,6 +29,16 @@
                 android:id="@+id/playlist_list" />
         </org.videolan.vlc.gui.view.SwipeRefreshLayout>
 
+        <org.videolan.vlc.gui.view.FastScroller
+            android:id="@+id/songs_fast_scroller"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/swipeLayout"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <TextView
             android:id="@+id/empty"
             android:layout_width="match_parent"

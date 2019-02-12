@@ -12,10 +12,10 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.viewmodels.SortableModel
 
-private const val LENGTH_WEEK = 7*24*60*60
-private const val LENGTH_MONTH = 30*LENGTH_WEEK
-private const val LENGTH_YEAR = 52*LENGTH_WEEK
-private const val LENGTH_2_YEAR = 2* LENGTH_YEAR
+private const val LENGTH_WEEK = 7 * 24 * 60 * 60
+private const val LENGTH_MONTH = 30 * LENGTH_WEEK
+private const val LENGTH_YEAR = 52 * LENGTH_WEEK
+private const val LENGTH_2_YEAR = 2 * LENGTH_YEAR
 
 object ModelsHelper {
 
@@ -102,6 +102,10 @@ object ModelsHelper {
         else array
     }
 
+    fun getFirstLetter(item: MediaLibraryItem): String {
+        return if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || ModelsHelper.isSpecialItem(item)) "#" else item.title.substring(0, 1).toUpperCase()
+    }
+
     fun getHeader(context: Context, sort: Int, item: MediaLibraryItem, aboveItem: MediaLibraryItem?) = when (sort) {
         Medialibrary.SORT_DEFAULT,
         Medialibrary.SORT_FILENAME,
@@ -159,7 +163,7 @@ object ModelsHelper {
     }
 
     private fun getTimeCategory(timestamp: Long): Int {
-        val delta = (System.currentTimeMillis()/1000L) - timestamp
+        val delta = (System.currentTimeMillis() / 1000L) - timestamp
         return when {
             delta < LENGTH_WEEK -> 0
             delta < LENGTH_MONTH -> 1
@@ -248,10 +252,10 @@ object EmptyPBSCallback : PlaybackService.Callback {
 }
 
 interface RefreshModel {
-    fun refresh() : Boolean
+    fun refresh(): Boolean
 }
 
-fun SortableModel.canSortBy(sort: Int) = when(sort) {
+fun SortableModel.canSortBy(sort: Int) = when (sort) {
     Medialibrary.SORT_DEFAULT -> true
     Medialibrary.SORT_ALPHA -> canSortByName()
     Medialibrary.SORT_FILENAME -> canSortByFileNameName()

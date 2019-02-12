@@ -28,12 +28,14 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.view.ActionMode
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.appbar.AppBarLayout
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
@@ -41,15 +43,17 @@ import org.videolan.vlc.databinding.PlaylistsFragmentBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.audio.BaseAudioBrowser
+import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.reload
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.viewmodels.paged.PagedPlaylistsModel
 
 class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem>>, SwipeRefreshLayout.OnRefreshListener {
 
-    private lateinit var binding : PlaylistsFragmentBinding
-    private lateinit var playlists : RecyclerView
-    private lateinit var playlistAdapter : AudioBrowserAdapter
+    private lateinit var binding: PlaylistsFragmentBinding
+    private lateinit var playlists: RecyclerView
+    private lateinit var playlistAdapter: AudioBrowserAdapter
+    private lateinit var fastScroller: FastScroller
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +74,8 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
         binding.swipeLayout.setOnRefreshListener(this)
         playlists.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
         playlists.adapter = playlistAdapter
-
+        fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller) as FastScroller
+        fastScroller.attachToCoordinator(view.rootView.findViewById(R.id.appbar) as AppBarLayout, view.rootView.findViewById(R.id.coordinator) as CoordinatorLayout)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -79,6 +84,9 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
         viewModel.loading.observe(this, Observer<Boolean> { loading ->
             AppScope.launch { binding.swipeLayout.isRefreshing = loading == true }
         })
+
+        fastScroller.setRecyclerView(currentRV)
+
     }
 
     override fun onChanged(list: PagedList<MediaLibraryItem>?) {
@@ -106,7 +114,7 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
 
     override fun getTitle() = getString(R.string.playlists)
 
-    override fun getCurrentRV() : RecyclerView = playlists
+    override fun getCurrentRV(): RecyclerView = playlists
 
     override fun hasFAB() = false
 }

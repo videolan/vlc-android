@@ -29,5 +29,14 @@
             <include layout="@layout/audio_recyclerview" />
         </androidx.viewpager.widget.ViewPager>
     </org.videolan.vlc.gui.view.SwipeRefreshLayout>
+    <org.videolan.vlc.gui.view.FastScroller
+        android:id="@+id/songs_fast_scroller"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/swipeLayout"
+        android:visibility="invisible"/>
+
 </RelativeLayout>
 

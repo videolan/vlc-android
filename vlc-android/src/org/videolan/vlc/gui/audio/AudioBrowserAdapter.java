@@ -42,12 +42,12 @@ import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserSeparatorBinding;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.ModelsHelper;
 import org.videolan.vlc.util.Util;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -59,7 +59,7 @@ import androidx.recyclerview.widget.DiffUtil;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 
-public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> implements MultiSelectAdapter<MediaLibraryItem> {
+public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, AudioBrowserAdapter.ViewHolder> implements FastScroller.SeparatedAdapter, MultiSelectAdapter<MediaLibraryItem> {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
     private static final int UPDATE_PAYLOAD = 1;
@@ -69,6 +69,8 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     private final int mType;
     private int mSort;
     private final BitmapDrawable mDefaultCover;
+
+    private boolean mMakeSections = true;
 
     public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, int sort) {
         super(DIFF_CALLBACK);
@@ -104,7 +106,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         if (holder.getType() == MediaLibraryItem.TYPE_MEDIA) {
             setHeader(holder, position, item);
             final boolean isSelected = multiSelectHelper.isSelected(position);
-            ((MediaItemViewHolder)holder).setCoverlay(isSelected);
+            ((MediaItemViewHolder) holder).setCoverlay(isSelected);
             holder.selectView(isSelected);
         }
     }
@@ -115,7 +117,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         else {
             final Object payload = payloads.get(0);
             if (payload instanceof MediaLibraryItem) {
-                final boolean isSelected = ((MediaLibraryItem)payload).hasStateFlags(FLAG_SELECTED);
+                final boolean isSelected = ((MediaLibraryItem) payload).hasStateFlags(FLAG_SELECTED);
                 final MediaItemViewHolder miv = (MediaItemViewHolder) holder;
                 miv.setCoverlay(isSelected);
                 miv.selectView(isSelected);
@@ -126,7 +128,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                     setHeader(holder, position, item);
                 } else if ((Integer) payload == Constants.UPDATE_SELECTION) {
                     final boolean isSelected = multiSelectHelper.isSelected(position);
-                    ((MediaItemViewHolder)holder).setCoverlay(isSelected);
+                    ((MediaItemViewHolder) holder).setCoverlay(isSelected);
                     holder.selectView(isSelected);
                 }
             }
@@ -136,7 +138,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
 
     private void setHeader(ViewHolder holder, int position, MediaLibraryItem item) {
         if (mSort == -1) return;
-        final MediaLibraryItem aboveItem = position > 0 ? getItem(position-1) : null;
+        final MediaLibraryItem aboveItem = position > 0 ? getItem(position - 1) : null;
         holder.binding.setVariable(BR.header, ModelsHelper.INSTANCE.getHeader(holder.itemView.getContext(), mSort, item, aboveItem));
     }
 
@@ -199,7 +201,23 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         }
     }
 
-    public class ViewHolder< T extends ViewDataBinding> extends SelectorViewHolder<T> {
+    @Override
+    public boolean hasSections() {
+        return mMakeSections;
+    }
+
+    @NotNull
+    @Override
+    public String getSectionforPosition(int position) {
+        try {
+            return ModelsHelper.INSTANCE.getFirstLetter(getItem(position));
+        } catch (Exception ignored) {
+            }
+        return "";
+
+    }
+
+    public class ViewHolder<T extends ViewDataBinding> extends SelectorViewHolder<T> {
 
         public ViewHolder(T vdb) {
             super(vdb);
@@ -219,13 +237,14 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
             super(binding);
             binding.setHolder(this);
             if (mDefaultCover != null) binding.setCover(mDefaultCover);
-            if (AndroidUtil.isMarshMallowOrLater) itemView.setOnContextClickListener(new View.OnContextClickListener() {
-                @Override
-                public boolean onContextClick(View v) {
-                    onMoreClick(v);
-                    return true;
-                }
-            });
+            if (AndroidUtil.isMarshMallowOrLater)
+                itemView.setOnContextClickListener(new View.OnContextClickListener() {
+                    @Override
+                    public boolean onContextClick(View v) {
+                        onMoreClick(v);
+                        return true;
+                    }
+                });
         }
 
         public void onClick(View v) {

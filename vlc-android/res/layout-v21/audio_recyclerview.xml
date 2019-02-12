@@ -5,9 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
-    app:fastScrollEnabled="true"
-    app:fastScrollHorizontalThumbDrawable="@drawable/fastscroll_thumb_drawable"
-    app:fastScrollHorizontalTrackDrawable="@drawable/fastscroll_track_drawable"
-    app:fastScrollVerticalTrackDrawable="@drawable/fastscroll_track_drawable"
-    app:fastScrollVerticalThumbDrawable="@drawable/fastscroll_thumb_drawable"
     android:background="?attr/background_default" />
