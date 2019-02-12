@@ -218,10 +218,11 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         return true
     }
 
+    private val showInternalStorage = AndroidDevices.showInternalStorage()
     suspend fun updateBrowsers() {
         val list = mutableListOf<MediaLibraryItem>()
         val directories = DirectoryRepository.getInstance(requireContext()).getMediaDirectoriesList(requireContext().applicationContext).toMutableList()
-        if (!AndroidDevices.showInternalStorage && !directories.isEmpty()) directories.removeAt(0)
+        if (!showInternalStorage && !directories.isEmpty()) directories.removeAt(0)
         for (directory in directories) {
             if (directory.location.scanAllowed()) list.add(directory)
         }

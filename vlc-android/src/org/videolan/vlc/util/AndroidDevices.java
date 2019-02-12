@@ -62,7 +62,6 @@ public class AndroidDevices {
     public final static boolean isChromeBook;
     public static final boolean hasPiP;
     public static final boolean pipAllowed;
-    public final static boolean showInternalStorage = !TextUtils.equals(Build.BRAND, "Swisscom") && !TextUtils.equals(Build.BOARD, "sprint");
     private final static String[] noMediaStyleManufacturers = {"huawei", "symphony teleca"};
     public final static boolean showMediaStyle = !isManufacturerBannedForMediastyleNotifications();
     public static final boolean hasPlayServices;
@@ -102,7 +101,7 @@ public class AndroidDevices {
         final PackageManager pm = ctx != null ? ctx.getPackageManager() : null;
         hasTsp = pm == null || pm.hasSystemFeature("android.hardware.touchscreen");
         isAndroidTv = pm != null && pm.hasSystemFeature("android.software.leanback");
-        watchDevices = isAndroidTv && isBbox();
+        watchDevices = isAndroidTv && Build.MODEL.startsWith("Bouygtel");
         isChromeBook = pm != null && pm.hasSystemFeature("org.chromium.arc.device_management");
         isTv = isAndroidTv || (!isChromeBook && !hasTsp);
         hasPlayServices = pm == null || hasPlayServices(pm);
@@ -111,15 +110,15 @@ public class AndroidDevices {
         pipAllowed = hasPiP || (hasTsp && !AndroidUtil.isOOrLater);
         final TelephonyManager tm = ctx != null ? ((TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE)) : null;
         isPhone = tm == null || tm.getPhoneType() != TelephonyManager.PHONE_TYPE_NONE;
-        // hasCombBar test if device has Combined Bar : only for tablet with Honeycomb or ICS
-    }
-
-    private static boolean isBbox() {
-        return Build.MODEL.startsWith("Bouygtel");
     }
 
     public static boolean hasExternalStorage() {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+    }
+
+    public static boolean showInternalStorage() {
+        return !TextUtils.equals(Build.BRAND, "Swisscom") && !TextUtils.equals(Build.BOARD, "sprint")
+                && !TextUtils.equals(Build.BRAND, "BouyguesTelecom");
     }
 
     /**
