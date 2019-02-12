@@ -51,6 +51,7 @@
     <string name="delete">Törlés</string>
     <string name="remove">Eltávolítás</string>
     <string name="set_song">Beállítás csengőhangként</string>
+    <string name="set_song_question">Beállítja csengőhangként a(z) „%1$s” fájlt?</string>
     <string name="info">Információ</string>
     <string name="confirm_delete">Törli ezt a fájlt: „%1$s”?</string>
     <string name="confirm_delete_folder">Törli a(z) „%1$s” mappát és a teljes tartalmát?</string>
@@ -366,6 +367,7 @@
     <string name="audio_ducking_title">Értesítésekkor alacsonyabb VLC hangerő</string>
     <string name="audio_ducking_summary">Segít meghallani a hangértesítéseket, a navigációs utasításokat vagy az asszisztensprogramokat</string>
     <string name="casting_category">Vetítés</string>
+    <string name="casting_switch_title">Vezeték nélküli átvitel</string>
     <string name="casting_passthrough_title">Hang áteresztés</string>
     <string name="casting_passthrough_summary">A TV kezelje a hangrenderelést</string>
     <string name="casting_conversion_quality_title">Átalakítási minőség</string>
@@ -645,4 +647,8 @@
     <string name="device_dialog_title">Külső eszköz behelyezve</string>
     <string name="device_dialog_message">Egy új tárolóeszközt csatlakoztatott a TV-jéhez, a VLC-vel akarja megnyitni?</string>
     <string name="videos_folders_title">Videók mappák szerint</string>
+    <string name="video_save_remote_setting">Automatikusan aktiválja a távvezérlő módot?</string>
+    <string name="video_save_clone_mode">Automatikusan aktiválja a klónozás módot?</string>
+    <string name="video_remote_enable">Váltás távvezérlő módba</string>
+    <string name="video_remote_disable">Képernyő kettőzése</string>
 </resources>
