@@ -1,6 +1,7 @@
 package org.videolan.vlc.viewmodels.paged
 
 import android.content.Context
+import androidx.collection.SimpleArrayMap
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
@@ -10,6 +11,7 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
+import org.videolan.vlc.util.ModelsHelper
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.retry
 import org.videolan.vlc.viewmodels.SortableModel
@@ -17,6 +19,8 @@ import org.videolan.vlc.viewmodels.SortableModel
 abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableModel(context), Medialibrary.OnMedialibraryReadyListener, Medialibrary.OnDeviceChangeListener {
     protected val medialibrary = Medialibrary.getInstance()
     val loading = MutableLiveData<Boolean>().apply { value = false }
+
+    protected val headers = SimpleArrayMap<Int, String>()
 
     private val pagingConfig = PagedList.Config.Builder()
             .setPageSize(MEDIALIBRARY_PAGE_SIZE)
@@ -59,6 +63,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     abstract fun getAll() : Array<T>
 
     override fun sort(sort: Int) {
+        headers.clear()
         if (this.sort != sort) {
             this.sort = sort
             desc = false
@@ -89,12 +94,31 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     }
 
     override fun refresh(): Boolean {
+        launch { headers.clear() }
         if (this::restoreJob.isInitialized && restoreJob.isActive) restoreJob.cancel()
         if (pagedList.value?.dataSource?.isInvalid == false) {
             loading.postValue(true)
             pagedList.value?.dataSource?.invalidate()
         }
         return true
+    }
+
+    protected fun completeHeaders(list: Array<out MediaLibraryItem>, startposition: Int) {
+        for ((position, item) in list.withIndex()) {
+            val previous = when {
+                position > 0 -> list[position-1]
+                startposition > 0 -> pagedList.value?.get(startposition+position-1)
+                else -> null
+            }
+            ModelsHelper.getHeader(context, sort, item, previous)?.let {
+                launch { headers.put(startposition+position, it) }
+            }
+        }
+    }
+
+    fun getSectionforPosition(position: Int): String {
+        for (pos in 0 until headers.size()) if (position < headers.keyAt(pos)) return headers.valueAt(pos)
+        return ""
     }
 
     inner class MLDataSource : PositionalDataSource<T>() {

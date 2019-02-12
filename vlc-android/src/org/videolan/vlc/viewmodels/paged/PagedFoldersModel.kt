@@ -20,7 +20,7 @@ class PagedFoldersModel(context: Context, val type: Int) : MLPagedModel<Folder>(
 
     override fun getTotalCount() = medialibrary.getFoldersCount(type)
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<Folder> = medialibrary.getFolders(type, sort, desc, loadSize, startposition)
+    override fun getPage(loadSize: Int, startposition: Int) : Array<Folder> = medialibrary.getFolders(type, sort, desc, loadSize, startposition).also { completeHeaders(it, 0) }
 
     suspend fun play(position: Int) {
         val list = withContext(Dispatchers.IO) { pagedList.value?.get(position)?.getAll()}

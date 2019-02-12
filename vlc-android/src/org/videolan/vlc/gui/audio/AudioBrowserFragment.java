@@ -268,7 +268,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         super.onTabSelected(tab);
         mSettings.edit().putInt(Constants.KEY_AUDIO_CURRENT_TAB, tab.getPosition()).apply();
         final Boolean loading = getViewModel().getLoading().getValue();
-        mFastScroller.setRecyclerView(mLists[tab.getPosition()]);
+        mFastScroller.setRecyclerView(mLists[tab.getPosition()], models[tab.getPosition()]);
         if (loading == null || !loading) mHandler.sendEmptyMessage(UNSET_REFRESHING);
         else mHandler.sendEmptyMessage(SET_REFRESHING);
     }
@@ -320,7 +320,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         if (adapter == getCurrentAdapter()) {
             mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)getCurrentRV().getLayoutManager()).findFirstVisibleItemPosition() <= 0);
             updateEmptyView();
-            mFastScroller.setRecyclerView(getCurrentRV());
+            mFastScroller.setRecyclerView(getCurrentRV(), getViewModel());
         }
     }
 

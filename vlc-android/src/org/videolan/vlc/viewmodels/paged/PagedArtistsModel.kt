@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Artist
 import org.videolan.vlc.util.EmptyMLCallbacks
-import org.videolan.vlc.util.Settings
 
 
 class PagedArtistsModel(context: Context, private var showAll: Boolean = false): MLPagedModel<Artist>(context), Medialibrary.ArtistsCb by EmptyMLCallbacks {
@@ -25,8 +24,10 @@ class PagedArtistsModel(context: Context, private var showAll: Boolean = false):
     override fun getAll() : Array<Artist> = medialibrary.getArtists(showAll, sort, desc)
 
     override fun getPage(loadSize: Int, startposition: Int): Array<Artist> {
-        return if (filterQuery == null) medialibrary.getPagedArtists(showAll, sort, desc, loadSize, startposition)
+        val list = if (filterQuery == null) medialibrary.getPagedArtists(showAll, sort, desc, loadSize, startposition)
         else medialibrary.searchArtist(filterQuery, sort, desc, loadSize, startposition)
+        list?.also { completeHeaders(it, 0) }
+        return list
     }
 
     override fun getTotalCount() = if (filterQuery == null) medialibrary.getArtistsCount(showAll)

@@ -51,18 +51,22 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
 
     override fun getAll(): Array<MediaWrapper> = parent?.tracks ?: medialibrary.getAudio(sort, desc)
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<MediaWrapper> = if (filterQuery == null) when(parent) {
-        is Artist -> parent.getPagedTracks(sort, desc, loadSize, startposition)
-        is Album -> parent.getPagedTracks(sort, desc, loadSize, startposition)
-        is Genre -> parent.getPagedTracks(sort, desc, loadSize, startposition)
-        is Playlist -> parent.getPagedTracks(loadSize, startposition)
-        else -> medialibrary.getPagedAudio(sort, desc, loadSize, startposition)
-    } else when(parent) {
-        is Artist -> parent.searchTracks(filterQuery, sort, desc, loadSize, startposition)
-        is Album -> parent.searchTracks(filterQuery, sort, desc, loadSize, startposition)
-        is Genre -> parent.searchTracks(filterQuery, sort, desc, loadSize, startposition)
-        is Playlist -> parent.searchTracks(filterQuery, sort, desc, loadSize, startposition)
-        else -> medialibrary.searchAudio(filterQuery, sort, desc, loadSize, startposition)
+    override fun getPage(loadSize: Int, startposition: Int) : Array<MediaWrapper> {
+        val list = if (filterQuery == null) when(parent) {
+            is Artist -> parent.getPagedTracks(sort, desc, loadSize, startposition)
+            is Album -> parent.getPagedTracks(sort, desc, loadSize, startposition)
+            is Genre -> parent.getPagedTracks(sort, desc, loadSize, startposition)
+            is Playlist -> parent.getPagedTracks(loadSize, startposition)
+            else -> medialibrary.getPagedAudio(sort, desc, loadSize, startposition)
+        } else when(parent) {
+            is Artist -> parent.searchTracks(filterQuery, sort, desc, loadSize, startposition)
+            is Album -> parent.searchTracks(filterQuery, sort, desc, loadSize, startposition)
+            is Genre -> parent.searchTracks(filterQuery, sort, desc, loadSize, startposition)
+            is Playlist -> parent.searchTracks(filterQuery, sort, desc, loadSize, startposition)
+            else -> medialibrary.searchAudio(filterQuery, sort, desc, loadSize, startposition)
+        }
+        list?.let { completeHeaders(it, startposition) }
+        return list
     }
 
     override fun getTotalCount() = if (filterQuery == null) when (parent) {

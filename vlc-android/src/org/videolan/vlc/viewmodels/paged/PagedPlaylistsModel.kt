@@ -1,8 +1,8 @@
 package org.videolan.vlc.viewmodels.paged
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import android.content.Context
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Playlist
 
@@ -27,8 +27,9 @@ class PagedPlaylistsModel(context: Context): MLPagedModel<Playlist>(context), Me
     override fun getAll() : Array<Playlist> = medialibrary.getPlaylists(sort, desc)
 
     override fun getPage(loadSize: Int, startposition: Int)  : Array<Playlist> {
-        return if (filterQuery == null) medialibrary.getPagedPlaylists(sort, desc, loadSize, startposition)
+        val list = if (filterQuery == null) medialibrary.getPagedPlaylists(sort, desc, loadSize, startposition)
         else medialibrary.searchPlaylist(filterQuery, sort, desc, loadSize, startposition)
+        return list.also { completeHeaders(it, 0) }
     }
 
     override fun getTotalCount() = if (filterQuery == null) medialibrary.playlistsCount else medialibrary.getPlaylistsCount(filterQuery)

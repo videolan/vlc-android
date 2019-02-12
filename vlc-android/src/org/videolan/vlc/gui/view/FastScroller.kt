@@ -39,12 +39,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.util.WeakHandler
+import org.videolan.vlc.viewmodels.paged.MLPagedModel
 import java.util.concurrent.atomic.AtomicBoolean
 
 private const val TAG = "FastScroller"
@@ -62,7 +63,6 @@ private const val SCALE_Y = "scaleY"
 private const val ALPHA = "alpha"
 private const val ITEM_THRESHOLD = 25
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 class FastScroller : LinearLayout {
     private var currentHeight: Int = 0
     private var itemCount: Int = 0
@@ -74,6 +74,7 @@ class FastScroller : LinearLayout {
     private var currentAnimator: AnimatorSet? = null
     private val scrollListener = ScrollListener()
     private var recyclerView: RecyclerView? = null
+    private lateinit var model: MLPagedModel<out MediaLibraryItem>
     private var handle: ImageView? = null
     private var bubble: TextView? = null
     private var coordinatorLayout: CoordinatorLayout? = null
@@ -206,20 +207,21 @@ class FastScroller : LinearLayout {
     private fun setPosition(y: Float) {
         val position = y / currentHeight
         val handleHeight = handle!!.height
-        ViewCompat.setY(handle!!, getValueInRange(0, currentHeight - handleHeight, ((currentHeight - handleHeight) * position).toInt()).toFloat())
+        handle?.y = getValueInRange(0, currentHeight - handleHeight, ((currentHeight - handleHeight) * position).toInt()).toFloat()
         val bubbleHeight = bubble!!.height
-        ViewCompat.setY(bubble!!, getValueInRange(0, currentHeight - bubbleHeight, ((currentHeight - bubbleHeight) * position).toInt() - handleHeight).toFloat())
+        bubble?.y = getValueInRange(0, currentHeight - bubbleHeight, ((currentHeight - bubbleHeight) * position).toInt() - handleHeight).toFloat()
     }
 
     /**
      * Sets the [recyclerView] it will be attached to
      */
-    fun setRecyclerView(recyclerView: RecyclerView) {
+    fun setRecyclerView(recyclerView: RecyclerView, model: MLPagedModel<out MediaLibraryItem>) {
         if (this.recyclerView != null)
             this.recyclerView!!.removeOnScrollListener(scrollListener)
         visibility = View.INVISIBLE
         itemCount = recyclerView.adapter!!.itemCount
         this.recyclerView = recyclerView
+        this.model = model
         recyclerviewTotalHeight = 0
         recyclerView.addOnScrollListener(scrollListener)
         showBubble = (recyclerView.adapter as SeparatedAdapter).hasSections()
@@ -317,7 +319,7 @@ class FastScroller : LinearLayout {
                 currentPosition
             else
                 (recyclerView!!.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-            val sectionforPosition = (recyclerView!!.adapter as SeparatedAdapter).getSectionforPosition(position)
+            val sectionforPosition = model.getSectionforPosition(position)
             sb.append(' ')
                     .append(sectionforPosition)
                     .append(' ')

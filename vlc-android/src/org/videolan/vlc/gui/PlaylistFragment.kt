@@ -85,7 +85,7 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
             AppScope.launch { binding.swipeLayout.isRefreshing = loading == true }
         })
 
-        fastScroller.setRecyclerView(currentRV)
+        fastScroller.setRecyclerView(currentRV, viewModel)
 
     }
 

@@ -1,8 +1,8 @@
 package org.videolan.vlc.viewmodels.paged
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import android.content.Context
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Album
 import org.videolan.medialibrary.media.Artist
@@ -35,14 +35,18 @@ class PagedAlbumsModel(context: Context, val parent: MediaLibraryItem? = null) :
         else -> medialibrary.getAlbums(sort, desc)
     }
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<Album> = if (filterQuery == null) when(parent) {
-        is Artist -> parent.getPagedAlbums(sort, desc, loadSize, startposition)
-        is Genre -> parent.getPagedAlbums(sort, desc, loadSize, startposition)
-        else -> medialibrary.getPagedAlbums(sort, desc, loadSize, startposition)
-    } else when(parent) {
-        is Artist -> parent.searchAlbums(filterQuery, sort, desc, loadSize, startposition)
-        is Genre -> parent.searchAlbums(filterQuery, sort, desc, loadSize, startposition)
-        else -> medialibrary.searchAlbum(filterQuery, sort, desc, loadSize, startposition)
+    override fun getPage(loadSize: Int, startposition: Int) : Array<Album> {
+        val list = if (filterQuery == null) when(parent) {
+            is Artist -> parent.getPagedAlbums(sort, desc, loadSize, startposition)
+            is Genre -> parent.getPagedAlbums(sort, desc, loadSize, startposition)
+            else -> medialibrary.getPagedAlbums(sort, desc, loadSize, startposition)
+        } else when(parent) {
+            is Artist -> parent.searchAlbums(filterQuery, sort, desc, loadSize, startposition)
+            is Genre -> parent.searchAlbums(filterQuery, sort, desc, loadSize, startposition)
+            else -> medialibrary.searchAlbum(filterQuery, sort, desc, loadSize, startposition)
+        }
+        list?.also { completeHeaders(it, 0) }
+        return list
     }
 
     override fun getTotalCount() = if (filterQuery == null) when(parent) {

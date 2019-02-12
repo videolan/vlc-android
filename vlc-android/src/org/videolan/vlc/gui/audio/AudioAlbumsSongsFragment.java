@@ -188,7 +188,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
                 mSwipeRefreshLayout.setRefreshing(false);
                 final List<Album> albums = albumModel.getPagedList().getValue();
                 if (Util.isListEmpty(albums) && !getViewModel().isFiltering()) mViewPager.setCurrentItem(1);
-                mFastScroller.setRecyclerView(getCurrentRV());
+                mFastScroller.setRecyclerView(getCurrentRV(), getViewModel());
             }
         });
     }
@@ -233,7 +233,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
         mLists[tab.getPosition()].smoothScrollToPosition(0);
-        mFastScroller.setRecyclerView(mLists[tab.getPosition()]);
+        mFastScroller.setRecyclerView(mLists[tab.getPosition()], audioModels[tab.getPosition()]);
     }
 
     @Override
