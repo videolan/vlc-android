@@ -88,8 +88,12 @@ public class CardPresenter extends Presenter {
                 final boolean folder = media.getType() == MediaWrapper.TYPE_DIR;
                 final boolean video = media.getType() == MediaWrapper.TYPE_VIDEO;
                 if (!folder && (group || (video && !media.isThumbnailGenerated()))) {
-                     ImageLoaderKt.loadImage(mCardView, item);
-                     return;
+                    if (noArt) {
+                        mCardView.getMainImageView().setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        mCardView.setMainImage(new BitmapDrawable(mCardView.getResources(), getDefaultImage(item)));
+                    }
+                    ImageLoaderKt.loadImage(mCardView, item);
+                    return;
                 }
             }
             if (noArt) {
