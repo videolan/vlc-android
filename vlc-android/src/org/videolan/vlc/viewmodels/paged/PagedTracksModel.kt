@@ -3,8 +3,6 @@ package org.videolan.vlc.viewmodels.paged
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.util.EmptyMLCallbacks
@@ -31,18 +29,12 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
             else -> Medialibrary.SORT_ALPHA
         }
         if (medialibrary.isStarted) refresh()
-    }
-
-    override fun onMedialibraryReady() {
-        super.onMedialibraryReady()
-        launch(Dispatchers.Main) {
-            when (parent) {
-                is Artist -> medialibrary.addArtistsCb(this@PagedTracksModel)
-                is Album -> medialibrary.addAlbumsCb(this@PagedTracksModel)
-                is Genre -> medialibrary.addGenreCb(this@PagedTracksModel)
-                is Playlist -> medialibrary.addPlaylistCb(this@PagedTracksModel)
-                else -> medialibrary.addMediaCb(this@PagedTracksModel)
-            }
+        when (parent) {
+            is Artist -> medialibrary.addArtistsCb(this@PagedTracksModel)
+            is Album -> medialibrary.addAlbumsCb(this@PagedTracksModel)
+            is Genre -> medialibrary.addGenreCb(this@PagedTracksModel)
+            is Playlist -> medialibrary.addPlaylistCb(this@PagedTracksModel)
+            else -> medialibrary.addMediaCb(this@PagedTracksModel)
         }
     }
 
