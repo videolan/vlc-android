@@ -1,3 +1,24 @@
+Changes between 3.0.97 and 3.0.98:
+------------------
+
+Application:
+ * Restoration of old (but improved) fastscroller
+ * External storages support on Chromebooks (ChromeOS v72+)
+ * Improve file browsing
+ * Fix subtitles not loaded from network
+ * Improve media tracks menu in video player
+ * Pause video on screen lock
+ * Improve loading of big playlists/collections
+ * update translations
+
+TV:
+ * 'Play all' media is now the default behavior
+ * Improve file browsing
+
+ VLC:
+  * Improve SMB2 authentication support
+  * Fix audio passthrough on Android 6
+
 Changes between 3.0.96 and 3.0.97:
 ------------------
 
