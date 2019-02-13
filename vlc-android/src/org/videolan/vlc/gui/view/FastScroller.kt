@@ -1,5 +1,5 @@
 /*****************************************************************************
- * FastScroller.java
+ * FastScroller.kt
  * **************************************************************************
  * Copyright © 2016-2019 VLC authors and VideoLAN
  * Inspired by Mark Allison blog post:
@@ -42,6 +42,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.util.WeakHandler
@@ -79,11 +80,16 @@ class FastScroller : LinearLayout {
     private var bubble: TextView? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var appbarLayout: AppBarLayout? = null
+    private var floatingActionButton: FloatingActionButton? = null
     private var lastPosition = 0f
     private var appbarLayoutExpanded = true
     private val isAnimating = AtomicBoolean(false)
     private var timesScrollingDown = 0
     private var timesScrollingUp = 0
+    private var lastVerticalOffset: Int = 0
+    private var tryCollapseAppbarOnNextScroll = false
+    private var tryExpandAppbarOnNextScroll = false
+
 
     private val handler = object : FastScrollerHandler(this) {
         override fun handleMessage(msg: Message) {
@@ -132,16 +138,18 @@ class FastScroller : LinearLayout {
     /**
      * Attaches the FastScroller to an [appBarLayout] and a [coordinatorLayout]
      */
-    fun attachToCoordinator(appBarLayout: AppBarLayout, coordinatorLayout: CoordinatorLayout) {
+    fun attachToCoordinator(appBarLayout: AppBarLayout, coordinatorLayout: CoordinatorLayout, floatingActionButton: FloatingActionButton?) {
         this.coordinatorLayout = coordinatorLayout
         appbarLayout = appBarLayout
-        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, _ ->
+        this.floatingActionButton = floatingActionButton
+        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
             layoutParams.height = coordinatorLayout.height - (appBarLayout.height + appBarLayout.top)
             invalidate()
             appbarLayoutExpanded = appBarLayout.top > -appBarLayout.height
             if (appBarLayout.height == -appBarLayout.top || appBarLayout.top == 0) {
                 isAnimating.set(false)
             }
+            lastVerticalOffset = verticalOffset
         })
     }
 
@@ -266,25 +274,32 @@ class FastScroller : LinearLayout {
 
             //Determine if we need to expand / collapse the [appBarLayout]
 
-            if (lastPosition < y) {
-                timesScrollingUp = 0
-                timesScrollingDown++
-            } else if (lastPosition > y) {
-                timesScrollingUp++
-                timesScrollingDown = 0
+            //We avoid updating this when animation is running to avoid in/out graphical issue
+            if (!isAnimating.get()) {
+                if (lastPosition < y) {
+                    timesScrollingUp = 0
+                    timesScrollingDown++
+                } else if (lastPosition > y) {
+                    timesScrollingUp++
+                    timesScrollingDown = 0
+                }
             }
 
             currentPosition = targetPos
             recyclerView!!.scrollToPosition(targetPos)
 
             if (!isAnimating.get() && appbarLayoutExpanded && timesScrollingDown > 3) {
-                appbarLayout!!.setExpanded(false, true)
+                tryCollapseAppbarOnNextScroll = true
                 appbarLayoutExpanded = false
                 isAnimating.set(true)
+                timesScrollingUp = 0
+                timesScrollingDown = 0
             } else if (!isAnimating.get() && !appbarLayoutExpanded && timesScrollingUp > 3) {
-                appbarLayout!!.setExpanded(true, true)
+                tryExpandAppbarOnNextScroll = true
                 appbarLayoutExpanded = true
                 isAnimating.set(true)
+                timesScrollingUp = 0
+                timesScrollingDown = 0
             }
             lastPosition = y
 
@@ -296,10 +311,32 @@ class FastScroller : LinearLayout {
         return Math.min(Math.max(min, value), max)
     }
 
+
     private inner class ScrollListener : RecyclerView.OnScrollListener() {
 
         override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
             updatePositions()
+            //launch the collapse / expand animations if needed
+            appbarLayout?.totalScrollRange?.let {
+
+                if (tryCollapseAppbarOnNextScroll && lastVerticalOffset != -it) {
+                    if (!isAnimating.get()) {
+                        appbarLayout?.setExpanded(false)
+                        floatingActionButton?.hide()
+                        isAnimating.set(true)
+                    }
+                    tryCollapseAppbarOnNextScroll = false
+                }
+
+                if (tryExpandAppbarOnNextScroll && lastVerticalOffset == -it) {
+                    if (!isAnimating.get()) {
+                        appbarLayout?.setExpanded(true)
+                        floatingActionButton?.show()
+                        isAnimating.set(true)
+                    }
+                    tryExpandAppbarOnNextScroll = false
+                }
+            }
 
 
         }
@@ -311,6 +348,7 @@ class FastScroller : LinearLayout {
     private fun updatePositions() {
         val sb = StringBuilder()
         val verticalScrollOffset = recyclerView!!.computeVerticalScrollOffset()
+        recyclerviewTotalHeight = recyclerView!!.computeVerticalScrollRange() - recyclerView!!.computeVerticalScrollExtent()
         val proportion = if (recyclerviewTotalHeight == 0) 0f else verticalScrollOffset / recyclerviewTotalHeight.toFloat()
         setPosition(currentHeight * proportion)
         if (fastScrolling) {
@@ -328,7 +366,6 @@ class FastScroller : LinearLayout {
             }
             return
         }
-        recyclerviewTotalHeight = recyclerView!!.computeVerticalScrollRange() - recyclerView!!.computeVerticalScrollExtent()
         if (this@FastScroller.visibility == View.INVISIBLE)
             handler.sendEmptyMessage(SHOW_SCROLLER)
     }

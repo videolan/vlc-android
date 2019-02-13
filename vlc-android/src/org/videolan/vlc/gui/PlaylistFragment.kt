@@ -36,6 +36,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
@@ -75,7 +76,7 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
         playlists.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
         playlists.adapter = playlistAdapter
         fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller) as FastScroller
-        fastScroller.attachToCoordinator(view.rootView.findViewById(R.id.appbar) as AppBarLayout, view.rootView.findViewById(R.id.coordinator) as CoordinatorLayout)
+        fastScroller.attachToCoordinator(view.rootView.findViewById(R.id.appbar) as AppBarLayout, view.rootView.findViewById(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById(R.id.fab) as FloatingActionButton)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -119,7 +120,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         super.onViewCreated(view, savedInstanceState);
         mEmptyView = view.findViewById(R.id.no_media);
         mFastScroller = view.getRootView().findViewById(R.id.songs_fast_scroller);
-        mFastScroller.attachToCoordinator((AppBarLayout) view.getRootView().findViewById(R.id.appbar), (CoordinatorLayout) view.getRootView().findViewById(R.id.coordinator));
+        mFastScroller.attachToCoordinator((AppBarLayout) view.getRootView().findViewById(R.id.appbar), (CoordinatorLayout) view.getRootView().findViewById(R.id.coordinator), (FloatingActionButton) view.getRootView().findViewById(R.id.fab));
 
     }
 

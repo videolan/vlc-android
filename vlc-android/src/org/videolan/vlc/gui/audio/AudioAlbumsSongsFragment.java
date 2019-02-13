@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import org.videolan.medialibrary.media.Album;
@@ -133,7 +134,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
         mViewPager.setAdapter(new AudioPagerAdapter(mLists, titles));
 
         mFastScroller = (FastScroller) view.getRootView().findViewById(R.id.songs_fast_scroller);
-        mFastScroller.attachToCoordinator((AppBarLayout) view.getRootView().findViewById(R.id.appbar), (CoordinatorLayout) view.getRootView().findViewById(R.id.coordinator));
+        mFastScroller.attachToCoordinator((AppBarLayout) view.getRootView().findViewById(R.id.appbar), (CoordinatorLayout) view.getRootView().findViewById(R.id.coordinator), (FloatingActionButton) view.getRootView().findViewById(R.id.fab));
 
         mViewPager.setOnTouchListener(mSwipeFilter);
 
