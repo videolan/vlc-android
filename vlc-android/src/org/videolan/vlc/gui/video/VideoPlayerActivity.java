@@ -119,7 +119,6 @@ import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.PlaylistModel;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -803,13 +802,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         mActionBarView.setOnTouchListener(null);
     }
 
+    private boolean mAddNextTrack = false;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         if(data == null) return;
 
         if(data.hasExtra(FilePickerFragmentKt.EXTRA_MRL)) {
-            mService.addSubtitleTrack(Uri.parse(data.getStringExtra(FilePickerFragmentKt.EXTRA_MRL)), true);
-            SlaveRepository.Companion.getInstance(this).saveSlave(mService.getCurrentMediaLocation(), Media.Slave.Type.Subtitle, 2, data.getStringExtra(FilePickerFragmentKt.EXTRA_MRL));
+            mService.addSubtitleTrack(Uri.parse(data.getStringExtra(FilePickerFragmentKt.EXTRA_MRL)), false);
+            final MediaWrapper mw = mService.getCurrentMediaWrapper();
+            if (mw != null) SlaveRepository.Companion.getInstance(this).saveSlave(mw.getLocation(), Media.Slave.Type.Subtitle, 2, data.getStringExtra(FilePickerFragmentKt.EXTRA_MRL));
+            mAddNextTrack = true;
         } else if (BuildConfig.DEBUG) Log.d(TAG, "Subtitle selection dialog was cancelled");
     }
 
@@ -1461,8 +1463,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                             @Override
                             public void run() {
                                 int spuTrack = (int) media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK);
-                                if (spuTrack != 0 || mCurrentSpuTrack != -2)
+                                if (mAddNextTrack) {
+                                    final MediaPlayer.TrackDescription[] tracks = mService.getSpuTracks();
+                                    if (!Util.isArrayEmpty(tracks)) mService.setSpuTrack(tracks[tracks.length-1].id);
+                                    mAddNextTrack = false;
+                                } else if (spuTrack != 0 || mCurrentSpuTrack != -2) {
                                     mService.setSpuTrack(media.getId() == 0L ? mCurrentSpuTrack : spuTrack);
+                                }
                             }
                         });
                     }
