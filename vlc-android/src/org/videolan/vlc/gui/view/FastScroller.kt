@@ -53,15 +53,11 @@ private const val TAG = "FastScroller"
 private const val HANDLE_ANIMATION_DURATION = 100
 private const val HANDLE_HIDE_DELAY = 1000
 private const val SCROLLER_HIDE_DELAY = 3000
-private const val TRACK_SNAP_RANGE = 5
 
 private const val HIDE_HANDLE = 0
 private const val HIDE_SCROLLER = 1
 private const val SHOW_SCROLLER = 2
 
-private const val SCALE_X = "scaleX"
-private const val SCALE_Y = "scaleY"
-private const val ALPHA = "alpha"
 private const val ITEM_THRESHOLD = 25
 
 class FastScroller : LinearLayout {

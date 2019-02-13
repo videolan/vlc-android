@@ -137,7 +137,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         };
         mViewPager.setOffscreenPageLimit(MODE_TOTAL - 1);
         mViewPager.setAdapter(new AudioPagerAdapter(mLists, titles));
-        mViewPager.setCurrentItem(mSettings.getInt(Constants.KEY_AUDIO_CURRENT_TAB, 0));
+        final int tabPosition = mSettings.getInt(Constants.KEY_AUDIO_CURRENT_TAB, 0);
+        mViewPager.setCurrentItem(tabPosition);
         final ArrayList<Integer> positions = savedInstanceState != null ? savedInstanceState.getIntegerArrayList(KEY_LISTS_POSITIONS) : null;
         for (int i = 0; i< MODE_TOTAL; ++i) {
             final LinearLayoutManager llm = new LinearLayoutManager(getActivity());
@@ -149,6 +150,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         }
         mViewPager.setOnTouchListener(mSwipeFilter);
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mFastScroller.setRecyclerView(mLists[tabPosition], models[tabPosition]);
     }
 
     @Override
@@ -269,7 +271,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         super.onTabSelected(tab);
         mSettings.edit().putInt(Constants.KEY_AUDIO_CURRENT_TAB, tab.getPosition()).apply();
         final Boolean loading = getViewModel().getLoading().getValue();
-        mFastScroller.setRecyclerView(mLists[tab.getPosition()], models[tab.getPosition()]);
         if (loading == null || !loading) mHandler.sendEmptyMessage(UNSET_REFRESHING);
         else mHandler.sendEmptyMessage(SET_REFRESHING);
     }
