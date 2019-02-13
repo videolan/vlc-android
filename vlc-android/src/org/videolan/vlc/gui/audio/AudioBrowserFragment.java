@@ -225,13 +225,8 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         MediaUtils.INSTANCE.playAll(view.getContext(), tracksModel, 0, true);
     }
 
-    @Override
-    public void setFabPlayVisibility(boolean enable) {
-        super.setFabPlayVisibility(enable && mViewPager.getCurrentItem() == MODE_SONG);
-    }
-
     private void setFabPlayShuffleAllVisibility() {
-        setFabPlayVisibility(mViewPager.getCurrentItem() == MODE_SONG && mSongsAdapter.getItemCount() > 2);
+        setFabPlayVisibility(mSongsAdapter.getItemCount() > 2);
     }
 
     /**
