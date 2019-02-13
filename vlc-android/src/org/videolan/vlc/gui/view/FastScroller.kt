@@ -74,13 +74,13 @@ class FastScroller : LinearLayout {
 
     private var currentAnimator: AnimatorSet? = null
     private val scrollListener = ScrollListener()
-    private var recyclerView: RecyclerView? = null
+    private lateinit var recyclerView: RecyclerView
     private lateinit var model: MLPagedModel<out MediaLibraryItem>
-    private var handle: ImageView? = null
-    private var bubble: TextView? = null
-    private var coordinatorLayout: CoordinatorLayout? = null
-    private var appbarLayout: AppBarLayout? = null
-    private var floatingActionButton: FloatingActionButton? = null
+    private lateinit var handle: ImageView
+    private lateinit var bubble: TextView
+    private lateinit var coordinatorLayout: CoordinatorLayout
+    private lateinit var appbarLayout: AppBarLayout
+    private lateinit var floatingActionButton: FloatingActionButton
     private var lastPosition = 0f
     private var appbarLayoutExpanded = true
     private val isAnimating = AtomicBoolean(false)
@@ -138,7 +138,7 @@ class FastScroller : LinearLayout {
     /**
      * Attaches the FastScroller to an [appBarLayout] and a [coordinatorLayout]
      */
-    fun attachToCoordinator(appBarLayout: AppBarLayout, coordinatorLayout: CoordinatorLayout, floatingActionButton: FloatingActionButton?) {
+    fun attachToCoordinator(appBarLayout: AppBarLayout, coordinatorLayout: CoordinatorLayout, floatingActionButton: FloatingActionButton) {
         this.coordinatorLayout = coordinatorLayout
         appbarLayout = appBarLayout
         this.floatingActionButton = floatingActionButton
@@ -156,7 +156,7 @@ class FastScroller : LinearLayout {
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         currentHeight = h
-        if (recyclerView != null) {
+        if (::recyclerView.isInitialized) {
             updatePositions()
         }
     }
@@ -169,10 +169,10 @@ class FastScroller : LinearLayout {
             return
         }
         val animatorSet = AnimatorSet()
-        bubble!!.pivotX = bubble!!.width.toFloat()
-        bubble!!.pivotY = bubble!!.height.toFloat()
-        scrollListener.onScrolled(recyclerView!!, 0, 0)
-        bubble!!.visibility = View.VISIBLE
+        bubble.pivotX = bubble.width.toFloat()
+        bubble.pivotY = bubble.height.toFloat()
+        scrollListener.onScrolled(recyclerView, 0, 0)
+        bubble.visibility = View.VISIBLE
         val growerX = ObjectAnimator.ofFloat(bubble, SCALE_X, 0f, 1f).setDuration(HANDLE_ANIMATION_DURATION.toLong())
         val growerY = ObjectAnimator.ofFloat(bubble, SCALE_Y, 0f, 1f).setDuration(HANDLE_ANIMATION_DURATION.toLong())
         val alpha = ObjectAnimator.ofFloat(bubble, ALPHA, 0f, 1f).setDuration(HANDLE_ANIMATION_DURATION.toLong())
@@ -185,28 +185,28 @@ class FastScroller : LinearLayout {
      */
     private fun hideBubble() {
         currentAnimator = AnimatorSet()
-        bubble!!.pivotX = bubble!!.width.toFloat()
-        bubble!!.pivotY = bubble!!.height.toFloat()
+        bubble.pivotX = bubble.width.toFloat()
+        bubble.pivotY = bubble.height.toFloat()
         val shrinkerX = ObjectAnimator.ofFloat(bubble, SCALE_X, 1f, 0f).setDuration(HANDLE_ANIMATION_DURATION.toLong())
         val shrinkerY = ObjectAnimator.ofFloat(bubble, SCALE_Y, 1f, 0f).setDuration(HANDLE_ANIMATION_DURATION.toLong())
         val alpha = ObjectAnimator.ofFloat(bubble, ALPHA, 1f, 0f).setDuration(HANDLE_ANIMATION_DURATION.toLong())
-        currentAnimator!!.playTogether(shrinkerX, shrinkerY, alpha)
-        currentAnimator!!.addListener(object : AnimatorListenerAdapter() {
+        currentAnimator?.playTogether(shrinkerX, shrinkerY, alpha)
+        currentAnimator?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {
                 super.onAnimationEnd(animation)
-                bubble!!.visibility = View.GONE
+                bubble.visibility = View.GONE
                 currentAnimator = null
                 handler.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
             }
 
             override fun onAnimationCancel(animation: Animator) {
                 super.onAnimationCancel(animation)
-                bubble!!.visibility = View.INVISIBLE
+                bubble.visibility = View.INVISIBLE
                 currentAnimator = null
                 handler.sendEmptyMessageDelayed(HIDE_SCROLLER, SCROLLER_HIDE_DELAY.toLong())
             }
         })
-        currentAnimator!!.start()
+        currentAnimator?.start()
     }
 
     /**
@@ -214,9 +214,9 @@ class FastScroller : LinearLayout {
      */
     private fun setPosition(y: Float) {
         val position = y / currentHeight
-        val handleHeight = handle!!.height
+        val handleHeight = handle.height
         handle?.y = getValueInRange(0, currentHeight - handleHeight, ((currentHeight - handleHeight) * position).toInt()).toFloat()
-        val bubbleHeight = bubble!!.height
+        val bubbleHeight = bubble.height
         bubble?.y = getValueInRange(0, currentHeight - bubbleHeight, ((currentHeight - bubbleHeight) * position).toInt() - handleHeight).toFloat()
     }
 
@@ -224,11 +224,10 @@ class FastScroller : LinearLayout {
      * Sets the [recyclerView] it will be attached to
      */
     fun setRecyclerView(recyclerView: RecyclerView, model: MLPagedModel<out MediaLibraryItem>) {
-        if (this.recyclerView != null)
-            this.recyclerView!!.removeOnScrollListener(scrollListener)
+        this.recyclerView = recyclerView
+        this.recyclerView.removeOnScrollListener(scrollListener)
         visibility = View.INVISIBLE
         itemCount = recyclerView.adapter!!.itemCount
-        this.recyclerView = recyclerView
         this.model = model
         recyclerviewTotalHeight = 0
         recyclerView.addOnScrollListener(scrollListener)
@@ -243,10 +242,10 @@ class FastScroller : LinearLayout {
             fastScrolling = true
             currentPosition = -1
             if (currentAnimator != null)
-                currentAnimator!!.cancel()
+                currentAnimator?.cancel()
             handler.removeMessages(HIDE_SCROLLER)
             handler.removeMessages(HIDE_HANDLE)
-            if (showBubble && bubble!!.visibility == View.GONE)
+            if (showBubble && bubble.visibility == View.GONE)
                 showBubble()
             setRecyclerViewPosition(event.y)
             return true
@@ -286,7 +285,7 @@ class FastScroller : LinearLayout {
             }
 
             currentPosition = targetPos
-            recyclerView!!.scrollToPosition(targetPos)
+            recyclerView.scrollToPosition(targetPos)
 
             if (!isAnimating.get() && appbarLayoutExpanded && timesScrollingDown > 3) {
                 tryCollapseAppbarOnNextScroll = true
@@ -347,8 +346,8 @@ class FastScroller : LinearLayout {
      */
     private fun updatePositions() {
         val sb = StringBuilder()
-        val verticalScrollOffset = recyclerView!!.computeVerticalScrollOffset()
-        recyclerviewTotalHeight = recyclerView!!.computeVerticalScrollRange() - recyclerView!!.computeVerticalScrollExtent()
+        val verticalScrollOffset = recyclerView.computeVerticalScrollOffset()
+        recyclerviewTotalHeight = recyclerView.computeVerticalScrollRange() - recyclerView.computeVerticalScrollExtent()
         val proportion = if (recyclerviewTotalHeight == 0) 0f else verticalScrollOffset / recyclerviewTotalHeight.toFloat()
         setPosition(currentHeight * proportion)
         if (fastScrolling) {
@@ -356,13 +355,13 @@ class FastScroller : LinearLayout {
             val position = if (currentPosition != -1)
                 currentPosition
             else
-                (recyclerView!!.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+                (recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
             val sectionforPosition = model.getSectionforPosition(position)
             sb.append(' ')
                     .append(sectionforPosition)
                     .append(' ')
             if (!sectionforPosition.isEmpty()) {
-                bubble!!.text = sb.toString()
+                bubble.text = sb.toString()
             }
             return
         }
