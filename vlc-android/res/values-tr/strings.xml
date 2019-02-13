@@ -648,6 +648,7 @@
     <string name="device_dialog_message">TV kutunuza yeni bir depolama aygıtı bağladınız. Bu aygıtın VLC ile açılmasını ister misiniz?</string>
     <string name="videos_folders_title">Klasörlere göre görüntüler</string>
     <string name="video_save_remote_setting">Uzaktan kumanda kipi otomatik olarak etkinleştirilsin mi?</string>
+    <string name="video_save_clone_mode">Kopya kipi otomatik olarak etkinleştirilsin mi?</string>
     <string name="video_remote_enable">Uzaktan kumanda kipine geç</string>
     <string name="video_remote_disable">Ekranı yansıt</string>
 </resources>
