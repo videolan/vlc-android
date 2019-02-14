@@ -45,7 +45,7 @@ class PagedAlbumsModel(context: Context, val parent: MediaLibraryItem? = null) :
             is Genre -> parent.searchAlbums(filterQuery, sort, desc, loadSize, startposition)
             else -> medialibrary.searchAlbum(filterQuery, sort, desc, loadSize, startposition)
         }
-        list?.let { completeHeaders(it, 0) }
+        list?.let { completeHeaders(it, startposition) }
         return list
     }
 

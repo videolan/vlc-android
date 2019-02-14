@@ -31,7 +31,7 @@ class PagedGenresModel(context: Context): MLPagedModel<Genre>(context), Medialib
     override fun getPage(loadSize: Int, startposition: Int) : Array<Genre> {
         val list = if (filterQuery == null) medialibrary.getPagedGenres(sort, desc, loadSize, startposition)
         else medialibrary.searchGenre(filterQuery, sort, desc, loadSize, startposition)
-        return list.also { completeHeaders(it, 0) }
+        return list.also { completeHeaders(it, startposition) }
     }
 
     override fun getTotalCount() = if (filterQuery == null) medialibrary.genresCount else medialibrary.getGenresCount(filterQuery)

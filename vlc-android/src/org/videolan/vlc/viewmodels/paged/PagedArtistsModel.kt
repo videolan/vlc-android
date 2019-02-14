@@ -26,7 +26,7 @@ class PagedArtistsModel(context: Context, private var showAll: Boolean = false):
     override fun getPage(loadSize: Int, startposition: Int): Array<Artist> {
         val list = if (filterQuery == null) medialibrary.getPagedArtists(showAll, sort, desc, loadSize, startposition)
         else medialibrary.searchArtist(filterQuery, sort, desc, loadSize, startposition)
-        list?.let { completeHeaders(it, 0) }
+        list?.let { completeHeaders(it, startposition) }
         return list
     }
 

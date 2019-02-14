@@ -29,7 +29,7 @@ class PagedPlaylistsModel(context: Context): MLPagedModel<Playlist>(context), Me
     override fun getPage(loadSize: Int, startposition: Int)  : Array<Playlist> {
         val list = if (filterQuery == null) medialibrary.getPagedPlaylists(sort, desc, loadSize, startposition)
         else medialibrary.searchPlaylist(filterQuery, sort, desc, loadSize, startposition)
-        return list.also { completeHeaders(it, 0) }
+        return list.also { completeHeaders(it, startposition) }
     }
 
     override fun getTotalCount() = if (filterQuery == null) medialibrary.playlistsCount else medialibrary.getPlaylistsCount(filterQuery)
