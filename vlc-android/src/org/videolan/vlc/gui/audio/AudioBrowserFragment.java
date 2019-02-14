@@ -150,7 +150,6 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         }
         mViewPager.setOnTouchListener(mSwipeFilter);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mFastScroller.setRecyclerView(mLists[tabPosition], models[tabPosition]);
     }
 
     @Override
