@@ -428,7 +428,7 @@ public class AudioPlayerContainerActivity extends BaseActivity {
                 case ACTION_SHOW_PLAYER:
                     owner.showAudioPlayerImpl();
                     owner.updateContainerPadding(true);
-                    owner.applyMarginToProgressBar(owner.mBottomSheetBehavior.getPeekHeight());
+                    if (owner.mBottomSheetBehavior != null) owner.applyMarginToProgressBar(owner.mBottomSheetBehavior.getPeekHeight());
                     break;
                 case ACTION_HIDE_PLAYER:
                     removeMessages(ACTION_SHOW_PLAYER);
