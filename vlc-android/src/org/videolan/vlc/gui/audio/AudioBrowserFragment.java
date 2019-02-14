@@ -264,7 +264,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         super.onTabSelected(tab);
-        mFastScroller.setRecyclerView(getCurrentRV(), getViewModel());
+        mFastScroller.setRecyclerView(mLists[tab.getPosition()],models[tab.getPosition()]);
         mSettings.edit().putInt(Constants.KEY_AUDIO_CURRENT_TAB, tab.getPosition()).apply();
         final Boolean loading = getViewModel().getLoading().getValue();
         if (loading == null || !loading) mHandler.sendEmptyMessage(UNSET_REFRESHING);
