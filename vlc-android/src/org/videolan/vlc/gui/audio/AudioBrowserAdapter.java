@@ -51,7 +51,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.ViewDataBinding;
 import androidx.paging.PagedList;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
@@ -69,8 +68,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     private int mSort;
     private final BitmapDrawable mDefaultCover;
 
-    private boolean mMakeSections = true;
-
     public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, int sort) {
         super(DIFF_CALLBACK);
         multiSelectHelper = new MultiSelectHelper<>(this, Constants.UPDATE_SELECTION);
@@ -84,6 +81,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         mSort = sort;
     }
 
+    @NonNull
     @Override
     public MediaItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -101,6 +99,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         final boolean isSelected = multiSelectHelper.isSelected(position);
         holder.setCoverlay(isSelected);
         holder.selectView(isSelected);
+        holder.binding.executePendingBindings();
     }
 
     @Override
@@ -137,7 +136,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     }
 
     @Override
-    public void onViewRecycled(MediaItemViewHolder holder) {
+    public void onViewRecycled(@NonNull MediaItemViewHolder holder) {
         if (mDefaultCover != null) holder.binding.setCover(mDefaultCover);
     }
 
@@ -193,7 +192,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
 
     @Override
     public boolean hasSections() {
-        return mMakeSections;
+        return true;
     }
 
     public class MediaItemViewHolder extends SelectorViewHolder<AudioBrowserItemBinding> implements View.OnFocusChangeListener {

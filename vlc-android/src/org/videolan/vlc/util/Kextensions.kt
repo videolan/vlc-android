@@ -3,6 +3,11 @@ package org.videolan.vlc.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
+import android.widget.TextView
+import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.text.PrecomputedTextCompat
+import androidx.core.widget.TextViewCompat
+import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
@@ -138,4 +143,11 @@ fun <X, Y> CoroutineScope.map(
             launch { value = f(it) }
         }
     }
+}
+
+@BindingAdapter("app:asyncText", requireAll = false)
+fun asyncText(view: TextView, text: CharSequence?) {
+    if (text === null) return
+    val params = TextViewCompat.getTextMetricsParams(view)
+    (view as AppCompatTextView).setTextFuture(PrecomputedTextCompat.getTextFuture(text, params, null))
 }
