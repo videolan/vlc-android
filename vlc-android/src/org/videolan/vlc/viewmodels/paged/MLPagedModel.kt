@@ -1,7 +1,7 @@
 package org.videolan.vlc.viewmodels.paged
 
 import android.content.Context
-import androidx.collection.SimpleArrayMap
+import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
@@ -20,7 +20,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     protected val medialibrary = Medialibrary.getInstance()
     val loading = MutableLiveData<Boolean>().apply { value = false }
 
-    protected val headers = SimpleArrayMap<Int, String>()
+    protected val headers = SparseArrayCompat<String>()
 
     private val pagingConfig = PagedList.Config.Builder()
             .setPageSize(MEDIALIBRARY_PAGE_SIZE)
