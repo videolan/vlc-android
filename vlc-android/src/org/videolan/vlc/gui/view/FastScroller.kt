@@ -113,8 +113,6 @@ class FastScroller : LinearLayout, CoroutineScope {
 
     interface SeparatedAdapter {
         fun hasSections(): Boolean
-
-        fun getSectionforPosition(position: Int): String
     }
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
