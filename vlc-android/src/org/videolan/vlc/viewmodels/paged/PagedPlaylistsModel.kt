@@ -9,12 +9,8 @@ import org.videolan.medialibrary.media.Playlist
 class PagedPlaylistsModel(context: Context): MLPagedModel<Playlist>(context), Medialibrary.PlaylistsCb {
 
     init {
-        if (medialibrary.isStarted) refresh()
-    }
-
-    override fun onMedialibraryReady() {
-        super.onMedialibraryReady()
         medialibrary.addPlaylistCb(this)
+        if (medialibrary.isStarted) refresh()
     }
 
     override fun onCleared() {

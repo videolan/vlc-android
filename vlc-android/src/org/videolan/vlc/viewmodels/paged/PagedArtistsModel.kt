@@ -11,6 +11,7 @@ import org.videolan.vlc.util.EmptyMLCallbacks
 class PagedArtistsModel(context: Context, private var showAll: Boolean = false): MLPagedModel<Artist>(context), Medialibrary.ArtistsCb by EmptyMLCallbacks {
 
     init {
+        medialibrary.addArtistsCb(this)
         if (medialibrary.isStarted) refresh()
     }
     override fun onArtistsAdded() {
@@ -31,11 +32,6 @@ class PagedArtistsModel(context: Context, private var showAll: Boolean = false):
 
     override fun getTotalCount() = if (filterQuery == null) medialibrary.getArtistsCount(showAll)
     else medialibrary.getArtistsCount(filterQuery)
-
-    override fun onMedialibraryReady() {
-        super.onMedialibraryReady()
-        medialibrary.addArtistsCb(this)
-    }
 
     override fun onCleared() {
         medialibrary.removeArtistsCb(this)
