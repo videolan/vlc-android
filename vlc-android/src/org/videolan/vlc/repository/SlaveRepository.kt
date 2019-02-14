@@ -21,8 +21,12 @@
 package org.videolan.vlc.repository
 
 import android.content.Context
+import android.database.sqlite.SQLiteException
 import android.net.Uri
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Media
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.IOScopedObject
@@ -48,7 +52,11 @@ class SlaveRepository(private val slaveDao:SlaveDao) : IOScopedObject() {
 
     suspend fun getSlaves(mrl: String): List<Media.Slave> {
         return withContext(Dispatchers.IO) {
-            val slaves = slaveDao.get(mrl)
+            val slaves = try {
+                slaveDao.get(mrl)
+            } catch (e: SQLiteException) {
+                emptyList<Slave>()
+            }
             val mediaSlaves = slaves.map {
                 var uri = it.uri
                 if (uri.isNotEmpty())
