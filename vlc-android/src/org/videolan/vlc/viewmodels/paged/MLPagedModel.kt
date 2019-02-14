@@ -124,7 +124,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     }
 
     suspend fun getSectionforPosition(position: Int): String {
-        mutex.withLock { for (pos in 0 until headers.size()) if (position < headers.keyAt(pos)) return headers.valueAt(pos) }
+        mutex.withLock { for (pos in 0 until headers.size()) if (position <= headers.keyAt(pos)) return headers.valueAt(pos) }
         return ""
     }
 

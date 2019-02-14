@@ -44,6 +44,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.util.WeakHandler
@@ -61,12 +63,12 @@ private const val SHOW_SCROLLER = 2
 
 private const val ITEM_THRESHOLD = 25
 
+@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class FastScroller : LinearLayout, CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
     private var currentHeight: Int = 0
     private var itemCount: Int = 0
-    private var recyclerviewTotalHeight: Int = 0
     private var fastScrolling: Boolean = false
     private var showBubble: Boolean = false
     private var currentPosition: Int = 0
@@ -74,6 +76,7 @@ class FastScroller : LinearLayout, CoroutineScope {
     private var currentAnimator: AnimatorSet? = null
     private val scrollListener = ScrollListener()
     private lateinit var recyclerView: RecyclerView
+    private lateinit var layoutManager: LinearLayoutManager
     private lateinit var model: MLPagedModel<out MediaLibraryItem>
     private lateinit var handle: ImageView
     private lateinit var bubble: TextView
@@ -88,9 +91,10 @@ class FastScroller : LinearLayout, CoroutineScope {
     private var lastVerticalOffset: Int = 0
     private var tryCollapseAppbarOnNextScroll = false
     private var tryExpandAppbarOnNextScroll = false
+    private val sb = StringBuilder()
 
 
-    private val handler = object : FastScrollerHandler(this) {
+    private val handler = object : WeakHandler<FastScroller>(this) {
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 HIDE_HANDLE -> hideBubble()
@@ -155,9 +159,7 @@ class FastScroller : LinearLayout, CoroutineScope {
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         currentHeight = h
-        if (::recyclerView.isInitialized) {
-            updatePositions()
-        }
+        if (::recyclerView.isInitialized) updatePositions()
     }
 
     /**
@@ -224,11 +226,11 @@ class FastScroller : LinearLayout, CoroutineScope {
      */
     fun setRecyclerView(recyclerView: RecyclerView, model: MLPagedModel<out MediaLibraryItem>) {
         this.recyclerView = recyclerView
+        this.layoutManager = recyclerView.layoutManager as LinearLayoutManager
         this.recyclerView.removeOnScrollListener(scrollListener)
         visibility = View.INVISIBLE
         itemCount = recyclerView.adapter!!.itemCount
         this.model = model
-        recyclerviewTotalHeight = 0
         recyclerView.addOnScrollListener(scrollListener)
         showBubble = (recyclerView.adapter as SeparatedAdapter).hasSections()
     }
@@ -335,39 +337,30 @@ class FastScroller : LinearLayout, CoroutineScope {
                     tryExpandAppbarOnNextScroll = false
                 }
             }
-
-
         }
     }
 
-    /**
-     * Updates the position of the bubble and refresh the letter
-     */
-    private fun updatePositions() = launch {
-        val sb = StringBuilder()
-        val verticalScrollOffset = recyclerView.computeVerticalScrollOffset()
-        recyclerviewTotalHeight = recyclerView.computeVerticalScrollRange() - recyclerView.computeVerticalScrollExtent()
-        val proportion = if (recyclerviewTotalHeight == 0) 0f else verticalScrollOffset / recyclerviewTotalHeight.toFloat()
-        setPosition(currentHeight * proportion)
-        if (fastScrolling) {
+    private val actor = actor<Unit>(capacity = Channel.CONFLATED) {
+        for (evt in channel) {
             sb.setLength(0)
-            val position = if (currentPosition != -1)
-                currentPosition
-            else
-                (recyclerView.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+            val position = layoutManager.findFirstVisibleItemPosition()
             val sectionforPosition = model.getSectionforPosition(position)
             sb.append(' ')
                     .append(sectionforPosition)
                     .append(' ')
-            if (!sectionforPosition.isEmpty()) {
-                bubble.text = sb.toString()
-            }
-            return@launch
+            if (!sectionforPosition.isEmpty()) bubble.text = sb.toString()
+            delay(100L)
         }
-        if (this@FastScroller.visibility == View.INVISIBLE)
-            handler.sendEmptyMessage(SHOW_SCROLLER)
     }
-
-    private open class FastScrollerHandler internal constructor(owner: FastScroller) : WeakHandler<FastScroller>(owner)
-
+    /**
+     * Updates the position of the bubble and refresh the letter
+     */
+    private fun updatePositions() {
+        val verticalScrollOffset = recyclerView.computeVerticalScrollOffset()
+        val recyclerviewTotalHeight = recyclerView.computeVerticalScrollRange() - recyclerView.computeVerticalScrollExtent()
+        val proportion = if (recyclerviewTotalHeight == 0) 0f else verticalScrollOffset / recyclerviewTotalHeight.toFloat()
+        setPosition(currentHeight * proportion)
+        if (visibility == View.INVISIBLE) handler.sendEmptyMessage(SHOW_SCROLLER)
+        if (fastScrolling) actor.offer(Unit)
+    }
 }

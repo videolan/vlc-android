@@ -65,8 +65,7 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
             is Playlist -> parent.searchTracks(filterQuery, sort, desc, loadSize, startposition)
             else -> medialibrary.searchAudio(filterQuery, sort, desc, loadSize, startposition)
         }
-        list?.let { completeHeaders(it, startposition) }
-        return list
+        return list.also { completeHeaders(it, startposition) }
     }
 
     override fun getTotalCount() = if (filterQuery == null) when (parent) {
