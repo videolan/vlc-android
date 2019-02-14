@@ -240,7 +240,7 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         super.onTabSelected(tab);
-        mFastScroller.setRecyclerView(getCurrentRV(), getViewModel());
+        mFastScroller.setRecyclerView(mLists[tab.getPosition()], audioModels[tab.getPosition()]);
     }
 
     @Override
