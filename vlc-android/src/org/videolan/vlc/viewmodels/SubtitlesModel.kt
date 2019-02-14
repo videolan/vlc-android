@@ -1,10 +1,10 @@
 package org.videolan.vlc.viewmodels
 
-import androidx.lifecycle.*
 import android.content.Context
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import org.videolan.vlc.R
 import org.videolan.vlc.api.NoConnectivityException
@@ -166,7 +166,14 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
         ExternalSubRepository.getInstance(context).deleteSubtitle(mediaPath, idSubtitle)
     }
 
-    fun getLastUsedLanguage() = Settings.getInstance(context).getStringSet(LAST_USED_LANGUAGES, setOf(Locale.getDefault().isO3Language)).map { it.getCompliantLanguageID() }
+    fun getLastUsedLanguage() : List<String> {
+        val language = try {
+            Locale.getDefault().isO3Language
+        } catch (e: MissingResourceException) {
+            "eng"
+        }
+        return Settings.getInstance(context).getStringSet(LAST_USED_LANGUAGES, setOf(language))?.map { it.getCompliantLanguageID() } ?: emptyList()
+    }
 
     fun saveLastUsedLanguage(lastUsedLanguages: List<String>) = Settings.getInstance(context).edit().putStringSet(LAST_USED_LANGUAGES, lastUsedLanguages.toSet()).apply()
 
