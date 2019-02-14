@@ -43,6 +43,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.util.WeakHandler
@@ -60,7 +61,9 @@ private const val SHOW_SCROLLER = 2
 
 private const val ITEM_THRESHOLD = 25
 
-class FastScroller : LinearLayout {
+@ExperimentalCoroutinesApi
+class FastScroller : LinearLayout, CoroutineScope {
+    override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
     private var currentHeight: Int = 0
     private var itemCount: Int = 0
     private var recyclerviewTotalHeight: Int = 0
@@ -340,7 +343,7 @@ class FastScroller : LinearLayout {
     /**
      * Updates the position of the bubble and refresh the letter
      */
-    private fun updatePositions() {
+    private fun updatePositions() = launch {
         val sb = StringBuilder()
         val verticalScrollOffset = recyclerView.computeVerticalScrollOffset()
         recyclerviewTotalHeight = recyclerView.computeVerticalScrollRange() - recyclerView.computeVerticalScrollExtent()
@@ -359,7 +362,7 @@ class FastScroller : LinearLayout {
             if (!sectionforPosition.isEmpty()) {
                 bubble.text = sb.toString()
             }
-            return
+            return@launch
         }
         if (this@FastScroller.visibility == View.INVISIBLE)
             handler.sendEmptyMessage(SHOW_SCROLLER)
