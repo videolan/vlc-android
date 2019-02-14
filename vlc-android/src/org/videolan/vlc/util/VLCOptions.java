@@ -109,7 +109,7 @@ public class VLCOptions {
         options.add("--android-display-chroma");
         options.add(chroma);
         options.add("--audio-resampler");
-        options.add(getResampler());
+        options.add("soxr");
         options.add("--audiotrack-session-id=" + AUDIOTRACK_SESSION_ID);
 
         options.add("--freetype-rel-fontsize=" + freetypeRelFontsize);
@@ -190,11 +190,6 @@ public class VLCOptions {
             ret = 3;
         }
         return ret;
-    }
-
-    private static String getResampler() {
-        final VLCUtil.MachineSpecs m = VLCUtil.getMachineSpecs();
-        return (m == null || m.processors >= 2) ? "soxr" : "ugly";
     }
 
     public static void setMediaOptions(Media media, Context context, int flags) {
