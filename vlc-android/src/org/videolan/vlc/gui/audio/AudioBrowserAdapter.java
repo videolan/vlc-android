@@ -36,7 +36,6 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.tools.MultiSelectAdapter;
 import org.videolan.tools.MultiSelectHelper;
-import org.videolan.vlc.BR;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
@@ -44,8 +43,8 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.Constants;
-import org.videolan.vlc.util.ModelsHelper;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.viewmodels.paged.MLPagedModel;
 
 import java.util.List;
 
@@ -67,14 +66,16 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     private final int mType;
     private int mSort;
     private final BitmapDrawable mDefaultCover;
+    private final MLPagedModel mModel;
 
-    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, int sort) {
+    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, MLPagedModel model) {
         super(DIFF_CALLBACK);
         multiSelectHelper = new MultiSelectHelper<>(this, Constants.UPDATE_SELECTION);
         mIEventsHandler = eventsHandler;
         mType = type;
         mDefaultCover = getIconDrawable();
-        mSort = sort;
+        mSort = model.getSort();
+        mModel = model;
     }
 
     void setSort(int sort) {
@@ -95,7 +96,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         final MediaLibraryItem item = getItem(position);
         if (item == null) return;
         holder.binding.setItem(item);
-        setHeader(holder, position, item);
+        setHeader(holder, position);
         final boolean isSelected = multiSelectHelper.isSelected(position);
         holder.setCoverlay(isSelected);
         holder.selectView(isSelected);
@@ -113,9 +114,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                 holder.selectView(isSelected);
             } else if (payload instanceof Integer) {
                 if ((Integer) payload == UPDATE_PAYLOAD) {
-                    final MediaLibraryItem item = getItem(position);
-                    if (item == null) return;
-                    setHeader(holder, position, item);
+                    setHeader(holder, position);
                 } else if ((Integer) payload == Constants.UPDATE_SELECTION) {
                     final boolean isSelected = multiSelectHelper.isSelected(position);
                     holder.setCoverlay(isSelected);
@@ -125,10 +124,9 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         }
     }
 
-    private void setHeader(MediaItemViewHolder holder, int position, MediaLibraryItem item) {
+    private void setHeader(MediaItemViewHolder holder, int position) {
         if (mSort == -1) return;
-        final MediaLibraryItem aboveItem = position > 0 ? getItem(position - 1) : null;
-        holder.binding.setVariable(BR.header, ModelsHelper.INSTANCE.getHeader(holder.itemView.getContext(), mSort, item, aboveItem));
+        holder.binding.setHeader(mModel.getHeaderForPostion(position));
     }
 
     public MultiSelectHelper<MediaLibraryItem> getMultiSelectHelper() {

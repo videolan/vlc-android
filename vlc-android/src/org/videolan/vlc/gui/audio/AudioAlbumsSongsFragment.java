@@ -124,8 +124,8 @@ public class AudioAlbumsSongsFragment extends BaseAudioBrowser implements SwipeR
 
         mLists = new RecyclerView[]{albumsList, songsList};
         final String[] titles = new String[] {getString(R.string.albums), getString(R.string.songs)};
-        mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, albumModel.getSort());
-        mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, tracksModel.getSort());
+        mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, albumModel);
+        mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, tracksModel);
         mAdapters = new AudioBrowserAdapter[]{mAlbumsAdapter, mSongsAdapter};
 
         songsList.setAdapter(mSongsAdapter);

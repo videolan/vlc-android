@@ -108,10 +108,6 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 getIntent().getParcelableExtra(AudioBrowserFragment.TAG_ITEM));
         mIsPlaylist = mPlaylist.getItemType() == MediaLibraryItem.TYPE_PLAYLIST;
         mBinding.setPlaylist(mPlaylist);
-        mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, -1);
-
-        mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
-        mBinding.songs.setAdapter(mAdapter);
         tracksModel = ViewModelProviders.of(this, new PagedTracksModel.Factory(this, mPlaylist)).get(PagedTracksModel.class);
         ((MLPagedModel)tracksModel).getPagedList().observe(this, new Observer<PagedList<MediaLibraryItem>>() {
             @Override
@@ -122,6 +118,10 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 }
             }
         });
+        mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, tracksModel);
+
+        mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
+        mBinding.songs.setAdapter(mAdapter);
         final boolean fabVisibility = savedInstanceState != null && savedInstanceState.getBoolean(TAG_FAB_VISIBILITY);
 
         if (!TextUtils.isEmpty(mPlaylist.getArtworkMrl())) {

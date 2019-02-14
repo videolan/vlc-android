@@ -18,6 +18,7 @@ import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.retry
 import org.videolan.vlc.viewmodels.SortableModel
 
+@Suppress("LeakingThis")
 @ExperimentalCoroutinesApi
 abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableModel(context), Medialibrary.OnMedialibraryReadyListener, Medialibrary.OnDeviceChangeListener {
     protected val medialibrary = Medialibrary.getInstance()
@@ -36,10 +37,8 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
             .build()
 
     init {
-        medialibrary.apply {
-            medialibrary.addOnMedialibraryReadyListener(this@MLPagedModel)
-            medialibrary.addOnDeviceChangeListener(this@MLPagedModel)
-        }
+        medialibrary.addOnMedialibraryReadyListener(this)
+        medialibrary.addOnDeviceChangeListener(this)
     }
 
     override fun onMedialibraryReady() {
@@ -127,6 +126,8 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
         mutex.withLock { for (pos in 0 until headers.size()) if (position <= headers.keyAt(pos)) return headers.valueAt(pos) }
         return ""
     }
+
+    fun getHeaderForPostion(position: Int) = runBlocking { headers.get(position) }
 
     inner class MLDataSource : PositionalDataSource<T>() {
 

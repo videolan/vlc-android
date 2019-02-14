@@ -60,7 +60,7 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
         super.onCreate(savedInstanceState)
         if (viewModel == null) {
             viewModel = ViewModelProviders.of(requireActivity(), PagedPlaylistsModel.Factory(requireContext())).get(PagedPlaylistsModel::class.java)
-            playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, viewModel.sort)
+            playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, viewModel)
             mAdapter = playlistAdapter
         }
     }
