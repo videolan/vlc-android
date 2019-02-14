@@ -127,7 +127,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
         return ""
     }
 
-    fun getHeaderForPostion(position: Int) = runBlocking { headers.get(position) }
+    fun getHeaderForPostion(position: Int) = runBlocking { mutex.withLock { headers.get(position) } }
 
     inner class MLDataSource : PositionalDataSource<T>() {
 
