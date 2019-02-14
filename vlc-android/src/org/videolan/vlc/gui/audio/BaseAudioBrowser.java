@@ -231,7 +231,7 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
 
     @Override
     protected void sortBy(int sort) {
-        if (ModelsHelperKt.canSortBy(getViewModel(), sort)) getCurrentAdapter().setSort(sort);
+        ModelsHelperKt.canSortBy(getViewModel(), sort);
         super.sortBy(sort);
     }
 

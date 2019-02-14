@@ -64,22 +64,22 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     private final IEventsHandler mIEventsHandler;
     private MultiSelectHelper<MediaLibraryItem> multiSelectHelper;
     private final int mType;
-    private int mSort;
+    private final boolean mHasSections;
     private final BitmapDrawable mDefaultCover;
     private final MLPagedModel mModel;
 
-    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, MLPagedModel model) {
+    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, MLPagedModel model, boolean sections) {
         super(DIFF_CALLBACK);
         multiSelectHelper = new MultiSelectHelper<>(this, Constants.UPDATE_SELECTION);
         mIEventsHandler = eventsHandler;
         mType = type;
         mDefaultCover = getIconDrawable();
-        mSort = model.getSort();
         mModel = model;
+        mHasSections = sections;
     }
 
-    void setSort(int sort) {
-        mSort = sort;
+    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, MLPagedModel model) {
+        this(type, eventsHandler, model, true);
     }
 
     @NonNull
@@ -94,9 +94,8 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     public void onBindViewHolder(@NonNull MediaItemViewHolder holder, int position) {
         if (position >= getItemCount()) return;
         final MediaLibraryItem item = getItem(position);
-        if (item == null) return;
         holder.binding.setItem(item);
-        setHeader(holder, position);
+        if (mHasSections) setHeader(holder, position);
         final boolean isSelected = multiSelectHelper.isSelected(position);
         holder.setCoverlay(isSelected);
         holder.selectView(isSelected);
@@ -114,7 +113,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                 holder.selectView(isSelected);
             } else if (payload instanceof Integer) {
                 if ((Integer) payload == UPDATE_PAYLOAD) {
-                    setHeader(holder, position);
+                    if (mHasSections) setHeader(holder, position);
                 } else if ((Integer) payload == Constants.UPDATE_SELECTION) {
                     final boolean isSelected = multiSelectHelper.isSelected(position);
                     holder.setCoverlay(isSelected);
@@ -125,7 +124,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     }
 
     private void setHeader(MediaItemViewHolder holder, int position) {
-        if (mSort == -1) return;
         holder.binding.setHeader(mModel.getHeaderForPostion(position));
     }
 
