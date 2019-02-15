@@ -1,6 +1,7 @@
 package org.videolan.vlc.viewmodels.paged
 
 import android.content.Context
+import androidx.annotation.MainThread
 import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
@@ -8,8 +9,6 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import androidx.paging.PositionalDataSource
 import kotlinx.coroutines.*
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
@@ -24,8 +23,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     protected val medialibrary = Medialibrary.getInstance()
     val loading = MutableLiveData<Boolean>().apply { value = false }
 
-    protected val headers = SparseArrayCompat<String>()
-    private val mutex = Mutex()
+    private val headers = SparseArrayCompat<String>()
 
     private val pagingConfig = PagedList.Config.Builder()
             .setPageSize(MEDIALIBRARY_PAGE_SIZE)
@@ -66,7 +64,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     abstract fun getAll() : Array<T>
 
     override fun sort(sort: Int) {
-        launch(Dispatchers.Unconfined) { mutex.withLock { headers.clear() } }
+        headers.clear()
         if (this.sort != sort) {
             this.sort = sort
             desc = false
@@ -97,7 +95,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     }
 
     override fun refresh(): Boolean {
-        launch(Dispatchers.Unconfined) { mutex.withLock { headers.clear() } }
+        headers.clear()
         if (this::restoreJob.isInitialized && restoreJob.isActive) restoreJob.cancel()
         if (pagedList.value?.dataSource?.isInvalid == false) {
             loading.postValue(true)
@@ -114,20 +112,19 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
                 else -> null
             }
             ModelsHelper.getHeader(context, sort, item, previous)?.let {
-                launch(Dispatchers.Unconfined) {
-                    mutex.withLock { headers.put(startposition+position, it) }
-
-                }
+                launch { headers.put(startposition+position, it) }
             }
         }
     }
 
-    suspend fun getSectionforPosition(position: Int): String {
-        mutex.withLock { for (pos in 0 until headers.size()) if (position <= headers.keyAt(pos)) return headers.valueAt(pos) }
+    @MainThread
+    fun getSectionforPosition(position: Int): String {
+        for (pos in 0 until headers.size()) if (position <= headers.keyAt(pos)) return headers.valueAt(pos)
         return ""
     }
 
-    fun getHeaderForPostion(position: Int) = runBlocking { mutex.withLock { headers.get(position) } }
+    @MainThread
+    fun getHeaderForPostion(position: Int) = headers.get(position)
 
     inner class MLDataSource : PositionalDataSource<T>() {
 
