@@ -31,6 +31,7 @@ import android.text.TextUtils
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -84,6 +85,18 @@ class FilePickerFragment : FileBrowserFragment() {
             browse(media, true)
         else
             pickFile(media)
+
+    }
+
+    override fun onRemove(position: Int, item: MediaLibraryItem) {
+
+    }
+
+    override fun onMove(position: Int, item: MediaLibraryItem) {
+
+    }
+
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
 
     }
 

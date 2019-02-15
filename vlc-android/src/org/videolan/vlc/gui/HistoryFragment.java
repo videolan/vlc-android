@@ -260,6 +260,21 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
     public void onCtxClick(View v, int position, MediaLibraryItem item) {}
 
     @Override
+    public void onRemove(int position, @NotNull MediaLibraryItem item) {
+
+    }
+
+    @Override
+    public void onMove(int position, @NotNull MediaLibraryItem item) {
+
+    }
+
+    @Override
+    public void onStartDrag(@NotNull RecyclerView.ViewHolder viewHolder) {
+
+    }
+
+    @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         invalidateActionMode();
         UiTools.updateSortTitles(this);

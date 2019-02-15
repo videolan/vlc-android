@@ -435,6 +435,18 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
+    override fun onRemove(position: Int, item: MediaLibraryItem) {
+
+    }
+
+    override fun onMove(position: Int, item: MediaLibraryItem) {
+
+    }
+
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
+
+    }
+
     override fun onCtxAction(position: Int, option: Int) {
         if (adapter.getItem(position) !is MediaWrapper) return
         val mw = adapter.getItem(position) as MediaWrapper

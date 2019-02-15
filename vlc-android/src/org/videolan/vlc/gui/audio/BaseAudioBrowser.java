@@ -281,6 +281,21 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
     }
 
     @Override
+    public void onRemove(int position, @NotNull MediaLibraryItem item) {
+
+    }
+
+    @Override
+    public void onMove(int position, @NotNull MediaLibraryItem item) {
+
+    }
+
+    @Override
+    public void onStartDrag(@NotNull RecyclerView.ViewHolder viewHolder) {
+
+    }
+
+    @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         UiTools.updateSortTitles(this);
     }

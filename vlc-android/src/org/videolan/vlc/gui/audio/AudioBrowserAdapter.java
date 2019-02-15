@@ -28,6 +28,7 @@ import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -42,6 +43,7 @@ import org.videolan.vlc.gui.helpers.ImageLoaderKt;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
+import org.videolan.vlc.interfaces.SwipeDragHelperAdapter;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
 
@@ -49,6 +51,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.MotionEventCompat;
+import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.paging.PagedListAdapter;
@@ -56,23 +60,25 @@ import androidx.recyclerview.widget.DiffUtil;
 
 import static org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED;
 
-public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, AudioBrowserAdapter.MediaItemViewHolder> implements FastScroller.SeparatedAdapter, MultiSelectAdapter<MediaLibraryItem> {
+public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, AudioBrowserAdapter.MediaItemViewHolder> implements FastScroller.SeparatedAdapter, MultiSelectAdapter<MediaLibraryItem>, SwipeDragHelperAdapter {
 
     private static final String TAG = "VLC/AudioBrowserAdapter";
     private static final int UPDATE_PAYLOAD = 1;
 
     private final IEventsHandler mIEventsHandler;
+    private final boolean mCanBeReordered;
     private MultiSelectHelper<MediaLibraryItem> multiSelectHelper;
     private final int mType;
     private final boolean mHasSections;
     private final BitmapDrawable mDefaultCover;
 
-    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, boolean sections) {
+    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, boolean sections, boolean canBeReordered) {
         super(DIFF_CALLBACK);
         multiSelectHelper = new MultiSelectHelper<>(this, Constants.UPDATE_SELECTION);
         mIEventsHandler = eventsHandler;
         mType = type;
         mHasSections = sections;
+        mCanBeReordered = canBeReordered;
         Context ctx = null;
         if (eventsHandler instanceof Context) ctx = (Context) eventsHandler;
         else if (eventsHandler instanceof Fragment) ctx = ((Fragment)eventsHandler).getContext();
@@ -80,7 +86,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     }
 
     public AudioBrowserAdapter(int type, IEventsHandler eventsHandler) {
-        this(type, eventsHandler, true);
+        this(type, eventsHandler,  true, false);
     }
 
     @NonNull
@@ -99,6 +105,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         final boolean isSelected = multiSelectHelper.isSelected(position);
         holder.setCoverlay(isSelected);
         holder.selectView(isSelected);
+        holder.setCanBeReordered(mCanBeReordered);
         holder.binding.executePendingBindings();
     }
 
@@ -116,6 +123,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                     final boolean isSelected = multiSelectHelper.isSelected(position);
                     holder.setCoverlay(isSelected);
                     holder.selectView(isSelected);
+                    holder.setCanBeReordered(mCanBeReordered);
                 }
             }
         }
@@ -177,8 +185,27 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         return true;
     }
 
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onItemMoved(int dragFrom, int dragTo) {
+        final MediaLibraryItem item = getItem(dragFrom);
+        mIEventsHandler.onMove(dragTo, item);
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        final MediaLibraryItem item = getItem(position);
+        mIEventsHandler.onRemove(position, item);
+    }
+
     public class MediaItemViewHolder extends SelectorViewHolder<AudioBrowserItemBinding> implements View.OnFocusChangeListener {
         int coverlayResource = 0;
+        public View.OnTouchListener onTouchListener;
+        private boolean canBeReordered;
 
         @TargetApi(Build.VERSION_CODES.M)
         MediaItemViewHolder(AudioBrowserItemBinding binding) {
@@ -193,6 +220,22 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                         return true;
                     }
                 });
+
+            onTouchListener = new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (!mCanBeReordered) {
+                        return false;
+                    }
+                    if (multiSelectHelper.getSelectionCount() != 0) {
+                        return false;
+                    }
+                    if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                        mIEventsHandler.onStartDrag(MediaItemViewHolder.this);
+                    }
+                    return false;
+                }
+            };
         }
 
         public void onClick(View v) {
@@ -230,6 +273,14 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         @Override
         protected boolean isSelected() {
             return multiSelectHelper.isSelected(getLayoutPosition());
+        }
+
+        public void setCanBeReordered(boolean canBeReordered) {
+            this.canBeReordered = canBeReordered;
+        }
+
+        public boolean getCanBeReordered() {
+            return canBeReordered;
         }
     }
 

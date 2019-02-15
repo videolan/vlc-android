@@ -678,6 +678,7 @@
     <string name="video_save_clone_mode">Automatically activate clone mode?</string>
     <string name="video_remote_enable">Switch to remote control mode</string>
     <string name="video_remote_disable">Duplicate screen</string>
+    <string name="removed_from_playlist_anonymous">Item(s) removed from playlist</string>
     <string name="welcome_title">Welcome to VLC!</string>
     <string name="welcome_subtitle">The free and open source multimedia player</string>
     <string name="permission_media">VLC needs your permission to access media on your device</string>

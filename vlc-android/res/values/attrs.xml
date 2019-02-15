@@ -47,7 +47,6 @@
     <attr name="ic_previous" format="reference" />
     <attr name="ic_next" format="reference" />
     <attr name="ic_close" format="reference" />
-    <attr name="ic_move_media" format="reference" />
     <attr name="ic_save" format="reference" />
     <attr name="ic_trash" format="reference" />
     <attr name="ic_reset" format="reference" />

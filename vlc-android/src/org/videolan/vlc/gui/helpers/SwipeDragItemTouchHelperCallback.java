@@ -23,34 +23,68 @@
 
 package org.videolan.vlc.gui.helpers;
 
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
-
+import org.jetbrains.annotations.NotNull;
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class SwipeDragItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
+    private static final String TAG = SwipeDragItemTouchHelperCallback.class.getSimpleName();
     private final SwipeDragHelperAdapter mAdapter;
+    private int dragFrom;
+    private int dragTo;
 
     public SwipeDragItemTouchHelperCallback(SwipeDragHelperAdapter mAdapter) {
         this.mAdapter = mAdapter;
     }
 
     @Override
-    public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+    public int getMovementFlags(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder) {
         int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
         int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
         return makeMovementFlags(dragFlags, swipeFlags);
     }
 
     @Override
-    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+    public boolean onMove(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder, @NotNull RecyclerView.ViewHolder target) {
         mAdapter.onItemMove(viewHolder.getLayoutPosition(), target.getLayoutPosition());
+        int fromPosition = viewHolder.getLayoutPosition();
+        int toPosition = target.getLayoutPosition();
+
+
+        if(dragFrom == -1) {
+            dragFrom =  fromPosition;
+        }
+        dragTo = toPosition;
+
         return true;
     }
 
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+    public boolean isLongPressDragEnabled() {
+        return false;
+    }
+
+    @Override
+    public void onMoved(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, int fromPos, @NonNull RecyclerView.ViewHolder target, int toPos, int x, int y) {
+        super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y);
+    }
+
+    @Override
+    public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+        if(dragFrom != -1 && dragTo != -1 && dragFrom != dragTo) {
+            mAdapter.onItemMoved(dragFrom, dragTo);
+        }
+
+        dragFrom = dragTo = -1;
+        super.clearView(recyclerView, viewHolder);
+    }
+
+    @Override
+    public void onSwiped(@NotNull RecyclerView.ViewHolder viewHolder, int direction) {
         mAdapter.onItemDismiss(viewHolder.getLayoutPosition());
     }
 }

@@ -31,6 +31,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +45,7 @@ import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.media.Playlist;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.databinding.PlaylistActivityBinding;
@@ -54,6 +56,7 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior;
+import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback;
 import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaUtils;
@@ -68,8 +71,10 @@ import org.videolan.vlc.viewmodels.paged.PagedTracksModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.view.ActionMode;
@@ -78,6 +83,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import kotlinx.coroutines.Job;
@@ -85,7 +91,7 @@ import kotlinx.coroutines.Job;
 public class PlaylistActivity extends AudioPlayerContainerActivity implements IEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver {
 
     public final static String TAG = "VLC/PlaylistActivity";
-    public final static String TAG_FAB_VISIBILITY= "FAB";
+    public final static String TAG_FAB_VISIBILITY = "FAB";
 
     private AudioBrowserAdapter mAdapter;
     private MediaLibraryItem mPlaylist;
@@ -94,6 +100,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     private ActionMode mActionMode;
     private boolean mIsPlaylist;
     private PagedTracksModel tracksModel;
+    private ItemTouchHelper mItemTouchHelper;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -112,7 +119,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         mIsPlaylist = mPlaylist.getItemType() == MediaLibraryItem.TYPE_PLAYLIST;
         mBinding.setPlaylist(mPlaylist);
         tracksModel = ViewModelProviders.of(this, new PagedTracksModel.Factory(this, mPlaylist)).get(PagedTracksModel.class);
-        ((MLPagedModel)tracksModel).getPagedList().observe(this, new Observer<PagedList<MediaLibraryItem>>() {
+        ((MLPagedModel) tracksModel).getPagedList().observe(this, new Observer<PagedList<MediaLibraryItem>>() {
             @Override
             public void onChanged(@Nullable PagedList<MediaLibraryItem> tracks) {
                 if (tracks != null) {
@@ -122,6 +129,8 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             }
         });
         mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this);
+        mItemTouchHelper = new ItemTouchHelper(new SwipeDragItemTouchHelperCallback(mAdapter));
+        mItemTouchHelper.attachToRecyclerView(mBinding.songs);
 
         mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
         mBinding.songs.setAdapter(mAdapter);
@@ -206,11 +215,31 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     @Override
     public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {
-        if (mActionMode == null) ContextSheetKt.showContext(this, this, position, mediaItem.getTitle(), Constants.CTX_PLAYLIST_ITEM_FLAGS);
+        if (mActionMode == null)
+            ContextSheetKt.showContext(this, this, position, mediaItem.getTitle(), Constants.CTX_PLAYLIST_ITEM_FLAGS);
     }
 
     @Override
-    public void onUpdateFinished(RecyclerView.Adapter adapter) {}
+    public void onUpdateFinished(RecyclerView.Adapter adapter) {
+    }
+
+    @Override
+    public void onRemove(int position, @NotNull final MediaLibraryItem item) {
+        ArrayList<MediaWrapper> tracks = new ArrayList<MediaWrapper>(Arrays.asList(item.getTracks()));
+        removeFromPlaylist(tracks);
+    }
+
+    @Override
+    public void onMove(int position, @NotNull MediaLibraryItem item) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "Moving item: " + item.getId() + " to " + (position + 1));
+        ((Playlist) mPlaylist).move(item.getId(), position + 1);
+
+    }
+
+    @Override
+    public void onStartDrag(@NotNull RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
+    }
 
     @Override
     protected void onPlayerStateChanged(View bottomSheet, int newState) {
@@ -321,7 +350,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         if (position >= mAdapter.getItemCount()) return;
         final MediaWrapper media = (MediaWrapper) mAdapter.getItem(position);
         if (media == null) return;
-        switch (option){
+        switch (option) {
             case Constants.CTX_INFORMATION:
                 showInfoDialog(media);
                 break;
@@ -379,7 +408,8 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                     String parentPath = FileUtils.getParent(path);
                     if (FileUtils.deleteFile(path) && media.getId() > 0L && !foldersToReload.contains(parentPath)) {
                         foldersToReload.add(parentPath);
-                    } else UiTools.snacker(mBinding.getRoot(), getString(R.string.msg_delete_failed, media.getTitle()));
+                    } else
+                        UiTools.snacker(mBinding.getRoot(), getString(R.string.msg_delete_failed, media.getTitle()));
                 }
                 for (String folder : foldersToReload) mMediaLibrary.reload(folder);
             }
@@ -391,11 +421,26 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         MediaUtils.INSTANCE.playTracks(this, mPlaylist, 0);
     }
 
-    private void removeFromPlaylist(final List<MediaWrapper> list){
-        UiTools.snackerConfirm(mBinding.getRoot(), getString(R.string.confirm_remove_from_playlist_anonymous), new Runnable() {
+    private void removeFromPlaylist(final List<MediaWrapper> list) {
+        final HashMap<Integer, Long> itemsRemoved = new HashMap<>();
+        final Playlist playlist = (Playlist) this.mPlaylist;
+
+
+        for (MediaLibraryItem mediaItem : list) {
+            for (int i = 0; i < playlist.getTracks().length; i++) {
+                if (playlist.getTracks()[i].getId() == mediaItem.getId()) {
+                    itemsRemoved.put(i + 1, mediaItem.getId());
+                }
+            }
+            playlist.remove(mediaItem.getId());
+        }
+
+        UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.removed_from_playlist_anonymous), null, new Runnable() {
             @Override
             public void run() {
-                for (MediaLibraryItem mediaItem : list) ((Playlist) mPlaylist).remove(mediaItem.getId());
+                for (Map.Entry<Integer, Long> removedItem : itemsRemoved.entrySet()) {
+                    playlist.add(removedItem.getValue(), removedItem.getKey());
+                }
             }
         });
     }

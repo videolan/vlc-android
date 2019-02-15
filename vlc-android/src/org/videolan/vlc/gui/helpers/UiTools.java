@@ -53,6 +53,7 @@ import android.view.DragAndDropPermissions;
 import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -236,6 +237,17 @@ public class UiTools {
                 t.setSelected(true);
                 break;
         }
+    }
+
+    /**
+     * sets the touch listener for a view
+     * @param view the view
+     * @param onTouchListener the listener
+     */
+    @BindingAdapter("touchListener")
+    public void setTouchListener(View view,View.OnTouchListener onTouchListener){
+        if (onTouchListener != null)
+            view.setOnTouchListener(onTouchListener);
     }
 
     public static void setViewVisibility(View v, int visibility) {

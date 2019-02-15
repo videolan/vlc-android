@@ -25,12 +25,8 @@ package org.videolan.vlc.gui.audio;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import androidx.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Message;
-import androidx.annotation.MainThread;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +47,11 @@ import org.videolan.vlc.util.WeakHandler;
 import org.videolan.vlc.viewmodels.PlaylistModel;
 
 import java.util.Collections;
+
+import androidx.annotation.MainThread;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class PlaylistAdapter extends DiffUtilAdapter<MediaWrapper, PlaylistAdapter.ViewHolder> implements SwipeDragHelperAdapter {
 
@@ -140,6 +141,11 @@ public class PlaylistAdapter extends DiffUtilAdapter<MediaWrapper, PlaylistAdapt
         Collections.swap(getDataset(), fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
         mHandler.obtainMessage(PlaylistHandler.ACTION_MOVE, fromPosition, toPosition).sendToTarget();
+    }
+
+    @Override
+    public void onItemMoved(int dragFrom, int dragTo) {
+
     }
 
     @Override

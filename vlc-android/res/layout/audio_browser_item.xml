@@ -44,13 +44,25 @@
         android:onClick="@{holder::onClick}"
         android:onLongClick="@{holder::onLongClick}">
 
-
         <!-- Image loading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
         <ImageView
+            android:id="@+id/item_move"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/more_actions"
+            android:scaleType="center"
+            android:src="@drawable/ic_move_media"
+            android:visibility="@{holder.canBeReordered ? View.VISIBLE : View.GONE, default=gone}"
+            vlc:onTouchListener="@{holder.onTouchListener}"
+            vlc:layout_constraintBottom_toBottomOf="@+id/subtitle"
+            vlc:layout_constraintStart_toStartOf="parent"
+            vlc:layout_constraintTop_toTopOf="@+id/title" />
+
+        <ImageView
             android:id="@+id/media_cover"
-            android:layout_width="0dp"
             android:layout_height="@dimen/audio_browser_item_size"
-            android:layout_gravity="center"
+            android:layout_width="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
@@ -59,9 +71,10 @@
             android:visibility="@{(item.getItemType() &amp; (MediaLibraryItem.TYPE_ALBUM|MediaLibraryItem.TYPE_ARTIST|MediaLibraryItem.TYPE_MEDIA)) != 0 ? View.VISIBLE : View.GONE, default=gone}"
             vlc:layout_constraintBottom_toBottomOf="parent"
             vlc:layout_constraintDimensionRatio="1"
-            vlc:layout_constraintStart_toStartOf="parent"
             vlc:layout_constraintTop_toTopOf="parent"
-            vlc:media="@{item}" />
+            vlc:layout_constraintStart_toEndOf="@id/item_move"
+            android:layout_gravity="center"
+            vlc:media="@{item}"/>
 
 
         <!-- TextView must be set to singleLine
