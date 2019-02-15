@@ -860,7 +860,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         broadcastMetadata()
     }
 
-    private fun onMediaListChanged() {
+    fun onMediaListChanged() {
         executeUpdate()
         updateMediaQueue()
     }

@@ -595,6 +595,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             mediaList.addEventListener(this)
             addUpdateActor.offer(Unit)
+            service.onMediaListChanged()
             if (mrl !== null && ml.count == 1) {
                 getCurrentMedia()?.apply {
                     launch(Dispatchers.IO) {
