@@ -210,11 +210,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
 
     private var wasShuffling = false
     private fun updateShuffleMode() {
+        binding.shuffle.visibility = if (playlistModel.canShuffle) View.VISIBLE else View.INVISIBLE
         val shuffling = playlistModel.shuffling
         if (wasShuffling == shuffling) return
         binding.shuffle.setImageResource(UiTools.getResourceFromAttribute(activity, if (shuffling) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
         binding.shuffle.contentDescription = resources.getString(if (shuffling) R.string.shuffle_on else R.string.shuffle)
-        binding.shuffle.visibility = if (shuffling) View.VISIBLE else View.INVISIBLE
         wasShuffling = shuffling
     }
 
