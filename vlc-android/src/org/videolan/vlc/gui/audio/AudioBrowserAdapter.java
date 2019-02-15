@@ -232,6 +232,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                     }
                     if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
                         mIEventsHandler.onStartDrag(MediaItemViewHolder.this);
+                        return true;
                     }
                     return false;
                 }
