@@ -285,10 +285,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         player.switchToVideo = false
         if (TextUtils.equals(mw.uri.scheme, "content")) withContext(Dispatchers.IO) { MediaUtils.retrieveMediaTitle(mw) }
 
-        if (mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && player.getAudioTracksCount() == 0) {
-            determinePrevAndNextIndices(true)
-            skipMedia()
-        } else if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
+        if (mw.type != MediaWrapper.TYPE_VIDEO || isVideoPlaying || player.hasRenderer
                 || mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO)) {
             val uri = withContext(Dispatchers.IO) { FileUtils.getUri(mw.uri) }
             if (uri == null) {
