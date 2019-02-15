@@ -175,9 +175,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         return true
     }
 
-    private suspend fun onPlaylistLoaded() {
+    private fun onPlaylistLoaded() {
         service.onPlaylistLoaded()
-        determinePrevAndNextIndices()
+        addUpdateActor.offer(Unit)
     }
 
     fun play() {
@@ -661,7 +661,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             return
         }
         val list = withContext(Dispatchers.IO) { list.getWithMLMeta() }
+        mediaList.removeEventListener(this)
         for (media in list) mediaList.add(media)
+        mediaList.addEventListener(this)
+        addUpdateActor.offer(Unit)
     }
 
     /**
