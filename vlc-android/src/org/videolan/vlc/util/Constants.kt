@@ -63,7 +63,7 @@ const val PLAYLIST_TYPE_VIDEO = 1
 const val REPEAT_NONE = 0
 const val REPEAT_ONE = 1
 const val REPEAT_ALL = 2
-const val MEDIALIBRARY_PAGE_SIZE = 100
+const val MEDIALIBRARY_PAGE_SIZE = 500
 
 
 // MediaParsingService

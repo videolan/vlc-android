@@ -27,7 +27,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
 
     private val pagingConfig = PagedList.Config.Builder()
             .setPageSize(MEDIALIBRARY_PAGE_SIZE)
-            .setPrefetchDistance(MEDIALIBRARY_PAGE_SIZE/2)
+            .setPrefetchDistance(MEDIALIBRARY_PAGE_SIZE/5)
             .setEnablePlaceholders(true)
             .build()
 
