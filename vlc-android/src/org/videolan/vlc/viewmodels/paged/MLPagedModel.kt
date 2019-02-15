@@ -110,7 +110,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
         for ((position, item) in list.withIndex()) {
             val previous = when {
                 position > 0 -> list[position-1]
-                startposition > 0 -> pagedList.value?.get(startposition+position-1)
+                startposition > 0 -> pagedList.value?.getOrNull(startposition+position-1)
                 else -> null
             }
             ModelsHelper.getHeader(context, sort, item, previous)?.let {
