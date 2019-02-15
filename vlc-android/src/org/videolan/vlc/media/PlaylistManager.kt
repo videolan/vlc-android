@@ -607,7 +607,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         }
                     }
                 }
-
             }
             ret = index
         }

@@ -934,12 +934,12 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         val media = playlistManager.getCurrentMedia()
         if (media == null || isVideoPlaying) return
         launch(Dispatchers.Default) { sendBroadcast(Intent("com.android.music.metachanged")
-                    .putExtra("track", media.title)
-                    .putExtra("artist", media.artist)
-                    .putExtra("album", media.album)
-                    .putExtra("duration", media.length)
-                    .putExtra("playing", isPlaying)
-                    .putExtra("package", "org.videolan.vlc"))
+                .putExtra("track", media.title)
+                .putExtra("artist", media.artist)
+                .putExtra("album", media.album)
+                .putExtra("duration", media.length)
+                .putExtra("playing", isPlaying)
+                .putExtra("package", "org.videolan.vlc"))
         }
     }
 
@@ -1009,19 +1009,22 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     @MainThread
     fun load(mediaList: List<MediaWrapper>, position: Int) = playlistManager.load(mediaList, position)
 
-    private fun updateMediaQueue() {
-        val queue = LinkedList<MediaSessionCompat.QueueItem>()
-        var position = -1L
-        for (media in playlistManager.getMediaList()) {
-            var title: String? = media.nowPlaying
-            if (title == null) title = media.title
-            val builder = MediaDescriptionCompat.Builder()
-            builder.setTitle(title)
-                    .setDescription(Util.getMediaDescription(MediaUtils.getMediaArtist(this, media), MediaUtils.getMediaAlbum(this, media)))
-                    .setIconBitmap(BitmapUtil.getPictureFromCache(media))
-                    .setMediaUri(media.uri)
-                    .setMediaId(BrowserProvider.generateMediaId(media))
-            queue.add(MediaSessionCompat.QueueItem(builder.build(), ++position))
+    private fun updateMediaQueue() = launch {
+        val ctx = this@PlaybackService
+        val queue = withContext(Dispatchers.Default) {
+            LinkedList<MediaSessionCompat.QueueItem>().also {
+                for ((position, media) in playlistManager.getMediaList().withIndex()) {
+                    var title: String? = media.nowPlaying
+                    if (title == null) title = media.title
+                    val builder = MediaDescriptionCompat.Builder()
+                    builder.setTitle(title)
+                            .setDescription(Util.getMediaDescription(MediaUtils.getMediaArtist(ctx, media), MediaUtils.getMediaAlbum(ctx, media)))
+                            .setIconBitmap(BitmapUtil.getPictureFromCache(media))
+                            .setMediaUri(media.uri)
+                            .setMediaId(BrowserProvider.generateMediaId(media))
+                    it.add(MediaSessionCompat.QueueItem(builder.build(), position.toLong()))
+                }
+            }
         }
         mediaSession.setQueue(queue)
     }
