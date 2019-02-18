@@ -93,7 +93,8 @@ public class MediaWrapperList {
     }
 
     public synchronized void insert(int position, MediaWrapper media) {
-        mInternalList.add(position, media);
+        if (position < 0) return;
+        mInternalList.add(Math.min(position, mInternalList.size()), media);
         signalEventListeners(EVENT_ADDED, position, -1, media.getLocation());
         if (media.getType() == MediaWrapper.TYPE_VIDEO)
             ++mVideoCount;
@@ -121,8 +122,7 @@ public class MediaWrapperList {
     }
 
     public synchronized void remove(int position) {
-        if (!isValid(position))
-            return;
+        if (!isValid(position)) return;
         if (mInternalList.get(position).getType() == MediaWrapper.TYPE_VIDEO)
             --mVideoCount;
         String uri = mInternalList.get(position).getLocation();
