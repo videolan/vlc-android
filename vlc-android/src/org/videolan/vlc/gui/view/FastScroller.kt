@@ -32,6 +32,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Message
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -47,6 +48,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.util.WeakHandler
 import org.videolan.vlc.viewmodels.paged.MLPagedModel
@@ -341,8 +343,12 @@ class FastScroller : LinearLayout, CoroutineScope {
     private val actor = actor<Unit>(capacity = Channel.CONFLATED) {
         for (evt in channel) {
             sb.setLength(0)
-            val position = layoutManager.findFirstVisibleItemPosition()
-            val sectionforPosition = model.getSectionforPosition(position)
+
+            //ItemDecoration has to be taken into account so we add 1 for the sticky header
+            val position = layoutManager.findFirstVisibleItemPosition() + 1
+            if (BuildConfig.DEBUG) Log.d(TAG, "findFirstVisibleItemPosition $position")
+            val pos = model.getPositionForSection(position)
+            val sectionforPosition = model.getSectionforPosition(pos)
             sb.append(' ')
                     .append(sectionforPosition)
                     .append(' ')
@@ -350,6 +356,7 @@ class FastScroller : LinearLayout, CoroutineScope {
             delay(100L)
         }
     }
+
     /**
      * Updates the position of the bubble and refresh the letter
      */
