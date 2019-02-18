@@ -83,6 +83,7 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     void attachViews() {
+        if (mVideoSurface == null && mVideoTexture == null) return;
         final IVLCVout vlcVout = mMediaPlayer.getVLCVout();
         if (mVideoSurface != null) {
             vlcVout.setVideoView(mVideoSurface);
@@ -115,7 +116,7 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     void detachViews() {
-        if (mOnLayoutChangeListener != null) {
+        if (mOnLayoutChangeListener != null && mVideoSurfaceFrame != null) {
             mVideoSurfaceFrame.removeOnLayoutChangeListener(mOnLayoutChangeListener);
             mOnLayoutChangeListener = null;
         }
