@@ -5,6 +5,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
@@ -93,7 +94,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     }
 
     fun setup() {
-        if (!this::recyclerview.isInitialized) return
+        if (!this::recyclerview.isInitialized || service.playlistManager.player.playbackState == PlaybackStateCompat.STATE_STOPPED) return
         val options = mutableListOf<PlayerOption>()
         when (playerOptionType) {
             PlayerOptionType.ADVANCED -> {
