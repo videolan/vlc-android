@@ -40,6 +40,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
@@ -51,6 +52,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.util.WeakHandler
+import org.videolan.vlc.viewmodels.paged.HeadersIndex
 import org.videolan.vlc.viewmodels.paged.MLPagedModel
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -67,7 +69,8 @@ private const val ITEM_THRESHOLD = 25
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class FastScroller : LinearLayout, CoroutineScope {
+class FastScroller : LinearLayout, CoroutineScope, Observer<HeadersIndex> {
+
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
     private var currentHeight: Int = 0
     private var itemCount: Int = 0
@@ -230,7 +233,9 @@ class FastScroller : LinearLayout, CoroutineScope {
         this.recyclerView.removeOnScrollListener(scrollListener)
         visibility = View.INVISIBLE
         itemCount = recyclerView.adapter!!.itemCount
+        if (this::model.isInitialized) this.model.liveHeaders.removeObserver(this)
         this.model = model
+        model.liveHeaders.observeForever(this)
         recyclerView.addOnScrollListener(scrollListener)
         showBubble = (recyclerView.adapter as SeparatedAdapter).hasSections()
     }
@@ -341,7 +346,7 @@ class FastScroller : LinearLayout, CoroutineScope {
     }
 
     private val actor = actor<Unit>(capacity = Channel.CONFLATED) {
-        for (evt in channel) {
+        for (evt in channel) if (fastScrolling) {
             sb.setLength(0)
 
             //ItemDecoration has to be taken into account so we add 1 for the sticky header
@@ -366,6 +371,10 @@ class FastScroller : LinearLayout, CoroutineScope {
         val proportion = if (recyclerviewTotalHeight == 0) 0f else verticalScrollOffset / recyclerviewTotalHeight.toFloat()
         setPosition(currentHeight * proportion)
         if (visibility == View.INVISIBLE) handler.sendEmptyMessage(SHOW_SCROLLER)
-        if (fastScrolling) actor.offer(Unit)
+        actor.offer(Unit)
+    }
+
+    override fun onChanged(t: HeadersIndex?) {
+        actor.offer(Unit)
     }
 }

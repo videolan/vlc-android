@@ -3,6 +3,7 @@ package org.videolan.vlc.viewmodels.paged
 import android.content.Context
 import androidx.annotation.MainThread
 import androidx.collection.SparseArrayCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
@@ -17,13 +18,16 @@ import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.retry
 import org.videolan.vlc.viewmodels.SortableModel
 
+typealias HeadersIndex = SparseArrayCompat<String>
+
 @Suppress("LeakingThis")
 @ExperimentalCoroutinesApi
 abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableModel(context), Medialibrary.OnMedialibraryReadyListener, Medialibrary.OnDeviceChangeListener {
     protected val medialibrary = Medialibrary.getInstance()
     val loading = MutableLiveData<Boolean>().apply { value = false }
 
-    private val headers = SparseArrayCompat<String>()
+    private val headers = HeadersIndex()
+    val liveHeaders : LiveData<HeadersIndex> = MutableLiveData<HeadersIndex>()
 
     private val pagingConfig = PagedList.Config.Builder()
             .setPageSize(MEDIALIBRARY_PAGE_SIZE)
@@ -112,7 +116,10 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
                 else -> null
             }
             ModelsHelper.getHeader(context, sort, item, previous)?.let {
-                launch { headers.put(startposition + position, it) }
+                launch {
+                    headers.put(startposition + position, it)
+                    (liveHeaders as MutableLiveData<HeadersIndex>).value = headers
+                }
             }
         }
     }
