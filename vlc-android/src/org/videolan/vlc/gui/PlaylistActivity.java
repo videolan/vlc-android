@@ -118,7 +118,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 }
             }
         });
-        mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, tracksModel, false);
+        mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this);
 
         mBinding.songs.setLayoutManager(new LinearLayoutManager(this));
         mBinding.songs.setAdapter(mAdapter);

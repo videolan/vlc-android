@@ -45,6 +45,7 @@ import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.audio.BaseAudioBrowser
 import org.videolan.vlc.gui.view.FastScroller
+import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.reload
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.viewmodels.paged.PagedPlaylistsModel
@@ -60,7 +61,7 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
         super.onCreate(savedInstanceState)
         if (viewModel == null) {
             viewModel = ViewModelProviders.of(requireActivity(), PagedPlaylistsModel.Factory(requireContext())).get(PagedPlaylistsModel::class.java)
-            playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, viewModel)
+            playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this)
             mAdapter = playlistAdapter
         }
     }
@@ -75,6 +76,7 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
         binding.swipeLayout.setOnRefreshListener(this)
         playlists.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
         playlists.adapter = playlistAdapter
+        playlists.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel))
         fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller) as FastScroller
         fastScroller.attachToCoordinator(view.rootView.findViewById(R.id.appbar) as AppBarLayout, view.rootView.findViewById(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById(R.id.fab) as FloatingActionButton)
     }

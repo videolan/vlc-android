@@ -95,4 +95,5 @@
     <dimen name="audio_item_padding_botom">4dp</dimen>
     <dimen name="audio_item_title_size">14sp</dimen>
     <dimen name="wizard_dialog_width">288dp</dimen>
+    <dimen name="recycler_section_header_height">48dp</dimen>
 </resources>

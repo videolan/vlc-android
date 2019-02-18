@@ -27,7 +27,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
 
     private val pagingConfig = PagedList.Config.Builder()
             .setPageSize(MEDIALIBRARY_PAGE_SIZE)
-            .setPrefetchDistance(MEDIALIBRARY_PAGE_SIZE/5)
+            .setPrefetchDistance(MEDIALIBRARY_PAGE_SIZE / 5)
             .setEnablePlaceholders(true)
             .build()
 
@@ -59,9 +59,9 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
         super.onCleared()
     }
 
-    abstract fun getTotalCount() : Int
-    abstract fun getPage(loadSize: Int, startposition: Int) : Array<T>
-    abstract fun getAll() : Array<T>
+    abstract fun getTotalCount(): Int
+    abstract fun getPage(loadSize: Int, startposition: Int): Array<T>
+    abstract fun getAll(): Array<T>
 
     override fun sort(sort: Int) {
         headers.clear()
@@ -83,7 +83,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
         refresh()
     }
 
-    private lateinit var restoreJob : Job
+    private lateinit var restoreJob: Job
     override fun restore() {
         restoreJob = launch {
             delay(500L)
@@ -107,12 +107,12 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     protected fun completeHeaders(list: Array<T>, startposition: Int) {
         for ((position, item) in list.withIndex()) {
             val previous = when {
-                position > 0 -> list[position-1]
-                startposition > 0 -> pagedList.value?.getOrNull(startposition+position-1)
+                position > 0 -> list[position - 1]
+                startposition > 0 -> pagedList.value?.getOrNull(startposition + position - 1)
                 else -> null
             }
             ModelsHelper.getHeader(context, sort, item, previous)?.let {
-                launch { headers.put(startposition+position, it) }
+                launch { headers.put(startposition + position, it) }
             }
         }
     }
@@ -123,6 +123,18 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
         return ""
     }
 
+
+    @MainThread
+    fun isFirstInSection(position: Int): Boolean {
+        return headers.containsKey(position)
+    }
+
+    @MainThread
+    fun getPositionForSection(position: Int): Int {
+        for (pos in headers.size()-1 downTo 0) if (position >= headers.keyAt(pos)) return headers.keyAt(pos)
+        return 0
+    }
+
     @MainThread
     fun getHeaderForPostion(position: Int) = headers.get(position)
 
@@ -131,7 +143,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
         @ExperimentalCoroutinesApi
         override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<T>) {
             launch(Dispatchers.Unconfined) {
-                retry( 1) {
+                retry(1) {
                     val page = getPage(params.requestedLoadSize, params.requestedStartPosition)
                     val count = if (page.size < params.requestedLoadSize) page.size else getTotalCount()
                     try {

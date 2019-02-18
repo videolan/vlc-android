@@ -43,6 +43,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
 import org.videolan.vlc.gui.view.FastScroller;
+import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
@@ -147,6 +148,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             mLists[i].setAdapter(mAdapters[i]);
             if (positions != null) mLists[i].scrollToPosition(positions.get(i));
             mLists[i].addOnScrollListener(mScrollListener);
+            mLists[i].addItemDecoration(new RecyclerSectionItemDecoration(getResources().getDimensionPixelSize(R.dimen.recycler_section_header_height), true, models[i]));
         }
         mViewPager.setOnTouchListener(mSwipeFilter);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -167,19 +169,19 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
         for (int pass = 0 ; pass < 2; ++pass) {
             if ((pass != 0 ^ current == MODE_ARTIST) && mArtistsAdapter == null) {
                 artistModel = ViewModelProviders.of(requireActivity(), new PagedArtistsModel.Factory(requireContext(), mSettings.getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false))).get(PagedArtistsModel.class);
-                mArtistsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this, artistModel);
+                mArtistsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this);
             }
             if ((pass != 0 ^ current == MODE_ALBUM) && mAlbumsAdapter == null) {
                 albumModel = ViewModelProviders.of(requireActivity(), new PagedAlbumsModel.Factory(requireContext(), null)).get(PagedAlbumsModel.class);
-                mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this, albumModel);
+                mAlbumsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this);
             }
             if ((pass != 0 ^ current == MODE_SONG) && mSongsAdapter == null) {
                 tracksModel = ViewModelProviders.of(requireActivity(), new PagedTracksModel.Factory(requireContext(), null)).get(PagedTracksModel.class);
-                mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, tracksModel);
+                mSongsAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this);
             }
             if ((pass != 0 ^ current == MODE_GENRE) && mGenresAdapter == null) {
                 genresModel = ViewModelProviders.of(requireActivity(), new PagedGenresModel.Factory(requireContext())).get(PagedGenresModel.class);
-                mGenresAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this, genresModel);
+                mGenresAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_GENRE, this);
             }
         }
         mAdapters = new AudioBrowserAdapter[] {mArtistsAdapter, mAlbumsAdapter, mSongsAdapter, mGenresAdapter};
