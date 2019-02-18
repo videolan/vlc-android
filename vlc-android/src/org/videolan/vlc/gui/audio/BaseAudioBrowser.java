@@ -31,7 +31,6 @@ import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 
-import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
@@ -280,20 +279,6 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
         if (mActionMode == null) ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), flags);
     }
 
-    @Override
-    public void onRemove(int position, @NotNull MediaLibraryItem item) {
-
-    }
-
-    @Override
-    public void onMove(int position, @NotNull MediaLibraryItem item) {
-
-    }
-
-    @Override
-    public void onStartDrag(@NotNull RecyclerView.ViewHolder viewHolder) {
-
-    }
 
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {

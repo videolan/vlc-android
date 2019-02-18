@@ -37,7 +37,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -414,20 +413,6 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
             ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), flags);
     }
 
-    @Override
-    public void onRemove(int position, @NotNull MediaLibraryItem item) {
-
-    }
-
-    @Override
-    public void onMove(int position, @NotNull MediaLibraryItem item) {
-
-    }
-
-    @Override
-    public void onStartDrag(@NotNull RecyclerView.ViewHolder viewHolder) {
-
-    }
 
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {

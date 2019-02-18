@@ -39,9 +39,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.*
-import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -196,17 +193,6 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
         }
     }
 
-    override fun onRemove(position: Int, item: MediaLibraryItem) {
-
-    }
-
-    override fun onMove(position: Int, item: MediaLibraryItem) {
-
-    }
-
-    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
-
-    }
 
     internal fun processEvent(cbp: CheckBox, mrl: String) {
         cbp.isEnabled = false

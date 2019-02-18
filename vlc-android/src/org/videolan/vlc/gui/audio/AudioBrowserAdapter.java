@@ -43,6 +43,7 @@ import org.videolan.vlc.gui.helpers.ImageLoaderKt;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
+import org.videolan.vlc.interfaces.IListEventsHandler;
 import org.videolan.vlc.interfaces.SwipeDragHelperAdapter;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
@@ -66,19 +67,19 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     private static final int UPDATE_PAYLOAD = 1;
 
     private final IEventsHandler mIEventsHandler;
-    private final boolean mCanBeReordered;
+    private final IListEventsHandler mListEventsHandler;
     private MultiSelectHelper<MediaLibraryItem> multiSelectHelper;
     private final int mType;
     private final boolean mHasSections;
     private final BitmapDrawable mDefaultCover;
 
-    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, boolean sections, boolean canBeReordered) {
+    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, IListEventsHandler listEventsHandler, boolean sections, boolean canBeReordered) {
         super(DIFF_CALLBACK);
         multiSelectHelper = new MultiSelectHelper<>(this, Constants.UPDATE_SELECTION);
         mIEventsHandler = eventsHandler;
         mType = type;
         mHasSections = sections;
-        mCanBeReordered = canBeReordered;
+        mListEventsHandler = listEventsHandler;
         Context ctx = null;
         if (eventsHandler instanceof Context) ctx = (Context) eventsHandler;
         else if (eventsHandler instanceof Fragment) ctx = ((Fragment)eventsHandler).getContext();
@@ -86,7 +87,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     }
 
     public AudioBrowserAdapter(int type, IEventsHandler eventsHandler) {
-        this(type, eventsHandler,  true, false);
+        this(type, eventsHandler, null,  true, false);
     }
 
     @NonNull
@@ -105,7 +106,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         final boolean isSelected = multiSelectHelper.isSelected(position);
         holder.setCoverlay(isSelected);
         holder.selectView(isSelected);
-        holder.setCanBeReordered(mCanBeReordered);
+        holder.setCanBeReordered(mListEventsHandler != null);
         holder.binding.executePendingBindings();
     }
 
@@ -123,7 +124,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                     final boolean isSelected = multiSelectHelper.isSelected(position);
                     holder.setCoverlay(isSelected);
                     holder.selectView(isSelected);
-                    holder.setCanBeReordered(mCanBeReordered);
+                    holder.setCanBeReordered(mListEventsHandler != null);
                 }
             }
         }
@@ -193,13 +194,13 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     @Override
     public void onItemMoved(int dragFrom, int dragTo) {
         final MediaLibraryItem item = getItem(dragFrom);
-        mIEventsHandler.onMove(dragTo, item);
+        mListEventsHandler.onMove(dragTo, item);
     }
 
     @Override
     public void onItemDismiss(int position) {
         final MediaLibraryItem item = getItem(position);
-        mIEventsHandler.onRemove(position, item);
+        mListEventsHandler.onRemove(position, item);
     }
 
     public class MediaItemViewHolder extends SelectorViewHolder<AudioBrowserItemBinding> implements View.OnFocusChangeListener {
@@ -224,14 +225,14 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
             onTouchListener = new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (!mCanBeReordered) {
+                    if (mListEventsHandler == null) {
                         return false;
                     }
                     if (multiSelectHelper.getSelectionCount() != 0) {
                         return false;
                     }
                     if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                        mIEventsHandler.onStartDrag(MediaItemViewHolder.this);
+                        mListEventsHandler.onStartDrag(MediaItemViewHolder.this);
                         return true;
                     }
                     return false;

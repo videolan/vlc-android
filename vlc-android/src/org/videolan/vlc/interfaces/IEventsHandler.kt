@@ -10,7 +10,4 @@ interface IEventsHandler {
     fun onImageClick(v: View, position: Int, item: MediaLibraryItem)
     fun onCtxClick(v: View, position: Int, item: MediaLibraryItem)
     fun onUpdateFinished(adapter: RecyclerView.Adapter<*>)
-    fun onRemove(position: Int, item: MediaLibraryItem)
-    fun onMove(position: Int, item: MediaLibraryItem)
-    fun onStartDrag(viewHolder:RecyclerView.ViewHolder )
 }

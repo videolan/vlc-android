@@ -111,13 +111,6 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
         } else super.onClick(v, position, item)
     }
 
-    override fun onRemove(position: Int, item: MediaLibraryItem) {
-
-    }
-
-    override fun onMove(position: Int, item: MediaLibraryItem) {
-
-    }
 
     override fun onRefresh() {
         activity?.reloadLibrary()
