@@ -119,7 +119,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
 
     @MainThread
     fun getSectionforPosition(position: Int): String {
-        for (pos in 0 until headers.size()) if (position <= headers.keyAt(pos)) return headers.valueAt(pos)
+        for (pos in headers.size()-1 downTo 0) if (position >= headers.keyAt(pos)) return headers.valueAt(pos)
         return ""
     }
 
