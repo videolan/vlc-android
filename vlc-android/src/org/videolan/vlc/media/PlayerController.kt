@@ -46,7 +46,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun getVout(): IVLCVout? = mediaplayer.vlcVout
 
-    fun canDoPassthrough() = mediaplayer.canDoPassthrough()
+    fun canDoPassthrough() = mediaplayer.hasMedia() && !mediaplayer.isReleased && mediaplayer.canDoPassthrough()
 
     fun getMedia(): Media? = mediaplayer.media
 
@@ -143,7 +143,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun getSpuDelay() = mediaplayer.spuDelay
 
-    fun getRate() = if (mediaplayer.hasMedia() && playbackState != PlaybackStateCompat.STATE_STOPPED) mediaplayer.rate else 1.0f
+    fun getRate() = if (mediaplayer.hasMedia() && !mediaplayer.isReleased && playbackState != PlaybackStateCompat.STATE_STOPPED) mediaplayer.rate else 1.0f
 
     fun setSpuDelay(delay: Long) = mediaplayer.setSpuDelay(delay)
 
@@ -252,9 +252,9 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun navigate(where: Int) = mediaplayer.navigate(where)
 
-    fun getChapters(title: Int): Array<out MediaPlayer.Chapter>? = mediaplayer.getChapters(title)
+    fun getChapters(title: Int): Array<out MediaPlayer.Chapter>? = if (!mediaplayer.isReleased) mediaplayer.getChapters(title) else emptyArray()
 
-    fun getTitles(): Array<out MediaPlayer.Title>? = mediaplayer.titles
+    fun getTitles(): Array<out MediaPlayer.Title>? = if (!mediaplayer.isReleased) mediaplayer.titles else emptyArray()
 
     fun getChapterIdx() = mediaplayer.chapter
 
