@@ -210,22 +210,21 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         }
 
         public void onClick(View v) {
-            if (mIEventsHandler != null) {
-                int position = getLayoutPosition();
-                mIEventsHandler.onClick(v, position, getItem(position));
-            }
+            int position = getLayoutPosition();
+            final MediaLibraryItem item = getItem(position);
+            if (item != null) mIEventsHandler.onClick(v, position, item);
         }
 
         public void onMoreClick(View v) {
-            if (mIEventsHandler != null) {
-                int position = getLayoutPosition();
-                mIEventsHandler.onCtxClick(v, position, getItem(position));
-            }
+            int position = getLayoutPosition();
+            final MediaLibraryItem item = getItem(position);
+            if (item != null) mIEventsHandler.onCtxClick(v, position, item);
         }
 
         public boolean onLongClick(View view) {
             int position = getLayoutPosition();
-            return mIEventsHandler.onLongClick(view, position, getItem(position));
+            final MediaLibraryItem item = getItem(position);
+            return item != null && mIEventsHandler.onLongClick(view, position, item);
         }
 
         private void setCoverlay(boolean selected) {
