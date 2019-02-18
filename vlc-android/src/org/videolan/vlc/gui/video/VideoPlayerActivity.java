@@ -764,8 +764,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
 
         mPlaybackStarted = false;
 
-        mService.removeCallback(this);
-
         mHandler.removeCallbacksAndMessages(null);
         mService.getMediaplayer().detachViews();
         if (mService.hasMedia() && mSwitchingView) {
@@ -2532,7 +2530,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             updateSeekable(mService.isSeekable());
             updatePausable(mService.isPausable());
         }
-        mService.addCallback(this);
         if (mUri != null) {
             MediaWrapper media = null;
             if (!continueplayback) {
@@ -2932,7 +2929,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 mHandler.sendEmptyMessage(START_PLAYBACK);
             mSwitchingView = false;
             if (mService.getVolume() > 100 && !audioBoostEnabled) mService.setVolume(100);
+            mService.addCallback(this);
         } else {
+            if (mService != null) mService.removeCallback(this);
             mService = null;
             mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
         }
