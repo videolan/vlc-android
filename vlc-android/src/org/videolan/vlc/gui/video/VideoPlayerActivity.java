@@ -694,8 +694,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 mPlaylistModel.getDataset().observe(this, mPlaylistObserver);
             }
             mPlaylistToggle.setVisibility(View.VISIBLE);
-            mHudBinding.playlistPrevious.setVisibility(View.VISIBLE);
-            mHudBinding.playlistNext.setVisibility(View.VISIBLE);
+            if (mHudBinding != null) {
+                mHudBinding.playlistPrevious.setVisibility(View.VISIBLE);
+                mHudBinding.playlistNext.setVisibility(View.VISIBLE);
+            }
             mPlaylistToggle.setOnClickListener(VideoPlayerActivity.this);
 
             final ItemTouchHelper.Callback callback =  new SwipeDragItemTouchHelperCallback(mPlaylistAdapter);
@@ -1246,8 +1248,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         }
         UiTools.setViewVisibility(mOverlayInfo, View.INVISIBLE);
         mInfo.setText("");
-        if (mHudBinding != null)
-            mHudBinding.playerOverlayPlay.requestFocus();
+        if (mHudBinding != null) mHudBinding.playerOverlayPlay.requestFocus();
     }
 
     public void delayAudio(long delta) {
@@ -2150,6 +2151,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     }
 
     private void initSeekButton() {
+        if (mHudBinding == null) return;
         mHudBinding.playerOverlayRewind.setOnClickListener(this);
         mHudBinding.playerOverlayForward.setOnClickListener(this);
         mHudBinding.playerOverlayRewind.setOnTouchListener(new OnRepeatListener(this));
@@ -2213,6 +2215,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private void showOverlayTimeout(int timeout) {
         if (mService == null) return;
         initOverlay();
+        if (mHudBinding == null) return;
         if (timeout != 0) mOverlayTimeout = timeout;
         else mOverlayTimeout = mService.isPlaying() ? OVERLAY_TIMEOUT : OVERLAY_INFINITE;
         if (mIsNavMenu){
@@ -2323,7 +2326,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 mOverlayBackground.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
                 mOverlayBackground.setVisibility(View.INVISIBLE);
             }
-            mHudBinding.progressOverlay.setVisibility(View.INVISIBLE);
+            if (mHudBinding != null) mHudBinding.progressOverlay.setVisibility(View.INVISIBLE);
             showControls(false);
             mShowing = false;
             dimStatusBar(true);
@@ -2380,8 +2383,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     }
 
     private void updateOverlayPausePlay() {
-        if (mService == null || mHudBinding == null)
-            return;
+        if (mService == null || mHudBinding == null) return;
         if (mService.isPausable())
             mHudBinding.playerOverlayPlay.setImageResource(mService.isPlaying() ? R.drawable.ic_pause_circle
                     : R.drawable.ic_play_circle);
