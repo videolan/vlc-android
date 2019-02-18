@@ -662,7 +662,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 vlcVout.detachViews();
         }
         final MediaPlayer mediaPlayer = mService.getMediaplayer();
-        if (!mDisplayManager.isOnRenderer()) {
+        if (!mDisplayManager.isOnRenderer() && mVideoLayout != null) {
             mediaPlayer.attachViews(mVideoLayout, mDisplayManager, true, false);
             final MediaPlayer.ScaleType size = mIsBenchmark ? MediaPlayer.ScaleType.SURFACE_FILL : MediaPlayer.ScaleType.values()[mSettings.getInt(PreferencesActivity.VIDEO_RATIO, MediaPlayer.ScaleType.SURFACE_BEST_FIT.ordinal())];
             mediaPlayer.setVideoScale(size);
