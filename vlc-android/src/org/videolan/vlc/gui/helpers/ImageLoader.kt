@@ -14,7 +14,6 @@ import androidx.databinding.OnRebindCallback
 import androidx.databinding.ViewDataBinding
 import androidx.leanback.widget.ImageCardView
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.media.Folder
@@ -25,12 +24,10 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.HttpImageLoader
 import org.videolan.vlc.util.ThumbnailsProvider
-import java.util.concurrent.Executors
 
 private val sBitmapCache = BitmapCache.getInstance()
 private val sMedialibrary = VLCApplication.getMLInstance()
 private const val TAG = "ImageLoader"
-private val dispatcher = Executors.newFixedThreadPool(1).asCoroutineDispatcher()
 
 @MainThread
 @BindingAdapter("media")
@@ -78,10 +75,10 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
     binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
 
-private suspend fun obtainBitmap(item: MediaLibraryItem, width: Int) = withContext(dispatcher) {
-    when (item) {
-        is MediaWrapper -> ThumbnailsProvider.getMediaThumbnail(item, width)
-        is Folder -> ThumbnailsProvider.getFolderThumbnail(item, width)
+private suspend fun obtainBitmap(item: MediaLibraryItem, width: Int) = withContext(Dispatchers.IO) {
+    when {
+        item is MediaWrapper -> ThumbnailsProvider.getMediaThumbnail(item, width)
+        item is Folder -> ThumbnailsProvider.getFolderThumbnail(item, width)
         else -> AudioUtil.readCoverBitmap(Uri.decode(item.artworkMrl), width)
     }
 }
