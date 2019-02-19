@@ -175,9 +175,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         return true
     }
 
-    private fun onPlaylistLoaded() {
+    private suspend fun onPlaylistLoaded() {
         service.onPlaylistLoaded()
-        addUpdateActor.offer(Unit)
+        determinePrevAndNextIndices()
     }
 
     fun play() {
