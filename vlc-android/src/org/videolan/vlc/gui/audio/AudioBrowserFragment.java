@@ -320,7 +320,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             mSwipeRefreshLayout.setEnabled(((LinearLayoutManager)getCurrentRV().getLayoutManager()).findFirstVisibleItemPosition() <= 0);
             updateEmptyView();
             mFastScroller.setRecyclerView(getCurrentRV(), getViewModel());
-        }
+        } else setFabPlayShuffleAllVisibility();
     }
 
     @Override
