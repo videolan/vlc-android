@@ -36,6 +36,7 @@ public class ThumbnailsProvider {
     private static File appDir;
     private static String cacheDir;
     private static final int MAX_IMAGES = 4;
+    private static final Object lock = new Object();
 
     @WorkerThread
     public static Bitmap getFolderThumbnail(final Folder folder, int width) {
@@ -71,7 +72,10 @@ public class ThumbnailsProvider {
         if (cacheBM != null) return cacheBM;
         if (hasCache && new File(thumbPath).exists()) return readCoverBitmap(thumbPath, width);
         if (media.isThumbnailGenerated()) return null;
-        final Bitmap bitmap = ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND);
+        final Bitmap bitmap;
+        synchronized (lock) {
+            bitmap = ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND);
+        }
         if (bitmap != null) {
             BitmapCache.getInstance().addBitmapToMemCache(thumbPath, bitmap);
             if (hasCache) {
