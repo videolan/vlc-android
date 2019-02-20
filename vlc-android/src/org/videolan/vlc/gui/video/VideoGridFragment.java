@@ -22,6 +22,7 @@ package org.videolan.vlc.gui.video;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -52,6 +53,7 @@ import org.videolan.vlc.gui.dialogs.CtxActionReceiver;
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog;
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.media.MediaGroup;
@@ -68,6 +70,7 @@ import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.view.ActionMode;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
@@ -128,6 +131,16 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         mBinding.loadingFlipper.setVisibility(empty ? View.VISIBLE : View.GONE);
         mBinding.loadingTitle.setVisibility(empty ? View.VISIBLE : View.GONE);
         mBinding.setEmpty(empty);
+        mBinding.buttonNomedia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final FragmentActivity activity = requireActivity();
+                final Intent intent = new Intent(activity.getApplicationContext(), SecondaryActivity.class);
+                intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER);
+                startActivity(intent);
+                activity.setResult(PreferencesActivity.RESULT_RESTART);
+            }
+        });
     }
 
     @Override

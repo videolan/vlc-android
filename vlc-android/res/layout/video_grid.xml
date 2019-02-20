@@ -58,7 +58,18 @@
         android:maxWidth="600dp"
         android:text="@string/nomedia"
         android:textSize="20sp"
-        android:visibility="@{empty ? View.VISIBLE : View.GONE}" />
+        android:visibility="@{empty ? View.VISIBLE : View.GONE, default=gone}" />
+
+    <Button
+        android:id="@+id/button_nomedia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:text="@string/button_medialibrary_preferences"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_nomedia"
+        android:visibility="@{empty ? View.VISIBLE : View.GONE, default=gone}" />
 
     <TextView
         android:id="@+id/loading_title"
@@ -66,7 +77,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/loading_flipper"
-        app:layout_constraintTop_toBottomOf="@+id/textview_nomedia"
+        app:layout_constraintTop_toBottomOf="@+id/button_nomedia"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         android:layout_weight="1"

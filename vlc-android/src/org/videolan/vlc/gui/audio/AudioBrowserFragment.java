@@ -30,6 +30,7 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -42,6 +43,7 @@ import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.PlaylistActivity;
 import org.videolan.vlc.gui.SecondaryActivity;
+import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
@@ -60,6 +62,7 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.paging.PagedList;
@@ -80,6 +83,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     private PagedGenresModel genresModel;
 
     private TextView mEmptyView;
+    private Button mMedialibrarySettingsBtn;
     private final RecyclerView[] mLists = new RecyclerView[MODE_TOTAL];
     private MLPagedModel<MediaLibraryItem>[] models;
     private SharedPreferences mSettings;
@@ -120,9 +124,19 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mEmptyView = view.findViewById(R.id.no_media);
+        mMedialibrarySettingsBtn = view.findViewById(R.id.button_nomedia);
         mFastScroller = view.getRootView().findViewById(R.id.songs_fast_scroller);
         mFastScroller.attachToCoordinator((AppBarLayout) view.getRootView().findViewById(R.id.appbar), (CoordinatorLayout) view.getRootView().findViewById(R.id.coordinator), (FloatingActionButton) view.getRootView().findViewById(R.id.fab));
-
+        mMedialibrarySettingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final FragmentActivity activity = requireActivity();
+                final Intent intent = new Intent(activity.getApplicationContext(), SecondaryActivity.class);
+                intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER);
+                startActivity(intent);
+                activity.setResult(PreferencesActivity.RESULT_RESTART);
+            }
+        });
     }
 
     @Override
@@ -253,6 +267,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
 
     private void updateEmptyView() {
         mEmptyView.setVisibility(getCurrentAdapter().isEmpty() ? View.VISIBLE : View.GONE);
+        mMedialibrarySettingsBtn.setVisibility(getCurrentAdapter().isEmpty() ? View.VISIBLE : View.GONE);
         setFabPlayShuffleAllVisibility();
     }
 
