@@ -147,7 +147,7 @@ fun <X, Y> CoroutineScope.map(
 
 @BindingAdapter("app:asyncText", requireAll = false)
 fun asyncText(view: TextView, text: CharSequence?) {
-    if (text === null) return
+    if (text.isNullOrEmpty()) return
     val params = TextViewCompat.getTextMetricsParams(view)
     (view as AppCompatTextView).setTextFuture(PrecomputedTextCompat.getTextFuture(text, params, null))
 }
