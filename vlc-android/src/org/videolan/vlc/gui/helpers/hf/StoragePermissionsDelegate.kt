@@ -64,7 +64,7 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
             else
                 requestStorageAccess(false)
         } else if (write) {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE))
+            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE))
                 Permissions.showStoragePermissionDialog(requireActivity(), false)
             else
                 requestStorageAccess(true)

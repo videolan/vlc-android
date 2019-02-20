@@ -194,7 +194,14 @@
         <item name="ic_dial">@drawable/ic_dial_w</item>
         <item name="progress_background">@color/grey400transparent</item>
     </style>
-   <style name="Theme.VLC.TV" parent="Theme.Leanback">
+
+    <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Black">
+        <item name="background_default">@color/onboarding_grey</item>
+
+
+    </style>
+
+    <style name="Theme.VLC.TV" parent="Theme.Leanback">
        <item name="colorPrimary">@color/orange800</item>
        <item name="colorPrimaryDark">@color/transparent</item>
        <item name="colorAccent">@color/orange600</item>

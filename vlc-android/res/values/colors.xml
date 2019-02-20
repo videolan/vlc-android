@@ -46,7 +46,10 @@
     <color name="whitetransparent">#b4ffffff</color>
     <color name="transparent">#00000000</color>
 
+    <color name="white_selection_transparent">#44ffffff</color>
 
     <color name="tv_bg">#235f69</color>
     <color name="tv_card_content">#0a6e96</color>
+    <color name="onboarding_grey_dark">#1c313a</color>
+    <color name="onboarding_grey">#455a64</color>
 </resources>

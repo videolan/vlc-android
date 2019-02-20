@@ -45,7 +45,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.vlc.gui.wizard.startMLWizard
+import org.videolan.vlc.gui.onboarding.startOnboarding
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
 import java.io.File
@@ -428,7 +428,8 @@ fun Context.rescan() {
 }
 
 fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true) = AppScope.launch {
-    if (Medialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@launch
+    //todo if user is canceling the permission, onboarding is re-launched
+    if (Medialibrary.getInstance().isStarted) return@launch
     val prefs = withContext(Dispatchers.IO) { Settings.getInstance(this@startMedialibrary) }
     val scanOpt = if (AndroidDevices.showTvUi(this@startMedialibrary)) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
     if (parse && scanOpt == -1) {
@@ -436,7 +437,8 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
         else {
             if (MediaParsingService.wizardShowing) return@launch
             MediaParsingService.wizardShowing = true
-            startMLWizard()
+            startOnboarding()
+
             return@launch
         }
     }
