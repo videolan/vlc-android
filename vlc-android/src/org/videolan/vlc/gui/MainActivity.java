@@ -185,8 +185,6 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
         if (wasVisible != scan) mActivityHandler.post(new Runnable() {
             @Override
             public void run() {
-                mNavigationView.getMenu().findItem(R.id.nav_audio).setVisible(scan);
-                mNavigationView.getMenu().findItem(R.id.nav_video).setVisible(scan);
                 if (scan) getNavigator().showFragment(R.id.nav_video);
             }
         });
