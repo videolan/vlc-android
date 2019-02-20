@@ -36,6 +36,7 @@ import com.google.android.material.navigation.NavigationView;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
 import org.videolan.vlc.StartActivity;
@@ -49,6 +50,7 @@ import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.helpers.Navigator;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.onboarding.OnboardingActivityKt;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
@@ -58,6 +60,7 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
+import org.videolan.vlc.util.WorkersKt;
 
 import java.util.List;
 
@@ -89,7 +92,6 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Util.checkCpuCompatibility(this);
-        if (savedInstanceState == null) Permissions.checkReadStoragePermission(this, false);
         /*** Start initializing the UI ***/
         setContentView(R.layout.main);
         mDrawerLayout = findViewById(R.id.root_container);
@@ -110,6 +112,13 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
                     }
                 }, 500);
             }
+            WorkersKt.runIO(new Runnable() {
+                @Override
+                public void run() {
+                    if (!MediaParsingServiceKt.dbExists(MainActivity.this)) OnboardingActivityKt.startOnboarding(MainActivity.this);
+                    else Permissions.checkReadStoragePermission(MainActivity.this, false);
+                }
+            });
         }
 
         /* Set up the action bar */
@@ -180,14 +189,6 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
 
     private void updateNavMenu() {
         mNavigationView.setNavigationItemSelectedListener(mNavigator);
-        final boolean wasVisible = mNavigationView.getMenu().findItem(R.id.nav_video).isVisible();
-        final boolean scan = mSettings.getInt(Constants.KEY_MEDIALIBRARY_SCAN, Constants.ML_SCAN_OFF) == Constants.ML_SCAN_ON;
-        if (wasVisible != scan) mActivityHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                if (scan) getNavigator().showFragment(R.id.nav_video);
-            }
-        });
     }
 
     public boolean isExtensionServiceBinded() {

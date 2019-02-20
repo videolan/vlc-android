@@ -17,8 +17,13 @@ class OnboardingScanningFragment : Fragment() {
     private lateinit var scanningFolderCheckbox: CheckBox
     private lateinit var scanningEnableSwitch: Switch
     lateinit var onScanningCustomizeChangedListener: IOnScanningCustomizeChangedListener
+    private lateinit var viewModel: OnboardingViewModel
 
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = getOnboardingModel()
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.onboarding_scanning, container, false)
     }
@@ -39,16 +44,17 @@ class OnboardingScanningFragment : Fragment() {
             scanningFolderCheckbox.visibility = if (isChecked) View.VISIBLE else View.GONE
             val prefs = Settings.getInstance(requireActivity())
             prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, if (isChecked) ML_SCAN_ON else ML_SCAN_OFF).apply()
+            viewModel.scanStorages = isChecked
             scanningFolderCheckbox.isChecked = false
         }
 
         onScanningCustomizeChangedListener = requireActivity() as IOnScanningCustomizeChangedListener
 
-        scanningFolderCheckbox.isChecked = OnboardingInputCache.customizeMediaFolders
+        scanningFolderCheckbox.isChecked = viewModel.customizeMediaFolders
 
         scanningFolderCheckbox.setOnCheckedChangeListener { _, isChecked ->
 
-            OnboardingInputCache.customizeMediaFolders = isChecked
+            viewModel.customizeMediaFolders = isChecked
 
             if (::onScanningCustomizeChangedListener.isInitialized) {
                 onScanningCustomizeChangedListener.onCustomizedChanged(isChecked)

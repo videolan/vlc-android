@@ -31,7 +31,6 @@ class OnboardingThemeFragment : Fragment() {
 
     }
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -52,8 +51,6 @@ class OnboardingThemeFragment : Fragment() {
                             .putBoolean("enable_black_theme", false)
                             .putBoolean("daynight", false)
                             .apply()
-                    //todo effectively apply it to any launched UI
-//                    requireActivity().setResult(PreferencesActivity.RESULT_RESTART)
                 }
                 darkThemeSelector -> {
                     lightThemeSelector.background = null
@@ -65,8 +62,6 @@ class OnboardingThemeFragment : Fragment() {
                             .putBoolean("enable_black_theme", true)
                             .putBoolean("daynight", false)
                             .apply()
-                    //todo effectively apply it to any launched UI
-//                    requireActivity().setResult(PreferencesActivity.RESULT_RESTART)
                 }
                 dayNightTheme -> {
                     lightThemeSelector.background = null
@@ -77,8 +72,6 @@ class OnboardingThemeFragment : Fragment() {
                             .putBoolean("enable_black_theme", false)
                             .putBoolean("daynight", true)
                             .apply()
-                    //todo effectively apply it to any launched UI
-//                    requireActivity().setResult(PreferencesActivity.RESULT_RESTART)
                 }
             }
 

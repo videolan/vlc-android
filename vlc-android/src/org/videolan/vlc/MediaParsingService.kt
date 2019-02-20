@@ -45,7 +45,6 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
 import org.videolan.vlc.gui.helpers.NotificationHelper
-import org.videolan.vlc.gui.onboarding.startOnboarding
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
 import java.io.File
@@ -371,7 +370,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
             }
             is Init -> {
                 val context = this@MediaParsingService
-                var shouldInit = !dbExists(context)
+                var shouldInit = withContext(Dispatchers.IO) {!dbExists(context)}
                 val initCode = medialibrary.init(context)
                 shouldInit = shouldInit or (initCode == Medialibrary.ML_INIT_DB_RESET)
                 if (initCode != Medialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
@@ -413,7 +412,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     companion object {
         val progress = MutableLiveData<ScanProgress>()
         val newStorages = MutableLiveData<MutableList<String>>()
-        var wizardShowing = false
     }
 }
 
@@ -428,19 +426,11 @@ fun Context.rescan() {
 }
 
 fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true) = AppScope.launch {
-    //todo if user is canceling the permission, onboarding is re-launched
-    if (Medialibrary.getInstance().isStarted) return@launch
+    if (Medialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@launch
     val prefs = withContext(Dispatchers.IO) { Settings.getInstance(this@startMedialibrary) }
     val scanOpt = if (AndroidDevices.showTvUi(this@startMedialibrary)) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
     if (parse && scanOpt == -1) {
-        if (dbExists(this@startMedialibrary)) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
-        else {
-            if (MediaParsingService.wizardShowing) return@launch
-            MediaParsingService.wizardShowing = true
-            startOnboarding()
-
-            return@launch
-        }
+        if (withContext(Dispatchers.IO) { dbExists(this@startMedialibrary) }) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
     }
     val intent = Intent(ACTION_INIT, null, this@startMedialibrary, MediaParsingService::class.java)
     ContextCompat.startForegroundService(this@startMedialibrary, intent
@@ -449,8 +439,8 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
             .putExtra(EXTRA_PARSE, parse && scanOpt != ML_SCAN_OFF))
 }
 
-private suspend fun dbExists(context: Context) = withContext(Dispatchers.IO) {
-    File(context.getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME).exists()
+fun dbExists(context: Context) : Boolean {
+    return File(context.getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME).exists()
 }
 
 private sealed class MLAction

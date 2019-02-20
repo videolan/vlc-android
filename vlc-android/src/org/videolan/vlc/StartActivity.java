@@ -54,8 +54,7 @@ public class StartActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (AndroidUtil.isNougatOrLater)
-            UiTools.setLocale(this);
+        if (AndroidUtil.isNougatOrLater) UiTools.setLocale(this);
         final Intent intent = getIntent();
         final String action = intent != null ? intent.getAction(): null;
 
@@ -120,7 +119,9 @@ public class StartActivity extends FragmentActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                MediaParsingServiceKt.startMedialibrary(StartActivity.this, firstRun, upgrade, true);
+                if (MediaParsingServiceKt.dbExists(StartActivity.this)) {
+                    MediaParsingServiceKt.startMedialibrary(StartActivity.this, firstRun, upgrade, true);
+                }
             }
         }).start();
         final Intent intent = new Intent(StartActivity.this, tv ? MainTvActivity.class : MainActivity.class)
