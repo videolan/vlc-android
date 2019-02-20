@@ -108,8 +108,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                 holder.setCoverlay(isSelected);
                 holder.selectView(isSelected);
             } else if (payload instanceof Integer) {
-                if ((Integer) payload == UPDATE_PAYLOAD) {
-                } else if ((Integer) payload == Constants.UPDATE_SELECTION) {
+                if ((Integer) payload == Constants.UPDATE_SELECTION) {
                     final boolean isSelected = multiSelectHelper.isSelected(position);
                     holder.setCoverlay(isSelected);
                     holder.selectView(isSelected);
