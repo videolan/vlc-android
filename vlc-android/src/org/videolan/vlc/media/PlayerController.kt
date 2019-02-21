@@ -82,8 +82,6 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         mediaplayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(context))
         mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)
         mediaplayer.play()
-        if (mediaplayer.rate == 1.0f && settings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, true))
-            setRate(settings.getFloat(PreferencesActivity.KEY_PLAYBACK_RATE, 1.0f), false)
     }
 
     private fun resetPlaybackState(duration: Long) {
@@ -226,7 +224,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun setRate(rate: Float, save: Boolean) {
         mediaplayer.rate = rate
-        if (save && settings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, true))
+        if (save && settings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, false))
             settings.edit().putFloat(PreferencesActivity.KEY_PLAYBACK_RATE, rate).apply()
     }
 
