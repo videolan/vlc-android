@@ -129,6 +129,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             mediaList.addEventListener(this@PlaylistManager)
             stopAfter = -1
             clearABRepeat()
+            player.setRate(1.0f, false)
             playIndex(currentIndex)
             onPlaylistLoaded()
             if (mlUpdate) {
@@ -790,6 +791,9 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     abRepeat.value?.let {
                         if (it.stop != -1L && player.getCurrentTime() > it.stop) player.seek(it.start)
                     }
+                }
+                MediaPlayer.Event.SeekableChanged -> if (event.seekable && settings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, false)) {
+                    player.setRate(settings.getFloat(PreferencesActivity.KEY_PLAYBACK_RATE, 1.0f), false)
                 }
             }
             service.onMediaPlayerEvent(event)

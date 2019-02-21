@@ -784,8 +784,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             if (length - mSavedTime < 5000) mSavedTime = 0;
             else mSavedTime -= 2000; // go back 2 seconds, to compensate loading time
         }
-
-        mService.setRate(1.0f, false);
         mService.stop();
     }
 
