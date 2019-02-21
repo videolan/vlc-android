@@ -55,6 +55,7 @@ import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.CTX_CUSTOM_REMOVE
+import org.videolan.vlc.util.FileUtils
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
 import java.io.File
@@ -136,7 +137,8 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         args.putBoolean(KEY_IN_MEDIALIB, mScannedDirectory || scanned)
         next.arguments = args
         ft?.replace(R.id.fragment_placeholder, next, media.location)
-        ft?.addToBackStack(mrl)
+        ft?.addToBackStack(if (isRootDirectory) "root" else currentMedia?.title
+                ?: FileUtils.getFileNameFromPath(mrl))
         ft?.commit()
     }
 

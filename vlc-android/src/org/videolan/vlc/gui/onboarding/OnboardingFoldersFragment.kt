@@ -11,19 +11,27 @@ import org.videolan.vlc.gui.browser.StorageBrowserFragment
 class OnboardingFoldersFragment : Fragment() {
 
 
+    private lateinit var storageBrowserFragment: StorageBrowserFragment
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        storageBrowserFragment = StorageBrowserFragment()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.onboarding_folders, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val storageBrowserFragment = StorageBrowserFragment()
-        //todo : when opening an empty directory, the root is shown again + ariane is not clickable
-        childFragmentManager.beginTransaction()
-                .replace(R.id.fragment_placeholder, storageBrowserFragment)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_placeholder, storageBrowserFragment)
                 .commit()
 
+
     }
+
 
     companion object {
         fun newInstance(): OnboardingFoldersFragment {
