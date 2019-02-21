@@ -119,6 +119,10 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         if (count == 4) onCustomizedChanged(true)
     }
 
+    override fun onBackPressed() {
+        if (viewPager.currentItem != 0) super.onBackPressed()
+    }
+
     private fun selectPage(index: Int) {
         //Navigation button states
         if (index == 0) {
