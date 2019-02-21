@@ -26,22 +26,16 @@ package org.videolan.vlc.gui.browser
 import android.content.Context
 import android.net.Uri
 import android.view.View
-import android.widget.CheckBox
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.repository.DirectoryRepository
-import org.videolan.vlc.util.KEY_MEDIALIBRARY_SCAN
-import org.videolan.vlc.util.ML_SCAN_ON
-import org.videolan.vlc.util.Settings
 
-internal class StorageBrowserAdapter(fragment: BaseBrowserFragment) : BaseBrowserAdapter(fragment) {
+internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBrowserAdapter(fragment) {
 
     private var mediaDirsLocation: MutableList<String> = mutableListOf()
     private lateinit var customDirsLocation: List<String>
@@ -92,14 +86,6 @@ internal class StorageBrowserAdapter(fragment: BaseBrowserFragment) : BaseBrowse
     }
 
     override fun checkBoxAction(v: View, mrl: String) {
-        val tscb = v as ThreeStatesCheckbox
-        val state = tscb.state
-        if (state == ThreeStatesCheckbox.STATE_CHECKED) {
-            MedialibraryUtils.addDevice(mrl, v.context.applicationContext)
-            val prefs = Settings.getInstance(v.getContext())
-            if (prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_ON) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
-        } else
-            MedialibraryUtils.removeDir(mrl)
-        (fragment as StorageBrowserFragment).processEvent(v as CheckBox, mrl)
+        (fragment as? StorageBrowserFragment)?.checkBoxAction(v, mrl)
     }
 }

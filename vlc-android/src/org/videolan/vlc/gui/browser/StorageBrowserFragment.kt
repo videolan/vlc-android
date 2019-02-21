@@ -39,6 +39,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
@@ -46,22 +47,24 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.tools.coroutineScope
+import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.BrowserItemBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.dialogs.showContext
+import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.CTX_CUSTOM_REMOVE
-import org.videolan.vlc.util.FileUtils
+import org.videolan.vlc.gui.onboarding.OnboardingActivity
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import org.videolan.vlc.viewmodels.browser.TYPE_STORAGE
 import java.io.File
 
 const val KEY_IN_MEDIALIB = "key_in_medialib"
 
+@ExperimentalCoroutinesApi
 class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
 
     internal var mScannedDirectory = false
@@ -163,6 +166,24 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         val mw = (item as? Storage)?.let { MediaWrapper(it.uri) } ?: return
         mw.type = MediaWrapper.TYPE_DIR
         browse(mw, position, (DataBindingUtil.findBinding<BrowserItemBinding>(v))?.browserCheckbox?.state == ThreeStatesCheckbox.STATE_CHECKED)
+    }
+
+    fun checkBoxAction(v: View, mrl: String) {
+        val tscb = v as ThreeStatesCheckbox
+        val checked = tscb.state == ThreeStatesCheckbox.STATE_CHECKED
+        val activity = requireActivity()
+        if (activity is OnboardingActivity) {
+            if (checked) MediaParsingService.preselectedStorages.add(mrl)
+            else MediaParsingService.preselectedStorages.remove(mrl)
+        } else {
+            if (checked) {
+                MedialibraryUtils.addDir(mrl, v.context.applicationContext)
+                val prefs = Settings.getInstance(v.getContext())
+                if (prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_ON) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
+            } else
+                MedialibraryUtils.removeDir(mrl)
+            processEvent(v as CheckBox, mrl)
+        }
     }
 
     internal fun processEvent(cbp: CheckBox, mrl: String) {

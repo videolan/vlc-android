@@ -212,7 +212,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
             val isNew = (isMainStorage || addExternal)
                     && medialibrary.addDevice(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
             val isIgnored = sharedPreferences.getBoolean("ignore_$uuid", false)
-            if (!isMainStorage && isNew && !isIgnored) showStorageNotification(device)
+            if (!isMainStorage && isNew && !isIgnored && preselectedStorages.isEmpty()) showStorageNotification(device)
         }
     }
 
@@ -222,7 +222,11 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
             shouldInit -> {
                 for (folder in Medialibrary.getBlackList())
                     medialibrary.banFolder(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + folder)
-                medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+                if (preselectedStorages.isEmpty()) medialibrary.discover(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
+                else {
+                    for (folder in preselectedStorages) medialibrary.discover(folder)
+                    preselectedStorages.clear()
+                }
             }
             upgrade -> {
                 medialibrary.unbanFolder("${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}/WhatsApp/")
@@ -370,7 +374,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
             }
             is Init -> {
                 val context = this@MediaParsingService
-                var shouldInit = withContext(Dispatchers.IO) {!dbExists(context)}
+                var shouldInit = !dbExists()
                 val initCode = medialibrary.init(context)
                 shouldInit = shouldInit or (initCode == Medialibrary.ML_INIT_DB_RESET)
                 if (initCode != Medialibrary.ML_INIT_FAILED) initMedialib(action.parse, context, shouldInit, action.upgrade)
@@ -409,9 +413,18 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
         }
     }
 
+    private fun String.isSelected() : Boolean {
+        if (preselectedStorages.isEmpty()) return false
+        for (mrl in preselectedStorages) {
+            if (mrl.substringAfter("file://").startsWith(this)) return true
+        }
+        return false
+    }
+
     companion object {
         val progress = MutableLiveData<ScanProgress>()
         val newStorages = MutableLiveData<MutableList<String>>()
+        val preselectedStorages = mutableListOf<String>()
     }
 }
 
@@ -430,7 +443,7 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
     val prefs = withContext(Dispatchers.IO) { Settings.getInstance(this@startMedialibrary) }
     val scanOpt = if (AndroidDevices.showTvUi(this@startMedialibrary)) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
     if (parse && scanOpt == -1) {
-        if (withContext(Dispatchers.IO) { dbExists(this@startMedialibrary) }) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
+        if (dbExists()) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
     }
     val intent = Intent(ACTION_INIT, null, this@startMedialibrary, MediaParsingService::class.java)
     ContextCompat.startForegroundService(this@startMedialibrary, intent
@@ -439,8 +452,8 @@ fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = fals
             .putExtra(EXTRA_PARSE, parse && scanOpt != ML_SCAN_OFF))
 }
 
-fun dbExists(context: Context) : Boolean {
-    return File(context.getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME).exists()
+private suspend fun Context.dbExists() = withContext(Dispatchers.IO) {
+    File(getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME).exists()
 }
 
 private sealed class MLAction

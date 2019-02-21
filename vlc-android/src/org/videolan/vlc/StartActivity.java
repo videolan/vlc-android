@@ -35,6 +35,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SearchActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.onboarding.OnboardingActivityKt;
 import org.videolan.vlc.gui.tv.MainTvActivity;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 import org.videolan.vlc.media.MediaUtils;
@@ -116,14 +117,14 @@ public class StartActivity extends FragmentActivity {
     private void startApplication(final boolean tv, final boolean firstRun, final boolean upgrade, final int target) {
         // Start Medialibrary from background to workaround Dispatchers.Main causing ANR
         // cf https://github.com/Kotlin/kotlinx.coroutines/issues/878
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (MediaParsingServiceKt.dbExists(StartActivity.this)) {
+        if (tv || Settings.INSTANCE.getInstance(StartActivity.this).getBoolean(OnboardingActivityKt.ONBOARDING_DONE_KEY, false)) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
                     MediaParsingServiceKt.startMedialibrary(StartActivity.this, firstRun, upgrade, true);
                 }
-            }
-        }).start();
+            }).start();
+        }
         final Intent intent = new Intent(StartActivity.this, tv ? MainTvActivity.class : MainActivity.class)
                 .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
                 .putExtra(Constants.EXTRA_UPGRADE, upgrade);

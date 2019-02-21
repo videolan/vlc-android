@@ -2,7 +2,6 @@ package org.videolan.vlc.gui.onboarding
 
 import android.animation.Animator
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -13,17 +12,19 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.view.NonSwipeableViewPager
+import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.startMedialibrary
 import org.videolan.vlc.util.*
 
+const val ONBOARDING_DONE_KEY = "app_onboarding_done"
+
+@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, IOnScanningCustomizeChangedListener, CoroutineScope by MainScope() {
 
@@ -34,7 +35,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
     private lateinit var previousButton: ImageButton
     private lateinit var nextButton: ImageButton
     private lateinit var doneButton: Button
-    private lateinit var viewModel: OnboardingViewModel
+    lateinit var viewModel: OnboardingViewModel
 
     private lateinit var onboardingPagerAdapter: OnboardingFragmentPagerAdapter
 
@@ -96,16 +97,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
             }
         }
 
-        doneButton.setOnClickListener {
-            setResult(PreferencesActivity.RESULT_RESTART)
-            Settings.getInstance(this@OnboardingActivity)
-                    .edit()
-                    .putInt(KEY_MEDIALIBRARY_SCAN, if (viewModel.scanStorages) ML_SCAN_ON else ML_SCAN_OFF)
-                    .putInt("fragment_id", if (viewModel.scanStorages) R.id.nav_video else R.id.nav_directories)
-                    .apply()
-            startMedialibrary(firstRun = true, upgrade = true, parse = viewModel.scanStorages)
-            finish()
-        }
+        doneButton.setOnClickListener { completeOnBoarding() }
 
         val count = viewModel.adapterCount
 
@@ -117,6 +109,23 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         selectPage(0)
 
         if (count == 4) onCustomizedChanged(true)
+    }
+
+    private fun completeOnBoarding() {
+        setResult(PreferencesActivity.RESULT_RESTART)
+        Settings.getInstance(this)
+                .edit()
+                .putBoolean(ONBOARDING_DONE_KEY, true)
+                .putInt(KEY_MEDIALIBRARY_SCAN, if (viewModel.scanStorages) ML_SCAN_ON else ML_SCAN_OFF)
+                .putInt("fragment_id", if (viewModel.scanStorages) R.id.nav_video else R.id.nav_directories)
+                .apply()
+        launch {
+            if (viewModel.scanStorages && !viewModel.customizeMediaFolders) {
+                MediaParsingService.preselectedStorages.addAll(DirectoryRepository.getInstance(this@OnboardingActivity).getMediaDirectories())
+            }
+            startMedialibrary(firstRun = true, upgrade = true, parse = viewModel.scanStorages)
+            finish()
+        }
     }
 
     override fun onBackPressed() {
