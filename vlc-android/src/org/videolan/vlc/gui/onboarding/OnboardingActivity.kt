@@ -88,12 +88,19 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         }
 
         nextButton.setOnClickListener {
-            if (viewPager.currentItem == 0 && !viewModel.permissionGranted) {
-                checkPermissions()
-                return@setOnClickListener
-            }
-            if (viewPager.currentItem < viewPager.adapter!!.count) {
-                viewPager.currentItem = viewPager.currentItem + 1
+            launch {
+                if (viewPager.currentItem == 0 && !viewModel.permissionGranted) {
+                    viewModel.permissionGranted = Permissions.canReadStorage(applicationContext)
+                            || StoragePermissionsDelegate.getStoragePermission(this@OnboardingActivity, false)
+                    if (!viewModel.permissionGranted) {
+                        return@launch
+                    } else {
+                        viewPager.scrollEnabled = true
+                    }
+                }
+                if (viewPager.currentItem < viewPager.adapter!!.count) {
+                    viewPager.currentItem = viewPager.currentItem + 1
+                }
             }
         }
 
@@ -166,15 +173,6 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
             } else {
                 indicators[pos]?.animate()?.alpha(1f)?.scaleX(1f)?.scaleY(1f)
             }
-        }
-    }
-
-    fun checkPermissions() = launch {
-        if (StoragePermissionsDelegate.getStoragePermission(this@OnboardingActivity, false)) {
-            viewPager.currentItem = 1
-
-            viewPager.scrollEnabled = true
-            viewModel.permissionGranted = true
         }
     }
 
