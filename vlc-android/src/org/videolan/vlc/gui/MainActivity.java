@@ -115,8 +115,10 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
             WorkersKt.runIO(new Runnable() {
                 @Override
                 public void run() {
-                    if (!mSettings.getBoolean(OnboardingActivityKt.ONBOARDING_DONE_KEY, false)) OnboardingActivityKt.startOnboarding(MainActivity.this);
-                    else Permissions.checkReadStoragePermission(MainActivity.this, false);
+                    if (getIntent().getBooleanExtra(Constants.EXTRA_FIRST_RUN, false)
+                            && !mSettings.getBoolean(OnboardingActivityKt.ONBOARDING_DONE_KEY, false)) {
+                        OnboardingActivityKt.startOnboarding(MainActivity.this);
+                    } else Permissions.checkReadStoragePermission(MainActivity.this, false);
                 }
             });
         }
