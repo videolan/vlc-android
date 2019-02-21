@@ -1,3 +1,14 @@
+Changes between 3.0.98 and 3.0.99:
+------------------
+
+Application:
+ * Onboarding screen for new users
+ * Add a sticky header during audio lists scroll
+ * Fix albums/artists/genre not updated durint scan
+ * Fix Subtitles download requests not sent
+ * 'Save playback rate' option is now OFF by default
+ * Crashs fixes
+
 Changes between 3.0.97 and 3.0.98:
 ------------------
 
