@@ -2031,6 +2031,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     }
 
     public void pickSubtitles() {
+        if (mUri == null) return;
         mShowingDialog = true;
         final Intent filePickerIntent = new Intent(this, FilePickerActivity.class);
         filePickerIntent.setData(Uri.parse(FileUtils.getParent(mUri.toString())));
@@ -2224,7 +2225,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 showControls(true);
             }
             dimStatusBar(false);
-            mHudBinding.progressOverlay.setVisibility(View.VISIBLE);
+            if (mHudBinding != null) mHudBinding.progressOverlay.setVisibility(View.VISIBLE);
             if (!mDisplayManager.isPrimary())
                 mOverlayBackground.setVisibility(View.VISIBLE);
             updateOverlayPausePlay();
