@@ -117,7 +117,7 @@ public class StartActivity extends FragmentActivity {
     private void startApplication(final boolean tv, final boolean firstRun, final boolean upgrade, final int target) {
         // Start Medialibrary from background to workaround Dispatchers.Main causing ANR
         // cf https://github.com/Kotlin/kotlinx.coroutines/issues/878
-        if (tv || Settings.INSTANCE.getInstance(StartActivity.this).getBoolean(OnboardingActivityKt.ONBOARDING_DONE_KEY, false)) {
+        if (!firstRun || tv || Settings.INSTANCE.getInstance(StartActivity.this).getBoolean(OnboardingActivityKt.ONBOARDING_DONE_KEY, false)) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
