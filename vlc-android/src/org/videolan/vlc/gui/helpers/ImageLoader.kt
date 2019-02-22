@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.MainThread
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
@@ -20,6 +21,7 @@ import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BR
+import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.HttpImageLoader
@@ -48,6 +50,52 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
     val bitmap = if (cacheKey !== null) sBitmapCache.getBitmapFromMemCache(cacheKey) else null
     if (bitmap !== null) updateImageView(bitmap, v, binding)
     else AppScope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding) }
+}
+
+
+@MainThread
+@BindingAdapter("binding:media", "binding:itemType")
+fun loadImage(v: View, media: MediaLibraryItem?, itemType: Int) {
+    val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
+
+    if (media === null) {
+//        updateImageView(getIconDrawable(itemType)?.bitmap, v, binding)
+        updateImageView(BitmapDrawable(BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.rounded_corners_grey)).bitmap, v, binding)
+        return
+    }
+
+    loadImage(v, media)
+}
+
+fun getIconDrawable(type: Int): BitmapDrawable? {
+    return when (type) {
+        MediaLibraryItem.TYPE_ALBUM -> UiTools.Resources.DEFAULT_COVER_ALBUM_DRAWABLE
+        MediaLibraryItem.TYPE_ARTIST -> UiTools.Resources.DEFAULT_COVER_ARTIST_DRAWABLE
+        MediaLibraryItem.TYPE_MEDIA -> UiTools.Resources.DEFAULT_COVER_AUDIO_DRAWABLE
+        else -> null
+    }
+}
+
+@MainThread
+@BindingAdapter("placeholder")
+fun placeHolderView(v: View, item: MediaLibraryItem?) {
+    if (item == null) {
+        v.background = ContextCompat.getDrawable(v.context, R.drawable.rounded_corners_grey)
+    } else {
+        v.background = null
+    }
+
+}
+
+@MainThread
+@BindingAdapter("placeholderImage")
+fun placeHolderImageView(v: View, item: MediaLibraryItem?) {
+    if (item == null) {
+        v.background = ContextCompat.getDrawable(v.context, R.drawable.rounded_corners_grey)
+    } else {
+        v.background = UiTools.Resources.DEFAULT_COVER_AUDIO_DRAWABLE
+    }
+
 }
 
 @BindingAdapter("imageUri")

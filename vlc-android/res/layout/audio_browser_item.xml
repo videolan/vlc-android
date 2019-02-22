@@ -15,6 +15,10 @@
             type="int" />
 
         <variable
+            name="type"
+            type="int" />
+
+        <variable
             name="item"
             type="MediaLibraryItem" />
 
@@ -53,8 +57,8 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:background="@{cover}"
-            android:visibility="@{(item.getItemType() &amp; (MediaLibraryItem.TYPE_ALBUM|MediaLibraryItem.TYPE_ARTIST|MediaLibraryItem.TYPE_MEDIA)) != 0 ? View.VISIBLE : View.GONE, default=gone}"
+            android:src="@{cover}"
+            vlc:itemType="@{type}"
             vlc:layout_constraintBottom_toBottomOf="parent"
             vlc:layout_constraintDimensionRatio="1"
             vlc:layout_constraintStart_toStartOf="parent"
@@ -79,19 +83,20 @@
             vlc:layout_constraintTop_toTopOf="parent"
             vlc:layout_constraintVertical_chainStyle="packed"
             vlc:layout_goneMarginEnd="@dimen/default_margin_plus_audio_margin"
-            vlc:layout_goneMarginStart="@dimen/default_margin_plus_audio_margin" />
+            vlc:layout_goneMarginStart="@dimen/default_margin_plus_audio_margin"
+            vlc:placeholder="@{item}" />
 
         <TextView
             android:id="@+id/subtitle"
             style="@style/VLC.TextViewDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:visibility="@{TextUtils.isEmpty(item.description) ? View.GONE : View.VISIBLE}"
             vlc:asyncText="@{item.description}"
             vlc:layout_constraintBottom_toBottomOf="parent"
             vlc:layout_constraintEnd_toEndOf="@+id/title"
             vlc:layout_constraintStart_toStartOf="@+id/title"
-            vlc:layout_constraintTop_toBottomOf="@+id/title" />
+            vlc:layout_constraintTop_toBottomOf="@+id/title"
+            vlc:placeholder="@{item}" />
 
         <ImageView
             android:id="@+id/item_more"

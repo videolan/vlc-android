@@ -38,8 +38,8 @@ import org.videolan.tools.MultiSelectAdapter;
 import org.videolan.tools.MultiSelectHelper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
+import org.videolan.vlc.gui.helpers.ImageLoaderKt;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
-import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.Constants;
@@ -71,12 +71,12 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         multiSelectHelper = new MultiSelectHelper<>(this, Constants.UPDATE_SELECTION);
         mIEventsHandler = eventsHandler;
         mType = type;
-        mDefaultCover = getIconDrawable();
+        mDefaultCover = ImageLoaderKt.getIconDrawable(type);
         mHasSections = sections;
     }
 
     public AudioBrowserAdapter(int type, IEventsHandler eventsHandler) {
-        this(type, eventsHandler,  true);
+        this(type, eventsHandler, true);
     }
 
     @NonNull
@@ -92,6 +92,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         if (position >= getItemCount()) return;
         final MediaLibraryItem item = getItem(position);
         holder.binding.setItem(item);
+        holder.binding.setType(mType);
         final boolean isSelected = multiSelectHelper.isSelected(position);
         holder.setCoverlay(isSelected);
         holder.selectView(isSelected);
@@ -107,11 +108,13 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                 final boolean isSelected = ((MediaLibraryItem) payload).hasStateFlags(FLAG_SELECTED);
                 holder.setCoverlay(isSelected);
                 holder.selectView(isSelected);
+                holder.binding.setType(mType);
             } else if (payload instanceof Integer) {
                 if ((Integer) payload == Constants.UPDATE_SELECTION) {
                     final boolean isSelected = multiSelectHelper.isSelected(position);
                     holder.setCoverlay(isSelected);
                     holder.selectView(isSelected);
+                    holder.binding.setType(mType);
                 }
             }
         }
@@ -125,6 +128,8 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     @Override
     public void onViewRecycled(@NonNull MediaItemViewHolder holder) {
         if (mDefaultCover != null) holder.binding.setCover(mDefaultCover);
+        holder.binding.title.setText("");
+        holder.binding.subtitle.setText("");
     }
 
     private boolean isPositionValid(int position) {
@@ -147,6 +152,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     @Override
     public MediaLibraryItem getItem(int position) {
         return super.getItem(position);
+//        return null;
     }
 
     @Override
@@ -164,18 +170,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
     }
 
-    private BitmapDrawable getIconDrawable() {
-        switch (mType) {
-            case MediaLibraryItem.TYPE_ALBUM:
-                return UiTools.Resources.DEFAULT_COVER_ALBUM_DRAWABLE;
-            case MediaLibraryItem.TYPE_ARTIST:
-                return UiTools.Resources.DEFAULT_COVER_ARTIST_DRAWABLE;
-            case MediaLibraryItem.TYPE_MEDIA:
-                return UiTools.Resources.DEFAULT_COVER_AUDIO_DRAWABLE;
-            default:
-                return null;
-        }
-    }
 
     @Override
     public boolean hasSections() {
