@@ -31,19 +31,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_theme" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/onboarding_theme_explanation"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
@@ -71,6 +58,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/theme_selection_rounded"
         android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3">
@@ -89,6 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/guideline3">
@@ -106,6 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="@+id/guideline3">
@@ -118,15 +108,16 @@
     </FrameLayout>
 
     <TextView
-        android:id="@+id/themeDayNightDescription"
-        android:layout_width="0dp"
+        android:id="@+id/themeDescription"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
+        android:maxWidth="250dp"
         android:background="@drawable/theme_selection_rounded"
         android:padding="8dp"
-        android:text="@string/daynight_explanation"
+        android:text="@string/light_theme"
         android:textAlignment="center"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"

@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import org.videolan.vlc.R
 
 class OnboardingThemeFragment : Fragment() {
-    private lateinit var themeDayNightDescription: TextView
+    private lateinit var themeDescription: TextView
     private lateinit var lightThemeSelector: View
     private lateinit var darkThemeSelector: View
     private lateinit var dayNightTheme: View
@@ -27,16 +27,13 @@ class OnboardingThemeFragment : Fragment() {
         lightThemeSelector = view.findViewById(R.id.lightTheme)
         darkThemeSelector = view.findViewById(R.id.darkTheme)
         dayNightTheme = view.findViewById(R.id.dayNightTheme)
-        themeDayNightDescription = view.findViewById(R.id.themeDayNightDescription)
+        themeDescription = view.findViewById(R.id.themeDescription)
 
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        themeDayNightDescription.scaleX = 0f
-        themeDayNightDescription.scaleY = 0f
-        themeDayNightDescription.alpha = 0f
 
         val themeSelectorListener = View.OnClickListener {
             it.background = ContextCompat.getDrawable(requireActivity(), R.drawable.theme_selection_rounded)
@@ -45,7 +42,7 @@ class OnboardingThemeFragment : Fragment() {
                     darkThemeSelector.background = null
                     dayNightTheme.background = null
                     currentThemeIsLight = true
-                    themeDayNightDescription.animate().scaleY(0f).scaleX(0f).alpha(0f)
+                    themeDescription.setText(R.string.light_theme)
                     PreferenceManager.getDefaultSharedPreferences(requireActivity())
                             .edit()
                             .putBoolean("enable_black_theme", false)
@@ -53,10 +50,10 @@ class OnboardingThemeFragment : Fragment() {
                             .apply()
                 }
                 darkThemeSelector -> {
+                    themeDescription.setText(R.string.enable_black_theme)
                     lightThemeSelector.background = null
                     dayNightTheme.background = null
                     currentThemeIsLight = false
-                    themeDayNightDescription.animate().scaleY(0f).scaleX(0f).alpha(0f)
                     PreferenceManager.getDefaultSharedPreferences(requireActivity())
                             .edit()
                             .putBoolean("enable_black_theme", true)
@@ -64,9 +61,9 @@ class OnboardingThemeFragment : Fragment() {
                             .apply()
                 }
                 dayNightTheme -> {
+                    themeDescription.setText(R.string.daynight_explanation)
                     lightThemeSelector.background = null
                     darkThemeSelector.background = null
-                    themeDayNightDescription.animate().scaleY(1f).scaleX(1f).alpha(1f)
                     PreferenceManager.getDefaultSharedPreferences(requireActivity())
                             .edit()
                             .putBoolean("enable_black_theme", false)
