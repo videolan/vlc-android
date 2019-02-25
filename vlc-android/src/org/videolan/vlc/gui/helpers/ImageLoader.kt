@@ -53,21 +53,6 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
     else AppScope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding) }
 }
 
-
-@MainThread
-@BindingAdapter("binding:media", "binding:itemType")
-fun loadImage(v: View, media: MediaLibraryItem?, itemType: Int) {
-    val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
-
-    if (media === null) {
-//        updateImageView(getIconDrawable(itemType)?.bitmap, v, binding)
-        updateImageView(BitmapDrawable(BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.rounded_corners_grey)).bitmap, v, binding)
-        return
-    }
-
-    loadImage(v, media)
-}
-
 fun getIconDrawable(type: Int): BitmapDrawable? {
     return when (type) {
         MediaLibraryItem.TYPE_ALBUM -> UiTools.Resources.DEFAULT_COVER_ALBUM_DRAWABLE

@@ -58,7 +58,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="@{cover}"
-            vlc:itemType="@{type}"
             vlc:layout_constraintBottom_toBottomOf="parent"
             vlc:layout_constraintDimensionRatio="1"
             vlc:layout_constraintStart_toStartOf="parent"
