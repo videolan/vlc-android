@@ -1,11 +1,11 @@
 package org.videolan.vlc.gui.browser
 
 import android.net.Uri
-import androidx.collection.SimpleArrayMap
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.collection.SimpleArrayMap
+import androidx.recyclerview.widget.RecyclerView
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
@@ -59,7 +59,10 @@ class PathAdapter(val browser: BaseBrowserFragment, media: MediaWrapper) : Recyc
     }
 
     private fun replaceStoragePath(path: String): String {
-        if (storages.size() > 0) for (i in 0..storages.size()) if (path.startsWith(storages.keyAt(i))) return path.replace(storages.keyAt(i), storages.valueAt(i))
+        try {
+            if (storages.size() > 0) for (i in 0..storages.size()) if (path.startsWith(storages.keyAt(i))) return path.replace(storages.keyAt(i), storages.valueAt(i))
+        } catch (e: IllegalStateException) {
+        }
         return path
     }
 }
