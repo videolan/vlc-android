@@ -242,9 +242,11 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     }
 
     void updateEmptyView() {
-        mBinding.loadingFlipper.setVisibility(View.GONE);
-        mBinding.loadingTitle.setVisibility(View.GONE);
-        mBinding.setEmpty(mAdapter.isEmpty());
+        final boolean empty = viewModel.isEmpty();
+        final boolean working = mMediaLibrary.isWorking();
+        mBinding.loadingFlipper.setVisibility(empty && working ? View.VISIBLE : View.GONE);
+        mBinding.loadingTitle.setVisibility(empty && working ? View.VISIBLE : View.GONE);
+        mBinding.setEmpty(empty && !working);
     }
 
     public void setGroup(String prefix) {
