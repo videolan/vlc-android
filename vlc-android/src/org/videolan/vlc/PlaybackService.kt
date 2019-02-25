@@ -700,6 +700,9 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
                     Log.e(TAG, "Failed to display notification", e)
                 } catch (e: IllegalStateException) {
                     Log.e(TAG, "Failed to display notification", e)
+                } catch (e: ArrayIndexOutOfBoundsException) {
+                    // Happens on Android 7.0 (Xperia L1 (G3312))
+                    Log.e(TAG, "Failed to display notification", e)
                 }
             }
         }
