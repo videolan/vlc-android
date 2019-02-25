@@ -508,7 +508,7 @@
     <string name="directory_show_medialib">Show in MediaLib</string>
     <string name="directory_hide_medialib">Hide from MediaLib</string>
     <string name="playlist_save">Save Playlist</string>
-    <string name="playlist_name_hint">playlist name</string>
+    <string name="playlist_name_hint">Playlist name</string>
     <string name="go_to_chapter">Go to chapter…</string>
     <string name="chapter">Chapter</string>
     <string name="resume_from_position">Resume from last position</string>
@@ -691,6 +691,8 @@
     <string name="onboarding_scan_customize">Let me choose which folders VLC will scan</string>
     <string name="button_medialibrary_preferences">Go to Medialibrary preferences</string>
     <string name="light_theme">Light theme</string>
+    <string name="add">Add</string>
+    <string name="add_to_new_playlist">Add to new playlist</string>
     <string name="theme_follow_system_mode">Follow system mode</string>
     <string name="resume_card_message">Resume playback of %1$s?</string>
 </resources>

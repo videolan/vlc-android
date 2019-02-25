@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.VLC" parent="Theme.VLC.7"/>
+    <style name="Theme.VLC" parent="Theme.VLC.7" />
+
     <style name="Theme.VLC.7" parent="Theme.VLC.Apearance">
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="android:textViewStyle">@style/VLC.TextView</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+
     </style>
 
     <style name="Theme.VLC.Apearance" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -105,7 +108,8 @@
         <item name="android:textViewStyle">@style/VLC.TextView</item>
     </style>
 
-    <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7"/>
+    <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7" />
+
     <style name="Theme.VLC.Black.7" parent="Theme.VLC.Apearance.Black">
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="windowActionBarOverlay">true</item>
@@ -204,27 +208,30 @@
     </style>
 
     <style name="Theme.VLC.TV" parent="Theme.Leanback">
-       <item name="colorPrimary">@color/orange800</item>
-       <item name="colorPrimaryDark">@color/transparent</item>
-       <item name="colorAccent">@color/orange600</item>
-       <item name="imageCardViewInfoAreaStyle">@style/VLCardViewInfoStyle</item>
-       <item name="imageCardViewTitleStyle">@style/VLCardViewTitleStyle</item>
-       <item name="imageCardViewStyle">@style/VLCardView</item>
-       <item name="audio_player_background_tint">@color/grey900transparent</item>
+        <item name="colorPrimary">@color/orange800</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
+        <item name="colorAccent">@color/orange600</item>
+        <item name="imageCardViewInfoAreaStyle">@style/VLCardViewInfoStyle</item>
+        <item name="imageCardViewTitleStyle">@style/VLCardViewTitleStyle</item>
+        <item name="imageCardViewStyle">@style/VLCardView</item>
+        <item name="audio_player_background_tint">@color/grey900transparent</item>
     </style>
+
     <style name="VLCardView" parent="Widget.Leanback.ImageCardViewStyle">
         <item name="cardType">infoUnderWithExtra</item>
         <item name="infoVisibility">always</item>
 
-   </style>
+    </style>
+
     <style name="VLCardViewTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
         <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">marquee</item>
-   </style>
+    </style>
+
     <style name="VLCardViewInfoStyle" parent="Widget.Leanback.ImageCardView.InfoAreaStyle">
         <item name="android:background">@color/tv_card_content</item>
-   </style>
+    </style>
 
     <style name="Theme.VLC.Leanback.Preferences" parent="Theme.Leanback">
         <item name="preferenceTheme">@style/PreferenceThemeOverlayLeanback</item>
@@ -255,7 +262,8 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="Theme.VLC.Player" parent="Theme.VLC.Player.7"/>
+    <style name="Theme.VLC.Player" parent="Theme.VLC.Player.7" />
+
     <style name="Theme.VLC.Player.7" parent="Theme.MaterialComponents">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
@@ -397,31 +405,31 @@
     </style>
 
     <style name="VLCEditPreferenceStyle" parent="Preference.DialogPreference.EditTextPreference.Material">
-    <item name="iconSpaceReserved">false</item>
+        <item name="iconSpaceReserved">false</item>
     </style>
 
     <style name="VLCSwitchPreferenceStyle" parent="Preference.SwitchPreferenceCompat.Material">
-    <item name="iconSpaceReserved">false</item>
+        <item name="iconSpaceReserved">false</item>
     </style>
 
     <style name="VLCDialogPreferenceStyle" parent="Preference.DialogPreference.Material">
-    <item name="iconSpaceReserved">false</item>
+        <item name="iconSpaceReserved">false</item>
     </style>
 
     <style name="VLCCheckBoxPreferenceStyle" parent="Preference.CheckBoxPreference.Material">
-    <item name="iconSpaceReserved">false</item>
+        <item name="iconSpaceReserved">false</item>
     </style>
 
     <style name="VLCPreferenceFragmentStyle" parent="PreferenceFragment.Material">
-    <item name="iconSpaceReserved">false</item>
+        <item name="iconSpaceReserved">false</item>
     </style>
 
     <style name="VLCPreferenceScreenStyle" parent="Preference.PreferenceScreen.Material">
-    <item name="iconSpaceReserved">false</item>
+        <item name="iconSpaceReserved">false</item>
     </style>
 
     <style name="VLCPreferenceStyle" parent="Preference.Material">
-    <item name="iconSpaceReserved">false</item>
+        <item name="iconSpaceReserved">false</item>
     </style>
 
     <style name="VLCPreferenceCategoryStyle" parent="Preference.Category.Material">
@@ -431,11 +439,32 @@
     <!-- Tips Apearance-->
 
     <style name="TipsFontStyle">
-      <item name="android:textColor">@color/orange700</item>
-      <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/orange700</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TipsFontStyle.Small" parent="TipsFontStyle">
-      <item name="android:textSize">10sp</item>
+        <item name="android:textSize">10sp</item>
     </style>
+
+    <!--BottomSheet-->
+    <style name="AppBottomSheetDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_background</item>
+    </style>
+
+    <style name="Theme.VLC.BottomSheetTitle">
+        <item name="android:minHeight">56dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+
+    </style>
+
 </resources>

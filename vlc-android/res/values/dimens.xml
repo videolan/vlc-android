@@ -1,4 +1,7 @@
 <resources>
+
+    <dimen name="custom_match_parent">-1px</dimen>
+
     <dimen name="shadow_width">6px</dimen>
     <dimen name="widget_margin">0dp</dimen>
     <dimen name="directory_browser_item_size">40dp</dimen>
@@ -46,7 +49,7 @@
     <dimen name="file_picker_height">-1px</dimen>
 
     <dimen name="default_content_width">-1px</dimen>
-    <dimen name="default_context_width">512dp</dimen>
+    <dimen name="default_context_width">@dimen/custom_match_parent</dimen>
 
 
     <!-- Default -->

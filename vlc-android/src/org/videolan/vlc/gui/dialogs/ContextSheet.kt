@@ -24,7 +24,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
@@ -32,9 +31,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ContextItemBinding
 import org.videolan.vlc.util.*
@@ -43,7 +39,7 @@ const val CTX_TITLE_KEY = "CTX_TITLE_KEY"
 const val CTX_POSITION_KEY = "CTX_POSITION_KEY"
 const val CTX_FLAGS_KEY = "CTX_FLAGS_KEY"
 
-class ContextSheet : com.google.android.material.bottomsheet.BottomSheetDialogFragment() {
+class ContextSheet : VLCBottomSheetDialogFragment() {
 
     private lateinit var options : List<CtxOption>
     lateinit var receiver : CtxActionReceiver
@@ -51,6 +47,7 @@ class ContextSheet : com.google.android.material.bottomsheet.BottomSheetDialogFr
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        defaultState = BottomSheetBehavior.STATE_EXPANDED
         itemPosition = arguments?.getInt(CTX_POSITION_KEY) ?: -1
         if (!this::receiver.isInitialized) restoreReceiver(savedInstanceState)
     }
@@ -73,19 +70,13 @@ class ContextSheet : com.google.android.material.bottomsheet.BottomSheetDialogFr
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         view.findViewById<TextView>(R.id.ctx_title).text = arguments?.getString(CTX_TITLE_KEY) ?: ""
         val list = view.findViewById<RecyclerView>(R.id.ctx_list)
         list.layoutManager = LinearLayoutManager(requireContext())
         list.adapter = ContextAdapter()
         val flags = arguments?.getInt(CTX_FLAGS_KEY) ?: 0
         options = populateOptions(flags)
-        AppScope.launch(Dispatchers.Main) {
-            dialog?.window?.setLayout(resources.getDimensionPixelSize(R.dimen.default_context_width), ViewGroup.LayoutParams.MATCH_PARENT)
-            (dialog as BottomSheetDialog).findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)?.let {
-                val bsb = BottomSheetBehavior.from(it)
-                if (bsb.state == BottomSheetBehavior.STATE_COLLAPSED) bsb.state = BottomSheetBehavior.STATE_EXPANDED
-            }
-        }
     }
 
     private fun populateOptions(flags: Int) = mutableListOf<CtxOption>().apply {

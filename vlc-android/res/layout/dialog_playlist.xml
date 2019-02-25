@@ -1,58 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/default_margin">
+    android:layout_height="match_parent">
 
-    <!--TODO : textColorHint doesn't work -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/dialog_playlist_name"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/half_default_margin">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:hint="@string/playlist_name_hint"
-            android:textColorHint="?attr/font_default"
-            android:inputType="text"
-            android:imeOptions="actionSend"/>
-    </com.google.android.material.textfield.TextInputLayout>
-    <Button
-        android:id="@+id/dialog_playlist_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@android:string/cancel"
-        android:layout_below="@+id/dialog_playlist_name"
-        android:layout_toStartOf="@+id/dialog_playlist_save"
-        android:layout_marginEnd="8dp"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
-    <Button
-        android:id="@+id/dialog_playlist_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:text="@android:string/ok"
-        android:layout_below="@+id/dialog_playlist_name"
-        style="@style/Widget.MaterialComponents.Button.TextButton.Dialog" />
-    <FrameLayout
-        android:id="@+id/dialog_list_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/half_default_margin"
-        android:layout_marginStart="@dimen/half_default_margin"
-        android:layout_below="@+id/dialog_playlist_cancel">
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@android:id/list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:padding="@dimen/default_margin">
+
+
         <TextView
-            android:id="@android:id/empty"
+            android:id="@+id/textView8"
+            style="@style/Theme.VLC.BottomSheetTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/add_to_playlist"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/dialog_list_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="@string/noplaylist"/>
-    </FrameLayout>
-</RelativeLayout>
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@android:id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@android:id/empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/noplaylist" />
+        </FrameLayout>
+        <!--TODO : textColorHint doesn't work -->
+        <TextView
+            android:id="@+id/textView9"
+            style="@style/Theme.VLC.BottomSheetTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/add_to_new_playlist"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_list_container" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialog_playlist_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/dialog_playlist_save"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView9">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:hint="@string/playlist_name_hint"
+                android:imeOptions="actionSend"
+                android:inputType="text"
+                android:textColorHint="?attr/font_default" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/dialog_playlist_save"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dialog_playlist_name"
+            android:layout_alignParentEnd="true"
+            android:text="@string/add"
+            app:layout_constraintBottom_toBottomOf="@+id/dialog_playlist_name"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
