@@ -89,8 +89,9 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
             vlcVout.setVideoView(mVideoSurface);
             if (mSubtitlesSurface != null)
                 vlcVout.setSubtitlesView(mSubtitlesSurface);
-        } else
+        } else if (mVideoTexture != null)
             vlcVout.setVideoView(mVideoTexture);
+        else return;
         vlcVout.attachViews(this);
 
         if (mOnLayoutChangeListener == null) {
