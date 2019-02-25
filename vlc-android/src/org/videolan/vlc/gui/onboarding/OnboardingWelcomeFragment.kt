@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.videolan.vlc.R
+import org.videolan.vlc.util.Permissions
 
 class OnboardingWelcomeFragment : Fragment() {
 
@@ -15,11 +16,7 @@ class OnboardingWelcomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+        if (Permissions.canReadStorage(view.context)) view.findViewById<View>(R.id.textView3).visibility = View.GONE
     }
 
     companion object {
