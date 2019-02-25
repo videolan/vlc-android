@@ -112,15 +112,10 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
                     }
                 }, 500);
             }
-            WorkersKt.runIO(new Runnable() {
-                @Override
-                public void run() {
-                    if (getIntent().getBooleanExtra(Constants.EXTRA_FIRST_RUN, false)
-                            && !mSettings.getBoolean(OnboardingActivityKt.ONBOARDING_DONE_KEY, false)) {
-                        OnboardingActivityKt.startOnboarding(MainActivity.this);
-                    } else Permissions.checkReadStoragePermission(MainActivity.this, false);
-                }
-            });
+            if (getIntent().getBooleanExtra(Constants.EXTRA_FIRST_RUN, false)
+                    && !mSettings.getBoolean(OnboardingActivityKt.ONBOARDING_DONE_KEY, false)) {
+                OnboardingActivityKt.startOnboarding(MainActivity.this);
+            } else Permissions.checkReadStoragePermission(MainActivity.this, false);
         }
 
         /* Set up the action bar */
