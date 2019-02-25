@@ -457,6 +457,14 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
+    override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {
+        if (mActionMode != null) {
+            onClick(v, position, item)
+            return
+        }
+        onLongClick(v, position, item)
+    }
+
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.isRefreshing = false
         handler.sendEmptyMessage(MSG_HIDE_LOADING)

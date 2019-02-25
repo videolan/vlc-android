@@ -158,6 +158,9 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
 
         public void onClick(View v){}
 
+        public void onImageClick(View v) {
+        }
+
         public boolean onLongClick(View v){ return false; }
 
         public void onCheckBoxClick(View v){}
@@ -205,6 +208,13 @@ public class BaseBrowserAdapter extends DiffUtilAdapter<MediaLibraryItem, BaseBr
             int position = getLayoutPosition();
             if (position < getDataset().size() && position >= 0)
                 fragment.onClick(v, position, getDataset().get(position));
+        }
+
+        @Override
+        public void onImageClick(View v) {
+            int position = getLayoutPosition();
+            if (position < getDataset().size() && position >= 0)
+                fragment.onImageClick(v, position, getDataset().get(position));
         }
 
         @Override

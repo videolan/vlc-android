@@ -20,14 +20,8 @@
 package org.videolan.vlc.gui;
 
 import android.annotation.TargetApi;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.view.ActionMode;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
@@ -49,6 +44,13 @@ import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.viewmodels.HistoryModel;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.view.ActionMode;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implements IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
 
@@ -243,6 +245,15 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
         mHistoryAdapter.notifyItemChanged(position, item);
         startActionMode();
         return true;
+    }
+
+    @Override
+    public void onImageClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
+        if (mActionMode != null) {
+            onClick(v, position, item);
+            return;
+        }
+        onLongClick(v, position, item);
     }
 
     @Override

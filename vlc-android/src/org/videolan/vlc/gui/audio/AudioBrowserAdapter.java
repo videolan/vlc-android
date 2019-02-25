@@ -213,6 +213,12 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
             return item != null && mIEventsHandler.onLongClick(view, position, item);
         }
 
+        public void onImageClick(View v) {
+            int position = getLayoutPosition();
+            final MediaLibraryItem item = getItem(position);
+            if (item != null) mIEventsHandler.onImageClick(v, position, item);
+        }
+
         private void setCoverlay(boolean selected) {
             int resId = selected ? R.drawable.ic_action_mode_select : 0;
             if (resId != coverlayResource) {

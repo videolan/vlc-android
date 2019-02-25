@@ -196,6 +196,15 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     @Override
+    public void onImageClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
+        if (mActionMode != null) {
+            onClick(v, position, item);
+            return;
+        }
+        onLongClick(v, position, item);
+    }
+
+    @Override
     public void onCtxClick(View anchor, final int position, final MediaLibraryItem mediaItem) {
         if (mActionMode == null) ContextSheetKt.showContext(this, this, position, mediaItem.getTitle(), Constants.CTX_PLAYLIST_ITEM_FLAGS);
     }

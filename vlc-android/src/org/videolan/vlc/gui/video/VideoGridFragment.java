@@ -37,6 +37,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -119,7 +120,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = VideoGridBinding.inflate(inflater, container, false);
         return mBinding.getRoot();
     }
@@ -149,6 +150,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mBinding.videoGrid.setAdapter(mAdapter);
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -198,7 +200,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
             return;
         }
         final Resources res = getResources();
-        if (mGridItemDecoration == null) mGridItemDecoration = new ItemOffsetDecoration(getResources(), R.dimen.left_right_1610_margin, R.dimen.top_bottom_1610_margin);
+        if (mGridItemDecoration == null)
+            mGridItemDecoration = new ItemOffsetDecoration(getResources(), R.dimen.left_right_1610_margin, R.dimen.top_bottom_1610_margin);
         final boolean listMode = res.getBoolean(R.bool.list_mode)
                 || (res.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT &&
                 Settings.INSTANCE.getInstance(requireContext()).getBoolean("force_list_portrait", false));
@@ -264,7 +267,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     }
 
     @Override
-    public void clear(){
+    public void clear() {
         mAdapter.clear();
     }
 
@@ -296,7 +299,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         final List<MediaWrapper> list = new ArrayList();
         for (MediaWrapper mw : multiSelectHelper.getSelection()) {
-            if (mw.getType() == MediaWrapper.TYPE_GROUP) list.addAll(((MediaGroup)mw).getAll());
+            if (mw.getType() == MediaWrapper.TYPE_GROUP) list.addAll(((MediaGroup) mw).getAll());
             else list.add(mw);
         }
         if (!list.isEmpty()) {
@@ -376,7 +379,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         if (media instanceof MediaGroup) {
             final String title = media.getTitle().substring(media.getTitle().toLowerCase().startsWith("the") ? 4 : 0);
             if (activity instanceof MainActivity)
-                ((MainActivity)activity).getNavigator().showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
+                ((MainActivity) activity).getNavigator().showSecondaryFragment(SecondaryActivity.VIDEO_GROUP_LIST, title);
         } else {
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             final SharedPreferences settings = Settings.INSTANCE.getInstance(v.getContext());
@@ -398,12 +401,17 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     }
 
     @Override
+    public void onImageClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
+    }
+
+    @Override
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
         final MediaWrapper mw = (MediaWrapper) item;
         final boolean group = mw.getType() == MediaWrapper.TYPE_GROUP;
         int flags = group ? Constants.CTX_VIDEO_GOUP_FLAGS : Constants.CTX_VIDEO_FLAGS;
         if (mw.getTime() != 0l && !group) flags |= Constants.CTX_PLAY_FROM_START;
-        if (mActionMode == null) ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), flags);
+        if (mActionMode == null)
+            ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), flags);
     }
 
     @Override
@@ -416,7 +424,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     public void updateSeenMediaMarker() {
         mAdapter.setSeenMediaMarkerVisible(Settings.INSTANCE.getInstance(requireContext()).getBoolean("media_seen", true));
-        mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount()-1, Constants.UPDATE_SEEN);
+        mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount() - 1, Constants.UPDATE_SEEN);
     }
 
     @Override
@@ -426,7 +434,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         if (media == null) return;
         final Activity activity = getActivity();
         if (activity == null) return;
-        switch (option){
+        switch (option) {
             case Constants.CTX_PLAY_FROM_START:
                 playVideo(media, true);
                 break;
@@ -447,7 +455,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 MediaUtils.INSTANCE.openList(activity, ((MediaGroup) media).getAll(), 0);
                 break;
             case Constants.CTX_APPEND:
-                if (media instanceof MediaGroup) MediaUtils.INSTANCE.appendMedia(activity, ((MediaGroup)media).getAll());
+                if (media instanceof MediaGroup)
+                    MediaUtils.INSTANCE.appendMedia(activity, ((MediaGroup) media).getAll());
                 else MediaUtils.INSTANCE.appendMedia(activity, media);
                 break;
             case Constants.CTX_DOWNLOAD_SUBTITLES:

@@ -31,6 +31,7 @@ import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
@@ -252,6 +253,15 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
         getCurrentAdapter().getMultiSelectHelper().toggleSelection(position);
         startActionMode();
         return true;
+    }
+
+    @Override
+    public void onImageClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
+        if (mActionMode != null) {
+            onClick(v, position, item);
+            return;
+        }
+        onLongClick(v, position, item);
     }
 
     @Override

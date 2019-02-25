@@ -1,33 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
-        <import type="org.videolan.medialibrary.media.MediaWrapper"/>
-        <import type="android.text.TextUtils"/>
-        <import type="android.view.View"/>
+
+        <import type="org.videolan.medialibrary.media.MediaWrapper" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="android.view.View" />
+
         <variable
             name="holder"
-            type="org.videolan.vlc.gui.HistoryAdapter.ViewHolder"/>
+            type="org.videolan.vlc.gui.HistoryAdapter.ViewHolder" />
+
         <variable
             name="media"
-            type="MediaWrapper"/>
+            type="MediaWrapper" />
 
         <variable
             name="cover"
             type="android.graphics.drawable.BitmapDrawable" />
+
         <variable
             name="bgColor"
             type="int" />
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/audio_browser_item_size"
         android:background="@{bgColor}"
         android:clickable="true"
-        android:onClick="@{holder::onClick}"
         android:focusable="true"
-        android:onLongClick="@{holder::onLongClick}"  >
+        android:minHeight="@dimen/audio_browser_item_size"
+        android:onClick="@{holder::onClick}"
+        android:onLongClick="@{holder::onLongClick}">
 
         <ImageView
             android:id="@+id/icon"
@@ -37,12 +45,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:src="@{cover}"
+            android:onClick="@{holder::onImageClick}"
             android:scaleType="centerCrop"
+            android:src="@{cover}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintDimensionRatio="1"
             app:media="@{media}" />
 
         <TextView
