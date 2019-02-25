@@ -2,6 +2,7 @@ package org.videolan.vlc.gui.helpers
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
@@ -76,11 +77,13 @@ fun getIconDrawable(type: Int): BitmapDrawable? {
     }
 }
 
+private var placeholderTvBg : Drawable? = null
 @MainThread
 @BindingAdapter("placeholder")
 fun placeHolderView(v: View, item: MediaLibraryItem?) {
     if (item == null) {
-        v.background = ContextCompat.getDrawable(v.context, R.drawable.rounded_corners_grey)
+        if (placeholderTvBg === null) placeholderTvBg = ContextCompat.getDrawable(v.context, R.drawable.rounded_corners_grey)
+        v.background = placeholderTvBg
     } else {
         v.background = null
     }
