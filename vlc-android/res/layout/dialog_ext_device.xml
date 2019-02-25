@@ -37,7 +37,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/ext_device_scan"
-            app:layout_constraintTop_toBottomOf="@+id/ext_device_summary" />
+            app:layout_constraintTop_toBottomOf="@+id/ext_device_summary" >
+            <requestFocus />
+        </Button>
 
         <Button
             android:id="@+id/ext_device_scan"
