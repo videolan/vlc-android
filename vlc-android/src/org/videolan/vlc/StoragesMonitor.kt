@@ -42,15 +42,17 @@ class StoragesMonitor : BroadcastReceiver() {
                 if (action.path.scanAllowed()) {
                     val knownDevices = action.ctx.getFromMl { devices }
                     val ml = Medialibrary.getInstance()
-                    val scan = !containsDevice(knownDevices, action.path) && ml.addDevice(action.uuid, action.path, true)
-                    val intent = Intent(action.ctx, DialogActivity::class.java).apply {
-                        setAction(DialogActivity.KEY_DEVICE)
-                        putExtra(DialogActivity.EXTRA_PATH, action.path)
-                        putExtra(DialogActivity.EXTRA_UUID, action.uuid)
-                        putExtra(DialogActivity.EXTRA_SCAN, scan)
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    val isNew = !containsDevice(knownDevices, action.path) && ml.addDevice(action.uuid, action.path, true)
+                    if (isNew) {
+                        val intent = Intent(action.ctx, DialogActivity::class.java).apply {
+                            setAction(DialogActivity.KEY_DEVICE)
+                            putExtra(DialogActivity.EXTRA_PATH, action.path)
+                            putExtra(DialogActivity.EXTRA_UUID, action.uuid)
+                            putExtra(DialogActivity.EXTRA_SCAN, isNew)
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        action.ctx.startActivity(intent)
                     }
-                    action.ctx.startActivity(intent)
                 }
             }
             is Unmount -> {
