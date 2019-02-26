@@ -645,10 +645,23 @@
     <string name="ctx_player_tracks_title">Sélectionner une piste multimédia</string>
     <string name="ctx_pip_title">Lecteur pop-up</string>
     <string name="device_dialog_title">Périphérique externe inséré</string>
-    <string name="device_dialog_message">Vous venez de brancher un nouveau périphérique de stockage à votre box TV, voulez-vous l\'ouvrir avec VLC ?</string>
+    <string name="device_dialog_message">Vous venez de brancher un nouveau périphérique de stockage à votre décodeur TV, voulez-vous l\'ouvrir avec VLC ?</string>
     <string name="videos_folders_title">Vidéos par dossiers</string>
     <string name="video_save_remote_setting">Activer automatiquement le mode commande à distance ?</string>
     <string name="video_save_clone_mode">Activer automatiquement le mode clone ?</string>
     <string name="video_remote_enable">Passer en mode commande à distance</string>
     <string name="video_remote_disable">Dupliquer l’écran</string>
+    <string name="welcome_title">Bienvenue dans VLC !</string>
+    <string name="welcome_subtitle">Le lecteur multimédia gratuit et libre</string>
+    <string name="permission_media">VLC a besoin de votre permission pour accéder aux médias sur votre appareil</string>
+    <string name="medialibrary_scan_explanation">VLC peut analyser automatiquement votre appareil pour organiser votre collection de médias.</string>
+    <string name="onboarding_theme_title">Faites comme chez vous</string>
+    <string name="done">Terminé</string>
+    <string name="onboarding_scan_title">Trouver automatiquement vos médias</string>
+    <string name="daynight_explanation">VLC basculera automatiquement en mode nuit à l’horaire approprié</string>
+    <string name="onboarding_scanning_enable">Laisser VLC analyser les médias sur mon appareil</string>
+    <string name="onboarding_scan_whole">VLC analysera l’intégralité ma carte SD</string>
+    <string name="onboarding_scan_customize">Me laisser choisir quels dossiers doit analyser VLC</string>
+    <string name="button_medialibrary_preferences">Aller aux préférences de Medialibrary</string>
+    <string name="light_theme">Thème clair</string>
 </resources>
