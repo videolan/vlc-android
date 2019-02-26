@@ -77,11 +77,13 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         mediaplayerEventListener = listener
         resetPlaybackState(media.duration)
         mediaplayer.setEventListener(null)
-        withContext(Dispatchers.IO) { mediaplayer.media = media.apply { if (hasRenderer) parse() } }
-        mediaplayer.setEventListener(this@PlayerController)
-        mediaplayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(context))
-        mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)
-        mediaplayer.play()
+        withContext(Dispatchers.IO) { if (!mediaplayer.isReleased) mediaplayer.media = media.apply { if (hasRenderer) parse() } }
+        if (!mediaplayer.isReleased) {
+            mediaplayer.setEventListener(this@PlayerController)
+            mediaplayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(context))
+            mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)
+            mediaplayer.play()
+        }
     }
 
     private fun resetPlaybackState(duration: Long) {
@@ -194,6 +196,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     fun setSlaves(media: Media, mw: MediaWrapper) = launch {
+        if (mediaplayer.isReleased) return@launch
         val slaves = mw.slaves
         slaves?.let { it.forEach { slave -> media.addSlave(slave) } }
         media.release()
