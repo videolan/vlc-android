@@ -662,6 +662,20 @@
     <string name="device_dialog_message">Práve ste pripojili nové úložné zariadenie ku svojmu TV boxu. Chcete ho otvoriť s použitím VLC?</string>
     <string name="videos_folders_title">Videá podľa priečinkov</string>
     <string name="video_save_remote_setting">Automaticky aktivovať režim ovládania na diaľku?</string>
+    <string name="video_save_clone_mode">Aktivovať režim klonovania automaticky?</string>
     <string name="video_remote_enable">Prepnúť na režim ovládania na diaľku</string>
     <string name="video_remote_disable">Duplikovať obrazovku</string>
+    <string name="welcome_title">Vitajte vo VLC!</string>
+    <string name="welcome_subtitle">Voľne šíriteľnom multimediálnom prehrávači s otvoreným zdrojovým kódom</string>
+    <string name="permission_media">VLC potrebuje Vaše povolenie na prístup k mediálnym súborom v zariadení</string>
+    <string name="medialibrary_scan_explanation">VLC môže automaticky preskúmať vaše zariadenie a zorganizovať Vašu zbierku médií.</string>
+    <string name="onboarding_theme_title">Cíťte sa tu ako doma</string>
+    <string name="done">Hotovo</string>
+    <string name="onboarding_scan_title">Autom. vyhľadanie médií</string>
+    <string name="daynight_explanation">VLC sa automaticky prepne do nočného režimu v adekvátnom čase</string>
+    <string name="onboarding_scanning_enable">Umožniť VLC vyhľadanie mediálneho obsahu v zariadení</string>
+    <string name="onboarding_scan_whole">VLC prehľadá celú moju kartu SD</string>
+    <string name="onboarding_scan_customize">Umožniť výber prehľadávaných priečinkov</string>
+    <string name="button_medialibrary_preferences">Prejsť na nastavenia knižnice médií</string>
+    <string name="light_theme">Svetlá téma</string>
 </resources>
