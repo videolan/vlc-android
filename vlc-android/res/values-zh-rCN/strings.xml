@@ -644,4 +644,17 @@
     <string name="video_save_clone_mode">是否自动激活克隆模式?</string>
     <string name="video_remote_enable">切换到远程控制模式</string>
     <string name="video_remote_disable">复制屏幕</string>
+    <string name="welcome_title">欢迎使用 VLC!</string>
+    <string name="welcome_subtitle">自由开源的多媒体播放器</string>
+    <string name="permission_media">VLC 需要您的许可，才能访问设备中的媒体</string>
+    <string name="medialibrary_scan_explanation">VLC 可自动扫描您的设备，构建您的媒体库。</string>
+    <string name="onboarding_theme_title">就像在自己家</string>
+    <string name="done">完成</string>
+    <string name="onboarding_scan_title">自动发现媒体</string>
+    <string name="daynight_explanation">VLC 将在恰当的时间自动切换到夜间模式</string>
+    <string name="onboarding_scanning_enable">让 VLC 扫描我的设备，寻找媒体内容</string>
+    <string name="onboarding_scan_whole">VLC 将扫描我的整个 SD 卡</string>
+    <string name="onboarding_scan_customize">让我选择 VLC 扫描的文件夹</string>
+    <string name="button_medialibrary_preferences">前往媒体库偏好设置</string>
+    <string name="light_theme">亮主题</string>
 </resources>
