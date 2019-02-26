@@ -126,6 +126,7 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
     }
 
     private void changeMediaPlayerLayout(int displayW, int displayH) {
+        if (mMediaPlayer.isReleased()) return;
         /* Change the video placement using the MediaPlayer API */
         switch (mCurrentScaleType) {
             case SURFACE_BEST_FIT:
