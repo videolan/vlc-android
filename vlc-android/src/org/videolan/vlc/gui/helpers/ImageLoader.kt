@@ -53,13 +53,17 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
     else AppScope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding) }
 }
 
-fun getIconDrawable(type: Int): BitmapDrawable? {
-    return when (type) {
-        MediaLibraryItem.TYPE_ALBUM -> UiTools.Resources.DEFAULT_COVER_ALBUM_DRAWABLE
-        MediaLibraryItem.TYPE_ARTIST -> UiTools.Resources.DEFAULT_COVER_ARTIST_DRAWABLE
-        MediaLibraryItem.TYPE_MEDIA -> UiTools.Resources.DEFAULT_COVER_AUDIO_DRAWABLE
-        else -> null
-    }
+fun getIconDrawable(type: Int): BitmapDrawable? = when (type) {
+    MediaLibraryItem.TYPE_ALBUM -> UiTools.Resources.DEFAULT_COVER_ALBUM_DRAWABLE
+    MediaLibraryItem.TYPE_ARTIST -> UiTools.Resources.DEFAULT_COVER_ARTIST_DRAWABLE
+    MediaLibraryItem.TYPE_MEDIA -> UiTools.Resources.DEFAULT_COVER_AUDIO_DRAWABLE
+    else -> null
+}
+
+fun getIconDrawableMediaWrapper(type: Int): BitmapDrawable? = when (type) {
+    MediaWrapper.TYPE_AUDIO -> UiTools.Resources.DEFAULT_COVER_AUDIO_DRAWABLE
+    MediaWrapper.TYPE_VIDEO -> UiTools.Resources.DEFAULT_COVER_VIDEO_DRAWABLE
+    else -> null
 }
 
 private var placeholderTvBg : Drawable? = null

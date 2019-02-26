@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.databinding.HistoryItemBinding;
+import org.videolan.vlc.gui.helpers.ImageLoaderKt;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.util.Util;
@@ -39,6 +40,10 @@ public class HistoryAdapter extends DiffUtilAdapter<MediaWrapper, HistoryAdapter
 
     private IEventsHandler mEventsHandler;
     private LayoutInflater mLayoutInflater;
+
+    HistoryAdapter(IEventsHandler eventsHandler) {
+        mEventsHandler = eventsHandler;
+    }
 
     public class ViewHolder extends SelectorViewHolder<HistoryItemBinding> {
 
@@ -64,9 +69,7 @@ public class HistoryAdapter extends DiffUtilAdapter<MediaWrapper, HistoryAdapter
         }
     }
 
-    HistoryAdapter(IEventsHandler eventsHandler) {
-        mEventsHandler = eventsHandler;
-    }
+
 
     List<MediaWrapper> getSelection() {
         final List<MediaWrapper> selection = new LinkedList<>();
@@ -89,6 +92,7 @@ public class HistoryAdapter extends DiffUtilAdapter<MediaWrapper, HistoryAdapter
         final MediaWrapper media = getItem(position);
         boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
         holder.binding.setMedia(media);
+        holder.binding.setCover(ImageLoaderKt.getIconDrawableMediaWrapper(media.getType()));
         holder.selectView(isSelected);
     }
 
