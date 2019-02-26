@@ -14,9 +14,6 @@
             name="alignMode"
             type="int" />
 
-        <variable
-            name="type"
-            type="int" />
 
         <variable
             name="item"

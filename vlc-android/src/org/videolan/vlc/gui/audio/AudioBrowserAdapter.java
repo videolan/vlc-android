@@ -92,7 +92,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         if (position >= getItemCount()) return;
         final MediaLibraryItem item = getItem(position);
         holder.binding.setItem(item);
-        holder.binding.setType(mType);
         final boolean isSelected = multiSelectHelper.isSelected(position);
         holder.setCoverlay(isSelected);
         holder.selectView(isSelected);
@@ -108,13 +107,11 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                 final boolean isSelected = ((MediaLibraryItem) payload).hasStateFlags(FLAG_SELECTED);
                 holder.setCoverlay(isSelected);
                 holder.selectView(isSelected);
-                holder.binding.setType(mType);
             } else if (payload instanceof Integer) {
                 if ((Integer) payload == Constants.UPDATE_SELECTION) {
                     final boolean isSelected = multiSelectHelper.isSelected(position);
                     holder.setCoverlay(isSelected);
                     holder.selectView(isSelected);
-                    holder.binding.setType(mType);
                 }
             }
         }
