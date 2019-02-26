@@ -665,4 +665,17 @@
     <string name="video_save_clone_mode">Автоматично увімкнути режим клонування?</string>
     <string name="video_remote_enable">Перемкнутися у режим віддаленого управління</string>
     <string name="video_remote_disable">Дублювати екран</string>
+    <string name="welcome_title">Вітаємо у VLC!</string>
+    <string name="welcome_subtitle">Безкоштовний мультимедійний програвач з відкритим кодом</string>
+    <string name="permission_media">VLC потребує вашого дозволу на доступ до файлів на вашому пристрої</string>
+    <string name="medialibrary_scan_explanation">VLC може автоматично сканувати ваш пристрій, щоби впорядкувати вашу медіазбірку.</string>
+    <string name="onboarding_theme_title">Відчувайте себе як вдома</string>
+    <string name="done">Готово</string>
+    <string name="onboarding_scan_title">Автоматичне виявлення ваших медіа</string>
+    <string name="daynight_explanation">VLC буде автоматично перемикатися у нічний режим у відповідний час</string>
+    <string name="onboarding_scanning_enable">Нехай VLC сканує мій пристрій на медіаматеріал</string>
+    <string name="onboarding_scan_whole">VLC буде сканувати усю мою карту пам\'яті SD</string>
+    <string name="onboarding_scan_customize">Дозвольте мені вибрати теки, які скануватиме VLC</string>
+    <string name="button_medialibrary_preferences">Перейти до налаштувань медіабібліотеки</string>
+    <string name="light_theme">Світла тема</string>
 </resources>
