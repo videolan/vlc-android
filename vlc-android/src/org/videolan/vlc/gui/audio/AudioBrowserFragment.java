@@ -391,4 +391,9 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
             return false;
         }
     };
+
+    @Override
+    public boolean allowedToExpand() {
+        return getCurrentRV().getScrollState() == RecyclerView.SCROLL_STATE_IDLE;
+    }
 }

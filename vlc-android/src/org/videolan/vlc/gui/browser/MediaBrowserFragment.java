@@ -371,4 +371,9 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
             cs.applyTo(cl);
         } else UiTools.setViewVisibility(mSearchButtonView, visible ? View.VISIBLE : View.GONE);
     }
+
+    @Override
+    public boolean allowedToExpand() {
+        return true;
+    }
 }

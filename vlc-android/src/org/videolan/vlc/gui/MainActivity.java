@@ -55,6 +55,7 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
 import org.videolan.vlc.gui.view.HackyDrawerLayout;
+import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.interfaces.IRefreshable;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
@@ -317,6 +318,14 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem item) {
+        if (getCurrentFragment() instanceof Filterable) {
+            return ((Filterable) getCurrentFragment()).allowedToExpand();
+        }
+        return false;
     }
 
     public void forceRefresh() {

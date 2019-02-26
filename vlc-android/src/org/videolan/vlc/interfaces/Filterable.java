@@ -7,4 +7,6 @@ public interface Filterable {
     void restoreList();
     void setSearchVisibility(boolean visible);
     String getFilterQuery();
+
+    boolean allowedToExpand();
 }
