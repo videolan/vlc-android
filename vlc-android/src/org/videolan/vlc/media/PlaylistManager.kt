@@ -293,7 +293,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 return
             }
             val start = getStartTime(mw)
-            val media = Media(VLCInstance.get(), Uri.parse(Uri.decode(uri.toString())))
+            val media = Media(VLCInstance.get(), formatUri(uri))
             media.addOption(":start-time=$start")
             VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
             /* keeping only video during benchmark */
@@ -328,6 +328,12 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             player.stop()
             VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
         }
+    }
+
+    private fun formatUri(uri: Uri) : Uri {
+        if (uri.scheme == "file" || uri.scheme == "fd") return uri
+        val mrl = Uri.decode(uri.toString())
+        return Uri.parse(mrl)
     }
 
     private fun skipMedia() {
