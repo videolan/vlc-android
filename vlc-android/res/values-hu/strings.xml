@@ -594,7 +594,7 @@
     <string name="custom_set_restored">Egyéni hangszínszabályzó beállítás visszaállítva.</string>
     <string name="unsaved_set_deleted_message">Mentetlen hangszínszabályzó beállítás törölve.</string>
     <string name="equalizer_new_preset_name">Új</string>
-    <string name="settings_ml_block_scan">A médiakönyvtár épp átvizsgálja az eszközeit</string>
+    <string name="settings_ml_block_scan">A médiatár épp átvizsgálja az eszközeit</string>
     <string name="recommendations">Javaslatok</string>
     <string name="recommendations_desc">Javaslati kártyák az indítón</string>
     <string name="browser_quick_access">Gyors elérés</string>
@@ -614,7 +614,7 @@
     <string name="audio_task_cleared_summary">Lejátszás szüneteltetése az alkalmazás eltüntetésekor</string>
     <string name="playback_rewind">Visszatekerés</string>
     <string name="playback_forward">Előretekerés</string>
-    <string name="ml_wizard_title">VLC Medialibrary kiválasztása</string>
+    <string name="ml_wizard_title">VLC médiatár kiválasztása</string>
     <string name="ml_wizard_scan_checkbox">Eszköz felkutatása médiatartalom után</string>
     <string name="ml_wizard_description">Válassza ki, hogy a VLC felkutassa-e az eszköz tárhelyét a médiatára elrendezéséhez, vagy csak egyszerű lejátszóként használja, beépített böngészővel.</string>
     <string name="tv_my_new_videos">Új saját videók</string>
@@ -651,4 +651,17 @@
     <string name="video_save_clone_mode">Automatikusan aktiválja a klónozás módot?</string>
     <string name="video_remote_enable">Váltás távvezérlő módba</string>
     <string name="video_remote_disable">Képernyő kettőzése</string>
+    <string name="welcome_title">Üdvözli a VLC!</string>
+    <string name="welcome_subtitle">A szabad és nyílt forráskódú multimédialejátszó</string>
+    <string name="permission_media">A VLC-nek az engedélyére van szüksége, hogy elérje az eszközén található médiafájlokat</string>
+    <string name="medialibrary_scan_explanation">A VLC automatikus át tudja vizsgálni az eszközét, hogy rendszerezze a médiagyűjteményét.</string>
+    <string name="onboarding_theme_title">Érezze magát otthon</string>
+    <string name="done">Kész</string>
+    <string name="onboarding_scan_title">A médiafájljai automatikus felfedezése</string>
+    <string name="daynight_explanation">A VLC automatikusan éjszakai módba vált a megfelelő időben</string>
+    <string name="onboarding_scanning_enable">A VLC vizsgálja át az eszközömet, médiatartalmakat keresve</string>
+    <string name="onboarding_scan_whole">A VLC vizsgálja át a teljes SD-kártyát</string>
+    <string name="onboarding_scan_customize">Kiválasztom, hogy mely mappákat vizsgálja át a VLC</string>
+    <string name="button_medialibrary_preferences">Ugrás a médiatár beállításaihoz</string>
+    <string name="light_theme">Világos téma</string>
 </resources>
