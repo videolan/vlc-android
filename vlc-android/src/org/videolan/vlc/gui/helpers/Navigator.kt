@@ -112,8 +112,7 @@ class Navigator(private val activity: MainActivity,
 
     private fun showFragment(fragment: Fragment, id: Int, tag: String = getTag(id)) {
         val fm = activity.supportFragmentManager
-        if (currentFragment is BaseBrowserFragment && !(currentFragment as BaseBrowserFragment).isRootDirectory)
-            fm.popBackStackImmediate("root", FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        if (currentFragment is BaseBrowserFragment) fm.popBackStackImmediate("root", FragmentManager.POP_BACK_STACK_INCLUSIVE)
         val ft = fm.beginTransaction()
         ft.replace(R.id.fragment_placeholder, fragment, tag)
         if (BuildConfig.DEBUG) ft.commit()
