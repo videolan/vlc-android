@@ -651,4 +651,17 @@
     <string name="video_save_clone_mode">Kopya kipi otomatik olarak etkinleştirilsin mi?</string>
     <string name="video_remote_enable">Uzaktan kumanda kipine geç</string>
     <string name="video_remote_disable">Ekranı yansıt</string>
+    <string name="welcome_title">VLC uygulamasına hoş geldiniz!</string>
+    <string name="welcome_subtitle">Özgür ve açık kaynaklı çoklu ortam oynatıcısı</string>
+    <string name="permission_media">VLC, aygıtınızdaki ortamlara erişmek için izninizi istiyor</string>
+    <string name="medialibrary_scan_explanation">VLC, ortam koleksiyonunuzu düzenlemek için aygıtınızı otomatik olarak tarayabilir.</string>
+    <string name="onboarding_theme_title">Kendinizi evinizde hissedin</string>
+    <string name="done">Bitti</string>
+    <string name="onboarding_scan_title">Ortamlarınızı otomatik olarak tarayın</string>
+    <string name="daynight_explanation">VLC, uygun zamanda otomatik olarak gece kipine geçecek</string>
+    <string name="onboarding_scanning_enable">VLC ortamları bulmak için aygıtımı tarayabilsin</string>
+    <string name="onboarding_scan_whole">VLC SD kartımın tamamını tarasın</string>
+    <string name="onboarding_scan_customize">VLC tarafından taranacak klasörleri ben seçeyim</string>
+    <string name="button_medialibrary_preferences">Ortam kitaplığı ayarlarına gidin</string>
+    <string name="light_theme">Açık tema</string>
 </resources>
