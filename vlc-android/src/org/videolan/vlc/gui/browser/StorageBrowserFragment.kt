@@ -103,13 +103,17 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
     override fun onStart() {
         super.onStart()
         VLCApplication.getMLInstance().addEntryPointsEventsCb(this)
-        mSnack?.let { it.show() }
+        mSnack?.show()
+    }
+
+    override fun onRestart() {
+        (adapter as StorageBrowserAdapter).updateListState(requireContext())
     }
 
     override fun onStop() {
         super.onStop()
         VLCApplication.getMLInstance().removeEntryPointsEventsCb(this)
-        mSnack?.let { it.dismiss() }
+        mSnack?.dismiss()
         mAlertDialog?.let { if (it.isShowing) it.dismiss() }
     }
 

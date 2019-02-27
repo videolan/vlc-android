@@ -72,6 +72,12 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
         return false
     }
 
+    suspend fun updateListState(context: Context) {
+        updateMediaDirs(context)
+        job?.join()
+        notifyItemRangeChanged(0, itemCount)
+    }
+
     fun updateMediaDirs(context: Context) {
         mediaDirsLocation.clear()
         val folders = VLCApplication.getMLInstance().foldersList
