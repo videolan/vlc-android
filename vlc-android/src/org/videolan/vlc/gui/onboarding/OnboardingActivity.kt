@@ -42,6 +42,12 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        launch {
+            if (viewModel.scanStorages && !viewModel.customizeMediaFolders) {
+                MediaParsingService.preselectedStorages.addAll(DirectoryRepository.getInstance(this@OnboardingActivity).getMediaDirectories())
+            }
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -84,7 +90,9 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
 
 
         previousButton.setOnClickListener {
-            if (viewPager.currentItem > 0) { viewPager.currentItem = viewPager.currentItem - 1 }
+            if (viewPager.currentItem > 0) {
+                viewPager.currentItem = viewPager.currentItem - 1
+            }
         }
 
         nextButton.setOnClickListener {
@@ -104,7 +112,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
             }
         }
 
-        doneButton.setOnClickListener { completeOnBoarding() }
+        doneButton.setOnClickListener { finish() }
 
         val count = viewModel.adapterCount
 
@@ -127,12 +135,16 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
                 .putInt("fragment_id", if (viewModel.scanStorages) R.id.nav_video else R.id.nav_directories)
                 .apply()
         launch {
-            if (viewModel.scanStorages && !viewModel.customizeMediaFolders) {
-                MediaParsingService.preselectedStorages.addAll(DirectoryRepository.getInstance(this@OnboardingActivity).getMediaDirectories())
+            if (!viewModel.scanStorages) {
+                MediaParsingService.preselectedStorages.clear()
             }
             startMedialibrary(firstRun = true, upgrade = true, parse = viewModel.scanStorages)
-            finish()
         }
+    }
+
+    override fun finish() {
+        completeOnBoarding()
+        super.finish()
     }
 
     override fun onBackPressed() {
@@ -176,7 +188,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         }
     }
 
-    override fun onPageScrollStateChanged(state: Int) { }
+    override fun onPageScrollStateChanged(state: Int) {}
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 

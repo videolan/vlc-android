@@ -31,9 +31,11 @@ import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
+import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.repository.DirectoryRepository
+import org.videolan.vlc.util.containsPath
 
 internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBrowserAdapter(fragment) {
 
@@ -55,7 +57,7 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
             if (!storagePath.endsWith("/")) storagePath += "/"
             job?.join()
             val hasContextMenu = customDirsLocation.contains(storagePath)
-            val checked = (fragment as StorageBrowserFragment).mScannedDirectory || mediaDirsLocation.contains(storagePath)
+            val checked = (fragment as StorageBrowserFragment).mScannedDirectory || mediaDirsLocation.containsPath(storagePath)
             vh.binding.setItem(storage)
             vh.binding.hasContextMenu = hasContextMenu
             when {
@@ -80,7 +82,14 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
 
     fun updateMediaDirs(context: Context) {
         mediaDirsLocation.clear()
-        val folders = VLCApplication.getMLInstance().foldersList
+
+        val folders = if (!VLCApplication.getMLInstance().isInitiated) {
+            MediaParsingService.preselectedStorages.toTypedArray()
+        } else {
+            VLCApplication.getMLInstance().foldersList
+        }
+
+
 
         folders.forEach {
             mediaDirsLocation.add(Uri.decode(if (it.startsWith("file://")) it.substring(7) else it))

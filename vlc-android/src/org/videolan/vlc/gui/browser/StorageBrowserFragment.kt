@@ -54,6 +54,7 @@ import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.util.sanitizePath
 import org.videolan.vlc.gui.onboarding.OnboardingActivity
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.BrowserModel
@@ -175,8 +176,9 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
         val checked = tscb.state == ThreeStatesCheckbox.STATE_CHECKED
         val activity = requireActivity()
         if (activity is OnboardingActivity) {
-            if (checked) MediaParsingService.preselectedStorages.add(mrl)
-            else MediaParsingService.preselectedStorages.remove(mrl)
+
+            if (checked) MediaParsingService.preselectedStorages.add(mrl.sanitizePath())
+            else MediaParsingService.preselectedStorages.remove(mrl.sanitizePath())
         } else {
             if (checked) {
                 MedialibraryUtils.addDir(mrl, v.context.applicationContext)
