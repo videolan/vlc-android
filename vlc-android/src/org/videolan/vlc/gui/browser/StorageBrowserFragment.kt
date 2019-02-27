@@ -38,9 +38,7 @@ import androidx.collection.SimpleArrayMap
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -65,7 +63,7 @@ import java.io.File
 const val KEY_IN_MEDIALIB = "key_in_medialib"
 
 @ExperimentalCoroutinesApi
-class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
+class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, CoroutineScope by MainScope() {
 
     internal var mScannedDirectory = false
     private val mProcessingFolders = SimpleArrayMap<String, CheckBox>()
@@ -107,7 +105,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
     }
 
     override fun onRestart() {
-        (adapter as StorageBrowserAdapter).updateListState(requireContext())
+        launch { (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
     }
 
     override fun onStop() {
