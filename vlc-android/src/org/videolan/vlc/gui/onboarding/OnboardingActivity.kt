@@ -18,7 +18,6 @@ import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.view.NonSwipeableViewPager
-import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.startMedialibrary
 import org.videolan.vlc.util.*
 
@@ -41,12 +40,6 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        launch {
-            if (viewModel.scanStorages && !viewModel.customizeMediaFolders) {
-                MediaParsingService.preselectedStorages.addAll(DirectoryRepository.getInstance(this@OnboardingActivity).getMediaDirectories())
-            }
-        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -200,7 +193,19 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         if (customizeEnabled) {
             indicators[3]?.visibility = View.VISIBLE
             indicators[3]?.animate()?.alpha(0.6f)?.scaleX(0.5f)?.scaleY(0.5f)!!.setListener(null)
+            if (MediaParsingService.preselectedStorages.isEmpty()) launch {
+                    MediaParsingService.preselectedStorages.run {
+                        addAll(AndroidDevices.getExternalStorageDirectories())
+                        AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path?.let { add(it) }
+                        AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DCIM_DIRECTORY_URI.path?.let { add(it) }
+                        AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI.path?.let { add(it) }
+                        AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI.path?.let { add(it) }
+                        AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI.path?.let { add(it) }
+                        AndroidDevices.MediaFolders.WHATSAPP_VIDEOS_FILE_URI.path?.let { add(it) }
+                    }
+            }
         } else {
+            MediaParsingService.preselectedStorages.clear()
             indicators[3]?.animate()?.scaleY(0f)?.scaleX(0f)?.alpha(0f)?.setListener(object : Animator.AnimatorListener {
                 override fun onAnimationRepeat(animation: Animator?) {}
 

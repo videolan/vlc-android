@@ -216,12 +216,14 @@ public class AndroidDevices {
         public final static File EXTERNAL_PUBLIC_MUSIC_DIRECTORY_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
         public final static File EXTERNAL_PUBLIC_PODCAST_DIRECTORY_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS);
         public final static File EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        public final static File EXTERNAL_PUBLIC_DCIM_DIRECTORY_FILE = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         public final static File WHATSAPP_VIDEOS_FILE = new File(EXTERNAL_PUBLIC_DIRECTORY+"/WhatsApp/Media/WhatsApp Video/");
 
         public final static Uri EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_MOVIES_DIRECTORY_FILE);
         public final static Uri EXTERNAL_PUBLIC_MUSIC_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_MUSIC_DIRECTORY_FILE);
         public final static Uri EXTERNAL_PUBLIC_PODCAST_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_PODCAST_DIRECTORY_FILE);
         public final static Uri EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_FILE);
+        public final static Uri EXTERNAL_PUBLIC_DCIM_DIRECTORY_URI = getFolderUri(EXTERNAL_PUBLIC_DCIM_DIRECTORY_FILE);
         public final static Uri WHATSAPP_VIDEOS_FILE_URI = getFolderUri(WHATSAPP_VIDEOS_FILE);
 
         private static Uri getFolderUri(File file) {
