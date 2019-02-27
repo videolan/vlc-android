@@ -648,6 +648,20 @@
     <string name="device_dialog_message">Hia appena collegato un nuovo dispositivo di archiviazione al tuo box TV, vuoi aprirlo con VLC?</string>
     <string name="videos_folders_title">Video per cartelle</string>
     <string name="video_save_remote_setting">Vuoi attivare automaticamente la modalità telecomando?</string>
+    <string name="video_save_clone_mode">Vuoi attivare automaticamente la modalità clone?</string>
     <string name="video_remote_enable">Passa alla modalità telecomando</string>
     <string name="video_remote_disable">Duplica schermo</string>
+    <string name="welcome_title">Benvenuti in VLC!</string>
+    <string name="welcome_subtitle">Il lettore multimediale libero e con codice sorgente aperto</string>
+    <string name="permission_media">VLC ha bisogno del tuo permesso per accedere ai file multimediali sul tuo dispositivo</string>
+    <string name="medialibrary_scan_explanation">VLC analizzerà automaticamente il dispositivo per organizzare la tua collezione multimediale.</string>
+    <string name="onboarding_theme_title">Sentiti come a casa</string>
+    <string name="done">Completato</string>
+    <string name="onboarding_scan_title">Rilevamento automatico dei tuoi supporti</string>
+    <string name="daynight_explanation">VLC passerà automaticamente alla modalità notturna all\'ora appropriata</string>
+    <string name="onboarding_scanning_enable">Lascia che VLC analizzi il mio dispositivo alla ricerca di contenuti multimediali</string>
+    <string name="onboarding_scan_whole">VLC analizzerà l\'intera scheda SD</string>
+    <string name="onboarding_scan_customize">Consentimi di scegliere le cartelle che VLC analizzerà</string>
+    <string name="button_medialibrary_preferences">Vai alle preferenze della raccolta multimediale</string>
+    <string name="light_theme">Tema chiaro</string>
 </resources>
