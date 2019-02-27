@@ -91,12 +91,12 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
         super.onCreate(savedInstanceState);
         mMediaLibrary = VLCApplication.getMLInstance();
         setHasOptionsMenu(!AndroidDevices.isAndroidTv);
+        restart = false;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        restart = false;
         mSearchButtonView = view.findViewById(R.id.searchButton);
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
