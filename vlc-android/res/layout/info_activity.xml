@@ -196,6 +196,7 @@
                 vlc:layout_constraintStart_toStartOf="parent"
                 vlc:layout_constraintEnd_toEndOf="parent"
                 android:clipToPadding="false"
+                android:overScrollMode="never"
                 android:paddingBottom="@dimen/listview_bottom_padding"
                 android:visibility="@{item.itemType == MediaLibraryItem.TYPE_MEDIA ? View.VISIBLE : View.INVISIBLE}" />
 
