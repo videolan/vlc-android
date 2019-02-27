@@ -55,10 +55,10 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
             if (storage?.itemType == MediaLibraryItem.TYPE_MEDIA) storage = Storage((storage as MediaWrapper).uri)
             var storagePath = (storage as Storage).uri.path
             if (!storagePath.endsWith("/")) storagePath += "/"
+            vh.binding.item = storage
             job?.join()
             val hasContextMenu = customDirsLocation.contains(storagePath)
             val checked = (fragment as StorageBrowserFragment).mScannedDirectory || mediaDirsLocation.containsPath(storagePath)
-            vh.binding.setItem(storage)
             vh.binding.hasContextMenu = hasContextMenu
             when {
                 checked -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_CHECKED
