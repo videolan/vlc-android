@@ -378,6 +378,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     public static final int SURFACE_SCALES_COUNT = ScaleType.values().length;
 
     private Media mMedia = null;
+    private RendererItem mRenderer = null;
     private AssetFileDescriptor mAfd = null;
     private boolean mPlaying = false;
     private boolean mPlayRequested = false;
@@ -670,6 +671,9 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
      * @param item {@link RendererItem}. if null VLC play on default output
      */
     public int setRenderer(@Nullable RendererItem item) {
+        if (mRenderer != null) mRenderer.release();
+        if (item != null) item.retain();
+        mRenderer = item;
         return nativeSetRenderer(item);
     }
 
@@ -1340,6 +1344,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
         if (mMedia != null)
             mMedia.release();
+        if (mRenderer != null)
+            mRenderer.release();
         mVoutCount = 0;
         nativeRelease();
     }
