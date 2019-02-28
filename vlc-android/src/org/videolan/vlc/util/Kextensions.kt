@@ -10,10 +10,7 @@ import androidx.core.widget.TextViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
@@ -149,3 +146,5 @@ fun asyncText(view: TextView, text: CharSequence?) {
     val params = TextViewCompat.getTextMetricsParams(view)
     (view as AppCompatTextView).setTextFuture(PrecomputedTextCompat.getTextFuture(text, params, null))
 }
+
+fun isAppStarted() = ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)

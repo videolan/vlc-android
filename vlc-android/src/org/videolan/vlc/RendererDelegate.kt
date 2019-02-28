@@ -19,17 +19,14 @@
  */
 package org.videolan.vlc
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.libvlc.RendererDiscoverer
 import org.videolan.libvlc.RendererItem
-import org.videolan.vlc.util.AppScope
-import org.videolan.vlc.util.LiveDataset
-import org.videolan.vlc.util.VLCInstance
-import org.videolan.vlc.util.retry
+import org.videolan.vlc.util.*
 import java.util.*
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 object RendererDelegate : RendererDiscoverer.EventListener {
 
     private val TAG = "VLC/RendererDelegate"
@@ -58,6 +55,7 @@ object RendererDelegate : RendererDiscoverer.EventListener {
         if (!started) return
         started = false
         for (discoverer in discoverers) discoverer.stop()
+        if (isAppStarted()) PlaybackService.renderer.value = null
         clear()
     }
 
