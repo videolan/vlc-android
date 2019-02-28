@@ -56,6 +56,7 @@
             android:layout_marginBottom="8dp"
             android:background="@{cover}"
             android:onClick="@{holder::onImageClick}"
+            android:visibility="@{(item.getItemType() &amp; (MediaLibraryItem.TYPE_ALBUM|MediaLibraryItem.TYPE_ARTIST|MediaLibraryItem.TYPE_MEDIA)) != 0 ? View.VISIBLE : View.GONE, default=gone}"
             vlc:layout_constraintBottom_toBottomOf="parent"
             vlc:layout_constraintDimensionRatio="1"
             vlc:layout_constraintStart_toStartOf="parent"
