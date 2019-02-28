@@ -58,7 +58,6 @@ object RendererDelegate : RendererDiscoverer.EventListener {
         if (!started) return
         started = false
         for (discoverer in discoverers) discoverer.stop()
-        for (renderer in renderers.value) renderer.release()
         clear()
     }
 
@@ -69,8 +68,8 @@ object RendererDelegate : RendererDiscoverer.EventListener {
 
     override fun onEvent(event: RendererDiscoverer.Event?) {
         when (event?.type) {
-            RendererDiscoverer.Event.ItemAdded -> { renderers.add(event.item) }
-            RendererDiscoverer.Event.ItemDeleted -> { renderers.remove(event.item); event.item.release() }
+            RendererDiscoverer.Event.ItemAdded -> renderers.add(event.item)
+            RendererDiscoverer.Event.ItemDeleted -> renderers.remove(event.item)
         }
     }
 }

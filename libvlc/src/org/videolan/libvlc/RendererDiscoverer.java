@@ -20,25 +20,37 @@
 
 package org.videolan.libvlc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.collection.LongSparseArray;
 
 public class RendererDiscoverer extends VLCObject<RendererDiscoverer.Event> {
     private final static String TAG = "LibVLC/RendererDiscoverer";
+
+    final List<RendererItem> mRenderers = new ArrayList<>();
 
     public static class Event extends VLCEvent {
 
         public static final int ItemAdded   = 0x502;
         public static final int ItemDeleted = 0x503;
 
-        private RendererItem item;
+        private final RendererItem item;
 
         protected Event(int type, long nativeHolder, RendererItem item) {
             super(type, nativeHolder);
             this.item = item;
+            item.retain();
         }
 
         public RendererItem getItem() {
             return item;
+        }
+
+        @Override
+        void release() {
+            item.release();
+            super.release();
         }
     }
 
@@ -114,17 +126,24 @@ public class RendererDiscoverer extends VLCObject<RendererDiscoverer.Event> {
     private synchronized RendererItem insertItemFromEvent(long arg1) {
         final RendererItem item = nativeNewItem(arg1);
         index.put(arg1, item);
+        mRenderers.add(item);
         return item;
     }
 
     private synchronized RendererItem removeItemFromEvent(long arg1) {
         final RendererItem item = index.get(arg1);
-        if (item != null) index.remove(arg1);
+        if (item != null) {
+            index.remove(arg1);
+            mRenderers.remove(item);
+            item.release();
+        }
         return item;
     }
 
     @Override
     protected void onReleaseNative() {
+        for (RendererItem item : mRenderers) item.release();
+        mRenderers.clear();
         nativeRelease();
     }
 
