@@ -1,3 +1,14 @@
+Changes between 3.0.99 and 3.1.0:
+------------------
+
+Application:
+ * Improved onboarding screen
+ * Handle UI Mode change in video player
+ * History now displays covers/thumbs
+ * Fix playback of streams with '?' in url
+ * Various crash fixes
+
+
 Changes between 3.0.98 and 3.0.99:
 ------------------
 
