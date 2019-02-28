@@ -270,7 +270,7 @@
     <string name="screen_orientation_landscape">Paisagem</string>
     <string name="screen_orientation_reverse_portrait">Retrato invertido</string>
     <string name="screen_orientation_reverse_landscape">Paisagem invertido</string>
-    <string name="enable_black_theme">Tema Preto</string>
+    <string name="enable_black_theme">Tema escuro</string>
     <string name="enable_black_theme_summary">Altera as cores da interface para melhor conforto em ambientes com pouca luz.</string>
     <string name="subtitle_text_encoding">Codificação do texto das legendas</string>
     <string name="daynight_title">Modo Dia/Noite</string>
@@ -651,4 +651,17 @@
     <string name="video_save_clone_mode">Ativar automaticamente o modo clone?</string>
     <string name="video_remote_enable">Mudar para o modo de controlo remoto</string>
     <string name="video_remote_disable">Duplicar ecrã</string>
+    <string name="welcome_title">Bem-vindo ao VLC!</string>
+    <string name="welcome_subtitle">O reprodutor de música livre e aberto</string>
+    <string name="permission_media">O VLC necessita de permissão para aceder aos ficheiros multimédia no seu dispositivo</string>
+    <string name="medialibrary_scan_explanation">O VLC pode procurar ficheiros multimédia automaticamente no seu dispositivo para organizar a sua coleção multimédia.</string>
+    <string name="onboarding_theme_title">Sinta-se em casa</string>
+    <string name="done">Feito</string>
+    <string name="onboarding_scan_title">Descobrir automaticamente ficheiros multimédia</string>
+    <string name="daynight_explanation">O VLC irá mudar para o modo noturno automaticamente na altura certa</string>
+    <string name="onboarding_scanning_enable">Deixar o VLC procurar por ficheiros multimédia no meu dispositivo</string>
+    <string name="onboarding_scan_whole">O VLC irá procurar em todo o meu cartão SD</string>
+    <string name="onboarding_scan_customize">Deixar-me decidir em que pastas o VLC irá procurar</string>
+    <string name="button_medialibrary_preferences">Ir às preferências da mediateca</string>
+    <string name="light_theme">Tema claro</string>
 </resources>
