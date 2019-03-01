@@ -28,6 +28,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -148,6 +149,7 @@ interface CtxActionReceiver {
 }
 
 fun showContext(activity: FragmentActivity, receiver: CtxActionReceiver, position: Int, title: String, flags: Int) {
+    if (!activity.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) return
     val ctxDialog = ContextSheet()
     ctxDialog.arguments = Bundle(3).apply {
         putString(CTX_TITLE_KEY, title)
