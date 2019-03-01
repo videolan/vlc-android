@@ -204,15 +204,13 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     private suspend fun addDevices(context: Context, addExternal: Boolean) {
         val devices = mutableListOf<String>()
         devices.addAll(DirectoryRepository.getInstance(context).getMediaDirectories())
-        val sharedPreferences = Settings.getInstance(context)
         for (device in devices) {
             val isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
             val uuid = FileUtils.getFileNameFromPath(device)
             if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid) || !device.scanAllowed()) continue
             val isNew = (isMainStorage || addExternal)
                     && medialibrary.addDevice(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
-            val isIgnored = sharedPreferences.getBoolean("ignore_$uuid", false)
-            if (!isMainStorage && isNew && !isIgnored && preselectedStorages.isEmpty()) showStorageNotification(device)
+            if (!isMainStorage && isNew && preselectedStorages.isEmpty()) showStorageNotification(device)
         }
     }
 
@@ -261,8 +259,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
                 continue
             }
             val isNew = withContext(Dispatchers.IO) { medialibrary.addDevice(uuid, device, true) }
-            val isIgnored = sharedPreferences.getBoolean("ignore_$uuid", false)
-            if (!isIgnored && isNew) showStorageNotification(device)
+            if (isNew) showStorageNotification(device)
         }
         withContext(Dispatchers.IO) { for (device in missingDevices) {
             val uri = Uri.parse(device)

@@ -413,10 +413,6 @@ public class UiTools {
                     .setNegativeButton(R.string.ml_external_storage_decline, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            Settings.INSTANCE.getInstance(activity)
-                                    .edit()
-                                    .putBoolean("ignore_"+ uuid, true)
-                                    .apply();
                             dialog.dismiss();
                         }
                     });
@@ -435,10 +431,6 @@ public class UiTools {
                 .setNegativeButton(R.string.ml_external_storage_decline, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        Settings.INSTANCE.getInstance(activity)
-                                .edit()
-                                .putBoolean("ignore_"+ uuid, true)
-                                .apply();
                         dialog.dismiss();
                     }
                 });
