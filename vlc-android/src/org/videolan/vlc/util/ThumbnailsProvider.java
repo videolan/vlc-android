@@ -81,6 +81,7 @@ public class ThumbnailsProvider {
             if (hasCache) {
                 media.setThumbnail(thumbPath);
                 saveOnDisk(bitmap, thumbPath);
+                media.setArtworkURL(thumbPath);
             }
         } else if (media.getId() != 0L) {
             Medialibrary.getInstance().requestThumbnail(media.getId());

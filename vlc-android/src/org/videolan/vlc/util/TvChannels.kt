@@ -31,11 +31,11 @@ import androidx.annotation.RequiresApi
 import androidx.tvprovider.media.tv.TvContractCompat
 import androidx.tvprovider.media.tv.WatchNextProgram
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.vlc.*
 import org.videolan.vlc.BuildConfig
+import org.videolan.vlc.PreviewVideoInputService
 import org.videolan.vlc.R
+import org.videolan.vlc.getFileUri
 import videolan.org.commontools.*
 
 
@@ -53,26 +53,10 @@ fun setChannel(context: Context) = GlobalScope.launch(start = CoroutineStart.UND
     if (Permissions.canReadStorage(context)) updatePrograms(context, channelId)
 }
 
-suspend fun updatePrograms(context: Context, channelId: Long) {
+private suspend fun updatePrograms(context: Context, channelId: Long) {
     if (channelId == -1L) return
-    val ml = Medialibrary.getInstance()
-    if (!ml.isStarted) {
-        ml.addOnMedialibraryReadyListener(object : Medialibrary.OnMedialibraryReadyListener {
-            override fun onMedialibraryIdle() {}
-            override fun onMedialibraryReady() {
-                val listener = this
-                GlobalScope.launch {
-                    ml.removeOnMedialibraryReadyListener(listener)
-                    updatePrograms(context, channelId)
-                }
-            }
-
-        })
-        context.startMedialibrary(false, false, false)
-        return
-    }
+    val videoList = context.getFromMl { recentVideos }
     val programs = withContext(Dispatchers.IO) { existingPrograms(context, channelId) }
-    val videoList = withContext(Dispatchers.IO) { VLCApplication.getMLInstance().recentVideos }
     if (Util.isArrayEmpty(videoList)) return
     val cn = ComponentName(context, PreviewVideoInputService::class.java)
     for ((count, mw) in videoList.withIndex()) {
@@ -80,6 +64,12 @@ suspend fun updatePrograms(context: Context, channelId: Long) {
         val index = programs.indexOfId(mw.id)
         if (index != -1) {
             programs.removeAt(index)
+            continue
+        }
+        if (mw.isThumbnailGenerated) {
+            if (mw.artworkMrl === null) continue
+        } else if (withContext(Dispatchers.IO) { ThumbnailsProvider.getMediaThumbnail(mw, 272.toPixel()) } === null
+                || mw.artworkMrl === null) {
             continue
         }
         val desc = ProgramDesc(channelId, mw.id, mw.title, mw.description,
@@ -94,6 +84,11 @@ suspend fun updatePrograms(context: Context, channelId: Long) {
     for (program in programs) {
         withContext(Dispatchers.IO) { context.contentResolver.delete(TvContractCompat.buildPreviewProgramUri(program.programId), null, null) }
     }
+}
+
+fun Context.launchChannelUpdate() = AppScope.launch {
+    val id = withContext(Dispatchers.IO) { Settings.getInstance(this@launchChannelUpdate).getLong(KEY_TV_CHANNEL_ID, -1L) }
+    updatePrograms(this@launchChannelUpdate, id)
 }
 
 fun setResumeProgram(context: Context, mw: MediaWrapper) {

@@ -2,6 +2,7 @@ package org.videolan.vlc.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Resources
 import android.net.Uri
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
@@ -24,6 +25,9 @@ import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
 import kotlin.coroutines.resume
+import android.util.DisplayMetrics
+
+
 
 object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManager.getDefaultSharedPreferences(it) })
 
@@ -148,3 +152,9 @@ fun asyncText(view: TextView, text: CharSequence?) {
 }
 
 fun isAppStarted() = ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
+
+fun Int.toPixel(): Int {
+    val metrics = Resources.getSystem().displayMetrics
+    val px = toFloat() * (metrics.densityDpi / 160f)
+    return Math.round(px)
+}
