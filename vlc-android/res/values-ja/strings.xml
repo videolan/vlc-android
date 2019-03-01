@@ -246,7 +246,7 @@
     <string name="general_prefs_category">全般設定</string>
     <string name="directories_summary">メディアライブラリに登録するディレクトリを選択してください</string>
     <string name="add_custom_path">カスタムパスの追加</string>
-    <string name="add_custom_path_description">スキャンするカスタムディレクトリの追加:</string>
+    <string name="add_custom_path_description">検索するカスタムディレクトリの追加:</string>
     <string name="remove_custom_path">カスタムパスの削除</string>
     <string name="hardware_acceleration">ハードウェアアクセラレーション</string>
     <string name="hardware_acceleration_summary">無効: 安定性重視\nデコーディング: 性能改善\nフル: より改善された性能</string>
@@ -402,8 +402,8 @@
     <string name="save_video_none">再生速度を保存しない</string>
     <string name="save_video_session">セッションの間だけ速度を保存</string>
     <string name="save_video_always">セッションをまたがって速度を保存</string>
-    <string name="auto_rescan">自動再スキャン</string>
-    <string name="auto_rescan_summary">アプリケーションの起動時に自動的にデバイスをスキャンし、新しいメディア、および削除されたメディアを検出します。</string>
+    <string name="auto_rescan">自動再検索</string>
+    <string name="auto_rescan_summary">アプリケーションの起動時に自動的にデバイスを検索し、新しいメディア、および削除されたメディアを検出します。</string>
     <string name="dump_media_db">メディアデータベースをダンプ</string>
     <string name="dump_media_db_summary">データベースを内部ストレージのrootへコピー</string>
     <string name="clear_media_db">メディアデータベースをクリア</string>
@@ -560,7 +560,7 @@
     <string name="videos_all">すべてのビデオ</string>
     <string name="clear_playback_history">再生履歴をクリア</string>
     <string name="various_artists">複数アーティスト</string>
-    <string name="ml_scanning">メディアファイルをスキャン中</string>
+    <string name="ml_scanning">メディアファイルを検索中</string>
     <string name="ml_parse_media">メディアを解析中</string>
     <string name="ml_discovering">検索中</string>
     <string name="resume">再開</string>
@@ -641,6 +641,20 @@
     <string name="device_dialog_message">TVボックスに新しいストレージデバイスが接続されました。そのデバイスをVLCで使用しますか?</string>
     <string name="videos_folders_title">フォルダーごとにビデオをグループ化</string>
     <string name="video_save_remote_setting">自動的にリモートコントロールモードを有効化しますか?</string>
+    <string name="video_save_clone_mode">自動的にクローンモードを有効化しますか?</string>
     <string name="video_remote_enable">リモートコントロールモードに切替</string>
     <string name="video_remote_disable">スクリーン複製</string>
+    <string name="welcome_title">VLCにようこそ!</string>
+    <string name="welcome_subtitle">フリーでオープンソースのマルチメディアプレイヤー</string>
+    <string name="permission_media">デバイスのメディアにアクセスするために許可が必要です</string>
+    <string name="medialibrary_scan_explanation">メディアコレクションを整理するために自動的にデバイス上のメディアを検索します。</string>
+    <string name="onboarding_theme_title">ご家庭での個人的な利用</string>
+    <string name="done">完了</string>
+    <string name="onboarding_scan_title">メディアの自動検索</string>
+    <string name="daynight_explanation">時間によって自動的に夜間モードに切り替える</string>
+    <string name="onboarding_scanning_enable">デバイスのメディアコンテンツを検索</string>
+    <string name="onboarding_scan_whole">SDカードをすべて検索</string>
+    <string name="onboarding_scan_customize">VLCが検索するフォルダを選択</string>
+    <string name="button_medialibrary_preferences">メディアライブラリーの設定へ移動</string>
+    <string name="light_theme">明いテーマ</string>
 </resources>
