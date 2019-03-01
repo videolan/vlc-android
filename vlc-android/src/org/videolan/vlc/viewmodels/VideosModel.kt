@@ -20,7 +20,10 @@
 
 package org.videolan.vlc.viewmodels
 
+import android.annotation.TargetApi
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -30,13 +33,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
+import org.videolan.vlc.RecommendationsService
 import org.videolan.vlc.media.MediaGroup
 import org.videolan.vlc.media.getAll
+import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Settings
+import org.videolan.vlc.util.launchChannelUpdate
 
 @ExperimentalCoroutinesApi
 open class VideosModel(context: Context, private val group: String?, val folder : Folder?, private val minGroupLen: Int, customSort : Int, customDesc: Boolean?) : MedialibraryModel<MediaWrapper>(context), Medialibrary.MediaCb {
@@ -65,6 +72,12 @@ open class VideosModel(context: Context, private val group: String?, val folder 
 
     override fun onMediaModified() {
         refresh()
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    override fun onMedialibraryIdle() {
+        super.onMedialibraryIdle()
+        if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater) context.launchChannelUpdate()
     }
 
     override fun onMediaDeleted() {
