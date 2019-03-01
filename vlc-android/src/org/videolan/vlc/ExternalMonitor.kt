@@ -54,6 +54,8 @@ import java.util.*
 
 private const val TAG = "VLC/ExternalMonitor"
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 @SuppressLint("StaticFieldLeak")
 object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope {
     override val coroutineContext = Dispatchers.Main
@@ -66,13 +68,9 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         for (action in channel) when (action){
             is MediaMounted -> {
                 if (TextUtils.isEmpty(action.uuid)) return@actor
-                if (!Settings.getInstance(ctx).getBoolean("ignore_${action.uuid}", false)) {
-                    val ml = VLCApplication.getMLInstance()
-                    val knownDevices = ctx.getFromMl { devices }
-                    if (!containsDevice(knownDevices, action.path) && ml.addDevice(action.uuid, action.path, true)) {
-                        notifyStorageChanges(action.path)
-                    }
-                }
+                val ml = VLCApplication.getMLInstance()
+                val knownDevices = ctx.getFromMl { devices }
+                if (ml.addDevice(action.uuid, action.path, true)) notifyNewStorage(action.path)
             }
             is MediaUnmounted -> {
                 delay(100L)
@@ -210,7 +208,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     }
 
     @Synchronized
-    private fun notifyStorageChanges(path: String?) {
+    private fun notifyNewStorage(path: String?) {
         val activity = if (storageObserver != null) storageObserver!!.get() else null
         activity?.let { UiTools.newStorageDetected(it, path) }
     }
