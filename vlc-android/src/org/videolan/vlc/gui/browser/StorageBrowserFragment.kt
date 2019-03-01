@@ -106,7 +106,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
     }
 
     override fun onRestart() {
-        launch { (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
+        launch { if (isAdded) (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
     }
 
     override fun onStop() {
@@ -151,9 +151,9 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         if (isRootDirectory) {
             val storage = adapter.getItem(position) as Storage
-            coroutineScope.launch {
+            launch {
                 val isCustom = viewModel.customDirectoryExists(storage.uri.path)
-                if (isCustom) showContext(requireActivity(), this@StorageBrowserFragment, position, item.title, CTX_CUSTOM_REMOVE)
+                if (isCustom && isAdded) showContext(requireActivity(), this@StorageBrowserFragment, position, item.title, CTX_CUSTOM_REMOVE)
             }
         }
     }
