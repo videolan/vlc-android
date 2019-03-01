@@ -115,9 +115,9 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun isPlaying() = playbackState == PlaybackStateCompat.STATE_PLAYING
 
-    fun isVideoPlaying() = mediaplayer.vlcVout.areViewsAttached()
+    fun isVideoPlaying() = !mediaplayer.isReleased && mediaplayer.vlcVout.areViewsAttached()
 
-    fun canSwitchToVideo() = mediaplayer.hasMedia() && mediaplayer.videoTracksCount > 0
+    fun canSwitchToVideo() = getVideoTracksCount() > 0
 
     fun getVideoTracksCount() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.videoTracksCount else 0
 
