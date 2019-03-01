@@ -30,7 +30,7 @@ ext {
     versionName = '3.1.0'
     versionCode = 3010000
     libvlcVersion = '3.1.5'
-    medialibraryVersion = '0.4.5'
+    medialibraryVersion = '0.4.6'
     minSdkVersion = 17
     targetSdkVersion = 28
     compileSdkVersion = 28
