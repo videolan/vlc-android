@@ -30,8 +30,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import androidx.core.app.NotificationCompat;
-import androidx.core.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -50,6 +48,9 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.PopupLayout;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Settings;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.view.GestureDetectorCompat;
 
 public class PopupManager implements PlaybackService.Callback, GestureDetector.OnDoubleTapListener,
         View.OnClickListener, GestureDetector.OnGestureListener, IVLCVout.OnNewVideoLayoutListener, IVLCVout.Callback {
@@ -208,15 +209,17 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     public void onMediaPlayerEvent(MediaPlayer.Event event) {
         switch (event.type) {
             case MediaPlayer.Event.Playing:
-                if (!mAlwaysOn)
-                    mRootView.setKeepScreenOn(true);
-                mPlayPauseButton.setImageResource(R.drawable.ic_popup_pause);
+                if (mRootView != null) {
+                    if (!mAlwaysOn) mRootView.setKeepScreenOn(true);
+                    mPlayPauseButton.setImageResource(R.drawable.ic_popup_pause);
+                }
                 showNotification();
                 break;
             case MediaPlayer.Event.Paused:
-                if (!mAlwaysOn)
-                    mRootView.setKeepScreenOn(false);
-                mPlayPauseButton.setImageResource(R.drawable.ic_popup_play);
+                if (mRootView != null) {
+                    if (!mAlwaysOn) mRootView.setKeepScreenOn(false);
+                    mPlayPauseButton.setImageResource(R.drawable.ic_popup_play);
+                }
                 showNotification();
                 break;
         }
