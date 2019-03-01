@@ -587,4 +587,9 @@ public class UiTools {
         final Display presentationDisplay = route != null ? route.getPresentationDisplay() : null;
         return presentationDisplay != null;
     }
+
+    @BindingAdapter("selected")
+    public static void isSelected(View v, Boolean isSelected) {
+        v.setSelected(isSelected);
+    }
 }
