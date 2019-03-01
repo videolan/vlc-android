@@ -107,7 +107,12 @@ public class AudioUtil {
                     public void run() {
                         final File newRingtone = AndroidUtil.UriToFile(song.getUri());
                         if (!newRingtone.exists()) {
-                            Toast.makeText(context.getApplicationContext(),context.getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show();
+                            WorkersKt.runOnMainThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(context.getApplicationContext(),context.getString(R.string.ringtone_error), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                             return;
                         }
 
