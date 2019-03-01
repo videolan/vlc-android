@@ -26,24 +26,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
-import org.videolan.vlc.gui.helpers.UiTools;
+import org.videolan.vlc.gui.helpers.BottomSheetBehavior;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
-public abstract class PickTimeFragment extends DismissDialogFragment implements View.OnClickListener, View.OnFocusChangeListener,
+public abstract class PickTimeFragment extends VLCBottomSheetDialogFragment implements View.OnClickListener, View.OnFocusChangeListener,
         Observer<PlaybackService> {
 
     public final static String TAG = "VLC/PickTimeFragment";
 
-    public static final int ACTION_JUMP_TO_TIME = 0;
-    public static final int ACTION_SLEEP_TIMER = 1;
 
     protected int mTextColor;
 
@@ -59,12 +56,27 @@ public abstract class PickTimeFragment extends DismissDialogFragment implements 
     protected PlaybackService mService;
 
     @Override
+    public int getDefaultState() {
+        return BottomSheetBehavior.STATE_EXPANDED;
+    }
+
+    @Override
+    public boolean needToManageOrientation() {
+        return true;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_time_picker, container);
         mTVTimeToJump = (TextView) view.findViewById(R.id.tim_pic_timetojump);
         ((TextView)view.findViewById(R.id.tim_pic_title)).setText(getTitle());
-        ((ImageView) view.findViewById(R.id.tim_pic_icon)).setImageResource(UiTools.getResourceFromAttribute(getActivity(), getIcon()));
 
         view.findViewById(R.id.tim_pic_1).setOnClickListener(this);
         view.findViewById(R.id.tim_pic_1).setOnFocusChangeListener(this);
@@ -90,8 +102,6 @@ public abstract class PickTimeFragment extends DismissDialogFragment implements 
         view.findViewById(R.id.tim_pic_00).setOnFocusChangeListener(this);
         view.findViewById(R.id.tim_pic_30).setOnClickListener(this);
         view.findViewById(R.id.tim_pic_30).setOnFocusChangeListener(this);
-        view.findViewById(R.id.tim_pic_cancel).setOnClickListener(this);
-        view.findViewById(R.id.tim_pic_cancel).setOnFocusChangeListener(this);
         view.findViewById(R.id.tim_pic_delete).setOnClickListener(this);
         view.findViewById(R.id.tim_pic_delete).setOnFocusChangeListener(this);
         view.findViewById(R.id.tim_pic_ok).setOnClickListener(this);
@@ -99,25 +109,20 @@ public abstract class PickTimeFragment extends DismissDialogFragment implements 
 
         mTextColor = mTVTimeToJump.getCurrentTextColor();
 
-        getDialog().setCancelable(true);
-        getDialog().setCanceledOnTouchOutside(true);
-        if (getDialog() != null) {
-            int dialogWidth = getResources().getDimensionPixelSize(R.dimen.dialog_time_picker_width);
-            int dialogHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
-            getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
-            getDialog().getWindow().setBackgroundDrawableResource(UiTools.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
-        }
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         PlaybackService.Companion.getService().observe(this, this);
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        ((TextView)v).setTextColor(hasFocus ? getResources().getColor(R.color.orange500) : mTextColor);
+        if (v instanceof TextView) {
+            ((TextView) v).setTextColor(hasFocus ? getResources().getColor(R.color.orange500) : mTextColor);
+        }
     }
 
     @Override
@@ -158,9 +163,6 @@ public abstract class PickTimeFragment extends DismissDialogFragment implements 
                 break;
             case R.id.tim_pic_30:
                 updateValue("30");
-                break;
-            case R.id.tim_pic_cancel:
-                dismiss();
                 break;
             case R.id.tim_pic_delete:
                 deleteLastNumber();
@@ -223,6 +225,5 @@ public abstract class PickTimeFragment extends DismissDialogFragment implements 
     }
 
     abstract protected int getTitle();
-    abstract protected int getIcon();
     abstract protected void executeAction();
 }

@@ -25,29 +25,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
+import org.videolan.vlc.gui.helpers.BottomSheetBehavior;
 import org.videolan.vlc.gui.helpers.OnRepeatListener;
-import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Strings;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
-public class PlaybackSpeedDialog extends DismissDialogFragment implements Observer<PlaybackService> {
+public class PlaybackSpeedDialog extends VLCBottomSheetDialogFragment implements Observer<PlaybackService> {
 
     public final static String TAG = "VLC/PlaybackSpeedDialog";
 
     private TextView mSpeedValue;
     private SeekBar mSeekSpeed;
-    private ImageView mPlaybackSpeedIcon;
 
     private PlaybackService mService;
     private int mTextColor;
@@ -62,12 +59,10 @@ public class PlaybackSpeedDialog extends DismissDialogFragment implements Observ
         View view = inflater.inflate(R.layout.dialog_playback_speed, container);
         mSpeedValue = view.findViewById(R.id.playback_speed_value);
         mSeekSpeed = view.findViewById(R.id.playback_speed_seek);
-        mPlaybackSpeedIcon = view.findViewById(R.id.playback_speed_icon);
         final ImageView playbackSpeedPlus = view.findViewById(R.id.playback_speed_plus);
         final ImageView playbackSpeedMinus = view.findViewById(R.id.playback_speed_minus);
 
         mSeekSpeed.setOnSeekBarChangeListener(mSeekBarListener);
-        mPlaybackSpeedIcon.setOnClickListener(mResetListener);
         playbackSpeedPlus.setOnClickListener(mSpeedUpListener);
         playbackSpeedMinus.setOnClickListener(mSpeedDownListener);
         mSpeedValue.setOnClickListener(mResetListener);
@@ -79,14 +74,12 @@ public class PlaybackSpeedDialog extends DismissDialogFragment implements Observ
 
         getDialog().setCancelable(true);
         getDialog().setCanceledOnTouchOutside(true);
-        Window window = getDialog().getWindow();
-        window.setBackgroundDrawableResource(UiTools.getResourceFromAttribute(getActivity(), R.attr.rounded_bg));
-        window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         PlaybackService.Companion.getService().observe(this, this);
     }
 
@@ -163,10 +156,8 @@ public class PlaybackSpeedDialog extends DismissDialogFragment implements Observ
         float rate = mService.getRate();
         mSpeedValue.setText(Strings.formatRateString(rate));
         if (rate != 1.0f) {
-            mPlaybackSpeedIcon.setImageResource(R.drawable.ic_speed_reset);
             mSpeedValue.setTextColor(getResources().getColor(R.color.orange500));
         } else {
-            mPlaybackSpeedIcon.setImageResource(UiTools.getResourceFromAttribute(requireContext(), R.attr.ic_speed_normal_style));
             mSpeedValue.setTextColor(mTextColor);
         }
 
@@ -178,5 +169,15 @@ public class PlaybackSpeedDialog extends DismissDialogFragment implements Observ
             mService = service;
             setRateProgress();
         } else mService = null;
+    }
+
+    @Override
+    public int getDefaultState() {
+        return BottomSheetBehavior.STATE_EXPANDED;
+    }
+
+    @Override
+    public boolean needToManageOrientation() {
+        return true;
     }
 }

@@ -34,7 +34,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.textfield.TextInputLayout
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.Tools
@@ -44,10 +43,14 @@ import org.videolan.medialibrary.media.Playlist
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.SimpleAdapter
+import org.videolan.vlc.gui.helpers.BottomSheetBehavior
 import org.videolan.vlc.util.runIO
 import java.util.*
 
 class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener, TextView.OnEditorActionListener, SimpleAdapter.ClickHandler {
+    override fun getDefaultState(): Int = BottomSheetBehavior.STATE_EXPANDED
+
+    override fun needToManageOrientation(): Boolean = false
 
     private var mEditText: EditText? = null
     private lateinit var mListView: RecyclerView
@@ -61,7 +64,6 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        defaultState = BottomSheetBehavior.STATE_EXPANDED
         mMedialibrary = VLCApplication.getMLInstance()
         mAdapter = SimpleAdapter(this)
         mTracks = try {
