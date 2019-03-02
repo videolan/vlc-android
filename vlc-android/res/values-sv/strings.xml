@@ -51,6 +51,7 @@
     <string name="delete">Radera</string>
     <string name="remove">Ta bort</string>
     <string name="set_song">Ange som ringsignal</string>
+    <string name="set_song_question">Ange  \"%1$s\" som ringsignal?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Radera filen \"%1$s\"?</string>
     <string name="confirm_delete_folder">Radera mappen \"%1$s\" och allt innehåll?</string>
@@ -289,11 +290,14 @@
     <string name="video_min_group_length_title">Gruppera videor</string>
     <string name="video_min_group_length_summary">Videor grupperas om den första bokstaven är densamma.</string>
     <string name="video_min_group_length_disable">Inaktivera</string>
+    <string name="video_min_group_length_folder">Gruppera efter mapp</string>
     <string name="video_min_group_length_first">Endast första bokstaven</string>
     <string name="video_min_group_length_short">Litet antal bokstäver (6)</string>
     <string name="video_min_group_length_long">Stort antal bokstäver (9)</string>
     <string name="media_fast_seek">Snabb snabbspolning</string>
     <string name="media_fast_seek_summary">Det går snabbare att snabbspola i mediafiler, men är mindre exakt</string>
+    <string name="video_transition_title">Videoövergång</string>
+    <string name="video_transition_summary">Visa ny videotitel vid övergång</string>
     <string name="media_seen">Visa markör för sedda videor</string>
     <string name="media_seen_summary">Markera en video som sedd när du spelar den till slutet</string>
     <string name="force_list_portrait">Inget rutnät i porträttläge</string>
@@ -363,6 +367,7 @@
     <string name="audio_ducking_title">Sänk VLC:s volym vid meddelande</string>
     <string name="audio_ducking_summary">Hjälper till att höra ljudmeddelanden, navigeringsinstruktioner eller assistenttal</string>
     <string name="casting_category">Casta</string>
+    <string name="casting_switch_title">Trådlös casting</string>
     <string name="casting_passthrough_title">Passthrough för ljud</string>
     <string name="casting_passthrough_summary">Låt din TV hantera ljudrendering</string>
     <string name="casting_conversion_quality_title">Konverteringskvalitet</string>
@@ -602,8 +607,8 @@
     <string name="dialog_sd_wizard">Visa mig</string>
     <string name="renderers_disconnect">Koppla från</string>
     <string name="audio_digital_failed">Misslyckades att ändra tillståndet för digital ljudutmatning</string>
-    <string name="audio_digital_output_enabled">Digital ljudutmatning aktiverades</string>
-    <string name="audio_digital_output_disabled">Digital ljudutmatning inaktiverades</string>
+    <string name="audio_digital_output_enabled">Digital ljudutmatning är aktiverad</string>
+    <string name="audio_digital_output_disabled">Digital ljudutmatning är inaktiverad</string>
     <string name="audio_digital_title">Digital ljudutmatning (passthrough)</string>
     <string name="audio_task_cleared_title">Stoppa när appen avvisas</string>
     <string name="audio_task_cleared_summary">Stoppa uppspelningen när applikationen avvisas</string>
@@ -640,5 +645,23 @@
     <string name="ctx_player_tracks_title">Mediaspår</string>
     <string name="ctx_pip_title">Popup-spelare</string>
     <string name="device_dialog_title">Extern enhet matades in</string>
-    <string name="device_dialog_message">Ny enhet upptäcktes, vill du hantera den med VLC?</string>
+    <string name="device_dialog_message">Du anslöt precis en ny lagringsenhet till din TV-box, vill du öppna den med VLC?</string>
+    <string name="videos_folders_title">Videor efter mappar</string>
+    <string name="video_save_remote_setting">Aktivera fjärrkontrollsläge automatiskt?</string>
+    <string name="video_save_clone_mode">Aktivera kloningsläge automatiskt?</string>
+    <string name="video_remote_enable">Byt till fjärrkontrollsläge</string>
+    <string name="video_remote_disable">Duplicera skärm</string>
+    <string name="welcome_title">Välkommen till VLC!</string>
+    <string name="welcome_subtitle">Den fria mediaspelaren med öppen källkod</string>
+    <string name="permission_media">VLC behöver din behörighet för att komma åt media på din enhet</string>
+    <string name="medialibrary_scan_explanation">VLC kan automatiskt söka igenom din enhet för att organisera din mediasamling.</string>
+    <string name="onboarding_theme_title">Känn dig som hemma</string>
+    <string name="done">Färdig</string>
+    <string name="onboarding_scan_title">Upptäck din media automatiskt</string>
+    <string name="daynight_explanation">VLC kommer automatiskt byta till nattläge vid lämplig tidpunkt</string>
+    <string name="onboarding_scanning_enable">Låt VLC söka igenom min enhet efter mediainnehåll</string>
+    <string name="onboarding_scan_whole">VLC ska söka igenom hela SD-kortet</string>
+    <string name="onboarding_scan_customize">Låt mig välja vilka mappar VLC ska söka igenom</string>
+    <string name="button_medialibrary_preferences">Gå till inställningarna för mediabiblioteket</string>
+    <string name="light_theme">Ljust tema</string>
 </resources>
