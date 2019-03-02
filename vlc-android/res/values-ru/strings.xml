@@ -49,9 +49,11 @@
     <string name="play_all">Воспроизвести всё</string>
     <string name="append_all">Добавить всё</string>
     <string name="last_playlist">Последний плейлист</string>
+    <string name="last_playlist_shortcut">Продолжить воспроизведение</string>
     <string name="delete">Удалить</string>
     <string name="remove">Удалить</string>
     <string name="set_song">Сделать мелодией звонка</string>
+    <string name="set_song_question">Сделать \'%1$s\' мелодией звонка?</string>
     <string name="info">Информация</string>
     <string name="confirm_delete">Удалить файл \'%1$s\'?</string>
     <string name="confirm_delete_folder">Удалить папку \'%1$s\' и всё её содержимое?</string>
@@ -139,7 +141,6 @@
     <string name="repeat_all">Повторять всё</string>
     <string name="previous">Предыдущий</string>
     <string name="stop">Стоп</string>
-    <string name="next">Следующий</string>
     <string name="firstsong">Первая позиция плейлиста</string>
     <string name="lastsong">Последняя позиция плейлиста</string>
 
@@ -166,6 +167,9 @@
     <string name="navmenu">меню навигации</string>
     <string name="advanced">расширенные параметры</string>
     <string name="audio_boost_warning">Сдвиньте выше ещё раз для превышения 100%</string>
+    <string name="locked_in_portrait_mode">Зафиксирована книжная ориентация\n(Отменяется это долгим нажатием кнопки)</string>
+    <string name="locked_in_landscape_mode">Зафиксирована альбомная ориентация\n(Отменяется это долгим нажатием кнопки)</string>
+    <string name="reset_orientation">Сброс ориентации</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">Каналов: 1\n</item>
@@ -297,18 +301,21 @@
     <string name="interface_other_category">Интерфейс — Другое</string>
 
     <string name="video_prefs_category">Видео</string>
-    <string name="video_min_group_length_title">Группирование видео</string>
+    <string name="video_min_group_length_title">Группировка видео</string>
     <string name="video_min_group_length_summary">Видео будут группироваться при совпадении первых букв.</string>
     <string name="video_min_group_length_disable">Отключить</string>
+    <string name="video_min_group_length_folder">По папке</string>
     <string name="video_min_group_length_first">Только по первой букве</string>
     <string name="video_min_group_length_short">По короткому началу (6 букв)</string>
     <string name="video_min_group_length_long">По длинному началу (9 букв)</string>
     <string name="media_fast_seek">Быстрая перемотка</string>
     <string name="media_fast_seek_summary">Перемотка выполняется быстрее, но менее точно</string>
+    <string name="video_transition_title">Наглядная смена видео</string>
+    <string name="video_transition_summary">Показывать название нового видео при смене</string>
     <string name="media_seen">Отмечать просмотренное видео</string>
     <string name="media_seen_summary">Помечать видео как просмотренное, когда оно воспроизводится до конца</string>
     <string name="force_list_portrait">Не показывать сетку вертикально</string>
-    <string name="force_list_portrait_summary">В вертикальном режиме показывать видео в списке, а не в сетке.</string>
+    <string name="force_list_portrait_summary">В книжной ориентации показывать видео в списке, а не в сетке.</string>
     <string name="force_play_all_summary">Воспроизводить все видео, начиная с выбранного</string>
     <string name="force_play_all_title">Режим воспроизведения плейлиста видео</string>
     <string name="save_brightness_summary">Запоминать уровень яркости в видеоплеере</string>
@@ -374,6 +381,7 @@
     <string name="audio_ducking_title">Понижение громкости VLC при уведомлениях</string>
     <string name="audio_ducking_summary">Помогает услышать звуковые уведомления, навигационные инструкции или разговор помощника</string>
     <string name="casting_category">Трансляция</string>
+    <string name="casting_switch_title">Беспроводное вещание</string>
     <string name="casting_passthrough_title">Сквозной вывод аудио</string>
     <string name="casting_passthrough_summary">Выполнять декодирование звука на телевизоре</string>
     <string name="casting_conversion_quality_title">Качество преобразования</string>
@@ -437,6 +445,8 @@
     <string name="restart_message">Изменения вступят в силу после перезапуска приложения.\n\nПерезапустить его сейчас?</string>
     <string name="restart_message_OK">ОК</string>
     <string name="restart_message_Later">Позже</string>
+    <string name="browser_show_all_title">Показывать все файлы</string>
+    <string name="browser_show_all_summary">Показывать все файлы, а не только аудио и видео</string>
 
     <string name="developer_prefs_category">Для разработчиков</string>
     <string name="enable_verbose_mode">Детализация</string>
@@ -459,6 +469,16 @@
     <string name="restart_vlc">Перезапустить VLC</string>
     <string name="send_log">Отправить протокол</string>
     <string name="sending_log">Отправка протокола…</string>
+
+    <string name="delete_sub_title">Удаление субтитров</string>
+    <string name="delete_sub_message">Вы хотите удалить эти субтитры?</string>
+    <string name="delete_sub_yes">Да</string>
+    <string name="delete_sub_no">Нет</string>
+    <string name="download_subtitle_title">Загрузка субтитров</string>
+
+    <string name="no_result">Ничего не найдено</string>
+    <string name="no_internet_connection">Проверьте ваше соединение с Интернетом</string>
+    <string name="some_error_occurred">Произошла ошибка. Попробуйте ещё раз через время</string>
 
     <string name="drawer_open">Открыть панель навигации</string>
     <string name="drawer_close">Закрыть панель навигации</string>
@@ -604,7 +624,8 @@
     <string name="audio_digital_output_enabled">Цифровой вывод звука включён</string>
     <string name="audio_digital_output_disabled">Цифровой вывод звука отключён</string>
     <string name="audio_digital_title">Цифровой вывод звука (сквозной)</string>
-    <string name="audio_task_removed_title">Останавливать воспроизведение когда приложение убирается</string>
+    <string name="audio_task_cleared_title">Останавливаться при смахивании приложения</string>
+    <string name="audio_task_cleared_summary">Прекращать воспроизведение, когда приложение смахивается</string>
     <string name="playback_rewind">Перемотка</string>
     <string name="playback_forward">Быстро вперёд</string>
     <string name="ml_wizard_title">Выбор медиатеки VLC</string>
@@ -623,4 +644,38 @@
     <string name="time_category_older">Старое</string>
     <string name="rename">Переименовать</string>
     <string name="rename_media">Переименовать %1$s</string>
+    <string name="manual_search">Ручной поиск</string>
+    <string name="subtitle_search_name_hint">Название</string>
+    <string name="subtitle_search_episode_hint">Эпизод</string>
+    <string name="subtitle_search_season_hint">Сезон</string>
+    <string name="language_to_download">Язык</string>
+    <string name="delete_the_selected">Удалить выбранное</string>
+    <string name="download_the_selected">Загрузить выбранное</string>
+    <string name="next">Следующий</string>
+    <string name="download">Загрузка</string>
+    <string name="ctx_player_video_track">Видеодорожка</string>
+    <string name="ctx_player_audio_track">Аудиодорожка</string>
+    <string name="ctx_player_subs_track">Дорожка субтитров</string>
+    <string name="ctx_player_tracks_title">Медиадорожки</string>
+    <string name="ctx_pip_title">Всплывающий плеер</string>
+    <string name="device_dialog_title">Подключено внешнее устройство</string>
+    <string name="device_dialog_message">Вы только что подключили к вашему телевизору внешнее хранилище. Хотите просмотреть его в VLC?</string>
+    <string name="videos_folders_title">Видео по папкам</string>
+    <string name="video_save_remote_setting">Автоматически включать режим удалённого управления?</string>
+    <string name="video_save_clone_mode">Автоматически включать режим клонирования?</string>
+    <string name="video_remote_enable">Переключиться в режим удалённого управления</string>
+    <string name="video_remote_disable">Дублировать экран</string>
+    <string name="welcome_title">Добро пожаловать в VLC!</string>
+    <string name="welcome_subtitle">Бесплатный медиаплеер с открытым исходным кодом</string>
+    <string name="permission_media">Для VLC требуется разрешение на чтение медиафайлов на вашем устройстве</string>
+    <string name="medialibrary_scan_explanation">VLC может автоматически просканировать ваше устройство и собрать медиатеку.</string>
+    <string name="onboarding_theme_title">Сделайте VLC уютным</string>
+    <string name="done">Готово</string>
+    <string name="onboarding_scan_title">Автосканирование ваших медиафайлов</string>
+    <string name="daynight_explanation">VLC будет автоматически переключаться в ночной режим в нужное время</string>
+    <string name="onboarding_scanning_enable">Разрешить VLC искать медиафайлы на моём устройстве</string>
+    <string name="onboarding_scan_whole">VLC будет сканировать всю память (SD-карту)</string>
+    <string name="onboarding_scan_customize">Я хочу выбрать, какие папки будет сканировать VLC</string>
+    <string name="button_medialibrary_preferences">Открыть настройки медиатеки</string>
+    <string name="light_theme">Светлая тема</string>
 </resources>
