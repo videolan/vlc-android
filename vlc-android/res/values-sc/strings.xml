@@ -384,7 +384,7 @@
     <string name="extensions_prefs_category">Estensiones</string>
     <string name="extensions_enable_category">Issèbera sas estensiones de abilitare</string>
     <string name="extensions_empty">Peruna estensione agatada</string>
-    <string name="extension_permission_title">Cheres attivare s\'estensione noa \"%1$s\"\?</string>
+    <string name="extension_permission_title">Cheres ativare s\'estensione noa \"%1$s\"\?</string>
     <string name="extension_permission_checkbox_title">Ammustra in %1$s</string>
     <string name="extension_prefs_activation_title">Ativa</string>
     <string name="android_auto">Android Auto</string>
@@ -648,6 +648,20 @@
     <string name="device_dialog_message">As collegadu como unu dispositivu de archiviatzione nou a s\'iscàtula (box) TV tua, lu cheres abèrrere cun VLC?</string>
     <string name="videos_folders_title">Vìdeos pro cartella</string>
     <string name="video_save_remote_setting">Allùghere automaticamente sa modalidade de controllu a distàntzia?</string>
+    <string name="video_save_clone_mode">Cheres allùghere automaticamente sa modalidade de clonatzione?</string>
     <string name="video_remote_enable">Cola a sa modalidade de controllu a distàntzia</string>
-    <string name="video_remote_disable">Ischermu duplicadu</string>
+    <string name="video_remote_disable">Dùplica s\'ischermu</string>
+    <string name="welcome_title">Bene bènnidu in VLC|</string>
+    <string name="welcome_subtitle">Su leghidore multimediale de badas e a mitza aberta</string>
+    <string name="permission_media">VLC tenet bisòngiu su permissu tuo pro atzèdere a sos documentos multimediales in su dispositivu tuo</string>
+    <string name="medialibrary_scan_explanation">VLC podet iscansire automaticamente su dispositivu tuo pro organizare sa libreria multimediale tua.</string>
+    <string name="onboarding_theme_title">Pone·ti còmodu</string>
+    <string name="done">Fatu</string>
+    <string name="onboarding_scan_title">Iscoberi automaticamente sos documentos multimediales tuos</string>
+    <string name="daynight_explanation">VLC at a colare automaticamente a sa modalidade noturna a s\'ora giusta</string>
+    <string name="onboarding_scanning_enable">Permiti a VLC de iscansire su dispositivu meu pro agatare documentos multimediales</string>
+    <string name="onboarding_scan_whole">VLC at a iscansire totu s\'ischeda SD mea</string>
+    <string name="onboarding_scan_customize">Lassa·mi isseberare sas cartellas chi VLC at a iscansire</string>
+    <string name="button_medialibrary_preferences">Bae a sas impostatziones de sa libreria multimediale de VLC</string>
+    <string name="light_theme">Tema craru</string>
 </resources>
