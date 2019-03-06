@@ -1280,7 +1280,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     companion object {
         val service: LiveData<PlaybackService> = MutableLiveData<PlaybackService>()
-        val renderer = MutableLiveData<RendererItem>()
+        val renderer = RendererLiveData()
         val restartPlayer = LiveEvent<Boolean>()
         val headSetDetection = LiveEvent<Boolean>()
         val equalizer = LiveEvent<MediaPlayer.Equalizer>()
