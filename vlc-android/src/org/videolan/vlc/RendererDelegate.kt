@@ -55,7 +55,9 @@ object RendererDelegate : RendererDiscoverer.EventListener {
         if (!started) return
         started = false
         for (discoverer in discoverers) discoverer.stop()
-        if (isAppStarted()) PlaybackService.renderer.value = null
+        if (isAppStarted() || PlaybackService.service.value?.run { !isPlaying } != false) {
+            PlaybackService.renderer.value = null
+        }
         clear()
     }
 
