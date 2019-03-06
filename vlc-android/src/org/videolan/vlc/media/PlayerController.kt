@@ -78,8 +78,8 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         resetPlaybackState(media.duration)
         mediaplayer.setEventListener(null)
         withContext(Dispatchers.IO) { if (!mediaplayer.isReleased) mediaplayer.media = media.apply { if (hasRenderer) parse() } }
+        mediaplayer.setEventListener(this@PlayerController)
         if (!mediaplayer.isReleased) {
-            mediaplayer.setEventListener(this@PlayerController)
             mediaplayer.setEqualizer(VLCOptions.getEqualizerSetFromSettings(context))
             mediaplayer.setVideoTitleDisplay(MediaPlayer.Position.Disable, 0)
             mediaplayer.play()
@@ -175,7 +175,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     fun setRenderer(renderer: RendererItem?) {
-        mediaplayer.setRenderer(renderer)
+        if (!mediaplayer.isReleased) mediaplayer.setRenderer(renderer)
         hasRenderer = renderer !== null
     }
 
@@ -186,7 +186,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         launch(Dispatchers.IO) {
             if (BuildConfig.DEBUG) { // Warn if player release is blocking
                 try {
-                    withTimeout(5000, { player.release() })
+                    withTimeout(5000) { player.release() }
                 } catch (exception: TimeoutCancellationException) {
                     launch { Toast.makeText(context, "media stop has timeouted!", Toast.LENGTH_LONG).show() }
                 }
@@ -210,7 +210,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         return MediaPlayer(VLCInstance.get()).apply {
             setAudioDigitalOutputEnabled(VLCOptions.isAudioDigitalOutputEnabled(settings))
             VLCOptions.getAout(settings)?.let { setAudioOutput(it) }
-            setRenderer(PlaybackService.Companion.renderer.value)
+            setRenderer(PlaybackService.renderer.value)
             this.vlcVout.addCallback(this@PlayerController)
         }
     }
