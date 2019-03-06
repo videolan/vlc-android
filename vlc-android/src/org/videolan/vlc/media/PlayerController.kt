@@ -226,6 +226,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     fun getLength() = progress.value?.length ?: 0L
 
     fun setRate(rate: Float, save: Boolean) {
+        if (mediaplayer.isReleased) return
         mediaplayer.rate = rate
         if (save && settings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, false))
             settings.edit().putFloat(PreferencesActivity.KEY_PLAYBACK_RATE, rate).apply()
