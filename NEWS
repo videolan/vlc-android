@@ -1,4 +1,15 @@
-Changes between 3.0.99 and 3.1.0:
+Changes between 3.1.0-RC1 and 3.1.0-RC2:
+------------------
+
+Application:
+ * Retain current renderer object
+ * Disconnect from renderer on app going background (if not playing)
+ * Minor bugfixes
+
+TV:
+ * Improve Homescreen channel
+
+ Changes between 3.0.99 and 3.1.0-RC1:
 ------------------
 
 Application:
