@@ -37,6 +37,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     private var mInitTouchX = 0f
     private var mTouchY = -1f
     private var mTouchX = -1f
+    private var mVerticalTouchActive = false
 
     private var mLastMove: Long = 0
 
@@ -88,7 +89,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 }
 
                 val xChanged = if (mTouchX != -1f && mTouchY != -1f) event.rawX - mTouchX else 0f
-                val yChanged = if (xChanged != 0f) event.rawY - mTouchY else 0f
+                val yChanged = if (mTouchX != -1f && mTouchY != -1f) event.rawY - mTouchY else 0f
 
                 // coef is the gradient's move to determine a neutral zone
                 val coef = Math.abs(yChanged / xChanged)
@@ -100,6 +101,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
+                        mVerticalTouchActive = false
                         // Audio
                         mInitTouchY = event.rawY
                         mInitTouchX = event.rawX
@@ -120,7 +122,14 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                             // No volume/brightness action if coef < 2 or a secondary display is connected
                             //TODO : Volume action when a secondary display is connected
                             if (mTouchAction != TOUCH_SEEK && coef > 2 && player.isOnPrimaryDisplay) {
-                                if (Math.abs(yChanged / screenConfig.yRange) < 0.05) return false
+                                if (!mVerticalTouchActive) {
+                                    if (Math.abs(yChanged / screenConfig.yRange) >= 0.05) {
+                                        mVerticalTouchActive = true
+                                        mTouchY = event.rawY
+                                        mTouchX = event.rawX
+                                    }
+                                    return false
+                                }
                                 mTouchY = event.rawY
                                 mTouchX = event.rawX
                                 doVerticalTouchAction(yChanged)
