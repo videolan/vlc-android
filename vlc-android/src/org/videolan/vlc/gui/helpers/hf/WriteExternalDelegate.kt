@@ -31,7 +31,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
 
     @TargetApi(Build.VERSION_CODES.O)
     private fun showDialog() {
-        if (!isAdded) return
+        if (!isAdded || isDetached) return
         val builder = AlertDialog.Builder(requireActivity())
         builder.setMessage(R.string.sdcard_permission_dialog_message)
                 .setTitle(R.string.sdcard_permission_dialog_title)
