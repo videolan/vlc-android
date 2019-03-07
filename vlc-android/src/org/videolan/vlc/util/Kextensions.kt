@@ -1,9 +1,11 @@
 package org.videolan.vlc.util
 
+import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.net.Uri
+import android.util.DisplayMetrics
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.PrecomputedTextCompat
@@ -25,7 +27,6 @@ import java.net.URI
 import java.net.URISyntaxException
 import java.util.*
 import kotlin.coroutines.resume
-import android.util.DisplayMetrics
 
 
 
@@ -157,4 +158,9 @@ fun Int.toPixel(): Int {
     val metrics = Resources.getSystem().displayMetrics
     val px = toFloat() * (metrics.densityDpi / 160f)
     return Math.round(px)
+}
+
+fun Activity.getScreenWidth() : Int {
+    val dm = DisplayMetrics().also { windowManager.defaultDisplay.getMetrics(it) }
+    return dm.widthPixels
 }

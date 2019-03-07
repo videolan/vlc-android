@@ -128,7 +128,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
             WorkersKt.runIO(new Runnable() {
                 @Override
                 public void run() {
-                    final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mPlaylist.getArtworkMrl()), 0);
+                    final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mPlaylist.getArtworkMrl()), getResources().getDimensionPixelSize(R.dimen.audio_browser_item_size));
                     if (cover != null) {
                         mBinding.setCover(new BitmapDrawable(PlaylistActivity.this.getResources(), cover));
                         WorkersKt.runOnMainThread(new Runnable() {

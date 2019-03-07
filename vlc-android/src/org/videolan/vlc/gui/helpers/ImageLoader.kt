@@ -30,6 +30,8 @@ import org.videolan.vlc.util.ThumbnailsProvider
 
 private val sBitmapCache = BitmapCache.getInstance()
 private val sMedialibrary = VLCApplication.getMLInstance()
+@Volatile
+private var defaultImageWidth = 0
 private const val TAG = "ImageLoader"
 
 @MainThread
@@ -110,15 +112,23 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
         binding.executePendingBindings()
         binding.addOnRebindCallback(rebindCallbacks!!)
     }
-    val image = if (!bindChanged) obtainBitmap(item, v.width) else null
+    val width = when {
+        v.width > 0 -> v.width
+        defaultImageWidth > 0 -> defaultImageWidth
+        else -> {
+            defaultImageWidth = v.context.resources.getDimensionPixelSize(if (v is ImageCardView) R.dimen.tv_grid_card_thumb_width else R.dimen.audio_browser_item_size)
+            defaultImageWidth
+        }
+    }
+    val image = if (!bindChanged) obtainBitmap(item, width) else null
     if (!bindChanged) updateImageView(image, v, binding)
     binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
 
 private suspend fun obtainBitmap(item: MediaLibraryItem, width: Int) = withContext(Dispatchers.IO) {
-    when {
-        item is MediaWrapper -> ThumbnailsProvider.getMediaThumbnail(item, width)
-        item is Folder -> ThumbnailsProvider.getFolderThumbnail(item, width)
+    when (item) {
+        is MediaWrapper -> ThumbnailsProvider.getMediaThumbnail(item, width)
+        is Folder -> ThumbnailsProvider.getFolderThumbnail(item, width)
         else -> AudioUtil.readCoverBitmap(Uri.decode(item.artworkMrl), width)
     }
 }

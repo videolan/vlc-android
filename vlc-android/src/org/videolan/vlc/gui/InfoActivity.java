@@ -31,6 +31,7 @@ import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.video.MediaInfoAdapter;
 import org.videolan.vlc.media.MediaUtils;
+import org.videolan.vlc.util.KextensionsKt;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WeakHandler;
@@ -48,6 +49,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class InfoActivity extends AudioPlayerContainerActivity implements View.OnClickListener {
 
+    public final static String TAG = "VLC/InfoActivity";
     public final static String TAG_ITEM = "ML_ITEM";
     public final static String TAG_FAB_VISIBILITY= "FAB";
 
@@ -89,7 +91,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
             WorkersKt.runIO(new Runnable() {
                 @Override
                 public void run() {
-                    final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mItem.getArtworkMrl()), 0);
+                    final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mItem.getArtworkMrl()), KextensionsKt.getScreenWidth(InfoActivity.this));
                     if (cover != null) {
                         mBinding.setCover(new BitmapDrawable(InfoActivity.this.getResources(), cover));
                         WorkersKt.runOnMainThread(new Runnable() {
