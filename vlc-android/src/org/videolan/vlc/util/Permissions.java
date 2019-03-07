@@ -88,7 +88,7 @@ public class Permissions {
 
     public static boolean checkReadStoragePermission(FragmentActivity activity, boolean exit) {
         if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(activity)) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(activity,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 showStoragePermissionDialog(activity, exit);
             } else
@@ -99,7 +99,7 @@ public class Permissions {
     }
 
     public static void askWriteStoragePermission(FragmentActivity activity, boolean exit, Runnable callback) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(activity,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             showStoragePermissionDialog(activity, exit);
         } else
@@ -134,6 +134,7 @@ public class Permissions {
                 .setTitle(activity.getString(R.string.allow_storage_access_title))
                 .setMessage(activity.getString(R.string.allow_storage_access_description))
                 .setIcon(android.R.drawable.ic_dialog_alert)
+                .setCancelable(false)
                 .setPositiveButton(activity.getString(R.string.permission_ask_again), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -141,13 +142,7 @@ public class Permissions {
                         if (!settings.getBoolean("user_declined_storage_access", false))
                             requestStoragePermission(activity, false, null);
                         else {
-                            final Intent i = new Intent("android.settings.APPLICATION_DETAILS_SETTINGS");
-                            i.addCategory(Intent.CATEGORY_DEFAULT);
-                            i.setData(Uri.parse("package:" + VLCApplication.getAppContext().getPackageName()));
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            try {
-                                activity.startActivity(i);
-                            } catch (Exception ignored) {}
+                            showAppSettingsPage(activity);
                         }
                         settings.edit()
                             .putBoolean("user_declined_storage_access", true)
@@ -171,6 +166,7 @@ public class Permissions {
                 .setTitle(activity.getString(R.string.allow_storage_access_title))
                 .setMessage(activity.getString(R.string.allow_storage_access_description))
                 .setIcon(android.R.drawable.ic_dialog_alert)
+                .setCancelable(false)
                 .setPositiveButton(activity.getString(R.string.permission_ask_again), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -178,14 +174,7 @@ public class Permissions {
                         if (!settings.getBoolean("user_declined_storage_access", false))
                             requestStoragePermission(activity, false, null);
                         else {
-                            final Intent i = new Intent();
-                            i.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-                            i.addCategory(Intent.CATEGORY_DEFAULT);
-                            i.setData(Uri.parse("package:" + VLCApplication.getAppContext().getPackageName()));
-                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            try {
-                                activity.startActivity(i);
-                            } catch (Exception ignored) {}
+                            showAppSettingsPage(activity);
                         }
                         settings.edit()
                             .putBoolean("user_declined_storage_access", true)
@@ -202,6 +191,17 @@ public class Permissions {
                     .setCancelable(false);
         }
         return dialogBuilder.show();
+    }
+
+    private static void showAppSettingsPage(FragmentActivity activity) {
+        final Intent i = new Intent();
+        i.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+        i.addCategory(Intent.CATEGORY_DEFAULT);
+        i.setData(Uri.parse("package:" + VLCApplication.getAppContext().getPackageName()));
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            activity.startActivity(i);
+        } catch (Exception ignored) {}
     }
 
     private static Dialog createSettingsDialogCompat(final Activity activity, int mode) {
