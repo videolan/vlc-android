@@ -64,18 +64,18 @@ public class VLCOptions {
         final SharedPreferences pref = Settings.INSTANCE.getInstance(context);
 
         /* generate an audio session id so as to share audio output with external equalizer */
-        if (Build.VERSION.SDK_INT >= 21 && AUDIOTRACK_SESSION_ID == 0) {
+        if (context != null && Build.VERSION.SDK_INT >= 21 && AUDIOTRACK_SESSION_ID == 0) {
             AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             AUDIOTRACK_SESSION_ID = audioManager.generateAudioSessionId();
         }
 
         final ArrayList<String> options = new ArrayList<String>(50);
 
-        final boolean timeStrechingDefault = context.getResources().getBoolean(R.bool.time_stretching_default);
+        final boolean timeStrechingDefault = context != null && context.getResources().getBoolean(R.bool.time_stretching_default);
         final boolean timeStreching = pref.getBoolean("enable_time_stretching_audio", timeStrechingDefault);
         final String subtitlesEncoding = pref.getString("subtitle_text_encoding", "");
         final boolean frameSkip = pref.getBoolean("enable_frame_skip", false);
-        final String chroma = pref.getString("chroma_format", context.getResources().getString(R.string.chroma_format_default));
+        final String chroma = pref.getString("chroma_format", "RV16");
         final boolean verboseMode = pref.getBoolean("enable_verbose_mode", true);
 
         int deblocking = -1;
@@ -124,8 +124,10 @@ public class VLCOptions {
         options.add("--keystore");
         if (AndroidUtil.isMarshMallowOrLater) options.add("file_crypt,none");
         else options.add("file_plaintext,none");
-        options.add("--keystore-file");
-        options.add(new File(context.getDir("keystore", Context.MODE_PRIVATE), "file").getAbsolutePath());
+        if (context != null) {
+            options.add("--keystore-file");
+            options.add(new File(context.getDir("keystore", Context.MODE_PRIVATE), "file").getAbsolutePath());
+        }
 
         //Chromecast
         options.add(verboseMode ? "-vv" : "-v");
