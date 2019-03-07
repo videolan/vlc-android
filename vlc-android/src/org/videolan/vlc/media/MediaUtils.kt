@@ -280,13 +280,16 @@ object MediaUtils : CoroutineScope {
 
     fun getMediaTitle(mediaWrapper: MediaWrapper) = mediaWrapper.title ?: FileUtils.getFileNameFromPath(mediaWrapper.location)!!
 
-    fun getContentMediaUri(data: Uri): Uri {
+    fun getContentMediaUri(data: Uri)= try {
         VLCApplication.getAppContext().contentResolver.query(data,
                 arrayOf(MediaStore.Video.Media.DATA), null, null, null)?.use {
             val columnIndex = it.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)
-            if (it.moveToFirst()) return AndroidUtil.PathToUri(it.getString(columnIndex)) ?: data
+            if (it.moveToFirst()) AndroidUtil.PathToUri(it.getString(columnIndex)) ?: data else data
         }
-        return data
+    } catch (e: SecurityException) {
+        data
+    } catch (e: IllegalArgumentException) {
+        data
     }
 
     private fun getMediaString(ctx: Context?, id: Int): String {
