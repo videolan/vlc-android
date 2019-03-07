@@ -1130,19 +1130,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             else
                 volume = Math.round(((float)mService.getVolume())*mAudioMax/100 + 1);
             volume = Math.min(Math.max(volume, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
-            setAudioVolume(volume);
+            setVolume(volume);
+            setAudioVolume();
         }
     }
 
     private void volumeDown() {
-        int vol;
+        int volume;
         if (mService.getVolume() > 100)
-            vol = Math.round(((float)mService.getVolume())*mAudioMax/100 - 1);
+            volume = Math.round(((float)mService.getVolume())*mAudioMax/100 - 1);
         else
-            vol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) - 1;
-        vol = Math.min(Math.max(vol, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
-        mOriginalVol = vol;
-        setAudioVolume(vol);
+            volume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) - 1;
+        volume = Math.min(Math.max(volume, 0), mAudioMax * (audioBoostEnabled ? 2 : 1));
+        mOriginalVol = volume;
+        setVolume(volume);
+        setAudioVolume();
     }
 
     boolean navigateDvdMenu(int keyCode) {
@@ -1685,7 +1687,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         warningToast.show();
     }
 
-    void setAudioVolume(int vol) {
+    void setAudioVolume() {
+        int vol = Math.round(getVolume());
         if (AndroidUtil.isNougatOrLater && (vol <= 0 ^ mMute)) {
             mute(!mMute);
             return; //Android N+ throws "SecurityException: Not allowed to change Do Not Disturb state"
@@ -1703,10 +1706,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI);
                 } catch (RuntimeException ignored) {} //Some device won't allow us to change volume
             }
-            vol = Math.round(vol * 100 / (float) mAudioMax);
+            vol = Math.round(getVolume() * 100 / (float) mAudioMax);
         } else {
-            vol = Math.round(vol * 100 / (float) mAudioMax);
-            mService.setVolume(Math.round(vol));
+            vol = Math.round(getVolume() * 100 / (float) mAudioMax);
+            mService.setVolume(vol);
         }
         showInfoWithVerticalBar(getString(R.string.volume) + "\n" + Integer.toString(vol) + '%', 1000, vol, audioBoostEnabled ? 200 : 100);
     }

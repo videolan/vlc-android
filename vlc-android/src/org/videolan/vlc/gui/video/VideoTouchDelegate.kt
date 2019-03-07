@@ -196,8 +196,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             } else if (Math.abs(rz) > 0.3) {
                 player.volume = player.audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
                 val delta = -(rz / 7 * player.audioMax).toInt()
-                val vol = Math.min(Math.max(player.volume + delta, 0f), player.audioMax.toFloat()).toInt()
-                player.setAudioVolume(vol)
+                player.volume = Math.min(Math.max(player.volume + delta, 0f), player.audioMax.toFloat())
+                player.setAudioVolume()
             }
             mLastMove = System.currentTimeMillis()
         }
@@ -263,22 +263,21 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_VOLUME) return
         val audioMax = player.audioMax
         val delta = -(y_changed / screenConfig.yRange * audioMax)
-        player.volume += delta
-        val vol = Math.min(Math.max(player.volume, 0f), (audioMax * if (player.isAudioBoostEnabled) 2 else 1).toFloat()).toInt()
-        if (delta < 0) player.originalVol = vol.toFloat()
+        player.volume = Math.min(Math.max(player.volume + delta, 0f), (audioMax * if (player.isAudioBoostEnabled) 2f else 1f))
+        if (delta < 0) player.originalVol = player.volume
         if (delta != 0f) {
-            if (vol > audioMax) {
+            if (player.volume > audioMax) {
                 if (player.isAudioBoostEnabled) {
                     if (player.originalVol < audioMax) {
+                        player.volume = audioMax.toFloat()
                         player.displayWarningToast()
-                        player.setAudioVolume(audioMax)
-                    } else {
-                        player.setAudioVolume(vol)
                     }
+                    player.setAudioVolume()
+
                     mTouchAction = TOUCH_VOLUME
                 }
             } else {
-                player.setAudioVolume(vol)
+                player.setAudioVolume()
                 mTouchAction = TOUCH_VOLUME
             }
         }
