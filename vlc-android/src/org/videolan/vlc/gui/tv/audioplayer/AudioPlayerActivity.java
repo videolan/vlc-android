@@ -43,6 +43,7 @@ import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.KextensionsKt;
 import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.PlayerState;
@@ -132,10 +133,11 @@ public class AudioPlayerActivity extends BaseTvActivity {
     }
 
     private void updateBackground() {
+        final int width = mBinding.albumCover.getWidth() > 0 ? mBinding.albumCover.getWidth() : KextensionsKt.getScreenWidth(this);
         WorkersKt.runIO(new Runnable() {
             @Override
             public void run() {
-                final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mCurrentCoverArt), mBinding.albumCover.getWidth());
+                final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(mCurrentCoverArt), width);
                 final Bitmap blurredCover = cover != null ? UiTools.blurBitmap(cover) : null;
                 WorkersKt.runOnMainThread(new Runnable() {
                     @Override

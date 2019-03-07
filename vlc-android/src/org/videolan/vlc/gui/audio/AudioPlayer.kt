@@ -263,7 +263,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
                 if (TextUtils.isEmpty(mw.artworkMrl)) {
                     setDefaultBackground()
                 } else {
-                    val blurredCover = withContext(Dispatchers.IO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), binding.contentLayout.width)) }
+                    val width = if (binding.contentLayout.width > 0) binding.contentLayout.width else activity?.getScreenWidth() ?: return@launch
+                    val blurredCover = withContext(Dispatchers.IO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width)) }
                     if (blurredCover !== null) {
                         val activity = activity as? AudioPlayerContainerActivity
                         if (activity === null) return@launch
