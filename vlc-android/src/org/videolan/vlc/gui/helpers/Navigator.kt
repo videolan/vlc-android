@@ -63,7 +63,7 @@ class Navigator(private val activity: MainActivity,
 ): com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener, LifecycleObserver {
 
     private val fragmentsStack = SimpleArrayMap<String, WeakReference<Fragment>>()
-    private val defaultFragmentId inline get() = if (settings.getInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_OFF) == ML_SCAN_ON) R.id.nav_video else R.id.nav_directories
+    private val defaultFragmentId= R.id.nav_video
     var currentFragmentId = target
     var currentFragment: Fragment? = null
         private set
