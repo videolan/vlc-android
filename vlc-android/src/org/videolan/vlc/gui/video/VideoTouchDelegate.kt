@@ -261,7 +261,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     private fun doVolumeTouch(y_changed: Float) {
         if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_VOLUME) return
         val audioMax = player.audioMax
-        val delta = -(y_changed / screenConfig.metrics.heightPixels.toFloat() * audioMax)
+        val delta = -(y_changed / screenConfig.metrics.heightPixels.toFloat() * audioMax * 1.25f)
         player.volume += delta
         val vol = Math.min(Math.max(player.volume, 0f), (audioMax * if (player.isAudioBoostEnabled) 2 else 1).toFloat()).toInt()
         if (delta < 0) player.originalVol = vol.toFloat()
@@ -297,7 +297,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         mTouchAction = TOUCH_BRIGHTNESS
 
         // Set delta : 2f is arbitrary for now, it possibly will change in the future
-        val delta = -ychanged / screenConfig.yRange
+        val delta = -ychanged / screenConfig.yRange * 1.25f
 
         player.changeBrightness(delta)
     }
