@@ -63,7 +63,7 @@ import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.video.PopupManager
 import org.videolan.vlc.gui.video.VideoPlayerActivity
-import org.videolan.vlc.media.BrowserProvider
+import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.*
@@ -151,7 +151,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
                 }
                 VLCAppWidgetProvider.ACTION_WIDGET_INIT -> updateWidget()
                 VLCAppWidgetProvider.ACTION_WIDGET_ENABLED , VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
-                ACTION_CAR_MODE_EXIT -> BrowserProvider.unbindExtensionConnection()
+                ACTION_CAR_MODE_EXIT -> MediaSessionBrowser.unbindExtensionConnection()
                 AudioManager.ACTION_AUDIO_BECOMING_NOISY -> if (detectHeadset) {
                     if (BuildConfig.DEBUG) Log.i(TAG, "Becoming noisy")
                     wasPlaying = isPlaying
@@ -785,7 +785,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
             val coverOnLockscreen = settings.getBoolean("lockscreen_cover", true)
             val bob = MediaMetadataCompat.Builder().apply {
                 putString(MediaMetadataCompat.METADATA_KEY_TITLE, title)
-                putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, BrowserProvider.generateMediaId(media))
+                putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, MediaSessionBrowser.generateMediaId(media))
                 putString(MediaMetadataCompat.METADATA_KEY_GENRE, MediaUtils.getMediaGenre(ctx, media))
                 putLong(MediaMetadataCompat.METADATA_KEY_TRACK_NUMBER, media.trackNumber.toLong())
                 putString(MediaMetadataCompat.METADATA_KEY_ARTIST, MediaUtils.getMediaArtist(ctx, media))
@@ -1024,7 +1024,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
                             .setDescription(Util.getMediaDescription(MediaUtils.getMediaArtist(ctx, media), MediaUtils.getMediaAlbum(ctx, media)))
                             .setIconBitmap(BitmapUtil.getPictureFromCache(media))
                             .setMediaUri(media.uri)
-                            .setMediaId(BrowserProvider.generateMediaId(media))
+                            .setMediaId(MediaSessionBrowser.generateMediaId(media))
                     it.add(MediaSessionCompat.QueueItem(builder.build(), position.toLong()))
                 }
             }
@@ -1244,7 +1244,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
      */
 
     override fun onGetRoot(clientPackageName: String, clientUid: Int, rootHints: Bundle?): MediaBrowserServiceCompat.BrowserRoot? {
-        return if (Permissions.canReadStorage(this@PlaybackService)) MediaBrowserServiceCompat.BrowserRoot(BrowserProvider.ID_ROOT, null) else null
+        return if (Permissions.canReadStorage(this@PlaybackService)) MediaBrowserServiceCompat.BrowserRoot(MediaSessionBrowser.ID_ROOT, null) else null
     }
 
     override fun onLoadChildren(parentId: String, result: MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>) {
@@ -1258,7 +1258,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     private fun sendResults(result: MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>, parentId: String) {
         launch(Dispatchers.IO) {
             try {
-                result.sendResult(BrowserProvider.browse(applicationContext, parentId))
+                result.sendResult(MediaSessionBrowser.browse(applicationContext, parentId))
             } catch (ignored: RuntimeException) {} //bitmap parcelization can fail
         }
     }
