@@ -50,6 +50,7 @@ import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.CTX_ADD_TO_PLAYLIST
+import org.videolan.vlc.util.CTX_APPEND
 import org.videolan.vlc.util.CTX_RENAME
 import org.videolan.vlc.viewmodels.StreamsModel
 
@@ -132,7 +133,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
     }
 
     private fun showContext(position: Int) {
-        val flags = CTX_RENAME or CTX_ADD_TO_PLAYLIST
+        val flags = CTX_RENAME or CTX_APPEND or CTX_ADD_TO_PLAYLIST
         val media = viewModel.observableHistory.value?.get(position) ?: return
         showContext(requireActivity(), this, position, media.title, flags)
     }
@@ -140,6 +141,10 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
     override fun onCtxAction(position: Int, option: Int) {
         when (option) {
             CTX_RENAME -> renameStream(position)
+            CTX_APPEND -> {
+                val media = viewModel.observableHistory.value?.get(position) ?: return
+                MediaUtils.appendMedia(requireContext(), media)
+            }
             CTX_ADD_TO_PLAYLIST -> {
                 val media = viewModel.observableHistory.value?.get(position) ?: return
                 UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
