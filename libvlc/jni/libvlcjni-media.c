@@ -356,16 +356,18 @@ jstring
 Java_org_videolan_libvlc_Media_nativeGetMrl(JNIEnv *env, jobject thiz)
 {
     vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
-    const char *psz_mrl;
+    jstring jmrl = NULL;
 
     if (!p_obj)
         return NULL;
 
-    psz_mrl = libvlc_media_get_mrl(p_obj->u.p_m);
-    if (psz_mrl)
-        return (*env)->NewStringUTF(env, psz_mrl);
+    char *psz_mrl = libvlc_media_get_mrl(p_obj->u.p_m);
+    if (psz_mrl) {
+        jmrl = (*env)->NewStringUTF(env, psz_mrl);
+        free(psz_mrl);
+    }
 
-    return NULL;
+    return jmrl;
 }
 
 jint
