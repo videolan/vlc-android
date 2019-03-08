@@ -11,7 +11,7 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.extensions.ExtensionsManager
-import org.videolan.vlc.media.BrowserProvider
+import org.videolan.vlc.media.MediaSessionBrowser
 import org.videolan.vlc.util.*
 import java.util.*
 import kotlin.math.min
@@ -57,17 +57,17 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
             val context = playbackService.applicationContext
             val ml = playbackService.medialibrary
             when {
-                mediaId == BrowserProvider.ID_SHUFFLE_ALL -> {
+                mediaId == MediaSessionBrowser.ID_SHUFFLE_ALL -> {
                     val count = context.getFromMl { ml.audioCount }
                     val tracks = withContext(Dispatchers.IO) { ml.audio }
                     playbackService.load(tracks, Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)))
                     if (!playbackService.isShuffling) playbackService.shuffle()
                 }
-                mediaId.startsWith(BrowserProvider.ALBUM_PREFIX) -> {
+                mediaId.startsWith(MediaSessionBrowser.ALBUM_PREFIX) -> {
                     val tracks = context.getFromMl { getAlbum(mediaId.extractId())?.tracks }
                     tracks?.let { playbackService.load(it, 0) }
                 }
-                mediaId.startsWith(BrowserProvider.PLAYLIST_PREFIX) -> {
+                mediaId.startsWith(MediaSessionBrowser.PLAYLIST_PREFIX) -> {
                     val tracks = context.getFromMl { getPlaylist(mediaId.extractId())?.tracks }
                     tracks?.let { playbackService.load(it, 0) }
                 }

@@ -1,8 +1,8 @@
 /*
  * ************************************************************************
- *  BrowserProvider.java
+ *  MediaSessionBrowser.java
  * *************************************************************************
- *  Copyright © 2016 VLC authors and VideoLAN
+ *  Copyright © 2016-2019 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -59,9 +59,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 
 
-public class BrowserProvider implements ExtensionManagerService.ExtensionManagerActivity {
+public class MediaSessionBrowser implements ExtensionManagerService.ExtensionManagerActivity {
 
-    private static final String TAG = "VLC/BrowserProvider";
+    private static final String TAG = "VLC/MediaSessionBrowser";
 
     private static final Bitmap DEFAULT_AUDIO_COVER = BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_menu_audio);
     private static String BASE_DRAWABLE_URI;
@@ -328,10 +328,10 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
         extensionLock.release();
     }
 
-    private static BrowserProvider instance;
-    private static BrowserProvider getInstance() {
+    private static MediaSessionBrowser instance;
+    private static MediaSessionBrowser getInstance() {
         if (instance == null)
-            instance = new BrowserProvider();
+            instance = new MediaSessionBrowser();
         return instance;
     }
 
@@ -340,7 +340,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 sExtensionManagerService = ((ExtensionManagerService.LocalBinder)service).getService();
-                sExtensionManagerService.setExtensionManagerActivity(BrowserProvider.getInstance());
+                sExtensionManagerService.setExtensionManagerActivity(MediaSessionBrowser.getInstance());
                 extensionLock.release();
             }
             @Override
