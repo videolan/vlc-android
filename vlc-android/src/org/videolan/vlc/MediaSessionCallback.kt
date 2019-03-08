@@ -13,6 +13,8 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.extensions.ExtensionsManager
 import org.videolan.vlc.media.BrowserProvider
 import org.videolan.vlc.util.*
+import java.util.*
+import kotlin.math.min
 
 @Suppress("unused")
 private const val TAG = "VLC/MediaSessionCallback"
@@ -51,18 +53,38 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     }
 
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
-        when {
-            mediaId.startsWith(BrowserProvider.ALBUM_PREFIX) -> playbackService.load(playbackService.medialibrary.getAlbum(java.lang.Long.parseLong(mediaId.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]))!!.tracks, 0)
-            mediaId.startsWith(BrowserProvider.PLAYLIST_PREFIX) -> playbackService.load(playbackService.medialibrary.getPlaylist(java.lang.Long.parseLong(mediaId.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]))!!.tracks, 0)
-            mediaId.startsWith(ExtensionsManager.EXTENSION_PREFIX) -> onPlayFromUri(Uri.parse(mediaId.replace(ExtensionsManager.EXTENSION_PREFIX + "_" + mediaId.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1] + "_", "")), null)
-            else -> try {
-                playbackService.medialibrary.getMedia(mediaId.toLong())?.let { playbackService.load(it) }
-            } catch (e: NumberFormatException) {
-                playbackService.loadLocation(mediaId)
+        AppScope.launch {
+            val context = playbackService.applicationContext
+            val ml = playbackService.medialibrary
+            when {
+                mediaId == BrowserProvider.ID_SHUFFLE_ALL -> {
+                    val count = context.getFromMl { ml.audioCount }
+                    val tracks = withContext(Dispatchers.IO) { ml.audio }
+                    playbackService.load(tracks, Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)))
+                    if (!playbackService.isShuffling) playbackService.shuffle()
+                }
+                mediaId.startsWith(BrowserProvider.ALBUM_PREFIX) -> {
+                    val tracks = context.getFromMl { getAlbum(mediaId.extractId())?.tracks }
+                    tracks?.let { playbackService.load(it, 0) }
+                }
+                mediaId.startsWith(BrowserProvider.PLAYLIST_PREFIX) -> {
+                    val tracks = context.getFromMl { getPlaylist(mediaId.extractId())?.tracks }
+                    tracks?.let { playbackService.load(it, 0) }
+                }
+                mediaId.startsWith(ExtensionsManager.EXTENSION_PREFIX) -> {
+                    val id = mediaId.replace(ExtensionsManager.EXTENSION_PREFIX + "_" + mediaId.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1] + "_", "")
+                    onPlayFromUri(Uri.parse(id), null)
+                }
+                else -> try {
+                    context.getFromMl { getMedia(mediaId.toLong()) }?.let { playbackService.load(it) }
+                } catch (e: NumberFormatException) {
+                    playbackService.loadLocation(mediaId)
+                }
             }
         }
-
     }
+
+    private fun String.extractId() = split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1].toLong()
 
     override fun onPlayFromUri(uri: Uri?, extras: Bundle?) = playbackService.loadUri(uri)
 
