@@ -121,6 +121,7 @@
     <string name="validation">Are you sure?</string>
 
     <string name="cover_art">Cover art</string>
+    <string name="shuffle_all_title">Shuffle all</string>
     <string name="shuffle_title">Shuffle mode</string>
     <string name="shuffle">Shuffle Off</string>
     <string name="shuffle_on">Shuffle On</string>

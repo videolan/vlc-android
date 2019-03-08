@@ -1249,9 +1249,10 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     override fun onLoadChildren(parentId: String, result: MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>) {
         result.detach()
-        if (!medialibrary.isInitiated || libraryReceiver != null)
-            registerMedialibrary(Runnable { sendResults(result, parentId) })
-        else sendResults(result, parentId)
+        launch {
+            getFromMl { isStarted }
+            sendResults(result, parentId)
+        }
     }
 
     private fun sendResults(result: MediaBrowserServiceCompat.Result<List<MediaBrowserCompat.MediaItem>>, parentId: String) {

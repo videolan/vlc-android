@@ -74,6 +74,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
     private static final String ID_PLAYLISTS = "ID_PLAYLISTS";
     private static final String ID_HISTORY = "ID_HISTORY";
     private static final String ID_LAST_ADDED = "ID_RECENT";
+    public static final String ID_SHUFFLE_ALL = "ID_SHUFFLE_ALL";
     public static final String ALBUM_PREFIX = "album";
     private static final String ARTIST_PREFIX = "artist";
     private static final String GENRE_PREFIX = "genre";
@@ -160,6 +161,12 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
                         }
                     }
                     if (BASE_DRAWABLE_URI == null) BASE_DRAWABLE_URI = "android.resource://"+context.getPackageName()+"/drawable/";
+                    //Shuffle
+                    item = new MediaDescriptionCompat.Builder()
+                            .setMediaId(ID_SHUFFLE_ALL)
+                            .setTitle(res.getString(R.string.shuffle_all_title))
+                            .setIconUri(Uri.parse(BASE_DRAWABLE_URI + "ic_auto_audio_normal"));
+                    results.add(new MediaBrowserCompat.MediaItem(item.build(), MediaBrowserCompat.MediaItem.FLAG_PLAYABLE));
                     //Last added
                     item = new MediaDescriptionCompat.Builder()
                             .setMediaId(ID_LAST_ADDED)
@@ -237,7 +244,7 @@ public class BrowserProvider implements ExtensionManagerService.ExtensionManager
             if (list != null) {
                 MediaDescriptionCompat.Builder item = new MediaDescriptionCompat.Builder();
                 for (MediaLibraryItem libraryItem : list) {
-                    if (libraryItem == null || (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper) libraryItem).getType() != MediaWrapper.TYPE_AUDIO))
+                    if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper) libraryItem).getType() != MediaWrapper.TYPE_AUDIO)
                         continue;
                     Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(libraryItem.getArtworkMrl()), 256);
                     if (cover == null) cover = DEFAULT_AUDIO_COVER;
