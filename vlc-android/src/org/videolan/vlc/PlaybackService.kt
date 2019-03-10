@@ -569,7 +569,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         val notification = if (this::notification.isInitialized && !stopped) notification
         else NotificationHelper.createPlaybackNotification(ctx,false,
                 ctx.resources.getString(R.string.loading), "", "",null,
-                false, mediaSession.sessionToken, sessionPendingIntent)
+                false, true, mediaSession.sessionToken, sessionPendingIntent)
         startForeground(3, notification)
         isForeground = true
         if (isVideoPlaying || AndroidDevices.showTvUi(this) || stopped) hideNotification(true)
@@ -661,6 +661,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         if (mw != null) {
             val coverOnLockscreen = settings.getBoolean("lockscreen_cover", true)
             val playing = isPlaying
+            val pausable = isPausable && isSeekable && length > 0 // TODO: length > 0 is temporarily hack till libVlc is fixed.
             val sessionToken = mediaSession.sessionToken
             val ctx = this
             val metaData = mediaSession.controller.metadata
@@ -680,7 +681,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
                     notification = NotificationHelper.createPlaybackNotification(ctx,
                             mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO), title, artist, album,
-                            cover, playing, sessionToken, sessionPendingIntent)
+                            cover, playing, pausable, sessionToken, sessionPendingIntent)
                     if (isPlayingPopup) return@launch
                     if (!AndroidUtil.isLolliPopOrLater || playing || audioFocusHelper.lossTransient) {
                         if (!isForeground) {

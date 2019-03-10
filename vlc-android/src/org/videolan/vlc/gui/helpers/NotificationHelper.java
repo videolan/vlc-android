@@ -50,7 +50,7 @@ public class NotificationHelper {
     public static final String VLC_DEBUG_CHANNEL = "vlc_debug";
 
     public static Notification createPlaybackNotification(Context ctx, boolean video, String title, String artist,
-                                                          String album, Bitmap cover, boolean playing,
+                                                          String album, Bitmap cover, boolean playing, boolean pausable,
                                                           MediaSessionCompat.Token sessionToken,
                                                           PendingIntent spi) {
 
@@ -70,17 +70,20 @@ public class NotificationHelper {
                 .setDeleteIntent(piStop)
                 .setContentIntent(spi)
                 .addAction(new NotificationCompat.Action(
-                R.drawable.ic_widget_previous_w, ctx.getString(R.string.previous),
-                MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
-                        PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)));
-        if (playing) builder.addAction(new NotificationCompat.Action(
-                R.drawable.ic_widget_pause_w, ctx.getString(R.string.pause),
-                MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
-                        PlaybackStateCompat.ACTION_PLAY_PAUSE)));
-        else builder.addAction(new NotificationCompat.Action(
-                R.drawable.ic_widget_play_w, ctx.getString(R.string.play),
-                MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
-                        PlaybackStateCompat.ACTION_PLAY_PAUSE)));
+                        R.drawable.ic_widget_previous_w, ctx.getString(R.string.previous),
+                        MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
+                                PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)));
+        if (pausable) {
+            if (playing) builder.addAction(new NotificationCompat.Action(
+                    R.drawable.ic_widget_pause_w, ctx.getString(R.string.pause),
+                    MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
+                            PlaybackStateCompat.ACTION_PLAY_PAUSE)));
+            else builder.addAction(new NotificationCompat.Action(
+                    R.drawable.ic_widget_play_w, ctx.getString(R.string.play),
+                    MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
+                            PlaybackStateCompat.ACTION_PLAY_PAUSE)));
+        } else builder.addAction(new NotificationCompat.Action(
+                R.drawable.ic_widget_close_w, ctx.getString(R.string.stop), piStop));
         builder.addAction(new NotificationCompat.Action(
                 R.drawable.ic_widget_next_w, ctx.getString(R.string.next),
                 MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
@@ -89,7 +92,7 @@ public class NotificationHelper {
         if (AndroidDevices.showMediaStyle) {
             builder.setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                     .setMediaSession(sessionToken)
-                    .setShowActionsInCompactView(0,1,2)
+                    .setShowActionsInCompactView(0, 1, 2)
                     .setShowCancelButton(true)
                     .setCancelButtonIntent(piStop)
             );
@@ -99,6 +102,7 @@ public class NotificationHelper {
 
     private static NotificationCompat.Builder scanCompatBuilder;
     private static final Intent notificationIntent = new Intent();
+
     public static Notification createScanNotification(Context ctx, String progressText, boolean updateActions, boolean paused) {
         if (scanCompatBuilder == null) {
             scanCompatBuilder = new NotificationCompat.Builder(ctx, "vlc_medialibrary")
