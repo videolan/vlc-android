@@ -311,6 +311,13 @@ AndroidMediaLibrary::addMedia(const std::string& mrl)
     return p_ml->addExternalMedia(mrl);
 }
 
+bool
+AndroidMediaLibrary::removeExternalMedia(long id)
+{
+    auto media = p_ml->media(id);
+    return media != nullptr && p_ml->removeExternalMedia(media);
+}
+
 medialibrary::MediaPtr
 AndroidMediaLibrary::addStream(const std::string& mrl, const std::string& title)
 {
