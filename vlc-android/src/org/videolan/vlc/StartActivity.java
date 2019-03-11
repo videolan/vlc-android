@@ -59,7 +59,7 @@ public class StartActivity extends FragmentActivity {
         final Intent intent = getIntent();
         final String action = intent != null ? intent.getAction(): null;
 
-        if (Intent.ACTION_VIEW.equals(action) && intent.getData() != null
+        if ((Intent.ACTION_VIEW.equals(action) || "org.chromium.arc.intent.action.VIEW".equals(action)) && intent.getData() != null
                 && !TvChannelUtilsKt.TV_CHANNEL_SCHEME.equals(intent.getData().getScheme())) {
             startPlaybackFromApp(intent);
             return;
