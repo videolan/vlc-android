@@ -128,6 +128,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
 
     /**
      * Create a new MediaWrapper
+     *
      * @param mrl Should not be null.
      */
     public MediaWrapper(long id, String mrl, long time, long length, int type, String title,
@@ -137,9 +138,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         super();
         if (TextUtils.isEmpty(mrl)) throw new IllegalArgumentException("uri was empty");
 
-        if (mrl.charAt(0) == '/')
-            mrl = "file://"+mrl;
-        mUri = Uri.parse(mrl);
+        mUri = Uri.parse(manageVLCMrl(mrl));
         mId = id;
         mFilename = filename;
         init(time, length, type, null, title, artist, genre, album, albumArtist, width, height,
@@ -166,21 +165,35 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         mThumbnailGenerated = isThumbnailGenerated;
     }
 
+    private String manageVLCMrl(String mrl) {
+        if (mrl.charAt(0) == '/') {
+            mrl = "file://" + mrl;
+        } else if (mrl.toLowerCase().startsWith("vlc://")) {
+            mrl = mrl.substring(6);
+            if (Uri.parse(mrl).getScheme() == null) {
+                mrl = "http://" + mrl;
+            }
+        }
+        return mrl;
+    }
+
     /**
      * Create a new MediaWrapper
+     *
      * @param uri Should not be null.
      */
     public MediaWrapper(Uri uri) {
         super();
-        if (uri == null)
-            throw new NullPointerException("uri was null");
+        if (uri == null) throw new NullPointerException("uri was null");
 
+        uri = Uri.parse(manageVLCMrl(uri.toString()));
         mUri = uri;
         init(null);
     }
 
     /**
      * Create a new MediaWrapper
+     *
      * @param media should be parsed and not NULL
      */
     public MediaWrapper(Media media) {
@@ -223,7 +236,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
                         mType = TYPE_VIDEO;
                         mWidth = videoTrack.width;
                         mHeight = videoTrack.height;
-                    } else if (mType == TYPE_ALL && track.type == Media.Track.Type.Audio){
+                    } else if (mType == TYPE_ALL && track.type == Media.Track.Type.Audio) {
                         mType = TYPE_AUDIO;
                     }
                 }
@@ -303,16 +316,16 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     }
 
     public MediaWrapper(Uri uri, long time, long length, int type,
-                 Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
-                 int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified, long seen) {
+                        Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
+                        int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified, long seen) {
         mUri = uri;
         init(time, length, type, picture, title, artist, genre, album, albumArtist,
-             width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, seen, null);
+                width, height, artworkURL, audio, spu, trackNumber, discNumber, lastModified, seen, null);
     }
 
     @Override
     public MediaWrapper[] getTracks() {
-        return new MediaWrapper[] {this};
+        return new MediaWrapper[]{this};
     }
 
     @Override
@@ -436,7 +449,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
                 || "vocal".equalsIgnoreCase(mGenre));
     }
 
-    public void setType(int type){
+    public void setType(int type) {
         mType = type;
     }
 
@@ -475,12 +488,12 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         mIsPictureParsed = isParsed;
     }
 
-    public void setDisplayTitle(String title){
+    public void setDisplayTitle(String title) {
         mDisplayTitle = title;
     }
 
     @Override
-    public void setTitle(String title){
+    public void setTitle(String title) {
         mTitle = title;
     }
 
@@ -489,7 +502,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         if (mId != 0 && ml.isInitiated()) nativeSetMediaTitle(ml, mId, name);
     }
 
-    public void setArtist(String artist){
+    public void setArtist(String artist) {
         mArtist = artist;
     }
 
@@ -617,15 +630,19 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     public void addFlags(int flags) {
         mFlags |= flags;
     }
+
     public void setFlags(int flags) {
         mFlags = flags;
     }
+
     public int getFlags() {
         return mFlags;
     }
+
     public boolean hasFlag(int flag) {
         return (mFlags & flag) != 0;
     }
+
     public void removeFlags(int flags) {
         mFlags &= ~flags;
     }
@@ -634,6 +651,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         Medialibrary ml = Medialibrary.getInstance();
         return mId == 0 || !ml.isInitiated() ? 0L : nativeGetMediaLongMetadata(ml, mId, metaDataType);
     }
+
     public String getMetaString(int metaDataType) {
         Medialibrary ml = Medialibrary.getInstance();
         return mId == 0 || !ml.isInitiated() ? null : nativeGetMediaStringMetadata(ml, mId, metaDataType);
@@ -660,10 +678,15 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     }
 
     private native long nativeGetMediaLongMetadata(Medialibrary ml, long id, int metaDataType);
+
     private native String nativeGetMediaStringMetadata(Medialibrary ml, long id, int metaDataType);
+
     private native void nativeSetMediaStringMetadata(Medialibrary ml, long id, int metaDataType, String metadataValue);
+
     private native void nativeSetMediaLongMetadata(Medialibrary ml, long id, int metaDataType, long metadataValue);
+
     private native void nativeSetMediaThumbnail(Medialibrary ml, long id, String mrl);
+
     private native void nativeSetMediaTitle(Medialibrary ml, long id, String name);
 
     @Nullable
@@ -729,8 +752,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
                 pslaves[i] = new PSlave(mSlaves[i]);
             }
             dest.writeTypedArray(pslaves, flags);
-        }
-        else
+        } else
             dest.writeTypedArray(null, flags);
     }
 
@@ -739,6 +761,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         public MediaWrapper createFromParcel(Parcel in) {
             return new MediaWrapper(in);
         }
+
         @Override
         public MediaWrapper[] newArray(int size) {
             return new MediaWrapper[size];
