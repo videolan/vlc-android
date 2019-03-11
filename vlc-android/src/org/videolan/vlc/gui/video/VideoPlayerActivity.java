@@ -721,7 +721,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         if (secondary) mSecondaryDisplayBtn.setImageResource(R.drawable.ic_stop_screen_share);
         mSecondaryDisplayBtn.setVisibility(UiTools.hasSecondaryDisplay(getApplicationContext()) ? View.VISIBLE : View.GONE);
         mSecondaryDisplayBtn.setContentDescription(getResources().getString(secondary ? R.string.video_remote_disable : R.string.video_remote_enable));
-        if (mEnableCloneMode && !mSettings.contains("enable_clone_mode")) {
+        if (!mIsBenchmark && mEnableCloneMode && !mSettings.contains("enable_clone_mode")) {
             UiTools.snackerConfirm(mSecondaryDisplayBtn, getString(R.string.video_save_clone_mode), new Runnable() {
                 @Override
                 public void run() {
