@@ -88,7 +88,7 @@ public class Permissions {
 
     public static boolean checkReadStoragePermission(FragmentActivity activity, boolean exit) {
         if (AndroidUtil.isMarshMallowOrLater && !canReadStorage(activity)) {
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(activity,
+            if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 showStoragePermissionDialog(activity, exit);
             } else
@@ -99,7 +99,7 @@ public class Permissions {
     }
 
     public static void askWriteStoragePermission(FragmentActivity activity, boolean exit, Runnable callback) {
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(activity,
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             showStoragePermissionDialog(activity, exit);
         } else
