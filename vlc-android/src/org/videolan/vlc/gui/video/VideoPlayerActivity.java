@@ -298,7 +298,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         mAudioMax = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         audioBoostEnabled = mSettings.getBoolean("audio_boost", false);
 
-        mEnableCloneMode = clone != null ? clone : mSettings.getBoolean("enable_clone_mode", false);
+        mEnableCloneMode = mIsBenchmark || clone != null ? clone : mSettings.getBoolean("enable_clone_mode", false);
         mDisplayManager = new DisplayManager(this, PlaybackService.Companion.getRenderer(), false, mEnableCloneMode, mIsBenchmark);
         setContentView(mDisplayManager.isPrimary() ? R.layout.player : R.layout.player_remote_control);
 
