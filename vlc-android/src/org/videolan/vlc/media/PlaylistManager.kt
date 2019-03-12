@@ -195,8 +195,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         currentIndex = nextIndex
         if (size == 0 || currentIndex < 0 || currentIndex >= size) {
             Log.w(TAG, "Warning: invalid next index, aborted !")
-            //Close video player if started
-            LocalBroadcastManager.getInstance(ctx).sendBroadcast(Intent(EXIT_PLAYER))
             stop()
             return
         }
@@ -223,6 +221,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         showAudioPlayer.value = false
         service.onPlaybackStopped(systemExit)
         medialibrary.resumeBackgroundOperations()
+        //Close video player if started
+        LocalBroadcastManager.getInstance(ctx).sendBroadcast(Intent(EXIT_PLAYER))
     }
 
     @MainThread
