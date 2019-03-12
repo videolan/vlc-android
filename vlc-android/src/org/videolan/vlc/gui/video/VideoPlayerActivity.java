@@ -387,14 +387,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                     + (mSettings.getBoolean("enable_double_tap_seek", true) ? VideoTouchDelegateKt.TOUCH_FLAG_SEEK : 0);
         } else touch = 0;
         mCurrentScreenOrientation = getResources().getConfiguration().orientation;
-        if (touch != 0) {
-            final DisplayMetrics dm = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(dm);
-            int yRange = Math.min(dm.widthPixels, dm.heightPixels);
-            int xRange = Math.max(dm.widthPixels, dm.heightPixels);
-            final ScreenConfig sc = new ScreenConfig(dm, xRange, yRange, mCurrentScreenOrientation);
-            mTouchDelegate = new VideoTouchDelegate(this, touch, sc, mIsTv);
-        }
+        final DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int yRange = Math.min(dm.widthPixels, dm.heightPixels);
+        int xRange = Math.max(dm.widthPixels, dm.heightPixels);
+        final ScreenConfig sc = new ScreenConfig(dm, xRange, yRange, mCurrentScreenOrientation);
+        mTouchDelegate = new VideoTouchDelegate(this, touch, sc, mIsTv);
         UiTools.setRotationAnimation(this);
         if (savedInstanceState != null) {
             mSavedTime = savedInstanceState.getLong(KEY_TIME);
