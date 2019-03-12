@@ -120,6 +120,7 @@
     <string name="validation">Êtes-vous sûr ?</string>
 
     <string name="cover_art">Pochette</string>
+    <string name="shuffle_all_title">Tout lire en aléatoire</string>
     <string name="shuffle_title">Mode aléatoire</string>
     <string name="shuffle">Lecture aléatoire désactivée</string>
     <string name="shuffle_on">Lecture aléatoire activée</string>
