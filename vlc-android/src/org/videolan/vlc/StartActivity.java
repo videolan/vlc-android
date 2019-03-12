@@ -85,7 +85,7 @@ public class StartActivity extends FragmentActivity {
         /* Check if it's the first run */
         final boolean firstRun = savedVersionNumber == -1;
         final boolean upgrade = firstRun || savedVersionNumber != currentVersionNumber;
-        if (upgrade) settings.edit().putInt(Constants.PREF_FIRST_RUN, currentVersionNumber).apply();
+        if (upgrade && !firstRun) settings.edit().putInt(Constants.PREF_FIRST_RUN, currentVersionNumber).apply();
         final boolean tv = showTvUi();
         // Route search query
         if (Intent.ACTION_SEARCH.equals(action) || "com.google.android.gms.actions.SEARCH_ACTION".equals(action)) {
@@ -115,22 +115,25 @@ public class StartActivity extends FragmentActivity {
     }
 
     private void startApplication(final boolean tv, final boolean firstRun, final boolean upgrade, final int target) {
+        final boolean onboarding = firstRun && !tv && !Settings.INSTANCE.getInstance(StartActivity.this).getBoolean(OnboardingActivityKt.ONBOARDING_DONE_KEY, false);
         // Start Medialibrary from background to workaround Dispatchers.Main causing ANR
         // cf https://github.com/Kotlin/kotlinx.coroutines/issues/878
-        if (!firstRun || tv || Settings.INSTANCE.getInstance(StartActivity.this).getBoolean(OnboardingActivityKt.ONBOARDING_DONE_KEY, false)) {
+        if (!onboarding) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     MediaParsingServiceKt.startMedialibrary(StartActivity.this, firstRun, upgrade, true);
                 }
             }).start();
+            final Intent intent = new Intent(StartActivity.this, tv ? MainTvActivity.class : MainActivity.class)
+                    .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
+                    .putExtra(Constants.EXTRA_UPGRADE, upgrade);
+            if (tv && getIntent().hasExtra(Constants.EXTRA_PATH)) intent.putExtra(Constants.EXTRA_PATH, getIntent().getStringExtra(Constants.EXTRA_PATH));
+            if (target != 0) intent.putExtra(Constants.EXTRA_TARGET, target);
+            startActivity(intent);
+        } else {
+            OnboardingActivityKt.startOnboarding(StartActivity.this);
         }
-        final Intent intent = new Intent(StartActivity.this, tv ? MainTvActivity.class : MainActivity.class)
-                .putExtra(Constants.EXTRA_FIRST_RUN, firstRun)
-                .putExtra(Constants.EXTRA_UPGRADE, upgrade);
-        if (tv && getIntent().hasExtra(Constants.EXTRA_PATH)) intent.putExtra(Constants.EXTRA_PATH, getIntent().getStringExtra(Constants.EXTRA_PATH));
-        if (target != 0) intent.putExtra(Constants.EXTRA_TARGET, target);
-        startActivity(intent);
     }
 
     private void startPlaybackFromApp(Intent intent) {
