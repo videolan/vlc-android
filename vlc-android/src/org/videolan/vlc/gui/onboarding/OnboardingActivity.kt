@@ -13,8 +13,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import kotlinx.coroutines.*
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
+import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.view.NonSwipeableViewPager
@@ -105,7 +107,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
             }
         }
 
-        doneButton.setOnClickListener { finish() }
+        doneButton.setOnClickListener { completeOnBoarding() }
 
         val count = viewModel.adapterCount
 
@@ -126,18 +128,15 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
                 .putBoolean(ONBOARDING_DONE_KEY, true)
                 .putInt(KEY_MEDIALIBRARY_SCAN, if (viewModel.scanStorages) ML_SCAN_ON else ML_SCAN_OFF)
                 .putInt("fragment_id", if (viewModel.scanStorages) R.id.nav_video else R.id.nav_directories)
+                .putInt(PREF_FIRST_RUN, BuildConfig.VERSION_CODE)
                 .apply()
-        launch {
-            if (!viewModel.scanStorages) {
-                MediaParsingService.preselectedStorages.clear()
-            }
-            startMedialibrary(firstRun = true, upgrade = true, parse = viewModel.scanStorages)
-        }
-    }
-
-    override fun finish() {
-        completeOnBoarding()
-        super.finish()
+        if (!viewModel.scanStorages) MediaParsingService.preselectedStorages.clear()
+        startMedialibrary(firstRun = true, upgrade = true, parse = viewModel.scanStorages)
+        val intent = Intent(this@OnboardingActivity, MainActivity::class.java)
+                .putExtra(EXTRA_FIRST_RUN, true)
+                .putExtra(EXTRA_UPGRADE, true)
+        startActivity(intent)
+        finish()
     }
 
     override fun onBackPressed() {
