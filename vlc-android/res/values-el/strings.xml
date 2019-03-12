@@ -8,10 +8,18 @@
     <string name="sortby">Ταξινόμηση κατά…</string>
     <string name="sortby_name">Όνομα</string>
     <string name="sortby_name_desc">Όνομα (φθίν)</string>
+    <string name="sortby_filename"> Όνομα αρχείου</string>
+    <string name="sortby_filename_desc"> Όνομα αρχείου (φθίν)</string>
+    <string name="sortby_artist_name">Όνομα καλλιτέχνη</string>
+    <string name="sortby_artist_name_desc">Όνομα καλλιτέχνη (φθίν.)</string>
+    <string name="sortby_album_name">Όνομα άλμπουμ</string>
+    <string name="sortby_album_name_desc">Όνομα άλμουμ (φθίν.)</string>
     <string name="sortby_length">Διάρκεια</string>
-    <string name="sortby_length_desc">Διάρκεια (φθιν.)</string>
+    <string name="sortby_length_desc">Διάρκεια (φθίν.)</string>
     <string name="sortby_date">Ημερομηνία</string>
-    <string name="sortby_date_desc">Ημερομηνία (φθιν.)</string>
+    <string name="sortby_date_desc">Ημερομηνία (φθίν.)</string>
+    <string name="sortby_last_modified_date">Προστέθηκαν πρόσφατα</string>
+    <string name="sortby_last_modified_date_desc">Προστέθηκαν πρόσφατα (φθίν.)</string>
     <string name="searchable_hint">Εύρεση…</string>
     <string name="history">Ιστορικό</string>
 
@@ -21,6 +29,10 @@
     </plurals>
 
     <string name="play">Αναπαραγωγή</string>
+    <string name="playback">Αναπαραγωγή</string>
+    <string name="playback_controls">Χειρισμός αναπαραγωγής</string>
+    <string name="medialibrary_scan">Σάρωση βιβλιοθήκης μέσων</string>
+    <string name="Medialibrary_progress">Ενημερώσεις προόδου σάρωσησ βιβλιοθήκης μέσων</string>
     <string name="play_from_start">Αναπαραγωγή από την αρχή</string>
     <string name="play_as_audio">Αναπαραγωγή ως ήχος</string>
     <string name="play_as_video">Αναπαραγωγή ως βίντεο</string>
@@ -33,13 +45,17 @@
     <string name="play_all">Αναπαραγωγή όλων</string>
     <string name="append_all">Προσθήκη όλων</string>
     <string name="last_playlist">Τελευταία λίστα αναπαραγωγής</string>
+    <string name="last_playlist_shortcut">Συνέχιση αναπαραγωγής</string>
     <string name="delete">Διαγραφή</string>
     <string name="remove">Αφαίρεση</string>
     <string name="set_song">Ορισμός ως ήχος κλήσης</string>
+    <string name="set_song_question">Ορισμός \'%1$s\' ως ήχο κλήσης;</string>
     <string name="info">Πληροφορίες</string>
     <string name="confirm_delete">Διαγραφή του αρχείου \'%1$s\';</string>
     <string name="confirm_delete_folder">Διαγραφή του φακέλου \'%1$s\' και όλων των περιεχομένων του?</string>
     <string name="confirm_delete_playlist">Διαγραφή λίστας αναπαραγωγής \'%1$s\';</string>
+    <string name="confirm_remove_from_playlist">Αφαίρεση \'%1$s\' από τη λίστα αναπαραγωγής;</string>
+    <string name="confirm_remove_from_playlist_anonymous">Αφαίρεση από τη λίστα αναπαραγωγής;</string>
     <string name="ringtone_set">Το αρχείο \'%1$s\' ορίστηκε ως ήχος κλήσης.</string>
     <string name="ringtone_error">Ένα σφάλμα παρουσιάστηκε κατά τον ορισμό του ήχου κλήσης.</string>
     <string name="pause">Παύση</string>
@@ -48,6 +64,7 @@
     <string name="unknown_artist">Άγνωστος καλλιτέχνης</string>
     <string name="unknown_album">Άγνωστο Άλμπουμ</string>
     <string name="unknown_genre">Άγνωστο Γένος</string>
+    <string name="unknown_number">Άγνωστος αριθμός Κομματιών</string>
     <string name="songs">Τραγούδια</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 τραγούδι</item>
@@ -101,6 +118,7 @@
     <string name="validation">Είστε σίγουρος;</string>
 
     <string name="cover_art">Τέχνη εξωφύλλου</string>
+    <string name="shuffle_all_title">Ανακάτεμα όλων</string>
     <string name="shuffle_title">Λειτουργία ανακατέματος</string>
     <string name="shuffle">Απενεργοποίηση Ανακατέματος</string>
     <string name="shuffle_on">Ενεργοποίηση Ανακατέματος</string>
@@ -110,7 +128,6 @@
     <string name="repeat_all">Επανάληψη όλων</string>
     <string name="previous">Προηγούμενο</string>
     <string name="stop">Διακοπή</string>
-    <string name="next">Επόμενο</string>
     <string name="firstsong">Πρώτο τραγούδι στην λίστα αναπαραγωγής</string>
     <string name="lastsong">Τελευταίο τραγούδι στην λίστα αναπαραγωγής</string>
 
@@ -136,6 +153,11 @@
     <string name="brightness">Φωτεινότητα</string>
     <string name="navmenu">μενού πλοήγησης</string>
     <string name="advanced">επιλογές για προχωρημένους</string>
+    <string name="audio_boost_warning">Σύρετε προς τα πάνω ξανά για να πάτε πάνω από 100%</string>
+    <string name="locked_in_portrait_mode">Κλειδωμένο σε κατακόρυφη περιστροφή\n(Πατήστε το κουμπί παρατεταμένα για ακύρωση)</string>
+    <string name="locked_in_landscape_mode">Κλειδωμένο σε οριζόντια περιστροφή\n(Πατήστε το κουμπί παρατεταμένα για ακύρωση)</string>
+    <string name="reset_orientation">Επαναφορά προσανατολισμού</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 κανάλι\n</item>
         <item quantity="other">%1$d κανάλια\n</item>
@@ -193,6 +215,7 @@
     <string name="playback_speed_title">Αποθήκευση ταχύτητας αναπαραγωγής</string>
     <string name="playback_speed_summary">Διατήρηση μνήμης ταχήτητας αναπαραγωγής</string>
 
+    <string name="play_button">Κουμπί αναπαραγωγής</string>
     <!-- Tips -->
     <string name="video_player_tips">Συμβουλές αναπαραγωγής βίντεο:</string>
     <string name="seek">Εύρεση</string>
@@ -266,9 +289,12 @@
     <string name="video_min_group_length_title">Ομαδοποίηση βίντεο</string>
     <string name="video_min_group_length_summary">Τα βίντεο ομαδοποιούνται αν τα πρώτα γράμματα τους είναι τα ίδια.</string>
     <string name="video_min_group_length_disable">Απενεργοποίηση</string>
+    <string name="video_min_group_length_folder">Οργάνωση ανά φάκελο</string>
     <string name="video_min_group_length_first">Το πρώτο γράμμα μόνο</string>
     <string name="video_min_group_length_short">Μικρός αριθμός γραμμάτων (6)</string>
     <string name="video_min_group_length_long">Μεγάλος αριθμός γραμμάτων (9)</string>
+    <string name="media_fast_seek"> Γρήγορη αναζήτηση</string>
+    <string name="media_seen_summary">Ορισμός ενός βίντεο ως προβεβλημένο όταν το αναπαράγετε μέχρι το τέλος</string>
     <string name="force_list_portrait">Κανένα πλέγμα σε κατακόρυφο προσανατολισμό</string>
     <string name="force_list_portrait_summary">Δείξε τα βίντεο σε λίστα αντί για πλέγμα σε κατακόρυφο προσανατολισμό</string>
     <string name="force_play_all_summary">Αναπαραγωγή όλων των βίντεο, ξεκινώντας από από αυτό που κάνετε κλικ</string>
@@ -298,11 +324,15 @@
     <string name="subtitles_size_huge">Τεράστιο</string>
     <string name="subtitles_color_title">Χρώμα υποτίτλων</string>
     <string name="subtitles_color_white">Λευκό</string>
+    <string name="subtitles_color_gray">Γκρι</string>
     <string name="subtitles_color_pink">Ροζ</string>
     <string name="subtitles_color_blue">Μπλε</string>
     <string name="subtitles_color_yellow">Κίτρινο</string>
     <string name="subtitles_color_green">Πράσινο</string>
     <string name="subtitles_background_title">Υπόβαθρο υποτίτλων</string>
+    <string name="subtitles_bold_title">Έντονοι υπότιτλοι</string>
+    <string name="subtitles_autoload_title">Αυτόματη φόρτωση υποτίτλων</string>
+
     <string name="audio_prefs_category">Ήχος</string>
     <string name="lockscreen_cover_title">Το εξώφυλλο του μέσου στην οθόνης κλειδώματος</string>
     <string name="lockscreen_cover_summary">Όταν είναι διαθέσιμο, όρισε το εξώφυλλο του τρέχοντος μέσου ως ταπετσαρία της οθόνης κλειδώματος</string>
@@ -316,15 +346,35 @@
     <string name="audio_title_alignment_marquee">Μαρκίζα</string>
     <string name="audio_save_repeat_title">Αποθήκευση λειτουργίας επανάληψης</string>
     <string name="audio_save_repeat_summary">Υπενθύμιση λειτουργίας επανάληψης κατά τη φόρτωση λιστών αναπαραγωγής</string>
+    <string name="audio_boost_title">Ενίσχυση ήχου</string>
+    <string name="audio_boost_summary">Επιτρέψτε ένταση ως το 200%</string>
     <string name="headset_prefs_category">Ακουστικό</string>
     <string name="enable_headset_detection">Ανίχνευση ακουστικών</string>
     <string name="enable_headset_detection_summary">Αναγνώριση τοποθέτησης και εξαγωγής ακουστικών</string>
+    <string name="enable_headset_actions_title">Συντομεύσεις Απομακρυσμένου Ελέγχου</string>
+    <string name="enable_headset_actions_summary">Πατήστε διπλά στην \'Αναπαραγωγή\' για να πάτε στο επόμενο και πατήστε παρατεταμένα για να πάτε στο προηγούμενο κομμάτι</string>
     <string name="enable_play_on_headset_insertion">Συνέχιση μετά την εισαγωγή των ακουστικών</string>
     <string name="enable_play_on_headset_insertion_summary">Αλλιώς παύση</string>
     <string name="enable_steal_remote_control">Αποκλειστικός έλεγχος από απόσταση των ακουστικών</string>
     <string name="enable_steal_remote_control_summary">Αποφύγετε τις συγκρούσεις κλέβοντας τον απομακρυσμένο έλεγχο από άλλες εφαρμογές. Αυτό αποτρέπει την κλήση για το διπλό κλικ στα HTC τηλέφωνα.</string>
     <string name="aout">Έξοδος ήχου</string>
     <string name="aout_summary">Αλλάξτε τη μέθοδο που χρησιμοποιεί το VLC για την παραγωγή ήχου.</string>
+    <string name="audio_ducking_title">Χαμηλώστε την ένταση του VLC από τις ειδοποιήσεις</string>
+    <string name="audio_ducking_summary">Βοηθάει να ακούτε ειδοποιήσεις ήχου, εντολές πλοήγησης ή ομιλία βοηθού</string>
+    <string name="casting_category">Μετάδοση</string>
+    <string name="casting_conversion_quality_title">Ποιότητα μετατροπής</string>
+    <string name="casting_quality_high">Υψηλή</string>
+    <string name="casting_quality_medium">Μέτρια</string>
+    <string name="casting_quality_low">Χαμηλή</string>
+    <string name="casting_quality_lowcpu">Χαμηλότερη</string>
+    <string name="cast_performance_warning">Η μετάδοση αυτού του βίντεο απαιτεί μετατροπή. Αυτή η μετατροπή μπορεί να χρησιμοποιήσει όλη την διαθέσιμη ισχύ και μπορεί να αδειάσει γρήγορα την μπαταρία σας.</string>
+    <string name="artists_show_all_title">Εμφάνιση όλων των καλλιτεχνών</string>
+    <string name="artists_show_all_summary">Προβολή όλων των καλλιτεχνών στην λίστα καλλιτεχνών, όχι μόνο των καλλιτεχνών άλμπουμ</string>
+
+    <string name="extensions_prefs_category">Επεκτάσεις</string>
+    <string name="extensions_empty">Δεν βρέθηκε προσθήκη</string>
+    <string name="extension_permission_title">Ενεργοποίηση νέας προσθήκης \"%1$s\";</string>
+    <string name="extension_prefs_activation_title">Ενεργοποίηση</string>
     <string name="controls_prefs_category">Στοιχεία ελέγχου</string>
 
     <string name="performance_prefs_category">Απόδοση</string>
@@ -347,6 +397,7 @@
     <string name="save_video_always">Αποθήκευση ταχήτητας σε όλες τις συνεδρίες</string>
     <string name="auto_rescan">Αυτόματη επανασάρωση</string>
     <string name="auto_rescan_summary">Αυτόματη σάρωση της συσκευής για νέα ή διαγραμμένα μέσα ενημέρωσης κατά την εκκίνηση εφαρμογής</string>
+    <string name="dump_media_db_summary">Αντιγραφή βάσης δεδομένων στην ρίζα του εσωτερικού χώρου αποθήκευσης</string>
     <string name="clear_media_db">Καθαρισμός βάσης δεδομένων μέσων</string>
     <string name="clear_media_db_summary">Πηγαίνετε στις πληροφορίες του Android VLC για να καθαρίσετε τα δεδομένα</string>
     <string name="clear_history">Καθαρισμός ιστορικού εύρεσης</string>
@@ -360,6 +411,12 @@
     <string name="resume_playback_summary">Παραμονή σε παύση αλλιώς</string>
     <string name="network_caching_popup">Αυτή η τιμή πρέπει να είναι μεταξύ 0 και 6000 ms</string>
     <string name="quit">Κλείσιμο και επανεκκίνηση της εφαρμογής</string>
+    <string name="restart_message">Οι αλλαγές θα πραγματοποιηθούν όταν η εφαρμογή επανεκκινηθεί.\n\nΕπανεκκίνηση τώρα;</string>
+    <string name="restart_message_OK">ΟΚ</string>
+    <string name="restart_message_Later">Αργότερα</string>
+    <string name="browser_show_all_title"> Εμφάνιση όλων των αρχείων στο πρόγραμμα περιήγησης</string>
+    <string name="browser_show_all_summary">Προβολή αρχείων που δεν αναγνωρίζονται ως ήχος ή βίντεο στους φυλλομετρητές</string>
+
     <string name="developer_prefs_category">Για προγραμματιστές</string>
     <string name="enable_verbose_mode">Πολύλογος</string>
     <string name="enable_verbose_mode_summary">Αυξήστε την πολυλογία (logcat)</string>
@@ -379,6 +436,16 @@
     <string name="restart_vlc">Επανεκκίνηση του VLC</string>
     <string name="send_log">Αποστολή του αρχείου καταγραφής</string>
     <string name="sending_log">Το αρχείο καταγραφής αποστέλλεται…</string>
+
+    <string name="delete_sub_title">Διαγραφή υπότιτλου</string>
+    <string name="delete_sub_message">Θέλετε να διαγράψετε αυτόν τον υπότιτλο;</string>
+    <string name="delete_sub_yes">Ναι</string>
+    <string name="delete_sub_no">Όχι</string>
+    <string name="download_subtitle_title">Λήψη Υπότιτλου</string>
+
+    <string name="no_result">Δεν βρέθηκαν αποτελέσματα</string>
+    <string name="no_internet_connection">Ελέγξτε τη σύνδεση σας στο διαδίκτυο</string>
+    <string name="some_error_occurred">Κάποιο πρόβλημα παρουσιάστηκε. Παρακαλώ προσπαθήστε ξανά αργότερα σε μερικά δευτερόλεπτα.</string>
 
     <string name="drawer_open">Ανοίξτε το συρτάρι πλοήγησης</string>
     <string name="drawer_close">Κλείστε το συρτάρι πλοήγησης</string>
@@ -434,6 +501,8 @@
     <string name="allow_sdraw_overlays_description">Το VLC σας ζητάει να του επιτρέψετε να παίζει το βίντεο αναδυόμενο πάνω από άλλες εφαρμογές.</string>
     <string name="permission_ask_again">Δώστε άδεια</string>
     <string name="exit_app">Κλείσιμο του VLC</string>
+    <string name="exit_app_msg">Είστε βέβαιοι ότι θέλετε να κλείσετε το VLC;</string>
+
     <!-- fast scroller -->
     <string name="fastscroller_track">Κομμάτι FastScroller</string>
     <string name="fastscroller_handle">Λαβή FastScroller</string>
@@ -476,6 +545,7 @@
     <string name="episodes">επεισόδια</string>
     <string name="movies">ταινίες</string>
     <string name="videos">βίντεο</string>
+    <string name="videos_all">Όλα τα βίντεο</string>
     <string name="clear_playback_history">Καθαρισμός ιστορικού αναπαραγωγής</string>
     <string name="various_artists">Διάφοροι καλλιτέχνες</string>
     <string name="ml_scanning">Σάρωση για αρχεία μέσων</string>
@@ -486,9 +556,66 @@
     <string name="tv_settings_hint">Μακρό πάτημα του ΟΚ για να επιλέξετε/απεπιλέξετε καταλόγους</string>
     <string name="ml_external_storage_title">Ανιχνεύτηκε νέος αποθηκευτικός χώρος</string>
     <string name="ml_external_storage_msg">Θέλετε το VLC να προσθέσει τη συσκευή %1$sστη βιβλιοθήκη μέσων σας;</string>
+    <string name="ml_external_storage_accept">Ναι</string>
+    <string name="ml_external_storage_decline">Όχι</string>
     <string name="last_added_media">τελευταία προσθήκη</string>
     <string name="no">Όχι</string>
     <string name="loading_medialibrary">Φόρτωση βιβλιοθήκης μέσων</string>
     <string name="yes">ναι</string>
 
-    </resources>
+    <string name="custom_set_save_title">Μη αποθηκευμένες αλλαγές</string>
+    <string name="custom_set_save_warning">Προσοχή: μη αποθηκευμένες αλλαγές</string>
+    <string name="save">Αποθήκευση</string>
+    <string name="do_not_save">Να μην αποθηκευτεί</string>
+    <string name="custom_set_wrong_input"> Μη έγκυρο όνομα.</string>
+    <string name="equalizer_new_preset_name">Νέο</string>
+    <string name="recommendations">Προτάσεις</string>
+    <string name="browser_quick_access">Γρήγορη πρόσβαση</string>
+    <string name="msg_delete_failed">Αποτυχία διαγραφής του %1$s</string>
+    <string name="renderer_list_title">Οθόνες</string>
+    <string name="sdcard_permission_dialog_title">Πρέπει να δώσετε άδεια γραφής στην SD Card στο VLC</string>
+    <string name="sdcard_permission_dialog_message">Το VLC δεν μπορεί να διαγράψει αυτό το αρχείο χωρίς άδεια γραφής.\nΠαρακαλώ πηγαίντε στην SD Card και πατήστε \"Επιλογή\".\nΜπορεί να χρειαστεί να πατήσετε στο \"Προβολή SD Card\" πρώτα στο πάνω δεξιά μενού.</string>
+    <string name="renderers_disconnect">Αποσύνδεση</string>
+    <string name="playback_forward">Γρήγορη προώθηση</string>
+    <string name="ml_wizard_title">Επιλογή βιβλιοθήκης μέσων VLC</string>
+    <string name="ml_wizard_scan_checkbox">Σάρωση συσκευής για πολυμέσα</string>
+    <string name="ml_wizard_description">Επιλέξτε εάν ο VLC θα σαρώνει τον αποθηκευτικό χώρο της συσκευής σας για την οργάνωση της βιβλιοθήκης μέσων ή απλά θα το χρησιμοποιεί σαν απλός αναπαραγωγός με ενσωματομένο φυλλομετρητή.</string>
+    <string name="tv_my_new_videos">Τα νέα μου βίντεο</string>
+    <string name="otg_device_title">Συσκευή OTG</string>
+    <string name="browser">Φυλλομετρητής</string>
+    <string name="ab_repeat">Επανάληψη Α-Β</string>
+    <string name="stop_after_this">Σταμάτημα μετά από αυτό το κομμάτι</string>
+    <string name="time_category_new">Νέα μέσα</string>
+    <string name="time_category_current_month">Αυτόν το μήνα</string>
+    <string name="time_category_current_year">Αυτό το έτος</string>
+    <string name="time_category_last_year">Προηγούμενο έτος</string>
+    <string name="time_category_older">Παλιότερα μέσα</string>
+    <string name="rename">Μετονομασία</string>
+    <string name="rename_media">Μετονομασία %1$s</string>
+    <string name="manual_search">Χειροκίνητη αναζήτηση</string>
+    <string name="subtitle_search_name_hint">Όνομα</string>
+    <string name="subtitle_search_episode_hint">Επεισόδιο</string>
+    <string name="subtitle_search_season_hint">Περίοδος</string>
+    <string name="language_to_download">Γλώσσα</string>
+    <string name="delete_the_selected">Διαγραφή επιλογής</string>
+    <string name="download_the_selected">Λήψη επιλογής</string>
+    <string name="next">Επόμενο</string>
+    <string name="download">Λήψη</string>
+    <string name="ctx_player_video_track">Επιλογή κομματιού βίντεο</string>
+    <string name="ctx_player_audio_track"> Κομμάτι ήχου</string>
+    <string name="ctx_player_subs_track"> Κομμάτι υποτίτλων</string>
+    <string name="ctx_player_tracks_title"> Κομμάτια μέσων</string>
+    <string name="ctx_pip_title">Αναδυόμενη αναπαραγωγή</string>
+    <string name="device_dialog_title">Εξωτερική συσκευή εισηχθεί</string>
+    <string name="welcome_title">Καλωσήρθατε στον VLC!</string>
+    <string name="welcome_subtitle">Το δωρεάν και ανοιχτού κώδικα αναπαραγωγό μέσων</string>
+    <string name="permission_media">Το VLC χρειάζεται άδεια να έχει πρόσβαση στα μέσα της συσκευής σας</string>
+    <string name="medialibrary_scan_explanation">Το VLC μπορεί να σαρώνει τη συσκευή ασς αυτόματα για να οργανώσει την συλλογή μέσων σας.</string>
+    <string name="onboarding_theme_title">Σαν στο σπίτι σας</string>
+    <string name="done">Έτοιμο</string>
+    <string name="daynight_explanation">Το VLC θα αλλάξει σε λειτουργία νύχτας την κατάλληλη ώρα</string>
+    <string name="onboarding_scanning_enable">Επίτρεψε στο VLC να σαρώνει την συσκευή μου για περιεχόμενο μέσων</string>
+    <string name="onboarding_scan_whole">Το VLC θα σαρώνει όλη την SD Card μου</string>
+    <string name="onboarding_scan_customize">Επίτρεψέ μου να επιλέξω ποιους φακέλους θα σαρώνει το VLC</string>
+    <string name="light_theme">Ανοιχτό θέμα</string>
+</resources>
