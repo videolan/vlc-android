@@ -148,7 +148,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         if (index == 0) {
             previousButton.animate().scaleY(0f).scaleX(0f).alpha(0f)
         } else {
-            previousButton.animate().scaleY(1f).scaleX(1f).alpha(1f)
+            previousButton.animate().scaleY(1f).scaleX(1f).alpha(0.6f)
         }
 
         if (index == onboardingPagerAdapter.count - 1) {
