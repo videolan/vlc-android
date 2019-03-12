@@ -82,12 +82,13 @@ public class NotificationHelper {
                     R.drawable.ic_widget_play_w, ctx.getString(R.string.play),
                     MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
                             PlaybackStateCompat.ACTION_PLAY_PAUSE)));
-        } else builder.addAction(new NotificationCompat.Action(
-                R.drawable.ic_widget_close_w, ctx.getString(R.string.stop), piStop));
+        }
         builder.addAction(new NotificationCompat.Action(
                 R.drawable.ic_widget_next_w, ctx.getString(R.string.next),
                 MediaButtonReceiver.buildMediaButtonPendingIntent(ctx,
                         PlaybackStateCompat.ACTION_SKIP_TO_NEXT)));
+        if (!pausable) builder.addAction(new NotificationCompat.Action(
+                R.drawable.ic_widget_close_w, ctx.getString(R.string.stop), piStop));
 
         if (AndroidDevices.showMediaStyle) {
             builder.setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
