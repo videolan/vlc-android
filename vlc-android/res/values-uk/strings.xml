@@ -132,6 +132,7 @@
     <string name="validation">Ви впевнені?</string>
 
     <string name="cover_art">Обкладинка</string>
+    <string name="shuffle_all_title">Перемішати все</string>
     <string name="shuffle_title">Режим перемішування</string>
     <string name="shuffle">Перемішування вимк.</string>
     <string name="shuffle_on">Перемішування увімк.</string>
