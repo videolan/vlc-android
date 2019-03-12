@@ -120,6 +120,7 @@
     <string name="validation">Är du säker?</string>
 
     <string name="cover_art">Omslagsbild</string>
+    <string name="shuffle_all_title">Blanda allting</string>
     <string name="shuffle_title">Blandningsläge</string>
     <string name="shuffle">Blanda av</string>
     <string name="shuffle_on">Blanda på</string>
