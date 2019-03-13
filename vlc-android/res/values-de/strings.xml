@@ -120,6 +120,7 @@
     <string name="validation">Sind Sie sicher?</string>
 
     <string name="cover_art">Titelbild</string>
+    <string name="shuffle_all_title">Alle mischen</string>
     <string name="shuffle_title">Mischen-Modus</string>
     <string name="shuffle">Mischen aus</string>
     <string name="shuffle_on">Mischen an</string>
