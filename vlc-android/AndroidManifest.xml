@@ -635,8 +635,8 @@
         <provider
             android:name=".FileProvider"
             android:authorities="${applicationId}.thumbprovider"
-            android:exported="true"
-            android:grantUriPermissions="true"></provider>
+            android:exported="false"
+            android:grantUriPermissions="false" />
 
         <service
             android:name=".PreviewVideoInputService"
