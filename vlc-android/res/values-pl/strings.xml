@@ -132,6 +132,7 @@
     <string name="validation">Czy jesteś pewny?</string>
 
     <string name="cover_art">Okładka</string>
+    <string name="shuffle_all_title">Losowo wszystkie</string>
     <string name="shuffle_title">Tryb Losowo</string>
     <string name="shuffle">Losowo wyłączone</string>
     <string name="shuffle_on">Losowo włączone</string>
