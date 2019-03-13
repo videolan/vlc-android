@@ -114,6 +114,7 @@
     <string name="validation">本当に実行しますか?</string>
 
     <string name="cover_art">アートワーク</string>
+    <string name="shuffle_all_title">すべてをシャッフル</string>
     <string name="shuffle_title">シャッフルモード</string>
     <string name="shuffle">シャッフルオフ</string>
     <string name="shuffle_on">シャッフルオン</string>
