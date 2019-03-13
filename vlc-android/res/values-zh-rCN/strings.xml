@@ -114,6 +114,7 @@
     <string name="validation">是否确定?</string>
 
     <string name="cover_art">专辑封面</string>
+    <string name="shuffle_all_title">全部随机</string>
     <string name="shuffle_title">随机模式</string>
     <string name="shuffle">随机关闭</string>
     <string name="shuffle_on">随机开启</string>
