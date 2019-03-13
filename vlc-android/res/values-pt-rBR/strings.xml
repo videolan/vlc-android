@@ -120,6 +120,7 @@
     <string name="validation">Tem certeza?</string>
 
     <string name="cover_art">Capa</string>
+    <string name="shuffle_all_title">Todos em aleatório</string>
     <string name="shuffle_title">Modo aleatório</string>
     <string name="shuffle">Desabilitar o Aleatório</string>
     <string name="shuffle_on">Habilitar o Aleatório</string>
