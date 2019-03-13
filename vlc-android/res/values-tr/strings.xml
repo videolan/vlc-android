@@ -120,6 +120,7 @@
     <string name="validation">Emin misiniz?</string>
 
     <string name="cover_art">Kapak görseli</string>
+    <string name="shuffle_all_title">Tümünü Karıştır</string>
     <string name="shuffle_title">Karıştırma kipi</string>
     <string name="shuffle">Karıştırma Kapalı</string>
     <string name="shuffle_on">Karıştırma Açık</string>
