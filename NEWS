@@ -1,3 +1,17 @@
+Changes between 3.1.0-RC2 and 3.1.0-RC3:
+------------------
+
+Application:
+ * Fix network files playback
+ * Android Auto: 'Shuffle All' feature
+ * Fix controls not shown in video player if gestures were disabled
+ * Streams: add 'append' context option
+ * Update translations
+ * Handle external content opening on ChromeOS
+ * Close button in playback notification for not pausable streams
+ * Refine video player gestures
+ * Misc. crash fixes
+
 Changes between 3.1.0-RC1 and 3.1.0-RC2:
 ------------------
 
