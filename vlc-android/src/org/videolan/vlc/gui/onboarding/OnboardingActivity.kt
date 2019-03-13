@@ -121,6 +121,11 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         if (count == 4) onCustomizedChanged(true)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
+    }
+
     private fun completeOnBoarding() {
         setResult(PreferencesActivity.RESULT_RESTART)
         Settings.getInstance(this)
