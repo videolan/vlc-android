@@ -454,15 +454,15 @@ AndroidMediaLibrary::playlistAdd(int64_t playlistId, int64_t mediaId, unsigned i
 }
 
 bool
-AndroidMediaLibrary::playlistMove(int64_t playlistId, int64_t mediaId, unsigned int position) {
+AndroidMediaLibrary::playlistMove(int64_t playlistId, unsigned int oldPosition, unsigned int newPosition) {
     medialibrary::PlaylistPtr playlist = p_ml->playlist(playlistId);
-    return playlist == nullptr ? false : playlist->move(mediaId, position);
+    return playlist == nullptr ? false : playlist->move(oldPosition, newPosition);
 }
 
 bool
-AndroidMediaLibrary::playlistRemove(int64_t playlistId, int64_t mediaId) {
+AndroidMediaLibrary::playlistRemove(int64_t playlistId, unsigned int position) {
     medialibrary::PlaylistPtr playlist = p_ml->playlist(playlistId);
-    return playlist == nullptr ? false : playlist->remove(mediaId);
+    return playlist == nullptr ? false : playlist->remove(position);
 }
 
 bool

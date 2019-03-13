@@ -72,6 +72,10 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     private final int mType;
     private final boolean mHasSections;
     private final BitmapDrawable mDefaultCover;
+    /**
+     * Awful hack to workaround the {@link PagedListAdapter} not keeping track of notifyItemMoved operations
+     */
+    private static boolean preventNextAnim;
 
     public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, IListEventsHandler listEventsHandler, boolean sections, boolean canBeReordered) {
         super(DIFF_CALLBACK);
@@ -87,7 +91,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     }
 
     public AudioBrowserAdapter(int type, IEventsHandler eventsHandler) {
-        this(type, eventsHandler, null,  true, false);
+        this(type, eventsHandler, null, true, false);
     }
 
     @NonNull
@@ -193,8 +197,8 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
 
     @Override
     public void onItemMoved(int dragFrom, int dragTo) {
-        final MediaLibraryItem item = getItem(dragFrom);
-        mListEventsHandler.onMove(dragTo, item);
+        mListEventsHandler.onMove(dragFrom, dragTo);
+        preventNextAnim = true;
     }
 
     @Override
@@ -291,6 +295,9 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                 @Override
                 public boolean areItemsTheSame(
                         @NonNull MediaLibraryItem oldMedia, @NonNull MediaLibraryItem newMedia) {
+                    if (preventNextAnim) {
+                        return true;
+                    }
                     return oldMedia == newMedia || (oldMedia.getItemType() == newMedia.getItemType() && oldMedia.equals(newMedia));
                 }
 
@@ -302,6 +309,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
 
                 @Override
                 public Object getChangePayload(@NotNull MediaLibraryItem oldItem, @NotNull MediaLibraryItem newItem) {
+                    preventNextAnim = false;
                     return UPDATE_PAYLOAD;
                 }
             };

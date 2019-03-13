@@ -99,8 +99,8 @@ public:
     //PLaylists
     bool playlistAppend(int64_t playlistId, int64_t mediaId);
     bool playlistAdd(int64_t playlistId, int64_t mediaId, unsigned int position);
-    bool playlistMove(int64_t playlistId, int64_t mediaId, unsigned int position);
-    bool playlistRemove(int64_t playlistId, int64_t mediaId);
+    bool playlistMove(int64_t playlistId, unsigned int oldPosition, unsigned int newPosition);
+    bool playlistRemove(int64_t playlistId, unsigned int position);
     bool PlaylistDelete( int64_t playlistId );
 
     void requestThumbnail( int64_t media_id );

@@ -68,14 +68,14 @@ public class Playlist extends MediaLibraryItem {
         return ml.isInitiated() && nativePlaylistAdd(ml, mId, mediaId, position);
     }
 
-    public boolean move(long mediaId, int position) {
+    public boolean move(int oldPosition, int newPosition) {
         Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() && nativePlaylistMove(ml, mId, mediaId, position);
+        return ml.isInitiated() && nativePlaylistMove(ml, mId, oldPosition, newPosition);
     }
 
-    public boolean remove(long mediaId) {
+    public boolean remove(int position) {
         Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() && nativePlaylistRemove(ml, mId, mediaId);
+        return ml.isInitiated() && nativePlaylistRemove(ml, mId, position);
     }
 
     public boolean delete() {
@@ -125,7 +125,9 @@ public class Playlist extends MediaLibraryItem {
     private native boolean nativePlaylistAppend(Medialibrary ml, long id, long mediaId);
     private native boolean nativePlaylistAppendGroup(Medialibrary ml, long id, long[] mediaIds);
     private native boolean nativePlaylistAdd(Medialibrary ml, long id, long mediaId, int position);
-    private native boolean nativePlaylistMove(Medialibrary ml, long id, long mediaId, int position);
-    private native boolean nativePlaylistRemove(Medialibrary ml, long id, long mediaId);
+
+    private native boolean nativePlaylistMove(Medialibrary ml, long id, int oldPosition, int position);
+
+    private native boolean nativePlaylistRemove(Medialibrary ml, long id, int position);
     private native boolean nativePlaylistDelete(Medialibrary ml, long id);
 }

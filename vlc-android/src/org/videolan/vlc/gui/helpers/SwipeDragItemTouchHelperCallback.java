@@ -34,8 +34,8 @@ public class SwipeDragItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private static final String TAG = SwipeDragItemTouchHelperCallback.class.getSimpleName();
     private final SwipeDragHelperAdapter mAdapter;
-    private int dragFrom;
-    private int dragTo;
+    private int dragFrom = -1;
+    private int dragTo = -1;
 
     public SwipeDragItemTouchHelperCallback(SwipeDragHelperAdapter mAdapter) {
         this.mAdapter = mAdapter;

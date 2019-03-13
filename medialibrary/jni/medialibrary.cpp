@@ -1572,17 +1572,17 @@ playlistAdd(JNIEnv* env, jobject thiz, jobject medialibrary, jlong playlistId, j
 }
 
 jboolean
-playlistMove(JNIEnv* env, jobject thiz, jobject medialibrary, jlong playlistId, jlong mediaId, jint position)
+playlistMove(JNIEnv* env, jobject thiz, jobject medialibrary, jlong playlistId, jint oldPosition, jint newPosition)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    return aml->playlistMove(playlistId, mediaId, position);
+    return aml->playlistMove(playlistId, oldPosition, newPosition);
 }
 
 jboolean
-playlistRemove(JNIEnv* env, jobject thiz, jobject medialibrary, jlong playlistId, jlong mediaId)
+playlistRemove(JNIEnv* env, jobject thiz, jobject medialibrary, jlong playlistId, jint position)
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
-    return aml->playlistRemove(playlistId, mediaId);
+    return aml->playlistRemove(playlistId, position);
 }
 
 jboolean
@@ -1819,8 +1819,8 @@ static JNINativeMethod playlist_methods[] = {
     {"nativePlaylistAppend", "(Lorg/videolan/medialibrary/Medialibrary;JJ)Z", (void*)playlistAppend },
     {"nativePlaylistAppendGroup", "(Lorg/videolan/medialibrary/Medialibrary;J[J)Z", (void*)playlistAppendGroup },
     {"nativePlaylistAdd", "(Lorg/videolan/medialibrary/Medialibrary;JJI)Z", (void*)playlistAdd },
-    {"nativePlaylistMove", "(Lorg/videolan/medialibrary/Medialibrary;JJI)Z", (void*)playlistMove },
-    {"nativePlaylistRemove", "(Lorg/videolan/medialibrary/Medialibrary;JJ)Z", (void*)playlistRemove },
+    {"nativePlaylistMove", "(Lorg/videolan/medialibrary/Medialibrary;JII)Z", (void*)playlistMove },
+    {"nativePlaylistRemove", "(Lorg/videolan/medialibrary/Medialibrary;JI)Z", (void*)playlistRemove },
     {"nativePlaylistDelete", "(Lorg/videolan/medialibrary/Medialibrary;J)Z", (void*)playlistDelete },
 };
 

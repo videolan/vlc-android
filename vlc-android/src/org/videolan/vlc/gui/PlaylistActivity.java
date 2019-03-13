@@ -227,13 +227,13 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     @Override
     public void onRemove(int position, @NotNull final MediaLibraryItem item) {
         ArrayList<MediaWrapper> tracks = new ArrayList<MediaWrapper>(Arrays.asList(item.getTracks()));
-        removeFromPlaylist(tracks);
+        removeFromPlaylist(tracks, new ArrayList(Arrays.asList(position)));
     }
 
     @Override
-    public void onMove(int position, @NotNull MediaLibraryItem item) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Moving item: " + item.getId() + " to " + (position + 1));
-        ((Playlist) mPlaylist).move(item.getId(), position + 1);
+    public void onMove(int oldPosition, int newPosition) {
+        if (BuildConfig.DEBUG) Log.d(TAG, "Moving item from " + oldPosition + " to " + newPosition);
+        ((Playlist) mPlaylist).move(oldPosition, newPosition);
 
     }
 
@@ -308,6 +308,11 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                     Toast.LENGTH_SHORT).show();
             return true;
         }
+        List<Integer> indexes = new ArrayList<Integer>();
+        for (int i = 0; i < mAdapter.getMultiSelectHelper().getSelectionMap().size(); i++) {
+            indexes.add(mAdapter.getMultiSelectHelper().getSelectionMap().keyAt(i));
+        }
+
         stopActionMode();
         switch (item.getItemId()) {
             case R.id.action_mode_audio_play:
@@ -326,7 +331,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 AudioUtil.setRingtone((MediaWrapper) list.get(0), this);
                 break;
             case R.id.action_mode_audio_delete:
-                removeFromPlaylist(tracks);
+                removeFromPlaylist(tracks, indexes);
                 break;
             default:
                 return false;
@@ -347,7 +352,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     @Override
-    public void onCtxAction(int position, int option) {
+    public void onCtxAction(final int position, int option) {
         if (position >= mAdapter.getItemCount()) return;
         final MediaWrapper media = (MediaWrapper) mAdapter.getItem(position);
         if (media == null) return;
@@ -356,7 +361,14 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 showInfoDialog(media);
                 break;
             case Constants.CTX_DELETE:
-                removeItem(media);
+                final int resId = mIsPlaylist ? R.string.confirm_remove_from_playlist : R.string.confirm_delete;
+                UiTools.snackerConfirm(mBinding.getRoot(), getString(resId, media.getTitle()), new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mIsPlaylist) ((Playlist) mPlaylist).remove(position);
+                        else removeItem(media);
+                    }
+                });
                 break;
             case Constants.CTX_APPEND:
                 MediaUtils.INSTANCE.appendMedia(this, media.getTracks());
@@ -422,7 +434,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         MediaUtils.INSTANCE.playTracks(this, mPlaylist, 0);
     }
 
-    private void removeFromPlaylist(final List<MediaWrapper> list) {
+    private void removeFromPlaylist(final List<MediaWrapper> list, List<Integer> indexes) {
         final HashMap<Integer, Long> itemsRemoved = new HashMap<>();
         final Playlist playlist = (Playlist) this.mPlaylist;
 
@@ -430,10 +442,13 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
         for (MediaLibraryItem mediaItem : list) {
             for (int i = 0; i < playlist.getTracks().length; i++) {
                 if (playlist.getTracks()[i].getId() == mediaItem.getId()) {
-                    itemsRemoved.put(i + 1, mediaItem.getId());
+                    itemsRemoved.put(i, mediaItem.getId());
                 }
             }
-            playlist.remove(mediaItem.getId());
+        }
+        for (Integer index : indexes) {
+            playlist.remove(index);
+
         }
 
         UiTools.snackerWithCancel(mBinding.getRoot(), getString(R.string.removed_from_playlist_anonymous), null, new Runnable() {
