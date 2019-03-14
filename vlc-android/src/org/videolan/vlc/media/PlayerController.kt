@@ -121,27 +121,27 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun getVideoTracksCount() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.videoTracksCount else 0
 
-    fun getVideoTracks(): Array<out MediaPlayer.TrackDescription>? = mediaplayer.videoTracks
+    fun getVideoTracks(): Array<out MediaPlayer.TrackDescription>? = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.videoTracks else emptyArray()
 
-    fun getVideoTrack() = mediaplayer.videoTrack
+    fun getVideoTrack() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.videoTrack else -1
 
-    fun getCurrentVideoTrack(): Media.VideoTrack? = mediaplayer.currentVideoTrack
+    fun getCurrentVideoTrack(): Media.VideoTrack? = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.currentVideoTrack else null
 
     fun getAudioTracksCount() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.audioTracksCount else 0
 
-    fun getAudioTracks(): Array<out MediaPlayer.TrackDescription>? = mediaplayer.audioTracks
+    fun getAudioTracks(): Array<out MediaPlayer.TrackDescription>? = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.audioTracks else emptyArray()
 
-    fun getAudioTrack() = mediaplayer.audioTrack
+    fun getAudioTrack() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.audioTrack else -1
 
-    fun setVideoTrack(index: Int) = mediaplayer.setVideoTrack(index)
+    fun setVideoTrack(index: Int) = !mediaplayer.isReleased && mediaplayer.hasMedia() && mediaplayer.setVideoTrack(index)
 
-    fun setAudioTrack(index: Int) = mediaplayer.setAudioTrack(index)
+    fun setAudioTrack(index: Int) = !mediaplayer.isReleased && mediaplayer.hasMedia() && mediaplayer.setAudioTrack(index)
 
-    fun setAudioDigitalOutputEnabled(enabled: Boolean) = mediaplayer.setAudioDigitalOutputEnabled(enabled)
+    fun setAudioDigitalOutputEnabled(enabled: Boolean) = !mediaplayer.isReleased && mediaplayer.setAudioDigitalOutputEnabled(enabled)
 
-    fun getAudioDelay() = mediaplayer.audioDelay
+    fun getAudioDelay() = if (mediaplayer.hasMedia() && !mediaplayer.isReleased) mediaplayer.audioDelay else 0L
 
-    fun getSpuDelay() = mediaplayer.spuDelay
+    fun getSpuDelay() = if (mediaplayer.hasMedia() && !mediaplayer.isReleased) mediaplayer.spuDelay else 0L
 
     fun getRate() = if (mediaplayer.hasMedia() && !mediaplayer.isReleased && playbackState != PlaybackStateCompat.STATE_STOPPED) mediaplayer.rate else 1.0f
 
@@ -258,19 +258,19 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun getTitles(): Array<out MediaPlayer.Title>? = if (!mediaplayer.isReleased) mediaplayer.titles else emptyArray()
 
-    fun getChapterIdx() = mediaplayer.chapter
+    fun getChapterIdx() = if (!mediaplayer.isReleased) mediaplayer.chapter else -1
 
     fun setChapterIdx(chapter: Int) {
-        mediaplayer.chapter = chapter
+        if (!mediaplayer.isReleased) mediaplayer.chapter = chapter
     }
 
-    fun getTitleIdx() = mediaplayer.title
+    fun getTitleIdx() = if (!mediaplayer.isReleased) mediaplayer.title else -1
 
     fun setTitleIdx(title: Int) {
-        mediaplayer.title = title
+       if (!mediaplayer.isReleased)  mediaplayer.title = title
     }
 
-    fun getVolume() = if (mediaplayer.hasMedia()) mediaplayer.volume else 100
+    fun getVolume() = if (!mediaplayer.isReleased) mediaplayer.volume else 100
 
     fun setVolume(volume: Int) = if (!mediaplayer.isReleased) mediaplayer.setVolume(volume) else -1
 
