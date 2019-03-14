@@ -2544,7 +2544,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                     media = openedMedia;
                 if (media != null) {
                     // in media library
-                    if (mAskResume && !fromStart && positionInPlaylist == -1 && media.getTime() > 0) {
+                    if (mAskResume && !fromStart && positionInPlaylist <= 0 && media.getTime() > 0) {
                         showConfirmResumeDialog();
                         return;
                     }
@@ -2583,10 +2583,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 media.addFlags(MediaWrapper.MEDIA_NO_HWACCEL);
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             media.addFlags(MediaWrapper.MEDIA_VIDEO);
+            if (fromStart) media.addFlags(MediaWrapper.MEDIA_FROM_START);
 
             // Set resume point
-            if (!continueplayback) {
-                if (!fromStart && savedTime <= 0L && media.getTime() > 0L) savedTime = media.getTime();
+            if (!continueplayback && !fromStart) {
+                if (savedTime <= 0L && media.getTime() > 0L) savedTime = media.getTime();
                 if (savedTime > 0L) mService.saveStartTime(savedTime);
             }
 
