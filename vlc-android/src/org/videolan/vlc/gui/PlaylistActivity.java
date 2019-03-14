@@ -60,6 +60,7 @@ import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.paged.MLPagedModel;
 import org.videolan.vlc.viewmodels.paged.PagedTracksModel;
@@ -314,14 +315,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 showInfoDialog(media);
                 break;
             case Constants.CTX_DELETE:
-                final int resId = mIsPlaylist ? R.string.confirm_remove_from_playlist : R.string.confirm_delete;
-                UiTools.snackerConfirm(mBinding.getRoot(), getString(resId, media.getTitle()), new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mIsPlaylist) ((Playlist) mPlaylist).remove(media.getId());
-                        else deleteMedia(media);
-                    }
-                });
+                removeItem(media);
                 break;
             case Constants.CTX_APPEND:
                 MediaUtils.INSTANCE.appendMedia(this, media.getTracks());
@@ -337,6 +331,31 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 break;
         }
 
+    }
+
+    private void removeItem(final MediaWrapper media) {
+        final int resId = mIsPlaylist ? R.string.confirm_remove_from_playlist : R.string.confirm_delete;
+        if (mIsPlaylist) {
+            UiTools.snackerConfirm(mBinding.getRoot(), getString(resId, media.getTitle()), new Runnable() {
+                @Override
+                public void run() {
+                    ((Playlist) mPlaylist).remove(media.getId());
+                }
+            });
+        } else {
+            final Runnable deleteAction = new Runnable() {
+                @Override
+                public void run() {
+                    deleteMedia(media);
+                }
+            };
+            UiTools.snackerConfirm(mBinding.getRoot(), getString(resId, media.getTitle()), new Runnable() {
+                @Override
+                public void run() {
+                    if (Util.checkWritePermission(PlaylistActivity.this, media, deleteAction)) deleteAction.run();
+                }
+            });
+        }
     }
 
     protected void deleteMedia(final MediaLibraryItem mw) {

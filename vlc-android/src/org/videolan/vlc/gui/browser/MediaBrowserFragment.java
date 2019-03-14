@@ -24,7 +24,6 @@ package org.videolan.vlc.gui.browser;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -33,7 +32,6 @@ import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -44,13 +42,12 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity;
 import org.videolan.vlc.gui.ContentActivity;
 import org.videolan.vlc.gui.InfoActivity;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate;
 import org.videolan.vlc.gui.view.SwipeRefreshLayout;
 import org.videolan.vlc.interfaces.Filterable;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.FileUtils;
-import org.videolan.vlc.util.Permissions;
+import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.SortableModel;
 
@@ -191,7 +188,7 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
             UiTools.snackerConfirm(getView(), getString(resid, item.getTitle()), new Runnable() {
                 @Override
                 public void run() {
-                    if (checkWritePermission((MediaWrapper) item, deleteAction)) deleteAction.run();
+                    if (Util.checkWritePermission(requireActivity(), (MediaWrapper) item, deleteAction)) deleteAction.run();
                 }
             });
         } else return false;
@@ -229,22 +226,6 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
                 }
             }
         });
-    }
-
-    protected boolean checkWritePermission(MediaWrapper media, Runnable callback) {
-        final Uri uri = media.getUri();
-        if (!"file".equals(uri.getScheme())) return false;
-        if (uri.getPath().startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) {
-            //Check write permission starting Oreo
-            if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage()) {
-                Permissions.askWriteStoragePermission(getActivity(), false, callback);
-                return false;
-            }
-        } else if (AndroidUtil.isLolliPopOrLater && WriteExternalDelegate.Companion.needsWritePermission(uri)) {
-            WriteExternalDelegate.Companion.askForExtWrite(getActivity(), uri, callback);
-            return false;
-        }
-        return true;
     }
 
     private void onDeleteFailed(MediaWrapper media) {
