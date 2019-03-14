@@ -26,14 +26,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 import org.videolan.libvlc.Dialog;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
+import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
+import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate;
 import org.videolan.vlc.gui.video.VideoPlayerActivity;
 
 import java.io.BufferedReader;
@@ -48,6 +52,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 public class Util {
     public final static String TAG = "VLC/Util";
@@ -208,5 +213,21 @@ public class Util {
                 });
             }
         });
+    }
+
+    public static boolean checkWritePermission(final FragmentActivity activity, MediaWrapper media, Runnable callback) {
+        final Uri uri = media.getUri();
+        if (!"file".equals(uri.getScheme())) return false;
+        if (uri.getPath().startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) {
+            //Check write permission starting Oreo
+            if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage()) {
+                Permissions.askWriteStoragePermission(activity, false, callback);
+                return false;
+            }
+        } else if (AndroidUtil.isLolliPopOrLater && WriteExternalDelegate.Companion.needsWritePermission(uri)) {
+            WriteExternalDelegate.Companion.askForExtWrite(activity, uri, callback);
+            return false;
+        }
+        return true;
     }
 }
