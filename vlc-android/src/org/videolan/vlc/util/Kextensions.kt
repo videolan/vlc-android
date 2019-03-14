@@ -78,17 +78,20 @@ fun Long.random() = (Random().nextFloat() * this).toLong()
 suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary.() -> T) = withContext(Dispatchers.IO) {
     val ml = Medialibrary.getInstance()
     if (ml.isStarted) block.invoke(ml)
-    else suspendCancellableCoroutine { continuation ->
-        val listener = object : Medialibrary.OnMedialibraryReadyListener {
-            override fun onMedialibraryReady() {
-                if (!continuation.isCompleted) continuation.resume(block.invoke(ml))
-                let { launch { ml.removeOnMedialibraryReadyListener(it) } }
+    else {
+        val scan = Settings.getInstance(this@getFromMl).getInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON) == ML_SCAN_ON
+        suspendCancellableCoroutine { continuation ->
+            val listener = object : Medialibrary.OnMedialibraryReadyListener {
+                override fun onMedialibraryReady() {
+                    if (!continuation.isCompleted) continuation.resume(block.invoke(ml))
+                    let { launch { ml.removeOnMedialibraryReadyListener(it) } }
+                }
+                override fun onMedialibraryIdle() {}
             }
-            override fun onMedialibraryIdle() {}
+            continuation.invokeOnCancellation { ml.removeOnMedialibraryReadyListener(listener) }
+            ml.addOnMedialibraryReadyListener(listener)
+            startMedialibrary(false, false, scan)
         }
-        continuation.invokeOnCancellation { ml.removeOnMedialibraryReadyListener(listener) }
-        ml.addOnMedialibraryReadyListener(listener)
-        startMedialibrary(false, false, false)
     }
 }
 
