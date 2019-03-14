@@ -75,6 +75,7 @@ fun Context.getAppSystemService(name: String) = applicationContext.getSystemServ
 
 fun Long.random() = (Random().nextFloat() * this).toLong()
 
+@ExperimentalCoroutinesApi
 suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary.() -> T) = withContext(Dispatchers.IO) {
     val ml = Medialibrary.getInstance()
     if (ml.isStarted) block.invoke(ml)
@@ -83,8 +84,12 @@ suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary
         suspendCancellableCoroutine { continuation ->
             val listener = object : Medialibrary.OnMedialibraryReadyListener {
                 override fun onMedialibraryReady() {
-                    if (!continuation.isCompleted) continuation.resume(block.invoke(ml))
-                    let { launch { ml.removeOnMedialibraryReadyListener(it) } }
+                    val cb = this
+                    if (!continuation.isCompleted) launch(start = CoroutineStart.UNDISPATCHED) {
+                        continuation.resume(block.invoke(ml))
+                        yield()
+                        ml.removeOnMedialibraryReadyListener(cb)
+                    }
                 }
                 override fun onMedialibraryIdle() {}
             }
