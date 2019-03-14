@@ -485,7 +485,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     @TargetApi(Build.VERSION_CODES.O)
     public void switchToPopup() {
         final MediaWrapper mw = mService != null ? mService.getCurrentMediaWrapper() : null;
-        if (mw == null || !AndroidDevices.pipAllowed) return;
+        if (mw == null || !AndroidDevices.pipAllowed
+                || !getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
         if (AndroidDevices.hasPiP) {
             if (AndroidUtil.isOOrLater) try {
                 final SurfaceView videoSurface = (SurfaceView) (mVideoLayout != null ? mVideoLayout.findViewById(R.id.surface_video) : null);
@@ -495,8 +496,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             } catch (IllegalArgumentException e) { // Fallback with default parameters
                 //noinspection deprecation
                 enterPictureInPictureMode();
-            }
-            else {
+            } else {
                 //noinspection deprecation
                 enterPictureInPictureMode();
             }
