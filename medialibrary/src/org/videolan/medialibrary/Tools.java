@@ -123,7 +123,7 @@ public class Tools {
     }
 
     public static String encodeVLCString(String mrl) {
-        return Uri.encode(Uri.decode(mrl), ".-_~/()&!$*+,;='@:");
+        return Uri.encode(Uri.decode(mrl), ".-_~/()&!$*+,;='@:?");
     }
 
     public static String encodeVLCMrl(String mrl) {
