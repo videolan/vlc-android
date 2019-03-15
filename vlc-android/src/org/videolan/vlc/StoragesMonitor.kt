@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.text.TextUtils
-import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.channels.Channel
@@ -25,7 +24,6 @@ private const val TAG = "VLC/StoragesMonitor"
 class StoragesMonitor : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d(TAG, "onReceive ${intent.action}")
         val action = intent.action ?: return
         if (ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return
         when (action) {
@@ -40,9 +38,7 @@ class StoragesMonitor : BroadcastReceiver() {
             is Mount -> {
                 if (TextUtils.isEmpty(action.uuid)) return@actor
                 if (action.path.scanAllowed()) {
-                    val knownDevices = action.ctx.getFromMl { devices }
-                    val ml = Medialibrary.getInstance()
-                    val isNew = !containsDevice(knownDevices, action.path) && ml.addDevice(action.uuid, action.path, true)
+                    val isNew = action.ctx.getFromMl { addDevice(action.uuid, action.path, true) }
                     if (isNew) {
                         val intent = Intent(action.ctx, DialogActivity::class.java).apply {
                             setAction(DialogActivity.KEY_DEVICE)
