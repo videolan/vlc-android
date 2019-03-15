@@ -204,11 +204,12 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
     private suspend fun addDevices(context: Context, addExternal: Boolean) {
         val devices = mutableListOf<String>()
         devices.addAll(DirectoryRepository.getInstance(context).getMediaDirectories())
+        val knownDevices = if (AndroidDevices.watchDevices) medialibrary.devices else null
         for (device in devices) {
             val isMainStorage = TextUtils.equals(device, AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
             val uuid = FileUtils.getFileNameFromPath(device)
             if (TextUtils.isEmpty(device) || TextUtils.isEmpty(uuid) || !device.scanAllowed()) continue
-            val isNew = (isMainStorage || addExternal)
+            val isNew = (isMainStorage || (addExternal && knownDevices?.contains(device) != false))
                     && medialibrary.addDevice(if (isMainStorage) "main-storage" else uuid, device, !isMainStorage)
             if (!isMainStorage && isNew && preselectedStorages.isEmpty()) showStorageNotification(device)
         }
