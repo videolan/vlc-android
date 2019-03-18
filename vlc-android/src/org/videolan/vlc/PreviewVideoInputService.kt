@@ -52,7 +52,7 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
                     return@launch
                 }
                 try {
-                    val media = Media(VLCInstance.get(), mw.uri)
+                    val media = Media(VLCInstance.get(this@PreviewVideoInputService), mw.uri)
                     val start = if (mw.length <= 0L) 0 else mw.length.random()/1000
                     media.addOption(":start-time=$start")
                     player.getVout()?.apply {

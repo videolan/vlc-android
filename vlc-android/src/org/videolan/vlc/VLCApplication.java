@@ -103,7 +103,7 @@ public class VLCApplication extends Application {
                         AudioUtil.prepareCacheFolder(getAppContext());
 
                         if (!VLCInstance.testCompatibleCPU(getAppContext())) return;
-                        Dialog.setCallbacks(VLCInstance.get(), mDialogCallbacks);
+                        Dialog.setCallbacks(VLCInstance.get(instance), mDialogCallbacks);
                     }
                 });
             }
