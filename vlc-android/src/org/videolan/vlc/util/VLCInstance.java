@@ -20,10 +20,10 @@
 
 package org.videolan.vlc.util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
@@ -35,14 +35,15 @@ import org.videolan.vlc.gui.CompatErrorActivity;
 public class VLCInstance {
     public final static String TAG = "VLC/UiTools/VLCInstance";
 
+    @SuppressLint("StaticFieldLeak")
     private static LibVLC sLibVLC = null;
 
     /** A set of utility functions for the VLC application */
-    public synchronized static LibVLC get() throws IllegalStateException {
+    public synchronized static LibVLC get(Context ctx) throws IllegalStateException {
         if (sLibVLC == null) {
             Thread.setDefaultUncaughtExceptionHandler(new VLCCrashHandler());
 
-            final Context context = VLCApplication.getAppContext();
+            final Context context = ctx.getApplicationContext();
             if(!VLCUtil.hasCompatibleCPU(context)) {
                 Log.e(TAG, VLCUtil.getErrorMsg());
                 throw new IllegalStateException("LibVLC initialisation failed: " + VLCUtil.getErrorMsg());

@@ -1,6 +1,7 @@
 package org.videolan.vlc.gui;
 
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -270,15 +271,15 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
     }
 
     private class ParseTracksTask extends AsyncTask<Void, Void, Media> {
+        final Context context = getApplicationContext();
 
         @Override
         protected Media doInBackground(Void... params) {
 
-            final LibVLC libVlc = VLCInstance.get();
-            if (libVlc == null || isCancelled())
-                return null;
+            final LibVLC libVlc = VLCInstance.get(context);
+            if (libVlc == null || isCancelled()) return null;
 
-            Media media = new Media(libVlc, ((MediaWrapper)mItem).getUri());
+            final Media media = new Media(libVlc, ((MediaWrapper)mItem).getUri());
             media.parse();
 
             return media;
@@ -287,8 +288,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
         @Override
         protected void onPostExecute(Media media) {
             mParseTracksTask = null;
-            if (media == null || isCancelled())
-                return;
+            if (media == null || isCancelled()) return;
             boolean hasSubs = false;
             final int trackCount = media.getTrackCount();
             List<Media.Track> tracks = new LinkedList<>();
@@ -299,8 +299,7 @@ public class InfoActivity extends AudioPlayerContainerActivity implements View.O
             }
             media.release();
             mAdapter.setTracks(tracks);
-            if (hasSubs)
-                mBinding.infoSubtitles.setVisibility(View.VISIBLE);
+            if (hasSubs) mBinding.infoSubtitles.setVisibility(View.VISIBLE);
         }
 
         @Override
