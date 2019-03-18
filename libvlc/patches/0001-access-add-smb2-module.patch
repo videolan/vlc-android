@@ -544,7 +544,7 @@ index 0000000000..90cd0d327f
 +    set_shortname("smb2")
 +    set_description(N_("SMB2 / SMB3 input"))
 +    set_help(N_("Samba (Windows network shares) input via libsmb2"))
-+    set_capability("access", 21)
++    set_capability("access", 19)
 +    set_category(CAT_INPUT)
 +    set_subcategory(SUBCAT_INPUT_ACCESS)
 +    add_string("smb-user", NULL, SMB_USER_TEXT, SMB_USER_LONGTEXT, false)
