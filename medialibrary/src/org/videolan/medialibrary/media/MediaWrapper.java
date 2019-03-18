@@ -166,7 +166,7 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     }
 
     private String manageVLCMrl(String mrl) {
-        if (mrl.charAt(0) == '/') {
+        if (!mrl.isEmpty() && mrl.charAt(0) == '/') {
             mrl = "file://" + mrl;
         } else if (mrl.toLowerCase().startsWith("vlc://")) {
             mrl = mrl.substring(6);
