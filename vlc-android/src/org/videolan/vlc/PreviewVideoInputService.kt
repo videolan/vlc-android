@@ -10,10 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.util.Log
 import android.view.Surface
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.vlc.media.MediaPlayerEventListener
@@ -25,9 +22,10 @@ import java.io.IOException
 
 private const val TAG = "PreviewInputService"
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class PreviewVideoInputService : TvInputService(), CoroutineScope {
-    @ExperimentalCoroutinesApi
     override val coroutineContext = Dispatchers.Main.immediate
 
     override fun onCreateSession(inputId: String): TvInputService.Session? {
@@ -67,6 +65,9 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
                     player.startPlayback(media, this@PreviewSession)
                     notifyVideoAvailable()
                 } catch (e: IOException) {
+                    Log.e(TAG, "Could not prepare media player", e)
+                    notifyVideoUnavailable(TvInputManager.VIDEO_UNAVAILABLE_REASON_UNKNOWN)
+                } catch (e: IllegalStateException) {
                     Log.e(TAG, "Could not prepare media player", e)
                     notifyVideoUnavailable(TvInputManager.VIDEO_UNAVAILABLE_REASON_UNKNOWN)
                 }
