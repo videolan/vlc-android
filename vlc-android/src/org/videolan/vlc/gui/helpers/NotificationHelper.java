@@ -66,7 +66,7 @@ public class NotificationHelper {
                 .setTicker(sb.toString())
                 .setAutoCancel(!playing)
                 .setOngoing(playing)
-                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                 .setDeleteIntent(piStop)
                 .setContentIntent(spi)
                 .addAction(new NotificationCompat.Action(
