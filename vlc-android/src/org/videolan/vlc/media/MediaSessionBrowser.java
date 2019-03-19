@@ -48,6 +48,7 @@ import org.videolan.vlc.extensions.ExtensionManagerService;
 import org.videolan.vlc.extensions.ExtensionsManager;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Settings;
 
@@ -63,7 +64,6 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
 
     private static final String TAG = "VLC/MediaSessionBrowser";
 
-    private static final Bitmap DEFAULT_AUDIO_COVER = BitmapFactory.decodeResource(VLCApplication.getAppResources(), R.drawable.ic_menu_audio);
     private static String BASE_DRAWABLE_URI;
 
     public static final String ID_ROOT = "ID_ROOT";
@@ -247,7 +247,7 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
                     if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper) libraryItem).getType() != MediaWrapper.TYPE_AUDIO)
                         continue;
                     Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(libraryItem.getArtworkMrl()), 256);
-                    if (cover == null) cover = DEFAULT_AUDIO_COVER;
+                    if (cover == null) cover = UiTools.getDefaultAudioDrawable(context).getBitmap();
                     item.setTitle(libraryItem.getTitle())
                             .setMediaId(generateMediaId(libraryItem));
                     item.setIconBitmap(cover);
@@ -309,7 +309,7 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
                 continue;
             mediaItem = new MediaDescriptionCompat.Builder();
             Uri coverUri = extensionItem.getImageUri();
-            if (coverUri == null) mediaItem.setIconBitmap(DEFAULT_AUDIO_COVER);
+            if (coverUri == null) mediaItem.setIconBitmap(UiTools.getDefaultAudioDrawable(VLCApplication.getAppContext()).getBitmap());
             else
                 mediaItem.setIconUri(coverUri);
             mediaItem.setTitle(extensionItem.getTitle());
