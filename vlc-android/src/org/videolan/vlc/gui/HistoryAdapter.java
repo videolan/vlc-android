@@ -90,7 +90,7 @@ public class HistoryAdapter extends DiffUtilAdapter<MediaWrapper, HistoryAdapter
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final MediaWrapper media = getItem(position);
-        boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
+        final boolean isSelected = media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED);
         holder.binding.setMedia(media);
         holder.binding.setCover(ImageLoaderKt.getMediaIconDrawable(holder.itemView.getContext(), media.getType()));
         holder.selectView(isSelected);
