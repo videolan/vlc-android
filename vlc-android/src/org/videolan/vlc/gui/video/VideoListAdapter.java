@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -123,8 +124,8 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
     }
 
     @Override
-    public void onViewRecycled(ViewHolder holder) {
-        holder.binding.setVariable(BR.cover, UiTools.Resources.DEFAULT_COVER_VIDEO_DRAWABLE);
+    public void onViewRecycled(@NotNull ViewHolder holder) {
+        holder.binding.setVariable(BR.cover, UiTools.getDefaultVideoDrawable(holder.itemView.getContext()));
     }
 
     @Override
@@ -219,7 +220,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
             super(binding);
             overlay = itemView.findViewById(R.id.ml_item_overlay);
             binding.setVariable(BR.holder, this);
-            binding.setVariable(BR.cover, UiTools.Resources.DEFAULT_COVER_VIDEO_DRAWABLE);
+            binding.setVariable(BR.cover, UiTools.getDefaultVideoDrawable(itemView.getContext()));
             if (AndroidUtil.isMarshMallowOrLater) itemView.setOnContextClickListener(new View.OnContextClickListener() {
                 @Override
                 public boolean onContextClick(View v) {

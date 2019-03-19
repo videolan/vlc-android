@@ -22,19 +22,28 @@
  */
 package org.videolan.vlc.gui.helpers;
 
-import androidx.databinding.ViewDataBinding;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import org.videolan.vlc.BR;
+import org.videolan.vlc.R;
+
+import androidx.core.content.ContextCompat;
+import androidx.databinding.ViewDataBinding;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class SelectorViewHolder<T extends ViewDataBinding> extends RecyclerView.ViewHolder implements View.OnFocusChangeListener {
 
     public T binding = null;
+    private final int ITEM_FOCUS_ON;
+    private final int ITEM_FOCUS_OFF;
+    private final int ITEM_SELECTION_ON;
 
     public SelectorViewHolder(T vdb) {
         super(vdb.getRoot());
         binding = vdb;
+        ITEM_FOCUS_OFF = ContextCompat.getColor(vdb.getRoot().getContext(), R.color.transparent);
+        ITEM_FOCUS_ON = ContextCompat.getColor(vdb.getRoot().getContext(), R.color.orange500transparent);
+        ITEM_SELECTION_ON = ContextCompat.getColor(vdb.getRoot().getContext(), R.color.orange200transparent);
         itemView.setOnFocusChangeListener(this);
     }
 
@@ -43,7 +52,7 @@ public class SelectorViewHolder<T extends ViewDataBinding> extends RecyclerView.
     }
 
     private void setViewBackground(boolean focus, boolean selected) {
-        final int color = focus ? UiTools.Resources.ITEM_FOCUS_ON : selected ? UiTools.Resources.ITEM_SELECTION_ON : UiTools.Resources.ITEM_FOCUS_OFF;
+        final int color = focus ? ITEM_FOCUS_ON : selected ? ITEM_SELECTION_ON : ITEM_FOCUS_OFF;
         binding.setVariable(BR.bgColor, color);
     }
 
