@@ -49,6 +49,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
@@ -71,8 +72,11 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         multiSelectHelper = new MultiSelectHelper<>(this, Constants.UPDATE_SELECTION);
         mIEventsHandler = eventsHandler;
         mType = type;
-        mDefaultCover = ImageLoaderKt.getIconDrawable(type);
         mHasSections = sections;
+        Context ctx = null;
+        if (eventsHandler instanceof Context) ctx = (Context) eventsHandler;
+        else if (eventsHandler instanceof Fragment) ctx = ((Fragment)eventsHandler).getContext();
+        mDefaultCover = ctx != null ? ImageLoaderKt.getAudioIconDrawable(ctx, type) : null;
     }
 
     public AudioBrowserAdapter(int type, IEventsHandler eventsHandler) {

@@ -1,5 +1,6 @@
 package org.videolan.vlc.gui.helpers
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -55,16 +56,18 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
     else AppScope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding) }
 }
 
-fun getIconDrawable(type: Int): BitmapDrawable? = when (type) {
-    MediaLibraryItem.TYPE_ALBUM -> UiTools.Resources.DEFAULT_COVER_ALBUM_DRAWABLE
-    MediaLibraryItem.TYPE_ARTIST -> UiTools.Resources.DEFAULT_COVER_ARTIST_DRAWABLE
-    MediaLibraryItem.TYPE_MEDIA -> UiTools.Resources.DEFAULT_COVER_AUDIO_DRAWABLE
-    else -> null
+fun getAudioIconDrawable(context: Context?, type: Int): BitmapDrawable? = context?.let {
+    when (type) {
+        MediaLibraryItem.TYPE_ALBUM -> UiTools.getDefaultAlbumDrawable(it)
+        MediaLibraryItem.TYPE_ARTIST -> UiTools.getDefaultArtistDrawable(it)
+        MediaLibraryItem.TYPE_MEDIA -> UiTools.getDefaultAudioDrawable(it)
+        else -> null
+    }
 }
 
-fun getIconDrawableMediaWrapper(type: Int): BitmapDrawable? = when (type) {
-    MediaWrapper.TYPE_AUDIO -> UiTools.Resources.DEFAULT_COVER_AUDIO_DRAWABLE
-    MediaWrapper.TYPE_VIDEO -> UiTools.Resources.DEFAULT_COVER_VIDEO_DRAWABLE
+fun getMediaIconDrawable(context: Context, type: Int): BitmapDrawable? = when (type) {
+    MediaWrapper.TYPE_AUDIO -> UiTools.getDefaultAudioDrawable(context)
+    MediaWrapper.TYPE_VIDEO -> UiTools.getDefaultVideoDrawable(context)
     else -> null
 }
 
@@ -87,7 +90,7 @@ fun placeHolderImageView(v: View, item: MediaLibraryItem?) {
     if (item == null) {
         v.background = ContextCompat.getDrawable(v.context, R.drawable.rounded_corners_grey)
     } else {
-        v.background = UiTools.Resources.DEFAULT_COVER_AUDIO_DRAWABLE
+        v.background = UiTools.getDefaultAudioDrawable(v.context)
     }
 
 }

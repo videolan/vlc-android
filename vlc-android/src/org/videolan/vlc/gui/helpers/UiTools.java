@@ -96,17 +96,39 @@ import androidx.fragment.app.FragmentActivity;
 
 public class UiTools {
     private static final String TAG = "VLC/UiTools";
+    private static BitmapDrawable DEFAULT_COVER_VIDEO_DRAWABLE;
+    private static BitmapDrawable DEFAULT_COVER_AUDIO_DRAWABLE;
+    private static BitmapDrawable DEFAULT_COVER_ALBUM_DRAWABLE;
+    private static BitmapDrawable DEFAULT_COVER_ARTIST_DRAWABLE;
 
-    public static class Resources {
-        private static final Bitmap DEFAULT_COVER_VIDEO = BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.ic_no_thumbnail_1610);
-        private static final Bitmap DEFAULT_COVER_AUDIO = BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.ic_no_song);
-        public static final int ITEM_FOCUS_OFF = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.transparent);
-        public static final int ITEM_FOCUS_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange500transparent);
-        public static final int ITEM_SELECTION_ON = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.orange200transparent);
-        public static final BitmapDrawable DEFAULT_COVER_ARTIST_DRAWABLE = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.ic_no_artist));
-        public static final BitmapDrawable DEFAULT_COVER_ALBUM_DRAWABLE = new BitmapDrawable(VLCApplication.getAppResources(), BitmapCache.getFromResource(VLCApplication.getAppResources(), R.drawable.ic_no_album));
-        public static final BitmapDrawable DEFAULT_COVER_VIDEO_DRAWABLE = new BitmapDrawable(VLCApplication.getAppResources(), DEFAULT_COVER_VIDEO);
-        public static final BitmapDrawable DEFAULT_COVER_AUDIO_DRAWABLE = new BitmapDrawable(VLCApplication.getAppResources(), DEFAULT_COVER_AUDIO);
+    public static BitmapDrawable getDefaultVideoDrawable(Context context) {
+        if (DEFAULT_COVER_VIDEO_DRAWABLE == null) {
+            final Bitmap DEFAULT_COVER_VIDEO = BitmapCache.getFromResource(context.getResources(), R.drawable.ic_no_thumbnail_1610);
+            DEFAULT_COVER_VIDEO_DRAWABLE = new BitmapDrawable(context.getResources(), DEFAULT_COVER_VIDEO);
+        }
+        return DEFAULT_COVER_VIDEO_DRAWABLE;
+    }
+
+    public static BitmapDrawable getDefaultAudioDrawable(Context context) {
+        if (DEFAULT_COVER_AUDIO_DRAWABLE == null) {
+            final Bitmap DEFAULT_COVER_AUDIO = BitmapCache.getFromResource(context.getResources(), R.drawable.ic_no_song);
+            DEFAULT_COVER_AUDIO_DRAWABLE = new BitmapDrawable(context.getResources(), DEFAULT_COVER_AUDIO);
+        }
+        return DEFAULT_COVER_AUDIO_DRAWABLE;
+    }
+
+    public static BitmapDrawable getDefaultAlbumDrawable(Context context) {
+        if (DEFAULT_COVER_ALBUM_DRAWABLE == null) {
+            DEFAULT_COVER_ALBUM_DRAWABLE = new BitmapDrawable(context.getResources(), BitmapCache.getFromResource(context.getResources(), R.drawable.ic_no_album));
+        }
+        return DEFAULT_COVER_ALBUM_DRAWABLE;
+    }
+
+    public static BitmapDrawable getDefaultArtistDrawable(Context context) {
+        if (DEFAULT_COVER_ARTIST_DRAWABLE == null) {
+            DEFAULT_COVER_ARTIST_DRAWABLE = new BitmapDrawable(context.getResources(), BitmapCache.getFromResource(context.getResources(), R.drawable.ic_no_artist));
+        }
+        return DEFAULT_COVER_ARTIST_DRAWABLE;
     }
 
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
@@ -293,17 +315,17 @@ public class UiTools {
             throw new IllegalThreadStateException();
     }
 
-    public static BitmapDrawable getDefaultCover(MediaLibraryItem item) {
+    public static BitmapDrawable getDefaultCover(Context context, MediaLibraryItem item) {
         switch (item.getItemType()) {
             case MediaLibraryItem.TYPE_ARTIST:
-                return Resources.DEFAULT_COVER_ARTIST_DRAWABLE;
+                return getDefaultArtistDrawable(context);
             case MediaLibraryItem.TYPE_ALBUM:
-                return Resources.DEFAULT_COVER_ALBUM_DRAWABLE;
+                return getDefaultAlbumDrawable(context);
             case MediaLibraryItem.TYPE_MEDIA:
                 if (((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)
-                    return Resources.DEFAULT_COVER_VIDEO_DRAWABLE;
+                    return getDefaultVideoDrawable(context);
             default:
-                return Resources.DEFAULT_COVER_AUDIO_DRAWABLE;
+                return getDefaultAudioDrawable(context);
         }
     }
 
