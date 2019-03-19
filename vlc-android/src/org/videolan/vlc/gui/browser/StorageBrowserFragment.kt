@@ -54,7 +54,6 @@ import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.MedialibraryUtils
 import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.sanitizePath
 import org.videolan.vlc.gui.onboarding.OnboardingActivity
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.BrowserModel
@@ -176,9 +175,13 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
         val checked = tscb.state == ThreeStatesCheckbox.STATE_CHECKED
         val activity = requireActivity()
         if (activity is OnboardingActivity) {
-
-            if (checked) MediaParsingService.preselectedStorages.add(mrl.sanitizePath())
-            else MediaParsingService.preselectedStorages.remove(mrl.sanitizePath())
+            val path = mrl.sanitizePath()
+            if (checked) {
+                MediaParsingService.preselectedStorages.removeAll { it.startsWith(path) }
+                MediaParsingService.preselectedStorages.add(path)
+            } else {
+                MediaParsingService.preselectedStorages.removeAll { it.startsWith(path) }
+            }
         } else {
             if (checked) {
                 MedialibraryUtils.addDir(mrl, v.context.applicationContext)
@@ -248,7 +251,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
                 return@OnClickListener
             }
 
-            coroutineScope.launch(CoroutineExceptionHandler{ _, _ ->}) {
+            coroutineScope.launch(CoroutineExceptionHandler { _, _ -> }) {
                 viewModel.addCustomDirectory(f.canonicalPath).join()
                 viewModel.browserRoot()
             }
