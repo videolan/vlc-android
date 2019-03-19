@@ -58,7 +58,7 @@ public class VLCApplication extends Application {
     public final static String TAG = "VLC/VLCApplication";
 
     public final static String ACTION_MEDIALIBRARY_READY = "VLC/VLCApplication";
-    private static volatile VLCApplication instance;
+    private static volatile Application instance;
 
     public final static String SLEEP_INTENT = Strings.buildPkgString("SleepIntent");
 
@@ -143,7 +143,7 @@ public class VLCApplication extends Application {
         if (instance != null) return instance;
         else {
             try {
-                instance = (VLCApplication) Class.forName("android.app.ActivityThread").getDeclaredMethod("currentApplication").invoke(null);
+                instance = (Application) Class.forName("android.app.ActivityThread").getDeclaredMethod("currentApplication").invoke(null);
             } catch (IllegalAccessException ignored) {}
             catch (InvocationTargetException ignored) {}
             catch (NoSuchMethodException ignored) {}
