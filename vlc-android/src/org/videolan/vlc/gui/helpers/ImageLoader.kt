@@ -66,9 +66,8 @@ fun getAudioIconDrawable(context: Context?, type: Int): BitmapDrawable? = contex
 }
 
 fun getMediaIconDrawable(context: Context, type: Int): BitmapDrawable? = when (type) {
-    MediaWrapper.TYPE_AUDIO -> UiTools.getDefaultAudioDrawable(context)
     MediaWrapper.TYPE_VIDEO -> UiTools.getDefaultVideoDrawable(context)
-    else -> null
+    else -> UiTools.getDefaultAudioDrawable(context)
 }
 
 private var placeholderTvBg : Drawable? = null
