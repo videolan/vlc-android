@@ -219,7 +219,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     }
 
     private val showInternalStorage = AndroidDevices.showInternalStorage()
-    suspend fun updateBrowsers() {
+    private suspend fun updateBrowsers() {
         val list = mutableListOf<MediaLibraryItem>()
         val directories = DirectoryRepository.getInstance(requireContext()).getMediaDirectoriesList(requireContext().applicationContext).toMutableList()
         if (!showInternalStorage && !directories.isEmpty()) directories.removeAt(0)
@@ -227,10 +227,11 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             if (directory.location.scanAllowed()) list.add(directory)
         }
 
+        val ctx = context ?: return
         if (ExternalMonitor.isLan) {
-            list.add(DummyItem(HEADER_NETWORK, getString(R.string.network_browsing), null))
-            list.add(DummyItem(HEADER_STREAM, getString(R.string.open_mrl), null))
-            list.add(DummyItem(HEADER_SERVER, getString(R.string.server_add_title), null))
+            list.add(DummyItem(HEADER_NETWORK, ctx.getString(R.string.network_browsing), null))
+            list.add(DummyItem(HEADER_STREAM, ctx.getString(R.string.open_mrl), null))
+            list.add(DummyItem(HEADER_SERVER, ctx.getString(R.string.server_add_title), null))
 
             updatedFavoritList.forEach{
                 it.description = it.uri.scheme
