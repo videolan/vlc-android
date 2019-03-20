@@ -5,10 +5,10 @@ import androidx.annotation.MainThread
 import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.Config
 import androidx.paging.DataSource
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
 import androidx.paging.PositionalDataSource
+import androidx.paging.toLiveData
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -29,14 +29,15 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     private val headers = HeadersIndex()
     val liveHeaders : LiveData<HeadersIndex> = MutableLiveData<HeadersIndex>()
 
-    private val pagingConfig = PagedList.Config.Builder()
-            .setPageSize(MEDIALIBRARY_PAGE_SIZE)
-            .setPrefetchDistance(MEDIALIBRARY_PAGE_SIZE / 5)
-            .setEnablePlaceholders(true)
-            .build()
+    private val pagingConfig = Config(
+            pageSize = MEDIALIBRARY_PAGE_SIZE,
+            prefetchDistance = MEDIALIBRARY_PAGE_SIZE / 5,
+            enablePlaceholders = true,
+            initialLoadSizeHint = MEDIALIBRARY_PAGE_SIZE*3,
+            maxSize = MEDIALIBRARY_PAGE_SIZE*3
+    )
 
-    val pagedList = LivePagedListBuilder(MLDatasourceFactory(), pagingConfig)
-            .build()
+    val pagedList = MLDatasourceFactory().toLiveData(pagingConfig)
 
     init {
         medialibrary.addOnMedialibraryReadyListener(this)

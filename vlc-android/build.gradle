@@ -231,7 +231,7 @@ dependencies {
     kapt "androidx.lifecycle:lifecycle-compiler:$rootProject.ext.archVersion"
     implementation "androidx.room:room-runtime:$rootProject.ext.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.ext.roomVersion"
-    implementation "androidx.paging:paging-runtime:$rootProject.ext.pagingVersion"
+    implementation "androidx.paging:paging-runtime-ktx:$rootProject.ext.pagingVersion"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit"
