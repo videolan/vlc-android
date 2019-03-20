@@ -413,6 +413,7 @@ object MediaUtils : CoroutineScope {
         }
     } catch (ignored: UnsupportedOperationException) {
     } catch (ignored: IllegalArgumentException) {
+    } catch (ignored: NullPointerException) {
     } catch (ignored: SecurityException) {}
 
     fun deletePlaylist(playlist: Playlist) = launch(Dispatchers.IO) { playlist.delete() }
