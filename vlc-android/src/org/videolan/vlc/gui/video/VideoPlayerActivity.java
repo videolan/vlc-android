@@ -350,7 +350,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
         // 100 is the value for screen_orientation_start_lock
-        setRequestedOrientation(getScreenOrientation(mScreenOrientation));
+        try {
+            setRequestedOrientation(getScreenOrientation(mScreenOrientation));
+        } catch (IllegalStateException ignored) {
+            Log.w(TAG, "onCreate: failed to set orientation");
+        }
         // Extra initialization when no secondary display is detected
         mIsTv = AndroidDevices.showTvUi(this);
         if (mDisplayManager.isPrimary()) {
