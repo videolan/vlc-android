@@ -162,15 +162,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             repeating = settings.getInt(if (audio) "audio_repeating" else "media_repeating", REPEAT_NONE)
             val position = settings.getInt(if (audio) "position_in_audio_list" else "position_in_media_list", 0)
             savedTime = settings.getLong(if (audio) "position_in_song" else "position_in_media", -1)
-            if (!audio) {
-                if (position < playList.size && settings.getBoolean(PreferencesActivity.VIDEO_PAUSED, false)) {
-                    playList[position].addFlags(MediaWrapper.MEDIA_PAUSED)
-                }
-                val rate = settings.getFloat(PreferencesActivity.VIDEO_SPEED, player.getRate())
-                if (rate != 1.0f) player.setRate(rate, false)
+            if (!audio && position < playList.size && settings.getBoolean(PreferencesActivity.VIDEO_PAUSED, false)) {
+                playList[position].addFlags(MediaWrapper.MEDIA_PAUSED)
             }
             load(playList, position, true)
             loadingLastPlaylist = false
+            if (!audio) {
+                val rate = settings.getFloat(PreferencesActivity.VIDEO_SPEED, player.getRate())
+                if (rate != 1.0f) player.setRate(rate, false)
+            }
         }
         return true
     }
