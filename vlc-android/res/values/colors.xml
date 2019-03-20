@@ -37,9 +37,12 @@
     <color name="grey875">#2a2a2a</color>
     <color name="grey900">#212121</color>
 
-    <color name="grey50transparent">#dcfafafa</color>
+    <color name="grey50transparent">#b9fafafa</color>
+    <color name="grey50transparent_ea">#eafafafa</color>
     <color name="grey400transparent">#80bdbdbd</color>
     <color name="grey600transparent">#80757575</color>
+    <color name="grey850transparent">#bb323232</color>
+    <color name="grey850transparent_dd">#dd323232</color>
     <color name="grey900transparent">#80212121</color>
 
     <color name="blacktransparent">#b4000000</color>
