@@ -397,18 +397,12 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     // Video tools
     private VideoHelper mVideoHelper = null;
 
-    interface SurfaceListener {
-        void onSurfaceCreated();
-        void onSurfaceDestroyed();
-    }
-
-    private final SurfaceListener mSurfaceListener = new SurfaceListener() {
+    private final AWindow mWindow = new AWindow(new AWindow.SurfaceCallback() {
         @Override
-        public void onSurfaceCreated() {
+        public void onSurfacesCreated(AWindow vout) {
             boolean play = false;
             boolean enableVideo = false;
             synchronized (MediaPlayer.this) {
-
                 if (!mPlaying && mPlayRequested)
                     play = true;
                 else if (mVoutCount == 0)
@@ -421,7 +415,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         }
 
         @Override
-        public void onSurfaceDestroyed() {
+        public void onSurfacesDestroyed(AWindow vout) {
             boolean disableVideo = false;
             synchronized (MediaPlayer.this) {
                 if (mVoutCount > 0)
@@ -430,9 +424,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
             if (disableVideo)
                 setVideoTrackEnabled(false);
         }
-    };
-
-    private final AWindow mWindow = new AWindow(mSurfaceListener);
+    });
 
     private synchronized void updateAudioOutputDevice(long encodingFlags, String defaultDevice) {
         mCanDoPassthrough = encodingFlags != 0;
