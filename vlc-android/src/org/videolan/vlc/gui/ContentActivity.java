@@ -96,20 +96,21 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         if (AndroidDevices.isAndroidTv) return false;
-        if (getSupportFragmentManager().findFragmentById(R.id.fragment_placeholder) instanceof AboutFragment)
-            return true;
+        final Fragment current = getCurrentFragment();
+        if (current instanceof AboutFragment)
+            return false;
         getMenuInflater().inflate(R.menu.activity_option, menu);
-        if (getCurrentFragment() instanceof ExtensionBrowser){
+        super.onCreateOptionsMenu(menu);
+        if (current instanceof ExtensionBrowser){
             menu.findItem(R.id.ml_menu_last_playlist).setVisible(false);
             menu.findItem(R.id.ml_menu_sortby).setVisible(false);
         }
-        if (getCurrentFragment() instanceof Filterable) {
-            final Filterable filterable = (Filterable) getCurrentFragment();
+        if (current instanceof Filterable) {
+            final Filterable filterable = (Filterable) current;
             final MenuItem searchItem = menu.findItem(R.id.ml_menu_filter);
             mSearchView = (SearchView) searchItem.getActionView();
             mSearchView.setQueryHint(getString(R.string.search_list_hint));
             mSearchView.setOnQueryTextListener(this);
-            searchItem.setOnActionExpandListener(this);
             final String query = filterable.getFilterQuery();
             if (!TextUtils.isEmpty(query)) {
                 mActivityHandler.post(new Runnable() {
@@ -122,16 +123,15 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
                     }
                 });
             }
+            searchItem.setOnActionExpandListener(this);
         } else menu.findItem(R.id.ml_menu_filter).setVisible(false);
         menu.findItem(R.id.ml_menu_renderers).setVisible(showRenderers && Settings.INSTANCE.getInstance(this).getBoolean("enable_casting", true));
         menu.findItem(R.id.ml_menu_renderers).setIcon(!PlaybackService.Companion.hasRenderer() ? R.drawable.ic_am_renderer_normal_w : R.drawable.ic_am_renderer_on_w);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        // Handle item selection
         switch (item.getItemId()) {
             case R.id.ml_menu_search:
                 startActivity(new Intent(Intent.ACTION_SEARCH, null, this, SearchActivity.class));
@@ -146,6 +146,8 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
                 } else if (getSupportFragmentManager().findFragmentByTag("renderers") == null)
                     new RenderersDialog().show(getSupportFragmentManager(), "renderers");
                 return true;
+            case R.id.ml_menu_filter:
+                if (!item.isActionViewExpanded()) setSearchVisibility(true);
             default:
                 return super.onOptionsItemSelected(item);
         }
