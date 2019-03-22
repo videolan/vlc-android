@@ -52,10 +52,12 @@ ext {
     pagingVersion = '2.1.0'
     junitVersion = '4.12'
     mockito = '2.8.9'
-    powerMock = '1.7.4'
     retrofit = '2.6.1'
     moshi = '1.8.0'
+    powerMock = '2.0.2'
     espressoVersion = '3.1.1'
+    livedataTest = '1.1.0'
+    robolectric = '4.2.1'
     supportTest = '1.1.0'
 //    versionCode scheme is T M NN RR AA
 //    T: Target/Flavour (1 for Android, 2 for Chrome?)
