@@ -81,7 +81,6 @@ class MultiSelectionSpinner : AppCompatSpinner, OnMultiChoiceClickListener, Dial
         selection = selection.map { false }.toMutableList()
         selectedIndices.forEach {
             if (it >= 0 && it < selection.size) selection[it] = true
-            else throw IllegalArgumentException("Index $it is out of bounds.")
         }
         adapter.clear()
         adapter.add(buildSelectedItemString())
