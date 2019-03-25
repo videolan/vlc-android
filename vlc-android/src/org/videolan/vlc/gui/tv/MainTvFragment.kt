@@ -147,12 +147,12 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         rowsAdapter.add(browsersRow)
         updateActor.offer(Browsers)
         //Misc. section
-        otherAdapter = ArrayObjectAdapter(CardPresenter(ctx))
+        otherAdapter = ArrayObjectAdapter(GenericCardPresenter(ctx))
         val miscHeader = HeaderItem(HEADER_MISC, getString(R.string.other))
 
-        otherAdapter.add(DummyItem(ID_SETTINGS, getString(R.string.preferences), ""))
-        otherAdapter.add(DummyItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VERSION_NAME}"))
-        otherAdapter.add(DummyItem(ID_LICENCE, getString(R.string.licence), ""))
+        otherAdapter.add(GenericCardItem(ID_SETTINGS, getString(R.string.preferences), "", R.drawable.ic_menu_preferences_big, R.color.tv_card_content))
+        otherAdapter.add(GenericCardItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VERSION_NAME}", R.drawable.ic_menu_info_big, R.color.tv_card_content))
+        otherAdapter.add(GenericCardItem(ID_LICENCE, getString(R.string.licence), "", R.drawable.ic_menu_open_source, R.color.tv_card_content))
         miscRow = ListRow(miscHeader, otherAdapter)
         rowsAdapter.add(miscRow)
 
@@ -255,7 +255,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                 activity.startActivity(intent)
             }
             HEADER_MISC -> {
-                val id = (item as DummyItem).id
+                val id = (item as GenericCardItem).id
                 when (id) {
                     ID_SETTINGS -> activity.startActivityForResult(Intent(activity, org.videolan.vlc.gui.tv.preferences.PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
                     ID_ABOUT_TV -> activity.startActivity(Intent(activity, org.videolan.vlc.gui.tv.AboutActivity::class.java))

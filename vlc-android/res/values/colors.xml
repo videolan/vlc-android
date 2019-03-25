@@ -53,6 +53,9 @@
 
     <color name="tv_bg">#235f69</color>
     <color name="tv_card_content">#0a6e96</color>
+    <!--test with onboarding colors-->
+    <!--<color name="tv_bg">#1c313a</color>-->
+    <!--<color name="tv_card_content">#396375</color>-->
     <color name="onboarding_grey_dark">#1c313a</color>
     <color name="onboarding_grey">#455a64</color>
 </resources>
