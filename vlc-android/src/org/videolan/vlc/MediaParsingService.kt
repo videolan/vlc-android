@@ -23,6 +23,7 @@
 package org.videolan.vlc
 
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -30,6 +31,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
 import android.text.TextUtils
@@ -137,8 +139,10 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
         return Service.START_NOT_STICKY
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     private fun forceForeground() {
         val notification = NotificationHelper.createScanNotification(applicationContext, getString(R.string.loading_medialibrary), false, scanPaused)
+        NotificationHelper.createNotificationChannels(applicationContext)
         startForeground(43, notification)
     }
 

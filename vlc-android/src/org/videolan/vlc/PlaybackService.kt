@@ -563,6 +563,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
             return playlistManager.player.getVout()
         }
 
+    @TargetApi(Build.VERSION_CODES.O)
     private fun forceForeground() {
         val ctx = this@PlaybackService
         val stopped = playlistManager.player.playbackState == PlaybackStateCompat.STATE_STOPPED
@@ -570,6 +571,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         else NotificationHelper.createPlaybackNotification(ctx,false,
                 ctx.resources.getString(R.string.loading), "", "",null,
                 false, true, mediaSession.sessionToken, sessionPendingIntent)
+        NotificationHelper.createNotificationChannels(ctx.applicationContext)
         startForeground(3, notification)
         isForeground = true
         if (isVideoPlaying || AndroidDevices.showTvUi(this) || stopped) hideNotification(true)
