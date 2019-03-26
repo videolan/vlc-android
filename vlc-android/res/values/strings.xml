@@ -293,6 +293,8 @@
     <string name="enable_black_theme_summary">Change the interface colors for better comfort in low light environments.</string>
     <string name="subtitle_text_encoding">Subtitle text encoding</string>
     <string name="daynight_title">DayNight mode</string>
+    <string name="daynight_follow_system_title">Follow system mode</string>
+    <string name="daynight_battery_title">Follow Battery saver</string>
     <string name="daynight_summary">Automatically switch to night mode at appropriate time</string>
 
     <string name="extra_prefs_category">Extra settings</string>
@@ -687,4 +689,5 @@
     <string name="onboarding_scan_customize">Let me choose which folders VLC will scan</string>
     <string name="button_medialibrary_preferences">Go to Medialibrary preferences</string>
     <string name="light_theme">Light theme</string>
+    <string name="theme_follow_system_mode">Follow system mode</string>
 </resources>

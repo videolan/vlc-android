@@ -46,7 +46,6 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-
             window.statusBarColor = ContextCompat.getColor(this, R.color.onboarding_grey_dark)
         }
 
@@ -134,6 +133,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
                 .putInt(KEY_MEDIALIBRARY_SCAN, if (viewModel.scanStorages) ML_SCAN_ON else ML_SCAN_OFF)
                 .putInt("fragment_id", if (viewModel.scanStorages) R.id.nav_video else R.id.nav_directories)
                 .putInt(PREF_FIRST_RUN, BuildConfig.VERSION_CODE)
+                .putString("app_theme", viewModel.theme.toString())
                 .apply()
         if (!viewModel.scanStorages) MediaParsingService.preselectedStorages.clear()
         startMedialibrary(firstRun = true, upgrade = true, parse = viewModel.scanStorages)

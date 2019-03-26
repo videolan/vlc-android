@@ -32,6 +32,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.util.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
 import videolan.org.commontools.LiveEvent;
@@ -99,10 +100,14 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     private void applyTheme() {
-        SharedPreferences pref = Settings.INSTANCE.getInstance(this);
-        boolean enableBlackTheme = pref.getBoolean("enable_black_theme", false);
-        if (enableBlackTheme) {
-            setTheme(R.style.Theme_VLC_Black);
+        final SharedPreferences pref = Settings.INSTANCE.getInstance(this);
+        if (pref.contains("app_theme")) {
+            AppCompatDelegate.setDefaultNightMode(Integer.valueOf(pref.getString("app_theme", "-1")));
+        } else if (pref.contains("daynight") || pref.contains("enable_black_theme")) { // legacy support
+            final boolean daynight = pref.getBoolean("daynight", false);
+            final boolean dark = pref.getBoolean("enable_black_theme", false);
+            final int mode = dark ? AppCompatDelegate.MODE_NIGHT_YES : daynight ? AppCompatDelegate.MODE_NIGHT_AUTO : AppCompatDelegate.MODE_NIGHT_NO;
+            AppCompatDelegate.setDefaultNightMode(mode);
         }
     }
 
