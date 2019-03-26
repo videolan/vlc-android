@@ -35,9 +35,11 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import org.videolan.vlc.BuildConfig;
+import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.gui.helpers.AudioUtil;
+import org.videolan.vlc.util.KextensionsKt;
 import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.WorkersKt;
 
@@ -73,7 +75,7 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(final Context context, final Intent intent) {
         final String action = intent.getAction();
-        if (!action.startsWith(ACTION_WIDGET_PREFIX)) {
+        if (action == null || !action.startsWith(ACTION_WIDGET_PREFIX)) {
             super.onReceive(context, intent);
             return;
         }
@@ -83,16 +85,17 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
 
         if (!partial) {
             /* commands */
-            final Intent iBackward = new Intent(ACTION_REMOTE_BACKWARD);
-            final Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE);
-            final Intent iStop = new Intent(ACTION_REMOTE_STOP);
-            final Intent iForward = new Intent(ACTION_REMOTE_FORWARD);
-            final Intent iVlc = new Intent(context, StartActivity.class);
+            final Context appCtx = context.getApplicationContext();
+            final Intent iBackward = new Intent(ACTION_REMOTE_BACKWARD, null, appCtx, PlaybackService.class);
+            final Intent iPlay = new Intent(ACTION_REMOTE_PLAYPAUSE, null, appCtx, PlaybackService.class);
+            final Intent iStop = new Intent(ACTION_REMOTE_STOP, null, appCtx, PlaybackService.class);
+            final Intent iForward = new Intent(ACTION_REMOTE_FORWARD, null, appCtx, PlaybackService.class);
+            final Intent iVlc = new Intent(appCtx, StartActivity.class);
 
-            final PendingIntent piBackward = PendingIntent.getBroadcast(context, 0, iBackward, PendingIntent.FLAG_UPDATE_CURRENT);
-            final PendingIntent piPlay = PendingIntent.getBroadcast(context, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT);
-            final PendingIntent piStop = PendingIntent.getBroadcast(context, 0, iStop, PendingIntent.FLAG_UPDATE_CURRENT);
-            final PendingIntent piForward = PendingIntent.getBroadcast(context, 0, iForward, PendingIntent.FLAG_UPDATE_CURRENT);
+            final PendingIntent piBackward = KextensionsKt.getPendingIntent(context, iBackward);
+            final PendingIntent piPlay = KextensionsKt.getPendingIntent(context, iPlay);
+            final PendingIntent piStop = KextensionsKt.getPendingIntent(context, iStop);
+            final PendingIntent piForward = KextensionsKt.getPendingIntent(context, iForward);
             final PendingIntent piVlc = PendingIntent.getActivity(context, 0, iVlc, PendingIntent.FLAG_UPDATE_CURRENT);
 
             views.setOnClickPendingIntent(R.id.backward, piBackward);
@@ -126,10 +129,8 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
                         WorkersKt.runOnMainThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (cover != null)
-                                    views.setImageViewBitmap(R.id.cover, cover);
-                                else
-                                    views.setImageViewResource(R.id.cover, R.drawable.icon);
+                                if (cover != null) views.setImageViewBitmap(R.id.cover, cover);
+                                else views.setImageViewResource(R.id.cover, R.drawable.icon);
                                 views.setProgressBar(R.id.timeline, 100, 0, false);
                                 applyUpdate(context, views, partial);
                             }
@@ -149,12 +150,10 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void applyUpdate(Context context, RemoteViews views, boolean partial) {
-        ComponentName widget = new ComponentName(context, this.getClass());
-        AppWidgetManager manager = AppWidgetManager.getInstance(context);
-        if (partial)
-            manager.partiallyUpdateAppWidget(manager.getAppWidgetIds(widget), views);
-        else
-            manager.updateAppWidget(widget, views);
+        final ComponentName widget = new ComponentName(context, this.getClass());
+        final AppWidgetManager manager = AppWidgetManager.getInstance(context);
+        if (partial) manager.partiallyUpdateAppWidget(manager.getAppWidgetIds(widget), views);
+        else manager.updateAppWidget(widget, views);
     }
 
     abstract protected int getLayout();
@@ -164,12 +163,12 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);
-        context.sendBroadcast(new Intent(ACTION_WIDGET_ENABLED));
+        context.sendBroadcast(new Intent(ACTION_WIDGET_ENABLED, null, context.getApplicationContext(), PlaybackService.class));
     }
 
     @Override
     public void onDisabled(Context context) {
         super.onDisabled(context);
-        context.sendBroadcast(new Intent(ACTION_WIDGET_DISABLED));
+        context.sendBroadcast(new Intent(ACTION_WIDGET_DISABLED, null, context.getApplicationContext(), PlaybackService.class));
     }
 }

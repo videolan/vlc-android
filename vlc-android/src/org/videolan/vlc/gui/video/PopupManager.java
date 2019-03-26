@@ -38,6 +38,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.libvlc.IVLCVout;
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
@@ -47,6 +48,7 @@ import org.videolan.vlc.R;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.view.PopupLayout;
 import org.videolan.vlc.util.Constants;
+import org.videolan.vlc.util.KextensionsKt;
 import org.videolan.vlc.util.Settings;
 
 import androidx.core.app.NotificationCompat;
@@ -81,7 +83,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
         if (mRootView == null) return;
         mService.removeCallback(this);
         final IVLCVout vlcVout = mService.getVout();
-        vlcVout.detachViews();
+        if (vlcVout != null) vlcVout.detachViews();
         mRootView.close();
         mRootView = null;
     }
@@ -203,10 +205,10 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     public void update() {}
 
     @Override
-    public void onMediaEvent(Media.Event event) {}
+    public void onMediaEvent(@NotNull Media.Event event) {}
 
     @Override
-    public void onMediaPlayerEvent(MediaPlayer.Event event) {
+    public void onMediaPlayerEvent(@NotNull MediaPlayer.Event event) {
         switch (event.type) {
             case MediaPlayer.Event.Playing:
                 if (mRootView != null) {
@@ -278,8 +280,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
     @SuppressWarnings("deprecation")
     private void showNotification() {
-        final PendingIntent piStop = PendingIntent.getBroadcast(mService, 0,
-                new Intent(Constants.ACTION_REMOTE_STOP), PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent piStop = KextensionsKt.getPendingIntent(mService, new Intent(Constants.ACTION_REMOTE_STOP));
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(mService)
                 .setSmallIcon(R.drawable.ic_notif_video)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
@@ -292,9 +293,9 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
 
         //Switch
         final Intent notificationIntent = new Intent(Constants.ACTION_REMOTE_SWITCH_VIDEO);
-        final PendingIntent piExpand = PendingIntent.getBroadcast(mService, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent piExpand = KextensionsKt.getPendingIntent(mService, notificationIntent);
         //PLay Pause
-        final PendingIntent piPlay = PendingIntent.getBroadcast(mService, 0, new Intent(Constants.ACTION_REMOTE_PLAYPAUSE), PendingIntent.FLAG_UPDATE_CURRENT);
+        final PendingIntent piPlay = KextensionsKt.getPendingIntent(mService, new Intent(Constants.ACTION_REMOTE_PLAYPAUSE));
 
         if (mService.isPlaying())
             builder.addAction(R.drawable.ic_popup_pause, mService.getString(R.string.pause), piPlay);

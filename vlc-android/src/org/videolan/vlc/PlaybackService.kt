@@ -129,26 +129,6 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
              * Remote / headset control events
              */
             when (action) {
-                ACTION_REMOTE_PLAYPAUSE -> {
-                    if (!playlistManager.hasCurrentMedia()) loadLastAudioPlaylist()
-                    else if (isPlaying) pause()
-                    else play()
-                }
-                ACTION_REMOTE_PLAY -> if (!isPlaying && playlistManager.hasCurrentMedia()) play()
-                ACTION_REMOTE_PAUSE -> if (playlistManager.hasCurrentMedia()) pause()
-                ACTION_REMOTE_BACKWARD -> previous(false)
-                ACTION_REMOTE_STOP,
-                VLCApplication.SLEEP_INTENT -> stop()
-                ACTION_REMOTE_FORWARD -> next()
-                ACTION_REMOTE_LAST_PLAYLIST -> loadLastAudioPlaylist()
-                ACTION_REMOTE_LAST_VIDEO_PLAYLIST -> playlistManager.loadLastPlaylist(PLAYLIST_TYPE_VIDEO)
-                ACTION_REMOTE_SWITCH_VIDEO -> {
-                    removePopup()
-                    if (hasMedia()) {
-                        currentMediaWrapper!!.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                        playlistManager.switchToVideo()
-                    }
-                }
                 VLCAppWidgetProvider.ACTION_WIDGET_INIT -> updateWidget()
                 VLCAppWidgetProvider.ACTION_WIDGET_ENABLED , VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
                 ACTION_CAR_MODE_EXIT -> MediaSessionBrowser.unbindExtensionConnection()
@@ -477,21 +457,11 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
         val filter = IntentFilter().apply {
             priority = Integer.MAX_VALUE
-            addAction(ACTION_REMOTE_BACKWARD)
-            addAction(ACTION_REMOTE_PLAYPAUSE)
-            addAction(ACTION_REMOTE_PLAY)
-            addAction(ACTION_REMOTE_PAUSE)
-            addAction(ACTION_REMOTE_STOP)
-            addAction(ACTION_REMOTE_FORWARD)
-            addAction(ACTION_REMOTE_LAST_PLAYLIST)
-            addAction(ACTION_REMOTE_LAST_VIDEO_PLAYLIST)
-            addAction(ACTION_REMOTE_SWITCH_VIDEO)
             addAction(VLCAppWidgetProvider.ACTION_WIDGET_INIT)
             addAction(VLCAppWidgetProvider.ACTION_WIDGET_ENABLED)
             addAction(VLCAppWidgetProvider.ACTION_WIDGET_DISABLED)
             addAction(Intent.ACTION_HEADSET_PLUG)
             addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
-            addAction(VLCApplication.SLEEP_INTENT)
             addAction(ACTION_CAR_MODE_EXIT)
         }
         registerReceiver(receiver, filter)
@@ -523,14 +493,26 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
             ACTION_REMOTE_PLAYPAUSE,
             ACTION_REMOTE_PLAY,
             ACTION_REMOTE_LAST_PLAYLIST -> {
-                if (playlistManager.hasCurrentMedia()) play()
-                else loadLastAudioPlaylist()
+                if (playlistManager.hasCurrentMedia()) {
+                    if (isPlaying) pause()
+                    else play()
+                } else loadLastAudioPlaylist()
             }
+            ACTION_REMOTE_BACKWARD -> previous(false)
+            ACTION_REMOTE_FORWARD -> next()
+            ACTION_REMOTE_STOP -> stop()
             ACTION_PLAY_FROM_SEARCH -> {
                 if (!this::mediaSession.isInitialized) initMediaSession()
                 val extras = intent.getBundleExtra(EXTRA_SEARCH_BUNDLE)
                 mediaSession.controller.transportControls
                         .playFromSearch(extras.getString(SearchManager.QUERY), extras)
+            }
+            ACTION_REMOTE_SWITCH_VIDEO -> {
+                removePopup()
+                if (hasMedia()) {
+                    currentMediaWrapper!!.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                    playlistManager.switchToVideo()
+                }
             }
         }
         return Service.START_NOT_STICKY

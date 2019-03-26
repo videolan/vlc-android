@@ -175,7 +175,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                         if (VLCApplication.sPlayerSleepTime == null)
                             showFragment(ID_SLEEP)
                         else {
-                            setSleep(null)
+                            activity.setSleep(null)
                             initSleep()
                         }
                     }
@@ -411,10 +411,10 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     }
 }
 
-fun setSleep(time: Calendar?) {
-    val alarmMgr = VLCApplication.getAppContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
-    val intent = Intent(VLCApplication.SLEEP_INTENT)
-    val sleepPendingIntent = PendingIntent.getBroadcast(VLCApplication.getAppContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+fun Context.setSleep(time: Calendar?) {
+    val alarmMgr = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+    val intent = Intent(SLEEP_INTENT)
+    val sleepPendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
     if (time != null) alarmMgr.set(AlarmManager.RTC_WAKEUP, time.timeInMillis, sleepPendingIntent)
     else alarmMgr.cancel(sleepPendingIntent)

@@ -344,7 +344,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         editor.apply();
 
         final IntentFilter filter = new IntentFilter();
-        filter.addAction(VLCApplication.SLEEP_INTENT);
+        filter.addAction(Constants.SLEEP_INTENT);
         registerReceiver(mReceiver, filter);
 
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
@@ -864,7 +864,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
-            if (VLCApplication.SLEEP_INTENT.equalsIgnoreCase(action)) exitOK();
+            if (Constants.SLEEP_INTENT.equalsIgnoreCase(action)) exitOK();
         }
     };
 
