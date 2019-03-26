@@ -4,19 +4,12 @@
     android:key="ui_category"
     android:title="@string/interface_prefs_screen">
 
-    <androidx.preference.SwitchPreferenceCompat
-        android:defaultValue="false"
-        android:key="enable_black_theme"
-        android:summary="@string/enable_black_theme_summary"
-        android:title="@string/enable_black_theme"
-        android:disableDependentsState="true" />
-
-    <androidx.preference.SwitchPreferenceCompat
-        android:defaultValue="false"
-        android:key="daynight"
-        android:dependency="enable_black_theme"
-        android:summary="@string/daynight_summary"
-        android:title="@string/daynight_title" />
+    <ListPreference
+        android:defaultValue="-1"
+        android:key="app_theme"
+        android:title="@string/daynight_title"
+        android:entries="@array/daynight_mode_entries"
+        android:entryValues="@array/daynight_mode_values" />
 
     <CheckBoxPreference
         android:key="tv_ui"

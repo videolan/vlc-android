@@ -31,10 +31,8 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.LocalePair;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.SwitchPreferenceCompat;
 
 
 
@@ -72,25 +70,27 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
 
     @Override
     public boolean onPreferenceTreeClick(Preference preference) {
-        if (preference.getKey() == null)
-            return false;
+        if (preference.getKey() == null) return false;
         switch (preference.getKey()){
             case "tv_ui":
                 ((PreferencesActivity) getActivity()).setRestartApp();
-                return true;
-            case "enable_black_theme":
-                ((PreferencesActivity) getActivity()).exitAndRescan();
-                return true;
-            case "daynight":
-                AppCompatDelegate.setDefaultNightMode(((SwitchPreferenceCompat)preference).isChecked() ? AppCompatDelegate.MODE_NIGHT_AUTO : AppCompatDelegate.MODE_NIGHT_NO);
                 return true;
         }
         return super.onPreferenceTreeClick(preference);
     }
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals("set_locale")) UiTools.restartDialog(getActivity());
-        else if (key.equals("browser_show_all_files")) ((PreferencesActivity) getActivity()).setRestart();
+        switch (key) {
+            case "set_locale":
+                UiTools.restartDialog(getActivity());
+                break;
+            case "browser_show_all_files":
+                ((PreferencesActivity) getActivity()).setRestart();
+                break;
+            case "app_theme":
+                ((PreferencesActivity) getActivity()).exitAndRescan();
+                break;
+        }
     }
 
     private void prepareLocaleList() {

@@ -1,88 +1,76 @@
 package org.videolan.vlc.gui.onboarding
 
+import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.CompoundButton
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.onboarding_theme.*
 import org.videolan.vlc.R
 
-class OnboardingThemeFragment : Fragment() {
-    private lateinit var themeDescription: TextView
-    private lateinit var lightThemeSelector: View
-    private lateinit var darkThemeSelector: View
-    private lateinit var dayNightTheme: View
-    private var currentThemeIsLight = true
+class OnboardingThemeFragment : Fragment(), CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
+    private lateinit var viewModel: OnboardingViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = getOnboardingModel()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.onboarding_theme, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        lightThemeSelector = view.findViewById(R.id.lightTheme)
-        darkThemeSelector = view.findViewById(R.id.darkTheme)
-        dayNightTheme = view.findViewById(R.id.dayNightTheme)
-        themeDescription = view.findViewById(R.id.themeDescription)
-
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) follow_system_switch.visibility = View.VISIBLE
 
-        val themeSelectorListener = View.OnClickListener {
-            it.background = ContextCompat.getDrawable(requireActivity(), R.drawable.theme_selection_rounded)
-            when (it) {
-                lightThemeSelector -> {
-                    darkThemeSelector.background = null
-                    dayNightTheme.background = null
-                    currentThemeIsLight = true
-                    themeDescription.setText(R.string.light_theme)
-                    PreferenceManager.getDefaultSharedPreferences(requireActivity())
-                            .edit()
-                            .putBoolean("enable_black_theme", false)
-                            .putBoolean("daynight", false)
-                            .apply()
-                }
-                darkThemeSelector -> {
-                    themeDescription.setText(R.string.enable_black_theme)
-                    lightThemeSelector.background = null
-                    dayNightTheme.background = null
-                    currentThemeIsLight = false
-                    PreferenceManager.getDefaultSharedPreferences(requireActivity())
-                            .edit()
-                            .putBoolean("enable_black_theme", true)
-                            .putBoolean("daynight", false)
-                            .apply()
-                }
-                dayNightTheme -> {
-                    themeDescription.setText(R.string.daynight_explanation)
-                    lightThemeSelector.background = null
-                    darkThemeSelector.background = null
-                    PreferenceManager.getDefaultSharedPreferences(requireActivity())
-                            .edit()
-                            .putBoolean("enable_black_theme", false)
-                            .putBoolean("daynight", true)
-                            .apply()
-                }
-            }
+        lightTheme.setOnClickListener(this)
+        darkTheme.setOnClickListener(this)
+        dayNightTheme.setOnClickListener(this)
+        follow_system_switch.isChecked = viewModel.enableSystemNight
+        follow_system_switch.setOnCheckedChangeListener(this)
+    }
 
+    override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
+        when (buttonView) {
+            follow_system_switch -> viewModel.theme = if (isChecked) AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM else AppCompatDelegate.MODE_NIGHT_AUTO
         }
+    }
 
-        lightThemeSelector.setOnClickListener(themeSelectorListener)
-        darkThemeSelector.setOnClickListener(themeSelectorListener)
-        dayNightTheme.setOnClickListener(themeSelectorListener)
-
+    override fun onClick(view: View) {
+        view.background = ContextCompat.getDrawable(requireActivity(), R.drawable.theme_selection_rounded)
+        when (view) {
+            lightTheme -> {
+                darkTheme.background = null
+                dayNightTheme.background = null
+                viewModel.theme = AppCompatDelegate.MODE_NIGHT_NO
+                themeDescription.setText(R.string.light_theme)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) follow_system_switch.visibility = View.GONE
+            }
+            darkTheme -> {
+                themeDescription.setText(R.string.enable_black_theme)
+                lightTheme.background = null
+                dayNightTheme.background = null
+                viewModel.theme = AppCompatDelegate.MODE_NIGHT_YES
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) follow_system_switch.visibility = View.GONE
+            }
+            dayNightTheme -> {
+                themeDescription.setText(R.string.daynight_explanation)
+                lightTheme.background = null
+                darkTheme.background = null
+                viewModel.theme = AppCompatDelegate.MODE_NIGHT_AUTO
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) follow_system_switch.visibility = View.VISIBLE
+            }
+        }
     }
 
     companion object {
-        fun newInstance(): OnboardingThemeFragment {
-            return OnboardingThemeFragment()
-        }
+        fun newInstance() = OnboardingThemeFragment()
     }
 }

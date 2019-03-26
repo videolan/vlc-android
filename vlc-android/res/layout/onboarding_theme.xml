@@ -53,7 +53,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <FrameLayout
-        android:id="@+id/lightTheme"
+        android:id="@+id/dayNightTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/theme_selection_rounded"
@@ -68,11 +68,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:srcCompat="@drawable/ic_theme_light" />
+            app:srcCompat="@drawable/ic_theme_daynight" />
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/darkTheme"
+        android:id="@+id/lightTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -86,11 +86,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:srcCompat="@drawable/ic_theme_dark" />
+            app:srcCompat="@drawable/ic_theme_light" />
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/dayNightTheme"
+        android:id="@+id/darkTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:srcCompat="@drawable/ic_theme_daynight" />
+            app:srcCompat="@drawable/ic_theme_dark" />
     </FrameLayout>
 
     <TextView
@@ -117,10 +117,41 @@
         android:maxWidth="250dp"
         android:background="@drawable/theme_selection_rounded"
         android:padding="8dp"
-        android:text="@string/light_theme"
+        android:text="@string/daynight_explanation"
         android:textAlignment="center"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/darkTheme" />
+
+    <Switch
+        android:id="@+id/follow_system_switch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/theme_follow_system_mode"
+        app:layout_constraintTop_toBottomOf="@+id/themeDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:checked="true"
+        android:textSize="18sp"
+        android:visibility="gone"/>
+
+    <!--Switch
+        android:id="@+id/follow_battery_switch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Follow battery saver mode"
+        app:layout_constraintTop_toBottomOf="@+id/follow_system_switch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:checked="true"
+        android:textSize="18sp"/-->
 </androidx.constraintlayout.widget.ConstraintLayout>
