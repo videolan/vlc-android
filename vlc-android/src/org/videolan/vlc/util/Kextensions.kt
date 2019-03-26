@@ -1,10 +1,14 @@
 package org.videolan.vlc.util
 
+import android.annotation.TargetApi
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.net.Uri
+import android.os.Build
 import android.util.DisplayMetrics
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
@@ -17,6 +21,7 @@ import androidx.lifecycle.*
 import androidx.preference.PreferenceManager
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
+import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.SingletonHolder
@@ -166,4 +171,10 @@ fun Int.toPixel(): Int {
 fun Activity.getScreenWidth() : Int {
     val dm = DisplayMetrics().also { windowManager.defaultDisplay.getMetrics(it) }
     return dm.widthPixels
+}
+
+@TargetApi(Build.VERSION_CODES.O)
+fun Context.getPendingIntent(iPlay: Intent): PendingIntent {
+    return if (AndroidUtil.isOOrLater) PendingIntent.getForegroundService(applicationContext, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT)
+    else PendingIntent.getService(applicationContext, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT)
 }

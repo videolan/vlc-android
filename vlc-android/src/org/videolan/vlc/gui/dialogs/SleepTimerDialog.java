@@ -63,7 +63,7 @@ public class SleepTimerDialog extends PickTimeFragment {
             Calendar sleepTime = Calendar.getInstance();
             sleepTime.setTimeInMillis(sleepTime.getTimeInMillis() + interval);
             sleepTime.set(Calendar.SECOND, 0);
-            PlayerOptionsDelegateKt.setSleep(sleepTime);
+            PlayerOptionsDelegateKt.setSleep(requireContext(), sleepTime);
         }
 
         dismiss();
