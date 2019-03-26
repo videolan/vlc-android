@@ -288,7 +288,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PlaybackService.Companion.start(this);
         Util.checkCpuCompatibility(this);
 
         mSettings = Settings.INSTANCE.getInstance(this);
@@ -402,6 +401,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             mSavedTime = savedInstanceState.getLong(KEY_TIME);
             mUri = (Uri) savedInstanceState.getParcelable(KEY_URI);
         }
+        PlaybackService.Companion.start(this);
     }
 
     @Override
