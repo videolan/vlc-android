@@ -106,7 +106,7 @@ object ModelsHelper {
         return if (item.title.isEmpty() || !Character.isLetter(item.title[0]) || ModelsHelper.isSpecialItem(item)) "#" else item.title.substring(0, 1).toUpperCase()
     }
 
-    fun getHeader(context: Context, sort: Int, item: MediaLibraryItem, aboveItem: MediaLibraryItem?) = when (sort) {
+    fun getHeader(context: Context?, sort: Int, item: MediaLibraryItem, aboveItem: MediaLibraryItem?) = if (context !== null) when (sort) {
         Medialibrary.SORT_DEFAULT,
         Medialibrary.SORT_FILENAME,
         Medialibrary.SORT_ALPHA -> {
@@ -160,7 +160,7 @@ object ModelsHelper {
             }
         }
         else -> null
-    }
+    } else null
 
     private fun getTimeCategory(timestamp: Long): Int {
         val delta = (System.currentTimeMillis() / 1000L) - timestamp
