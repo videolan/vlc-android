@@ -146,6 +146,12 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     }
 
     @MainThread
+    fun getPositionForSectionByName(header: String): Int {
+        for (pos in headers.size() - 1 downTo 0) if (headers.valueAt(pos) == header) return headers.keyAt(pos)
+        return 0
+    }
+
+    @MainThread
     fun getHeaderForPostion(position: Int) = headers.get(position)
 
     inner class MLDataSource : PositionalDataSource<T>() {

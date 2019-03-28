@@ -94,6 +94,20 @@ fun placeHolderImageView(v: View, item: MediaLibraryItem?) {
 
 }
 
+@BindingAdapter("icvTitle")
+fun imageCardViewTitle(v: View, title: String?) {
+    if (v is ImageCardView) {
+        v.titleText = title
+    }
+}
+
+@BindingAdapter("icvContent")
+fun imageCardViewContent(v: View, content: String?) {
+    if (v is ImageCardView) {
+        v.contentText = content
+    }
+}
+
 @BindingAdapter("imageUri")
 fun downloadIcon(v: View, imageUri: Uri?) {
     if (imageUri != null && imageUri.scheme == "http") AppScope.launch {

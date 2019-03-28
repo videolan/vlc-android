@@ -288,3 +288,13 @@ def revision() {
     }
     return code.toString()
 }
+
+
+kapt {
+    javacOptions {
+        // Increase the max count of errors from annotation processors.
+        // Default is 100.
+        option("-Xmaxerrs", 500)
+    }
+}
+

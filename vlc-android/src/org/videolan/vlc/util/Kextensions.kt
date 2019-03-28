@@ -183,6 +183,11 @@ fun Activity.getScreenWidth() : Int {
     return dm.widthPixels
 }
 
+fun Activity.getScreenHeight(): Int {
+    val dm = DisplayMetrics().also { windowManager.defaultDisplay.getMetrics(it) }
+    return dm.heightPixels
+}
+
 @TargetApi(Build.VERSION_CODES.O)
 fun Context.getPendingIntent(iPlay: Intent): PendingIntent {
     return if (AndroidUtil.isOOrLater) PendingIntent.getForegroundService(applicationContext, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT)

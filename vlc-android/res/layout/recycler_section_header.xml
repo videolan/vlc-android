@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView android:id="@+id/section_header"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/section_header"
     android:layout_width="match_parent"
     android:layout_height="48dp"
     android:background="?attr/background_default_gradient"
@@ -9,5 +10,4 @@
     android:paddingBottom="@dimen/audio_item_header_padding"
     android:singleLine="true"
     android:textColor="?attr/audio_browser_separator"
-    android:textSize="20sp"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    android:textSize="20sp" />
