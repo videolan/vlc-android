@@ -21,6 +21,7 @@
  *****************************************************************************/
 
 #include <pthread.h>
+#include <stdlib.h>
 
 #include "libvlcjni-vlcobject.h"
 
