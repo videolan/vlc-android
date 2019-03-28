@@ -22,6 +22,7 @@
 
 #include <pthread.h>
 #include <stdlib.h>
+#include <dlfcn.h>
 
 #include "libvlcjni-vlcobject.h"
 
@@ -1070,6 +1071,41 @@ Java_org_videolan_libvlc_MediaPlayer_nativeSetEqualizer(JNIEnv *env,
     }
 
     return libvlc_media_player_set_equalizer(p_obj->u.p_mp, p_eq) == 0 ? true: false;
+}
+
+jboolean
+Java_org_videolan_libvlc_MediaPlayer_nativeRecord(JNIEnv *env, jobject thiz,
+                                                  jstring jdirectory)
+{
+    vlcjni_object *p_obj = VLCJniObject_getInstance(env, thiz);
+    const char *psz_directory;
+
+    if (!p_obj)
+        return false;
+
+    int (*record_func)(libvlc_media_player_t *, const char *) =
+        dlsym(RTLD_DEFAULT, "libvlc_media_player_record");
+
+    if (!record_func)
+        return false;
+
+    if (jdirectory)
+    {
+        psz_directory = (*env)->GetStringUTFChars(env, jdirectory, 0);
+        if (!psz_directory)
+        {
+            throw_Exception(env, VLCJNI_EX_ILLEGAL_ARGUMENT, "directory invalid");
+            return false;
+        }
+    }
+    else
+        psz_directory = NULL;
+
+    jboolean ret = record_func(p_obj->u.p_mp, psz_directory) == 0;
+
+    (*env)->ReleaseStringUTFChars(env, jdirectory, psz_directory);
+
+    return ret;
 }
 
 jint

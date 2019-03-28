@@ -1196,6 +1196,17 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     /**
+     * Start/stop recording
+     *
+     * @param directory path of the recording directory or null to stop
+     * recording
+     * @return true on success.
+     */
+    public boolean record(String directory) {
+        return nativeRecord(directory);
+    }
+
+    /**
      * Add a slave (or subtitle) to the current media player.
      *
      * @param type see {@link org.videolan.libvlc.Media.Slave.Type}
@@ -1381,5 +1392,6 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     private native long nativeGetSpuDelay();
     private native boolean nativeSetSpuDelay(long delay);
     private native boolean nativeAddSlave(int type, String location, boolean select);
+    private native boolean nativeRecord(String directory);
     private native boolean nativeSetEqualizer(Equalizer equalizer);
 }
