@@ -10,6 +10,7 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
 import android.util.DisplayMetrics
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.PrecomputedTextCompat
@@ -160,7 +161,11 @@ fun <X, Y> CoroutineScope.map(
 
 @BindingAdapter("app:asyncText", requireAll = false)
 fun asyncText(view: TextView, text: CharSequence?) {
-    if (text.isNullOrEmpty()) return
+    if (text.isNullOrEmpty()) {
+        view.visibility = View.GONE
+        return
+    }
+    view.visibility = View.VISIBLE
     val params = TextViewCompat.getTextMetricsParams(view)
     (view as AppCompatTextView).setTextFuture(PrecomputedTextCompat.getTextFuture(text, params, null))
 }
