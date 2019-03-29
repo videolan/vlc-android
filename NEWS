@@ -1,3 +1,14 @@
+Changes between 3.1.0 and 3.1.1:
+------------------
+
+Application:
+ * Fix global search button not displayed
+ * Fix widget commands
+ * Crash fixes
+
+VLC:
+ * Fix TLS connection fails
+
 Changes between 3.1.0-RC4 and 3.1.0:
 ------------------
 
