@@ -22,9 +22,8 @@ package org.videolan.vlc.providers
 
 import android.content.Context
 import androidx.lifecycle.Observer
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -34,6 +33,8 @@ import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.LiveDataset
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String? = null, showHiddenFiles: Boolean): BrowserProvider(context, dataset, url, showHiddenFiles), Observer<List<MediaWrapper>> {
 
     private val favorites = if (url == null && !AndroidDevices.showTvUi(context)) BrowserFavRepository.getInstance(context).networkFavorites else null
@@ -42,7 +43,7 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         favorites?.observeForever(this)
     }
 
-    override suspend fun browseRoot() {
+    override suspend fun browseRootImpl() {
         if (ExternalMonitor.allowLan()) browse()
     }
 
@@ -54,7 +55,7 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
             dataset.value = mutableListOf<MediaLibraryItem>().apply {
                 getFavoritesList(favorites?.value)?.let { addAll(it) }
             }
-            launch { browseRoot() }
+            browseRoot()
             true
         } else if (list !== null) {
             dataset.value = list as MutableList<MediaLibraryItem>
@@ -69,12 +70,8 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         if (url != null) super.parseSubDirectories()
     }
 
-    override fun stop(): Unit? {
-        launch(Dispatchers.IO) {
-            if (url == null) mutex.withLock {
-                mediabrowser?.changeEventListener(null)
-            }
-        }
+    override fun stop() {
+        if (url == null) clearListener()
         return super.stop()
     }
 

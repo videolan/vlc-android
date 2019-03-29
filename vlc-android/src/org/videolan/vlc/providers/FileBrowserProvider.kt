@@ -25,10 +25,7 @@ import android.hardware.usb.UsbDevice
 import android.net.Uri
 import android.text.TextUtils
 import androidx.lifecycle.Observer
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancelAndJoin
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -46,6 +43,8 @@ import org.videolan.vlc.util.LiveDataset
 import org.videolan.vlc.util.convertFavorites
 import java.io.File
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 open class FileBrowserProvider(
         context: Context,
         dataset: LiveDataset<MediaLibraryItem>,
@@ -72,7 +71,6 @@ open class FileBrowserProvider(
         }
         launch {
             if (favs.isNotEmpty()) {
-                job?.cancelAndJoin()
                 val position = data.size
                 var favAdded = false
                 for (fav in favs) if (File(fav.uri.path).exists()) {
@@ -95,7 +93,7 @@ open class FileBrowserProvider(
 
     private lateinit var storageObserver : Observer<Boolean>
 
-    override suspend fun browseRoot() {
+    override suspend fun browseRootImpl() {
         loading.postValue(true)
         var storageAccess = false
         val internalmemoryTitle = context.getString(R.string.internal_memory)

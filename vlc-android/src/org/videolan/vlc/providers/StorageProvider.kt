@@ -35,7 +35,7 @@ import java.util.*
 
 class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showHiddenFiles: Boolean): FileBrowserProvider(context, dataset, url, false, showHiddenFiles) {
 
-    override suspend fun browseRoot() {
+    override suspend fun browseRootImpl() {
         val storages = DirectoryRepository.getInstance(context).getMediaDirectories()
         val customDirectories = DirectoryRepository.getInstance(context).getCustomDirectories()
         var storage: Storage

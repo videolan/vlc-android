@@ -51,7 +51,7 @@ open class BrowserModel(context: Context, val url: String?, type: Int, showHidde
 
     override fun refresh() = provider.refresh()
 
-    fun browserRoot() = launch { provider.browseRoot() }
+    fun browserRoot() = provider.browseRoot()
 
     @MainThread
     override fun sort(sort: Int) {
