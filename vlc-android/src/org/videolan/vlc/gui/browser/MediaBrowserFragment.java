@@ -98,7 +98,6 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
         mSwipeRefreshLayout = view.findViewById(R.id.swipeLayout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.orange700);
         if (hasFAB()) mFabPlay = requireActivity().findViewById(R.id.fab);
-        setBreadcrumb();
     }
 
     protected boolean hasFAB() {
@@ -110,9 +109,15 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
         if (ariane != null) ariane.setVisibility(View.GONE);
     }
 
+    protected void releaseBreadCrumb() {
+        final RecyclerView ariane = requireActivity().findViewById(R.id.ariane);
+        if (ariane != null) ariane.setAdapter(null);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
+        setBreadcrumb();
         updateActionBar();
         if (mFabPlay != null) {
             setFabPlayVisibility(true);
@@ -131,6 +136,7 @@ public abstract class MediaBrowserFragment<T extends SortableModel> extends Frag
     @Override
     public void onStop() {
         super.onStop();
+        releaseBreadCrumb();
         setFabPlayVisibility(false);
         restart = true;
     }
