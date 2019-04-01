@@ -114,6 +114,17 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
     }
 
     @Override
+    public void onBackPressed() {
+        if (mFragment instanceof OnBackPressedListener) {
+            if (!((OnBackPressedListener) mFragment).onBackPressed()) {
+                super.onBackPressed();
+            }
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
     public void showProgress(final boolean show){
         runOnUiThread(new Runnable() {
             @Override
@@ -136,5 +147,14 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
     
     public void sort(View v) {
         ((Sortable)mFragment).sort(v);
+    }
+
+    public interface OnBackPressedListener {
+        /**
+         * back has been pressed
+         *
+         * @return true if the event has been intercepted
+         */
+        boolean onBackPressed();
     }
 }

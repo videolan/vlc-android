@@ -45,6 +45,7 @@
         android:minHeight="@dimen/audio_browser_item_size"
         android:onClick="@{holder::onClick}"
         android:onLongClick="@{holder::onLongClick}"
+        vlc:elevation="1dp"
         android:stateListAnimator="@animator/tv_recyclerview_item_pop">
 
 

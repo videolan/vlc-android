@@ -25,6 +25,7 @@
 package org.videolan.vlc.gui.tv.browser;
 
 import android.annotation.TargetApi;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -56,6 +57,7 @@ import org.videolan.vlc.viewmodels.paged.MLPagedModel;
 import org.videolan.vlc.viewmodels.paged.PagedTracksModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import androidx.annotation.NonNull;
 import androidx.collection.SparseArrayCompat;
@@ -67,7 +69,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-public class SongsBrowserFragment extends Fragment implements BrowserFragmentInterface, IEventsHandler, PopupMenu.OnMenuItemClickListener, SongHeaderAdapter.OnHeaderSelected {
+public class SongsBrowserFragment extends Fragment implements BrowserFragmentInterface, IEventsHandler, PopupMenu.OnMenuItemClickListener, SongHeaderAdapter.OnHeaderSelected, VerticalGridActivity.OnBackPressedListener {
 
     private MLPagedModel<MediaLibraryItem> viewModel;
     private RecyclerView list;
@@ -76,6 +78,7 @@ public class SongsBrowserFragment extends Fragment implements BrowserFragmentInt
     private SongHeaderAdapter headerAdapter;
     private View headerListContainer;
     private int nbColumns;
+    private GridLayoutManager gridLayoutManager;
 
 
     @Override
@@ -150,8 +153,8 @@ public class SongsBrowserFragment extends Fragment implements BrowserFragmentInt
         });
 
 
-        nbColumns = 6;
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(requireActivity(), nbColumns);
+        nbColumns = getResources().getInteger(R.integer.tv_songs_col_count);
+        gridLayoutManager = new GridLayoutManager(requireActivity(), nbColumns);
 
         final int spacing = getResources().getDimensionPixelSize(R.dimen.recycler_section_header_spacing);
 
@@ -227,6 +230,16 @@ public class SongsBrowserFragment extends Fragment implements BrowserFragmentInt
         super.onViewCreated(view, savedInstanceState);
     }
 
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        nbColumns = getResources().getInteger(R.integer.tv_songs_col_count);
+        gridLayoutManager.setSpanCount(nbColumns);
+        list.setLayoutManager(gridLayoutManager);
+    }
+
     @Override
     public void onActivityCreated(@androidx.annotation.Nullable Bundle savedInstanceState) {
         list.setAdapter(adapter);
@@ -247,10 +260,7 @@ public class SongsBrowserFragment extends Fragment implements BrowserFragmentInt
 
 
                 ArrayList<MediaWrapper> itemList = new ArrayList<>(1);
-                for (MediaWrapper track : item.getTracks()) {
-
-                    itemList.add(track);
-                }
+                Collections.addAll(itemList, item.getTracks());
                 TvUtil.INSTANCE.playAudioList(getActivity(), itemList, 0);
 
             }
@@ -272,6 +282,10 @@ public class SongsBrowserFragment extends Fragment implements BrowserFragmentInt
 
     }
 
+    @Override
+    public void onImageClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
+
+    }
 
     public void sort(@NotNull View v) {
         PopupMenu menu = new PopupMenu(v.getContext(), v);
@@ -337,7 +351,13 @@ public class SongsBrowserFragment extends Fragment implements BrowserFragmentInt
         }
     }
 
-
     @Override
-    public void onImageClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {}
+    public boolean onBackPressed() {
+        if (headerListContainer.getVisibility() == View.VISIBLE) {
+            headerListContainer.setVisibility(View.GONE);
+            list.setVisibility(View.VISIBLE);
+            return true;
+        }
+        return false;
+    }
 }

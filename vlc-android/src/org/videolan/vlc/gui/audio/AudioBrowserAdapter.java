@@ -318,6 +318,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                     }
                 }
             });
+            binding.container.setClipToOutline(true);
 
         }
 
