@@ -2930,7 +2930,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             if (Permissions.checkReadStoragePermission(this, true) && !mSwitchingView)
                 mHandler.sendEmptyMessage(START_PLAYBACK);
             mSwitchingView = false;
-            if (mService.getVolume() > 100 && !audioBoostEnabled) mService.setVolume(100);
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() { // delay mediaplayer loading, prevent ANR
+                    if (mService.getVolume() > 100 && !audioBoostEnabled) mService.setVolume(100);
+                }
+            });
             mService.addCallback(this);
         } else {
             if (mService != null) mService.removeCallback(this);
