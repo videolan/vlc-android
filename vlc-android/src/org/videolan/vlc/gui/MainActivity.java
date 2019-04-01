@@ -36,7 +36,6 @@ import com.google.android.material.navigation.NavigationView;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.BuildConfig;
-import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
 import org.videolan.vlc.StartActivity;
@@ -50,7 +49,6 @@ import org.videolan.vlc.gui.browser.BaseBrowserFragment;
 import org.videolan.vlc.gui.browser.ExtensionBrowser;
 import org.videolan.vlc.gui.helpers.Navigator;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.gui.onboarding.OnboardingActivityKt;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.preferences.PreferencesFragment;
 import org.videolan.vlc.gui.video.VideoGridFragment;
@@ -61,7 +59,6 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Permissions;
 import org.videolan.vlc.util.Util;
-import org.videolan.vlc.util.WorkersKt;
 
 import java.util.List;
 
@@ -404,7 +401,6 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
 
     public void updateCheckedItem(int id) {
         switch (id) {
-            case R.id.nav_mrl:
             case R.id.nav_settings:
             case R.id.nav_about:
                 return;

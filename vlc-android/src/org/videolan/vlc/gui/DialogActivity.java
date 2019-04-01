@@ -35,7 +35,6 @@ import org.videolan.vlc.gui.dialogs.VlcDialog;
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog;
 import org.videolan.vlc.gui.dialogs.VlcProgressDialog;
 import org.videolan.vlc.gui.dialogs.VlcQuestionDialog;
-import org.videolan.vlc.gui.network.MRLPanelFragment;
 import org.videolan.vlc.media.MediaUtils;
 
 import java.util.List;
@@ -47,7 +46,6 @@ public class DialogActivity extends BaseActivity {
     public static final String KEY_LOGIN = "LoginDialog";
     public static final String KEY_QUESTION = "QuestionDialog";
     public static final String KEY_PROGRESS = "ProgressDialog";
-    public static final String KEY_STREAM = "streamDialog";
     public static final String KEY_SERVER = "serverDialog";
     public static final String KEY_SUBS_DL = "subsdlDialog";
     public static final String KEY_DEVICE = "deviceDialog";
@@ -69,7 +67,6 @@ public class DialogActivity extends BaseActivity {
         if (key.startsWith(KEY_LOGIN)) setupLoginDialog(key);
         else if (key.startsWith(KEY_QUESTION)) setupQuestionDialog(key);
         else if (key.startsWith(KEY_PROGRESS)) setupProgressDialog(key);
-        else if (KEY_STREAM.equals(key)) setupStreamDialog();
         else if (KEY_SERVER.equals(key)) setupServerDialog();
         else if (KEY_SUBS_DL.equals(key)) setupSubsDialog();
         else if (KEY_DEVICE.equals(key)) setupDeviceDialog();
@@ -83,9 +80,6 @@ public class DialogActivity extends BaseActivity {
         dialog.show(getSupportFragmentManager(), "device_dialog");
     }
 
-    private void setupStreamDialog() {
-        new MRLPanelFragment().show(getSupportFragmentManager(), "fragment_mrl");
-    }
 
     private void setupServerDialog() {
         new NetworkServerDialog().show(getSupportFragmentManager(), "fragment_mrl");

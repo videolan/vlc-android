@@ -20,19 +20,19 @@
  */
 package org.videolan.vlc.gui.network
 
-import androidx.databinding.DataBindingUtil
 import android.net.Uri
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.channels.SendChannel
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlItemBinding
 
 internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : RecyclerView.Adapter<MRLAdapter.ViewHolder>() {
-    private var dataset: Array<MediaWrapper>? = null
+    private var dataset: List<MediaWrapper>? = null
 
     val isEmpty: Boolean
         get() = itemCount == 0
@@ -49,7 +49,7 @@ internal class MRLAdapter(private val eventActor: SendChannel<MrlAction>) : Recy
         holder.binding.mrlItemTitle.text = Uri.decode(item?.title)
     }
 
-    fun setList(list: Array<MediaWrapper>?) {
+    fun setList(list: List<MediaWrapper>?) {
         dataset = list
         notifyDataSetChanged()
     }

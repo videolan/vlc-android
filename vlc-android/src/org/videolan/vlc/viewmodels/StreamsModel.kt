@@ -20,27 +20,38 @@
 
 package org.videolan.vlc.viewmodels
 
-import androidx.lifecycle.MutableLiveData
+import android.content.Context
 import androidx.databinding.ObservableField
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.vlc.VLCApplication
 
 
-class StreamsModel: ScopedModel() {
+class StreamsModel(context: Context) : MedialibraryModel<MediaWrapper>(context) {
      val observableSearchText = ObservableField<String>()
-     val observableHistory = MutableLiveData<Array<MediaWrapper>>()
 
-    fun updateHistory() = launch {
-        val history = withContext(Dispatchers.IO) { VLCApplication.getMLInstance().lastStreamsPlayed() }
-        observableHistory.value = history
+    init {
+        if (medialibrary.isStarted) refresh()
+    }
+
+
+    override suspend fun updateList() {
+        dataset.value = withContext(Dispatchers.Default) { medialibrary.lastStreamsPlayed().toMutableList() }
     }
 
     fun rename(position: Int, name: String) {
-        val media = observableHistory.value?.get(position) ?: return
+        val media = dataset.value[position] ?: return
         launch(Dispatchers.IO) { media.rename(name) }
-        updateHistory()
+        refresh()
+    }
+
+    class Factory(private val context: Context) : ViewModelProvider.NewInstanceFactory() {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            @Suppress("UNCHECKED_CAST")
+            return StreamsModel(context.applicationContext) as T
+        }
     }
 }

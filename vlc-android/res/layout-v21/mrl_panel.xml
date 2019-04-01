@@ -9,72 +9,89 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/background_default_darker"
+        app:layout_behavior="org.videolan.vlc.gui.helpers.BottomSheetBehavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mrl_root"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="?attr/background_default_darker"
-            android:layoutDirection="ltr"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:minWidth="@dimen/mrl_panel_min_width">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layoutDirection="ltr">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/mrl_edit"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mrlbar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dip"
-                android:paddingEnd="4dp"
-                app:layout_constraintEnd_toStartOf="@+id/play"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="RtlSymmetry">
-
-                <!--android:paddingTop ==> Space between cursor and top hint-->
-                <!--android:paddingBottom ==> Space between cursor and bottom border-->
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/edittext_bottom_border"
-                    android:hint="@string/open_mrl_dialog_msg"
-                    android:imeOptions="actionGo"
-                    android:inputType="textUri"
-                    android:maxLines="2"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="4dp"
-                    android:text="@={viewmodel.observableSearchText}"
-                    android:textColor="?font_default"
-                    android:textCursorDrawable="@drawable/cursor_o" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/play"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:contentDescription="@string/play_button"
-                android:scaleType="center"
-                android:src="@drawable/ic_send"
-                app:layout_constraintBottom_toBottomOf="@+id/mrl_edit"
+                android:background="?attr/background_default"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/mrl_edit" />
+                app:layout_constraintStart_toStartOf="parent"
+                android:elevation="4dp"
+                app:elevation="4dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/mrl_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:paddingEnd="4dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/play"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlSymmetry">
+
+                    <!--android:paddingTop ==> Space between cursor and top hint-->
+                    <!--android:paddingBottom ==> Space between cursor and bottom border-->
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/edittext_bottom_border"
+                        android:hint="@string/open_mrl_dialog_msg"
+                        android:imeOptions="actionGo"
+                        android:inputType="textUri"
+                        android:maxLines="2"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="4dp"
+                        android:text="@={viewmodel.observableSearchText}"
+                        android:textColor="?font_default"
+                        android:textCursorDrawable="@drawable/cursor_o" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:contentDescription="@string/play_button"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_send"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintBottom_toBottomOf="@+id/mrl_edit"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/mrl_edit" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mrl_list"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_height="match_parent"
                 android:layout_marginStart="4dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="4dp"
-                android:background="?attr/background_default"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mrl_edit" />
+                app:layout_constraintTop_toBottomOf="@+id/mrlbar" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

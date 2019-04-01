@@ -90,6 +90,7 @@ class Navigator(private val activity: MainActivity,
             R.id.nav_playlists -> PlaylistFragment()
             R.id.nav_history -> HistoryFragment()
             R.id.nav_network -> NetworkBrowserFragment()
+            R.id.nav_mrl -> MRLPanelFragment()
             else -> {
                 val group = Integer.valueOf(Settings.getInstance(activity.applicationContext).getString("video_min_group_length", "6")!!)
                 if (group == 0) FoldersFragment()
@@ -203,7 +204,7 @@ class Navigator(private val activity: MainActivity,
             } else when (id) {
                     R.id.nav_about -> showSecondaryFragment(SecondaryActivity.ABOUT)
                     R.id.nav_settings -> activity.startActivityForResult(Intent(activity, PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
-                    R.id.nav_mrl -> MRLPanelFragment().show(activity.supportFragmentManager, "fragment_mrl")
+//                    R.id.nav_mrl -> MRLPanelFragment().show(activity.supportFragmentManager, "fragment_mrl")
                     else -> {
                         activity.slideDownAudioPlayer()
                         showFragment(id)

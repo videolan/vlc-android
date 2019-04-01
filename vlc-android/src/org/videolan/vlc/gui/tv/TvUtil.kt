@@ -48,6 +48,7 @@ import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
+import org.videolan.vlc.gui.tv.browser.TVActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.*
@@ -138,8 +139,11 @@ object TvUtil {
                 }
             }
             is DummyItem -> when {
-                item.id == HEADER_STREAM -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_STREAM)
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                item.id == HEADER_STREAM -> {
+                    val intent = Intent(activity, TVActivity::class.java)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
+                    activity.startActivity(intent)
+                }
                 item.id == HEADER_SERVER -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                 else -> {

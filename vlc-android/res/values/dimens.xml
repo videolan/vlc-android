@@ -18,6 +18,11 @@
     <dimen name="info_appbar_height">150dp</dimen>
     <dimen name="audioplayer_controls_margin">0dp</dimen>
 
+    <!--Keylines-->
+    <dimen name="kl_half">4dp</dimen>
+    <dimen name="kl_small">8dp</dimen>
+    <dimen name="kl_normal">16dp</dimen>
+
     <!-- Video Player -->
     <dimen name="overlay_padding_bottom">8dip</dimen>
     <dimen name="overlay_padding_top">10dip</dimen>

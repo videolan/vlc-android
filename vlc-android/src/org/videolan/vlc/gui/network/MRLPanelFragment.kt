@@ -20,6 +20,7 @@
  */
 package org.videolan.vlc.gui.network
 
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -31,11 +32,14 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
@@ -43,12 +47,13 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
-import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.CtxActionReceiver
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.CTX_ADD_TO_PLAYLIST
 import org.videolan.vlc.util.CTX_APPEND
 import org.videolan.vlc.util.CTX_RENAME
@@ -58,14 +63,14 @@ const val TAG = "VLC/MrlPanelFragment"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener, CtxActionReceiver {
+class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener, CtxActionReceiver, BrowserFragmentInterface {
 
     private lateinit var adapter: MRLAdapter
     private lateinit var editText: com.google.android.material.textfield.TextInputLayout
     private lateinit var viewModel: StreamsModel
 
     private val listEventActor = coroutineScope.actor<MrlAction> {
-        for (event in channel) when(event) {
+        for (event in channel) when (event) {
             is Playmedia -> playMedia(event.media)
             is ShowContext -> showContext(event.position)
         }
@@ -73,8 +78,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NORMAL, 0)
-        viewModel = ViewModelProviders.of(this).get(StreamsModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity(), StreamsModel.Factory(requireContext())).get<StreamsModel>(StreamsModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -86,20 +90,44 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
 
         adapter = MRLAdapter(listEventActor)
         val recyclerView = binding.mrlList
-        recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+
+        if (AndroidDevices.showTvUi(requireActivity())) {
+            val gridLayoutManager = GridLayoutManager(activity, 2)
+            recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+                    outRect.left = resources.getDimension(R.dimen.kl_half).toInt()
+                    outRect.right = resources.getDimension(R.dimen.kl_half).toInt()
+                    super.getItemOffsets(outRect, view, parent, state)
+                }
+            })
+            recyclerView.layoutManager = gridLayoutManager
+
+        } else {
+            recyclerView.layoutManager = LinearLayoutManager(activity)
+            recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+        }
         recyclerView.adapter = adapter
-        viewModel.observableHistory.observe(this, Observer { adapter.setList(it) })
+
         binding.play.setOnClickListener(this)
 
-        dialog?.setTitle(R.string.open_mrl_dialog_title)
+        // dialog?.setTitle(R.string.open_mrl_dialog_title)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.dataset.observe(this, Observer { adapter.setList(it) })
     }
 
     override fun onStart() {
         super.onStart()
-        viewModel.updateHistory()
+        viewModel.refresh()
+        val activity = activity as AppCompatActivity? ?: return
+        if (activity.supportActionBar != null) {
+            activity.supportActionBar!!.setTitle(R.string.open_mrl)
+        }
     }
+
 
     override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
         return (keyCode == EditorInfo.IME_ACTION_DONE ||
@@ -120,10 +148,9 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
     private fun playMedia(mw: MediaWrapper) {
         mw.type = MediaWrapper.TYPE_STREAM
         MediaUtils.openMedia(activity, mw)
-        viewModel.updateHistory()
+        viewModel.refresh()
         activity?.invalidateOptionsMenu()
         UiTools.setKeyboardVisibility(editText, false)
-        dismiss()
     }
 
     override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?) = false
@@ -134,7 +161,7 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
 
     private fun showContext(position: Int) {
         val flags = CTX_RENAME or CTX_APPEND or CTX_ADD_TO_PLAYLIST
-        val media = viewModel.observableHistory.value?.get(position) ?: return
+        val media = viewModel.dataset.value.get(position) ?: return
         showContext(requireActivity(), this, position, media.title, flags)
     }
 
@@ -142,18 +169,18 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
         when (option) {
             CTX_RENAME -> renameStream(position)
             CTX_APPEND -> {
-                val media = viewModel.observableHistory.value?.get(position) ?: return
+                val media = viewModel.dataset.value.get(position) ?: return
                 MediaUtils.appendMedia(requireContext(), media)
             }
             CTX_ADD_TO_PLAYLIST -> {
-                val media = viewModel.observableHistory.value?.get(position) ?: return
+                val media = viewModel.dataset.value.get(position) ?: return
                 UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             }
         }
     }
 
     private fun renameStream(position: Int) {
-        val media = viewModel.observableHistory.value?.get(position) ?: return
+        val media = viewModel.dataset.value.get(position) ?: return
         val edit = EditText(requireActivity())
         AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.rename_media, media.title))
@@ -165,9 +192,8 @@ class MRLPanelFragment : DialogFragment(), View.OnKeyListener, TextView.OnEditor
                 .show()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        // TV
-        (activity as? DialogActivity)?.finish()
+
+    override fun refresh() {
+        refresh()
     }
 }

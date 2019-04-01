@@ -28,7 +28,7 @@
     <!--Hide all borders except bottom border-->
     <item android:bottom="2dp">
         <shape android:shape="rectangle">
-            <solid android:color="?background_default_darker"/>
+            <solid android:color="?background_default" />
         </shape>
     </item>
 </layer-list>

@@ -208,13 +208,15 @@
     </style>
 
     <style name="Theme.VLC.TV" parent="Theme.Leanback">
-        <item name="colorPrimary">@color/orange800</item>
-        <item name="colorPrimaryDark">@color/transparent</item>
-        <item name="colorAccent">@color/orange600</item>
-        <item name="imageCardViewInfoAreaStyle">@style/VLCardViewInfoStyle</item>
-        <item name="imageCardViewTitleStyle">@style/VLCardViewTitleStyle</item>
-        <item name="imageCardViewStyle">@style/VLCardView</item>
-        <item name="audio_player_background_tint">@color/grey900transparent</item>
+       <item name="colorPrimary">@color/orange800</item>
+       <item name="colorPrimaryDark">@color/transparent</item>
+       <item name="colorAccent">@color/orange600</item>
+       <item name="imageCardViewInfoAreaStyle">@style/VLCardViewInfoStyle</item>
+       <item name="imageCardViewTitleStyle">@style/VLCardViewTitleStyle</item>
+       <item name="imageCardViewStyle">@style/VLCardView</item>
+       <item name="audio_player_background_tint">@color/grey900transparent</item>
+       <item name="background_default_darker">@color/grey875</item>
+       <item name="background_default">@color/grey850</item>
     </style>
 
     <style name="VLCardView" parent="Widget.Leanback.ImageCardViewStyle">

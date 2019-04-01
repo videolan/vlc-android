@@ -576,6 +576,11 @@
             android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.TV" />
         <activity
+            android:name=".gui.tv.browser.TVActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.Black" />
+        <activity
             android:name=".gui.tv.SearchActivity"
             android:exported="true"
             android:screenOrientation="landscape"
