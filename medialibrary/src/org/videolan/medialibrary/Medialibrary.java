@@ -385,7 +385,7 @@ public class Medialibrary {
     }
 
     public void reload() {
-        if (mIsInitiated && !isWorking()) nativeReload();
+        if (mIsInitiated) nativeReload();
     }
 
     public void reload(String entryPoint) {
