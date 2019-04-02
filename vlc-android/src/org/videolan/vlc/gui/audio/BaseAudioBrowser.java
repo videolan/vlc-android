@@ -31,6 +31,7 @@ import android.view.View;
 
 import com.google.android.material.tabs.TabLayout;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.R;

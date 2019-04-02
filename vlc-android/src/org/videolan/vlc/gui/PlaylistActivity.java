@@ -366,7 +366,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                     @Override
                     public void run() {
                         if (mIsPlaylist) ((Playlist) mPlaylist).remove(position);
-                        else removeItem(media);
+                        else removeItem(position, media);
                     }
                 });
                 break;
@@ -386,13 +386,13 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
 
     }
 
-    private void removeItem(final MediaWrapper media) {
+    private void removeItem(final int position, final MediaWrapper media) {
         final int resId = mIsPlaylist ? R.string.confirm_remove_from_playlist : R.string.confirm_delete;
         if (mIsPlaylist) {
             UiTools.snackerConfirm(mBinding.getRoot(), getString(resId, media.getTitle()), new Runnable() {
                 @Override
                 public void run() {
-                    ((Playlist) mPlaylist).remove(media.getId());
+                    ((Playlist) mPlaylist).remove(position);
                 }
             });
         } else {

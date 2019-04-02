@@ -127,8 +127,8 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
             tracks = if (addTracks) {
                 mNewTrack
             } else {//Save a playlist
-                for (mw in playlist.tracks) {
-                    playlist.remove(mw.id)
+                for (index in 0 until playlist.tracks.size) {
+                    playlist.remove(index)
                 }
                 mTracks
             }

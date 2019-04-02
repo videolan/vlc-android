@@ -37,6 +37,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -400,8 +401,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     }
 
     @Override
-    public void onImageClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
-    }
+    public void onImageClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {}
 
     @Override
     public void onCtxClick(View v, int position, MediaLibraryItem item) {
