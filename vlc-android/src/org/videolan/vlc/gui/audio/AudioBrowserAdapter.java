@@ -53,7 +53,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.MotionEventCompat;
-import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.paging.PagedListAdapter;
@@ -69,21 +68,19 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     private final IEventsHandler mIEventsHandler;
     private final IListEventsHandler mListEventsHandler;
     private MultiSelectHelper<MediaLibraryItem> multiSelectHelper;
-    private final int mType;
-    private final boolean mHasSections;
     private final BitmapDrawable mDefaultCover;
+    private final boolean mReorder;
     /**
      * Awful hack to workaround the {@link PagedListAdapter} not keeping track of notifyItemMoved operations
      */
     private static boolean preventNextAnim;
 
-    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, IListEventsHandler listEventsHandler, boolean sections, boolean canBeReordered) {
+    public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, IListEventsHandler listEventsHandler, boolean canBeReordered) {
         super(DIFF_CALLBACK);
         multiSelectHelper = new MultiSelectHelper<>(this, Constants.UPDATE_SELECTION);
         mIEventsHandler = eventsHandler;
-        mType = type;
-        mHasSections = sections;
         mListEventsHandler = listEventsHandler;
+        mReorder = canBeReordered;
         Context ctx = null;
         if (eventsHandler instanceof Context) ctx = (Context) eventsHandler;
         else if (eventsHandler instanceof Fragment) ctx = ((Fragment)eventsHandler).getContext();
@@ -91,7 +88,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     }
 
     public AudioBrowserAdapter(int type, IEventsHandler eventsHandler) {
-        this(type, eventsHandler, null, true, false);
+        this(type, eventsHandler, null, false);
     }
 
     @NonNull
@@ -110,7 +107,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         final boolean isSelected = multiSelectHelper.isSelected(position);
         holder.setCoverlay(isSelected);
         holder.selectView(isSelected);
-        holder.setCanBeReordered(mListEventsHandler != null);
         holder.binding.executePendingBindings();
     }
 
@@ -128,7 +124,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                     final boolean isSelected = multiSelectHelper.isSelected(position);
                     holder.setCoverlay(isSelected);
                     holder.selectView(isSelected);
-                    holder.setCanBeReordered(mListEventsHandler != null);
                 }
             }
         }
@@ -210,7 +205,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     public class MediaItemViewHolder extends SelectorViewHolder<AudioBrowserItemBinding> implements View.OnFocusChangeListener {
         int coverlayResource = 0;
         public View.OnTouchListener onTouchListener;
-        private boolean canBeReordered;
 
         @TargetApi(Build.VERSION_CODES.M)
         MediaItemViewHolder(AudioBrowserItemBinding binding) {
@@ -281,12 +275,8 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
             return multiSelectHelper.isSelected(getLayoutPosition());
         }
 
-        public void setCanBeReordered(boolean canBeReordered) {
-            this.canBeReordered = canBeReordered;
-        }
-
         public boolean getCanBeReordered() {
-            return canBeReordered;
+            return mReorder;
         }
     }
 

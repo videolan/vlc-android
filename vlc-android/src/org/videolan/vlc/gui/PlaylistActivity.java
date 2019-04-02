@@ -129,7 +129,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 }
             }
         });
-        mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, false, true);
+        mAdapter = new AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, mIsPlaylist);
         mItemTouchHelper = new ItemTouchHelper(new SwipeDragItemTouchHelperCallback(mAdapter));
         mItemTouchHelper.attachToRecyclerView(mBinding.songs);
 
