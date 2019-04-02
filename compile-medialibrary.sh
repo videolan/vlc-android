@@ -122,7 +122,6 @@ if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
     git clone http://code.videolan.org/videolan/medialibrary.git "${SRC_DIR}/medialibrary/medialibrary"
     checkfail "medialibrary source: git clone failed"
     cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
-    git checkout 0.4.x
     git submodule update --init libvlcpp
 else
     cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
