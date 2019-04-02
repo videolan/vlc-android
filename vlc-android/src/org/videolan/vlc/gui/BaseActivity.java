@@ -3,6 +3,7 @@ package org.videolan.vlc.gui;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import org.videolan.vlc.R;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.Settings;
 
@@ -24,7 +25,8 @@ public class BaseActivity extends AppCompatActivity {
 
     private void applyTheme() {
         if (AndroidDevices.showTvUi(this)) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setTheme(R.style.Theme_VLC_Black);
             return;
         }
         if (mSettings.contains("app_theme")) {
