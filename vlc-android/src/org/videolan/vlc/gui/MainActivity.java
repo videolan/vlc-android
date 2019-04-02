@@ -150,7 +150,7 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
         super.onStart();
         if (mMediaLibrary.isInitiated()) {
             /* Load media items from database and storage */
-            if (mScanNeeded && Permissions.canReadStorage(this)) MediaParsingServiceKt.reload(this);
+            if (mScanNeeded && Permissions.canReadStorage(this)) MediaParsingServiceKt.reloadLibrary(this);
         }
         if (BuildConfig.DEBUG) createExtensionServiceConnection();
     }
@@ -341,7 +341,7 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
         if (requestCode == Constants.ACTIVITY_RESULT_PREFERENCES) {
             switch (resultCode) {
                 case PreferencesActivity.RESULT_RESCAN:
-                    MediaParsingServiceKt.reload(this);
+                    MediaParsingServiceKt.reloadLibrary(this);
                     break;
                 case PreferencesActivity.RESULT_RESTART:
                 case PreferencesActivity.RESULT_RESTART_APP:

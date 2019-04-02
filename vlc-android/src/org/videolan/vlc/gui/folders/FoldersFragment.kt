@@ -21,7 +21,7 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
-import org.videolan.vlc.reload
+import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.paged.PagedFoldersModel
 import kotlin.coroutines.CoroutineContext
@@ -80,7 +80,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
         super.onViewCreated(view, savedInstanceState)
         folders_list.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
         folders_list.adapter = adapter
-        mSwipeRefreshLayout.setOnRefreshListener { activity?.reload() }
+        mSwipeRefreshLayout.setOnRefreshListener { activity?.reloadLibrary() }
     }
 
     override fun onStart() {

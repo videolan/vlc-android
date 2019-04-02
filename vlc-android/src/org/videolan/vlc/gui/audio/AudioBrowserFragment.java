@@ -254,7 +254,7 @@ public class AudioBrowserFragment extends BaseAudioBrowser implements SwipeRefre
     @Override
     public void onRefresh() {
         mActivity.closeSearchView();
-        MediaParsingServiceKt.reload(requireContext());
+        MediaParsingServiceKt.reloadLibrary(requireContext());
     }
 
     @Override

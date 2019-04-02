@@ -46,7 +46,7 @@ import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.audio.BaseAudioBrowser
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
-import org.videolan.vlc.reload
+import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.viewmodels.paged.PagedPlaylistsModel
 
@@ -112,7 +112,7 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
     }
 
     override fun onRefresh() {
-        activity?.reload()
+        activity?.reloadLibrary()
     }
 
     override fun getTitle() = getString(R.string.playlists)
