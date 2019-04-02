@@ -97,10 +97,9 @@ public class ContentActivity extends AudioPlayerContainerActivity implements Sea
     public boolean onCreateOptionsMenu(final Menu menu) {
         if (AndroidDevices.isAndroidTv) return false;
         final Fragment current = getCurrentFragment();
-        if (current instanceof AboutFragment)
-            return false;
-        getMenuInflater().inflate(R.menu.activity_option, menu);
         super.onCreateOptionsMenu(menu);
+        if (current instanceof AboutFragment) return true;
+        getMenuInflater().inflate(R.menu.activity_option, menu);
         if (current instanceof ExtensionBrowser){
             menu.findItem(R.id.ml_menu_last_playlist).setVisible(false);
             menu.findItem(R.id.ml_menu_sortby).setVisible(false);
