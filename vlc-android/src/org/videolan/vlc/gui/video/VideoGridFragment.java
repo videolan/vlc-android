@@ -260,7 +260,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     @Override
     public void onRefresh() {
         final Activity activity = getActivity();
-        if (activity != null) MediaParsingServiceKt.reload(activity);
+        if (activity != null) MediaParsingServiceKt.reloadLibrary(activity);
     }
 
     @Override

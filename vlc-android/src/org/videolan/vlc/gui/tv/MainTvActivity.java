@@ -80,7 +80,7 @@ public class MainTvActivity extends BaseTvActivity {
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             switch (resultCode) {
                 case PreferencesActivity.RESULT_RESCAN:
-                    MediaParsingServiceKt.reload(this);
+                    MediaParsingServiceKt.reloadLibrary(this);
                     break;
                 case PreferencesActivity.RESULT_RESTART:
                 case PreferencesActivity.RESULT_RESTART_APP:
@@ -139,6 +139,6 @@ public class MainTvActivity extends BaseTvActivity {
 
     @Override
     protected void refresh() {
-        mMediaLibrary.reload();
+        MediaParsingServiceKt.reloadLibrary(this);
     }
 }

@@ -126,8 +126,8 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
                 val parse = intent.getBooleanExtra(EXTRA_PARSE, true)
                 setupMedialibrary(upgrade, parse)
             }
-            ACTION_RELOAD -> reload(intent.getStringExtra(EXTRA_PATH))
-            ACTION_FORCE_RELOAD -> medialibrary.forceRescan()
+            ACTION_RELOAD -> actions.offer(Reload(intent.getStringExtra(EXTRA_PATH)))
+            ACTION_FORCE_RELOAD -> actions.offer(ForceReload)
             ACTION_DISCOVER -> discover(intent.getStringExtra(EXTRA_PATH))
             ACTION_DISCOVER_DEVICE -> discoverStorage(intent.getStringExtra(EXTRA_PATH))
             ACTION_CHECK_STORAGES -> if (scanActivated) actions.offer(UpdateStorages) else exitCommand()
@@ -388,6 +388,8 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
                 startScan(false, action.upgrade)
             }
             UpdateStorages -> updateStorages()
+            is Reload -> reload(action.path)
+            ForceReload -> medialibrary.forceRescan()
         }
     }
 
@@ -432,7 +434,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
 
 data class ScanProgress(val parsing: Int, val discovery: String)
 
-fun Context.reload() {
+fun Context.reloadLibrary() {
     ContextCompat.startForegroundService(this, Intent(ACTION_RELOAD, null, this, MediaParsingService::class.java))
 }
 
@@ -464,6 +466,8 @@ private class DiscoverFolder(val path: String) : MLAction()
 private class Init(val upgrade: Boolean, val parse: Boolean) : MLAction()
 private class StartScan(val upgrade: Boolean) : MLAction()
 private object UpdateStorages : MLAction()
+private class Reload(val path: String?) : MLAction()
+private object ForceReload : MLAction()
 
 private sealed class Notification
 private object Show : Notification()

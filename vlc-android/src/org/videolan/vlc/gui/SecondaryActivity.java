@@ -110,7 +110,7 @@ public class SecondaryActivity extends ContentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ACTIVITY_RESULT_SECONDARY) {
-            if (resultCode == PreferencesActivity.RESULT_RESCAN) MediaParsingServiceKt.reload(this);
+            if (resultCode == PreferencesActivity.RESULT_RESCAN) MediaParsingServiceKt.reloadLibrary(this);
         }
     }
 
