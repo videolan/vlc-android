@@ -69,8 +69,6 @@ public class HistoryAdapter extends DiffUtilAdapter<MediaWrapper, HistoryAdapter
         }
     }
 
-
-
     List<MediaWrapper> getSelection() {
         final List<MediaWrapper> selection = new LinkedList<>();
         for (MediaWrapper media : getDataset()) {
@@ -115,5 +113,7 @@ public class HistoryAdapter extends DiffUtilAdapter<MediaWrapper, HistoryAdapter
     }
 
     @Override
-    protected void onUpdateFinished() {}
+    protected void onUpdateFinished() {
+        mEventsHandler.onUpdateFinished(this);
+    }
 }

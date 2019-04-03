@@ -250,7 +250,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
 
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
-        invalidateActionMode();
         UiTools.updateSortTitles(this);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }
