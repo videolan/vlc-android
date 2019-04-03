@@ -114,6 +114,7 @@
         <item name="windowActionBarOverlay">true</item>
         <item name="android:textViewStyle">@style/VLC.TextView</item>
         <item name="drawerArrowStyle">@style/ActionBar.ArrowToggle</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <style name="Theme.VLC.Apearance.Black" parent="Theme.MaterialComponents.NoActionBar">
