@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.BottomSheetBehavior;
@@ -51,6 +52,12 @@ public class PlaybackSpeedDialog extends VLCBottomSheetDialogFragment implements
 
     public static PlaybackSpeedDialog newInstance() {
         return new PlaybackSpeedDialog();
+    }
+
+    @NotNull
+    @Override
+    public View initialFocusedView() {
+        return mSeekSpeed;
     }
 
     @Override

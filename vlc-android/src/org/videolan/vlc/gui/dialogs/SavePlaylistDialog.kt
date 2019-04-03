@@ -62,6 +62,8 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private lateinit var mMedialibrary: Medialibrary
     private var mPlaylistId: Long = 0
 
+    override fun initialFocusedView(): View = mListView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mMedialibrary = VLCApplication.getMLInstance()

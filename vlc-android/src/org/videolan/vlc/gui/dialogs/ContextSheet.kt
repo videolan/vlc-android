@@ -47,6 +47,9 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
     private lateinit var options : List<CtxOption>
     lateinit var receiver : CtxActionReceiver
     private var itemPosition = -1
+    private lateinit var list: RecyclerView
+
+    override fun initialFocusedView(): View = list
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +77,7 @@ class ContextSheet : VLCBottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<TextView>(R.id.ctx_title).text = arguments?.getString(CTX_TITLE_KEY) ?: ""
-        val list = view.findViewById<RecyclerView>(R.id.ctx_list)
+        list = view.findViewById<RecyclerView>(R.id.ctx_list)
         list.layoutManager = LinearLayoutManager(requireContext())
         list.adapter = ContextAdapter()
         val flags = arguments?.getInt(CTX_FLAGS_KEY) ?: 0

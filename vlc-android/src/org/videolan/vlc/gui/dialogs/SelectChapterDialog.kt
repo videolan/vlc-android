@@ -54,6 +54,8 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), Observer<PlaybackSer
 
     private var service: PlaybackService? = null
 
+    override fun initialFocusedView(): View = chapterList
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_select_chapter, container)
@@ -63,6 +65,7 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), Observer<PlaybackSer
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         PlaybackService.service.observe(this, this)
     }
 

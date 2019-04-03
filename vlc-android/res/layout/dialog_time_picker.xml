@@ -71,6 +71,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:text="1"
                 android:textSize="18sp"

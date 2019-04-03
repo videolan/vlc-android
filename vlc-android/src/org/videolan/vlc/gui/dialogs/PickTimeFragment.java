@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.jetbrains.annotations.NotNull;
 import org.videolan.vlc.PlaybackService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.gui.helpers.BottomSheetBehavior;
@@ -110,6 +111,12 @@ public abstract class PickTimeFragment extends VLCBottomSheetDialogFragment impl
         mTextColor = mTVTimeToJump.getCurrentTextColor();
 
         return view;
+    }
+
+    @NotNull
+    @Override
+    public View initialFocusedView() {
+        return getView().findViewById(R.id.tim_pic_1);
     }
 
     @Override

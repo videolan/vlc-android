@@ -25,9 +25,21 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 val bsb = BottomSheetBehavior.from(it)
                 if (bsb.state == BottomSheetBehavior.STATE_COLLAPSED) bsb.state = getDefaultState()
             }
+            dialog?.findViewById<View>(R.id.touch_outside)?.isFocusable = false
+            dialog?.findViewById<View>(R.id.touch_outside)?.isFocusableInTouchMode = false
         }
 
 
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        initialFocusedView().isFocusable = true
+        initialFocusedView().isFocusableInTouchMode = true
+
+        initialFocusedView().requestFocus()
     }
 
 
@@ -56,6 +68,13 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
      * Sends true if the fragments needs to be re-created when Activity is not recreated onConfigurationChanged
      */
     abstract fun needToManageOrientation(): Boolean
+
+    /**
+     * The initial view to be focused to avoid BottomSheetDialogFragment to steal it
+     * Both fields [isFocusable] and [isFocusableInTouchMode] will be set to true
+     */
+    abstract fun initialFocusedView(): View
+
 
 
 
