@@ -170,6 +170,8 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
         browse(mw, position, (DataBindingUtil.findBinding<BrowserItemBinding>(v))?.browserCheckbox?.state == ThreeStatesCheckbox.STATE_CHECKED)
     }
 
+    override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
+
     fun checkBoxAction(v: View, mrl: String) {
         val tscb = v as ThreeStatesCheckbox
         val checked = tscb.state == ThreeStatesCheckbox.STATE_CHECKED

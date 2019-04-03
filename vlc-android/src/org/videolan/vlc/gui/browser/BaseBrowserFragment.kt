@@ -466,6 +466,8 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         onLongClick(v, position, item)
     }
 
+    override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
+
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.isRefreshing = false
         handler.sendEmptyMessage(MSG_HIDE_LOADING)

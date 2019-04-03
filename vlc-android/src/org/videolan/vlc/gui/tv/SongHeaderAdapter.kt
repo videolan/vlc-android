@@ -34,10 +34,10 @@ class SongHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : Recycl
     override fun onBindViewHolder(holder: SongHeaderAdapter.ViewHolder, position: Int) {
 
         if (sortType == Medialibrary.SORT_ALPHA) {
-            holder.binding.setHeader(alphaItems[position])
+            holder.binding.headerText = alphaItems[position]
             holder.binding.hasContent = items.contains(alphaItems[position])
         } else {
-            holder.binding.setHeader(items[position])
+            holder.binding.headerText = items[position]
             holder.binding.hasContent = true
         }
     }

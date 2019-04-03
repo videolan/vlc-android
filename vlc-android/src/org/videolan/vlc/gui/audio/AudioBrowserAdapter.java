@@ -38,11 +38,11 @@ import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.tools.MultiSelectAdapter;
 import org.videolan.tools.MultiSelectHelper;
 import org.videolan.vlc.R;
+import org.videolan.vlc.databinding.AudioBrowserCardItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserTvItemBinding;
 import org.videolan.vlc.gui.helpers.ImageLoaderKt;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
-import org.videolan.vlc.gui.tv.browser.SongsBrowserFragment;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.interfaces.IListEventsHandler;
@@ -71,6 +71,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
 
     private final IEventsHandler mIEventsHandler;
     private final IListEventsHandler mListEventsHandler;
+    private final int mType;
     private int itemSize = -1;
     private MultiSelectHelper<MediaLibraryItem> multiSelectHelper;
     private final BitmapDrawable mDefaultCover;
@@ -88,6 +89,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         mIEventsHandler = eventsHandler;
         mListEventsHandler = listEventsHandler;
         mReorder = canBeReordered;
+        mType = type;
         Context ctx = null;
         if (eventsHandler instanceof Context) ctx = (Context) eventsHandler;
         else if (eventsHandler instanceof Fragment) ctx = ((Fragment) eventsHandler).getContext();
@@ -98,8 +100,8 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         this(type, eventsHandler, null, false);
     }
 
-    public AudioBrowserAdapter(int typeMedia, SongsBrowserFragment eventsHandler, int itemSize) {
-        this(typeMedia, eventsHandler, null, false);
+    public AudioBrowserAdapter(int typeMedia, IEventsHandler eventsHandler, int itemSize) {
+        this(typeMedia, eventsHandler);
         this.itemSize = itemSize;
     }
 
@@ -107,7 +109,10 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     @Override
     public AbstractMediaItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (!isTV) {
+        if (mType == MediaLibraryItem.TYPE_PLAYLIST) {
+            final AudioBrowserCardItemBinding binding = AudioBrowserCardItemBinding.inflate(inflater, parent, false);
+            return new MediaItemCardViewHolder(binding);
+        } else if (!isTV) {
             final AudioBrowserItemBinding binding = AudioBrowserItemBinding.inflate(inflater, parent, false);
             return new MediaItemViewHolder(binding);
         } else {
@@ -292,6 +297,52 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
 
     }
 
+    public class MediaItemCardViewHolder extends AbstractMediaItemViewHolder<AudioBrowserCardItemBinding> implements View.OnFocusChangeListener {
+        int coverlayResource = 0;
+
+        @TargetApi(Build.VERSION_CODES.M)
+        MediaItemCardViewHolder(AudioBrowserCardItemBinding binding) {
+            super(binding);
+            binding.setHolder(this);
+            if (mDefaultCover != null) binding.setCover(mDefaultCover);
+            if (AndroidUtil.isMarshMallowOrLater)
+                itemView.setOnContextClickListener(new View.OnContextClickListener() {
+                    @Override
+                    public boolean onContextClick(View v) {
+                        onMoreClick(v);
+                        return true;
+                    }
+                });
+            binding.setImageWidth(itemSize);
+            binding.container.getLayoutParams().width = itemSize;
+
+        }
+
+        @Override
+        public void setItem(MediaLibraryItem item) {
+            binding.setItem(item);
+        }
+
+        @Override
+        public void recycle() {
+            if (mDefaultCover != null) binding.setCover(mDefaultCover);
+            binding.title.setText("");
+            binding.subtitle.setText("");
+        }
+
+
+        @Override
+        public void setCoverlay(boolean selected) {
+            int resId = selected ? R.drawable.ic_action_mode_select : 0;
+            if (resId != coverlayResource) {
+                binding.mediaCover.setImageResource(selected ? R.drawable.ic_action_mode_select : 0);
+                coverlayResource = resId;
+            }
+        }
+
+
+    }
+
     public class MediaItemTVViewHolder extends AbstractMediaItemViewHolder<AudioBrowserTvItemBinding> implements View.OnFocusChangeListener {
 
         @TargetApi(Build.VERSION_CODES.M)
@@ -371,6 +422,12 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
             int position = getLayoutPosition();
             final MediaLibraryItem item = getItem(position);
             if (item != null) mIEventsHandler.onImageClick(v, position, item);
+        }
+
+        public void onMainActionClick(View v) {
+            int position = getLayoutPosition();
+            final MediaLibraryItem item = getItem(position);
+            if (item != null) mIEventsHandler.onMainActionClick(v, position, item);
         }
 
 

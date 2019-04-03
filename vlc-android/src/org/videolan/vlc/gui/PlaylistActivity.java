@@ -238,6 +238,11 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     @Override
+    public void onMainActionClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
+        MediaUtils.INSTANCE.openList(this, Arrays.asList(item.getTracks()), 0);
+    }
+
+    @Override
     public void onStartDrag(@NotNull RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
     }

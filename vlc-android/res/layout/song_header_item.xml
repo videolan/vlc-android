@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="header"
+            name="headerText"
             type="String" />
 
         <variable
@@ -32,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:gravity="center"
-            android:text="@{header}"
+            android:text="@{headerText}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

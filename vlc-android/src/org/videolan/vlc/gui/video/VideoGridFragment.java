@@ -414,6 +414,10 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
 
 
     @Override
+    public void onMainActionClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
+    }
+
+    @Override
     public void onUpdateFinished(@NotNull RecyclerView.Adapter adapter) {
         mHandler.post(new Runnable() {
             @Override

@@ -19,7 +19,6 @@ import androidx.leanback.widget.ImageCardView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BR
@@ -28,6 +27,7 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.HttpImageLoader
 import org.videolan.vlc.util.ThumbnailsProvider
+import org.videolan.vlc.util.ThumbnailsProvider.obtainBitmap
 
 private val sBitmapCache = BitmapCache.getInstance()
 private val sMedialibrary = VLCApplication.getMLInstance()
@@ -56,6 +56,15 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
     else AppScope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding) }
 }
 
+@MainThread
+@BindingAdapter(value = ["bind:mediaWithWidth", "bind:imageWidth"], requireAll = true)
+fun loadPlaylistImageWithWidth(v: ImageView, item: MediaLibraryItem?, imageWidth: Int) {
+    if (imageWidth == 0) return
+    if (item == null) return
+    val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
+    AppScope.launch { getPlaylistImage(v, item, binding, imageWidth.toInt()) }
+}
+
 fun getAudioIconDrawable(context: Context?, type: Int): BitmapDrawable? = context?.let {
     when (type) {
         MediaLibraryItem.TYPE_ALBUM -> UiTools.getDefaultAlbumDrawable(it)
@@ -70,7 +79,7 @@ fun getMediaIconDrawable(context: Context, type: Int): BitmapDrawable? = when (t
     else -> UiTools.getDefaultAudioDrawable(context)
 }
 
-private var placeholderTvBg : Drawable? = null
+private var placeholderTvBg: Drawable? = null
 @MainThread
 @BindingAdapter("placeholder")
 fun placeHolderView(v: View, item: MediaLibraryItem?) {
@@ -141,13 +150,27 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
     binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
 
-private suspend fun obtainBitmap(item: MediaLibraryItem, width: Int) = withContext(Dispatchers.IO) {
-    when (item) {
-        is MediaWrapper -> ThumbnailsProvider.getMediaThumbnail(item, width)
-        is Folder -> ThumbnailsProvider.getFolderThumbnail(item, width)
-        else -> AudioUtil.readCoverBitmap(Uri.decode(item.artworkMrl), width)
+private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: ViewDataBinding?, width: Int) {
+    var bindChanged = false
+    val rebindCallbacks = if (binding !== null) object : OnRebindCallback<ViewDataBinding>() {
+        override fun onPreBind(binding: ViewDataBinding): Boolean {
+            bindChanged = true
+            return super.onPreBind(binding)
+        }
+    } else null
+    if (binding !== null) {
+        binding.executePendingBindings()
+        binding.addOnRebindCallback(rebindCallbacks!!)
     }
+
+
+    var playlistImage = if (!bindChanged) ThumbnailsProvider.getPlaylistImage("playlist:${item.id}", item.tracks.toList(), width) else null
+    if (!bindChanged && playlistImage == null) playlistImage = UiTools.getDefaultAudioDrawable(VLCApplication.getAppContext()).bitmap
+    if (!bindChanged) updateImageView(playlistImage, v, binding)
+
+    binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
+
 
 @MainThread
 fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?) {
@@ -173,14 +196,15 @@ fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?) {
     }
 }
 
-private suspend fun findInLibrary(item: MediaLibraryItem, isMedia: Boolean, isGroup: Boolean) : MediaLibraryItem {
+private suspend fun findInLibrary(item: MediaLibraryItem, isMedia: Boolean, isGroup: Boolean): MediaLibraryItem {
     if (isMedia && !isGroup && item.id == 0L) {
         val mw = item as MediaWrapper
         val type = mw.type
         val isMediaFile = type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO
         val uri = mw.uri
         if (!isMediaFile && !(type == MediaWrapper.TYPE_DIR && "upnp" == uri.scheme)) return item
-        if (isMediaFile && "file" == uri.scheme) return withContext(Dispatchers.IO) { sMedialibrary.getMedia(uri) } ?: item
+        if (isMediaFile && "file" == uri.scheme) return withContext(Dispatchers.IO) { sMedialibrary.getMedia(uri) }
+                ?: item
     }
     return item
 }

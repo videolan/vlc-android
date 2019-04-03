@@ -282,6 +282,11 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
 
 
     @Override
+    public void onMainActionClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
+        MediaUtils.INSTANCE.openList(getActivity(), Arrays.asList(item.getTracks()), 0);
+    }
+
+    @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         UiTools.updateSortTitles(this);
     }

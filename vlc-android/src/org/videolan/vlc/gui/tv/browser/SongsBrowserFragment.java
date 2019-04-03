@@ -287,6 +287,10 @@ public class SongsBrowserFragment extends Fragment implements BrowserFragmentInt
 
     }
 
+    @Override
+    public void onMainActionClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
+    }
+
     public void sort(@NotNull View v) {
         PopupMenu menu = new PopupMenu(v.getContext(), v);
         menu.inflate(R.menu.sort_options);

@@ -153,6 +153,10 @@ public class FileBrowserFragment extends BaseBrowserFragment {
     }
 
     @Override
+    public void onMainActionClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         if (!(this instanceof FilePickerFragment || this instanceof StorageBrowserFragment))
             inflater.inflate(R.menu.fragment_option_network, menu);

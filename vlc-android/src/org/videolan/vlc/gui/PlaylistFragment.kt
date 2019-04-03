@@ -23,6 +23,7 @@ package org.videolan.vlc.gui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -32,22 +33,24 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistsFragmentBinding
 import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.audio.BaseAudioBrowser
 import org.videolan.vlc.gui.view.FastScroller
-import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
+import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.AppScope
+import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.paged.PagedPlaylistsModel
 
 class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem>>, SwipeRefreshLayout.OnRefreshListener {
@@ -61,8 +64,7 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
         super.onCreate(savedInstanceState)
         if (viewModel == null) {
             viewModel = ViewModelProviders.of(requireActivity(), PagedPlaylistsModel.Factory(requireContext())).get(PagedPlaylistsModel::class.java)
-            playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this)
-            mAdapter = playlistAdapter
+
         }
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -74,9 +76,39 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.swipeLayout.setOnRefreshListener(this)
-        playlists.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
+        val nbColumns = 2
+        val gridLayoutManager = GridLayoutManager(view.context, nbColumns)
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+
+                if (position == playlistAdapter.getItemCount() - 1) {
+                    return 1
+                }
+                if (viewModel.isFirstInSection(position + 1)) {
+
+                    //calculate how many cell it must take
+                    val firstSection = viewModel.getPositionForSection(position)
+                    val nbItems = position - firstSection
+                    if (BuildConfig.DEBUG)
+                        Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + nbItems % nbColumns)
+
+                    return nbColumns - nbItems % nbColumns
+                }
+
+                return 1
+            }
+        }
+
+        //size of an item
+        val spacing = resources.getDimension(R.dimen.kl_small).toInt()
+        val itemSize = requireActivity().getScreenWidth() / nbColumns - spacing * 2
+
+        playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, itemSize)
+        mAdapter = playlistAdapter
+
+        playlists.layoutManager = gridLayoutManager
         playlists.adapter = playlistAdapter
-        playlists.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel))
+        playlists.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), spacing, true, nbColumns, viewModel))
         fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller) as FastScroller
         fastScroller.attachToCoordinator(view.rootView.findViewById(R.id.appbar) as AppBarLayout, view.rootView.findViewById(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById(R.id.fab) as FloatingActionButton)
     }

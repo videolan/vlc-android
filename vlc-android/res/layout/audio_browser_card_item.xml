@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:vlc="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
+
+        <variable
+            name="alignMode"
+            type="int" />
+
+
+        <variable
+            name="item"
+            type="MediaLibraryItem" />
+
+        <variable
+            name="imageWidth"
+            type="int" />
+
+        <variable
+            name="cover"
+            type="android.graphics.drawable.BitmapDrawable" />
+
+        <variable
+            name="bgColor"
+            type="int" />
+
+
+        <variable
+            name="holder"
+            type="org.videolan.vlc.gui.audio.AudioBrowserAdapter.MediaItemCardViewHolder" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:longClickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="@{holder::onClick}"
+        android:onLongClick="@{holder::onLongClick}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@{bgColor}"
+            android:minHeight="@dimen/audio_browser_item_size">
+
+
+            <!-- Image loading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
+
+            <ImageView
+                android:id="@+id/media_cover"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:background="@{cover}"
+                android:visibility="@{(item.getItemType() &amp; (MediaLibraryItem.TYPE_ALBUM|MediaLibraryItem.TYPE_ARTIST|MediaLibraryItem.TYPE_MEDIA|MediaLibraryItem.TYPE_PLAYLIST)) != 0 ? View.VISIBLE : View.GONE, default=gone}"
+                tools:srcCompat="@tools:sample/avatars"
+                vlc:imageWidth="@{imageWidth}"
+                vlc:layout_constraintDimensionRatio="1"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintStart_toStartOf="parent"
+                vlc:layout_constraintTop_toTopOf="parent"
+                vlc:mediaWithWidth="@{item}" />
+
+
+            <!-- TextView must be set to singleLine
+                see https://code.google.com/p/android/issues/detail?id=33868 -->
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_play_circle"
+                android:onClick="@{holder::onMainActionClick}"
+                vlc:layout_constraintBottom_toBottomOf="@+id/media_cover"
+                vlc:layout_constraintRight_toRightOf="@+id/media_cover" />
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/VLC.TextViewTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                tools:text="Title"
+                vlc:alignMode="@{alignMode}"
+                vlc:asyncText="@{item.title}"
+                vlc:layout_constraintEnd_toStartOf="@+id/item_more"
+                vlc:layout_constraintStart_toStartOf="parent"
+                vlc:layout_constraintTop_toBottomOf="@id/media_cover"
+                vlc:placeholder="@{item}" />
+
+            <TextView
+                android:id="@+id/subtitle"
+                style="@style/VLC.TextViewDescription"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:maxLines="1"
+                tools:text="Subitle"
+                vlc:asyncText="@{item}"
+                vlc:layout_constraintBottom_toBottomOf="parent"
+                vlc:layout_constraintEnd_toStartOf="@id/item_more"
+                vlc:layout_constraintStart_toStartOf="parent"
+                vlc:layout_constraintTop_toBottomOf="@+id/title"
+                vlc:placeholder="@{item}" />
+
+            <ImageView
+                android:id="@+id/item_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:contentDescription="@string/more_actions"
+                android:onClick="@{holder::onMoreClick}"
+                android:scaleType="center"
+                android:src="@drawable/ic_more"
+                vlc:layout_constraintBottom_toBottomOf="@+id/subtitle"
+                vlc:layout_constraintEnd_toEndOf="parent"
+                vlc:layout_constraintTop_toTopOf="@+id/title" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

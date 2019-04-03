@@ -24,6 +24,7 @@ import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.VLCApplication
@@ -161,6 +162,22 @@ fun <X, Y> CoroutineScope.map(
 
 @BindingAdapter("app:asyncText", requireAll = false)
 fun asyncText(view: TextView, text: CharSequence?) {
+    if (text.isNullOrEmpty()) {
+        view.visibility = View.GONE
+        return
+    }
+    view.visibility = View.VISIBLE
+    val params = TextViewCompat.getTextMetricsParams(view)
+    (view as AppCompatTextView).setTextFuture(PrecomputedTextCompat.getTextFuture(text, params, null))
+}
+
+@BindingAdapter("app:asyncText", requireAll = false)
+fun asyncTextItem(view: TextView, item: MediaLibraryItem?) {
+    if (item == null) {
+        view.visibility = View.GONE
+        return
+    }
+    val text = if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) view.context.getString(org.videolan.vlc.R.string.track_number, item.tracks.size.toString()) else item.description
     if (text.isNullOrEmpty()) {
         view.visibility = View.GONE
         return

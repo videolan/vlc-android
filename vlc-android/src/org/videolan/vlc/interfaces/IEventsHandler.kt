@@ -10,4 +10,5 @@ interface IEventsHandler {
     fun onImageClick(v: View, position: Int, item: MediaLibraryItem)
     fun onCtxClick(v: View, position: Int, item: MediaLibraryItem)
     fun onUpdateFinished(adapter: RecyclerView.Adapter<*>)
+    fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem)
 }

@@ -261,6 +261,10 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
 
 
     @Override
+    public void onMainActionClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
+    }
+
+    @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         UiTools.updateSortTitles(this);
         mSwipeRefreshLayout.setRefreshing(false);
