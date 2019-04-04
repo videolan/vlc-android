@@ -269,6 +269,13 @@ AndroidMediaLibrary::searchFromPLaylist( int64_t playlistId, const std::string& 
     return playlist == nullptr ? nullptr : playlist->searchMedia(query, params);
 }
 
+medialibrary::Query<medialibrary::IMedia>
+AndroidMediaLibrary::searchFromFolder( int64_t folderId, const std::string& query, medialibrary::IMedia::Type type, const medialibrary::QueryParameters* params )
+{
+    auto folder = p_ml->folder(folderId);
+    return folder == nullptr ? nullptr : folder->searchMedia(query, type, params);
+}
+
 medialibrary::Query<medialibrary::IPlaylist>
 AndroidMediaLibrary::searchPlaylists(const std::string& query, const medialibrary::QueryParameters* params)
 {

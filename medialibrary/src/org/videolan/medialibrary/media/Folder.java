@@ -56,12 +56,24 @@ public class Folder extends MediaLibraryItem {
         return ml.isInitiated() ? nativeSubfoldersCount(ml, mId, type) : 0;
     }
 
-//    private native MediaWrapper[] nativeGetTracks();
+    public MediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, int nbItems, int offset) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return ml.isInitiated() ? nativeSearch(ml, mId, query, mediaType, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
+    }
+
+    public int searchTracksCount(String query, int mediaType) {
+        final Medialibrary ml = Medialibrary.getInstance();
+        return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query, mediaType) : 0;
+    }
+
+    //    private native MediaWrapper[] nativeGetTracks();
 //    private native int nativeGetTracksCount();
     private native MediaWrapper[] nativeMedia(Medialibrary ml, long mId, int type, int sort, boolean desc, int nbItems, int offset);
     private native int nativeMediaCount(Medialibrary ml, long mId, int type);
     private native Folder[] nativeSubfolders(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
     private native int nativeSubfoldersCount(Medialibrary ml, long mId, int type);
+    private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int mediaType, int sort, boolean desc, int nbItems, int offset);
+    private native int nativeGetSearchCount(Medialibrary ml, long mId, String query, int mediaType);
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {

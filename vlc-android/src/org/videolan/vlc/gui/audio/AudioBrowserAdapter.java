@@ -161,7 +161,6 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     @Override
     public MediaLibraryItem getItem(int position) {
         return super.getItem(position);
-//        return null;
     }
 
     @Override
@@ -174,11 +173,11 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
 //        getDataset().clear();
     }
 
+
     @Override
-    public void onCurrentListChanged(@Nullable PagedList<MediaLibraryItem> currentList) {
+    public void onCurrentListChanged(@Nullable PagedList<MediaLibraryItem> previousList, @Nullable PagedList<MediaLibraryItem> currentList) {
         mIEventsHandler.onUpdateFinished(AudioBrowserAdapter.this);
     }
-
 
     @Override
     public boolean hasSections() {

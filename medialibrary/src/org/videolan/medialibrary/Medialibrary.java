@@ -223,6 +223,11 @@ public class Medialibrary {
     }
 
     @WorkerThread
+    public MediaWrapper[] getPagedVideos(int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetSortedPagedVideos(sort, desc, nbItems, offset) : new MediaWrapper[0];
+    }
+
+    @WorkerThread
     public MediaWrapper[] getVideos(int sort, boolean desc) {
         return mIsInitiated ? nativeGetSortedVideos(sort, desc) : new MediaWrapper[0];
     }
@@ -981,6 +986,7 @@ public class Medialibrary {
     private native MediaWrapper[] nativeGetAudio();
     private native MediaWrapper[] nativeGetSortedAudio(int sort, boolean desc);
     private native MediaWrapper[] nativeGetSortedPagedAudio(int sort, boolean desc, int nbItems, int offset);
+    private native MediaWrapper[] nativeGetSortedPagedVideos(int sort, boolean desc, int nbItems, int offset);
     private native MediaWrapper[] nativeGetRecentAudio();
     private native int nativeGetVideoCount();
     private native int nativeGetAudioCount();

@@ -261,10 +261,11 @@ bool clearHistory(JNIEnv* env, jobject thiz)
 }
 
 static jobjectArray
-getInternalVideos(JNIEnv* env, jobject thiz, const medialibrary::QueryParameters* params = nullptr )
+getInternalVideos(JNIEnv* env, jobject thiz, const medialibrary::QueryParameters* params = nullptr, jint nbItems = 0,  jint offset = 0 )
 {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, thiz);
-    std::vector<medialibrary::MediaPtr> videoFiles = aml->videoFiles(params)->all();
+    const auto query = aml->videoFiles(params);
+    std::vector<medialibrary::MediaPtr> videoFiles = nbItems != 0 ? query->items(nbItems, offset) : query->all();
     jobjectArray videoRefs = (jobjectArray) env->NewObjectArray(videoFiles.size(), ml_fields.MediaWrapper.clazz, NULL);
     int index = -1, drops = 0;
     for(medialibrary::MediaPtr const& media : videoFiles) {
@@ -291,6 +292,16 @@ getSortedVideos(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc)
         static_cast<bool>( desc )
     };
     return getInternalVideos(env, thiz, &params );
+}
+
+jobjectArray
+getPagedVideos(JNIEnv* env, jobject thiz, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+{
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    return getInternalVideos(env, thiz, &params, nbItems, offset );
 }
 
 jobjectArray
@@ -1622,6 +1633,37 @@ mediaFromFolderCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, 
 }
 
 jobjectArray
+searchMediaFromFolder(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint mediaType, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset)
+{
+    AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
+    medialibrary::QueryParameters params {
+        static_cast<medialibrary::SortingCriteria>(sortingCriteria),
+        static_cast<bool>( desc )
+    };
+    const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
+    const auto query = aml->searchFromFolder(id, queryChar, (medialibrary::IMedia::Type)mediaType, &params);
+    if (query == nullptr) return (jobjectArray) env->NewObjectArray(0, ml_fields.MediaWrapper.clazz, NULL);
+    std::vector<medialibrary::MediaPtr> mediaList = nbItems != 0 ? query->items(nbItems, offset) : query->all();
+    jobjectArray mediaRefs = (jobjectArray) env->NewObjectArray(mediaList.size(), ml_fields.MediaWrapper.clazz, NULL);
+    int index = -1;
+    for(medialibrary::MediaPtr const& media : mediaList) {
+        jobject item = mediaToMediaWrapper(env, &ml_fields, media);
+        env->SetObjectArrayElement(mediaRefs, ++index, item);
+        env->DeleteLocalRef(item);
+    }
+    env->ReleaseStringUTFChars(filterQuery, queryChar);
+    return mediaRefs;
+}
+
+jint
+getSearchMediaFromFolderCount(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jstring filterQuery, jint mediaType) {
+    const char *queryChar = env->GetStringUTFChars(filterQuery, JNI_FALSE);
+    const auto query = MediaLibrary_getInstance(env, medialibrary)->searchFromFolder(id, queryChar, (medialibrary::IMedia::Type)mediaType);
+    env->ReleaseStringUTFChars(filterQuery, queryChar);
+    return (jint) (query != nullptr ? query->count() : 0);
+}
+
+jobjectArray
 subFolders(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id, jint sortingCriteria, jboolean desc, jint nbItems,  jint offset ) {
     AndroidMediaLibrary *aml = MediaLibrary_getInstance(env, medialibrary);
     medialibrary::QueryParameters params {
@@ -1694,6 +1736,7 @@ static JNINativeMethod methods[] = {
     {"nativeClearHistory", "()Z", (void*)clearHistory },
     {"nativeGetVideos", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getVideos },
     {"nativeGetSortedVideos", "(IZ)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getSortedVideos },
+    {"nativeGetSortedPagedVideos", "(IZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getPagedVideos },
     {"nativeGetRecentVideos", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getRecentVideos },
     {"nativeGetAudio", "()[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getAudio },
     {"nativeGetSortedAudio", "(IZ)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)getSortedAudio },
@@ -1808,6 +1851,8 @@ static JNINativeMethod folder_methods[] = {
     {"nativeSubfolders", "(Lorg/videolan/medialibrary/Medialibrary;JIZII)[Lorg/videolan/medialibrary/media/Folder;", (void*)subFolders },
     {"nativeMediaCount", "(Lorg/videolan/medialibrary/Medialibrary;JI)I", (void*)mediaFromFolderCount },
     {"nativeSubfoldersCount", "(Lorg/videolan/medialibrary/Medialibrary;JI)I", (void*)subFoldersCount },
+    {"nativeSearch", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;IIZII)[Lorg/videolan/medialibrary/media/MediaWrapper;", (void*)searchMediaFromFolder },
+    {"nativeGetSearchCount", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;I)I", (void*)getSearchMediaFromFolderCount },
 };
 
 static JNINativeMethod playlist_methods[] = {

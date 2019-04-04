@@ -1,7 +1,7 @@
 /*****************************************************************************
- * VideoListActivity.java
+ * VideoGridFragment.java
  *****************************************************************************
- * Copyright © 2011-2018 VLC authors and VideoLAN
+ * Copyright © 2011-2019 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.media.PlaylistManager;
 import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Settings;
-import org.videolan.vlc.viewmodels.VideosModel;
+import org.videolan.vlc.viewmodels.paged.PagedVideosModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,10 +73,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class VideoGridFragment extends MediaBrowserFragment<VideosModel> implements SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<List<MediaWrapper>>, CtxActionReceiver {
+public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> implements SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<PagedList<MediaWrapper>>, CtxActionReceiver {
 
     private final static String TAG = "VLC/VideoListFragment";
 
@@ -95,8 +95,8 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
             final boolean seenMarkVisible = preferences.getBoolean("media_seen", true);
             mAdapter = new VideoListAdapter(this, seenMarkVisible);
             multiSelectHelper = mAdapter.getMultiSelectHelper();
-            viewModel = ViewModelProviders.of(requireActivity(), new VideosModel.Factory(requireContext(), mGroup, mFolder, 0, Medialibrary.SORT_DEFAULT, null)).get(VideosModel.class);
-            viewModel.getDataset().observe(this, this);
+            viewModel = PagedVideosModel.Companion.get(requireContext(), this, mFolder);
+            viewModel.getPagedList().observe(this, this);
         }
         if (savedInstanceState != null) setGroup(savedInstanceState.getString(Constants.KEY_GROUP));
     }
@@ -120,7 +120,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = VideoGridBinding.inflate(inflater, container, false);
         return mBinding.getRoot();
     }
@@ -128,7 +128,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final boolean empty = viewModel.getDataset().getValue().isEmpty();
+        final boolean empty = viewModel.isEmpty();
         mBinding.loadingFlipper.setVisibility(empty ? View.VISIBLE : View.GONE);
         mBinding.loadingTitle.setVisibility(empty ? View.VISIBLE : View.GONE);
         mBinding.setEmpty(empty);
@@ -181,12 +181,13 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     public void onDestroy() {
         super.onDestroy();
         mGridItemDecoration = null;
+        mAdapter.release();
     }
 
     @Override
-    public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
+    public void onChanged(@Nullable PagedList<MediaWrapper> list) {
         mAdapter.showFilename(viewModel.getSort() == Medialibrary.SORT_FILENAME);
-        if (mediaWrappers != null) mAdapter.update(mediaWrappers);
+        if (list != null) mAdapter.submitList(list);
     }
 
     @Override
@@ -221,21 +222,20 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     }
 
 
-    protected void playVideo(MediaWrapper media, boolean fromStart) {
+    private void playVideo(MediaWrapper media, boolean fromStart) {
         media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
         if (fromStart) media.addFlags(MediaWrapper.MEDIA_FROM_START);
         MediaUtils.INSTANCE.openMedia(requireContext(), media);
     }
 
-    protected void playAudio(MediaWrapper media) {
+    private void playAudio(MediaWrapper media) {
         media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
         MediaUtils.INSTANCE.openMedia(getActivity(), media);
     }
 
     @Override
     public void onFabPlayClick(View view) {
-        List<MediaWrapper> playList = new ArrayList<>();
-        MediaUtils.INSTANCE.openList(getActivity(), playList, viewModel.getListWithPosition(playList, 0));
+        MediaUtils.INSTANCE.playAll(requireContext(), viewModel, 0, false);
     }
 
     @MainThread
@@ -244,7 +244,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
         mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
     }
 
-    void updateEmptyView() {
+    private void updateEmptyView() {
         final boolean empty = viewModel.isEmpty();
         final boolean working = mMediaLibrary.isWorking();
         mBinding.loadingFlipper.setVisibility(empty && working ? View.VISIBLE : View.GONE);
@@ -273,7 +273,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     @Override
     public void setFabPlayVisibility(boolean enable) {
-        super.setFabPlayVisibility(!mAdapter.isEmpty() && enable);
+        super.setFabPlayVisibility(!viewModel.isEmpty() && enable);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -297,7 +297,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        final List<MediaWrapper> list = new ArrayList();
+        final List<MediaWrapper> list = new ArrayList<>();
         for (MediaWrapper mw : multiSelectHelper.getSelection()) {
             if (mw.getType() == MediaWrapper.TYPE_GROUP) list.addAll(((MediaGroup) mw).getAll());
             else list.add(mw);
@@ -368,7 +368,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     };
 
     @Override
-    public void onClick(View v, int position, MediaLibraryItem item) {
+    public void onClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
         final MediaWrapper media = (MediaWrapper) item;
         if (mActionMode != null) {
             multiSelectHelper.toggleSelection(position);
@@ -384,8 +384,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             final SharedPreferences settings = Settings.INSTANCE.getInstance(v.getContext());
             if (settings.getBoolean("force_play_all", false)) {
-                final List<MediaWrapper> playList = new ArrayList<>();
-                MediaUtils.INSTANCE.openList(activity, playList, viewModel.getListWithPosition(playList, position));
+                MediaUtils.INSTANCE.playAll(requireContext(), viewModel, position, false);
             } else {
                 playVideo(media, false);
             }
@@ -393,7 +392,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     }
 
     @Override
-    public boolean onLongClick(View v, int position, MediaLibraryItem item) {
+    public boolean onLongClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
         if (mActionMode != null) return false;
         multiSelectHelper.toggleSelection(position);
         startActionMode();
@@ -404,22 +403,28 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
     public void onImageClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {}
 
     @Override
-    public void onCtxClick(View v, int position, MediaLibraryItem item) {
+    public void onCtxClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
         final MediaWrapper mw = (MediaWrapper) item;
         final boolean group = mw.getType() == MediaWrapper.TYPE_GROUP;
         int flags = group ? Constants.CTX_VIDEO_GOUP_FLAGS : Constants.CTX_VIDEO_FLAGS;
-        if (mw.getTime() != 0l && !group) flags |= Constants.CTX_PLAY_FROM_START;
+        if (mw.getTime() != 0L && !group) flags |= Constants.CTX_PLAY_FROM_START;
         if (mActionMode == null)
             ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), flags);
     }
 
 
     @Override
-    public void onUpdateFinished(RecyclerView.Adapter adapter) {
-        if (!mMediaLibrary.isWorking()) mHandler.sendEmptyMessage(UNSET_REFRESHING);
-        updateEmptyView();
-        setFabPlayVisibility(true);
-        UiTools.updateSortTitles(this);
+    public void onUpdateFinished(@NotNull RecyclerView.Adapter adapter) {
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (!isResumed()) return;
+                if (!mMediaLibrary.isWorking()) mHandler.sendEmptyMessage(UNSET_REFRESHING);
+                updateEmptyView();
+                setFabPlayVisibility(true);
+                UiTools.updateSortTitles(VideoGridFragment.this);
+            }
+        });
     }
 
     public void updateSeenMediaMarker() {
@@ -442,8 +447,7 @@ public class VideoGridFragment extends MediaBrowserFragment<VideosModel> impleme
                 playAudio(media);
                 break;
             case Constants.CTX_PLAY_ALL:
-                final List<MediaWrapper> playList = new ArrayList<>();
-                MediaUtils.INSTANCE.openList(activity, playList, viewModel.getListWithPosition(playList, position));
+                MediaUtils.INSTANCE.playAll(requireContext(), viewModel, position, false);
                 break;
             case Constants.CTX_INFORMATION:
                 showInfoDialog(media);

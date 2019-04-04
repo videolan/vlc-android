@@ -3,11 +3,13 @@ package org.videolan.vlc.viewmodels.paged
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.util.EmptyMLCallbacks
 import org.videolan.vlc.util.Settings
 
+@ExperimentalCoroutinesApi
 class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): MLPagedModel<MediaWrapper>(context),
         Medialibrary.MediaCb,
         Medialibrary.ArtistsCb by EmptyMLCallbacks,

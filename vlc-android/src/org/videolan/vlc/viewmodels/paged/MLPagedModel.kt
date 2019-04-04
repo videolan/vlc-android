@@ -99,6 +99,8 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
         }
     }
 
+    fun isEmpty() = pagedList.value.isNullOrEmpty()
+
     override fun refresh(): Boolean {
         headers.clear()
         if (this::restoreJob.isInitialized && restoreJob.isActive) restoreJob.cancel()

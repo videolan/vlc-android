@@ -22,7 +22,6 @@ package org.videolan.vlc.viewmodels
 
 import android.annotation.TargetApi
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -38,7 +37,6 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
-import org.videolan.vlc.RecommendationsService
 import org.videolan.vlc.media.MediaGroup
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.util.AndroidDevices
@@ -118,21 +116,6 @@ open class VideosModel(context: Context, private val group: String?, val folder 
         medialibrary.removeMediaCb(this)
         Medialibrary.lastThumb.removeObserver(thumbObs)
         super.onCleared()
-    }
-
-    fun getListWithPosition(list: MutableList<MediaWrapper>, position: Int): Int {
-        if (group != null || minGroupLen <= 0) {
-            list.addAll(dataset.value)
-            return position
-        }
-        var offset = 0
-        for ((i, mw) in dataset.value.withIndex()) {
-            if (mw is MediaGroup) {
-                for (item in mw.all) list.add(item)
-                if (i < position) offset += mw.size() - 1
-            } else list.add(mw)
-        }
-        return position + offset
     }
 
     class Factory(
