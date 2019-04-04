@@ -80,9 +80,8 @@
                 android:id="@+id/imageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:background="@color/transparent"
-                android:src="@drawable/ic_play_circle"
+                android:src="@drawable/ic_play_circle_card"
                 android:onClick="@{holder::onMainActionClick}"
                 vlc:layout_constraintBottom_toBottomOf="@+id/media_cover"
                 vlc:layout_constraintRight_toRightOf="@+id/media_cover" />
