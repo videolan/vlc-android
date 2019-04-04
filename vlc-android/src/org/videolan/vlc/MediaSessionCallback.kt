@@ -108,7 +108,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                 vsp.isGenreFocus -> items = playbackService.medialibrary.searchGenre(vsp.genre)
                 vsp.isSongFocus -> tracks = playbackService.medialibrary.searchMedia(vsp.song)!!
             }
-            if (Tools.isArrayEmpty(tracks)) playbackService.medialibrary.search(query)?.run {
+            if (Tools.isArrayEmpty(tracks) && query !== null && query.length > 2) playbackService.medialibrary.search(query)?.run {
                 when {
                     !Tools.isArrayEmpty(albums) -> tracks = albums[0].tracks
                     !Tools.isArrayEmpty(artists) -> tracks = artists[0].tracks

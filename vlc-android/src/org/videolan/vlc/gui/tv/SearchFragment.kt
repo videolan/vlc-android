@@ -78,6 +78,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
     }
 
     private fun loadRows(query: String?) = coroutineScope.launch {
+        if (query == null || query.length < 3) return@launch
         val searchAggregate = context?.getFromMl { search(query) }
         val empty = searchAggregate == null || searchAggregate.isEmpty
         updateEmtyView(empty)

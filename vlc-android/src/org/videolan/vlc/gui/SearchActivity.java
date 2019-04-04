@@ -5,13 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -32,6 +26,13 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.media.MediaUtils;
 import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.WorkersKt;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class SearchActivity extends AppCompatActivity implements TextWatcher, TextView.OnEditorActionListener {
 
@@ -68,6 +69,7 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher, Te
     }
 
     private void performSearh(final String query) {
+        if (query == null || query.length() < 3) return;
         WorkersKt.runIO(new Runnable() {
             @Override
             public void run() {
