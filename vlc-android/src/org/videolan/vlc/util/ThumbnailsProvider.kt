@@ -106,6 +106,9 @@ object ThumbnailsProvider {
      * @return a Bitmap object
      */
     private suspend fun composePlaylistImage(mediaList: List<MediaWrapper>, width: Int): Bitmap? {
+        if (mediaList.isEmpty()) {
+            return null
+        }
         val url = mediaList[0].artworkURL
         val isAllSameImage = !mediaList.any { it.artworkURL != url }
 
