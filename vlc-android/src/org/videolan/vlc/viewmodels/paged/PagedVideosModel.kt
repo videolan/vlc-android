@@ -59,12 +59,16 @@ class PagedVideosModel(
         else -> medialibrary.getVideoCount(filterQuery)
     }
 
-    override fun getPage(loadSize: Int, startposition: Int): Array<MediaWrapper> = if (filterQuery == null) when {
-        folder !== null -> folder.media(Folder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
-        else -> medialibrary.getPagedVideos(sort, desc, loadSize, startposition)
-    } else when {
-        folder !== null -> folder.searchTracks(filterQuery, Folder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
-        else -> medialibrary.searchVideo(filterQuery, sort, desc, loadSize, startposition)
+    override fun getPage(loadSize: Int, startposition: Int): Array<MediaWrapper> {
+        val list = if (filterQuery == null) when {
+            folder !== null -> folder.media(Folder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
+            else -> medialibrary.getPagedVideos(sort, desc, loadSize, startposition)
+        } else when {
+            folder !== null -> folder.searchTracks(filterQuery, Folder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
+            else -> medialibrary.searchVideo(filterQuery, sort, desc, loadSize, startposition)
+        }
+
+        return list.also { completeHeaders(it, startposition) }
     }
 
     override fun getAll(): Array<MediaWrapper> = when {
@@ -81,8 +85,8 @@ class PagedVideosModel(
     class Factory(
             private val context: Context,
             private val folder : Folder?,
-            private val sort : Int,
-            private val desc : Boolean?
+            private val sort: Int = Medialibrary.SORT_DEFAULT,
+            private val desc: Boolean? = null
     ): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")

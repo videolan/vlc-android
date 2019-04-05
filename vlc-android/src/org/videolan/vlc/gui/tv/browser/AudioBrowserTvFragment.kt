@@ -45,6 +45,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -111,6 +112,8 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
                 viewModel = ViewModelProviders.of(this, PagedArtistsModel.Factory(requireContext(), Settings.getInstance(requireContext()).getBoolean(KEY_ARTISTS_SHOW_ALL, false))).get(PagedArtistsModel::class.java) as MLPagedModel<MediaLibraryItem>
             CATEGORY_GENRES ->
                 viewModel = ViewModelProviders.of(this, PagedGenresModel.Factory(requireContext())).get(PagedGenresModel::class.java) as MLPagedModel<MediaLibraryItem>
+            CATEGORY_VIDEOS ->
+                viewModel = ViewModelProviders.of(this, PagedVideosModel.Factory(requireContext(), currentItem as? Folder)).get(PagedVideosModel::class.java) as MLPagedModel<MediaLibraryItem>
 
         }
 
@@ -165,6 +168,7 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
             CATEGORY_ALBUMS -> title.setText(R.string.albums)
             CATEGORY_ARTISTS -> title.setText(R.string.artists)
             CATEGORY_GENRES -> title.setText(R.string.genres)
+            CATEGORY_VIDEOS -> title.setText(R.string.videos)
 
         }
 
