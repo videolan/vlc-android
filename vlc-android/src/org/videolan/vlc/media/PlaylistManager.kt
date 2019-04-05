@@ -310,7 +310,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             newMedia = true
             determinePrevAndNextIndices()
             service.onNewPlayback()
-            if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) launch(Dispatchers.IO) {
+            if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) AppScope.launch(Dispatchers.IO) {
                 var id = mw.id
                 if (id == 0L) {
                     var internalMedia = medialibrary.findMedia(mw)
@@ -555,8 +555,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
 
                 } else {
                     // normal playback
-                    if (currentIndex > 0)
-                        prevIndex = currentIndex - 1
+                    if (currentIndex > 0) prevIndex = currentIndex - 1
                     nextIndex = when {
                         currentIndex + 1 < size -> currentIndex + 1
                         repeating == REPEAT_NONE -> -1
@@ -593,7 +592,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             service.onMediaListChanged()
             if (mrl !== null && ml.count == 1) {
                 getCurrentMedia()?.apply {
-                    launch(Dispatchers.IO) {
+                    AppScope.launch(Dispatchers.IO) {
                         if (stream) {
                             type = MediaWrapper.TYPE_STREAM
                             medialibrary.addStream(mrl, title)
