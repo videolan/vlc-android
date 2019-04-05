@@ -2,6 +2,7 @@ package org.videolan.vlc.gui.helpers
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
@@ -24,6 +25,8 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BR
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.databinding.AudioBrowserTvItemBinding
+import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.HttpImageLoader
 import org.videolan.vlc.util.ThumbnailsProvider
@@ -39,10 +42,12 @@ private const val TAG = "ImageLoader"
 @BindingAdapter("media")
 fun loadImage(v: View, item: MediaLibraryItem?) {
     if (item === null
-            || item.itemType == MediaLibraryItem.TYPE_GENRE
             || item.itemType == MediaLibraryItem.TYPE_PLAYLIST)
         return
     val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
+    if (item.itemType == MediaLibraryItem.TYPE_GENRE && !isForTV(binding)) {
+        return
+    }
     val isMedia = item.itemType == MediaLibraryItem.TYPE_MEDIA
     val isGroup = isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_GROUP
     val isFolder = !isMedia && item.itemType == MediaLibraryItem.TYPE_FOLDER;
@@ -91,6 +96,8 @@ fun placeHolderView(v: View, item: MediaLibraryItem?) {
     }
 
 }
+
+fun isForTV(binding: ViewDataBinding?) = (binding is AudioBrowserTvItemBinding)
 
 @MainThread
 @BindingAdapter("placeholderImage")
@@ -146,6 +153,13 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
         }
     }
     val image = if (!bindChanged) obtainBitmap(item, width) else null
+    if (image == null && isForTV(binding)) {
+        val imageTV = BitmapFactory.decodeResource(v.resources, TvUtil.getIconRes(item))
+        // binding is set to null to be sure to set the src and not the cover (background)
+        if (!bindChanged) updateImageView(imageTV, v, null)
+        binding?.removeOnRebindCallback(rebindCallbacks!!)
+        return
+    }
     if (!bindChanged) updateImageView(image, v, binding)
     binding?.removeOnRebindCallback(rebindCallbacks!!)
 }
@@ -175,7 +189,7 @@ private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: V
 @MainThread
 fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?) {
     if (bitmap === null || bitmap.width <= 1 || bitmap.height <= 1) return
-    if (vdb !== null) {
+    if (vdb !== null && !isForTV(vdb)) {
         vdb.setVariable(BR.scaleType, ImageView.ScaleType.FIT_CENTER)
         vdb.setVariable(BR.cover, BitmapDrawable(target.resources, bitmap))
         vdb.setVariable(BR.protocol, null)

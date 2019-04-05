@@ -35,15 +35,6 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
             }
         }
 
-        //determine if first or last in row
-//        val sectionPos = model.getPositionForSection(pos)
-//        val rangeInSection = pos - sectionPos
-//        if (rangeInSection % nbColumns == 0) {
-//            outRect.left = space * 2
-//        } else if (rangeInSection % nbColumns == nbColumns-1) {
-//            outRect.right = space * 2
-//        }
-//        if (BuildConfig.DEBUG) Log.d("ItemGridDecoration", "Margins for position $pos: ${outRect.left} - ${outRect.right}");
 
 
     }
@@ -51,11 +42,11 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(c, parent, state)
 
-        if (!::headerView.isInitialized) {
-            headerView = inflateHeaderView(parent)
-            header = headerView.findViewById(R.id.section_header) as TextView
-            fixLayoutSize(headerView, parent)
-        }
+//        if (!::headerView.isInitialized) {
+        headerView = inflateHeaderView(parent)
+        header = headerView.findViewById(R.id.section_header) as TextView
+        fixLayoutSize(headerView, parent)
+//        }
 
 
         //draw current header
@@ -70,6 +61,7 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
 
             val title = model.getSectionforPosition(sectionPosition)
             header.text = title
+            fixLayoutSize(headerView, parent)
             drawHeader(c, parent.getChildAt(0), headerView)
         }
 
@@ -85,6 +77,7 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
             val title = model.getSectionforPosition(position)
             header.text = title
             if (model.isFirstInSection(position)) {
+                fixLayoutSize(headerView, parent)
                 drawHeader(c, child, headerView)
                 drawnPositions.add(i)
             }
@@ -109,7 +102,7 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
 
     private fun inflateHeaderView(parent: RecyclerView): View {
         return LayoutInflater.from(parent.context)
-                .inflate(R.layout.recycler_section_header, parent, false)
+                .inflate(R.layout.recycler_section_header_tv, parent, false)
     }
 
     /**
@@ -117,17 +110,11 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
      * https://yoda.entelect.co.za/view/9627/how-to-android-recyclerview-item-decorations
      */
     private fun fixLayoutSize(view: View, parent: ViewGroup) {
-        val widthSpec = View.MeasureSpec.makeMeasureSpec(parent.width,
-                View.MeasureSpec.EXACTLY)
-        val heightSpec = View.MeasureSpec.makeMeasureSpec(parent.height,
-                View.MeasureSpec.UNSPECIFIED)
+        val widthSpec = View.MeasureSpec.makeMeasureSpec(parent.width, View.MeasureSpec.EXACTLY)
+        val heightSpec = View.MeasureSpec.makeMeasureSpec(parent.height, View.MeasureSpec.UNSPECIFIED)
 
-        val childWidth = ViewGroup.getChildMeasureSpec(widthSpec,
-                0,
-                view.layoutParams.width)
-        val childHeight = ViewGroup.getChildMeasureSpec(heightSpec,
-                parent.paddingTop + parent.paddingBottom,
-                view.layoutParams.height)
+        val childWidth = ViewGroup.getChildMeasureSpec(widthSpec, 0, view.layoutParams.width)
+        val childHeight = ViewGroup.getChildMeasureSpec(heightSpec, parent.paddingTop + parent.paddingBottom, view.layoutParams.height)
 
         view.measure(childWidth, childHeight)
 

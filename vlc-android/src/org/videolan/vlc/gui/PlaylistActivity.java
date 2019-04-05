@@ -225,6 +225,10 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
     }
 
     @Override
+    public void onItemFocused(@NotNull View v, @NotNull MediaLibraryItem item) {
+    }
+
+    @Override
     public void onRemove(int position, @NotNull final MediaLibraryItem item) {
         ArrayList<MediaWrapper> tracks = new ArrayList<MediaWrapper>(Arrays.asList(item.getTracks()));
         removeFromPlaylist(tracks, new ArrayList(Arrays.asList(position)));

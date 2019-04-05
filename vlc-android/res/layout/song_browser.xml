@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:theme="@style/Theme.VLC.TV">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -13,7 +14,6 @@
             android:id="@+id/headerListContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/tv_bg"
             android:padding="16dp">
 
             <androidx.recyclerview.widget.RecyclerView

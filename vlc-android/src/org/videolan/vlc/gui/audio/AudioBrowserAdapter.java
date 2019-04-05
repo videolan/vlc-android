@@ -363,7 +363,15 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (hasFocus) {
-                        binding.container.animate().scaleX(1.1f).scaleY(1.1f).translationZ(1.1f);
+                        int newWidth = (int) (itemSize * 1.1);
+                        if (newWidth % 2 == 1) {
+                            newWidth--;
+                        }
+                        float scale = (float) newWidth / itemSize;
+                        binding.container.animate().scaleX(scale).scaleY(scale).translationZ(scale);
+
+                        mIEventsHandler.onItemFocused(binding.getRoot(), getItem(getLayoutPosition()));
+
                     } else {
                         binding.container.animate().scaleX(1f).scaleY(1f).translationZ(1f);
                     }

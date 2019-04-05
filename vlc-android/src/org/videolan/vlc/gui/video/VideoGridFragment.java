@@ -431,6 +431,10 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
         });
     }
 
+    @Override
+    public void onItemFocused(@NotNull View v, @NotNull MediaLibraryItem item) {
+    }
+
     public void updateSeenMediaMarker() {
         mAdapter.setSeenMediaMarkerVisible(Settings.INSTANCE.getInstance(requireContext()).getBoolean("media_seen", true));
         mAdapter.notifyItemRangeChanged(0, mAdapter.getItemCount() - 1, Constants.UPDATE_SEEN);

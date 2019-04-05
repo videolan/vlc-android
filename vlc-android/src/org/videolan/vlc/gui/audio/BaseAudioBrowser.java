@@ -292,6 +292,11 @@ public abstract class BaseAudioBrowser extends MediaBrowserFragment<MLPagedModel
     }
 
     @Override
+    public void onItemFocused(@NotNull View v, @NotNull MediaLibraryItem item) {
+
+    }
+
+    @Override
     public void onCtxAction(int position, int option) {
         final AudioBrowserAdapter adapter = getCurrentAdapter();
         if (position >= adapter.getItemCount()) return;

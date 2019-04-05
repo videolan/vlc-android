@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
 import org.videolan.vlc.gui.tv.MainTvActivity;
@@ -69,17 +70,15 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
             }
             else if (type == Constants.HEADER_CATEGORIES) {
                 final long audioCategory = getIntent().getLongExtra(Constants.AUDIO_CATEGORY, Constants.CATEGORY_SONGS);
-                if (audioCategory == Constants.CATEGORY_SONGS &&
-                        VLCApplication.getMLInstance().getAudioCount() > GRID_LIMIT) {
-                    mFragment = new SongsBrowserFragment();
-                } else {
-                    if (audioCategory == Constants.CATEGORY_ARTISTS) mFragment = new ArtistsFragment();
-                    else if (audioCategory == Constants.CATEGORY_ALBUMS) mFragment = new AlbumsFragment();
-                    else if (audioCategory == Constants.CATEGORY_GENRES) mFragment = new GenresFragment();
-                    else mFragment = new MusicFragment();
-                    final Bundle args = new Bundle();
-                    args.putParcelable(Constants.AUDIO_ITEM, getIntent().getParcelableExtra(Constants.AUDIO_ITEM));
-                    ((Fragment) mFragment).setArguments(args);
+                final MediaLibraryItem item = getIntent().getParcelableExtra(Constants.AUDIO_ITEM);
+                if (audioCategory == Constants.CATEGORY_SONGS) {
+                    mFragment = AudioBrowserTvFragment.Companion.newInstance(Constants.CATEGORY_SONGS, item);
+                } else if (audioCategory == Constants.CATEGORY_ALBUMS) {
+                    mFragment = AudioBrowserTvFragment.Companion.newInstance(Constants.CATEGORY_ALBUMS, item);
+                } else if (audioCategory == Constants.CATEGORY_ARTISTS) {
+                    mFragment = AudioBrowserTvFragment.Companion.newInstance(Constants.CATEGORY_ARTISTS, item);
+                } else if (audioCategory == Constants.CATEGORY_GENRES) {
+                    mFragment = AudioBrowserTvFragment.Companion.newInstance(Constants.CATEGORY_GENRES, item);
                 }
             } else if (type == Constants.HEADER_NETWORK) {
                 Uri uri = getIntent().getData();

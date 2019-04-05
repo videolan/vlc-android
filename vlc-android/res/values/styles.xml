@@ -212,7 +212,7 @@
         <item name="imageCardViewTitleStyle">@style/VLCardViewTitleStyle</item>
         <item name="imageCardViewStyle">@style/VLCardView</item>
         <item name="audio_player_background_tint">@color/grey900transparent</item>
-        <item name="background_default_gradient">@drawable/gradient_background_dark</item>
+        <item name="background_default_gradient">@drawable/gradient_background_tv</item>
         <item name="audio_browser_separator">@color/orange500</item>
 
     </style>

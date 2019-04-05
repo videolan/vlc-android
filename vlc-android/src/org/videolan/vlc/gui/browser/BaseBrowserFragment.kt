@@ -484,6 +484,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
+    override fun onItemFocused(v: View, item: MediaLibraryItem) {
+
+    }
+
     private fun updateFab() {
         mFabPlay?.let {
             if (adapter.mediaCount > 0) {

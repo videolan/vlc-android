@@ -269,4 +269,9 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
         UiTools.updateSortTitles(this);
         mSwipeRefreshLayout.setRefreshing(false);
     }
+
+    @Override
+    public void onItemFocused(@NotNull View v, @NotNull MediaLibraryItem item) {
+
+    }
 }
