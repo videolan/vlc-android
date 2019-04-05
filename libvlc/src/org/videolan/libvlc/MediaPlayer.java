@@ -735,10 +735,10 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
     /**
      * Play a media via its mrl
-     * @param mrl MRL of the media to play
+     * @param path Path of the media file to play
      */
-    public void play(@NonNull String mrl) {
-        final Media media = new Media(mLibVLC, mrl);
+    public void play(@NonNull String path) {
+        final Media media = new Media(mLibVLC, path);
         play(media);
     }
 
