@@ -71,7 +71,7 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     private var nbColumns: Int = 0
     private lateinit var gridLayoutManager: GridLayoutManager
     private var currentItem: MediaLibraryItem? = null
-    private lateinit var currentArt: String
+    private var currentArt: String? = null
     private lateinit var backgroundManager: BackgroundManager
 
     companion object {
@@ -295,7 +295,7 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {
         (item as? MediaLibraryItem)?.run {
-            if (::currentArt.isInitialized && currentArt == artworkMrl) return@run
+            if (currentArt == artworkMrl) return@run
             currentArt = artworkMrl
             TvUtil.updateBackground(backgroundManager, this)
         }

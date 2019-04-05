@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.viewmodels.paged.MLPagedModel
 
 private const val TAG = "RecyclerSectionItemDecoration"
@@ -36,17 +37,16 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
         }
 
 
-
     }
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(c, parent, state)
 
-//        if (!::headerView.isInitialized) {
-        headerView = inflateHeaderView(parent)
-        header = headerView.findViewById(R.id.section_header) as TextView
-        fixLayoutSize(headerView, parent)
-//        }
+        if (!::headerView.isInitialized) {
+            headerView = inflateHeaderView(parent)
+            header = headerView.findViewById(R.id.section_header) as TextView
+            fixLayoutSize(headerView, parent)
+        }
 
 
         //draw current header
@@ -101,8 +101,11 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
     }
 
     private fun inflateHeaderView(parent: RecyclerView): View {
-        return LayoutInflater.from(parent.context)
-                .inflate(R.layout.recycler_section_header_tv, parent, false)
+        if (AndroidDevices.showTvUi(parent.context)) {
+            return LayoutInflater.from(parent.context).inflate(R.layout.recycler_section_header_tv, parent, false)
+        }
+        return LayoutInflater.from(parent.context).inflate(R.layout.recycler_section_header, parent, false)
+
     }
 
     /**
