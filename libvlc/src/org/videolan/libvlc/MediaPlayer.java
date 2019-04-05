@@ -504,7 +504,10 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
                 for (int i = 0; i < mEncodedDevices.size(); ++i)
                     encodingFlags |= mEncodedDevices.valueAt(i);
 
-                updateAudioOutputDevice(encodingFlags, "pcm");
+                /* Very simple assumption: force stereo PCM if the audio device doesn't support
+                 * any encoded codecs. */
+                final String defaultDevice = encodingFlags == 0 ? "stereo" : "pcm";
+                updateAudioOutputDevice(encodingFlags, defaultDevice);
             }
 
             @RequiresApi(Build.VERSION_CODES.M)
