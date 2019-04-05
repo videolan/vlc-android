@@ -610,9 +610,13 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
 
         saveBrightness();
 
-        if (mService != null) mService.removeCallback(this);
+        if (mService != null) {
+            mService.removeCallback(this);
+            mService = null;
+        }
         // Clear Intent to restore playlist on activity restart
         setIntent(new Intent());
+        mHandler.removeCallbacksAndMessages(null);
     }
 
     private void saveBrightness() {
@@ -1532,7 +1536,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                     mLockBackButton = true;
                     break;
                 case CHECK_VIDEO_TRACKS:
-                    if (mService.getVideoTracksCount() < 1 && mService.getAudioTracksCount() > 0) {
+                    if (mService != null && mService.getVideoTracksCount() < 1 && mService.getAudioTracksCount() > 0) {
                         Log.i(TAG, "No video track, open in audio mode");
                         switchToAudioMode(true);
                     }
@@ -2492,7 +2496,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             mWasPaused = true;
         if (mWasPaused && BuildConfig.DEBUG)
             Log.d(TAG, "Video was previously paused, resuming in paused mode");
-
         if (intent.getData() != null) mUri = intent.getData();
         if (extras != null) {
             if (intent.hasExtra(Constants.PLAY_EXTRA_ITEM_LOCATION))
@@ -2937,8 +2940,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 }
             });
             mService.addCallback(this);
-        } else {
-            if (mService != null) mService.removeCallback(this);
+        } else if (mService != null) {
+            mService.removeCallback(this);
             mService = null;
             mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
         }
