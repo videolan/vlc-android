@@ -2,9 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/content"
     tools:theme="@style/Theme.VLC.TV">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,11 +36,13 @@
 
             <ImageButton
                 android:id="@+id/sortButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/ic_sort_circle"
+                android:background="@drawable/orange_circle"
+                android:elevation="6dp"
+                android:src="@drawable/ic_menu_sort_tv"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,11 +62,13 @@
 
             <ImageButton
                 android:id="@+id/headerButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/ic_dial_circle"
+                android:background="@drawable/orange_circle"
+                android:elevation="6dp"
+                android:src="@drawable/ic_menu_dial_tv"
                 app:layout_constraintStart_toEndOf="@+id/sortButton"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -93,8 +97,8 @@
             android:layout_height="40dp"
             android:background="@drawable/orange_circle"
             android:elevation="6dp"
-            android:src="@drawable/ic_menu_sort_tv"
             android:nextFocusDown="@id/imageButtonHeader"
+            android:src="@drawable/ic_menu_sort_tv"
             app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
             app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
             app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
@@ -108,8 +112,8 @@
             android:background="@drawable/orange_circle"
             android:elevation="6dp"
             android:nextFocusUp="@id/imageButtonSort"
-            android:nextFocusForward="@id/imageButtonSort"
             android:nextFocusDown="@id/imageButtonSettings"
+            android:nextFocusForward="@id/imageButtonSort"
             android:src="@drawable/ic_menu_dial_tv"
             app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
             app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
