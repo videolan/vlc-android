@@ -110,7 +110,6 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
     }
 
 
-
     @Override
     public void showProgress(final boolean show){
         runOnUiThread(new Runnable() {

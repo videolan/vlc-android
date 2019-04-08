@@ -35,7 +35,7 @@
             type="org.videolan.vlc.gui.audio.AudioBrowserAdapter.MediaItemTVViewHolder" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <org.videolan.vlc.gui.tv.FocusableConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/tv_card_background"
@@ -104,5 +104,5 @@
             vlc:placeholder="@{item}" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </org.videolan.vlc.gui.tv.FocusableConstraintLayout>
 </layout>

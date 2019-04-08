@@ -31,8 +31,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.view.KeyEvent.KEYCODE_BACK
-import android.view.KeyEvent.KEYCODE_MENU
+import android.view.KeyEvent.*
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -478,19 +477,35 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     }
 
 
+    private var lastDpadEventTime = 0L
     override fun onKeyPressed(keyCode: Int): Boolean {
-        if (keyCode == KEYCODE_MENU) {
-            fabSettings.requestFocusFromTouch()
-            expandExtendedFAB()
-            return true
-        }
 
-        if (keyCode == KEYCODE_BACK) {
-            if (headerListContainer.visibility == View.VISIBLE) {
-                hideHeaderSelectionScreen()
+        when (keyCode) {
+            KEYCODE_MENU -> {
+                fabSettings.requestFocusFromTouch()
+                expandExtendedFAB()
+                return true
+            }
+            KEYCODE_BACK -> {
+                if (headerListContainer.visibility == View.VISIBLE) {
+                    hideHeaderSelectionScreen()
+                    return true
+                }
+            }
+            /**
+             * mitigate the perf issue when scrolling fast with d-pad
+             */
+            KEYCODE_DPAD_DOWN, KEYCODE_DPAD_LEFT, KEYCODE_DPAD_RIGHT, KEYCODE_DPAD_UP -> {
+                val now = System.currentTimeMillis()
+                if (now - lastDpadEventTime > 200) {
+                    lastDpadEventTime = now
+                    if (BuildConfig.DEBUG) Log.d("keydown", "Keydown propagated");
+                    return false
+                }
                 return true
             }
         }
+
         return false
     }
 }

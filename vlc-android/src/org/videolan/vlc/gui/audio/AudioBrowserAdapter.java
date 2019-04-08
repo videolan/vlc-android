@@ -165,6 +165,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     @Override
     public void onViewRecycled(@NonNull AbstractMediaItemViewHolder h) {
         h.recycle();
+        super.onViewRecycled(h);
     }
 
     private boolean isPositionValid(int position) {
