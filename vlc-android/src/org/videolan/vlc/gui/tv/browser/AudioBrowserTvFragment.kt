@@ -1,6 +1,6 @@
 /*
  * ************************************************************************
- *  SongsBrowserFragment.java
+ *  AudioBrowserTvFragment.kt
  * *************************************************************************
  *  Copyright © 2016 VLC authors and VideoLAN
  *  Author: Geoffrey Métais

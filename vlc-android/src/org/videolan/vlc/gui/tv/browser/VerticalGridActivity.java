@@ -43,8 +43,6 @@ import androidx.fragment.app.Fragment;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class VerticalGridActivity extends BaseTvActivity implements BrowserActivityInterface {
 
-    private static final String TAG = "VLC/VerticalGridActivity";
-    private static final int GRID_LIMIT = 24;
     BrowserFragmentInterface mFragment;
     ProgressBar mContentLoadingProgressBar;
     TextView mEmptyView;
