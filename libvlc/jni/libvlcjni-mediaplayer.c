@@ -1103,7 +1103,10 @@ Java_org_videolan_libvlc_MediaPlayer_nativeRecord(JNIEnv *env, jobject thiz,
 
     jboolean ret = record_func(p_obj->u.p_mp, psz_directory) == 0;
 
-    (*env)->ReleaseStringUTFChars(env, jdirectory, psz_directory);
+    if (psz_directory)
+    {
+        (*env)->ReleaseStringUTFChars(env, jdirectory, psz_directory);
+    }
 
     return ret;
 }
