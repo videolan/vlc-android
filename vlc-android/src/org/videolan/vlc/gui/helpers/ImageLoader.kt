@@ -195,7 +195,7 @@ fun updateImageView(bitmap: Bitmap?, target: View, vdb: ViewDataBinding?) {
         vdb.setVariable(BR.protocol, null)
     } else when (target) {
         is ImageView -> {
-            target.scaleType = ImageView.ScaleType.FIT_CENTER
+            target.scaleType = if (isForTV(vdb)) ImageView.ScaleType.CENTER_CROP else ImageView.ScaleType.FIT_CENTER
             target.setImageBitmap(bitmap)
             target.visibility = View.VISIBLE
         }
