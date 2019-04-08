@@ -20,9 +20,9 @@
 
 package org.videolan.vlc.repository
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import android.net.Uri
-import kotlinx.coroutines.experimental.runBlocking
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before

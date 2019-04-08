@@ -10,45 +10,45 @@ class StringsTest {
 
     @Test
     fun stripTrailingSlash() {
-        var s = Strings.stripTrailingSlash("foo/")
+        var s = stripTrailingSlash("foo/")
         assertEquals(s, "foo")
 
-        s = Strings.stripTrailingSlash("bar")
+        s = stripTrailingSlash("bar")
         assertEquals(s, "bar")
     }
 
     @Test
     fun isStringStartsWithOneOfArrayItems_returnTrue() {
         val array = arrayOf("java", "kotlin", "python")
-        var bool = Strings.startsWith(array, "${array[0]}Foo")
+        var bool = startsWith(array, "${array[0]}Foo")
         assertTrue(bool)
 
-        bool = Strings.startsWith(array, "${array[1]}Foo")
+        bool = startsWith(array, "${array[1]}Foo")
         assertTrue(bool)
 
-        bool = Strings.startsWith(array, "${array[2]}Foo")
+        bool = startsWith(array, "${array[2]}Foo")
         assertTrue(bool)
 
-        bool = Strings.startsWith(array, "${array[2]}")
+        bool = startsWith(array, "${array[2]}")
         assertTrue(bool)
     }
 
     @Test
     fun isStringStartsWithOneOfArrayItems_returnFalse() {
         val array = arrayOf("java", "kotlin", "python")
-        var bool = Strings.startsWith(array, "Foo${array[0]}")
+        var bool = startsWith(array, "Foo${array[0]}")
         assertFalse(bool)
 
-        bool = Strings.startsWith(array, "foo${array[1]}")
+        bool = startsWith(array, "foo${array[1]}")
         assertFalse(bool)
 
-        bool = Strings.startsWith(array, "foo${array[2]}")
+        bool = startsWith(array, "foo${array[2]}")
         assertFalse(bool)
 
-        bool = Strings.startsWith(array, "")
+        bool = startsWith(array, "")
         assertFalse(bool)
 
-        bool = Strings.startsWith(array, "Ruby")
+        bool = startsWith(array, "Ruby")
         assertFalse(bool)
     }
 
@@ -56,16 +56,16 @@ class StringsTest {
     @Test
     fun indexOfListItemEndsWithString_returnIndex() {
         val list = listOf("fooJava", "fooKotlin", "fooPython", "barPython")
-        var indx = Strings.containsName(list, "Java")
+        var indx = containsName(list, "Java")
         assertEquals(indx, 0)
 
-        indx = Strings.containsName(list, "Kotlin")
+        indx = containsName(list, "Kotlin")
         assertEquals(indx, 1)
 
-        indx = Strings.containsName(list, "Python")
+        indx = containsName(list, "Python")
         assertEquals(indx, 3)
 
-        indx = Strings.containsName(list, "fooPython")
+        indx = containsName(list, "fooPython")
         assertEquals(indx, 2)
     }
 
@@ -73,90 +73,90 @@ class StringsTest {
     @Test
     fun indexOfListItemEndsWithString_returnMinusOne() {
         val list = listOf("fooJava", "fooKotlin", "fooPython")
-        var indx = Strings.containsName(list, "Jav")
+        var indx = containsName(list, "Jav")
         assertEquals(indx, -1)
 
-        indx = Strings.containsName(list, "javaBar")
+        indx = containsName(list, "javaBar")
         assertEquals(indx, -1)
 
-        indx = Strings.containsName(list, "KotlinBar")
+        indx = containsName(list, "KotlinBar")
         assertEquals(indx, -1)
 
-        indx = Strings.containsName(list, "PythonBar")
+        indx = containsName(list, "PythonBar")
         assertEquals(indx, -1)
 
-        indx = Strings.containsName(list, "fooPythonBar")
+        indx = containsName(list, "fooPythonBar")
         assertEquals(indx, -1)
     }
 
     @Test
     fun removeFileProtocole() {
-        var s = Strings.removeFileProtocole("file://foopath")
+        var s = "file://foopath".removeFileProtocole()
         assertEquals(s, "foopath")
 
-        s = Strings.removeFileProtocole("barpath")
+        s = "barpath".removeFileProtocole()
         assertEquals(s, "barpath")
     }
 
     @Test
     fun readableFileSize() {
-        var s = Strings.readableFileSize(10)
+        var s = 10L.readableFileSize()
         assertEquals(s, "10 B")
 
-        s = Strings.readableFileSize(1026)
+        s = 1026L.readableFileSize()
         assertEquals(s, "1 KiB")
 
-        s = Strings.readableFileSize(10026)
+        s = 10026L.readableFileSize()
         assertEquals(s, "9.8 KiB")
 
-        s = Strings.readableFileSize(100026)
+        s = 100026L.readableFileSize()
         assertEquals(s, "97.7 KiB")
 
-        s = Strings.readableFileSize(1000026)
+        s = 1000026L.readableFileSize()
         assertEquals(s, "976.6 KiB")
 
-        s = Strings.readableFileSize(10000026)
+        s = 10000026L.readableFileSize()
         assertEquals(s, "9.5 MiB")
 
 
-        s = Strings.readableFileSize(1000000026)
+        s = 1000000026L.readableFileSize()
         assertEquals(s, "953.7 MiB")
 
-        s = Strings.readableFileSize(10000000026)
+        s = 10000000026L.readableFileSize()
         assertEquals(s, "9.3 GiB")
 
-        s = Strings.readableFileSize(100000000026)
+        s = 100000000026L.readableFileSize()
         assertEquals(s, "93.1 GiB")
     }
 
     @Test
     fun readableSize() {
-        var s = Strings.readableSize(10)
+        var s = 10L.readableSize()
         assertEquals(s, "10 B")
 
-        s = Strings.readableSize(1026)
+        s = 1026L.readableSize()
         assertEquals(s, "1 KB")
 
-        s = Strings.readableSize(10026)
+        s = 10026L.readableSize()
         assertEquals(s, "10 KB")
 
-        s = Strings.readableSize(100026)
+        s = 100026L.readableSize()
         assertEquals(s, "100 KB")
 
-        s = Strings.readableSize(1000026)
+        s = 1000026L.readableSize()
         assertEquals(s, "1 MB")
 
-        s = Strings.readableSize(10000026)
+        s = 10000026L.readableSize()
         assertEquals(s, "10 MB")
 
 
-        s = Strings.readableSize(1000000026)
+        s = 1000000026L.readableSize()
         assertEquals(s, "1 GB")
 
-        s = Strings.readableSize(10000000026)
+        s = 10000000026L.readableSize()
         assertEquals(s, "10 GB")
 
-        s = Strings.readableSize(100000000026)
+        s = 100000000026L.readableSize()
         assertEquals(s, "100 GB")
     }
 

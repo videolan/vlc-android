@@ -22,6 +22,10 @@
             type="String" />
 
         <variable
+            name="resolution"
+            type="String" />
+
+        <variable
             name="showFilename"
             type="androidx.databinding.ObservableBoolean" />
 
@@ -101,17 +105,31 @@
             android:layout_marginBottom="1dp"
             style="@style/VLC.TextViewTitle"
             android:textColor="@color/grey50"
-            android:layout_marginLeft="@dimen/very_small_margin"
             android:layout_marginStart="@dimen/half_default_margin"
             android:text="@{showFilename ? media.fileName : media.title}"
             tools:targetApi="jelly_bean" />
+
+        <TextView
+            android:id="@+id/ml_item_resolution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
+            vlc:layout_constraintEnd_toEndOf="@+id/item_more"
+            vlc:layout_constraintStart_toStartOf="@+id/item_more"
+            style="@style/VLC.TextViewDescription"
+            android:textColor="@color/grey50"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
+            android:layout_margin="4dp"
+            android:text="@{resolution}"
+            android:visibility="@{resolution == null ? View.GONE : View.VISIBLE, default=gone}"/>
 
         <TextView
             android:id="@+id/ml_item_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
-            vlc:layout_constraintEnd_toStartOf="@+id/item_more"
+            vlc:layout_constraintEnd_toStartOf="@+id/ml_item_resolution"
             vlc:layout_constraintStart_toStartOf="@+id/ml_item_title"
             android:layout_marginBottom="2dp"
             android:ellipsize="end"
@@ -124,7 +142,7 @@
             android:id="@+id/item_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
+            vlc:layout_constraintBottom_toTopOf="@+id/ml_item_resolution"
             vlc:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="4dp"
             android:clickable="true"

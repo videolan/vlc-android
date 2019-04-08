@@ -50,10 +50,7 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.loadImage
 import org.videolan.vlc.interfaces.IEventsHandler
-import org.videolan.vlc.util.UPDATE_SEEN
-import org.videolan.vlc.util.UPDATE_SELECTION
-import org.videolan.vlc.util.UPDATE_THUMB
-import org.videolan.vlc.util.UPDATE_TIME
+import org.videolan.vlc.util.*
 
 private const val TAG = "VLC/VideoListAdapter"
 
@@ -141,36 +138,34 @@ class VideoListAdapter internal constructor(
     fun clear() {}
 
     private fun fillView(holder: ViewHolder, media: MediaWrapper) {
-        val text: String
-        val resolution: String
+        val text: String?
+        val resolution = generateResolutionClass(media.width, media.height)
         var max = 0
         var progress = 0
         var seen = 0L
 
-        if (media.type == MediaWrapper.TYPE_GROUP) {
-            text = media.description
+        text = if (media.type == MediaWrapper.TYPE_GROUP) {
+            media.description
         } else {
+            seen = if (mIsSeenMediaMarkerVisible) media.seen else 0L
             /* Time / Duration */
-            resolution = Tools.getResolution(media)
             if (media.length > 0) {
                 val lastTime = media.displayTime
                 if (lastTime > 0) {
                     max = (media.length / 1000).toInt()
                     progress = (lastTime / 1000).toInt()
                 }
-                if (TextUtils.isEmpty(resolution))
-                    text = Tools.millisToText(media.length)
-                else
-                    text = Tools.millisToString(media.length, true, false) + "  |  " + resolution
-            } else
-                text = resolution
-            seen = if (mIsSeenMediaMarkerVisible) media.seen else 0L
+                if (isListMode && resolution !== null) {
+                    "${Tools.millisToText(media.length)} | $resolution"
+                } else Tools.millisToText(media.length)
+            } else null
         }
 
         holder.binding.setVariable(BR.time, text)
         holder.binding.setVariable(BR.max, max)
         holder.binding.setVariable(BR.progress, progress)
         holder.binding.setVariable(BR.seen, seen)
+        if (!isListMode) holder.binding.setVariable(BR.resolution, resolution)
     }
 
     fun setGridCardWidth(gridCardWidth: Int) {

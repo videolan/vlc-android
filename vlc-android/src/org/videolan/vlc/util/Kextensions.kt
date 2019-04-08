@@ -210,3 +210,13 @@ fun Context.getPendingIntent(iPlay: Intent): PendingIntent {
     return if (AndroidUtil.isOOrLater) PendingIntent.getForegroundService(applicationContext, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT)
     else PendingIntent.getService(applicationContext, 0, iPlay, PendingIntent.FLAG_UPDATE_CURRENT)
 }
+
+fun generateResolutionClass(width: Int, height: Int) : String? = if (width <= 0 || height <= 0) {
+    null
+} else when {
+    width >= 7680 -> "8K"
+    width >= 3840 -> "4K"
+    width >= 1920 -> "1080p"
+    width >= 1280 -> "720p"
+    else -> "SD"
+}
