@@ -101,19 +101,15 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
             ((DetailsFragment)mFragment).showDetails();
             return true;
         }
+        if (mFragment instanceof OnKeyPressedListener) {
+            if (((OnKeyPressedListener) mFragment).onKeyPressed(keyCode)) {
+                return true;
+            }
+        }
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mFragment instanceof OnBackPressedListener) {
-            if (!((OnBackPressedListener) mFragment).onBackPressed()) {
-                super.onBackPressed();
-            }
-            return;
-        }
-        super.onBackPressed();
-    }
+
 
     @Override
     public void showProgress(final boolean show){
@@ -140,12 +136,15 @@ public class VerticalGridActivity extends BaseTvActivity implements BrowserActiv
         ((Sortable)mFragment).sort(v);
     }
 
-    public interface OnBackPressedListener {
+    public interface OnKeyPressedListener {
+
         /**
-         * back has been pressed
-         *
+         *  a key has been pressed
+         * @param keyCode the pressed key
          * @return true if the event has been intercepted
          */
-        boolean onBackPressed();
+        boolean onKeyPressed(int keyCode);
+
+
     }
 }

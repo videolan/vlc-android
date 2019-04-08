@@ -100,6 +100,15 @@ object TvUtil {
         activity.findViewById<View>(android.R.id.content).setPadding(hm, vm, hm, vm)
     }
 
+    fun applyOverscanMargin(view: View) {
+        val hm = view.resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal)
+        val vm = view.resources.getDimensionPixelSize(R.dimen.tv_overscan_vertical)
+        view.setPadding(hm + view.paddingLeft, vm + view.paddingTop, hm + view.paddingRight, vm + view.paddingBottom)
+    }
+
+    fun getOverscanHorizontal(context: Context) = context.resources.getDimensionPixelSize(R.dimen.tv_overscan_horizontal)
+    fun getOverscanVertical(context: Context) = context.resources.getDimensionPixelSize(R.dimen.tv_overscan_vertical)
+
     fun playMedia(activity: Activity, media: MediaWrapper) {
         if (media.type == MediaWrapper.TYPE_AUDIO) {
             val tracks = ArrayList<MediaWrapper>()

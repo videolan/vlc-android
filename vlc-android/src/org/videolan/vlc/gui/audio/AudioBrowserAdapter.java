@@ -43,6 +43,7 @@ import org.videolan.vlc.databinding.AudioBrowserItemBinding;
 import org.videolan.vlc.databinding.AudioBrowserTvItemBinding;
 import org.videolan.vlc.gui.helpers.ImageLoaderKt;
 import org.videolan.vlc.gui.helpers.SelectorViewHolder;
+import org.videolan.vlc.gui.tv.FocusableRecyclerView;
 import org.videolan.vlc.gui.view.FastScroller;
 import org.videolan.vlc.interfaces.IEventsHandler;
 import org.videolan.vlc.interfaces.IListEventsHandler;
@@ -82,6 +83,7 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
     private static boolean preventNextAnim;
     private boolean isTV = false;
     private int focusNext = -1;
+    private FocusableRecyclerView.FocusListener focusListener;
 
     public AudioBrowserAdapter(int type, IEventsHandler eventsHandler, IListEventsHandler listEventsHandler, boolean canBeReordered) {
         super(DIFF_CALLBACK);
@@ -236,6 +238,10 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
         return focusNext;
     }
 
+    public void setOnFocusChangeListener(@Nullable FocusableRecyclerView.FocusListener focusListener) {
+        this.focusListener = focusListener;
+    }
+
     public class MediaItemViewHolder extends AbstractMediaItemViewHolder<AudioBrowserItemBinding> implements View.OnFocusChangeListener {
         int coverlayResource = 0;
         public View.OnTouchListener onTouchListener;
@@ -371,6 +377,9 @@ public class AudioBrowserAdapter extends PagedListAdapter<MediaLibraryItem, Audi
                         binding.container.animate().scaleX(scale).scaleY(scale).translationZ(scale);
 
                         mIEventsHandler.onItemFocused(binding.getRoot(), getItem(getLayoutPosition()));
+                        if (focusListener != null) {
+                            focusListener.onFocusChanged(getLayoutPosition());
+                        }
 
                     } else {
                         binding.container.animate().scaleX(1f).scaleY(1f).translationZ(1f);

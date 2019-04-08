@@ -31,6 +31,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
+import android.view.KeyEvent.KEYCODE_BACK
+import android.view.KeyEvent.KEYCODE_MENU
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -38,6 +40,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.BackgroundManager
 import androidx.lifecycle.Observer
@@ -60,7 +63,7 @@ import org.videolan.vlc.viewmodels.paged.*
 import java.util.*
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHandler, PopupMenu.OnMenuItemClickListener, SongHeaderAdapter.OnHeaderSelected, VerticalGridActivity.OnBackPressedListener {
+class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHandler, PopupMenu.OnMenuItemClickListener, SongHeaderAdapter.OnHeaderSelected, VerticalGridActivity.OnKeyPressedListener {
 
 
     private lateinit var viewModel: MLPagedModel<MediaLibraryItem>
@@ -69,6 +72,9 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     private lateinit var headerList: RecyclerView
     private lateinit var headerAdapter: SongHeaderAdapter
     private lateinit var headerListContainer: View
+    private lateinit var fabSettings: ImageButton
+    private lateinit var fabHeader: ImageButton
+    private lateinit var fabSort: ImageButton
     private var nbColumns: Int = 0
     private lateinit var gridLayoutManager: GridLayoutManager
     private var currentItem: MediaLibraryItem? = null
@@ -151,13 +157,33 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         list = view.findViewById(R.id.list)
+        val toolbar = view.findViewById<View>(R.id.toolbar)
         headerList = view.findViewById(R.id.headerList)
         headerListContainer = view.findViewById(R.id.headerListContainer)
         val title = view.findViewById<TextView>(R.id.title)
         val sortButton = view.findViewById<ImageButton>(R.id.sortButton)
         val headerButton = view.findViewById<ImageButton>(R.id.headerButton)
-        val toolbar = view.findViewById<View>(R.id.toolbar)
+        fabSettings = view.findViewById<ImageButton>(R.id.imageButtonSettings)
+        fabHeader = view.findViewById<ImageButton>(R.id.imageButtonHeader)
+        fabSort = view.findViewById<ImageButton>(R.id.imageButtonSort)
+
+        //overscan
+        list.setPadding(list.paddingLeft + TvUtil.getOverscanHorizontal(requireContext()), list.paddingTop + TvUtil.getOverscanVertical(requireContext()), list.paddingRight + TvUtil.getOverscanHorizontal(requireContext()), list.paddingBottom + TvUtil.getOverscanVertical(requireContext()))
+        headerList.setPadding(list.paddingLeft + TvUtil.getOverscanHorizontal(requireContext()), list.paddingTop + TvUtil.getOverscanVertical(requireContext()), list.paddingRight + TvUtil.getOverscanHorizontal(requireContext()), list.paddingBottom + TvUtil.getOverscanVertical(requireContext()))
+        TvUtil.applyOverscanMargin(toolbar)
+
+        fabSettings.setOnClickListener {
+            expandExtendedFAB()
+        }
+
+        val lp = (fabSettings.layoutParams as ConstraintLayout.LayoutParams)
+        lp.leftMargin += TvUtil.getOverscanHorizontal(requireContext())
+        lp.rightMargin += TvUtil.getOverscanHorizontal(requireContext())
+        lp.topMargin += TvUtil.getOverscanVertical(requireContext())
+        lp.bottomMargin += TvUtil.getOverscanVertical(requireContext())
+
 
 
         if (currentItem != null) {
@@ -172,20 +198,47 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
 
         }
 
-        sortButton.setOnClickListener { v -> sort(v) }
-        headerButton.setOnClickListener {
+        val searchHeaderClick: (View) -> Unit = {
             headerListContainer.visibility = View.VISIBLE
             headerList.requestFocus()
             list.visibility = View.GONE
+            hideFAB()
         }
+
+        val sortClick: (View) -> Unit = { v -> sort(v) }
+
+        headerButton.setOnClickListener(searchHeaderClick)
+        fabHeader.setOnClickListener(searchHeaderClick)
+
+        sortButton.setOnClickListener(sortClick)
+        fabSort.setOnClickListener(sortClick)
+
+
+        val fabOnFocusChangedListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (!fabSettings.hasFocus() && !fabSort.hasFocus() && !fabHeader.hasFocus()) {
+                collapseExtendedFAB()
+            }
+            if (v == fabSettings && hasFocus) {
+                expandExtendedFAB()
+            }
+        }
+        fabSettings.onFocusChangeListener = fabOnFocusChangedListener
+        fabSort.onFocusChangeListener = fabOnFocusChangedListener
+        fabHeader.onFocusChangeListener = fabOnFocusChangedListener
+
+
 
         nbColumns = resources.getInteger(R.integer.tv_songs_col_count)
 
+        gridLayoutManager = object : GridLayoutManager(requireActivity(), nbColumns) {
+            override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean): Boolean {
+                return false
+            }
 
-
-
-
-        gridLayoutManager = GridLayoutManager(requireActivity(), nbColumns)
+            override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean, focusedChildVisible: Boolean): Boolean {
+                return false
+            }
+        }
 
         val spacing = resources.getDimensionPixelSize(R.dimen.recycler_section_header_spacing)
 
@@ -252,6 +305,46 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
 
 
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun expandExtendedFAB() {
+//        fabAnimationCancel()
+        fabHeader.animate().translationY(-(resources.getDimension(R.dimen.kl_normal) + fabHeader.height))
+        fabSort.animate().translationY(-2 * (resources.getDimension(R.dimen.kl_normal) + fabHeader.height))
+    }
+
+
+    private fun collapseExtendedFAB() {
+//        fabAnimationCancel()
+        fabHeader.animate().translationY(0f)
+        fabSort.animate().translationY(0f)
+    }
+
+    private fun hideFAB() {
+//        fabAnimationCancel()
+        val marginBottom = (fabSettings.layoutParams as ConstraintLayout.LayoutParams).bottomMargin.toFloat()
+        fabSettings.animate().translationY(fabSettings.height + marginBottom)
+        fabHeader.animate().translationY(fabSettings.height + marginBottom)
+        fabSort.animate().translationY(fabSettings.height + marginBottom)
+        fabSettings.isFocusable = false
+        fabHeader.isFocusable = false
+        fabSort.isFocusable = false
+    }
+
+    private fun showFAB() {
+//        fabAnimationCancel()
+        fabSettings.animate().translationY(0f).setListener(null)
+        fabHeader.animate().translationY(0f)
+        fabSort.animate().translationY(0f)
+        fabSettings.isFocusable = true
+        fabHeader.isFocusable = true
+        fabSort.isFocusable = true
+    }
+
+    private fun fabAnimationCancel() {
+        fabSettings.animate().cancel()
+        fabHeader.animate().cancel()
+        fabSort.animate().cancel()
     }
 
 
@@ -321,6 +414,7 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     }
 
     override fun onMenuItemClick(item: MenuItem): Boolean {
+        collapseExtendedFAB()
         when (item.itemId) {
             R.id.ml_menu_sortby_name -> {
                 sortBy(Medialibrary.SORT_ALPHA)
@@ -363,8 +457,7 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     }
 
     override fun onHeaderSelected(header: String) {
-        headerListContainer.visibility = View.GONE
-        list.visibility = View.VISIBLE
+        hideHeaderSelectionScreen()
 
         val positionForSectionByName = viewModel.getPositionForSectionByName(header)
         if (list.getChildAt(positionForSectionByName) == null) {
@@ -378,11 +471,25 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         }
     }
 
-    override fun onBackPressed(): Boolean {
-        if (headerListContainer.visibility == View.VISIBLE) {
-            headerListContainer.visibility = View.GONE
-            list.visibility = View.VISIBLE
+    private fun hideHeaderSelectionScreen() {
+        headerListContainer.visibility = View.GONE
+        list.visibility = View.VISIBLE
+        showFAB()
+    }
+
+
+    override fun onKeyPressed(keyCode: Int): Boolean {
+        if (keyCode == KEYCODE_MENU) {
+            fabSettings.requestFocusFromTouch()
+            expandExtendedFAB()
             return true
+        }
+
+        if (keyCode == KEYCODE_BACK) {
+            if (headerListContainer.visibility == View.VISIBLE) {
+                hideHeaderSelectionScreen()
+                return true
+            }
         }
         return false
     }
