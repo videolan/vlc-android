@@ -4,18 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SubtitleDownloadFragmentBinding
 import org.videolan.vlc.gui.OnItemSelectListener
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.viewmodels.SubtitlesModel
-import androidx.core.widget.NestedScrollView
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 
 class SubtitleDownloadFragment : Fragment() {
     private lateinit var viewModel: SubtitlesModel
@@ -59,7 +59,7 @@ class SubtitleDownloadFragment : Fragment() {
         binding.languageListSpinner.setOnItemsSelectListener(object: OnItemSelectListener {
             override fun onItemSelect(selectedItems: List<Int>) {
                 val selectedLanguages = if (selectedItems.size == allValuesOfLanguages.size) listOf<String>()
-                else selectedItems.map { allValuesOfLanguages[it] }
+                else selectedItems.filter { it in 0 until allValuesOfLanguages.size }.map { allValuesOfLanguages[it] }
                 viewModel.observableSearchLanguage.set(selectedLanguages)
             }
         })
