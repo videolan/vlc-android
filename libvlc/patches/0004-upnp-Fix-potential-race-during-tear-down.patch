@@ -1,0 +1,29 @@
+From db29298646c82c30b91ef0f4428eb0512de7cf21 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Fri, 15 Mar 2019 15:41:50 +0100
+Subject: [PATCH] upnp: Fix potential race during tear down.
+
+If two threads call UpnpFinish at the same time (or more precisely, if a
+2nd thread calls UpnpFinish before the first one sets UpnpSdkInit to 0)
+we can end up double releasing most libupnp resources
+---
+ modules/services_discovery/upnp.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/modules/services_discovery/upnp.cpp b/modules/services_discovery/upnp.cpp
+index 127f562837..ff16bee7cc 100644
+--- a/modules/services_discovery/upnp.cpp
++++ b/modules/services_discovery/upnp.cpp
+@@ -1651,8 +1651,8 @@ void UpnpInstanceWrapper::release(bool isSd)
+         p_delete = s_instance;
+         s_instance = NULL;
+     }
+-    vlc_mutex_unlock( &s_lock );
+     delete p_delete;
++    vlc_mutex_unlock( &s_lock );
+ }
+ 
+ UpnpClient_Handle UpnpInstanceWrapper::handle() const
+-- 
+2.20.1
+
