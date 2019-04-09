@@ -161,7 +161,7 @@ class VideoListAdapter internal constructor(
                 if (TextUtils.isEmpty(resolution))
                     text = Tools.millisToText(media.length)
                 else
-                    text = Tools.millisToText(media.length) + "  |  " + resolution
+                    text = Tools.millisToString(media.length, true, false) + "  |  " + resolution
             } else
                 text = resolution
             seen = if (mIsSeenMediaMarkerVisible) media.seen else 0L

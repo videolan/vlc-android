@@ -117,15 +117,18 @@
 
         <TextView
             android:id="@+id/ml_item_time"
+            style="@style/VLC.TextViewDescription"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            vlc:layout_constraintStart_toEndOf="@+id/ml_item_thumbnail"
-            vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
-            vlc:layout_constraintStart_toStartOf="@+id/ml_item_title"
-            style="@style/VLC.TextViewDescription"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:gravity="start"
             android:text="@{time}"
-            android:layout_alignWithParentIfMissing="true"  />
+            vlc:layout_constraintTop_toBottomOf="@+id/ml_item_title"
+            vlc:layout_constraintBottom_toTopOf="@+id/ml_item_progress"
+            vlc:layout_constraintEnd_toStartOf="@+id/item_more"
+            vlc:layout_constraintStart_toEndOf="@+id/ml_item_thumbnail" />
 
         <ProgressBar
             android:id="@+id/ml_item_progress"
