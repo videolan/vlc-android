@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.onboarding_theme.*
 import org.videolan.vlc.R
+import org.videolan.vlc.util.AndroidDevices
 
 class OnboardingThemeFragment : Fragment(), CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
@@ -33,7 +34,7 @@ class OnboardingThemeFragment : Fragment(), CompoundButton.OnCheckedChangeListen
         lightTheme.setOnClickListener(this)
         darkTheme.setOnClickListener(this)
         dayNightTheme.setOnClickListener(this)
-        follow_system_switch.isChecked = viewModel.enableSystemNight
+        follow_system_switch.isChecked = AndroidDevices.canUseSystemNightMode()
         follow_system_switch.setOnCheckedChangeListener(this)
     }
 

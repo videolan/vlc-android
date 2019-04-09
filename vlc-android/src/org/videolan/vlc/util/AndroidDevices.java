@@ -191,6 +191,11 @@ public class AndroidDevices {
         return false;
     }
 
+    public static boolean canUseSystemNightMode() {
+        return Build.VERSION.SDK_INT > Build.VERSION_CODES.P ||
+                Build.VERSION.SDK_INT == Build.VERSION_CODES.P && "samsung".equals(Build.MANUFACTURER.toLowerCase());
+    }
+
     private static boolean hasPlayServices(PackageManager pm) {
         try {
             pm.getPackageInfo("com.google.android.gsf", PackageManager.GET_SERVICES);

@@ -31,6 +31,7 @@ import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.AndroidDevices;
 import org.videolan.vlc.util.LocalePair;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 
@@ -49,6 +50,29 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        findPreference("resume_playback").setVisible(AndroidDevices.isPhone);
+        prepareLocaleList();
+        setupTheme();
+    }
+
+    private void setupTheme() {
+        final SharedPreferences prefs = getPreferenceScreen().getSharedPreferences();
+        if (!prefs.contains("app_theme")) {
+            int theme = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+            if (prefs.getBoolean("daynight", false) && !AndroidDevices.canUseSystemNightMode()) {
+                theme = AppCompatDelegate.MODE_NIGHT_AUTO;
+            } else if (prefs.contains("enable_black_theme")) {
+                if (prefs.getBoolean("enable_black_theme", false))
+                theme = AppCompatDelegate.MODE_NIGHT_YES;
+                else theme = AppCompatDelegate.MODE_NIGHT_NO;
+            }
+            prefs.edit().putString("app_theme", String.valueOf(theme)).apply();
+        }
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -59,13 +83,6 @@ public class PreferencesUi extends BasePreferenceFragment implements SharedPrefe
         super.onStop();
         getPreferenceScreen().getSharedPreferences()
                 .unregisterOnSharedPreferenceChangeListener(this);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        findPreference("resume_playback").setVisible(AndroidDevices.isPhone);
-        prepareLocaleList();
     }
 
     @Override
