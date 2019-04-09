@@ -46,6 +46,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.Runnable
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -61,6 +64,8 @@ import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.paged.*
 import java.util.*
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHandler, PopupMenu.OnMenuItemClickListener, SongHeaderAdapter.OnHeaderSelected, VerticalGridActivity.OnKeyPressedListener {
 
@@ -123,7 +128,6 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         }
 
 
-
         viewModel.pagedList.observe(this, Observer { items ->
             if (items != null) adapter.submitList(items)
 
@@ -144,13 +148,6 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
             }
             headerAdapter.items = headerItems
             headerAdapter.notifyDataSetChanged()
-            list.setItemViewCacheSize(nbColumns * 10)
-            list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    if (BuildConfig.DEBUG) Log.d("SongBrowserFragment", "Pool: " + list.recycledViewPool.getRecycledViewCount(MediaLibraryItem.TYPE_MEDIA))
-                }
-            })
         })
 
     }
@@ -307,20 +304,17 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     }
 
     private fun expandExtendedFAB() {
-//        fabAnimationCancel()
         fabHeader.animate().translationY(-(resources.getDimension(R.dimen.kl_normal) + fabHeader.height))
         fabSort.animate().translationY(-2 * (resources.getDimension(R.dimen.kl_normal) + fabHeader.height))
     }
 
 
     private fun collapseExtendedFAB() {
-//        fabAnimationCancel()
         fabHeader.animate().translationY(0f)
         fabSort.animate().translationY(0f)
     }
 
     private fun hideFAB() {
-//        fabAnimationCancel()
         val marginBottom = (fabSettings.layoutParams as ConstraintLayout.LayoutParams).bottomMargin.toFloat()
         fabSettings.animate().translationY(fabSettings.height + marginBottom)
         fabHeader.animate().translationY(fabSettings.height + marginBottom)
@@ -331,19 +325,12 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     }
 
     private fun showFAB() {
-//        fabAnimationCancel()
         fabSettings.animate().translationY(0f).setListener(null)
         fabHeader.animate().translationY(0f)
         fabSort.animate().translationY(0f)
         fabSettings.isFocusable = true
         fabHeader.isFocusable = true
         fabSort.isFocusable = true
-    }
-
-    private fun fabAnimationCancel() {
-        fabSettings.animate().cancel()
-        fabHeader.animate().cancel()
-        fabSort.animate().cancel()
     }
 
 
@@ -357,7 +344,7 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         list.adapter = adapter
-        backgroundManager?.attachToView(view)
+        backgroundManager.attachToView(view)
         super.onActivityCreated(savedInstanceState)
     }
 
@@ -462,11 +449,8 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         if (list.getChildAt(positionForSectionByName) == null) {
             adapter.focusNext = positionForSectionByName
             list.scrollToPosition(positionForSectionByName)
-            if (BuildConfig.DEBUG)
-                Log.d("SongBrowserFragment", "Setting focus next: $positionForSectionByName")
         } else {
             list.getChildAt(positionForSectionByName).requestFocus()
-            if (BuildConfig.DEBUG) Log.d("SongBrowserFragment", "Requesting focus")
         }
     }
 
