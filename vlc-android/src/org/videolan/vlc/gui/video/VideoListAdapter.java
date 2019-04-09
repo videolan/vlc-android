@@ -174,7 +174,7 @@ public class VideoListAdapter extends DiffUtilAdapter<MediaWrapper, VideoListAda
                     progress = (int) (lastTime / 1000);
                 }
                 if (TextUtils.isEmpty(resolution)) text = Tools.millisToText(media.getLength());
-                else text = Tools.millisToText(media.getLength())+"  |  "+resolution;
+                else text = Tools.millisToString(media.getLength(), true, false)+"  |  "+resolution;
             } else text = resolution;
             seen = mIsSeenMediaMarkerVisible ? media.getSeen() : 0L;
         }

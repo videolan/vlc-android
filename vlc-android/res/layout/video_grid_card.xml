@@ -114,6 +114,7 @@
             vlc:layout_constraintEnd_toStartOf="@+id/item_more"
             vlc:layout_constraintStart_toStartOf="@+id/ml_item_title"
             android:layout_marginBottom="2dp"
+            android:ellipsize="end"
             android:gravity="start"
             style="@style/VLC.TextViewDescription"
             android:textColor="@color/grey50"
