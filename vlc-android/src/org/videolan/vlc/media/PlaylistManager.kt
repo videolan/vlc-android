@@ -64,6 +64,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private var newMedia = false
     @Volatile
     private var expanding = false
+    private var entryUrl : String? = null
     val abRepeat by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<ABRepeat>().apply { value = ABRepeat() } }
 
     fun hasCurrentMedia() = isValidPosition(currentIndex)
@@ -310,19 +311,6 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             newMedia = true
             determinePrevAndNextIndices()
             service.onNewPlayback()
-            if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) AppScope.launch(Dispatchers.IO) {
-                var id = mw.id
-                if (id == 0L) {
-                    var internalMedia = medialibrary.findMedia(mw)
-                    if (internalMedia != null && internalMedia.id != 0L)
-                        id = internalMedia.id
-                    else {
-                        internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM) medialibrary.addStream(Uri.decode(mw.uri.toString()), mw.title) else medialibrary.addMedia(Uri.decode(mw.uri.toString()))
-                        if (internalMedia != null) id = internalMedia.id
-                    }
-                }
-                if (id != 0L) medialibrary.increasePlayCount(id)
-            }
         } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
             player.stop()
             VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
@@ -573,12 +561,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     @MainThread
     private suspend fun expand(updateHistory: Boolean): Int {
         val index = currentIndex
-        val stream = getCurrentMedia()?.type == MediaWrapper.TYPE_STREAM
+        val expandedMedia = getCurrentMedia()
+        val stream = expandedMedia?.type == MediaWrapper.TYPE_STREAM
         val ml = player.expand()
         var ret = -1
 
         if (ml != null && ml.count > 0) {
-            val mrl = if (updateHistory) getCurrentMedia()?.location else null
+            val mrl = if (updateHistory) expandedMedia?.location else null
             mediaList.removeEventListener(this)
             mediaList.remove(index)
             for (i in 0 until ml.count) {
@@ -595,7 +584,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     AppScope.launch(Dispatchers.IO) {
                         if (stream) {
                             type = MediaWrapper.TYPE_STREAM
-                            medialibrary.addStream(mrl, title)
+                            entryUrl = mrl
+                            medialibrary.getMedia(mrl)?.run { if (id > 0) medialibrary.removeExternalMedia(id) }
                         } else if (uri.scheme != "fd") {
                             medialibrary.addToHistory(mrl, title)
                         }
@@ -758,6 +748,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         saveCurrentMedia()
                         newMedia = false
                         if (player.hasRenderer || !player.isVideoPlaying()) showAudioPlayer.value = true
+                        savePlaycount(mw)
                     }
                 }
                 MediaPlayer.Event.Paused -> medialibrary.resumeBackgroundOperations()
@@ -794,6 +785,26 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
             }
             service.onMediaPlayerEvent(event)
+        }
+    }
+
+    private suspend fun savePlaycount(mw: MediaWrapper) {
+        if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) withContext(Dispatchers.IO) {
+            var id = mw.id
+            if (id == 0L) {
+                var internalMedia = medialibrary.findMedia(mw)
+                if (internalMedia != null && internalMedia.id != 0L)
+                    id = internalMedia.id
+                else {
+                    internalMedia = if (mw.type == MediaWrapper.TYPE_STREAM) {
+                            val media = medialibrary.addStream(Uri.decode(entryUrl ?: mw.uri.toString()), mw.title)
+                            entryUrl = null
+                            media
+                    } else medialibrary.addMedia(Uri.decode(mw.uri.toString()))
+                    if (internalMedia != null) id = internalMedia.id
+                }
+            }
+            if (id != 0L) medialibrary.increasePlayCount(id)
         }
     }
 
