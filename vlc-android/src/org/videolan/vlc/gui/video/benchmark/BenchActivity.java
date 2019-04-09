@@ -358,6 +358,13 @@ public class BenchActivity extends ShallowVideoPlayer {
     private void seekScreenshot() {
         if (mProjectionManager != null && mScreenshotCount < mTimestamp.size()) {
             setTimeout();
+            // tmp fix
+            // mService should never be null in this context but it happens
+            if (mService == null) {
+                Log.w(TAG, "seekScreenshot: mService is null");
+                errorFinish("PlayerService is null");
+                return;
+            }
             seek(mTimestamp.get(mScreenshotCount));
             ++mScreenshotCount;
             mSeeking = true;
