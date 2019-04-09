@@ -1,3 +1,16 @@
+Changes between 3.1.1 and 3.1.2:
+------------------
+
+Application:
+ * System night mode support (Andoird 9+)
+ * Fix medialibrary sometimes not rescanned at startup
+ * Fix video resume after multitasking
+ * Fix history view not refreshed
+ * Fix multichannel audio not rendered properly on some devices
+
+VLC:
+ * Fix crash on UPnP discovery
+
 Changes between 3.1.0 and 3.1.1:
 ------------------
 
