@@ -2356,10 +2356,10 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         else mActionBar.show();
 
         int visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-        int navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+        int navbar = 0;
         if (dim || mIsLocked) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            navbar |= View.SYSTEM_UI_FLAG_LOW_PROFILE|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            navbar |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |View.SYSTEM_UI_FLAG_LOW_PROFILE|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
             if (AndroidUtil.isKitKatOrLater) visibility |= View.SYSTEM_UI_FLAG_IMMERSIVE;
             visibility |= View.SYSTEM_UI_FLAG_FULLSCREEN;
         } else {
