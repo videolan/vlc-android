@@ -414,7 +414,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
 fun Context.setSleep(time: Calendar?) {
     val alarmMgr = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val intent = Intent(SLEEP_INTENT)
-    val sleepPendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+    val sleepPendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
     if (time != null) alarmMgr.set(AlarmManager.RTC_WAKEUP, time.timeInMillis, sleepPendingIntent)
     else alarmMgr.cancel(sleepPendingIntent)
