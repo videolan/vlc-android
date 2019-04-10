@@ -53,8 +53,8 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
                 }
                 try {
                     val media = Media(VLCInstance.get(this@PreviewVideoInputService), mw.uri)
-                    val start = if (mw.length <= 0L) 0 else mw.length.random()/1000
-                    media.addOption(":start-time=$start")
+                    val start = if (mw.length <= 0L) 0L else mw.length.random()
+                    media.addOption(":start-time=${start/1000L}")
                     player.getVout()?.apply {
                         setVideoSurface(surface, null)
                         attachViews(null)
@@ -62,7 +62,7 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
                     }
                     player.setVideoAspectRatio(null)
                     player.setVideoScale(0f)
-                    player.startPlayback(media, this@PreviewSession)
+                    player.startPlayback(media, this@PreviewSession, start)
                     notifyVideoAvailable()
                 } catch (e: IOException) {
                     Log.e(TAG, "Could not prepare media player", e)

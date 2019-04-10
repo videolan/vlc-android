@@ -73,9 +73,9 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     private var mediaplayerEventListener: MediaPlayerEventListener? = null
-    internal suspend fun startPlayback(media: Media, listener: MediaPlayerEventListener) {
+    internal suspend fun startPlayback(media: Media, listener: MediaPlayerEventListener, time: Long) {
         mediaplayerEventListener = listener
-        resetPlaybackState(media.duration)
+        resetPlaybackState(time, media.duration)
         mediaplayer.setEventListener(null)
         withContext(Dispatchers.IO) { if (!mediaplayer.isReleased) mediaplayer.media = media.apply { if (hasRenderer) parse() } }
         mediaplayer.setEventListener(this@PlayerController)
@@ -86,11 +86,11 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         }
     }
 
-    private fun resetPlaybackState(duration: Long) {
+    private fun resetPlaybackState(time: Long, duration: Long) {
         seekable = true
         pausable = true
-        lastTime = 0L
-        updateProgress(0L, duration)
+        lastTime = time
+        updateProgress(time, duration)
     }
 
     @MainThread
