@@ -55,13 +55,13 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
         AppScope.launch {
             val context = playbackService.applicationContext
-            val ml = playbackService.medialibrary
             when {
                 mediaId == MediaSessionBrowser.ID_SHUFFLE_ALL -> {
-                    val count = context.getFromMl { ml.audioCount }
-                    val tracks = withContext(Dispatchers.IO) { ml.audio }
-                    playbackService.load(tracks, Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)))
-                    if (!playbackService.isShuffling) playbackService.shuffle()
+                    val tracks = context.getFromMl { audio }
+                    if (tracks.isNotEmpty()) {
+                        playbackService.load(tracks, Random().nextInt(min(tracks.size, MEDIALIBRARY_PAGE_SIZE)))
+                        if (!playbackService.isShuffling) playbackService.shuffle()
+                    }
                 }
                 mediaId.startsWith(MediaSessionBrowser.ALBUM_PREFIX) -> {
                     val tracks = context.getFromMl { getAlbum(mediaId.extractId())?.tracks }
