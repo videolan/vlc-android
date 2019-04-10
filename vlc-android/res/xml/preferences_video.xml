@@ -44,6 +44,12 @@
         android:summary="@string/video_transition_summary"
         android:title="@string/video_transition_title" />
 
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="popup_force_legacy"
+        android:summary="@string/popup_force_legacy_summary"
+        android:title="@string/popup_force_legacy_title" />
+
     <PreferenceCategory android:title="@string/controls_prefs_category">
         <CheckBoxPreference
             android:defaultValue="false"

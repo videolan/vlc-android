@@ -491,7 +491,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         final MediaWrapper mw = mService != null ? mService.getCurrentMediaWrapper() : null;
         if (mw == null || !AndroidDevices.pipAllowed
                 || !getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) return;
-        if (AndroidDevices.hasPiP) {
+
+        boolean forceLegacy = Settings.INSTANCE.getInstance(this).getBoolean("popup_force_legacy", false);
+        if (AndroidDevices.hasPiP && !forceLegacy) {
             if (AndroidUtil.isOOrLater) try {
                 final SurfaceView videoSurface = (SurfaceView) (mVideoLayout != null ? mVideoLayout.findViewById(R.id.surface_video) : null);
                 final int height = videoSurface != null && videoSurface.getHeight() != 0 ? videoSurface.getHeight() : mw.getHeight();

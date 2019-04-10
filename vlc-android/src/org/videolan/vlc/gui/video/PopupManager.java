@@ -281,7 +281,7 @@ public class PopupManager implements PlaybackService.Callback, GestureDetector.O
     @SuppressWarnings("deprecation")
     private void showNotification() {
         final PendingIntent piStop = KextensionsKt.getPendingIntent(mService, new Intent(Constants.ACTION_REMOTE_STOP));
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(mService)
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(mService, "misc")
                 .setSmallIcon(R.drawable.ic_notif_video)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(mService.getTitle())

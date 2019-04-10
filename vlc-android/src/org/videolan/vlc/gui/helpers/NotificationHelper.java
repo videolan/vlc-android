@@ -145,6 +145,13 @@ public class NotificationHelper {
         channel.setDescription(description);
         channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
         notificationManager.createNotificationChannel(channel);
+
+        // Misc channel
+        name = appCtx.getString(R.string.misc);
+        channel = new NotificationChannel("misc", name, NotificationManager.IMPORTANCE_LOW);
+        channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        notificationManager.createNotificationChannel(channel);
+
         // Recommendations channel
         if (AndroidDevices.isAndroidTv) {
             name = appCtx.getString(R.string.recommendations);

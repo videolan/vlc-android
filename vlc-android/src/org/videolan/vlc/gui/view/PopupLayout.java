@@ -29,7 +29,6 @@ import android.content.Context;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Build;
-import androidx.core.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -39,8 +38,10 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import org.videolan.libvlc.IVLCVout;
+import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.R;
-import org.videolan.vlc.VLCApplication;
+
+import androidx.core.view.GestureDetectorCompat;
 
 public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.OnScaleGestureListener, View.OnTouchListener {
     private static final String TAG = "VLC/PopupView";
@@ -100,7 +101,7 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
             height = height * mScreenWidth / width;
             width = mScreenWidth;
         }
-        if (height > mScreenHeight){
+        if (height > mScreenHeight) {
             width = width * mScreenHeight / height;
             height = mScreenHeight;
         }
@@ -121,7 +122,7 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 mPopupWidth,
                 mPopupHeight,
-                WindowManager.LayoutParams.TYPE_PHONE,
+                AndroidUtil.isOOrLater ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : WindowManager.LayoutParams.TYPE_PHONE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.OPAQUE);
 
@@ -131,7 +132,7 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
         mScaleGestureDetector = new ScaleGestureDetector(context, this);
         setOnTouchListener(this);
         mWindowManager.addView(this, params);
-        mLayoutParams = (WindowManager.LayoutParams)getLayoutParams();
+        mLayoutParams = (WindowManager.LayoutParams) getLayoutParams();
 
         updateWindowSize();
     }
@@ -178,10 +179,11 @@ public class PopupLayout extends RelativeLayout implements ScaleGestureDetector.
         mScaleFactor *= detector.getScaleFactor();
 
         mScaleFactor = Math.max(0.1d, Math.min(mScaleFactor, 5.0d));
-        mPopupWidth = (int) (getWidth()*mScaleFactor);
-        mPopupHeight = (int) (getHeight()*mScaleFactor);
+        mPopupWidth = (int) (getWidth() * mScaleFactor);
+        mPopupHeight = (int) (getHeight() * mScaleFactor);
         return true;
     }
+
     @Override
     public boolean onScaleBegin(ScaleGestureDetector detector) {
         return true;
