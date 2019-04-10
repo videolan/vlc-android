@@ -294,7 +294,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             }
             val start = getStartTime(mw)
             val media = Media(VLCInstance.get(service), uri)
-            media.addOption(":start-time=$start")
+            media.addOption(":start-time=${start/1000L}")
             VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
             /* keeping only video during benchmark */
             if (isBenchmark) {
@@ -306,7 +306,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 }
             }
             media.setEventListener(this@PlaylistManager)
-            player.startPlayback(media, mediaplayerEventListener)
+            player.startPlayback(media, mediaplayerEventListener, start)
             player.setSlaves(media, mw)
             newMedia = true
             determinePrevAndNextIndices()
@@ -325,7 +325,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 if (id != 0L) medialibrary.increasePlayCount(id)
             }
         } else { //Start VideoPlayer for first video, it will trigger playIndex when ready.
-            player.stop()
+            if (player.isPlaying()) player.stop()
             VideoPlayerActivity.startOpened(ctx, mw.uri, currentIndex)
         }
     }
@@ -632,7 +632,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             else -> savedTime
         }
         savedTime = 0L
-        return start/1000L
+        return start
     }
 
     @Synchronized
