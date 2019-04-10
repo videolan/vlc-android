@@ -696,4 +696,7 @@
     <string name="add_to_new_playlist">Add to new playlist</string>
     <string name="theme_follow_system_mode">Follow system mode</string>
     <string name="resume_card_message">Resume playback of %1$s?</string>
+    <string name="misc">Miscellaneous</string>
+    <string name="popup_force_legacy_title">Use custom Picture-in-Picture popup</string>
+    <string name="popup_force_legacy_summary">Use custom Picture-in-Picture resizable popup</string>
 </resources>
