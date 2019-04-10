@@ -2894,7 +2894,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         WorkersKt.runIO(new Runnable() {
             @Override
             public void run() {
-                final MediaPlayer.Title[] titles = mService.getTitles();
+                final MediaPlayer.Title[] titles = mService != null ? mService.getTitles() : null;
                 WorkersKt.runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
