@@ -625,7 +625,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 0L
             }
             savedTime <= 0L -> when {
-                mw.time >= 0L -> mw.time
+                mw.time > 0L -> mw.time
                 mw.type == MediaWrapper.TYPE_VIDEO || mw.isPodcast -> withContext(Dispatchers.IO) { medialibrary.findMedia(mw).getMetaLong(MediaWrapper.META_PROGRESS) }
                 else -> 0L
             }
