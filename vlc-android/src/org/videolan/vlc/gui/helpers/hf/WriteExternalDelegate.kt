@@ -36,6 +36,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
         builder.setMessage(R.string.sdcard_permission_dialog_message)
                 .setTitle(R.string.sdcard_permission_dialog_title)
                 .setPositiveButton(R.string.ok) { _, _ ->
+                    if (!isAdded || isDetached) return@setPositiveButton
                     val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
                     storage = arguments?.getString(KEY_STORAGE_PATH)?.apply { intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse(this)) }
                     startActivityForResult(intent, REQUEST_CODE_STORAGE_ACCESS)
