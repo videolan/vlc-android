@@ -361,14 +361,7 @@ public class PlaylistActivity extends AudioPlayerContainerActivity implements IE
                 showInfoDialog(media);
                 break;
             case Constants.CTX_DELETE:
-                final int resId = mIsPlaylist ? R.string.confirm_remove_from_playlist : R.string.confirm_delete;
-                UiTools.snackerConfirm(mBinding.getRoot(), getString(resId, media.getTitle()), new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mIsPlaylist) ((Playlist) mPlaylist).remove(position);
-                        else removeItem(position, media);
-                    }
-                });
+                removeItem(position, media);
                 break;
             case Constants.CTX_APPEND:
                 MediaUtils.INSTANCE.appendMedia(this, media.getTracks());
