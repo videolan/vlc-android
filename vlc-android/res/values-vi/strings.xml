@@ -75,7 +75,6 @@
     <string name="cover_art">Bìa</string>
     <string name="previous">Trước đó</string>
     <string name="stop">Dừng lại</string>
-    <string name="next">Tiếp</string>
     <string name="locked">Bị khóa</string>
     <string name="unlocked">Đã mở khóa</string>
     <string name="surface_best_fit">Tự canh chỉnh</string>
@@ -157,4 +156,5 @@
     <string name="clear_log">Làm rỗng Nhật Ký</string>
     <string name="copy_to_clipboard">Lưu vào bộ nhớ ảo</string>
     <string name="copied_to_clipboard">Đã sao chép Nhật Ký vào bộ nhớ ảo.</string>
+    <string name="next">Tiếp</string>
     </resources>
