@@ -99,7 +99,6 @@
     <string name="cover_art">Вокладка</string>
     <string name="previous">Папярэдні</string>
     <string name="stop">Спыніць</string>
-    <string name="next">Наступны</string>
     <string name="locked">Заблакаваны</string>
     <string name="unlocked">Разблакаваны</string>
     <string name="surface_best_fit">Найлепшы стасунак</string>
@@ -254,4 +253,5 @@
 
     <string name="drawer_open">Адкрыць панэль навігацыі</string>
     <string name="drawer_close">Закрыць панэль навігацыі</string>
+    <string name="next">Наступны</string>
     </resources>
