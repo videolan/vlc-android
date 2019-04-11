@@ -18,6 +18,8 @@
     <string name="sortby_length_desc">Durada (descripció)</string>
     <string name="sortby_date">Data</string>
     <string name="sortby_date_desc">Data (descripció)</string>
+    <string name="sortby_last_modified_date">Acabat d\'afegir</string>
+    <string name="sortby_last_modified_date_desc">Acabat d\'afegir (desc)</string>
     <string name="sortby_number">Nre. de pistes</string>
     <string name="sortby_number_desc">Nre. de pistes (descripció)</string>
     <string name="searchable_hint">Cerca…</string>
@@ -35,16 +37,25 @@
     <string name="play_from_start">Reprodueix des de l\'inici</string>
     <string name="play_as_audio">Reprodueix com a àudio</string>
     <string name="play_as_video">Reprodueix com a vídeo</string>
+    <string name="video_app_switch_title">Mode En segon pla/PiP</string>
+    <string name="play_pip_title">Reprodueix vídeos a mode Foto-a-foto</string>
+    <string name="play_as_audio_background">Reprodueix vídeos de fons</string>
     <string name="append">Afegeix</string>
+    <string name="insert_next">Inserir següent</string>
     <string name="play_all">Reprodueix-ho tot</string>
     <string name="append_all">Afegeix-ho tot</string>
     <string name="last_playlist">Darrera llista de reproducció</string>
+    <string name="last_playlist_shortcut">Continuar reproducció</string>
     <string name="delete">Suprimeix</string>
     <string name="remove">Suprimeix</string>
     <string name="set_song">Estableix com a so del telèfon</string>
+    <string name="set_song_question">Configura \'%1$s\' com a to de trucada?</string>
     <string name="info">Informació</string>
     <string name="confirm_delete">Voleu suprimir el fitxer «%1$s»?</string>
     <string name="confirm_delete_folder">Voleu suprimir la carpeta «%1$s» i tot el seu contingut?</string>
+    <string name="confirm_delete_playlist">Esborra la llista de reproducció \'%1$s\'?</string>
+    <string name="confirm_remove_from_playlist">Elimina \'%1$s\' de llista de reproducció?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Treure\'l de la llista de reproducció?</string>
     <string name="ringtone_set">S\'ha establert el fitxer «%1$s» com a to de trucada.</string>
     <string name="ringtone_error">S\'ha produït un error en establir el to de trucada.</string>
     <string name="pause">Pausa</string>
@@ -54,6 +65,7 @@
     <string name="unknown_album">Àlbum desconegut</string>
     <string name="unknown_genre">Gènere desconegut</string>
     <string name="unknown_number">Nombre de pistes desconegut</string>
+    <string name="songs">Cançons</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 cançó</item>
         <item quantity="other">%d cançons</item>
@@ -101,17 +113,20 @@
     <string name="mediafiles">Fitxers multimèdia</string>
     <string name="notavailable">no disponible</string>
     <string name="nosubdirectory">No hi ha cap subdirectori.</string>
+    <string name="directorynotfound">El directori \'%1$s\' no s\'ha trobat.</string>
     <string name="nohistory">Encara no teniu historial de reproducció</string>
     <string name="validation">Esteu segur?</string>
 
     <string name="cover_art">Art de la portada</string>
     <string name="shuffle_title">Mode aleatori</string>
+    <string name="shuffle">Apaga aleatori</string>
+    <string name="shuffle_on">Engega aleatori</string>
     <string name="repeat_title">Mode repetició</string>
+    <string name="repeat">No repetició</string>
     <string name="repeat_single">Repeteix-ne una</string>
     <string name="repeat_all">Repeteix-ho tot</string>
     <string name="previous">Previ</string>
     <string name="stop">Atura</string>
-    <string name="next">Endavant</string>
     <string name="firstsong">Primera cançó de la llista de reproducció</string>
     <string name="lastsong">Última cançó de la llista de reproducció</string>
 
@@ -132,9 +147,15 @@
     <string name="track_codec_info">Còdec: %1$s\n</string>
     <string name="track_language_info">Llengua: %1$s\n</string>
     <string name="volume">Volum</string>
+    <string name="sound_on">Engega so</string>
+    <string name="sound_off">Apaga so</string>
     <string name="brightness">Brillantor</string>
     <string name="navmenu">menú de navegació</string>
     <string name="advanced">opcions avançades</string>
+    <string name="audio_boost_warning">Torna a llisca cap a dalt per superar 100%</string>
+    <string name="locked_in_portrait_mode">Bloquejat a mode retrat\n(Deixa apretat el botó per cancel·lar)</string>
+    <string name="reset_orientation">Restableix l\'orientació</string>
+
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
         <item quantity="other">%1$d canals\n</item>
@@ -142,9 +163,12 @@
 
     <string name="track_samplerate_info">Freqüència de mostreig:  %1$d Hz\n</string>
     <string name="track_resolution_info">Resolució: %1$dx%2$d\n</string>
+    <string name="track_framerate_info">Fotogrames per segon: %1$.3f\n</string>
+
     <string name="tools">Eines</string>
     <string name="playback_speed">Velocitat de reproducció</string>
     <string name="sleep_title">Temporitzador</string>
+    <string name="sleep_in">Adormir-se en</string>
     <string name="sleep_cancel">Cancel·la el temporitzador</string>
     <string name="jump_to_time">Saltar al minut</string>
     <string name="subtitle_label">Afegeix un fitxer de subtítols</string>
@@ -154,12 +178,15 @@
     <string name="server_add_title">Afegeix un servidor als preferits</string>
     <string name="server_domain_hint">Adreça del servidor (no de domini o IP)</string>
     <string name="server_share_hint">Nom del recurs compartit de xarxa (o adreça IP)</string>
+    <string name="server_folder_hint">Ruta del directori (optional)</string>
     <string name="server_username_hint">Nom d\'usuari</string>
+    <string name="server_servername_hint">Nom del servidor, per conveniència</string>
     <string name="server_port">Port:</string>
     <string name="login">Entrada</string>
     <string name="password">Contrasenya</string>
 
     <string name="search_results">Resultats de la cerca</string>
+    <string name="search_no_result">Cap arxiu multimèdia trobat</string>
     <string name="favorites_add">Afegeix als preferits</string>
     <string name="favorites_remove">Suprimeix dels favorits</string>
     <string name="favorites_edit">Edita</string>
@@ -169,6 +196,7 @@
     <string name="open">Obre</string>
     <string name="open_mrl">Flux</string>
     <string name="open_mrl_dialog_title">Obre un flux de xarxa</string>
+    <string name="open_mrl_dialog_msg">Introdueix l\'adreça: p. ex. http://, mms:// o rtsp://</string>
     <string name="error_not_compatible">El vostre dispositiu no és compatible amb aquesta versió del VLC per a l\'Android™.</string>
     <string name="error_problem">S\'ha produït un error en carregar el VLC i s\'ha tancat.</string>
     <string name="encountered_error_title">Error de reproducció</string>
@@ -179,11 +207,32 @@
 
 
     <string name="playback_history_title">Historial de reproducció</string>
+    <string name="playback_history_summary">Desa tots els arxius multimèdia reproduïts a la secció Història</string>
+    <string name="playback_speed_title">Desa la velocitat de reproducció</string>
+    <string name="playback_speed_summary">Recorda la velocitat de reproducció configurada</string>
+
+    <string name="play_button">Botó de reproducció</string>
+    <!-- Tips -->
+    <string name="video_player_tips">Consells del reproductor de vídeo:</string>
+    <string name="seek">Cerca</string>
     <string name="subtitles">Subtítols</string>
+    <string name="audio_sub">Pistes d\'`àudio\nand subtítols</string>
+    <string name="resize">Canvia la mida</string>
     <string name="options">Opcions</string>
     <string name="lock">Bloca</string>
+    <string name="ok_got_it">Entès, treu&#160;això</string>
+
+    <string name="playlist_tips">Consells de les llistes de reproducció</string>
+    <string name="remove_song">Elimina cançó</string>
+    <string name="remove_playlist_item">%1$s s\'ha tret de la llista de reproducció</string>
+    <string name="rearrange_order">Canvia l\'ordre</string>
+    <string name="hold_to_seek">Manté apretat per cercar</string>
+
+    <string name="audio_player_tips">Consell del reproductor d\'àudio</string>
     <string name="previous_next_song">Cançó anterior/següent</string>
     <string name="show_playlist">Mostra la llista de reproducció</string>
+    <string name="hold_to_stop">Manté apretat per aturar</string>
+
     <!-- About -->
     <string name="app_name_full">VLC per a l\'Android</string>
     <string name="licence">Llicència</string>
@@ -192,6 +241,9 @@
     <string name="about_text">VLC per a l\'Android™ és una versió portada del reproductor multimèdia VLC. La versió per l\'Android™ permet llegir la gran majoria de fitxers i fluxos de xarxa.</string>
     <string name="vlc_authors">i autors del VLC</string>
     <string name="compiled_by">Aquesta versió del VLC s\'ha compilat per:</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Configuració</string>
 
     <string name="general_prefs_category">General</string>
     <string name="directories_summary">Selecciona els directoris a incloure a la biblioteca multimèdia</string>
@@ -202,6 +254,8 @@
     <string name="hardware_acceleration_disabled">Inhabilitat</string>
     <string name="hardware_acceleration_decoding">Acceleració de descodificació</string>
     <string name="hardware_acceleration_full">Acceleració completa</string>
+    <string name="dev_hardware_decoder">Descodificador de maquinari avançat</string>
+    <string name="dev_hardware_decoder_summary">Força descodificador de maquinari, només per usuaris experts</string>
     <string name="automatic">Automàtic</string>
     <string name="screen_orientation">Orientació de la pantalla</string>
     <string name="screen_orientation_sensor">Automàtic (sensor)</string>
@@ -230,9 +284,18 @@
     <string name="video_min_group_length_title">Agrupa els vídeos</string>
     <string name="video_min_group_length_summary">Els vídeos s\'agrupen si coincideixen les primeres lletres.</string>
     <string name="video_min_group_length_disable">Inhabilita</string>
+    <string name="video_min_group_length_folder">Agrupa per carpeta</string>
     <string name="video_min_group_length_first">Només la primera lletra</string>
+    <string name="video_min_group_length_short">Poques lletres (6)</string>
+    <string name="video_min_group_length_long">Moltes lletres (9)</string>
     <string name="media_fast_seek">Cerca ràpida</string>
     <string name="media_fast_seek_summary">La cerca ràpida no triga gens però és menys acurada</string>
+    <string name="video_transition_title">Transició de vídeos</string>
+    <string name="video_transition_summary">Mostra el títol del nou vídeo a la transició</string>
+    <string name="media_seen">Mostra el marcador de vídeo vist</string>
+    <string name="media_seen_summary">Marca el vídeo com a vist quan reprodueixes fins al final</string>
+    <string name="force_list_portrait">Sense graella a mode retrat</string>
+    <string name="force_play_all_summary">Reprodueix tots els vídeos, començant pel que has clickat</string>
     <string name="force_play_all_title">Mode de llista de reproducció de vídeo</string>
     <string name="save_brightness_title">Desa el nivell de brillantor del vídeo</string>
     <string name="save_audiodelay_summary">Desa el retard d\'àudio individual per a cada vídeo</string>
@@ -241,6 +304,7 @@
     <string name="enable_brightness_gesture_summary">Controla la brillantor mitjançant gestos durant la reproducicó</string>
     <string name="enable_volume_gesture_title">Gestos de volum</string>
     <string name="enable_volume_gesture_summary">Controla el volum mitjançant gestos durant la reproducció</string>
+    <string name="enable_seek_buttons">Botons de cerca</string>
     <string name="browser_show_hidden_files_title">Mostra els fitxers ocults</string>
     <string name="subtitles_prefs_category">Subtítols</string>
     <string name="subtitles_size_title">Mida dels subtítols</string>
@@ -334,7 +398,6 @@
     <string name="network_empty">Aquest directori és buit</string>
     <string name="search_global">Cerca en tota la biblioteca multimèdia</string>
     <string name="playlist_save">Desa la llista de reproducció</string>
-    <string name="playlist_name_hint">nom de la llista</string>
     <string name="go_to_chapter">Vés al capítol…</string>
     <string name="chapter">Capítol</string>
     <string name="directory_empty">El directori és buit</string>
@@ -362,4 +425,5 @@
     <string name="do_not_save">No desis</string>
     <string name="recommendations">Recomanacions</string>
     <string name="browser_quick_access">Accés ràpid</string>
+    <string name="next">Endavant</string>
     </resources>
