@@ -79,7 +79,6 @@
     <string name="cover_art">ଆବରଣ କଳା</string>
     <string name="previous">ପୂର୍ବବର୍ତ୍ତୀ</string>
     <string name="stop">ବନ୍ଦ</string>
-    <string name="next">ପରବର୍ତ୍ତୀ</string>
     <string name="locked">ଅବରୋଧିତ</string>
     <string name="unlocked">ଅନାବରୋଧିତ</string>
     <string name="surface_best_fit">ସର୍ବୋତ୍ତମ ଉପଯୁକ୍ତ</string>
@@ -139,4 +138,5 @@
     <string name="clear_log">ଲଗ ସଫାକରନ୍ତୁ</string>
     <string name="copy_to_clipboard">କ୍ଲିପବୋର୍ଡକୁ ନକଲ କରନ୍ତୁ</string>
     <string name="copied_to_clipboard">ଲଗ କ୍ଲିପବୋର୍ଡକୁ ନକଲ କରାଗଲା</string>
+    <string name="next">ପରବର୍ତ୍ତୀ</string>
     </resources>
