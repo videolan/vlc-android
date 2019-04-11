@@ -97,7 +97,6 @@
     <string name="cover_art">कव्हर आर्ट</string>
     <string name="previous">मागील</string>
     <string name="stop">थांबा</string>
-    <string name="next">पुढील</string>
     <string name="locked">लॉक केलेले</string>
     <string name="unlocked">लॉक उघडले</string>
     <string name="surface_best_fit">योग्य फिट</string>
@@ -258,4 +257,5 @@ YUV: सर्वोत्तम कार्यप्रदर्शन पण 
 
     <string name="drawer_open">नेव्हिगेशन ड्रॉवर उघडा</string>
     <string name="drawer_close">नेव्हिगेशन ड्रॉवर बंद करा</string>
+    <string name="next">पुढील</string>
     </resources>
