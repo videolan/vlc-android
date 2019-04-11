@@ -93,7 +93,6 @@
     <string name="cover_art">Omot</string>
     <string name="previous">Prethodno</string>
     <string name="stop">Zaustavi</string>
-    <string name="next">Sljedeće</string>
     <string name="locked">Zaključano</string>
     <string name="unlocked">Otključano</string>
     <string name="surface_best_fit">Najbolje uklapanje</string>
@@ -251,4 +250,5 @@ YUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije.<
     <string name="drawer_close">Zatvori navigacijsku ladicu</string>
     <string name="resume_from_position">Nastavi sa zadnje pozicije</string>
     <string name="confirm_resume">Nastavi sa zadnje pozicije?</string>
+    <string name="next">Sljedeće</string>
     </resources>
