@@ -38,7 +38,6 @@ import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.NotificationHelper;
 import org.videolan.vlc.util.Settings;
-import org.videolan.vlc.util.Strings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
 import org.videolan.vlc.util.WorkersKt;
@@ -77,19 +76,14 @@ public class VLCApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        locale = Settings.INSTANCE.getInstance(instance).getString("set_locale", "");
+
+        // Set the locale for API < 24 and set application resources and direction for API >=24
+        setLocale(getAppContext());
         //Initiate Kotlinx Dispatchers in a thread to prevent ANR
         new Thread(new Runnable() {
             @Override
             public void run() {
-                WorkersKt.runIO(new Runnable() {
-                    @Override
-                    public void run() {
-                        locale = Settings.INSTANCE.getInstance(instance).getString("set_locale", "");
-
-                        // Set the locale for API < 24 and set application resources and direction for API >=24
-                        setLocale(getAppContext());
-                    }
-                });
 
                 WorkersKt.runIO(new Runnable() {
                     @TargetApi(Build.VERSION_CODES.O)
