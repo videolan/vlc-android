@@ -50,6 +50,7 @@
     <string name="confirm_delete">Poista tiedosto \'%1$s\'?</string>
     <string name="confirm_delete_folder">Poista kansio ´%1$s´ ja kaikki sen sisältämät tiedostot?</string>
     <string name="confirm_delete_playlist">Poista soittolista ´%1$s´?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Poistetaanko soittolistasta?</string>
     <string name="ringtone_set">Tiedosto \'%1$s\' asetettiin soittoääneksi.</string>
     <string name="ringtone_error">Virhe asetettaessa soittoääntä.</string>
     <string name="pause">Tauota</string>
@@ -121,7 +122,6 @@
     <string name="repeat_all">Toista kaikki</string>
     <string name="previous">Edellinen</string>
     <string name="stop">Pysäytä</string>
-    <string name="next">Seuraava</string>
     <string name="firstsong">Soittolistan ensimmäinen kappale</string>
     <string name="lastsong">Soittolistan viimeinen kappale</string>
 
@@ -148,7 +148,6 @@
     <string name="navmenu">Navigointimenu</string>
     <string name="advanced">Kehittyneet asetukset</string>
     <string name="audio_boost_warning">Vedä ylös uudelleen mennäksesi yli 100%</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanava\n</item>
         <item quantity="other">%1$d kanavaa\n</item>
@@ -352,4 +351,5 @@
 
     <string name="drawer_open">Avaa navigointilaatikko</string>
     <string name="drawer_close">Sulje navigointilaatikko</string>
+    <string name="next">Seuraava</string>
     </resources>
