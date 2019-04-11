@@ -18,6 +18,7 @@
     <string name="sortby_length_desc">길이 (내림차순)</string>
     <string name="sortby_date">날짜</string>
     <string name="sortby_date_desc">날짜 (내림차순)</string>
+    <string name="sortby_last_modified_date">최근에 추가됨</string>
     <string name="sortby_number">Nb 트랙</string>
     <string name="sortby_number_desc">Nb 트랙 (내림차순)</string>
     <string name="searchable_hint">검색…</string>
@@ -51,6 +52,8 @@
     <string name="confirm_delete">\'%1$s\' 파일을 삭제할까요?</string>
     <string name="confirm_delete_folder">\'%1$s\' 폴더와 모든 파일을 삭제할까요?</string>
     <string name="confirm_delete_playlist">재생목록 \'%1$s\' 을 삭제할까요?</string>
+    <string name="confirm_remove_from_playlist">재생목록에서 \'%1$s\'을 삭제할까요?</string>
+    <string name="confirm_remove_from_playlist_anonymous">재생목록에서 삭제할까요?</string>
     <string name="ringtone_set">\'%1$s\' 파일을 벨소리로 설정했습니다.</string>
     <string name="ringtone_error">벨소리 설정 중 오류가 발생했습니다.</string>
     <string name="pause">일시중지</string>
@@ -117,7 +120,6 @@
     <string name="repeat_all">전체 반복</string>
     <string name="previous">이전</string>
     <string name="stop">정지</string>
-    <string name="next">다음</string>
     <string name="firstsong">재생목록의 첫 번째 곡</string>
     <string name="lastsong">재생목록의 마지막 곡</string>
 
@@ -144,7 +146,6 @@
     <string name="navmenu">네이게이션 메뉴</string>
     <string name="advanced">고급 옵션</string>
     <string name="audio_boost_warning">100% 넘어서 다시 밀어 올리기</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d 채널\n</item>
     </plurals>
@@ -201,6 +202,7 @@
     <string name="playback_speed_title">재생 속도 저장하기</string>
     <string name="playback_speed_summary">설정한 재생 속도를 기억합니다</string>
 
+    <string name="play_button">재생 버튼</string>
     <!-- Tips -->
     <string name="video_player_tips">비디오 재생기 팁:</string>
     <string name="seek">탐색</string>
@@ -408,6 +410,12 @@
     <string name="blurred_cover_background_summary">흐릿한 음반 전면을 오디오 플레이어 배경으로</string>
     <string name="network_caching_popup">0에서 6000 ms 사이의 값만 사용할 수 있습니다</string>
     <string name="quit">앱 종료 후 재시작하기</string>
+    <string name="restart_message">어플리케이션 재시작후 변경사항이 적용됩니다.\n\n지금 재시작 할까요?</string>
+    <string name="restart_message_OK">Ok</string>
+    <string name="restart_message_Later">나중에</string>
+    <string name="browser_show_all_title">Browser에서 모든 파일 보기</string>
+    <string name="browser_show_all_summary">오디오 또는 비디오로 인식되지 않은 파일들 보기</string>
+
     <string name="developer_prefs_category">개발자</string>
     <string name="enable_verbose_mode">상세 설명</string>
     <string name="enable_verbose_mode_summary">더 자세히 설명을 기록합니다 (logcat)</string>
@@ -430,6 +438,16 @@
     <string name="send_log">로그 보내기</string>
     <string name="sending_log">로그 전송 중…</string>
 
+    <string name="delete_sub_title">자막 삭제</string>
+    <string name="delete_sub_message">해당 자막을 삭제할까요?</string>
+    <string name="delete_sub_yes">네</string>
+    <string name="delete_sub_no">아니오</string>
+    <string name="download_subtitle_title">자막 다운로드</string>
+
+    <string name="no_result">검색된 결과가 없습니다</string>
+    <string name="no_internet_connection">인터넷 연결 상태를 확인하세요</string>
+    <string name="some_error_occurred">오류가 발생했습니다. 몇 초 후 다시 시도해주세요</string>
+
     <string name="drawer_open">네비게이션 서랍 열기</string>
     <string name="drawer_close">네비게이션 서랍 닫기</string>
     <string name="network_browsing">로컬 네트워크</string>
@@ -449,7 +467,6 @@
     <string name="directory_show_medialib">MediaLib에서 보기</string>
     <string name="directory_hide_medialib">MediaLib에서 감추기</string>
     <string name="playlist_save">재생목록에 저장하기</string>
-    <string name="playlist_name_hint">재생목록 이름</string>
     <string name="go_to_chapter">챕터 이동하기…</string>
     <string name="chapter">챕터</string>
     <string name="resume_from_position">마지막 위치에서 재생 시작하기</string>
@@ -574,10 +591,29 @@
     <string name="audio_digital_output_enabled">오디오 디지털 출력 활성화됨</string>
     <string name="audio_digital_output_disabled">오디오 디지털 출력 비활성화됨</string>
     <string name="audio_digital_title">디지털 오디오 출력 (패스쓰루)</string>
-    <string name="audio_task_removed_title">앱이 닫힐 때 재생 중지</string>
     <string name="playback_rewind">되감기</string>
     <string name="playback_forward">빨리 감기</string>
     <string name="ml_wizard_title">VLC의 미디어 라이브러리 선택</string>
     <string name="ml_wizard_scan_checkbox">기기에서 미디어 콘텐츠를 검색합니다</string>
     <string name="ml_wizard_description">미디어 라이브러리를 정리할 때는 VLC가 기기에 저장된 미디어를 검색하거나 기기를 단순한 재생 장치 및 브라우서로 이용하는지 지시하십시오.</string>
+    <string name="tv_my_new_videos">새 비디오</string>
+    <string name="otg_device_title">OTG 기기</string>
+    <string name="browser">브라우저</string>
+    <string name="ab_repeat">A-B 반복</string>
+    <string name="stop_after_this">현재 트랙후 정지</string>
+    <string name="time_category_new">새 미디어</string>
+    <string name="time_category_current_month">이번 달</string>
+    <string name="time_category_current_year">올해</string>
+    <string name="time_category_last_year">작년</string>
+    <string name="time_category_older">오래된 미디어</string>
+    <string name="rename">이름 변경</string>
+    <string name="rename_media">%1$s 이름 변경</string>
+    <string name="manual_search">수동 검색</string>
+    <string name="subtitle_search_episode_hint">에피소드</string>
+    <string name="subtitle_search_season_hint">시즌</string>
+    <string name="language_to_download">언어</string>
+    <string name="delete_the_selected">삭제 선택</string>
+    <string name="download_the_selected">다운로드 선택</string>
+    <string name="next">다음</string>
+    <string name="download">다운로드</string>
     </resources>
