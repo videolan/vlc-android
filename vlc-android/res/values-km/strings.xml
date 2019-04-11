@@ -117,7 +117,6 @@
     <string name="repeat_all">លេងឡើងវិញទាំងអស់</string>
     <string name="previous">មុន</string>
     <string name="stop">បញ្ឈប់</string>
-    <string name="next">បន្ទាប់</string>
     <string name="firstsong">បទដំបូងនៃបញ្ជីចាក់</string>
     <string name="lastsong">បទចុងក្រោយនៃបញ្ជីចាក់</string>
 
@@ -282,4 +281,5 @@
 
     <string name="file_size">ខ្នាតឯកសារ</string>
 
+    <string name="next">បន្ទាប់</string>
     </resources>
