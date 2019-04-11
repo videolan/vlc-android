@@ -57,7 +57,6 @@
 
     <string name="previous">પહેલાનું</string>
     <string name="stop">બંધ કરો</string>
-    <string name="next">પછીનું</string>
     <string name="locked">લૉક</string>
     <string name="unlocked">અનલૉક</string>
     <string name="surface_best_fit">શ્રેષ્ઠ ફિટ</string>
@@ -111,4 +110,5 @@
     <string name="set_locale_detail">પુનઃસુયોજિત કરવા માટે ખાલી છોડી દો</string>
     <string name="enable_verbose_mode">શબ્લબહુલ</string>
     <string name="enable_verbose_mode_summary">આ વર્બોઝીટી (logcat) વધારો</string>
+    <string name="next">પછીનું</string>
     </resources>
