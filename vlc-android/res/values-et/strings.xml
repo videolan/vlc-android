@@ -85,7 +85,6 @@
     <string name="cover_art">Kaanepilt</string>
     <string name="previous">Eelmine</string>
     <string name="stop">Peata</string>
-    <string name="next">Järgmine</string>
     <string name="locked">Lukustatud</string>
     <string name="unlocked">Lukust lahti võetud</string>
     <string name="surface_best_fit">Parim sobitus</string>
@@ -172,4 +171,5 @@
     <string name="copy_to_clipboard">Kopeeri lõikepuhvrisse</string>
     <string name="copied_to_clipboard">Logi lõikepuhvrisse kopeeritud.</string>
     <string name="restart_vlc">Taaskäivita VLC</string>
+    <string name="next">Järgmine</string>
     </resources>
