@@ -479,7 +479,6 @@
     <string name="directory_show_medialib">Vis i MediaLib</string>
     <string name="directory_hide_medialib">Skjul i MediaLib</string>
     <string name="playlist_save">Gem spilleliste</string>
-    <string name="playlist_name_hint">spillelistenavn</string>
     <string name="go_to_chapter">Gå til kapitel…</string>
     <string name="chapter">Kapitel</string>
     <string name="resume_from_position">Genoptag fra sidste position</string>
@@ -638,4 +637,4 @@
     <string name="ctx_player_subs_track">Undertekstspor</string>
     <string name="ctx_player_tracks_title">Mediespor</string>
     <string name="ctx_pip_title">Pop op-afspiller</string>
-</resources>
+    </resources>
