@@ -116,7 +116,6 @@
     <string name="repeat_all">Viską kartoti</string>
     <string name="previous">Ankstesnis</string>
     <string name="stop">Stabdyti</string>
-    <string name="next">Tolesnis</string>
     <string name="firstsong">Pirmoji grojaraščio daina</string>
     <string name="lastsong">Paskutinė grojaraščio daina</string>
 
@@ -314,7 +313,6 @@
     <string name="file_size">Rinkmenos dydis:</string>
 
     <string name="playlist_save">Įrašyti grojaraštį</string>
-    <string name="playlist_name_hint">grojaraščio pavadinimas</string>
     <string name="chapter">Skyrius</string>
     <string name="move">Perkelti</string>
     <string name="music_now_playing">Dabar groja</string>
@@ -341,4 +339,5 @@
     <string name="custom_set_wrong_input">Netinkamas pavadinimas.</string>
     <string name="equalizer_new_preset_name">Naujas</string>
     <string name="browser_storages">Laikmenos</string>
+    <string name="next">Tolesnis</string>
     </resources>
