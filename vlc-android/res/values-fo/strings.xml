@@ -87,7 +87,6 @@
     <string name="cover_art">Húsasnið</string>
     <string name="previous">Undanfarna</string>
     <string name="stop">Steðga</string>
-    <string name="next">Næsta</string>
     <string name="locked">Stongt</string>
     <string name="unlocked">Læst upp</string>
     <string name="surface_best_fit">Hóskar best</string>
@@ -240,4 +239,5 @@
 
     <string name="drawer_open">Lat navigatiónsskuffuna upp</string>
     <string name="drawer_close">Lat navigatiónsskuffuna aftur</string>
+    <string name="next">Næsta</string>
     </resources>
