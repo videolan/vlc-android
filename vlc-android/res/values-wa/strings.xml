@@ -67,7 +67,6 @@
     <string name="cover_art">Potchete</string>
     <string name="previous">Di dvant</string>
     <string name="stop">Arester</string>
-    <string name="next">Shuvant</string>
     <string name="locked">Eclawé</string>
     <string name="unlocked">Dizeclawé</string>
     <string name="surface_best_fit">Meyeu adjustaedje</string>
@@ -107,4 +106,5 @@
     <string name="set_locale_detail">Leyî vude po rimete a zero</string>
     <string name="enable_verbose_mode">Badjawe</string>
     <string name="enable_verbose_mode_summary">Håssî l\' tchafiaedje (logcat)</string>
+    <string name="next">Shuvant</string>
     </resources>
