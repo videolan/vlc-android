@@ -448,10 +448,10 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         val positionForSectionByName = viewModel.getPositionForSectionByName(header)
         if (list.getChildAt(positionForSectionByName) == null) {
             adapter.focusNext = positionForSectionByName
-            list.scrollToPosition(positionForSectionByName)
         } else {
             list.getChildAt(positionForSectionByName).requestFocus()
         }
+        list.scrollToPosition(positionForSectionByName)
     }
 
     private fun hideHeaderSelectionScreen() {
