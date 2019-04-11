@@ -127,7 +127,6 @@
     <string name="repeat_all">Ponovi sve</string>
     <string name="previous">Prijašnje</string>
     <string name="stop">Zaustavi</string>
-    <string name="next">Sljedeće</string>
     <string name="firstsong">Prva pjesma na popisu izvođenja</string>
     <string name="lastsong">Posljednja pjesma na popisu izvođenja</string>
 
@@ -154,7 +153,6 @@
     <string name="navmenu">izbornik upravljanja</string>
     <string name="advanced">napredne mogućnosti</string>
     <string name="audio_boost_warning">Kliznite gore ponovno za iznad 100%</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
         <item quantity="few">%1$d kanala\n</item>
@@ -451,7 +449,6 @@
     <string name="directory_show_medialib">Prikaži u medijskoj zbirci</string>
     <string name="directory_hide_medialib">Sakrij u medijskoj zbirci</string>
     <string name="playlist_save">Spremi popis izvođenja</string>
-    <string name="playlist_name_hint">naziv popisa izvođenja</string>
     <string name="go_to_chapter">Idi na poglavlje…</string>
     <string name="chapter">Poglavlje</string>
     <string name="resume_from_position">Nastavi s posljednjeg položaja</string>
@@ -567,4 +564,5 @@
     <string name="sdcard_permission_dialog_message">VLC ne može obrisati ovu datoteku bez dozvole zapisivanja.\nIdite u svoju SD karticu i odaberite \"Odaberi\".\nMožda ćete trebati odabrati i \"Prikaži SD karticu\" prvu stavku u gornjem desnom izborniku</string>
     <string name="dialog_sd_wizard">Prikaži mi</string>
     <string name="renderers_disconnect">Prekini povezivanje</string>
+    <string name="next">Sljedeće</string>
     </resources>
