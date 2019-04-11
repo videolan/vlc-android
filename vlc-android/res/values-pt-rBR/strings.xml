@@ -275,6 +275,8 @@
     <string name="enable_black_theme_summary">Altera as cores da interface para melhorar o conforto em ambientes de pouca iluminação.</string>
     <string name="subtitle_text_encoding">Codificação de texto de legenda</string>
     <string name="daynight_title">Modo Dia e Noite</string>
+    <string name="daynight_follow_system_title">Em modo de sistema</string>
+    <string name="daynight_battery_title">Em modo de economia de bateria</string>
     <string name="daynight_summary">Alterna para o modo noturno no momento adequado</string>
 
     <string name="extra_prefs_category">Configurações extras</string>
@@ -486,7 +488,7 @@
     <string name="directory_show_medialib">Exibir no MediaLib</string>
     <string name="directory_hide_medialib">Ocultar do MediaLib</string>
     <string name="playlist_save">Salvar Lista de Reprodução</string>
-    <string name="playlist_name_hint">nome da lista de reprodução</string>
+    <string name="playlist_name_hint">Nome da Lista de Reprodução</string>
     <string name="go_to_chapter">Ir ao capítulo...</string>
     <string name="chapter">Capítulo</string>
     <string name="resume_from_position">Continuar a reprodução da última posição</string>
@@ -613,6 +615,8 @@
     <string name="audio_digital_title">Saída de áudio digital (passagem direta)</string>
     <string name="audio_task_cleared_title">Parar ao deslisar o aplicativo</string>
     <string name="audio_task_cleared_summary">Para a reprodução quando o aplicativo for dispensada</string>
+    <string name="audio_resume_card_title">Carregar último cartão de lista de reprodução</string>
+    <string name="audio_resume_card_summary">Exibe um cartão para lhe ajudar a retomar a lista de reprodução de áudio na inicialização do aplicativo</string>
     <string name="playback_rewind">Retroceder</string>
     <string name="playback_forward">Avanço rápido</string>
     <string name="ml_wizard_title">Seleção da Biblioteca de mídias do VLC</string>
@@ -652,6 +656,7 @@
     <string name="video_save_clone_mode">Ativar automaticamente o modo cópia</string>
     <string name="video_remote_enable">Alternar para o modo de controle remoto</string>
     <string name="video_remote_disable">Duplicar a tela</string>
+    <string name="removed_from_playlist_anonymous">Item(ns) removidos da Lista de Reprodução</string>
     <string name="welcome_title">Bem vindo ao VLC!</string>
     <string name="welcome_subtitle">O reprodutor de mídias livre e grátis</string>
     <string name="permission_media">O VLC requer sua permissão para acessar mídias no seu dispositivo</string>
@@ -665,4 +670,13 @@
     <string name="onboarding_scan_customize">Escolher em que pastas o VLC procurará</string>
     <string name="button_medialibrary_preferences">Ir para as preferências da Biblioteca de mídias</string>
     <string name="light_theme">Tema claro</string>
+    <string name="add">Adicionar</string>
+    <string name="add_to_new_playlist">Adiciona à nova Lista de Reprodução</string>
+    <string name="theme_follow_system_mode">Em modo de sistema</string>
+    <string name="resume_card_message">Retomar a reprodução de%1$s?</string>
+    <string name="misc">Outros</string>
+    <string name="popup_force_legacy_title">Usar popup de mini tela personalizado</string>
+    <string name="popup_force_legacy_summary">Usa um popup de mini tela redimensionável e personalizado</string>
+    <string name="device_default">Dispositivo padrão</string>
+    <string name="track_number">%s trilhas</string>
 </resources>
