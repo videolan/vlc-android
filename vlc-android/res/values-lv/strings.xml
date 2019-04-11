@@ -103,7 +103,6 @@
     <string name="cover_art">Pārklāšanas māksla</string>
     <string name="previous">Iepriekšējais</string>
     <string name="stop">Stop</string>
-    <string name="next">Nākošais</string>
     <string name="locked">Bloķēts</string>
     <string name="unlocked">Atbloķēts</string>
     <string name="surface_best_fit">Labāk piemērots</string>
@@ -247,4 +246,5 @@
     <string name="recommendations">Ieteikumi</string>
     <string name="browser_quick_access">Ātrā piekļuve</string>
     <string name="browser_storages">Glabātuves</string>
+    <string name="next">Nākošais</string>
     </resources>
