@@ -199,6 +199,27 @@ task generateSources (type: Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 
+task buildTranslationArray << {
+    def foundLocales = new StringBuilder()
+    foundLocales.append("new String[]{")
+
+    fileTree("res").visit { FileVisitDetails details ->
+        println 'details: '+details
+        if(details.file.path.endsWith("strings.xml")){
+            def languageCode = details.file.parent.tokenize('/').last().replaceAll('values-','').replaceAll('-r','-')
+            languageCode = (languageCode == "values") ? "en" : languageCode;
+            foundLocales.append("\"").append(languageCode).append("\"").append(",")
+        }
+    }
+
+    foundLocales.append("}")
+    //Don't forget to remove the trailing comma
+    def foundLocalesString = foundLocales.toString().replaceAll(',}','}')
+    android.defaultConfig.buildConfigField "String[]", "TRANSLATION_ARRAY", foundLocalesString
+
+}
+preBuild.dependsOn buildTranslationArray
+
 dependencies {
     devImplementation project(':libvlc')
     devImplementation project(':medialibrary')

@@ -32,6 +32,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -48,6 +49,7 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.DragAndDropPermissions;
 import android.view.DragEvent;
@@ -70,6 +72,7 @@ import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.MediaParsingService;
 import org.videolan.vlc.R;
 import org.videolan.vlc.VLCApplication;
@@ -82,9 +85,11 @@ import org.videolan.vlc.util.LocalePair;
 import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.viewmodels.SortableModel;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import androidx.annotation.NonNull;
@@ -545,25 +550,7 @@ public class UiTools {
         // Are we using advanced debugging - locale?
         String p = VLCApplication.getLocale();
         if (!p.equals("")) {
-            Locale locale;
-            // workaround due to region code
-            if (p.equals("zh-TW")) {
-                locale = Locale.TRADITIONAL_CHINESE;
-            } else if (p.startsWith("zh")) {
-                locale = Locale.CHINA;
-            } else if (p.equals("pt-BR")) {
-                locale = new Locale("pt", "BR");
-            } else if (p.equals("bn-IN") || p.startsWith("bn")) {
-                locale = new Locale("bn", "IN");
-            } else {
-                /**
-                 * Avoid a crash of
-                 * java.lang.AssertionError: couldn't initialize LocaleData for locale
-                 * if the user enters nonsensical region codes.
-                 */
-                if (p.contains("-")) p = p.substring(0, p.indexOf('-'));
-                locale = new Locale(p);
-            }
+            Locale locale = getLocaleFromString(p);
             Locale.setDefault(locale);
             final Configuration config = new Configuration();
             config.locale = locale;
@@ -588,30 +575,15 @@ public class UiTools {
     }
 
     public static LocalePair getLocalesUsedInProject(Context context) {
-        final String[] localesEntryValues = context.getAssets().getLocales();
+        final String[] localesEntryValues = BuildConfig.TRANSLATION_ARRAY;
 
 
         final String[] localesEntry = new String[localesEntryValues.length];
         for (int i = 0; i < localesEntryValues.length; i++) {
 
             final String localesEntryValue = localesEntryValues[i];
-            String language;
-            String country = "";
 
-            //see if there is a language and a country
-            if (localesEntryValue.contains("-")) {
-                String[] splittedLocale = localesEntryValue.split("-");
-                if (splittedLocale.length == 2) {
-                    language = splittedLocale[0];
-                    country = splittedLocale[1];
-                } else {
-                    language = localesEntryValue;
-                }
-            } else {
-                language = localesEntryValue;
-            }
-
-            final Locale locale = new Locale(language, country);
+            Locale locale = getLocaleFromString(localesEntryValue);
 
             final String displayLanguage = locale.getDisplayLanguage(locale);
             final String displayCountry = locale.getDisplayCountry(locale);
@@ -644,6 +616,34 @@ public class UiTools {
         }
 
         return new LocalePair(finalLocaleEntries, finalLocaleEntryValues);
+    }
+
+
+    private static Locale getLocaleFromString(String string) {
+
+        /**
+         * See {@link android.content.res.AssetManager#getLocales()}
+         */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return Locale.forLanguageTag(string);
+        }
+
+        //Best effort on determining the locale
+
+        String[] separators = {"_", "-"};
+
+        for (String separator : separators) {
+            //see if there is a language and a country
+            if (string.contains(separator)) {
+                String[] splittedLocale = string.split(separator);
+                if (splittedLocale.length == 2) {
+                    return new Locale(splittedLocale[0], splittedLocale[1]);
+                }
+            }
+        }
+
+
+        return new Locale(string);
     }
 
     private static String firstLetterUpper(String string) {
