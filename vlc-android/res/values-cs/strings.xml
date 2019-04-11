@@ -53,6 +53,7 @@
     <string name="delete">Smazat</string>
     <string name="remove">Odstranit</string>
     <string name="set_song">Nastavit jako vyzváněcí melodii</string>
+    <string name="set_song_question">Nastavit \'%1$s\' jako vyzváněcí melodii?</string>
     <string name="info">Informace</string>
     <string name="confirm_delete">Odstranit soubor \'%1$s\'?</string>
     <string name="confirm_delete_folder">Smazat složku \'%1$s\' a veškerý její obsah?</string>
@@ -380,6 +381,7 @@
     <string name="audio_ducking_title">Snížit hlasitost VLC při oznámeních</string>
     <string name="audio_ducking_summary">Pomáhá slyšet zvuková upozornění, navigační pokyny, nebo asistenta</string>
     <string name="casting_category">Vysílání</string>
+    <string name="casting_switch_title">Bezdrátové vysílání</string>
     <string name="casting_passthrough_title">Zvukový průchod</string>
     <string name="casting_passthrough_summary">Nechte TV provádět interpretaci zvuku</string>
     <string name="casting_conversion_quality_title">Kvalita převodu</string>
@@ -497,7 +499,6 @@
     <string name="directory_show_medialib">Zobrazit v knihovně médií</string>
     <string name="directory_hide_medialib">Nezobrazovat v knihovně médií</string>
     <string name="playlist_save">Uložit seznam skladeb</string>
-    <string name="playlist_name_hint">název seznamu skladeb</string>
     <string name="go_to_chapter">Přejít na kapitolu…</string>
     <string name="chapter">Kapitola</string>
     <string name="resume_from_position">Obnovit z poslední pozice</string>
@@ -659,4 +660,12 @@
     <string name="device_dialog_title">Vloženo externí zařízení</string>
     <string name="device_dialog_message">U vaši TV bylo zjištěno připojení nového úložného zařízení, chcete s ním manipulovat pomocí VLC? </string>
     <string name="videos_folders_title">Videa podle složek</string>
-</resources>
+    <string name="video_save_remote_setting">Automaticky aktivovat režim vzdáleného ovládání?</string>
+    <string name="video_remote_enable">Přepnout do režimu vzdáleného ovládání</string>
+    <string name="video_remote_disable">Duplikovat obrazovku</string>
+    <string name="welcome_title">Vítejte do VLC.</string>
+    <string name="permission_media">VLC potřebuje vaše povolení pro přístup k médiím na vašem zařízení</string>
+    <string name="done">Dokončeno</string>
+    <string name="daynight_explanation">VLC se automaticky přepne do nočního režimu ve vhodném čase</string>
+    <string name="light_theme">Světlý vzhled</string>
+    </resources>
