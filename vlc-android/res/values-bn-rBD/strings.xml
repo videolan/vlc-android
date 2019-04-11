@@ -69,7 +69,6 @@
     <string name="cover_art">প্রচ্ছদ শিল্প</string>
     <string name="previous">পূর্ববর্তী</string>
     <string name="stop">বন্ধ করা হবে</string>
-    <string name="next">পরবর্তী</string>
     <string name="surface_original">মাঝামাঝি</string>
     <string name="thumbnail">থাম্বনেইল</string>
     <string name="refresh">পুনঃসতেজ</string>
@@ -118,4 +117,5 @@
     <string name="debug_logs">ডিবাগ লগ</string>
     <string name="clear_log">লগ পরিষ্কার করুন</string>
     <string name="copy_to_clipboard">ক্লিপবোর্ডে অনুলিপি করুন</string>
+    <string name="next">পরবর্তী</string>
     </resources>
