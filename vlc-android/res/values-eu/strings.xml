@@ -18,6 +18,7 @@
     <string name="sortby_length_desc">Luzera (beherantz)</string>
     <string name="sortby_date">Data</string>
     <string name="sortby_date_desc">Data (beherantz)</string>
+    <string name="sortby_last_modified_date">Duela gutxi gehitutakoak</string>
     <string name="sortby_number">Nb pistak</string>
     <string name="sortby_number_desc">Nb pistak (beherantz)</string>
     <string name="searchable_hint">Bilatu…</string>
@@ -45,13 +46,17 @@
     <string name="play_all">Erreproduzitu denak</string>
     <string name="append_all">Erantsi denak</string>
     <string name="last_playlist">Azken erreprodukzio-zerrenda</string>
+    <string name="last_playlist_shortcut">Berrekin erreprodukzioa</string>
     <string name="delete">Ezabatu</string>
     <string name="remove">Kendu</string>
     <string name="set_song">Ezarri dei-tonu gisa</string>
+    <string name="set_song_question">Ezarri %1$s dei-tonu gisa?</string>
     <string name="info">Informazioa</string>
     <string name="confirm_delete">Ezabatu \'%1$s\' fitxategia?</string>
     <string name="confirm_delete_folder">Ezabatu \'%1$s\' karpeta eta bere eduki guztiak?</string>
     <string name="confirm_delete_playlist">Ezabatu \'%1$s\' erreprodukzio-zerrenda?</string>
+    <string name="confirm_remove_from_playlist">Ezabatu %1$s erreprodukzio-zerrendatik?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Ezabatu erreprodukzio zerrendatik?</string>
     <string name="ringtone_set">\'%1$s\' fitxategia txirrin-tonu gisa ezarri da.</string>
     <string name="ringtone_error">Errorea gertatu da dei-tonua ezartzean.</string>
     <string name="pause">Pausatu</string>
@@ -123,7 +128,6 @@
     <string name="repeat_all">Errepikatu denak</string>
     <string name="previous">Aurrekoa</string>
     <string name="stop">Gelditu</string>
-    <string name="next">Hurrengoa</string>
     <string name="firstsong">Erreprodukzio-zerrendako lehen abestia</string>
     <string name="lastsong">Erreprodukzio-zerrendako azken abestia</string>
 
@@ -150,7 +154,6 @@
     <string name="navmenu">nabigazio-menua</string>
     <string name="advanced">aukera aurreratuak</string>
     <string name="audio_boost_warning">Irristatu berriro gora %100-etik harago joateko</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">kanal 1\n</item>
         <item quantity="other">%1$d kanal\n</item>
@@ -208,6 +211,7 @@
     <string name="playback_speed_title">Gorde erreprodukzio-abiadura</string>
     <string name="playback_speed_summary">Gogoratu ezarritako erreprodukzio-abiadura</string>
 
+    <string name="play_button">Play Botoia</string>
     <!-- Tips -->
     <string name="video_player_tips">Bideo-erreproduzigailuaren aholkuak:</string>
     <string name="seek">Saltatu</string>
@@ -418,7 +422,7 @@
     <string name="restart_message">Aldaketek aplikazioa berrabiarazitakoan izango dute eragina.\n\nBerrabiarazi orain?</string>
     <string name="restart_message_OK">Ados</string>
     <string name="restart_message_Later">Gero</string>
-
+    <string name="browser_show_all_title">Erakutsi fitxategi guztiak nabigatzailean</string>
     <string name="developer_prefs_category">Garatzailea</string>
     <string name="enable_verbose_mode">Xehetua</string>
     <string name="enable_verbose_mode_summary">Handitu xehetasun-maila (logcat)</string>
@@ -441,6 +445,14 @@
     <string name="send_log">Bidali erregistroa</string>
     <string name="sending_log">Erregistroa bidaltzen…</string>
 
+    <string name="delete_sub_title">Ezabatu azpititulua</string>
+    <string name="delete_sub_message">Azpititulu hau ezabatu nahi duzu?</string>
+    <string name="delete_sub_yes">Bai</string>
+    <string name="delete_sub_no">Ez</string>
+    <string name="download_subtitle_title">Deskargatu azpititulua</string>
+
+    <string name="no_result">Ez da emaitzarik aurkitu</string>
+    <string name="no_internet_connection">Egiaztatu zure internet-konexioa</string>
     <string name="drawer_open">Ireki nabigatzeko menu lerrakorra</string>
     <string name="drawer_close">Itxi nabigatzeko menu lerrakorra</string>
     <string name="network_browsing">Sare lokala</string>
@@ -460,7 +472,6 @@
     <string name="directory_show_medialib">Erakutsi MediaLib-en</string>
     <string name="directory_hide_medialib">Ezkutatu MediaLib-etik</string>
     <string name="playlist_save">Gorde erreprodukzio-zerrenda</string>
-    <string name="playlist_name_hint">erreprodukzio-zerrendaren izena</string>
     <string name="go_to_chapter">Joan kapitulura…</string>
     <string name="chapter">Kapitulua</string>
     <string name="resume_from_position">Berrekin azken posiziotik</string>
@@ -585,7 +596,6 @@
     <string name="audio_digital_output_enabled">Audio digitalaren irteera gaituta</string>
     <string name="audio_digital_output_disabled">Audio digitalaren irteera ezgaituta</string>
     <string name="audio_digital_title">Audio digitalaren irteera (igarobidea)</string>
-    <string name="audio_task_removed_title">Gelditu erreprodukzioa aplikazioa baztertua denean</string>
     <string name="playback_rewind">Birbobinatu</string>
     <string name="playback_forward">Bizkor erreproduzitu</string>
     <string name="ml_wizard_title">VLC multimedia-liburutegiaren hautaketa</string>
@@ -594,4 +604,27 @@
     <string name="tv_my_new_videos">Nire bideo berriak</string>
     <string name="cast_option_title">Igorri multimediak beste pantaila batera</string>
     <string name="otg_device_title">OTG gailua</string>
+    <string name="browser">Nabigatzailea</string>
+    <string name="stop_after_this">Gelditu pista honen ondoren</string>
+    <string name="time_category_new">Multimedia berria</string>
+    <string name="time_category_current_month">Hilabete honetan</string>
+    <string name="time_category_current_year">Aurten</string>
+    <string name="time_category_last_year">Iaz</string>
+    <string name="time_category_older">Multimedia zaharragoa</string>
+    <string name="rename">Berrizendatu</string>
+    <string name="rename_media">Berrizendatu %1$s</string>
+    <string name="manual_search">Eskuzko bilaketa</string>
+    <string name="subtitle_search_name_hint">Izena</string>
+    <string name="subtitle_search_episode_hint">Kapitulua</string>
+    <string name="subtitle_search_season_hint">Aroa</string>
+    <string name="language_to_download">Hizkuntza</string>
+    <string name="delete_the_selected">Ezabatu hautaketa</string>
+    <string name="download_the_selected">Deskargatu hautaketa</string>
+    <string name="next">Hurrengoa</string>
+    <string name="download">Deskargatu</string>
+    <string name="ctx_player_video_track">Aukeratu bideo-pista</string>
+    <string name="ctx_player_audio_track">Audio-pista</string>
+    <string name="ctx_player_subs_track">Azpitituluen pista</string>
+    <string name="ctx_player_tracks_title">Multimedia pistak</string>
+    <string name="device_dialog_title">Kanpoko gailua txertatua</string>
     </resources>
