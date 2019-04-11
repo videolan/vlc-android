@@ -7,6 +7,7 @@
     <string name="other">වෙනත්</string>
     <string name="sortby">මෙසේ පෙළගස්වන්න…</string>
     <string name="sortby_name">නම</string>
+    <string name="sortby_name_desc">නම (විස්තරාත්මක)</string>
     <string name="sortby_length">දිග</string>
     <string name="searchable_hint">සොයන්න…</string>
     <string name="history">ඉතිහාසය</string>
@@ -85,7 +86,6 @@
     <string name="cover_art">කවරයේ චිත්‍රය</string>
     <string name="previous">පෙර</string>
     <string name="stop">නවතන්න</string>
-    <string name="next">ඊළඟ</string>
     <string name="locked">අගුළුලා ඇත</string>
     <string name="unlocked">අගුළුලා නැත</string>
     <string name="surface_best_fit">සුදුසුතම අනුසීහුම</string>
@@ -192,4 +192,5 @@
     <string name="send_log">ලඝු සටහන යවන්න</string>
     <string name="sending_log">ලඝු සටහන යවමින…</string>
 
+    <string name="next">ඊළඟ</string>
     </resources>
