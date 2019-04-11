@@ -113,7 +113,6 @@
     <string name="repeat_all">Бөтенесен кабатлау</string>
     <string name="previous">Алдагы</string>
     <string name="stop">Туктату</string>
-    <string name="next">&amp;Чираттагы</string>
     <string name="firstsong">Уйнату битенең беренче язмасы</string>
     <string name="lastsong">Уйнату битенең соңгы язмасы</string>
 
@@ -140,7 +139,6 @@
     <string name="navmenu">навигация менюсы</string>
     <string name="advanced">өстәмә көйләүләр</string>
     <string name="audio_boost_warning">100%-тан арттыру өчен тагын бер кат өскә шудырыгыз</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d канал\n</item>
     </plurals>
@@ -414,7 +412,6 @@
     <string name="directory_show_medialib">Медиаханәдә күрсәтү</string>
     <string name="directory_hide_medialib">Медиаханәдән бетерү</string>
     <string name="playlist_save">Уйнату битен саклау</string>
-    <string name="playlist_name_hint">уйнату бите исеме</string>
     <string name="go_to_chapter">Go to chapter…</string>
     <string name="chapter">Бүлек</string>
     <string name="resume_from_position">Соңгы урыннан дәвам итү</string>
@@ -533,4 +530,5 @@
     <string name="sdcard_permission_dialog_title">Сезгә VLC-га SD-картага язырга рөхсәт бирергә кирәк.</string>
     <string name="sdcard_permission_dialog_message">VLC бу файлны язуга рөхсәтсез бетерә алмый.\nSD-картагызга күчегез һәм \"Сайларга\" төймәсенә басыгыз.\nБәлки, сезгә баштан өске уң яктагы \"SD-картаны күрсәтергә\" төймәсенә басырга кирәк булыр.</string>
     <string name="dialog_sd_wizard">Күрсәтергә</string>
+    <string name="next">&amp;Чираттагы</string>
     </resources>
