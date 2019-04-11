@@ -100,7 +100,6 @@
     <string name="repeat_all">समग्र पुनरावृत्ति</string>
     <string name="previous">पिछला</string>
     <string name="stop">विराम</string>
-    <string name="next">अगला</string>
     <string name="locked">अवरोधित</string>
     <string name="unlocked">अनवरोधित</string>
     <string name="surface_best_fit">बेहतरीन फिट</string>
@@ -194,4 +193,5 @@
     <string name="yes">हाँ</string>
 
     <string name="save">सहेजें</string>
+    <string name="next">अगला</string>
     </resources>
