@@ -99,8 +99,11 @@
     <string name="track_video">Trek video</string>
     <string name="track_text">Trek terjemahan</string>
     <string name="track_unknown">Trek tidak dikenal</string>
+    <string name="track_codec_info">Kodek: %1$s\n</string>
+    <string name="track_language_info">Bahasa: %1$s\n</string>
     <string name="volume">Volume</string>
     <string name="brightness">Kecerahan</string>
+    <string name="track_resolution_info">Resolusi: %1$dx%2$d\n</string>
     <string name="tools">Peralatan</string>
     <string name="playback_speed">Kecepatan memutar ulang</string>
     <string name="sleep_title">Waktu tidur</string>
@@ -114,6 +117,8 @@
     <string name="server_port">Port: </string>
     <string name="password">Password</string>
 
+    <string name="search_results">Hasil pencarian</string>
+    <string name="search_no_result">Tidak ada media yang ditemukan</string>
     <string name="favorites_edit">Sunting</string>
     <string name="open">Buka</string>
     <string name="open_mrl">Stream</string>
@@ -182,6 +187,8 @@
     <string name="interface_other_category">Antarmuka - Lainnya</string>
 
     <string name="video_prefs_category">Video</string>
+    <string name="media_fast_seek">Pencarian cepat</string>
+    <string name="save_audiodelay_title">Simpan penundaan audio</string>
     <string name="enable_brightness_gesture_summary">Mengendalikan kecerahan dengan gesture ketika video dimainkan</string>
     <string name="subtitles_prefs_category">Terjemahan</string>
     <string name="subtitles_size_title">Ukuran terjemahan</string>
@@ -200,6 +207,7 @@
     <string name="subtitles_autoload_title">Muat otomatis terjemahan</string>
 
     <string name="audio_prefs_category">Audio</string>
+    <string name="audio_title_alignment_default">Default</string>
     <string name="audio_title_alignment_left">Kiri</string>
     <string name="audio_title_alignment_centre">Tengah</string>
     <string name="audio_title_alignment_right">Kanan</string>
@@ -238,6 +246,7 @@
     <string name="network_caching">Nilai cache jaringan</string>
     <string name="quit">Keluar dan restart aplikasi</string>
     <string name="restart_message_OK">OK</string>
+    <string name="restart_message_Later">Nanti</string>
     <string name="developer_prefs_category">Pengembang</string>
     <string name="enable_verbose_mode">Tampilkan</string>
     <string name="debug_logs">Catatan debug</string>
@@ -256,32 +265,54 @@
     <string name="sending_log">Mengirim catatan…</string>
 
     <string name="delete_sub_title">Hapus terjemahan</string>
+    <string name="delete_sub_message">Anda ingin menghapus terjemahan ini?</string>
     <string name="delete_sub_yes">Ya</string>
     <string name="delete_sub_no">Tidak</string>
     <string name="download_subtitle_title">Unduh Terjemahan</string>
 
+    <string name="no_internet_connection">Cek koneksi internet Anda</string>
     <string name="network_browsing">Jaringan Lokal</string>
     <string name="audio_delay">Penundaan audio</string>
     <string name="spu_delay">Penundaan terjemahan</string>
     <string name="network_empty">Direktori ini kosong.</string>
+    <string name="search_hint">Cari media</string>
     <string name="chapter">Bab</string>
+    <string name="directory_empty">Direktori kosong</string>
+    <string name="tv_ui_title">Antarmuka Android TV</string>
+    <string name="medialibrary">Pustaka media</string>
+    <string name="medialibrary_directories">Folder pustaka media</string>
+
     <string name="no_subs_found">Tidak ada terjemahan dalam direktori ini</string>
     <string name="exit_app">Tutup VLC</string>
+    <string name="opengl_title">Penggunaan OpenGL ES2</string>
     <string name="opengl_automatic">Otomatis</string>
+    <string name="add_to_playlist">Tambahkan ke playlist</string>
     <string name="snack_subloader_sub_not_found">Terjemahan tidak ditemukan</string>
     <string name="download_subtitles">Unduh terjemahan</string>
     <string name="preferences_languages_download">Bahasa terjemahan</string>
     <string name="downloading_subtitles">Mengunduh terjemahan</string>
     <string name="videos">video</string>
     <string name="videos_all">Semua video</string>
+    <string name="ml_external_storage_msg">Anda ingin VLC menambahkan perangkat %1$s ke pustaka media?</string>
     <string name="ml_external_storage_accept">Ya</string>
     <string name="ml_external_storage_decline">Tidak</string>
     <string name="no">Tidak</string>
+    <string name="loading_medialibrary">Memuat Pustaka Media…</string>
     <string name="yes">Ya</string>
 
     <string name="save">Simpan</string>
+    <string name="do_not_save">Jangan simpan</string>
     <string name="equalizer_new_preset_name">Baru</string>
     <string name="browser_storages">Penyimpanan</string>
+    <string name="otg_device_title">Perangkat OTG</string>
+    <string name="time_category_new">Media baru</string>
+    <string name="time_category_current_month">Bulan ini</string>
+    <string name="time_category_current_year">Tahun ini</string>
+    <string name="time_category_last_year">Tahun sebelumnya</string>
+    <string name="subtitle_search_name_hint">Nama</string>
+    <string name="subtitle_search_episode_hint">Episode</string>
     <string name="language_to_download">Bahasa</string>
     <string name="next">Selanjutya</string>
+    <string name="ctx_player_audio_track">Trek audio</string>
+    <string name="ctx_player_subs_track">Trek terjemahan</string>
     </resources>
