@@ -95,7 +95,6 @@
     <string name="cover_art">ਕਵਰ ਆਰਟ</string>
     <string name="previous">ਪਿਛਲੇ</string>
     <string name="stop">ਰੋਕੋ</string>
-    <string name="next">ਅੱਗੇ</string>
     <string name="locked">ਲਾਕ ਹੈ</string>
     <string name="unlocked">ਅਣ-ਲਾਕ ਹੈ</string>
     <string name="surface_best_fit">ਸਭ ਤੋਂ ਵਧੀਆ ਫਿੱਟ</string>
@@ -201,4 +200,5 @@
     <string name="copied_to_clipboard">ਲਾਗ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਕਾਪੀ ਕੀਤਾ</string>
     <string name="restart_vlc">VLC ਮੁੜ-ਚਾਲੂ ਕਰੋ</string>
     <string name="send_log">ਲਾਗ ਭੇਜੋ</string>
+    <string name="next">ਅੱਗੇ</string>
     </resources>
