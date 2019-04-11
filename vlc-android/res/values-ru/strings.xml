@@ -499,7 +499,6 @@
     <string name="directory_show_medialib">Показать в медиатеке</string>
     <string name="directory_hide_medialib">Убрать из медиатеки</string>
     <string name="playlist_save">Сохранить плейлист</string>
-    <string name="playlist_name_hint">название плейлиста</string>
     <string name="go_to_chapter">Перейти к главе…</string>
     <string name="chapter">Глава</string>
     <string name="resume_from_position">Продолжить с последней позиции</string>
@@ -678,4 +677,4 @@
     <string name="onboarding_scan_customize">Я хочу выбрать, какие папки будет сканировать VLC</string>
     <string name="button_medialibrary_preferences">Открыть настройки медиатеки</string>
     <string name="light_theme">Светлая тема</string>
-</resources>
+    </resources>
