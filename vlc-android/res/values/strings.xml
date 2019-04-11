@@ -699,4 +699,5 @@
     <string name="misc">Miscellaneous</string>
     <string name="popup_force_legacy_title">Use custom Picture-in-Picture popup</string>
     <string name="popup_force_legacy_summary">Use custom Picture-in-Picture resizable popup</string>
+    <string name="device_default">Device default</string>
 </resources>

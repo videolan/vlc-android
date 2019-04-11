@@ -53,7 +53,6 @@ import android.view.DragAndDropPermissions;
 import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -85,6 +84,8 @@ import org.videolan.vlc.viewmodels.SortableModel;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -135,12 +136,16 @@ public class UiTools {
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
     public static final int DELETE_DURATION = 3000;
 
-    /** Print an on-screen message to alert the user */
+    /**
+     * Print an on-screen message to alert the user
+     */
     public static void snacker(@NonNull View view, @NonNull int stringId) {
         Snackbar.make(view, stringId, Snackbar.LENGTH_SHORT).show();
     }
 
-    /** Print an on-screen message to alert the user */
+    /**
+     * Print an on-screen message to alert the user
+     */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void snacker(@NonNull View view, @NonNull String message) {
         Snackbar snack = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
@@ -149,7 +154,9 @@ public class UiTools {
         snack.show();
     }
 
-    /** Print an on-screen message to alert the user, with undo action */
+    /**
+     * Print an on-screen message to alert the user, with undo action
+     */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void snackerConfirm(@NonNull View view, @NonNull String message, @NonNull final Runnable action) {
         final Snackbar snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
@@ -164,12 +171,16 @@ public class UiTools {
         snack.show();
     }
 
-    /** Print an on-screen message to alert the user, with undo action */
+    /**
+     * Print an on-screen message to alert the user, with undo action
+     */
     public static void snackerWithCancel(@NonNull View view, @NonNull String message, @NonNull final Runnable action) {
         snackerWithCancel(view, message, action, null);
     }
 
-    /** Print an on-screen message to alert the user, with undo action */
+    /**
+     * Print an on-screen message to alert the user, with undo action
+     */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static void snackerWithCancel(@NonNull View view, @NonNull String message, @Nullable final Runnable action, @Nullable final Runnable cancelAction) {
         @SuppressLint("WrongConstant") Snackbar snack = Snackbar.make(view, message, DELETE_DURATION)
@@ -191,12 +202,13 @@ public class UiTools {
 
     /**
      * Get a resource id from an attribute id.
+     *
      * @param context
      * @param attrId
      * @return the resource id
      */
     public static int getResourceFromAttribute(Context context, int attrId) {
-        TypedArray a = context.getTheme().obtainStyledAttributes(new int[] {attrId});
+        TypedArray a = context.getTheme().obtainStyledAttributes(new int[]{attrId});
         int resId = a.getResourceId(0, 0);
         a.recycle();
         return resId;
@@ -204,6 +216,7 @@ public class UiTools {
 
     /**
      * Get a color id from an attribute id.
+     *
      * @param context
      * @param attrId
      * @return the color id
@@ -211,14 +224,15 @@ public class UiTools {
     public static int getColorFromAttribute(Context context, int attrId) {
         return context.getResources().getColor(getResourceFromAttribute(context, attrId));
     }
+
     /**
      * Set the alignment mode of the specified TextView with the desired align
      * mode from preferences.
-     *
+     * <p>
      * See @array/audio_title_alignment_values
      *
      * @param alignMode Align mode as read from preferences
-     * @param t Reference to the textview
+     * @param t         Reference to the textview
      */
     @BindingAdapter({"alignMode"})
     public static void setAlignModeByPref(TextView t, int alignMode) {
@@ -241,11 +255,12 @@ public class UiTools {
 
     /**
      * sets the touch listener for a view
-     * @param view the view
+     *
+     * @param view            the view
      * @param onTouchListener the listener
      */
     @BindingAdapter("touchListener")
-    public void setTouchListener(View view,View.OnTouchListener onTouchListener){
+    public void setTouchListener(View view, View.OnTouchListener onTouchListener) {
         if (onTouchListener != null)
             view.setOnTouchListener(onTouchListener);
     }
@@ -267,7 +282,7 @@ public class UiTools {
         final TextView link = v.findViewById(R.id.main_link);
         link.setText(Html.fromHtml(v.getContext().getString(R.string.about_link)));
 
-        final String revision = v.getContext().getString(R.string.build_revision)+" VLC: "+v.getContext().getString(R.string.build_vlc_revision);
+        final String revision = v.getContext().getString(R.string.build_revision) + " VLC: " + v.getContext().getString(R.string.build_vlc_revision);
         final String builddate = v.getContext().getString(R.string.build_time);
         final String builder = v.getContext().getString(R.string.build_host);
 
@@ -334,7 +349,7 @@ public class UiTools {
             case MediaLibraryItem.TYPE_ALBUM:
                 return getDefaultAlbumDrawable(context);
             case MediaLibraryItem.TYPE_MEDIA:
-                if (((MediaWrapper)item).getType() == MediaWrapper.TYPE_VIDEO)
+                if (((MediaWrapper) item).getType() == MediaWrapper.TYPE_VIDEO)
                     return getDefaultVideoDrawable(context);
             default:
                 return getDefaultAudioDrawable(context);
@@ -390,19 +405,26 @@ public class UiTools {
         final int sort = model.getSort();
         final boolean desc = model.getDesc();
         MenuItem item = menu.findItem(R.id.ml_menu_sortby_name);
-        if (item != null) item.setTitle(sort == Medialibrary.SORT_ALPHA && !desc ? R.string.sortby_name_desc : R.string.sortby_name);
+        if (item != null)
+            item.setTitle(sort == Medialibrary.SORT_ALPHA && !desc ? R.string.sortby_name_desc : R.string.sortby_name);
         item = menu.findItem(R.id.ml_menu_sortby_filename);
-        if (item != null) item.setTitle(sort == Medialibrary.SORT_FILENAME && !desc ? R.string.sortby_filename_desc : R.string.sortby_filename);
+        if (item != null)
+            item.setTitle(sort == Medialibrary.SORT_FILENAME && !desc ? R.string.sortby_filename_desc : R.string.sortby_filename);
         item = menu.findItem(R.id.ml_menu_sortby_artist_name);
-        if (item != null) item.setTitle(sort == Medialibrary.SORT_ARTIST && !desc ? R.string.sortby_artist_name_desc : R.string.sortby_artist_name);
+        if (item != null)
+            item.setTitle(sort == Medialibrary.SORT_ARTIST && !desc ? R.string.sortby_artist_name_desc : R.string.sortby_artist_name);
         item = menu.findItem(R.id.ml_menu_sortby_album_name);
-        if (item != null) item.setTitle(sort == Medialibrary.SORT_ALBUM && !desc ? R.string.sortby_album_name_desc : R.string.sortby_album_name);
+        if (item != null)
+            item.setTitle(sort == Medialibrary.SORT_ALBUM && !desc ? R.string.sortby_album_name_desc : R.string.sortby_album_name);
         item = menu.findItem(R.id.ml_menu_sortby_length);
-        if (item != null) item.setTitle(sort == Medialibrary.SORT_DURATION && !desc ? R.string.sortby_length_desc : R.string.sortby_length);
+        if (item != null)
+            item.setTitle(sort == Medialibrary.SORT_DURATION && !desc ? R.string.sortby_length_desc : R.string.sortby_length);
         item = menu.findItem(R.id.ml_menu_sortby_date);
-        if (item != null) item.setTitle(sort == Medialibrary.SORT_RELEASEDATE && !desc ? R.string.sortby_date_desc : R.string.sortby_date);
+        if (item != null)
+            item.setTitle(sort == Medialibrary.SORT_RELEASEDATE && !desc ? R.string.sortby_date_desc : R.string.sortby_date);
         item = menu.findItem(R.id.ml_menu_sortby_last_modified);
-        if (item != null) item.setTitle(sort == Medialibrary.SORT_RELEASEDATE && !desc ? R.string.sortby_last_modified_date_desc : R.string.sortby_last_modified_date);
+        if (item != null)
+            item.setTitle(sort == Medialibrary.SORT_RELEASEDATE && !desc ? R.string.sortby_last_modified_date_desc : R.string.sortby_last_modified_date);
 //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
 //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
@@ -413,17 +435,17 @@ public class UiTools {
                 .setMessage(R.string.exit_app_msg)
                 .setTitle(R.string.exit_app)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                activity.finish();
-            }
-        })
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        activity.finish();
+                    }
+                })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        }).create().show();
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
     }
 
     public static void newStorageDetected(final Activity activity, final String path) {
@@ -441,7 +463,8 @@ public class UiTools {
                     .setPositiveButton(R.string.ml_external_storage_accept, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int id) {
-                            if (activity != null) ContextCompat.startForegroundService(activity, si);
+                            if (activity != null)
+                                ContextCompat.startForegroundService(activity, si);
                         }
                     })
                     .setNegativeButton(R.string.ml_external_storage_decline, new DialogInterface.OnClickListener() {
@@ -455,19 +478,20 @@ public class UiTools {
             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity)
                     .setTitle(R.string.ml_external_storage_title)
                     .setCancelable(false)
-                .setMessage(message)
-                .setPositiveButton(R.string.ml_external_storage_accept, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        if (activity != null) ContextCompat.startForegroundService(activity, si);
-                    }
-                })
-                .setNegativeButton(R.string.ml_external_storage_decline, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });
+                    .setMessage(message)
+                    .setPositiveButton(R.string.ml_external_storage_accept, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            if (activity != null)
+                                ContextCompat.startForegroundService(activity, si);
+                        }
+                    })
+                    .setNegativeButton(R.string.ml_external_storage_decline, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
             builder.show();
         }
     }
@@ -486,13 +510,15 @@ public class UiTools {
                         final int itemsCount = clipData.getItemCount();
                         for (int i = 0; i < itemsCount; i++) {
                             final DragAndDropPermissions permissions = activity.requestDragAndDropPermissions(event);
-                            if (permissions != null)  {
+                            if (permissions != null) {
                                 final ClipData.Item item = clipData.getItemAt(i);
-                                if (item.getUri() != null) MediaUtils.INSTANCE.openUri(activity, item.getUri());
+                                if (item.getUri() != null)
+                                    MediaUtils.INSTANCE.openUri(activity, item.getUri());
                                 else if (item.getText() != null) {
                                     final Uri uri = Uri.parse(item.getText().toString());
                                     final MediaWrapper media = new MediaWrapper(uri);
-                                    if (!"file".equals(uri.getScheme())) media.setType(MediaWrapper.TYPE_STREAM);
+                                    if (!"file".equals(uri.getScheme()))
+                                        media.setType(MediaWrapper.TYPE_STREAM);
                                     MediaUtils.INSTANCE.openMedia(activity, media);
                                 }
                                 return true;
@@ -523,11 +549,11 @@ public class UiTools {
             // workaround due to region code
             if (p.equals("zh-TW")) {
                 locale = Locale.TRADITIONAL_CHINESE;
-            } else if(p.startsWith("zh")) {
+            } else if (p.startsWith("zh")) {
                 locale = Locale.CHINA;
-            } else if(p.equals("pt-BR")) {
+            } else if (p.equals("pt-BR")) {
                 locale = new Locale("pt", "BR");
-            } else if(p.equals("bn-IN") || p.startsWith("bn")) {
+            } else if (p.equals("bn-IN") || p.startsWith("bn")) {
                 locale = new Locale("bn", "IN");
             } else {
                 /**
@@ -535,7 +561,7 @@ public class UiTools {
                  * java.lang.AssertionError: couldn't initialize LocaleData for locale
                  * if the user enters nonsensical region codes.
                  */
-                if(p.contains("-")) p = p.substring(0, p.indexOf('-'));
+                if (p.contains("-")) p = p.substring(0, p.indexOf('-'));
                 locale = new Locale(p);
             }
             Locale.setDefault(locale);
@@ -563,11 +589,75 @@ public class UiTools {
 
     public static LocalePair getLocalesUsedInProject(Context context) {
         final String[] localesEntryValues = context.getAssets().getLocales();
+
+
         final String[] localesEntry = new String[localesEntryValues.length];
-        for (int i=0; i<localesEntryValues.length; i++) {
-            localesEntry[i] = new Locale(localesEntryValues[i]).getDisplayLanguage(new Locale(localesEntryValues[i]));
+        for (int i = 0; i < localesEntryValues.length; i++) {
+
+            final String localesEntryValue = localesEntryValues[i];
+            String language;
+            String country = "";
+
+            //see if there is a language and a country
+            if (localesEntryValue.contains("-")) {
+                String[] splittedLocale = localesEntryValue.split("-");
+                if (splittedLocale.length == 2) {
+                    language = splittedLocale[0];
+                    country = splittedLocale[1];
+                } else {
+                    language = localesEntryValue;
+                }
+            } else {
+                language = localesEntryValue;
+            }
+
+            final Locale locale = new Locale(language, country);
+
+            final String displayLanguage = locale.getDisplayLanguage(locale);
+            final String displayCountry = locale.getDisplayCountry(locale);
+            if (displayCountry.isEmpty()) {
+                localesEntry[i] = firstLetterUpper(displayLanguage);
+            } else {
+                localesEntry[i] = firstLetterUpper(displayLanguage) + " - " + firstLetterUpper(displayCountry);
+            }
         }
-        return new LocalePair(localesEntry, localesEntryValues);
+
+        //sort
+        TreeMap<String, String> localeTreeMap = new TreeMap<>();
+        for (int i = 0; i < localesEntryValues.length; i++) {
+            localeTreeMap.put(localesEntry[i], localesEntryValues[i]);
+        }
+
+
+        String[] finalLocaleEntries = new String[localeTreeMap.size() + 1];
+        String[] finalLocaleEntryValues = new String[localeTreeMap.size() + 1];
+
+        finalLocaleEntries[0] = context.getString(R.string.device_default);
+        finalLocaleEntryValues[0] = "";
+
+        int i = 1;
+        for (Map.Entry<String, String> entry : localeTreeMap.entrySet()) {
+            finalLocaleEntries[i] = entry.getKey();
+            finalLocaleEntryValues[i] = entry.getValue();
+
+            i++;
+        }
+
+        return new LocalePair(finalLocaleEntries, finalLocaleEntryValues);
+    }
+
+    private static String firstLetterUpper(String string) {
+        if (string == null) {
+            return null;
+        }
+        if (string.isEmpty()) {
+            return "";
+        }
+        if (string.length() == 1) {
+            return string.toUpperCase(Locale.getDefault());
+        }
+
+        return Character.toUpperCase(string.charAt(0)) + string.substring(1).toLowerCase(Locale.getDefault());
     }
 
     public static void deleteSubtitleDialog(Context context, final DialogInterface.OnClickListener positiveListener, final DialogInterface.OnClickListener negativeListener) {
