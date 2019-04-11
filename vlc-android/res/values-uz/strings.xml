@@ -81,7 +81,6 @@
     <string name="cover_art">Muqova</string>
     <string name="previous">Avvalgi</string>
     <string name="stop">To‘xtatish</string>
-    <string name="next">Keyingi</string>
     <string name="locked">Qulflangan</string>
     <string name="unlocked">Qulflanmagan</string>
     <string name="surface_best_fit">Optimal</string>
@@ -234,4 +233,5 @@ Media kutubxonasini yangilashga harakat qiling.</string>
 
     <string name="drawer_open">Navigatsiya tortmasini ochish</string>
     <string name="drawer_close">Navigatsiya tortmasini yopish</string>
+    <string name="next">Keyingi</string>
     </resources>
