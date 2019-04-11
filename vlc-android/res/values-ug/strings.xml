@@ -77,7 +77,6 @@
     <string name="cover_art">توپلام مۇقاۋا</string>
     <string name="previous">ئالدىنقى</string>
     <string name="stop">توختا</string>
-    <string name="next">كېيىنكى</string>
     <string name="locked">قۇلۇپلانغان</string>
     <string name="unlocked">قۇلۇپ ئېچىلغان</string>
     <string name="surface_best_fit">ئەڭ مۇۋاپىق</string>
@@ -200,4 +199,5 @@
 
     <string name="drawer_open">يولباشچى تىزىملىكىنى ئاچ</string>
     <string name="drawer_close">يولباشچى تىزىملىكىنى تاقا</string>
+    <string name="next">كېيىنكى</string>
     </resources>
