@@ -486,7 +486,6 @@
     <string name="directory_show_medialib">Afficher dans la bibliothèque multimédia</string>
     <string name="directory_hide_medialib">Cacher de la bibliothèque multimédia</string>
     <string name="playlist_save">Enregistrer la liste de lecture</string>
-    <string name="playlist_name_hint">Nom de la liste de lecture</string>
     <string name="go_to_chapter">Aller au chapitre…</string>
     <string name="chapter">Chapitre</string>
     <string name="resume_from_position">Reprendre depuis la dernière position</string>
@@ -646,7 +645,7 @@
     <string name="ctx_player_tracks_title">Sélectionner une piste multimédia</string>
     <string name="ctx_pip_title">Lecteur pop-up</string>
     <string name="device_dialog_title">Périphérique externe inséré</string>
-    <string name="device_dialog_message">Vous venez de brancher un nouveau périphérique de stockage à votre décodeur TV, voulez-vous l\'ouvrir avec VLC ?</string>
+    <string name="device_dialog_message">Vous venez de brancher un nouveau périphérique de stockage à votre box TV, voulez-vous l\'ouvrir avec VLC ?</string>
     <string name="videos_folders_title">Vidéos par dossiers</string>
     <string name="video_save_remote_setting">Activer automatiquement le mode commande à distance ?</string>
     <string name="video_save_clone_mode">Activer automatiquement le mode clone ?</string>
@@ -665,4 +664,4 @@
     <string name="onboarding_scan_customize">Me laisser choisir quels dossiers doit analyser VLC</string>
     <string name="button_medialibrary_preferences">Aller aux préférences de Medialibrary</string>
     <string name="light_theme">Thème clair</string>
-</resources>
+    </resources>
