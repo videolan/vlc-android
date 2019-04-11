@@ -113,7 +113,6 @@
     <string name="repeat_all">เล่นซ้ำทั้งหมด</string>
     <string name="previous">ก่อนหน้า</string>
     <string name="stop">หยุด</string>
-    <string name="next">ถัดไป</string>
     <string name="firstsong">เพลงแรกของเพลย์ลิสต์</string>
     <string name="lastsong">เพลงสุดท้ายของเพลย์ลิสต์</string>
 
@@ -140,7 +139,6 @@
     <string name="navmenu">เมนูนำทาง</string>
     <string name="advanced">ตัวเลือกขั้นสูง</string>
     <string name="audio_boost_warning">เลื่อนขึ้นอีกครั้งเพื่อปรับให้เกิน 100%</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="other">%1$d ช่อง\n</item>
     </plurals>
@@ -433,7 +431,6 @@
     <string name="directory_show_medialib">แสดงในคลังสื่อ</string>
     <string name="directory_hide_medialib">ซ่อนจากคลังสื่อ</string>
     <string name="playlist_save">บันทึกเพลย์ลิสต์</string>
-    <string name="playlist_name_hint">ชื่อเพลย์ลิสต์</string>
     <string name="go_to_chapter">ไปที่ตอน…</string>
     <string name="chapter">ตอน</string>
     <string name="resume_from_position">เล่นต่อจากตำแหน่งที่เล่นล่าสุด</string>
@@ -553,4 +550,5 @@
     <string name="sdcard_permission_dialog_message">VLC ไม่สามารถลบไฟล์นี้ได้โดยไม่ได้เขียนสิทธิ์การเข้าถึง\nกรุณาไปที่ SD การ์ดของคุณและคลิก \"เลือก\"\nคุณอาจต้องคลิก \"แสดง SD การ์ด\" ในเมนูบนขวาก่อน</string>
     <string name="dialog_sd_wizard">แสดงวิธีการ</string>
     <string name="renderers_disconnect">ยกเลิกการเชื่อมต่อ</string>
+    <string name="next">ถัดไป</string>
     </resources>
