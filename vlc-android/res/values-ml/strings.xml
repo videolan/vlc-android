@@ -118,7 +118,6 @@
     <string name="repeat_all">എല്ലാം ആവര്‍ത്തിക്കുക</string>
     <string name="previous">മുന്‍പുള്ളത്</string>
     <string name="stop">നിറുത്തുക</string>
-    <string name="next">അടുത്തത്</string>
     <string name="firstsong">പ്ലേലിസ്റ്റിലെ ആദ്യ ഗാനം</string>
     <string name="lastsong">പ്ലേലിസ്റ്റിലെ അവസാന ഗാനം</string>
 
@@ -145,7 +144,6 @@
     <string name="navmenu">ഗതിനിയന്ത്രണ പട്ടിക</string>
     <string name="advanced">വിപുലീകരിച്ച ഐച്ഛികങ്ങൾ</string>
     <string name="audio_boost_warning">100% ത്തില്‍ കൂടുതല്‍ പോകാന്‍ മുകളിലേക്ക് ഇനിയും നീക്കുക</string>
-
     <string name="track_resolution_info">റെസല്യൂഷന്‍ %1$dX%2$d\n</string>
     <string name="tools">ഉപകരണങ്ങള്‍</string>
     <string name="playback_speed">പ്ളേബാക്ക് വേഗത</string>
@@ -308,4 +306,5 @@
     <string name="feedback_player_crashed">ക്ഷമിക്കുക, വിഎല്‍സി തകരാറിലായി. ദയവായി ഒന്നുകൂടി ശ്രമിക്കുക</string>
     <string name="dialog_sd_wizard">എനിക്ക് കാണിച്ചു തരൂ</string>
     <string name="renderers_disconnect">ബന്ധം വിച്ഛേദിക്കുക</string>
+    <string name="next">അടുത്തത്</string>
     </resources>
