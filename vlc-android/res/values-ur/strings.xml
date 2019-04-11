@@ -76,7 +76,6 @@
     <string name="cover_art">کَور آرٹ</string>
     <string name="previous">سابقہ</string>
     <string name="stop">روکیں</string>
-    <string name="next">اگلا</string>
     <string name="locked">لاک</string>
     <string name="unlocked">کھلا ہوا</string>
     <string name="surface_best_fit">جیسے بہترین لگے</string>
@@ -156,4 +155,5 @@
     <string name="clear_log">خاموش ریکارڈ ختم کریں</string>
     <string name="copy_to_clipboard">کِلپ بورڈ پر کاپی کریں</string>
     <string name="copied_to_clipboard">کلپ بورڈ میں لاگ میں نقل کردیا گيا ھے.</string>
+    <string name="next">اگلا</string>
     </resources>
