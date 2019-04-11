@@ -119,7 +119,6 @@
     <string name="repeat_all">सबै दोहोर्याउनुहोस्</string>
     <string name="previous">अघिल्लो</string>
     <string name="stop">रोक्नुहोस</string>
-    <string name="next">पछिल्लो</string>
     <string name="firstsong">वाद्यसूचीको पहिलो गीत</string>
     <string name="lastsong">वाद्यसूचीको अन्तिम गीत</string>
 
@@ -272,7 +271,6 @@
     <string name="browsing">ब्राउजिङ</string>
 
     <string name="playlist_save">प्लेलिस्ट सङ्ग्रह गर्नुहोस्</string>
-    <string name="playlist_name_hint">प्लेलिस्ट नाम</string>
     <string name="go_to_chapter">च्याप्टरमा जानुहोस्</string>
     <string name="chapter">च्याप्टर</string>
     <string name="tv_ui_title">Android टिभी इन्टर्फेस</string>
@@ -325,4 +323,5 @@
     <string name="recommendations">सिफारिसहरू</string>
     <string name="browser_quick_access">छरितो पहुँच</string>
     <string name="browser_storages">भण्डारण</string>
+    <string name="next">पछिल्लो</string>
     </resources>
