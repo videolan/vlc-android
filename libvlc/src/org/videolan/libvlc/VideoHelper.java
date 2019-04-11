@@ -216,6 +216,8 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
             lp.width  = ViewGroup.LayoutParams.MATCH_PARENT;
             lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
             mVideoSurface.setLayoutParams(lp);
+            if (mSubtitlesSurface != null)
+                mSubtitlesSurface.setLayoutParams(lp);
             lp = mVideoSurfaceFrame.getLayoutParams();
             lp.width  = ViewGroup.LayoutParams.MATCH_PARENT;
             lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
