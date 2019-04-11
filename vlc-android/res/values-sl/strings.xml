@@ -18,6 +18,7 @@
     <string name="sortby_length_desc">dolžini (opis)</string>
     <string name="sortby_date">datumu</string>
     <string name="sortby_date_desc">datumu (opis)</string>
+    <string name="sortby_last_modified_date">Nedavno dodano</string>
     <string name="sortby_number">številu posnetkov</string>
     <string name="sortby_number_desc">številu posnetkov (opis)</string>
     <string name="searchable_hint">Poišči …</string>
@@ -54,6 +55,8 @@
     <string name="confirm_delete">Ali želite izbrisati datoteko »%1$s«?</string>
     <string name="confirm_delete_folder">Ali želite izbrisati mapo »%1$s« z vso vsebino?</string>
     <string name="confirm_delete_playlist">Ali želite izbrisati seznam predvajanja »%1$s«?</string>
+    <string name="confirm_remove_from_playlist">Odstranim %1$s iz seznama predvajanja?</string>
+    <string name="confirm_remove_from_playlist_anonymous">Odstranim iz seznama predvajanja?</string>
     <string name="ringtone_set">Datoteka »%1$s« je nastavljena kot zvok zvonjenja.</string>
     <string name="ringtone_error">Pri nastavljanju zvoka za zvonjenje je prišlo do napake.</string>
     <string name="pause">Premor</string>
@@ -135,7 +138,6 @@
     <string name="repeat_all">Ponovi vse</string>
     <string name="previous">Predhodni</string>
     <string name="stop">Zaustavi</string>
-    <string name="next">Naslednji</string>
     <string name="firstsong">Prva skladba s seznama predvajanja</string>
     <string name="lastsong">Zadnja skladba s seznama predvajanja</string>
 
@@ -162,7 +164,6 @@
     <string name="navmenu">meni krmarjenja</string>
     <string name="advanced">napredne možnosti</string>
     <string name="audio_boost_warning">Potegnite znova za vrednosti nad 100 %.</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 kanal\n</item>
         <item quantity="two">%1$d kanala\n</item>
@@ -222,6 +223,7 @@
     <string name="playback_speed_title">Shrani hitrost predvajanja</string>
     <string name="playback_speed_summary">Program si zapomni nastavljeno hitrost predvajanja</string>
 
+    <string name="play_button">Gumb Predvajaj</string>
     <!-- Tips -->
     <string name="video_player_tips">Namigi predvajalnika:</string>
     <string name="seek">Išči</string>
@@ -371,6 +373,7 @@
     <string name="casting_quality_medium">Srednja</string>
     <string name="casting_quality_low">Nizka</string>
     <string name="casting_quality_lowcpu">Najnižja</string>
+    <string name="casting_connected_renderer">Vzpostavljena je povezava z izrisovalnikom »%1$s«.</string>
     <string name="artists_show_all_title">Pokaži vse izvajalce</string>
     <string name="extensions_prefs_category">Razširitve</string>
     <string name="extensions_enable_category">Izbor razširitev za uporabo</string>
@@ -416,7 +419,7 @@
     <string name="quit">Končaj in ponovno zaženi program</string>
     <string name="restart_message_OK">V redu</string>
     <string name="restart_message_Later">Pozneje</string>
-
+    <string name="browser_show_all_title">Prikaži vse datoteke v brskalniku</string>
     <string name="developer_prefs_category">Razvijalec</string>
     <string name="enable_verbose_mode">Podrobno</string>
     <string name="enable_verbose_mode_summary">Povečaj podrobnost izpisa (logcat)</string>
@@ -437,6 +440,16 @@
     <string name="send_log">Pošlji dnevnik</string>
     <string name="sending_log">Poteka pošiljanje dnevnika …</string>
 
+    <string name="delete_sub_title">Izbriši podnapis</string>
+    <string name="delete_sub_message">Želite izbrisati ta podnapis?</string>
+    <string name="delete_sub_yes">Da</string>
+    <string name="delete_sub_no">Ne</string>
+    <string name="download_subtitle_title">Prenesi podnapis</string>
+
+    <string name="no_result">Ni najdenih zadetkov</string>
+    <string name="no_internet_connection">Preverite internetno povezavo</string>
+    <string name="some_error_occurred">Prišlo je do napake. Poskusite znova čez nekaj sekund</string>
+
     <string name="drawer_open">Odpri predalnik krmarjenja</string>
     <string name="drawer_close">Zapri predalnik krmarjenja</string>
     <string name="network_browsing">Krajevno omrežje</string>
@@ -456,7 +469,6 @@
     <string name="directory_show_medialib">Prikaži v knjižnici MediaLib</string>
     <string name="directory_hide_medialib">Skrij pred knjižnico MediaLib</string>
     <string name="playlist_save">Shrani seznam predvajanja</string>
-    <string name="playlist_name_hint">ime seznama predvajanja</string>
     <string name="go_to_chapter">Skoči na poglavje …</string>
     <string name="chapter">Poglavje</string>
     <string name="resume_from_position">Nadaljuj pri nazadnje ustavljenem mestu</string>
@@ -575,5 +587,22 @@
     <string name="feedback_player_crashed">VLC se je ustavil. Poskusite ponovno.</string>
     <string name="dialog_sd_wizard">Pokaži</string>
     <string name="renderers_disconnect">Prekini povezavo</string>
+    <string name="playback_forward">Naprej</string>
     <string name="tv_my_new_videos">Moji novi posnetki</string>
+    <string name="otg_device_title">Naprava OTG</string>
+    <string name="browser">Brskalnik</string>
+    <string name="ab_repeat">Ponavajanje A-B</string>
+    <string name="time_category_current_month">Ta mesec</string>
+    <string name="time_category_current_year">To leto</string>
+    <string name="rename">Preimenuj</string>
+    <string name="rename_media">Preimenuj %1$s</string>
+    <string name="manual_search">Ročno iskanje</string>
+    <string name="subtitle_search_name_hint">Ime</string>
+    <string name="subtitle_search_episode_hint">Epizoda</string>
+    <string name="subtitle_search_season_hint">Sezona</string>
+    <string name="language_to_download">Jezik</string>
+    <string name="delete_the_selected">Izbriši izbrano</string>
+    <string name="download_the_selected">Prenesi izbrano</string>
+    <string name="next">Naslednji</string>
+    <string name="download">Prenesi</string>
     </resources>
