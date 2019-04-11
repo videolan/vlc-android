@@ -2,12 +2,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
-    <string name="ok">Ih</string>
-    <string name="cancel">Semmet</string>
+    <string name="ok">IH</string>
+    <string name="cancel">Sefsex</string>
     <string name="other">Wayeḍ</string>
     <string name="sortby">Fren s…</string>
     <string name="sortby_name">Isem</string>
+    <string name="sortby_filename">Isem n ufaylu</string>
+    <string name="sortby_artist_name">Isem n unaẓuṛ</string>
+    <string name="sortby_album_name">Isem n ulbum</string>
     <string name="sortby_length">Teɣzi</string>
+    <string name="sortby_date">Azemz</string>
+    <string name="sortby_last_modified_date">Yettwarna melmi kan</string>
     <string name="searchable_hint">Nadi…</string>
     <string name="history">Amazray</string>
 
@@ -29,6 +34,7 @@
     <string name="unknown_artist">Anaẓur ur nettwassen ara</string>
     <string name="unknown_album">Album ur nettwassen ara</string>
     <string name="unknown_genre">Tawsi ur nettwassen ara</string>
+    <string name="songs">Tuɣac</string>
     <string name="artists">Inaẓuren</string>
     <string name="internal_memory">Tkatut tadigant</string>
     <string name="parent_folder">Uɣal s akaram ababat</string>
@@ -54,9 +60,9 @@
     <string name="validation">Tetḥeqqeḍ?</string>
 
     <string name="cover_art">Taduli</string>
+    <string name="repeat_all">Ales akk</string>
     <string name="previous">Win yezrin</string>
     <string name="stop">Ḥbes</string>
-    <string name="next">Win ɣer-s</string>
     <string name="locked">Isekkeṛ</string>
     <string name="unlocked">Yekkes usekkeṛ</string>
     <string name="surface_best_fit">Ajuster au mieux</string>
@@ -77,6 +83,10 @@
     <string name="jump_to_time">Akud</string>
     <string name="no_file_picker_found">Ulac anaram n fuyla.</string>
 
+    <string name="server_username_hint">Isem n useqdac</string>
+    <string name="password">Awal uffir</string>
+
+    <string name="search_results">Igemmaḍ n unadi</string>
     <string name="open">Ldi</string>
     <string name="open_mrl_dialog_title">Ldi asuddem ɣef uẓetta</string>
     <string name="error_not_compatible">Surfaɣ, lqem-agi n VLC i Android™ ur izmir ara i wallal-inek/inem.</string>
@@ -148,4 +158,5 @@
     <string name="send_log">Azen aɣmis</string>
     <string name="sending_log">Tuzzna n uɣmis…</string>
 
+    <string name="next">Win ɣer-s</string>
     </resources>
