@@ -178,25 +178,29 @@ VLCJniObject_eventCallback(const libvlc_event_t *ev, void *data)
 
     assert(p_obj->p_libvlc);
 
-    java_event jevent = { -1, 0, 0, 0.0 };
+    java_event jevent = { -1, 0, 0, 0.0, NULL };
+
+    if (!(env = jni_get_env(THREAD_NAME)))
+        return;
 
     if (!p_obj->p_owner->pf_event_cb(p_obj, ev, &jevent))
         return;
 
-    if (!(env = jni_get_env(THREAD_NAME)))
-        return;
+    jstring string = jevent.argc1 ? (*env)->NewStringUTF(env, jevent.argc1) : NULL;
 
     if (p_obj->p_owner->weak)
         (*env)->CallVoidMethod(env, p_obj->p_owner->weak,
                                fields.VLCObject.dispatchEventFromNativeID,
                                jevent.type, jevent.arg1, jevent.arg2,
-                               jevent.argf1);
+                               jevent.argf1, string);
     else
         (*env)->CallStaticVoidMethod(env, fields.VLCObject.clazz,
                                      fields.VLCObject.dispatchEventFromWeakNativeID,
                                      p_obj->p_owner->weakCompat,
                                      jevent.type, jevent.arg1, jevent.arg2,
-                                     jevent.argf1);
+                                     jevent.argf1, string);
+    if (jevent.argc1)
+        (*env)->ReleaseStringUTFChars(env, string, jevent.argc1);
 }
 
 void

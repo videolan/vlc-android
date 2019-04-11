@@ -106,7 +106,7 @@ public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
     }
 
     @Override
-    protected Event onEventNative(int eventType, long arg1, long arg2, float argf1) {
+    protected Event onEventNative(int eventType, long arg1, long arg2, float argf1, @Nullable String args1) {
         switch (eventType) {
             case Event.Started:
             case Event.Ended:

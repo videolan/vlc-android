@@ -27,6 +27,8 @@ import org.videolan.libvlc.util.HWDecoderUtil;
 
 import java.util.ArrayList;
 
+import androidx.annotation.Nullable;
+
 @SuppressWarnings("unused, JniMissingFunction")
 public class LibVLC extends VLCObject<LibVLC.Event> {
     private static final String TAG = "VLC/LibVLC";
@@ -103,7 +105,7 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
     public native String changeset();
 
     @Override
-    protected Event onEventNative(int eventType, long arg1, long arg2, float argf1) {
+    protected Event onEventNative(int eventType, long arg1, long arg2, float argf1, @Nullable String args1) {
         return null;
     }
 

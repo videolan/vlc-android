@@ -23,6 +23,7 @@ package org.videolan.libvlc;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.collection.LongSparseArray;
 
 public class RendererDiscoverer extends VLCObject<RendererDiscoverer.Event> {
@@ -111,7 +112,7 @@ public class RendererDiscoverer extends VLCObject<RendererDiscoverer.Event> {
     }
 
     @Override
-    protected Event onEventNative(int eventType, long arg1, long arg2, float argf1) {
+    protected Event onEventNative(int eventType, long arg1, long arg2, float argf1, @Nullable String args1) {
         switch (eventType) {
             case Event.ItemAdded:
                 return new Event(eventType, arg1, insertItemFromEvent(arg1));

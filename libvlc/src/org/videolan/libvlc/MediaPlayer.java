@@ -75,6 +75,14 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         public static final int ESAdded             = 0x114;
         public static final int ESDeleted           = 0x115;
         public static final int ESSelected          = 0x116;
+//        public static final int Corked              = 0x117;
+//        public static final int Uncorked            = 0x118;
+//        public static final int Muted               = 0x119;
+//        public static final int Unmuted             = 0x11a;
+//        public static final int AudioVolume         = 0x11b;
+//        public static final int AudioDevice         = 0x11c;
+//        public static final int ChapterChanged      = 0x11d;
+        public static final int RecordChanged       = 0x11e;
 
         protected Event(int type) {
             super(type);
@@ -89,6 +97,10 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
 
         protected Event(int type, float argf) {
             super(type, argf);
+        }
+
+        protected Event(int type, long arg1, @Nullable String args1) {
+            super(type, arg1, args1);
         }
 
         public long getTimeChanged() {
@@ -119,6 +131,13 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
         }
         public float getBuffering() {
             return argf1;
+        }
+        public boolean getRecording() {
+            return arg1 != 0;
+        }
+        @Nullable
+        public String getRecordPath() {
+            return args1;
         }
     }
 
@@ -1307,7 +1326,7 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     }
 
     @Override
-    protected synchronized Event onEventNative(int eventType, long arg1, long arg2, float argf1) {
+    protected synchronized Event onEventNative(int eventType, long arg1, long arg2, float argf1, @Nullable String args1) {
         switch (eventType) {
             case Event.MediaChanged:
             case Event.Stopped:
@@ -1338,6 +1357,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
             case Event.SeekableChanged:
             case Event.PausableChanged:
                 return new Event(eventType, arg1);
+            case Event.RecordChanged:
+                return new Event(eventType, arg1, args1);
         }
         return null;
     }

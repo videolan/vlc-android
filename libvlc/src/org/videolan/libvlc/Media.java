@@ -22,13 +22,14 @@ package org.videolan.libvlc;
 
 import android.content.res.AssetFileDescriptor;
 import android.net.Uri;
-import androidx.annotation.Nullable;
 
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.HWDecoderUtil;
 import org.videolan.libvlc.util.VLCUtil;
 
 import java.io.FileDescriptor;
+
+import androidx.annotation.Nullable;
 
 @SuppressWarnings("unused, JniMissingFunction")
 public class Media extends VLCObject<Media.Event> {
@@ -492,7 +493,7 @@ public class Media extends VLCObject<Media.Event> {
     }
 
     @Override
-    protected synchronized Event onEventNative(int eventType, long arg1, long arg2, float argf1) {
+    protected synchronized Event onEventNative(int eventType, long arg1, long arg2, float argf1, @Nullable String args1) {
         switch (eventType) {
         case Event.MetaChanged:
             // either we update all metas (if first call) or we update a specific meta

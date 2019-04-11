@@ -47,6 +47,7 @@ static const libvlc_event_type_t mp_events[] = {
     libvlc_MediaPlayerSeekableChanged,
     libvlc_MediaPlayerPausableChanged,
     libvlc_MediaPlayerLengthChanged,
+    libvlc_MediaPlayerRecordChanged,
     -1,
 };
 
@@ -108,6 +109,10 @@ MediaPlayer_event_cb(vlcjni_object *p_obj, const libvlc_event_t *p_ev,
             break;
         case libvlc_MediaPlayerLengthChanged:
             p_java_event->arg1 = p_ev->u.media_player_length_changed.new_length;
+            break;
+        case libvlc_MediaPlayerRecordChanged:
+            p_java_event->arg1 = p_ev->u.media_player_record_changed.recording;
+            p_java_event->argc1 = p_ev->u.media_player_record_changed.file_path;
             break;
     }
     p_java_event->type = p_ev->type;

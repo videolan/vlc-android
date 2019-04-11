@@ -20,33 +20,47 @@
 
 package org.videolan.libvlc;
 
+import androidx.annotation.Nullable;
+
 public abstract class VLCEvent {
     public final int type;
     protected final long arg1;
     protected final long arg2;
     protected final float argf1;
+    protected final String args1;
 
     VLCEvent(int type) {
         this.type = type;
         this.arg1 = this.arg2 = 0;
         this.argf1 = 0.0f;
+        this.args1 = null;
     }
     VLCEvent(int type, long arg1) {
         this.type = type;
         this.arg1 = arg1;
         this.arg2 = 0;
         this.argf1 = 0.0f;
+        this.args1 = null;
     }
     VLCEvent(int type, long arg1, long arg2) {
         this.type = type;
         this.arg1 = arg1;
         this.arg2 = arg2;
         this.argf1 = 0.0f;
+        this.args1 = null;
     }
     VLCEvent(int type, float argf) {
         this.type = type;
         this.arg1 = this.arg2 = 0;
         this.argf1 = argf;
+        this.args1 = null;
+    }
+    VLCEvent(int type, long arg1, @Nullable String args1) {
+        this.type = type;
+        this.arg1 = arg1;
+        this.arg2 = 0;
+        this.argf1 = 0.0f;
+        this.args1 = args1;
     }
 
     void release() {

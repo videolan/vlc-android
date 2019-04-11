@@ -206,7 +206,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
     GET_ID(GetMethodID,
            fields.VLCObject.dispatchEventFromNativeID,
            fields.VLCObject.clazz,
-           "dispatchEventFromNative", "(IJJF)V");
+           "dispatchEventFromNative", "(IJJFLjava/lang/String;)V");
 
     if (fields.SDK_INT <= 13)
     {
@@ -218,7 +218,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
         GET_ID(GetStaticMethodID,
                fields.VLCObject.dispatchEventFromWeakNativeID,
                fields.VLCObject.clazz,
-               "dispatchEventFromWeakNative", "(Ljava/lang/Object;IJJF)V");
+               "dispatchEventFromWeakNative", "(Ljava/lang/Object;IJJFLjava/lang/String;)V");
     } else
     {
         fields.VLCObject.getWeakReferenceID = NULL;

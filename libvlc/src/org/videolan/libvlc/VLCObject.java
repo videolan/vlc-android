@@ -25,6 +25,8 @@ import android.os.Looper;
 
 import java.lang.ref.WeakReference;
 
+import androidx.annotation.Nullable;
+
 @SuppressWarnings("JniMissingFunction")
 abstract class VLCObject<T extends VLCEvent> {
     private VLCEvent.Listener<T> mEventListener = null;
@@ -131,7 +133,7 @@ abstract class VLCObject<T extends VLCEvent> {
      * @param argf1 first float argument
      * @return Event that will be dispatched to listeners
      */
-    protected abstract T onEventNative(int eventType, long arg1, long arg2, float argf1);
+    protected abstract T onEventNative(int eventType, long arg1, long arg2, float argf1, String args1);
 
     /**
      * Called when native object is released (refcount is 0).
@@ -143,10 +145,10 @@ abstract class VLCObject<T extends VLCEvent> {
     /* JNI */
     @SuppressWarnings("unused") /* Used from JNI */
     private long mInstance = 0;
-    private synchronized void dispatchEventFromNative(int eventType, long arg1, long arg2, float argf1) {
+    private synchronized void dispatchEventFromNative(int eventType, long arg1, long arg2, float argf1, @Nullable String args1) {
         if (isReleased())
             return;
-        final T event = onEventNative(eventType, arg1, arg2, argf1);
+        final T event = onEventNative(eventType, arg1, arg2, argf1, args1);
 
         class EventRunnable implements Runnable {
             private final VLCEvent.Listener<T> listener;
@@ -175,9 +177,9 @@ abstract class VLCObject<T extends VLCEvent> {
     }
     @SuppressWarnings("unchecked,unused") /* Used from JNI */
     private static void dispatchEventFromWeakNative(Object weak, int eventType, long arg1, long arg2,
-                                                    float argf1) {
+                                                    float argf1, @Nullable String args1) {
         VLCObject obj = ((WeakReference<VLCObject>)weak).get();
         if (obj != null)
-            obj.dispatchEventFromNative(eventType, arg1, arg2, argf1);
+            obj.dispatchEventFromNative(eventType, arg1, arg2, argf1, args1);
     }
 }
