@@ -49,9 +49,11 @@
     <string name="play_all">Chwarae pob un</string>
     <string name="append_all">Atodi\'r cwbl</string>
     <string name="last_playlist">Rhestr chwarae diwethaf</string>
+    <string name="last_playlist_shortcut">Parhau i chwarae</string>
     <string name="delete">Dileu</string>
     <string name="remove">Tynnu</string>
     <string name="set_song">Gosod fel sain canu</string>
+    <string name="set_song_question">Gosod \'%1$s\' fel y tôn canu?</string>
     <string name="info">Gwybodaeth</string>
     <string name="confirm_delete">Dileu\'r ffeil \'%1$s\'?</string>
     <string name="confirm_delete_folder">Dileu\'r ffolder \'%1$s\' a\'i holl gynnwys?</string>
@@ -139,7 +141,6 @@
     <string name="repeat_all">Ail-chwarae\'r cwbl</string>
     <string name="previous">Blaenorol</string>
     <string name="stop">Stopio</string>
-    <string name="next">Nesaf</string>
     <string name="firstsong">Trac cyntaf y rhestr chwarae</string>
     <string name="lastsong">Trac olaf y rhestr chwarae</string>
 
@@ -166,6 +167,9 @@
     <string name="navmenu">dewislen llywio</string>
     <string name="advanced">dewisiadau uwch</string>
     <string name="audio_boost_warning">Llusga fyny eto i fynd dros 100%</string>
+    <string name="locked_in_portrait_mode">Wedi cloi ym modd darlun.\n(Dalia fotwm yn hir i\'w diddymu.)</string>
+    <string name="locked_in_landscape_mode">Wedi cloi ym modd tirlun.\n(Dalia fotwm yn hir i\'w diddymu.)</string>
+    <string name="reset_orientation">Ailosod gorweddiad</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 sianel\n</item>
@@ -300,6 +304,7 @@
     <string name="video_min_group_length_title">Grwpio fideos</string>
     <string name="video_min_group_length_summary">Grwpio fideos yn ôl eu llythrennau cyntaf.</string>
     <string name="video_min_group_length_disable">Analluogi</string>
+    <string name="video_min_group_length_folder">Grwpio fesul ffolder</string>
     <string name="video_min_group_length_first">Llythyren cyntaf yn unig</string>
     <string name="video_min_group_length_short">Nifer fach o lythrennau (6)</string>
     <string name="video_min_group_length_long">Nifer fawr o lythrennau (9)</string>
@@ -374,8 +379,10 @@
     <string name="audio_ducking_title">Gostwng lefel sain VLC pan fo hysbysiadau</string>
     <string name="audio_ducking_summary">Mae\'n dy helpu i fedru clywed hysbysiadau, cyfarwyddiadau llywiwr neu gynorthwyydd yn siarad</string>
     <string name="casting_category">Castio</string>
+    <string name="casting_switch_title">Bwrw di-wifr</string>
     <string name="casting_passthrough_summary">Gadael i dy deledu rheoli rendro sain</string>
     <string name="casting_conversion_quality_title">Ansawdd trosiad</string>
+    <string name="casting_conversion_quality_summary">Dewis ansawdd trosiad wrth fwrw ar sgrin arall</string>
     <string name="casting_quality_high">Uchel</string>
     <string name="casting_quality_medium">Canolig</string>
     <string name="casting_quality_low">Isel</string>
@@ -432,6 +439,8 @@
     <string name="restart_message">Caiff newidiadau eu rhoi ar waith pan fydd yr ap wedi ail-ddechrau.\n\nAil-ddechrau nawr?</string>
     <string name="restart_message_OK">Iawn</string>
     <string name="restart_message_Later">Yn hwyrach</string>
+    <string name="browser_show_all_title">Dangos pob ffeil yn y porwr</string>
+    <string name="browser_show_all_summary">Dangos yn y porwr ffeiliau na sy\'n cael eu hadnabod fel rhai sain neu fideo.</string>
 
     <string name="developer_prefs_category">Datblygwr</string>
     <string name="enable_verbose_mode">Amleiriog</string>
@@ -447,11 +456,23 @@
     <string name="dump_logcat">Dympio log logcat</string>
     <string name="dump_logcat_success">Dympiwyd logcat i %1$s!</string>
     <string name="dump_logcat_failure">Methwyd dympio logcat.</string>
+    <string name="custom_libvlc_options">Dewisiadau libVLC dy hun</string>
+
     <string name="serious_crash">Yn anffodus, bu gwall difrifol ac roedd rhaid cae VLC.</string>
     <string name="help_us_send_log">Helpwch ni wella VLC gan anfon y log canlynol o\'r broblem:</string>
     <string name="restart_vlc">Ail-ddechrau VLC</string>
     <string name="send_log">Anfon y log</string>
     <string name="sending_log">Yn anfon y log…</string>
+
+    <string name="delete_sub_title">Dileu isdeitlau</string>
+    <string name="delete_sub_message">Wyt ti am ddileu yr isdeitlau hyn?</string>
+    <string name="delete_sub_yes">Ydw</string>
+    <string name="delete_sub_no">Nac ydw</string>
+    <string name="download_subtitle_title">Lawrlwytho Isdeitlau</string>
+
+    <string name="no_result">Ni chanfuwyd unrhyw beth</string>
+    <string name="no_internet_connection">Gwiria dy gysylltiad rhyngrwyd</string>
+    <string name="some_error_occurred">Bu gwall o ryw fath. Rho gynnig arall arni ymen rhai eiliadau.</string>
 
     <string name="drawer_open">Agor blwch llywio</string>
     <string name="drawer_close">Cau blwch llywio</string>
@@ -472,7 +493,6 @@
     <string name="directory_show_medialib">Dangos yn MediaLib</string>
     <string name="directory_hide_medialib">Cuddio o MediaLib</string>
     <string name="playlist_save">Cadw Rhestr Chwarae</string>
-    <string name="playlist_name_hint">enw\'r rhestr chwarae</string>
     <string name="go_to_chapter">Mynd at bennod…</string>
     <string name="chapter">Pennod</string>
     <string name="resume_from_position">Parhau o\'r man diwethaf</string>
@@ -599,7 +619,9 @@
     <string name="playback_rewind">Troi nôl</string>
     <string name="playback_forward">Ymlaen yn gyflym</string>
     <string name="ml_wizard_scan_checkbox">Sganio\'r ddyfais am gynnwys cyfryngau</string>
+    <string name="ml_wizard_description">Dewis a all VLC sganio storfa dy ddyfais i drefnu dy lyfrgell cyfryngau neu dim ond i\'w defnyddio fel chwaraeydd syml gyda phorwr integredig.</string>
     <string name="tv_my_new_videos">Fy fideos newydd</string>
+    <string name="cast_option_title">Bwrw cyfryngau ar sgrin arall</string>
     <string name="otg_device_title">Dyfais OTG</string>
     <string name="browser">Porwr</string>
     <string name="ab_repeat">Ailadrodd A-B</string>
@@ -611,4 +633,27 @@
     <string name="time_category_older">Cyfryngau hyn</string>
     <string name="rename">Ailenwi</string>
     <string name="rename_media">Ailenwi %1$s</string>
-</resources>
+    <string name="manual_search">Chwiliad â llaw</string>
+    <string name="subtitle_search_name_hint">Enw</string>
+    <string name="subtitle_search_episode_hint">Pennod</string>
+    <string name="subtitle_search_season_hint">Cyfres</string>
+    <string name="language_to_download">Iaith</string>
+    <string name="delete_the_selected">Dileu\'r dewis</string>
+    <string name="download_the_selected">Lawrlwytho\'r dewis</string>
+    <string name="next">Nesaf</string>
+    <string name="download">Lawrlwytho</string>
+    <string name="ctx_player_video_track">Dewisa trac fideo</string>
+    <string name="ctx_player_audio_track">Trac sain</string>
+    <string name="ctx_player_subs_track">Trac isdeitlau</string>
+    <string name="ctx_player_tracks_title">Traciau cyfryngau</string>
+    <string name="device_dialog_title">Gosodwyd dyfais allanol</string>
+    <string name="device_dialog_message">Rwyt newydd gysylltu dyfais storfa newydd i dy flwch teledu. Wyt ti am ei agor gyda VLC?</string>
+    <string name="videos_folders_title">Fideos fesul ffolder</string>
+    <string name="done">Iawn</string>
+    <string name="onboarding_scan_title">Awto-ganfod dy gyfryngau</string>
+    <string name="daynight_explanation">Bydd VLC yn troi yn awtomatig i fodd nos am amser priodol</string>
+    <string name="onboarding_scanning_enable">Gadael i VLC sganio fy nyfais am gynnwys cyfryngau</string>
+    <string name="onboarding_scan_whole">Bydd VLC yn sganio fy ngherdyn SD cyfan</string>
+    <string name="onboarding_scan_customize">Gadael i mi ddewis pa ffolderi bydd VLC yn eu sganio</string>
+    <string name="light_theme">Thema olau</string>
+    </resources>
