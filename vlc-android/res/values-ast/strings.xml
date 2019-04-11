@@ -87,7 +87,6 @@
     <string name="cover_art">Portada</string>
     <string name="previous">Anterior</string>
     <string name="stop">Detener</string>
-    <string name="next">Siguiente</string>
     <string name="locked">Bloquiáu</string>
     <string name="unlocked">Desbloquiáu</string>
     <string name="surface_best_fit">Meyor axuste</string>
@@ -169,4 +168,5 @@
     <string name="quit">Sali y reanicia l\'aplicación</string>
     <string name="enable_verbose_mode">Detalláu</string>
     <string name="enable_verbose_mode_summary">Incrementar el nivel de detalle (logcat)</string>
+    <string name="next">Siguiente</string>
     </resources>
