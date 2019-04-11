@@ -53,7 +53,6 @@
     <string name="directories">Mappen</string>
     <string name="notavailable">net beskikber</string>
     <string name="previous">Foarige</string>
-    <string name="next">Folgjende</string>
     <string name="track_audio">Audiospoar</string>
     <string name="track_video">Fideospoar</string>
     <string name="track_codec_info">Codec: %1$s\n</string>
@@ -79,4 +78,5 @@
     <string name="audio_title_alignment_right">Rjochts</string>
     <string name="advanced_prefs_category">Avansearre</string>
     <string name="developer_prefs_category">Untwikkeler</string>
+    <string name="next">Folgjende</string>
     </resources>
