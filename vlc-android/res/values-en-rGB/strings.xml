@@ -87,7 +87,6 @@
     <string name="cover_art">Cover art</string>
     <string name="previous">Previous</string>
     <string name="stop">Stop</string>
-    <string name="next">Next</string>
     <string name="locked">Locked</string>
     <string name="unlocked">Unlocked</string>
     <string name="surface_best_fit">Best fit</string>
@@ -240,4 +239,5 @@
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="next">Next</string>
     </resources>
