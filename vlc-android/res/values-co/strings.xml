@@ -127,7 +127,6 @@
     <string name="repeat_all">Ripete tutti</string>
     <string name="previous">Precedente</string>
     <string name="stop">Piantà</string>
-    <string name="next">Seguente</string>
     <string name="firstsong">Prima canzona di a lista di lettura</string>
     <string name="lastsong">Ultima canzona di a lista di lettura</string>
 
@@ -154,7 +153,6 @@
     <string name="navmenu">listinu di navigazione</string>
     <string name="advanced">ozzioni esperti</string>
     <string name="audio_boost_warning">Sculiscià torna insù per andà à più di 100%</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canale\n</item>
         <item quantity="other">%1$d canali\n</item>
@@ -423,7 +421,6 @@
     <string name="restart_message">I cambiamenti seranu pigliati in contu quandu l\'appiecazione serà rilanciata.\n\nRilancialla avà ?</string>
     <string name="restart_message_OK">Vai</string>
     <string name="restart_message_Later">Dopu</string>
-
     <string name="developer_prefs_category">Sviluppatore</string>
     <string name="enable_verbose_mode">Verbosu</string>
     <string name="enable_verbose_mode_summary">aummentà a verbusità (logcat)</string>
@@ -465,7 +462,6 @@
     <string name="directory_show_medialib">Affissà in BibMedia</string>
     <string name="directory_hide_medialib">Piattà da BibMedia</string>
     <string name="playlist_save">Arregistrà a Lista di Lettura</string>
-    <string name="playlist_name_hint">nome di lista di lettura</string>
     <string name="go_to_chapter">Và à u capitulu…</string>
     <string name="chapter">Capitulu</string>
     <string name="resume_from_position">Riprincipià da l\'ultima pusizione</string>
@@ -590,7 +586,6 @@
     <string name="audio_digital_output_enabled">Esciuta Digitale Audio attivata</string>
     <string name="audio_digital_output_disabled">Esciuta Digitale Audio disattivata</string>
     <string name="audio_digital_title">Esciuta audio digitale (traversata)</string>
-    <string name="audio_task_removed_title">Piantà a ripruduzzione quandu l\'appiecazione hè interrotta</string>
     <string name="playback_rewind">Ritrusà</string>
     <string name="playback_forward">Avanzà in furia</string>
     <string name="ml_wizard_title">Selezzione Mediabibliuteca di VLC</string>
@@ -609,4 +604,5 @@
     <string name="time_category_older">Media più vechju</string>
     <string name="rename">Rinumà</string>
     <string name="rename_media">Rinumà %1$s</string>
-</resources>
+    <string name="next">Seguente</string>
+    </resources>
