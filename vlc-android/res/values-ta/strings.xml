@@ -123,7 +123,6 @@
     <string name="repeat_all">அனைத்தையும் மீள் இயக்கு</string>
     <string name="previous">முந்தைய</string>
     <string name="stop">நிறுத்து</string>
-    <string name="next">அடுத்து</string>
     <string name="firstsong">பின்னணி இயக்க பட்டியலின் முதல் பாடல்</string>
     <string name="lastsong">பின்னணி இயக்க பட்டியலின் கடைசி பாடல்</string>
 
@@ -150,7 +149,6 @@
     <string name="navmenu">வழிசெலுத்தல்  மெனு</string>
     <string name="advanced">மேம்பட்ட தேர்வுகள்</string>
     <string name="audio_boost_warning">100%-க்கு அப்பால் செல்ல மீண்டும் மேல் நோக்கி செலுத்து</string>
-
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 வழித்தடம்\n</item>
         <item quantity="other">%1$d வழித்தடங்கள்\n</item>
@@ -366,7 +364,6 @@
     <string name="network_connection_needed">சாதனம் உள்ளே இணைய இணைப்பு இல்லை.</string>
     <string name="search_hint">ஊடகத்தை தேடு</string>
     <string name="playlist_save">சேமி தொகுப்பு பட்டியல்</string>
-    <string name="playlist_name_hint">தொகுப்பு பட்டியல் பெயர்</string>
     <string name="go_to_chapter">அத்தியாயம் செல்ல…</string>
     <string name="chapter">அத்தியாயம்</string>
     <string name="directory_empty">அடைவு வெறுமையாக உள்ளது</string>
@@ -408,4 +405,5 @@
     <string name="renderer_list_title">காட்சிகள்</string>
     <string name="dialog_sd_wizard">காண்பி</string>
     <string name="renderers_disconnect">துண்டி</string>
+    <string name="next">அடுத்து</string>
     </resources>
