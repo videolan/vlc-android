@@ -247,6 +247,7 @@ object TvUtil {
                     HEADER_SERVER -> R.drawable.ic_menu_network_add_big
                     HEADER_STREAM -> R.drawable.ic_menu_stream_big
                     ID_SETTINGS -> R.drawable.ic_menu_preferences_big
+                    ID_REFRESH -> R.drawable.ic_menu_scan
                     ID_ABOUT_TV, ID_LICENCE -> R.drawable.ic_default_cone
                     CATEGORY_ARTISTS -> R.drawable.ic_artist_big
                     CATEGORY_ALBUMS -> R.drawable.ic_album_big
