@@ -401,6 +401,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         val time = player.getCurrentTime()
         val length = player.getLength()
         val canSwitchToVideo = player.canSwitchToVideo()
+        val rate = player.getRate()
         launch {
             val media = withContext(Dispatchers.IO) { medialibrary.findMedia(currentMedia) }
             if (media === null || media.id == 0L) return@launch
@@ -415,6 +416,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 media.time = if (progress == 0f) 0L else time
                 launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_PROGRESS, media.time) }
             }
+            launch(Dispatchers.IO) { media.setStringMeta(MediaWrapper.META_SPEED, rate.toString()) }
         }
     }
 
@@ -445,6 +447,10 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 player.setAudioDelay(media.getMetaLong(MediaWrapper.META_AUDIODELAY))
             player.setSpuTrack(media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toInt())
             player.setSpuDelay(media.getMetaLong(MediaWrapper.META_SUBTITLE_DELAY))
+            val rateString = media.getMetaString(MediaWrapper.META_SPEED)
+            if (!rateString.isNullOrEmpty()) {
+                player.setRate(rateString.toFloat(), false)
+            }
         }
     }
 
