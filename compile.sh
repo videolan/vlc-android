@@ -162,6 +162,9 @@ fi
 if [ ! -f gradle.properties ]; then
     echo android.enableJetifier=true > gradle.properties
     echo android.useAndroidX=true >> gradle.properties
+    echo kapt.incremental.apt=true >> gradle.properties
+    echo kapt.use.worker.api=true >> gradle.properties
+    echo kapt.include.compile.classpath=false >> gradle.properties
     echo keyStoreFile=$KEYSTORE_FILE >> gradle.properties
     echo storealias=$STOREALIAS >> gradle.properties
     if [ -z "$PASSWORD_KEYSTORE" ]; then
