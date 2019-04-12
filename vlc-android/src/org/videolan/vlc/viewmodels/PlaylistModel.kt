@@ -105,7 +105,7 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
 
     fun getPlaylistPosition(position: Int, media: MediaWrapper): Int {
         val list = originalDataset ?: dataset.value
-        if (list[position] == media) return position
+        if (position in 0 until list.size && list[position] == media) return position
         else {
             for ((index, item) in list.withIndex()) if (item == media) {
                 return index
