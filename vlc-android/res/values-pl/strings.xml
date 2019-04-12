@@ -289,6 +289,8 @@
     <string name="enable_black_theme_summary">Zmień kolory interfejsu dla lepszego komfortu w trudnych warunkach oświetleniowych.</string>
     <string name="subtitle_text_encoding">Kodowanie tekstu napisów</string>
     <string name="daynight_title">Tryb dzień/noc</string>
+    <string name="daynight_follow_system_title">Tak jak w trybie systemowym</string>
+    <string name="daynight_battery_title">Tak jak w trybie oszczędzania baterii</string>
     <string name="daynight_summary">W odpowiednim czasie automatycznie przełącz w tryb nocny</string>
 
     <string name="extra_prefs_category">Dodatkowe ustawienia</string>
@@ -627,6 +629,8 @@
     <string name="audio_digital_title">Cyfrowe wyjście dźwiękowe</string>
     <string name="audio_task_cleared_title">Zatrzymaj po zamknięciu aplikacji</string>
     <string name="audio_task_cleared_summary">Zatrzymaj odtwarzanie po usunięciu VLC z listy ostatnich aplikacji</string>
+    <string name="audio_resume_card_title">Załaduj ostatnią kartę listy odtwarzania</string>
+    <string name="audio_resume_card_summary">Wyświetla kartę, która pozwala wznowić odtwarzanie dźwięku po uruchomieniu aplikacji</string>
     <string name="playback_rewind">Przewijanie do tyłu</string>
     <string name="playback_forward">Przewijanie do przodu</string>
     <string name="ml_wizard_title">Wybór biblioteki multimediów VLC</string>
@@ -666,6 +670,7 @@
     <string name="video_save_clone_mode">Czy automatycznie włączyć tryb klonowania?</string>
     <string name="video_remote_enable">Przełącz na tryb zdalnego sterowania</string>
     <string name="video_remote_disable">Powiel ekran</string>
+    <string name="removed_from_playlist_anonymous">Element(y) usunięte z listy odtwarzania</string>
     <string name="welcome_title">Witamy w VLC!</string>
     <string name="welcome_subtitle">Darmowy odtwarzacz multimedialny typu open source</string>
     <string name="permission_media">VLC wymaga Twojej zgody na dostęp do plików multimedialnych na Twoim urządzeniu</string>
@@ -679,4 +684,13 @@
     <string name="onboarding_scan_customize">Pozwól mi wybrać, które foldery będą przeszukiwane</string>
     <string name="button_medialibrary_preferences">Przejdź do preferencji biblioteki multimediów</string>
     <string name="light_theme">Jasny motyw</string>
+    <string name="add">Dodaj</string>
+    <string name="add_to_new_playlist">Dodaj do nowej listy odtwarzania</string>
+    <string name="theme_follow_system_mode">Tak jak w trybie systemowym</string>
+    <string name="resume_card_message">Wznowić odtwarzanie %1$s?</string>
+    <string name="misc">Różne</string>
+    <string name="popup_force_legacy_title">Użyj własnego wyskakującego okna \"Obraz w obrazie\"</string>
+    <string name="popup_force_legacy_summary">Użyj własnego, z możliwością zmiany rozmiaru, wyskakującego okna \"Obraz w obrazie\"</string>
+    <string name="device_default">Systemowy</string>
+    <string name="track_number">%s utwory</string>
 </resources>
