@@ -2,6 +2,7 @@ package org.videolan.vlc.gui.video
 
 import android.content.res.Configuration
 import android.media.AudioManager
+import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.*
 import androidx.core.view.GestureDetectorCompat
@@ -28,9 +29,9 @@ private const val MAX_FOV = 150f
 private const val JOYSTICK_INPUT_DELAY = 300
 
 class VideoTouchDelegate(private val player: VideoPlayerActivity,
-                         private val mTouchControls : Int,
-                         var screenConfig : ScreenConfig,
-                         private val tv : Boolean) {
+                         private val mTouchControls: Int,
+                         var screenConfig: ScreenConfig,
+                         private val tv: Boolean) {
 
     private var mTouchAction = TOUCH_NONE
     private var mInitTouchY = 0f
@@ -285,7 +286,19 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
     private fun initBrightnessTouch() {
         val lp = player.window.attributes
-        val brightnesstemp = if (lp.screenBrightness != -1f) lp.screenBrightness else 0.6f
+
+        //Check if we already have a brightness
+        val brightnesstemp = if (lp.screenBrightness != -1f)
+            lp.screenBrightness
+        else {
+            //Check if the device is in auto mode
+            val contentResolver = player.applicationContext.contentResolver
+            if (Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
+                //cannot retrieve a value -> 0.5
+                0.5f
+            } else Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 128).toFloat() / 255
+        }
+
         lp.screenBrightness = brightnesstemp
         player.window.attributes = lp
         mIsFirstBrightnessGesture = false
@@ -304,7 +317,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
     private val mScaleListener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
 
-        private var savedScale : MediaPlayer.ScaleType? = null
+        private var savedScale: MediaPlayer.ScaleType? = null
         override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
             return screenConfig.xRange != 0 || player.fov == 0f
         }
@@ -366,7 +379,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             return false
         }
 
-        override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float ) = false
+        override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float) = false
     }
 }
 
