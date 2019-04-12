@@ -268,6 +268,8 @@
     <string name="enable_black_theme_summary">更改界面颜色，使得在较暗环境更为舒适。</string>
     <string name="subtitle_text_encoding">字幕文本编码</string>
     <string name="daynight_title">自动切换夜间模式</string>
+    <string name="daynight_follow_system_title">跟随系统模式</string>
+    <string name="daynight_battery_title">跟随“省电模式”</string>
     <string name="daynight_summary">在合适的时间自动切换到夜间模式</string>
 
     <string name="extra_prefs_category">附加设置</string>
@@ -606,6 +608,8 @@
     <string name="audio_digital_title">数字音频输出 (直通)</string>
     <string name="audio_task_cleared_title">滑开应用时停止</string>
     <string name="audio_task_cleared_summary">应用程序被滑开时停止播放</string>
+    <string name="audio_resume_card_title">加载上次播放列表卡片</string>
+    <string name="audio_resume_card_summary">应用启动时显示卡片，帮助您继续音频播放</string>
     <string name="playback_rewind">倒退</string>
     <string name="playback_forward">快进</string>
     <string name="ml_wizard_title">VLC 媒体库选择</string>
@@ -645,6 +649,7 @@
     <string name="video_save_clone_mode">是否自动激活克隆模式?</string>
     <string name="video_remote_enable">切换到远程控制模式</string>
     <string name="video_remote_disable">复制屏幕</string>
+    <string name="removed_from_playlist_anonymous">项目已从播放列表移除</string>
     <string name="welcome_title">欢迎使用 VLC!</string>
     <string name="welcome_subtitle">自由开源的多媒体播放器</string>
     <string name="permission_media">VLC 需要您的许可，才能访问设备中的媒体</string>
@@ -658,4 +663,13 @@
     <string name="onboarding_scan_customize">让我选择 VLC 扫描的文件夹</string>
     <string name="button_medialibrary_preferences">前往媒体库偏好设置</string>
     <string name="light_theme">亮主题</string>
+    <string name="add">添加</string>
+    <string name="add_to_new_playlist">添加到新播放列表</string>
+    <string name="theme_follow_system_mode">跟随系统模式</string>
+    <string name="resume_card_message">是否继续播放 %1$s?</string>
+    <string name="misc">杂项</string>
+    <string name="popup_force_legacy_title">使用自定义画中画弹窗</string>
+    <string name="popup_force_legacy_summary">使用大小可调整的自定义画中画弹出窗口</string>
+    <string name="device_default">设备默认</string>
+    <string name="track_number">%s 条轨道</string>
 </resources>
