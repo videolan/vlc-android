@@ -268,6 +268,8 @@
     <string name="enable_black_theme_summary">低照度の環境で最適な表示のためにインターフェースの色を変更します。</string>
     <string name="subtitle_text_encoding">字幕テキストのエンコード</string>
     <string name="daynight_title">昼夜モード</string>
+    <string name="daynight_follow_system_title">システム設定に準ずる</string>
+    <string name="daynight_battery_title">バッテリーセーブモード</string>
     <string name="daynight_summary">時間によって自動的に夜間モードに切り替える</string>
 
     <string name="extra_prefs_category">その他の設定</string>
@@ -606,6 +608,8 @@
     <string name="audio_digital_title">デジタルオーディオ出力 (パススルー)</string>
     <string name="audio_task_cleared_title">スワイプで再生を停止</string>
     <string name="audio_task_cleared_summary">アプリケーションが閉じられた時に再生を停止</string>
+    <string name="audio_resume_card_title">最後のプレイリストカードをロード</string>
+    <string name="audio_resume_card_summary">アプリケーション起動時にオーディオ再生を再開するためのカードを表示</string>
     <string name="playback_rewind">戻す</string>
     <string name="playback_forward">高速に進める</string>
     <string name="ml_wizard_title">VLCメディアライブラリー選択</string>
@@ -645,6 +649,7 @@
     <string name="video_save_clone_mode">自動的にクローンモードを有効化しますか?</string>
     <string name="video_remote_enable">リモートコントロールモードに切替</string>
     <string name="video_remote_disable">スクリーン複製</string>
+    <string name="removed_from_playlist_anonymous">プレイリストから項目が削除されました</string>
     <string name="welcome_title">VLCにようこそ!</string>
     <string name="welcome_subtitle">フリーでオープンソースのマルチメディアプレイヤー</string>
     <string name="permission_media">デバイスのメディアにアクセスするために許可が必要です</string>
@@ -658,4 +663,13 @@
     <string name="onboarding_scan_customize">VLCが検索するフォルダを選択</string>
     <string name="button_medialibrary_preferences">メディアライブラリーの設定へ移動</string>
     <string name="light_theme">明いテーマ</string>
+    <string name="add">追加</string>
+    <string name="add_to_new_playlist">新しいプレイリストに追加</string>
+    <string name="theme_follow_system_mode">システム設定に準ずる</string>
+    <string name="resume_card_message">%1$s の再生を再開?</string>
+    <string name="misc">その他</string>
+    <string name="popup_force_legacy_title">カスタマイズされたピクチャーインピクチャーポップアップを使用</string>
+    <string name="popup_force_legacy_summary">サイズ変更可能なカスタマイズされたピクチャーインピクチャーポップアップを使用</string>
+    <string name="device_default">デバイスのデフォルト</string>
+    <string name="track_number">%s トラック</string>
 </resources>
