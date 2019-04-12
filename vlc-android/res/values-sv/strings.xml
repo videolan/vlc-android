@@ -275,6 +275,8 @@
     <string name="enable_black_theme_summary">Ändra gränssnittets färger för bättre komfort i svagt upplysta miljöer.</string>
     <string name="subtitle_text_encoding">Textkodning för undertexter</string>
     <string name="daynight_title">Dagnattläge</string>
+    <string name="daynight_follow_system_title">Följ systemläge</string>
+    <string name="daynight_battery_title">Följ batterisparläge</string>
     <string name="daynight_summary">Byt automatiskt till nattläge vid lämplig tid</string>
 
     <string name="extra_prefs_category">Extra inställningar</string>
@@ -613,6 +615,8 @@
     <string name="audio_digital_title">Digital ljudutmatning (passthrough)</string>
     <string name="audio_task_cleared_title">Stoppa när appen avvisas</string>
     <string name="audio_task_cleared_summary">Stoppa uppspelningen när applikationen avvisas</string>
+    <string name="audio_resume_card_title">Kort för senaste spellista</string>
+    <string name="audio_resume_card_summary">Visar ett kort som hjälper dig att återuppta ljuduppspelning när appen startar</string>
     <string name="playback_rewind">Spola tillbaka</string>
     <string name="playback_forward">Spola framåt</string>
     <string name="ml_wizard_title">Val av mediabibliotek för VLC</string>
@@ -652,6 +656,7 @@
     <string name="video_save_clone_mode">Aktivera kloningsläge automatiskt?</string>
     <string name="video_remote_enable">Byt till fjärrkontrollsläge</string>
     <string name="video_remote_disable">Duplicera skärm</string>
+    <string name="removed_from_playlist_anonymous">Objekt togs bort från spellistan</string>
     <string name="welcome_title">Välkommen till VLC!</string>
     <string name="welcome_subtitle">Den fria mediaspelaren med öppen källkod</string>
     <string name="permission_media">VLC behöver din behörighet för att komma åt media på din enhet</string>
@@ -665,4 +670,13 @@
     <string name="onboarding_scan_customize">Låt mig välja vilka mappar VLC ska söka igenom</string>
     <string name="button_medialibrary_preferences">Gå till inställningarna för mediabiblioteket</string>
     <string name="light_theme">Ljust tema</string>
+    <string name="add">Lägg till</string>
+    <string name="add_to_new_playlist">Lägg till i ny spellista</string>
+    <string name="theme_follow_system_mode">Följ systemläge</string>
+    <string name="resume_card_message">Återuppta uppspelning vid %1$s?</string>
+    <string name="misc">Övrigt</string>
+    <string name="popup_force_legacy_title">Använd anpassad popupp för bild-i-bild</string>
+    <string name="popup_force_legacy_summary">Använd anpassad popupp för bild-i-bild som kan storleksändras</string>
+    <string name="device_default">Enhetsstandard</string>
+    <string name="track_number">%s spår</string>
 </resources>
