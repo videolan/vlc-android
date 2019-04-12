@@ -114,6 +114,7 @@
     <string name="validation">你確定嗎？</string>
 
     <string name="cover_art">專輯封面</string>
+    <string name="shuffle_all_title">全部隨機</string>
     <string name="shuffle_title">隨機模式</string>
     <string name="shuffle">關閉隨機</string>
     <string name="shuffle_on">開啟隨機</string>
@@ -267,6 +268,8 @@
     <string name="enable_black_theme_summary">低光源環境時變更為更舒適的介面顏色。</string>
     <string name="subtitle_text_encoding">字幕編碼</string>
     <string name="daynight_title">日夜模式</string>
+    <string name="daynight_follow_system_title">跟隨系統模式</string>
+    <string name="daynight_battery_title">跟隨省電模式</string>
     <string name="daynight_summary">在適當的時間自動切換至夜間模式</string>
 
     <string name="extra_prefs_category">額外設定</string>
@@ -605,6 +608,8 @@
     <string name="audio_digital_title">數位音訊輸出(passthrough)</string>
     <string name="audio_task_cleared_title">停用應用程式滑動</string>
     <string name="audio_task_cleared_summary">在應用程式離開時停止播放</string>
+    <string name="audio_resume_card_title">載入前次播放清單卡片</string>
+    <string name="audio_resume_card_summary">在應用程式啟動時顯示幫助您時繼續音訊播放的卡片</string>
     <string name="playback_rewind">倒帶</string>
     <string name="playback_forward">快速前進</string>
     <string name="ml_wizard_title">VLC 媒體櫃選擇</string>
@@ -644,6 +649,7 @@
     <string name="video_save_clone_mode">自動啟用複製模式？</string>
     <string name="video_remote_enable">切換至遠端控制模式</string>
     <string name="video_remote_disable">複製螢幕</string>
+    <string name="removed_from_playlist_anonymous">項目已從播放清單中移除</string>
     <string name="welcome_title">歡迎使用 VLC！</string>
     <string name="welcome_subtitle">自由且開源的媒體播放器</string>
     <string name="permission_media">VLC 需要您裝置的存取媒體權限</string>
@@ -657,4 +663,13 @@
     <string name="onboarding_scan_customize">讓我選擇要讓 VLC 掃描的資料夾</string>
     <string name="button_medialibrary_preferences">前往媒體櫃偏好設定</string>
     <string name="light_theme">亮色佈景主題</string>
+    <string name="add">加入</string>
+    <string name="add_to_new_playlist">加到新的播放清單</string>
+    <string name="theme_follow_system_mode">跟隨系統模式</string>
+    <string name="resume_card_message">繼續播放 %1$s 嗎？</string>
+    <string name="misc">雜項</string>
+    <string name="popup_force_legacy_title">使用自訂子母畫面彈出</string>
+    <string name="popup_force_legacy_summary">使用自訂子母畫面可調整大小彈出</string>
+    <string name="device_default">裝置預設值</string>
+    <string name="track_number">%s 軌道</string>
 </resources>
