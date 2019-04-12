@@ -1365,6 +1365,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
      * @param duration
      */
     void showInfo(String text, int duration) {
+        if (isInPictureInPictureMode()) return;
         initInfoOverlay();
         UiTools.setViewVisibility(mVerticalBar, View.GONE);
         UiTools.setViewVisibility(mOverlayInfo, View.VISIBLE);
@@ -2219,6 +2220,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
      */
     private void showOverlayTimeout(int timeout) {
         if (mService == null) return;
+        if (isInPictureInPictureMode()) return;
         initOverlay();
         if (mHudBinding == null) return;
         if (timeout != 0) mOverlayTimeout = timeout;
@@ -2244,6 +2246,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     }
 
     private void showControls(boolean show) {
+        if (show && isInPictureInPictureMode()) return;
         if (mHudBinding != null) {
             mHudBinding.playerOverlayPlay.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
             if (mSeekButtons) {
