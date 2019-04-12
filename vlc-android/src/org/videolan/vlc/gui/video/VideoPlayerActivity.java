@@ -1617,7 +1617,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private void handleVout(int voutCount) {
         mHandler.removeCallbacks(mSwitchAudioRunnable);
 
-        final IVLCVout vlcVout = mService.getVout();
+        final IVLCVout vlcVout = mService != null ? mService.getVout() : null;
         if (vlcVout == null) return;
         if (mDisplayManager.isPrimary() && vlcVout.areViewsAttached() && voutCount == 0) {
             mHandler.postDelayed(mSwitchAudioRunnable, 4000);
