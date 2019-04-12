@@ -45,14 +45,9 @@ import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.coroutineScope
-import org.videolan.vlc.BuildConfig
-import org.videolan.vlc.ExternalMonitor
-import org.videolan.vlc.R
-import org.videolan.vlc.RecommendationsService
+import org.videolan.vlc.*
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.gui.preferences.PreferencesFragment
-import org.videolan.vlc.gui.tv.MainTvActivity.ACTIVITY_RESULT_PREFERENCES
-import org.videolan.vlc.gui.tv.MainTvActivity.BROWSER_TYPE
 import org.videolan.vlc.gui.tv.TvUtil.diffCallback
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
@@ -151,6 +146,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         val miscHeader = HeaderItem(HEADER_MISC, getString(R.string.other))
 
         otherAdapter.add(GenericCardItem(ID_SETTINGS, getString(R.string.preferences), "", R.drawable.ic_menu_preferences_big, R.color.tv_card_content))
+        otherAdapter.add(GenericCardItem(ID_REFRESH, getString(R.string.refresh), "", R.drawable.ic_menu_scan, R.color.tv_card_content))
         otherAdapter.add(GenericCardItem(ID_ABOUT_TV, getString(R.string.about), "${getString(R.string.app_name_full)} ${BuildConfig.VERSION_NAME}", R.drawable.ic_menu_info_big, R.color.tv_card_content))
         otherAdapter.add(GenericCardItem(ID_LICENCE, getString(R.string.licence), "", R.drawable.ic_menu_open_source, R.color.tv_card_content))
         miscRow = ListRow(miscHeader, otherAdapter)
@@ -250,7 +246,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                     return
                 }
                 val intent = Intent(activity, VerticalGridActivity::class.java)
-                intent.putExtra(BROWSER_TYPE, HEADER_CATEGORIES)
+                intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
                 intent.putExtra(AUDIO_CATEGORY, item.id)
                 activity.startActivity(intent)
             }
@@ -258,6 +254,11 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                 val id = (item as GenericCardItem).id
                 when (id) {
                     ID_SETTINGS -> activity.startActivityForResult(Intent(activity, org.videolan.vlc.gui.tv.preferences.PreferencesActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
+                    ID_REFRESH -> {
+                        if (!Medialibrary.getInstance().isWorking) {
+                            requireActivity().reloadLibrary()
+                        }
+                    }
                     ID_ABOUT_TV -> activity.startActivity(Intent(activity, org.videolan.vlc.gui.tv.AboutActivity::class.java))
                     ID_LICENCE -> startActivity(Intent(activity, org.videolan.vlc.gui.tv.LicenceActivity::class.java))
                 }

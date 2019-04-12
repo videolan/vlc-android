@@ -117,6 +117,7 @@ const val HEADER_SERVER = 7L
 const val ID_SETTINGS = 10L
 const val ID_ABOUT_TV = 11L
 const val ID_LICENCE = 12L
+const val ID_REFRESH = 13L
 const val CATEGORY_NOW_PLAYING = 20L
 const val CATEGORY_ARTISTS = 21L
 const val CATEGORY_ALBUMS = 22L

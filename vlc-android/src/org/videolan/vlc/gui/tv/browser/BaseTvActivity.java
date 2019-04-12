@@ -107,14 +107,16 @@ public abstract class BaseTvActivity extends FragmentActivity {
     }
 
     protected void onParsingServiceStarted() {}
-    protected void onParsingServiceProgress() {}
+
+    protected void onParsingServiceProgress(ScanProgress scanProgress) {
+    }
     protected void onParsingServiceFinished() {}
 
     private void registerLiveData() {
         MediaParsingService.Companion.getProgress().observe(this, new Observer<ScanProgress>() {
             @Override
             public void onChanged(@Nullable ScanProgress scanProgress) {
-                if (scanProgress != null) onParsingServiceProgress();
+                if (scanProgress != null) onParsingServiceProgress(scanProgress);
             }
         });
         Medialibrary.getState().observe(this, new Observer<Boolean>() {

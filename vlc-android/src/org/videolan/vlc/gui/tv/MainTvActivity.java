@@ -30,8 +30,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import org.videolan.medialibrary.Medialibrary;
 import org.videolan.vlc.MediaParsingServiceKt;
 import org.videolan.vlc.R;
+import org.videolan.vlc.ScanProgress;
 import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.gui.preferences.PreferencesActivity;
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
@@ -103,21 +105,23 @@ public class MainTvActivity extends BaseTvActivity {
 
     @Override
     protected void onParsingServiceStarted() {
-        mHandler.sendEmptyMessageDelayed(SHOW_LOADING, 300);
+        mHandler.sendEmptyMessage(SHOW_LOADING);
     }
 
     @Override
-    protected void onParsingServiceProgress() {
-        if (mProgressBar.getVisibility() == View.GONE) mHandler.sendEmptyMessage(SHOW_LOADING);
+    protected void onParsingServiceProgress(ScanProgress scanProgress) {
+        if (mProgressBar.getVisibility() == View.GONE && Medialibrary.getInstance().isWorking())
+            mHandler.sendEmptyMessage(SHOW_LOADING);
     }
 
     @Override
     protected void onParsingServiceFinished() {
-        mHandler.sendEmptyMessage(HIDE_LOADING);
+        if (!Medialibrary.getInstance().isWorking())
+            mHandler.sendEmptyMessageDelayed(HIDE_LOADING, 500);
     }
 
     public void hideLoading() {
-        mHandler.sendEmptyMessage(HIDE_LOADING);
+        mHandler.sendEmptyMessageDelayed(HIDE_LOADING, 500);
     }
     private static final int SHOW_LOADING = 0;
     private static final int HIDE_LOADING = 1;
