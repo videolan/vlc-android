@@ -289,6 +289,8 @@
     <string name="enable_black_theme_summary">Змінити кольори інтерфейсу для більшої зручності при поганому освітленні.</string>
     <string name="subtitle_text_encoding">Кодування тексту субтитрів</string>
     <string name="daynight_title">Режим день-ніч</string>
+    <string name="daynight_follow_system_title">Дотримуватися системного режиму</string>
+    <string name="daynight_battery_title">Дотримуватися заощадження акумулятора</string>
     <string name="daynight_summary">Автоматичне перемикання в нічний режим у відповідний час</string>
 
     <string name="extra_prefs_category">Додаткове параметри</string>
@@ -500,7 +502,7 @@
     <string name="directory_show_medialib">Показати у медіабібліотеці</string>
     <string name="directory_hide_medialib">Приховати у медіабібліотеці</string>
     <string name="playlist_save">Зберегти список відтворення</string>
-    <string name="playlist_name_hint">назва списку відтворення</string>
+    <string name="playlist_name_hint">Назва списку відтворення</string>
     <string name="go_to_chapter">Перейти до глави…</string>
     <string name="chapter">Глава</string>
     <string name="resume_from_position">Відновити із останньої позиції</string>
@@ -627,6 +629,8 @@
     <string name="audio_digital_title">Цифровий вивід аудіо (роз\'єм)</string>
     <string name="audio_task_cleared_title">Зупиняти при натисканні на програму</string>
     <string name="audio_task_cleared_summary">Призупиняти відтворення, якщо програму відхилено</string>
+    <string name="audio_resume_card_title">Завантажити карту останнього списку відтворення</string>
+    <string name="audio_resume_card_summary">Показує карту, що допомагає вам відновити відтворення звуку при запуску програми</string>
     <string name="playback_rewind">Перемотати</string>
     <string name="playback_forward">Перемотування вперед</string>
     <string name="ml_wizard_title">Вибір медіабібліотеки VLC</string>
@@ -666,6 +670,7 @@
     <string name="video_save_clone_mode">Автоматично увімкнути режим клонування?</string>
     <string name="video_remote_enable">Перемкнутися у режим віддаленого управління</string>
     <string name="video_remote_disable">Дублювати екран</string>
+    <string name="removed_from_playlist_anonymous">Елемент(и) вилучений(і) зі списку відтворення</string>
     <string name="welcome_title">Вітаємо у VLC!</string>
     <string name="welcome_subtitle">Безкоштовний мультимедійний програвач з відкритим кодом</string>
     <string name="permission_media">VLC потребує вашого дозволу на доступ до файлів на вашому пристрої</string>
@@ -679,4 +684,13 @@
     <string name="onboarding_scan_customize">Дозвольте мені вибрати теки, які скануватиме VLC</string>
     <string name="button_medialibrary_preferences">Перейти до налаштувань медіабібліотеки</string>
     <string name="light_theme">Світла тема</string>
+    <string name="add">Додати</string>
+    <string name="add_to_new_playlist">Додати до нового списку відтворення</string>
+    <string name="theme_follow_system_mode">Дотримуватися системного режиму</string>
+    <string name="resume_card_message">Відновити відтворення з %1$s?</string>
+    <string name="misc">Різне</string>
+    <string name="popup_force_legacy_title">Використовувати особливий  вигульк картинка-в-картинці </string>
+    <string name="popup_force_legacy_summary">Використовувати особливий вигульк картинка-в-картинці зі змінним розміром</string>
+    <string name="device_default">Типовий пристрій</string>
+    <string name="track_number">%s доріжок</string>
 </resources>
