@@ -120,6 +120,7 @@
     <string name="validation">Biztos benne?</string>
 
     <string name="cover_art">Borító</string>
+    <string name="shuffle_all_title">Az összes véletlen sorrendben</string>
     <string name="shuffle_title">Véletlen mód</string>
     <string name="shuffle">Véletlen sorrend ki</string>
     <string name="shuffle_on">Véletlen sorrend be</string>
@@ -274,6 +275,8 @@
     <string name="enable_black_theme_summary">A felület színeinek cseréje a nagyobb kényelem érdekében az alacsony fényű környezetekben.</string>
     <string name="subtitle_text_encoding">Feliratszöveg kódolása</string>
     <string name="daynight_title">Éjjel-nappali mód</string>
+    <string name="daynight_follow_system_title">Rendszer módjának követése</string>
+    <string name="daynight_battery_title">Akkumulátorkímélő követése</string>
     <string name="daynight_summary">Automatikus éjszakai módra váltás a megfelelő időben</string>
 
     <string name="extra_prefs_category">Extra beállítások</string>
@@ -485,7 +488,7 @@
     <string name="directory_show_medialib">Megjelenítés a médiatárban</string>
     <string name="directory_hide_medialib">Elrejtés a médiatárban</string>
     <string name="playlist_save">Lejátszólista mentése</string>
-    <string name="playlist_name_hint">lejátszólista neve</string>
+    <string name="playlist_name_hint">Lejátszólista neve</string>
     <string name="go_to_chapter">Fejezethez ugrás…</string>
     <string name="chapter">Fejezet</string>
     <string name="resume_from_position">Folytatás az utolsó pozíciótól</string>
@@ -612,6 +615,8 @@
     <string name="audio_digital_title">Digitális hangkimenet (áteresztés)</string>
     <string name="audio_task_cleared_title">Szüneteltetés alkalmazásváltáskor</string>
     <string name="audio_task_cleared_summary">Lejátszás szüneteltetése az alkalmazás eltüntetésekor</string>
+    <string name="audio_resume_card_title">Lejátszólista kártya betöltése</string>
+    <string name="audio_resume_card_summary">Megjelenít egy kártyát, hogy segítsen folytatni a hanglejátszást az alkalmazás indításakor</string>
     <string name="playback_rewind">Visszatekerés</string>
     <string name="playback_forward">Előretekerés</string>
     <string name="ml_wizard_title">VLC médiatár kiválasztása</string>
@@ -651,6 +656,7 @@
     <string name="video_save_clone_mode">Automatikusan aktiválja a klónozás módot?</string>
     <string name="video_remote_enable">Váltás távvezérlő módba</string>
     <string name="video_remote_disable">Képernyő kettőzése</string>
+    <string name="removed_from_playlist_anonymous">Elemek eltávolítva a lejátszólistából</string>
     <string name="welcome_title">Üdvözli a VLC!</string>
     <string name="welcome_subtitle">A szabad és nyílt forráskódú multimédialejátszó</string>
     <string name="permission_media">A VLC-nek az engedélyére van szüksége, hogy elérje az eszközén található médiafájlokat</string>
@@ -664,4 +670,13 @@
     <string name="onboarding_scan_customize">Kiválasztom, hogy mely mappákat vizsgálja át a VLC</string>
     <string name="button_medialibrary_preferences">Ugrás a médiatár beállításaihoz</string>
     <string name="light_theme">Világos téma</string>
+    <string name="add">Hozzáadás</string>
+    <string name="add_to_new_playlist">Hozzáadás új lejátszólistához</string>
+    <string name="theme_follow_system_mode">Rendszer módjának követése</string>
+    <string name="resume_card_message">Folytatja a(z) %1$s lejátszását?</string>
+    <string name="misc">Egyéb</string>
+    <string name="popup_force_legacy_title">Egyéni „Kép a képben” felugró ablak</string>
+    <string name="popup_force_legacy_summary">Egyéni „Kép a képben” átméretezhető felugró ablak</string>
+    <string name="device_default">Eszköz alapértelmezése</string>
+    <string name="track_number">%s szám</string>
 </resources>
