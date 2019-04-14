@@ -275,6 +275,8 @@
     <string name="enable_black_theme_summary">Càmbia sos colores de s\'interfache pro un\'impreu megioradu in ambientes a luminosidade bassa.</string>
     <string name="subtitle_text_encoding">Codìfica de su testu de sos sutatìtulos</string>
     <string name="daynight_title">Modalidade Die-Note</string>
+    <string name="daynight_follow_system_title">Sighi sa modalidade de sistema</string>
+    <string name="daynight_battery_title">Sighi su rispàrmiu energèticu</string>
     <string name="daynight_summary">Cola automaticamente a sa modalidade noturna a s\'ora giusta</string>
 
     <string name="extra_prefs_category">Impostatziones agiuntivas</string>
@@ -486,7 +488,7 @@
     <string name="directory_show_medialib">Ammustra in sa regorta multimediale</string>
     <string name="directory_hide_medialib">Istichi dae sa regorta multimediale</string>
     <string name="playlist_save">Sarva s\'iscalita</string>
-    <string name="playlist_name_hint">nùmene de s\'iscalita</string>
+    <string name="playlist_name_hint">Nùmene de s\'iscalita</string>
     <string name="go_to_chapter">Bae a su capìtulu…</string>
     <string name="chapter">Capìtulu</string>
     <string name="resume_from_position">Sighi dae s\'ùrtima positzione</string>
@@ -613,6 +615,8 @@
     <string name="audio_digital_title">Essida àudio digitale (coladòrgiu àudio)</string>
     <string name="audio_task_cleared_title">Firma in casu de trisinadura</string>
     <string name="audio_task_cleared_summary">Firma sa riprodutzione cando s\'aplicatzione benit serrada</string>
+    <string name="audio_resume_card_title">Càrriga s\'ischeda de s\'ùrtima iscalita</string>
+    <string name="audio_resume_card_summary">Ammustrat un\'ischeda chi t\'agiudat a torrare a fàghere sighire sa riprodutzione àudio a s\'allughìngiu de s\'aplicatzione</string>
     <string name="playback_rewind">Torra in segus</string>
     <string name="playback_forward">In antis lestru</string>
     <string name="ml_wizard_title">Ischertadura Libreria Multimediale VLC</string>
@@ -652,6 +656,7 @@
     <string name="video_save_clone_mode">Cheres allùghere automaticamente sa modalidade de clonatzione?</string>
     <string name="video_remote_enable">Cola a sa modalidade de controllu a distàntzia</string>
     <string name="video_remote_disable">Dùplica s\'ischermu</string>
+    <string name="removed_from_playlist_anonymous">Elementu(os) bogadu(os) dae s\'iscalita</string>
     <string name="welcome_title">Bene bènnidu in VLC|</string>
     <string name="welcome_subtitle">Su leghidore multimediale de badas e a mitza aberta</string>
     <string name="permission_media">VLC tenet bisòngiu su permissu tuo pro atzèdere a sos documentos multimediales in su dispositivu tuo</string>
@@ -665,4 +670,13 @@
     <string name="onboarding_scan_customize">Lassa·mi isseberare sas cartellas chi VLC at a iscansire</string>
     <string name="button_medialibrary_preferences">Bae a sas impostatziones de sa libreria multimediale de VLC</string>
     <string name="light_theme">Tema craru</string>
+    <string name="add">Annanghe</string>
+    <string name="add_to_new_playlist">Annanghe a s\'iscalita noa</string>
+    <string name="theme_follow_system_mode">Sighi sa modalidade de sistema</string>
+    <string name="resume_card_message">Cheres sighire cun sa riprodutzione de %1$s?</string>
+    <string name="misc">Vàrias</string>
+    <string name="popup_force_legacy_title">Imprea una ventanedda Picture-to-Picture personalizada</string>
+    <string name="popup_force_legacy_summary">Imprea una ventanedda Picture-to-Picture personalizada chi podet èssere mudada de mannària</string>
+    <string name="device_default">Predefinidu de su dispositivu</string>
+    <string name="track_number">%s rastas</string>
 </resources>
