@@ -40,7 +40,7 @@
     <string name="play_as_video">Reproduzir como vídeo</string>
     <string name="video_app_switch_title">Modo de segundo plano / PiP</string>
     <string name="video_app_switch_summary">Selecione o comportamento do VLC quando mudar para outra aplicação da reprodução do vídeo</string>
-    <string name="play_pip_title">Reproduzir vídeos no modo \'Imagem a imagem\'</string>
+    <string name="play_pip_title">Reproduzir vídeos no modo \'imagem na imagem\'</string>
     <string name="play_as_audio_background">Reproduzir vídeos em segundo plano</string>
     <string name="append">Acrescentar</string>
     <string name="insert_next">Inserir seguinte</string>
@@ -275,6 +275,8 @@
     <string name="enable_black_theme_summary">Altera as cores da interface para melhor conforto em ambientes com pouca luz.</string>
     <string name="subtitle_text_encoding">Codificação do texto das legendas</string>
     <string name="daynight_title">Modo Dia/Noite</string>
+    <string name="daynight_follow_system_title">Seguir o modo do sistema</string>
+    <string name="daynight_battery_title">Seguir a otimização da bateria</string>
     <string name="daynight_summary">Trocar automaticamente para o modo noturno à hora apropriada</string>
 
     <string name="extra_prefs_category">Definições extra</string>
@@ -486,7 +488,7 @@
     <string name="directory_show_medialib">Mostrar na Mediateca</string>
     <string name="directory_hide_medialib">Ocultar da Mediateca</string>
     <string name="playlist_save">Guardar lista de reprodução</string>
-    <string name="playlist_name_hint">nome da lista de reprodução</string>
+    <string name="playlist_name_hint">Nome da lista de reprodução</string>
     <string name="go_to_chapter">Ir para o capítulo…</string>
     <string name="chapter">Capítulo</string>
     <string name="resume_from_position">Retomar da última posição</string>
@@ -613,6 +615,8 @@
     <string name="audio_digital_title">Saída de áudio digital (passagem)</string>
     <string name="audio_task_cleared_title">Parar ao deslizar na aplicação </string>
     <string name="audio_task_cleared_summary">Parar reprodução quando a aplicação é interrompida</string>
+    <string name="audio_resume_card_title">Carregar o cartão da última lista de reprodução</string>
+    <string name="audio_resume_card_summary">Mostra um cartão que ajuda a continuar a reprodução do áudio ao iniciar a aplicação</string>
     <string name="playback_rewind">Recuar</string>
     <string name="playback_forward">Avançar rápido</string>
     <string name="ml_wizard_title">Seleção da Mediateca do VLC</string>
@@ -652,6 +656,7 @@
     <string name="video_save_clone_mode">Ativar automaticamente o modo clone?</string>
     <string name="video_remote_enable">Mudar para o modo de controlo remoto</string>
     <string name="video_remote_disable">Duplicar ecrã</string>
+    <string name="removed_from_playlist_anonymous">Itens removidos da lista de reprodução</string>
     <string name="welcome_title">Bem-vindo ao VLC!</string>
     <string name="welcome_subtitle">O reprodutor de música livre e aberto</string>
     <string name="permission_media">O VLC necessita de permissão para aceder aos ficheiros multimédia no seu dispositivo</string>
@@ -665,4 +670,13 @@
     <string name="onboarding_scan_customize">Deixar-me decidir em que pastas o VLC irá procurar</string>
     <string name="button_medialibrary_preferences">Ir às preferências da mediateca</string>
     <string name="light_theme">Tema claro</string>
+    <string name="add">Adicionar</string>
+    <string name="add_to_new_playlist">Adicionar a uma nova lista de reprodução</string>
+    <string name="theme_follow_system_mode">Seguir o modo do sistema</string>
+    <string name="resume_card_message">Continuar a reprodução de %1$s?</string>
+    <string name="misc">Diversos</string>
+    <string name="popup_force_legacy_title">Usar popup personalizado de \'imagem na imagem\' </string>
+    <string name="popup_force_legacy_summary">Usar popup personalizado redimensionável de \'imagem na imagem\' </string>
+    <string name="device_default">Predefinido do dispositivo</string>
+    <string name="track_number">%s faixas</string>
 </resources>
