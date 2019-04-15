@@ -13,6 +13,7 @@
     <attr name="background_player" format="reference|color" />
     <attr name="background_audio_tips" format="reference|color" />
     <attr name="font_default" format="reference|color" />
+    <attr name="font_audio_light" format="reference|color" />
     <attr name="font_light" format="reference|color" />
     <attr name="font_actionbar" format="reference|color" />
     <attr name="font_actionbar_selected" format="reference|color" />
