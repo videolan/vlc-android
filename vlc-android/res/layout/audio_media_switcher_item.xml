@@ -46,7 +46,7 @@
             android:maxLines="1"
             android:ellipsize="marquee"
             android:scrollHorizontally="true"
-            android:textColor="?attr/font_light"
+            android:textColor="?attr/font_audio_light"
             android:background="#00000000"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
