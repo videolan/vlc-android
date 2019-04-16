@@ -68,7 +68,7 @@ class AboutFragment : Fragment() {
         val titles = arrayOf(getString(R.string.about), getString(R.string.licence))
         val viewPager = view.findViewById<ViewPager>(R.id.pager).apply {
             offscreenPageLimit = MODE_TOTAL - 1
-            adapter = AudioPagerAdapter(lists, titles)
+            adapter = AudioPagerAdapter(lists as Array<View>, titles)
         }
         requireActivity().findViewById<TabLayout>(R.id.sliding_tabs).apply {
             visibility = View.VISIBLE

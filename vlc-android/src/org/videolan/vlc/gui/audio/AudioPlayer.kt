@@ -176,11 +176,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
         }
     }
 
-    override fun onPopupMenu(anchor: View, position: Int, media: MediaWrapper) {
+    override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
         val activity = activity
         if (activity === null || position >= playlistAdapter.itemCount) return
         val flags = CTX_REMOVE_FROM_PLAYLIST or CTX_SET_RINGTONE or CTX_ADD_TO_PLAYLIST or CTX_STOP_AFTER_THIS
-        showContext(activity, ctxReceiver, position, media.title, flags)
+        showContext(activity, ctxReceiver, position, item?.title ?: "", flags)
     }
 
     private fun doUpdate() {

@@ -20,49 +20,31 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui.audio;
+package org.videolan.vlc.gui.audio
 
-import android.database.DataSetObserver;
-import androidx.viewpager.widget.PagerAdapter;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.View
+import android.view.ViewGroup
+import androidx.viewpager.widget.PagerAdapter
 
-public class AudioPagerAdapter extends PagerAdapter {
+class AudioPagerAdapter(private val mLists: Array<View>?, private val mTitles: Array<String>) : PagerAdapter() {
 
-    private View[] mLists;
-    private String[] mTitles;
-
-    public AudioPagerAdapter(View[] lists, String[] titles){
-        mLists = lists;
-        mTitles = titles;
+    override fun getCount(): Int {
+        return mLists?.size ?: 0
     }
 
-    @Override
-    public int getCount() {
-        return mLists == null ? 0 : mLists.length;
+    override fun isViewFromObject(view: View, `object`: Any): Boolean {
+        return view === `object`
     }
 
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == object;
+    override fun instantiateItem(container: ViewGroup, position: Int): Any {
+        return mLists!![position]
     }
 
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        return mLists[position];
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        if (position < 0 || position >= mTitles.length)
-            return "";
+    override fun getPageTitle(position: Int): CharSequence? {
+        return if (position < 0 || position >= mTitles.size)
+            ""
         else
-            return mTitles[position];
+            mTitles[position]
     }
 
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-        if (observer != null)
-            super.unregisterDataSetObserver(observer);
-    }
 }

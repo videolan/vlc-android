@@ -38,6 +38,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
@@ -53,7 +55,9 @@ import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.paged.PagedPlaylistsModel
 
-class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem>>, SwipeRefreshLayout.OnRefreshListener {
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
+class PlaylistFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: PlaylistsFragmentBinding
     private lateinit var playlists: RecyclerView
@@ -104,7 +108,7 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
         val itemSize = requireActivity().getScreenWidth() / nbColumns - spacing * 2
 
         playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, itemSize)
-        mAdapter = playlistAdapter
+        currentAdapter = playlistAdapter
 
         playlists.layoutManager = gridLayoutManager
         playlists.adapter = playlistAdapter
@@ -115,19 +119,18 @@ class PlaylistFragment : BaseAudioBrowser(), Observer<PagedList<MediaLibraryItem
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.pagedList.observe(requireActivity(), this)
+        viewModel.pagedList.observe(requireActivity(), Observer {
+            playlistAdapter.submitList(it as PagedList<MediaLibraryItem>)
+            binding.empty.visibility = if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
+        })
         viewModel.loading.observe(this, Observer<Boolean> { loading ->
             AppScope.launch { binding.swipeLayout.isRefreshing = loading == true }
         })
 
-        fastScroller.setRecyclerView(currentRV, viewModel)
+        fastScroller.setRecyclerView(getCurrentRV(), viewModel)
 
     }
 
-    override fun onChanged(list: PagedList<MediaLibraryItem>?) {
-        playlistAdapter.submitList(list)
-        binding.empty.visibility = if (list.isNullOrEmpty()) View.VISIBLE else View.GONE
-    }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
         mode.menuInflater.inflate(R.menu.action_mode_audio_browser, menu)
