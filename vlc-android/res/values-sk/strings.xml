@@ -132,6 +132,7 @@
     <string name="validation">Naozaj?</string>
 
     <string name="cover_art">Obal</string>
+    <string name="shuffle_all_title">Všetko náhodne</string>
     <string name="shuffle_title">Režim náhodného prehrávania</string>
     <string name="shuffle">Vypnúť náhodné prehrávanie</string>
     <string name="shuffle_on">Zapnúť náhodné prehrávanie</string>
@@ -288,6 +289,8 @@
     <string name="enable_black_theme_summary">Zmeniť farby rozhrania pre lepší komfort v prostrediach so slabým osvetlením</string>
     <string name="subtitle_text_encoding">Kódovanie textu titulkov</string>
     <string name="daynight_title">Režim deň/noc</string>
+    <string name="daynight_follow_system_title">Sledovať režim systému</string>
+    <string name="daynight_battery_title">Sledovať šetrič batérie</string>
     <string name="daynight_summary">Automaticky prepnúť na nočný režim vo vhodnom čase</string>
 
     <string name="extra_prefs_category">Extra nastavenia</string>
@@ -499,7 +502,7 @@
     <string name="directory_show_medialib">Zobraziť v knižnici multimédií</string>
     <string name="directory_hide_medialib">Skryť v knižnici multimédií</string>
     <string name="playlist_save">Uložiť playlist</string>
-    <string name="playlist_name_hint">názov playlistu</string>
+    <string name="playlist_name_hint">Názov playlistu</string>
     <string name="go_to_chapter">Prejsť na kapitolu…</string>
     <string name="chapter">Kapitola</string>
     <string name="resume_from_position">Pokračovať od poslednej pozície</string>
@@ -626,6 +629,8 @@
     <string name="audio_digital_title">Zvukový digitálny výstup (prechod)</string>
     <string name="audio_task_cleared_title">Zastaviť pri presune apl. prstom</string>
     <string name="audio_task_cleared_summary">Zastaviť prehrávanie ak aplikácia zmizla</string>
+    <string name="audio_resume_card_title">Načítať poslednú kartu playlistov</string>
+    <string name="audio_resume_card_summary">Zobrazí sa karta pre pokračovanie prehrávania zvuku pri spustení aplikácie</string>
     <string name="playback_rewind">Previnúť</string>
     <string name="playback_forward">Rýchlo dopredu</string>
     <string name="ml_wizard_title">Výber knižnice médií VLC</string>
@@ -665,6 +670,7 @@
     <string name="video_save_clone_mode">Aktivovať režim klonovania automaticky?</string>
     <string name="video_remote_enable">Prepnúť na režim ovládania na diaľku</string>
     <string name="video_remote_disable">Duplikovať obrazovku</string>
+    <string name="removed_from_playlist_anonymous">Položka/položky odstránené z playlistu</string>
     <string name="welcome_title">Vitajte vo VLC!</string>
     <string name="welcome_subtitle">Voľne šíriteľnom multimediálnom prehrávači s otvoreným zdrojovým kódom</string>
     <string name="permission_media">VLC potrebuje Vaše povolenie na prístup k mediálnym súborom v zariadení</string>
@@ -678,4 +684,13 @@
     <string name="onboarding_scan_customize">Umožniť výber prehľadávaných priečinkov</string>
     <string name="button_medialibrary_preferences">Prejsť na nastavenia knižnice médií</string>
     <string name="light_theme">Svetlá téma</string>
+    <string name="add">Pridať</string>
+    <string name="add_to_new_playlist">Pridať do nového playlistu</string>
+    <string name="theme_follow_system_mode">Sledovať režim systému</string>
+    <string name="resume_card_message">Pokračovať prehrávanie z %1$s?</string>
+    <string name="misc">Rôzne</string>
+    <string name="popup_force_legacy_title">Použiť používateľské okno PiP</string>
+    <string name="popup_force_legacy_summary">Použiť používateľské okno PiP s možnosťou zmeny veľkosti</string>
+    <string name="device_default">Predvolené zariadenie</string>
+    <string name="track_number">stôp: %s</string>
 </resources>
