@@ -95,8 +95,8 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
             final boolean seenMarkVisible = preferences.getBoolean("media_seen", true);
             mAdapter = new VideoListAdapter(this, seenMarkVisible);
             multiSelectHelper = mAdapter.getMultiSelectHelper();
-            viewModel = PagedVideosModel.Companion.get(requireContext(), this, mFolder);
-            viewModel.getPagedList().observe(this, this);
+            setViewModel(PagedVideosModel.Companion.get(requireContext(), this, mFolder));
+            getViewModel().getPagedList().observe(this, this);
         }
         if (savedInstanceState != null) setGroup(savedInstanceState.getString(Constants.KEY_GROUP));
     }
@@ -128,7 +128,7 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final boolean empty = viewModel.isEmpty();
+        final boolean empty = getViewModel().isEmpty();
         mBinding.loadingFlipper.setVisibility(empty ? View.VISIBLE : View.GONE);
         mBinding.loadingTitle.setVisibility(empty ? View.VISIBLE : View.GONE);
         mBinding.setEmpty(empty);
@@ -147,7 +147,7 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
+        getSwipeRefreshLayout().setOnRefreshListener(this);
         mBinding.videoGrid.setAdapter(mAdapter);
     }
 
@@ -157,12 +157,12 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
         registerForContextMenu(mBinding.videoGrid);
         updateViewMode();
         setFabPlayVisibility(true);
-        mFabPlay.setImageResource(R.drawable.ic_fab_play);
+        getFabPlay().setImageResource(R.drawable.ic_fab_play);
     }
 
     @Override
     protected void onRestart() {
-        if (getFilterQuery() == null) viewModel.refresh();
+        if (getFilterQuery() == null) getViewModel().refresh();
     }
 
     @Override
@@ -186,7 +186,7 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
 
     @Override
     public void onChanged(@Nullable PagedList<MediaWrapper> list) {
-        mAdapter.showFilename(viewModel.getSort() == Medialibrary.SORT_FILENAME);
+        mAdapter.showFilename(getViewModel().getSort() == Medialibrary.SORT_FILENAME);
         if (list != null) mAdapter.submitList(list);
     }
 
@@ -235,18 +235,18 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
 
     @Override
     public void onFabPlayClick(View view) {
-        MediaUtils.INSTANCE.playAll(requireContext(), viewModel, 0, false);
+        MediaUtils.INSTANCE.playAll(requireContext(), getViewModel(), 0, false);
     }
 
     @MainThread
     public void updateList() {
-        viewModel.refresh();
+        getViewModel().refresh();
         mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300);
     }
 
     private void updateEmptyView() {
-        final boolean empty = viewModel.isEmpty();
-        final boolean working = mMediaLibrary.isWorking();
+        final boolean empty = getViewModel().isEmpty();
+        final boolean working = getMediaLibrary().isWorking();
         mBinding.loadingFlipper.setVisibility(empty && working ? View.VISIBLE : View.GONE);
         mBinding.loadingTitle.setVisibility(empty && working ? View.VISIBLE : View.GONE);
         mBinding.setEmpty(empty && !working);
@@ -273,7 +273,7 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
 
     @Override
     public void setFabPlayVisibility(boolean enable) {
-        super.setFabPlayVisibility(!viewModel.isEmpty() && enable);
+        super.setFabPlayVisibility(!getViewModel().isEmpty() && enable);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -338,7 +338,7 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        mActionMode = null;
+        setActionMode(null);
         setFabPlayVisibility(true);
         multiSelectHelper.clearSelection();
     }
@@ -355,11 +355,11 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
                     updateList();
                     break;
                 case SET_REFRESHING:
-                    mSwipeRefreshLayout.setRefreshing(true);
+                    getSwipeRefreshLayout().setRefreshing(true);
                     break;
                 case UNSET_REFRESHING:
                     removeMessages(SET_REFRESHING);
-                    mSwipeRefreshLayout.setRefreshing(false);
+                    getSwipeRefreshLayout().setRefreshing(false);
                     break;
                 default:
                     super.handleMessage(msg);
@@ -370,7 +370,7 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
     @Override
     public void onClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
         final MediaWrapper media = (MediaWrapper) item;
-        if (mActionMode != null) {
+        if (getActionMode() != null) {
             multiSelectHelper.toggleSelection(position);
             invalidateActionMode();
             return;
@@ -384,7 +384,7 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO);
             final SharedPreferences settings = Settings.INSTANCE.getInstance(v.getContext());
             if (settings.getBoolean("force_play_all", false)) {
-                MediaUtils.INSTANCE.playAll(requireContext(), viewModel, position, false);
+                MediaUtils.INSTANCE.playAll(requireContext(), getViewModel(), position, false);
             } else {
                 playVideo(media, false);
             }
@@ -393,7 +393,7 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
 
     @Override
     public boolean onLongClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
-        if (mActionMode != null) return false;
+        if (getActionMode() != null) return false;
         multiSelectHelper.toggleSelection(position);
         startActionMode();
         return true;
@@ -408,7 +408,7 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
         final boolean group = mw.getType() == MediaWrapper.TYPE_GROUP;
         int flags = group ? Constants.CTX_VIDEO_GOUP_FLAGS : Constants.CTX_VIDEO_FLAGS;
         if (mw.getTime() != 0L && !group) flags |= Constants.CTX_PLAY_FROM_START;
-        if (mActionMode == null)
+        if (getActionMode() == null)
             ContextSheetKt.showContext(requireActivity(), this, position, item.getTitle(), flags);
     }
 
@@ -423,7 +423,7 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
             @Override
             public void run() {
                 if (!isResumed()) return;
-                if (!mMediaLibrary.isWorking()) mHandler.sendEmptyMessage(UNSET_REFRESHING);
+                if (!getMediaLibrary().isWorking()) mHandler.sendEmptyMessage(UNSET_REFRESHING);
                 updateEmptyView();
                 setFabPlayVisibility(true);
                 UiTools.updateSortTitles(VideoGridFragment.this);
@@ -455,7 +455,7 @@ public class VideoGridFragment extends MediaBrowserFragment<PagedVideosModel> im
                 playAudio(media);
                 break;
             case Constants.CTX_PLAY_ALL:
-                MediaUtils.INSTANCE.playAll(requireContext(), viewModel, position, false);
+                MediaUtils.INSTANCE.playAll(requireContext(), getViewModel(), position, false);
                 break;
             case Constants.CTX_INFORMATION:
                 showInfoDialog(media);

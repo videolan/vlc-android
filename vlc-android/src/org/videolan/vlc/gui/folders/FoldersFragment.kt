@@ -38,7 +38,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
     private val actor = actor<FolderAction> {
         for (action in channel) when(action) {
             is FolderClick -> {
-                if (mActionMode != null) {
+                if (actionMode != null) {
                     adapter.multiSelectHelper.toggleSelection(action.position)
                     invalidateActionMode()
                 } else {
@@ -49,7 +49,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
                 }
             }
             is FolderLongClick -> {
-                if (mActionMode == null) {
+                if (actionMode == null) {
                     adapter.multiSelectHelper.toggleSelection(action.position)
                     startActionMode()
                 }
@@ -66,7 +66,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
             adapter = FoldersAdapter(actor)
             viewModel = ViewModelProviders.of(requireActivity(), PagedFoldersModel.Factory(requireContext(), Folder.TYPE_FOLDER_VIDEO)).get(PagedFoldersModel::class.java)
             viewModel.pagedList.observe(requireActivity(), Observer {
-                mSwipeRefreshLayout?.isRefreshing = false
+                swipeRefreshLayout?.isRefreshing = false
                 adapter.submitList(it)
             })
         }
@@ -80,27 +80,28 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
         super.onViewCreated(view, savedInstanceState)
         folders_list.layoutManager = LinearLayoutManager(view.context, RecyclerView.VERTICAL, false)
         folders_list.adapter = adapter
-        mSwipeRefreshLayout.setOnRefreshListener { activity?.reloadLibrary() }
+        swipeRefreshLayout?.setOnRefreshListener { activity?.reloadLibrary() }
     }
 
     override fun onStart() {
         super.onStart()
         setFabPlayVisibility(true);
-        mFabPlay.setImageResource(R.drawable.ic_fab_play);
+        fabPlay.setImageResource(R.drawable.ic_fab_play);
     }
 
-    override fun getTitle() = getString(R.string.video)
+
+    override fun getTitle(): String = getString(R.string.video)
 
     override fun onRefresh() {
         viewModel.refresh()
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
+    override fun onPrepareOptionsMenu(menu: Menu?) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.ml_menu_last_playlist).isVisible = true
+        menu?.findItem(R.id.ml_menu_last_playlist)?.isVisible = true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem)= when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
         R.id.ml_menu_last_playlist -> {
             MediaUtils.loadlastPlaylist(activity, PLAYLIST_TYPE_VIDEO)
             true
@@ -116,7 +117,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
         }
     }
 
-    override fun onFabPlayClick(view: View?) {
+    override fun onFabPlayClick(view: View) {
         MediaUtils.playAllTracks(context, viewModel, 0, false)
     }
 
@@ -125,13 +126,13 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
         return true
     }
 
-    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+    override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
         val count = adapter.multiSelectHelper.getSelectionCount()
         if (count == 0) {
             stopActionMode()
             return false
         }
-        menu?.findItem(R.id.action_video_append)?.isVisible = PlaylistManager.hasMedia()
+        menu.findItem(R.id.action_video_append)?.isVisible = PlaylistManager.hasMedia()
         return true
     }
 
@@ -148,7 +149,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
     }
 
     override fun onDestroyActionMode(mode: ActionMode?) {
-        mActionMode = null
+        actionMode = null
         adapter.multiSelectHelper.clearSelection()
     }
 }

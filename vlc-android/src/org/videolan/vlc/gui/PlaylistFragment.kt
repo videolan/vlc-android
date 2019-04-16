@@ -66,10 +66,8 @@ class PlaylistFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListene
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (viewModel == null) {
             viewModel = ViewModelProviders.of(requireActivity(), PagedPlaylistsModel.Factory(requireContext())).get(PagedPlaylistsModel::class.java)
 
-        }
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = PlaylistsFragmentBinding.inflate(inflater, container, false)
@@ -139,7 +137,7 @@ class PlaylistFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListene
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        if (mActionMode == null) {
+        if (actionMode == null) {
             val i = Intent(activity, PlaylistActivity::class.java)
             i.putExtra(AudioBrowserFragment.TAG_ITEM, item)
             startActivity(i)
@@ -151,7 +149,8 @@ class PlaylistFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListene
         activity?.reloadLibrary()
     }
 
-    override fun getTitle() = getString(R.string.playlists)
+    override fun getTitle(): String = getString(R.string.playlists)
+
 
     override fun getCurrentRV(): RecyclerView = playlists
 

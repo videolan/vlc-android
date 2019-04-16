@@ -26,7 +26,10 @@ package org.videolan.vlc.gui.browser
 import android.content.Context
 import android.net.Uri
 import android.view.View
+import androidx.databinding.ViewDataBinding
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -37,6 +40,8 @@ import org.videolan.vlc.gui.helpers.ThreeStatesCheckbox
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.containsPath
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBrowserAdapter(fragment) {
 
     private var mediaDirsLocation: MutableList<String> = mutableListOf()
@@ -47,13 +52,13 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
         updateMediaDirs(fragment.requireContext())
     }
 
-    override fun onBindViewHolder(holder: BaseBrowserAdapter.ViewHolder<*>, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {
         launch {
             val vh = holder as BaseBrowserAdapter.MediaViewHolder
             var storage = getItem(position)
 
-            if (storage?.itemType == MediaLibraryItem.TYPE_MEDIA) storage = Storage((storage as MediaWrapper).uri)
-            var storagePath = (storage as Storage).uri.path
+            if (storage.itemType == MediaLibraryItem.TYPE_MEDIA) storage = Storage((storage as MediaWrapper).uri)
+            var storagePath = (storage as Storage).uri.path ?: ""
             if (!storagePath.endsWith("/")) storagePath += "/"
             vh.binding.item = storage
             job?.join()
@@ -65,7 +70,7 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
                 hasDiscoveredChildren(storagePath) -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_PARTIAL
                 else -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_UNCHECKED
             }
-            vh.binding.checkEnabled = !fragment.mScannedDirectory
+            vh.binding.checkEnabled = !(fragment as StorageBrowserFragment).mScannedDirectory
         }
     }
 

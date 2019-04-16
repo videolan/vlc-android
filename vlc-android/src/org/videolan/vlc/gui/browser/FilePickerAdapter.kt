@@ -21,25 +21,23 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui.browser;
+package org.videolan.vlc.gui.browser
 
-import org.videolan.medialibrary.media.MediaWrapper;
+import androidx.databinding.ViewDataBinding
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.media.MediaWrapper
 
-public class FilePickerAdapter extends BaseBrowserAdapter {
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
+class FilePickerAdapter internal constructor(fragment: BaseBrowserFragment) : BaseBrowserAdapter(fragment) {
 
-    FilePickerAdapter(BaseBrowserFragment fragment) {
-        super(fragment);
-    }
-
-    @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        if (holder instanceof MediaViewHolder) {
-            final MediaViewHolder vh = (MediaViewHolder) holder;
-            final MediaWrapper media = (MediaWrapper) getItem(position);
-            vh.binding.setItem(media);
-            vh.binding.setHasContextMenu(false);
-            vh.binding.setProtocol(null);
-            vh.binding.setCover(getIcon(media, false));
-        }
+    override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {
+        val h = holder as MediaViewHolder
+        val media = getItem(position) as MediaWrapper
+        h.binding.item = media
+        h.binding.hasContextMenu = false
+        h.binding.protocol = null
+        h.binding.cover = getIcon(media, false)
     }
 }

@@ -225,7 +225,9 @@ class Navigator(private val activity: MainActivity,
                 putBoolean(ExtensionBrowser.KEY_SHOW_FAB, showParams)
                 putString(ExtensionBrowser.KEY_TITLE, title)
             }
-            fragment.setExtensionService(extensionsService)
+            if (extensionsService != null) {
+                fragment.setExtensionService(extensionsService)
+            }
             when {
                 currentFragment !is ExtensionBrowser -> //case: non-extension to extension root
                     showFragment(fragment, extensionId, title)

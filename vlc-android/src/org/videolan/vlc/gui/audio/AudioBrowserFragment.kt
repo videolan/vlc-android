@@ -33,6 +33,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -87,7 +88,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
      * Disable Swipe Refresh while scrolling horizontally
      */
     private val mSwipeFilter = View.OnTouchListener { _, event ->
-        mSwipeRefreshLayout.isEnabled = event.action == MotionEvent.ACTION_UP
+        swipeRefreshLayout?.isEnabled = event.action == MotionEvent.ACTION_UP
         false
     }
 
@@ -142,7 +143,18 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
             list.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, models[i]))
         }
         viewPager!!.setOnTouchListener(mSwipeFilter)
-        mSwipeRefreshLayout.setOnRefreshListener(this)
+        swipeRefreshLayout?.setOnRefreshListener(this)
+        viewPager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+
+            override fun onPageSelected(position: Int) {
+                viewModel = models[viewPager!!.currentItem]
+            }
+
+        })
+        viewModel = models[viewPager!!.currentItem]
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -194,7 +206,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
     override fun onStart() {
         super.onStart()
         setFabPlayShuffleAllVisibility()
-        mFabPlay.setImageResource(R.drawable.ic_fab_shuffle)
+        fabPlay.setImageResource(R.drawable.ic_fab_shuffle)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
@@ -215,9 +227,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
         requireContext().reloadLibrary()
     }
 
-    override fun getTitle(): String {
-        return getString(R.string.audio)
-    }
+    override fun getTitle(): String = getString(R.string.audio)
 
     override fun enableSearchOption(): Boolean {
         return true
@@ -238,7 +248,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
         super.onTabSelected(tab)
         fastScroller.setRecyclerView(lists[tab.position]!!, models[tab.position])
         settings.edit().putInt(KEY_AUDIO_CURRENT_TAB, tab.position).apply()
-        val loading = getViewModel().loading.value
+        val loading = viewModel.loading.value
         if (loading == null || !loading)
             mHandler.sendEmptyMessage(UNSET_REFRESHING)
         else
@@ -256,7 +266,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        if (mActionMode != null) {
+        if (actionMode != null) {
             super.onClick(v, position, item)
             return
         }
@@ -283,16 +293,13 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         super.onUpdateFinished(adapter)
         if (currentAdapter != null && adapter === currentAdapter) {
-            mSwipeRefreshLayout.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
+            swipeRefreshLayout?.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
             updateEmptyView()
-            fastScroller.setRecyclerView(getCurrentRV(), getViewModel())
+            fastScroller.setRecyclerView(getCurrentRV(), viewModel)
         } else
             setFabPlayShuffleAllVisibility()
     }
 
-    override fun getViewModel(): MLPagedModel<MediaLibraryItem> {
-        return models[viewPager!!.currentItem]
-    }
 
 
     override fun getCurrentRV(): RecyclerView {
@@ -304,10 +311,10 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
         override fun handleMessage(msg: Message) {
             val fragment = owner ?: return
             when (msg.what) {
-                SET_REFRESHING -> fragment.mSwipeRefreshLayout.isRefreshing = true
+                SET_REFRESHING -> fragment.swipeRefreshLayout?.isRefreshing = true
                 UNSET_REFRESHING -> {
                     removeMessages(SET_REFRESHING)
-                    fragment.mSwipeRefreshLayout.isRefreshing = false
+                    fragment.swipeRefreshLayout?.isRefreshing = false
                 }
                 UPDATE_EMPTY_VIEW -> fragment.updateEmptyView()
             }

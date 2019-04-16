@@ -76,8 +76,8 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
         super.onViewCreated(view, savedInstanceState);
         mEmptyView = view.findViewById(R.id.empty);
         mRecyclerView = view.findViewById(android.R.id.list);
-        viewModel = ViewModelProviders.of(requireActivity(), new HistoryModel.Factory(requireContext())).get(HistoryModel.class);
-        viewModel.getDataset().observe(this, new Observer<List<MediaWrapper>>() {
+        setViewModel(ViewModelProviders.of(requireActivity(), new HistoryModel.Factory(requireContext())).get(HistoryModel.class));
+        getViewModel().getDataset().observe(this, new Observer<List<MediaWrapper>>() {
             @Override
             public void onChanged(@Nullable List<MediaWrapper> mediaWrappers) {
                 if (mediaWrappers != null) mHistoryAdapter.update(mediaWrappers);
@@ -87,7 +87,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
 
     @Override
     protected void onRestart() {
-        viewModel.refresh();
+        getViewModel().refresh();
     }
 
     @Override
@@ -101,7 +101,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
         mRecyclerView.setNextFocusForwardId(android.R.id.list);
         mRecyclerView.requestFocus();
         registerForContextMenu(mRecyclerView);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
+        getSwipeRefreshLayout().setOnRefreshListener(this);
     }
 
     @Override
@@ -129,12 +129,12 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
 
     @Override
     public void setFabPlayVisibility(boolean enable) {
-        if (mFabPlay != null) mFabPlay.setVisibility(View.GONE);
+        if (getFabPlay() != null) getFabPlay().setVisibility(View.GONE);
     }
 
     @Override
     public void refresh() {
-        viewModel.refresh();
+        getViewModel().refresh();
     }
 
     @Override
@@ -152,11 +152,11 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
 
     private void updateEmptyView() {
         if (mHistoryAdapter.isEmpty()){
-            mSwipeRefreshLayout.setVisibility(View.GONE);
+            getSwipeRefreshLayout().setVisibility(View.GONE);
             mEmptyView.setVisibility(View.VISIBLE);
         } else {
             mEmptyView.setVisibility(View.GONE);
-            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+            getSwipeRefreshLayout().setVisibility(View.VISIBLE);
         }
     }
 
@@ -167,8 +167,8 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
 
     @Override
     public void clearHistory() {
-        mMediaLibrary.clearHistory();
-        viewModel.clear();
+        getMediaLibrary().clearHistory();
+        getViewModel().clear();
         updateEmptyView();
     }
 
@@ -215,9 +215,9 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
-        mActionMode = null;
+        setActionMode(null);
         int index = -1;
-        for (MediaWrapper media : viewModel.getDataset().getValue()) {
+        for (MediaWrapper media : getViewModel().getDataset().getValue()) {
             ++index;
             if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
                 media.removeStateFlags(MediaLibraryItem.FLAG_SELECTED);
@@ -228,19 +228,19 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
 
     @Override
     public void onClick(View v, int position, MediaLibraryItem item) {
-        if (mActionMode != null) {
+        if (getActionMode() != null) {
             item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
             mHistoryAdapter.notifyItemChanged(position, item);
             invalidateActionMode();
             return;
         }
-        if (position != 0) viewModel.moveUp((MediaWrapper) item);
+        if (position != 0) getViewModel().moveUp((MediaWrapper) item);
         MediaUtils.INSTANCE.openMedia(v.getContext(), (MediaWrapper) item);
     }
 
     @Override
     public boolean onLongClick(View v, int position, MediaLibraryItem item) {
-        if (mActionMode != null) return false;
+        if (getActionMode() != null) return false;
         item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED);
         mHistoryAdapter.notifyItemChanged(position, item);
         startActionMode();
@@ -249,7 +249,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
 
     @Override
     public void onImageClick(@NotNull View v, int position, @NotNull MediaLibraryItem item) {
-        if (mActionMode != null) {
+        if (getActionMode() != null) {
             onClick(v, position, item);
             return;
         }
@@ -267,7 +267,7 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
     @Override
     public void onUpdateFinished(RecyclerView.Adapter adapter) {
         UiTools.updateSortTitles(this);
-        mSwipeRefreshLayout.setRefreshing(false);
+        getSwipeRefreshLayout().setRefreshing(false);
     }
 
     @Override

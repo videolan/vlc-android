@@ -70,11 +70,11 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
     internal val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             if (newState != RecyclerView.SCROLL_STATE_IDLE) {
-                mSwipeRefreshLayout.isEnabled = false
+                swipeRefreshLayout?.isEnabled = false
                 return
             }
             val llm = getCurrentRV().layoutManager as LinearLayoutManager? ?: return
-            mSwipeRefreshLayout.isEnabled = llm.findFirstVisibleItemPosition() <= 0
+            swipeRefreshLayout?.isEnabled = llm.findFirstVisibleItemPosition() <= 0
         }
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {}
@@ -191,33 +191,33 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
 
     internal fun onDestroyActionMode(adapter: AudioBrowserAdapter?) {
         setFabPlayVisibility(true)
-        mActionMode = null
+        actionMode = null
         adapter?.multiSelectHelper?.clearSelection()
     }
 
     override fun sortBy(sort: Int) {
-        getViewModel().canSortBy(sort)
+        viewModel.canSortBy(sort)
         super.sortBy(sort)
     }
 
     override fun onRefresh() {}
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        if (mActionMode != null) {
+        if (actionMode != null) {
             currentAdapter?.multiSelectHelper?.toggleSelection(position)
             invalidateActionMode()
         }
     }
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
-        if (mActionMode != null) return false
+        if (actionMode != null) return false
         currentAdapter?.multiSelectHelper?.toggleSelection(position)
         startActionMode()
         return true
     }
 
     override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {
-        if (mActionMode != null) {
+        if (actionMode != null) {
             onClick(v, position, item)
             return
         }
@@ -230,7 +230,7 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
             MediaLibraryItem.TYPE_PLAYLIST -> CTX_PLAYLIST_FLAGS
             else -> CTX_AUDIO_FLAGS
         }
-        if (mActionMode == null) showContext(requireActivity(), this, position, item.title, flags)
+        if (actionMode == null) showContext(requireActivity(), this, position, item.title, flags)
     }
 
 
@@ -252,7 +252,7 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
         val media = adapter?.getItem(position) ?: return
         when (option) {
             CTX_PLAY -> MediaUtils.playTracks(requireActivity(), media, 0)
-            CTX_PLAY_ALL -> MediaUtils.playAll(requireContext(), getViewModel() as MLPagedModel<MediaWrapper>, position, false)
+            CTX_PLAY_ALL -> MediaUtils.playAll(requireContext(), viewModel as MLPagedModel<MediaWrapper>, position, false)
             CTX_INFORMATION -> showInfoDialog(media)
             CTX_DELETE -> removeItem(media)
             CTX_APPEND -> MediaUtils.appendMedia(requireActivity(), media.tracks)
