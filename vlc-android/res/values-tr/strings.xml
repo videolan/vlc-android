@@ -275,6 +275,8 @@
     <string name="enable_black_theme_summary">Düşük aydınlatmalı ortamlarda daha konforlu kullanım için arayüz renklerini değiştirir.</string>
     <string name="subtitle_text_encoding">Alt yazı metin kodlaması</string>
     <string name="daynight_title">Gündüz/Gece kipi</string>
+    <string name="daynight_follow_system_title">Sistem kipi izlensin</string>
+    <string name="daynight_battery_title">Pil koruyucu izlensin</string>
     <string name="daynight_summary">Uygun zamanda otomatik olarak gece kipine geçilir</string>
 
     <string name="extra_prefs_category">Ek ayarlar</string>
@@ -486,7 +488,7 @@
     <string name="directory_show_medialib">Ortam Kitaplığında Görüntüle</string>
     <string name="directory_hide_medialib">Ortam Kitaplığında Gizle</string>
     <string name="playlist_save">Oynatma Listesini Kaydet</string>
-    <string name="playlist_name_hint">oynatma listesi adı</string>
+    <string name="playlist_name_hint">Oynatma listesi adı</string>
     <string name="go_to_chapter">Bölüme git…</string>
     <string name="chapter">Bölüm</string>
     <string name="resume_from_position">Oynatmayı kalınan konumdan sürdür</string>
@@ -613,6 +615,8 @@
     <string name="audio_digital_title">Sayısal Ses Çıkışı (geçiş)</string>
     <string name="audio_task_cleared_title">Uygulama ekran dışına kaydırıldığında durdurulsun</string>
     <string name="audio_task_cleared_summary">Uygulama yok sayıldığında oynatma durdurulsun</string>
+    <string name="audio_resume_card_title">Son oynatma listesi kartı yüklensin</string>
+    <string name="audio_resume_card_summary">Uygulama başlatıldığında ses oynatmanın sürdürülmesine yardımcı olacak bir kart görüntülenir</string>
     <string name="playback_rewind">Geri Sar</string>
     <string name="playback_forward">İleri Sar</string>
     <string name="ml_wizard_title">VLC ortam kitaplığı seçimi</string>
@@ -652,6 +656,7 @@
     <string name="video_save_clone_mode">Kopya kipi otomatik olarak etkinleştirilsin mi?</string>
     <string name="video_remote_enable">Uzaktan kumanda kipine geç</string>
     <string name="video_remote_disable">Ekranı yansıt</string>
+    <string name="removed_from_playlist_anonymous">öge oynatma listesinden kaldırıldı</string>
     <string name="welcome_title">VLC uygulamasına hoş geldiniz!</string>
     <string name="welcome_subtitle">Özgür ve açık kaynaklı çoklu ortam oynatıcısı</string>
     <string name="permission_media">VLC, aygıtınızdaki ortamlara erişmek için izninizi istiyor</string>
@@ -665,4 +670,13 @@
     <string name="onboarding_scan_customize">VLC tarafından taranacak klasörleri ben seçeyim</string>
     <string name="button_medialibrary_preferences">Ortam kitaplığı ayarlarına gidin</string>
     <string name="light_theme">Açık tema</string>
+    <string name="add">Ekle</string>
+    <string name="add_to_new_playlist">Yeni oynatma listesine ekle</string>
+    <string name="theme_follow_system_mode">Sistem kipi izlensin</string>
+    <string name="resume_card_message">%1$s oynatımı sürdürülsün mü?</string>
+    <string name="misc">Çeşitli</string>
+    <string name="popup_force_legacy_title">Görsel içinde görsel penceresi kullanılsın</string>
+    <string name="popup_force_legacy_summary">Boyutu ayarlanabilir görsel içinde görsel penceresi kullanılsın</string>
+    <string name="device_default">Aygıt varsayılanları</string>
+    <string name="track_number">%s iz</string>
 </resources>
