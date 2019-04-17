@@ -1,6 +1,6 @@
 /*****************************************************************************
  * ShallowVideoPlayer.java
- *****************************************************************************
+ *
  * Copyright © 2011-2014 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
@@ -16,52 +16,48 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
- *****************************************************************************/
+ */
 
-package org.videolan.vlc.gui.video.benchmark;
+package org.videolan.vlc.gui.video.benchmark
 
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.View
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 
-import org.videolan.vlc.gui.video.VideoPlayerActivity;
+import org.videolan.vlc.gui.video.VideoPlayerActivity
 
 
 /**
  * Class to store the overriden methods in BenchActivity
  * for code readability
  */
-public class ShallowVideoPlayer extends VideoPlayerActivity {
-    @Override
-    public boolean onGenericMotionEvent(MotionEvent event) {
-        return true;
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
+open class ShallowVideoPlayer : VideoPlayerActivity() {
+    override fun onGenericMotionEvent(event: MotionEvent): Boolean {
+        return true
     }
 
-    @Override
-    public boolean onTrackballEvent(MotionEvent event) {
-        return true;
+    override fun onTrackballEvent(event: MotionEvent): Boolean {
+        return true
     }
 
-    @Override
-    public boolean dispatchGenericMotionEvent(MotionEvent event) {
-        return true;
+    override fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
+        return true
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return true;
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        return true
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return true;
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        return true
     }
 
-    @Override
-    public void onAudioSubClick(View anchor) {
-    }
 
-    @Override
-    public void onClick(View v) {
-    }
+    override fun onAudioSubClick(anchor: View?) {}
+
+    override fun onClick(v: View) {}
 }

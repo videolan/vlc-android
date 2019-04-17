@@ -68,7 +68,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     var flags: Int = 0
     private val toast by lazy(LazyThreadSafetyMode.NONE) { Toast.makeText(activity, "", Toast.LENGTH_SHORT) }
 
-    private val primary = activity is VideoPlayerActivity && activity.mDisplayManager.isPrimary
+    private val primary = activity is VideoPlayerActivity && activity.displayManager.isPrimary
     private val video = activity is VideoPlayerActivity
     private val res = activity.resources
     private val tvUi by lazy(LazyThreadSafetyMode.NONE) { AndroidDevices.showTvUi(activity) }

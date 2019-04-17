@@ -7,6 +7,8 @@ import android.util.DisplayMetrics
 import android.view.*
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.ScaleGestureDetectorCompat
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Tools
 import org.videolan.vlc.R
@@ -28,6 +30,8 @@ private const val MAX_FOV = 150f
 //stick event
 private const val JOYSTICK_INPUT_DELAY = 300
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 class VideoTouchDelegate(private val player: VideoPlayerActivity,
                          private val mTouchControls: Int,
                          var screenConfig: ScreenConfig,
@@ -194,7 +198,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                     player.changeBrightness(-y / 10f)
                 }
             } else if (Math.abs(rz) > 0.3) {
-                player.volume = player.audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
+                player.volume = player.audiomanager!!.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
                 val delta = -(rz / 7 * player.audioMax).toInt()
                 val vol = Math.min(Math.max(player.volume + delta, 0f), player.audioMax.toFloat()).toInt()
                 player.setAudioVolume(vol)
@@ -232,13 +236,13 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         var coef = coef
         if (coef == 0) coef = 1
         // No seek action if coef > 0.5 and gesturesize < 1cm
-        if (Math.abs(gesturesize) < 1 || !player.mService.isSeekable) return
+        if (Math.abs(gesturesize) < 1 || !player.mService!!.isSeekable) return
 
         if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_SEEK) return
         mTouchAction = TOUCH_SEEK
 
-        val length = player.mService.length
-        val time = player.mService.time
+        val length = player.mService!!.length
+        val time = player.mService!!.time
 
         // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
         var jump = (Math.signum(gesturesize) * (600000 * Math.pow((gesturesize / 8).toDouble(), 4.0) + 3000) / coef).toInt()
@@ -340,7 +344,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                     savedScale = player.currentScaleType
                     player.setVideoScale(MediaPlayer.ScaleType.SURFACE_FIT_SCREEN)
                 } else if (!grow && savedScale != null) {
-                    player.setVideoScale(savedScale)
+                    player.setVideoScale(savedScale!!)
                     savedScale = null
                 } else if (!grow && player.currentScaleType == MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
                     player.setVideoScale(MediaPlayer.ScaleType.SURFACE_BEST_FIT)

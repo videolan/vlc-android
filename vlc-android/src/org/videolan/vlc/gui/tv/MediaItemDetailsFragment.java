@@ -170,7 +170,7 @@ public class MediaItemDetailsFragment extends DetailsSupportFragment {
                         break;
                     case ID_PLAY_FROM_START:
                         mMediaStarted = false;
-                        VideoPlayerActivity.start(getActivity(), media.getUri(), true);
+                        VideoPlayerActivity.Companion.start(getActivity(), media.getUri(), true);
                         activity.finish();
                         break;
                 }
