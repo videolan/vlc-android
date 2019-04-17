@@ -98,8 +98,8 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     override fun onStart() {
         super.onStart()
         if (!isRootDirectory) LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED))
-        fabPlay.setImageResource(if (isRootDirectory) R.drawable.ic_fab_add else R.drawable.ic_fab_play)
-        fabPlay.setOnClickListener(this)
+        fabPlay?.setImageResource(if (isRootDirectory) R.drawable.ic_fab_add else R.drawable.ic_fab_play)
+        fabPlay?.setOnClickListener(this)
         setFabPlayVisibility(true)
     }
 
@@ -187,6 +187,6 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         super.onUpdateFinished(adapter)
-        if (isRootDirectory) fabPlay.show()
+        if (isRootDirectory) fabPlay?.show()
     }
 }

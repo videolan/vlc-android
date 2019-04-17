@@ -206,7 +206,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
     override fun onStart() {
         super.onStart()
         setFabPlayShuffleAllVisibility()
-        fabPlay.setImageResource(R.drawable.ic_fab_shuffle)
+        fabPlay?.setImageResource(R.drawable.ic_fab_shuffle)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {

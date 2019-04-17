@@ -64,7 +64,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     var swipeRefreshLayout: SwipeRefreshLayout? = null
     lateinit var mediaLibrary: Medialibrary
     var actionMode: ActionMode? = null
-    lateinit var fabPlay: FloatingActionButton
+    var fabPlay: FloatingActionButton? = null
     open lateinit var viewModel: T
         protected set
     private var restart = false
@@ -102,7 +102,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     }
 
     protected open fun hasFAB(): Boolean {
-        return true
+        return swipeRefreshLayout != null
     }
 
     protected open fun setBreadcrumb() {
@@ -120,7 +120,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         setBreadcrumb()
         updateActionBar()
         setFabPlayVisibility(true)
-        fabPlay.setOnClickListener { v -> onFabPlayClick(v) }
+        fabPlay?.setOnClickListener { v -> onFabPlayClick(v) }
         if (restart) onRestart()
     }
 

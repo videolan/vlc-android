@@ -85,8 +85,8 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
 
     override fun onStart() {
         super.onStart()
-        setFabPlayVisibility(true);
-        fabPlay.setImageResource(R.drawable.ic_fab_play);
+        setFabPlayVisibility(true)
+        fabPlay?.setImageResource(R.drawable.ic_fab_play)
     }
 
 

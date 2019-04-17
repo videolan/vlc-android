@@ -158,7 +158,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     override fun onStart() {
         super.onStart()
-        fabPlay.run {
+        fabPlay?.run {
             setImageResource(R.drawable.ic_fab_play)
             updateFab()
         }
