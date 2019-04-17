@@ -1,0 +1,115 @@
+package org.videolan.vlc.gui.preferences
+
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
+import android.os.Bundle
+import android.view.View
+import androidx.appcompat.widget.SwitchCompat
+import androidx.core.content.ContextCompat
+import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
+import com.google.android.material.appbar.AppBarLayout
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.vlc.R
+import org.videolan.vlc.extensions.ExtensionListing
+import org.videolan.vlc.extensions.ExtensionsManager
+import org.videolan.vlc.gui.view.ClickableSwitchPreference
+import org.videolan.vlc.util.Settings
+import java.util.*
+
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
+class PreferencesExtensions : BasePreferenceFragment() {
+
+    private var extensions: List<ExtensionListing> = ArrayList()
+    private var settings: SharedPreferences? = null
+    private var count = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        settings = Settings.getInstance(requireContext())
+        extensions = ExtensionsManager.getInstance().getExtensions(activity!!.application, false)
+        preferenceScreen = this.preferenceScreen
+    }
+
+    override fun onStart() {
+        super.onStart()
+        ((activity as PreferencesActivity).findViewById<View>(R.id.appbar) as AppBarLayout).setExpanded(true, false)
+        createCheckboxes()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        preferenceScreen!!.removeAll()
+    }
+
+    override fun getXml(): Int {
+        return R.xml.preferences_extensions
+    }
+
+    override fun getTitleId(): Int {
+        return R.string.extensions_prefs_category
+    }
+
+    private fun createCheckboxes() {
+        val pm = activity!!.applicationContext.packageManager
+        for (i in extensions.indices) {
+            val extension = extensions[i]
+            val switchPreference = ClickableSwitchPreference(preferenceScreen!!.context)
+            switchPreference.title = extension.title()
+            switchPreference.summary = extension.description()
+            val key = ExtensionsManager.EXTENSION_PREFIX + "_" + extension.componentName().packageName
+            switchPreference.key = key
+            val iconRes = extension.menuIcon()
+            var extensionIcon: Drawable? = null
+            if (iconRes != 0) {
+                try {
+                    extensionIcon = ContextCompat.getDrawable(requireActivity(), extension.menuIcon())
+                } catch (e: PackageManager.NameNotFoundException) {
+                }
+
+            }
+            if (extensionIcon != null)
+                switchPreference.icon = extensionIcon
+            else
+                try {
+                    switchPreference.icon = pm.getApplicationIcon(extensions[i].componentName().packageName)
+                } catch (e: PackageManager.NameNotFoundException) {
+                    switchPreference.setIcon(R.drawable.icon)
+                }
+
+            val checked = settings!!.getBoolean(key, false)
+            switchPreference.isChecked = checked
+            preferenceScreen!!.addPreference(switchPreference)
+            switchPreference.setOnSwitchClickListener { view ->
+                if ((view as SwitchCompat).isChecked)
+                    settings!!.edit().putBoolean(key, true).apply()
+                else
+                    for ((key1) in settings!!.all)
+                        if (key1.startsWith(ExtensionsManager.EXTENSION_PREFIX + "_"))
+                            settings!!.edit().putBoolean(key1, false).apply()
+            }
+            count++
+        }
+
+        if (count == 0) {
+            val emptyCategory = PreferenceCategory(preferenceScreen!!.context)
+            emptyCategory.setTitle(R.string.extensions_empty)
+            preferenceScreen!!.addPreference(emptyCategory)
+        }
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        val key = preference.key
+        if (key == null || !key.startsWith(ExtensionsManager.EXTENSION_PREFIX + "_"))
+            return false
+        val fragment = PreferencesExtensionFragment()
+        val extras = Bundle()
+        extras.putString("extension_key", key)
+        fragment.arguments = extras
+        loadFragment(fragment)
+        return super.onPreferenceTreeClick(preference)
+    }
+}
