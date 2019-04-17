@@ -419,7 +419,7 @@ class EqualizerFragment : AppCompatDialogFragment() {
                 if (count <= 0) return null
                 val presets = ArrayList<String>(count)
                 for (i in 0 until count) {
-                    presets[i] = MediaPlayer.Equalizer.getPresetName(i)
+                    presets.add(MediaPlayer.Equalizer.getPresetName(i))
                 }
                 return presets.toTypedArray()
             }
