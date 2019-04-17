@@ -200,13 +200,13 @@ open class AudioPlayerContainerActivity : BaseActivity(), CoroutineScope by Main
     fun showTipViewIfNeeded(stubId: Int, settingKey: String) {
         if (BuildConfig.DEBUG) return
         val vsc = findViewById<View>(stubId)
-        if (vsc != null && !mSettings.getBoolean(settingKey, false) && !AndroidDevices.showTvUi(this)) {
+        if (vsc != null && !settings.getBoolean(settingKey, false) && !AndroidDevices.showTvUi(this)) {
             val v = (vsc as ViewStubCompat).inflate()
             v.setOnClickListener { removeTipViewIfDisplayed() }
             val okGotIt = v.findViewById<TextView>(R.id.okgotit_button)
             okGotIt.setOnClickListener {
                 removeTipViewIfDisplayed()
-                val editor = mSettings.edit()
+                val editor = settings.edit()
                 editor.putBoolean(settingKey, true)
                 editor.apply()
             }
@@ -363,7 +363,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), CoroutineScope by Main
     fun proposeCard() = launch {
         delay(1000L)
         if (PlaylistManager.showAudioPlayer.value == true) return@launch
-        val song = mSettings.getString("current_song", null) ?: return@launch
+        val song = settings.getString("current_song", null) ?: return@launch
         val media = getFromMl { getMedia(Uri.parse(song)) }
         val title = media?.title ?: Uri.decode(FileUtils.getFileNameFromPath(song)).substringBeforeLast('.')
         if (!lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return@launch
