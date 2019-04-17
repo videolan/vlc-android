@@ -47,9 +47,11 @@
     <string name="play_all">Spila allt</string>
     <string name="append_all">Bæta öllu við</string>
     <string name="last_playlist">Síðasti spilunarlisti</string>
+    <string name="last_playlist_shortcut">Halda afspilun áfram</string>
     <string name="delete">Eyða</string>
     <string name="remove">Fjarlægja</string>
     <string name="set_song">Setja sem hringitón</string>
+    <string name="set_song_question">Setja \'%1$s\' sem hringitón?</string>
     <string name="info">Upplýsingar</string>
     <string name="confirm_delete">Eyða skránni \'%1$s\'?</string>
     <string name="confirm_delete_folder">Eyða möppunni \'%1$s\' og öllu innihaldi hennar?</string>
@@ -118,6 +120,7 @@
     <string name="validation">Ertu viss?</string>
 
     <string name="cover_art">Umslög</string>
+    <string name="shuffle_all_title">Stokka allt</string>
     <string name="shuffle_title">Stokkunarhamur</string>
     <string name="shuffle">Stokkun af</string>
     <string name="shuffle_on">Stokkun á</string>
@@ -127,7 +130,6 @@
     <string name="repeat_all">Endurtaka allt</string>
     <string name="previous">Fyrra</string>
     <string name="stop">Stöðva</string>
-    <string name="next">Næsta</string>
     <string name="firstsong">Fyrsta lag í spilunarlista</string>
     <string name="lastsong">Síðasta lag í lagalista</string>
 
@@ -154,6 +156,9 @@
     <string name="navmenu">flakkvalmynd</string>
     <string name="advanced">ítarlegir valkostir</string>
     <string name="audio_boost_warning">Renndu upp aftur til að fara yfir 100%</string>
+    <string name="locked_in_portrait_mode">Læst í lóðréttum ham\n(Ýttu lengi á hnappinn til að hætta við)</string>
+    <string name="locked_in_landscape_mode">Læst í láréttum ham\n(Ýttu lengi á hnappinn til að hætta við)</string>
+    <string name="reset_orientation">Stefna endurstillt</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 rás\n</item>
@@ -270,6 +275,8 @@
     <string name="enable_black_theme_summary">Skipta yfir í liti á viðmóti sem eru þægilegri í umhverfi með lítilli birtu.</string>
     <string name="subtitle_text_encoding">Kóðun skjátexta</string>
     <string name="daynight_title">DagsNætur-hamur</string>
+    <string name="daynight_follow_system_title">Fylgja ham kerfisins</string>
+    <string name="daynight_battery_title">Hlýða rafhlöðusparnaði</string>
     <string name="daynight_summary">Skipta sjálfvirkt í næturham á viðeigandi tíma</string>
 
     <string name="extra_prefs_category">Aukastillingar</string>
@@ -286,11 +293,14 @@
     <string name="video_min_group_length_title">Hópa myndskeið</string>
     <string name="video_min_group_length_summary">Myndskeið eru hópuð ef fyrsti stafur í heiti þeirra er sá sami.</string>
     <string name="video_min_group_length_disable">Gera óvirkt</string>
+    <string name="video_min_group_length_folder">Hópa eftir möppum</string>
     <string name="video_min_group_length_first">Einungis fyrsti stafur</string>
     <string name="video_min_group_length_short">Lítill fjöldi stafa (6)</string>
     <string name="video_min_group_length_long">Meiri fjöldi stafa (9)</string>
     <string name="media_fast_seek">Hraðleit</string>
     <string name="media_fast_seek_summary">Leit í efni er hraðari en ekki eins nákvæm</string>
+    <string name="video_transition_title">Millifærslur myndskeiða</string>
+    <string name="video_transition_summary">Birta titil nýs myndskeiðs við millifærslu</string>
     <string name="media_seen">Birta merkingu um áhorf</string>
     <string name="media_seen_summary">Merkja myndskeið sem séð þegar þú ert búinn að spila það til enda</string>
     <string name="force_list_portrait">Ekki reitir í lóðréttri stöðu</string>
@@ -360,6 +370,7 @@
     <string name="audio_ducking_title">Lækka hljóðstyrk VLC við tilkynningar</string>
     <string name="audio_ducking_summary">Gerir auðveldara að heyra raddtilkynningar, leiðbeiningar við leiðsögn eða aðra raddaðstoð</string>
     <string name="casting_category">Útvörpun (casting)</string>
+    <string name="casting_switch_title">Þráðlaus vörpun (casting)</string>
     <string name="casting_passthrough_title">Gegnumstreymi hljóðs</string>
     <string name="casting_passthrough_summary">Láttu sjónvarpið sjá um hljóðmeðhöndlun</string>
     <string name="casting_conversion_quality_title">Gæði umbreytingar</string>
@@ -423,6 +434,8 @@
     <string name="restart_message">Breytingar munu taka gildi eftir að forritið hefur verið endurræst.\n\nEndurræsa núna?</string>
     <string name="restart_message_OK">Í lagi</string>
     <string name="restart_message_Later">Seinna</string>
+    <string name="browser_show_all_title">Sýna allar skrár í vafra</string>
+    <string name="browser_show_all_summary">Birta skrár sem ekki eru þekktar sem hljóð- eða myndskrár í vöfrum</string>
 
     <string name="developer_prefs_category">Forritari</string>
     <string name="enable_verbose_mode">Birta ítarlegri upplýsingar</string>
@@ -446,6 +459,16 @@
     <string name="send_log">Senda annál</string>
     <string name="sending_log">Sendi annál…</string>
 
+    <string name="delete_sub_title">Eyða skjátexta</string>
+    <string name="delete_sub_message">Villtu eyða þessum skjátexta?</string>
+    <string name="delete_sub_yes">Já</string>
+    <string name="delete_sub_no">Nei</string>
+    <string name="download_subtitle_title">Sækja skjátexta</string>
+
+    <string name="no_result">Engar niðurstöður fundust</string>
+    <string name="no_internet_connection">Athugaðu með nettenginguna þína</string>
+    <string name="some_error_occurred">Einhver villa kom upp. Prófaðu aftur eftir nokkrar sekúndur</string>
+
     <string name="drawer_open">Opna hliðarvalmynd</string>
     <string name="drawer_close">Loka hliðarvalmynd</string>
     <string name="network_browsing">Staðarnet</string>
@@ -465,7 +488,7 @@
     <string name="directory_show_medialib">Birta í MediaLib</string>
     <string name="directory_hide_medialib">Fela úr MediaLib</string>
     <string name="playlist_save">Vista spilunarlista</string>
-    <string name="playlist_name_hint">heiti spilunarlista</string>
+    <string name="playlist_name_hint">Heiti spilunarlista</string>
     <string name="go_to_chapter">Fara á kafla…</string>
     <string name="chapter">Kafli</string>
     <string name="resume_from_position">Halda áfram frá síðustu stöðu</string>
@@ -590,11 +613,15 @@
     <string name="audio_digital_output_enabled">Stafrænt hljóðúttak virkt</string>
     <string name="audio_digital_output_disabled">Stafrænt hljóðúttak óvirkt</string>
     <string name="audio_digital_title">Stafrænt hljóðúttak (gegnumstreymi)</string>
-    <string name="audio_task_removed_title">Stöðva afspilun þegar hætt er í forriti</string>
+    <string name="audio_task_cleared_title">Stöðva þegar strokið er yfir forrit</string>
+    <string name="audio_task_cleared_summary">Stöðva afspilun þegar hætt er í forriti</string>
+    <string name="audio_resume_card_title">Hlaða inn síðasta spilunarlistaspjaldi</string>
+    <string name="audio_resume_card_summary">Birtir spjald sem hjálpar þér að halda áfram með hljóðspilun þegar forritið ræsist</string>
     <string name="playback_rewind">Spóla til baka</string>
     <string name="playback_forward">Spóla hratt áfram</string>
     <string name="ml_wizard_title">Úrval úr VLC-margmiðlunarsafni</string>
     <string name="ml_wizard_scan_checkbox">Leita að margmiðlunarskrám á tækinu</string>
+    <string name="ml_wizard_description">Veldu hvort VLC eigi að leita á öllu geymsluminni tækisins við skipulagningu margmiðlunarsafnsins eða hvort það eigi að hegða sér eins og einfaldur margmiðlunarspilari með innbyggðum vafra.</string>
     <string name="tv_my_new_videos">Ný myndskeið</string>
     <string name="cast_option_title">Varpa margmiðlun á annan skjá</string>
     <string name="otg_device_title">OTG-tæki</string>
@@ -608,4 +635,48 @@
     <string name="time_category_older">Eldri gagnamiðlar</string>
     <string name="rename">Endurnefna</string>
     <string name="rename_media">Endurnefna %1$s</string>
+    <string name="manual_search">Handvirk leit</string>
+    <string name="subtitle_search_name_hint">Nafn</string>
+    <string name="subtitle_search_episode_hint">Þáttur</string>
+    <string name="subtitle_search_season_hint">Árgangur</string>
+    <string name="language_to_download">Tungumál</string>
+    <string name="delete_the_selected">Eyða völdu</string>
+    <string name="download_the_selected">Sækja valið</string>
+    <string name="next">Næsta</string>
+    <string name="download">Sækja</string>
+    <string name="ctx_player_video_track">Veldu myndskeiðsspor</string>
+    <string name="ctx_player_audio_track">Hljóðspor</string>
+    <string name="ctx_player_subs_track">Skjátextaspor</string>
+    <string name="ctx_player_tracks_title">Gagnamiðlaspor</string>
+    <string name="ctx_pip_title">Sprettspilari</string>
+    <string name="device_dialog_title">Ytra tæki var tengt</string>
+    <string name="device_dialog_message">Þú varst að stinga geymslutæki í samband við sjónvarpsboxið þitt, viltu opna það með VLC?</string>
+    <string name="videos_folders_title">Myndskeið eftir möppum</string>
+    <string name="video_save_remote_setting">Virkja fjarstýringarham sjálfvirkt?</string>
+    <string name="video_save_clone_mode">Virkja klónunarham sjálfvirkt?</string>
+    <string name="video_remote_enable">Skipta yfir í fjarstýringarham</string>
+    <string name="video_remote_disable">Tvítaka skjá</string>
+    <string name="removed_from_playlist_anonymous">Atriði fjarlægð af spilunarlista</string>
+    <string name="welcome_title">Velkomin í VLC!</string>
+    <string name="welcome_subtitle">Frjálsi og opni margmiðlunarspilarinn</string>
+    <string name="permission_media">VLC þarf að fá heimild hjá þér fyrir aðgang að margmiðlunarskrám á þessu tæki</string>
+    <string name="medialibrary_scan_explanation">VLC getur skannað tækið sjálfvirkt til að skipuleggja margmiðlunarsafnið þitt.</string>
+    <string name="onboarding_theme_title">Gerðu þig heimakominn</string>
+    <string name="done">Búið</string>
+    <string name="onboarding_scan_title">Finndu margmiðlunargögnin þín sjálfvirkt</string>
+    <string name="daynight_explanation">VLC mun skipta sjálfvirkt í næturham á viðeigandi tíma</string>
+    <string name="onboarding_scanning_enable">Láta VLC leita að margmiðlunarskrám á tækinu</string>
+    <string name="onboarding_scan_whole">VLC mun skanna allt SD-minniskortið</string>
+    <string name="onboarding_scan_customize">Leyfðu mér að velja hvaða möppur VLC mun skanna</string>
+    <string name="button_medialibrary_preferences">Fara í kjörstillingar margmiðlunarsafns</string>
+    <string name="light_theme">Ljóst þema</string>
+    <string name="add">Bæta við</string>
+    <string name="add_to_new_playlist">Bæta á nýjan spilunarlista</string>
+    <string name="theme_follow_system_mode">Fylgja ham kerfisins</string>
+    <string name="resume_card_message">Halda áfram afspilun á %1$s?</string>
+    <string name="misc">Ýmislegt</string>
+    <string name="popup_force_legacy_title">Nota sérsniðinn mynd-í-mynd (PiP) sprettglugga</string>
+    <string name="popup_force_legacy_summary">Nota sérsniðinn mynd-í-mynd (PiP) sprettglugga með breytanlegri stærð</string>
+    <string name="device_default">Sjálfgefið á tæki</string>
+    <string name="track_number">%s lög</string>
 </resources>
