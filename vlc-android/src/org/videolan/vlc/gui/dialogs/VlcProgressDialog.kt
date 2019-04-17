@@ -22,26 +22,23 @@
  *  *************************************************************************
  */
 
-package org.videolan.vlc.gui.dialogs;
+package org.videolan.vlc.gui.dialogs
 
-import android.text.TextUtils;
-import android.view.View;
+import android.text.TextUtils
+import android.view.View
 
-import org.videolan.libvlc.Dialog;
-import org.videolan.vlc.R;
-import org.videolan.vlc.databinding.VlcProgressDialogBinding;
+import org.videolan.libvlc.Dialog
+import org.videolan.vlc.R
+import org.videolan.vlc.databinding.VlcProgressDialogBinding
 
-public class VlcProgressDialog extends VlcDialog<Dialog.ProgressDialog, VlcProgressDialogBinding> {
+class VlcProgressDialog : VlcDialog<Dialog.ProgressDialog, VlcProgressDialogBinding>() {
 
-    @Override
-    int getLayout() {
-        return R.layout.vlc_progress_dialog;
-    }
+    override val layout: Int
+        get() = R.layout.vlc_progress_dialog
 
-    public void updateProgress() {
-            mBinding.progress.setProgress((int) (mVlcDialog.getPosition()*100));
-            mBinding.cancel.setText(mVlcDialog.getCancelText());
-            mBinding.cancel.setVisibility(
-                    TextUtils.isEmpty(mVlcDialog.getCancelText()) ? View.GONE : View.VISIBLE);
+    fun updateProgress() {
+        binding.progress.progress = (vlcDialog.position * 100) as Int
+        binding.cancel.text = vlcDialog.cancelText
+        binding.cancel.visibility = if (TextUtils.isEmpty(vlcDialog?.cancelText)) View.GONE else View.VISIBLE
     }
 }

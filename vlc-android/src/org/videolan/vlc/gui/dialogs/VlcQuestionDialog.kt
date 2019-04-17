@@ -21,28 +21,25 @@
  * ***************************************************************************
  */
 
-package org.videolan.vlc.gui.dialogs;
+package org.videolan.vlc.gui.dialogs
 
-import android.view.View;
+import android.view.View
+import org.videolan.libvlc.Dialog
+import org.videolan.vlc.R
+import org.videolan.vlc.databinding.VlcQuestionDialogBinding
 
-import org.videolan.libvlc.Dialog;
-import org.videolan.vlc.R;
-import org.videolan.vlc.databinding.VlcQuestionDialogBinding;
+class VlcQuestionDialog : VlcDialog<Dialog.QuestionDialog, VlcQuestionDialogBinding>() {
 
-public class VlcQuestionDialog extends VlcDialog<Dialog.QuestionDialog, VlcQuestionDialogBinding> {
+    override val layout: Int
+        get() = R.layout.vlc_question_dialog
 
-    @Override
-    int getLayout() {
-        return R.layout.vlc_question_dialog;
+    fun onAction1(v: View) {
+        vlcDialog.postAction(1)
+        dismiss()
     }
 
-    public void onAction1(View v) {
-        mVlcDialog.postAction(1);
-        dismiss();
-    }
-
-    public void onAction2(View v) {
-        mVlcDialog.postAction(2);
-        dismiss();
+    fun onAction2(v: View) {
+        vlcDialog.postAction(2)
+        dismiss()
     }
 }

@@ -21,34 +21,35 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui.dialogs;
+package org.videolan.vlc.gui.dialogs
 
-import org.videolan.vlc.R;
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.vlc.R
 
-public class JumpToTimeDialog extends PickTimeFragment {
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
+class JumpToTimeDialog : PickTimeFragment() {
 
-    public JumpToTimeDialog(){
-        super();
+    override fun executeAction() {
+        if (playbackService == null)
+            return
+        val hours = if (hours != "") java.lang.Long.parseLong(hours) * HOURS_IN_MICROS else 0L
+        val minutes = if (minutes != "") java.lang.Long.parseLong(minutes) * MINUTES_IN_MICROS else 0L
+        val seconds = if (seconds != "") java.lang.Long.parseLong(seconds) * SECONDS_IN_MICROS else 0L
+        playbackService.time = (hours + minutes + seconds) / 1000L //Time in ms
+        dismiss()
     }
 
-    public static JumpToTimeDialog newInstance() {
-        return new JumpToTimeDialog();
+    override fun getTitle(): Int {
+        return R.string.jump_to_time
     }
 
-    @Override
-    protected void executeAction() {
-        if (mService == null)
-            return;
-        long hours = !mHours.equals("") ? Long.parseLong(mHours) * HOURS_IN_MICROS : 0l;
-        long minutes = !mMinutes.equals("") ? Long.parseLong(mMinutes) * MINUTES_IN_MICROS : 0l;
-        long seconds = !mSeconds.equals("") ? Long.parseLong(mSeconds) * SECONDS_IN_MICROS : 0l;
-        mService.setTime((hours +  minutes + seconds)/1000l); //Time in ms
-        dismiss();
-    }
+    companion object {
 
-    @Override
-    protected int getTitle() {
-        return R.string.jump_to_time;
+        fun newInstance(): JumpToTimeDialog {
+            return JumpToTimeDialog()
+        }
     }
 
 

@@ -2107,7 +2107,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     private long getTime() {
         long time = mService.getTime();
         if (mForcedTime != -1 && mLastTime != -1) {
-            /* XXX: After a seek, mService.getTime can return the position before or after
+            /* XXX: After a seek, playbackService.getTime can return the position before or after
              * the seek position. Therefore we return mForcedTime in order to avoid the seekBar
              * to move between seek position and the actual position.
              * We have to wait for a valid position (that is after the seek position).
