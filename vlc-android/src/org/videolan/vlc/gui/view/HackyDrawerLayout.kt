@@ -1,6 +1,6 @@
 /*
  * *************************************************************************
- *  SwipeRefreshLayout.java
+ *  HackyDrawerLayout.java
  * **************************************************************************
  *  Copyright © 2015 VLC authors and VideoLAN
  *
@@ -20,28 +20,31 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui.view;
+package org.videolan.vlc.gui.view
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
+import android.content.Context
+import android.util.AttributeSet
+import android.view.MotionEvent
+import androidx.drawerlayout.widget.DrawerLayout
 
-public class SwipeRefreshLayout extends androidx.swiperefreshlayout.widget.SwipeRefreshLayout {
-    public SwipeRefreshLayout(Context context) {
-        super(context);
-    }
+/*
+ * Workaround for support lib bug, see https://code.google.com/p/android/issues/detail?id=60464
+ */
+class HackyDrawerLayout : DrawerLayout {
 
-    public SwipeRefreshLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+    constructor(context: Context) : super(context) {}
 
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        try {
-            return super.onTouchEvent(ev);
-        } catch (IllegalArgumentException e) {
-            //Fix for support lib bug, happening when onDestroy is triggered.
-            return true;
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+
+    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
+
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        return try {
+            super.onInterceptTouchEvent(ev)
+        } catch (t: Throwable) {
+            t.printStackTrace()
+            false
         }
+
     }
 }

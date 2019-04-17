@@ -83,14 +83,14 @@ class PreferencesExtensions : BasePreferenceFragment() {
             val checked = settings!!.getBoolean(key, false)
             switchPreference.isChecked = checked
             preferenceScreen!!.addPreference(switchPreference)
-            switchPreference.setOnSwitchClickListener { view ->
+            switchPreference.setOnSwitchClickListener(View.OnClickListener {
                 if ((view as SwitchCompat).isChecked)
                     settings!!.edit().putBoolean(key, true).apply()
                 else
                     for ((key1) in settings!!.all)
                         if (key1.startsWith(ExtensionsManager.EXTENSION_PREFIX + "_"))
                             settings!!.edit().putBoolean(key1, false).apply()
-            }
+            })
             count++
         }
 

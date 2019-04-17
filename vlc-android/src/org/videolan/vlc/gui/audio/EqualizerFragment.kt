@@ -166,7 +166,7 @@ class EqualizerFragment : AppCompatDialogFragment() {
         for (i in 0 until BAND_COUNT) {
             val band = MediaPlayer.Equalizer.getBandFrequency(i)
 
-            val bar = EqualizerBar(context, band)
+            val bar = EqualizerBar(requireContext(), band)
             bar.setValue(mEqualizer.getAmp(i))
             bar.setListener(BandListener(i))
 
