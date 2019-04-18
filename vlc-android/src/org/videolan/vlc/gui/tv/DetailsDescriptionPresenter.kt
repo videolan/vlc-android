@@ -1,6 +1,6 @@
 /*****************************************************************************
  * DetailsDescriptionPresenter.java
- *****************************************************************************
+ *
  * Copyright © 2014-2015 VLC authors, VideoLAN and VideoLabs
  * Author: Geoffrey Métais
  *
@@ -17,29 +17,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
- *****************************************************************************/
-package org.videolan.vlc.gui.tv;
+ */
+package org.videolan.vlc.gui.tv
 
-import android.net.Uri;
-import androidx.leanback.widget.AbstractDetailsDescriptionPresenter;
+import android.net.Uri
+import androidx.leanback.widget.AbstractDetailsDescriptionPresenter
 
-public class DetailsDescriptionPresenter extends
-        AbstractDetailsDescriptionPresenter {
-    public static final String TAG ="DetailsDescriptionPresenter";
+class DetailsDescriptionPresenter : AbstractDetailsDescriptionPresenter() {
 
-    @Override
-    protected void onBindDescription(ViewHolder viewHolder, Object itemData) {
-        MediaItemDetails details = (MediaItemDetails) itemData;
+    override fun onBindDescription(viewHolder: ViewHolder, itemData: Any) {
+        val details = itemData as MediaItemDetails
         // In a production app, the itemData object contains the information
         // needed to display details for the media item:
         // viewHolder.getTitle().setText(details.getShortTitle());
 
         // Here we provide static data for testing purposes:
-        String body = details.getBody() == null ? Uri.decode(details.getLocation()) :
-                details.getBody()+"\n"+Uri.decode(details.getLocation());
-        viewHolder.getTitle().setText(details.getTitle());
-        viewHolder.getSubtitle().setText(details.getSubTitle());
-        viewHolder.getBody().setText(body);
+        val body = if (details.body == null)
+            Uri.decode(details.location)
+        else
+            details.body + "\n" + Uri.decode(details.location)
+        viewHolder.title.text = details.title
+        viewHolder.subtitle.text = details.subTitle
+        viewHolder.body.text = body
+    }
+
+    companion object {
+        const val TAG = "DetailsDescriptionPresenter"
     }
 
 

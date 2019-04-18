@@ -39,7 +39,7 @@ open class GridFragment : VerticalGridSupportFragment(), BrowserFragmentInterfac
         val gridPresenter = VerticalGridPresenter()
         gridPresenter.numberOfColumns = NUM_COLUMNS
         setGridPresenter(gridPresenter)
-        adapter = ArrayObjectAdapter(CardPresenter(context))
+        adapter = ArrayObjectAdapter(CardPresenter(requireActivity()))
         adapter.clear()
         adapter = adapter
     }

@@ -121,7 +121,8 @@ open class CategoriesFragment<T : BaseModel<out MediaLibraryItem>> : BrowseSuppo
 
     private fun getCategoryRow(key: String): ListRow {
         val fromCache = if (this::categoryRows.isInitialized) categoryRows[key] else null
-        return fromCache ?: ListRow(HeaderItem(0, key), ArrayObjectAdapter(CardPresenter(activity)))
+        return fromCache
+                ?: ListRow(HeaderItem(0, key), ArrayObjectAdapter(CardPresenter(requireActivity())))
     }
 
     private fun getCategoryId() = when(this) {

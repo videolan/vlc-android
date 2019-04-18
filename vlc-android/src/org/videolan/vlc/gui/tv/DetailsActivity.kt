@@ -1,6 +1,6 @@
 /*****************************************************************************
  * DetailsActivity.java
- *****************************************************************************
+ *
  * Copyright © 2014-2015 VLC authors, VideoLAN and VideoLabs
  * Author: Geoffrey Métais
  *
@@ -17,21 +17,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
- *****************************************************************************/
-package org.videolan.vlc.gui.tv;
+ */
+package org.videolan.vlc.gui.tv
 
-import android.os.Bundle;
+import android.os.Bundle
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 
-import org.videolan.vlc.R;
-import org.videolan.vlc.gui.tv.browser.BaseTvActivity;
+import org.videolan.vlc.R
+import org.videolan.vlc.gui.tv.browser.BaseTvActivity
 
-public class DetailsActivity extends BaseTvActivity {
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.tv_details);
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
+class DetailsActivity : BaseTvActivity() {
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.tv_details)
     }
 
-    @Override
-    protected void refresh() {}
+    override fun refresh() {}
 }
