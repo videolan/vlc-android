@@ -158,7 +158,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
     }
 
     override fun onRestart() {
-        if (filterQuery == null) viewModel.refresh()
+        if (getFilterQuery() == null) viewModel.refresh()
     }
 
     override fun onStop() {

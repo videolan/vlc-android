@@ -86,7 +86,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
-        menu!!.findItem(R.id.ml_menu_clean).isVisible = !isEmpty
+        menu!!.findItem(R.id.ml_menu_clean).isVisible = !isEmpty()
         super.onPrepareOptionsMenu(menu)
     }
 

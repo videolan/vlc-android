@@ -98,7 +98,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
             mSearchView = searchItem.actionView as SearchView
             mSearchView!!.queryHint = getString(R.string.search_list_hint)
             mSearchView!!.setOnQueryTextListener(this)
-            val query = filterable!!.filterQuery
+            val query = filterable!!.getFilterQuery()
             if (!TextUtils.isEmpty(query)) {
                 activityHandler.post {
                     searchItem.expandActionView()

@@ -21,13 +21,13 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.interfaces;
+package org.videolan.vlc.interfaces
 
-public interface SwipeDragHelperAdapter {
+interface SwipeDragHelperAdapter {
 
-    void onItemMove(int fromPosition, int toPosition);
+    fun onItemMove(fromPosition: Int, toPosition: Int)
 
-    void onItemDismiss(int position);
+    fun onItemDismiss(position: Int)
 
-    void onItemMoved(int dragFrom, int dragTo);
+    fun onItemMoved(dragFrom: Int, dragTo: Int)
 }

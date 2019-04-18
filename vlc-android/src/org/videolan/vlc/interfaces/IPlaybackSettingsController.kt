@@ -20,12 +20,14 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.interfaces;
+package org.videolan.vlc.interfaces
 
-public interface IPlaybackSettingsController {
-    enum DelayState {OFF, AUDIO, SUBS, SPEED};
+interface IPlaybackSettingsController {
+    enum class DelayState {
+        OFF, AUDIO, SUBS, SPEED
+    }
 
-    void showAudioDelaySetting();
-    void showSubsDelaySetting();
-    void endPlaybackSetting();
+    fun showAudioDelaySetting()
+    fun showSubsDelaySetting()
+    fun endPlaybackSetting()
 }
