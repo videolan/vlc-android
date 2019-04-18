@@ -21,30 +21,29 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui.tv.preferences;
+package org.videolan.vlc.gui.tv.preferences
 
-import android.annotation.TargetApi;
-import android.app.Fragment;
-import android.os.Build;
-import android.os.Bundle;
-import androidx.leanback.preference.LeanbackPreferenceFragment;
+import android.annotation.TargetApi
+import android.app.Fragment
+import android.os.Build
+import android.os.Bundle
+import androidx.leanback.preference.LeanbackPreferenceFragment
 
-import org.videolan.vlc.R;
+import org.videolan.vlc.R
 
-public abstract class BasePreferenceFragment extends LeanbackPreferenceFragment {
+abstract class BasePreferenceFragment : LeanbackPreferenceFragment() {
 
-    protected abstract int getXml();
-    protected abstract int getTitleId();
+    protected abstract fun getXml(): Int
+    protected abstract fun getTitleId(): Int
 
-    @Override
-    public void onCreatePreferences(Bundle bundle, String s) {
-        addPreferencesFromResource(getXml());
+    override fun onCreatePreferences(bundle: Bundle?, s: String?) {
+        addPreferencesFromResource(getXml())
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    protected void loadFragment(Fragment fragment) {
-        getActivity().getFragmentManager().beginTransaction().replace(R.id.fragment_placeholder, fragment)
+    protected fun loadFragment(fragment: Fragment) {
+        activity.fragmentManager.beginTransaction().replace(R.id.fragment_placeholder, fragment)
                 .addToBackStack("main")
-                .commit();
+                .commit()
     }
 }

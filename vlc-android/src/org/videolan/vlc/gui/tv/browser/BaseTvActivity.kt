@@ -1,0 +1,115 @@
+/*
+ * *************************************************************************
+ *  BaseTvActivity.java
+ * **************************************************************************
+ *  Copyright © 2015 VLC authors and VideoLAN
+ *  Author: Geoffrey Métais
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ *  ***************************************************************************
+ */
+
+package org.videolan.vlc.gui.tv.browser
+
+import android.annotation.TargetApi
+import android.content.Intent
+import android.content.SharedPreferences
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.view.KeyEvent
+import android.view.View
+import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.Medialibrary
+import org.videolan.vlc.*
+import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.tv.SearchActivity
+import org.videolan.vlc.gui.tv.registerTimeView
+import org.videolan.vlc.util.Settings
+
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+abstract class BaseTvActivity : FragmentActivity() {
+
+    private lateinit var mediaLibrary: Medialibrary
+    private lateinit var settings: SharedPreferences
+    @Volatile
+    private var currentlyVisible = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        //Init Medialibrary if KO
+        if (savedInstanceState != null) this.startMedialibrary(firstRun = false, upgrade = false, parse = true)
+        super.onCreate(savedInstanceState)
+        mediaLibrary = VLCApplication.getMLInstance()
+        settings = Settings.getInstance(this)
+        registerLiveData()
+        Handler().post { this@BaseTvActivity.registerTimeView(findViewById<View>(R.id.tv_time) as TextView) }
+    }
+
+    override fun onStart() {
+        ExternalMonitor.subscribeStorageCb(this)
+
+        // super.onStart must be called after receiver registration
+        super.onStart()
+        currentlyVisible = true
+    }
+
+    override fun onStop() {
+        currentlyVisible = false
+        ExternalMonitor.unsubscribeStorageCb(this)
+        super.onStop()
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+            startActivity(Intent(this, SearchActivity::class.java))
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    protected abstract fun refresh()
+
+    protected open fun onParsingServiceStarted() {}
+
+    protected open fun onParsingServiceProgress(scanProgress: ScanProgress?) {}
+    protected open fun onParsingServiceFinished() {}
+
+    private fun registerLiveData() {
+        MediaParsingService.progress.observe(this, Observer { scanProgress -> if (scanProgress != null) onParsingServiceProgress(scanProgress) })
+        Medialibrary.getState().observe(this, Observer { started ->
+            if (started == null) return@Observer
+            if (started)
+                onParsingServiceStarted()
+            else
+                onParsingServiceFinished()
+        })
+        MediaParsingService.newStorages.observe(this, Observer<List<String>> { devices ->
+            if (devices == null) return@Observer
+            for (device in devices) UiTools.newStorageDetected(this@BaseTvActivity, device)
+            MediaParsingService.newStorages.value = null
+        })
+    }
+
+    companion object {
+
+        private const val TAG = "VLC/BaseTvActivity"
+    }
+}

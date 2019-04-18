@@ -1,6 +1,6 @@
 /*
  * *************************************************************************
- *  BrowserActivityInterface.java
+ *  BrowserFragmentInterface.java
  * **************************************************************************
  *  Copyright © 2015 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
@@ -21,9 +21,8 @@
  *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui.tv.browser.interfaces;
+package org.videolan.vlc.gui.tv.browser.interfaces
 
-public interface BrowserActivityInterface {
-    void showProgress(boolean show);
-    void updateEmptyView(boolean empty);
+interface BrowserFragmentInterface {
+    fun refresh()
 }

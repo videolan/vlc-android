@@ -1,8 +1,8 @@
 /*
- * ************************************************************************
- *  MediaFragment.java
  * *************************************************************************
- *  Copyright © 2016 VLC authors and VideoLAN
+ *  BrowserActivityInterface.java
+ * **************************************************************************
+ *  Copyright © 2015 VLC authors and VideoLAN
  *  Author: Geoffrey Métais
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -18,12 +18,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
- *
- *  *************************************************************************
+ *  ***************************************************************************
  */
 
-package org.videolan.vlc.gui.tv.browser.interfaces;
+package org.videolan.vlc.gui.tv.browser.interfaces
 
-public interface DetailsFragment {
-    void showDetails();
+interface BrowserActivityInterface {
+    fun showProgress(show: Boolean)
+    fun updateEmptyView(empty: Boolean)
 }
