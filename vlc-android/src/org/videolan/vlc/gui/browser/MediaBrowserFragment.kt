@@ -184,7 +184,9 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
                 val parentPath = FileUtils.getParent(path)
                 if (FileUtils.deleteFile(media.uri)) {
                     if (media.id > 0L && !foldersToReload.contains(parentPath)) {
-                        foldersToReload.add(parentPath)
+                        if (parentPath != null) {
+                            foldersToReload.add(parentPath)
+                        }
                     }
                     mediaPaths.add(media.location)
                 } else

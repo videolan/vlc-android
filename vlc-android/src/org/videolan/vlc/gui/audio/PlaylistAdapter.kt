@@ -184,7 +184,7 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
                     sendEmptyMessageDelayed(ACTION_MOVED, 1000)
                 }
                 ACTION_MOVED -> {
-                    val model = owner.mModel
+                    val model = owner?.mModel
                     if (from != -1 && to != -1 && model == null) return
                     if (to > from) ++to
                     model!!.move(from, to)

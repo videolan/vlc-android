@@ -97,8 +97,8 @@ public class VLCCrashHandler implements UncaughtExceptionHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
-            Util.close(bw);
-            Util.close(output);
+            Util.INSTANCE.close(bw);
+            Util.INSTANCE.close(output);
         }
     }
 
@@ -106,7 +106,7 @@ public class VLCCrashHandler implements UncaughtExceptionHandler {
         CharSequence timestamp = DateFormat.format("yyyyMMdd_kkmmss", System.currentTimeMillis());
         String filename = name + "_" + timestamp + ".log";
         try {
-            Logcat.writeLogcat(filename);
+            Logcat.Companion.writeLogcat(filename);
         } catch (IOException e) {
             Log.e(TAG, "Cannot write logcat to disk");
         }

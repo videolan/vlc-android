@@ -199,9 +199,9 @@ public class DebugLogService extends Service implements Logcat.Callback, Runnabl
         } catch (IOException ioe) {
             saved = false;
         } finally {
-            saved &= Util.close(bw);
-            saved &= Util.close(output);
-            saved &= Util.close(fos);
+            saved &= Util.INSTANCE.close(bw);
+            saved &= Util.INSTANCE.close(output);
+            saved &= Util.INSTANCE.close(fos);
         }
         synchronized (this) {
             mSaveThread = null;

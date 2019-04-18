@@ -66,7 +66,7 @@ class DebugLogActivity : FragmentActivity(), DebugLogService.Client.Callback {
 
     private val saveClickListener = View.OnClickListener {
         if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage())
-            Permissions.askWriteStoragePermission(this@DebugLogActivity, false) { client.save() }
+            Permissions.askWriteStoragePermission(this@DebugLogActivity, false, Runnable { client.save() })
         else
             client.save()
     }

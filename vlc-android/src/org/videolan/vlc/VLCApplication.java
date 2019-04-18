@@ -101,8 +101,8 @@ public class VLCApplication extends Application {
                         // Prepare cache folder constants
                         AudioUtil.prepareCacheFolder(getAppContext());
 
-                        if (!VLCInstance.testCompatibleCPU(getAppContext())) return;
-                        Dialog.setCallbacks(VLCInstance.get(instance), mDialogCallbacks);
+                        if (!VLCInstance.INSTANCE.testCompatibleCPU(getAppContext())) return;
+                        Dialog.setCallbacks(VLCInstance.INSTANCE.get(instance), mDialogCallbacks);
                     }
                 });
             }
@@ -195,7 +195,7 @@ public class VLCApplication extends Application {
 
         @Override
         public void onDisplay(Dialog.QuestionDialog dialog) {
-            if (!Util.byPassChromecastDialog(dialog)) {
+            if (!Util.INSTANCE.byPassChromecastDialog(dialog)) {
                 final String key = DialogActivity.KEY_QUESTION + sDialogCounter++;
                 fireDialog(dialog, key);
             }

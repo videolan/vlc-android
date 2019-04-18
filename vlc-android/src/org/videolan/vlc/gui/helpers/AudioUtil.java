@@ -34,6 +34,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.WorkerThread;
+import androidx.fragment.app.FragmentActivity;
+
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
@@ -62,9 +65,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import androidx.annotation.WorkerThread;
-import androidx.fragment.app.FragmentActivity;
-
 public class AudioUtil {
     public final static String TAG = "VLC/AudioUtil";
 
@@ -86,8 +86,8 @@ public class AudioUtil {
 //    public static AtomicReference<String> PLAYLIST_DIR = new AtomicReference<>();
 
     public static void setRingtone(final MediaWrapper song, final FragmentActivity context){
-        if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage(context)) {
-            Permissions.askWriteStoragePermission(context, false, new Runnable() {
+        if (AndroidUtil.isOOrLater && !Permissions.INSTANCE.canWriteStorage(context)) {
+            Permissions.INSTANCE.askWriteStoragePermission(context, false, new Runnable() {
                 @Override
                 public void run() {
                     setRingtone(song, context);
@@ -95,8 +95,8 @@ public class AudioUtil {
             });
             return;
         }
-        if (!Permissions.canWriteSettings(context)) {
-            Permissions.checkWriteSettingsPermission(context, Permissions.PERMISSION_SYSTEM_RINGTONE);
+        if (!Permissions.INSTANCE.canWriteSettings(context)) {
+            Permissions.INSTANCE.checkWriteSettingsPermission(context, Permissions.PERMISSION_SYSTEM_RINGTONE);
             return;
         }
         UiTools.snackerConfirm(context.getWindow().getDecorView(), context.getString(R.string.set_song_question, song.getTitle()), new Runnable() {
@@ -401,14 +401,14 @@ public class AudioUtil {
         } catch (Exception e) {
             Log.e(TAG, "writeBitmap failed : "+ e.getMessage());
         } finally {
-            Util.close(out);
+            Util.INSTANCE.close(out);
         }
     }
 
     @WorkerThread
     public static Bitmap readCoverBitmap(String path, int width) {
         if (path == null) return null;
-        if (path.startsWith("http")) return HttpImageLoader.downloadBitmap(path);
+        if (path.startsWith("http")) return HttpImageLoader.INSTANCE.downloadBitmap(path);
         if (path.startsWith("file")) path = path.substring(7);
         Bitmap cover = null;
         BitmapFactory.Options options = new BitmapFactory.Options();

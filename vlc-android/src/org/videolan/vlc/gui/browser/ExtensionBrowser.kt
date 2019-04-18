@@ -169,17 +169,17 @@ class ExtensionBrowser : Fragment(), View.OnClickListener, androidx.swiperefresh
         }//TODO
     }
 
-    private inner class ExtensionBrowserHandler internal constructor(owner: ExtensionBrowser) : WeakHandler<ExtensionBrowser>(owner) {
+    private inner class ExtensionBrowserHandler(owner: ExtensionBrowser) : WeakHandler<ExtensionBrowser>(owner) {
 
         override fun handleMessage(msg: Message) {
             when (msg.what) {
                 ACTION_HIDE_REFRESH -> {
                     removeMessages(ACTION_SHOW_REFRESH)
-                    owner.mSwipeRefreshLayout.isRefreshing = false
+                    owner?.mSwipeRefreshLayout?.isRefreshing = false
                 }
                 ACTION_SHOW_REFRESH -> {
                     removeMessages(ACTION_HIDE_REFRESH)
-                    owner.mSwipeRefreshLayout.isRefreshing = true
+                    owner?.mSwipeRefreshLayout?.isRefreshing = true
                     sendEmptyMessageDelayed(ACTION_HIDE_REFRESH, REFRESH_TIMEOUT.toLong())
                 }
             }

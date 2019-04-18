@@ -1564,7 +1564,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                             val spuTrack = media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toInt()
                             if (addNextTrack) {
                                 val tracks = mService!!.spuTracks
-                                if (!Util.isArrayEmpty<MediaPlayer.TrackDescription>(tracks)) mService!!.setSpuTrack(tracks!![tracks.size - 1].id)
+                                if (!Util.isArrayEmpty(tracks as Array<MediaPlayer.TrackDescription>)) mService!!.setSpuTrack(tracks[tracks.size - 1].id)
                                 addNextTrack = false
                             } else if (spuTrack != 0 || currentSpuTrack != -2) {
                                 mService!!.setSpuTrack(if (media.id == 0L) currentSpuTrack else spuTrack)

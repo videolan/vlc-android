@@ -123,7 +123,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         if (Permissions.canWriteStorage())
                             dump.run()
                         else
-                            Permissions.askWriteStoragePermission(activity, false, dump)
+                            Permissions.askWriteStoragePermission(requireActivity(), false, dump)
                     })
                 return true
             }

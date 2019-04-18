@@ -109,7 +109,7 @@ public class StartActivity extends FragmentActivity {
             if (target == R.id.ml_menu_last_playlist) PlaybackService.Companion.loadLastAudio(this);
             else startApplication(tv, firstRun, upgrade, target);
         }
-        FileUtils.copyLua(getApplicationContext(), upgrade);
+        FileUtils.INSTANCE.copyLua(getApplicationContext(), upgrade);
         if (AndroidDevices.watchDevices) StoragesMonitorKt.enableStorageMonitoring(this);
         finish();
     }

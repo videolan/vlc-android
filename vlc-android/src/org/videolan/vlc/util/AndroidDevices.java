@@ -144,14 +144,14 @@ public class AndroidDevices {
 
                 // check that device is in whitelist, and either type or mountpoint is in a whitelist
                 if (Strings.startsWith(deviceWL, device) && (typeWL.contains(type) || Strings.startsWith(mountWL, mountpoint))) {
-                    final int position = Strings.containsName(list, FileUtils.getFileNameFromPath(mountpoint));
+                    final int position = Strings.containsName(list, FileUtils.INSTANCE.getFileNameFromPath(mountpoint));
                     if (position > -1) list.remove(position);
                     list.add(mountpoint);
                 }
             }
         } catch (IOException ignored) {
         } finally {
-            Util.close(bufReader);
+            Util.INSTANCE.close(bufReader);
         }
         list.remove(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY);
         return list;

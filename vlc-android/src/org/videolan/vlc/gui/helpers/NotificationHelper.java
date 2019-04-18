@@ -34,6 +34,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import org.videolan.vlc.R;
 import org.videolan.vlc.StartActivity;
 import org.videolan.vlc.util.AndroidDevices;
+import org.videolan.vlc.util.Util;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -41,7 +42,6 @@ import androidx.media.session.MediaButtonReceiver;
 
 import static org.videolan.vlc.util.Constants.ACTION_PAUSE_SCAN;
 import static org.videolan.vlc.util.Constants.ACTION_RESUME_SCAN;
-import static org.videolan.vlc.util.Util.getMediaDescription;
 
 public class NotificationHelper {
     public final static String TAG = "VLC/NotificationHelper";
@@ -61,7 +61,7 @@ public class NotificationHelper {
         builder.setSmallIcon(video ? R.drawable.ic_notif_video : R.drawable.ic_notif_audio)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setContentTitle(title)
-                .setContentText(getMediaDescription(artist, album))
+                .setContentText(Util.INSTANCE.getMediaDescription(artist, album))
                 .setLargeIcon(cover)
                 .setTicker(sb.toString())
                 .setAutoCancel(!playing)

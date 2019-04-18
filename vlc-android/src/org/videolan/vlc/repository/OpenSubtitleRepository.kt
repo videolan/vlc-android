@@ -6,9 +6,9 @@ import org.videolan.vlc.api.OpenSubtitleClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.coroutines.suspendCoroutine
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleService) {
 
@@ -66,13 +66,13 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
         }
     }
 
-    suspend fun queryWithHash(movieByteSize: Long, movieHash: String, languageIds: List<String>?): List<OpenSubtitle> {
+    suspend fun queryWithHash(movieByteSize: Long, movieHash: String?, languageIds: List<String>?): List<OpenSubtitle> {
         val actualLanguageIds = languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this } ?: setOf("")
         return actualLanguageIds.flatMap {
             retrofitResponseCall {
                 openSubtitleService.query(
                         movieByteSize = movieByteSize.toString(),
-                        movieHash = movieHash,
+                        movieHash = movieHash ?: "",
                         languageId = it)
             }
         }

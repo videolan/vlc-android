@@ -560,7 +560,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     private fun sendStartSessionIdIntent() {
-        val sessionId = VLCOptions.getAudiotrackSessionId()
+        val sessionId = VLCOptions.audiotrackSessionId
         if (sessionId == 0) return
 
         val intent = Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION)
@@ -572,7 +572,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     }
 
     private fun sendStopSessionIdIntent() {
-        val sessionId = VLCOptions.getAudiotrackSessionId()
+        val sessionId = VLCOptions.audiotrackSessionId
         if (sessionId == 0) return
 
         val intent = Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION)

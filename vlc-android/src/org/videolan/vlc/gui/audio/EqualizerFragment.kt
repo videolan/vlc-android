@@ -52,7 +52,7 @@ import java.util.*
 @ExperimentalCoroutinesApi
 class EqualizerFragment : AppCompatDialogFragment() {
 
-    private lateinit var mEqualizer: MediaPlayer.Equalizer
+    private lateinit var equalizer: MediaPlayer.Equalizer
     private var customCount = 0
     private var presetCount = 0
     private var allSets: MutableList<String> = ArrayList()
@@ -85,7 +85,7 @@ class EqualizerFragment : AppCompatDialogFragment() {
 
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
             if (!fromUser) return
-            mEqualizer.preAmp = (progress - 20).toFloat()
+            equalizer.preAmp = (progress - 20).toFloat()
             if (!binding.equalizerButton.isChecked) binding.equalizerButton.isChecked = true
 
             val pos = binding.equalizerPresets.selectedItemPosition
@@ -100,7 +100,7 @@ class EqualizerFragment : AppCompatDialogFragment() {
                 savePos = pos
                 state.update(pos, false)
             }
-            if (binding.equalizerButton.isChecked) PlaybackService.equalizer.value = mEqualizer
+            if (binding.equalizerButton.isChecked) PlaybackService.equalizer.value = equalizer
         }
     }
 
@@ -129,11 +129,11 @@ class EqualizerFragment : AppCompatDialogFragment() {
         }
         allSets.add(newPresetName)
 
-        mEqualizer = VLCOptions.getEqualizerSetFromSettings(context, true)
+        equalizer = VLCOptions.getEqualizerSetFromSettings(requireActivity(), true)!!
 
         // on/off
-        binding.equalizerButton.isChecked = VLCOptions.getEqualizerEnabledState(context)
-        binding.equalizerButton.setOnCheckedChangeListener { _, isChecked -> PlaybackService.equalizer.setValue(if (isChecked) mEqualizer else null) }
+        binding.equalizerButton.isChecked = VLCOptions.getEqualizerEnabledState(requireActivity())
+        binding.equalizerButton.setOnCheckedChangeListener { _, isChecked -> PlaybackService.equalizer.setValue(if (isChecked) equalizer else null) }
         binding.equalizerSave.setOnClickListener { createSaveCustomSetDialog(binding.equalizerPresets.selectedItemPosition, displayedByUser = true, onPause = false) }
         binding.equalizerDelete.setOnClickListener { createDeleteCustomSetSnacker() }
         binding.equalizerRevert.setOnClickListener { revertCustomSetChanges() }
@@ -145,8 +145,8 @@ class EqualizerFragment : AppCompatDialogFragment() {
         // Set the default selection asynchronously to prevent a layout initialization bug.
         binding.equalizerPresets.post {
             binding.equalizerPresets.onItemSelectedListener = mSetListener
-            val pos = allSets.indexOf(VLCOptions.getEqualizerNameFromSettings(context))
-            state.update(pos, VLCOptions.getEqualizerSavedState(context))
+            val pos = allSets.indexOf(VLCOptions.getEqualizerNameFromSettings(requireActivity()))
+            state.update(pos, VLCOptions.getEqualizerSavedState(requireActivity()))
             updateAlreadyHandled = true
             if (binding.equalizerButton.isChecked || !state.saved) {
                 savePos = pos
@@ -159,7 +159,7 @@ class EqualizerFragment : AppCompatDialogFragment() {
 
         // preamp
         binding.equalizerPreamp.max = 40
-        binding.equalizerPreamp.progress = mEqualizer.preAmp.toInt() + 20
+        binding.equalizerPreamp.progress = equalizer.preAmp.toInt() + 20
         binding.equalizerPreamp.setOnSeekBarChangeListener(mPreampListener)
 
         // bands
@@ -167,7 +167,7 @@ class EqualizerFragment : AppCompatDialogFragment() {
             val band = MediaPlayer.Equalizer.getBandFrequency(i)
 
             val bar = EqualizerBar(requireContext(), band)
-            bar.setValue(mEqualizer.getAmp(i))
+            bar.setValue(equalizer.getAmp(i))
             bar.setListener(BandListener(i))
 
             binding.equalizerBands.addView(bar)
@@ -190,9 +190,9 @@ class EqualizerFragment : AppCompatDialogFragment() {
         binding.equalizerBands.removeAllViews()
         if (binding.equalizerButton.isChecked) {
             val pos = binding.equalizerPresets.selectedItemPosition
-            VLCOptions.saveEqualizerInSettings(context, mEqualizer, allSets[pos], true, state.saved)
+            VLCOptions.saveEqualizerInSettings(requireActivity(), equalizer, allSets[pos], true, state.saved)
         } else {
-            VLCOptions.saveEqualizerInSettings(context, MediaPlayer.Equalizer.createFromPreset(0), allSets[0], false, true)
+            VLCOptions.saveEqualizerInSettings(requireActivity(), MediaPlayer.Equalizer.createFromPreset(0), allSets[0], false, true)
         }
         if (!state.saved)
             createSaveCustomSetDialog(binding.equalizerPresets.selectedItemPosition, displayedByUser = false, onPause = true)
@@ -208,7 +208,7 @@ class EqualizerFragment : AppCompatDialogFragment() {
         override fun onProgressChanged(value: Float, fromUser: Boolean) {
             if (!fromUser)
                 return
-            mEqualizer.setAmp(index, value)
+            equalizer.setAmp(index, value)
             if (!binding.equalizerButton.isChecked)
                 binding.equalizerButton.isChecked = true
 
@@ -225,7 +225,7 @@ class EqualizerFragment : AppCompatDialogFragment() {
                 state.update(pos, false)
             }
 
-            if (binding.equalizerButton.isChecked) PlaybackService.equalizer.value = mEqualizer
+            if (binding.equalizerButton.isChecked) PlaybackService.equalizer.value = equalizer
         }
     }
 
@@ -233,9 +233,9 @@ class EqualizerFragment : AppCompatDialogFragment() {
         val oldName = allSets[positionToSave]
 
         val temporarySet = MediaPlayer.Equalizer.create()
-        temporarySet.preAmp = mEqualizer.preAmp
+        temporarySet.preAmp = equalizer.preAmp
         for (i in 0 until MediaPlayer.Equalizer.getBandCount())
-            temporarySet.setAmp(i, mEqualizer.getAmp(i))
+            temporarySet.setAmp(i, equalizer.getAmp(i))
 
         val input = EditText(context)
         input.setText(oldName)
@@ -254,11 +254,11 @@ class EqualizerFragment : AppCompatDialogFragment() {
                 .setPositiveButton(R.string.save, null)
                 .setNegativeButton(R.string.do_not_save) { _, _ ->
                     if (onPause)
-                        VLCOptions.saveEqualizerInSettings(context, mEqualizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
+                        VLCOptions.saveEqualizerInSettings(requireActivity(), equalizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
                 }
                 .setOnCancelListener {
                     if (onPause)
-                        VLCOptions.saveEqualizerInSettings(context, mEqualizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
+                        VLCOptions.saveEqualizerInSettings(requireActivity(), equalizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
                 }
                 .create()
         val window = saveEqualizer.window
@@ -274,10 +274,10 @@ class EqualizerFragment : AppCompatDialogFragment() {
                 } else if (allSets.contains(newName) && !TextUtils.equals(newName, oldName)) {
                     Toast.makeText(context, VLCApplication.getAppContext().resources.getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show()
                 } else {
-                    VLCOptions.saveCustomSet(context, temporarySet, newName)
+                    VLCOptions.saveCustomSet(requireActivity(), temporarySet, newName)
                     if (onPause) {
                         if (binding.equalizerButton.isChecked)
-                            VLCOptions.saveEqualizerInSettings(context, temporarySet, newName, true, true)
+                            VLCOptions.saveEqualizerInSettings(requireActivity(), temporarySet, newName, true, true)
                     } else {
                         if (TextUtils.equals(newName, oldName)) {
                             if (displayedByUser) {
@@ -306,16 +306,16 @@ class EqualizerFragment : AppCompatDialogFragment() {
         val oldName = allSets[oldPos]
         if (getEqualizerType(oldPos) == TYPE_CUSTOM) {
 
-            val savedEqualizerSet = VLCOptions.getCustomSet(context, oldName) ?: return
+            val savedEqualizerSet = VLCOptions.getCustomSet(requireActivity(), oldName) ?: return
             val cancelAction = Runnable {
-                VLCOptions.saveCustomSet(context, savedEqualizerSet, oldName)
-                mEqualizer = savedEqualizerSet
+                VLCOptions.saveCustomSet(requireActivity(), savedEqualizerSet, oldName)
+                equalizer = savedEqualizerSet
                 allSets.add(oldPos, oldName)
                 customCount++
                 binding.equalizerPresets.setSelection(oldPos)
             }
 
-            VLCOptions.deleteCustomSet(context, oldName)
+            VLCOptions.deleteCustomSet(requireActivity(), oldName)
             allSets.remove(oldName)
             customCount--
             state.update(0, true)
@@ -329,13 +329,13 @@ class EqualizerFragment : AppCompatDialogFragment() {
         val pos = binding.equalizerPresets.selectedItemPosition
 
         val temporarySet = MediaPlayer.Equalizer.create()
-        temporarySet.preAmp = mEqualizer.preAmp
+        temporarySet.preAmp = equalizer.preAmp
         for (i in 0 until MediaPlayer.Equalizer.getBandCount())
-            temporarySet.setAmp(i, mEqualizer.getAmp(i))
+            temporarySet.setAmp(i, equalizer.getAmp(i))
 
         val cancelAction = Runnable {
             state.update(pos, false)
-            mEqualizer = temporarySet
+            equalizer = temporarySet
             updateAlreadyHandled = true
             if (pos == revertPos)
                 updateEqualizer(pos)
@@ -361,26 +361,26 @@ class EqualizerFragment : AppCompatDialogFragment() {
         } else {
             when {
                 getEqualizerType(pos) == TYPE_PRESET -> {
-                    mEqualizer = MediaPlayer.Equalizer.createFromPreset(pos)
+                    equalizer = MediaPlayer.Equalizer.createFromPreset(pos)
                     state.update(pos, true)
                 }
                 getEqualizerType(pos) == TYPE_CUSTOM -> {
-                    mEqualizer = VLCOptions.getCustomSet(context, allSets[pos])
+                    equalizer = VLCOptions.getCustomSet(requireActivity(), allSets[pos])!!
                     state.update(pos, true)
                 }
                 getEqualizerType(pos) == TYPE_NEW -> {
-                    mEqualizer = MediaPlayer.Equalizer.create()
+                    equalizer = MediaPlayer.Equalizer.create()
                     state.update(pos, false)
                 }
             }
         }
 
-        binding.equalizerPreamp.progress = mEqualizer.preAmp.toInt() + 20
+        binding.equalizerPreamp.progress = equalizer.preAmp.toInt() + 20
         for (i in 0 until BAND_COUNT) {
             val bar = binding.equalizerBands.getChildAt(i) as EqualizerBar
-            bar.setValue(mEqualizer.getAmp(i))
+            bar.setValue(equalizer.getAmp(i))
         }
-        if (binding.equalizerButton.isChecked) PlaybackService.equalizer.value = mEqualizer
+        if (binding.equalizerButton.isChecked) PlaybackService.equalizer.value = equalizer
     }
 
     private fun getEqualizerType(position: Int): Int {

@@ -112,7 +112,7 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
         return OpenSubtitleRepository.getInstance().queryWithName(name ,episode, season, languageIds)
     }
 
-    private suspend fun getSubtitleByHash(movieByteSize: Long, movieHash: String, languageIds: List<String>?): List<OpenSubtitle> {
+    private suspend fun getSubtitleByHash(movieByteSize: Long, movieHash: String?, languageIds: List<String>?): List<OpenSubtitle> {
         return OpenSubtitleRepository.getInstance().queryWithHash(movieByteSize, movieHash, languageIds)
     }
 

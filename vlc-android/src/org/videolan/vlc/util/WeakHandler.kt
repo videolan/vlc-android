@@ -1,6 +1,6 @@
 /*****************************************************************************
  * WeakHandler.java
- *****************************************************************************
+ *
  * Copyright © 2012 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
@@ -16,22 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
- *****************************************************************************/
+ */
 
-package org.videolan.vlc.util;
+package org.videolan.vlc.util
 
-import android.os.Handler;
+import android.os.Handler
 
-import java.lang.ref.WeakReference;
+import java.lang.ref.WeakReference
 
-public abstract class WeakHandler<T> extends Handler {
-    private WeakReference<T> mOwner;
+abstract class WeakHandler<T>(owner: T) : Handler() {
+    private val mOwner: WeakReference<T> = WeakReference(owner)
 
-    public WeakHandler(T owner) {
-        mOwner = new WeakReference<T>(owner);
-    }
+    val owner: T?
+        get() = mOwner.get()
 
-    public T getOwner() {
-        return mOwner.get();
-    }
 }

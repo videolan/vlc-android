@@ -335,7 +335,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
             for (media in mw.tracks) {
                 val path = media.uri.path
                 val parentPath = FileUtils.getParent(path)
-                if (FileUtils.deleteFile(path) && media.id > 0L && !foldersToReload.contains(parentPath)) {
+                if (parentPath != null && FileUtils.deleteFile(path) && media.id > 0L && !foldersToReload.contains(parentPath)) {
                     foldersToReload.add(parentPath)
                 } else
                     UiTools.snacker(binding!!.root, getString(R.string.msg_delete_failed, media.title))
