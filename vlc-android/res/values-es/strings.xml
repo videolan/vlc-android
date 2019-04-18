@@ -40,16 +40,18 @@
     <string name="play_as_video">Reproducir como vídeo</string>
     <string name="video_app_switch_title">Modo segundo plano/PiP</string>
     <string name="video_app_switch_summary">Selececcione el comportamiento al cambiar a otra aplicacion desde la reproducción de vídeo</string>
-    <string name="play_pip_title">Reproducir vídeos en modo fotograma a fotograma</string>
+    <string name="play_pip_title">Reproducir vídeos en modo vídeo sobre vídeo</string>
     <string name="play_as_audio_background">Reproducir vídeos en segundo plano</string>
     <string name="append">Añadir</string>
     <string name="insert_next">Insertar siguiente</string>
     <string name="play_all">Reproducir todo</string>
     <string name="append_all">Añadir todo</string>
     <string name="last_playlist">Última lista de reproducción</string>
+    <string name="last_playlist_shortcut">Continuar reproducción</string>
     <string name="delete">Eliminar</string>
     <string name="remove">Quitar</string>
     <string name="set_song">Establecer como tono de llamada</string>
+    <string name="set_song_question">¿Establecer «%1$s» como tono de llamada?</string>
     <string name="info">Información</string>
     <string name="confirm_delete">¿Eliminar el archivo «%1$s»?</string>
     <string name="confirm_delete_folder">¿Eliminar la carpeta «%1$s» y todo su contenido?</string>
@@ -118,6 +120,7 @@
     <string name="validation">¿Está seguro?</string>
 
     <string name="cover_art">Portada</string>
+    <string name="shuffle_all_title">Barajar todo</string>
     <string name="shuffle_title">Modo aleatorio</string>
     <string name="shuffle">Modo aleatorio desactivado</string>
     <string name="shuffle_on">Modo aleatorio activado</string>
@@ -127,7 +130,6 @@
     <string name="repeat_all">Repetir todo</string>
     <string name="previous">Anterior</string>
     <string name="stop">Parar</string>
-    <string name="next">Siguiente</string>
     <string name="firstsong">Primera canción de la lista de reproducción</string>
     <string name="lastsong">Última canción de la lista de reproducción</string>
 
@@ -138,7 +140,7 @@
     <string name="surface_fill">Rellenar</string>
     <string name="surface_original">Centrar</string>
     <string name="thumbnail">Vista previa</string>
-    <string name="unseekable_stream">Flujo no buscable</string>
+    <string name="unseekable_stream">Emisión no buscable</string>
     <string name="refresh">Actualizar</string>
     <string name="track_audio">Pista de audio</string>
     <string name="track_video">Pista de vídeo</string>
@@ -154,6 +156,9 @@
     <string name="navmenu">menú de navegación</string>
     <string name="advanced">opciones avanzadas</string>
     <string name="audio_boost_warning">Arrastre hacia arriba de nuevo para subir más del 100%</string>
+    <string name="locked_in_portrait_mode">Bloqueado en modo retrato\n(Pulsación larga en botón para cancelar)</string>
+    <string name="locked_in_landscape_mode">Bloqueado en modo apaisado\n(Pulsación larga en botón para cancelar)</string>
+    <string name="reset_orientation">Restablecer orientación</string>
 
     <plurals name="track_channels_info_quantity">
         <item quantity="one">1 canal\n</item>
@@ -194,7 +199,7 @@
 
     <string name="open">Abrir</string>
     <string name="open_mrl">Emitir</string>
-    <string name="open_mrl_dialog_title">Abrir volcado de red</string>
+    <string name="open_mrl_dialog_title">Abrir emisión de red</string>
     <string name="open_mrl_dialog_msg">Ingrese dirección de red: p.e. http://, mms:// o rtsp://</string>
     <string name="error_not_compatible">Su dispositivo no está soportado actualmente por esta versión de VLC para Android™.</string>
     <string name="error_problem">VLC para Android ha tenido un problema al cargarse y se ha cerrado.</string>
@@ -270,7 +275,9 @@
     <string name="enable_black_theme_summary">Cambiar los colores de la interfaz para una mayor comodidad en entornos de poca luz.</string>
     <string name="subtitle_text_encoding">Codificación de texto de subtítulos</string>
     <string name="daynight_title">Modo DiaNoche</string>
-    <string name="daynight_summary">Cambiar automáticamente al modo noche a la hora apropiada</string>
+    <string name="daynight_follow_system_title">Seguir modo sistema</string>
+    <string name="daynight_battery_title">Seguir ahorro de batería</string>
+    <string name="daynight_summary">Cambiar automáticamente al modo oscuro a la hora apropiada</string>
 
     <string name="extra_prefs_category">Preferencias extra</string>
 
@@ -286,11 +293,14 @@
     <string name="video_min_group_length_title">Agrupar vídeos</string>
     <string name="video_min_group_length_summary">Los vídeos son agrupados si la primera letra coincide</string>
     <string name="video_min_group_length_disable">Deshabilitar</string>
+    <string name="video_min_group_length_folder">Agrupar por carpeta</string>
     <string name="video_min_group_length_first">Solo primera letra</string>
     <string name="video_min_group_length_short">Número corto de letras (6)</string>
     <string name="video_min_group_length_long">Número largo de letras (9)</string>
     <string name="media_fast_seek">Búsqueda rápida</string>
     <string name="media_fast_seek_summary">La búsqueda en un medio es más rápido pero menos preciso</string>
+    <string name="video_transition_title">Trasición de vídeos</string>
+    <string name="video_transition_summary">Mostrar título de nuevo vídeo en la transición</string>
     <string name="media_seen">Mostrar en creador de vídeos</string>
     <string name="media_seen_summary">Marcar vídeo como visto al reproducirlo hasta el final</string>
     <string name="force_list_portrait">Sin rejilla en modo retrato</string>
@@ -312,7 +322,7 @@
     <string name="popup_keepscreen_title">Mantener pantalla encendida en modo emergente</string>
     <string name="popup_keepscreen_summary">Mantiene siempre la pantalla encendida cuando se muestra en modo emergente, incluso si el vídeo está pausado.</string>
     <string name="browser_show_hidden_files_title">Mostrar archivos ocultos</string>
-    <string name="browser_show_hidden_files_summary">Mostrar archivos ocultos en navegadores</string>
+    <string name="browser_show_hidden_files_summary">Mostrar archivos ocultos en exploradores</string>
 
     <string name="subtitles_prefs_category">Subtítulos</string>
     <string name="subtitles_size_title">Tamaño de subtítulos</string>
@@ -360,6 +370,7 @@
     <string name="audio_ducking_title">Bajar volumen de VLC en notificaciones</string>
     <string name="audio_ducking_summary">Ayuda a oír las notificaciones de audio, instrucciones de navegación o asistente de voz</string>
     <string name="casting_category">Transformar</string>
+    <string name="casting_switch_title">Emisión Wireless</string>
     <string name="casting_passthrough_title">Habilitar audio «passthrough»</string>
     <string name="casting_passthrough_summary">Permitir a su TV administrar la reproducción del audio</string>
     <string name="casting_conversion_quality_title">Calidad de conversión</string>
@@ -423,6 +434,8 @@
     <string name="restart_message">Los cambios tomarán efecto una vez se reinicie la aplicación.\n\n¿Reiniciar ahora?</string>
     <string name="restart_message_OK">Aceptar</string>
     <string name="restart_message_Later">Más tarde</string>
+    <string name="browser_show_all_title">Mostrar todos los archivos en explorador</string>
+    <string name="browser_show_all_summary">Mostrar archivos que no son reconocidos como audio o vídeo en exploradores</string>
 
     <string name="developer_prefs_category">Desarrollador</string>
     <string name="enable_verbose_mode">Nivel de detalle</string>
@@ -446,6 +459,16 @@
     <string name="send_log">Enviar las trazas</string>
     <string name="sending_log">Enviando las trazas…</string>
 
+    <string name="delete_sub_title">Eliminar subtítulo</string>
+    <string name="delete_sub_message">¿Desea eliminar este subtítulo?</string>
+    <string name="delete_sub_yes">Sí</string>
+    <string name="delete_sub_no">No</string>
+    <string name="download_subtitle_title">Descargar subtítulo</string>
+
+    <string name="no_result">No se han econtrado resultados</string>
+    <string name="no_internet_connection">Compruebe su conexión a internet</string>
+    <string name="some_error_occurred">Ocurrió algún error. Inténtelo de nuevo en unos segundos</string>
+
     <string name="drawer_open">Abrir navegación «drawer»</string>
     <string name="drawer_close">Cerrar navegación «drawer»</string>
     <string name="network_browsing">Red local</string>
@@ -465,7 +488,7 @@
     <string name="directory_show_medialib">Mostrar en MediaLib</string>
     <string name="directory_hide_medialib">Ocultar de MediaLib</string>
     <string name="playlist_save">Guardar lista de reproducción</string>
-    <string name="playlist_name_hint">nombre de lista de reproducción</string>
+    <string name="playlist_name_hint">Nombre de lista de reproducción</string>
     <string name="go_to_chapter">Ir a capítulo…</string>
     <string name="chapter">Capítulo</string>
     <string name="resume_from_position">Continuar desde la última posición</string>
@@ -590,16 +613,19 @@
     <string name="audio_digital_output_enabled">Habilitado salida de audio digital</string>
     <string name="audio_digital_output_disabled">Deshabillitado salida de audio digital</string>
     <string name="audio_digital_title">Salida de audio digital (passthrough)</string>
-    <string name="audio_task_removed_title">Parar reproducción cuando la aplicación es cerrada</string>
+    <string name="audio_task_cleared_title">Parar al deslizar aplicación</string>
+    <string name="audio_task_cleared_summary">Parar reproducción cuando la aplicación es cerrada</string>
+    <string name="audio_resume_card_title">Cargar última tarjeta lista de reproducción</string>
+    <string name="audio_resume_card_summary">Muestra una tarjeta para ayudarle a continuar la reproducción de audio a inicio de la app</string>
     <string name="playback_rewind">Rebobinar</string>
     <string name="playback_forward">Avance rápido</string>
     <string name="ml_wizard_title">Selección biblioteca de medios VLC</string>
     <string name="ml_wizard_scan_checkbox">Buscar medios en el dispositivo</string>
-    <string name="ml_wizard_description">Elija cuando VLC buscará medios en su dispositivo de almacenamiento para organizar su librería de medios o solo usarlo como simple reproductor con navegador integrado.</string>
+    <string name="ml_wizard_description">Elija cuando VLC buscará medios en su dispositivo de almacenamiento para organizar su librería de medios o solo usarlo como simple reproductor con explorador integrado.</string>
     <string name="tv_my_new_videos">Mis nuevos vídeos</string>
     <string name="cast_option_title">Emitir medios en otra pantalla</string>
     <string name="otg_device_title">Dispositivo OTG</string>
-    <string name="browser">Navegador</string>
+    <string name="browser">Explorador</string>
     <string name="ab_repeat">Repetir A-B</string>
     <string name="stop_after_this">Parar después de esta pista</string>
     <string name="time_category_new">Nuevos medios</string>
@@ -609,4 +635,48 @@
     <string name="time_category_older">Medios más viejos</string>
     <string name="rename">Renombrar</string>
     <string name="rename_media">Renombrar %1$s</string>
+    <string name="manual_search">Búsqueda manual</string>
+    <string name="subtitle_search_name_hint">Nombre</string>
+    <string name="subtitle_search_episode_hint">Episodio</string>
+    <string name="subtitle_search_season_hint">Temporada</string>
+    <string name="language_to_download">Idioma</string>
+    <string name="delete_the_selected">Eliminar seleccionados</string>
+    <string name="download_the_selected">Descargar seleccionados</string>
+    <string name="next">Siguiente</string>
+    <string name="download">Descargar</string>
+    <string name="ctx_player_video_track">Seleccionar pista de vídeo</string>
+    <string name="ctx_player_audio_track">Pista de audio</string>
+    <string name="ctx_player_subs_track">Pista de subtítulos</string>
+    <string name="ctx_player_tracks_title">Pistas de medios</string>
+    <string name="ctx_pip_title">Reproductor emergente</string>
+    <string name="device_dialog_title">Dispositivo externo insertado</string>
+    <string name="device_dialog_message">Acaba de conectar un nuevo dispositvo de almacenamiento a su TV, ¿desea abrirlo con VLC?</string>
+    <string name="videos_folders_title">Vídeos por carpetas</string>
+    <string name="video_save_remote_setting">¿Activar automáticamente el modo de control remoto?</string>
+    <string name="video_save_clone_mode">¿Activar automáticamente el modo clonar?</string>
+    <string name="video_remote_enable">Cambiar a modo de control remoto</string>
+    <string name="video_remote_disable">Duplicar pantalla</string>
+    <string name="removed_from_playlist_anonymous">Elementos eliminados de la lista de reproduccción</string>
+    <string name="welcome_title">Bienvenido a VLC!</string>
+    <string name="welcome_subtitle">El reproductor multimedia libre y de código abierto.</string>
+    <string name="permission_media">VLC necesita su permiso para acceder a los medios en su dispositvo</string>
+    <string name="medialibrary_scan_explanation">VLC puede escanear automáticamente su dispositvo para organizar su colección de medios.</string>
+    <string name="onboarding_theme_title">Siéntase como en casa</string>
+    <string name="done">Hecho</string>
+    <string name="onboarding_scan_title">Autodescubrir sus medios</string>
+    <string name="daynight_explanation">VLC cambiará automáticamente a modo oscuro a la hora apropiada</string>
+    <string name="onboarding_scanning_enable">Dejar que VLC escanee mi dispositivo en busca de medios</string>
+    <string name="onboarding_scan_whole">VLC escaneará toda la tarjeta SD</string>
+    <string name="onboarding_scan_customize">Dejarme elegir que carpetas escanear</string>
+    <string name="button_medialibrary_preferences">Ir a preferencias de librería de medios</string>
+    <string name="light_theme">Tema claro</string>
+    <string name="add">Añadir</string>
+    <string name="add_to_new_playlist">Añadir a nueva lista de reproducción</string>
+    <string name="theme_follow_system_mode">Seguir modo sistema</string>
+    <string name="resume_card_message">¿Continuar la reproducción de %1$s?</string>
+    <string name="misc">Varios</string>
+    <string name="popup_force_legacy_title">Usar modo vídeo sobre vídeo personalizado</string>
+    <string name="popup_force_legacy_summary">Usar ventana emergente escalable en modo vídeo sobre vídeo personalizado</string>
+    <string name="device_default">Dispositivo por defecto</string>
+    <string name="track_number">%s pistas</string>
 </resources>
