@@ -94,14 +94,14 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
-            "set_locale" -> UiTools.restartDialog(activity)
+            "set_locale" -> UiTools.restartDialog(requireActivity())
             "browser_show_all_files" -> (activity as PreferencesActivity).setRestart()
             "app_theme" -> (activity as PreferencesActivity).exitAndRescan()
         }
     }
 
     private fun prepareLocaleList() {
-        val localePair = UiTools.getLocalesUsedInProject(activity)
+        val localePair = UiTools.getLocalesUsedInProject(requireActivity())
         val lp = findPreference("set_locale") as ListPreference
         lp.entries = localePair.localeEntries
         lp.entryValues = localePair.localeEntryValues

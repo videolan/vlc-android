@@ -264,8 +264,8 @@ object TvUtil {
                 val blurred = withContext(Dispatchers.IO) {
                     var cover: Bitmap? = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 512)
                             ?: return@withContext null
-                    if (crop)
-                        cover = BitmapUtil.centerCrop(cover, cover!!.width, cover.width * 10 / 16)
+                    if (cover != null && crop)
+                        cover = BitmapUtil.centerCrop(cover, cover.width, cover.width * 10 / 16)
                     UiTools.blurBitmap(cover, 10f)
                 }
                 @Suppress("SENSELESS_COMPARISON")

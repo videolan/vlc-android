@@ -300,7 +300,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
                     for (media in list) media.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
                     MediaUtils.openList(activity, list, 0)
                 }
-                R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(activity, list)
+                R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), list)
                 else -> {
                     stopActionMode()
                     return false

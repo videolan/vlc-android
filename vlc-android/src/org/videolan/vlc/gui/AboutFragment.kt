@@ -30,10 +30,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.BuildConfig
@@ -45,6 +42,7 @@ import org.videolan.vlc.util.Util
 private const val TAG = "VLC/AboutFragment"
 private const val MODE_TOTAL = 2 // Number of audio browser modes
 
+@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class AboutFragment : Fragment() {
 
@@ -58,7 +56,7 @@ class AboutFragment : Fragment() {
         (activity as? AppCompatActivity)?.supportActionBar?.title = "VLC ${BuildConfig.VERSION_NAME}"
         //Fix android 7 Locale problem with webView
         //https://stackoverflow.com/questions/40398528/android-webview-locale-changes-abruptly-on-android-n
-        if (AndroidUtil.isNougatOrLater) UiTools.setLocale(activity)
+        if (AndroidUtil.isNougatOrLater) UiTools.setLocale(requireActivity())
 
         val aboutMain = view.findViewById<ScrollView>(R.id.about_main)
         val webView = view.findViewById<WebView>(R.id.webview)

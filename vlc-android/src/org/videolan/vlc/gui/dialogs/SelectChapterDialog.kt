@@ -29,13 +29,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Tools
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ChapterListItemBinding
-import org.videolan.vlc.gui.helpers.BottomSheetBehavior
 import java.util.*
 
 @ObsoleteCoroutinesApi
@@ -108,7 +108,7 @@ class SelectChapterDialog : VLCBottomSheetDialogFragment(), Observer<PlaybackSer
     }
 
     override fun getDefaultState(): Int {
-        return BottomSheetBehavior.STATE_EXPANDED
+        return STATE_EXPANDED
     }
 
     override fun needToManageOrientation(): Boolean {

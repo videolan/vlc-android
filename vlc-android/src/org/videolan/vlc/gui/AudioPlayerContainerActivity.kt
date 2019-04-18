@@ -43,6 +43,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.*
@@ -79,7 +80,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), CoroutineScope by Main
     private var scanProgressLayout: View? = null
     private var scanProgressText: TextView? = null
     private var scanProgressBar: ProgressBar? = null
-    private lateinit var resumeCard : Snackbar
+    private lateinit var resumeCard: Snackbar
 
     private var preventRescan = false
 
@@ -96,7 +97,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), CoroutineScope by Main
         get() = audioPlayer != null
 
     val isAudioPlayerExpanded: Boolean
-        get() = isAudioPlayerReady && bottomSheetBehavior!!.state == BottomSheetBehavior.STATE_EXPANDED
+        get() = isAudioPlayerReady && bottomSheetBehavior!!.state == STATE_EXPANDED
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //Init Medialibrary if KO
@@ -129,7 +130,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), CoroutineScope by Main
     private fun initAudioPlayer() {
         findViewById<View>(R.id.audio_player_stub).visibility = View.VISIBLE
         audioPlayer = supportFragmentManager.findFragmentById(R.id.audio_player) as AudioPlayer?
-        bottomSheetBehavior = BottomSheetBehavior.from(audioPlayerContainer!!) as BottomSheetBehavior<*>
+        bottomSheetBehavior = from(audioPlayerContainer!!) as BottomSheetBehavior<*>
         bottomSheetBehavior!!.peekHeight = resources.getDimensionPixelSize(R.dimen.player_peek_height)
         bottomSheetBehavior!!.setBottomSheetCallback(audioPlayerBottomSheetCallback)
         showTipViewIfNeeded(R.id.audio_player_tips, PREF_AUDIOPLAYER_TIPS_SHOWN)
@@ -235,7 +236,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), CoroutineScope by Main
             audioPlayerContainer?.visibility = View.VISIBLE
         }
         bottomSheetBehavior?.run {
-            if (state == BottomSheetBehavior.STATE_HIDDEN) state = BottomSheetBehavior.STATE_COLLAPSED
+            if (state == STATE_HIDDEN) state = STATE_COLLAPSED
             isHideable = false
             lock(false)
         }
@@ -246,8 +247,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), CoroutineScope by Main
      * @return true on success else false.
      */
     fun slideDownAudioPlayer(): Boolean {
-        if (isAudioPlayerReady && bottomSheetBehavior!!.state == BottomSheetBehavior.STATE_EXPANDED) {
-            bottomSheetBehavior?.state = BottomSheetBehavior.STATE_COLLAPSED
+        if (isAudioPlayerReady && bottomSheetBehavior!!.state == STATE_EXPANDED) {
+            bottomSheetBehavior?.state = STATE_COLLAPSED
             return true
         }
         return false
@@ -257,11 +258,11 @@ open class AudioPlayerContainerActivity : BaseActivity(), CoroutineScope by Main
      * Slide up and down the audio player depending on its current state.
      */
     fun slideUpOrDownAudioPlayer() {
-        if (!isAudioPlayerReady || bottomSheetBehavior!!.state == BottomSheetBehavior.STATE_HIDDEN) return
-        bottomSheetBehavior?.state = if (bottomSheetBehavior!!.state == BottomSheetBehavior.STATE_EXPANDED)
-            BottomSheetBehavior.STATE_COLLAPSED
+        if (!isAudioPlayerReady || bottomSheetBehavior!!.state == STATE_HIDDEN) return
+        bottomSheetBehavior?.state = if (bottomSheetBehavior!!.state == STATE_EXPANDED)
+            STATE_COLLAPSED
         else
-            BottomSheetBehavior.STATE_EXPANDED
+            STATE_EXPANDED
     }
 
     /**
@@ -276,7 +277,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), CoroutineScope by Main
     private fun hideAudioPlayerImpl() {
         if (!isAudioPlayerReady) return
         bottomSheetBehavior!!.isHideable = true
-        bottomSheetBehavior!!.state = BottomSheetBehavior.STATE_HIDDEN
+        bottomSheetBehavior!!.state = STATE_HIDDEN
     }
 
     private fun updateProgressVisibility(show: Boolean) {
@@ -326,7 +327,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), CoroutineScope by Main
         override fun onStateChanged(bottomSheet: View, newState: Int) {
             this@AudioPlayerContainerActivity.onPlayerStateChanged(bottomSheet, newState)
             audioPlayer!!.onStateChanged(newState)
-            if (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN) removeTipViewIfDisplayed()
+            if (newState == STATE_COLLAPSED || newState == STATE_HIDDEN) removeTipViewIfDisplayed()
         }
 
         override fun onSlide(bottomSheet: View, slideOffset: Float) {}
@@ -365,7 +366,8 @@ open class AudioPlayerContainerActivity : BaseActivity(), CoroutineScope by Main
         if (PlaylistManager.showAudioPlayer.value == true) return@launch
         val song = settings.getString("current_song", null) ?: return@launch
         val media = getFromMl { getMedia(Uri.parse(song)) }
-        val title = media?.title ?: Uri.decode(FileUtils.getFileNameFromPath(song)).substringBeforeLast('.')
+        val title = media?.title
+                ?: Uri.decode(FileUtils.getFileNameFromPath(song)).substringBeforeLast('.')
         if (!lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) return@launch
         resumeCard = Snackbar.make(appBarLayout, getString(R.string.resume_card_message, title), Snackbar.LENGTH_LONG)
                 .setAction(R.string.play) { PlaybackService.loadLastAudio(it.context) }

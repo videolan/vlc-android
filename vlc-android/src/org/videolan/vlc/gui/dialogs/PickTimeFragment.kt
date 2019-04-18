@@ -29,11 +29,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.BottomSheetBehavior
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -55,7 +55,7 @@ abstract class PickTimeFragment : VLCBottomSheetDialogFragment(), View.OnClickLi
     abstract fun getTitle(): Int
 
     override fun getDefaultState(): Int {
-        return BottomSheetBehavior.STATE_EXPANDED
+        return STATE_EXPANDED
     }
 
     override fun needToManageOrientation(): Boolean {

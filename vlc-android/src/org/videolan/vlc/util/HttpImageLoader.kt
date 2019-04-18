@@ -36,19 +36,18 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 object HttpImageLoader {
-    private val cache = BitmapCache.getInstance()
 
     fun downloadBitmap(imageUrl: String): Bitmap? {
         var urlConnection: HttpURLConnection? = null
         var inputStream: InputStream? = null
-        var icon = cache.getBitmapFromMemCache(imageUrl)
+        var icon = BitmapCache.getBitmapFromMemCache(imageUrl)
         if (icon != null) return icon
         try {
             val url = URL(imageUrl)
             urlConnection = url.openConnection() as HttpURLConnection
             inputStream = BufferedInputStream(urlConnection.inputStream)
             icon = BitmapFactory.decodeStream(inputStream)
-            cache.addBitmapToMemCache(imageUrl, icon)
+            BitmapCache.addBitmapToMemCache(imageUrl, icon)
         } catch (ignored: IOException) {
         } catch (ignored: IllegalArgumentException) {
         } finally {

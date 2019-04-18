@@ -292,7 +292,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             viewModel.remove(mw)
         }
         val resId = if (mw.type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
-        UiTools.snackerConfirm(view, getString(resId, mw.title)) { if (Util.checkWritePermission(requireActivity(), mw, deleteAction)) deleteAction.run() }
+        UiTools.snackerConfirm(view, getString(resId, mw.title), Runnable { if (Util.checkWritePermission(requireActivity(), mw, deleteAction)) deleteAction.run() })
         return true
     }
 
@@ -343,7 +343,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             when (item.itemId) {
                 R.id.action_mode_file_play -> MediaUtils.openList(activity, list, 0)
                 R.id.action_mode_file_append -> MediaUtils.appendMedia(activity, list)
-                R.id.action_mode_file_add_playlist -> UiTools.addToPlaylist(activity, list)
+                R.id.action_mode_file_add_playlist -> UiTools.addToPlaylist(requireActivity(), list)
                 R.id.action_mode_file_info -> showMediaInfo(list[0])
                 else -> {
                     stopActionMode()

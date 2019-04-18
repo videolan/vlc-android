@@ -148,7 +148,7 @@ public class DebugLogService extends Service implements Logcat.Callback, Runnabl
         debugLogIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
         final PendingIntent pi = PendingIntent.getActivity(this, 0, debugLogIntent, 0);
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NotificationHelper.VLC_DEBUG_CHANNEL);
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NotificationHelper.INSTANCE.getVLC_DEBUG_CHANNEL());
         builder.setContentTitle(getResources().getString(R.string.log_service_title));
         builder.setContentText(getResources().getString(R.string.log_service_text));
         builder.setSmallIcon(R.drawable.ic_stat_vlc);
@@ -327,7 +327,8 @@ public class DebugLogService extends Service implements Logcat.Callback, Runnabl
             synchronized (this) {
                 if (mIDebugLogService != null) {
                     try {
-                        if (AndroidUtil.isOOrLater) NotificationHelper.createDebugServcieChannel(mContext.getApplicationContext());
+                        if (AndroidUtil.isOOrLater)
+                            NotificationHelper.INSTANCE.createDebugServcieChannel(mContext.getApplicationContext());
                         mIDebugLogService.start();
                         return true;
                     } catch (RemoteException e) {

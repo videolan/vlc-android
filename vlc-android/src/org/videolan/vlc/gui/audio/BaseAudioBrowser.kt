@@ -176,9 +176,9 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
                     when (item.itemId) {
                         R.id.action_mode_audio_play -> MediaUtils.openList(activity, tracks, 0)
                         R.id.action_mode_audio_append -> MediaUtils.appendMedia(activity, tracks)
-                        R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(activity, tracks)
+                        R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), tracks)
                         R.id.action_mode_audio_info -> showInfoDialog(list[0])
-                        R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, activity)
+                        R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, requireActivity())
                     }
                 })
             })

@@ -35,7 +35,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.BottomSheetBehavior
 import org.videolan.vlc.gui.helpers.OnRepeatListener
 import org.videolan.vlc.util.formatRateString
 
@@ -159,7 +158,7 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), Observer<PlaybackSer
     }
 
     override fun getDefaultState(): Int {
-        return BottomSheetBehavior.STATE_EXPANDED
+        return com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
     }
 
     override fun needToManageOrientation(): Boolean {

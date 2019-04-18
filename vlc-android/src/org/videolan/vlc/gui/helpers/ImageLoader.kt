@@ -32,7 +32,6 @@ import org.videolan.vlc.util.HttpImageLoader
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.ThumbnailsProvider.obtainBitmap
 
-private val sBitmapCache = BitmapCache.getInstance()
 private val sMedialibrary = VLCApplication.getMLInstance()
 @Volatile
 private var defaultImageWidth = 0
@@ -56,7 +55,7 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
         isFolder -> "folder:${item.title}"
         else -> ThumbnailsProvider.getMediaCacheKey(isMedia, item)
     }
-    val bitmap = if (cacheKey !== null) sBitmapCache.getBitmapFromMemCache(cacheKey) else null
+    val bitmap = if (cacheKey !== null) BitmapCache.getBitmapFromMemCache(cacheKey) else null
     if (bitmap !== null) updateImageView(bitmap, v, binding)
     else AppScope.launch { getImage(v, findInLibrary(item, isMedia, isGroup), binding) }
 }

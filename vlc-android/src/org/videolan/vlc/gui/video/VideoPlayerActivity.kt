@@ -796,7 +796,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             }
             playlistToggle!!.setOnClickListener(this@VideoPlayerActivity)
 
-            val callback = SwipeDragItemTouchHelperCallback(playlistAdapter)
+            val callback = SwipeDragItemTouchHelperCallback(playlistAdapter!!)
             val touchHelper = ItemTouchHelper(callback)
             touchHelper.attachToRecyclerView(playlist)
         }
@@ -815,7 +815,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         secondaryDisplayBtn!!.visibility = if (UiTools.hasSecondaryDisplay(applicationContext)) View.VISIBLE else View.GONE
         secondaryDisplayBtn!!.contentDescription = resources.getString(if (secondary) R.string.video_remote_disable else R.string.video_remote_enable)
         if (!isBenchmark && enableCloneMode && !settings!!.contains("enable_clone_mode")) {
-            UiTools.snackerConfirm(secondaryDisplayBtn!!, getString(R.string.video_save_clone_mode)) { settings!!.edit().putBoolean("enable_clone_mode", true).apply() }
+            UiTools.snackerConfirm(secondaryDisplayBtn!!, getString(R.string.video_save_clone_mode), Runnable { settings!!.edit().putBoolean("enable_clone_mode", true).apply() })
         }
 
         /* Listen for changes to media routes. */

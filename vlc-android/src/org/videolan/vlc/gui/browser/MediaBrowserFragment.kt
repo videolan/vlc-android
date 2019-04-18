@@ -164,11 +164,11 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     protected open fun removeItem(item: MediaLibraryItem): Boolean {
         view ?: return false
         when {
-            item.itemType == MediaLibraryItem.TYPE_PLAYLIST -> UiTools.snackerConfirm(view!!, getString(R.string.confirm_delete_playlist, item.title)) { MediaUtils.deletePlaylist(item as Playlist) }
+            item.itemType == MediaLibraryItem.TYPE_PLAYLIST -> UiTools.snackerConfirm(view!!, getString(R.string.confirm_delete_playlist, item.title), Runnable { MediaUtils.deletePlaylist(item as Playlist) })
             item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
                 val deleteAction = Runnable { deleteMedia(item, false, null) }
                 val resid = if ((item as MediaWrapper).type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
-                UiTools.snackerConfirm(view!!, getString(resid, item.getTitle())) { if (Util.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() }
+                UiTools.snackerConfirm(view!!, getString(resid, item.getTitle()), Runnable { if (Util.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() })
             }
             else -> return false
         }

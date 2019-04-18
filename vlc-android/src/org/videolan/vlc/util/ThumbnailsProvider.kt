@@ -39,7 +39,7 @@ object ThumbnailsProvider {
     private val lock = Any()
 
     @WorkerThread
-    fun getFolderThumbnail(folder: Folder, width: Int): Bitmap {
+    fun getFolderThumbnail(folder: Folder, width: Int): Bitmap? {
         val media = Arrays.asList(*folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, true, 4, 0))
         return getComposedImage("folder:" + folder.title, media, width)
     }
@@ -69,7 +69,7 @@ object ThumbnailsProvider {
         if (appDir == null) appDir = VLCApplication.getAppContext().getExternalFilesDir(null)
         val hasCache = appDir != null && appDir!!.exists()
         val thumbPath = getMediaCacheKey(true, media)
-        val cacheBM = if (hasCache) BitmapCache.getInstance().getBitmapFromMemCache(thumbPath) else null
+        val cacheBM = if (hasCache) BitmapCache.getBitmapFromMemCache(thumbPath) else null
         if (cacheBM != null) return cacheBM
         if (hasCache && File(thumbPath).exists()) return readCoverBitmap(thumbPath, width)
         if (media.isThumbnailGenerated) return null
@@ -78,7 +78,7 @@ object ThumbnailsProvider {
             bitmap = ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND)
         }
         if (bitmap != null) {
-            BitmapCache.getInstance().addBitmapToMemCache(thumbPath, bitmap)
+            BitmapCache.addBitmapToMemCache(thumbPath, bitmap)
             if (hasCache) {
                 media.setThumbnail(thumbPath)
                 saveOnDisk(bitmap, thumbPath)
@@ -91,11 +91,10 @@ object ThumbnailsProvider {
     }
 
     suspend fun getPlaylistImage(key: String, mediaList: List<MediaWrapper>, width: Int): Bitmap? {
-        val bmc = BitmapCache.getInstance()
-        var composedImage = bmc.getBitmapFromMemCache(key)
+        var composedImage = BitmapCache.getBitmapFromMemCache(key)
         if (composedImage == null) {
             composedImage = composePlaylistImage(mediaList, width)
-            if (composedImage != null) bmc.addBitmapToMemCache(key, composedImage)
+            if (composedImage != null) BitmapCache.addBitmapToMemCache(key, composedImage)
         }
         return composedImage
     }
@@ -177,12 +176,11 @@ object ThumbnailsProvider {
 
 
     @WorkerThread
-    fun getComposedImage(key: String, mediaList: List<MediaWrapper>, width: Int): Bitmap {
-        val bmc = BitmapCache.getInstance()
-        var composedImage = bmc.getBitmapFromMemCache(key)
+    fun getComposedImage(key: String, mediaList: List<MediaWrapper>, width: Int): Bitmap? {
+        var composedImage = BitmapCache.getBitmapFromMemCache(key)
         if (composedImage == null) {
             composedImage = composeImage(mediaList, width)
-            if (composedImage != null) bmc.addBitmapToMemCache(key, composedImage)
+            if (composedImage != null) BitmapCache.addBitmapToMemCache(key, composedImage)
         }
         return composedImage
     }

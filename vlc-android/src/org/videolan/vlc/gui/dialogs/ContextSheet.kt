@@ -30,9 +30,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ContextItemBinding
-import org.videolan.vlc.gui.helpers.BottomSheetBehavior
 import org.videolan.vlc.util.*
 
 const val CTX_TITLE_KEY = "CTX_TITLE_KEY"
@@ -40,7 +40,7 @@ const val CTX_POSITION_KEY = "CTX_POSITION_KEY"
 const val CTX_FLAGS_KEY = "CTX_FLAGS_KEY"
 
 class ContextSheet : VLCBottomSheetDialogFragment() {
-    override fun getDefaultState(): Int = BottomSheetBehavior.STATE_EXPANDED
+    override fun getDefaultState(): Int = STATE_EXPANDED
 
     override fun needToManageOrientation(): Boolean = false
 

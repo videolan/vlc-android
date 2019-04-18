@@ -1,6 +1,7 @@
 package org.videolan.vlc.gui.dialogs
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
@@ -31,30 +32,34 @@ private const val MEDIA_PATHS = "MEDIA_PATHS"
 const val MEDIA_PATH = "MEDIA_PATH"
 
 @ObsoleteCoroutinesApi
-class SubtitleDownloaderDialogFragment: DialogFragment() {
+class SubtitleDownloaderDialogFragment : DialogFragment() {
     private lateinit var adapter: ViewPagerAdapter
     private lateinit var paths: List<String>
     private lateinit var viewModel: SubtitlesModel
     private lateinit var toast: Toast
 
     val listEventActor = coroutineScope.actor<SubtitleEvent> {
-        for (subtitleEvent in channel) if(isActive) when (subtitleEvent) {
-            is Click -> when(subtitleEvent.item.state) {
+        for (subtitleEvent in channel) if (isActive) when (subtitleEvent) {
+            is Click -> when (subtitleEvent.item.state) {
                 State.NotDownloaded -> VLCDownloadManager.download(context!!, subtitleEvent.item)
-                State.Downloaded -> deleteSubtitleDialog(context,
-                        { _, _ -> viewModel.deleteSubtitle(subtitleEvent.item.mediaPath, subtitleEvent.item.idSubtitle) }, { _, _ -> })
+                State.Downloaded -> deleteSubtitleDialog(requireActivity(), DialogInterface.OnClickListener { _, _ -> viewModel.deleteSubtitle(subtitleEvent.item.mediaPath, subtitleEvent.item.idSubtitle) }
+                        , DialogInterface.OnClickListener { _, _ -> })
                 else -> return@actor
             }
             is LongClick -> {
-                @StringRes val message = when(subtitleEvent.item.state) {
-                    State.NotDownloaded -> {R.string.download_the_selected}
-                    State.Downloaded -> {R.string.delete_the_selected}
+                @StringRes val message = when (subtitleEvent.item.state) {
+                    State.NotDownloaded -> {
+                        R.string.download_the_selected
+                    }
+                    State.Downloaded -> {
+                        R.string.delete_the_selected
+                    }
                     // Todo else -> {"Cancel download"}
                     else -> return@actor
                 }
                 if (::toast.isInitialized) toast.cancel()
                 toast = Toast.makeText(activity, message, Toast.LENGTH_SHORT)
-                toast.setGravity(Gravity.TOP,0,100)
+                toast.setGravity(Gravity.TOP, 0, 100)
                 toast.show()
             }
         } else channel.close()
@@ -63,7 +68,8 @@ class SubtitleDownloaderDialogFragment: DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        paths = savedInstanceState?.getStringArrayList(MEDIA_PATHS)?.toList() ?: arguments?.getStringArrayList(MEDIA_PATHS)?.toList() ?: listOf()
+        paths = savedInstanceState?.getStringArrayList(MEDIA_PATHS)?.toList()
+                ?: arguments?.getStringArrayList(MEDIA_PATHS)?.toList() ?: listOf()
         if (paths.isEmpty()) dismiss()
 
         viewModel = ViewModelProviders.of(requireActivity(), SubtitlesModel.Factory(requireContext(), paths[0])).get(paths[0], SubtitlesModel::class.java)
@@ -76,7 +82,7 @@ class SubtitleDownloaderDialogFragment: DialogFragment() {
         binding.pager.adapter = adapter
         binding.tabLayout.setupWithViewPager(binding.pager)
 
-        if(paths.size < 2) binding.nextButton.visibility = View.GONE
+        if (paths.size < 2) binding.nextButton.visibility = View.GONE
 
         binding.nextButton.setOnClickListener {
             if (paths.size > 1)
@@ -120,12 +126,12 @@ class SubtitleDownloaderDialogFragment: DialogFragment() {
         }
     }
 
-    class ViewPagerAdapter(context: Context, fragmentManager: FragmentManager, private val paths: List<String>): FragmentPagerAdapter(fragmentManager) {
+    class ViewPagerAdapter(context: Context, fragmentManager: FragmentManager, private val paths: List<String>) : FragmentPagerAdapter(fragmentManager) {
         private val tabTitles = arrayOf(context.getString(R.string.download), context.getString(R.string.history))
 
         override fun getPageTitle(position: Int): String? = tabTitles[position]
 
-        override fun getItem(position: Int) = when(position) {
+        override fun getItem(position: Int) = when (position) {
             0 -> SubtitleDownloadFragment.newInstance(paths[0])
             else -> SubtitleHistoryFragment.newInstance(paths[0])
         }

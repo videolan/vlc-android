@@ -125,7 +125,7 @@ abstract public class VLCAppWidgetProvider extends AppWidgetProvider {
                 WorkersKt.runIO(new Runnable() {
                     @Override
                     public void run() {
-                        final Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(artworkMrl), 320);
+                        final Bitmap cover = AudioUtil.INSTANCE.readCoverBitmap(Uri.decode(artworkMrl), 320);
                         WorkersKt.runOnMainThread(new Runnable() {
                             @Override
                             public void run() {

@@ -29,6 +29,11 @@ import android.content.res.Resources;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.collection.SimpleArrayMap;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ProcessLifecycleOwner;
+
 import org.videolan.libvlc.Dialog;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.Medialibrary;
@@ -37,6 +42,7 @@ import org.videolan.vlc.gui.dialogs.VlcProgressDialog;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.BitmapCache;
 import org.videolan.vlc.gui.helpers.NotificationHelper;
+import org.videolan.vlc.gui.helpers.UiTools;
 import org.videolan.vlc.util.Settings;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.VLCInstance;
@@ -45,13 +51,6 @@ import org.videolan.vlc.util.WorkersKt;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
-
-import androidx.collection.SimpleArrayMap;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.ProcessLifecycleOwner;
-
-import static org.videolan.vlc.gui.helpers.UiTools.setLocale;
 
 public class VLCApplication extends Application {
     public final static String TAG = "VLC/VLCApplication";
@@ -88,7 +87,7 @@ public class VLCApplication extends Application {
                     @Override
                     public void run() {
                         // Set the locale for API < 24 and set application resources and direction for API >=24
-                        setLocale(getAppContext());
+                        UiTools.INSTANCE.setLocale(getAppContext());
                     }
                 });
 
@@ -97,9 +96,10 @@ public class VLCApplication extends Application {
                     @Override
                     public void run() {
 
-                        if (AndroidUtil.isOOrLater) NotificationHelper.createNotificationChannels(VLCApplication.this);
+                        if (AndroidUtil.isOOrLater)
+                            NotificationHelper.INSTANCE.createNotificationChannels(VLCApplication.this);
                         // Prepare cache folder constants
-                        AudioUtil.prepareCacheFolder(getAppContext());
+                        AudioUtil.INSTANCE.prepareCacheFolder(getAppContext());
 
                         if (!VLCInstance.INSTANCE.testCompatibleCPU(getAppContext())) return;
                         Dialog.setCallbacks(VLCInstance.INSTANCE.get(instance), mDialogCallbacks);
@@ -112,7 +112,7 @@ public class VLCApplication extends Application {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        setLocale(getAppContext());
+        UiTools.INSTANCE.setLocale(getAppContext());
     }
 
     /**
@@ -123,7 +123,7 @@ public class VLCApplication extends Application {
         super.onLowMemory();
         Log.w(TAG, "System is running low on memory");
 
-        BitmapCache.getInstance().clear();
+        BitmapCache.INSTANCE.clear();
     }
 
     @Override
@@ -131,7 +131,7 @@ public class VLCApplication extends Application {
         super.onTrimMemory(level);
         Log.w(TAG, "onTrimMemory, level: "+level);
 
-        BitmapCache.getInstance().clear();
+        BitmapCache.INSTANCE.clear();
     }
 
     /**

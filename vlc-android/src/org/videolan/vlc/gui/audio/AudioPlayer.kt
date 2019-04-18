@@ -159,7 +159,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
     private val ctxReceiver : CtxActionReceiver = object : CtxActionReceiver {
         override fun onCtxAction(position: Int, option: Int) {
             when(option) {
-                CTX_SET_RINGTONE -> AudioUtil.setRingtone(playlistAdapter.getItem(position), activity)
+                CTX_SET_RINGTONE -> AudioUtil.setRingtone(playlistAdapter.getItem(position), requireActivity())
                 CTX_ADD_TO_PLAYLIST -> {
                     val mw = playlistAdapter.getItem(position)
                     UiTools.addToPlaylist(requireActivity(), listOf(mw))
@@ -199,7 +199,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
     private fun updatePlayPause() {
         val playing = playlistModel.playing
         if (playing == wasPlaying) return
-        val imageResId = UiTools.getResourceFromAttribute(activity, if (playing) R.attr.ic_pause else R.attr.ic_play)
+        val imageResId = UiTools.getResourceFromAttribute(requireActivity(), if (playing) R.attr.ic_pause else R.attr.ic_play)
         val text = getString(if (playing) R.string.pause else R.string.play)
         binding.playPause.setImageResource(imageResId)
         binding.playPause.contentDescription = text
@@ -213,7 +213,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
         binding.shuffle.visibility = if (playlistModel.canShuffle) View.VISIBLE else View.INVISIBLE
         val shuffling = playlistModel.shuffling
         if (wasShuffling == shuffling) return
-        binding.shuffle.setImageResource(UiTools.getResourceFromAttribute(activity, if (shuffling) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
+        binding.shuffle.setImageResource(UiTools.getResourceFromAttribute(requireActivity(), if (shuffling) R.attr.ic_shuffle_on else R.attr.ic_shuffle))
         binding.shuffle.contentDescription = resources.getString(if (shuffling) R.string.shuffle_on else R.string.shuffle)
         wasShuffling = shuffling
     }
@@ -224,15 +224,15 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
         if (previousRepeatType == repeatType) return
         when (repeatType) {
             REPEAT_ONE -> {
-                binding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_one))
+                binding.repeat.setImageResource(UiTools.getResourceFromAttribute(requireActivity(), R.attr.ic_repeat_one))
                 binding.repeat.contentDescription = resources.getString(R.string.repeat_single)
             }
             REPEAT_ALL -> {
-                binding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat_all))
+                binding.repeat.setImageResource(UiTools.getResourceFromAttribute(requireActivity(), R.attr.ic_repeat_all))
                 binding.repeat.contentDescription = resources.getString(R.string.repeat_all)
             }
             else -> {
-                binding.repeat.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_repeat))
+                binding.repeat.setImageResource(UiTools.getResourceFromAttribute(requireActivity(), R.attr.ic_repeat))
                 binding.repeat.contentDescription = resources.getString(R.string.repeat)
             }
         }
@@ -535,11 +535,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
             BottomSheetBehavior.STATE_COLLAPSED -> {
                 backPressed()
                 binding.header.setBackgroundResource(DEFAULT_BACKGROUND_DARKER_ID)
-                setHeaderVisibilities(false, false, true, true, true, false)
+                setHeaderVisibilities(advFuncVisible = false, playlistSwitchVisible = false, headerPlayPauseVisible = true, progressBarVisible = true, headerTimeVisible = true, searchVisible = false)
             }
             BottomSheetBehavior.STATE_EXPANDED -> {
                 binding.header.setBackgroundResource(0)
-                setHeaderVisibilities(true, true, false, false, false, true)
+                setHeaderVisibilities(advFuncVisible = true, playlistSwitchVisible = true, headerPlayPauseVisible = false, progressBarVisible = false, headerTimeVisible = false, searchVisible = true)
                 showPlaylistTips()
                 playlistAdapter.currentIndex = playlistModel.currentMediaPosition
             }

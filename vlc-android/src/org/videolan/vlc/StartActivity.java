@@ -31,6 +31,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SearchActivity;
@@ -44,8 +47,6 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Settings;
 
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 import videolan.org.commontools.TvChannelUtilsKt;
 
 public class StartActivity extends FragmentActivity {
@@ -55,7 +56,7 @@ public class StartActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (AndroidUtil.isNougatOrLater) UiTools.setLocale(this);
+        if (AndroidUtil.isNougatOrLater) UiTools.INSTANCE.setLocale(this);
         final Intent intent = getIntent();
         final String action = intent != null ? intent.getAction(): null;
 

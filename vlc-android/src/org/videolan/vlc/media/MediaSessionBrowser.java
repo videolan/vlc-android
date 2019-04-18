@@ -38,6 +38,9 @@ import android.os.IBinder;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.media.MediaDescriptionCompat;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.WorkerThread;
+
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -55,9 +58,6 @@ import org.videolan.vlc.util.Settings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.WorkerThread;
 
 
 public class MediaSessionBrowser implements ExtensionManagerService.ExtensionManagerActivity {
@@ -246,8 +246,9 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
                 for (MediaLibraryItem libraryItem : list) {
                     if (libraryItem.getItemType() == MediaLibraryItem.TYPE_MEDIA && ((MediaWrapper) libraryItem).getType() != MediaWrapper.TYPE_AUDIO)
                         continue;
-                    Bitmap cover = AudioUtil.readCoverBitmap(Uri.decode(libraryItem.getArtworkMrl()), 256);
-                    if (cover == null) cover = UiTools.getDefaultAudioDrawable(context).getBitmap();
+                    Bitmap cover = AudioUtil.INSTANCE.readCoverBitmap(Uri.decode(libraryItem.getArtworkMrl()), 256);
+                    if (cover == null)
+                        cover = UiTools.INSTANCE.getDefaultAudioDrawable(context).getBitmap();
                     item.setTitle(libraryItem.getTitle())
                             .setMediaId(generateMediaId(libraryItem));
                     item.setIconBitmap(cover);
@@ -309,7 +310,8 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
                 continue;
             mediaItem = new MediaDescriptionCompat.Builder();
             Uri coverUri = extensionItem.getImageUri();
-            if (coverUri == null) mediaItem.setIconBitmap(UiTools.getDefaultAudioDrawable(VLCApplication.getAppContext()).getBitmap());
+            if (coverUri == null)
+                mediaItem.setIconBitmap(UiTools.INSTANCE.getDefaultAudioDrawable(VLCApplication.getAppContext()).getBitmap());
             else
                 mediaItem.setIconUri(coverUri);
             mediaItem.setTitle(extensionItem.getTitle());
