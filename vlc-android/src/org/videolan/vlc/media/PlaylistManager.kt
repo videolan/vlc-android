@@ -357,7 +357,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     fun hasNext() = nextIndex != -1
 
     @MainThread
-    override fun onItemAdded(index: Int, mrl: String?) {
+    override fun onItemAdded(index: Int, mrl: String) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemAdded")
         if (currentIndex >= index && !expanding) ++currentIndex
         addUpdateActor.offer(Unit)
@@ -372,7 +372,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     @MainThread
-    override fun onItemRemoved(index: Int, mrl: String?) {
+    override fun onItemRemoved(index: Int, mrl: String) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemDeleted")
         val currentRemoved = currentIndex == index
         if (currentIndex >= index && !expanding) --currentIndex
@@ -476,7 +476,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
     }
 
-    override fun onItemMoved(indexBefore: Int, indexAfter: Int, mrl: String?) {
+    override fun onItemMoved(indexBefore: Int, indexAfter: Int, mrl: String) {
         if (BuildConfig.DEBUG) Log.i(TAG, "CustomMediaListItemMoved")
         if (currentIndex == indexBefore) {
             currentIndex = indexAfter
