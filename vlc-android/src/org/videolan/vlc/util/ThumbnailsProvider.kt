@@ -55,7 +55,7 @@ object ThumbnailsProvider {
 
     fun getMediaCacheKey(isMedia: Boolean, item: MediaLibraryItem): String? {
         if (isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.getArtworkMrl())) {
-            if (appDir == null) appDir = VLCApplication.getAppContext().getExternalFilesDir(null)
+            if (appDir == null) appDir = VLCApplication.appContext.getExternalFilesDir(null)
             val hasCache = appDir != null && appDir!!.exists()
             if (hasCache && cacheDir == null) cacheDir = appDir!!.absolutePath + THUMBS_FOLDER_NAME
             return if (hasCache) StringBuilder(cacheDir!!).append('/').append(item.getTitle()).append(".jpg").toString() else null
@@ -66,7 +66,7 @@ object ThumbnailsProvider {
     @WorkerThread
     private fun getVideoThumbnail(media: MediaWrapper, width: Int): Bitmap? {
         val filePath = media.uri.path
-        if (appDir == null) appDir = VLCApplication.getAppContext().getExternalFilesDir(null)
+        if (appDir == null) appDir = VLCApplication.appContext.getExternalFilesDir(null)
         val hasCache = appDir != null && appDir!!.exists()
         val thumbPath = getMediaCacheKey(true, media)
         val cacheBM = if (hasCache) BitmapCache.getBitmapFromMemCache(thumbPath) else null
@@ -152,7 +152,7 @@ object ThumbnailsProvider {
 
         for (i in 0..3) {
             if (images.size < i + 1) {
-                images.add(UiTools.getDefaultAudioDrawable(VLCApplication.getAppContext()).bitmap)
+                images.add(UiTools.getDefaultAudioDrawable(VLCApplication.appContext).bitmap)
             }
         }
 

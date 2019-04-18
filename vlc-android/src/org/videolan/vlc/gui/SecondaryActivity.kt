@@ -105,7 +105,7 @@ class SecondaryActivity : ContentActivity() {
         // Handle item selection
         when (item.itemId) {
             R.id.ml_menu_refresh -> {
-                val ml = VLCApplication.getMLInstance()
+                val ml = VLCApplication.mlInstance
                 if (!ml.isWorking) this.rescan()
                 return true
             }

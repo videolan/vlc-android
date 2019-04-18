@@ -206,8 +206,8 @@ object AudioUtil {
 
             /* Parse decoded attachment */
             if (mArtist.isEmpty() || mAlbum.isEmpty() ||
-                    mArtist == VLCApplication.getAppContext().getString(R.string.unknown_artist) ||
-                    mAlbum == VLCApplication.getAppContext().getString(R.string.unknown_album)) {
+                    mArtist == VLCApplication.appContext.getString(R.string.unknown_artist) ||
+                    mAlbum == VLCApplication.appContext.getString(R.string.unknown_album)) {
                 /* If artist or album are missing, it was cached by title MD5 hash */
                 val md = MessageDigest.getInstance("MD5")
                 val binHash = md.digest((artworkURL + media.title).toByteArray(charset("UTF-8")))

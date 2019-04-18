@@ -88,10 +88,10 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
     fun updateMediaDirs(context: Context) {
         mediaDirsLocation.clear()
 
-        val folders = if (!VLCApplication.getMLInstance().isInitiated) {
+        val folders = if (!VLCApplication.mlInstance.isInitiated) {
             MediaParsingService.preselectedStorages.toTypedArray()
         } else {
-            VLCApplication.getMLInstance().foldersList
+            VLCApplication.mlInstance.foldersList
         }
 
 

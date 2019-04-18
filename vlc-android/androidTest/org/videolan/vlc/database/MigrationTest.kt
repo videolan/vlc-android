@@ -105,7 +105,7 @@ class MigrationTest {
 
     @Test fun migrateFrom27() {
         migrationTestHelper.createDatabase(TEST_DB_NAME, 27)
-        val preferences = Settings.getInstance(VLCApplication.getAppContext()).edit()
+        val preferences = Settings.getInstance(VLCApplication.appContext).edit()
         val fakeCustomDirectories = TestUtil.createCustomDirectories(2)
         // 27_28 migration rule moves the data from prefs to room
         val prefCustomDirectories = fakeCustomDirectories.map { it.path }.reduce{ acc, path -> "$acc:$path" }

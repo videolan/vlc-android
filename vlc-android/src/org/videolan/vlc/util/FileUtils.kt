@@ -103,7 +103,7 @@ object FileUtils {
         var cursor: Cursor? = null
         try {
             val proj = arrayOf(MediaStore.Images.Media.DATA)
-            cursor = VLCApplication.getAppContext().contentResolver.query(contentUri, proj, null, null, null)
+            cursor = VLCApplication.appContext.contentResolver.query(contentUri, proj, null, null, null)
             if (cursor == null || cursor.count == 0)
                 return ""
             val column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
@@ -246,7 +246,7 @@ object FileUtils {
             for (child in file.listFiles()) deleted = deleted and deleteFile(child)
             if (deleted) deleted = deleted and file.delete()
         } else {
-            val cr = VLCApplication.getAppContext().contentResolver
+            val cr = VLCApplication.appContext.contentResolver
             try {
                 deleted = cr.delete(MediaStore.Files.getContentUri("external"),
                         MediaStore.Files.FileColumns.DATA + "=?", arrayOf(file.path)) > 0
@@ -320,10 +320,10 @@ object FileUtils {
     @WorkerThread
     fun findFile(uri: Uri): DocumentFile? {
         val storage = getMediaStorage(uri)
-        val treePref = Settings.getInstance(VLCApplication.getAppContext()).getString("tree_uri_" + storage!!, null)
+        val treePref = Settings.getInstance(VLCApplication.appContext).getString("tree_uri_" + storage!!, null)
                 ?: return null
         val treeUri = Uri.parse(treePref)
-        var documentFile = DocumentFile.fromTreeUri(VLCApplication.getAppContext(), treeUri)
+        var documentFile = DocumentFile.fromTreeUri(VLCApplication.appContext, treeUri)
         val parts = uri.path.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         for (i in 3 until parts.size) {
             if (documentFile != null)
@@ -381,7 +381,7 @@ object FileUtils {
     @WorkerThread
     fun getUri(data: Uri?): Uri? {
         var uri = data
-        val ctx = VLCApplication.getAppContext()
+        val ctx = VLCApplication.appContext
         if (data != null && ctx != null && TextUtils.equals(data.scheme, "content")) {
             // Mail-based apps - download the stream to a temporary file and play it
             if ("com.fsck.k9.attachmentprovider" == data.host || "gmail-ls" == data.host) {
@@ -454,7 +454,7 @@ object FileUtils {
         if (!AndroidUtil.isMarshMallowOrLater) return null
         var volumeDescription: String? = null
         try {
-            val storageManager = VLCApplication.getAppContext().getSystemService(StorageManager::class.java)
+            val storageManager = VLCApplication.appContext.getSystemService(StorageManager::class.java)
             val classType = storageManager.javaClass
             val findVolumeByUuid = classType.getDeclaredMethod("findVolumeByUuid", uuid.javaClass)
             findVolumeByUuid.isAccessible = true

@@ -76,7 +76,7 @@ object Permissions {
     }
 
     @JvmOverloads
-    fun canWriteStorage(context: Context = VLCApplication.getAppContext()): Boolean {
+    fun canWriteStorage(context: Context = VLCApplication.appContext): Boolean {
         return ContextCompat.checkSelfPermission(context,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
@@ -176,7 +176,7 @@ object Permissions {
         val i = Intent()
         i.action = "android.settings.APPLICATION_DETAILS_SETTINGS"
         i.addCategory(Intent.CATEGORY_DEFAULT)
-        i.data = Uri.parse("package:" + VLCApplication.getAppContext().packageName)
+        i.data = Uri.parse("package:" + VLCApplication.appContext.packageName)
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         try {
             activity.startActivity(i)

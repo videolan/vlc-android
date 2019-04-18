@@ -283,7 +283,7 @@ object UiTools {
             val outBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
 
             //Instantiate a new Renderscript
-            val rs = RenderScript.create(VLCApplication.getAppContext())
+            val rs = RenderScript.create(VLCApplication.appContext)
 
             //Create an Intrinsic Blur Script using the Renderscript
             val blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
@@ -418,9 +418,9 @@ object UiTools {
 
     fun setLocale(context: Context) {
         // Are we using advanced debugging - locale?
-        val p = VLCApplication.getLocale()
+        val p = VLCApplication.locale
         if (p != "") {
-            val locale = getLocaleFromString(p)
+            val locale = getLocaleFromString(p!!)
             Locale.setDefault(locale)
             val config = Configuration()
             config.locale = locale

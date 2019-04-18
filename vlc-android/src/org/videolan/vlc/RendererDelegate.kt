@@ -41,7 +41,7 @@ object RendererDelegate : RendererDiscoverer.EventListener {
 
     suspend fun start() {
         if (started) return
-        val libVlc = VLCApplication.getAppContext()?.let {
+        val libVlc = VLCApplication.appContext?.let {
             withContext(Dispatchers.IO) { VLCInstance.get(it) }
         } ?: return
         started = true

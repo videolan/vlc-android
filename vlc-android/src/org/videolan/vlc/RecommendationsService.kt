@@ -87,7 +87,7 @@ class RecommendationsService : IntentService("RecommendationService"), Coroutine
 
     private fun doRecommendations() = launch {
         mNotificationManager.cancelAll()
-        val videoList = withContext(Dispatchers.IO) { VLCApplication.getMLInstance().recentVideos }
+        val videoList = withContext(Dispatchers.IO) { VLCApplication.mlInstance.recentVideos }
         if (Util.isArrayEmpty(videoList)) return@launch
         for ((id, mediaWrapper) in videoList.withIndex()) {
             buildRecommendation(mediaWrapper, id, NotificationManagerCompat.IMPORTANCE_DEFAULT)

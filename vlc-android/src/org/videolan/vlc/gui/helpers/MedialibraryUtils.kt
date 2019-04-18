@@ -14,11 +14,11 @@ import org.videolan.vlc.util.runIO
 object MedialibraryUtils {
 
     fun removeDir(path: String) {
-        runIO(Runnable { VLCApplication.getMLInstance().removeFolder(path) })
+        runIO(Runnable { VLCApplication.mlInstance.removeFolder(path) })
     }
 
     @JvmOverloads
-    fun addDir(path: String, context: Context = VLCApplication.getAppContext()) {
+    fun addDir(path: String, context: Context = VLCApplication.appContext) {
         val intent = Intent(ACTION_DISCOVER, null, context, MediaParsingService::class.java)
         intent.putExtra(EXTRA_PATH, path)
         ContextCompat.startForegroundService(context, intent)

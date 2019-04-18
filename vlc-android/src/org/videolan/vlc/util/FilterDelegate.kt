@@ -54,10 +54,10 @@ class PlaylistFilterDelegate(dataset: MutableLiveData<out List<MediaWrapper>>) :
                 for (media in list) {
                     val title = MediaUtils.getMediaTitle(media).toLowerCase()
                     val location = media.location.toLowerCase()
-                    val artist = MediaUtils.getMediaArtist(VLCApplication.getAppContext(), media).toLowerCase()
-                    val albumArtist = MediaUtils.getMediaAlbumArtist(VLCApplication.getAppContext(), media).toLowerCase()
-                    val album = MediaUtils.getMediaAlbum(VLCApplication.getAppContext(), media).toLowerCase()
-                    val genre = MediaUtils.getMediaGenre(VLCApplication.getAppContext(), media).toLowerCase()
+                    val artist = MediaUtils.getMediaArtist(VLCApplication.appContext, media).toLowerCase()
+                    val albumArtist = MediaUtils.getMediaAlbumArtist(VLCApplication.appContext, media).toLowerCase()
+                    val album = MediaUtils.getMediaAlbum(VLCApplication.appContext, media).toLowerCase()
+                    val genre = MediaUtils.getMediaGenre(VLCApplication.appContext, media).toLowerCase()
                     for (queryString in queryStrings) {
                         if (title.contains(queryString) ||
                                 location.contains(queryString) ||

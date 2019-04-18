@@ -58,7 +58,7 @@ object VLCOptions {
     /* generate an audio session id so as to share audio output with external equalizer *//* CPU intensive plugin, setting for slow devices *//* XXX: why can't the default be fine ? #7792 *//* Configure keystore *///Chromecast
     val libOptions: ArrayList<String>
         get() {
-            val context = VLCApplication.getAppContext()
+            val context = VLCApplication.appContext
             val pref = Settings.getInstance(context)
             if (context != null && Build.VERSION.SDK_INT >= 21 && audiotrackSessionId == 0) {
                 val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager

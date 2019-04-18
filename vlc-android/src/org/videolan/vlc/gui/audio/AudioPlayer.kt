@@ -467,7 +467,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
         internal var seekRunnable: Runnable = object : Runnable {
             override fun run() {
                 if (!vibrated) {
-                    (VLCApplication.getAppContext().getSystemService(Context.VIBRATOR_SERVICE) as android.os.Vibrator)
+                    (VLCApplication.appContext.getSystemService(Context.VIBRATOR_SERVICE) as android.os.Vibrator)
                             .vibrate(80)
                     vibrated = true
                 }

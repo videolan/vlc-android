@@ -47,7 +47,7 @@ object Util {
         var inputStream: InputStream? = null
         var r: BufferedReader? = null
         try {
-            inputStream = VLCApplication.getAppResources().assets.open(assetName)
+            inputStream = VLCApplication.appResources.assets.open(assetName)
             r = BufferedReader(InputStreamReader(inputStream, "UTF8"))
             val sb = StringBuilder()
             var line: String? = r.readLine()
@@ -114,7 +114,7 @@ object Util {
             dialog.dismiss()
             return true
         } else if ("Performance warning" == dialog.title) {
-            Toast.makeText(VLCApplication.getAppContext(), R.string.cast_performance_warning, Toast.LENGTH_LONG).show()
+            Toast.makeText(VLCApplication.appContext, R.string.cast_performance_warning, Toast.LENGTH_LONG).show()
             dialog.postAction(1)
             dialog.dismiss()
             return true

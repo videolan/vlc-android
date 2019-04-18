@@ -80,7 +80,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
 
     private lateinit var audioBrowserAdapter: AudioBrowserAdapter
     private var playlist: MediaLibraryItem? = null
-    private val mediaLibrary = VLCApplication.getMLInstance()
+    private val mediaLibrary = VLCApplication.mlInstance
     private var binding: PlaylistActivityBinding? = null
     private var actionMode: ActionMode? = null
     private var isPlaylist: Boolean = false

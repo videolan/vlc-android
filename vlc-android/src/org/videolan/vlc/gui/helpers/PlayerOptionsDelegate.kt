@@ -287,7 +287,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             null
         } else {
             sleepBinding.optionIcon.setImageResource(R.drawable.ic_sleep_on)
-            DateFormat.getTimeFormat(activity).format(VLCApplication.sPlayerSleepTime.time)
+            DateFormat.getTimeFormat(activity).format(VLCApplication.sPlayerSleepTime!!.time)
         }
     }
 

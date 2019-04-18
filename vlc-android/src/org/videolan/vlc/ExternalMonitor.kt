@@ -68,13 +68,13 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         for (action in channel) when (action){
             is MediaMounted -> {
                 if (TextUtils.isEmpty(action.uuid)) return@actor
-                val ml = VLCApplication.getMLInstance()
+                val ml = VLCApplication.mlInstance
                 val knownDevices = ctx.getFromMl { devices }
                 if (ml.addDevice(action.uuid, action.path, true)) notifyNewStorage(action.path)
             }
             is MediaUnmounted -> {
                 delay(100L)
-                VLCApplication.getMLInstance().removeDevice(action.uuid, action.path)
+                VLCApplication.mlInstance.removeDevice(action.uuid, action.path)
 
             }
         }
@@ -170,7 +170,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun register() {
         if (registered) return
-        val ctx = VLCApplication.getAppContext()
+        val ctx = VLCApplication.appContext
         val networkFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
         val storageFilter = IntentFilter(Intent.ACTION_MEDIA_MOUNTED)
         val otgFilter = IntentFilter(UsbManager.ACTION_USB_DEVICE_ATTACHED)
@@ -188,7 +188,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     @ExperimentalCoroutinesApi
     @ObsoleteCoroutinesApi
     private fun checkNewStorages(ctx: Context) {
-        if (VLCApplication.getMLInstance().isStarted) {
+        if (VLCApplication.mlInstance.isStarted) {
             val scanOpt = if (AndroidDevices.showTvUi(ctx)) ML_SCAN_ON
             else Settings.getInstance(ctx).getInt(KEY_MEDIALIBRARY_SCAN, -1)
             if (scanOpt == ML_SCAN_ON)
@@ -200,7 +200,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     internal fun unregister() {
-        val ctx = VLCApplication.getAppContext()
+        val ctx = VLCApplication.appContext
         ctx.unregisterReceiver(this)
         registered = false
         connected.value = false

@@ -271,7 +271,7 @@ object TvUtil {
                 @Suppress("SENSELESS_COMPARISON")
                 if (bm !== null) {
                     bm.color = 0
-                    bm.drawable = BitmapDrawable(VLCApplication.getAppResources(), blurred)
+                    bm.drawable = BitmapDrawable(VLCApplication.appResources, blurred)
                 }
             }
         }
@@ -280,7 +280,7 @@ object TvUtil {
 
     private fun clearBackground(bm: BackgroundManager?) {
         if (bm === null) return
-        bm.color = ContextCompat.getColor(VLCApplication.getAppContext(), R.color.tv_bg)
+        bm.color = ContextCompat.getColor(VLCApplication.appContext, R.color.tv_bg)
         bm.drawable = null
     }
 

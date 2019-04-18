@@ -130,13 +130,13 @@ class PlaylistAdapter(private val player: IPlayer) : DiffUtilAdapter<MediaWrappe
 
     override fun onItemDismiss(position: Int) {
         val media = getItem(position)
-        val message = String.format(VLCApplication.getAppResources().getString(R.string.remove_playlist_item), media!!.title)
+        val message = String.format(VLCApplication.appResources.getString(R.string.remove_playlist_item), media!!.title)
         if (player is Fragment) {
             val v = (player as Fragment).view
             val cancelAction = Runnable { mModel!!.insertMedia(position, media) }
             UiTools.snackerWithCancel(v!!, message, null, cancelAction)
         } else if (player is Context) {
-            Toast.makeText(VLCApplication.getAppContext(), message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(VLCApplication.appContext, message, Toast.LENGTH_SHORT).show()
         }
         remove(position)
     }

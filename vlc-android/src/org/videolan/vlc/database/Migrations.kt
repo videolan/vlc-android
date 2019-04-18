@@ -183,7 +183,7 @@ val migration_26_27 = object:Migration(26, 27) {
 
 val migration_27_28 = object:Migration(27, 28) {
     override fun migrate(database: SupportSQLiteDatabase) {
-        val preferences = Settings.getInstance(VLCApplication.getAppContext())
+        val preferences = Settings.getInstance(VLCApplication.appContext)
         val customPaths = preferences.getString("custom_paths", "")
         var oldPaths : List<String>? = null
         if (!customPaths.isNullOrEmpty()) oldPaths = customPaths.split(":")

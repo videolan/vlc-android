@@ -311,7 +311,7 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
             mediaItem = new MediaDescriptionCompat.Builder();
             Uri coverUri = extensionItem.getImageUri();
             if (coverUri == null)
-                mediaItem.setIconBitmap(UiTools.INSTANCE.getDefaultAudioDrawable(VLCApplication.getAppContext()).getBitmap());
+                mediaItem.setIconBitmap(UiTools.INSTANCE.getDefaultAudioDrawable(VLCApplication.Companion.getAppContext()).getBitmap());
             else
                 mediaItem.setIconUri(coverUri);
             mediaItem.setTitle(extensionItem.getTitle());

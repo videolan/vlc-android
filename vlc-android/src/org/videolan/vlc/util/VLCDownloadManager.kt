@@ -19,7 +19,7 @@ import java.io.File
 
 
 object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
-    private val downloadManager = VLCApplication.getAppContext().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+    private val downloadManager = VLCApplication.appContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
     override fun onReceive(context: Context, intent: Intent?) {
         intent?.let {
             val id = it.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0L)
@@ -42,18 +42,18 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun register() {
-        VLCApplication.getAppContext().applicationContext.registerReceiver(this, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+        VLCApplication.appContext.applicationContext.registerReceiver(this, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun unRegister() {
-        ExternalSubRepository.getInstance(VLCApplication.getAppContext()).downloadingSubtitles.observeForever {
+        ExternalSubRepository.getInstance(VLCApplication.appContext).downloadingSubtitles.observeForever {
             it?.keys?.forEach {
                 downloadManager.remove(it)
             }
         }
 
-        VLCApplication.getAppContext().applicationContext.unregisterReceiver(this)
+        VLCApplication.appContext.applicationContext.unregisterReceiver(this)
     }
 
     fun download(context: Context, subtitleItem: SubtitleItem) {

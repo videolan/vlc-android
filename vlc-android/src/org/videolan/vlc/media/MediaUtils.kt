@@ -123,7 +123,7 @@ object MediaUtils : CoroutineScope {
         openMediaNoUi(ctx, media)
     }
 
-    fun openMediaNoUi(uri: Uri) = openMediaNoUi(VLCApplication.getAppContext(), MediaWrapper(uri))
+    fun openMediaNoUi(uri: Uri) = openMediaNoUi(VLCApplication.appContext, MediaWrapper(uri))
 
     fun openMediaNoUi(context: Context?, media: MediaWrapper?) {
         if (media == null || context == null) return
@@ -281,7 +281,7 @@ object MediaUtils : CoroutineScope {
     fun getMediaTitle(mediaWrapper: MediaWrapper) = mediaWrapper.title ?: FileUtils.getFileNameFromPath(mediaWrapper.location)!!
 
     fun getContentMediaUri(data: Uri)= try {
-        VLCApplication.getAppContext().contentResolver.query(data,
+        VLCApplication.appContext.contentResolver.query(data,
                 arrayOf(MediaStore.Video.Media.DATA), null, null, null)?.use {
             val columnIndex = it.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)
             if (it.moveToFirst()) AndroidUtil.PathToUri(it.getString(columnIndex)) ?: data else data
@@ -404,7 +404,7 @@ object MediaUtils : CoroutineScope {
     }
 
     fun retrieveMediaTitle(mw: MediaWrapper) = try {
-        VLCApplication.getAppContext().contentResolver.query(mw.uri, null, null, null, null)?.use {
+        VLCApplication.appContext.contentResolver.query(mw.uri, null, null, null, null)?.use {
             val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
             if (nameIndex > -1 && it.count > 0) {
                 it.moveToFirst()

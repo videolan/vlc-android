@@ -101,7 +101,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
 
     override fun onStart() {
         super.onStart()
-        VLCApplication.getMLInstance().addEntryPointsEventsCb(this)
+        VLCApplication.mlInstance.addEntryPointsEventsCb(this)
         mSnack?.show()
     }
 
@@ -111,7 +111,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
 
     override fun onStop() {
         super.onStop()
-        VLCApplication.getMLInstance().removeEntryPointsEventsCb(this)
+        VLCApplication.mlInstance.removeEntryPointsEventsCb(this)
         mSnack?.dismiss()
         mAlertDialog?.let { if (it.isShowing) it.dismiss() }
     }

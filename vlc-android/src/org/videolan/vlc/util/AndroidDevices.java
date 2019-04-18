@@ -97,7 +97,7 @@ public class AndroidDevices {
         devicesWithoutNavBar.add("HTC One X");
         devicesWithoutNavBar.add("HTC One XL");
         hasNavBar = !devicesWithoutNavBar.contains(android.os.Build.MODEL);
-        final Context ctx = VLCApplication.getAppContext();
+        final Context ctx = VLCApplication.Companion.getAppContext();
         final PackageManager pm = ctx != null ? ctx.getPackageManager() : null;
         hasTsp = pm == null || pm.hasSystemFeature("android.hardware.touchscreen");
         isAndroidTv = pm != null && pm.hasSystemFeature("android.software.leanback");

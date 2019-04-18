@@ -45,7 +45,7 @@ open class SearchActivity : AppCompatActivity(), TextWatcher, TextView.OnEditorA
         val intent = intent
         binding = DataBindingUtil.setContentView(this, R.layout.search_activity)
         binding.handler = clickHandler
-        medialibrary = VLCApplication.getMLInstance()
+        medialibrary = VLCApplication.mlInstance
         if (Intent.ACTION_SEARCH == intent.action || "com.google.android.gms.actions.SEARCH_ACTION" == intent.action) {
             val query = intent.getStringExtra(SearchManager.QUERY)
             initializeLists()

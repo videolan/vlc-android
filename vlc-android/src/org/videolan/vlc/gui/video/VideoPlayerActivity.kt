@@ -482,7 +482,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
 
 
-        medialibrary = VLCApplication.getMLInstance()
+        medialibrary = VLCApplication.mlInstance
         val touch = if (!isTv) {
             ((if (settings!!.getBoolean("enable_volume_gesture", true)) TOUCH_FLAG_AUDIO_VOLUME else 0)
                     + (if (settings!!.getBoolean("enable_brightness_gesture", true)) TOUCH_FLAG_BRIGHTNESS else 0)
@@ -2793,7 +2793,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
 
         fun getIntent(action: String, mw: MediaWrapper, fromStart: Boolean, openedPosition: Int): Intent {
-            return getIntent(action, VLCApplication.getAppContext(), mw.uri, mw.title, fromStart, openedPosition)
+            return getIntent(action, VLCApplication.appContext, mw.uri, mw.title, fromStart, openedPosition)
         }
 
         fun getIntent(context: Context, uri: Uri, title: String?, fromStart: Boolean, openedPosition: Int): Intent {

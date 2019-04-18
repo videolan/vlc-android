@@ -66,7 +66,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener {
             return
         }
         if (mItem!!.id == 0L) {
-            val libraryItem = VLCApplication.getMLInstance().getMedia((mItem as MediaWrapper).uri)
+            val libraryItem = VLCApplication.mlInstance.getMedia((mItem as MediaWrapper).uri)
             if (libraryItem != null)
                 mItem = libraryItem
         }

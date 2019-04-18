@@ -111,7 +111,7 @@ suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary
 fun List<MediaWrapper>.getWithMLMeta() : List<MediaWrapper> {
     if (this is MutableList<MediaWrapper>) return updateWithMLMeta()
     val list = mutableListOf<MediaWrapper>()
-    val ml = VLCApplication.getMLInstance()
+    val ml = VLCApplication.mlInstance
     for (media in this) {
         if (media.id == 0L) {
             val mw = ml.findMedia(media)
@@ -125,7 +125,7 @@ fun List<MediaWrapper>.getWithMLMeta() : List<MediaWrapper> {
 
 fun MutableList<MediaWrapper>.updateWithMLMeta() : MutableList<MediaWrapper> {
     val iter = listIterator()
-    val ml = VLCApplication.getMLInstance()
+    val ml = VLCApplication.mlInstance
     try {
         while (iter.hasNext()) {
             val media = iter.next()

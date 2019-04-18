@@ -72,7 +72,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
         when (preference.key) {
             "directories" -> {
                 when {
-                    VLCApplication.getMLInstance().isWorking -> UiTools.snacker(view!!, getString(R.string.settings_ml_block_scan))
+                    VLCApplication.mlInstance.isWorking -> UiTools.snacker(view!!, getString(R.string.settings_ml_block_scan))
                     Permissions.canReadStorage(requireContext()) -> {
                         val activity = requireActivity()
                         val intent = Intent(activity.applicationContext, SecondaryActivity::class.java)

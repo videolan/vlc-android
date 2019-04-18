@@ -102,7 +102,7 @@ public class NetworkBrowserFragment extends MediaSortedFragment<NetworkModel> {
     @Override
     public void onStart() {
         super.onStart();
-        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
+        LocalBroadcastManager.getInstance(VLCApplication.Companion.getAppContext()).registerReceiver(mLocalReceiver, new IntentFilter(VlcLoginDialog.ACTION_DIALOG_CANCELED));
     }
 
     @Override
@@ -114,7 +114,7 @@ public class NetworkBrowserFragment extends MediaSortedFragment<NetworkModel> {
     @Override
     public void onStop() {
         super.onStop();
-        LocalBroadcastManager.getInstance(VLCApplication.getAppContext()).unregisterReceiver(mLocalReceiver);
+        LocalBroadcastManager.getInstance(VLCApplication.Companion.getAppContext()).unregisterReceiver(mLocalReceiver);
     }
 
     @Override

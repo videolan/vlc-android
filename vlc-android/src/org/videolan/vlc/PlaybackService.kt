@@ -442,7 +442,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         playlistManager = PlaylistManager(this)
         Util.checkCpuCompatibility(this)
 
-        medialibrary = VLCApplication.getMLInstance()
+        medialibrary = VLCApplication.mlInstance
         if (!medialibrary.isInitiated) registerMedialibrary(null)
 
         detectHeadset = settings.getBoolean("enable_headset_detection", true)
@@ -622,7 +622,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
                     val bundle = msg.data
                     val text = bundle.getString("text")
                     val duration = bundle.getInt("duration")
-                    Toast.makeText(VLCApplication.getAppContext(), text, duration).show()
+                    Toast.makeText(VLCApplication.appContext, text, duration).show()
                 }
                 END_MEDIASESSION -> if (service::mediaSession.isInitialized) service.mediaSession.isActive = false
             }

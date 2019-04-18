@@ -57,7 +57,7 @@ abstract class BaseTvActivity : FragmentActivity() {
         //Init Medialibrary if KO
         if (savedInstanceState != null) this.startMedialibrary(firstRun = false, upgrade = false, parse = true)
         super.onCreate(savedInstanceState)
-        mediaLibrary = VLCApplication.getMLInstance()
+        mediaLibrary = VLCApplication.mlInstance
         settings = Settings.getInstance(this)
         registerLiveData()
         Handler().post { this@BaseTvActivity.registerTimeView(findViewById<View>(R.id.tv_time) as TextView) }

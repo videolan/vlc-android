@@ -88,7 +88,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mediaLibrary = VLCApplication.getMLInstance()
+        mediaLibrary = VLCApplication.mlInstance
         setHasOptionsMenu(!AndroidDevices.isAndroidTv)
         restart = false
     }

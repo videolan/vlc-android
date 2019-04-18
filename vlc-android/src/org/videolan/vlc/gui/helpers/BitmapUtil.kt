@@ -52,7 +52,7 @@ object BitmapUtil {
 
     private fun readCoverBitmap(path: String?): Bitmap? {
         if (path == null) return null
-        val ctx = VLCApplication.getAppContext() ?: return null
+        val ctx = VLCApplication.appContext ?: return null
         val res = ctx.resources
         var uri = Uri.decode(path)
         if (uri.startsWith("file://")) uri = uri.substring(7)

@@ -68,7 +68,7 @@ class PreferencesFragment : BasePreferenceFragment() {
         val context = activity ?: return false
         when (preference.key) {
             "directories" -> {
-                if (VLCApplication.getMLInstance().isWorking)
+                if (VLCApplication.mlInstance.isWorking)
                     Toast.makeText(context, getString(R.string.settings_ml_block_scan), Toast.LENGTH_SHORT).show()
                 else if (Permissions.canReadStorage(context)) {
                     val intent = Intent(context.applicationContext, SecondaryActivity::class.java)

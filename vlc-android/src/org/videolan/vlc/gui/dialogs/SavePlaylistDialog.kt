@@ -66,7 +66,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mMedialibrary = VLCApplication.getMLInstance()
+        mMedialibrary = VLCApplication.mlInstance
         mAdapter = SimpleAdapter(this)
         mTracks = try {
             @Suppress("UNCHECKED_CAST")

@@ -32,7 +32,7 @@ import org.videolan.vlc.util.HttpImageLoader
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.ThumbnailsProvider.obtainBitmap
 
-private val sMedialibrary = VLCApplication.getMLInstance()
+private val sMedialibrary = VLCApplication.mlInstance
 @Volatile
 private var defaultImageWidth = 0
 private const val TAG = "ImageLoader"
@@ -178,7 +178,7 @@ private suspend fun getPlaylistImage(v: View, item: MediaLibraryItem, binding: V
 
 
     var playlistImage = if (!bindChanged) ThumbnailsProvider.getPlaylistImage("playlist:${item.id}", item.tracks.toList(), width) else null
-    if (!bindChanged && playlistImage == null) playlistImage = UiTools.getDefaultAudioDrawable(VLCApplication.getAppContext()).bitmap
+    if (!bindChanged && playlistImage == null) playlistImage = UiTools.getDefaultAudioDrawable(VLCApplication.appContext).bitmap
     if (!bindChanged) updateImageView(playlistImage, v, binding)
 
     binding?.removeOnRebindCallback(rebindCallbacks!!)

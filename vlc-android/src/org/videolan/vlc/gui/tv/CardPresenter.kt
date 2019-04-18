@@ -185,8 +185,8 @@ class CardPresenter(private val context: Activity) : Presenter() {
     companion object {
 
         private const val TAG = "CardPresenter"
-        private val CARD_WIDTH = VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width)
-        private val CARD_HEIGHT = VLCApplication.getAppResources().getDimensionPixelSize(R.dimen.tv_grid_card_thumb_height)
+        private val CARD_WIDTH = VLCApplication.appResources.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width)
+        private val CARD_HEIGHT = VLCApplication.appResources.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_height)
 
     }
 }

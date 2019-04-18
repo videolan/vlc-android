@@ -110,7 +110,7 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
         /* Reload the latest preferences */
         scanNeeded = savedInstanceState == null && settings.getBoolean("auto_rescan", true)
         extensionsManager = ExtensionsManager.getInstance()
-        mediaLibrary = VLCApplication.getMLInstance()
+        mediaLibrary = VLCApplication.mlInstance
     }
 
     private fun setupNavigationView() {

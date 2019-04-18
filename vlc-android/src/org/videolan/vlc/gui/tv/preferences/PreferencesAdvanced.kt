@@ -84,7 +84,7 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                         .setTitle(R.string.clear_playback_history)
                         .setMessage(R.string.validation)
                         .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(android.R.string.yes) { _, _ -> VLCApplication.getMLInstance().clearHistory() }
+                        .setPositiveButton(android.R.string.yes) { _, _ -> VLCApplication.mlInstance.clearHistory() }
                         .setNegativeButton(android.R.string.cancel, null).show()
                 return true
             }

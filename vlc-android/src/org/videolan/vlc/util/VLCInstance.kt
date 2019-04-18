@@ -62,7 +62,7 @@ object VLCInstance {
     fun restart() {
         if (sLibVLC != null) {
             sLibVLC!!.release()
-            sLibVLC = LibVLC(VLCApplication.getAppContext(), VLCOptions.libOptions)
+            sLibVLC = LibVLC(VLCApplication.appContext, VLCOptions.libOptions)
         }
     }
 

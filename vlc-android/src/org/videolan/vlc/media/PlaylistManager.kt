@@ -339,7 +339,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                     VideoPlayerActivity.getIntent(PLAY_FROM_SERVICE,
                             media, false, currentIndex))
         } else if (!player.switchToVideo) { //Start the video player
-            VideoPlayerActivity.startOpened(VLCApplication.getAppContext(), media.uri, currentIndex)
+            VideoPlayerActivity.startOpened(VLCApplication.appContext, media.uri, currentIndex)
             if (!hasRenderer) player.switchToVideo = true
         }
         return true

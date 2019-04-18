@@ -62,7 +62,7 @@ class EqualizerFragment : AppCompatDialogFragment() {
     private var updateAlreadyHandled = false
     private lateinit var binding: EqualizerBinding
     private val state = EqualizerState()
-    private val newPresetName = VLCApplication.getAppResources().getString(R.string.equalizer_new_preset_name)
+    private val newPresetName = VLCApplication.appResources.getString(R.string.equalizer_new_preset_name)
 
     private val mSetListener = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
@@ -270,9 +270,9 @@ class EqualizerFragment : AppCompatDialogFragment() {
             positiveButton.setOnClickListener {
                 val newName = input.text.toString()
                 if (newName.contains("_") || TextUtils.equals(newName, newPresetName)) {
-                    Toast.makeText(context, VLCApplication.getAppContext().resources.getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, VLCApplication.appContext.resources.getString(R.string.custom_set_wrong_input), Toast.LENGTH_SHORT).show()
                 } else if (allSets.contains(newName) && !TextUtils.equals(newName, oldName)) {
-                    Toast.makeText(context, VLCApplication.getAppContext().resources.getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, VLCApplication.appContext.resources.getString(R.string.custom_set_already_exist), Toast.LENGTH_SHORT).show()
                 } else {
                     VLCOptions.saveCustomSet(requireActivity(), temporarySet, newName)
                     if (onPause) {
