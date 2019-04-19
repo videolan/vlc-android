@@ -1,6 +1,6 @@
 /*****************************************************************************
- * VLCAppWidgetProviderBlack.java
- *****************************************************************************
+ * VLCAppWidgetProviderWhite.java
+ *
  * Copyright © 2015 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
@@ -16,22 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
- *****************************************************************************/
+ */
 
-package org.videolan.vlc.widget;
+package org.videolan.vlc.widget
 
-import org.videolan.vlc.R;
+import org.videolan.vlc.R
 
-public class VLCAppWidgetProviderBlack extends VLCAppWidgetProvider {
+class VLCAppWidgetProviderWhite : VLCAppWidgetProvider() {
 
-    @Override
-    protected int getLayout() {
-        return R.layout.widget_b;
+
+    override fun getlayout(): Int {
+        return R.layout.widget_w
     }
 
-    @Override
-    protected int getPlayPauseImage(boolean isPlaying){
-        return isPlaying ? R.drawable.ic_widget_pause_w : R.drawable.ic_widget_play_w;
+
+    override fun getPlayPauseImage(isPlaying: Boolean): Int {
+        return if (isPlaying) R.drawable.ic_widget_pause else R.drawable.ic_widget_play
     }
 
 }

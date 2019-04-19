@@ -312,7 +312,7 @@ object FileUtils {
         if (uri == null || "file" != uri.scheme) return null
         val path = uri.path
         if (TextUtils.isEmpty(path)) return null
-        val storages = AndroidDevices.getExternalStorageDirectories()
+        val storages = AndroidDevices.externalStorageDirectories
         for (storage in storages) if (path!!.startsWith(storage)) return storage
         return null
     }

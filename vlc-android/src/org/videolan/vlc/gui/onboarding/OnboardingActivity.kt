@@ -197,7 +197,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
             indicators[3]?.animate()?.alpha(0.6f)?.scaleX(0.5f)?.scaleY(0.5f)!!.setListener(null)
             if (MediaParsingService.preselectedStorages.isEmpty()) launch {
                     MediaParsingService.preselectedStorages.run {
-                        addAll(AndroidDevices.getExternalStorageDirectories())
+                        addAll(AndroidDevices.externalStorageDirectories)
                         AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DOWNLOAD_DIRECTORY_URI.path?.let { add(it) }
                         AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_DCIM_DIRECTORY_URI.path?.let { add(it) }
                         AndroidDevices.MediaFolders.EXTERNAL_PUBLIC_MOVIES_DIRECTORY_URI.path?.let { add(it) }

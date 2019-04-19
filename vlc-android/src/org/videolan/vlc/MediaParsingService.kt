@@ -169,7 +169,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
                 return
             }
         }
-        for (storagePath in AndroidDevices.getExternalStorageDirectories()) {
+        for (storagePath in AndroidDevices.externalStorageDirectories) {
             if (path.startsWith(storagePath)) {
                 val uuid = FileUtils.getFileNameFromPath(path)
                 if (TextUtils.isEmpty(uuid)) {
@@ -251,7 +251,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
         val ctx = applicationContext
         val (sharedPreferences, devices, knownDevices) = withContext(Dispatchers.IO) {
             val sharedPreferences = Settings.getInstance(ctx)
-            val devices = AndroidDevices.getExternalStorageDirectories()
+            val devices = AndroidDevices.externalStorageDirectories
             Triple(sharedPreferences, devices, medialibrary.devices)
         }
         val missingDevices = Util.arrayToArrayList(knownDevices)

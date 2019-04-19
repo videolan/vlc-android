@@ -13,8 +13,8 @@ import org.videolan.vlc.R
 import org.videolan.vlc.database.CustomDirectoryDao
 import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.models.CustomDirectory
+import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY
-import org.videolan.vlc.util.AndroidDevices.getExternalStorageDirectories
 import org.videolan.vlc.util.FileUtils
 import java.io.File
 
@@ -42,7 +42,7 @@ class DirectoryRepository (private val customDirectoryDao: CustomDirectoryDao) :
 
     suspend fun getMediaDirectories() = mutableListOf<String>().apply {
         add(EXTERNAL_PUBLIC_DIRECTORY)
-        addAll(getExternalStorageDirectories())
+        addAll(AndroidDevices.externalStorageDirectories)
         addAll(getCustomDirectories().map { it.path })
     }
 
