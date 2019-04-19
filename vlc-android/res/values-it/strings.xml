@@ -120,6 +120,7 @@
     <string name="validation">Sei sicuro?</string>
 
     <string name="cover_art">Copertina</string>
+    <string name="shuffle_all_title">Mescola tutti</string>
     <string name="shuffle_title">Mescola</string>
     <string name="shuffle">Non mescolare</string>
     <string name="shuffle_on">Mescola</string>
@@ -274,6 +275,8 @@
     <string name="enable_black_theme_summary">Cambia i colori dell\'interfaccia per un migliore utilizzo in ambienti a bassa luminosità.</string>
     <string name="subtitle_text_encoding">Codifica testo dei sottotitoli</string>
     <string name="daynight_title">Modalità GiornoNotte</string>
+    <string name="daynight_follow_system_title">Segui modalità di sistema</string>
+    <string name="daynight_battery_title">Segui risparmio batteria</string>
     <string name="daynight_summary">Passa automaticamente alla modalità notturna all\'ora appropriata</string>
 
     <string name="extra_prefs_category">Impostazioni aggiuntive</string>
@@ -485,7 +488,7 @@
     <string name="directory_show_medialib">Mostra nella raccolta multimediale</string>
     <string name="directory_hide_medialib">Nascondi dalla raccolta multimediale</string>
     <string name="playlist_save">Salva scaletta</string>
-    <string name="playlist_name_hint">nome della scaletta</string>
+    <string name="playlist_name_hint">Nome scaletta</string>
     <string name="go_to_chapter">Vai al capitolo…</string>
     <string name="chapter">Capitolo</string>
     <string name="resume_from_position">Riprendi dall\'ultima posizione</string>
@@ -612,6 +615,8 @@
     <string name="audio_digital_title">Uscita audio digitale (passthrough)</string>
     <string name="audio_task_cleared_title">Ferma in caso di trascinamento</string>
     <string name="audio_task_cleared_summary">Ferma la riproduzione quando l\'applicazione viene chiusa</string>
+    <string name="audio_resume_card_title">Carica scheda dell\'ultima scaletta</string>
+    <string name="audio_resume_card_summary">Mostra una scheda che ti aiuta a riprendere la riproduzione audio all\'avvio dell\'applicazione</string>
     <string name="playback_rewind">Riavvolgi</string>
     <string name="playback_forward">Avanti veloce</string>
     <string name="ml_wizard_title">Selezione raccolta multimediale VLC</string>
@@ -651,6 +656,7 @@
     <string name="video_save_clone_mode">Vuoi attivare automaticamente la modalità clone?</string>
     <string name="video_remote_enable">Passa alla modalità telecomando</string>
     <string name="video_remote_disable">Duplica schermo</string>
+    <string name="removed_from_playlist_anonymous">Elementi rimossi dalla scaletta</string>
     <string name="welcome_title">Benvenuti in VLC!</string>
     <string name="welcome_subtitle">Il lettore multimediale libero e con codice sorgente aperto</string>
     <string name="permission_media">VLC ha bisogno del tuo permesso per accedere ai file multimediali sul tuo dispositivo</string>
@@ -664,4 +670,13 @@
     <string name="onboarding_scan_customize">Consentimi di scegliere le cartelle che VLC analizzerà</string>
     <string name="button_medialibrary_preferences">Vai alle preferenze della raccolta multimediale</string>
     <string name="light_theme">Tema chiaro</string>
+    <string name="add">Aggiungi</string>
+    <string name="add_to_new_playlist">Aggiungi a nuova scaletta</string>
+    <string name="theme_follow_system_mode">Segui modalità di sistema</string>
+    <string name="resume_card_message">Vuoi riprendere la riproduzione di %1$s?</string>
+    <string name="misc">Varie</string>
+    <string name="popup_force_legacy_title">Utilizza finestra Picture-in-Picture personalizzata</string>
+    <string name="popup_force_legacy_summary">Utilizza finestra ridimensionabile Picture-in-Picture personalizzata</string>
+    <string name="device_default">Predefinito del dispositivo</string>
+    <string name="track_number">%s tracce</string>
 </resources>
