@@ -207,10 +207,8 @@ object ThumbnailsProvider {
             }
         }
         if (count == 0) return null
-        val sources = Array(sourcesImages.size) {
-            sourcesImages[it]!!
-        }
-        return if (count == 1) sourcesImages[0] else composeCanvas(sources, count, minWidth, minHeight)
+
+        return if (count == 1) sourcesImages[0] else composeCanvas(sourcesImages.filterNotNull().toTypedArray(), count, minWidth, minHeight)
     }
 
     private fun composeCanvas(sourcesImages: Array<Bitmap>, count: Int, minWidth: Int, minHeight: Int): Bitmap {
