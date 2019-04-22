@@ -114,6 +114,7 @@
     <string name="validation">Anda pasti?</string>
 
     <string name="cover_art">Seni kulit hadapan</string>
+    <string name="shuffle_all_title">Kocok semua</string>
     <string name="shuffle_title">Mod kocok</string>
     <string name="shuffle">Kocok Mati</string>
     <string name="shuffle_on">Kocok Hidup</string>
@@ -267,6 +268,8 @@
     <string name="enable_black_theme_summary">Ubah warna antaramuka supaya mesra mata dalam persekitaran kurang cahaya.</string>
     <string name="subtitle_text_encoding">Pengekodan teks sarikata</string>
     <string name="daynight_title">Mod SiangMalam</string>
+    <string name="daynight_follow_system_title">Ikuti mod sistem</string>
+    <string name="daynight_battery_title">Ikuti penjimat Bateri</string>
     <string name="daynight_summary">Automatik tukar mod malam pada waktu berkaitan</string>
 
     <string name="extra_prefs_category">Tetapan tambahan</string>
@@ -478,7 +481,7 @@
     <string name="directory_show_medialib">Tunjuk dalam MediaLib</string>
     <string name="directory_hide_medialib">Sembunyi dari MediaLib</string>
     <string name="playlist_save">Simpan Senarai Main</string>
-    <string name="playlist_name_hint">nama senarai main</string>
+    <string name="playlist_name_hint">Senarai main</string>
     <string name="go_to_chapter">Pergi ke bab…</string>
     <string name="chapter">Bab</string>
     <string name="resume_from_position">Sambung dari kedudukan terakhir</string>
@@ -605,6 +608,8 @@
     <string name="audio_digital_title">Output audio digital (passthrough)</string>
     <string name="audio_task_cleared_title">Henti ketika leret aplikasi</string>
     <string name="audio_task_cleared_summary">Henti main balik ketika aplikasi disinggirkan</string>
+    <string name="audio_resume_card_title">Muat kad senarai main terakhir</string>
+    <string name="audio_resume_card_summary">Menunjukkan satu kad yang membantu anda untuk sambung semula main balik audio ketika apl bermula</string>
     <string name="playback_rewind">Mandir</string>
     <string name="playback_forward">Maju pantas</string>
     <string name="ml_wizard_title">Pemilihan Pustaka Media VLC</string>
@@ -641,6 +646,30 @@
     <string name="device_dialog_message">Anda baru sahaja memalam peranti storan baharu ke dalam kotak TV anda, anda mahu membukanya dengan VLC?</string>
     <string name="videos_folders_title">Video mengikut folder</string>
     <string name="video_save_remote_setting">Aktifkan mod kawalan jauh secara automatik?</string>
+    <string name="video_save_clone_mode">Aktifkan mod klon secara automatik?</string>
     <string name="video_remote_enable">Tukar ke mod kawalan jauh</string>
     <string name="video_remote_disable">Duplikasikan skrin</string>
+    <string name="removed_from_playlist_anonymous">Item-item dibuang daripada senarai main</string>
+    <string name="welcome_title">Selamat datang ke VLC</string>
+    <string name="welcome_subtitle">Pemain multimedia sumber terbuka dan bebas</string>
+    <string name="permission_media">VLC memerlukan keizinan anda untuk mencapai fail media dalam peranti anda</string>
+    <string name="medialibrary_scan_explanation">VLC boleh mengimbas peranti anda secara automatik untuk mengurus koleksi media anda.</string>
+    <string name="onboarding_theme_title">Buat seperti rumah sendiri</string>
+    <string name="done">Selesai</string>
+    <string name="onboarding_scan_title">Temui media anda secara automatik</string>
+    <string name="daynight_explanation">VLC akan beralih ke mod malam pada waktu berkaitan</string>
+    <string name="onboarding_scanning_enable">Biar VLC mengimbas peranti saya untuk dapatkan kandungan media</string>
+    <string name="onboarding_scan_whole">VLC akan mengimbas keseluruhan Kad SD saya</string>
+    <string name="onboarding_scan_customize">Biar saya pilih folder manakah VLC akan mengimbas</string>
+    <string name="button_medialibrary_preferences">Pergi ke keutamaan Pustaka Media</string>
+    <string name="light_theme">Tema cerah</string>
+    <string name="add">Tambah</string>
+    <string name="add_to_new_playlist">Tambah ke senarai main baharu</string>
+    <string name="theme_follow_system_mode">Ikuti mod sistem</string>
+    <string name="resume_card_message">Sambung semula main balik %1$s?</string>
+    <string name="misc">Pelbagai</string>
+    <string name="popup_force_legacy_title">Guna tetingkap timbul Gambar-dalam-Gambar suai</string>
+    <string name="popup_force_legacy_summary">Guna tetingkap timbul boleh saiz semua Gambar-dalam-Gambar suai</string>
+    <string name="device_default">Lalai peranti</string>
+    <string name="track_number">%s trek</string>
 </resources>
