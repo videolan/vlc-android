@@ -132,6 +132,7 @@
     <string name="validation">בטוח?</string>
 
     <string name="cover_art">האומנות על העטיפה</string>
+    <string name="shuffle_all_title">לערבב את הכול</string>
     <string name="shuffle_title">מצב ערבול</string>
     <string name="shuffle">כיבוי הערבול</string>
     <string name="shuffle_on">הפעלת הערבול</string>
@@ -288,6 +289,8 @@
     <string name="enable_black_theme_summary">החלפת צבעי מנשק המשתמש לשיפור הנוחות בסביבות חשוכות.</string>
     <string name="subtitle_text_encoding">קידוד טקסט הכתוביות</string>
     <string name="daynight_title">מצב יום־לילה</string>
+    <string name="daynight_follow_system_title">לעקוב אחר מצב המערכת</string>
+    <string name="daynight_battery_title">לעקוב אחר חסכון בסוללה</string>
     <string name="daynight_summary">להחליף למצב לילה במועד המתאים אוטומטית</string>
 
     <string name="extra_prefs_category">הגדרות נוספות</string>
@@ -626,6 +629,8 @@
     <string name="audio_digital_title">פלט שמע דיגיטלי (מעקף)</string>
     <string name="audio_task_cleared_title">לעצור עם החלקה על היישומון</string>
     <string name="audio_task_cleared_summary">לעצור את הנגינה כאשר היישומון מוסתר</string>
+    <string name="audio_resume_card_title">לטעון את כרטיס רשימת הנגינה האחרונה</string>
+    <string name="audio_resume_card_summary">מציג כרטיס שמסייע לך להמשיך את נגינת השמע עם התחלת היישומון</string>
     <string name="playback_rewind">חזרה אחורה</string>
     <string name="playback_forward">האצה קדימה</string>
     <string name="ml_wizard_title">בחירה מתיקיית המדיה של VLC</string>
@@ -662,6 +667,30 @@
     <string name="device_dialog_message">חיברת התקן אחסון חדש למערכת הטלוויזיה שלך, לפתוח אותו עם VLC?</string>
     <string name="videos_folders_title">סרטונים לפי תיקיות</string>
     <string name="video_save_remote_setting">להפעיל את מצב השלט?</string>
+    <string name="video_save_clone_mode">להפעיל מצב כפילות אוטומטית?</string>
     <string name="video_remote_enable">מעבר למצב שלט</string>
     <string name="video_remote_disable">שכפול מסך</string>
+    <string name="removed_from_playlist_anonymous">פריט/ים הוסר/ו מרשימת הנגינה</string>
+    <string name="welcome_title">ברוך בואך אל VLC!</string>
+    <string name="welcome_subtitle">נגן המולטימדיה החופשי בקוד פתוח</string>
+    <string name="permission_media">ל־VLC נדרשת הרשאתך כדי לגשת למדיה במכשיר שלך</string>
+    <string name="medialibrary_scan_explanation">ל־VLC יש אפשרות לסרוק את ההתקן שלך אוטומטית כדי לארגן את אוסף המדיה שלך.</string>
+    <string name="onboarding_theme_title">להרגיש כמו בבית</string>
+    <string name="done">סיום</string>
+    <string name="onboarding_scan_title">זיהוי אוטומטי של המדיה שלך</string>
+    <string name="daynight_explanation">VLC יעבור למצב לילה בשעה המתאימה</string>
+    <string name="onboarding_scanning_enable">לאפשר ל־VLC לסרוק את המכשיר שלי לאיתור תוכן מדיה</string>
+    <string name="onboarding_scan_whole">VLC יסרוק את כל כרטיס ה־SD שלי</string>
+    <string name="onboarding_scan_customize">לאפשר לי לבחור אילו תיקיות VLC יסרוק</string>
+    <string name="button_medialibrary_preferences">לעבור להעדפות ספריית המדיה</string>
+    <string name="light_theme">ערכת עיצוב בהירה</string>
+    <string name="add">הוספה</string>
+    <string name="add_to_new_playlist">הוספה לרשימת נגינה חדשה</string>
+    <string name="theme_follow_system_mode">לעקוב אחר מצב המערכת</string>
+    <string name="resume_card_message">להמשיך בנגינה של %1$s?</string>
+    <string name="misc">שונות</string>
+    <string name="popup_force_legacy_title">להשתמש בחלונית צפה מותאמת לתמונה בתוך תמונה</string>
+    <string name="popup_force_legacy_summary">להשתמש בחלונית צפה גמישה מותאמת לתמונה בתוך תמונה</string>
+    <string name="device_default">בררת המחדל של המכשיר</string>
+    <string name="track_number">%s רצועות</string>
 </resources>
