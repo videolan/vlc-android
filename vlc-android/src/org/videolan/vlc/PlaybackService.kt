@@ -28,6 +28,7 @@ import android.media.AudioManager
 import android.media.audiofx.AudioEffect
 import android.net.Uri
 import android.os.*
+import android.provider.SyncStateContract
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
@@ -130,6 +131,11 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
              */
             when (action) {
                 VLCAppWidgetProvider.ACTION_WIDGET_INIT -> updateWidget()
+                SLEEP_INTENT -> {
+                    if (isPlaying) {
+                        stop(true)
+                    }
+                }
                 VLCAppWidgetProvider.ACTION_WIDGET_ENABLED , VLCAppWidgetProvider.ACTION_WIDGET_DISABLED -> updateHasWidget()
                 ACTION_CAR_MODE_EXIT -> MediaSessionBrowser.unbindExtensionConnection()
                 AudioManager.ACTION_AUDIO_BECOMING_NOISY -> if (detectHeadset) {
@@ -463,6 +469,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
             addAction(Intent.ACTION_HEADSET_PLUG)
             addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
             addAction(ACTION_CAR_MODE_EXIT)
+            addAction(SLEEP_INTENT)
         }
         registerReceiver(receiver, filter)
 
