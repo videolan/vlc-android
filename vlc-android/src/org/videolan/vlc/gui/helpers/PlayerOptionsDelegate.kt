@@ -113,7 +113,9 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                     if (chaptersCount > 1) options.add(PlayerOption(playerOptionType, ID_CHAPTER_TITLE, R.attr.ic_chapter_normal_style, res.getString(R.string.go_to_chapter)))
                 }
                 options.add(PlayerOption(playerOptionType, ID_ABREPEAT, R.attr.ic_abrepeat, res.getString(R.string.ab_repeat)))
-                options.add(PlayerOption(playerOptionType, ID_SAVE_PLAYLIST, R.attr.ic_save, res.getString(R.string.playlist_save)))
+                if (!AndroidDevices.isAndroidTv) {
+                    options.add(PlayerOption(playerOptionType, ID_SAVE_PLAYLIST, R.attr.ic_save, res.getString(R.string.playlist_save)))
+                }
                 if (service.playlistManager.player.canDoPassthrough() && settings.getString("aout", "0") == "0")
                     options.add(PlayerOption(playerOptionType, ID_PASSTHROUGH, R.attr.ic_passthrough, res.getString(R.string.audio_digital_title)))
             }
