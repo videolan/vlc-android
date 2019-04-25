@@ -24,6 +24,7 @@ import android.Manifest
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -149,6 +150,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
         binding.showCover = settings.getBoolean("audio_player_show_cover", false)
         binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (binding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))
         binding.timeline.setOnSeekBarChangeListener(timelineListener)
+    }
+
+    override fun onResume() {
+        onStateChanged(playerState)
+        super.onResume()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -366,7 +372,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
                                       headerTimeVisible: Boolean, searchVisible: Boolean,
                                       filter: Boolean = false) {
         this.advFuncVisible = !filter && advFuncVisible
-        this.playlistSwitchVisible = !filter && playlistSwitchVisible
+        this.playlistSwitchVisible = !filter && playlistSwitchVisible && resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE
         this.headerPlayPauseVisible = !filter && headerPlayPauseVisible
         this.progressBarVisible = !filter && progressBarVisible
         this.headerTimeVisible = !filter && headerTimeVisible
