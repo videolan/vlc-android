@@ -401,7 +401,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             mSavedTime = savedInstanceState.getLong(KEY_TIME);
             mUri = (Uri) savedInstanceState.getParcelable(KEY_URI);
         }
-        PlaybackService.Companion.start(this);
     }
 
     @Override
@@ -575,6 +574,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     @Override
     protected void onStart() {
         super.onStart();
+        PlaybackService.Companion.start(this);
         PlaybackService.Companion.getService().observe(this, this);
         restoreBrightness();
         final IntentFilter filter = new IntentFilter(Constants.PLAY_FROM_SERVICE);
