@@ -1,10 +1,8 @@
-apply plugin: 'com.android.feature'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-
-    baseFeature true
 
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
@@ -36,7 +34,4 @@ dependencies {
     testImplementation "junit:junit:$rootProject.ext.junitVersion"
     androidTestImplementation "androidx.test:runner:$rootProject.ext.supportTest"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
-}
-repositories {
-    mavenCentral()
 }
