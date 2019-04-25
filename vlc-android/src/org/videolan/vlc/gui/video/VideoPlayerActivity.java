@@ -1457,6 +1457,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                         WorkersKt.runIO(new Runnable() {
                             @Override
                             public void run() {
+                                if (mService == null) return;
                                 int audioTrack = (int) media.getMetaLong(MediaWrapper.META_AUDIOTRACK);
                                 if (audioTrack != 0 || mCurrentAudioTrack != -2)
                                     mService.setAudioTrack(media.getId() == 0L ? mCurrentAudioTrack : audioTrack);
