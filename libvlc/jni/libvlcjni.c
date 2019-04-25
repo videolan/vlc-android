@@ -491,7 +491,7 @@ void Java_org_videolan_libvlc_LibVLC_nativeSetUserAgent(JNIEnv* env,
     psz_name = jname ? (*env)->GetStringUTFChars(env, jname, 0) : NULL;
     psz_http = jhttp ? (*env)->GetStringUTFChars(env, jhttp, 0) : NULL;
 
-    if (psz_http && psz_http)
+    if (psz_name && psz_http)
         libvlc_set_user_agent(p_obj->u.p_libvlc, psz_name, psz_http);
 
     if (psz_name)
