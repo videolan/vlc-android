@@ -256,8 +256,8 @@ EOF
 fi
 if [ "$RELEASE" = 1 ]; then
     git reset --hard ${TESTED_HASH}
-    git am ../libvlc/patches/*.patch
 fi
+git am ../libvlc/patches/*.patch
 cd ..
 
 
