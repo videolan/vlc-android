@@ -114,29 +114,6 @@ else
     exit 1
 fi
 
-##########
-# GRADLE #
-##########
-
-if [ ! -d "gradle/wrapper" ]; then
-    diagnostic "Downloading gradle"
-    GRADLE_VERSION=5.1.1
-    GRADLE_URL=https://download.videolan.org/pub/contrib/gradle/gradle-${GRADLE_VERSION}-bin.zip
-    wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL}
-    checkfail "gradle: download failed"
-
-    unzip -o gradle-${GRADLE_VERSION}-bin.zip
-    checkfail "gradle: unzip failed"
-
-    ./gradle-${GRADLE_VERSION}/bin/gradle wrapper
-    checkfail "gradle: wrapper failed"
-
-    ./gradlew -version
-    checkfail "gradle: wrapper failed"
-    chmod a+x gradlew
-    rm -rf gradle-${GRADLE_VERSION}-bin.zip
-fi
-
 ####################
 # Configure gradle #
 ####################
@@ -229,6 +206,29 @@ if [ ! -d "$ANDROID_SDK/licenses" ]; then
     mkdir "$ANDROID_SDK/licenses"
     echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > "$ANDROID_SDK/licenses/android-sdk-license"
     echo "d56f5187479451eabf01fb78af6dfcb131a6481e" >> "$ANDROID_SDK/licenses/android-sdk-license"
+fi
+
+##########
+# GRADLE #
+##########
+
+if [ ! -d "gradle/wrapper" ]; then
+    diagnostic "Downloading gradle"
+    GRADLE_VERSION=5.1.1
+    GRADLE_URL=https://download.videolan.org/pub/contrib/gradle/gradle-${GRADLE_VERSION}-bin.zip
+    wget ${GRADLE_URL} 2>/dev/null || curl -O ${GRADLE_URL}
+    checkfail "gradle: download failed"
+
+    unzip -o gradle-${GRADLE_VERSION}-bin.zip
+    checkfail "gradle: unzip failed"
+
+    ./gradle-${GRADLE_VERSION}/bin/gradle wrapper
+    checkfail "gradle: wrapper failed"
+
+    ./gradlew -version
+    checkfail "gradle: wrapper failed"
+    chmod a+x gradlew
+    rm -rf gradle-${GRADLE_VERSION}-bin.zip
 fi
 
 if [ "$GRADLE_SETUP" = 1 ]; then
