@@ -128,7 +128,7 @@ if [ ! -d "gradle/wrapper" ]; then
     unzip -o gradle-${GRADLE_VERSION}-bin.zip
     checkfail "gradle: unzip failed"
 
-    ./gradle-${GRADLE_VERSION}/bin/gradle --offline wrapper
+    ./gradle-${GRADLE_VERSION}/bin/gradle wrapper
     checkfail "gradle: wrapper failed"
 
     ./gradlew -version
