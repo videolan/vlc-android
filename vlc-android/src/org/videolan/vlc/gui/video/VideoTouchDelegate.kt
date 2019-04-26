@@ -236,13 +236,13 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         var coef = coef
         if (coef == 0) coef = 1
         // No seek action if coef > 0.5 and gesturesize < 1cm
-        if (Math.abs(gesturesize) < 1 || !player.mService!!.isSeekable) return
+        if (Math.abs(gesturesize) < 1 || !player.service!!.isSeekable) return
 
         if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_SEEK) return
         mTouchAction = TOUCH_SEEK
 
-        val length = player.mService!!.length
-        val time = player.mService!!.time
+        val length = player.service!!.length
+        val time = player.service!!.time
 
         // Size of the jump, 10 minutes max (600000), with a bi-cubic progression, for a 8cm gesture
         var jump = (Math.signum(gesturesize) * (600000 * Math.pow((gesturesize / 8).toDouble(), 4.0) + 3000) / coef).toInt()

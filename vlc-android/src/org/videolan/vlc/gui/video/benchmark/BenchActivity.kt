@@ -108,22 +108,22 @@ class BenchActivity : ShallowVideoPlayer() {
 
     override fun onChanged(service: PlaybackService?) {
         super.onChanged(service)
-        if (mIsHardware && mService != null) {
+        if (mIsHardware && this.service != null) {
             val sharedPref = Settings.getInstance(this)
             mOldOpenglValue = sharedPref.getString("opengl", "-1")
             val editor = sharedPref.edit()
             editor.putString("opengl", "0")
             editor.commit()
             VLCInstance.restart()
-            mService?.restartMediaPlayer()
+            this.service?.restartMediaPlayer()
         }
     }
 
     override fun loadMedia() {
-        if (mService != null) {
-            mService!!.setBenchmark()
+        if (service != null) {
+            service!!.setBenchmark()
             if (mIsHardware) {
-                mService!!.setHardware()
+                service!!.setHardware()
             }
         }
         super.loadMedia()
@@ -262,7 +262,7 @@ class BenchActivity : ShallowVideoPlayer() {
                 if (!mSetup) {
                     mSetup = true
                     if (mIsScreenshot) {
-                        mService?.pause()
+                        service?.pause()
                         val metrics = DisplayMetrics()
                         windowManager.defaultDisplay.getRealMetrics(metrics)
                         mWidth = metrics.widthPixels
@@ -435,8 +435,8 @@ class BenchActivity : ShallowVideoPlayer() {
         }
         val sendIntent = Intent()
         checkLogs()
-        if (mService != null) {
-            val stats = mService!!.lastStats
+        if (service != null) {
+            val stats = service!!.lastStats
             sendIntent.putExtra("percent_of_bad_seek", 0.0)
             sendIntent.putExtra("number_of_dropped_frames", stats?.lostPictures ?: 100)
             sendIntent.putExtra("screenshot_folder", Environment.getExternalStorageDirectory().toString() + File.separator + "screenshotFolder")

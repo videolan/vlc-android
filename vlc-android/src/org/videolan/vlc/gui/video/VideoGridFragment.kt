@@ -66,9 +66,9 @@ import java.util.*
 @ExperimentalCoroutinesApi
 class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<PagedList<MediaWrapper>>, CtxActionReceiver {
 
-    private var videoListAdapter: VideoListAdapter? = null
-    private var multiSelectHelper: MultiSelectHelper<MediaWrapper>? = null
-    private var binding: VideoGridBinding? = null
+    private lateinit var videoListAdapter: VideoListAdapter
+    private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
+    private lateinit var binding: VideoGridBinding
     private var videoGroup: String? = null
     private var videoFolder: Folder? = null
     private var gridItemDecoration: RecyclerView.ItemDecoration? = null
@@ -96,11 +96,11 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (videoListAdapter == null) {
+        if (!::videoListAdapter.isInitialized) {
             val preferences = Settings.getInstance(requireContext())
             val seenMarkVisible = preferences.getBoolean("media_seen", true)
             videoListAdapter = VideoListAdapter(this, seenMarkVisible)
-            multiSelectHelper = videoListAdapter!!.multiSelectHelper
+            multiSelectHelper = videoListAdapter.multiSelectHelper
             viewModel = PagedVideosModel.get(requireContext(), this, videoFolder)
             viewModel.pagedList.observe(this, this)
         }
@@ -125,16 +125,16 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = VideoGridBinding.inflate(inflater, container, false)
-        return binding!!.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val empty = viewModel.isEmpty()
-        binding!!.loadingFlipper.visibility = if (empty) View.VISIBLE else View.GONE
-        binding!!.loadingTitle.visibility = if (empty) View.VISIBLE else View.GONE
-        binding!!.empty = empty
-        binding!!.buttonNomedia.setOnClickListener {
+        binding.loadingFlipper.visibility = if (empty) View.VISIBLE else View.GONE
+        binding.loadingTitle.visibility = if (empty) View.VISIBLE else View.GONE
+        binding.empty = empty
+        binding.buttonNomedia.setOnClickListener {
             val activity = requireActivity()
             val intent = Intent(activity.applicationContext, SecondaryActivity::class.java)
             intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
@@ -146,12 +146,12 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         swipeRefreshLayout!!.setOnRefreshListener(this)
-        binding!!.videoGrid.adapter = videoListAdapter
+        binding.videoGrid.adapter = videoListAdapter
     }
 
     override fun onStart() {
         super.onStart()
-        registerForContextMenu(binding!!.videoGrid)
+        registerForContextMenu(binding.videoGrid)
         updateViewMode()
         setFabPlayVisibility(true)
         fabPlay?.setImageResource(R.drawable.ic_fab_play)
@@ -163,7 +163,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
 
     override fun onStop() {
         super.onStop()
-        unregisterForContextMenu(binding!!.videoGrid)
+        unregisterForContextMenu(binding.videoGrid)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -174,12 +174,12 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
     override fun onDestroy() {
         super.onDestroy()
         gridItemDecoration = null
-        videoListAdapter!!.release()
+        videoListAdapter.release()
     }
 
     override fun onChanged(list: PagedList<MediaWrapper>?) {
-        videoListAdapter!!.showFilename(viewModel.sort == Medialibrary.SORT_FILENAME)
-        if (list != null) videoListAdapter!!.submitList(list)
+        videoListAdapter.showFilename(viewModel.sort == Medialibrary.SORT_FILENAME)
+        if (list != null) videoListAdapter.submitList(list)
     }
 
     override fun getTitle(): String {
@@ -197,17 +197,17 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
         val listMode = res.getBoolean(R.bool.list_mode) || res.configuration.orientation == Configuration.ORIENTATION_PORTRAIT && Settings.getInstance(requireContext()).getBoolean("force_list_portrait", false)
 
         // Select between grid or list
-        binding!!.videoGrid.removeItemDecoration(gridItemDecoration!!)
+        binding.videoGrid.removeItemDecoration(gridItemDecoration!!)
         if (!listMode) {
             val thumbnailWidth = res.getDimensionPixelSize(R.dimen.grid_card_thumb_width)
-            val margin = binding!!.videoGrid.paddingStart + binding!!.videoGrid.paddingEnd
-            val columnWidth = binding!!.videoGrid.getPerfectColumnWidth(thumbnailWidth, margin) - res.getDimensionPixelSize(R.dimen.left_right_1610_margin) * 2
-            binding!!.videoGrid.columnWidth = columnWidth
-            videoListAdapter!!.setGridCardWidth(binding!!.videoGrid.columnWidth)
-            binding!!.videoGrid.addItemDecoration(gridItemDecoration!!)
+            val margin = binding.videoGrid.paddingStart + binding.videoGrid.paddingEnd
+            val columnWidth = binding.videoGrid.getPerfectColumnWidth(thumbnailWidth, margin) - res.getDimensionPixelSize(R.dimen.left_right_1610_margin) * 2
+            binding.videoGrid.columnWidth = columnWidth
+            videoListAdapter.setGridCardWidth(binding.videoGrid.columnWidth)
+            binding.videoGrid.addItemDecoration(gridItemDecoration!!)
         }
-        binding!!.videoGrid.setNumColumns(if (listMode) 1 else -1)
-        if (videoListAdapter!!.isListMode != listMode) videoListAdapter!!.isListMode = listMode
+        binding.videoGrid.setNumColumns(if (listMode) 1 else -1)
+        if (videoListAdapter.isListMode != listMode) videoListAdapter.isListMode = listMode
     }
 
 
@@ -235,9 +235,9 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
     private fun updateEmptyView() {
         val empty = viewModel.isEmpty()
         val working = mediaLibrary.isWorking
-        binding!!.loadingFlipper.visibility = if (empty && working) View.VISIBLE else View.GONE
-        binding!!.loadingTitle.visibility = if (empty && working) View.VISIBLE else View.GONE
-        binding!!.empty = empty && !working
+        binding.loadingFlipper.visibility = if (empty && working) View.VISIBLE else View.GONE
+        binding.loadingTitle.visibility = if (empty && working) View.VISIBLE else View.GONE
+        binding.empty = empty && !working
     }
 
     fun setGroup(prefix: String?) {
@@ -254,7 +254,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
     }
 
     override fun clear() {
-        videoListAdapter!!.clear()
+        videoListAdapter.clear()
     }
 
     override fun setFabPlayVisibility(enable: Boolean) {
@@ -268,7 +268,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
     }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-        val count = multiSelectHelper!!.getSelectionCount()
+        val count = multiSelectHelper.getSelectionCount()
         if (count == 0) {
             stopActionMode()
             return false
@@ -280,7 +280,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         val list = ArrayList<MediaWrapper>()
-        for (mw in multiSelectHelper!!.getSelection()) {
+        for (mw in multiSelectHelper.getSelection()) {
             if (mw.type == MediaWrapper.TYPE_GROUP)
                 list.addAll((mw as MediaGroup).all)
             else
@@ -314,13 +314,13 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
     override fun onDestroyActionMode(mode: ActionMode) {
         actionMode = null
         setFabPlayVisibility(true)
-        multiSelectHelper!!.clearSelection()
+        multiSelectHelper.clearSelection()
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         val media = item as MediaWrapper
         if (actionMode != null) {
-            multiSelectHelper!!.toggleSelection(position)
+            multiSelectHelper.toggleSelection(position)
             invalidateActionMode()
             return
         }
@@ -342,7 +342,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
         if (actionMode != null) return false
-        multiSelectHelper!!.toggleSelection(position)
+        multiSelectHelper.toggleSelection(position)
         startActionMode()
         return true
     }
@@ -374,13 +374,13 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
     override fun onItemFocused(v: View, item: MediaLibraryItem) {}
 
     fun updateSeenMediaMarker() {
-        videoListAdapter!!.setSeenMediaMarkerVisible(Settings.getInstance(requireContext()).getBoolean("media_seen", true))
-        videoListAdapter!!.notifyItemRangeChanged(0, videoListAdapter!!.itemCount - 1, UPDATE_SEEN)
+        videoListAdapter.setSeenMediaMarkerVisible(Settings.getInstance(requireContext()).getBoolean("media_seen", true))
+        videoListAdapter.notifyItemRangeChanged(0, videoListAdapter.itemCount - 1, UPDATE_SEEN)
     }
 
     override fun onCtxAction(position: Int, option: Int) {
-        if (position >= videoListAdapter!!.itemCount) return
-        val media = videoListAdapter!!.getItem(position) ?: return
+        if (position >= videoListAdapter.itemCount) return
+        val media = videoListAdapter.getItem(position) ?: return
         val activity = activity ?: return
         when (option) {
             CTX_PLAY_FROM_START -> playVideo(media, true)

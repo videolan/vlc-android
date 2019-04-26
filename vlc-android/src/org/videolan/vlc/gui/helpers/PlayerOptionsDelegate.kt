@@ -205,6 +205,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                         CTX_SUBS_TRACK -> selectSubtitles()
                         CTX_PICK_SUBS -> pickSubtitles()
                         CTX_DOWNLOAD_SUBTITLES_PLAYER -> downloadSubtitles()
+                        else -> Unit
                     }
                 }
                 hide()

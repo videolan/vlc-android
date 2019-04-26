@@ -333,7 +333,6 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
     companion object {
         val TAG = "VLC/AudioBrowserFragment"
 
-
         private const val KEY_LISTS_POSITIONS = "key_lists_position"
         private const val SET_REFRESHING = 103
         private const val UNSET_REFRESHING = 104
