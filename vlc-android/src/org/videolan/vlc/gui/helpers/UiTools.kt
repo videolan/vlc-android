@@ -41,6 +41,7 @@ import android.os.Looper
 import android.renderscript.*
 import android.text.Html
 import android.text.TextUtils
+import android.text.method.LinkMovementMethod
 import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
@@ -204,6 +205,10 @@ object UiTools {
     fun fillAboutView(v: View) {
         val link = v.findViewById<TextView>(R.id.main_link)
         link.text = Html.fromHtml(v.context.getString(R.string.about_link))
+
+        val feedback : TextView= v.findViewById(R.id.feedback)
+        feedback.text = Html.fromHtml(v.getContext().getString(R.string.feedback_link, v.getContext().getString(R.string.feedback_forum)));
+        feedback.movementMethod = LinkMovementMethod.getInstance();
 
         val revision = v.context.getString(R.string.build_revision) + " VLC: " + v.context.getString(R.string.build_vlc_revision)
         val builddate = v.context.getString(R.string.build_time)

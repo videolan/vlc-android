@@ -84,6 +84,16 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/feedback"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_weight="0.27"
+                android:gravity="center"
+                android:text="@string/feedback_link"
+                android:textSize="14sp" />
+
+            <TextView
                 android:id="@+id/main_revision"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
