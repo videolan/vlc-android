@@ -218,9 +218,38 @@
     <string name="playback_speed_summary">Kujto shpejtësinë e vendosur të ridëgjimit</string>
 
     <string name="play_button">Buton Fillimi</string>
+    <string name="seek">Kërko</string>
     <string name="subtitles">Titra</string>
+    <string name="audio_sub">Këngë Audio\ndhe titra</string>
+    <string name="options">Alternativat</string>
+    <string name="lock">Kyç</string>
+    <string name="ok_got_it">E kuptova, anulo&#160;këtë</string>
+
+    <string name="playlist_tips">Këshilla listkëngësh</string>
     <string name="remove_song">Hiq kengen</string>
+    <string name="remove_playlist_item">%1$s është anuluar nga listkënga</string>
+    <string name="rearrange_order">Rirendit radhën</string>
+    <string name="hold_to_seek">Mbaj për të kërkuar</string>
+
+    <string name="audio_player_tips">Këshilla lexues audio</string>
+    <string name="previous_next_song">Mëparshëm/Kënga tjetër</string>
+    <string name="show_playlist">Shfaq listkëngën</string>
+    <string name="hold_to_stop">Mbaj për të ndaluar</string>
+
+    <!-- About -->
+    <string name="app_name_full">VLC për Android</string>
+    <string name="licence">Liçensë</string>
+    <string name="revision">Rishikim</string>
+    <string name="about">Rreth</string>
+    <string name="about_text">VLC për Android™ është një port i VLC media player, media player me popullsi të hapur. Versioni Android™ mund të lexojnë shumicën e dosjeve dhe transmetimeve të rrjetit.</string>
+    <string name="vlc_authors">dhe Autoret e VLC.</string>
+    <string name="compiled_by">Ky version i VLC është kompiluar nga:</string>
+
+    <!-- Preferences -->
+    <string name="preferences">Cilësimet</string>
+
     <string name="general_prefs_category">Përgjithshme</string>
+    <string name="directories_summary">Përzgjidhni dosjet që duhet të përfshihen në bibliotekën e media</string>
     <string name="hardware_acceleration">Hardware Acceleration</string>
     <string name="hardware_acceleration_disabled">Gjymtuar</string>
     <string name="automatic">Automatikisht</string>
