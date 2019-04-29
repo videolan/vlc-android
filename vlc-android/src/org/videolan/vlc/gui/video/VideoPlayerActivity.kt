@@ -501,7 +501,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             mSavedTime = savedInstanceState.getLong(KEY_TIME)
             videoUri = savedInstanceState.getParcelable<Parcelable>(KEY_URI) as Uri?
         }
-        PlaybackService.start(this)
     }
 
     override fun onResume() {
@@ -670,6 +669,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     override fun onStart() {
         super.onStart()
+        PlaybackService.start(this)
         PlaybackService.service.observe(this, this)
         restoreBrightness()
         val filter = IntentFilter(PLAY_FROM_SERVICE)
