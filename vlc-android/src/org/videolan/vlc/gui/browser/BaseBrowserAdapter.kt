@@ -30,6 +30,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
@@ -102,6 +104,32 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
             MediaViewHolder(BrowserItemBinding.inflate(inflater, parent, false)) as ViewHolder<ViewDataBinding>
         else
             SeparatorViewHolder(BrowserItemSeparatorBinding.inflate(inflater, parent, false)) as ViewHolder<ViewDataBinding>
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+
+        val layoutManager = recyclerView.layoutManager
+        if (layoutManager is LinearLayoutManager) {
+            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+
+                    val doScroll = newState == RecyclerView.SCROLL_STATE_IDLE
+
+                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                    val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+                    for (i in firstVisibleItemPosition..lastVisibleItemPosition) {
+                        val holder = recyclerView.findViewHolderForLayoutPosition(i)
+                        if (holder is MediaViewHolder) {
+                            // Show marquee effect only for those view holders which are visible.
+                            // If not visible or dragging scroll state, then stop the marquee effect.
+                            holder.binding.title.isSelected = doScroll
+                        }
+                    }
+                }
+            })
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {
