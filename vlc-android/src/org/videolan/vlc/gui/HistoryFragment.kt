@@ -118,6 +118,11 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
 
     override fun clear() {}
 
+    override fun onResume() {
+        super.onResume()
+        refresh()
+    }
+
     private fun updateEmptyView() {
         if (mHistoryAdapter.isEmpty()) {
             swipeRefreshLayout!!.visibility = View.GONE
