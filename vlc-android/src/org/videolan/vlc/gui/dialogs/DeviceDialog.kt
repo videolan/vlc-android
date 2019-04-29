@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import kotlinx.coroutines.*
 import org.videolan.vlc.R
 import org.videolan.vlc.StartActivity
 import org.videolan.vlc.databinding.DialogExtDeviceBinding
@@ -14,7 +15,7 @@ import org.videolan.vlc.util.EXTRA_PATH
 
 private const val TAG = "VLC/DeviceDialog"
 
-class DeviceDialog : DialogFragment() {
+class DeviceDialog : DialogFragment(), CoroutineScope by MainScope() {
 
     private lateinit var path : String
     private lateinit var uuid : String
@@ -22,7 +23,7 @@ class DeviceDialog : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(DialogFragment.STYLE_NO_FRAME, 0)
+        setStyle(STYLE_NO_FRAME, 0)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,8 +34,17 @@ class DeviceDialog : DialogFragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        launch {
+            delay(30_000L)
+            dismiss()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        cancel()
         activity?.finish()
     }
 
