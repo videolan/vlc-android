@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
+import androidx.annotation.WorkerThread;
+
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.MediaLibraryItem;
@@ -21,10 +23,9 @@ import org.videolan.vlc.media.MediaGroup;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import androidx.annotation.WorkerThread;
 
 import static org.videolan.medialibrary.Medialibrary.THUMBS_FOLDER_NAME;
 import static org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap;
@@ -41,8 +42,7 @@ public class ThumbnailsProvider {
     @WorkerThread
     public static Bitmap getFolderThumbnail(final Folder folder, int width) {
         final List<MediaWrapper> media = Arrays.asList(folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, true, 4, 0));
-        final Bitmap img = ThumbnailsProvider.getComposedImage("folder:"+folder.getTitle(), media, width);
-        return img;
+        return ThumbnailsProvider.getComposedImage("folder:"+folder.getTitle(), media, width);
     }
 
     @WorkerThread
@@ -105,22 +105,22 @@ public class ThumbnailsProvider {
      * @return a Bitmap object
      */
     private static Bitmap composeImage(List<MediaWrapper> mediaList, int imageWidth) {
-        final Bitmap[] sourcesImages = new Bitmap[Math.min(MAX_IMAGES, mediaList.size())];
+        final List<Bitmap> sourcesImages = new ArrayList<>();
         int count = 0, minWidth = Integer.MAX_VALUE, minHeight = Integer.MAX_VALUE;
         for (MediaWrapper media : mediaList) {
             final Bitmap bm = getVideoThumbnail(media, imageWidth);
             if (bm != null) {
                 int width = bm.getWidth();
                 int height = bm.getHeight();
-                sourcesImages[count++] = bm;
+                sourcesImages.add(bm);
                 minWidth = Math.min(minWidth, width);
                 minHeight = Math.min(minHeight, height);
-                if (count == MAX_IMAGES) break;
+                if (++count == MAX_IMAGES) break;
             }
         }
         if (count == 0) return null;
-        if (count == 1) return sourcesImages[0];
-        return composeCanvas(sourcesImages, count, minWidth, minHeight);
+        if (count == 1) return sourcesImages.get(0);
+        return composeCanvas(sourcesImages.toArray(new Bitmap[0]), count, minWidth, minHeight);
     }
 
     private static Bitmap composeCanvas(Bitmap[] sourcesImages, int count, int minWidth, int minHeight) {
