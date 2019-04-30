@@ -72,6 +72,25 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.annotation.WorkerThread;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.ViewStubCompat;
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.Nullable;
@@ -121,25 +140,6 @@ import org.videolan.vlc.viewmodels.PlaylistModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
-import androidx.annotation.WorkerThread;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.appcompat.widget.ViewStubCompat;
-import androidx.databinding.BindingAdapter;
-import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackSettingsController, PlaybackService.Callback,PlaylistAdapter.IPlayer,
         OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController,  Observer<PlaybackService> {
@@ -2326,7 +2326,6 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     void hideOverlay(boolean fromUser) {
         if (mShowing) {
             mHandler.removeMessages(FADE_OUT);
-            Log.i(TAG, "remove View!");
             UiTools.setViewVisibility(mOverlayTips, View.INVISIBLE);
             if (!mDisplayManager.isPrimary()) {
                 mOverlayBackground.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out));
@@ -2357,7 +2356,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         else mActionBar.show();
 
         int visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-        int navbar = 0;
+        int navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
         if (dim || mIsLocked) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             navbar |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |View.SYSTEM_UI_FLAG_LOW_PROFILE|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
@@ -2377,6 +2376,8 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void showTitle() {
         if (mIsNavMenu) return;
+        if ((getWindow().getDecorView().getSystemUiVisibility() & View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN) == View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+            return;
         mActionBar.show();
 
         int visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
