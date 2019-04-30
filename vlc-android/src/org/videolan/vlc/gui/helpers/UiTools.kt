@@ -466,17 +466,13 @@ object UiTools {
         }
 
 
-        val finalLocaleEntries = ArrayList<String>(localeTreeMap.size + 1)
-        val finalLocaleEntryValues = ArrayList<String>(localeTreeMap.size + 1)
-
-        finalLocaleEntries[0] = context.getString(R.string.device_default)
-        finalLocaleEntryValues[0] = ""
+        val finalLocaleEntries = ArrayList<String>(localeTreeMap.size + 1).apply { add(0, context.getString(R.string.device_default)) }
+        val finalLocaleEntryValues = ArrayList<String>(localeTreeMap.size + 1).apply { add(0, "") }
 
         var i = 1
         for ((key, value) in localeTreeMap) {
-            finalLocaleEntries[i] = key
-            finalLocaleEntryValues[i] = value
-
+            finalLocaleEntries.add(i, key)
+            finalLocaleEntryValues.add(i, value)
             i++
         }
 
