@@ -1433,7 +1433,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
     }
 
     @Override
-    public void onMediaPlayerEvent(MediaPlayer.Event event) {
+    public void onMediaPlayerEvent(final MediaPlayer.Event event) {
         switch (event.type) {
             case MediaPlayer.Event.Playing:
                 onPlaying();
@@ -1450,35 +1450,41 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
                 break;
             case MediaPlayer.Event.ESAdded:
                 if (mService != null && mMenuIdx == -1) {
-                    final MediaWrapper media = mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
-                    if (media == null) return;
-                    if (event.getEsChangedType() == Media.Track.Type.Audio) {
-                        setESTrackLists();
-                        WorkersKt.runIO(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (mService == null) return;
-                                int audioTrack = (int) media.getMetaLong(MediaWrapper.META_AUDIOTRACK);
-                                if (audioTrack != 0 || mCurrentAudioTrack != -2)
-                                    mService.setAudioTrack(media.getId() == 0L ? mCurrentAudioTrack : audioTrack);
+                    final int type = event.getEsChangedType();
+                    if (type == Media.Track.Type.Audio || type == Media.Track.Type.Text) setESTrackLists();
+                    WorkersKt.runIO(new Runnable() {
+                        @Override
+                        public void run() {
+                            final MediaWrapper media = mService == null ? null : mMedialibrary.findMedia(mService.getCurrentMediaWrapper());
+                            if (media == null) return;
+                            if (type == Media.Track.Type.Audio) {
+                                final int audioTrack = (int) media.getMetaLong(MediaWrapper.META_AUDIOTRACK);
+                                WorkersKt.runOnMainThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (mService == null) return;
+                                        if (audioTrack != 0 || mCurrentAudioTrack != -2)
+                                            mService.setAudioTrack(media.getId() == 0L ? mCurrentAudioTrack : audioTrack);
+                                    }
+                                });
+                            } else if (type == Media.Track.Type.Text) {
+                                final int spuTrack = (int) media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK);
+                                WorkersKt.runOnMainThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (mService == null) return;
+                                        if (mAddNextTrack) {
+                                            final MediaPlayer.TrackDescription[] tracks = mService.getSpuTracks();
+                                            if (!Util.isArrayEmpty(tracks)) mService.setSpuTrack(tracks[tracks.length-1].id);
+                                            mAddNextTrack = false;
+                                        } else if (spuTrack != 0 || mCurrentSpuTrack != -2) {
+                                            mService.setSpuTrack(media.getId() == 0L ? mCurrentSpuTrack : spuTrack);
+                                        }
+                                    }
+                                });
                             }
-                        });
-                    } else if (event.getEsChangedType() == Media.Track.Type.Text) {
-                        setESTrackLists();
-                        WorkersKt.runIO(new Runnable() {
-                            @Override
-                            public void run() {
-                                int spuTrack = (int) media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK);
-                                if (mAddNextTrack) {
-                                    final MediaPlayer.TrackDescription[] tracks = mService.getSpuTracks();
-                                    if (!Util.isArrayEmpty(tracks)) mService.setSpuTrack(tracks[tracks.length-1].id);
-                                    mAddNextTrack = false;
-                                } else if (spuTrack != 0 || mCurrentSpuTrack != -2) {
-                                    mService.setSpuTrack(media.getId() == 0L ? mCurrentSpuTrack : spuTrack);
-                                }
-                            }
-                        });
-                    }
+                        }
+                    });
                 }
             case MediaPlayer.Event.ESDeleted:
                 if (mService != null && mMenuIdx == -1 && event.getEsChangedType() == Media.Track.Type.Video) {
