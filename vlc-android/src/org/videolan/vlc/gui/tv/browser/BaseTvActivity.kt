@@ -28,14 +28,12 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.view.KeyEvent
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.helpers.UiTools
@@ -43,10 +41,12 @@ import org.videolan.vlc.gui.tv.SearchActivity
 import org.videolan.vlc.gui.tv.registerTimeView
 import org.videolan.vlc.util.Settings
 
+private const val TAG = "VLC/BaseTvActivity"
+
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-abstract class BaseTvActivity : FragmentActivity() {
+abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope() {
 
     private lateinit var mediaLibrary: Medialibrary
     private lateinit var settings: SharedPreferences
@@ -55,12 +55,12 @@ abstract class BaseTvActivity : FragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //Init Medialibrary if KO
-        if (savedInstanceState != null) this.startMedialibrary(firstRun = false, upgrade = false, parse = true)
+        if (savedInstanceState != null) startMedialibrary(firstRun = false, upgrade = false, parse = true)
         super.onCreate(savedInstanceState)
         mediaLibrary = VLCApplication.mlInstance
         settings = Settings.getInstance(this)
         registerLiveData()
-        Handler().post { this@BaseTvActivity.registerTimeView(findViewById<View>(R.id.tv_time) as TextView) }
+        launch { findViewById<View>(R.id.tv_time)?.let { registerTimeView(it as TextView) } }
     }
 
     override fun onStart() {
@@ -75,6 +75,11 @@ abstract class BaseTvActivity : FragmentActivity() {
         currentlyVisible = false
         ExternalMonitor.unsubscribeStorageCb(this)
         super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancel()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
@@ -106,10 +111,5 @@ abstract class BaseTvActivity : FragmentActivity() {
             for (device in devices) UiTools.newStorageDetected(this@BaseTvActivity, device)
             MediaParsingService.newStorages.value = null
         })
-    }
-
-    companion object {
-
-        private const val TAG = "VLC/BaseTvActivity"
     }
 }
