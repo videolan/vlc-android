@@ -126,6 +126,7 @@
     <string name="validation">Confirmaţi?</string>
 
     <string name="cover_art">Copertă</string>
+    <string name="shuffle_all_title">Amestecă tot</string>
     <string name="shuffle_title">Modul de amestecare</string>
     <string name="shuffle">Amestecare oprit</string>
     <string name="shuffle_on">Amestecare pornit</string>
