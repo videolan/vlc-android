@@ -59,6 +59,10 @@ class PreferencesVideo : BasePreferenceFragment() {
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
+            "show_video_thumbnails" -> {
+                (activity as PreferencesActivity).setRestart()
+                return true
+            }
             "media_seen" -> activity!!.setResult(PreferencesActivity.RESULT_UPDATE_SEEN_MEDIA)
         }
         return super.onPreferenceTreeClick(preference)

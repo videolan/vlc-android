@@ -29,6 +29,7 @@ import org.videolan.vlc.databinding.AudioBrowserTvItemBinding
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.HttpImageLoader
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.ThumbnailsProvider.obtainBitmap
 
@@ -45,6 +46,10 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
         return
     val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
     if (item.itemType == MediaLibraryItem.TYPE_GENRE && !isForTV(binding)) {
+        return
+    }
+    if (item is MediaWrapper && item.type == MediaWrapper.TYPE_VIDEO && !Settings.getInstance(v.context).getBoolean("show_video_thumbnails", true)) {
+        updateImageView(UiTools.getDefaultVideoDrawable(v.context).bitmap, v, binding)
         return
     }
     val isMedia = item.itemType == MediaLibraryItem.TYPE_MEDIA
