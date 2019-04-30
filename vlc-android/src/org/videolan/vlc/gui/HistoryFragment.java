@@ -20,20 +20,21 @@
 package org.videolan.vlc.gui;
 
 import android.annotation.TargetApi;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.view.ActionMode;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.view.ActionMode;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.medialibrary.media.MediaWrapper;
@@ -84,7 +85,8 @@ public class HistoryFragment extends MediaBrowserFragment<HistoryModel> implemen
     }
 
     @Override
-    protected void onRestart() {
+    public void onStart() {
+        super.onStart();
         viewModel.refresh();
     }
 
