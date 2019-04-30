@@ -97,13 +97,12 @@ class PagedVideosModel(
     companion object {
         @JvmOverloads
         fun get(
-                context: Context,
                 fragment: Fragment,
                 folder: Folder? = null,
                 sort : Int = Medialibrary.SORT_DEFAULT,
                 desc : Boolean? = null
         ) : PagedVideosModel {
-            return ViewModelProviders.of(fragment, Factory(context, folder, sort, desc)).get(PagedVideosModel::class.java)
+            return ViewModelProviders.of(fragment.requireActivity(), Factory(fragment.requireContext(), folder, sort, desc)).get(PagedVideosModel::class.java)
         }
     }
 }

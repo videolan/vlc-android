@@ -101,7 +101,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
             val seenMarkVisible = preferences.getBoolean("media_seen", true)
             videoListAdapter = VideoListAdapter(this, seenMarkVisible)
             multiSelectHelper = videoListAdapter.multiSelectHelper
-            viewModel = PagedVideosModel.get(requireContext(), this, videoFolder)
+            viewModel = PagedVideosModel.get(this, videoFolder)
             viewModel.pagedList.observe(this, this)
         }
         if (savedInstanceState != null) setGroup(savedInstanceState.getString(KEY_GROUP))
