@@ -116,7 +116,7 @@
     <string name="notavailable">niet beschikbaar</string>
     <string name="nosubdirectory">Geen submappen.</string>
     <string name="directorynotfound">Het pad \'%1$s\' werd niet teruggevonden.</string>
-    <string name="nohistory">U heeft nog geen afspeelgeschiedenis.</string>
+    <string name="nohistory">U hebt nog geen afspeelgeschiedenis.</string>
     <string name="validation">Bent u zeker?</string>
 
     <string name="cover_art">Albumhoes</string>
@@ -650,7 +650,7 @@
     <string name="ctx_player_tracks_title">Mediasporen</string>
     <string name="ctx_pip_title">Pop-up-speler</string>
     <string name="device_dialog_title">Extern apparaat geplaatst</string>
-    <string name="device_dialog_message">U heeft een nieuw opslagapparaat verbonden met uw tv-box. Wilt u het openen met VLC?</string>
+    <string name="device_dialog_message">U hebt een nieuw opslagapparaat verbonden met uw tv-box. Wilt u het openen met VLC?</string>
     <string name="videos_folders_title">Video\'s volgens mappen</string>
     <string name="video_save_remote_setting">Modus bediening op afstand automatisch inschakelen?</string>
     <string name="video_save_clone_mode">Kloon-modus automatisch inschakelen?</string>
