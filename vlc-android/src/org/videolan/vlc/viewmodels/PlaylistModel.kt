@@ -146,7 +146,8 @@ class PlaylistModel : ScopedModel(), PlaybackService.Callback by EmptyPBSCallbac
             service?.time = value
         }
 
-    val length = service?.length ?: 0L
+    val length : Long
+            get() = service?.length ?: 0L
 
     val playing : Boolean
         get() = service?.isPlaying ?: false
