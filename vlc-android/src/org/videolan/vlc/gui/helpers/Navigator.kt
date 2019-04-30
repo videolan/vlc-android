@@ -27,7 +27,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.collection.SimpleArrayMap
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
@@ -44,13 +43,15 @@ import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.PlaylistFragment
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
-import org.videolan.vlc.gui.browser.*
+import org.videolan.vlc.gui.browser.BaseBrowserFragment
+import org.videolan.vlc.gui.browser.ExtensionBrowser
+import org.videolan.vlc.gui.browser.FileBrowserFragment
+import org.videolan.vlc.gui.browser.NetworkBrowserFragment
 import org.videolan.vlc.gui.folders.FoldersFragment
 import org.videolan.vlc.gui.network.MRLPanelFragment
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.util.*
-import java.lang.ref.WeakReference
 
 private const val TAG = "Navigator"
 @ObsoleteCoroutinesApi
@@ -62,7 +63,6 @@ class Navigator(private val activity: MainActivity,
                 target: Int
 ): com.google.android.material.navigation.NavigationView.OnNavigationItemSelectedListener, LifecycleObserver {
 
-    private val fragmentsStack = SimpleArrayMap<String, WeakReference<Fragment>>()
     private val defaultFragmentId= R.id.nav_video
     var currentFragmentId = target
     var currentFragment: Fragment? = null
@@ -73,8 +73,6 @@ class Navigator(private val activity: MainActivity,
         state?.let {
             val fm = activity.supportFragmentManager
             currentFragment = fm.getFragment(it, "current_fragment")
-            //Restore fragments stack
-            restoreFragmentsStack(fm)
         }
     }
 
@@ -100,13 +98,7 @@ class Navigator(private val activity: MainActivity,
 
     fun showFragment(id: Int) {
         val tag = getTag(id)
-        //Get new fragment
-        val wr = fragmentsStack.get(tag)
-        var fragment = wr?.get()
-        if (fragment === null) {
-            fragment = getNewFragment(id)
-            fragmentsStack.put(tag, WeakReference(fragment))
-        }
+        val fragment = getNewFragment(id)
         showFragment(fragment, id, tag)
     }
 
@@ -120,16 +112,6 @@ class Navigator(private val activity: MainActivity,
         activity.updateCheckedItem(id)
         currentFragment = fragment
         currentFragmentId = id
-    }
-
-    private fun restoreFragmentsStack(fm: FragmentManager) {
-        val fragments = fm.fragments
-        val ft = fm.beginTransaction()
-        for (fragment in fragments) {
-            if (fragment is ExtensionBrowser) ft.remove(fragment)
-            else if (fragment is MediaBrowserFragment<*>) fragmentsStack.put(fragment.tag, WeakReference(fragment))
-        }
-        ft.commit()
     }
 
     /**
