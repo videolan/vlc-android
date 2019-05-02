@@ -31,6 +31,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.vlc.gui.MainActivity;
 import org.videolan.vlc.gui.SearchActivity;
@@ -44,8 +47,6 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.FileUtils;
 import org.videolan.vlc.util.Settings;
 
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 import videolan.org.commontools.TvChannelUtilsKt;
 
 public class StartActivity extends FragmentActivity {
@@ -85,8 +86,8 @@ public class StartActivity extends FragmentActivity {
         /* Check if it's the first run */
         final boolean firstRun = savedVersionNumber == -1;
         final boolean upgrade = firstRun || savedVersionNumber != currentVersionNumber;
-        if (upgrade) settings.edit().putInt(Constants.PREF_FIRST_RUN, currentVersionNumber).apply();
         final boolean tv = showTvUi();
+        if (upgrade && (tv || !firstRun)) settings.edit().putInt(Constants.PREF_FIRST_RUN, currentVersionNumber).apply();
         // Route search query
         if (Intent.ACTION_SEARCH.equals(action) || "com.google.android.gms.actions.SEARCH_ACTION".equals(action)) {
             startActivity(intent.setClass(this, tv ? org.videolan.vlc.gui.tv.SearchActivity.class : SearchActivity.class));
@@ -115,14 +116,18 @@ public class StartActivity extends FragmentActivity {
     }
 
     private void startApplication(final boolean tv, final boolean firstRun, final boolean upgrade, final int target) {
-        final boolean onboarding = !tv && !Settings.INSTANCE.getInstance(StartActivity.this).getBoolean(OnboardingActivityKt.ONBOARDING_DONE_KEY, false);
+        final SharedPreferences settings = Settings.INSTANCE.getInstance(StartActivity.this);
+        final boolean onboarding = !tv && !settings.getBoolean(OnboardingActivityKt.ONBOARDING_DONE_KEY, false);
         // Start Medialibrary from background to workaround Dispatchers.Main causing ANR
         // cf https://github.com/Kotlin/kotlinx.coroutines/issues/878
-        if (!onboarding) {
+        if (!onboarding || !firstRun) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     MediaParsingServiceKt.startMedialibrary(StartActivity.this, firstRun, upgrade, true);
+                    if (onboarding) {
+                        settings.edit().putBoolean(OnboardingActivityKt.ONBOARDING_DONE_KEY, true).apply();
+                    }
                 }
             }).start();
             final Intent intent = new Intent(StartActivity.this, tv ? MainTvActivity.class : MainActivity.class)
@@ -131,9 +136,7 @@ public class StartActivity extends FragmentActivity {
             if (tv && getIntent().hasExtra(Constants.EXTRA_PATH)) intent.putExtra(Constants.EXTRA_PATH, getIntent().getStringExtra(Constants.EXTRA_PATH));
             if (target != 0) intent.putExtra(Constants.EXTRA_TARGET, target);
             startActivity(intent);
-        } else {
-            OnboardingActivityKt.startOnboarding(StartActivity.this);
-        }
+        } else OnboardingActivityKt.startOnboarding(StartActivity.this);
     }
 
     private void startPlaybackFromApp(Intent intent) {

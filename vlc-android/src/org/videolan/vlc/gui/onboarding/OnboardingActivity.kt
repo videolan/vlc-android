@@ -13,11 +13,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import kotlinx.coroutines.*
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
-import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.view.NonSwipeableViewPager
 import org.videolan.vlc.startMedialibrary
 import org.videolan.vlc.util.*
@@ -125,10 +125,10 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
     }
 
     private fun completeOnBoarding() {
-        setResult(PreferencesActivity.RESULT_RESTART)
         Settings.getInstance(this)
                 .edit()
                 .putBoolean(ONBOARDING_DONE_KEY, true)
+                .putInt(PREF_FIRST_RUN, BuildConfig.VERSION_CODE)
                 .putInt(KEY_MEDIALIBRARY_SCAN, if (viewModel.scanStorages) ML_SCAN_ON else ML_SCAN_OFF)
                 .putInt("fragment_id", if (viewModel.scanStorages) R.id.nav_video else R.id.nav_directories)
                 .putString("app_theme", viewModel.theme.toString())
@@ -226,4 +226,4 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
     }
 }
 
-fun Activity.startOnboarding() = startActivityForResult(Intent(this, OnboardingActivity::class.java), ACTIVITY_RESULT_PREFERENCES)
+fun Activity.startOnboarding() = startActivity(Intent(this, OnboardingActivity::class.java))
