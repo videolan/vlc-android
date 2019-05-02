@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content"
@@ -7,133 +8,126 @@
     android:layout_height="match_parent"
     tools:theme="@style/Theme.VLC.TV">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
+        android:id="@+id/headerListContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
-        <FrameLayout
-            android:id="@+id/headerListContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/headerList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:clipToPadding="false" />
-        </FrameLayout>
-
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/toolbar"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/headerList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageButton
-                android:id="@+id/sortButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/transparent"
-                android:elevation="6dp"
-                android:src="@drawable/ic_menu_sort_tv"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:textAlignment="textEnd"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/headerButton"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Tracks" />
-
-            <ImageButton
-                android:id="@+id/headerButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/transparent"
-                android:elevation="6dp"
-                android:src="@drawable/ic_menu_header_tv"
-                app:layout_constraintStart_toEndOf="@+id/sortButton"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <org.videolan.vlc.gui.tv.FocusableRecyclerView
-            android:id="@+id/list"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:clipToPadding="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:paddingLeft="16dp"
-            android:paddingTop="62dp"
-            android:paddingRight="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/audio_browser_tv_item">
-
-        </org.videolan.vlc.gui.tv.FocusableRecyclerView>
-
-        <ImageButton
-            android:id="@+id/imageButtonSort"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/orange_circle"
-            android:elevation="6dp"
-            android:nextFocusDown="@id/imageButtonHeader"
-            android:src="@drawable/ic_menu_sort_tv_normal"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
-            app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
-            app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
-            app:layout_constraintTop_toTopOf="@+id/imageButtonSettings" />
-
-        <ImageButton
-            android:id="@+id/imageButtonHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/orange_circle"
-            android:elevation="6dp"
-            android:nextFocusUp="@id/imageButtonSort"
-            android:nextFocusDown="@id/imageButtonSettings"
-            android:nextFocusForward="@id/imageButtonSort"
-            android:src="@drawable/ic_menu_header_tv_normal"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
-            app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
-            app:layout_constraintStart_toStartOf="@+id/imageButtonSettings" />
-
-        <ImageButton
-            android:id="@+id/imageButtonSettings"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/orange_circle"
-            android:elevation="6dp"
-            android:nextFocusUp="@id/imageButtonHeader"
-            android:nextFocusForward="@id/imageButtonHeader"
-            android:src="@drawable/ic_menu_preferences_tv"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_gravity="center"
+            android:clipToPadding="false" />
+    </FrameLayout>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+    <ImageButton
+        android:id="@+id/sortButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/transparent"
+        android:elevation="6dp"
+        android:src="@drawable/ic_menu_sort_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:textAlignment="textEnd"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/headerButton"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Tracks" />
+
+    <ImageButton
+        android:id="@+id/headerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/transparent"
+        android:elevation="6dp"
+        android:src="@drawable/ic_menu_header_tv"
+        app:layout_constraintStart_toEndOf="@+id/sortButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="sortButton,title,headerButton" />
+
+    <org.videolan.vlc.gui.tv.FocusableRecyclerView
+        android:id="@+id/list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:paddingLeft="16dp"
+        android:paddingTop="62dp"
+        android:paddingRight="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/audio_browser_tv_item">
+
+    </org.videolan.vlc.gui.tv.FocusableRecyclerView>
+
+    <ImageButton
+        android:id="@+id/imageButtonSort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/orange_circle"
+        android:elevation="6dp"
+        android:nextFocusDown="@id/imageButtonHeader"
+        android:src="@drawable/ic_menu_sort_tv_normal"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
+        app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
+        app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
+        app:layout_constraintTop_toTopOf="@+id/imageButtonSettings" />
+
+    <ImageButton
+        android:id="@+id/imageButtonHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/orange_circle"
+        android:elevation="6dp"
+        android:nextFocusUp="@id/imageButtonSort"
+        android:nextFocusDown="@id/imageButtonSettings"
+        android:nextFocusForward="@id/imageButtonSort"
+        android:src="@drawable/ic_menu_header_tv_normal"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
+        app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
+        app:layout_constraintStart_toStartOf="@+id/imageButtonSettings" />
+
+    <ImageButton
+        android:id="@+id/imageButtonSettings"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/orange_circle"
+        android:elevation="6dp"
+        android:nextFocusUp="@id/imageButtonHeader"
+        android:nextFocusForward="@id/imageButtonHeader"
+        android:src="@drawable/ic_menu_preferences_tv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

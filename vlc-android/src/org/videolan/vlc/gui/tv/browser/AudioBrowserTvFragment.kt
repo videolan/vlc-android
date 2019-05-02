@@ -36,16 +36,20 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.BackgroundManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Folder
@@ -61,7 +65,6 @@ import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.paged.*
 import java.util.*
-
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -84,14 +87,23 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     private var currentItem: MediaLibraryItem? = null
     private var currentArt: String? = null
     private lateinit var backgroundManager: BackgroundManager
+    var menuHidden = false
+    private lateinit var cl : ConstraintLayout
+    private val cs1 = ConstraintSet()
+    private val cs2 = ConstraintSet()
+    val transition = ChangeBounds().apply {
+        interpolator = AnticipateOvershootInterpolator(1.0f)
+        duration = 500
+    }
 
     companion object {
-        fun newInstance(type: Long, item: MediaLibraryItem?) = AudioBrowserTvFragment().apply {
-            arguments = Bundle().apply {
-                this.putLong(AUDIO_CATEGORY, type)
-                this.putParcelable(AUDIO_ITEM, item)
-            }
-        }
+        fun newInstance(type: Long, item: MediaLibraryItem?) =
+                AudioBrowserTvFragment().apply {
+                    arguments = Bundle().apply {
+                        this.putLong(AUDIO_CATEGORY, type)
+                        this.putParcelable(AUDIO_ITEM, item)
+                    }
+                }
     }
 
 
@@ -149,7 +161,6 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         list = view.findViewById(R.id.list)
-        val toolbar = view.findViewById<View>(R.id.toolbar)
         headerList = view.findViewById(R.id.headerList)
         headerListContainer = view.findViewById(R.id.headerListContainer)
         val title = view.findViewById<TextView>(R.id.title)
@@ -160,17 +171,21 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         fabSort = view.findViewById<ImageButton>(R.id.imageButtonSort)
 
         //overscan
-        list.setPadding(list.paddingLeft + TvUtil.getOverscanHorizontal(requireContext()), list.paddingTop + TvUtil.getOverscanVertical(requireContext()), list.paddingRight + TvUtil.getOverscanHorizontal(requireContext()), list.paddingBottom + TvUtil.getOverscanVertical(requireContext()))
-        headerList.setPadding(list.paddingLeft + TvUtil.getOverscanHorizontal(requireContext()), list.paddingTop + TvUtil.getOverscanVertical(requireContext()), list.paddingRight + TvUtil.getOverscanHorizontal(requireContext()), list.paddingBottom + TvUtil.getOverscanVertical(requireContext()))
-        TvUtil.applyOverscanMargin(toolbar)
+        val hp = TvUtil.getOverscanHorizontal(requireContext())
+        val vp = TvUtil.getOverscanVertical(requireContext())
+        list.setPadding(list.paddingLeft + hp, list.paddingTop + vp, list.paddingRight + hp, list.paddingBottom + vp)
+        headerList.setPadding(list.paddingLeft + hp, list.paddingTop + vp, list.paddingRight + hp, list.paddingBottom + vp)
+        sortButton.setPadding(sortButton.paddingLeft +/**/ hp, sortButton.paddingTop + vp, sortButton.paddingRight, sortButton.paddingBottom)
+        headerButton.setPadding(headerButton.paddingLeft, headerButton.paddingTop + vp, headerButton.paddingRight, headerButton.paddingBottom)
+        title.setPadding(title.paddingLeft, title.paddingTop + vp, title.paddingRight + hp, title.paddingBottom)
 
         fabSettings.setOnClickListener { expandExtendedFAB() }
 
         val lp = (fabSettings.layoutParams as ConstraintLayout.LayoutParams)
-        lp.leftMargin += TvUtil.getOverscanHorizontal(requireContext())
-        lp.rightMargin += TvUtil.getOverscanHorizontal(requireContext())
-        lp.topMargin += TvUtil.getOverscanVertical(requireContext())
-        lp.bottomMargin += TvUtil.getOverscanVertical(requireContext())
+        lp.leftMargin += hp
+        lp.rightMargin += hp
+        lp.topMargin += vp
+        lp.bottomMargin += vp
 
         if (currentItem != null) {
             title.text = currentItem!!.title
@@ -259,10 +274,36 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (list.computeVerticalScrollOffset() > 0) {
-                    toolbar.visibility = View.GONE
-                } else {
-                    toolbar.visibility = View.VISIBLE
-
+                    if (!menuHidden) {
+                        if (!this@AudioBrowserTvFragment::cl.isInitialized) {
+                            cl = view as ConstraintLayout
+                            cs1.clone(cl)
+                            cs2.clone(cl)
+                            cs2.clear(R.id.sortButton, ConstraintSet.TOP)
+                            cs2.clear(R.id.sortButton, ConstraintSet.BOTTOM)
+                            cs2.clear(R.id.sortButton, ConstraintSet.START)
+                            cs2.clear(R.id.headerButton, ConstraintSet.TOP)
+                            cs2.clear(R.id.headerButton, ConstraintSet.BOTTOM)
+                            cs2.clear(R.id.headerButton, ConstraintSet.START)
+                            cs2.setMargin(R.id.sortButton, ConstraintSet.START, 0)
+                            cs2.setMargin(R.id.headerButton, ConstraintSet.START, 0)
+                            cs2.connect(R.id.sortButton, ConstraintSet.START, fabSettings.id, ConstraintSet.START)
+                            cs2.connect(R.id.sortButton, ConstraintSet.END, fabSettings.id, ConstraintSet.END)
+                            cs2.connect(R.id.sortButton, ConstraintSet.TOP, fabSettings.id, ConstraintSet.TOP)
+                            cs2.connect(R.id.sortButton, ConstraintSet.BOTTOM, fabSettings.id, ConstraintSet.BOTTOM)
+                            cs2.connect(R.id.headerButton, ConstraintSet.START, fabSettings.id, ConstraintSet.START)
+                            cs2.connect(R.id.headerButton, ConstraintSet.TOP, fabSettings.id, ConstraintSet.TOP)
+                            cs2.connect(R.id.headerButton, ConstraintSet.BOTTOM, fabSettings.id, ConstraintSet.BOTTOM)
+                            cs2.connect(R.id.headerButton, ConstraintSet.END, fabSettings.id, ConstraintSet.END)
+                        }
+                        TransitionManager.beginDelayedTransition(cl, transition)
+                        cs2.applyTo(cl)
+                        menuHidden = true
+                    }
+                } else if (menuHidden) {
+                    TransitionManager.beginDelayedTransition(cl, transition)
+                    cs1.applyTo(cl)
+                    menuHidden = false
                 }
             }
         })
@@ -461,3 +502,5 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         return false
     }
 }
+
+private const val TAG = "AudioBrowserTvFragment"
