@@ -309,6 +309,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
 
     private fun initChapters(binding: PlayerOptionItemBinding) {
         val chapters = service.getChapters(-1) ?: return
+        if (chapters.isEmpty()) return
         val index = service.chapterIdx
         if (chapters[index].name.isNullOrEmpty())
             binding.optionTitle.text = String.format("%s %d", res.getString(R.string.chapter), index)
