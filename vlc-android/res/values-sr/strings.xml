@@ -18,6 +18,7 @@
     </plurals>
 
     <string name="play">Пусти</string>
+    <string name="playback">Репродукција</string>
     <string name="play_from_start">Пусти од почетка</string>
     <string name="play_as_audio">Пусти као звук</string>
     <string name="play_as_video">Пусти као видео</string>
@@ -25,6 +26,7 @@
     <string name="play_all">Пусти све</string>
     <string name="append_all">Додај све</string>
     <string name="last_playlist">Последња плејлиста</string>
+    <string name="last_playlist_shortcut">Настави репродукцију</string>
     <string name="delete">Обриши</string>
     <string name="remove">Уклони</string>
     <string name="set_song">Постави као мелодију звона</string>
