@@ -293,7 +293,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         else {
             //Check if the device is in auto mode
             val contentResolver = player.applicationContext.contentResolver
-            if (Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
+            if (Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
                 //cannot retrieve a value -> 0.5
                 0.5f
             } else Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, 128).toFloat() / 255
