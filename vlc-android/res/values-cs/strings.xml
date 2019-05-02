@@ -132,6 +132,7 @@
     <string name="validation">Jste si jisti?</string>
 
     <string name="cover_art">Obal alba</string>
+    <string name="shuffle_all_title">Zamíchat vše</string>
     <string name="shuffle_title">Režim zamíchání</string>
     <string name="shuffle">Míchaní vypnuto</string>
     <string name="shuffle_on">Míchaní zapnuto</string>
@@ -288,6 +289,8 @@
     <string name="enable_black_theme_summary">Změňte barvy rozhraní pro větší pohodlí v prostředí s nízkým světlem.</string>
     <string name="subtitle_text_encoding">Znaková sada titulků</string>
     <string name="daynight_title">Denní/Noční režim</string>
+    <string name="daynight_follow_system_title">Dle nastavení systému</string>
+    <string name="daynight_battery_title">Dle nastavení Spořice baterie</string>
     <string name="daynight_summary">Automaticky přepnout do nočního režimu ve vhodném čase</string>
 
     <string name="extra_prefs_category">Další nastavení</string>
@@ -499,6 +502,7 @@
     <string name="directory_show_medialib">Zobrazit v knihovně médií</string>
     <string name="directory_hide_medialib">Nezobrazovat v knihovně médií</string>
     <string name="playlist_save">Uložit seznam skladeb</string>
+    <string name="playlist_name_hint">Název seznamu skladeb</string>
     <string name="go_to_chapter">Přejít na kapitolu…</string>
     <string name="chapter">Kapitola</string>
     <string name="resume_from_position">Obnovit z poslední pozice</string>
@@ -663,9 +667,20 @@
     <string name="video_save_remote_setting">Automaticky aktivovat režim vzdáleného ovládání?</string>
     <string name="video_remote_enable">Přepnout do režimu vzdáleného ovládání</string>
     <string name="video_remote_disable">Duplikovat obrazovku</string>
+    <string name="removed_from_playlist_anonymous">Položka/y odebrány ze seznamu</string>
     <string name="welcome_title">Vítejte do VLC.</string>
     <string name="permission_media">VLC potřebuje vaše povolení pro přístup k médiím na vašem zařízení</string>
+    <string name="medialibrary_scan_explanation">VLC umí automaticky prohledat zařízení a najít mediální soubory</string>
     <string name="done">Dokončeno</string>
     <string name="daynight_explanation">VLC se automaticky přepne do nočního režimu ve vhodném čase</string>
+    <string name="onboarding_scanning_enable">Povolit VLC prohledat zařízení pro multimédia</string>
+    <string name="onboarding_scan_whole">VLC může prohledat celou moji SD kartu</string>
+    <string name="onboarding_scan_customize">Chci vybrat, které složky bude VLC prohledávat</string>
+    <string name="button_medialibrary_preferences">Přejít do Nastavení knihovny médií</string>
     <string name="light_theme">Světlý vzhled</string>
-    </resources>
+    <string name="add">Přidat</string>
+    <string name="add_to_new_playlist">Přidat do nového seznamu skladeb</string>
+    <string name="resume_card_message">Obnovit přehrávání %1$s</string>
+    <string name="misc">Různé</string>
+    <string name="track_number">%s stop</string>
+</resources>
