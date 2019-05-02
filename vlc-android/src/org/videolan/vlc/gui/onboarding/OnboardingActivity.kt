@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import kotlinx.coroutines.*
+import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.MainActivity
@@ -128,6 +129,7 @@ class OnboardingActivity : AppCompatActivity(), ViewPager.OnPageChangeListener, 
         setResult(PreferencesActivity.RESULT_RESTART)
         Settings.getInstance(this)
                 .edit()
+                .putInt(PREF_FIRST_RUN, BuildConfig.VERSION_CODE)
                 .putBoolean(ONBOARDING_DONE_KEY, true)
                 .putInt(KEY_MEDIALIBRARY_SCAN, if (viewModel.scanStorages) ML_SCAN_ON else ML_SCAN_OFF)
                 .putInt("fragment_id", if (viewModel.scanStorages) R.id.nav_video else R.id.nav_directories)

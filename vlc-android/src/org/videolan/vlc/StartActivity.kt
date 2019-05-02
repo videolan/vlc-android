@@ -102,8 +102,8 @@ class StartActivity : FragmentActivity() {
         /* Check if it's the first run */
         val firstRun = savedVersionNumber == -1
         val upgrade = firstRun || savedVersionNumber != currentVersionNumber
-        if (upgrade) settings.edit().putInt(PREF_FIRST_RUN, currentVersionNumber).apply()
         val tv = showTvUi()
+        if (upgrade && (tv || !firstRun)) settings.edit().putInt(PREF_FIRST_RUN, currentVersionNumber).apply()
         // Route search query
         if (Intent.ACTION_SEARCH == action || "com.google.android.gms.actions.SEARCH_ACTION" == action) {
             startActivity(intent.setClass(this, if (tv) org.videolan.vlc.gui.tv.SearchActivity::class.java else SearchActivity::class.java))
@@ -135,11 +135,15 @@ class StartActivity : FragmentActivity() {
     }
 
     private fun startApplication(tv: Boolean, firstRun: Boolean, upgrade: Boolean, target: Int) {
-        val onboarding = !tv && !Settings.getInstance(this@StartActivity).getBoolean(ONBOARDING_DONE_KEY, false)
+        val settings = Settings.getInstance(this@StartActivity)
+        val onboarding = !tv && !settings.getBoolean(ONBOARDING_DONE_KEY, false)
         // Start Medialibrary from background to workaround Dispatchers.Main causing ANR
         // cf https://github.com/Kotlin/kotlinx.coroutines/issues/878
-        if (!onboarding) {
-            Thread(Runnable { this@StartActivity.startMedialibrary(firstRun, upgrade, true) }).start()
+        if (!onboarding || !firstRun) {
+            Thread {
+                this@StartActivity.startMedialibrary(firstRun, upgrade, true)
+                if (onboarding)  settings.edit().putBoolean(ONBOARDING_DONE_KEY, true).apply()
+            }.start()
             val intent = Intent(this@StartActivity, if (tv) MainTvActivity::class.java else MainActivity::class.java)
                     .putExtra(EXTRA_FIRST_RUN, firstRun)
                     .putExtra(EXTRA_UPGRADE, upgrade)
