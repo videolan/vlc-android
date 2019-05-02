@@ -221,6 +221,7 @@
     <string name="seek">Kërko</string>
     <string name="subtitles">Titra</string>
     <string name="audio_sub">Këngë Audio\ndhe titra</string>
+    <string name="resize">Ridimensionim</string>
     <string name="options">Alternativat</string>
     <string name="lock">Kyç</string>
     <string name="ok_got_it">E kuptova, anulo&#160;këtë</string>
@@ -250,11 +251,17 @@
 
     <string name="general_prefs_category">Përgjithshme</string>
     <string name="directories_summary">Përzgjidhni dosjet që duhet të përfshihen në bibliotekën e media</string>
+    <string name="add_custom_path">Shto rrugën e personalizuar</string>
+    <string name="add_custom_path_description">Futni dosjen shtesë të personalize për të skanuar:</string>
+    <string name="remove_custom_path">Hiq rrugën e personalizuar</string>
     <string name="hardware_acceleration">Hardware Acceleration</string>
     <string name="hardware_acceleration_disabled">Gjymtuar</string>
+    <string name="hardware_acceleration_decoding">Përshpejtimi dekodimit</string>
     <string name="hardware_acceleration_full">Përshpejtim i plotë</string>
     <string name="dev_hardware_decoder">Dekoder avancuar i pajisjeve</string>
+    <string name="dev_hardware_decoder_summary">Sforco dekodimin e pajisjes, vetëm për përdoruesit e avancuar</string>
     <string name="automatic">Automatikisht</string>
+    <string name="screen_orientation_sensor">Automatik (sensor)</string>
     <string name="screen_orientation_start_lock">Kyçur në fillim</string>
     <string name="screen_orientation_portrait">Portret</string>
     <string name="screen_orientation_landscape">Peizazh</string>
@@ -263,6 +270,9 @@
     <string name="enable_black_theme">Temë zezë</string>
     <string name="enable_black_theme_summary">Ndryshimi i ngjyrave të ndërfaqes për rehati më të mirë në mjedis me dritë të ulët.</string>
     <string name="subtitle_text_encoding">Deshifrim teksti titra</string>
+    <string name="daynight_title">Mënyrë DitëNatë</string>
+    <string name="daynight_follow_system_title">Ndiqni mënyrën e sistemit</string>
+    <string name="daynight_battery_title">Ndiqni Ruajtësin Baterisë</string>
     <string name="extra_prefs_category">Cilësime shtresë</string>
 
     <string name="interface_prefs_screen">Ndërfaqja</string>
