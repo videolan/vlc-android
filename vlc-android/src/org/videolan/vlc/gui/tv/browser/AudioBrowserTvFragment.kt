@@ -46,9 +46,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -67,7 +65,9 @@ import java.util.*
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHandler, PopupMenu.OnMenuItemClickListener, SongHeaderAdapter.OnHeaderSelected, VerticalGridActivity.OnKeyPressedListener {
+class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHandler,
+        PopupMenu.OnMenuItemClickListener, SongHeaderAdapter.OnHeaderSelected,
+        VerticalGridActivity.OnKeyPressedListener, CoroutineScope by MainScope() {
 
 
     private lateinit var viewModel: MLPagedModel<MediaLibraryItem>
@@ -86,15 +86,12 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     private lateinit var backgroundManager: BackgroundManager
 
     companion object {
-
-
-        fun newInstance(type: Long, item: MediaLibraryItem?) =
-                AudioBrowserTvFragment().apply {
-                    arguments = Bundle().apply {
-                        this.putLong(AUDIO_CATEGORY, type)
-                        this.putParcelable(AUDIO_ITEM, item)
-                    }
-                }
+        fun newInstance(type: Long, item: MediaLibraryItem?) = AudioBrowserTvFragment().apply {
+            arguments = Bundle().apply {
+                this.putLong(AUDIO_CATEGORY, type)
+                this.putParcelable(AUDIO_ITEM, item)
+            }
+        }
     }
 
 
@@ -102,12 +99,10 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         return inflater.inflate(R.layout.song_browser, container, false)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         backgroundManager = BackgroundManager.getInstance(requireActivity())
-
 
         currentItem = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(AUDIO_ITEM) as? MediaLibraryItem
         else requireActivity().intent.getParcelableExtra<Parcelable>(AUDIO_ITEM) as? MediaLibraryItem
@@ -126,7 +121,6 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
                 viewModel = ViewModelProviders.of(this, PagedVideosModel.Factory(requireContext(), currentItem as? Folder)).get(PagedVideosModel::class.java) as MLPagedModel<MediaLibraryItem>
 
         }
-
 
         viewModel.pagedList.observe(this, Observer { items ->
             if (items != null) adapter.submitList(items)
@@ -170,9 +164,7 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         headerList.setPadding(list.paddingLeft + TvUtil.getOverscanHorizontal(requireContext()), list.paddingTop + TvUtil.getOverscanVertical(requireContext()), list.paddingRight + TvUtil.getOverscanHorizontal(requireContext()), list.paddingBottom + TvUtil.getOverscanVertical(requireContext()))
         TvUtil.applyOverscanMargin(toolbar)
 
-        fabSettings.setOnClickListener {
-            expandExtendedFAB()
-        }
+        fabSettings.setOnClickListener { expandExtendedFAB() }
 
         val lp = (fabSettings.layoutParams as ConstraintLayout.LayoutParams)
         lp.leftMargin += TvUtil.getOverscanHorizontal(requireContext())
@@ -180,18 +172,14 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         lp.topMargin += TvUtil.getOverscanVertical(requireContext())
         lp.bottomMargin += TvUtil.getOverscanVertical(requireContext())
 
-
-
         if (currentItem != null) {
             title.text = currentItem!!.title
-
         } else when (arguments?.getLong(AUDIO_CATEGORY, CATEGORY_SONGS)) {
             CATEGORY_SONGS -> title.setText(R.string.tracks)
             CATEGORY_ALBUMS -> title.setText(R.string.albums)
             CATEGORY_ARTISTS -> title.setText(R.string.artists)
             CATEGORY_GENRES -> title.setText(R.string.genres)
             CATEGORY_VIDEOS -> title.setText(R.string.videos)
-
         }
 
         val searchHeaderClick: (View) -> Unit = {
@@ -209,7 +197,6 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         sortButton.setOnClickListener(sortClick)
         fabSort.setOnClickListener(sortClick)
 
-
         val fabOnFocusChangedListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!fabSettings.hasFocus() && !fabSort.hasFocus() && !fabHeader.hasFocus()) {
                 collapseExtendedFAB()
@@ -221,8 +208,6 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         fabSettings.onFocusChangeListener = fabOnFocusChangedListener
         fabSort.onFocusChangeListener = fabOnFocusChangedListener
         fabHeader.onFocusChangeListener = fabOnFocusChangedListener
-
-
 
         nbColumns = resources.getInteger(R.integer.tv_songs_col_count)
 
@@ -240,7 +225,6 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
 
         //size of an item
         val itemSize = requireActivity().getScreenWidth() / nbColumns - spacing * 2
-
 
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -263,12 +247,10 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
             }
         }
 
-
         list.layoutManager = gridLayoutManager
 
         adapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, itemSize)
         adapter.setTV(true)
-
 
         list.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, nbColumns, viewModel))
         list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -298,8 +280,6 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
                 outRect.right = 2
             }
         })
-
-
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -354,26 +334,18 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        runBackground(Runnable {
-            TvUtil.openMediaFromPaged(requireActivity(), item, viewModel)
-        })
+        launch { TvUtil.openMediaFromPaged(requireActivity(), item, viewModel) }
     }
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
         return false
     }
 
-    override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
+    override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {}
 
-    }
+    override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {}
 
-    override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
-
-    }
-
-    override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {
-
-    }
+    override fun onImageClick(v: View, position: Int, item: MediaLibraryItem) {}
 
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {
@@ -460,7 +432,6 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         showFAB()
     }
 
-
     private var lastDpadEventTime = 0L
     override fun onKeyPressed(keyCode: Int): Boolean {
 
@@ -489,9 +460,6 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
                 return true
             }
         }
-
         return false
     }
 }
-
-

@@ -167,11 +167,13 @@ object TvUtil {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun openMediaFromPaged(activity: FragmentActivity, item: Any?, model: MLPagedModel<out MediaLibraryItem>?) {
+    suspend fun openMediaFromPaged(activity: FragmentActivity, item: Any?, model: MLPagedModel<out MediaLibraryItem>) {
         when (item) {
             is MediaWrapper -> when {
                 item.type == MediaWrapper.TYPE_AUDIO -> {
-                    val list = (model!!.getAll().toList()).filter { it.itemType != MediaWrapper.TYPE_DIR } as ArrayList<MediaWrapper>
+                    val list = withContext(Dispatchers.IO) {
+                        (model.getAll().toList()).filter { it.itemType != MediaWrapper.TYPE_DIR } as ArrayList<MediaWrapper>
+                    }
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
                 }
@@ -189,7 +191,9 @@ object TvUtil {
                     activity.startActivity(intent)
                 }
                 else -> {
-                    val list = (model!!.getAll() as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                    val list = withContext(Dispatchers.IO) {
+                        (model.getAll() as Array<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                    }
                     val position = list.getposition(item)
                     MediaUtils.openList(activity, list, position)
                 }
