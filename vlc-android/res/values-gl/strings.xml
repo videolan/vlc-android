@@ -263,6 +263,7 @@
     <string name="enable_black_theme_summary">Muda as cores da interface para seren máis confortábeis en ambientes con pouca luz.</string>
     <string name="subtitle_text_encoding">Codificación do texto dos subtítulos</string>
     <string name="daynight_title">Modo Día/Noite</string>
+    <string name="daynight_follow_system_title">Seguir o modo do sistema</string>
     <string name="daynight_summary">Cambiar automaticamente ao modo noite cando sexa a hora</string>
 
     <string name="extra_prefs_category">Configuracións extra</string>
@@ -285,8 +286,10 @@
     <string name="video_min_group_length_long">Número grande de letras (9)</string>
     <string name="media_fast_seek">Busca rápida</string>
     <string name="video_transition_title">Transicións de vídeo</string>
+    <string name="video_transition_summary">Mostrar o título do novo vídeo durante nas transicións</string>
     <string name="media_seen">Mostrar o marcador de vídeo visto</string>
     <string name="media_seen_summary">Marcar vídeos como vistos cando se reproduzan ata o final</string>
+    <string name="force_list_portrait">Non hai grella no modo vertical</string>
     <string name="force_list_portrait_summary">Mostrar os vídeos en lista no canto de en grella no modo vertical</string>
     <string name="force_play_all_summary">Reproducir todos os vídeos, comezando polo que vostede premeu</string>
     <string name="force_play_all_title">Modo lista de reprodución de vídeos</string>
@@ -445,6 +448,7 @@
     <string name="directory_show_medialib">Mostrar en MediaLib</string>
     <string name="directory_hide_medialib">Agochar de MediaLib</string>
     <string name="playlist_save">Gardar lista de reprodución</string>
+    <string name="playlist_name_hint">Nome da lista de reprodución</string>
     <string name="go_to_chapter">Ir ao capítulo...</string>
     <string name="chapter">Capítulo</string>
     <string name="resume_from_position">Continuar desde a última vez</string>
@@ -467,6 +471,7 @@
     <string name="allow_storage_access_title">Permitir a VLC acceder aos ficheiros de audio e vídeo</string>
     <string name="allow_storage_access_description">VLC precisa o permiso de acceso aos ficheiros multimedia deste dispositivo</string>
     <string name="allow_settings_access_ringtone_title">Permitir que VLC estableza o tono de chamada</string>
+    <string name="allow_settings_access_brightness_title">Permitir que o VLC cambie o modo do brillo</string>
     <string name="allow_draw_overlays_title">Pemitir o reprodutor VLC emerxer sobre outras aplicacións</string>
     <string name="permission_ask_again">Conceder permiso</string>
     <string name="exit_app">Pechar o VLC</string>
@@ -579,4 +584,22 @@
     <string name="video_save_remote_setting">Quere activar automaticamente o control remoto?</string>
     <string name="video_remote_enable">Cambiar a control remoto</string>
     <string name="video_remote_disable">Duplicar pantalla</string>
-    </resources>
+    <string name="removed_from_playlist_anonymous">Elemento(s) eliminados da lista de reprodución</string>
+    <string name="welcome_title">Benvido ao VLC</string>
+    <string name="welcome_subtitle">O reprodutor multimedia de fontes libres e abertas</string>
+    <string name="permission_media">O VLC necesita permiso para acceder aos multimedia do dispositivo</string>
+    <string name="medialibrary_scan_explanation">O VLC pode examinar automaticamente o dispositivo para organizar a colección multimedia.</string>
+    <string name="done">Feito</string>
+    <string name="daynight_explanation">O VLC cambiará automaticamente ao modo noite á hora axeitada</string>
+    <string name="onboarding_scanning_enable">Permitir que o VLC busque contido multimedia no meu dispositivo</string>
+    <string name="onboarding_scan_whole">Permitir que o VLC examine a miña SDCard</string>
+    <string name="onboarding_scan_customize">Permitirme escoller que cartafoles examinará o VLC</string>
+    <string name="light_theme">Tema claro</string>
+    <string name="add">Engadir</string>
+    <string name="add_to_new_playlist">Engadir a unha nova lista</string>
+    <string name="theme_follow_system_mode">Seguir o modo do sistema</string>
+    <string name="resume_card_message">Desexa continuar a reprodución de %1$s?</string>
+    <string name="misc">Outros</string>
+    <string name="device_default">Dispositivo predeterminado</string>
+    <string name="track_number">%s pistas</string>
+</resources>
