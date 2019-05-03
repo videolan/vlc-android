@@ -143,9 +143,11 @@ object TvUtil {
                     activity.startActivity(intent)
                 }
                 else -> {
-                    val list = (model!!.dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
-                    val position = list.getposition(item)
-                    MediaUtils.openList(activity, list, position)
+                    model?.run {
+                        val list = (dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                        val position = list.getposition(item)
+                        MediaUtils.openList(activity, list, position)
+                    } ?: MediaUtils.openMedia(activity, item)
                 }
             }
             is DummyItem -> when {

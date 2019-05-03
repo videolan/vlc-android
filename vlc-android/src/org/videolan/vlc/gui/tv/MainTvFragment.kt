@@ -39,6 +39,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.DummyItem
@@ -55,7 +56,6 @@ import org.videolan.vlc.repository.BrowserFavRepository
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.HistoryModel
-import org.videolan.vlc.viewmodels.VideosModel
 
 private const val NUM_ITEMS_PREVIEW = 5
 private const val TAG = "VLC/MainTvFragment"
@@ -65,7 +65,6 @@ private const val TAG = "VLC/MainTvFragment"
 class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener, View.OnClickListener, Observer<MutableList<MediaWrapper>> {
 
     private var backgroundManager: BackgroundManager? = null
-    private lateinit var videoModel: VideosModel
     private lateinit var historyModel: HistoryModel
 
     private lateinit var rowsAdapter: ArrayObjectAdapter
@@ -153,21 +152,11 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         rowsAdapter.add(miscRow)
 
         adapter = rowsAdapter
-        videoModel = VideosModel.get(requireContext(), this, Medialibrary.SORT_INSERTIONDATE, -1, desc = true, group = null)
-        videoModel.dataset.observe(this, Observer {
-            updateVideos(it)
-            (requireActivity() as MainTvActivity).hideLoading()
-        })
         ExternalMonitor.connected.observe(this, Observer { updateActor.offer(Browsers) })
         ExternalMonitor.storageUnplugged.observe(this, Observer { updateActor.offer(Browsers) })
         ExternalMonitor.storagePlugged.observe(this, Observer { updateActor.offer(Browsers) })
         onItemViewClickedListener = this
         onItemViewSelectedListener = this
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val browsePath = activity?.intent?.getStringExtra(EXTRA_PATH) ?: return
     }
 
     fun updateAudioCategories(current: DummyItem? = null) {
@@ -177,7 +166,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                 DummyItem(CATEGORY_GENRES, getString(R.string.genres), ""),
                 DummyItem(CATEGORY_SONGS, getString(R.string.tracks), "")
         )
-        if (current !== null) list.add(0, current)
+        current?.let { list.add(0, it) }
         categoriesAdapter.setItems(list.toList(), diffCallback)
     }
 
@@ -185,10 +174,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         super.onStart()
         if (restart) {
             if (this::historyModel.isInitialized) historyModel.refresh()
-            videoModel.refresh()
         } else restart = true
         if (selectedItem is MediaWrapper) TvUtil.updateBackground(backgroundManager, selectedItem)
         setHistoryModel()
+        updateVideos()
     }
 
     override fun onStop() {
@@ -265,7 +254,6 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             }
             else -> {
                 val model = if (row?.id == HEADER_HISTORY && this::historyModel.isInitialized) historyModel
-                else if (row?.id == HEADER_VIDEO && this::videoModel.isInitialized) videoModel
                 else null
                 TvUtil.openMedia(activity, item, model)
             }
@@ -315,14 +303,14 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         }
     }
 
-    private fun updateVideos(videos: List<MediaWrapper>?) {
-        videos?.let {
+    //TODO Move in a ViewModel
+    private fun updateVideos() = coroutineScope.launch {
+        context?.getFromMl {
+            getPagedVideos(Medialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
+        }?.let {
             val list = mutableListOf<Any>()
             list.add(DummyItem(HEADER_VIDEO, getString(R.string.videos_all), resources.getQuantityString(R.plurals.videos_quantity, it.size, it.size)))
-            if (!it.isEmpty()) for ((index, video) in it.withIndex()) {
-                if (index == NUM_ITEMS_PREVIEW) break
-                list.add(video)
-            }
+            list.addAll(it)
             videoAdapter.setItems(list, diffCallback)
         }
     }
