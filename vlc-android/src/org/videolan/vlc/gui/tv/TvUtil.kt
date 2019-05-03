@@ -125,7 +125,7 @@ object TvUtil {
         when (item) {
             is MediaWrapper -> when {
                 item.type == MediaWrapper.TYPE_AUDIO -> {
-                    val list = (model!!.dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR } as ArrayList<MediaWrapper>
+                    val list = (model!!.dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
                 }
@@ -172,7 +172,7 @@ object TvUtil {
             is MediaWrapper -> when {
                 item.type == MediaWrapper.TYPE_AUDIO -> {
                     val list = withContext(Dispatchers.IO) {
-                        (model.getAll().toList()).filter { it.itemType != MediaWrapper.TYPE_DIR } as ArrayList<MediaWrapper>
+                        (model.getAll() as Array<MediaWrapper>).filter { it.itemType != MediaWrapper.TYPE_DIR }
                     }
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
@@ -231,19 +231,18 @@ object TvUtil {
     }
 
     private fun playAudioList(activity: Activity, array: Array<MediaWrapper>, position: Int) {
-        playAudioList(activity, ArrayList(Arrays.asList(*array)), position)
+        playAudioList(activity, array.toList(), position)
     }
 
-    fun playAudioList(activity: Activity, list: ArrayList<MediaWrapper>, position: Int) {
+    private fun playAudioList(activity: Activity, list: List<MediaWrapper>, position: Int) {
+        MediaUtils.openList(activity, list, position)
         val intent = Intent(activity, AudioPlayerActivity::class.java)
-        intent.putExtra(AudioPlayerActivity.MEDIA_LIST, list)
-        intent.putExtra(AudioPlayerActivity.MEDIA_POSITION, position)
         activity.startActivity(intent)
     }
 
     fun openAudioCategory(context: Activity, mediaLibraryItem: MediaLibraryItem) {
         when {
-            mediaLibraryItem.itemType == MediaLibraryItem.TYPE_ALBUM -> TvUtil.playAudioList(context, mediaLibraryItem.tracks, 0)
+            mediaLibraryItem.itemType == MediaLibraryItem.TYPE_ALBUM -> playAudioList(context, mediaLibraryItem.tracks, 0)
             mediaLibraryItem.itemType == MediaLibraryItem.TYPE_MEDIA -> {
                 val list = ArrayList<MediaWrapper>().apply { add(mediaLibraryItem as MediaWrapper) }
                 playAudioList(context, list, 0)
