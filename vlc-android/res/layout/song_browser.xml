@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content"
@@ -23,30 +22,30 @@
     </FrameLayout>
 
 
-
     <ImageButton
         android:id="@+id/sortButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/tv_overscan_vertical"
+        android:layout_marginEnd="8dp"
         android:background="@color/transparent"
         android:elevation="6dp"
         android:src="@drawable/ic_menu_sort_tv"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/headerButton"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:textAlignment="textEnd"
+        android:layout_marginStart="@dimen/tv_overscan_horizontal"
+        android:layout_marginTop="@dimen/tv_overscan_vertical"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/headerButton"
+        app:layout_constraintEnd_toStartOf="@+id/sortButton"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Tracks" />
 
@@ -54,12 +53,13 @@
         android:id="@+id/headerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/tv_overscan_vertical"
+        android:layout_marginEnd="@dimen/tv_overscan_horizontal"
         android:background="@color/transparent"
         android:elevation="6dp"
         android:src="@drawable/ic_menu_header_tv"
-        app:layout_constraintStart_toEndOf="@+id/sortButton"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -67,6 +67,8 @@
         android:id="@+id/toolbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/tv_overscan_horizontal"
+        android:layout_marginEnd="@dimen/tv_overscan_horizontal"
         android:visibility="visible"
         app:constraint_referenced_ids="sortButton,title,headerButton" />
 
@@ -92,6 +94,8 @@
         android:id="@+id/imageButtonSort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/orange_circle"
         android:elevation="6dp"
         android:nextFocusDown="@id/imageButtonHeader"
@@ -105,6 +109,7 @@
         android:id="@+id/imageButtonHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/orange_circle"
         android:elevation="6dp"
@@ -114,20 +119,55 @@
         android:src="@drawable/ic_menu_header_tv_normal"
         app:layout_constraintBottom_toBottomOf="@+id/imageButtonSettings"
         app:layout_constraintEnd_toEndOf="@+id/imageButtonSettings"
-        app:layout_constraintStart_toStartOf="@+id/imageButtonSettings" />
+        app:layout_constraintStart_toStartOf="@+id/imageButtonSettings"
+        app:layout_constraintTop_toTopOf="@+id/imageButtonSettings" />
 
     <ImageButton
         android:id="@+id/imageButtonSettings"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/orange_circle"
         android:elevation="6dp"
         android:nextFocusUp="@id/imageButtonHeader"
         android:nextFocusForward="@id/imageButtonHeader"
         android:src="@drawable/ic_menu_preferences_tv"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerListContainer" />
+
+    <TextView
+        android:id="@+id/sortDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="0"
+        android:background="@drawable/rounded_corners"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        android:text="@string/sortby"
+        app:layout_constraintEnd_toEndOf="@+id/sortButton"
+        app:layout_constraintStart_toStartOf="@+id/sortButton"
+        app:layout_constraintTop_toBottomOf="@+id/sortButton" />
+
+    <TextView
+        android:id="@+id/headerDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="0"
+        android:background="@drawable/rounded_corners"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        android:text="@string/jump_to"
+        app:layout_constraintEnd_toEndOf="@+id/headerButton"
+        app:layout_constraintStart_toStartOf="@+id/headerButton"
+        app:layout_constraintTop_toBottomOf="@+id/headerButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

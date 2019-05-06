@@ -36,7 +36,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnticipateOvershootInterpolator
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
@@ -49,6 +49,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.ChangeBounds
+import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
@@ -65,6 +66,7 @@ import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.paged.*
 import java.util.*
+
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -82,17 +84,21 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     private lateinit var fabSettings: ImageButton
     private lateinit var fabHeader: ImageButton
     private lateinit var fabSort: ImageButton
+    private lateinit var sortDescription: TextView
+    private lateinit var headerDescription: TextView
     private var nbColumns: Int = 0
     private lateinit var gridLayoutManager: GridLayoutManager
     private var currentItem: MediaLibraryItem? = null
     private var currentArt: String? = null
     private lateinit var backgroundManager: BackgroundManager
+    private lateinit var fakeToolbar: View
     var menuHidden = false
-    private lateinit var cl : ConstraintLayout
-    private val cs1 = ConstraintSet()
-    private val cs2 = ConstraintSet()
+    private lateinit var cl: ConstraintLayout
+    private val scrolledUpConstraintSet = ConstraintSet()
+    private val scrolledNoFABConstraintSet = ConstraintSet()
+    private val scrolledFABConstraintSet = ConstraintSet()
     val transition = ChangeBounds().apply {
-        interpolator = AnticipateOvershootInterpolator(1.0f)
+        interpolator = AccelerateDecelerateInterpolator()
         duration = 500
     }
 
@@ -166,18 +172,18 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         val title = view.findViewById<TextView>(R.id.title)
         val sortButton = view.findViewById<ImageButton>(R.id.sortButton)
         val headerButton = view.findViewById<ImageButton>(R.id.headerButton)
-        fabSettings = view.findViewById<ImageButton>(R.id.imageButtonSettings)
-        fabHeader = view.findViewById<ImageButton>(R.id.imageButtonHeader)
-        fabSort = view.findViewById<ImageButton>(R.id.imageButtonSort)
+        fabSettings = view.findViewById(R.id.imageButtonSettings)
+        fabHeader = view.findViewById(R.id.imageButtonHeader)
+        fabSort = view.findViewById(R.id.imageButtonSort)
+        fakeToolbar = view.findViewById(R.id.toolbar)
+        sortDescription = view.findViewById(R.id.sortDescription)
+        headerDescription = view.findViewById(R.id.headerDescription)
 
         //overscan
         val hp = TvUtil.getOverscanHorizontal(requireContext())
         val vp = TvUtil.getOverscanVertical(requireContext())
         list.setPadding(list.paddingLeft + hp, list.paddingTop + vp, list.paddingRight + hp, list.paddingBottom + vp)
         headerList.setPadding(list.paddingLeft + hp, list.paddingTop + vp, list.paddingRight + hp, list.paddingBottom + vp)
-        sortButton.setPadding(sortButton.paddingLeft +/**/ hp, sortButton.paddingTop + vp, sortButton.paddingRight, sortButton.paddingBottom)
-        headerButton.setPadding(headerButton.paddingLeft, headerButton.paddingTop + vp, headerButton.paddingRight, headerButton.paddingBottom)
-        title.setPadding(title.paddingLeft, title.paddingTop + vp, title.paddingRight + hp, title.paddingBottom)
 
         fabSettings.setOnClickListener { expandExtendedFAB() }
 
@@ -208,6 +214,14 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
 
         headerButton.setOnClickListener(searchHeaderClick)
         fabHeader.setOnClickListener(searchHeaderClick)
+
+        headerButton.setOnFocusChangeListener { view: View, focused: Boolean ->
+            headerDescription.animate().alpha(if (focused) 1f else 0f)
+
+        }
+        sortButton.setOnFocusChangeListener { view: View, focused: Boolean ->
+            sortDescription.animate().alpha(if (focused) 1f else 0f)
+        }
 
         sortButton.setOnClickListener(sortClick)
         fabSort.setOnClickListener(sortClick)
@@ -277,32 +291,91 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
                     if (!menuHidden) {
                         if (!this@AudioBrowserTvFragment::cl.isInitialized) {
                             cl = view as ConstraintLayout
-                            cs1.clone(cl)
-                            cs2.clone(cl)
-                            cs2.clear(R.id.sortButton, ConstraintSet.TOP)
-                            cs2.clear(R.id.sortButton, ConstraintSet.BOTTOM)
-                            cs2.clear(R.id.sortButton, ConstraintSet.START)
-                            cs2.clear(R.id.headerButton, ConstraintSet.TOP)
-                            cs2.clear(R.id.headerButton, ConstraintSet.BOTTOM)
-                            cs2.clear(R.id.headerButton, ConstraintSet.START)
-                            cs2.setMargin(R.id.sortButton, ConstraintSet.START, 0)
-                            cs2.setMargin(R.id.headerButton, ConstraintSet.START, 0)
-                            cs2.connect(R.id.sortButton, ConstraintSet.START, fabSettings.id, ConstraintSet.START)
-                            cs2.connect(R.id.sortButton, ConstraintSet.END, fabSettings.id, ConstraintSet.END)
-                            cs2.connect(R.id.sortButton, ConstraintSet.TOP, fabSettings.id, ConstraintSet.TOP)
-                            cs2.connect(R.id.sortButton, ConstraintSet.BOTTOM, fabSettings.id, ConstraintSet.BOTTOM)
-                            cs2.connect(R.id.headerButton, ConstraintSet.START, fabSettings.id, ConstraintSet.START)
-                            cs2.connect(R.id.headerButton, ConstraintSet.TOP, fabSettings.id, ConstraintSet.TOP)
-                            cs2.connect(R.id.headerButton, ConstraintSet.BOTTOM, fabSettings.id, ConstraintSet.BOTTOM)
-                            cs2.connect(R.id.headerButton, ConstraintSet.END, fabSettings.id, ConstraintSet.END)
+                            scrolledUpConstraintSet.clone(cl)
+                            scrolledNoFABConstraintSet.clone(cl)
+
+                            //Buttons
+
+
+                            scrolledNoFABConstraintSet.setMargin(R.id.sortButton, ConstraintSet.START, 0)
+                            scrolledNoFABConstraintSet.setMargin(R.id.sortButton, ConstraintSet.END, 0)
+                            scrolledNoFABConstraintSet.setMargin(R.id.sortButton, ConstraintSet.TOP, 0)
+                            scrolledNoFABConstraintSet.setMargin(R.id.sortButton, ConstraintSet.BOTTOM, 0)
+                            scrolledNoFABConstraintSet.setMargin(R.id.headerButton, ConstraintSet.START, 0)
+                            scrolledNoFABConstraintSet.setMargin(R.id.headerButton, ConstraintSet.END, 0)
+                            scrolledNoFABConstraintSet.setMargin(R.id.headerButton, ConstraintSet.TOP, 0)
+                            scrolledNoFABConstraintSet.setMargin(R.id.headerButton, ConstraintSet.BOTTOM, 0)
+
+
+
+                            scrolledNoFABConstraintSet.connect(R.id.sortButton, ConstraintSet.START, fabSettings.id, ConstraintSet.START)
+                            scrolledNoFABConstraintSet.connect(R.id.sortButton, ConstraintSet.END, fabSettings.id, ConstraintSet.END)
+                            scrolledNoFABConstraintSet.connect(R.id.sortButton, ConstraintSet.TOP, fabSettings.id, ConstraintSet.TOP)
+                            scrolledNoFABConstraintSet.connect(R.id.sortButton, ConstraintSet.BOTTOM, fabSettings.id, ConstraintSet.BOTTOM)
+
+                            scrolledNoFABConstraintSet.connect(R.id.headerButton, ConstraintSet.START, fabSettings.id, ConstraintSet.START)
+                            scrolledNoFABConstraintSet.connect(R.id.headerButton, ConstraintSet.END, fabSettings.id, ConstraintSet.END)
+                            scrolledNoFABConstraintSet.connect(R.id.headerButton, ConstraintSet.TOP, fabSettings.id, ConstraintSet.TOP)
+                            scrolledNoFABConstraintSet.connect(R.id.headerButton, ConstraintSet.BOTTOM, fabSettings.id, ConstraintSet.BOTTOM)
+
+
+                            //descriptions
+                            scrolledNoFABConstraintSet.clear(R.id.sortDescription, ConstraintSet.START)
+                            scrolledNoFABConstraintSet.connect(R.id.sortDescription, ConstraintSet.END, fabSort.id, ConstraintSet.START)
+                            scrolledNoFABConstraintSet.connect(R.id.sortDescription, ConstraintSet.TOP, fabSort.id, ConstraintSet.TOP)
+                            scrolledNoFABConstraintSet.connect(R.id.sortDescription, ConstraintSet.BOTTOM, fabSort.id, ConstraintSet.BOTTOM)
+
+                            scrolledNoFABConstraintSet.clear(R.id.headerDescription, ConstraintSet.START)
+                            scrolledNoFABConstraintSet.connect(R.id.headerDescription, ConstraintSet.END, fabHeader.id, ConstraintSet.START)
+                            scrolledNoFABConstraintSet.connect(R.id.headerDescription, ConstraintSet.TOP, fabHeader.id, ConstraintSet.TOP)
+                            scrolledNoFABConstraintSet.connect(R.id.headerDescription, ConstraintSet.BOTTOM, fabHeader.id, ConstraintSet.BOTTOM)
+
+                            scrolledNoFABConstraintSet.constrainMaxHeight(R.id.title, ConstraintSet.TOP)
+                            scrolledNoFABConstraintSet.connect(R.id.title, ConstraintSet.BOTTOM, 0, ConstraintSet.TOP)
+
+                            //FAB hiding
+                            scrolledNoFABConstraintSet.connect(R.id.imageButtonSettings, ConstraintSet.BOTTOM, 0, ConstraintSet.BOTTOM)
+                            scrolledNoFABConstraintSet.clear(R.id.imageButtonSettings, ConstraintSet.TOP)
+
+
+                            scrolledFABConstraintSet.clone(scrolledNoFABConstraintSet)
+
+                            scrolledFABConstraintSet.clear(fabHeader.id, ConstraintSet.TOP)
+                            scrolledFABConstraintSet.clear(fabSort.id, ConstraintSet.TOP)
+                            scrolledFABConstraintSet.connect(fabHeader.id, ConstraintSet.BOTTOM, fabSettings.id, ConstraintSet.TOP)
+                            scrolledFABConstraintSet.connect(fabSort.id, ConstraintSet.BOTTOM, fabHeader.id, ConstraintSet.TOP)
+
+
+                            transition.addListener(object : Transition.TransitionListener {
+                                override fun onTransitionEnd(transition: Transition) {
+                                    if (menuHidden) {
+                                        fakeToolbar.visibility = View.GONE
+                                    } else {
+                                        fakeToolbar.visibility = View.VISIBLE
+                                    }
+                                }
+
+                                override fun onTransitionResume(transition: Transition) {
+                                }
+
+                                override fun onTransitionPause(transition: Transition) {
+                                }
+
+                                override fun onTransitionCancel(transition: Transition) {
+                                }
+
+                                override fun onTransitionStart(transition: Transition) {
+                                }
+
+                            })
                         }
                         TransitionManager.beginDelayedTransition(cl, transition)
-                        cs2.applyTo(cl)
+                        scrolledNoFABConstraintSet.applyTo(cl)
                         menuHidden = true
                     }
                 } else if (menuHidden) {
                     TransitionManager.beginDelayedTransition(cl, transition)
-                    cs1.applyTo(cl)
+                    scrolledUpConstraintSet.applyTo(cl)
                     menuHidden = false
                 }
             }
@@ -325,14 +398,25 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     }
 
     private fun expandExtendedFAB() {
-        fabHeader.animate().translationY(-(resources.getDimension(R.dimen.kl_normal) + fabHeader.height))
-        fabSort.animate().translationY(-2 * (resources.getDimension(R.dimen.kl_normal) + fabHeader.height))
+//        fabHeader.animate().translationY(-(resources.getDimension(R.dimen.kl_normal) + fabHeader.height))
+//        fabSort.animate().translationY(-2 * (resources.getDimension(R.dimen.kl_normal) + fabHeader.height))
+        sortDescription.animate().alpha(1f)
+        headerDescription.animate().alpha(1f)
+
+
+        TransitionManager.beginDelayedTransition(cl, transition)
+        scrolledFABConstraintSet.applyTo(cl)
+
     }
 
 
     private fun collapseExtendedFAB() {
-        fabHeader.animate().translationY(0f)
-        fabSort.animate().translationY(0f)
+//        fabHeader.animate().translationY(0f)
+//        fabSort.animate().translationY(0f)
+        sortDescription.animate().alpha(0f)
+        headerDescription.animate().alpha(0f)
+        TransitionManager.beginDelayedTransition(cl, transition)
+        scrolledNoFABConstraintSet.applyTo(cl)
     }
 
     private fun hideFAB() {
@@ -343,6 +427,7 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         fabSettings.isFocusable = false
         fabHeader.isFocusable = false
         fabSort.isFocusable = false
+        fakeToolbar.visibility = View.GONE
     }
 
     private fun showFAB() {
@@ -352,6 +437,7 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         fabSettings.isFocusable = true
         fabHeader.isFocusable = true
         fabSort.isFocusable = true
+        fakeToolbar.visibility = View.VISIBLE
     }
 
 

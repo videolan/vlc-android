@@ -701,4 +701,5 @@
     <string name="popup_force_legacy_summary">Use custom Picture-in-Picture resizable popup</string>
     <string name="device_default">Device default</string>
     <string name="track_number">%s tracks</string>
+    <string name="jump_to">Jump to</string>
 </resources>
