@@ -54,6 +54,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.BaseModel
+import org.videolan.vlc.viewmodels.paged.MLPagedModel
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -172,7 +173,7 @@ object TvUtil {
             is MediaWrapper -> when {
                 item.type == MediaWrapper.TYPE_AUDIO -> {
                     val list = withContext(Dispatchers.IO) {
-                        (provider.getAll() as Array<MediaWrapper>).filter { it.itemType != MediaWrapper.TYPE_DIR }
+                        (provider.getAll().toList()).filter { it.itemType != MediaWrapper.TYPE_DIR } as ArrayList<MediaWrapper>
                     }
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
@@ -192,7 +193,7 @@ object TvUtil {
                 }
                 else -> {
                     val list = withContext(Dispatchers.IO) {
-                        (provider.getAll() as Array<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                        (provider.getAll().toList() as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
                     }
                     val position = list.getposition(item)
                     MediaUtils.openList(activity, list, position)

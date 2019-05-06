@@ -25,9 +25,8 @@ import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.tv_vertical_grid.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -44,61 +43,57 @@ import org.videolan.vlc.util.*
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
 
-    private lateinit var mFragment: BrowserFragmentInterface
-    private lateinit var mContentLoadingProgressBar: ProgressBar
-    private lateinit var mEmptyView: TextView
+    private lateinit var fragment: BrowserFragmentInterface
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tv_vertical_grid)
-        mContentLoadingProgressBar = findViewById(R.id.tv_fragment_progress)
-        mEmptyView = findViewById(R.id.tv_fragment_empty)
         if (savedInstanceState == null) {
             val type = intent.getLongExtra(MainTvActivity.BROWSER_TYPE, -1)
             if (type == HEADER_VIDEO) {
-                mFragment = AudioBrowserTvFragment.newInstance(CATEGORY_VIDEOS, null)
+                fragment = MediaBrowserTvFragment.newInstance(CATEGORY_VIDEOS, null)
             } else if (type == HEADER_CATEGORIES) {
                 val audioCategory = intent.getLongExtra(AUDIO_CATEGORY, CATEGORY_SONGS)
                 val item = intent.getParcelableExtra<MediaLibraryItem>(AUDIO_ITEM)
                 if (audioCategory == CATEGORY_SONGS) {
-                    mFragment = AudioBrowserTvFragment.newInstance(CATEGORY_SONGS, item)
+                    fragment = MediaBrowserTvFragment.newInstance(CATEGORY_SONGS, item)
                 } else if (audioCategory == CATEGORY_ALBUMS) {
-                    mFragment = AudioBrowserTvFragment.newInstance(CATEGORY_ALBUMS, item)
+                    fragment = MediaBrowserTvFragment.newInstance(CATEGORY_ALBUMS, item)
                 } else if (audioCategory == CATEGORY_ARTISTS) {
-                    mFragment = AudioBrowserTvFragment.newInstance(CATEGORY_ARTISTS, item)
+                    fragment = MediaBrowserTvFragment.newInstance(CATEGORY_ARTISTS, item)
                 } else if (audioCategory == CATEGORY_GENRES) {
-                    mFragment = AudioBrowserTvFragment.newInstance(CATEGORY_GENRES, item)
+                    fragment = MediaBrowserTvFragment.newInstance(CATEGORY_GENRES, item)
                 }
             } else if (type == HEADER_NETWORK) {
                 var uri = intent.data
                 if (uri == null) uri = intent.getParcelableExtra(KEY_URI)
                 if (uri == null)
-                    mFragment = BrowserGridFragment()
+                    fragment = BrowserGridFragment()
                 else
-                    mFragment = NetworkBrowserFragment()
+                    fragment = NetworkBrowserFragment()
             } else if (type == HEADER_DIRECTORIES) {
-                mFragment = DirectoryBrowserFragment()
+                fragment = DirectoryBrowserFragment()
             } else {
                 finish()
                 return
             }
             supportFragmentManager.beginTransaction()
-                    .add(R.id.tv_fragment_placeholder, mFragment as Fragment)
+                    .add(R.id.tv_fragment_placeholder, fragment as Fragment)
                     .commit()
         }
     }
 
     override fun refresh() {
-        mFragment.refresh()
+        fragment.refresh()
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        if (mFragment is DetailsFragment && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
-            (mFragment as DetailsFragment).showDetails()
+        if (fragment is DetailsFragment && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
+            (fragment as DetailsFragment).showDetails()
             return true
         }
-        if (mFragment is OnKeyPressedListener) {
-            if ((mFragment as OnKeyPressedListener).onKeyPressed(keyCode)) {
+        if (fragment is OnKeyPressedListener) {
+            if ((fragment as OnKeyPressedListener).onKeyPressed(keyCode)) {
                 return true
             }
         }
@@ -108,17 +103,17 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
 
     override fun showProgress(show: Boolean) {
         runOnUiThread {
-            mEmptyView.visibility = View.GONE
-            mContentLoadingProgressBar.visibility = if (show) View.VISIBLE else View.GONE
+            tv_fragment_empty.visibility = View.GONE
+            tv_fragment_progress.visibility = if (show) View.VISIBLE else View.GONE
         }
     }
 
     override fun updateEmptyView(empty: Boolean) {
-        runOnUiThread { mEmptyView.visibility = if (empty) View.VISIBLE else View.GONE }
+        runOnUiThread { tv_fragment_empty.visibility = if (empty) View.VISIBLE else View.GONE }
     }
 
     fun sort(v: View) {
-        (mFragment as Sortable).sort(v)
+        (fragment as Sortable).sort(v)
     }
 
     interface OnKeyPressedListener {

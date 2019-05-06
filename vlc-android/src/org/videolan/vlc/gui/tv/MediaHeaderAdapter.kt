@@ -9,7 +9,7 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SongHeaderItemBinding
 
-class SongHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : RecyclerView.Adapter<SongHeaderAdapter.ViewHolder>() {
+class MediaHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : RecyclerView.Adapter<MediaHeaderAdapter.ViewHolder>() {
 
     val alphaItems = listOf("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#")
 
@@ -17,9 +17,8 @@ class SongHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : Recycl
 
     var items = ArrayList<String>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SongHeaderAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaHeaderAdapter.ViewHolder {
         return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.song_header_item, parent, false) as SongHeaderItemBinding)
-
     }
 
     override fun getItemCount(): Int {
@@ -27,11 +26,9 @@ class SongHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : Recycl
             Medialibrary.SORT_ALPHA -> alphaItems.size
             else -> items.size
         }
-
-
     }
 
-    override fun onBindViewHolder(holder: SongHeaderAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MediaHeaderAdapter.ViewHolder, position: Int) {
 
         if (sortType == Medialibrary.SORT_ALPHA) {
             holder.binding.headerText = alphaItems[position]
@@ -48,7 +45,6 @@ class SongHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : Recycl
         } else {
             items[position]
         }
-
     }
 
 
@@ -61,11 +57,7 @@ class SongHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : Recycl
         fun onClick(v: View) {
             val item = getItem(layoutPosition)
             onHeaderSelected.onHeaderSelected(item)
-
-
         }
-
-
     }
 
     interface OnHeaderSelected {

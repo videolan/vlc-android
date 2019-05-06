@@ -14,7 +14,7 @@
 
         <variable
             name="holder"
-            type="org.videolan.vlc.gui.tv.SongHeaderAdapter.ViewHolder" />
+            type="org.videolan.vlc.gui.tv.MediaHeaderAdapter.ViewHolder" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
