@@ -38,7 +38,7 @@ class DeviceDialog : DialogFragment(), CoroutineScope by MainScope() {
         super.onViewCreated(view, savedInstanceState)
         launch {
             delay(30_000L)
-            dismiss()
+            dismissAllowingStateLoss()
         }
     }
 
