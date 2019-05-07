@@ -124,7 +124,7 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
 
     override fun onTabUnselected(tab: TabLayout.Tab) {
         stopActionMode()
-        (requireActivity() as ContentActivity).closeSearchView()
+        (activity as? ContentActivity)?.closeSearchView()
     }
 
     override fun onTabReselected(tab: TabLayout.Tab) {}
