@@ -179,10 +179,10 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     }
 
     private fun showAddServerDialog(mw: MediaWrapper?) {
-        val fm = fragmentManager
+        val fm = fragmentManager ?: return
         val dialog = NetworkServerDialog()
         if (mw != null) dialog.setServer(mw)
-        dialog.show(fm!!, "fragment_add_server")
+        dialog.show(fm, "fragment_add_server")
     }
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
