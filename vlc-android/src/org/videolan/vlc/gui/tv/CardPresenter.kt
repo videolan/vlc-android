@@ -44,6 +44,7 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.loadImage
+import org.videolan.vlc.gui.helpers.loadPlaylistImageWithWidth
 import org.videolan.vlc.util.*
 
 @ObsoleteCoroutinesApi
@@ -53,6 +54,8 @@ class CardPresenter(private val context: Activity) : Presenter() {
 
     private var mIsSeenMediaMarkerVisible = true
     private var sDefaultCardImage: Drawable? = ContextCompat.getDrawable(context, R.drawable.ic_default_cone)
+
+    private val imageDefaultWidth: Float by lazy { context.resources.getDimension(R.dimen.tv_grid_card_thumb_width) }
 
     init {
         mIsSeenMediaMarkerVisible = Settings.getInstance(context).getBoolean("media_seen", true)
@@ -81,11 +84,17 @@ class CardPresenter(private val context: Activity) : Presenter() {
                     return
                 }
             }
-            if (noArt) {
-                cardView.mainImageView.scaleType = ImageView.ScaleType.FIT_CENTER
-                cardView.mainImage = BitmapDrawable(cardView.resources, getDefaultImage(item))
-            } else
-                loadImage(cardView, item)
+            when {
+                item.itemType == MediaLibraryItem.TYPE_PLAYLIST -> {
+                    cardView.mainImageView.scaleType = ImageView.ScaleType.FIT_CENTER
+                    loadPlaylistImageWithWidth(cardView.mainImageView, item, imageDefaultWidth.toInt())
+                }
+                noArt -> {
+                    cardView.mainImageView.scaleType = ImageView.ScaleType.FIT_CENTER
+                    cardView.mainImage = BitmapDrawable(cardView.resources, getDefaultImage(item))
+                }
+                else -> loadImage(cardView, item)
+            }
         }
 
         private fun getDefaultImage(mediaLibraryItem: MediaLibraryItem): Bitmap? {

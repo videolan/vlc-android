@@ -358,6 +358,7 @@ object TvUtil {
                     HEADER_NETWORK -> R.drawable.ic_menu_network_big
                     HEADER_SERVER -> R.drawable.ic_menu_network_add_big
                     HEADER_STREAM -> R.drawable.ic_menu_stream_big
+                    HEADER_PLAYLISTS -> R.drawable.ic_menu_playlist_big
                     ID_SETTINGS -> R.drawable.ic_menu_preferences_big
                     ID_ABOUT_TV, ID_LICENCE -> R.drawable.ic_default_cone
                     CATEGORY_ARTISTS -> R.drawable.ic_artist_big

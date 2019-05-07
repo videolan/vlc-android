@@ -73,6 +73,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     val audioCategories : LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val browsers : LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val history : LiveData<List<MediaWrapper>> = MutableLiveData()
+    val playlist: LiveData<List<MediaLibraryItem>> = MutableLiveData()
 
     private val nowPlayingDelegate = NowPlayingDelegate(this)
 
@@ -108,6 +109,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         updateVideos()
         historyActor.offer(Unit)
         updateActor.offer(Unit)
+        updatePlaylists()
     }
 
     private suspend fun setHistory() {
@@ -129,6 +131,17 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         }.let {
             (videos as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
                 add(DummyItem(HEADER_VIDEO, context.getString(R.string.videos_all), context.resources.getQuantityString(R.plurals.videos_quantity, it.size, it.size)))
+                addAll(it)
+            }
+        }
+    }
+
+    private fun updatePlaylists() = launch {
+        context.getFromMl {
+            getPagedPlaylists(Medialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
+        }.let {
+            (playlist as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
+                add(DummyItem(HEADER_PLAYLISTS, context.getString(R.string.playlists), ""))
                 addAll(it)
             }
         }

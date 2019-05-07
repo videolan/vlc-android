@@ -59,12 +59,14 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var videoAdapter: ArrayObjectAdapter
     private lateinit var categoriesAdapter: ArrayObjectAdapter
     private lateinit var historyAdapter: ArrayObjectAdapter
+    private lateinit var playlistAdapter: ArrayObjectAdapter
     private lateinit var browserAdapter: ArrayObjectAdapter
     private lateinit var otherAdapter: ArrayObjectAdapter
 
     private lateinit var videoRow: ListRow
     private lateinit var audioRow: ListRow
     private lateinit var historyRow: ListRow
+    private lateinit var playlistRow: ListRow
     private lateinit var browsersRow: ListRow
     private lateinit var miscRow: ListRow
 
@@ -76,7 +78,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Set display parameters for the BrowseFragment
-        headersState = BrowseSupportFragment.HEADERS_ENABLED
+        headersState = HEADERS_ENABLED
         title = getString(R.string.app_name)
         badgeDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.icon)
 
@@ -106,6 +108,12 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         audioRow = ListRow(musicHeader, categoriesAdapter)
         rowsAdapter.add(audioRow)
         //History
+
+        // Playlists
+        playlistAdapter = ArrayObjectAdapter(CardPresenter(ctx))
+        val playlistHeader = HeaderItem(0, getString(R.string.playlists))
+        playlistRow = ListRow(playlistHeader, playlistAdapter)
+        rowsAdapter.add(playlistRow)
 
         //Browser section
         browserAdapter = ArrayObjectAdapter(CardPresenter(ctx))
@@ -158,6 +166,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                 val adapters = listOf(videoRow, audioRow, browsersRow, miscRow)
                 rowsAdapter.setItems(adapters, TvUtil.listDiffCallback)
             }
+        })
+
+        model.playlist.observe(this, Observer {
+            playlistAdapter.setItems(it, diffCallback)
         })
     }
 
