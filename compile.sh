@@ -243,7 +243,7 @@ if [ ! -d "vlc" ]; then
     diagnostic "VLC source not found, cloning"
     git clone https://git.videolan.org/git/vlc/vlc-3.0.git vlc
     checkfail "vlc source: git clone failed"
-    git am ../libvlc/patches/*.patch
+    cd vlc && git am ../libvlc/patches/*.patch && cd ..
 fi
 diagnostic "VLC source found"
 cd vlc
