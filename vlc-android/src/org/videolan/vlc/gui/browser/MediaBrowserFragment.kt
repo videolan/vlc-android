@@ -279,9 +279,8 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     }
 
     protected fun stopActionMode() {
-        if (actionMode != null) {
-            actionMode!!.finish()
-            onDestroyActionMode(actionMode)
+        actionMode?.let {
+            it.finish()
             setFabPlayVisibility(true)
         }
     }
