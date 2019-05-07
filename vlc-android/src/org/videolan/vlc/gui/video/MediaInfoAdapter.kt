@@ -32,13 +32,13 @@ import org.videolan.vlc.R
 import org.videolan.vlc.util.readableSize
 
 class MediaInfoAdapter : RecyclerView.Adapter<MediaInfoAdapter.ViewHolder>() {
-    private var inflater: LayoutInflater? = null
+    private lateinit var inflater: LayoutInflater
     private var dataset: List<Media.Track>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        if (inflater == null)
+        if (!::inflater.isInitialized)
             inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        return ViewHolder(inflater!!.inflate(R.layout.info_item, parent, false))
+        return ViewHolder(inflater.inflate(R.layout.info_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -67,15 +67,12 @@ class MediaInfoAdapter : RecyclerView.Adapter<MediaInfoAdapter.ViewHolder>() {
         holder.text.text = textBuilder.toString()
     }
 
-    override fun getItemCount(): Int {
-        return if (dataset == null) 0 else dataset!!.size
-    }
+    override fun getItemCount() = dataset?.size ?: 0
 
     fun setTracks(tracks: List<Media.Track>) {
         val size = itemCount
         dataset = tracks
-        if (size > 0)
-            notifyItemRangeRemoved(0, size - 1)
+        if (size > 0) notifyItemRangeRemoved(0, size - 1)
         notifyItemRangeInserted(0, tracks.size)
     }
 
@@ -103,6 +100,5 @@ class MediaInfoAdapter : RecyclerView.Adapter<MediaInfoAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.title)
         val text: TextView = itemView.findViewById(R.id.subtitle)
-
     }
 }

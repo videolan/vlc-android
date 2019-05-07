@@ -212,7 +212,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
 
     protected fun showInfoDialog(item: MediaLibraryItem) {
         val i = Intent(activity, InfoActivity::class.java)
-        i.putExtra(InfoActivity.TAG_ITEM, item)
+        i.putExtra(TAG_ITEM, item)
         startActivity(i)
     }
 

@@ -105,6 +105,9 @@ const val ML_SCAN_OFF = 1
 // AUDIO category
 const val KEY_AUDIO_CURRENT_TAB = "key_audio_current_tab"
 
+// Info Activity
+const val TAG_ITEM = "ML_ITEM"
+
 //TV
 const val HEADER_VIDEO = 0L
 const val HEADER_CATEGORIES = 1L

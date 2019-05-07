@@ -298,7 +298,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     private fun showMediaInfo(mw: MediaWrapper) {
         val i = Intent(activity, InfoActivity::class.java)
-        i.putExtra(InfoActivity.TAG_ITEM, mw)
+        i.putExtra(TAG_ITEM, mw)
         startActivity(i)
     }
 

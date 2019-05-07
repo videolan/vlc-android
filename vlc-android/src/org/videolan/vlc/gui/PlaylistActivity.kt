@@ -301,7 +301,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
 
     private fun showInfoDialog(media: MediaWrapper) {
         val i = Intent(this, InfoActivity::class.java)
-        i.putExtra(InfoActivity.TAG_ITEM, media)
+        i.putExtra(TAG_ITEM, media)
         startActivity(i)
     }
 
