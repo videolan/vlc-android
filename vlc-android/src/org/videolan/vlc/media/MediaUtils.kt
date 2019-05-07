@@ -26,9 +26,9 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.gui.dialogs.SubtitleDownloaderDialogFragment
+import org.videolan.vlc.providers.medialibrary.FoldersProvider
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.*
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
-import org.videolan.vlc.viewmodels.paged.PagedFoldersModel
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.min
@@ -141,15 +141,15 @@ object MediaUtils : CoroutineScope {
         openList(context, withContext(Dispatchers.IO) { item.tracks }.toList(), position)
     }
 
-    fun playAlbums(context: Context?, model: MLPagedModel<Album>, position: Int, shuffle: Boolean) {
+    fun playAlbums(context: Context?, provider: MedialibraryProvider<Album>, position: Int, shuffle: Boolean) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
-            val count = withContext(Dispatchers.IO) { model.getTotalCount() }
+            val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
             when (count) {
                 0 -> null
                 in 1..MEDIALIBRARY_PAGE_SIZE -> withContext(Dispatchers.IO) {
                     mutableListOf<MediaWrapper>().apply {
-                        for (album in model.getAll()) album.tracks?.let { addAll(it) }
+                        for (album in provider.getAll()) album.tracks?.let { addAll(it) }
                     }
                 }
                 else -> withContext(Dispatchers.IO) {
@@ -157,7 +157,7 @@ object MediaUtils : CoroutineScope {
                         var index = 0
                         while (index < count) {
                             val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count-index)
-                            val albums = withContext(Dispatchers.IO) { model.getPage(pageCount, index) }
+                            val albums = withContext(Dispatchers.IO) { provider.getPage(pageCount, index) }
                             for (album in albums) addAll(album.tracks)
                             index += pageCount
                         }
@@ -170,23 +170,23 @@ object MediaUtils : CoroutineScope {
         }
     }
 
-    fun playAll(context: Context?, model: MLPagedModel<MediaWrapper>, position: Int, shuffle: Boolean) {
+    fun playAll(context: Context?, provider: MedialibraryProvider<MediaWrapper>, position: Int, shuffle: Boolean) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
-            val count = withContext(Dispatchers.IO) { model.getTotalCount() }
+            val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
             fun play(list : List<MediaWrapper>) {
                 service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
             when (count) {
                 0 -> return@SuspendDialogCallback
-                in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) { model.getAll().toList() })
+                in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) { provider.getAll().toList() })
                 else -> {
                     var index = 0
                     val appendList = mutableListOf<MediaWrapper>()
                     while (index < count) {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
-                        val list = withContext(Dispatchers.IO) { model.getPage(pageCount, index).toList() }
+                        val list = withContext(Dispatchers.IO) { provider.getPage(pageCount, index).toList() }
                         if (index == 0) play(list)
                         else appendList.addAll(list)
                         index += pageCount
@@ -197,10 +197,10 @@ object MediaUtils : CoroutineScope {
         }
     }
 
-    fun playAllTracks(context: Context?, model: PagedFoldersModel, position: Int, shuffle: Boolean) {
+    fun playAllTracks(context: Context?, provider: FoldersProvider, position: Int, shuffle: Boolean) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
-            val count = withContext(Dispatchers.IO) { model.getTotalCount() }
+            val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
             fun play(list : List<MediaWrapper>) {
                 service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
@@ -208,8 +208,8 @@ object MediaUtils : CoroutineScope {
             when (count) {
                 0 -> return@SuspendDialogCallback
                 in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
-                    model.getAll().flatMap {
-                        it.media(model.type, Medialibrary.SORT_DEFAULT, false, it.mediaCount(model.type), 0).toList()
+                    provider.getAll().flatMap {
+                        it.media(provider.type, Medialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
                     }
                 })
                 else -> {
@@ -217,8 +217,8 @@ object MediaUtils : CoroutineScope {
                     while (index < count) {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                         val list = withContext(Dispatchers.IO) {
-                            model.getPage(pageCount, index).flatMap {
-                                it.media(model.type, Medialibrary.SORT_DEFAULT, false, it.mediaCount(model.type), 0).toList()
+                            provider.getPage(pageCount, index).flatMap {
+                                it.media(provider.type, Medialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
                             }
                         }
                         if (index == 0) play(list)

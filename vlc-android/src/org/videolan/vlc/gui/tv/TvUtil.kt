@@ -51,11 +51,9 @@ import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.gui.tv.browser.TVActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.BaseModel
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
-import java.util.*
-import kotlin.collections.ArrayList
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -169,12 +167,12 @@ object TvUtil {
     }
 
     @Suppress("UNCHECKED_CAST")
-    suspend fun openMediaFromPaged(activity: FragmentActivity, item: Any?, model: MLPagedModel<out MediaLibraryItem>) {
+    suspend fun openMediaFromPaged(activity: FragmentActivity, item: Any?, provider: MedialibraryProvider<out MediaLibraryItem>) {
         when (item) {
             is MediaWrapper -> when {
                 item.type == MediaWrapper.TYPE_AUDIO -> {
                     val list = withContext(Dispatchers.IO) {
-                        (model.getAll() as Array<MediaWrapper>).filter { it.itemType != MediaWrapper.TYPE_DIR }
+                        (provider.getAll() as Array<MediaWrapper>).filter { it.itemType != MediaWrapper.TYPE_DIR }
                     }
                     val position = list.getposition(item)
                     playAudioList(activity, list, position)
@@ -194,7 +192,7 @@ object TvUtil {
                 }
                 else -> {
                     val list = withContext(Dispatchers.IO) {
-                        (model.getAll() as Array<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                        (provider.getAll() as Array<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
                     }
                     val position = list.getposition(item)
                     MediaUtils.openList(activity, list, position)

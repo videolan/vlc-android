@@ -1,3 +1,23 @@
+/*****************************************************************************
+ * PagedVideosModel.kt
+ *****************************************************************************
+ * Copyright © 2019 VLC authors and VideoLAN
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
+ *****************************************************************************/
+
 package org.videolan.vlc.viewmodels.paged
 
 import android.annotation.TargetApi
@@ -8,16 +28,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.vlc.media.getAll
+import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.launchChannelUpdate
 
 
+@ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class PagedVideosModel(
         context: Context,
@@ -25,21 +47,7 @@ class PagedVideosModel(
         customSort : Int,
         customDesc: Boolean?
 ) : MLPagedModel<MediaWrapper>(context), Medialibrary.MediaCb {
-    override fun onMediaAdded() {
-        refresh()
-    }
-
-    override fun onMediaModified() {
-        refresh()
-    }
-
-    override fun onMediaDeleted() {
-        refresh()
-    }
-
-    override fun canSortByFileNameName() = true
-    override fun canSortByDuration() = true
-    override fun canSortByLastModified() = folder == null
+    override val provider = VideosProvider(folder, context, this)
 
      init {
          sort = if (customSort != Medialibrary.SORT_DEFAULT) customSort
@@ -50,36 +58,22 @@ class PagedVideosModel(
          }
      }
 
-    //TODO Search in folder
-    override fun getTotalCount() = if (filterQuery == null) when {
-        folder !== null -> folder.mediaCount(Folder.TYPE_FOLDER_VIDEO)
-        else -> medialibrary.videoCount
-    } else when {
-        folder !== null -> folder.searchTracksCount(filterQuery, Folder.TYPE_FOLDER_VIDEO)
-        else -> medialibrary.getVideoCount(filterQuery)
-    }
-
-    override fun getPage(loadSize: Int, startposition: Int): Array<MediaWrapper> {
-        val list = if (filterQuery == null) when {
-            folder !== null -> folder.media(Folder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
-            else -> medialibrary.getPagedVideos(sort, desc, loadSize, startposition)
-        } else when {
-            folder !== null -> folder.searchTracks(filterQuery, Folder.TYPE_FOLDER_VIDEO, sort, desc, loadSize, startposition)
-            else -> medialibrary.searchVideo(filterQuery, sort, desc, loadSize, startposition)
-        }
-
-        return list.also { completeHeaders(it, startposition) }
-    }
-
-    override fun getAll(): Array<MediaWrapper> = when {
-        folder !== null -> folder.getAll(Folder.TYPE_FOLDER_VIDEO, sort, desc).toTypedArray()
-        else -> medialibrary.videos
-    }
-
     @TargetApi(Build.VERSION_CODES.O)
     override fun onMedialibraryIdle() {
         super.onMedialibraryIdle()
         if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater) context.launchChannelUpdate()
+    }
+
+    override fun onMediaAdded() {
+        refresh()
+    }
+
+    override fun onMediaModified() {
+        refresh()
+    }
+
+    override fun onMediaDeleted() {
+        refresh()
     }
 
     class Factory(

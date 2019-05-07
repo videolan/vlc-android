@@ -215,7 +215,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
     }
 
     override fun onFabPlayClick(view: View) {
-        MediaUtils.playAll(view.context, tracksModel, 0, true)
+        MediaUtils.playAll(view.context, tracksModel.provider, 0, true)
     }
 
     private fun setFabPlayShuffleAllVisibility() {
@@ -326,7 +326,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
     }
 
     fun updateArtists() {
-        artistModel.showAll(settings.getBoolean(KEY_ARTISTS_SHOW_ALL, false))
+        artistModel.showAll = settings.getBoolean(KEY_ARTISTS_SHOW_ALL, false)
         artistModel.refresh()
     }
 

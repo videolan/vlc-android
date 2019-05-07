@@ -118,7 +118,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
     }
 
     override fun onFabPlayClick(view: View) {
-        MediaUtils.playAllTracks(context, viewModel, 0, false)
+        MediaUtils.playAllTracks(context, viewModel.provider, 0, false)
     }
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?) : Boolean {

@@ -230,9 +230,9 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser(), androidx.swiperefreshlayout
 
     override fun onFabPlayClick(view: View) {
         if (viewPager!!.currentItem == 0)
-            MediaUtils.playAlbums(activity, albumModel, 0, false)
+            MediaUtils.playAlbums(activity, albumModel.provider, 0, false)
         else
-            MediaUtils.playAll(view.context, tracksModel, 0, false)
+            MediaUtils.playAll(view.context, tracksModel.provider, 0, false)
     }
 
     companion object {

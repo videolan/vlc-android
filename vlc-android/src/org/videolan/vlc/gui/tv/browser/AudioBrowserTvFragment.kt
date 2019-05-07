@@ -334,7 +334,7 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        launch { TvUtil.openMediaFromPaged(requireActivity(), item, viewModel) }
+        launch { TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider) }
     }
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {

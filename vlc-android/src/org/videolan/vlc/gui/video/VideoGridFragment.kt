@@ -219,7 +219,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
     }
 
     override fun onFabPlayClick(view: View) {
-        MediaUtils.playAll(requireContext(), viewModel, 0, false)
+        MediaUtils.playAll(requireContext(), viewModel.provider, 0, false)
     }
 
     @MainThread
@@ -329,7 +329,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
             val settings = Settings.getInstance(v.context)
             if (settings.getBoolean("force_play_all", false)) {
-                MediaUtils.playAll(requireContext(), viewModel, position, false)
+                MediaUtils.playAll(requireContext(), viewModel.provider, position, false)
             } else {
                 playVideo(media, false)
             }
@@ -381,7 +381,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
         when (option) {
             CTX_PLAY_FROM_START -> playVideo(media, true)
             CTX_PLAY_AS_AUDIO -> playAudio(media)
-            CTX_PLAY_ALL -> MediaUtils.playAll(requireContext(), viewModel, position, false)
+            CTX_PLAY_ALL -> MediaUtils.playAll(requireContext(), viewModel.provider, position, false)
             CTX_INFORMATION -> showInfoDialog(media)
             CTX_DELETE -> removeItem(media)
             CTX_PLAY_GROUP -> MediaUtils.openList(activity, (media as MediaGroup).all, 0)
