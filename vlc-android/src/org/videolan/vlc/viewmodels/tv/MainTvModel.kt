@@ -65,7 +65,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     private val showInternalStorage = AndroidDevices.showInternalStorage()
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
     private var updatedFavoritList: List<MediaWrapper> = listOf()
-    private val nowPlayingDelegate = NowPlayingDelegate(this)
     private var showHistory = false
     // LiveData
     private val favorites: LiveData<List<BrowserFav>> = browserFavRepository.browserFavorites
@@ -73,6 +72,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     val audioCategories : LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val browsers : LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val history : LiveData<List<MediaWrapper>> = MutableLiveData()
+
+    private val nowPlayingDelegate = NowPlayingDelegate(this)
 
     private val favObserver = Observer<List<BrowserFav>> { list ->
         updatedFavoritList = convertFavorites(list)
