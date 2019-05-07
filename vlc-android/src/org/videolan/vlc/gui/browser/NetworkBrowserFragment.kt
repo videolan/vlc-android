@@ -79,9 +79,9 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val item = menu!!.findItem(R.id.ml_menu_save)
+        val item = menu.findItem(R.id.ml_menu_save)
         item.isVisible = !isRootDirectory
         runIO(Runnable {
             val isFavorite = mrl != null && browserFavRepository.browserFavExists(Uri.parse(mrl))

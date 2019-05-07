@@ -28,6 +28,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.history_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -42,13 +43,13 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.viewmodels.HistoryModel
 
+private const val TAG = "VLC/HistoryFragment"
+
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHistory, androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
 
-    private val mHistoryAdapter: HistoryAdapter = HistoryAdapter(this)
-    private var mEmptyView: View? = null
-    private var mRecyclerView: RecyclerView? = null
+    private val historyAdapter: HistoryAdapter = HistoryAdapter(this)
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -57,26 +58,28 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mEmptyView = view.findViewById(R.id.empty)
-        mRecyclerView = view.findViewById(android.R.id.list)
         viewModel = ViewModelProviders.of(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
-        viewModel.dataset.observe(this, Observer<List<MediaWrapper>> { mediaWrappers -> if (mediaWrappers != null) mHistoryAdapter.update(mediaWrappers) })
+        viewModel.dataset.observe(this, Observer<List<MediaWrapper>> { list ->  list?.let {
+            historyAdapter.update(it)
+            updateEmptyView()
+        } })
     }
 
-    override fun onRestart() {
+    override fun onStart() {
+        super.onStart()
         viewModel.refresh()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mRecyclerView!!.layoutManager = LinearLayoutManager(activity)
-        mRecyclerView!!.adapter = mHistoryAdapter
-        mRecyclerView!!.nextFocusUpId = R.id.ml_menu_search
-        mRecyclerView!!.nextFocusLeftId = android.R.id.list
-        mRecyclerView!!.nextFocusRightId = android.R.id.list
-        mRecyclerView!!.nextFocusForwardId = android.R.id.list
-        mRecyclerView!!.requestFocus()
-        registerForContextMenu(mRecyclerView!!)
+        list.layoutManager = LinearLayoutManager(activity)
+        list.adapter = historyAdapter
+        list.nextFocusUpId = R.id.ml_menu_search
+        list.nextFocusLeftId = android.R.id.list
+        list.nextFocusRightId = android.R.id.list
+        list.nextFocusForwardId = android.R.id.list
+        list.requestFocus()
+        registerForContextMenu(list)
         swipeRefreshLayout!!.setOnRefreshListener(this)
     }
 
@@ -85,13 +88,13 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
-        menu!!.findItem(R.id.ml_menu_clean).isVisible = !isEmpty()
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.ml_menu_clean).isVisible = !isEmpty()
         super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item!!.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.ml_menu_clean -> {
                 clearHistory()
                 true
@@ -119,23 +122,22 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun clear() {}
 
     private fun updateEmptyView() {
-        if (mHistoryAdapter.isEmpty()) {
-            swipeRefreshLayout!!.visibility = View.GONE
-            mEmptyView!!.visibility = View.VISIBLE
+        if (viewModel.isEmpty()) {
+            swipeRefreshLayout?.visibility = View.GONE
+            empty.visibility = View.VISIBLE
         } else {
-            mEmptyView!!.visibility = View.GONE
-            swipeRefreshLayout!!.visibility = View.VISIBLE
+            empty.visibility = View.GONE
+            swipeRefreshLayout?.visibility = View.VISIBLE
         }
     }
 
     override fun isEmpty(): Boolean {
-        return mHistoryAdapter.isEmpty()
+        return historyAdapter.isEmpty()
     }
 
     override fun clearHistory() {
         mediaLibrary.clearHistory()
         viewModel.clear()
-        updateEmptyView()
     }
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
@@ -144,7 +146,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-        val selectionCount = mHistoryAdapter.selection.size
+        val selectionCount = historyAdapter.selection.size
         if (selectionCount == 0) {
             stopActionMode()
             return false
@@ -155,7 +157,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-        val selection = mHistoryAdapter.selection
+        val selection = historyAdapter.selection
         if (selection.isNotEmpty()) {
             when (item.itemId) {
                 R.id.action_history_play -> MediaUtils.openList(activity, selection, 0)
@@ -178,7 +180,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
             ++index
             if (media.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)) {
                 media.removeStateFlags(MediaLibraryItem.FLAG_SELECTED)
-                mHistoryAdapter.notifyItemChanged(index, media)
+                historyAdapter.notifyItemChanged(index, media)
             }
         }
     }
@@ -186,7 +188,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         if (actionMode != null) {
             item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED)
-            mHistoryAdapter.notifyItemChanged(position, item)
+            historyAdapter.notifyItemChanged(position, item)
             invalidateActionMode()
             return
         }
@@ -197,7 +199,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
         if (actionMode != null) return false
         item.toggleStateFlag(MediaLibraryItem.FLAG_SELECTED)
-        mHistoryAdapter.notifyItemChanged(position, item)
+        historyAdapter.notifyItemChanged(position, item)
         startActionMode()
         return true
     }
@@ -212,7 +214,6 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {}
 
-
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
@@ -220,12 +221,5 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         swipeRefreshLayout!!.isRefreshing = false
     }
 
-    override fun onItemFocused(v: View, item: MediaLibraryItem) {
-
-    }
-
-    companion object {
-
-        const val TAG = "VLC/HistoryFragment"
-    }
+    override fun onItemFocused(v: View, item: MediaLibraryItem) {}
 }

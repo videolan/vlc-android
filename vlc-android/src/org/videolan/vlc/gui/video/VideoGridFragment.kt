@@ -107,14 +107,13 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
         if (savedInstanceState != null) setGroup(savedInstanceState.getString(KEY_GROUP))
     }
 
-
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu!!.findItem(R.id.ml_menu_last_playlist).isVisible = true
+        menu.findItem(R.id.ml_menu_last_playlist).isVisible = true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item!!.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.ml_menu_last_playlist -> {
                 MediaUtils.loadlastPlaylist(activity, PLAYLIST_TYPE_VIDEO)
                 true
@@ -155,10 +154,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swi
         updateViewMode()
         setFabPlayVisibility(true)
         fabPlay?.setImageResource(R.drawable.ic_fab_play)
-    }
-
-    override fun onRestart() {
-        if (getFilterQuery() == null) viewModel.refresh()
+        if (!viewModel.isEmpty() && getFilterQuery() == null) viewModel.refresh()
     }
 
     override fun onStop() {

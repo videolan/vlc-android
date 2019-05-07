@@ -56,6 +56,8 @@ import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.SortableModel
 import java.util.*
 
+private const val TAG = "VLC/MediaBrowserFragment"
+
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.Callback, Filterable {
@@ -67,8 +69,6 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     var fabPlay: FloatingActionButton? = null
     open lateinit var viewModel: T
         protected set
-    private var restart = false
-
 
     abstract fun getTitle(): String
 
@@ -77,20 +77,15 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
 
     val menu: Menu?
         get() {
-            val activity = activity
-            return if (activity !is AudioPlayerContainerActivity) null else activity.menu
-
+            return (activity as? AudioPlayerContainerActivity)?.menu
         }
 
-    protected open fun hasTabs(): Boolean {
-        return false
-    }
+    protected open fun hasTabs() = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mediaLibrary = VLCApplication.mlInstance
         setHasOptionsMenu(!AndroidDevices.isAndroidTv)
-        restart = false
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -101,18 +96,14 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         if (hasFAB()) fabPlay = requireActivity().findViewById(R.id.fab)
     }
 
-    protected open fun hasFAB(): Boolean {
-        return swipeRefreshLayout != null
-    }
+    protected open fun hasFAB() = swipeRefreshLayout != null
 
     protected open fun setBreadcrumb() {
-        val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane)
-        if (ariane != null) ariane.visibility = View.GONE
+        activity?.findViewById<RecyclerView>(R.id.ariane)?.visibility = View.GONE
     }
 
     private fun releaseBreadCrumb() {
-        val ariane = requireActivity().findViewById<RecyclerView>(R.id.ariane)
-        if (ariane != null) ariane.adapter = null
+        activity?.findViewById<RecyclerView>(R.id.ariane)?.adapter = null
     }
 
     override fun onStart() {
@@ -121,24 +112,20 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         updateActionBar()
         setFabPlayVisibility(true)
         fabPlay?.setOnClickListener { v -> onFabPlayClick(v) }
-        if (restart) onRestart()
     }
-
-    protected open fun onRestart() {}
 
     override fun onStop() {
         super.onStop()
         releaseBreadCrumb()
         setFabPlayVisibility(false)
-        restart = true
     }
 
     private fun updateActionBar() {
-        val activity = activity as AppCompatActivity? ?: return
-        if (activity.supportActionBar != null) {
-            activity.supportActionBar!!.title = getTitle()
-            activity.supportActionBar!!.subtitle = subTitle
-            activity.supportInvalidateOptionsMenu()
+        val activity = activity as? AppCompatActivity ?: return
+        activity.supportActionBar?.let {
+            it.title = getTitle()
+            it.subtitle = subTitle
+            activity.invalidateOptionsMenu()
         }
         if (activity is ContentActivity) activity.setTabLayoutVisibility(hasTabs())
     }
@@ -149,11 +136,9 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     }
 
     open fun setFabPlayVisibility(enable: Boolean) {
-        if (fabPlay != null) {
-            if (enable)
-                fabPlay!!.show()
-            else
-                fabPlay!!.hide()
+        fabPlay?.run {
+            if (enable) show()
+            else hide()
         }
     }
 
@@ -206,8 +191,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     }
 
     private fun onDeleteFailed(media: MediaWrapper) {
-        val v = view
-        if (v != null && isAdded) UiTools.snacker(v, getString(R.string.msg_delete_failed, media.title))
+        if (isAdded) view?.let { UiTools.snacker(it, getString(R.string.msg_delete_failed, media.title)) }
     }
 
     protected fun showInfoDialog(item: MediaLibraryItem) {
@@ -216,9 +200,9 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         startActivity(i)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu!!.findItem(R.id.ml_menu_sortby).isVisible = viewModel.canSortByName()
+        menu.findItem(R.id.ml_menu_sortby).isVisible = viewModel.canSortByName()
         menu.findItem(R.id.ml_menu_sortby_filename).isVisible = viewModel.canSortByFileNameName()
         menu.findItem(R.id.ml_menu_sortby_artist_name).isVisible = viewModel.canSortByArtist()
         menu.findItem(R.id.ml_menu_sortby_album_name).isVisible = viewModel.canSortByAlbum()
@@ -229,8 +213,8 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         UiTools.updateSortTitles(this)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.ml_menu_sortby_name -> {
                 sortBy(Medialibrary.SORT_ALPHA)
                 return true
@@ -286,28 +270,18 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     }
 
     fun invalidateActionMode() {
-        if (actionMode != null) actionMode!!.invalidate()
+        actionMode?.invalidate()
     }
 
-    override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-        return false
-    }
+    override fun onPrepareActionMode(mode: ActionMode, menu: Menu) = false
 
-    override fun filter(query: String) {
-        viewModel.filter(query)
-    }
+    override fun filter(query: String) = viewModel.filter(query)
 
-    override fun restoreList() {
-        viewModel.restore()
-    }
+    override fun restoreList() = viewModel.restore()
 
-    override fun enableSearchOption(): Boolean {
-        return true
-    }
+    override fun enableSearchOption() = true
 
-    override fun getFilterQuery(): String? {
-        return viewModel.filterQuery
-    }
+    override fun getFilterQuery() = viewModel.filterQuery
 
     override fun setSearchVisibility(visible: Boolean) {
         if (searchButtonView.visibility == View.VISIBLE == visible) return
@@ -322,12 +296,5 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             UiTools.setViewVisibility(searchButtonView, if (visible) View.VISIBLE else View.GONE)
     }
 
-    override fun allowedToExpand(): Boolean {
-        return true
-    }
-
-    companion object {
-
-        val TAG = "VLC/MediaBrowserFragment"
-    }
+    override fun allowedToExpand() = true
 }

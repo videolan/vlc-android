@@ -31,10 +31,6 @@ class HistoryModel(context: Context) : MedialibraryModel<MediaWrapper>(context) 
 
     override fun canSortByName() = false
 
-    init {
-        if (medialibrary.isStarted) refresh()
-    }
-
     override suspend fun updateList() {
         dataset.value = withContext(Dispatchers.Default) { medialibrary.lastMediaPlayed().toMutableList() }
     }

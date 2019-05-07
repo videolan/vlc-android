@@ -209,9 +209,9 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
         fabPlay?.setImageResource(R.drawable.ic_fab_shuffle)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu?.findItem(R.id.ml_menu_last_playlist)?.isVisible = true
+        menu.findItem(R.id.ml_menu_last_playlist)?.isVisible = true
     }
 
     override fun onFabPlayClick(view: View) {

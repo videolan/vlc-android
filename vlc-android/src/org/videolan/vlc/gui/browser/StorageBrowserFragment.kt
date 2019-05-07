@@ -103,9 +103,6 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
         super.onStart()
         VLCApplication.mlInstance.addEntryPointsEventsCb(this)
         mSnack?.show()
-    }
-
-    override fun onRestart() {
         launch { if (isAdded) (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
     }
 
@@ -121,14 +118,14 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
         outState.putBoolean(KEY_IN_MEDIALIB, mScannedDirectory)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu?.findItem(R.id.ml_menu_custom_dir)?.isVisible = true
-        menu?.findItem(R.id.ml_menu_refresh)?.isVisible = false
+        menu.findItem(R.id.ml_menu_custom_dir)?.isVisible = true
+        menu.findItem(R.id.ml_menu_refresh)?.isVisible = false
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.ml_menu_custom_dir) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.ml_menu_custom_dir) {
             showAddDirectoryDialog()
             return true
         }

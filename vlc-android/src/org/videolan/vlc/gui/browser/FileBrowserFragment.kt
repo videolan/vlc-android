@@ -144,9 +144,9 @@ open class FileBrowserFragment : BaseBrowserFragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val item = menu?.findItem(R.id.ml_menu_save) ?: return
+        val item = menu.findItem(R.id.ml_menu_save) ?: return
         item.isVisible = !isRootDirectory && mrl!!.startsWith("file")
         runIO(Runnable {
             val isFavorite = mrl != null && browserFavRepository.browserFavExists(Uri.parse(mrl))

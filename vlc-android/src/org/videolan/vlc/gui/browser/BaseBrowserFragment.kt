@@ -59,7 +59,7 @@ import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 import java.util.*
 
-const val TAG = "VLC/BaseBrowserFragment"
+private const val TAG = "VLC/BaseBrowserFragment"
 
 internal const val KEY_MEDIA = "key_media"
 private const val KEY_POSITION = "key_list"
@@ -107,12 +107,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         browserFavRepository = BrowserFavRepository.getInstance(requireContext())
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val item = menu?.findItem(R.id.ml_menu_filter)
-        if (item != null) item.isVisible = enableSearchOption()
-        val sortItem = menu?.findItem(R.id.ml_menu_sortby)
-        if (sortItem != null) sortItem.isVisible = !isRootDirectory
+        menu.findItem(R.id.ml_menu_filter)?.isVisible = enableSearchOption()
+        menu.findItem(R.id.ml_menu_sortby)?.isVisible = !isRootDirectory
     }
 
     protected open fun defineIsRoot() = mrl == null
@@ -360,11 +358,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         adapter.multiSelectHelper.clearSelection()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item!!.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
             R.id.ml_menu_save -> {
                 toggleFavorite()
-                onPrepareOptionsMenu(menu)
+                menu?.let { onPrepareOptionsMenu(it) }
                 true
             }
             else -> super.onOptionsItemSelected(item)
