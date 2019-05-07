@@ -34,6 +34,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.jetbrains.annotations.NotNull;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.ExternalMonitor;
@@ -45,14 +53,6 @@ import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Util;
 import org.videolan.vlc.util.WorkersKt;
 import org.videolan.vlc.viewmodels.browser.NetworkModel;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class NetworkBrowserFragment extends BaseBrowserFragment {
 
@@ -201,6 +201,7 @@ public class NetworkBrowserFragment extends BaseBrowserFragment {
 
     public void showAddServerDialog(MediaWrapper mw) {
         final FragmentManager fm = getFragmentManager();
+        if (fm == null) return;
         final NetworkServerDialog dialog = new NetworkServerDialog();
         if (mw != null) dialog.setServer(mw);
         dialog.show(fm, "fragment_add_server");
