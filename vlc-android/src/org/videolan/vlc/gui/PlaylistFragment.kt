@@ -106,7 +106,7 @@ class PlaylistFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListene
         val itemSize = requireActivity().getScreenWidth() / nbColumns - spacing * 2
 
         playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, itemSize)
-        currentAdapter = playlistAdapter
+        adapter = playlistAdapter
 
         playlists.layoutManager = gridLayoutManager
         playlists.adapter = playlistAdapter

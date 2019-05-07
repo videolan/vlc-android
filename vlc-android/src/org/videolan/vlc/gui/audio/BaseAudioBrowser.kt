@@ -63,7 +63,11 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
     private val tcl = TabLayout.TabLayoutOnPageChangeListener(tabLayout)
 
     protected abstract fun getCurrentRV(): RecyclerView
-    protected var currentAdapter: AudioBrowserAdapter? = null
+    protected var adapter: AudioBrowserAdapter? = null
+
+    open fun getCurrentAdapter(): AudioBrowserAdapter? {
+        return adapter
+    }
 
     private lateinit var layoutOnPageChangeListener: TabLayout.TabLayoutOnPageChangeListener
 
@@ -151,7 +155,7 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
     }
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-        val selection = currentAdapter?.multiSelectHelper?.getSelection()
+        val selection = getCurrentAdapter()?.multiSelectHelper?.getSelection()
         val count = selection?.size
         if (count == 0) {
             stopActionMode()
@@ -165,7 +169,7 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-        val list = currentAdapter?.multiSelectHelper?.getSelection()
+        val list = getCurrentAdapter()?.multiSelectHelper?.getSelection()
         stopActionMode()
         if (list != null && list.isNotEmpty())
             runIO(Runnable {
@@ -186,7 +190,7 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
     }
 
     override fun onDestroyActionMode(actionMode: ActionMode) {
-        onDestroyActionMode(currentAdapter)
+        onDestroyActionMode(getCurrentAdapter())
     }
 
     internal fun onDestroyActionMode(adapter: AudioBrowserAdapter?) {
@@ -204,14 +208,14 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         if (actionMode != null) {
-            currentAdapter?.multiSelectHelper?.toggleSelection(position)
+            getCurrentAdapter()?.multiSelectHelper?.toggleSelection(position)
             invalidateActionMode()
         }
     }
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
         if (actionMode != null) return false
-        currentAdapter?.multiSelectHelper?.toggleSelection(position)
+        getCurrentAdapter()?.multiSelectHelper?.toggleSelection(position)
         startActionMode()
         return true
     }
@@ -247,7 +251,7 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
     }
 
     override fun onCtxAction(position: Int, option: Int) {
-        val adapter = currentAdapter
+        val adapter = getCurrentAdapter()
         if (position >= adapter?.itemCount ?: 0) return
         val media = adapter?.getItem(position) ?: return
         when (option) {

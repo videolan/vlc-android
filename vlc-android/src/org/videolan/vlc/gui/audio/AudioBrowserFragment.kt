@@ -234,8 +234,8 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
     }
 
     private fun updateEmptyView() {
-        emptyView.visibility = if (currentAdapter != null && currentAdapter!!.isEmpty) View.VISIBLE else View.GONE
-        medialibrarySettingsBtn.visibility = if (currentAdapter != null && currentAdapter!!.isEmpty) View.VISIBLE else View.GONE
+        emptyView.visibility = if (getCurrentAdapter() != null && getCurrentAdapter()!!.isEmpty) View.VISIBLE else View.GONE
+        medialibrarySettingsBtn.visibility = if (getCurrentAdapter() != null && getCurrentAdapter()!!.isEmpty) View.VISIBLE else View.GONE
         setFabPlayShuffleAllVisibility()
     }
 
@@ -292,7 +292,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         super.onUpdateFinished(adapter)
-        if (currentAdapter != null && adapter === currentAdapter) {
+        if (getCurrentAdapter() != null && adapter === getCurrentAdapter()) {
             swipeRefreshLayout?.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
             updateEmptyView()
             fastScroller.setRecyclerView(getCurrentRV(), viewModel)
@@ -304,6 +304,10 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
 
     override fun getCurrentRV(): RecyclerView {
         return lists[viewPager!!.currentItem]!!
+    }
+
+    override fun getCurrentAdapter(): AudioBrowserAdapter? {
+        return adapters[viewPager!!.currentItem]
     }
 
     private class AudioBrowserHandler internal constructor(owner: AudioBrowserFragment) : WeakHandler<AudioBrowserFragment>(owner) {
