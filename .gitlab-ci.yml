@@ -6,7 +6,7 @@ cache:
         - gradlew
 
 .build-all-base:
-    image: registry.videolan.org:5000/vlc-debian-android:20190213120828
+    image: registry.videolan.org:5000/vlc-debian-android:20190507013347
     tags:
         - debian 
         - android
