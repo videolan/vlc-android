@@ -109,13 +109,10 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
 
     fun isEmpty() = pagedList.value.isNullOrEmpty()
 
-    override fun refresh(): Boolean {
+    override fun refresh() {
         if (this::restoreJob.isInitialized && restoreJob.isActive) restoreJob.cancel()
         launch { provider.refresh() }
-        return true
     }
-
-    protected fun completeHeaders(list: Array<T>, startposition: Int) = provider.completeHeaders(list, startposition)
 
     @MainThread
     fun getSectionforPosition(position: Int) = provider.getSectionforPosition(position)

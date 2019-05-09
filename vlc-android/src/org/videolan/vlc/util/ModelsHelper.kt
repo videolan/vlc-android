@@ -252,7 +252,7 @@ object EmptyPBSCallback : PlaybackService.Callback {
 }
 
 interface RefreshModel {
-    fun refresh(): Boolean
+    fun refresh()
 }
 
 fun SortableModel.canSortBy(sort: Int) = when (sort) {

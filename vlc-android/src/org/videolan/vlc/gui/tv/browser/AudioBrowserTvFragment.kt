@@ -329,9 +329,7 @@ class AudioBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     }
 
 
-    override fun refresh() {
-        viewModel.refresh()
-    }
+    override fun refresh() = viewModel.refresh()
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         launch { TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider) }

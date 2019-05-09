@@ -249,9 +249,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
-    override fun refresh() {
-        viewModel.refresh()
-    }
+    override fun refresh() = viewModel.refresh()
 
     override fun onClick(v: View) {
         when (v.id) {

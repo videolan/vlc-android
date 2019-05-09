@@ -92,9 +92,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScop
 
     override fun getTitle(): String = getString(R.string.video)
 
-    override fun onRefresh() {
-        viewModel.refresh()
-    }
+    override fun onRefresh() = viewModel.refresh()
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)

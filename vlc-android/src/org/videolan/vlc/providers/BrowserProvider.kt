@@ -116,11 +116,10 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     protected open fun addMedia(media: MediaLibraryItem) = dataset.add(media)
 
-    open fun refresh() : Boolean {
-        if (url === null) return false
+    open fun refresh() {
+        if (url === null) return
         loading.value = true
         browserActor.post(Refresh)
-        return true
     }
 
     internal open fun parseSubDirectories() {

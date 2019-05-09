@@ -24,9 +24,7 @@ import android.content.Context
 import androidx.annotation.MainThread
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.providers.*
@@ -38,6 +36,8 @@ const val TYPE_NETWORK = 1
 const val TYPE_PICKER = 2
 const val TYPE_STORAGE = 3
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 open class BrowserModel(context: Context, val url: String?, type: Int, showHiddenFiles: Boolean) : BaseModel<MediaLibraryItem>(context) {
 
     protected val provider: BrowserProvider = when (type) {

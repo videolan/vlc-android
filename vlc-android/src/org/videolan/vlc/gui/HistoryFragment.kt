@@ -107,9 +107,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
         if (fabPlay != null) fabPlay!!.hide()
     }
 
-    override fun refresh() {
-        viewModel.refresh()
-    }
+    override fun refresh() = viewModel.refresh()
 
     override fun onRefresh() {
         refresh()

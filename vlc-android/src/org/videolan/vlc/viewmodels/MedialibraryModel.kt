@@ -21,10 +21,13 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 
+@ObsoleteCoroutinesApi
+@ExperimentalCoroutinesApi
 abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context) : BaseModel<T>(context), Medialibrary.OnMedialibraryReadyListener, Medialibrary.OnDeviceChangeListener {
 
     val medialibrary = Medialibrary.getInstance()
@@ -36,17 +39,11 @@ abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context) : BaseM
         }
     }
 
-    override fun onMedialibraryReady() {
-        launch { refresh() }
-    }
+    override fun onMedialibraryReady() = refresh()
 
-    override fun onMedialibraryIdle() {
-        launch { refresh() }
-    }
+    override fun onMedialibraryIdle() = refresh()
 
-    override fun onDeviceChange() {
-        launch { refresh() }
-    }
+    override fun onDeviceChange() = refresh()
 
     override fun onCleared() {
         medialibrary.removeOnMedialibraryReadyListener(this)
