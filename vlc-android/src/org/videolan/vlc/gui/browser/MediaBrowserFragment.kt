@@ -37,8 +37,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -54,13 +53,14 @@ import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.SortableModel
+import java.lang.Runnable
 import java.util.*
 
 private const val TAG = "VLC/MediaBrowserFragment"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.Callback, Filterable {
+abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.Callback, Filterable, CoroutineScope by MainScope() {
 
     private lateinit var searchButtonView: View
     var swipeRefreshLayout: SwipeRefreshLayout? = null
@@ -69,6 +69,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     var fabPlay: FloatingActionButton? = null
     open lateinit var viewModel: T
         protected set
+    open val hasTabs = false
 
     abstract fun getTitle(): String
 
@@ -79,8 +80,6 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         get() {
             return (activity as? AudioPlayerContainerActivity)?.menu
         }
-
-    protected open fun hasTabs() = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,7 +126,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             it.subtitle = subTitle
             activity.invalidateOptionsMenu()
         }
-        if (activity is ContentActivity) activity.setTabLayoutVisibility(hasTabs())
+        if (activity is ContentActivity) activity.setTabLayoutVisibility(hasTabs)
     }
 
     override fun onPause() {
@@ -179,13 +178,13 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             }
             for (folder in foldersToReload) mediaLibrary.reload(folder)
             if (activity != null) {
-                runOnMainThread(Runnable {
+                launch {
                     if (mediaPaths.isEmpty()) {
                         failCB?.run()
-                        return@Runnable
+                        return@launch
                     }
                     if (refresh) onRefresh()
-                })
+                }
             }
         })
     }

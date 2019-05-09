@@ -24,14 +24,10 @@ import org.videolan.vlc.media.getAll
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.paged.PagedFoldersModel
-import kotlin.coroutines.CoroutineContext
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CoroutineScope, CtxActionReceiver {
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main.immediate
+class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CtxActionReceiver {
 
     private lateinit var adapter: FoldersAdapter
 

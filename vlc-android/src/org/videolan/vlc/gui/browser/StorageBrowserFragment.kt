@@ -38,13 +38,15 @@ import androidx.collection.SimpleArrayMap
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
-import org.videolan.tools.coroutineScope
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -64,12 +66,12 @@ const val KEY_IN_MEDIALIB = "key_in_medialib"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, CoroutineScope by MainScope() {
+class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
 
-    internal var mScannedDirectory = false
-    private val mProcessingFolders = SimpleArrayMap<String, CheckBox>()
-    private var mSnack: com.google.android.material.snackbar.Snackbar? = null
-    private var mAlertDialog: AlertDialog? = null
+    internal var scannedDirectory = false
+    private val processingFolders = SimpleArrayMap<String, CheckBox>()
+    private var snack: com.google.android.material.snackbar.Snackbar? = null
+    private var alertDialog: AlertDialog? = null
 
     override val categoryTitle: String
         get() = getString(R.string.directories_summary)
@@ -83,15 +85,15 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
         super.onCreate(bundle)
         adapter = StorageBrowserAdapter(this)
         if (bundle == null) bundle = arguments
-        if (bundle != null) mScannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB)
+        if (bundle != null) scannedDirectory = bundle.getBoolean(KEY_IN_MEDIALIB)
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (isRootDirectory && AndroidDevices.showTvUi(view.context)) {
-            mSnack = com.google.android.material.snackbar.Snackbar.make(view, R.string.tv_settings_hint, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE)
-            if (AndroidUtil.isLolliPopOrLater) mSnack?.view?.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
+            snack = com.google.android.material.snackbar.Snackbar.make(view, R.string.tv_settings_hint, com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE)
+            if (AndroidUtil.isLolliPopOrLater) snack?.view?.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         }
     }
 
@@ -102,20 +104,20 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
     override fun onStart() {
         super.onStart()
         VLCApplication.mlInstance.addEntryPointsEventsCb(this)
-        mSnack?.show()
+        snack?.show()
         launch { if (isAdded) (adapter as StorageBrowserAdapter).updateListState(requireContext()) }
     }
 
     override fun onStop() {
         super.onStop()
         VLCApplication.mlInstance.removeEntryPointsEventsCb(this)
-        mSnack?.dismiss()
-        mAlertDialog?.let { if (it.isShowing) it.dismiss() }
+        snack?.dismiss()
+        alertDialog?.let { if (it.isShowing) it.dismiss() }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(KEY_IN_MEDIALIB, mScannedDirectory)
+        outState.putBoolean(KEY_IN_MEDIALIB, scannedDirectory)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -137,7 +139,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
         val next = createFragment()
         val args = Bundle()
         args.putParcelable(KEY_MEDIA, media)
-        args.putBoolean(KEY_IN_MEDIALIB, mScannedDirectory || scanned)
+        args.putBoolean(KEY_IN_MEDIALIB, scannedDirectory || scanned)
         next.arguments = args
         ft?.replace(R.id.fragment_placeholder, next, media.location)
         ft?.addToBackStack(if (isRootDirectory) "root" else currentMedia?.title
@@ -196,7 +198,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
 
     internal fun processEvent(cbp: CheckBox, mrl: String) {
         cbp.isEnabled = false
-        mProcessingFolders.put(mrl, cbp)
+        processingFolders.put(mrl, cbp)
     }
 
     override fun onEntryPointBanned(entryPoint: String, success: Boolean) {}
@@ -207,8 +209,8 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
         var entryPoint = entryPoint
         if (entryPoint.endsWith("/"))
             entryPoint = entryPoint.substring(0, entryPoint.length - 1)
-        if (mProcessingFolders.containsKey(entryPoint)) {
-            mProcessingFolders.remove(entryPoint)?.let {
+        if (processingFolders.containsKey(entryPoint)) {
+            processingFolders.remove(entryPoint)?.let {
                 handler.post {
                     it.isEnabled = true
                     if (success) {
@@ -228,9 +230,9 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
     override fun onDiscoveryCompleted(entryPoint: String) {
         var path = entryPoint
         if (path.endsWith("/")) path = path.dropLast(1)
-        if (mProcessingFolders.containsKey(path)) {
+        if (processingFolders.containsKey(path)) {
             val finalPath = path
-            handler.post { mProcessingFolders.get(finalPath)?.isEnabled = true }
+            handler.post { processingFolders.get(finalPath)?.isEnabled = true }
             (adapter as StorageBrowserAdapter).updateMediaDirs(requireContext())
         }
     }
@@ -252,11 +254,11 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb, Corou
                 return@OnClickListener
             }
 
-            coroutineScope.launch(CoroutineExceptionHandler { _, _ -> }) {
+            launch(CoroutineExceptionHandler { _, _ -> }) {
                 viewModel.addCustomDirectory(f.canonicalPath).join()
                 viewModel.browserRoot()
             }
         })
-        mAlertDialog = builder.show()
+        alertDialog = builder.show()
     }
 }

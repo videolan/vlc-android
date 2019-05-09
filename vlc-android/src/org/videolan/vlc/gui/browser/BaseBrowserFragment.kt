@@ -40,7 +40,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -367,7 +366,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         }
     }
 
-    private fun toggleFavorite() = coroutineScope.launch {
+    private fun toggleFavorite() = launch {
         val mw = currentMedia ?: return@launch
         withContext(Dispatchers.IO) {
             when {
@@ -409,7 +408,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
-        if (actionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) coroutineScope.launch {
+        if (actionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) launch {
             val mw = item as MediaWrapper
             if (mw.uri.scheme == "content" || mw.uri.scheme == OTG_SCHEME) return@launch
             var flags = if (!isRootDirectory && this@BaseBrowserFragment is FileBrowserFragment) CTX_DELETE else 0
@@ -457,7 +456,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             }
             CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), mw.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), mw)
-            CTX_FAV_REMOVE -> coroutineScope.launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
+            CTX_FAV_REMOVE -> launch(Dispatchers.IO) { browserFavRepository.deleteBrowserFav(mw.uri) }
         }
     }
 

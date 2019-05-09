@@ -47,8 +47,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Playlist
@@ -72,6 +71,7 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.paged.MLPagedModel
 import org.videolan.vlc.viewmodels.paged.PagedTracksModel
+import java.lang.Runnable
 import java.util.*
 
 @ObsoleteCoroutinesApi
@@ -81,7 +81,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     private lateinit var audioBrowserAdapter: AudioBrowserAdapter
     private var playlist: MediaLibraryItem? = null
     private val mediaLibrary = VLCApplication.mlInstance
-    private var binding: PlaylistActivityBinding? = null
+    private lateinit var binding: PlaylistActivityBinding
     private var actionMode: ActionMode? = null
     private var isPlaylist: Boolean = false
     private var tracksModel: PagedTracksModel? = null
@@ -93,16 +93,16 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         binding = DataBindingUtil.setContentView(this, R.layout.playlist_activity)
 
         initAudioPlayerContainerActivity()
-        fragmentContainer = binding!!.songs
+        fragmentContainer = binding.songs
         originalBottomPadding = fragmentContainer!!.paddingBottom
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         playlist = if (savedInstanceState != null)
             savedInstanceState.getParcelable<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem?
         else
             intent.getParcelableExtra<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem?
         isPlaylist = playlist!!.itemType == MediaLibraryItem.TYPE_PLAYLIST
-        binding!!.playlist = playlist
+        binding.playlist = playlist
         tracksModel = ViewModelProviders.of(this, PagedTracksModel.Factory(this, playlist)).get(PagedTracksModel::class.java)
         (tracksModel as MLPagedModel<MediaLibraryItem>).pagedList.observe(this, Observer<PagedList<MediaLibraryItem>> { tracks ->
             if (tracks != null) {
@@ -114,42 +114,40 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         })
         audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
         itemTouchHelper = ItemTouchHelper(SwipeDragItemTouchHelperCallback(audioBrowserAdapter))
-        itemTouchHelper!!.attachToRecyclerView(binding!!.songs)
+        itemTouchHelper!!.attachToRecyclerView(binding.songs)
 
-        binding!!.songs.layoutManager = LinearLayoutManager(this)
-        binding!!.songs.adapter = audioBrowserAdapter
+        binding.songs.layoutManager = LinearLayoutManager(this)
+        binding.songs.adapter = audioBrowserAdapter
         val fabVisibility = savedInstanceState != null && savedInstanceState.getBoolean(TAG_FAB_VISIBILITY)
 
-        if (!TextUtils.isEmpty(playlist!!.artworkMrl)) {
-            runIO(Runnable {
-                val cover = AudioUtil.readCoverBitmap(Uri.decode(playlist!!.artworkMrl), resources.getDimensionPixelSize(R.dimen.audio_browser_item_size))
-                if (cover != null) {
-                    binding!!.cover = BitmapDrawable(this@PlaylistActivity.resources, cover)
-                    runOnMainThread(Runnable {
-                        binding!!.appbar.setExpanded(true, true)
-                        if (savedInstanceState != null) {
-                            if (fabVisibility)
-                                binding!!.fab.show()
-                            else
-                                binding!!.fab.hide()
-                        }
-                    })
-                } else
-                    runOnMainThread(Runnable { fabFallback() })
-            })
-        } else
-            fabFallback()
-        binding!!.fab.setOnClickListener(this)
+        if (!TextUtils.isEmpty(playlist!!.artworkMrl)) launch {
+            val cover = withContext(Dispatchers.IO) {
+                AudioUtil.readCoverBitmap(Uri.decode(playlist!!.artworkMrl), resources.getDimensionPixelSize(R.dimen.audio_browser_item_size))
+            }
+            if (cover != null) {
+                binding.cover = BitmapDrawable(this@PlaylistActivity.resources, cover)
+                launch {
+                    binding.appbar.setExpanded(true, true)
+                    if (savedInstanceState != null) {
+                        if (fabVisibility)
+                            binding.fab.show()
+                        else
+                            binding.fab.hide()
+                    }
+                }
+            } else fabFallback()
+        } else fabFallback()
+        binding.fab.setOnClickListener(this)
     }
 
     private fun fabFallback() {
-        binding!!.appbar.setExpanded(false)
-        val lp = binding!!.fab.layoutParams as CoordinatorLayout.LayoutParams
+        binding.appbar.setExpanded(false)
+        val lp = binding.fab.layoutParams as CoordinatorLayout.LayoutParams
         lp.anchorId = R.id.songs
         lp.anchorGravity = Gravity.BOTTOM or Gravity.END
         lp.behavior = FloatingActionButtonBehavior(this@PlaylistActivity, null)
-        binding!!.fab.layoutParams = lp
-        binding!!.fab.show()
+        binding.fab.layoutParams = lp
+        binding.fab.show()
     }
 
     override fun onStop() {
@@ -159,7 +157,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
 
     public override fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelable(AudioBrowserFragment.TAG_ITEM, playlist)
-        outState.putBoolean(TAG_FAB_VISIBILITY, binding!!.fab.visibility == View.VISIBLE)
+        outState.putBoolean(TAG_FAB_VISIBILITY, binding.fab.visibility == View.VISIBLE)
         super.onSaveInstanceState(outState)
     }
 
@@ -215,11 +213,11 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     }
 
     override fun onPlayerStateChanged(bottomSheet: View, newState: Int) {
-        val visibility = binding!!.fab.visibility
+        val visibility = binding.fab.visibility
         if (visibility == View.VISIBLE && newState != BottomSheetBehavior.STATE_COLLAPSED && newState != BottomSheetBehavior.STATE_HIDDEN)
-            binding!!.fab.hide()
+            binding.fab.hide()
         else if (visibility == View.INVISIBLE && (newState == BottomSheetBehavior.STATE_COLLAPSED || newState == BottomSheetBehavior.STATE_HIDDEN))
-            binding!!.fab.show()
+            binding.fab.show()
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -322,26 +320,24 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     private fun removeItem(position: Int, media: MediaWrapper) {
         val resId = if (isPlaylist) R.string.confirm_remove_from_playlist else R.string.confirm_delete
         if (isPlaylist) {
-            UiTools.snackerConfirm(binding!!.root, getString(resId, media.title), Runnable { (playlist as Playlist).remove(position) })
+            UiTools.snackerConfirm(binding.root, getString(resId, media.title), Runnable { (playlist as Playlist).remove(position) })
         } else {
             val deleteAction = Runnable { deleteMedia(media) }
-            UiTools.snackerConfirm(binding!!.root, getString(resId, media.title), Runnable { if (Util.checkWritePermission(this@PlaylistActivity, media, deleteAction)) deleteAction.run() })
+            UiTools.snackerConfirm(binding.root, getString(resId, media.title), Runnable { if (Util.checkWritePermission(this@PlaylistActivity, media, deleteAction)) deleteAction.run() })
         }
     }
 
-    private fun deleteMedia(mw: MediaLibraryItem) {
-        runIO(Runnable {
-            val foldersToReload = LinkedList<String>()
-            for (media in mw.tracks) {
-                val path = media.uri.path
-                val parentPath = FileUtils.getParent(path)
-                if (parentPath != null && FileUtils.deleteFile(path) && media.id > 0L && !foldersToReload.contains(parentPath)) {
-                    foldersToReload.add(parentPath)
-                } else
-                    UiTools.snacker(binding!!.root, getString(R.string.msg_delete_failed, media.title))
-            }
-            for (folder in foldersToReload) mediaLibrary.reload(folder)
-        })
+    private fun deleteMedia(mw: MediaLibraryItem) = launch(Dispatchers.IO) {
+        val foldersToReload = LinkedList<String>()
+        for (media in mw.tracks) {
+            val path = media.uri.path
+            val parentPath = FileUtils.getParent(path)
+            if (parentPath != null && FileUtils.deleteFile(path) && media.id > 0L && !foldersToReload.contains(parentPath)) {
+                foldersToReload.add(parentPath)
+            } else
+                UiTools.snacker(binding.root, getString(R.string.msg_delete_failed, media.title))
+        }
+        for (folder in foldersToReload) mediaLibrary.reload(folder)
     }
 
     override fun onClick(v: View) {
@@ -350,24 +346,21 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
 
     private fun removeFromPlaylist(list: List<MediaWrapper>, indexes: List<Int>) {
         val itemsRemoved = HashMap<Int, Long>()
-        val playlist = this.playlist as Playlist?
+        val playlist = this.playlist as? Playlist ?: return
 
 
         for (mediaItem in list) {
-            for (i in 0 until playlist!!.tracks.size) {
+            for (i in 0 until playlist.tracks.size) {
                 if (playlist.tracks[i].id == mediaItem.id) {
                     itemsRemoved[i] = mediaItem.id
                 }
             }
         }
-        for (index in indexes) {
-            playlist!!.remove(index)
+        for (index in indexes) playlist.remove(index)
 
-        }
-
-        UiTools.snackerWithCancel(binding!!.root, getString(R.string.removed_from_playlist_anonymous), null, Runnable {
+        UiTools.snackerWithCancel(binding.root, getString(R.string.removed_from_playlist_anonymous), null, Runnable {
             for ((key, value) in itemsRemoved) {
-                playlist!!.add(value, key)
+                playlist.add(value, key)
             }
         })
     }

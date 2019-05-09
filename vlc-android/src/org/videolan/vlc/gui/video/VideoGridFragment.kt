@@ -34,6 +34,7 @@ import androidx.appcompat.view.ActionMode
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Medialibrary
@@ -64,7 +65,7 @@ import java.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<PagedList<MediaWrapper>>, CtxActionReceiver {
+class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<PagedList<MediaWrapper>>, CtxActionReceiver {
 
     private lateinit var videoListAdapter: VideoListAdapter
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>

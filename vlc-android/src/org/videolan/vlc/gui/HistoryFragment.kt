@@ -28,6 +28,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.history_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -47,7 +48,7 @@ private const val TAG = "VLC/HistoryFragment"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHistory, androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
+class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
 
     private val historyAdapter: HistoryAdapter = HistoryAdapter(this)
 

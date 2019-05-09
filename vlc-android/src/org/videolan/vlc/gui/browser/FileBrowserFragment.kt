@@ -34,6 +34,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
@@ -150,13 +151,13 @@ open class FileBrowserFragment : BaseBrowserFragment() {
         item.isVisible = !isRootDirectory && mrl!!.startsWith("file")
         runIO(Runnable {
             val isFavorite = mrl != null && browserFavRepository.browserFavExists(Uri.parse(mrl))
-            runOnMainThread(Runnable {
+            launch {
                 item.setIcon(if (isFavorite)
                     R.drawable.ic_menu_bookmark_w
                 else
                     R.drawable.ic_menu_bookmark_outline_w)
                 item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
-            })
+            }
         })
     }
 

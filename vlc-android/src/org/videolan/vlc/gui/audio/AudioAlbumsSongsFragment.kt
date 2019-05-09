@@ -35,6 +35,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -58,7 +59,7 @@ import org.videolan.vlc.viewmodels.paged.PagedTracksModel
 /* All subclasses of Fragment must include a public empty constructor. */
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class AudioAlbumsSongsFragment : BaseAudioBrowser(), androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
+class AudioAlbumsSongsFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListener {
 
     private var handler = Handler(Looper.getMainLooper())
     private lateinit var albumModel: PagedAlbumsModel
@@ -70,33 +71,30 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser(), androidx.swiperefreshlayout
     private lateinit var albumsAdapter: AudioBrowserAdapter
     private lateinit var fastScroller: FastScroller
 
-    private lateinit var mItem: MediaLibraryItem
+    private lateinit var item: MediaLibraryItem
+    override val hasTabs = true
 
     /*
      * Disable Swipe Refresh while scrolling horizontally
      */
-    private val mSwipeFilter = View.OnTouchListener { v, event ->
+    private val swipeFilter = View.OnTouchListener { _, event ->
         swipeRefreshLayout?.isEnabled = event.action == MotionEvent.ACTION_UP
         false
-    }
-
-    override fun hasTabs(): Boolean {
-        return true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mItem = if (savedInstanceState != null)
+        item = if (savedInstanceState != null)
             savedInstanceState.getParcelable<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem
         else
             arguments!!.getParcelable<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem
-        albumModel = ViewModelProviders.of(this, PagedAlbumsModel.Factory(requireContext(), mItem)).get(PagedAlbumsModel::class.java)
-        tracksModel = ViewModelProviders.of(this, PagedTracksModel.Factory(requireContext(), mItem)).get(PagedTracksModel::class.java)
+        albumModel = ViewModelProviders.of(this, PagedAlbumsModel.Factory(requireContext(), item)).get(PagedAlbumsModel::class.java)
+        tracksModel = ViewModelProviders.of(this, PagedTracksModel.Factory(requireContext(), item)).get(PagedTracksModel::class.java)
         audioModels = arrayOf(albumModel as MLPagedModel<MediaLibraryItem>, tracksModel as MLPagedModel<MediaLibraryItem>)
     }
 
-    override fun getTitle(): String = mItem.title
+    override fun getTitle(): String = item.title
 
 
 
@@ -127,7 +125,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser(), androidx.swiperefreshlayout
         fastScroller = view.rootView.findViewById<View>(R.id.songs_fast_scroller) as FastScroller
         fastScroller.attachToCoordinator(view.rootView.findViewById<View>(R.id.appbar) as AppBarLayout, view.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)
 
-        viewPager!!.setOnTouchListener(mSwipeFilter)
+        viewPager!!.setOnTouchListener(swipeFilter)
         viewModel = audioModels[viewPager!!.currentItem]
         viewPager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
@@ -172,7 +170,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser(), androidx.swiperefreshlayout
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(AudioBrowserFragment.TAG_ITEM, mItem)
+        outState.putParcelable(AudioBrowserFragment.TAG_ITEM, item)
         super.onSaveInstanceState(outState)
     }
 

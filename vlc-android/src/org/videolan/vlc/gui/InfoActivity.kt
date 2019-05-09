@@ -89,15 +89,15 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener {
         model.cover.observe(this, Observer {
             if (it != null) {
                 binding.cover = BitmapDrawable(this@InfoActivity.resources, it)
-                runOnMainThread(Runnable {
+                launch {
                     ViewCompat.setNestedScrollingEnabled(binding.container, true)
                     binding.appbar.setExpanded(true, true)
                     if (fabVisibility != -1) binding.fab.visibility = fabVisibility
-                })
+                }
             } else noCoverFallback()
         })
         if (model.cover.value === null) model.getCover(item.artworkMrl, getScreenWidth())
-        AppScope.launch { updateMeta() }
+        launch { updateMeta() }
     }
 
     private fun updateMeta() {

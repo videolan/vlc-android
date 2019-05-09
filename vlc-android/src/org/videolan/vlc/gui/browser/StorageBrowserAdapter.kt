@@ -63,14 +63,14 @@ internal class StorageBrowserAdapter(fragment: StorageBrowserFragment) : BaseBro
             vh.binding.item = storage
             job?.join()
             val hasContextMenu = customDirsLocation.contains(storagePath)
-            val checked = (fragment as StorageBrowserFragment).mScannedDirectory || mediaDirsLocation.containsPath(storagePath)
+            val checked = (fragment as StorageBrowserFragment).scannedDirectory || mediaDirsLocation.containsPath(storagePath)
             vh.binding.hasContextMenu = hasContextMenu
             when {
                 checked -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_CHECKED
                 hasDiscoveredChildren(storagePath) -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_PARTIAL
                 else -> vh.binding.browserCheckbox.state = ThreeStatesCheckbox.STATE_UNCHECKED
             }
-            vh.binding.checkEnabled = !(fragment as StorageBrowserFragment).mScannedDirectory
+            vh.binding.checkEnabled = !(fragment as StorageBrowserFragment).scannedDirectory
         }
     }
 

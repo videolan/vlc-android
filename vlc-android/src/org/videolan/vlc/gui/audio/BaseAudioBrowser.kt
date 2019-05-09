@@ -34,6 +34,7 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
@@ -177,7 +178,7 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
                 val tracks = ArrayList<MediaWrapper>()
                 for (mediaItem in list)
                     tracks.addAll(Arrays.asList(*mediaItem.tracks))
-                runOnMainThread(Runnable {
+                launch {
                     when (item.itemId) {
                         R.id.action_mode_audio_play -> MediaUtils.openList(activity, tracks, 0)
                         R.id.action_mode_audio_append -> MediaUtils.appendMedia(activity, tracks)
@@ -185,7 +186,7 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
                         R.id.action_mode_audio_info -> showInfoDialog(list[0])
                         R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, requireActivity())
                     }
-                })
+                }
             })
         return true
     }

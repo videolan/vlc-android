@@ -78,6 +78,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
     private lateinit var models: Array<MLPagedModel<MediaLibraryItem>>
     private lateinit var settings: SharedPreferences
     private lateinit var fastScroller: FastScroller
+    override val hasTabs = true
 
     /**
      * Handle changes on the list
@@ -90,10 +91,6 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
     private val mSwipeFilter = View.OnTouchListener { _, event ->
         swipeRefreshLayout?.isEnabled = event.action == MotionEvent.ACTION_UP
         false
-    }
-
-    override fun hasTabs(): Boolean {
-        return true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

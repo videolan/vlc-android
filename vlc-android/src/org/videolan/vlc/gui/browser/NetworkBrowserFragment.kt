@@ -39,13 +39,17 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.dialogs.NetworkServerDialog
 import org.videolan.vlc.gui.dialogs.VlcLoginDialog
-import org.videolan.vlc.util.*
+import org.videolan.vlc.util.CTX_FAV_ADD
+import org.videolan.vlc.util.CTX_FAV_EDIT
+import org.videolan.vlc.util.Util
+import org.videolan.vlc.util.runIO
 import org.videolan.vlc.viewmodels.browser.NetworkModel
 
 @ExperimentalCoroutinesApi
@@ -85,13 +89,13 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
         item.isVisible = !isRootDirectory
         runIO(Runnable {
             val isFavorite = mrl != null && browserFavRepository.browserFavExists(Uri.parse(mrl))
-            runOnMainThread(Runnable {
+            launch {
                 item.setIcon(if (isFavorite)
                     R.drawable.ic_menu_bookmark_w
                 else
                     R.drawable.ic_menu_bookmark_outline_w)
                 item.setTitle(if (isFavorite) R.string.favorites_remove else R.string.favorites_add)
-            })
+            }
         })
     }
 

@@ -51,7 +51,6 @@ import org.videolan.vlc.gui.audio.BaseAudioBrowser
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.paged.PagedPlaylistsModel
 
@@ -122,7 +121,7 @@ class PlaylistFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListene
             binding.empty.visibility = if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
         })
         viewModel.loading.observe(this, Observer<Boolean> { loading ->
-            AppScope.launch { binding.swipeLayout.isRefreshing = loading == true }
+            launch { binding.swipeLayout.isRefreshing = loading == true }
         })
 
         fastScroller.setRecyclerView(getCurrentRV(), viewModel)
