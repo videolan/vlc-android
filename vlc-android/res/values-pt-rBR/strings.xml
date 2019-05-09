@@ -679,4 +679,5 @@
     <string name="popup_force_legacy_summary">Usa um popup de mini tela redimensionável e personalizado</string>
     <string name="device_default">Dispositivo padrão</string>
     <string name="track_number">%s trilhas</string>
+    <string name="jump_to">Ir para</string>
 </resources>
