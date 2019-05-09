@@ -679,4 +679,5 @@
     <string name="popup_force_legacy_summary">Usar popup personalizado redimensionável de \'imagem na imagem\' </string>
     <string name="device_default">Predefinido do dispositivo</string>
     <string name="track_number">%s faixas</string>
+    <string name="jump_to">Saltar para</string>
 </resources>
