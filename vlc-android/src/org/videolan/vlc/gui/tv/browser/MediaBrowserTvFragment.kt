@@ -201,10 +201,10 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
                 if (position == adapter.itemCount - 1) {
                     return 1
                 }
-                if (viewModel.isFirstInSection(position + 1)) {
+                if (viewModel.provider.isFirstInSection(position + 1)) {
 
                     //calculate how many cell it must take
-                    val firstSection = viewModel.getPositionForSection(position)
+                    val firstSection = viewModel.provider.getPositionForSection(position)
                     val nbItems = position - firstSection
                     if (BuildConfig.DEBUG)
                         Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + nbItems % nbColumns)
@@ -219,7 +219,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
 
         adapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, itemSize).apply { setTV(true) }
 
-        list.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, nbColumns, viewModel))
+        list.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, nbColumns, viewModel.provider))
 
         //header list
         headerListContainer.visibility = View.GONE
@@ -336,7 +336,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     override fun onHeaderSelected(header: String) {
         hideHeaderSelectionScreen()
 
-        val positionForSectionByName = viewModel.getPositionForSectionByName(header)
+        val positionForSectionByName = viewModel.provider.getPositionForSectionByName(header)
         if (list.getChildAt(positionForSectionByName) == null) {
             adapter.focusNext = positionForSectionByName
         } else {

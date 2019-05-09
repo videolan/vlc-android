@@ -137,7 +137,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
             list.adapter = adapters[i]
             if (positions != null) list.scrollToPosition(positions[i])
             list.addOnScrollListener(scrollListener)
-            list.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, models[i]))
+            list.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, models[i].provider))
         }
         viewPager!!.setOnTouchListener(mSwipeFilter)
         swipeRefreshLayout?.setOnRefreshListener(this)
@@ -243,7 +243,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
 
     override fun onTabSelected(tab: TabLayout.Tab) {
         super.onTabSelected(tab)
-        fastScroller.setRecyclerView(lists[tab.position]!!, models[tab.position])
+        fastScroller.setRecyclerView(lists[tab.position]!!, models[tab.position].provider)
         settings.edit().putInt(KEY_AUDIO_CURRENT_TAB, tab.position).apply()
         val loading = viewModel.loading.value
         if (loading == null || !loading)
@@ -292,7 +292,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
         if (getCurrentAdapter() != null && adapter === getCurrentAdapter()) {
             swipeRefreshLayout?.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
             updateEmptyView()
-            fastScroller.setRecyclerView(getCurrentRV(), viewModel)
+            fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
         } else
             setFabPlayShuffleAllVisibility()
     }

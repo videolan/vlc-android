@@ -114,8 +114,8 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefres
         songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this)
         adapters = arrayOf<AudioBrowserAdapter>(albumsAdapter, songsAdapter)
 
-        albumsList.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, albumModel))
-        songsList.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, tracksModel))
+        albumsList.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, albumModel.provider))
+        songsList.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, tracksModel.provider))
 
         songsList.adapter = songsAdapter
         albumsList.adapter = albumsAdapter
@@ -181,7 +181,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefres
             val albums = albumModel.pagedList.value
             if (Util.isListEmpty(albums) && !viewModel.isFiltering())
                 viewPager!!.currentItem = 1
-            fastScroller.setRecyclerView(getCurrentRV(), viewModel)
+            fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
         }
     }
 
@@ -210,12 +210,12 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefres
 
     override fun onTabReselected(tab: TabLayout.Tab) {
         lists[tab.position].smoothScrollToPosition(0)
-        fastScroller.setRecyclerView(lists[tab.position], audioModels[tab.position])
+        fastScroller.setRecyclerView(lists[tab.position], audioModels[tab.position].provider)
     }
 
     override fun onTabSelected(tab: TabLayout.Tab) {
         super.onTabSelected(tab)
-        fastScroller.setRecyclerView(lists[tab.position], audioModels[tab.position])
+        fastScroller.setRecyclerView(lists[tab.position], audioModels[tab.position].provider)
     }
 
     override fun getCurrentRV(): RecyclerView {

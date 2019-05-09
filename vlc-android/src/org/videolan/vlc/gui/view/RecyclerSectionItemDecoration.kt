@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.vlc.R
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 
 private const val TAG = "RecyclerSectionItemDecoration"
 
-class RecyclerSectionItemDecoration(private val headerOffset: Int, private val sticky: Boolean, private val model: MLPagedModel<*>) : RecyclerView.ItemDecoration() {
+class RecyclerSectionItemDecoration(private val headerOffset: Int, private val sticky: Boolean, private val provider: MedialibraryProvider<*>) : RecyclerView.ItemDecoration() {
 
     private lateinit var headerView: View
     private lateinit var header: TextView
@@ -21,7 +21,7 @@ class RecyclerSectionItemDecoration(private val headerOffset: Int, private val s
         super.getItemOffsets(outRect, view, parent, state)
 
         val pos = parent.getChildAdapterPosition(view)
-        if (model.isFirstInSection(pos)) {
+        if (provider.isFirstInSection(pos)) {
             outRect.top = headerOffset
         }
     }
@@ -43,10 +43,10 @@ class RecyclerSectionItemDecoration(private val headerOffset: Int, private val s
         val previousChild = parent.getChildAt(0)
         if (sticky && previousChild != null) {
             val position = parent.getChildAdapterPosition(previousChild)
-            val sectionPosition = model.getPositionForSection(position)
+            val sectionPosition = provider.getPositionForSection(position)
             previousSectionPosition = sectionPosition
 
-            val title = model.getSectionforPosition(sectionPosition)
+            val title = provider.getSectionforPosition(sectionPosition)
             header.text = title
             drawHeader(c, parent.getChildAt(0), headerView)
         }
@@ -60,9 +60,9 @@ class RecyclerSectionItemDecoration(private val headerOffset: Int, private val s
                 continue
             }
 
-            val title = model.getSectionforPosition(position)
+            val title = provider.getSectionforPosition(position)
             header.text = title
-            if (model.isFirstInSection(position)) {
+            if (provider.isFirstInSection(position)) {
                 drawHeader(c, child, headerView)
                 drawnPositions.add(i)
             }

@@ -40,7 +40,6 @@ import org.videolan.vlc.viewmodels.paged.HeadersIndex
 import org.videolan.vlc.viewmodels.paged.MLPagedModel
 
 
-@ExperimentalCoroutinesApi
 abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: MLPagedModel<T>) {
     protected val medialibrary = Medialibrary.getInstance()
     val loading = MutableLiveData<Boolean>().apply { value = false }
@@ -80,6 +79,8 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         }
         return true
     }
+
+    fun isEmpty() = pagedList.value.isNullOrEmpty()
 
     fun completeHeaders(list: Array<T>, startposition: Int) {
         for ((position, item) in list.withIndex()) {

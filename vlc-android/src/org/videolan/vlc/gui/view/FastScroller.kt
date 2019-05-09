@@ -51,9 +51,9 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.WeakHandler
 import org.videolan.vlc.viewmodels.paged.HeadersIndex
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
 import java.util.concurrent.atomic.AtomicBoolean
 
 private const val TAG = "FastScroller"
@@ -82,7 +82,7 @@ class FastScroller : LinearLayout, CoroutineScope, Observer<HeadersIndex> {
     private val scrollListener = ScrollListener()
     private lateinit var recyclerView: RecyclerView
     private lateinit var layoutManager: LinearLayoutManager
-    private lateinit var model: MLPagedModel<out MediaLibraryItem>
+    private lateinit var provider: MedialibraryProvider<out MediaLibraryItem>
     private lateinit var handle: ImageView
     private lateinit var bubble: TextView
     private lateinit var coordinatorLayout: CoordinatorLayout
@@ -227,15 +227,15 @@ class FastScroller : LinearLayout, CoroutineScope, Observer<HeadersIndex> {
     /**
      * Sets the [recyclerView] it will be attached to
      */
-    fun setRecyclerView(recyclerView: RecyclerView, model: MLPagedModel<out MediaLibraryItem>) {
+    fun setRecyclerView(recyclerView: RecyclerView, provider: MedialibraryProvider<out MediaLibraryItem>) {
         this.recyclerView = recyclerView
         this.layoutManager = recyclerView.layoutManager as LinearLayoutManager
         this.recyclerView.removeOnScrollListener(scrollListener)
         visibility = View.INVISIBLE
         itemCount = recyclerView.adapter!!.itemCount
-        if (this::model.isInitialized) this.model.liveHeaders.removeObserver(this)
-        this.model = model
-        model.liveHeaders.observeForever(this)
+        if (this::provider.isInitialized) this.provider.liveHeaders.removeObserver(this)
+        this.provider = provider
+        provider.liveHeaders.observeForever(this)
         recyclerView.addOnScrollListener(scrollListener)
         showBubble = (recyclerView.adapter as SeparatedAdapter).hasSections()
     }
@@ -352,8 +352,8 @@ class FastScroller : LinearLayout, CoroutineScope, Observer<HeadersIndex> {
             //ItemDecoration has to be taken into account so we add 1 for the sticky header
             val position = layoutManager.findFirstVisibleItemPosition() + 1
             if (BuildConfig.DEBUG) Log.d(TAG, "findFirstVisibleItemPosition $position")
-            val pos = model.getPositionForSection(position)
-            val sectionforPosition = model.getSectionforPosition(pos)
+            val pos = provider.getPositionForSection(position)
+            val sectionforPosition = provider.getSectionforPosition(pos)
             sb.append(' ')
                     .append(sectionforPosition)
                     .append(' ')

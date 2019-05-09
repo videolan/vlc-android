@@ -10,12 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
 
 private const val TAG = "RecyclerSectionItemDecoration"
 
-class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private val space: Int, private val sticky: Boolean, private val nbColumns: Int, private val model: MLPagedModel<*>) : RecyclerView.ItemDecoration() {
+class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private val space: Int, private val sticky: Boolean, private val nbColumns: Int, private val provider: MedialibraryProvider<*>) : RecyclerView.ItemDecoration() {
 
     private lateinit var headerView: View
     private lateinit var header: TextView
@@ -30,8 +30,8 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
 
 
         val pos = parent.getChildAdapterPosition(view)
-        for (i in 0..(nbColumns - 1)) {
-            if ((pos - i) >= 0 && model.isFirstInSection(pos - i)) {
+        for (i in 0 until nbColumns) {
+            if ((pos - i) >= 0 && provider.isFirstInSection(pos - i)) {
                 outRect.top = headerOffset + space
             }
         }
@@ -56,10 +56,10 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
         val previousChild = parent.getChildAt(0)
         if (sticky && previousChild != null) {
             val position = parent.getChildAdapterPosition(previousChild)
-            val sectionPosition = model.getPositionForSection(position)
+            val sectionPosition = provider.getPositionForSection(position)
             previousSectionPosition = sectionPosition
 
-            val title = model.getSectionforPosition(sectionPosition)
+            val title = provider.getSectionforPosition(sectionPosition)
             header.text = title
             fixLayoutSize(headerView, parent)
             drawHeader(c, parent.getChildAt(0), headerView)
@@ -74,9 +74,9 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
                 continue
             }
 
-            val title = model.getSectionforPosition(position)
+            val title = provider.getSectionforPosition(position)
             header.text = title
-            if (model.isFirstInSection(position)) {
+            if (provider.isFirstInSection(position)) {
                 fixLayoutSize(headerView, parent)
                 drawHeader(c, child, headerView)
                 drawnPositions.add(i)

@@ -21,10 +21,8 @@
 package org.videolan.vlc.viewmodels.paged
 
 import android.content.Context
-import androidx.annotation.MainThread
 import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -37,7 +35,6 @@ import org.videolan.vlc.viewmodels.SortableModel
 typealias HeadersIndex = SparseArrayCompat<String>
 
 @Suppress("LeakingThis")
-@ExperimentalCoroutinesApi
 abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableModel(context), Medialibrary.OnMedialibraryReadyListener, Medialibrary.OnDeviceChangeListener {
     protected val medialibrary = Medialibrary.getInstance()
     abstract val provider : MedialibraryProvider<T>
@@ -107,25 +104,10 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
         }
     }
 
-    fun isEmpty() = pagedList.value.isNullOrEmpty()
+    fun isEmpty() = provider.isEmpty()
 
     override fun refresh() {
         if (this::restoreJob.isInitialized && restoreJob.isActive) restoreJob.cancel()
         launch { provider.refresh() }
     }
-
-    @MainThread
-    fun getSectionforPosition(position: Int) = provider.getSectionforPosition(position)
-
-    @MainThread
-    fun isFirstInSection(position: Int) = provider.isFirstInSection(position)
-
-    @MainThread
-    fun getPositionForSection(position: Int) = provider.getPositionForSection(position)
-
-    @MainThread
-    fun getPositionForSectionByName(header: String) = provider.getPositionForSectionByName(header)
-
-    @MainThread
-    fun getHeaderForPostion(position: Int) = provider.getHeaderForPostion(position)
 }

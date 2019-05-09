@@ -85,10 +85,10 @@ class PlaylistFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListene
                 if (position == playlistAdapter.getItemCount() - 1) {
                     return 1
                 }
-                if (viewModel.isFirstInSection(position + 1)) {
+                if (viewModel.provider.isFirstInSection(position + 1)) {
 
                     //calculate how many cell it must take
-                    val firstSection = viewModel.getPositionForSection(position)
+                    val firstSection = viewModel.provider.getPositionForSection(position)
                     val nbItems = position - firstSection
                     if (BuildConfig.DEBUG)
                         Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + nbItems % nbColumns)
@@ -109,7 +109,7 @@ class PlaylistFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListene
 
         playlists.layoutManager = gridLayoutManager
         playlists.adapter = playlistAdapter
-        playlists.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), spacing, true, nbColumns, viewModel))
+        playlists.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), spacing, true, nbColumns, viewModel.provider))
         fastScroller = view.rootView.findViewById(R.id.songs_fast_scroller) as FastScroller
         fastScroller.attachToCoordinator(view.rootView.findViewById(R.id.appbar) as AppBarLayout, view.rootView.findViewById(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById(R.id.fab) as FloatingActionButton)
     }
@@ -124,7 +124,7 @@ class PlaylistFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListene
             launch { binding.swipeLayout.isRefreshing = loading == true }
         })
 
-        fastScroller.setRecyclerView(getCurrentRV(), viewModel)
+        fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
 
     }
 
