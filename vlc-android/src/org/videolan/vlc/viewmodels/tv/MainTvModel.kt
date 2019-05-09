@@ -69,10 +69,10 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     private set
     // LiveData
     private val favorites: LiveData<List<BrowserFav>> = browserFavRepository.browserFavorites
-    val videos : LiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val audioCategories : LiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val browsers : LiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val history : LiveData<List<MediaWrapper>> = MutableLiveData()
+    val videos: LiveData<List<MediaLibraryItem>> = MutableLiveData()
+    val audioCategories: LiveData<List<MediaLibraryItem>> = MutableLiveData()
+    val browsers: LiveData<List<MediaLibraryItem>> = MutableLiveData()
+    val history: LiveData<List<MediaWrapper>> = MutableLiveData()
     val playlist: LiveData<List<MediaLibraryItem>> = MutableLiveData()
 
     private val nowPlayingDelegate = NowPlayingDelegate(this)
@@ -238,7 +238,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         fun Fragment.getMainTvModel() = ViewModelProviders.of(requireActivity(), Factory(requireActivity().application)).get(MainTvModel::class.java)
     }
 
-    class Factory(private val app: Application): ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val app: Application) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return MainTvModel(app) as T

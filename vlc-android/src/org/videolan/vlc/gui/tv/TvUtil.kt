@@ -28,10 +28,12 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
+import android.provider.MediaStore.Video.VideoColumns.CATEGORY
 import android.text.TextUtils
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.widget.DiffCallback
@@ -56,6 +58,7 @@ import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.BaseModel
 import org.videolan.vlc.viewmodels.browser.BrowserModel
 
+import kotlin.collections.ArrayList
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -292,6 +295,7 @@ object TvUtil {
     fun openAudioCategory(context: Activity, mediaLibraryItem: MediaLibraryItem) {
         when {
             mediaLibraryItem.itemType == MediaLibraryItem.TYPE_ALBUM -> playAudioList(context, mediaLibraryItem.tracks, 0)
+            mediaLibraryItem.itemType == MediaLibraryItem.TYPE_PLAYLIST -> playAudioList(context, mediaLibraryItem.tracks, 0)
             mediaLibraryItem.itemType == MediaLibraryItem.TYPE_MEDIA -> {
                 val list = ArrayList<MediaWrapper>().apply { add(mediaLibraryItem as MediaWrapper) }
                 playAudioList(context, list, 0)
