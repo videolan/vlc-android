@@ -170,9 +170,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         }
 
         val searchHeaderClick: (View) -> Unit = {
-            headerListContainer.visibility = View.VISIBLE
-            headerList.requestFocus()
-            list.visibility = View.GONE
+
             animationDelegate.hideFAB()
         }
 
