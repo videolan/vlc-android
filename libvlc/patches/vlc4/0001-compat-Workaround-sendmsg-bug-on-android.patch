@@ -1,0 +1,81 @@
+From 5b79f2cf244f0c144ed5b00ebd96db71e3b2efef Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Thu, 28 Mar 2019 15:23:48 +0100
+Subject: [PATCH 1/5] compat: Workaround sendmsg bug on android
+
+This only happens on 64bits builds, see compat/sendmsg.c comments
+---
+ compat/sendmsg.c      | 24 ++++++++++++++++++++++++
+ configure.ac          |  3 +++
+ include/vlc_network.h |  6 ++++++
+ 3 files changed, 33 insertions(+)
+
+diff --git a/compat/sendmsg.c b/compat/sendmsg.c
+index 0b08ce0942..2ef542eb7b 100644
+--- a/compat/sendmsg.c
++++ b/compat/sendmsg.c
+@@ -133,6 +133,30 @@ ssize_t sendmsg(int fd, const struct msghdr *msg, int flags)
+     free(data);
+     return res;
+ }
++#elif defined(__ANDROID__) && defined(__aarch64__)
++
++#undef sendmsg
++
++#include <sys/types.h>
++#include <sys/socket.h>
++
++/**
++ * Since we bumped the NDK version from 14 to 18, some devices (at least up to
++ * Android 6) are returning errors on 4 bytes, even though ssize_t is actually
++ * 8 bytes. This causes `value < 0` checks to yield false, and consider the value
++ * as a non error.
++ * As the patch lies in either the NDK or the Android kernel, or the device libc
++ * we can only work around it. If errno is not 0 & we receive -1, on 32bits or
++ * 64bits, we assume an error was returned.
++ */
++ssize_t vlc_sendmsg(int fd, const struct msghdr *msg, int flags)
++{
++    errno = 0;
++    ssize_t ret = sendmsg(fd, msg, flags);
++    if ((ret < 0 || ret == 0xFFFFFFFF) && errno != 0)
++        return -1;
++    return ret;
++}
+ 
+ #else
+ #error sendmsg not implemented on your platform!
+diff --git a/configure.ac b/configure.ac
+index a86a9f8897..fa0375d1ae 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -401,6 +401,9 @@ AS_IF([test "$SYS" = linux],[
+     ],[
+       HAVE_ANDROID="1"
+       AC_MSG_RESULT([yes])
++      AS_IF([test "${host_cpu}" = "aarch64"], [
++          AC_LIBOBJ([sendmsg])
++      ])
+     ],[
+       AC_MSG_RESULT([no])
+     ])
+diff --git a/include/vlc_network.h b/include/vlc_network.h
+index b4d5fabdd6..7b05183ab7 100644
+--- a/include/vlc_network.h
++++ b/include/vlc_network.h
+@@ -296,6 +296,12 @@ static inline int net_GetPeerAddress( int fd, char *address, int *port )
+ 
+ VLC_API char *vlc_getProxyUrl(const char *);
+ 
++#if defined(__ANDROID__) && defined(__aarch64__)
++struct msghdr;
++ssize_t vlc_sendmsg(int fd, const struct msghdr *msg, int flags);
++#define sendmsg(a, b, c) vlc_sendmsg(a,b,c)
++#endif
++
+ # ifdef __cplusplus
+ }
+ # endif
+-- 
+2.20.1
+

@@ -1,0 +1,39 @@
+From 57d2653f9c5dc92b6ca6bbf40523479833ebfd76 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
+Date: Fri, 29 Mar 2019 10:56:26 +0100
+Subject: [PATCH 2/5] network: tls: Handle errors from older kernels
+
+If MSG_FASTOPEN is defined, but turns out to be unimplemented by the
+underlying kernel (as is the case on android where the NDK claims to
+support fast open but some older kernels don't) EPIPE is returned
+instead of EOPNOTSUPP.
+See net/ipv4/tcp.c:936 & net/core/stream.c:55
+sk_stream_wait_connect will return EPIPE if no SYN was sent/received,
+and sendmsg will propagate that error.
+Treating EPIPE as a synonym for EOPNOTSUPP here allows for the
+connection to proceed, and the first call to sendmsg to complete as
+expected.
+---
+ src/network/stream.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/network/stream.c b/src/network/stream.c
+index 5a24bd7134..0b9b1573d7 100644
+--- a/src/network/stream.c
++++ b/src/network/stream.c
+@@ -383,8 +383,11 @@ static ssize_t vlc_tls_ConnectWrite(vlc_tls_t *tls,
+             return -1;
+     }
+     else
+-    if (errno != EOPNOTSUPP)
++    if (errno != EOPNOTSUPP && errno != EPIPE)
++    { /* If MSG_FASTOPEN was defined but the kernel doesn't support fast open at
++        all, EPIPE will be returned instead of EOPNOTSUPP */
+         return -1;
++    }
+     /* Fast open not supported or disabled... fallback to normal mode */
+ #endif
+ 
+-- 
+2.20.1
+
