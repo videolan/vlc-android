@@ -43,8 +43,9 @@ import org.videolan.vlc.gui.tv.browser.MediaBrowserTvFragment
 internal class MediaBrowserAnimatorDelegate(val browser: MediaBrowserTvFragment, private val cl: ConstraintLayout) : RecyclerView.OnScrollListener(), View.OnFocusChangeListener {
 
     private val scrolledUpConstraintSet = ConstraintSet()
-    private val scrolledNoFABConstraintSet = ConstraintSet()
-    private val scrolledFABConstraintSet = ConstraintSet()
+    private val scrolledDownFABCollapsedConstraintSet = ConstraintSet()
+    private val scrolledDownFABExpandedConstraintSet = ConstraintSet()
+    private val headerVisibleConstraintSet = ConstraintSet()
     private val transition = ChangeBounds().apply {
         interpolator = AccelerateDecelerateInterpolator()
         duration = 300
@@ -53,125 +54,183 @@ internal class MediaBrowserAnimatorDelegate(val browser: MediaBrowserTvFragment,
     private val fabSettings = browser.imageButtonSettings
     private val fabHeader = browser.imageButtonHeader
     private val fabSort = browser.imageButtonSort
-    var menuHidden = false
+
+    private var currenstate = MediaBrowserState.SCROLLED_UP
+        set(value) {
+            //avoid playing the transition again
+            if (value == field) {
+                return
+            }
+            TransitionManager.beginDelayedTransition(cl, transition)
+            when (value) {
+                MediaBrowserState.SCROLLED_UP -> scrolledUpConstraintSet
+                MediaBrowserState.SCROLLED_DOWN_FAB_COLLAPSED -> scrolledDownFABCollapsedConstraintSet
+                MediaBrowserState.SCROLLED_DOWN_FAB_EXPANDED -> scrolledDownFABExpandedConstraintSet
+                MediaBrowserState.HEADER_VISIBLE -> headerVisibleConstraintSet
+
+            }.applyTo(cl)
+            field = value
+        }
+
+
+    enum class MediaBrowserState {
+        /**
+         * Initial state : Visible fake toolbar + no fab
+         */
+        SCROLLED_UP,
+        /**
+         * Scrolled state with collapsed FAB
+         */
+        SCROLLED_DOWN_FAB_COLLAPSED,
+        /**
+         * Scrolled state with expanded FAB
+         */
+        SCROLLED_DOWN_FAB_EXPANDED,
+        /**
+         * Header visible : no toolbar no FAB
+         */
+        HEADER_VISIBLE
+    }
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
 
-        if (recyclerView.computeVerticalScrollOffset() > 0) {
-            if (!menuHidden) {
-                TransitionManager.beginDelayedTransition(cl, transition)
-                scrolledNoFABConstraintSet.applyTo(cl)
-                menuHidden = true
-            }
-        } else if (menuHidden) {
-            TransitionManager.beginDelayedTransition(cl, transition)
-            scrolledUpConstraintSet.applyTo(cl)
-            menuHidden = false
+        currenstate = if (recyclerView.computeVerticalScrollOffset() > 0) {
+            MediaBrowserState.SCROLLED_DOWN_FAB_COLLAPSED
+        } else {
+            MediaBrowserState.SCROLLED_UP
         }
     }
 
     override fun onFocusChange(v: View, hasFocus: Boolean) {
-        when(v) {
-            browser.headerButton ->  browser.headerDescription
+        //Show action labels when needed
+        when (v) {
+            browser.headerButton -> browser.headerDescription
             browser.sortButton -> browser.sortDescription
             else -> null
         }?.animate()?.alpha(if (hasFocus) 1f else 0f)
+
+
+        // FAB has to be expanded / collapsed when its focus changes
+        if (currenstate != MediaBrowserState.SCROLLED_UP) {
+            if (!fabSettings.hasFocus() && !fabSort.hasFocus() && !fabHeader.hasFocus() && currenstate != MediaBrowserState.HEADER_VISIBLE) {
+                collapseExtendedFAB()
+            }
+            if (v == fabSettings && hasFocus) {
+                expandExtendedFAB()
+            }
+        }
+
+
     }
 
     internal fun expandExtendedFAB() {
-        browser.sortDescription.animate().alpha(1f)
-        browser.headerDescription.animate().alpha(1f)
-        TransitionManager.beginDelayedTransition(cl, transition)
-        scrolledFABConstraintSet.applyTo(cl)
+        currenstate = MediaBrowserState.SCROLLED_DOWN_FAB_EXPANDED
 
     }
 
     internal fun collapseExtendedFAB() {
-        browser.sortDescription.animate().alpha(0f)
-        browser.headerDescription.animate().alpha(0f)
-        TransitionManager.beginDelayedTransition(cl, transition)
-        scrolledNoFABConstraintSet.applyTo(cl)
+        currenstate = MediaBrowserState.SCROLLED_DOWN_FAB_COLLAPSED
+
     }
 
     internal fun hideFAB() {
-        val marginBottom = (fabSettings.layoutParams as ConstraintLayout.LayoutParams).bottomMargin.toFloat()
-        fabSettings.animate().translationY(fabSettings.height + marginBottom)
-        fabHeader.animate().translationY(fabSettings.height + marginBottom)
-        fabSort.animate().translationY(fabSettings.height + marginBottom)
-        fabSettings.isFocusable = false
-        fabHeader.isFocusable = false
-        fabSort.isFocusable = false
-        fakeToolbar.visibility = View.GONE
+        currenstate = MediaBrowserState.HEADER_VISIBLE
     }
 
     internal fun showFAB() {
-        fabSettings.animate().translationY(0f).setListener(null)
-        fabHeader.animate().translationY(0f)
-        fabSort.animate().translationY(0f)
-        fabSettings.isFocusable = true
-        fabHeader.isFocusable = true
-        fabSort.isFocusable = true
-        fakeToolbar.visibility = View.VISIBLE
+        currenstate = MediaBrowserState.SCROLLED_DOWN_FAB_COLLAPSED
+
     }
 
     init {
+
+        // Scrolled up is the state already described in the XML. We clone it to be able to reuse it.
         scrolledUpConstraintSet.clone(cl)
-        scrolledNoFABConstraintSet.clone(cl)
 
-        //Buttons
-        scrolledNoFABConstraintSet.setMargin(R.id.sortButton, ConstraintSet.START, 0)
-        scrolledNoFABConstraintSet.setMargin(R.id.sortButton, ConstraintSet.END, 0)
-        scrolledNoFABConstraintSet.setMargin(R.id.sortButton, ConstraintSet.TOP, 0)
-        scrolledNoFABConstraintSet.setMargin(R.id.sortButton, ConstraintSet.BOTTOM, 0)
-        scrolledNoFABConstraintSet.setMargin(R.id.headerButton, ConstraintSet.START, 0)
-        scrolledNoFABConstraintSet.setMargin(R.id.headerButton, ConstraintSet.END, 0)
-        scrolledNoFABConstraintSet.setMargin(R.id.headerButton, ConstraintSet.TOP, 0)
-        scrolledNoFABConstraintSet.setMargin(R.id.headerButton, ConstraintSet.BOTTOM, 0)
+        /* See MediaBrowserState.SCROLLED_DOWN_FAB_COLLAPSED */
+        scrolledDownFABCollapsedConstraintSet.clone(cl)
 
-        scrolledNoFABConstraintSet.connect(R.id.sortButton, ConstraintSet.START, R.id.imageButtonSettings, ConstraintSet.START)
-        scrolledNoFABConstraintSet.connect(R.id.sortButton, ConstraintSet.END, R.id.imageButtonSettings, ConstraintSet.END)
-        scrolledNoFABConstraintSet.connect(R.id.sortButton, ConstraintSet.TOP, R.id.imageButtonSettings, ConstraintSet.TOP)
-        scrolledNoFABConstraintSet.connect(R.id.sortButton, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.BOTTOM)
+        //Reset margins
+        scrolledDownFABCollapsedConstraintSet.setMargin(R.id.sortButton, ConstraintSet.START, 0)
+        scrolledDownFABCollapsedConstraintSet.setMargin(R.id.sortButton, ConstraintSet.END, 0)
+        scrolledDownFABCollapsedConstraintSet.setMargin(R.id.sortButton, ConstraintSet.TOP, 0)
+        scrolledDownFABCollapsedConstraintSet.setMargin(R.id.sortButton, ConstraintSet.BOTTOM, 0)
+        scrolledDownFABCollapsedConstraintSet.setMargin(R.id.headerButton, ConstraintSet.START, 0)
+        scrolledDownFABCollapsedConstraintSet.setMargin(R.id.headerButton, ConstraintSet.END, 0)
+        scrolledDownFABCollapsedConstraintSet.setMargin(R.id.headerButton, ConstraintSet.TOP, 0)
+        scrolledDownFABCollapsedConstraintSet.setMargin(R.id.headerButton, ConstraintSet.BOTTOM, 0)
 
-        scrolledNoFABConstraintSet.connect(R.id.headerButton, ConstraintSet.START, R.id.imageButtonSettings, ConstraintSet.START)
-        scrolledNoFABConstraintSet.connect(R.id.headerButton, ConstraintSet.END, R.id.imageButtonSettings, ConstraintSet.END)
-        scrolledNoFABConstraintSet.connect(R.id.headerButton, ConstraintSet.TOP, R.id.imageButtonSettings, ConstraintSet.TOP)
-        scrolledNoFABConstraintSet.connect(R.id.headerButton, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.BOTTOM)
+        //New constraints for toolbar buttons to make them move to the FAB
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.sortButton, ConstraintSet.START, R.id.imageButtonSettings, ConstraintSet.START)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.sortButton, ConstraintSet.END, R.id.imageButtonSettings, ConstraintSet.END)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.sortButton, ConstraintSet.TOP, R.id.imageButtonSettings, ConstraintSet.TOP)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.sortButton, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.BOTTOM)
 
-        //descriptions
-        scrolledNoFABConstraintSet.clear(R.id.sortDescription, ConstraintSet.START)
-        scrolledNoFABConstraintSet.connect(R.id.sortDescription, ConstraintSet.END, R.id.imageButtonSort, ConstraintSet.START)
-        scrolledNoFABConstraintSet.connect(R.id.sortDescription, ConstraintSet.TOP, R.id.imageButtonSort, ConstraintSet.TOP)
-        scrolledNoFABConstraintSet.connect(R.id.sortDescription, ConstraintSet.BOTTOM, R.id.imageButtonSort, ConstraintSet.BOTTOM)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.headerButton, ConstraintSet.START, R.id.imageButtonSettings, ConstraintSet.START)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.headerButton, ConstraintSet.END, R.id.imageButtonSettings, ConstraintSet.END)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.headerButton, ConstraintSet.TOP, R.id.imageButtonSettings, ConstraintSet.TOP)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.headerButton, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.BOTTOM)
 
-        scrolledNoFABConstraintSet.clear(R.id.headerDescription, ConstraintSet.START)
-        scrolledNoFABConstraintSet.connect(R.id.headerDescription, ConstraintSet.END, R.id.imageButtonHeader, ConstraintSet.START)
-        scrolledNoFABConstraintSet.connect(R.id.headerDescription, ConstraintSet.TOP, R.id.imageButtonHeader, ConstraintSet.TOP)
-        scrolledNoFABConstraintSet.connect(R.id.headerDescription, ConstraintSet.BOTTOM, R.id.imageButtonHeader, ConstraintSet.BOTTOM)
+        //New constraints for the action description labels (they will be reused when expanding the FAB)
+        scrolledDownFABCollapsedConstraintSet.clear(R.id.sortDescription, ConstraintSet.START)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.sortDescription, ConstraintSet.END, R.id.imageButtonSort, ConstraintSet.START)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.sortDescription, ConstraintSet.TOP, R.id.imageButtonSort, ConstraintSet.TOP)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.sortDescription, ConstraintSet.BOTTOM, R.id.imageButtonSort, ConstraintSet.BOTTOM)
 
-        scrolledNoFABConstraintSet.constrainMaxHeight(R.id.title, ConstraintSet.TOP)
-        scrolledNoFABConstraintSet.connect(R.id.title, ConstraintSet.BOTTOM, 0, ConstraintSet.TOP)
+        scrolledDownFABCollapsedConstraintSet.clear(R.id.headerDescription, ConstraintSet.START)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.headerDescription, ConstraintSet.END, R.id.imageButtonHeader, ConstraintSet.START)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.headerDescription, ConstraintSet.TOP, R.id.imageButtonHeader, ConstraintSet.TOP)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.headerDescription, ConstraintSet.BOTTOM, R.id.imageButtonHeader, ConstraintSet.BOTTOM)
 
-        //FAB hiding
-        scrolledNoFABConstraintSet.connect(R.id.imageButtonSettings, ConstraintSet.BOTTOM, 0, ConstraintSet.BOTTOM)
-        scrolledNoFABConstraintSet.clear(R.id.imageButtonSettings, ConstraintSet.TOP)
+        // Title escapes by the top of the screen
+        scrolledDownFABCollapsedConstraintSet.constrainMaxHeight(R.id.title, ConstraintSet.TOP)
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.title, ConstraintSet.BOTTOM, 0, ConstraintSet.TOP)
 
-
-        scrolledFABConstraintSet.clone(scrolledNoFABConstraintSet)
-
-        scrolledFABConstraintSet.clear(R.id.imageButtonHeader, ConstraintSet.TOP)
-        scrolledFABConstraintSet.clear(R.id.imageButtonSort, ConstraintSet.TOP)
-        scrolledFABConstraintSet.connect(R.id.imageButtonHeader, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.TOP)
-        scrolledFABConstraintSet.connect(R.id.imageButtonSort, ConstraintSet.BOTTOM, R.id.imageButtonHeader, ConstraintSet.TOP)
+        //FAB showing
+        scrolledDownFABCollapsedConstraintSet.connect(R.id.imageButtonSettings, ConstraintSet.BOTTOM, 0, ConstraintSet.BOTTOM)
+        scrolledDownFABCollapsedConstraintSet.clear(R.id.imageButtonSettings, ConstraintSet.TOP)
 
 
+        /* See MediaBrowserState.SCROLLED_DOWN_FAB_EXPANDED */
+        //We clone the scrolledDownFABCollapsedConstraintSet as it's really close to this state
+        scrolledDownFABExpandedConstraintSet.clone(scrolledDownFABCollapsedConstraintSet)
+
+        // show the FAB children
+        scrolledDownFABExpandedConstraintSet.clear(R.id.imageButtonHeader, ConstraintSet.TOP)
+        scrolledDownFABExpandedConstraintSet.clear(R.id.imageButtonSort, ConstraintSet.TOP)
+        scrolledDownFABExpandedConstraintSet.connect(R.id.imageButtonHeader, ConstraintSet.BOTTOM, R.id.imageButtonSettings, ConstraintSet.TOP)
+        scrolledDownFABExpandedConstraintSet.connect(R.id.imageButtonSort, ConstraintSet.BOTTOM, R.id.imageButtonHeader, ConstraintSet.TOP)
+
+        scrolledDownFABExpandedConstraintSet.setAlpha(R.id.sortDescription, 1f)
+        scrolledDownFABExpandedConstraintSet.setAlpha(R.id.headerDescription, 1f)
+
+
+        /* See MediaBrowserState.HEADER_VISIBLE */
+        //We clone the scrolledDownFABCollapsedConstraintSet state
+        headerVisibleConstraintSet.clone(scrolledDownFABCollapsedConstraintSet)
+
+        //Hide the list and show the header list as their visibility is embbeded in the ConstraintSets
+        headerVisibleConstraintSet.setVisibility(R.id.headerListContainer, View.VISIBLE)
+        headerVisibleConstraintSet.setVisibility(R.id.list, View.GONE)
+
+
+        // Hide the FAB
+        headerVisibleConstraintSet.clear(R.id.imageButtonSettings, ConstraintSet.BOTTOM)
+        headerVisibleConstraintSet.connect(R.id.imageButtonSettings, ConstraintSet.TOP, R.id.headerListContainer, ConstraintSet.BOTTOM)
+
+
+        // The fake toolbar has to be View.GONE to avoid focus on its elements when it's not shown
+        // We also want to give the focus to the header list when it's shown
         transition.addListener(object : Transition.TransitionListener {
             override fun onTransitionEnd(transition: Transition) {
-                if (menuHidden) {
-                    fakeToolbar.visibility = View.GONE
-                } else {
+                if (currenstate == MediaBrowserState.SCROLLED_UP) {
                     fakeToolbar.visibility = View.VISIBLE
+                } else {
+                    fakeToolbar.visibility = View.GONE
+                }
+                if (currenstate == MediaBrowserState.HEADER_VISIBLE) {
+                    browser.headerList.requestFocus()
                 }
             }
 
@@ -186,17 +245,6 @@ internal class MediaBrowserAnimatorDelegate(val browser: MediaBrowserTvFragment,
         })
 
         fabSettings.setOnClickListener { expandExtendedFAB() }
-        val fabOnFocusChangedListener = View.OnFocusChangeListener { v, hasFocus ->
-            if (!fabSettings.hasFocus() && !fabSort.hasFocus() && !fabHeader.hasFocus()) {
-                collapseExtendedFAB()
-            }
-            if (v == fabSettings && hasFocus) {
-                expandExtendedFAB()
-            }
-        }
-        fabSettings.onFocusChangeListener = fabOnFocusChangedListener
-        fabSort.onFocusChangeListener = fabOnFocusChangedListener
-        fabHeader.onFocusChangeListener = fabOnFocusChangedListener
     }
 }
 
@@ -206,5 +254,8 @@ fun MediaBrowserTvFragment.setAnimator(cl: ConstraintLayout) {
     animationDelegate = MediaBrowserAnimatorDelegate(this, cl)
     headerButton.onFocusChangeListener = animationDelegate
     sortButton.onFocusChangeListener = animationDelegate
+    imageButtonSort.onFocusChangeListener = animationDelegate
+    imageButtonHeader.onFocusChangeListener = animationDelegate
+    imageButtonSettings.onFocusChangeListener = animationDelegate
     list.addOnScrollListener(animationDelegate)
 }
