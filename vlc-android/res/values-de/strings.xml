@@ -679,4 +679,5 @@
     <string name="popup_force_legacy_summary">Ein benutzerdefiniertes Bild-in-Bild im größenveränderbaren Fenster verwenden</string>
     <string name="device_default">Systemsprache</string>
     <string name="track_number">%s Titel</string>
+    <string name="jump_to">Springe zu</string>
 </resources>
