@@ -679,4 +679,5 @@
     <string name="popup_force_legacy_summary">Egyéni „Kép a képben” átméretezhető felugró ablak</string>
     <string name="device_default">Eszköz alapértelmezése</string>
     <string name="track_number">%s szám</string>
+    <string name="jump_to">Ugrás</string>
 </resources>
