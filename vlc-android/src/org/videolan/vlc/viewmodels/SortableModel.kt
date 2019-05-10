@@ -9,7 +9,7 @@ import org.videolan.vlc.util.canSortBy
 abstract class SortableModel(protected val context: Context): ScopedModel(), RefreshModel {
 
     protected open val sortKey : String = this.javaClass.simpleName
-    var sort = Medialibrary.SORT_ALPHA
+    var sort = Medialibrary.SORT_DEFAULT
     var desc = false
 
     var filterQuery : String? = null

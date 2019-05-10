@@ -1,18 +1,17 @@
-package org.videolan.vlc.viewmodels.mobile
+package org.videolan.vlc.viewmodels
 
 import android.content.Context
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
-import org.videolan.vlc.viewmodels.SortableModel
 
 
-abstract class BaseAudioViewModel(context: Context) : SortableModel(context),
+abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
         Medialibrary.OnMedialibraryReadyListener, Medialibrary.OnDeviceChangeListener  {
 
     val medialibrary = Medialibrary.getInstance().apply {
-            addOnMedialibraryReadyListener(this@BaseAudioViewModel)
-            addOnDeviceChangeListener(this@BaseAudioViewModel)
+            addOnMedialibraryReadyListener(this@MedialibraryViewModel)
+            addOnDeviceChangeListener(this@MedialibraryViewModel)
         }
     abstract val providers : Array<MedialibraryProvider<out MediaLibraryItem>>
 

@@ -69,8 +69,7 @@ import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.*
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
-import org.videolan.vlc.viewmodels.paged.PagedTracksModel
+import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
 import java.lang.Runnable
 import java.util.*
 
@@ -79,12 +78,11 @@ import java.util.*
 open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IListEventsHandler, ActionMode.Callback, View.OnClickListener, CtxActionReceiver {
 
     private lateinit var audioBrowserAdapter: AudioBrowserAdapter
-    private var playlist: MediaLibraryItem? = null
     private val mediaLibrary = VLCApplication.mlInstance
     private lateinit var binding: PlaylistActivityBinding
     private var actionMode: ActionMode? = null
     private var isPlaylist: Boolean = false
-    private var tracksModel: PagedTracksModel? = null
+    private lateinit var viewModel: PlaylistViewModel
     private var itemTouchHelper: ItemTouchHelper? = null
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,19 +95,24 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         originalBottomPadding = fragmentContainer!!.paddingBottom
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        playlist = if (savedInstanceState != null)
+        val playlist = if (savedInstanceState != null)
             savedInstanceState.getParcelable<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem?
         else
             intent.getParcelableExtra<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem?
-        isPlaylist = playlist!!.itemType == MediaLibraryItem.TYPE_PLAYLIST
+        if (playlist == null) {
+            finish()
+            return
+        }
+        isPlaylist = playlist.itemType == MediaLibraryItem.TYPE_PLAYLIST
         binding.playlist = playlist
-        tracksModel = ViewModelProviders.of(this, PagedTracksModel.Factory(this, playlist)).get(PagedTracksModel::class.java)
-        (tracksModel as MLPagedModel<MediaLibraryItem>).pagedList.observe(this, Observer<PagedList<MediaLibraryItem>> { tracks ->
+        viewModel = ViewModelProviders.of(this, PlaylistViewModel.Factory(this, playlist)).get(PlaylistViewModel::class.java)
+        viewModel.tracksProvider.pagedList.observe(this, Observer { tracks ->
             if (tracks != null) {
-                if (tracks.isEmpty() && !tracksModel!!.isFiltering())
+                @Suppress("UNCHECKED_CAST")
+                if (tracks.isEmpty() && !viewModel.isFiltering())
                     finish()
                 else
-                    audioBrowserAdapter.submitList(tracks)
+                    audioBrowserAdapter.submitList(tracks as PagedList<MediaLibraryItem>?)
             }
         })
         audioBrowserAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, this, isPlaylist)
@@ -120,9 +123,9 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         binding.songs.adapter = audioBrowserAdapter
         val fabVisibility = savedInstanceState != null && savedInstanceState.getBoolean(TAG_FAB_VISIBILITY)
 
-        if (!TextUtils.isEmpty(playlist!!.artworkMrl)) launch {
+        if (!TextUtils.isEmpty(playlist.artworkMrl)) launch {
             val cover = withContext(Dispatchers.IO) {
-                AudioUtil.readCoverBitmap(Uri.decode(playlist!!.artworkMrl), resources.getDimensionPixelSize(R.dimen.audio_browser_item_size))
+                AudioUtil.readCoverBitmap(Uri.decode(playlist.artworkMrl), resources.getDimensionPixelSize(R.dimen.audio_browser_item_size))
             }
             if (cover != null) {
                 binding.cover = BitmapDrawable(this@PlaylistActivity.resources, cover)
@@ -156,7 +159,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     }
 
     public override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(AudioBrowserFragment.TAG_ITEM, playlist)
+        outState.putParcelable(AudioBrowserFragment.TAG_ITEM, viewModel.playlist)
         outState.putBoolean(TAG_FAB_VISIBILITY, binding.fab.visibility == View.VISIBLE)
         super.onSaveInstanceState(outState)
     }
@@ -166,7 +169,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
             audioBrowserAdapter.multiSelectHelper.toggleSelection(position)
             invalidateActionMode()
         } else
-            MediaUtils.playTracks(this, playlist!!, position)
+            MediaUtils.playTracks(this, viewModel.playlist, position)
     }
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
@@ -200,7 +203,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
 
     override fun onMove(oldPosition: Int, newPosition: Int) {
         if (BuildConfig.DEBUG) Log.d(TAG, "Moving item from $oldPosition to $newPosition")
-        (playlist as Playlist).move(oldPosition, newPosition)
+        (viewModel.playlist as Playlist).move(oldPosition, newPosition)
 
     }
 
@@ -320,7 +323,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     private fun removeItem(position: Int, media: MediaWrapper) {
         val resId = if (isPlaylist) R.string.confirm_remove_from_playlist else R.string.confirm_delete
         if (isPlaylist) {
-            UiTools.snackerConfirm(binding.root, getString(resId, media.title), Runnable { (playlist as Playlist).remove(position) })
+            UiTools.snackerConfirm(binding.root, getString(resId, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
         } else {
             val deleteAction = Runnable { deleteMedia(media) }
             UiTools.snackerConfirm(binding.root, getString(resId, media.title), Runnable { if (Util.checkWritePermission(this@PlaylistActivity, media, deleteAction)) deleteAction.run() })
@@ -341,13 +344,12 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     }
 
     override fun onClick(v: View) {
-        MediaUtils.playTracks(this, playlist!!, 0)
+        MediaUtils.playTracks(this, viewModel.playlist, 0)
     }
 
     private fun removeFromPlaylist(list: List<MediaWrapper>, indexes: List<Int>) {
         val itemsRemoved = HashMap<Int, Long>()
-        val playlist = this.playlist as? Playlist ?: return
-
+        val playlist = viewModel.playlist as? Playlist ?: return
 
         for (mediaItem in list) {
             for (i in 0 until playlist.tracks.size) {

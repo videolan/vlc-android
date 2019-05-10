@@ -41,13 +41,12 @@ import androidx.fragment.app.Fragment
 import androidx.leanback.app.BackgroundManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
-import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -60,7 +59,7 @@ import org.videolan.vlc.gui.tv.setAnimator
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.*
-import org.videolan.vlc.viewmodels.paged.*
+import org.videolan.vlc.viewmodels.tv.MediaBrowserViewModel
 import java.util.*
 
 private const val TAG = "MediaBrowserTvFragment"
@@ -72,13 +71,11 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         PopupMenu.OnMenuItemClickListener, MediaHeaderAdapter.OnHeaderSelected,
         VerticalGridActivity.OnKeyPressedListener, CoroutineScope by MainScope() {
 
-    private lateinit var viewModel: MLPagedModel<MediaLibraryItem>
+    private lateinit var viewModel: MediaBrowserViewModel
     private lateinit var adapter: AudioBrowserAdapter
     //    private lateinit var headerList: RecyclerView
     private lateinit var headerAdapter: MediaHeaderAdapter
-    private var nbColumns: Int = 0
     private lateinit var gridLayoutManager: GridLayoutManager
-    private var currentItem: MediaLibraryItem? = null
     private var currentArt: String? = null
     private lateinit var backgroundManager: BackgroundManager
     internal lateinit var animationDelegate : MediaBrowserAnimatorDelegate
@@ -103,40 +100,25 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
 
         backgroundManager = BackgroundManager.getInstance(requireActivity())
 
-        currentItem = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(AUDIO_ITEM) as? MediaLibraryItem
+        val category = arguments?.getLong(AUDIO_CATEGORY, CATEGORY_SONGS) ?: CATEGORY_SONGS
+
+        viewModel = ViewModelProviders.of(requireActivity(), MediaBrowserViewModel.Factory(requireContext(), category)).get(MediaBrowserViewModel::class.java)
+
+        viewModel.currentItem = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(AUDIO_ITEM) as? MediaLibraryItem
         else requireActivity().intent.getParcelableExtra<Parcelable>(AUDIO_ITEM) as? MediaLibraryItem
 
-        when (arguments?.getLong(AUDIO_CATEGORY, CATEGORY_SONGS)) {
-            CATEGORY_SONGS ->
-                viewModel = ViewModelProviders.of(this, PagedTracksModel.Factory(requireContext(), currentItem)).get(PagedTracksModel::class.java) as MLPagedModel<MediaLibraryItem>
-            CATEGORY_ALBUMS ->
-                viewModel = ViewModelProviders.of(this, PagedAlbumsModel.Factory(requireContext(), currentItem)).get(PagedAlbumsModel::class.java) as MLPagedModel<MediaLibraryItem>
-            CATEGORY_ARTISTS ->
-                viewModel = ViewModelProviders.of(this, PagedArtistsModel.Factory(requireContext(), Settings.getInstance(requireContext()).getBoolean(KEY_ARTISTS_SHOW_ALL, false))).get(PagedArtistsModel::class.java) as MLPagedModel<MediaLibraryItem>
-            CATEGORY_GENRES ->
-                viewModel = ViewModelProviders.of(this, PagedGenresModel.Factory(requireContext())).get(PagedGenresModel::class.java) as MLPagedModel<MediaLibraryItem>
-            CATEGORY_VIDEOS ->
-                viewModel = ViewModelProviders.of(this, PagedVideosModel.Factory(requireContext(), currentItem as? Folder)).get(PagedVideosModel::class.java) as MLPagedModel<MediaLibraryItem>
-
-        }
-
-        viewModel.pagedList.observe(this, Observer { items ->
-            if (items != null) adapter.submitList(items)
+        viewModel.provider.pagedList.observe(this, Observer { items ->
+            @Suppress("UNCHECKED_CAST")
+            adapter.submitList(items as PagedList<MediaLibraryItem>?)
 
             //headers
-            var nbColumns = 1
-
-            when (viewModel.sort) {
-                Medialibrary.SORT_ALPHA -> nbColumns = 9
-            }
+            val nbColumns = if (viewModel.sort == Medialibrary.SORT_ALPHA ) 9 else 1
 
             headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
             headerAdapter.sortType = viewModel.sort
             val headerItems = ArrayList<String>()
-            viewModel.liveHeaders.value?.run {
-                for (i in 0 until size()) {
-                    headerItems.add(valueAt(i))
-                }
+            viewModel.provider.liveHeaders.value?.run {
+                for (i in 0 until size()) { headerItems.add(valueAt(i)) }
             }
             headerAdapter.items = headerItems
             headerAdapter.notifyDataSetChanged()
@@ -159,8 +141,8 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         lp.topMargin += vp
         lp.bottomMargin += vp
 
-        if (currentItem != null) {
-            title.text = currentItem!!.title
+        if (viewModel.currentItem != null) {
+            title.text = viewModel.currentItem!!.title
         } else when (arguments?.getLong(AUDIO_CATEGORY, CATEGORY_SONGS)) {
             CATEGORY_SONGS -> title.setText(R.string.tracks)
             CATEGORY_ALBUMS -> title.setText(R.string.albums)
@@ -169,10 +151,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
             CATEGORY_VIDEOS -> title.setText(R.string.videos)
         }
 
-        val searchHeaderClick: (View) -> Unit = {
-
-            animationDelegate.hideFAB()
-        }
+        val searchHeaderClick: (View) -> Unit = { animationDelegate.hideFAB() }
 
         val sortClick: (View) -> Unit = { v -> sort(v) }
 
@@ -182,9 +161,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         sortButton.setOnClickListener(sortClick)
         imageButtonSort.setOnClickListener(sortClick)
 
-        nbColumns = resources.getInteger(R.integer.tv_songs_col_count)
-
-        gridLayoutManager = object : GridLayoutManager(requireActivity(), nbColumns) {
+        gridLayoutManager = object : GridLayoutManager(requireActivity(), viewModel.nbColumns) {
             override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean) = false
 
             override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean, focusedChildVisible: Boolean) = false
@@ -193,7 +170,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         val spacing = resources.getDimensionPixelSize(R.dimen.recycler_section_header_spacing)
 
         //size of an item
-        val itemSize = requireActivity().getScreenWidth() / nbColumns - spacing * 2
+        val itemSize = requireActivity().getScreenWidth() / viewModel.nbColumns - spacing * 2
 
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -207,9 +184,9 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
                     val firstSection = viewModel.provider.getPositionForSection(position)
                     val nbItems = position - firstSection
                     if (BuildConfig.DEBUG)
-                        Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + nbItems % nbColumns)
+                        Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + nbItems % viewModel.nbColumns)
 
-                    return nbColumns - nbItems % nbColumns
+                    return viewModel.nbColumns - nbItems % viewModel.nbColumns
                 }
                 return 1
             }
@@ -219,7 +196,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
 
         adapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, itemSize).apply { setTV(true) }
 
-        list.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, nbColumns, viewModel.provider))
+        list.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, viewModel.nbColumns, viewModel.provider))
 
         //header list
         headerListContainer.visibility = View.GONE
@@ -242,8 +219,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
 
-        nbColumns = resources.getInteger(R.integer.tv_songs_col_count)
-        gridLayoutManager.spanCount = nbColumns
+        gridLayoutManager.spanCount = viewModel.nbColumns
         list.layoutManager = gridLayoutManager
     }
 

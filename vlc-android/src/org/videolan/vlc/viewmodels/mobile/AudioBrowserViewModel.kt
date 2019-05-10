@@ -12,10 +12,11 @@ import org.videolan.vlc.providers.medialibrary.TracksProvider
 import org.videolan.vlc.util.EmptyMLCallbacks
 import org.videolan.vlc.util.KEY_ARTISTS_SHOW_ALL
 import org.videolan.vlc.util.Settings
+import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 
 @ExperimentalCoroutinesApi
-class AudioBrowserViewModel(context: Context) : BaseAudioViewModel(context),
+class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context),
         Medialibrary.MediaCb,
         Medialibrary.ArtistsCb by EmptyMLCallbacks,
         Medialibrary.AlbumsCb by EmptyMLCallbacks,

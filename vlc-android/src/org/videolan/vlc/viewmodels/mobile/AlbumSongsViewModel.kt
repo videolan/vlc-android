@@ -11,9 +11,10 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.providers.medialibrary.AlbumsProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
 import org.videolan.vlc.util.EmptyMLCallbacks
+import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 @ExperimentalCoroutinesApi
-class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : BaseAudioViewModel(context),
+class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : MedialibraryViewModel(context),
         Medialibrary.MediaCb,
         Medialibrary.ArtistsCb by EmptyMLCallbacks,
         Medialibrary.AlbumsCb by EmptyMLCallbacks {
