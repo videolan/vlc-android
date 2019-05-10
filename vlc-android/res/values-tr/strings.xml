@@ -679,4 +679,5 @@
     <string name="popup_force_legacy_summary">Boyutu ayarlanabilir görsel içinde görsel penceresi kullanılsın</string>
     <string name="device_default">Aygıt varsayılanları</string>
     <string name="track_number">%s iz</string>
+    <string name="jump_to">Şuraya atla</string>
 </resources>
