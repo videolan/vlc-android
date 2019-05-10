@@ -155,6 +155,10 @@ else
     NDK_DEBUG=1
 fi
 
+SRC_DIR=$PWD
+VLC_SRC_DIR="$SRC_DIR/vlc"
+VLC_BUILD_DIR=`realpath $VLC_SRC_DIR/build-android-${TARGET_TUPLE}`
+
 avlc_checkfail()
 {
     if [ ! $? -eq 0 ];then
@@ -423,8 +427,6 @@ VLC_MODULE_BLACKLIST="
     .dummy
 "
 
-SRC_DIR=$PWD
-
 ###########################
 # Build buildsystem tools #
 ###########################
@@ -440,7 +442,6 @@ make $MAKEFLAGS .gas || make $MAKEFLAGS .buildgas
 avlc_checkfail "buildsystem tools: make failed"
 cd ../../..
 
-VLC_SRC_DIR="$SRC_DIR/vlc"
 VLC_CONTRIB="$VLC_SRC_DIR/contrib/$TARGET_TUPLE"
 
 cd vlc
@@ -501,12 +502,6 @@ avlc_checkfail "contribs: make failed"
 
 cd ../../
 
-###################
-# BUILD DIRECTORY #
-###################
-
-VLC_BUILD_DIR=build-android-${TARGET_TUPLE}
-VLC_BUILD_DIR=`realpath ${VLC_BUILD_DIR}`
 mkdir -p $VLC_BUILD_DIR && cd $VLC_BUILD_DIR
 
 #############

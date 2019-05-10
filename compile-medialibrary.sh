@@ -39,8 +39,6 @@ if [ -z "$ANDROID_ABI" ]; then
     exit 1
 fi
 
-SRC_DIR=$PWD
-
 AVLC_SOURCED=1 . ./compile-libvlc.sh
 avlc_make_toolchain
 
