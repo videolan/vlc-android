@@ -101,6 +101,10 @@ class BenchActivity : ShallowVideoPlayer() {
     /* Saves the original value to reset it after the benchmark */
     private var mOldOpenglValue: String? = "-2"
 
+    /* To avoid storing benchmark samples in the user's vlc history, the user's preference is
+    *  saved, to be restored at the end of the test */
+    private var mOldHistoryBoolean = true
+
     /* Used to determine when a playback is stuck */
     private var mPosition = 0f
     private var mPositionCounter = 0
@@ -110,9 +114,11 @@ class BenchActivity : ShallowVideoPlayer() {
         super.onChanged(service)
         if (mIsHardware && this.service != null) {
             val sharedPref = Settings.getInstance(this)
-            mOldOpenglValue = sharedPref.getString("opengl", "-1")
+            mOldOpenglValue = sharedPref.getString(PREFERENCE_OPENGL, "-1")
+            mOldHistoryBoolean = sharedPref.getBoolean(PREFERENCE_PLAYBACK_HISTORY, true)
             val editor = sharedPref.edit()
-            editor.putString("opengl", "0")
+            editor.putString(PREFERENCE_OPENGL, "0")
+            editor.putBoolean(PREFERENCE_PLAYBACK_HISTORY, false)
             editor.commit()
             VLCInstance.restart()
             this.service?.restartMediaPlayer()
@@ -420,7 +426,8 @@ class BenchActivity : ShallowVideoPlayer() {
         if (mIsHardware && mOldOpenglValue != "-2") {
             val sharedPref = Settings.getInstance(this)
             val editor = sharedPref.edit()
-            editor.putString("opengl", mOldOpenglValue)
+            editor.putString(PREFERENCE_OPENGL, mOldOpenglValue)
+            editor.putBoolean(PREFERENCE_PLAYBACK_HISTORY, mOldHistoryBoolean)
             editor.commit()
             VLCInstance.restart()
         }
@@ -560,7 +567,6 @@ class BenchActivity : ShallowVideoPlayer() {
         private const val EXTRA_SCREENSHOT_DIR = "extra_benchmark_screenshot_dir"
         private const val EXTRA_ACTION = "extra_benchmark_action"
         private const val EXTRA_HARDWARE = "extra_benchmark_disable_hardware"
-        val EXTRA_BENCHMARK = "extra_benchmark"
 
         private const val TAG = "VLCBenchmark"
         private const val REQUEST_SCREENSHOT = 666
@@ -571,6 +577,9 @@ class BenchActivity : ShallowVideoPlayer() {
         private const val VIRTUAL_DISPLAY_FLAGS = 0
 
         private const val PERMISSION_REQUEST_WRITE = 1
+
+        private const val PREFERENCE_PLAYBACK_HISTORY = "playback_history"
+        private const val PREFERENCE_OPENGL = "opengl"
     }
 }
 
