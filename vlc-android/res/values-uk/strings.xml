@@ -693,4 +693,5 @@
     <string name="popup_force_legacy_summary">Використовувати особливий вигульк картинка-в-картинці зі змінним розміром</string>
     <string name="device_default">Типовий пристрій</string>
     <string name="track_number">%s доріжок</string>
+    <string name="jump_to">Перейти до</string>
 </resources>
