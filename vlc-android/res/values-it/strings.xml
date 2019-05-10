@@ -679,4 +679,5 @@
     <string name="popup_force_legacy_summary">Utilizza finestra ridimensionabile Picture-in-Picture personalizzata</string>
     <string name="device_default">Predefinito del dispositivo</string>
     <string name="track_number">%s tracce</string>
+    <string name="jump_to">Salta a</string>
 </resources>
