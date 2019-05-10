@@ -672,4 +672,5 @@
     <string name="popup_force_legacy_summary">使用大小可调整的自定义画中画弹出窗口</string>
     <string name="device_default">设备默认</string>
     <string name="track_number">%s 条轨道</string>
+    <string name="jump_to">跳转到</string>
 </resources>
