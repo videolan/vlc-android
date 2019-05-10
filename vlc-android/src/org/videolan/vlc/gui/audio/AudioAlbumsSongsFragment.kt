@@ -25,10 +25,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Parcelable
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -160,6 +157,20 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         super.onSaveInstanceState(outState)
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        (viewModel.providers[currentTab]).run {
+            menu.findItem(R.id.ml_menu_sortby).isVisible = canSortByName()
+            menu.findItem(R.id.ml_menu_sortby_filename).isVisible = canSortByFileNameName()
+            menu.findItem(R.id.ml_menu_sortby_artist_name).isVisible = canSortByArtist()
+            menu.findItem(R.id.ml_menu_sortby_album_name).isVisible = canSortByAlbum()
+            menu.findItem(R.id.ml_menu_sortby_length).isVisible = canSortByDuration()
+            menu.findItem(R.id.ml_menu_sortby_date).isVisible = canSortByReleaseDate()
+            menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = canSortByLastModified()
+            menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
+        }
+        super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         super.onUpdateFinished(adapter)
         handler.post {
@@ -206,6 +217,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
     override fun onTabSelected(tab: TabLayout.Tab) {
         super.onTabSelected(tab)
         fastScroller.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
+        activity?.invalidateOptionsMenu()
     }
 
     override fun getCurrentRV() = lists[currentTab]

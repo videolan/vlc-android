@@ -25,9 +25,7 @@ abstract class SortableModel(protected val context: Context): ScopedModel(), Ref
     open fun canSortByAlbum ()= false
     open fun canSortByPlayCount() = false
 
-    fun getKey() : String {
-        return sortKey
-    }
+    fun getKey() = sortKey
 
     open fun sort(sort: Int) {
         if (canSortBy(sort)) {

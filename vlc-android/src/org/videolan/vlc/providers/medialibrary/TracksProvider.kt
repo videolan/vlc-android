@@ -33,21 +33,21 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: So
     override fun canSortByAlbum() = parent !== null
     override fun canSortByLastModified() = true
 
-    override fun getAll(): Array<MediaWrapper> = parent?.tracks ?: medialibrary.getAudio(scope.sort, scope.desc)
+    override fun getAll(): Array<MediaWrapper> = parent?.tracks ?: medialibrary.getAudio(sort, scope.desc)
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<MediaWrapper> {
         val list = if (scope.filterQuery == null) when(parent) {
-            is Artist -> parent.getPagedTracks(scope.sort, scope.desc, loadSize, startposition)
-            is Album -> parent.getPagedTracks(scope.sort, scope.desc, loadSize, startposition)
-            is Genre -> parent.getPagedTracks(scope.sort, scope.desc, loadSize, startposition)
+            is Artist -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
+            is Album -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
+            is Genre -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
             is Playlist -> parent.getPagedTracks(loadSize, startposition)
-            else -> medialibrary.getPagedAudio(scope.sort, scope.desc, loadSize, startposition)
+            else -> medialibrary.getPagedAudio(sort, scope.desc, loadSize, startposition)
         } else when(parent) {
-            is Artist -> parent.searchTracks(scope.filterQuery, scope.sort, scope.desc, loadSize, startposition)
-            is Album -> parent.searchTracks(scope.filterQuery, scope.sort, scope.desc, loadSize, startposition)
-            is Genre -> parent.searchTracks(scope.filterQuery, scope.sort, scope.desc, loadSize, startposition)
-            is Playlist -> parent.searchTracks(scope.filterQuery, scope.sort, scope.desc, loadSize, startposition)
-            else -> medialibrary.searchAudio(scope.filterQuery, scope.sort, scope.desc, loadSize, startposition)
+            is Artist -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            is Album -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            is Genre -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            is Playlist -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            else -> medialibrary.searchAudio(scope.filterQuery, sort, scope.desc, loadSize, startposition)
         }
         return list.also { completeHeaders(it, startposition) }
     }

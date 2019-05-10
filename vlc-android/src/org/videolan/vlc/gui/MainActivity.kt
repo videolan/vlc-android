@@ -319,7 +319,7 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
                         fragment.updateSeenMediaMarker()
                 PreferencesActivity.RESULT_UPDATE_ARTISTS -> {
                     val fragment = currentFragment
-                    if (fragment is AudioBrowserFragment) fragment.updateArtists()
+                    if (fragment is AudioBrowserFragment) fragment.viewModel.refresh()
                 }
             }
         } else if (requestCode == ACTIVITY_RESULT_OPEN && resultCode == Activity.RESULT_OK) {

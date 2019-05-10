@@ -53,6 +53,7 @@ import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.SortableModel
+import org.videolan.vlc.viewmodels.paged.MLPagedModel
 import java.lang.Runnable
 import java.util.*
 
@@ -201,14 +202,16 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.ml_menu_sortby).isVisible = viewModel.canSortByName()
-        menu.findItem(R.id.ml_menu_sortby_filename).isVisible = viewModel.canSortByFileNameName()
-        menu.findItem(R.id.ml_menu_sortby_artist_name).isVisible = viewModel.canSortByArtist()
-        menu.findItem(R.id.ml_menu_sortby_album_name).isVisible = viewModel.canSortByAlbum()
-        menu.findItem(R.id.ml_menu_sortby_length).isVisible = viewModel.canSortByDuration()
-        menu.findItem(R.id.ml_menu_sortby_date).isVisible = viewModel.canSortByReleaseDate()
-        menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = viewModel.canSortByLastModified()
-        menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
+        (viewModel as? MLPagedModel<*>)?.run {
+            menu.findItem(R.id.ml_menu_sortby).isVisible = canSortByName()
+            menu.findItem(R.id.ml_menu_sortby_filename).isVisible = canSortByFileNameName()
+            menu.findItem(R.id.ml_menu_sortby_artist_name).isVisible = canSortByArtist()
+            menu.findItem(R.id.ml_menu_sortby_album_name).isVisible = canSortByAlbum()
+            menu.findItem(R.id.ml_menu_sortby_length).isVisible = canSortByDuration()
+            menu.findItem(R.id.ml_menu_sortby_date).isVisible = canSortByReleaseDate()
+            menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = canSortByLastModified()
+            menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
+        }
         UiTools.updateSortTitles(this)
     }
 

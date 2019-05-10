@@ -10,6 +10,7 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.viewmodels.SortableModel
 
 private const val LENGTH_WEEK = 7 * 24 * 60 * 60
@@ -256,6 +257,21 @@ interface RefreshModel {
 }
 
 fun SortableModel.canSortBy(sort: Int) = when (sort) {
+    Medialibrary.SORT_DEFAULT -> true
+    Medialibrary.SORT_ALPHA -> canSortByName()
+    Medialibrary.SORT_FILENAME -> canSortByFileNameName()
+    Medialibrary.SORT_DURATION -> canSortByDuration()
+    Medialibrary.SORT_INSERTIONDATE -> canSortByInsertionDate()
+    Medialibrary.SORT_LASTMODIFICATIONDATE -> canSortByLastModified()
+    Medialibrary.SORT_RELEASEDATE -> canSortByReleaseDate()
+    Medialibrary.SORT_FILESIZE -> canSortByFileSize()
+    Medialibrary.SORT_ARTIST -> canSortByArtist()
+    Medialibrary.SORT_ALBUM -> canSortByAlbum()
+    Medialibrary.SORT_PLAYCOUNT -> canSortByPlayCount()
+    else -> false
+}
+
+fun MedialibraryProvider<*>.canSortBy(sort: Int) = when (sort) {
     Medialibrary.SORT_DEFAULT -> true
     Medialibrary.SORT_ALPHA -> canSortByName()
     Medialibrary.SORT_FILENAME -> canSortByFileNameName()

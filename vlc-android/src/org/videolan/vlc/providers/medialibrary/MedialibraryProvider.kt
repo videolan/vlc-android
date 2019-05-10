@@ -35,6 +35,7 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.vlc.util.ModelsHelper
+import org.videolan.vlc.util.canSortBy
 import org.videolan.vlc.util.retry
 import org.videolan.vlc.viewmodels.SortableModel
 import org.videolan.vlc.viewmodels.paged.HeadersIndex
@@ -59,6 +60,9 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     abstract fun getTotalCount(): Int
     abstract fun getPage(loadSize: Int, startposition: Int): Array<T>
     abstract fun getAll(): Array<T>
+
+    val sort : Int
+        get() = if (canSortBy(scope.sort)) scope.sort else Medialibrary.SORT_DEFAULT
 
     open fun canSortByName() = true
     open fun canSortByFileNameName() = false
@@ -89,7 +93,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
                 startposition > 0 -> pagedList.value?.getOrNull(startposition + position - 1)
                 else -> null
             }
-            ModelsHelper.getHeader(context, scope.sort, item, previous)?.let {
+            ModelsHelper.getHeader(context, sort, item, previous)?.let {
                 scope.launch {
                     headers.put(startposition + position, it)
                     (liveHeaders as MutableLiveData<HeadersIndex>).value = headers

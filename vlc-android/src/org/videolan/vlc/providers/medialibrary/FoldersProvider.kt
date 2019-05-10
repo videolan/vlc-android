@@ -28,10 +28,10 @@ import org.videolan.vlc.viewmodels.SortableModel
 
 @ExperimentalCoroutinesApi
 class FoldersProvider(context: Context, scope: SortableModel, val type: Int) : MedialibraryProvider<Folder>(context, scope) {
-    override fun getAll() : Array<Folder> = medialibrary.getFolders(type, scope.sort, scope.desc, getTotalCount(), 0)
+    override fun getAll() : Array<Folder> = medialibrary.getFolders(type, sort, scope.desc, getTotalCount(), 0)
 
     override fun getTotalCount() = medialibrary.getFoldersCount(type)
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<Folder> = medialibrary.getFolders(type, scope.sort, scope.desc, loadSize, startposition).also { completeHeaders(it, startposition) }
+    override fun getPage(loadSize: Int, startposition: Int) : Array<Folder> = medialibrary.getFolders(type, sort, scope.desc, loadSize, startposition).also { completeHeaders(it, startposition) }
 
 }

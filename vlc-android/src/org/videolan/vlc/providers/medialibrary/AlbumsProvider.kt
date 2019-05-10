@@ -36,20 +36,20 @@ class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, scope: So
     override fun canSortByReleaseDate() = true
 
     override fun getAll() : Array<Album> = when (parent) {
-        is Artist -> parent.getAlbums(scope.sort, scope.desc)
-        is Genre -> parent.getAlbums(scope.sort, scope.desc)
-        else -> medialibrary.getAlbums(scope.sort, scope.desc)
+        is Artist -> parent.getAlbums(sort, scope.desc)
+        is Genre -> parent.getAlbums(sort, scope.desc)
+        else -> medialibrary.getAlbums(sort, scope.desc)
     }
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<Album> {
         val list = if (scope.filterQuery == null) when(parent) {
-            is Artist -> parent.getPagedAlbums(scope.sort, scope.desc, loadSize, startposition)
-            is Genre -> parent.getPagedAlbums(scope.sort, scope.desc, loadSize, startposition)
-            else -> medialibrary.getPagedAlbums(scope.sort, scope.desc, loadSize, startposition)
+            is Artist -> parent.getPagedAlbums(sort, scope.desc, loadSize, startposition)
+            is Genre -> parent.getPagedAlbums(sort, scope.desc, loadSize, startposition)
+            else -> medialibrary.getPagedAlbums(sort, scope.desc, loadSize, startposition)
         } else when(parent) {
-            is Artist -> parent.searchAlbums(scope.filterQuery, scope.sort, scope.desc, loadSize, startposition)
-            is Genre -> parent.searchAlbums(scope.filterQuery, scope.sort, scope.desc, loadSize, startposition)
-            else -> medialibrary.searchAlbum(scope.filterQuery, scope.sort, scope.desc, loadSize, startposition)
+            is Artist -> parent.searchAlbums(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            is Genre -> parent.searchAlbums(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            else -> medialibrary.searchAlbum(scope.filterQuery, sort, scope.desc, loadSize, startposition)
         }
         return list.also { completeHeaders(it, startposition) }
     }
