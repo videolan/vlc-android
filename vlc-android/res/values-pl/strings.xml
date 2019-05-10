@@ -693,4 +693,5 @@
     <string name="popup_force_legacy_summary">Użyj własnego, z możliwością zmiany rozmiaru, wyskakującego okna \"Obraz w obrazie\"</string>
     <string name="device_default">Systemowy</string>
     <string name="track_number">%s utwory</string>
+    <string name="jump_to">Przejdź do</string>
 </resources>
