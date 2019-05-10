@@ -23,11 +23,11 @@ package org.videolan.vlc.providers.medialibrary
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.media.Artist
-import org.videolan.vlc.viewmodels.paged.PagedArtistsModel
+import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class ArtistsProvider(context: Context, scope: PagedArtistsModel, var showAll: Boolean) : MedialibraryProvider<Artist>(context, scope) {
+class ArtistsProvider(context: Context, scope: SortableModel, var showAll: Boolean) : MedialibraryProvider<Artist>(context, scope) {
 
     override fun getAll() : Array<Artist> = medialibrary.getArtists(showAll, scope.sort, scope.desc)
 

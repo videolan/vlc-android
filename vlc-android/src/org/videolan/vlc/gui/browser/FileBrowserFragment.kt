@@ -32,6 +32,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
@@ -130,7 +131,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
     }
 
     override fun onCtxAction(position: Int, option: Int) {
-        val mw = adapter.getItem(position) as MediaWrapper?
+        val mw = this.adapter.getItem(position) as MediaWrapper?
         when (option) {
             CTX_FAV_ADD -> browserFavRepository.addLocalFavItem(mw!!.uri, mw.title, mw.artworkURL)
             else -> super.onCtxAction(position, option)

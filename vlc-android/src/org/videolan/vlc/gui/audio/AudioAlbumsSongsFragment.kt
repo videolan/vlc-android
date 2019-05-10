@@ -36,7 +36,6 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -51,27 +50,28 @@ import org.videolan.vlc.gui.PlaylistActivity
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.util.CTX_PLAY_ALL
 import org.videolan.vlc.util.Util
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
-import org.videolan.vlc.viewmodels.paged.PagedAlbumsModel
-import org.videolan.vlc.viewmodels.paged.PagedTracksModel
+import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
+
+private const val TAG = "VLC/AudioAlbumsSongsFragment"
+
+private const val MODE_ALBUM = 0
+private const val MODE_SONG = 1
+private const val MODE_TOTAL = 2 // Number of audio mProvider modes
 
 /* All subclasses of Fragment must include a public empty constructor. */
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class AudioAlbumsSongsFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListener {
+class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeRefreshLayout.OnRefreshListener {
 
     private var handler = Handler(Looper.getMainLooper())
-    private lateinit var albumModel: PagedAlbumsModel
-    private lateinit var tracksModel: PagedTracksModel
 
     private lateinit var lists: Array<RecyclerView>
-    private lateinit var audioModels: Array<MLPagedModel<MediaLibraryItem>>
     private lateinit var songsAdapter: AudioBrowserAdapter
     private lateinit var albumsAdapter: AudioBrowserAdapter
     private lateinit var fastScroller: FastScroller
 
-    private lateinit var item: MediaLibraryItem
     override val hasTabs = true
 
     /*
@@ -85,18 +85,14 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefres
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        item = if (savedInstanceState != null)
+        val item = if (savedInstanceState != null)
             savedInstanceState.getParcelable<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem
         else
             arguments!!.getParcelable<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem
-        albumModel = ViewModelProviders.of(this, PagedAlbumsModel.Factory(requireContext(), item)).get(PagedAlbumsModel::class.java)
-        tracksModel = ViewModelProviders.of(this, PagedTracksModel.Factory(requireContext(), item)).get(PagedTracksModel::class.java)
-        audioModels = arrayOf(albumModel as MLPagedModel<MediaLibraryItem>, tracksModel as MLPagedModel<MediaLibraryItem>)
+        viewModel = ViewModelProviders.of(requireActivity(), AlbumSongsViewModel.Factory(requireContext(), item)).get(AlbumSongsViewModel::class.java)
     }
 
-    override fun getTitle(): String = item.title
-
-
+    override fun getTitle(): String = viewModel.parent.title
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.audio_albums_songs, container, false)
@@ -112,33 +108,21 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefres
         val titles = arrayOf(getString(R.string.albums), getString(R.string.songs))
         albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this)
         songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this)
-        adapters = arrayOf<AudioBrowserAdapter>(albumsAdapter, songsAdapter)
+        adapters = arrayOf(albumsAdapter, songsAdapter)
 
-        albumsList.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, albumModel.provider))
-        songsList.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, tracksModel.provider))
+        albumsList.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.albumsProvider))
+        songsList.addItemDecoration(RecyclerSectionItemDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), true, viewModel.tracksProvider))
 
         songsList.adapter = songsAdapter
         albumsList.adapter = albumsAdapter
         viewPager!!.offscreenPageLimit = MODE_TOTAL - 1
+        @Suppress("UNCHECKED_CAST")
         viewPager!!.adapter = AudioPagerAdapter(lists as Array<View>, titles)
 
         fastScroller = view.rootView.findViewById<View>(R.id.songs_fast_scroller) as FastScroller
         fastScroller.attachToCoordinator(view.rootView.findViewById<View>(R.id.appbar) as AppBarLayout, view.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)
 
         viewPager!!.setOnTouchListener(swipeFilter)
-        viewModel = audioModels[viewPager!!.currentItem]
-        viewPager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {}
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-
-            override fun onPageSelected(position: Int) {
-                viewModel = audioModels[viewPager!!.currentItem]
-            }
-
-        })
-
-
 
         swipeRefreshLayout = view.findViewById(R.id.swipeLayout)
         swipeRefreshLayout!!.setOnRefreshListener(this)
@@ -151,10 +135,11 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefres
 
         }
         fabPlay?.setImageResource(R.drawable.ic_fab_play)
-        albumModel.pagedList.observe(this, Observer { albums -> if (albums != null) albumsAdapter.submitList(albums as PagedList<MediaLibraryItem>) })
-        tracksModel.pagedList.observe(this, Observer { tracks ->
+        viewModel.albumsProvider.pagedList.observe(this, Observer { albums -> if (albums != null) albumsAdapter.submitList(albums as PagedList<MediaLibraryItem>) })
+        viewModel.tracksProvider.pagedList.observe(this, Observer { tracks ->
             if (tracks != null) {
-                if (tracks.isEmpty() && !tracksModel.isFiltering()) {
+                @Suppress("UNCHECKED_CAST")
+                if (tracks.isEmpty() && !viewModel.isFiltering()) {
                     val activity = activity
                     activity?.finish()
                 } else
@@ -163,14 +148,15 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefres
         })
     }
 
+    override fun getCurrentAdapter() = adapters[currentTab]
+
     override fun onRefresh() {
         (requireActivity() as ContentActivity).closeSearchView()
-        albumModel.refresh()
-        tracksModel.refresh()
+        viewModel.refresh()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(AudioBrowserFragment.TAG_ITEM, item)
+        outState.putParcelable(AudioBrowserFragment.TAG_ITEM, viewModel.parent)
         super.onSaveInstanceState(outState)
     }
 
@@ -178,10 +164,9 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefres
         super.onUpdateFinished(adapter)
         handler.post {
             swipeRefreshLayout?.isRefreshing = false
-            val albums = albumModel.pagedList.value
-            if (Util.isListEmpty(albums) && !viewModel.isFiltering())
-                viewPager!!.currentItem = 1
-            fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
+            val albums = viewModel.albumsProvider.pagedList.value
+            if (Util.isListEmpty(albums) && !viewModel.isFiltering()) currentTab = 1
+            fastScroller.setRecyclerView(getCurrentRV(), viewModel.providers[currentTab])
         }
     }
 
@@ -203,42 +188,32 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefres
             MediaUtils.openMedia(v.context, item as MediaWrapper)
     }
 
+    override fun onCtxAction(position: Int, option: Int) {
+        if (option == CTX_PLAY_ALL) MediaUtils.playAll(requireContext(), viewModel.tracksProvider, position, false)
+        else super.onCtxAction(position, option)
+    }
+
     override fun onTabUnselected(tab: TabLayout.Tab) {
         super.onTabUnselected(tab)
-        audioModels[tab.position].restore()
+        viewModel.restore()
     }
 
     override fun onTabReselected(tab: TabLayout.Tab) {
         lists[tab.position].smoothScrollToPosition(0)
-        fastScroller.setRecyclerView(lists[tab.position], audioModels[tab.position].provider)
+        fastScroller.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
     }
 
     override fun onTabSelected(tab: TabLayout.Tab) {
         super.onTabSelected(tab)
-        fastScroller.setRecyclerView(lists[tab.position], audioModels[tab.position].provider)
+        fastScroller.setRecyclerView(lists[tab.position], viewModel.providers[tab.position])
     }
 
-    override fun getCurrentRV(): RecyclerView {
-        return lists[viewPager!!.currentItem]
-    }
-
-    override fun setFabPlayVisibility(enable: Boolean) {
-        super.setFabPlayVisibility(enable)
-    }
+    override fun getCurrentRV() = lists[currentTab]
 
     override fun onFabPlayClick(view: View) {
-        if (viewPager!!.currentItem == 0)
-            MediaUtils.playAlbums(activity, albumModel.provider, 0, false)
+        if (currentTab == 0)
+            MediaUtils.playAlbums(activity, viewModel.albumsProvider, 0, false)
         else
-            MediaUtils.playAll(view.context, tracksModel.provider, 0, false)
-    }
-
-    companion object {
-
-        private val TAG = "VLC/AudioAlbumsSongsFragment"
-
-        private val MODE_ALBUM = 0
-        private val MODE_SONG = 1
-        private val MODE_TOTAL = 2 // Number of audio mProvider modes
+            MediaUtils.playAll(view.context, viewModel.tracksProvider, 0, false)
     }
 }

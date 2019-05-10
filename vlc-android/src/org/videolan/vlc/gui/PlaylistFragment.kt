@@ -42,6 +42,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.PlaylistsFragmentBinding
@@ -50,13 +51,16 @@ import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.audio.BaseAudioBrowser
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
+import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
+import org.videolan.vlc.util.CTX_PLAY_ALL
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.paged.PagedPlaylistsModel
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class PlaylistFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListener {
+class PlaylistFragment : BaseAudioBrowser<PagedPlaylistsModel>(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: PlaylistsFragmentBinding
     private lateinit var playlists: RecyclerView
@@ -141,6 +145,11 @@ class PlaylistFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListene
             i.putExtra(AudioBrowserFragment.TAG_ITEM, item)
             startActivity(i)
         } else super.onClick(v, position, item)
+    }
+
+    override fun onCtxAction(position: Int, option: Int) {
+        if (option == CTX_PLAY_ALL) MediaUtils.playAll(requireContext(), viewModel.provider as MedialibraryProvider<MediaWrapper>, position, false)
+        else super.onCtxAction(position, option)
     }
 
 

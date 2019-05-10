@@ -169,18 +169,18 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         when (option) {
             CTX_RENAME -> renameStream(position)
             CTX_APPEND -> {
-                val media = viewModel.dataset.value.get(position) ?: return
+                val media = viewModel.dataset.value[position]
                 MediaUtils.appendMedia(requireContext(), media)
             }
             CTX_ADD_TO_PLAYLIST -> {
-                val media = viewModel.dataset.value.get(position) ?: return
+                val media = viewModel.dataset.value[position]
                 UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
             }
         }
     }
 
     private fun renameStream(position: Int) {
-        val media = viewModel.dataset.value.get(position) ?: return
+        val media = viewModel.dataset.value[position]
         val edit = EditText(requireActivity())
         AlertDialog.Builder(requireContext())
                 .setTitle(getString(R.string.rename_media, media.title))

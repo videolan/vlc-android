@@ -36,11 +36,11 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
 import org.videolan.vlc.util.ModelsHelper
 import org.videolan.vlc.util.retry
+import org.videolan.vlc.viewmodels.SortableModel
 import org.videolan.vlc.viewmodels.paged.HeadersIndex
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
 
 
-abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: MLPagedModel<T>) {
+abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: SortableModel) {
     protected val medialibrary = Medialibrary.getInstance()
     val loading = MutableLiveData<Boolean>().apply { value = false }
     private val headers = HeadersIndex()

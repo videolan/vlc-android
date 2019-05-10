@@ -50,17 +50,15 @@ import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.KEY_ARTISTS_SHOW_ALL
-import org.videolan.vlc.util.KEY_AUDIO_CURRENT_TAB
-import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.WeakHandler
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.paged.*
 import java.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshListener {
+class AudioBrowserFragment : BaseAudioBrowser<MLPagedModel<*>>(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var songsAdapter: AudioBrowserAdapter
     private lateinit var artistsAdapter: AudioBrowserAdapter
@@ -127,7 +125,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
         viewPager!!.offscreenPageLimit = MODE_TOTAL - 1
         viewPager!!.adapter = AudioPagerAdapter(lists as Array<View>, titles)
         val tabPosition = settings.getInt(KEY_AUDIO_CURRENT_TAB, 0)
-        viewPager!!.currentItem = tabPosition
+        currentTab = tabPosition
         val positions = savedInstanceState?.getIntegerArrayList(KEY_LISTS_POSITIONS)
         for (i in 0 until MODE_TOTAL) {
             val llm = LinearLayoutManager(activity)
@@ -147,11 +145,11 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
             override fun onPageSelected(position: Int) {
-                viewModel = models[viewPager!!.currentItem]
+                viewModel = models[currentTab]
             }
 
         })
-        viewModel = models[viewPager!!.currentItem]
+        viewModel = models[currentTab]
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -190,7 +188,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
                 if ((pass == 0) xor (current == i)) continue
                 models[i].pagedList.observe(this, Observer { items -> if (items != null) adapters[i].submitList(items) })
                 models[i].loading.observe(this, Observer { loading ->
-                    if (loading == null || viewPager!!.currentItem != i) return@Observer
+                    if (loading == null || currentTab != i) return@Observer
                     if (loading)
                         mHandler.sendEmptyMessageDelayed(SET_REFRESHING, 300)
                     else
@@ -262,6 +260,11 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
         lists[tab.position]?.smoothScrollToPosition(0)
     }
 
+    override fun onCtxAction(position: Int, option: Int) {
+        if (option == CTX_PLAY_ALL) MediaUtils.playAll(requireContext(), viewModel.provider as MedialibraryProvider<MediaWrapper>, position, false)
+        else super.onCtxAction(position, option)
+    }
+
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         if (actionMode != null) {
             super.onClick(v, position, item)
@@ -289,7 +292,7 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
         super.onUpdateFinished(adapter)
-        if (getCurrentAdapter() != null && adapter === getCurrentAdapter()) {
+        if (adapter === getCurrentAdapter()) {
             swipeRefreshLayout?.isEnabled = (getCurrentRV().layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() <= 0
             updateEmptyView()
             fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
@@ -299,13 +302,9 @@ class AudioBrowserFragment : BaseAudioBrowser(), SwipeRefreshLayout.OnRefreshLis
 
 
 
-    override fun getCurrentRV(): RecyclerView {
-        return lists[viewPager!!.currentItem]!!
-    }
+    override fun getCurrentRV() = lists[currentTab]!!
 
-    override fun getCurrentAdapter(): AudioBrowserAdapter? {
-        return adapters[viewPager!!.currentItem]
-    }
+    override fun getCurrentAdapter() = adapters[currentTab]
 
     private class AudioBrowserHandler internal constructor(owner: AudioBrowserFragment) : WeakHandler<AudioBrowserFragment>(owner) {
 

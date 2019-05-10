@@ -23,11 +23,11 @@ package org.videolan.vlc.providers.medialibrary
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.media.*
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
+import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: MLPagedModel<MediaWrapper>) : MedialibraryProvider<MediaWrapper>(context, scope) {
+class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: SortableModel) : MedialibraryProvider<MediaWrapper>(context, scope) {
 
     override fun canSortByDuration() = true
     override fun canSortByAlbum() = parent !== null

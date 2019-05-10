@@ -25,11 +25,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.media.getAll
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
+import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class VideosProvider(val folder : Folder?, context: Context, scope: MLPagedModel<MediaWrapper>) : MedialibraryProvider<MediaWrapper>(context, scope){
+class VideosProvider(val folder : Folder?, context: Context, scope: SortableModel) : MedialibraryProvider<MediaWrapper>(context, scope){
 
     override fun canSortByFileNameName() = true
     override fun canSortByDuration() = true

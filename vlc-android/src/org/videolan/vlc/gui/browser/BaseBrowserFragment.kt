@@ -439,8 +439,7 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
 
     override fun onCtxAction(position: Int, option: Int) {
-        if (adapter.getItem(position) !is MediaWrapper) return
-        val mw = adapter.getItem(position) as MediaWrapper
+        val mw = adapter.getItem(position) as? MediaWrapper ?: return
         when (option) {
             CTX_PLAY -> MediaUtils.openMedia(activity, mw)
             CTX_PLAY_ALL -> {

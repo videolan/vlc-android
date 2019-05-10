@@ -48,14 +48,13 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
-import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.*
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
+import org.videolan.vlc.viewmodels.SortableModel
 import java.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEventsHandler, CtxActionReceiver, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
+abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), IEventsHandler, CtxActionReceiver, ViewPager.OnPageChangeListener, TabLayout.OnTabSelectedListener {
 
     internal lateinit var adapters: Array<AudioBrowserAdapter>
 
@@ -67,8 +66,12 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
     protected abstract fun getCurrentRV(): RecyclerView
     protected var adapter: AudioBrowserAdapter? = null
 
-    open fun getCurrentAdapter(): AudioBrowserAdapter? {
-        return adapter
+    open fun getCurrentAdapter() = adapter
+
+    protected var currentTab
+    get() = viewPager?.currentItem ?: 0
+    set(value) {
+        viewPager?.currentItem = value
     }
 
     private lateinit var layoutOnPageChangeListener: TabLayout.TabLayoutOnPageChangeListener
@@ -248,17 +251,13 @@ abstract class BaseAudioBrowser : MediaBrowserFragment<MLPagedModel<*>>(), IEven
         UiTools.updateSortTitles(this)
     }
 
-    override fun onItemFocused(v: View, item: MediaLibraryItem) {
-
-    }
+    override fun onItemFocused(v: View, item: MediaLibraryItem) {}
 
     override fun onCtxAction(position: Int, option: Int) {
-        val adapter = getCurrentAdapter()
-        if (position >= adapter?.itemCount ?: 0) return
-        val media = adapter?.getItem(position) ?: return
+        if (position >= getCurrentAdapter()?.itemCount ?: 0) return
+        val media = getCurrentAdapter()?.getItem(position) ?: return
         when (option) {
             CTX_PLAY -> MediaUtils.playTracks(requireActivity(), media, 0)
-            CTX_PLAY_ALL -> MediaUtils.playAll(requireContext(), viewModel.provider as MedialibraryProvider<MediaWrapper>, position, false)
             CTX_INFORMATION -> showInfoDialog(media)
             CTX_DELETE -> removeItem(media)
             CTX_APPEND -> MediaUtils.appendMedia(requireActivity(), media.tracks)

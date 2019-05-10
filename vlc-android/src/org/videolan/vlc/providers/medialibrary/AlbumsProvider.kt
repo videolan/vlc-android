@@ -26,11 +26,11 @@ import org.videolan.medialibrary.media.Album
 import org.videolan.medialibrary.media.Artist
 import org.videolan.medialibrary.media.Genre
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
+import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, scope: MLPagedModel<Album>) : MedialibraryProvider<Album>(context, scope) {
+class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, scope: SortableModel) : MedialibraryProvider<Album>(context, scope) {
 
     override fun canSortByDuration() = true
     override fun canSortByReleaseDate() = true

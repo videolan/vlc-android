@@ -8,7 +8,7 @@ import org.videolan.vlc.util.canSortBy
 
 abstract class SortableModel(protected val context: Context): ScopedModel(), RefreshModel {
 
-    protected open val sortKey = this.javaClass.simpleName!!
+    protected open val sortKey : String = this.javaClass.simpleName
     var sort = Medialibrary.SORT_ALPHA
     var desc = false
 
