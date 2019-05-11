@@ -679,4 +679,5 @@
     <string name="popup_force_legacy_summary">Använd anpassad popupp för bild-i-bild som kan storleksändras</string>
     <string name="device_default">Enhetsstandard</string>
     <string name="track_number">%s spår</string>
+    <string name="jump_to">Hoppa till</string>
 </resources>
