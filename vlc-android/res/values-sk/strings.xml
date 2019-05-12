@@ -693,4 +693,5 @@
     <string name="popup_force_legacy_summary">Použiť používateľské okno PiP s možnosťou zmeny veľkosti</string>
     <string name="device_default">Predvolené zariadenie</string>
     <string name="track_number">stôp: %s</string>
+    <string name="jump_to">Preskočiť na</string>
 </resources>
