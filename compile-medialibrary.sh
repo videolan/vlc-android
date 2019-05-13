@@ -163,11 +163,7 @@ MEDIALIBRARY_LDLIBS="$VLC_OUT_LDLIBS \
 -L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3 \
 -L${NDK_LIB_DIR} -lc++abi ${NDK_LIB_UNWIND}"
 
-if [ $ON_WINDOWS -eq 1 ]; then
-    OSCMD=.cmd
-fi
-
-$ANDROID_NDK/ndk-build$OSCMD -C medialibrary \
+$NDK_BUILD -C medialibrary \
     APP_STL="c++_shared" \
     LOCAL_CPP_FEATURES="rtti exceptions" \
     APP_BUILD_SCRIPT=jni/Android.mk \

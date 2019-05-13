@@ -98,7 +98,9 @@ if [ ! -z "$MSYSTEM_PREFIX" ] ; then
     # The make.exe and awk.exe from the toolchain don't work in msys
     export PATH="$MSYSTEM_PREFIX/bin:/usr/bin:${NDK_TOOLCHAIN_PATH}:${PATH}"
     ON_WINDOWS=1
+    OSCMD=.cmd
 fi
+NDK_BUILD=$ANDROID_NDK/ndk-build$OSCMD
 
 ##########
 # CFLAGS #
@@ -681,7 +683,7 @@ LOCAL_CXXFLAGS := -std=c++11
 include $(BUILD_SHARED_LIBRARY)
 EOF
 
-$ANDROID_NDK/ndk-build$OSCMD -C build \
+$NDK_BUILD -C build \
     APP_STL="c++_shared" \
     APP_CPPFLAGS="-frtti -fexceptions" \
     VLC_SRC_DIR="$VLC_SRC_DIR" \

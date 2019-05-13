@@ -276,7 +276,7 @@ compile() {
         AVLC_SOURCED=1 . ./compile-libvlc.sh
         avlc_build
 
-        $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
+        $NDK_BUILD -C libvlc \
             VLC_SRC_DIR="$VLC_SRC_DIR" \
             VLC_BUILD_DIR="$VLC_BUILD_DIR" \
             VLC_OUT_LDLIBS="$VLC_OUT_LDLIBS" \
