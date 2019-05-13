@@ -270,14 +270,22 @@ compile() {
         OPTS="$OPTS release"
     fi
 
+    OUT_DBG_DIR=.dbg/${ANDROID_ABI}
+    mkdir -p $OUT_DBG_DIR
+
     # Build LibVLC if asked for it, or needed by medialibrary
     if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/$1" ]; then
         AVLC_SOURCED=1 . ./compile-libvlc.sh
         avlc_build
+
+        cp -a $VLC_OUT_PATH/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
+        cp -a ./libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
     fi
 
     if [ "$NO_ML" != 1 ]; then
         ./compile-medialibrary.sh $OPTS
+
+        cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
     fi
 }
 if [ "$ANDROID_ABI" = "all" ]; then

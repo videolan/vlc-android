@@ -181,11 +181,3 @@ $ANDROID_NDK/ndk-build$OSCMD -C medialibrary \
     NDK_DEBUG=${NDK_DEBUG}
 
 avlc_checkfail "nkd-build medialibrary failed"
-
-echo "Dumping dbg symbols info ${OUT_DBG_DIR}"
-
-cd ${SRC_DIR}
-OUT_DBG_DIR=.dbg/${ANDROID_ABI}
-
-mkdir -p $OUT_DBG_DIR
-cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
