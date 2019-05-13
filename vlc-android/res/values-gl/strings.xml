@@ -36,7 +36,7 @@
     <string name="medialibrary_scan">Examinar a biblioteca multimedia</string>
     <string name="Medialibrary_progress">Actualizacións no exame da biblioteca multimedia</string>
     <string name="play_from_start">Reproducir desde o inicio</string>
-    <string name="play_as_audio">Reproducir como audio</string>
+    <string name="play_as_audio">Reproducir como son</string>
     <string name="play_as_video">Reproducir como vídeo</string>
     <string name="video_app_switch_title">Modo segundo plano/PiP</string>
     <string name="video_app_switch_summary">Seleccione o comportamento do VLC cando cambie a outro aplicativo desde a reprodución de vídeo.</string>
@@ -96,7 +96,7 @@
 
     <string name="internal_memory">memoria interna</string>
     <string name="parent_folder">Ir arriba ao cartafol pai</string>
-    <string name="audio">Audio</string>
+    <string name="audio">Son</string>
     <string name="video">Vídeo</string>
     <string name="bookmarks">Marcadores</string>
     <string name="equalizer">Ecualizador</string>
@@ -142,7 +142,7 @@
     <string name="thumbnail">Miniatura</string>
     <string name="unseekable_stream">O fluxo non é compatíbel coa busca</string>
     <string name="refresh">Actualizar</string>
-    <string name="track_audio">Pista de audio</string>
+    <string name="track_audio">Pista de son</string>
     <string name="track_video">Pista de vídeo</string>
     <string name="track_text">Pista dos subtítulos</string>
     <string name="track_unknown">Pista descoñecida</string>
@@ -222,7 +222,7 @@
     <string name="video_player_tips">Suxestións para o reprodutor de vídeo:</string>
     <string name="seek">Buscar</string>
     <string name="subtitles">Subtítulos</string>
-    <string name="audio_sub">Pistas de audio\ne subtítulos</string>
+    <string name="audio_sub">Pistas de son\ne subtítulos</string>
     <string name="resize">Redimensionar</string>
     <string name="options">Opcións</string>
     <string name="lock">Bloquear</string>
@@ -309,8 +309,8 @@
     <string name="force_play_all_title">Modo lista de reprodución de vídeos</string>
     <string name="save_brightness_summary">Lembrar o nivel de brillo no reprodutor de vídeo</string>
     <string name="save_brightness_title">Gardar o nivel de brillo para vídeos</string>
-    <string name="save_audiodelay_summary">Gardar o atraso individual de audio de cada vídeo</string>
-    <string name="save_audiodelay_title">Gardar o atraso de audio</string>
+    <string name="save_audiodelay_summary">Gardar o atraso do son de cada vídeo</string>
+    <string name="save_audiodelay_title">Gardar o atraso de son</string>
     <string name="enable_brightness_gesture_title">Xestos para o brillo</string>
     <string name="enable_brightness_gesture_summary">Controlar o brillo mediante xestos durante a reprodución de vídeo</string>
     <string name="enable_volume_gesture_title">Xestos para o volume</string>
@@ -341,20 +341,20 @@
     <string name="subtitles_bold_title">Subtítulos grosos</string>
     <string name="subtitles_autoload_title">Cargar subtítulos automaticamente</string>
 
-    <string name="audio_prefs_category">Audio</string>
+    <string name="audio_prefs_category">Son</string>
     <string name="lockscreen_cover_title">Portada do multimedia na pantalla de bloqueo</string>
     <string name="lockscreen_cover_summary">Cando estea dispoñíbel, estabeleza a portada do multimedia actual como fondo da pantalla de bloqueo</string>
     <string name="playlist_animate_scroll_title">Animación no desprazamento automático da lista de reprodución actual</string>
     <string name="playlist_animate_scroll_summary">Animación do desprazamento na transición de multimedia</string>
-    <string name="audio_title_alignment">Aliñamento do título de audio</string>
+    <string name="audio_title_alignment">Aliñamento do título do son</string>
     <string name="audio_title_alignment_default">Predeterminado</string>
     <string name="audio_title_alignment_left">Esquerda</string>
     <string name="audio_title_alignment_centre">Centrado</string>
     <string name="audio_title_alignment_right">Dereita</string>
     <string name="audio_title_alignment_marquee">Marquesiña</string>
     <string name="audio_save_repeat_title">Gardar o modo repetición</string>
-    <string name="audio_save_repeat_summary">Lembrar modo repetición ao cargar listas de reprodución de audio</string>
-    <string name="audio_boost_title">Reforzo de audio</string>
+    <string name="audio_save_repeat_summary">Lembrar modo repetición ao cargar listas de reprodución de son</string>
+    <string name="audio_boost_title">Reforzo de son</string>
     <string name="audio_boost_summary">Permitir volume ata o 200%</string>
     <string name="headset_prefs_category">Auriculares</string>
     <string name="enable_headset_detection">Detectar os auriculares</string>
@@ -365,13 +365,14 @@
     <string name="enable_play_on_headset_insertion_summary">No caso contrario deter</string>
     <string name="enable_steal_remote_control">Control remoto de auriculares exclusivo</string>
     <string name="enable_steal_remote_control_summary">Evita conflitos ao roubarlle o control remoto de outros aplicativos. Isto impide facer unha chamada ao facer duplo clic no teléfonos HTC.</string>
-    <string name="aout">Saída de audio</string>
-    <string name="aout_summary">Mudar o método que usa o VLC para a saída de audio.</string>
+    <string name="aout">Saída de son</string>
+    <string name="aout_summary">Mudar o método que usa o VLC para a saída de son.</string>
     <string name="audio_ducking_title">Baixar o volume do VLC nas notificacións</string>
-    <string name="audio_ducking_summary">Axuda na escoita de notificacións de audio, instrucións de navegación e para falar co asistente</string>
+    <string name="audio_ducking_summary">Axuda na escoita de notificacións de son, instrucións de navegación e para falar co asistente</string>
     <string name="casting_category">Emisión</string>
     <string name="casting_switch_title">Emisión sen fíos</string>
-    <string name="casting_passthrough_summary">Permitir que a TV xestione o procesamento do audio</string>
+    <string name="casting_passthrough_title">Audio Passthrough</string>
+    <string name="casting_passthrough_summary">Permitir que a TV xestione o procesamento do son</string>
     <string name="casting_conversion_quality_title">Calidade da conversión</string>
     <string name="casting_conversion_quality_summary">Seleccionar a calidade da conversión cando se emita a unha pantalla remota</string>
     <string name="casting_quality_high">Alta</string>
@@ -404,8 +405,8 @@
     <string name="deblocking_all">Sen filtro antibloques (o máis rápido)</string>
     <string name="enable_frame_skip">Salto de fotograma</string>
     <string name="enable_frame_skip_summary">Acelera a descodificación, mais pode resultar nunha menor calidade de vídeo.</string>
-    <string name="enable_time_stretching_audio">Activar a extensión no tempo do audio</string>
-    <string name="enable_time_stretching_audio_summary">Acelerar e diminuír a velocidade do audio sen mudar a súa altura (require un dispositivo rápido)</string>
+    <string name="enable_time_stretching_audio">Activar a extensión no tempo do son</string>
+    <string name="enable_time_stretching_audio_summary">Acelerar e diminuír a velocidade do son sen mudar a súa altura (require un dispositivo rápido)</string>
 
     <string name="advanced_prefs_category">Avanzadas</string>
     <string name="save_video_none">Non gardar a velocidade</string>
@@ -434,7 +435,7 @@
     <string name="restart_message_OK">Aceptar</string>
     <string name="restart_message_Later">Máis tarde</string>
     <string name="browser_show_all_title">Mostrar todos os ficheiros no explorador</string>
-    <string name="browser_show_all_summary">Mostrar nos exploradores os ficheiros non recoñecidos como audio ou vídeo</string>
+    <string name="browser_show_all_summary">Mostrar nos exploradores os ficheiros non recoñecidos como son ou vídeo</string>
 
     <string name="developer_prefs_category">Desenvolvedor/a</string>
     <string name="enable_verbose_mode">Detallado</string>
@@ -475,7 +476,7 @@
 
     <string name="file_size">Tamaño do ficheiro:</string>
 
-    <string name="audio_delay">Atraso do audio</string>
+    <string name="audio_delay">Atraso do son</string>
     <string name="spu_delay">Atraso dos subtítulos</string>
     <string name="sleep_time_not_set">nada estabelecido</string>
     <string name="network_shares_discovery">Buscando comparticións de rede...</string>
@@ -512,7 +513,7 @@
     <!-- Widget -->
     <string name="widget_name_w">Widget do VLC branco</string>
     <string name="widget_name_b">Widget do VLC escuro</string>
-    <string name="allow_storage_access_title">Permitir a VLC acceder aos ficheiros de audio e vídeo</string>
+    <string name="allow_storage_access_title">Permitir a VLC acceder aos ficheiros de son e vídeo</string>
     <string name="allow_storage_access_description">VLC precisa o permiso de acceso aos ficheiros multimedia deste dispositivo</string>
     <string name="allow_settings_access_ringtone_title">Permitir que VLC estableza o tono de chamada</string>
     <string name="allow_settings_access_ringtone_description">O VLC precisa o seu permiso para estabelecer esta canción como ton de chamada.</string>
@@ -524,6 +525,10 @@
     <string name="exit_app">Pechar o VLC</string>
     <string name="exit_app_msg">Confirma que quere pechar o VLC?</string>
 
+    <!-- fast scroller -->
+    <string name="fastscroller_track">Barra de desprazamento rápido</string>
+    <string name="fastscroller_handle">Manexador do desprazamento rápido</string>
+
     <!-- Plugins -->
     <string name="plugins">Plugins</string>
     <string name="download_on_device">Descargar</string>
@@ -534,6 +539,7 @@
     <string name="opengl_automatic">Automático</string>
     <string name="opengl_on">Forzar activado</string>
     <string name="opengl_off">Forzar desactivado</string>
+    <string name="network_favorites">Favoritos da rede</string>
     <string name="network_shared_folders">Cartafoles compartidos</string>
     <string name="encryption_warning">Aviso, non hai un cifrado dispoñíbel para esta versión de Android, o contrasinal gardarase nun espazo privado pero sen cifrar</string>
     <string name="store_password">Lembrar contrasinal</string>
@@ -587,9 +593,13 @@
     <string name="do_not_save">Non gardar</string>
     <string name="custom_set_deleted_message">Axuste personalizado do ecualizador «%1$s» eliminado.</string>
     <string name="custom_set_wrong_input">Nome non válido</string>
+    <string name="custom_set_already_exist">Xa existe un axuste do ecualizador con ese nome</string>
+    <string name="custom_set_restored">Axuste personalizado do ecualizador restabelecido.</string>
+    <string name="unsaved_set_deleted_message">Axuste sen gardar do ecualizador eliminado.</string>
     <string name="equalizer_new_preset_name">Novo</string>
     <string name="settings_ml_block_scan">A biblioteca multimedia está examinado os dispositivos neste momento</string>
     <string name="recommendations">Recomendacións</string>
+    <string name="recommendations_desc">Tarxetas de recomendación no iniciador</string>
     <string name="browser_quick_access">Acceso rápido</string>
     <string name="browser_storages">Almacenaxes</string>
     <string name="msg_delete_failed">Produciuse un fallo eliminando o multimedia%1$s</string>
@@ -599,11 +609,14 @@
     <string name="sdcard_permission_dialog_message">O VLC non pode eliminar este ficheiro sen permiso de acceso para escritura.\nVaia á tarxeta SD e prema en «Seleccionar».\nPode que teña que premer primeiro en «Mostrar tarxeta SD» no menú superior dereito</string>
     <string name="dialog_sd_wizard">Mostrarme</string>
     <string name="renderers_disconnect">Desconectar</string>
-    <string name="audio_digital_failed">Produciuse un fallo cambiando o estado da saída dixital de audio</string>
-    <string name="audio_digital_output_enabled">Saída dixital de audio activada</string>
-    <string name="audio_digital_output_disabled">Saída dixital de audio desactivada</string>
+    <string name="audio_digital_failed">Produciuse un fallo cambiando o estado da saída dixital de son</string>
+    <string name="audio_digital_output_enabled">Saída dixital de son activada</string>
+    <string name="audio_digital_output_disabled">Saída dixital de son desactivada</string>
+    <string name="audio_digital_title">Saída de son dixital (passthrough)</string>
     <string name="audio_task_cleared_title">Parar ao esvarar o dedo pola aplicación</string>
     <string name="audio_task_cleared_summary">Parar a reprodución cando se desbote a aplicación</string>
+    <string name="audio_resume_card_title">Cargar a última tarxeta con listas de reprodución</string>
+    <string name="audio_resume_card_summary">Mostra unha tarxeta para axudalo a continuar a reprodución de son no inicio da aplicación</string>
     <string name="playback_rewind">Rebobinar</string>
     <string name="playback_forward">Avance rápido</string>
     <string name="ml_wizard_title">Selección da biblioteca multimedia do VLC</string>
@@ -632,7 +645,7 @@
     <string name="next">Seguinte</string>
     <string name="download">Descargar</string>
     <string name="ctx_player_video_track">Seleccionar pista de vídeo</string>
-    <string name="ctx_player_audio_track">Pista de audio</string>
+    <string name="ctx_player_audio_track">Pista de son</string>
     <string name="ctx_player_subs_track">Pista dos subtítulos</string>
     <string name="ctx_player_tracks_title">Pistas multilmedia</string>
     <string name="ctx_pip_title">Reprodutor emerxente</string>
