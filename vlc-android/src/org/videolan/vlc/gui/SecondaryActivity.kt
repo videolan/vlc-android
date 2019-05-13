@@ -33,7 +33,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.media.Folder
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
@@ -46,6 +45,7 @@ import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.rescan
 import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.KEY_FOLDER
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -123,9 +123,11 @@ class SecondaryActivity : ContentActivity() {
             }
             ABOUT -> fragment = AboutFragment()
             VIDEO_GROUP_LIST -> {
-                fragment = VideoGridFragment()
-                (fragment as VideoGridFragment).setGroup(intent.getStringExtra("param"))
-                (fragment as VideoGridFragment).setFolder(intent.getParcelableExtra<Parcelable>("folder") as Folder)
+                fragment = VideoGridFragment().apply {
+                    arguments = Bundle(1).apply {
+                        putParcelable(KEY_FOLDER, intent.getParcelableExtra<Parcelable>(KEY_FOLDER))
+                    }
+                }
             }
             STORAGE_BROWSER -> fragment = StorageBrowserFragment()
             else -> throw IllegalArgumentException("Wrong fragment id.")

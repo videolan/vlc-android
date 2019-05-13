@@ -40,7 +40,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CtxActionRece
                 } else {
                     val i = Intent(activity, SecondaryActivity::class.java)
                     i.putExtra("fragment", SecondaryActivity.VIDEO_GROUP_LIST)
-                    i.putExtra("folder", action.folder)
+                    i.putExtra(KEY_FOLDER, action.folder)
                     activity?.startActivityForResult(i, SecondaryActivity.ACTIVITY_RESULT_SECONDARY)
                 }
             }

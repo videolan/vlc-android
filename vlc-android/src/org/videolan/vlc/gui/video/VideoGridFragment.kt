@@ -1,7 +1,7 @@
 /*****************************************************************************
- * VideoGridFragment.java
+ * VideoGridFragment.kt
  *
- * Copyright © 2011-2019 VLC authors and VideoLAN
+ * Copyright © 2019 VLC authors and VideoLAN
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ import android.view.*
 import androidx.annotation.MainThread
 import androidx.appcompat.view.ActionMode
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -59,19 +60,23 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
-import org.videolan.vlc.viewmodels.paged.PagedVideosModel
+import org.videolan.vlc.viewmodels.mobile.VideosViewModel
 import java.lang.ref.WeakReference
 import java.util.*
 
+private const val TAG = "VLC/VideoListFragment"
+
+private const val UPDATE_LIST = 14
+private const val SET_REFRESHING = 15
+private const val UNSET_REFRESHING = 16
+
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<PagedList<MediaWrapper>>, CtxActionReceiver {
+class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshLayout.OnRefreshListener, IEventsHandler, Observer<PagedList<MediaWrapper>>, CtxActionReceiver {
 
     private lateinit var videoListAdapter: VideoListAdapter
     private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
     private lateinit var binding: VideoGridBinding
-    private var videoGroup: String? = null
-    private var videoFolder: Folder? = null
     private var gridItemDecoration: RecyclerView.ItemDecoration? = null
 
 
@@ -102,10 +107,11 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), SwipeRefresh
             val seenMarkVisible = preferences.getBoolean("media_seen", true)
             videoListAdapter = VideoListAdapter(this, seenMarkVisible)
             multiSelectHelper = videoListAdapter.multiSelectHelper
-            viewModel = PagedVideosModel.get(this, videoFolder)
-            viewModel.pagedList.observe(this, this)
+            val folder = if (savedInstanceState != null ) savedInstanceState.getParcelable<Folder>(KEY_FOLDER)
+            else arguments?.getParcelable(KEY_FOLDER)
+            viewModel = ViewModelProviders.of(requireActivity(), VideosViewModel.Factory(requireContext(), folder)).get(VideosViewModel::class.java)
+            viewModel.provider.pagedList.observe(this, this)
         }
-        if (savedInstanceState != null) setGroup(savedInstanceState.getString(KEY_GROUP))
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -165,7 +171,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), SwipeRefresh
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(KEY_GROUP, videoGroup)
+        outState.putParcelable(KEY_FOLDER, viewModel.folder)
     }
 
     override fun onDestroy() {
@@ -179,9 +185,7 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), SwipeRefresh
         if (list != null) videoListAdapter.submitList(list)
     }
 
-    override fun getTitle(): String {
-        return if (videoGroup == null) if (videoFolder == null) getString(R.string.video) else videoFolder!!.title else videoGroup!! + "\u2026"
-    }
+    override fun getTitle() = viewModel.folder?.title ?: getString(R.string.video)
 
     private fun updateViewMode() {
         if (view == null || activity == null) {
@@ -235,14 +239,6 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), SwipeRefresh
         binding.loadingFlipper.visibility = if (empty && working) View.VISIBLE else View.GONE
         binding.loadingTitle.visibility = if (empty && working) View.VISIBLE else View.GONE
         binding.empty = empty && !working
-    }
-
-    fun setGroup(prefix: String?) {
-        videoGroup = prefix
-    }
-
-    fun setFolder(folder: Folder) {
-        videoFolder = folder
     }
 
     override fun onRefresh() {
@@ -393,14 +389,5 @@ class VideoGridFragment : MediaBrowserFragment<PagedVideosModel>(), SwipeRefresh
             CTX_DOWNLOAD_SUBTITLES -> MediaUtils.getSubs(requireActivity(), media)
             CTX_ADD_TO_PLAYLIST -> UiTools.addToPlaylist(requireActivity(), media.tracks, SavePlaylistDialog.KEY_NEW_TRACKS)
         }
-    }
-
-    companion object {
-
-        private const val TAG = "VLC/VideoListFragment"
-
-        private const val UPDATE_LIST = 14
-        private const val SET_REFRESHING = 15
-        private const val UNSET_REFRESHING = 16
     }
 }

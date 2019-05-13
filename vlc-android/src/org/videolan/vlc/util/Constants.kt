@@ -131,6 +131,7 @@ const val CATEGORY_VIDEOS = 25L
 const val AUDIO_CATEGORY = "category"
 const val AUDIO_ITEM = "item"
 const val KEY_GROUP = "key_group"
+const val KEY_FOLDER = "key_folder"
 
 // Items updates
 const val UPDATE_SELECTION = 0

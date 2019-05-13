@@ -18,6 +18,8 @@ abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
 
     override fun refresh() = providers.forEach { it.refresh() }
 
+    fun isEmpty() = providers.all { it.isEmpty() }
+
     override fun restore() {
         if (filterQuery !== null) filter(null)
     }
