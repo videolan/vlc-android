@@ -672,4 +672,5 @@
     <string name="popup_force_legacy_summary">使用自訂子母畫面可調整大小彈出</string>
     <string name="device_default">裝置預設值</string>
     <string name="track_number">%s 軌道</string>
+    <string name="jump_to">跳至</string>
 </resources>
