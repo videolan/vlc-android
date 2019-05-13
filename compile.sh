@@ -65,9 +65,6 @@ while [ $# -gt 0 ]; do
         run)
             RUN=1
             ;;
-        --asan)
-            ASAN=1
-            ;;
         --no-ml)
             NO_ML=1
             ;;
@@ -273,9 +270,6 @@ compile() {
     fi
     if [ "$CHROME_OS" = 1 ]; then
         OPTS="$OPTS -c"
-    fi
-    if [ "$ASAN" = 1 ]; then
-        OPTS="$OPTS --asan"
     fi
 
     # Build LibVLC if asked for it, or needed by medialibrary

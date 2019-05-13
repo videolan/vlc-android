@@ -17,7 +17,6 @@ checkfail()
 #############
 
 RELEASE=0
-ASAN=0
 while [ $# -gt 0 ]; do
     case $1 in
         help|--help)
@@ -31,9 +30,6 @@ while [ $# -gt 0 ]; do
             ;;
         -c)
             CHROME_OS=1
-            ;;
-        --asan)
-            ASAN=1
             ;;
         release|--release)
             RELEASE=1
@@ -327,9 +323,6 @@ if [ "${CHROME_OS}" = "1" ];then
     VLC_BUILD_DIR=build-chrome-${TARGET_TUPLE}
 else
     VLC_BUILD_DIR=build-android-${TARGET_TUPLE}
-fi
-if [ "${ASAN}" = 1 ];then
-    VLC_BUILD_DIR=${VLC_BUILD_DIR}-asan
 fi
 VLC_BUILD_DIR=`realpath ${VLC_BUILD_DIR}`
 mkdir -p $VLC_BUILD_DIR && cd $VLC_BUILD_DIR

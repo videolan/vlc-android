@@ -19,7 +19,6 @@ checkfail()
 MEDIALIBRARY_HASH=c4a1c6e
 
 RELEASE=0
-ASAN=0
 while [ $# -gt 0 ]; do
     case $1 in
         help|--help)
@@ -30,9 +29,6 @@ while [ $# -gt 0 ]; do
         a|-a)
             ANDROID_ABI=$2
             shift
-            ;;
-        --asan)
-            ASAN=1
             ;;
         release|--release)
             RELEASE=1
