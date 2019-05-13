@@ -1,5 +1,5 @@
 /*****************************************************************************
- * VideosViewModel.kt
+ * FoldersViewModel.kt
  *****************************************************************************
  * Copyright © 2019 VLC authors and VideoLAN
  *
@@ -23,26 +23,50 @@ package org.videolan.vlc.viewmodels.mobile
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.media.getAll
+import org.videolan.vlc.providers.medialibrary.FoldersProvider
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
-import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
+
 @ExperimentalCoroutinesApi
-class VideosViewModel(context: Context, val folder: Folder?) : MedialibraryViewModel(context) {
-    val provider = VideosProvider(folder, context, this)
+@ObsoleteCoroutinesApi
+class FoldersViewModel(context: Context, val type : Int) : MedialibraryViewModel(context) {
+    val provider = FoldersProvider(context, this, type)
     override val providers: Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
 
     init {
         if (medialibrary.isStarted) refresh()
     }
 
-    class Factory(val context: Context, val folder: Folder?): ViewModelProvider.NewInstanceFactory() {
+    suspend fun play(position: Int) {
+        val list = withContext(Dispatchers.IO) { provider.pagedList.value?.get(position)?.getAll()}
+        list?.let { MediaUtils.openList(context, it, 0) }
+    }
+
+    suspend fun append(position: Int) {
+        val list = withContext(Dispatchers.IO) { provider.pagedList.value?.get(position)?.getAll()}
+        list?.let { MediaUtils.appendMedia(context, it) }
+    }
+
+    fun playSelection(selection: List<Folder>) = launch {
+        val list = selection.flatMap { it.getAll() }
+        MediaUtils.openList(context, list, 0)
+    }
+
+    fun appendSelection(selection: List<Folder>) = launch {
+        val list = selection.flatMap { it.getAll() }
+        MediaUtils.appendMedia(context, list)
+    }
+
+    class Factory(val context: Context, val type : Int): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return VideosViewModel(context.applicationContext, folder) as T
+            return FoldersViewModel(context.applicationContext, type) as T
         }
     }
 }

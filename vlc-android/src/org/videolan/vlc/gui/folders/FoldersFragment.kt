@@ -23,11 +23,11 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.media.getAll
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
-import org.videolan.vlc.viewmodels.paged.PagedFoldersModel
+import org.videolan.vlc.viewmodels.mobile.FoldersViewModel
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CtxActionReceiver {
+class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionReceiver {
 
     private lateinit var adapter: FoldersAdapter
 
@@ -60,8 +60,8 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CtxActionRece
         super.onCreate(savedInstanceState)
         if (!this::adapter.isInitialized) {
             adapter = FoldersAdapter(actor)
-            viewModel = ViewModelProviders.of(requireActivity(), PagedFoldersModel.Factory(requireContext(), Folder.TYPE_FOLDER_VIDEO)).get(PagedFoldersModel::class.java)
-            viewModel.pagedList.observe(requireActivity(), Observer {
+            viewModel = ViewModelProviders.of(requireActivity(), FoldersViewModel.Factory(requireContext(), Folder.TYPE_FOLDER_VIDEO)).get(FoldersViewModel::class.java)
+            viewModel.provider.pagedList.observe(requireActivity(), Observer {
                 swipeRefreshLayout?.isRefreshing = false
                 adapter.submitList(it)
             })
@@ -107,7 +107,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CtxActionRece
         when (option) {
             CTX_PLAY -> launch { viewModel.play(position) }
             CTX_APPEND -> launch { viewModel.append(position) }
-            CTX_ADD_TO_PLAYLIST -> viewModel.pagedList.value?.get(position)?.let { UiTools.addToPlaylist(requireActivity(), it.getAll()) }
+            CTX_ADD_TO_PLAYLIST -> viewModel.provider.pagedList.value?.get(position)?.let { UiTools.addToPlaylist(requireActivity(), it.getAll()) }
         }
     }
 
@@ -138,7 +138,7 @@ class FoldersFragment : MediaBrowserFragment<PagedFoldersModel>(), CtxActionRece
             R.id.action_folder_add_playlist -> launch { UiTools.addToPlaylist(requireActivity(), withContext(Dispatchers.Default) { selection.getAll() }) }
             else -> return false
         }
-        stopActionMode();
+        stopActionMode()
         return true
     }
 
