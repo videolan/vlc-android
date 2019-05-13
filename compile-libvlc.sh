@@ -63,8 +63,12 @@ elif [ "${ANDROID_ABI}" = "armeabi-v7a" ] ; then
     HAVE_ARM=1
     PLATFORM_SHORT_ARCH="arm"
 else
-    echo "Unknown ABI: '${ANDROID_ABI}'. Die, die, die!"
-    exit 2
+    echo "Please pass the ANDROID ABI to the correct architecture, using
+                compile-libvlc.sh -a ARCH
+    ARM:     (armeabi-v7a|arm)
+    ARM64:   (arm64-v8a|arm64)
+    X86:     x86, x86_64"
+    exit 1
 fi
 
 # try to detect NDK version

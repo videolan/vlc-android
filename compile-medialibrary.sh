@@ -25,20 +25,6 @@ while [ $# -gt 0 ]; do
     shift
 done
 
-if [ -z "$ANDROID_NDK" ]; then
-    echo "Please set the ANDROID_NDK environment variable with its path."
-    exit 1
-fi
-
-if [ -z "$ANDROID_ABI" ]; then
-    echo "Please pass the ANDROID ABI to the correct architecture, using
-                compile-libvlc.sh -a ARCH
-    ARM:     (armeabi-v7a|arm)
-    ARM64:   (arm64-v8a|arm64)
-    X86:     x86, x86_64"
-    exit 1
-fi
-
 AVLC_SOURCED=1 . ./compile-libvlc.sh
 avlc_make_toolchain
 
