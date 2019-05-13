@@ -56,11 +56,11 @@ import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.CTX_PLAY_ALL
 import org.videolan.vlc.util.getScreenWidth
-import org.videolan.vlc.viewmodels.paged.PagedPlaylistsModel
+import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class PlaylistFragment : BaseAudioBrowser<PagedPlaylistsModel>(), SwipeRefreshLayout.OnRefreshListener {
+class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var binding: PlaylistsFragmentBinding
     private lateinit var playlists: RecyclerView
@@ -69,7 +69,7 @@ class PlaylistFragment : BaseAudioBrowser<PagedPlaylistsModel>(), SwipeRefreshLa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-            viewModel = ViewModelProviders.of(requireActivity(), PagedPlaylistsModel.Factory(requireContext())).get(PagedPlaylistsModel::class.java)
+            viewModel = ViewModelProviders.of(requireActivity(), PlaylistsViewModel.Factory(requireContext())).get(PlaylistsViewModel::class.java)
 
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -120,18 +120,17 @@ class PlaylistFragment : BaseAudioBrowser<PagedPlaylistsModel>(), SwipeRefreshLa
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.pagedList.observe(requireActivity(), Observer {
+        viewModel.provider.pagedList.observe(requireActivity(), Observer {
             playlistAdapter.submitList(it as PagedList<MediaLibraryItem>)
             binding.empty.visibility = if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
         })
-        viewModel.loading.observe(this, Observer<Boolean> { loading ->
+        viewModel.provider.loading.observe(this, Observer<Boolean> { loading ->
             launch { binding.swipeLayout.isRefreshing = loading == true }
         })
 
         fastScroller.setRecyclerView(getCurrentRV(), viewModel.provider)
 
     }
-
 
     override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
         mode.menuInflater.inflate(R.menu.action_mode_audio_browser, menu)
@@ -152,13 +151,11 @@ class PlaylistFragment : BaseAudioBrowser<PagedPlaylistsModel>(), SwipeRefreshLa
         else super.onCtxAction(position, option)
     }
 
-
     override fun onRefresh() {
         activity?.reloadLibrary()
     }
 
     override fun getTitle(): String = getString(R.string.playlists)
-
 
     override fun getCurrentRV(): RecyclerView = playlists
 
