@@ -22,6 +22,7 @@ cache:
     only:
         refs:
             - master
+            - merge_requests
         changes:
             - libvlc/*
             - build-common
@@ -39,6 +40,7 @@ cache:
     only:
         refs:
             - master
+            - merge_requests
         changes:
             - medialibrary/*
             - compile.sh
@@ -51,14 +53,15 @@ cache:
         EXTRA_BUILD_PARAM: -ml
 
 # vlc-android app only: don't rebuild everything but use a published artifact
-# We can't filter by changes for MRs, so this is the only accepted configuration
-# for those, regardless of what changed
 continuous-app-build:
     extends: .build-all-base
     script:
         - ./compile.sh --init
         - ./gradlew assembleDebug
     only:
+        refs:
+            - master
+            - merge_requests
         changes:
             - vlc-android/**/*
             - assets/**/*
