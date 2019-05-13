@@ -47,7 +47,6 @@ import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.AudioBrowserItemBinding
-import org.videolan.vlc.databinding.AudioBrowserTvItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getAudioIconDrawable
 import org.videolan.vlc.gui.tv.FocusableRecyclerView
@@ -64,7 +63,6 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val mType: Int, priv
     private var itemSize = -1
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
     private val mDefaultCover: BitmapDrawable?
-    private var isTV = false
     var focusNext = -1
     private var focusListener: FocusableRecyclerView.FocusListener? = null
 
@@ -91,12 +89,9 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val mType: Int, priv
         return if (mType == MediaLibraryItem.TYPE_PLAYLIST) {
             val binding = AudioBrowserCardItemBinding.inflate(inflater, parent, false)
             MediaItemCardViewHolder(binding) as AbstractMediaItemViewHolder<ViewDataBinding>
-        } else if (!isTV) {
+        } else {
             val binding = AudioBrowserItemBinding.inflate(inflater, parent, false)
             MediaItemViewHolder(binding) as AbstractMediaItemViewHolder<ViewDataBinding>
-        } else {
-            val binding = AudioBrowserTvItemBinding.inflate(inflater, parent, false)
-            MediaItemTVViewHolder(binding) as AbstractMediaItemViewHolder<ViewDataBinding>
         }
     }
 
@@ -184,9 +179,6 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val mType: Int, priv
         mListEventsHandler!!.onRemove(position, item!!)
     }
 
-    fun setTV(TV: Boolean) {
-        isTV = TV
-    }
 
     fun setOnFocusChangeListener(focusListener: FocusableRecyclerView.FocusListener?) {
         this.focusListener = focusListener
@@ -284,56 +276,6 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val mType: Int, priv
 
     }
 
-    inner class MediaItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
-    internal constructor(binding: AudioBrowserTvItemBinding) : AbstractMediaItemViewHolder<AudioBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
-
-        init {
-            binding.holder = this
-            if (mDefaultCover != null) binding.cover = mDefaultCover
-            if (AndroidUtil.isMarshMallowOrLater)
-                itemView.setOnContextClickListener { v ->
-                    onMoreClick(v)
-                    true
-                }
-            binding.container.layoutParams.width = itemSize
-            binding.container.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    var newWidth = (itemSize * 1.1).toInt()
-                    if (newWidth % 2 == 1) {
-                        newWidth--
-                    }
-                    val scale = newWidth.toFloat() / itemSize
-                    binding.container.animate().scaleX(scale).scaleY(scale).translationZ(scale)
-
-                    mIEventsHandler.onItemFocused(binding.root, getItem(layoutPosition)!!)
-                    if (focusListener != null) {
-                        focusListener!!.onFocusChanged(layoutPosition)
-                    }
-
-                } else {
-                    binding.container.animate().scaleX(1f).scaleY(1f).translationZ(1f)
-                }
-            }
-            binding.container.clipToOutline = true
-
-        }
-
-        override fun recycle() {
-            if (mDefaultCover != null) binding.cover = mDefaultCover
-            binding.title.text = ""
-            binding.subtitle.text = ""
-        }
-
-        override fun setItem(item: MediaLibraryItem?) {
-            binding.item = item
-        }
-
-        @ObsoleteCoroutinesApi
-        override fun setCoverlay(selected: Boolean) {
-        }
-
-
-    }
 
     abstract inner class AbstractMediaItemViewHolder<T : ViewDataBinding> @TargetApi(Build.VERSION_CODES.M)
     internal constructor(binding: T) : SelectorViewHolder<T>(binding), View.OnFocusChangeListener {

@@ -36,7 +36,10 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.annotation.MainThread
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.BackgroundManager
 import androidx.lifecycle.Observer
@@ -49,12 +52,8 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.audio.AudioBrowserAdapter
-import org.videolan.vlc.gui.tv.MediaBrowserAnimatorDelegate
-import org.videolan.vlc.gui.tv.MediaHeaderAdapter
-import org.videolan.vlc.gui.tv.TvUtil
+import org.videolan.vlc.gui.tv.*
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
-import org.videolan.vlc.gui.tv.setAnimator
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.*
@@ -71,14 +70,15 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         PopupMenu.OnMenuItemClickListener, MediaHeaderAdapter.OnHeaderSelected,
         VerticalGridActivity.OnKeyPressedListener, CoroutineScope by MainScope() {
 
+    private var spacing: Int = 0
     private lateinit var viewModel: MediaBrowserViewModel
-    private lateinit var adapter: AudioBrowserAdapter
+    private lateinit var adapter: TvItemAdapter
     //    private lateinit var headerList: RecyclerView
     private lateinit var headerAdapter: MediaHeaderAdapter
     private lateinit var gridLayoutManager: GridLayoutManager
     private var currentArt: String? = null
     private lateinit var backgroundManager: BackgroundManager
-    internal lateinit var animationDelegate : MediaBrowserAnimatorDelegate
+    internal lateinit var animationDelegate: MediaBrowserAnimatorDelegate
 
     companion object {
         fun newInstance(type: Long, item: MediaLibraryItem?) =
@@ -131,7 +131,6 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         //overscan
         val hp = TvUtil.getOverscanHorizontal(requireContext())
         val vp = TvUtil.getOverscanVertical(requireContext())
-        list.setPadding(list.paddingLeft + hp, list.paddingTop + vp, list.paddingRight + hp, list.paddingBottom + vp)
         headerList.setPadding(list.paddingLeft + hp, list.paddingTop + vp, list.paddingRight + hp, list.paddingBottom + vp)
 
 
@@ -141,6 +140,10 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         lp.topMargin += vp
         lp.bottomMargin += vp
 
+
+
+        calculateNbColumns()
+
         if (viewModel.currentItem != null) {
             title.text = viewModel.currentItem!!.title
         } else when (arguments?.getLong(AUDIO_CATEGORY, CATEGORY_SONGS)) {
@@ -148,7 +151,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
             CATEGORY_ALBUMS -> title.setText(R.string.albums)
             CATEGORY_ARTISTS -> title.setText(R.string.artists)
             CATEGORY_GENRES -> title.setText(R.string.genres)
-            CATEGORY_VIDEOS -> title.setText(R.string.videos)
+            CATEGORY_VIDEOS -> title.setText(R.string.video)
         }
 
         val searchHeaderClick: (View) -> Unit = { animationDelegate.hideFAB() }
@@ -161,16 +164,17 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         sortButton.setOnClickListener(sortClick)
         imageButtonSort.setOnClickListener(sortClick)
 
+
         gridLayoutManager = object : GridLayoutManager(requireActivity(), viewModel.nbColumns) {
             override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean) = false
 
             override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean, focusedChildVisible: Boolean) = false
         }
 
-        val spacing = resources.getDimensionPixelSize(R.dimen.recycler_section_header_spacing)
+        spacing = resources.getDimensionPixelSize(R.dimen.recycler_section_header_spacing)
 
         //size of an item
-        val itemSize = requireActivity().getScreenWidth() / viewModel.nbColumns - spacing * 2
+        val itemSize = (requireActivity().getScreenWidth() - list.paddingLeft - list.paddingRight) / viewModelnbColumns - spacing * 2
 
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -184,7 +188,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
                     val firstSection = viewModel.provider.getPositionForSection(position)
                     val nbItems = position - firstSection
                     if (BuildConfig.DEBUG)
-                        Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + nbItems % viewModel.nbColumns)
+                        Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + (viewModel.nbColumns - nbItems % nbColumns))
 
                     return viewModel.nbColumns - nbItems % viewModel.nbColumns
                 }
@@ -194,7 +198,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
 
         list.layoutManager = gridLayoutManager
 
-        adapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this, itemSize).apply { setTV(true) }
+        adapter = TvItemAdapter(MediaLibraryItem.TYPE_MEDIA, this, itemSize)
 
         list.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_tv_height), spacing, true, viewModel.nbColumns, viewModel.provider))
 
@@ -215,10 +219,19 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         super.onViewCreated(view, savedInstanceState)
     }
 
+    private fun calculateNbColumns() {
+        viewModel.nbColumns = when (arguments?.getLong(AUDIO_CATEGORY, CATEGORY_SONGS)) {
+
+            CATEGORY_VIDEOS -> resources.getInteger(R.integer.tv_videos_col_count)
+            else -> resources.getInteger(R.integer.tv_songs_col_count)
+        }
+    }
+
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
         super.onConfigurationChanged(newConfig)
 
+        calculateNbColumns()
         gridLayoutManager.spanCount = viewModel.nbColumns
         list.layoutManager = gridLayoutManager
     }
@@ -328,7 +341,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
     }
 
     private var lastDpadEventTime = 0L
-    override fun onKeyPressed(keyCode: Int)= when (keyCode) {
+    override fun onKeyPressed(keyCode: Int) = when (keyCode) {
         KEYCODE_MENU -> {
             imageButtonSettings.requestFocusFromTouch()
             animationDelegate.expandExtendedFAB()
@@ -353,4 +366,20 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         }
         else -> false
     }
+}
+
+
+@MainThread
+@BindingAdapter("constraintRatio")
+fun constraintRatio(v: View, isSquare: Boolean) {
+    val constraintLayout = v.parent as? ConstraintLayout
+    constraintLayout?.let {
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(constraintLayout)
+        constraintSet.setDimensionRatio(v.id, if (isSquare) "1" else "16:10")
+        constraintLayout.setConstraintSet(constraintSet)
+
+    }
+
+
 }

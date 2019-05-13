@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
-import org.videolan.vlc.gui.audio.AudioBrowserAdapter
 import org.videolan.vlc.util.getScreenHeight
 
 /**
@@ -52,9 +51,9 @@ class FocusableRecyclerView : RecyclerView {
         }
     }
 
-    override fun setAdapter(adapter: RecyclerView.Adapter<*>?) {
+    override fun setAdapter(adapter: Adapter<*>?) {
 
-        if (adapter is AudioBrowserAdapter) {
+        if (adapter is TvItemAdapter) {
             adapter.setOnFocusChangeListener(focusListener)
         }
 

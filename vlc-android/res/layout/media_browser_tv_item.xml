@@ -12,10 +12,26 @@
 
         <import type="org.videolan.medialibrary.media.MediaLibraryItem" />
 
+
         <variable
-            name="alignMode"
+            name="progress"
             type="int" />
 
+        <variable
+            name="max"
+            type="int" />
+
+        <variable
+            name="badge"
+            type="String" />
+
+        <variable
+            name="description"
+            type="String" />
+
+        <variable
+            name="seen"
+            type="long" />
 
         <variable
             name="item"
@@ -25,33 +41,45 @@
             name="cover"
             type="android.graphics.drawable.BitmapDrawable" />
 
+
         <variable
-            name="bgColor"
-            type="int" />
+            name="isSquare"
+            type="Boolean" />
 
 
         <variable
             name="holder"
-            type="org.videolan.vlc.gui.audio.AudioBrowserAdapter.MediaItemTVViewHolder" />
+            type="org.videolan.vlc.gui.tv.TvItemAdapter.MediaItemTVViewHolder" />
     </data>
 
     <org.videolan.vlc.gui.tv.FocusableConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/tv_card_background"
-        android:id="@+id/container"
         android:clickable="true"
         android:focusable="true"
         android:longClickable="true"
-        android:paddingBottom="@dimen/kl_small"
         android:minHeight="@dimen/audio_browser_item_size"
         android:onClick="@{holder::onClick}"
         android:onLongClick="@{holder::onLongClick}"
-        vlc:elevation="1dp"
-        android:stateListAnimator="@animator/tv_recyclerview_item_pop">
+        android:paddingBottom="@dimen/kl_small"
+        android:stateListAnimator="@animator/tv_recyclerview_item_pop"
+        vlc:elevation="1dp">
 
 
         <!-- Image loading is handled by org.videolan.vlc.gui.helpers.ImageLoader.loadImage() -->
+
+
+        <ImageView
+            android:id="@+id/ml_item_seen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_seen_normal"
+            android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE}"
+            vlc:layout_constraintRight_toRightOf="@+id/ml_item_thumbnail"
+            vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail" />
+
         <ImageView
             android:id="@+id/media_cover"
             android:layout_width="match_parent"
@@ -59,15 +87,43 @@
             android:layout_gravity="center"
             android:background="@color/lb_details_overview_bg_color"
             tools:srcCompat="@drawable/ic_album_big"
-            vlc:layout_constraintDimensionRatio="1"
+            vlc:constraintRatio="@{isSquare}"
             vlc:layout_constraintEnd_toEndOf="parent"
             vlc:layout_constraintStart_toStartOf="parent"
             vlc:layout_constraintTop_toTopOf="parent"
             vlc:media="@{item}" />
 
 
-        <!-- TextView must be set to singleLine
-            see https://code.google.com/p/android/issues/detail?id=33868 -->
+        <TextView
+            android:id="@+id/badgeTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:padding="@dimen/kl_half"
+            android:textSize="12sp"
+            tools:text="4K"
+            android:text="@{badge}"
+            android:background="@drawable/rounded_corners"
+            vlc:layout_constraintBottom_toBottomOf="@id/media_cover"
+            vlc:layout_constraintEnd_toEndOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="@color/transparent"
+            android:indeterminate="false"
+            android:max="@{max}"
+            android:progress="@{progress}"
+            android:progressDrawable="@drawable/gridview_progressbar"
+            android:visibility="@{progress > 0 ? View.VISIBLE : View.GONE}"
+            vlc:layout_constraintEnd_toEndOf="parent"
+            vlc:layout_constraintStart_toStartOf="parent"
+            vlc:layout_constraintTop_toBottomOf="@id/media_cover" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/title"
             android:layout_width="0dp"
@@ -75,15 +131,15 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:gravity="center_vertical"
-            tools:text="Title"
-            vlc:alignMode="@{alignMode}"
-            vlc:asyncText="@{item.title}"
-            android:maxLines="2"
             android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:textSize="12sp"
+            tools:text="Title"
+            vlc:asyncText="@{item.title}"
             vlc:layout_constraintEnd_toEndOf="parent"
             vlc:layout_constraintStart_toStartOf="parent"
-            vlc:layout_constraintTop_toBottomOf="@+id/media_cover"
+            vlc:layout_constraintTop_toBottomOf="@+id/progressBar"
             vlc:placeholder="@{item}" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -92,11 +148,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:maxLines="2"
             android:ellipsize="end"
+            android:maxLines="2"
             android:textAppearance="@style/VLCImageCardViewContentStyleTextAppearance"
+            android:textSize="11sp"
             tools:text="@string/add_custom_path_description"
-            vlc:asyncText="@{item.description}"
+            vlc:asyncText="@{description}"
             vlc:layout_constraintBottom_toBottomOf="parent"
             vlc:layout_constraintEnd_toEndOf="parent"
             vlc:layout_constraintStart_toStartOf="parent"

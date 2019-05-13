@@ -75,18 +75,18 @@
     <org.videolan.vlc.gui.tv.FocusableRecyclerView
         android:id="@+id/list"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:clipToPadding="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:paddingLeft="16dp"
         android:paddingTop="62dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="@dimen/tv_overscan_horizontal"
+        android:paddingRight="@dimen/tv_overscan_horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/audio_browser_tv_item">
+        tools:listitem="@layout/media_browser_tv_item">
 
     </org.videolan.vlc.gui.tv.FocusableRecyclerView>
 
