@@ -39,7 +39,6 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
         Medialibrary.PlaylistsCb by EmptyMLCallbacks {
 
     override val provider = TracksProvider(parent, context, this)
-    override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
 
     init {
         sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_ALPHA)

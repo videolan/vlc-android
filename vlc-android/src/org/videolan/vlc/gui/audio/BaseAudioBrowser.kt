@@ -49,6 +49,7 @@ import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.*
+import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import org.videolan.vlc.viewmodels.SortableModel
 import java.util.*
 
@@ -69,10 +70,10 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
     open fun getCurrentAdapter() = adapter
 
     protected var currentTab
-    get() = viewPager?.currentItem ?: 0
-    set(value) {
-        viewPager?.currentItem = value
-    }
+        get() = viewPager?.currentItem ?: 0
+        set(value) {
+            viewPager?.currentItem = value
+        }
 
     private lateinit var layoutOnPageChangeListener: TabLayout.TabLayoutOnPageChangeListener
 
@@ -247,8 +248,14 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
         MediaUtils.openList(activity, Arrays.asList(*item.tracks), 0)
     }
 
+    override fun sortMenuTitles() {
+        val model = viewModel
+        if (model is MedialibraryViewModel) menu?.let { UiTools.updateSortTitles(it, model.providers[currentTab]) }
+        else super.sortMenuTitles()
+    }
+
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
-        UiTools.updateSortTitles(this)
+        sortMenuTitles()
     }
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {}

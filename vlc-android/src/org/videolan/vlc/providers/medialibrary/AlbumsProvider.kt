@@ -22,18 +22,26 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Album
 import org.videolan.medialibrary.media.Artist
 import org.videolan.medialibrary.media.Genre
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
 class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, scope: SortableModel) : MedialibraryProvider<Album>(context, scope) {
 
+    override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
     override fun canSortByReleaseDate() = true
+
+    init {
+        sort = Settings.getInstance(context).getInt(sortKey, if (parent is Artist) Medialibrary.SORT_RELEASEDATE else Medialibrary.SORT_DEFAULT)
+        desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
+    }
 
     override fun getAll() : Array<Album> = when (parent) {
         is Artist -> parent.getAlbums(sort, scope.desc)

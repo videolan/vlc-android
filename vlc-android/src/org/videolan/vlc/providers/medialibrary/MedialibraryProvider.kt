@@ -33,10 +33,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.util.MEDIALIBRARY_PAGE_SIZE
-import org.videolan.vlc.util.ModelsHelper
-import org.videolan.vlc.util.canSortBy
-import org.videolan.vlc.util.retry
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.SortableModel
 import org.videolan.vlc.viewmodels.paged.HeadersIndex
 
@@ -46,6 +43,10 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     val loading = MutableLiveData<Boolean>().apply { value = false }
     private val headers = HeadersIndex()
     val liveHeaders : LiveData<HeadersIndex> = MutableLiveData<HeadersIndex>()
+
+    protected open val sortKey : String = this.javaClass.simpleName
+    var sort = Medialibrary.SORT_DEFAULT
+    var desc = false
 
     private val pagingConfig = Config(
             pageSize = MEDIALIBRARY_PAGE_SIZE,
@@ -61,9 +62,6 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     abstract fun getPage(loadSize: Int, startposition: Int): Array<T>
     abstract fun getAll(): Array<T>
 
-    val sort : Int
-        get() = if (canSortBy(scope.sort)) scope.sort else Medialibrary.SORT_DEFAULT
-
     open fun canSortByName() = true
     open fun canSortByFileNameName() = false
     open fun canSortByDuration() = false
@@ -74,6 +72,22 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     open fun canSortByArtist() = false
     open fun canSortByAlbum ()= false
     open fun canSortByPlayCount() = false
+
+    open fun sort(sort: Int) {
+        if (canSortBy(sort)) {
+            desc = when (this.sort) {
+                Medialibrary.SORT_DEFAULT -> sort == Medialibrary.SORT_ALPHA
+                sort -> !desc
+                else -> false
+            }
+            this.sort = sort
+            refresh()
+            Settings.getInstance(context).edit()
+                    .putInt(sortKey, sort)
+                    .putBoolean("${sortKey}_desc", desc)
+                    .apply()
+        }
+    }
 
     fun refresh(): Boolean {
         headers.clear()

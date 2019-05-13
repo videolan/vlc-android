@@ -212,8 +212,10 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = canSortByLastModified()
             menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
         }
-        UiTools.updateSortTitles(this)
+        sortMenuTitles()
     }
+
+    open fun sortMenuTitles() = UiTools.updateSortTitles(this)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

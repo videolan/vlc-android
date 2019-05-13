@@ -10,9 +10,10 @@ abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
         Medialibrary.OnMedialibraryReadyListener, Medialibrary.OnDeviceChangeListener  {
 
     val medialibrary = Medialibrary.getInstance().apply {
-            addOnMedialibraryReadyListener(this@MedialibraryViewModel)
-            addOnDeviceChangeListener(this@MedialibraryViewModel)
-        }
+        addOnMedialibraryReadyListener(this@MedialibraryViewModel)
+        addOnDeviceChangeListener(this@MedialibraryViewModel)
+    }
+
     abstract val providers : Array<MedialibraryProvider<out MediaLibraryItem>>
 
     override fun refresh() = providers.forEach { it.refresh() }
@@ -25,6 +26,8 @@ abstract class MedialibraryViewModel(context: Context) : SortableModel(context),
         filterQuery = query
         refresh()
     }
+
+    override fun sort(sort: Int) { providers.forEach { it.sort(sort) } }
 
     fun isFiltering() = filterQuery != null
 

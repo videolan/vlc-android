@@ -45,10 +45,7 @@ import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
 import android.text.Html
 import android.text.TextUtils
-import android.view.DragEvent
-import android.view.MenuItem
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.DecelerateInterpolator
@@ -84,6 +81,7 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -310,6 +308,28 @@ object UiTools {
         } catch (ignored: RSInvalidStateException) {
             return null
         }
+
+    }
+
+    fun updateSortTitles(menu: Menu, provider: MedialibraryProvider<*>) {
+        val sort = provider.sort
+        val desc = provider.desc
+        var item: MenuItem? = menu.findItem(R.id.ml_menu_sortby_name)
+        item?.setTitle(if (sort == Medialibrary.SORT_ALPHA && !desc) R.string.sortby_name_desc else R.string.sortby_name)
+        item = menu.findItem(R.id.ml_menu_sortby_filename)
+        item?.setTitle(if (sort == Medialibrary.SORT_FILENAME && !desc) R.string.sortby_filename_desc else R.string.sortby_filename)
+        item = menu.findItem(R.id.ml_menu_sortby_artist_name)
+        item?.setTitle(if (sort == Medialibrary.SORT_ARTIST && !desc) R.string.sortby_artist_name_desc else R.string.sortby_artist_name)
+        item = menu.findItem(R.id.ml_menu_sortby_album_name)
+        item?.setTitle(if (sort == Medialibrary.SORT_ALBUM && !desc) R.string.sortby_album_name_desc else R.string.sortby_album_name)
+        item = menu.findItem(R.id.ml_menu_sortby_length)
+        item?.setTitle(if (sort == Medialibrary.SORT_DURATION && !desc) R.string.sortby_length_desc else R.string.sortby_length)
+        item = menu.findItem(R.id.ml_menu_sortby_date)
+        item?.setTitle(if (sort == Medialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_date_desc else R.string.sortby_date)
+        item = menu.findItem(R.id.ml_menu_sortby_last_modified)
+        item?.setTitle(if (sort == Medialibrary.SORT_RELEASEDATE && !desc) R.string.sortby_last_modified_date_desc else R.string.sortby_last_modified_date)
+        //        item = menu.findItem(R.id.ml_menu_sortby_number); TODO sort by track number
+        //        if (item != null) item.setTitle(sort == Medialibrary.SORT_ && !desc ? R.string.sortby_number_desc : R.string.sortby_number);
 
     }
 
