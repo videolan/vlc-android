@@ -52,8 +52,8 @@ import org.videolan.vlc.gui.view.SwipeRefreshLayout
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.*
+import org.videolan.vlc.viewmodels.MedialibraryViewModel
 import org.videolan.vlc.viewmodels.SortableModel
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
 import java.lang.Runnable
 import java.util.*
 
@@ -202,7 +202,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        (viewModel as? MLPagedModel<*>)?.run {
+        (viewModel as? MedialibraryViewModel)?.run {
             menu.findItem(R.id.ml_menu_sortby).isVisible = canSortByName()
             menu.findItem(R.id.ml_menu_sortby_filename).isVisible = canSortByFileNameName()
             menu.findItem(R.id.ml_menu_sortby_artist_name).isVisible = canSortByArtist()
@@ -215,7 +215,11 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         sortMenuTitles()
     }
 
-    open fun sortMenuTitles() = UiTools.updateSortTitles(this)
+    open fun sortMenuTitles() {
+        (viewModel as? MedialibraryViewModel)?.let { model ->
+            menu?.let { UiTools.updateSortTitles(it, model.providers[0]) }
+        }
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

@@ -205,7 +205,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
             menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = canSortByLastModified()
             menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
         }
-        super.onPrepareOptionsMenu(menu)
+        sortMenuTitles()
     }
 
     override fun onFabPlayClick(view: View) {

@@ -54,7 +54,6 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.BaseModel
-import org.videolan.vlc.viewmodels.paged.MLPagedModel
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
