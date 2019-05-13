@@ -43,6 +43,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.Medialibrary
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
 import org.videolan.vlc.util.*
@@ -68,14 +69,14 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
         for (action in channel) when (action){
             is MediaMounted -> {
                 if (TextUtils.isEmpty(action.uuid)) return@actor
-                val ml = VLCApplication.getMLInstance()
-                val knownDevices = ctx.getFromMl { devices }
-                if (ml.addDevice(action.uuid, action.path, true)) notifyNewStorage(action.path)
+                if (ctx.getFromMl { addDevice(action.uuid, action.path, true) }) {
+                    notifyNewStorage(action.uri, action.path)
+                }
             }
             is MediaUnmounted -> {
                 delay(100L)
-                VLCApplication.getMLInstance().removeDevice(action.uuid, action.path)
-
+                Medialibrary.getInstance().removeDevice(action.uuid, action.path)
+                if (storageUnplugged.hasActiveObservers()) storageUnplugged.postValue(action.uri)
             }
         }
     }
@@ -88,8 +89,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
 
     override fun onReceive(context: Context, intent: Intent) {
         if (!this::ctx.isInitialized) ctx = context.applicationContext
-        val action = intent.action
-        when (action) {
+        when (intent.action) {
             ConnectivityManager.CONNECTIVITY_ACTION -> {
                 if (!this::cm.isInitialized)
                     cm = context.applicationContext.getSystemService(
@@ -102,21 +102,10 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
                     connected.value = isConnected
                 }
             }
-            Intent.ACTION_MEDIA_MOUNTED -> {
-                if (storageObserver != null && storageObserver!!.get() != null) {
-                    intent.data?.let {
-                        actor.offer(MediaMounted(it))
-                        storagePlugged.postValue(it)
-                    }
-                }
-            }
+            Intent.ACTION_MEDIA_MOUNTED -> intent.data?.let { actor.offer(MediaMounted(it)) }
             Intent.ACTION_MEDIA_UNMOUNTED,
-            Intent.ACTION_MEDIA_EJECT -> {
-                if (storageObserver != null && storageObserver!!.get() != null)
-                    intent.data?.let {
-                        actor.offer(MediaUnmounted(it))
-                        storageUnplugged.postValue(it)
-                    }
+            Intent.ACTION_MEDIA_EJECT -> intent.data?.let {
+                actor.offer(MediaUnmounted(it))
             }
             UsbManager.ACTION_USB_DEVICE_ATTACHED -> {
                 if (intent.hasExtra(UsbManager.EXTRA_DEVICE)) {
@@ -208,9 +197,10 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     }
 
     @Synchronized
-    private fun notifyNewStorage(path: String?) {
-        val activity = if (storageObserver != null) storageObserver!!.get() else null
-        activity?.let { UiTools.newStorageDetected(it, path) }
+    private fun notifyNewStorage(uri: Uri, path: String) {
+        val activity = storageObserver?.get() ?: return
+        UiTools.newStorageDetected(activity, path)
+        if (storagePlugged.hasActiveObservers()) storagePlugged.postValue(uri)
     }
 
     val isConnected: Boolean
