@@ -22,6 +22,7 @@ checkfail()
 # Setup all that stuff correctly.
 # Get the latest Android SDK Platform or modify numbers in configure.sh and libvlc/default.properties.
 
+RELEASE=0
 while [ $# -gt 0 ]; do
     case $1 in
         help|--help|-h)
@@ -271,7 +272,8 @@ compile() {
 
     # Build LibVLC if asked for it, or needed by medialibrary
     if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/$1" ]; then
-        ./compile-libvlc.sh $OPTS
+        AVLC_SOURCED=1 . ./compile-libvlc.sh
+        avlc_build
     fi
 
     if [ "$NO_ML" != 1 ]; then

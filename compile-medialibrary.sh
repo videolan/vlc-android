@@ -1,18 +1,6 @@
 #!/bin/sh
 
 #############
-# FUNCTIONS #
-#############
-
-checkfail()
-{
-    if [ ! $? -eq 0 ];then
-        echo "$1"
-        exit 1
-    fi
-}
-
-#############
 # ARGUMENTS #
 #############
 
@@ -53,8 +41,8 @@ fi
 
 SRC_DIR=$PWD
 
-. ./build-common
-
+AVLC_SOURCED=1 . ./compile-libvlc.sh
+avlc_make_toolchain
 
 ################
 # MEDIALIBRARY #
@@ -107,7 +95,7 @@ fi
 make $MAKEFLAGS
 
 cd ${SRC_DIR}
-checkfail "sqlite build failed"
+avlc_checkfail "sqlite build failed"
 
 ##############################
 # FETCH MEDIALIBRARY SOURCES #
@@ -116,7 +104,7 @@ checkfail "sqlite build failed"
 if [ ! -d "${MEDIALIBRARY_MODULE_DIR}/medialibrary" ]; then
     echo -e "\e[1m\e[32mmedialibrary source not found, cloning\e[0m"
     git clone http://code.videolan.org/videolan/medialibrary.git "${SRC_DIR}/medialibrary/medialibrary"
-    checkfail "medialibrary source: git clone failed"
+    avlc_checkfail "medialibrary source: git clone failed"
     cd ${MEDIALIBRARY_MODULE_DIR}/medialibrary
     git submodule update --init libvlcpp
 else
@@ -172,7 +160,7 @@ if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
     SQLITE_LIBS="-L$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE/build-$ANDROID_ABI/.libs -lsqlite3" \
     SQLITE_CFLAGS="-I$MEDIALIBRARY_MODULE_DIR/$SQLITE_RELEASE" \
     AR="${CROSS_TOOLS}ar"
-checkfail "medialibrary: autoconf failed"
+avlc_checkfail "medialibrary: autoconf failed"
 fi
 
 ############
@@ -182,7 +170,7 @@ fi
 echo -e "\e[1m\e[32mBuilding medialibrary\e[0m"
 make $MAKEFLAGS
 
-checkfail "medialibrary: make failed"
+avlc_checkfail "medialibrary: make failed"
 
 cd ${SRC_DIR}
 
@@ -208,7 +196,7 @@ $ANDROID_NDK/ndk-build$OSCMD -C medialibrary \
     MEDIALIBRARY_INCLUDE_DIR=${MEDIALIBRARY_BUILD_DIR}/include \
     NDK_DEBUG=${NDK_DEBUG}
 
-checkfail "nkd-build medialibrary failed"
+avlc_checkfail "nkd-build medialibrary failed"
 
 echo "Dumping dbg symbols info ${OUT_DBG_DIR}"
 
