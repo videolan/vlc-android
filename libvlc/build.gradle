@@ -22,7 +22,7 @@ android {
     sourceSets {
         main {
             jni.srcDirs = [] // Prevent gradle from building native code with ndk; we have our own Makefile for it.
-            jniLibs.srcDirs = [ 'jni/libs' ] // Where generated .so files are placed.
+            jniLibs.srcDirs = [ 'jni/libs', '../build/ndk/libs' ] // Where generated .so files are placed.
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['src']
             resources.srcDirs = ['src']

@@ -97,8 +97,10 @@ if [ -z "$ANDROID_ABI" ]; then
 fi
 
 if [ "$ANDROID_ABI" = "armeabi-v7a" -o "$ANDROID_ABI" = "arm" ]; then
+    ANDROID_ABI="armeabi-v7a"
     GRADLE_ABI="ARMv7"
 elif [ "$ANDROID_ABI" = "arm64-v8a" -o "$ANDROID_ABI" = "arm64" ]; then
+    ANDROID_ABI="arm64-v8a"
     GRADLE_ABI="ARMv8"
 elif [ "$ANDROID_ABI" = "x86" ]; then
     GRADLE_ABI="x86"
@@ -262,52 +264,70 @@ cd ..
 ############
 # Make VLC #
 ############
-
 diagnostic "Configuring"
 compile() {
-    OPTS="-a $1"
-    if [ "$RELEASE" = 1 ]; then
-        OPTS="$OPTS release"
-    fi
+    # Build LibVLC if asked for it, or needed by medialibrary
+    copy_tmp="$1"
 
     OUT_DBG_DIR=.dbg/${ANDROID_ABI}
     mkdir -p $OUT_DBG_DIR
 
-    # Build LibVLC if asked for it, or needed by medialibrary
     if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/$1" ]; then
         AVLC_SOURCED=1 . ./compile-libvlc.sh
         avlc_build
+
+        $ANDROID_NDK/ndk-build$OSCMD -C libvlc \
+            VLC_SRC_DIR="$VLC_SRC_DIR" \
+            VLC_BUILD_DIR="$VLC_BUILD_DIR" \
+            VLC_OUT_LDLIBS="$VLC_OUT_LDLIBS" \
+            APP_BUILD_SCRIPT=jni/Android.mk \
+            APP_PLATFORM=android-${ANDROID_API} \
+            APP_ABI=${ANDROID_ABI} \
+            NDK_PROJECT_PATH=jni \
+            NDK_TOOLCHAIN_VERSION=clang \
+            NDK_DEBUG=${NDK_DEBUG}
+
+        if [ "$copy_tmp" = "--copy-tmp=libvlc" ];then
+            cp -r $VLC_OUT_PATH/libs/${ANDROID_ABI} libvlc/jni/libs/${ANDROID_ABI} build/tmp
+        fi
 
         cp -a $VLC_OUT_PATH/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
         cp -a ./libvlc/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
     fi
 
     if [ "$NO_ML" != 1 ]; then
-        ./compile-medialibrary.sh $OPTS
+        ANDROID_ABI=$ANDROID_ABI RELEASE=$RELEASE ./compile-medialibrary.sh
+        if [ "$copy_tmp" = "--copy-tmp=medialibrary" ];then
+            cp -r medialibrary/jni/libs/${ANDROID_ABI} build/tmp
+        fi
 
         cp -a medialibrary/jni/obj/local/${ANDROID_ABI}/*.so ${OUT_DBG_DIR}
     fi
 }
+
 if [ "$ANDROID_ABI" = "all" ]; then
-    if [ -d tmp ]; then
-        rm -rf tmp
+    if [ -d build/tmp ]; then
+        rm -rf build/tmp
     fi
-    mkdir tmp
+    mkdir -p build/tmp
     LIB_DIR="libvlc"
     if [ "$NO_ML" != 1 ]; then
         LIB_DIR="medialibrary"
     fi
-    compile armeabi-v7a
-    cp -r $LIB_DIR/jni/libs/armeabi-v7a tmp
-    compile arm64-v8a
-    cp -r $LIB_DIR/jni/libs/arm64-v8a tmp
-    compile x86
-    cp -r $LIB_DIR/jni/libs/x86 tmp
-    compile x86_64
-    mv tmp/* $LIB_DIR/jni/libs
-    rm -rf tmp
+    copy_tmp="--copy-tmp=$LIB_DIR"
+
+    # The compile function is sourcing ./compile-libvlc.sh and is configured
+    # with env variables (ANDROID_ABI), therefore it need to be run from a new
+    # context for each ABI
+
+    (ANDROID_ABI=armeabi-v7a RELEASE=$RELEASE compile $copy_tmp)
+    (ANDROID_ABI=arm64-v8a RELEASE=$RELEASE compile $copy_tmp)
+    (ANDROID_ABI=x86 RELEASE=$RELEASE compile $copy_tmp)
+    (ANDROID_ABI=x86_64 RELEASE=$RELEASE compile $copy_tmp)
+    rm -rf $LIB_DIR/jni/libs/
+    mv build/tmp $LIB_DIR/jni/libs/
 else
-    compile $ANDROID_ABI
+    compile
 fi
 
 ##################
@@ -319,6 +339,7 @@ if [ "$SIGNED_RELEASE" = 1 ]; then
 elif [ "$RELEASE" = 1 ]; then
     BUILDTYPE="Release"
 fi
+
 if [ "$BUILD_LIBVLC" = 1 ];then
     GRADLE_ABI=$GRADLE_ABI ./gradlew -p libvlc assemble${BUILDTYPE}
     RUN=0
