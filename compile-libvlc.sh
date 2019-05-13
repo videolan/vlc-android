@@ -28,9 +28,6 @@ while [ $# -gt 0 ]; do
             ANDROID_ABI=$2
             shift
             ;;
-        -c)
-            CHROME_OS=1
-            ;;
         release|--release)
             RELEASE=1
             ;;
@@ -319,24 +316,13 @@ cd ../../
 # BUILD DIRECTORY #
 ###################
 
-if [ "${CHROME_OS}" = "1" ];then
-    VLC_BUILD_DIR=build-chrome-${TARGET_TUPLE}
-else
-    VLC_BUILD_DIR=build-android-${TARGET_TUPLE}
-fi
+VLC_BUILD_DIR=build-android-${TARGET_TUPLE}
 VLC_BUILD_DIR=`realpath ${VLC_BUILD_DIR}`
 mkdir -p $VLC_BUILD_DIR && cd $VLC_BUILD_DIR
 
 #############
 # CONFIGURE #
 #############
-
-if [ "${CHROME_OS}" = "1" ];then
-    # chrome OS doesn't have eventfd
-    export ac_cv_func_eventfd=no
-    export ac_cv_header_sys_eventfd_h=no
-    export ac_cv_func_pipe2=no
-fi
 
 if [ ${ANDROID_API} -lt "26" ]; then
     # android APIs < 26 have empty sys/shm.h headers that triggers shm detection but it

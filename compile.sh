@@ -268,9 +268,6 @@ compile() {
     if [ "$RELEASE" = 1 ]; then
         OPTS="$OPTS release"
     fi
-    if [ "$CHROME_OS" = 1 ]; then
-        OPTS="$OPTS -c"
-    fi
 
     # Build LibVLC if asked for it, or needed by medialibrary
     if [ "$BUILD_MEDIALIB" != 1 -o ! -d "libvlc/jni/libs/$1" ]; then
@@ -315,14 +312,12 @@ fi
 if [ "$BUILD_LIBVLC" = 1 ];then
     GRADLE_ABI=$GRADLE_ABI ./gradlew -p libvlc assemble${BUILDTYPE}
     RUN=0
-    CHROME_OS=0
     if [ "$PUBLISH" = 1 ];then
         GRADLE_ABI=$GRADLE_ABI ./gradlew -p libvlc install bintrayUpload
     fi
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
     GRADLE_ABI=$GRADLE_ABI ./gradlew -p medialibrary assemble${BUILDTYPE}
     RUN=0
-    CHROME_OS=0
     if [ "$PUBLISH" = 1 ];then
         GRADLE_ABI=$GRADLE_ABI ./gradlew -p medialibrary install bintrayUpload
     fi
@@ -347,16 +342,4 @@ if [ "$RUN" = 1 ]; then
     else
         adb shell am start -n org.videolan.vlc.debug/org.videolan.vlc.StartActivity
     fi
-fi
-
-#########################
-# Chrome OS repackaging #
-#########################
-# You need to run the armv7 version first, then relaunch this script for x86
-if [ "$CHROME_OS" = 1 -a "$ANDROID_ABI" = "x86" ]; then
-    unzip -o vlc-android/build/outputs/apk/VLC-Android-CHROME-*-ARMv7.apk lib/armeabi-v7a/libvlcjni.so
-    zip -rv vlc-android/build/outputs/apk/VLC-Android-CHROME-*-x86.apk lib/armeabi-v7a/libvlcjni.so
-    rm -rf lib/
-    apk_to_crx.py --zip vlc-android/build/outputs/apk/VLC-Android-CHROME-*-x86.apk --metadata vlc-android/flavors/chrome/VLC-Android-CHROME.crx.json
-    mv vlc-android/build/outputs/apk/VLC-Android-CHROME-*-x86.zip vlc-android/build/outputs/apk/VLC-Android-CHROME-ALL.zip
 fi
