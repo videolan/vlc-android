@@ -170,7 +170,7 @@ else
 fi
 
 VLC_BUILD_DIR=`realpath $VLC_SRC_DIR/build-android-${TARGET_TUPLE}`
-VLC_OUT_PATH="$SRC_DIR/build/ndk"
+VLC_OUT_PATH="$VLC_BUILD_DIR/ndk"
 VLC_OUT_LDLIBS="-L$VLC_OUT_PATH/libs/${ANDROID_ABI} -lvlc"
 
 avlc_checkfail()
@@ -678,7 +678,7 @@ LOCAL_CXXFLAGS := -std=c++11
 include $(BUILD_SHARED_LIBRARY)
 EOF
 
-$NDK_BUILD -C build \
+$NDK_BUILD -C $VLC_OUT_PATH/.. \
     APP_STL="c++_shared" \
     APP_CPPFLAGS="-frtti -fexceptions" \
     VLC_SRC_DIR="$VLC_SRC_DIR" \

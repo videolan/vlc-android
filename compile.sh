@@ -326,8 +326,11 @@ if [ "$ANDROID_ABI" = "all" ]; then
     (ANDROID_ABI=x86_64 RELEASE=$RELEASE compile $copy_tmp)
     rm -rf $LIB_DIR/jni/libs/
     mv build/tmp $LIB_DIR/jni/libs/
+
+    GRADLE_VLC_SRC_DIRS="''"
 else
     compile
+    GRADLE_VLC_SRC_DIRS="$VLC_OUT_PATH/libs"
 fi
 
 ##################
@@ -341,10 +344,10 @@ elif [ "$RELEASE" = 1 ]; then
 fi
 
 if [ "$BUILD_LIBVLC" = 1 ];then
-    GRADLE_ABI=$GRADLE_ABI ./gradlew -p libvlc assemble${BUILDTYPE}
+    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew -p libvlc assemble${BUILDTYPE}
     RUN=0
     if [ "$PUBLISH" = 1 ];then
-        GRADLE_ABI=$GRADLE_ABI ./gradlew -p libvlc install bintrayUpload
+        GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" GRADLE_ABI=$GRADLE_ABI ./gradlew -p libvlc install bintrayUpload
     fi
 elif [ "$BUILD_MEDIALIB" = 1 ]; then
     GRADLE_ABI=$GRADLE_ABI ./gradlew -p medialibrary assemble${BUILDTYPE}
@@ -359,7 +362,7 @@ else
         ACTION="assemble"
     fi
     TARGET="${ACTION}${BUILDTYPE}"
-    CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew $TARGET
+    GRADLE_VLC_SRC_DIRS="$GRADLE_VLC_SRC_DIRS" CLI="" GRADLE_ABI=$GRADLE_ABI ./gradlew $TARGET
 fi
 
 #######
