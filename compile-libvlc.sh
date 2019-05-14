@@ -104,7 +104,7 @@ VLC_OUT_LDLIBS="-L$VLC_OUT_PATH/libs/${ANDROID_ABI} -lvlc"
 #################
 # NDK TOOLCHAIN #
 #################
-NDK_TOOLCHAIN_DIR=${PWD}/toolchains/${PLATFORM_SHORT_ARCH}
+NDK_TOOLCHAIN_DIR=${VLC_OUT_PATH}/toolchains
 NDK_TOOLCHAIN_PATH=${NDK_TOOLCHAIN_DIR}/bin
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
 # stub libraries
