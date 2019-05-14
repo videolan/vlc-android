@@ -31,7 +31,6 @@ import android.view.ViewGroup
 import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -57,6 +56,7 @@ import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.CTX_PLAY_ALL
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.mobile.PlaylistsViewModel
+import org.videolan.vlc.viewmodels.mobile.getViewModel
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -69,8 +69,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-            viewModel = ViewModelProviders.of(requireActivity(), PlaylistsViewModel.Factory(requireContext())).get(PlaylistsViewModel::class.java)
-
+        viewModel = getViewModel()
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = PlaylistsFragmentBinding.inflate(inflater, container, false)

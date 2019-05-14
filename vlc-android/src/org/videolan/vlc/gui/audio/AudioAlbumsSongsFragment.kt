@@ -28,7 +28,6 @@ import android.os.Parcelable
 import android.view.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -50,6 +49,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.CTX_PLAY_ALL
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.viewmodels.mobile.AlbumSongsViewModel
+import org.videolan.vlc.viewmodels.mobile.getViewModel
 
 private const val TAG = "VLC/AudioAlbumsSongsFragment"
 
@@ -86,7 +86,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             savedInstanceState.getParcelable<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem
         else
             arguments!!.getParcelable<Parcelable>(AudioBrowserFragment.TAG_ITEM) as MediaLibraryItem
-        viewModel = ViewModelProviders.of(requireActivity(), AlbumSongsViewModel.Factory(requireContext(), item)).get(AlbumSongsViewModel::class.java)
+        viewModel = getViewModel(item)
     }
 
     override fun getTitle(): String = viewModel.parent.title

@@ -29,7 +29,6 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -58,6 +57,7 @@ import org.videolan.vlc.util.KEY_AUDIO_CURRENT_TAB
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.WeakHandler
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
+import org.videolan.vlc.viewmodels.mobile.getViewModel
 import java.util.*
 
 @ObsoleteCoroutinesApi
@@ -166,7 +166,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     }
 
     private fun setupModels() {
-        viewModel = ViewModelProviders.of(requireActivity(), AudioBrowserViewModel.Factory(requireContext())).get(AudioBrowserViewModel::class.java)
+        viewModel = getViewModel()
         artistsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ARTIST, this)
         albumsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_ALBUM, this)
         songsAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_MEDIA, this)

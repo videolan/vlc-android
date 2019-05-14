@@ -1,8 +1,10 @@
 package org.videolan.vlc.viewmodels.tv
 
 import android.content.Context
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
@@ -36,3 +38,6 @@ class MediaBrowserViewModel(context: Context, category: Long) : MedialibraryView
         }
     }
 }
+
+@ExperimentalCoroutinesApi
+fun Fragment.getMediaBrowserModel(category: Long) = ViewModelProviders.of(requireActivity(), MediaBrowserViewModel.Factory(requireContext(), category)).get(MediaBrowserViewModel::class.java)

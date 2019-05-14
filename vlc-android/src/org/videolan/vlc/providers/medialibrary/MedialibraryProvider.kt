@@ -22,6 +22,7 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import androidx.annotation.MainThread
+import androidx.collection.SparseArrayCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.Config
@@ -35,9 +36,8 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.SortableModel
-import org.videolan.vlc.viewmodels.paged.HeadersIndex
 
-
+typealias HeadersIndex = SparseArrayCompat<String>
 abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: SortableModel) {
     protected val medialibrary = Medialibrary.getInstance()
     val loading = MutableLiveData<Boolean>().apply { value = false }

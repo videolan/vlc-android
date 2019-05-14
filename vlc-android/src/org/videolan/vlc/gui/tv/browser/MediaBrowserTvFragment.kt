@@ -40,7 +40,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.BackgroundManager
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -60,6 +59,7 @@ import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.tv.MediaBrowserViewModel
+import org.videolan.vlc.viewmodels.tv.getMediaBrowserModel
 import java.util.*
 
 private const val TAG = "MediaBrowserTvFragment"
@@ -102,7 +102,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
 
         val category = arguments?.getLong(AUDIO_CATEGORY, CATEGORY_SONGS) ?: CATEGORY_SONGS
 
-        viewModel = ViewModelProviders.of(requireActivity(), MediaBrowserViewModel.Factory(requireContext(), category)).get(MediaBrowserViewModel::class.java)
+        viewModel = getMediaBrowserModel(category)
 
         viewModel.currentItem = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(AUDIO_ITEM) as? MediaLibraryItem
         else requireActivity().intent.getParcelableExtra<Parcelable>(AUDIO_ITEM) as? MediaLibraryItem

@@ -23,9 +23,12 @@ package org.videolan.vlc.viewmodels.mobile
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.VideosProvider
 import org.videolan.vlc.viewmodels.MedialibraryViewModel
@@ -46,3 +49,7 @@ class VideosViewModel(context: Context, val folder: Folder?) : MedialibraryViewM
         }
     }
 }
+
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
+internal fun VideoGridFragment.getViewModel(folder: Folder?) = ViewModelProviders.of(requireActivity(), VideosViewModel.Factory(requireContext(), folder)).get(VideosViewModel::class.java)

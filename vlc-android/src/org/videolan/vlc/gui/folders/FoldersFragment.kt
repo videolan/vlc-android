@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.view.ActionMode
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.folders_fragment.*
@@ -24,6 +23,7 @@ import org.videolan.vlc.media.getAll
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.FoldersViewModel
+import org.videolan.vlc.viewmodels.mobile.getViewModel
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -60,7 +60,7 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
         super.onCreate(savedInstanceState)
         if (!this::adapter.isInitialized) {
             adapter = FoldersAdapter(actor)
-            viewModel = ViewModelProviders.of(requireActivity(), FoldersViewModel.Factory(requireContext(), Folder.TYPE_FOLDER_VIDEO)).get(FoldersViewModel::class.java)
+            viewModel = getViewModel()
             viewModel.provider.pagedList.observe(requireActivity(), Observer {
                 swipeRefreshLayout?.isRefreshing = false
                 adapter.submitList(it)

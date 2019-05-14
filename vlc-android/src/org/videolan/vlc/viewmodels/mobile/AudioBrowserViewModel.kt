@@ -23,8 +23,11 @@ package org.videolan.vlc.viewmodels.mobile
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.providers.medialibrary.AlbumsProvider
 import org.videolan.vlc.providers.medialibrary.ArtistsProvider
 import org.videolan.vlc.providers.medialibrary.GenresProvider
@@ -94,3 +97,7 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context),
         }
     }
 }
+
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
+internal fun AudioBrowserFragment.getViewModel() = ViewModelProviders.of(requireActivity(), AudioBrowserViewModel.Factory(requireContext())).get(AudioBrowserViewModel::class.java)

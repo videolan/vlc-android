@@ -41,7 +41,6 @@ import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -70,6 +69,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.PlaylistViewModel
+import org.videolan.vlc.viewmodels.mobile.getViewModel
 import java.lang.Runnable
 import java.util.*
 
@@ -105,7 +105,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         }
         isPlaylist = playlist.itemType == MediaLibraryItem.TYPE_PLAYLIST
         binding.playlist = playlist
-        viewModel = ViewModelProviders.of(this, PlaylistViewModel.Factory(this, playlist)).get(PlaylistViewModel::class.java)
+        viewModel = getViewModel(playlist)
         viewModel.tracksProvider.pagedList.observe(this, Observer { tracks ->
             if (tracks != null) {
                 @Suppress("UNCHECKED_CAST")

@@ -32,7 +32,6 @@ import android.view.*
 import androidx.annotation.MainThread
 import androidx.appcompat.view.ActionMode
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -61,6 +60,7 @@ import org.videolan.vlc.media.PlaylistManager
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.VideosViewModel
+import org.videolan.vlc.viewmodels.mobile.getViewModel
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -109,7 +109,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             multiSelectHelper = videoListAdapter.multiSelectHelper
             val folder = if (savedInstanceState != null ) savedInstanceState.getParcelable<Folder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
-            viewModel = ViewModelProviders.of(requireActivity(), VideosViewModel.Factory(requireContext(), folder)).get(VideosViewModel::class.java)
+            viewModel = getViewModel(folder)
             viewModel.provider.pagedList.observe(this, this)
         }
     }
