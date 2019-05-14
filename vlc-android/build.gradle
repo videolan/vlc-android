@@ -269,11 +269,12 @@ dependencies {
     androidTestImplementation "androidx.room:room-testing:$rootProject.ext.roomVersion"
     testImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.ext.archVersion"
-    androidTestImplementation "androidx.test:runner:$rootProject.ext.supportTest"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.supportTest"
     androidTestUtil "androidx.test:orchestrator:$rootProject.ext.supportTest"
     testImplementation "org.mockito:mockito-core:$rootProject.ext.mockito"
     testImplementation "org.powermock:powermock-api-mockito2:$rootProject.ext.powerMock"
     testImplementation "org.powermock:powermock-module-junit4:$rootProject.ext.powerMock"
+    androidTestImplementation 'androidx.test:rules:1.3.0-alpha01'
 }
 
 static def buildTime() {
