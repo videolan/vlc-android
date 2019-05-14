@@ -34,8 +34,6 @@ if [ -z "$MAKEFLAGS" ]; then
     fi
 fi
 
-echo "MAKEFLAGS: ${MAKEFLAGS}"
-
 #########
 # FLAGS #
 #########
@@ -566,9 +564,6 @@ make install
 avlc_checkfail "vlc: make install failed"
 
 cd $SRC_DIR
-
-echo ok
-
 
 ##################
 # libVLC modules #
