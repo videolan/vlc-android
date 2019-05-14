@@ -225,14 +225,6 @@ then
 fi
 
 if [ ! -z "${NDK_FORCE_ARG}" ];then
-    # Don't mess up nl_langinfo() detection since this symbol is not present for 64
-    # bits
-    if [ "${HAVE_64}" = 1 ];then
-        rm ${NDK_TOOLCHAIN_DIR}/sysroot/usr/local/include/langinfo.h
-    fi
-fi
-
-if [ ! -z "${NDK_FORCE_ARG}" ];then
     cp "$ANDROID_NDK/source.properties" "${NDK_TOOLCHAIN_PROPS}"
 fi
 } # avlc_make_toolchain()
