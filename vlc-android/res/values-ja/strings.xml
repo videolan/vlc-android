@@ -672,4 +672,5 @@
     <string name="popup_force_legacy_summary">サイズ変更可能なカスタマイズされたピクチャーインピクチャーポップアップを使用</string>
     <string name="device_default">デバイスのデフォルト</string>
     <string name="track_number">%s トラック</string>
+    <string name="jump_to">ジャンプ先</string>
 </resources>
