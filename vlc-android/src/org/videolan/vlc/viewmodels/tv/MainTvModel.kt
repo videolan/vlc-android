@@ -75,9 +75,13 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     private val nowPlayingDelegate = NowPlayingDelegate(this)
 
+    private val updateActor = actor<Unit>(capacity = Channel.CONFLATED) {
+        for (action in channel) updateBrowsers()
+    }
+
     private val favObserver = Observer<List<BrowserFav>> { list ->
         updatedFavoritList = convertFavorites(list)
-        updateActor.offer(Unit)
+        if (!updateActor.isClosedForSend) updateActor.offer(Unit)
     }
 
     private val monitorObserver = Observer<Any> { updateActor.offer(Unit) }
@@ -142,6 +146,25 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         (audioCategories as MutableLiveData).value = list
     }
 
+    private suspend fun updateBrowsers() {
+        val list = mutableListOf<MediaLibraryItem>()
+        val directories = DirectoryRepository.getInstance(context).getMediaDirectoriesList(context).toMutableList()
+        if (!showInternalStorage && directories.isNotEmpty()) directories.removeAt(0)
+        directories.forEach { if (it.location.scanAllowed()) list.add(it) }
+
+        if (ExternalMonitor.isLan) {
+            list.add(DummyItem(HEADER_NETWORK, context.getString(R.string.network_browsing), null))
+            list.add(DummyItem(HEADER_STREAM, context.getString(R.string.open_mrl), null))
+            list.add(DummyItem(HEADER_SERVER, context.getString(R.string.server_add_title), null))
+            updatedFavoritList.forEach {
+                it.description = it.uri.scheme
+                list.add(it)
+            }
+        }
+        (browsers as MutableLiveData).value = list
+        delay(500L)
+    }
+
     override fun onMedialibraryIdle() { refresh() }
 
     override fun onMedialibraryReady() { refresh() }
@@ -196,36 +219,13 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     }
 
     companion object {
-        fun Fragment.getMainTvModel() = ViewModelProviders.of(this, Factory(requireActivity().application)).get(MainTvModel::class.java)
+        fun Fragment.getMainTvModel() = ViewModelProviders.of(requireActivity(), Factory(requireActivity().application)).get(MainTvModel::class.java)
     }
 
     class Factory(private val app: Application): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return MainTvModel(app) as T
-        }
-    }
-
-    private val updateActor = actor<Unit>(capacity = Channel.CONFLATED) {
-        for (action in channel) {
-            val list = mutableListOf<MediaLibraryItem>()
-            val directories = DirectoryRepository.getInstance(context).getMediaDirectoriesList(context).toMutableList()
-            if (!showInternalStorage && directories.isNotEmpty()) directories.removeAt(0)
-            for (directory in directories) {
-                if (directory.location.scanAllowed()) list.add(directory)
-            }
-
-            if (ExternalMonitor.isLan) {
-                list.add(DummyItem(HEADER_NETWORK, context.getString(R.string.network_browsing), null))
-                list.add(DummyItem(HEADER_STREAM, context.getString(R.string.open_mrl), null))
-                list.add(DummyItem(HEADER_SERVER, context.getString(R.string.server_add_title), null))
-                updatedFavoritList.forEach {
-                    it.description = it.uri.scheme
-                    list.add(it)
-                }
-            }
-            (browsers as MutableLiveData).value = list
-            delay(500L)
         }
     }
 }
