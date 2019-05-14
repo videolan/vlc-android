@@ -72,15 +72,6 @@
 
 
         <ImageView
-            android:id="@+id/ml_item_seen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_seen_normal"
-            android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE}"
-            vlc:layout_constraintRight_toRightOf="@+id/ml_item_thumbnail"
-            vlc:layout_constraintTop_toTopOf="@+id/ml_item_thumbnail" />
-
-        <ImageView
             android:id="@+id/media_cover"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -93,6 +84,15 @@
             vlc:layout_constraintTop_toTopOf="parent"
             vlc:media="@{item}" />
 
+        <ImageView
+            android:id="@+id/ml_item_seen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_seen_normal"
+            android:visibility="@{seen == 0L ? View.GONE : View.VISIBLE}"
+            vlc:layout_constraintRight_toRightOf="parent"
+            vlc:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/badgeTV"
@@ -101,11 +101,11 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_corners"
             android:padding="@dimen/kl_half"
+            android:text="@{badge}"
             android:textSize="12sp"
             tools:text="4K"
-            android:text="@{badge}"
-            android:background="@drawable/rounded_corners"
             vlc:layout_constraintBottom_toBottomOf="@id/media_cover"
             vlc:layout_constraintEnd_toEndOf="parent" />
 

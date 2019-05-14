@@ -202,27 +202,26 @@ class TvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, var it
             var progress = 0
             var seen = 0L
             var description = item?.description
-
+            var resolution = ""
             if (item is MediaWrapper) {
                 if (item.type == MediaWrapper.TYPE_VIDEO) {
+                    resolution = generateResolutionClass(item.width, item.height) ?: ""
                     isSquare = false
                     description = if (item.time == 0L) Tools.millisToString(item.length) else Tools.getProgressText(item)
-                }
-
-                seen = item.seen
-                val resolution = generateResolutionClass(item.width, item.height)
-                var max = 0
+                    binding.badge = resolution
+                    seen = item.seen
+                    var max = 0
 
 
-                if (item.length > 0) {
-                    val lastTime = item.displayTime
-                    if (lastTime > 0) {
-                        max = (item.length / 1000).toInt()
-                        progress = (lastTime / 1000).toInt()
+                    if (item.length > 0) {
+                        val lastTime = item.displayTime
+                        if (lastTime > 0) {
+                            max = (item.length / 1000).toInt()
+                            progress = (lastTime / 1000).toInt()
+                        }
                     }
+                    binding.max = max
                 }
-                binding.max = max
-                binding.badge = resolution
 
 
             }
@@ -231,6 +230,9 @@ class TvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, var it
             binding.isSquare = isSquare
             binding.seen = seen
             binding.description = description
+            if (seen == 0L) binding.mlItemSeen.visibility = View.GONE
+            if (progress <= 0L) binding.progressBar.visibility = View.GONE
+            binding.badgeTV.visibility = if (resolution.isBlank()) View.GONE else View.VISIBLE
         }
 
         @ObsoleteCoroutinesApi

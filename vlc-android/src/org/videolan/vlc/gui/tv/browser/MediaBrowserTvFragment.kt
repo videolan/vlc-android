@@ -24,6 +24,7 @@
 package org.videolan.vlc.gui.tv.browser
 
 import android.annotation.TargetApi
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Rect
 import android.os.Build
@@ -50,6 +51,7 @@ import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.*
@@ -171,10 +173,10 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
             override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean, focusedChildVisible: Boolean) = false
         }
 
-        spacing = resources.getDimensionPixelSize(R.dimen.recycler_section_header_spacing)
+        spacing = resources.getDimensionPixelSize(R.dimen.kl_small)
 
         //size of an item
-        val itemSize = (requireActivity().getScreenWidth() - list.paddingLeft - list.paddingRight) / viewModelnbColumns - spacing * 2
+        val itemSize = (requireActivity().getScreenWidth() - list.paddingLeft - list.paddingRight) / viewModel.nbColumns - spacing * 2
 
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
@@ -188,7 +190,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
                     val firstSection = viewModel.provider.getPositionForSection(position)
                     val nbItems = position - firstSection
                     if (BuildConfig.DEBUG)
-                        Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + (viewModel.nbColumns - nbItems % nbColumns))
+                        Log.d("SongsBrowserFragment", "Position: " + position + " nb items: " + nbItems + " span: " + (viewModel.nbColumns - nbItems % viewModel.nbColumns))
 
                     return viewModel.nbColumns - nbItems % viewModel.nbColumns
                 }
@@ -233,6 +235,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
 
         calculateNbColumns()
         gridLayoutManager.spanCount = viewModel.nbColumns
+        if (BuildConfig.DEBUG) Log.d(TAG, "${viewModel.nbColumns}");
         list.layoutManager = gridLayoutManager
     }
 
@@ -249,7 +252,20 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         launch { TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider) }
     }
 
-    override fun onLongClick(v: View, position: Int, item: MediaLibraryItem) = false
+    override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
+
+        if (item is MediaWrapper) {
+
+            val intent = Intent(requireActivity(), DetailsActivity::class.java)
+            // pass the item information
+            intent.putExtra("media", item)
+            intent.putExtra("item", MediaItemDetails(item.title, item.artist, item.album, item.location, item.artworkURL))
+            startActivity(intent)
+        }
+
+
+        return true
+    }
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {}
 
@@ -356,7 +372,7 @@ class MediaBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEventsHand
         /**
          * mitigate the perf issue when scrolling fast with d-pad
          */
-        KEYCODE_DPAD_DOWN, KEYCODE_DPAD_LEFT, KEYCODE_DPAD_RIGHT, KEYCODE_DPAD_UP -> {
+        KEYCODE_DPAD_DOWN, KEYCODE_DPAD_UP -> {
             val now = System.currentTimeMillis()
             if (now - lastDpadEventTime > 200) {
                 lastDpadEventTime = now

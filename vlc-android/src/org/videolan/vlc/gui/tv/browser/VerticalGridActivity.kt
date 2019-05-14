@@ -55,14 +55,11 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
             } else if (type == HEADER_CATEGORIES) {
                 val audioCategory = intent.getLongExtra(AUDIO_CATEGORY, CATEGORY_SONGS)
                 val item = intent.getParcelableExtra<MediaLibraryItem>(AUDIO_ITEM)
-                if (audioCategory == CATEGORY_SONGS) {
-                    fragment = MediaBrowserTvFragment.newInstance(CATEGORY_SONGS, item)
-                } else if (audioCategory == CATEGORY_ALBUMS) {
-                    fragment = MediaBrowserTvFragment.newInstance(CATEGORY_ALBUMS, item)
-                } else if (audioCategory == CATEGORY_ARTISTS) {
-                    fragment = MediaBrowserTvFragment.newInstance(CATEGORY_ARTISTS, item)
-                } else if (audioCategory == CATEGORY_GENRES) {
-                    fragment = MediaBrowserTvFragment.newInstance(CATEGORY_GENRES, item)
+                when (audioCategory) {
+                    CATEGORY_SONGS -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_SONGS, item)
+                    CATEGORY_ALBUMS -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_ALBUMS, item)
+                    CATEGORY_ARTISTS -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_ARTISTS, item)
+                    CATEGORY_GENRES -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_GENRES, item)
                 }
             } else if (type == HEADER_NETWORK) {
                 var uri = intent.data

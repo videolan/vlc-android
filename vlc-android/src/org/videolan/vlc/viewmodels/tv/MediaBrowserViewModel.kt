@@ -17,12 +17,21 @@ import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 
 @ExperimentalCoroutinesApi
-class MediaBrowserViewModel(context: Context, category: Long) : MedialibraryViewModel(context) {
+class MediaBrowserViewModel(context: Context, private val category: Long) : MedialibraryViewModel(context) {
 
-    val nbColumns = context.resources.getInteger(R.integer.tv_songs_col_count)
+
+    var nbColumns = 0
     var currentItem: MediaLibraryItem? = null
 
-    val provider = when(category) {
+    fun updateColumns() {
+        nbColumns = when (category) {
+            CATEGORY_VIDEOS -> context.resources.getInteger(R.integer.tv_videos_col_count)
+            else -> context.resources.getInteger(R.integer.tv_songs_col_count)
+        }
+    }
+
+
+    val provider = when (category) {
         CATEGORY_ALBUMS -> AlbumsProvider(null, context, this)
         CATEGORY_ARTISTS -> ArtistsProvider(context, this, true)
         CATEGORY_GENRES -> GenresProvider(context, this)
@@ -31,7 +40,7 @@ class MediaBrowserViewModel(context: Context, category: Long) : MedialibraryView
     }
     override val providers = arrayOf(provider)
 
-    class Factory(private val context: Context, private val category: Long): ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val context: Context, private val category: Long) : ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
             return MediaBrowserViewModel(context.applicationContext, category) as T
