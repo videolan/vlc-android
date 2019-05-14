@@ -83,9 +83,29 @@ else
     exit 1
 fi
 
+############
+# VLC PATH #
+############
+SRC_DIR=$PWD
+if [ -f $SRC_DIR/src/libvlc.h ];then
+    VLC_SRC_DIR="$SRC_DIR"
+elif [ -d $SRC_DIR/vlc ];then
+    VLC_SRC_DIR=$SRC_DIR/vlc
+else
+    echo "Could not find vlc sources"
+    exit 1
+fi
+
+VLC_BUILD_DIR=`realpath $VLC_SRC_DIR/build-android-${TARGET_TUPLE}`
+VLC_OUT_PATH="$VLC_BUILD_DIR/ndk"
+mkdir -p $VLC_OUT_PATH
+VLC_OUT_LDLIBS="-L$VLC_OUT_PATH/libs/${ANDROID_ABI} -lvlc"
+
+#################
+# NDK TOOLCHAIN #
+#################
 NDK_TOOLCHAIN_DIR=${PWD}/toolchains/${PLATFORM_SHORT_ARCH}
 NDK_TOOLCHAIN_PATH=${NDK_TOOLCHAIN_DIR}/bin
-
 # Add the NDK toolchain to the PATH, needed both for contribs and for building
 # stub libraries
 CROSS_TOOLS=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-
@@ -159,28 +179,6 @@ else
     NDK_DEBUG=1
 fi
 
-SRC_DIR=$PWD
-if [ -f $SRC_DIR/src/libvlc.h ];then
-    VLC_SRC_DIR="$SRC_DIR"
-elif [ -d $SRC_DIR/vlc ];then
-    VLC_SRC_DIR=$SRC_DIR/vlc
-else
-    echo "Could not find vlc sources"
-    exit 1
-fi
-
-VLC_BUILD_DIR=`realpath $VLC_SRC_DIR/build-android-${TARGET_TUPLE}`
-VLC_OUT_PATH="$VLC_BUILD_DIR/ndk"
-VLC_OUT_LDLIBS="-L$VLC_OUT_PATH/libs/${ANDROID_ABI} -lvlc"
-
-avlc_checkfail()
-{
-    if [ ! $? -eq 0 ];then
-        echo "$1"
-        exit 1
-    fi
-}
-
 ###############
 # DISPLAY ABI #
 ###############
@@ -206,6 +204,14 @@ if [ -z "$ANDROID_ABI" ]; then
     X86:     x86, x86_64"
     exit 1
 fi
+
+avlc_checkfail()
+{
+    if [ ! $? -eq 0 ];then
+        echo "$1"
+        exit 1
+    fi
+}
 
 avlc_make_toolchain()
 {
@@ -576,8 +582,6 @@ cd $SRC_DIR
 ##################
 # libVLC modules #
 ##################
-
-mkdir -p $VLC_OUT_PATH
 
 REDEFINED_VLC_MODULES_DIR=${VLC_BUILD_DIR}/install/lib/vlc/plugins
 rm -rf ${REDEFINED_VLC_MODULES_DIR}
