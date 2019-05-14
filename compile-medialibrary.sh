@@ -6,7 +6,6 @@
 
 MEDIALIBRARY_HASH=c4a1c6e
 
-RELEASE=0
 while [ $# -gt 0 ]; do
     case $1 in
         help|--help)
@@ -66,7 +65,7 @@ if [ ! -d "build-$ANDROID_ABI" ]; then
 fi;
 cd "build-$ANDROID_ABI";
 
-if [ ! -e ./config.status -o "$RELEASE" = 1 ]; then
+if [ ! -e ./config.status -o "$RELEASE" = "1" ]; then
 ../configure \
     --host=$TARGET_TUPLE \
     --disable-shared \
@@ -99,7 +98,7 @@ else
       rm -rf ${MEDIALIBRARY_MODULE_DIR}/jni/obj
     fi
 fi
-if [ "$RELEASE" = 1 ]; then
+if [ "$RELEASE" = "1" ]; then
     git reset --hard ${MEDIALIBRARY_HASH}
 fi
 cd ${SRC_DIR}
@@ -122,10 +121,10 @@ if [ ! -d "build-android-$ANDROID_ABI/" ]; then
 fi;
 cd "build-android-$ANDROID_ABI/";
 
-if [ "$RELEASE" = 1 ]; then
+if [ "$RELEASE" = "1" ]; then
     MEDIALIBRARY_MODE=--disable-debug
 fi
-if [ ! -e ./config.h -o "$RELEASE" = 1 ]; then
+if [ ! -e ./config.h -o "$RELEASE" = "1" ]; then
 ../bootstrap
 ../configure \
     --host=$TARGET_TUPLE \
