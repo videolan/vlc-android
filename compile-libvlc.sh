@@ -111,14 +111,12 @@ NDK_TOOLCHAIN_PATH=${NDK_TOOLCHAIN_DIR}/bin
 CROSS_TOOLS=${NDK_TOOLCHAIN_PATH}/${TARGET_TUPLE}-
 
 export PATH="${NDK_TOOLCHAIN_PATH}:${PATH}"
-ON_WINDOWS=0
+NDK_BUILD=$ANDROID_NDK/ndk-build
 if [ ! -z "$MSYSTEM_PREFIX" ] ; then
     # The make.exe and awk.exe from the toolchain don't work in msys
     export PATH="$MSYSTEM_PREFIX/bin:/usr/bin:${NDK_TOOLCHAIN_PATH}:${PATH}"
-    ON_WINDOWS=1
-    OSCMD=.cmd
+    NDK_BUILD=$NDK_BUILD.cmd
 fi
-NDK_BUILD=$ANDROID_NDK/ndk-build$OSCMD
 
 ##########
 # CFLAGS #
