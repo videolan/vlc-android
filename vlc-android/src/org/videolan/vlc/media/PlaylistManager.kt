@@ -208,9 +208,11 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         videoBackground = false
         getCurrentMedia()?.let {
             savePosition()
-            saveMediaMeta()
-            if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !isAudioList()) setResumeProgram(service.applicationContext, it)
-
+            val audio = isAudioList() // check before dispatching in saveMediaMeta()
+            launch(start = CoroutineStart.UNDISPATCHED) {
+                saveMediaMeta().join()
+                if (AndroidDevices.isAndroidTv && AndroidUtil.isOOrLater && !audio) setResumeProgram(service.applicationContext, it)
+            }
         }
         mediaList.removeEventListener(this)
         previous.clear()
@@ -407,30 +409,28 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         service.executeUpdate()
     }
 
-    fun saveMediaMeta() {
-        val currentMedia = getCurrentMedia() ?: return
-        if (currentMedia.uri.scheme == "fd") return
+    fun saveMediaMeta() = launch(start = CoroutineStart.UNDISPATCHED) {
+        val currentMedia = getCurrentMedia() ?: return@launch
+        if (currentMedia.uri.scheme == "fd") return@launch
         //Save progress
         val time = player.getCurrentTime()
         val length = player.getLength()
         val canSwitchToVideo = player.canSwitchToVideo()
         val rate = player.getRate()
-        launch {
-            val media = withContext(Dispatchers.IO) { medialibrary.findMedia(currentMedia) }
-            if (media === null || media.id == 0L) return@launch
-            if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
-                var progress = time / length.toFloat()
-                if (progress > 0.95f || length - time < 10000) {
-                    //increase seen counter if more than 95% of the media have been seen
-                    //and reset progress to 0
-                    launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_SEEN, media.seen+1) }
-                    progress = 0f
-                }
-                media.time = if (progress == 0f) 0L else time
-                launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_PROGRESS, media.time) }
+        val media = withContext(Dispatchers.IO) { medialibrary.findMedia(currentMedia) }
+        if (media === null || media.id == 0L) return@launch
+        if (media.type == MediaWrapper.TYPE_VIDEO || canSwitchToVideo || media.isPodcast) {
+            var progress = time / length.toFloat()
+            if (progress > 0.95f || length - time < 10000) {
+                //increase seen counter if more than 95% of the media have been seen
+                //and reset progress to 0
+                launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_SEEN, media.seen+1) }
+                progress = 0f
             }
-            launch(Dispatchers.IO) { media.setStringMeta(MediaWrapper.META_SPEED, rate.toString()) }
+            media.time = if (progress == 0f) 0L else time
+            launch(Dispatchers.IO) { media.setLongMeta(MediaWrapper.META_PROGRESS, media.time) }
         }
+        launch(Dispatchers.IO) { media.setStringMeta(MediaWrapper.META_SPEED, rate.toString()) }
     }
 
     fun setSpuTrack(index: Int) {
