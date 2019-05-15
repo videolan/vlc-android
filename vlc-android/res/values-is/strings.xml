@@ -174,7 +174,7 @@
     <string name="sleep_title">Vekjari</string>
     <string name="sleep_in">Sofa lengur</string>
     <string name="sleep_cancel">Hætta við vekjara</string>
-    <string name="jump_to_time">Hoppa að tíma</string>
+    <string name="jump_to_time">Hoppa á tíma</string>
     <string name="subtitle_label">Bæta við skjátextaskrá</string>
     <string name="subtitle_select">Veldu skjátextaskrá</string>
     <string name="no_file_picker_found">Enginn skjáaveljari fannst á þessu kerfi.</string>
@@ -679,4 +679,5 @@
     <string name="popup_force_legacy_summary">Nota sérsniðinn mynd-í-mynd (PiP) sprettglugga með breytanlegri stærð</string>
     <string name="device_default">Sjálfgefið á tæki</string>
     <string name="track_number">%s lög</string>
+    <string name="jump_to">Hoppa á</string>
 </resources>
