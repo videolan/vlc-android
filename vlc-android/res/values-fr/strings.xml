@@ -679,4 +679,5 @@
     <string name="popup_force_legacy_summary">Utiliser une fenêtre personnalisée de Picture-in-Picture redimensionnable</string>
     <string name="device_default">Périphérique prédéfini</string>
     <string name="track_number">%s pistes</string>
+    <string name="jump_to">Aller à</string>
 </resources>
