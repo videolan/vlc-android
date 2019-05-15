@@ -141,11 +141,12 @@ fun MutableList<MediaWrapper>.updateWithMLMeta() : MutableList<MediaWrapper> {
     return this
 }
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 suspend fun String.scanAllowed() = withContext(Dispatchers.IO) {
     val file = File(Uri.parse(this@scanAllowed).path)
     if (!file.exists() || !file.canRead()) return@withContext false
-    val children = file.list() ?: return@withContext true
-    for (child in children) if (child == ".nomedia") return@withContext false
+    if (AndroidDevices.watchDevices && file.list()?.any { it == ".nomedia" } == true) return@withContext false
     true
 }
 
