@@ -679,4 +679,5 @@
     <string name="popup_force_legacy_summary">Usar ventana emergente escalable en modo vídeo sobre vídeo personalizado</string>
     <string name="device_default">Dispositivo por defecto</string>
     <string name="track_number">%s pistas</string>
+    <string name="jump_to">Saltar a</string>
 </resources>
