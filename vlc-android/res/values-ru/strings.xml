@@ -132,6 +132,7 @@
     <string name="validation">Вы уверены?</string>
 
     <string name="cover_art">Обложка</string>
+    <string name="shuffle_all_title">Перемешать все</string>
     <string name="shuffle_title">Режим перемешивания</string>
     <string name="shuffle">Перемешивание выкл.</string>
     <string name="shuffle_on">Перемешивание вкл.</string>
@@ -288,6 +289,8 @@
     <string name="enable_black_theme_summary">Изменить цвета интерфейса для большего комфорта при низкой освещённости.</string>
     <string name="subtitle_text_encoding">Кодировка текста субтитров</string>
     <string name="daynight_title">Режим День/Ночь</string>
+    <string name="daynight_follow_system_title">В соответствии с режимом системы </string>
+    <string name="daynight_battery_title">В соответствии с режимом энергосбережения</string>
     <string name="daynight_summary">Автоматически переключаться в ночной режим в подходящее время</string>
 
     <string name="extra_prefs_category">Доп. настройки</string>
@@ -391,7 +394,7 @@
     <string name="casting_quality_low">Низкое</string>
     <string name="casting_quality_lowcpu">Самое низкое</string>
     <string name="cast_performance_warning">Для трансляции этого видео его нужно перекодировать. При перекодировании может использоваться вся доступная мощность и быстро разряжаться батарея.</string>
-    <string name="casting_connected_renderer">Подключено к экрану \'%1$s\'</string>
+    <string name="casting_connected_renderer">Подключено к воспроизводителю \'%1$s\'</string>
     <string name="artists_show_all_title">Показывать всех исполнителей</string>
     <string name="artists_show_all_summary">Показывать всех исполнителей в списке Исполнители, а не только исполнителей альбомов</string>
 
@@ -499,6 +502,7 @@
     <string name="directory_show_medialib">Показать в медиатеке</string>
     <string name="directory_hide_medialib">Убрать из медиатеки</string>
     <string name="playlist_save">Сохранить плейлист</string>
+    <string name="playlist_name_hint">Название плейлиста</string>
     <string name="go_to_chapter">Перейти к главе…</string>
     <string name="chapter">Глава</string>
     <string name="resume_from_position">Продолжить с последней позиции</string>
@@ -625,6 +629,8 @@
     <string name="audio_digital_title">Цифровой вывод звука (сквозной)</string>
     <string name="audio_task_cleared_title">Останавливаться при смахивании приложения</string>
     <string name="audio_task_cleared_summary">Прекращать воспроизведение, когда приложение смахивается</string>
+    <string name="audio_resume_card_title">Загружать последнюю карточку плейлиста</string>
+    <string name="audio_resume_card_summary">Показывать карточку, позволяющую возобновить воспроизведение аудио при запуске приложения</string>
     <string name="playback_rewind">Перемотка</string>
     <string name="playback_forward">Быстро вперёд</string>
     <string name="ml_wizard_title">Выбор медиатеки VLC</string>
@@ -664,6 +670,7 @@
     <string name="video_save_clone_mode">Автоматически включать режим клонирования?</string>
     <string name="video_remote_enable">Переключиться в режим удалённого управления</string>
     <string name="video_remote_disable">Дублировать экран</string>
+    <string name="removed_from_playlist_anonymous">Элементы, удалённые из плейлиста</string>
     <string name="welcome_title">Добро пожаловать в VLC!</string>
     <string name="welcome_subtitle">Бесплатный медиаплеер с открытым исходным кодом</string>
     <string name="permission_media">Для VLC требуется разрешение на чтение медиафайлов на вашем устройстве</string>
@@ -677,4 +684,14 @@
     <string name="onboarding_scan_customize">Я хочу выбрать, какие папки будет сканировать VLC</string>
     <string name="button_medialibrary_preferences">Открыть настройки медиатеки</string>
     <string name="light_theme">Светлая тема</string>
-    </resources>
+    <string name="add">Добавить</string>
+    <string name="add_to_new_playlist">Добавить в новый плейлист</string>
+    <string name="theme_follow_system_mode">В соответствии с режимом системы</string>
+    <string name="resume_card_message">Возобновить воспроизведение %1$s?</string>
+    <string name="misc">Разное</string>
+    <string name="popup_force_legacy_title">Использовать собственное окно PiP</string>
+    <string name="popup_force_legacy_summary">Использовать собственное изменяемое окно Picture-in-Picture</string>
+    <string name="device_default">По умолчанию для устройства</string>
+    <string name="track_number">дорожек: %s </string>
+    <string name="jump_to">Переход к</string>
+</resources>
