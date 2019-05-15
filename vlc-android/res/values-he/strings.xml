@@ -693,4 +693,5 @@
     <string name="popup_force_legacy_summary">להשתמש בחלונית צפה גמישה מותאמת לתמונה בתוך תמונה</string>
     <string name="device_default">בררת המחדל של המכשיר</string>
     <string name="track_number">%s רצועות</string>
+    <string name="jump_to">קפיצה אל</string>
 </resources>
