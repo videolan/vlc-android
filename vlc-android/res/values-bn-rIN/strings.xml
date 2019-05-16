@@ -109,4 +109,4 @@
     <string name="enable_verbose_mode">বাগ্বহুল</string>
     <string name="enable_verbose_mode_summary">ভার্বোসিটি (logcat) বাড়ান</string>
     <string name="next">পরবর্তী</string>
-    </resources>
+</resources>

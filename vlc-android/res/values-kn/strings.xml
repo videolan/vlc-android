@@ -198,4 +198,4 @@
     <string name="dump_logcat_success">Logcat ಅನ್ನು ಯಶಸ್ವಿಯಾಗಿ %1$s! ಗೆ ಡಂಪ್ ಮಾಡಲಾಗಿದೆ</string>
     <string name="dump_logcat_failure">Logcat ಡಂಪ್ ವಿಫಲವಾಗಿದೆ.</string>
     <string name="next">ಮುಂದಿನ</string>
-    </resources>
+</resources>
