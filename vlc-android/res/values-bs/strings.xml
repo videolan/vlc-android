@@ -251,4 +251,4 @@ YUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije.<
     <string name="resume_from_position">Nastavi sa zadnje pozicije</string>
     <string name="confirm_resume">Nastavi sa zadnje pozicije?</string>
     <string name="next">Sljedeće</string>
-    </resources>
+</resources>
