@@ -91,9 +91,10 @@ fun Context.launchChannelUpdate() = AppScope.launch {
     updatePrograms(this@launchChannelUpdate, id)
 }
 
-fun setResumeProgram(context: Context, mw: MediaWrapper) {
+suspend fun setResumeProgram(context: Context, mw: MediaWrapper) {
     var cursor: Cursor? = null
     var isProgramPresent = false
+    val mw = context.getFromMl { findMedia(mw) }
     try {
         cursor = context.contentResolver.query(
                 TvContractCompat.WatchNextPrograms.CONTENT_URI, WATCH_NEXT_MAP_PROJECTION, null,
@@ -132,7 +133,10 @@ fun setResumeProgram(context: Context, mw: MediaWrapper) {
 
 }
 
-private fun MediaWrapper.artUri() : Uri {
+private suspend fun MediaWrapper.artUri() : Uri {
+    if (!isThumbnailGenerated) {
+        withContext(Dispatchers.IO) { ThumbnailsProvider.getVideoThumbnail(this@artUri, 512) }
+    }
     val mrl = artworkMrl ?: return Uri.parse("android.resource://${BuildConfig.APPLICATION_ID}/${R.drawable.ic_browser_video_big_normal}")
     return try {
         getFileUri(mrl)

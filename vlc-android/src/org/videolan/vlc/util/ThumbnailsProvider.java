@@ -63,7 +63,7 @@ public class ThumbnailsProvider {
     }
 
     @WorkerThread
-    private static Bitmap getVideoThumbnail(final MediaWrapper media, int width) {
+    static Bitmap getVideoThumbnail(final MediaWrapper media, int width) {
         final String filePath = media.getUri().getPath();
         if (appDir == null) appDir = VLCApplication.getAppContext().getExternalFilesDir(null);
         final boolean hasCache = appDir != null && appDir.exists();
