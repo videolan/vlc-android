@@ -17,7 +17,6 @@ import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap
 import org.videolan.vlc.gui.helpers.BitmapCache
 import org.videolan.vlc.gui.helpers.BitmapUtil
@@ -50,7 +49,7 @@ object ThumbnailsProvider {
         return if (item.type == MediaWrapper.TYPE_VIDEO && TextUtils.isEmpty(item.artworkMrl))
             getVideoThumbnail(item, width)
         else
-            AudioUtil.readCoverBitmap(Uri.decode(item.artworkMrl), width)
+            readCoverBitmap(Uri.decode(item.artworkMrl), width)
     }
 
     fun getMediaCacheKey(isMedia: Boolean, item: MediaLibraryItem): String? {
@@ -64,7 +63,7 @@ object ThumbnailsProvider {
     }
 
     @WorkerThread
-    private fun getVideoThumbnail(media: MediaWrapper, width: Int): Bitmap? {
+    fun getVideoThumbnail(media: MediaWrapper, width: Int): Bitmap? {
         val filePath = media.uri.path
         if (appDir == null) appDir = VLCApplication.appContext.getExternalFilesDir(null)
         val hasCache = appDir != null && appDir!!.exists()
