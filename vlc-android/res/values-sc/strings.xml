@@ -679,4 +679,5 @@
     <string name="popup_force_legacy_summary">Imprea una ventanedda Picture-to-Picture personalizada chi podet èssere mudada de mannària</string>
     <string name="device_default">Predefinidu de su dispositivu</string>
     <string name="track_number">%s rastas</string>
+    <string name="jump_to">Brinca a</string>
 </resources>
