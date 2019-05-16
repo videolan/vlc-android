@@ -17,9 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.OnRebindCallback
 import androidx.databinding.ViewDataBinding
 import androidx.leanback.widget.ImageCardView
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BR
@@ -29,7 +27,6 @@ import org.videolan.vlc.databinding.AudioBrowserTvItemBinding
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.HttpImageLoader
-import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.ThumbnailsProvider
 import org.videolan.vlc.util.ThumbnailsProvider.obtainBitmap
 
@@ -38,6 +35,8 @@ private val sMedialibrary = VLCApplication.mlInstance
 private var defaultImageWidth = 0
 private const val TAG = "ImageLoader"
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 @MainThread
 @BindingAdapter("media")
 fun loadImage(v: View, item: MediaLibraryItem?) {
@@ -48,11 +47,11 @@ fun loadImage(v: View, item: MediaLibraryItem?) {
     if (item.itemType == MediaLibraryItem.TYPE_GENRE && !isForTV(binding)) {
         return
     }
-    if (item is MediaWrapper && item.type == MediaWrapper.TYPE_VIDEO && !Settings.getInstance(v.context).getBoolean("show_video_thumbnails", true)) {
+    val isMedia = item.itemType == MediaLibraryItem.TYPE_MEDIA
+    if (isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO && !VLCApplication.showVideoThumbs) {
         updateImageView(UiTools.getDefaultVideoDrawable(v.context).bitmap, v, binding)
         return
     }
-    val isMedia = item.itemType == MediaLibraryItem.TYPE_MEDIA
     val isGroup = isMedia && (item as MediaWrapper).type == MediaWrapper.TYPE_GROUP
     val isFolder = !isMedia && item.itemType == MediaLibraryItem.TYPE_FOLDER;
     val cacheKey = when {

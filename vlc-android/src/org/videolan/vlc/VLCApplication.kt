@@ -28,14 +28,12 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import android.util.Log
-
 import androidx.collection.SimpleArrayMap
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-
 import org.videolan.libvlc.Dialog
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
@@ -45,14 +43,10 @@ import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapCache
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.Util
-import org.videolan.vlc.util.VLCInstance
 import org.videolan.vlc.util.*
-
 import java.lang.ref.WeakReference
 import java.lang.reflect.InvocationTargetException
-import java.util.Calendar
+import java.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -94,6 +88,7 @@ class VLCApplication : Application() {
         instance = this
     }
 
+    @TargetApi(Build.VERSION_CODES.O)
     override fun onCreate() {
         super.onCreate()
 
@@ -105,6 +100,7 @@ class VLCApplication : Application() {
                 // Set the locale for API < 24 and set application resources and direction for API >=24
                 UiTools.setLocale(appContext!!)
             })
+            showVideoThumbs = Settings.getInstance(baseContext).getBoolean("show_video_thumbnails", true)
 
             runIO(Runnable {
                 if (AndroidUtil.isOOrLater)
@@ -158,6 +154,8 @@ class VLCApplication : Application() {
         private val sDataMap = SimpleArrayMap<String, WeakReference<Any>>()
 
         private var sDialogCounter = 0
+
+        var showVideoThumbs = true
 
         // Property to get the new locale only on restart to prevent change the locale partially on runtime
         var locale: String? = ""

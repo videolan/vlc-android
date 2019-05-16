@@ -24,10 +24,12 @@ package org.videolan.vlc.gui.preferences
 
 import android.os.Bundle
 import androidx.preference.Preference
+import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.R
+import org.videolan.vlc.VLCApplication
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -60,6 +62,7 @@ class PreferencesVideo : BasePreferenceFragment() {
                 return true
             }
             "show_video_thumbnails" -> {
+                VLCApplication.showVideoThumbs = (preference as TwoStatePreference).isChecked
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
