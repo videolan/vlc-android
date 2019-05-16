@@ -76,4 +76,4 @@
     <string name="enable_verbose_mode">వెర్బోస్</string>
     <string name="enable_verbose_mode_summary">వెర్బోసిటీని పెంచు (logcat)</string>
     <string name="next">తరువాత</string>
-    </resources>
+</resources>

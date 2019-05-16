@@ -531,4 +531,4 @@
     <string name="sdcard_permission_dialog_message">VLC бу файлны язуга рөхсәтсез бетерә алмый.\nSD-картагызга күчегез һәм \"Сайларга\" төймәсенә басыгыз.\nБәлки, сезгә баштан өске уң яктагы \"SD-картаны күрсәтергә\" төймәсенә басырга кирәк булыр.</string>
     <string name="dialog_sd_wizard">Күрсәтергә</string>
     <string name="next">&amp;Чираттагы</string>
-    </resources>
+</resources>

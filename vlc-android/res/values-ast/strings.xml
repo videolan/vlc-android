@@ -169,4 +169,4 @@
     <string name="enable_verbose_mode">Detalláu</string>
     <string name="enable_verbose_mode_summary">Incrementar el nivel de detalle (logcat)</string>
     <string name="next">Siguiente</string>
-    </resources>
+</resources>
