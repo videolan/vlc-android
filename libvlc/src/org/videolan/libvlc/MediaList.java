@@ -106,10 +106,9 @@ public class MediaList extends VLCObject<MediaList.Event> {
     }
 
     private synchronized Media insertMediaFromEvent(int index) {
-        mCount++;
-
         for (int i = mCount - 1; i >= index; --i)
             mMediaArray.put(i + 1, mMediaArray.valueAt(i));
+        mCount++;
         final Media media = new Media(this, index);
         mMediaArray.put(index, media);
         return media;
