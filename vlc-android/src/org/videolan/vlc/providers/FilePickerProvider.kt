@@ -26,7 +26,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.util.LiveDataset
 
-class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?) : FileBrowserProvider(context, dataset, url, true, false) {
+class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showDummyCategory: Boolean = false) : FileBrowserProvider(context, dataset, url, true, false, showDummyCategory) {
 
     override fun getFlags(): Int {
         return MediaBrowser.Flag.Interact or MediaBrowser.Flag.NoSlavesAutodetect

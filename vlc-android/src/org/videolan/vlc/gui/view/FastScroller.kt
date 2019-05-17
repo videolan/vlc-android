@@ -51,7 +51,7 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.providers.medialibrary.HeadersIndex
+import org.videolan.vlc.providers.HeadersIndex
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.WeakHandler
 import java.util.concurrent.atomic.AtomicBoolean

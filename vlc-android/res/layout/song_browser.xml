@@ -58,7 +58,6 @@
         android:background="@color/transparent"
         android:elevation="6dp"
         android:src="@drawable/ic_menu_header_tv"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

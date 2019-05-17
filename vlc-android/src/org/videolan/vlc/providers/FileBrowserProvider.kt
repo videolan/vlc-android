@@ -49,7 +49,7 @@ open class FileBrowserProvider(
         context: Context,
         dataset: LiveDataset<MediaLibraryItem>,
         url: String?, private val filePicker: Boolean = false,
-        showHiddenFiles: Boolean) : BrowserProvider(context, dataset,
+        showHiddenFiles: Boolean, private val showDummyCategory: Boolean = true) : BrowserProvider(context, dataset,
         url, showHiddenFiles
 ), Observer<MutableList<UsbDevice>> {
 
@@ -100,7 +100,7 @@ open class FileBrowserProvider(
         val browserStorage = context.getString(R.string.browser_storages)
         val storages = DirectoryRepository.getInstance(context).getMediaDirectories()
         val devices = mutableListOf<MediaLibraryItem>()
-        if (!filePicker) devices.add(DummyItem(browserStorage))
+        if (!filePicker && showDummyCategory) devices.add(DummyItem(browserStorage))
         for (mediaDirLocation in storages) {
             val file = File(mediaDirLocation)
             if (!file.exists() || !file.canRead()) continue
@@ -135,6 +135,8 @@ open class FileBrowserProvider(
         ExternalMonitor.devices.observeForever(this@FileBrowserProvider)
         if (showFavorites) favorites?.observeForever(favoritesObserver)
         loading.postValue(false)
+        //no headers in root
+        headers.clear()
     }
 
 

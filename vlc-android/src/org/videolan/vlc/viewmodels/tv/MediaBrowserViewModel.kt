@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.vlc.R
 import org.videolan.vlc.providers.medialibrary.*
 import org.videolan.vlc.util.CATEGORY_ALBUMS
 import org.videolan.vlc.util.CATEGORY_ARTISTS
@@ -17,21 +16,14 @@ import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 
 @ExperimentalCoroutinesApi
-class MediaBrowserViewModel(context: Context, private val category: Long) : MedialibraryViewModel(context) {
+class MediaBrowserViewModel(context: Context, category: Long) : MedialibraryViewModel(context), TvBrowserModel {
 
 
-    var nbColumns = 0
-    var currentItem: MediaLibraryItem? = null
-
-    fun updateColumns() {
-        nbColumns = when (category) {
-            CATEGORY_VIDEOS -> context.resources.getInteger(R.integer.tv_videos_col_count)
-            else -> context.resources.getInteger(R.integer.tv_songs_col_count)
-        }
-    }
+    override var nbColumns = 0
+    override var currentItem: MediaLibraryItem? = null
 
 
-    val provider = when (category) {
+    override val provider = when (category) {
         CATEGORY_ALBUMS -> AlbumsProvider(null, context, this)
         CATEGORY_ARTISTS -> ArtistsProvider(context, this, true)
         CATEGORY_GENRES -> GenresProvider(context, this)

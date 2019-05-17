@@ -249,8 +249,8 @@ object TvUtil {
             }
             else -> {
                 val intent = Intent(context, VerticalGridActivity::class.java)
-                intent.putExtra(AUDIO_ITEM, mediaLibraryItem)
-                intent.putExtra(AUDIO_CATEGORY, CATEGORY_ALBUMS)
+                intent.putExtra(ITEM, mediaLibraryItem)
+                intent.putExtra(CATEGORY, CATEGORY_ALBUMS)
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
                 context.startActivity(intent)
             }

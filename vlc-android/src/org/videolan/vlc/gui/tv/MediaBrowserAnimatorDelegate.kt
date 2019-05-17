@@ -35,17 +35,20 @@ import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.tv.browser.MediaBrowserTvFragment
+import org.videolan.vlc.gui.tv.browser.BaseBrowserTvFragment
 
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-internal class MediaBrowserAnimatorDelegate(val browser: MediaBrowserTvFragment, private val cl: ConstraintLayout) : RecyclerView.OnScrollListener(), View.OnFocusChangeListener {
+internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment, private val cl: ConstraintLayout) : RecyclerView.OnScrollListener(), View.OnFocusChangeListener {
 
     private val scrolledUpConstraintSet = ConstraintSet()
     private val scrolledDownFABCollapsedConstraintSet = ConstraintSet()
     private val scrolledDownFABExpandedConstraintSet = ConstraintSet()
     private val headerVisibleConstraintSet = ConstraintSet()
+
+    private val constraintSets = arrayOf(scrolledUpConstraintSet, scrolledDownFABCollapsedConstraintSet, scrolledDownFABExpandedConstraintSet, headerVisibleConstraintSet)
+
     private val transition = ChangeBounds().apply {
         interpolator = AccelerateDecelerateInterpolator()
         duration = 300
@@ -140,6 +143,19 @@ internal class MediaBrowserAnimatorDelegate(val browser: MediaBrowserTvFragment,
 
     internal fun showFAB() {
         currenstate = MediaBrowserState.SCROLLED_DOWN_FAB_COLLAPSED
+
+    }
+
+    //FIXME it doesn't work. WHY???
+    fun setVisibility(view: View, visibility: Int) {
+
+
+        constraintSets.forEach {
+            it.setVisibility(view.id, visibility)
+        }
+
+        view.visibility = visibility
+
 
     }
 
@@ -250,7 +266,7 @@ internal class MediaBrowserAnimatorDelegate(val browser: MediaBrowserTvFragment,
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-fun MediaBrowserTvFragment.setAnimator(cl: ConstraintLayout) {
+fun BaseBrowserTvFragment.setAnimator(cl: ConstraintLayout) {
     animationDelegate = MediaBrowserAnimatorDelegate(this, cl)
     headerButton.onFocusChangeListener = animationDelegate
     sortButton.onFocusChangeListener = animationDelegate

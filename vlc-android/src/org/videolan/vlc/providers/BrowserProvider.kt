@@ -47,7 +47,7 @@ const val TAG = "VLC/BrowserProvider"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private val showHiddenFiles: Boolean) : EventListener, CoroutineScope {
+abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private val showHiddenFiles: Boolean) : EventListener, CoroutineScope, HeaderProvider() {
 
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
     val loading = MutableLiveData<Boolean>().apply { value = false }
@@ -122,6 +122,22 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         browserActor.post(Refresh)
     }
 
+    fun computeHeaders(value: MutableList<MediaLibraryItem>) {
+        headers.clear()
+        for ((position, item) in value.withIndex()) {
+            val previous = when {
+                position > 0 -> value[position - 1]
+                else -> null
+            }
+            ModelsHelper.getHeader(context, Medialibrary.SORT_ALPHA, item, previous)?.let {
+                launch {
+                    headers.put(position, it)
+                    (liveHeaders as MutableLiveData<HeadersIndex>).value = headers
+                }
+            }
+        }
+    }
+
     internal open fun parseSubDirectories() {
         browserActor.post(ParseSubDirectories)
     }
@@ -129,14 +145,16 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     open suspend fun refreshImpl() {
         browserChannel = Channel(Channel.UNLIMITED)
         requestBrowsing(url)
-        dataset.value = browserChannel.mapNotNullTo(mutableListOf()) { findMedia(it) }
+        val value: MutableList<MediaLibraryItem> = browserChannel.mapNotNullTo(mutableListOf()) { findMedia(it) }
+        computeHeaders(value)
+        dataset.value = value
         parseSubDirectories()
         loading.value = false
     }
 
     private suspend fun parseSubDirectoriesImpl() {
         if (dataset.value.isEmpty()) return
-        val currentMediaList = withContext(Dispatchers.Main) { dataset.value.toList() }
+        val currentMediaList = withContext(Dispatchers.Main) { dataset.value.toList().also { if (url != null) computeHeaders(dataset.value) } }
         val directories: MutableList<MediaWrapper> = ArrayList()
         val files: MutableList<MediaWrapper> = ArrayList()
         foldersContentMap.clear()

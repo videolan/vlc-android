@@ -24,7 +24,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class NetworkModel(context: Context, url: String? = null, showHiddenFiles: Boolean): BrowserModel(context, url, TYPE_NETWORK, showHiddenFiles) {
+class NetworkModel(context: Context, url: String? = null, showHiddenFiles: Boolean) : BrowserModel(context, url, TYPE_NETWORK, showHiddenFiles, true) {
 
     class Factory(val context: Context, val url: String?, private val showHiddenFiles: Boolean): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

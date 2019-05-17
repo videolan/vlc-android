@@ -118,8 +118,8 @@ const val CATEGORY_GENRES = 23L
 const val CATEGORY_SONGS = 24L
 const val CATEGORY_VIDEOS = 25L
 
-const val AUDIO_CATEGORY = "category"
-const val AUDIO_ITEM = "item"
+const val CATEGORY = "category"
+const val ITEM = "item"
 const val KEY_GROUP = "key_group"
 const val KEY_FOLDER = "key_folder"
 

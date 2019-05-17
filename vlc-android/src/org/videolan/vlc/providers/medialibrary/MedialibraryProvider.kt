@@ -21,9 +21,6 @@
 package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
-import androidx.annotation.MainThread
-import androidx.collection.SparseArrayCompat
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.Config
 import androidx.paging.DataSource
@@ -34,15 +31,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.vlc.providers.HeaderProvider
+import org.videolan.vlc.providers.HeadersIndex
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.SortableModel
 
-typealias HeadersIndex = SparseArrayCompat<String>
-abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: SortableModel) {
+abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: SortableModel) : HeaderProvider() {
     protected val medialibrary = Medialibrary.getInstance()
     val loading = MutableLiveData<Boolean>().apply { value = false }
-    private val headers = HeadersIndex()
-    val liveHeaders : LiveData<HeadersIndex> = MutableLiveData<HeadersIndex>()
+
 
     protected open val sortKey : String = this.javaClass.simpleName
     var sort = Medialibrary.SORT_DEFAULT
@@ -116,32 +113,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         }
     }
 
-    @MainThread
-    fun getSectionforPosition(position: Int): String {
-        for (pos in headers.size()-1 downTo 0) if (position >= headers.keyAt(pos)) return headers.valueAt(pos)
-        return ""
-    }
 
-
-    @MainThread
-    fun isFirstInSection(position: Int): Boolean {
-        return headers.containsKey(position)
-    }
-
-    @MainThread
-    fun getPositionForSection(position: Int): Int {
-        for (pos in headers.size()-1 downTo 0) if (position >= headers.keyAt(pos)) return headers.keyAt(pos)
-        return 0
-    }
-
-    @MainThread
-    fun getPositionForSectionByName(header: String): Int {
-        for (pos in headers.size() - 1 downTo 0) if (headers.valueAt(pos) == header) return headers.keyAt(pos)
-        return 0
-    }
-
-    @MainThread
-    fun getHeaderForPostion(position: Int) = headers.get(position)
 
     inner class MLDataSource : PositionalDataSource<T>() {
 

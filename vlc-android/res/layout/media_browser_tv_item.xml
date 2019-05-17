@@ -49,7 +49,7 @@
 
         <variable
             name="holder"
-            type="org.videolan.vlc.gui.tv.TvItemAdapter.MediaItemTVViewHolder" />
+            type="org.videolan.vlc.gui.tv.MediaTvItemAdapter.AbstractMediaItemViewHolder" />
     </data>
 
     <org.videolan.vlc.gui.tv.FocusableConstraintLayout

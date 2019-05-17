@@ -37,6 +37,7 @@ import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment
 import org.videolan.vlc.interfaces.Sortable
 import org.videolan.vlc.util.*
+import org.videolan.vlc.viewmodels.browser.TYPE_FILE
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -53,8 +54,8 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
             if (type == HEADER_VIDEO) {
                 fragment = MediaBrowserTvFragment.newInstance(CATEGORY_VIDEOS, null)
             } else if (type == HEADER_CATEGORIES) {
-                val audioCategory = intent.getLongExtra(AUDIO_CATEGORY, CATEGORY_SONGS)
-                val item = intent.getParcelableExtra<MediaLibraryItem>(AUDIO_ITEM)
+                val audioCategory = intent.getLongExtra(CATEGORY, CATEGORY_SONGS)
+                val item = intent.getParcelableExtra<MediaLibraryItem>(ITEM)
                 when (audioCategory) {
                     CATEGORY_SONGS -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_SONGS, item)
                     CATEGORY_ALBUMS -> fragment = MediaBrowserTvFragment.newInstance(CATEGORY_ALBUMS, item)
@@ -69,7 +70,7 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
                 else
                     fragment = NetworkBrowserFragment()
             } else if (type == HEADER_DIRECTORIES) {
-                fragment = DirectoryBrowserFragment()
+                fragment = FileBrowserTvFragment.newInstance(TYPE_FILE, null)
             } else {
                 finish()
                 return

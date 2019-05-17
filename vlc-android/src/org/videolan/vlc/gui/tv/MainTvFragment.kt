@@ -195,7 +195,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
                 }
                 val intent = Intent(activity, VerticalGridActivity::class.java)
                 intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_CATEGORIES)
-                intent.putExtra(AUDIO_CATEGORY, item.id)
+                intent.putExtra(CATEGORY, item.id)
                 activity.startActivity(intent)
             }
             HEADER_MISC -> {

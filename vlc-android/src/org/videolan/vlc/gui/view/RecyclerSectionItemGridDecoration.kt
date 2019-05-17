@@ -10,12 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
-import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
+import org.videolan.vlc.providers.HeaderProvider
 import org.videolan.vlc.util.Settings
 
 private const val TAG = "RecyclerSectionItemDecoration"
 
-class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private val space: Int, private val sticky: Boolean, private val nbColumns: Int, private val provider: MedialibraryProvider<*>) : RecyclerView.ItemDecoration() {
+class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private val space: Int, private val sticky: Boolean, private val nbColumns: Int, private val provider: HeaderProvider) : RecyclerView.ItemDecoration() {
 
     private lateinit var headerView: View
     private lateinit var header: TextView
@@ -28,26 +28,25 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
         outRect.top = space
         outRect.bottom = space
 
-
         val pos = parent.getChildAdapterPosition(view)
         for (i in 0 until nbColumns) {
             if ((pos - i) >= 0 && provider.isFirstInSection(pos - i)) {
                 outRect.top = headerOffset + space
             }
         }
-
-
     }
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(c, parent, state)
+        if (provider.headers.isEmpty) {
+            return
+        }
 
         if (!::headerView.isInitialized) {
             headerView = inflateHeaderView(parent)
             header = headerView.findViewById(R.id.section_header) as TextView
             fixLayoutSize(headerView, parent)
         }
-
 
         //draw current header
         //look if previous header has been drawn
@@ -82,8 +81,6 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
                 drawnPositions.add(i)
             }
         }
-
-
     }
 
     private fun drawHeader(c: Canvas, child: View, headerView: View) {
@@ -105,7 +102,6 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
             return LayoutInflater.from(parent.context).inflate(R.layout.recycler_section_header_tv, parent, false)
         }
         return LayoutInflater.from(parent.context).inflate(R.layout.recycler_section_header, parent, false)
-
     }
 
     /**
@@ -123,5 +119,4 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
 
         view.layout(0, 0, view.measuredWidth, view.measuredHeight)
     }
-
 }
