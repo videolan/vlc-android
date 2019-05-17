@@ -218,6 +218,7 @@
     <string name="playback_speed_summary">Memorizar a velocidade de reprodução definida</string>
 
     <string name="play_button">Botão de Reproduzir</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Dicas do reprodutor de vídeo:</string>
     <string name="seek">Pesquisar</string>
@@ -680,4 +681,6 @@
     <string name="device_default">Predefinido do dispositivo</string>
     <string name="track_number">%s faixas</string>
     <string name="jump_to">Saltar para</string>
+    <string name="show_video_thumbnails_summary">Mostrar miniaturas dos vídeos nas listas</string>
+    <string name="show_video_thumbnails">Miniaturas dos vídeos</string>
 </resources>
