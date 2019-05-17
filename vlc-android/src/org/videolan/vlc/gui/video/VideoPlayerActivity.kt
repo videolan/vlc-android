@@ -323,7 +323,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             return if (forcedTime == -1L) time else forcedTime
         }
 
-    private var hudBinding: PlayerHudBinding? = null
+    private lateinit var hudBinding: PlayerHudBinding
     private var seekButtons: Boolean = false
     private var hasPlaylist: Boolean = false
 
@@ -516,7 +516,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
     private fun setListeners(enabled: Boolean) {
-        if (hudBinding != null) hudBinding!!.playerOverlaySeekbar.setOnSeekBarChangeListener(if (enabled) seekListener else null)
+        if (::hudBinding.isInitialized) hudBinding.playerOverlaySeekbar.setOnSeekBarChangeListener(if (enabled) seekListener else null)
         if (navMenu != null) navMenu!!.setOnClickListener(if (enabled) this else null)
         if (orientationToggle != null) {
             orientationToggle!!.setOnClickListener(if (enabled) this else null)
@@ -654,8 +654,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     fun resetHudLayout() {
-        if (hudBinding == null) return
-        val layoutParams = hudBinding!!.playerOverlayButtons.layoutParams as RelativeLayout.LayoutParams
+        if (!::hudBinding.isInitialized) return
+        val layoutParams = hudBinding.playerOverlayButtons.layoutParams as RelativeLayout.LayoutParams
         val orientation = getScreenOrientation(100)
         val portrait = orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT || orientation == ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
         layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START, if (portrait) 1 else 0)
@@ -663,7 +663,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         layoutParams.addRule(RelativeLayout.BELOW, if (portrait) R.id.player_overlay_length else R.id.player_overlay_seekbar)
         layoutParams.addRule(RelativeLayout.END_OF, if (portrait) 0 else R.id.player_overlay_time)
         layoutParams.addRule(RelativeLayout.START_OF, if (portrait) 0 else R.id.player_overlay_length)
-        hudBinding!!.playerOverlayButtons.layoutParams = layoutParams
+        hudBinding.playerOverlayButtons.layoutParams = layoutParams
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -787,9 +787,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 playlistModel!!.dataset.observe(this, playlistObserver)
             }
             playlistToggle.setVisible()
-            if (hudBinding != null) {
-                hudBinding!!.playlistPrevious.setVisible()
-                hudBinding!!.playlistNext.setVisible()
+            if (::hudBinding.isInitialized) {
+                hudBinding.playlistPrevious.setVisible()
+                hudBinding.playlistNext.setVisible()
             }
             playlistToggle!!.setOnClickListener(this@VideoPlayerActivity)
 
@@ -992,7 +992,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 return true
             }
             KeyEvent.KEYCODE_BUTTON_A -> {
-                if (hudBinding != null && hudBinding!!.progressOverlay.isVisible())
+                if (::hudBinding.isInitialized && hudBinding.progressOverlay.isVisible())
                     return false
                 when {
                     isNavMenu -> return navigateDvdMenu(keyCode)
@@ -1016,7 +1016,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 return true
             }
             KeyEvent.KEYCODE_V, KeyEvent.KEYCODE_MEDIA_AUDIO_TRACK, KeyEvent.KEYCODE_BUTTON_X -> {
-                onAudioSubClick(if (hudBinding != null) hudBinding!!.playerOverlayTracks else null)
+                onAudioSubClick(if (::hudBinding.isInitialized) hudBinding.playerOverlayTracks else null)
                 return true
             }
             KeyEvent.KEYCODE_N -> {
@@ -1375,7 +1375,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             }
             overlayInfo.setInvisible()
             info!!.text = ""
-            if (hudBinding != null) hudBinding!!.playerOverlayPlay.requestFocus()
+            if (::hudBinding.isInitialized) hudBinding.playerOverlayPlay.requestFocus()
         }
     }
 
@@ -1419,14 +1419,14 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 getScreenOrientation(100)
         }
         showInfo(R.string.locked, 1000)
-        if (hudBinding != null) {
-            hudBinding!!.lockOverlayButton.setImageResource(R.drawable.ic_locked_circle)
-            hudBinding!!.playerOverlayTime.isEnabled = false
-            hudBinding!!.playerOverlaySeekbar.isEnabled = false
-            hudBinding!!.playerOverlayLength.isEnabled = false
-            hudBinding!!.playerOverlaySize.isEnabled = false
-            hudBinding!!.playlistNext.isEnabled = false
-            hudBinding!!.playlistPrevious.isEnabled = false
+        if (::hudBinding.isInitialized) {
+            hudBinding.lockOverlayButton.setImageResource(R.drawable.ic_locked_circle)
+            hudBinding.playerOverlayTime.isEnabled = false
+            hudBinding.playerOverlaySeekbar.isEnabled = false
+            hudBinding.playerOverlayLength.isEnabled = false
+            hudBinding.playerOverlaySize.isEnabled = false
+            hudBinding.playlistNext.isEnabled = false
+            hudBinding.playlistPrevious.isEnabled = false
         }
         hideOverlay(true)
         lockBackButton = true
@@ -1440,14 +1440,14 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         if (screenOrientation != 100)
             requestedOrientation = screenOrientationLock
         showInfo(R.string.unlocked, 1000)
-        if (hudBinding != null) {
-            hudBinding!!.lockOverlayButton.setImageResource(R.drawable.ic_lock_circle)
-            hudBinding!!.playerOverlayTime.isEnabled = true
-            hudBinding!!.playerOverlaySeekbar.isEnabled = service?.isSeekable != false
-            hudBinding!!.playerOverlayLength.isEnabled = true
-            hudBinding!!.playerOverlaySize.isEnabled = true
-            hudBinding!!.playlistNext.isEnabled = true
-            hudBinding!!.playlistPrevious.isEnabled = true
+        if (::hudBinding.isInitialized) {
+            hudBinding.lockOverlayButton.setImageResource(R.drawable.ic_lock_circle)
+            hudBinding.playerOverlayTime.isEnabled = true
+            hudBinding.playerOverlaySeekbar.isEnabled = service?.isSeekable != false
+            hudBinding.playerOverlayLength.isEnabled = true
+            hudBinding.playerOverlaySize.isEnabled = true
+            hudBinding.playlistNext.isEnabled = true
+            hudBinding.playlistPrevious.isEnabled = true
         }
         isShowing = false
         isLocked = false
@@ -2006,26 +2006,26 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
     private fun updateSeekable(seekable: Boolean) {
-        if (hudBinding == null) return
-        hudBinding!!.playerOverlayRewind.isEnabled = seekable
-        hudBinding!!.playerOverlayRewind.setImageResource(if (seekable)
+        if (!::hudBinding.isInitialized) return
+        hudBinding.playerOverlayRewind.isEnabled = seekable
+        hudBinding.playerOverlayRewind.setImageResource(if (seekable)
             R.drawable.ic_rewind_circle
         else
             R.drawable.ic_rewind_circle_disable_o)
-        hudBinding!!.playerOverlayForward.isEnabled = seekable
-        hudBinding!!.playerOverlayForward.setImageResource(if (seekable)
+        hudBinding.playerOverlayForward.isEnabled = seekable
+        hudBinding.playerOverlayForward.setImageResource(if (seekable)
             R.drawable.ic_forward_circle
         else
             R.drawable.ic_forward_circle_disable_o)
         if (!isLocked)
-            hudBinding!!.playerOverlaySeekbar.isEnabled = seekable
+            hudBinding.playerOverlaySeekbar.isEnabled = seekable
     }
 
     private fun updatePausable(pausable: Boolean) {
-        if (hudBinding == null) return
-        hudBinding!!.playerOverlayPlay.isEnabled = pausable
+        if (!::hudBinding.isInitialized) return
+        hudBinding.playerOverlayPlay.isEnabled = pausable
         if (!pausable)
-            hudBinding!!.playerOverlayPlay.setImageResource(R.drawable.ic_play_circle_disable_o)
+            hudBinding.playerOverlayPlay.setImageResource(R.drawable.ic_play_circle_disable_o)
     }
 
     fun doPlayPause() {
@@ -2073,11 +2073,11 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initSeekButton() {
-        if (hudBinding == null) return
-        hudBinding!!.playerOverlayRewind.setOnClickListener(this)
-        hudBinding!!.playerOverlayForward.setOnClickListener(this)
-        hudBinding!!.playerOverlayRewind.setOnTouchListener(OnRepeatListener(this))
-        hudBinding!!.playerOverlayForward.setOnTouchListener(OnRepeatListener(this))
+        if (!::hudBinding.isInitialized) return
+        hudBinding.playerOverlayRewind.setOnClickListener(this)
+        hudBinding.playerOverlayForward.setOnClickListener(this)
+        hudBinding.playerOverlayRewind.setOnTouchListener(OnRepeatListener(this))
+        hudBinding.playerOverlayForward.setOnTouchListener(OnRepeatListener(this))
     }
 
     fun resizeVideo() = service?.run {
@@ -2117,7 +2117,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         service?.let { service ->
             if (isInPictureInPictureMode) return
             initOverlay()
-            if (hudBinding == null) return
+            if (!::hudBinding.isInitialized) return
             overlayTimeout = when {
                 timeout != 0 -> timeout
                 service.isPlaying -> OVERLAY_TIMEOUT
@@ -2133,7 +2133,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     showControls(true)
                 }
                 dimStatusBar(false)
-                if (hudBinding != null) hudBinding!!.progressOverlay.setVisible()
+                hudBinding.progressOverlay.setVisible()
                 if (!displayManager.isPrimary)
                     overlayBackground.setVisible()
                 updateOverlayPausePlay()
@@ -2146,18 +2146,18 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     private fun showControls(show: Boolean) {
         if (show && isInPictureInPictureMode) return
-        if (hudBinding != null) {
-            hudBinding!!.playerOverlayPlay.visibility = if (show) View.VISIBLE else View.INVISIBLE
+        if (::hudBinding.isInitialized) {
+            hudBinding.playerOverlayPlay.visibility = if (show) View.VISIBLE else View.INVISIBLE
             if (seekButtons) {
-                hudBinding!!.playerOverlayRewind.visibility = if (show) View.VISIBLE else View.INVISIBLE
-                hudBinding!!.playerOverlayForward.visibility = if (show) View.VISIBLE else View.INVISIBLE
+                hudBinding.playerOverlayRewind.visibility = if (show) View.VISIBLE else View.INVISIBLE
+                hudBinding.playerOverlayForward.visibility = if (show) View.VISIBLE else View.INVISIBLE
             }
-            if (displayManager.isPrimary) hudBinding!!.playerOverlaySize.visibility = if (show) View.VISIBLE else View.INVISIBLE
-            hudBinding!!.playerOverlayTracks.visibility = if (show) View.VISIBLE else View.INVISIBLE
-            hudBinding!!.playerOverlayAdvFunction.visibility = if (show) View.VISIBLE else View.INVISIBLE
+            if (displayManager.isPrimary) hudBinding.playerOverlaySize.visibility = if (show) View.VISIBLE else View.INVISIBLE
+            hudBinding.playerOverlayTracks.visibility = if (show) View.VISIBLE else View.INVISIBLE
+            hudBinding.playerOverlayAdvFunction.visibility = if (show) View.VISIBLE else View.INVISIBLE
             if (hasPlaylist) {
-                hudBinding!!.playlistPrevious.visibility = if (show) View.VISIBLE else View.INVISIBLE
-                hudBinding!!.playlistNext.visibility = if (show) View.VISIBLE else View.INVISIBLE
+                hudBinding.playlistPrevious.visibility = if (show) View.VISIBLE else View.INVISIBLE
+                hudBinding.playlistNext.visibility = if (show) View.VISIBLE else View.INVISIBLE
             }
         }
     }
@@ -2169,16 +2169,16 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             if (vsc != null) {
                 seekButtons = settings.getBoolean(ENABLE_SEEK_BUTTONS, false)
                 vsc.inflate()
-                hudBinding = DataBindingUtil.bind(findViewById(R.id.progress_overlay))
-                hudBinding!!.player = this
-                hudBinding!!.progress = service.playlistManager.player.progress
-                hudBinding!!.lifecycleOwner = this
-                val layoutParams = hudBinding!!.progressOverlay.layoutParams as RelativeLayout.LayoutParams
+                hudBinding = DataBindingUtil.bind(findViewById(R.id.progress_overlay)) ?: return
+                hudBinding.player = this
+                hudBinding.progress = service.playlistManager.player.progress
+                hudBinding.lifecycleOwner = this
+                val layoutParams = hudBinding.progressOverlay.layoutParams as RelativeLayout.LayoutParams
                 if (AndroidDevices.isPhone || !AndroidDevices.hasNavBar)
                     layoutParams.width = LayoutParams.MATCH_PARENT
                 else
                     layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE)
-                hudBinding!!.progressOverlay.layoutParams = layoutParams
+                hudBinding.progressOverlay.layoutParams = layoutParams
                 overlayBackground = findViewById(R.id.player_overlay_background)
                 navMenu = findViewById(R.id.player_overlay_navmenu)
                 if (!AndroidDevices.isChromeBook && !isTv
@@ -2196,15 +2196,15 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 setListeners(true)
                 initPlaylistUi()
                 if (!displayManager.isPrimary) {
-                    hudBinding!!.lockOverlayButton.setGone()
-                    hudBinding!!.playerOverlaySize.setGone()
+                    hudBinding.lockOverlayButton.setGone()
+                    hudBinding.playerOverlaySize.setGone()
                 }
 
                 if (!isTv && !AndroidDevices.isChromeBook)
                     orientationToggle.setVisible()
-            } else if (hudBinding != null) {
-                hudBinding!!.progress = service.playlistManager.player.progress
-                hudBinding!!.lifecycleOwner = this
+            } else if (::hudBinding.isInitialized) {
+                hudBinding.progress = service.playlistManager.player.progress
+                hudBinding.lifecycleOwner = this
             }
         }
     }
@@ -2222,7 +2222,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 overlayBackground?.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out))
                 overlayBackground.setInvisible()
             }
-            if (hudBinding != null) hudBinding!!.progressOverlay.setInvisible()
+            if (::hudBinding.isInitialized) hudBinding.progressOverlay.setInvisible()
             showControls(false)
             isShowing = false
             dimStatusBar(true)
@@ -2281,14 +2281,14 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
     private fun updateOverlayPausePlay() {
-        if (hudBinding == null) return
+        if (!::hudBinding.isInitialized) return
         service?.let { service ->
             if (service.isPausable)
-                hudBinding!!.playerOverlayPlay.setImageResource(if (service.isPlaying)
+                hudBinding.playerOverlayPlay.setImageResource(if (service.isPlaying)
                     R.drawable.ic_pause_circle
                 else
                     R.drawable.ic_play_circle)
-            hudBinding!!.playerOverlayPlay.requestFocus()
+            hudBinding.playerOverlayPlay.requestFocus()
         }
     }
 
