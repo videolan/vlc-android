@@ -101,7 +101,7 @@ fun placeHolderView(v: View, item: MediaLibraryItem?) {
 
 }
 
-fun isForTV(binding: ViewDataBinding?) = (binding is MediaBrowserTvItemBinding)
+fun isForTV(binding: ViewDataBinding?) = (binding is MediaBrowserTvItemBinding) || binding is MediaBrowserTvItemBinding
 
 @MainThread
 @BindingAdapter("placeholderImage")

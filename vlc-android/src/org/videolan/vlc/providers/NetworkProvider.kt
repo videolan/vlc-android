@@ -44,6 +44,7 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
     }
 
     override suspend fun browseRootImpl() {
+        dataset.clear()
         if (ExternalMonitor.allowLan()) browse()
     }
 
@@ -51,16 +52,20 @@ class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
 
     override fun refresh() {
         val list by lazy(LazyThreadSafetyMode.NONE) { getList(url!!) }
-        if (url == null) {
-            dataset.value = mutableListOf<MediaLibraryItem>().apply {
-                getFavoritesList(favorites?.value)?.let { addAll(it) }
+        when {
+            url == null -> {
+                dataset.value = mutableListOf<MediaLibraryItem>().apply {
+                    getFavoritesList(favorites?.value)?.let { addAll(it) }
+                }
+                browseRoot()
             }
-            browseRoot()
-        } else if (list !== null) {
-            dataset.value = list as MutableList<MediaLibraryItem>
-            removeList(url)
-            parseSubDirectories()
-        } else super.refresh()
+            list !== null -> {
+                dataset.value = list as MutableList<MediaLibraryItem>
+                removeList(url)
+                parseSubDirectories()
+            }
+            else -> super.refresh()
+        }
 
     }
 

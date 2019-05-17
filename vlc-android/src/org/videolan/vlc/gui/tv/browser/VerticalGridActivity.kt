@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.tv_vertical_grid.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.MainTvActivity
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserActivityInterface
@@ -38,6 +39,7 @@ import org.videolan.vlc.gui.tv.browser.interfaces.DetailsFragment
 import org.videolan.vlc.interfaces.Sortable
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.browser.TYPE_FILE
+import org.videolan.vlc.viewmodels.browser.TYPE_NETWORK
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -65,10 +67,10 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
             } else if (type == HEADER_NETWORK) {
                 var uri = intent.data
                 if (uri == null) uri = intent.getParcelableExtra(KEY_URI)
-                if (uri == null)
-                    fragment = BrowserGridFragment()
-                else
-                    fragment = NetworkBrowserFragment()
+
+                val item = if (uri == null) null else MediaWrapper(uri)
+
+                fragment = FileBrowserTvFragment.newInstance(TYPE_NETWORK, item)
             } else if (type == HEADER_DIRECTORIES) {
                 fragment = FileBrowserTvFragment.newInstance(TYPE_FILE, null)
             } else {

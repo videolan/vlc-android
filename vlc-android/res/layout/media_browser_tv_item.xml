@@ -50,6 +50,7 @@
         <variable
             name="holder"
             type="org.videolan.vlc.gui.tv.MediaTvItemAdapter.AbstractMediaItemViewHolder" />
+
     </data>
 
     <org.videolan.vlc.gui.tv.FocusableConstraintLayout
@@ -79,6 +80,7 @@
             android:background="@color/lb_details_overview_bg_color"
             tools:srcCompat="@drawable/ic_album_big"
             vlc:constraintRatio="@{isSquare}"
+            android:src="@{cover}"
             vlc:layout_constraintEnd_toEndOf="parent"
             vlc:layout_constraintStart_toStartOf="parent"
             vlc:layout_constraintTop_toTopOf="parent"

@@ -7,7 +7,6 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -24,7 +23,8 @@ import org.videolan.vlc.util.generateResolutionClass
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, var itemSize: Int) : DiffUtilAdapter<MediaLibraryItem, MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
+class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, var itemSize: Int) : DiffUtilAdapter<MediaLibraryItem, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
+
     override fun submitList(pagedList: Any?) {
 
         if (pagedList is List<*>) {
@@ -47,13 +47,13 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
         mDefaultCover = if (ctx != null) getAudioIconDrawable(ctx, type) else null
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding> {
         val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val binding = MediaBrowserTvItemBinding.inflate(inflater, parent, false)
-        return MediaItemTVViewHolder(binding, eventsHandler) as MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>
+        return MediaItemTVViewHolder(binding, eventsHandler)
     }
 
-    override fun onBindViewHolder(holder: MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>, position: Int) {
+    override fun onBindViewHolder(holder: MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>, position: Int) {
         if (position >= itemCount) return
         val item = getItem(position)
         holder.setItem(item)

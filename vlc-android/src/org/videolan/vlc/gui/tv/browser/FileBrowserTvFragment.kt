@@ -17,8 +17,8 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.FileTvItemAdapter
 import org.videolan.vlc.gui.tv.TvItemAdapter
+import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.interfaces.IEventsHandler
-import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.BrowserProvider
 import org.videolan.vlc.util.CATEGORY
 import org.videolan.vlc.util.ITEM
@@ -123,10 +123,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
 
         mediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
         if (mediaWrapper.type == MediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
-        else MediaUtils.openMedia(v.context, mediaWrapper)
-
-        //todo
-//         launch { TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider as MedialibraryProvider<out MediaLibraryItem>) }
+        else TvUtil.openMedia(requireActivity(), item, viewModel as BrowserModel)
     }
 
     fun browse(media: MediaWrapper, save: Boolean) {

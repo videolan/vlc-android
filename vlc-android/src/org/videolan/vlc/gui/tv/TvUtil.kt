@@ -54,6 +54,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.BaseModel
+import org.videolan.vlc.viewmodels.browser.BrowserModel
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -146,6 +147,54 @@ object TvUtil {
                         val position = list.getposition(item)
                         MediaUtils.openList(activity, list, position)
                     } ?: MediaUtils.openMedia(activity, item)
+                }
+            }
+            is DummyItem -> when {
+                item.id == HEADER_STREAM -> {
+                    val intent = Intent(activity, TVActivity::class.java)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_STREAM)
+                    activity.startActivity(intent)
+                }
+                item.id == HEADER_SERVER -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SERVER)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                else -> {
+                    val intent = Intent(activity, VerticalGridActivity::class.java)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, item.id)
+                    activity.startActivity(intent)
+                }
+            }
+            is MediaLibraryItem -> openAudioCategory(activity, item)
+        }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun openMedia(activity: FragmentActivity, item: Any?, model: BrowserModel) {
+        when (item) {
+            is MediaWrapper -> when {
+                item.type == MediaWrapper.TYPE_AUDIO -> {
+                    val list = (model.dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                    val position = list.getposition(item)
+                    playAudioList(activity, list, position)
+                }
+                item.type == MediaWrapper.TYPE_DIR -> {
+                    val intent = Intent(activity, VerticalGridActivity::class.java)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
+                    intent.data = item.uri
+                    activity.startActivity(intent)
+                }
+                item.type == MediaWrapper.TYPE_GROUP -> {
+                    val intent = Intent(activity, VerticalGridActivity::class.java)
+                    intent.putExtra(MainTvActivity.BROWSER_TYPE, HEADER_VIDEO)
+                    val title = item.title.substring(if (item.title.toLowerCase().startsWith("the")) 4 else 0)
+                    intent.putExtra(KEY_GROUP, title)
+                    activity.startActivity(intent)
+                }
+                else -> {
+                    model.run {
+                        val list = (dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                        val position = list.getposition(item)
+                        MediaUtils.openList(activity, list, position)
+                    }
                 }
             }
             is DummyItem -> when {
@@ -296,7 +345,7 @@ object TvUtil {
                 val mw = mediaLibraryItem as MediaWrapper
                 return when {
                     mw.type == MediaWrapper.TYPE_VIDEO -> R.drawable.ic_browser_video_big_normal
-                    else -> if (mw.type == MediaWrapper.TYPE_DIR && TextUtils.equals(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, mw.location))
+                    else -> if (mw.type == MediaWrapper.TYPE_DIR)
                         R.drawable.ic_menu_folder_big
                     else
                         R.drawable.ic_song_big
