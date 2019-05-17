@@ -36,9 +36,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.TvAudioPlayerBinding
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -49,6 +49,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.PlayerState
 import org.videolan.vlc.viewmodels.PlaylistModel
+import java.lang.Runnable
 import java.util.*
 
 @ObsoleteCoroutinesApi
@@ -112,23 +113,21 @@ class AudioPlayerActivity : BaseTvActivity() {
         updateBackground()
     }
 
-    private fun updateBackground() {
-        val width = if (binding.albumCover.width > 0) binding.albumCover.width else this.getScreenWidth()
-        runIO(Runnable {
-            val cover = AudioUtil.readCoverBitmap(Uri.decode(currentCoverArt), width)
-            val blurredCover = if (cover != null) UiTools.blurBitmap(cover) else null
-            runOnMainThread(Runnable {
-                if (cover == null) {
-                    binding.albumCover.setImageResource(R.drawable.ic_no_artwork_big)
-                    binding.background.clearColorFilter()
-                    binding.background.setImageResource(0)
-                } else {
-                    binding.albumCover.setImageBitmap(cover)
-                    binding.background.setColorFilter(UiTools.getColorFromAttribute(binding.background.context, R.attr.audio_player_background_tint))
-                    binding.background.setImageBitmap(blurredCover)
-                }
-            })
-        })
+    private fun updateBackground() = launch {
+        if (!isStarted()) return@launch
+        val width = if (binding.albumCover.width > 0) binding.albumCover.width else this@AudioPlayerActivity.getScreenWidth()
+        val cover = withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(currentCoverArt), width) }
+        val blurredCover = if (cover != null) withContext(Dispatchers.Default) { UiTools.blurBitmap(cover) } else null
+        if (!isStarted()) return@launch
+        if (cover == null) {
+            binding.albumCover.setImageResource(R.drawable.ic_no_artwork_big)
+            binding.background.clearColorFilter()
+            binding.background.setImageResource(0)
+        } else {
+            binding.albumCover.setImageBitmap(cover)
+            binding.background.setColorFilter(UiTools.getColorFromAttribute(binding.background.context, R.attr.audio_player_background_tint))
+            binding.background.setImageBitmap(blurredCover)
+        }
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {

@@ -33,3 +33,5 @@ fun <T> List<T>.getposition(target: T) : Int {
     for ((index, item) in withIndex()) if (item == target) return index
     return -1
 }
+
+fun LifecycleOwner.isStarted() = lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)

@@ -67,7 +67,7 @@ private const val ACTION_HIDE_PLAYER = 1341
 @SuppressLint("Registered")
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-open class AudioPlayerContainerActivity : BaseActivity(), CoroutineScope by MainScope() {
+open class AudioPlayerContainerActivity : BaseActivity() {
 
     protected lateinit var appBarLayout: AppBarLayout
     protected lateinit var toolbar: Toolbar

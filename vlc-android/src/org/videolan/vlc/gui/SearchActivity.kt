@@ -19,17 +19,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.SearchAggregate
+import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.SearchActivityBinding
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.applyTheme
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.runIO
-import org.videolan.vlc.util.runOnMainThread
 
 open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorActionListener {
 
@@ -64,20 +66,19 @@ open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorAction
 
     private fun performSearh(query: String?) {
         if (query == null || query.length < 3) return
-        runIO(Runnable {
-            val searchAggregate = medialibrary.search(query)
+        launch {
+            val searchAggregate = withContext(Dispatchers.IO) { medialibrary.search(query) }
+            if (!isStarted()) return@launch
             binding.searchAggregate = searchAggregate
             if (searchAggregate != null) {
-                runOnMainThread(Runnable {
-                    (binding.albumsResults.adapter as SearchResultAdapter).add(searchAggregate.albums.filterNotNull().toTypedArray())
-                    (binding.artistsResults.adapter as SearchResultAdapter).add(searchAggregate.artists.filterNotNull().toTypedArray())
-                    (binding.genresResults.adapter as SearchResultAdapter).add(searchAggregate.genres.filterNotNull().toTypedArray())
-                    (binding.playlistsResults.adapter as SearchResultAdapter).add(searchAggregate.playlists.filterNotNull().toTypedArray())
-                    (binding.othersResults.adapter as SearchResultAdapter).add(searchAggregate.videos.filterNotNull().toTypedArray())
-                    (binding.songsResults.adapter as SearchResultAdapter).add(searchAggregate.tracks.filterNotNull().toTypedArray())
-                })
+                (binding.albumsResults.adapter as SearchResultAdapter).add(searchAggregate.albums.filterNotNull().toTypedArray())
+                (binding.artistsResults.adapter as SearchResultAdapter).add(searchAggregate.artists.filterNotNull().toTypedArray())
+                (binding.genresResults.adapter as SearchResultAdapter).add(searchAggregate.genres.filterNotNull().toTypedArray())
+                (binding.playlistsResults.adapter as SearchResultAdapter).add(searchAggregate.playlists.filterNotNull().toTypedArray())
+                (binding.othersResults.adapter as SearchResultAdapter).add(searchAggregate.videos.filterNotNull().toTypedArray())
+                (binding.songsResults.adapter as SearchResultAdapter).add(searchAggregate.tracks.filterNotNull().toTypedArray())
             }
-        })
+        }
     }
 
     private fun initializeLists() {

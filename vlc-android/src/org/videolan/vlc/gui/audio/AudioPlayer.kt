@@ -56,7 +56,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.tools.coroutineScope
+import org.videolan.tools.isStarted
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -78,13 +78,13 @@ private const val SEARCH_TIMEOUT_MILLIS = 10000L
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 @Suppress("UNUSED_PARAMETER")
-class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
+class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineScope by MainScope() {
 
     private lateinit var binding: AudioPlayerBinding
     private lateinit var playlistAdapter: PlaylistAdapter
     private lateinit var settings: SharedPreferences
     private val handler by lazy(LazyThreadSafetyMode.NONE) { Handler() }
-    private val updateActor = coroutineScope.actor<Unit>(capacity = Channel.CONFLATED) { for (entry in channel) doUpdate() }
+    private val updateActor = actor<Unit>(capacity = Channel.CONFLATED) { for (entry in channel) doUpdate() }
     private lateinit var playlistModel: PlaylistModel
     private lateinit var optionsDelegate: PlayerOptionsDelegate
 
@@ -262,18 +262,18 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun updateBackground() {
         if (settings.getBoolean("blurred_cover_background", true)) {
-            coroutineScope.launch {
+            launch {
                 val mw = playlistModel.currentMediaWrapper
-                if (mw === null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return@launch
+                if (!isStarted() || mw === null || TextUtils.equals(currentCoverArt, mw.artworkMrl)) return@launch
                 currentCoverArt = mw.artworkMrl
                 if (TextUtils.isEmpty(mw.artworkMrl)) {
                     setDefaultBackground()
                 } else {
                     val width = if (binding.contentLayout.width > 0) binding.contentLayout.width else activity?.getScreenWidth() ?: return@launch
                     val blurredCover = withContext(Dispatchers.IO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width)) }
+                    if (!isStarted()) return@launch
                     if (blurredCover !== null) {
-                        val activity = activity as? AudioPlayerContainerActivity
-                        if (activity === null) return@launch
+                        val activity = activity as? AudioPlayerContainerActivity ?: return@launch
                         binding.backgroundView.setColorFilter(UiTools.getColorFromAttribute(activity, R.attr.audio_player_background_tint))
                         binding.backgroundView.setImageBitmap(blurredCover)
                         binding.backgroundView.visibility = View.VISIBLE
