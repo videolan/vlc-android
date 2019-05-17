@@ -15,7 +15,6 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,12 +26,12 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.SearchActivityBinding
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.applyTheme
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.runIO
 import org.videolan.vlc.util.runOnMainThread
 
-open class SearchActivity : AppCompatActivity(), TextWatcher, TextView.OnEditorActionListener {
+open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorActionListener {
 
     private lateinit var medialibrary: Medialibrary
     private lateinit var binding: SearchActivityBinding
@@ -40,8 +39,7 @@ open class SearchActivity : AppCompatActivity(), TextWatcher, TextView.OnEditorA
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (Settings.getInstance(this).getBoolean("enable_black_theme", false))
-            setTheme(R.style.Theme_VLC_Black)
+        applyTheme()
         val intent = intent
         binding = DataBindingUtil.setContentView(this, R.layout.search_activity)
         binding.handler = clickHandler

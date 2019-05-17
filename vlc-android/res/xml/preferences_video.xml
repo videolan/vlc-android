@@ -4,15 +4,6 @@
     android:key="video_category"
     android:title="@string/video_prefs_category">
 
-    <ListPreference
-        android:defaultValue="6"
-        android:entries="@array/video_min_group_length_list"
-        android:entryValues="@array/video_min_group_length_values"
-        android:key="video_min_group_length"
-        android:persistent="true"
-        android:summary="@string/video_min_group_length_summary"
-        android:title="@string/video_min_group_length_title" />
-
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="media_seen"

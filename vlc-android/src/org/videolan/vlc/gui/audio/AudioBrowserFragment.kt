@@ -46,16 +46,12 @@ import org.videolan.vlc.gui.AudioPlayerContainerActivity
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.PlaylistActivity
 import org.videolan.vlc.gui.SecondaryActivity
-import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.CTX_PLAY_ALL
-import org.videolan.vlc.util.KEY_AUDIO_CURRENT_TAB
-import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.WeakHandler
+import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
 import java.util.*
@@ -114,7 +110,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
                 val intent = Intent(applicationContext, SecondaryActivity::class.java)
                 intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
                 startActivity(intent)
-                setResult(PreferencesActivity.RESULT_RESTART)
+                setResult(RESULT_RESTART)
             }
         }
     }

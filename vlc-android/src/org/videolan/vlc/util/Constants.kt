@@ -92,16 +92,6 @@ const val PLAY_DISABLE_HARDWARE = "disable_hardware"
 // MRLPanelFragment
 const val KEY_MRL = "mrl"
 
-// AudioPlayer
-const val PREF_PLAYLIST_TIPS_SHOWN = "playlist_tips_shown"
-const val PREF_AUDIOPLAYER_TIPS_SHOWN = "audioplayer_tips_shown"
-
-// Preferences
-const val KEY_ARTISTS_SHOW_ALL = "artists_show_all"
-const val KEY_MEDIALIBRARY_SCAN = "ml_scan"
-const val ML_SCAN_ON = 0
-const val ML_SCAN_OFF = 1
-
 // AUDIO category
 const val KEY_AUDIO_CURRENT_TAB = "key_audio_current_tab"
 

@@ -421,7 +421,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         orientationToggle = actionBarView!!.findViewById(R.id.orientation_toggle)
 
         screenOrientation = Integer.valueOf(
-                settings.getString("screen_orientation", "99" /*SCREEN ORIENTATION SENSOR*/)!!)
+                settings.getString(SCREEN_ORIENTATION, "99" /*SCREEN ORIENTATION SENSOR*/)!!)
 
         videoLayout = findViewById(R.id.video_layout)
 
@@ -437,7 +437,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         // Clear the resume time, since it is only used for resumes in external
         // videos.
         val editor = settings.edit()
-        editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1)
+        editor.putLong(VIDEO_RESUME_TIME, -1)
         // Paused flag - per session too, like the subs list.
         editor.apply()
 
@@ -455,7 +455,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
 
         // Extra initialization when no secondary display is detected
-        isTv = AndroidDevices.showTvUi(this)
+        isTv = Settings.showTvUi
         if (displayManager.isPrimary) {
             // Orientation
             // Tips
@@ -484,9 +484,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
         medialibrary = VLCApplication.mlInstance
         val touch = if (!isTv) {
-            ((if (settings.getBoolean("enable_volume_gesture", true)) TOUCH_FLAG_AUDIO_VOLUME else 0)
-                    + (if (settings.getBoolean("enable_brightness_gesture", true)) TOUCH_FLAG_BRIGHTNESS else 0)
-                    + if (settings.getBoolean("enable_double_tap_seek", true)) TOUCH_FLAG_SEEK else 0)
+            ((if (settings.getBoolean(ENABLE_VOLUME_GESTURE, true)) TOUCH_FLAG_AUDIO_VOLUME else 0)
+                    + (if (settings.getBoolean(ENABLE_BRIGHTNESS_GESTURE, true)) TOUCH_FLAG_BRIGHTNESS else 0)
+                    + if (settings.getBoolean(ENABLE_DOUBLE_TAP_SEEK, true)) TOUCH_FLAG_SEEK else 0)
         } else
             0
         currentScreenOrientation = resources.configuration.orientation
@@ -570,7 +570,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
                             && AndroidDevices.isAndroidTv && !requestVisibleBehind(true)))
                 stopPlayback()
-            else if (displayManager.isPrimary && !isShowingDialog && "2" == settings.getString(PreferencesActivity.KEY_VIDEO_APP_SWITCH, "0")
+            else if (displayManager.isPrimary && !isShowingDialog && "2" == settings.getString(KEY_VIDEO_APP_SWITCH, "0")
                     && isInteractive && service?.hasRenderer() == false) {
                 switchToPopup()
             }
@@ -593,7 +593,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 || !lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED))
             return
 
-        val forceLegacy = Settings.getInstance(this).getBoolean("popup_force_legacy", false)
+        val forceLegacy = Settings.getInstance(this).getBoolean(POPUP_FORCE_LEGACY, false)
         if (AndroidDevices.hasPiP && !forceLegacy) {
             if (AndroidUtil.isOOrLater)
                 try {
@@ -692,7 +692,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         if (alertDialog != null && alertDialog!!.isShowing)
             alertDialog!!.dismiss()
         if (displayManager.isPrimary && !isFinishing && service?.isPlaying == true
-                && "1" == settings.getString(PreferencesActivity.KEY_VIDEO_APP_SWITCH, "0")) {
+                && "1" == settings.getString(KEY_VIDEO_APP_SWITCH, "0")) {
             switchToAudioMode(false)
         }
 
@@ -700,7 +700,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         stopPlayback()
 
         val editor = settings.edit()
-        if (mSavedTime != -1L) editor.putLong(PreferencesActivity.VIDEO_RESUME_TIME, mSavedTime)
+        if (mSavedTime != -1L) editor.putLong(VIDEO_RESUME_TIME, mSavedTime)
 
         editor.apply()
 
@@ -715,19 +715,19 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     private fun saveBrightness() {
         // Save brightness if user wants to
-        if (settings.getBoolean("save_brightness", false)) {
+        if (settings.getBoolean(SAVE_BRIGHTNESS, false)) {
             val brightness = window.attributes.screenBrightness
             if (brightness != -1f) {
                 val editor = settings.edit()
-                editor.putFloat("brightness_value", brightness)
+                editor.putFloat(BRIGHTNESS_VALUE, brightness)
                 editor.apply()
             }
         }
     }
 
     private fun restoreBrightness() {
-        if (settings.getBoolean("save_brightness", false)) {
-            val brightness = settings.getFloat("brightness_value", -1f)
+        if (settings.getBoolean(SAVE_BRIGHTNESS, false)) {
+            val brightness = settings.getFloat(BRIGHTNESS_VALUE, -1f)
             if (brightness != -1f) setWindowBrightness(brightness)
         }
     }
@@ -763,7 +763,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             val mediaPlayer = mediaplayer
             if (!displayManager.isOnRenderer && videoLayout != null) {
                 mediaPlayer.attachViews(videoLayout!!, displayManager, true, false)
-                val size = if (isBenchmark) MediaPlayer.ScaleType.SURFACE_FILL else MediaPlayer.ScaleType.values()[settings.getInt(PreferencesActivity.VIDEO_RATIO, MediaPlayer.ScaleType.SURFACE_BEST_FIT.ordinal)]
+                val size = if (isBenchmark) MediaPlayer.ScaleType.SURFACE_FILL else MediaPlayer.ScaleType.values()[settings.getInt(VIDEO_RATIO, MediaPlayer.ScaleType.SURFACE_BEST_FIT.ordinal)]
                 mediaPlayer.videoScale = size
             }
 
@@ -841,7 +841,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
         service?.run {
             wasPaused = !(isPlaying && isInteractive)
-            if (wasPaused) settings.edit().putBoolean(PreferencesActivity.VIDEO_PAUSED, true).apply()
+            if (wasPaused) settings.edit().putBoolean(VIDEO_PAUSED, true).apply()
             if (!isFinishing) {
                 currentAudioTrack = audioTrack
                 currentSpuTrack = spuTrack
@@ -1634,7 +1634,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         // Get possible subtitles
         observeDownloadedSubtitles()
         if (optionsDelegate != null) optionsDelegate!!.setup()
-        settings.edit().remove(PreferencesActivity.VIDEO_PAUSED).apply()
+        settings.edit().remove(VIDEO_PAUSED).apply()
     }
 
     private fun encounteredError() {
@@ -1646,7 +1646,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 .setTitle(R.string.encountered_error_title)
                 .setMessage(R.string.encountered_error_message)
                 .create()
-        alertDialog!!.show()
+        alertDialog?.show()
     }
 
     private fun handleVout(voutCount: Int) {
@@ -2097,7 +2097,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             MediaPlayer.ScaleType.SURFACE_ORIGINAL -> showInfo(R.string.surface_original, 1000)
         }
         settings.edit()
-                .putInt(PreferencesActivity.VIDEO_RATIO, scale.ordinal)
+                .putInt(VIDEO_RATIO, scale.ordinal)
                 .apply()
     }
 
@@ -2167,7 +2167,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         service?.let { service ->
             val vsc = findViewById<ViewStubCompat>(R.id.player_hud_stub)
             if (vsc != null) {
-                seekButtons = settings.getBoolean("enable_seek_buttons", false)
+                seekButtons = settings.getBoolean(ENABLE_SEEK_BUTTONS, false)
                 vsc.inflate()
                 hudBinding = DataBindingUtil.bind(findViewById(R.id.progress_overlay))
                 hudBinding!!.player = this
@@ -2457,14 +2457,14 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                             showConfirmResumeDialog()
                             return
                         } else {
-                            val rTime = settings.getLong(PreferencesActivity.VIDEO_RESUME_TIME, -1)
+                            val rTime = settings.getLong(VIDEO_RESUME_TIME, -1)
                             if (rTime > 0) {
                                 if (askResume) {
                                     showConfirmResumeDialog()
                                     return
                                 } else {
                                     settings.edit()
-                                            .putLong(PreferencesActivity.VIDEO_RESUME_TIME, -1)
+                                            .putLong(VIDEO_RESUME_TIME, -1)
                                             .apply()
                                     savedTime = rTime
                                 }
@@ -2648,7 +2648,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private fun resetOrientation(): Boolean {
         if (screenOrientation == 98) {
             screenOrientation = Integer.valueOf(
-                    settings.getString("screen_orientation", "99" /*SCREEN ORIENTATION SENSOR*/)!!)
+                    settings.getString(SCREEN_ORIENTATION, "99" /*SCREEN ORIENTATION SENSOR*/)!!)
             rootView?.let { UiTools.snacker(it,  R.string.reset_orientation) }
             requestedOrientation = getScreenOrientation(screenOrientation)
             return true

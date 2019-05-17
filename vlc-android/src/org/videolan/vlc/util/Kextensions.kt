@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
@@ -19,14 +18,12 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.*
-import androidx.preference.PreferenceManager
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.startMedialibrary
 import java.io.File
@@ -37,7 +34,7 @@ import kotlin.coroutines.resume
 
 
 
-object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManager.getDefaultSharedPreferences(it) })
+//object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManager.getDefaultSharedPreferences(it) })
 
 fun String.validateLocation(): Boolean {
     var location = this

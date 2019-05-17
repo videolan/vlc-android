@@ -32,6 +32,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.vlc.R
+import org.videolan.vlc.util.AUDIO_DUCKING
 import org.videolan.vlc.util.VLCInstance
 
 @ExperimentalCoroutinesApi
@@ -54,7 +55,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         findPreference("enable_play_on_headset_insertion").isVisible = false
         findPreference("headset_prefs_category").isVisible = false
         findPreference("lockscreen_cover").isVisible = false
-        findPreference("audio_ducking").isVisible = !AndroidUtil.isOOrLater
+        findPreference(AUDIO_DUCKING).isVisible = !AndroidUtil.isOOrLater
         findPreference("audio_resume_card").isVisible = false
 
         val aout = HWDecoderUtil.getAudioOutputFromDevice()

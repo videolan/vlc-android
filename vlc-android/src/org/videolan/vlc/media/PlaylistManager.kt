@@ -22,8 +22,6 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
-import org.videolan.vlc.gui.preferences.PreferencesActivity
-import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.*
 import java.util.*
@@ -163,13 +161,13 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             repeating = settings.getInt(if (audio) "audio_repeating" else "media_repeating", REPEAT_NONE)
             val position = settings.getInt(if (audio) "position_in_audio_list" else "position_in_media_list", 0)
             savedTime = settings.getLong(if (audio) "position_in_song" else "position_in_media", -1)
-            if (!audio && position < playList.size && settings.getBoolean(PreferencesActivity.VIDEO_PAUSED, false)) {
+            if (!audio && position < playList.size && settings.getBoolean(VIDEO_PAUSED, false)) {
                 playList[position].addFlags(MediaWrapper.MEDIA_PAUSED)
             }
             load(playList, position, true)
             loadingLastPlaylist = false
             if (!audio) {
-                val rate = settings.getFloat(PreferencesActivity.VIDEO_SPEED, player.getRate())
+                val rate = settings.getFloat(VIDEO_SPEED, player.getRate())
                 if (rate != 1.0f) player.setRate(rate, false)
             }
         }
@@ -640,7 +638,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         editor.putInt(if (audio) "position_in_audio_list" else "position_in_media_list", if (reset) 0 else currentIndex)
         editor.putLong(if (audio) "position_in_song" else "position_in_media", if (reset) 0L else player.getCurrentTime())
         if (!audio) {
-            editor.putFloat(PreferencesActivity.VIDEO_SPEED, player.getRate())
+            editor.putFloat(VIDEO_SPEED, player.getRate())
         }
         editor.apply()
     }
@@ -787,8 +785,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                         if (it.stop != -1L && player.getCurrentTime() > it.stop) player.seek(it.start)
                     }
                 }
-                MediaPlayer.Event.SeekableChanged -> if (event.seekable && settings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, false)) {
-                    player.setRate(settings.getFloat(PreferencesActivity.KEY_PLAYBACK_RATE, 1.0f), false)
+                MediaPlayer.Event.SeekableChanged -> if (event.seekable && settings.getBoolean(KEY_PLAYBACK_SPEED_PERSIST, false)) {
+                    player.setRate(settings.getFloat(KEY_PLAYBACK_RATE, 1.0f), false)
                 }
             }
             service.onMediaPlayerEvent(event)
@@ -796,7 +794,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     }
 
     private suspend fun savePlaycount(mw: MediaWrapper) {
-        if (settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)) withContext(Dispatchers.IO) {
+        if (settings.getBoolean(PLAYBACK_HISTORY, true)) withContext(Dispatchers.IO) {
             var id = mw.id
             if (id == 0L) {
                 var internalMedia = medialibrary.findMedia(mw)

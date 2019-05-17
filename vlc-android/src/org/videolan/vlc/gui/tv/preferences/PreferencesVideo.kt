@@ -26,43 +26,41 @@ import android.annotation.TargetApi
 import android.os.Build
 import android.os.Bundle
 import androidx.preference.Preference
+import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesVideo : BasePreferenceFragment() {
 
-    override fun getXml(): Int {
-        return R.xml.preferences_video
-    }
+    override fun getXml() = R.xml.preferences_video
 
-    override fun getTitleId(): Int {
-        return R.string.video_prefs_category
-    }
+    override fun getTitleId() = R.string.video_prefs_category
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        findPreference("force_list_portrait").isVisible = false
-        findPreference("save_brightness").isVisible = false
-        findPreference("enable_double_tap_seek").isVisible = false
-        findPreference("enable_volume_gesture").isVisible = AndroidDevices.hasTsp
-        findPreference("enable_brightness_gesture").isVisible = AndroidDevices.hasTsp
-        findPreference("popup_keepscreen").isVisible = false
-        findPreference("popup_force_legacy").isVisible = false
-        findPreference("force_play_all").isVisible = false
+        findPreference(FORCE_LIST_PORTRAIT).isVisible = false
+        findPreference(SAVE_BRIGHTNESS).isVisible = false
+        findPreference(ENABLE_DOUBLE_TAP_SEEK).isVisible = false
+        findPreference(ENABLE_VOLUME_GESTURE).isVisible = AndroidDevices.hasTsp
+        findPreference(ENABLE_BRIGHTNESS_GESTURE).isVisible = AndroidDevices.hasTsp
+        findPreference(POPUP_KEEPSCREEN).isVisible = false
+        findPreference(POPUP_FORCE_LEGACY).isVisible = false
+        findPreference(FORCE_PLAY_ALL).isVisible = false
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         if (preference.key == null)
             return false
         when (preference.key) {
-            "video_min_group_length" -> {
-                activity.setResult(PreferencesActivity.RESULT_RESTART)
+            SHOW_VIDEO_THUMBNAILS -> {
+                Settings.showVideoThumbs = (preference as TwoStatePreference).isChecked
+                (activity as PreferencesActivity).setRestart()
                 return true
             }
         }

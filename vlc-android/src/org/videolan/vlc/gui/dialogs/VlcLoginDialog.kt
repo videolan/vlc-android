@@ -33,11 +33,11 @@ import android.widget.EditText
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import org.videolan.libvlc.Dialog
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.preferences.PreferencesActivity
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.Settings
 import org.videolan.vlc.databinding.VlcLoginDialogBinding
+import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.LOGIN_STORE
+import org.videolan.vlc.util.Settings
 
 class VlcLoginDialog : VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding>(), View.OnFocusChangeListener {
 
@@ -50,7 +50,7 @@ class VlcLoginDialog : VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding>(), V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (AndroidDevices.showTvUi(view.context) && !AndroidDevices.hasPlayServices) {
+        if (Settings.showTvUi && !AndroidDevices.hasPlayServices) {
             binding.login.onFocusChangeListener = this
             binding.password.onFocusChangeListener = this
         }
@@ -65,12 +65,12 @@ class VlcLoginDialog : VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding>(), V
     fun onLogin(v: View) {
         vlcDialog.postLogin(binding.login.text.toString().trim(),
                 binding.password.text.toString().trim(), binding.store.isChecked)
-        mSettings.edit().putBoolean(PreferencesActivity.LOGIN_STORE, binding.store.isChecked).apply()
+        mSettings.edit().putBoolean(LOGIN_STORE, binding.store.isChecked).apply()
         dismiss()
     }
 
     fun store(): Boolean {
-        return mSettings.getBoolean(PreferencesActivity.LOGIN_STORE, true)
+        return mSettings.getBoolean(LOGIN_STORE, true)
     }
 
     override fun onFocusChange(v: View, hasFocus: Boolean) {

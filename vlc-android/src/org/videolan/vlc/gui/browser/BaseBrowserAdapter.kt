@@ -48,6 +48,7 @@ import org.videolan.vlc.databinding.BrowserItemSeparatorBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.UPDATE_SELECTION
 import java.util.*
 
@@ -233,7 +234,7 @@ open class BaseBrowserAdapter() : DiffUtilAdapter<MediaLibraryItem, BaseBrowserA
 
         override fun onLongClick(v: View): Boolean {
             val position = layoutPosition
-            if (getItem(position).itemType == TYPE_STORAGE && AndroidDevices.showTvUi(itemView.context)) {
+            if (getItem(position).itemType == TYPE_STORAGE && Settings.showTvUi) {
                 binding.browserCheckbox.toggle()
                 onCheckBoxClick(binding.browserCheckbox)
                 return true

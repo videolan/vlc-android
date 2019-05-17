@@ -39,13 +39,13 @@ import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.gui.browser.StorageBrowserFragment
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.tv.TvUtil
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.rescan
 import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.KEY_FOLDER
+import org.videolan.vlc.util.RESULT_RESCAN
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -97,7 +97,7 @@ class SecondaryActivity : ContentActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ACTIVITY_RESULT_SECONDARY) {
-            if (resultCode == PreferencesActivity.RESULT_RESCAN) this.reloadLibrary()
+            if (resultCode == RESULT_RESCAN) this.reloadLibrary()
         }
     }
 

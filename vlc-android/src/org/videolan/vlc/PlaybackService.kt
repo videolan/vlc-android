@@ -569,7 +569,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
         NotificationHelper.createNotificationChannels(ctx.applicationContext)
         startForeground(3, notification)
         isForeground = true
-        if (isVideoPlaying || AndroidDevices.showTvUi(this) || stopped) hideNotification(true)
+        if (isVideoPlaying || Settings.showTvUi || stopped) hideNotification(true)
     }
 
     private fun sendStartSessionIdIntent() {
@@ -649,7 +649,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private fun showNotificationInternal() {
-        if (!AndroidDevices.isAndroidTv && AndroidDevices.showTvUi(this)) return
+        if (!AndroidDevices.isAndroidTv && Settings.showTvUi) return
         if (isPlayingPopup || !hasRenderer() && isVideoPlaying) {
             hideNotificationInternal(true)
             return

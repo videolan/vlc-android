@@ -58,19 +58,19 @@ class VLCApplication : Application() {
         }
 
         override fun onDisplay(dialog: Dialog.LoginDialog) {
-            val key = DialogActivity.KEY_LOGIN + sDialogCounter++
+            val key = DialogActivity.KEY_LOGIN + dialogCounter++
             fireDialog(dialog, key)
         }
 
         override fun onDisplay(dialog: Dialog.QuestionDialog) {
             if (!Util.byPassChromecastDialog(dialog)) {
-                val key = DialogActivity.KEY_QUESTION + sDialogCounter++
+                val key = DialogActivity.KEY_QUESTION + dialogCounter++
                 fireDialog(dialog, key)
             }
         }
 
         override fun onDisplay(dialog: Dialog.ProgressDialog) {
-            val key = DialogActivity.KEY_PROGRESS + sDialogCounter++
+            val key = DialogActivity.KEY_PROGRESS + dialogCounter++
             fireDialog(dialog, key)
         }
 
@@ -100,7 +100,6 @@ class VLCApplication : Application() {
                 // Set the locale for API < 24 and set application resources and direction for API >=24
                 UiTools.setLocale(appContext!!)
             })
-            showVideoThumbs = Settings.getInstance(baseContext).getBoolean("show_video_thumbnails", true)
 
             runIO(Runnable {
                 if (AndroidUtil.isOOrLater)
@@ -149,13 +148,11 @@ class VLCApplication : Application() {
         @Volatile
         private var instance: Application? = null
 
-        var sPlayerSleepTime: Calendar? = null
+        var playerSleepTime: Calendar? = null
 
-        private val sDataMap = SimpleArrayMap<String, WeakReference<Any>>()
+        private val dataMap = SimpleArrayMap<String, WeakReference<Any>>()
 
-        private var sDialogCounter = 0
-
-        var showVideoThumbs = true
+        private var dialogCounter = 0
 
         // Property to get the new locale only on restart to prevent change the locale partially on runtime
         var locale: String? = ""
@@ -187,23 +184,23 @@ class VLCApplication : Application() {
          * @return the main resources from the Application
          */
         val appResources: Resources
-            get() = appContext!!.resources
+            get() = appContext.resources
 
         fun storeData(key: String, data: Any) {
-            sDataMap.put(key, WeakReference(data))
+            dataMap.put(key, WeakReference(data))
         }
 
         fun getData(key: String): Any? {
-            val wr = sDataMap.remove(key)
+            val wr = dataMap.remove(key)
             return wr?.get()
         }
 
         fun hasData(key: String): Boolean {
-            return sDataMap.containsKey(key)
+            return dataMap.containsKey(key)
         }
 
         fun clearData() {
-            sDataMap.clear()
+            dataMap.clear()
         }
 
         val mlInstance: Medialibrary

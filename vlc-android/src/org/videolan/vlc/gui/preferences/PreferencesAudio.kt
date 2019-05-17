@@ -32,6 +32,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.vlc.R
+import org.videolan.vlc.util.AUDIO_DUCKING
 import org.videolan.vlc.util.KEY_ARTISTS_SHOW_ALL
 import org.videolan.vlc.util.VLCInstance
 
@@ -49,7 +50,7 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findPreference("audio_ducking").isVisible = !AndroidUtil.isOOrLater
+        findPreference(AUDIO_DUCKING).isVisible = !AndroidUtil.isOOrLater
         val aout = HWDecoderUtil.getAudioOutputFromDevice()
         if (aout != HWDecoderUtil.AudioOutput.ALL) {
             /* no AudioOutput choice */

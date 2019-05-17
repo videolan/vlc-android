@@ -28,45 +28,42 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.Preference
+import androidx.preference.TwoStatePreference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.*
 
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    override fun getXml(): Int {
-        return R.xml.preferences_ui
-    }
+    override fun getXml() = R.xml.preferences_ui
 
-    override fun getTitleId(): Int {
-        return R.string.interface_prefs_screen
-    }
+    override fun getTitleId() = R.string.interface_prefs_screen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findPreference("resume_playback").isVisible = AndroidDevices.isPhone
+        findPreference(RESUME_PLAYBACK).isVisible = AndroidDevices.isPhone
         prepareLocaleList()
         setupTheme()
     }
 
     private fun setupTheme() {
         val prefs = preferenceScreen.sharedPreferences
-        if (!prefs.contains("app_theme")) {
+        if (!prefs.contains(KEY_APP_THEME)) {
             var theme = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            if (prefs.getBoolean("daynight", false) && !AndroidDevices.canUseSystemNightMode()) {
+            if (prefs.getBoolean(KEY_DAYNIGHT, false) && !AndroidDevices.canUseSystemNightMode()) {
                 theme = AppCompatDelegate.MODE_NIGHT_AUTO
-            } else if (prefs.contains("enable_black_theme")) {
-                theme = if (prefs.getBoolean("enable_black_theme", false))
+            } else if (prefs.contains(KEY_BLACK_THEME)) {
+                theme = if (prefs.getBoolean(KEY_BLACK_THEME, false))
                     AppCompatDelegate.MODE_NIGHT_YES
                 else
                     AppCompatDelegate.MODE_NIGHT_NO
             }
-            prefs.edit().putString("app_theme", theme.toString()).apply()
+            prefs.edit().putString(KEY_APP_THEME, theme.toString()).apply()
         }
     }
 
@@ -84,7 +81,8 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         if (preference.key == null) return false
         when (preference.key) {
-            "tv_ui" -> {
+            PREF_TV_UI -> {
+                Settings.tvUI = (preference as TwoStatePreference).isChecked
                 (activity as PreferencesActivity).setRestartApp()
                 return true
             }
@@ -96,7 +94,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
         when (key) {
             "set_locale" -> UiTools.restartDialog(requireActivity())
             "browser_show_all_files" -> (activity as PreferencesActivity).setRestart()
-            "app_theme" -> (activity as PreferencesActivity).exitAndRescan()
+            KEY_APP_THEME -> (activity as PreferencesActivity).exitAndRescan()
         }
     }
 

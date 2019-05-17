@@ -52,8 +52,8 @@ import org.videolan.vlc.extensions.ExtensionsManager;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.gui.helpers.AudioUtil;
 import org.videolan.vlc.gui.helpers.UiTools;
-import org.videolan.vlc.util.Constants;
 import org.videolan.vlc.util.Settings;
+import org.videolan.vlc.util.SettingsKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -214,7 +214,7 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
                     list = Medialibrary.getInstance().lastMediaPlayed();
                     break;
                 case ID_ARTISTS:
-                    list = Medialibrary.getInstance().getArtists(Settings.INSTANCE.getInstance(context).getBoolean(Constants.KEY_ARTISTS_SHOW_ALL, false));
+                    list = Medialibrary.getInstance().getArtists(Settings.INSTANCE.getInstance(context).getBoolean(SettingsKt.KEY_ARTISTS_SHOW_ALL, false));
                     break;
                 case ID_ALBUMS:
                     list = Medialibrary.getInstance().getAlbums();

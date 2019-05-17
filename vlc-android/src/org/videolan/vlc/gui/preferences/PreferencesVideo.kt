@@ -29,44 +29,36 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.R
-import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class PreferencesVideo : BasePreferenceFragment() {
 
-    override fun getXml(): Int {
-        return R.xml.preferences_video
-    }
+    override fun getXml() = R.xml.preferences_video
 
-    override fun getTitleId(): Int {
-        return R.string.video_prefs_category
-    }
+    override fun getTitleId() = R.string.video_prefs_category
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findPreference("popup_keepscreen").isVisible = !AndroidUtil.isOOrLater
-        findPreference("popup_force_legacy").isVisible = AndroidUtil.isOOrLater
+        findPreference(POPUP_KEEPSCREEN).isVisible = !AndroidUtil.isOOrLater
+        findPreference(POPUP_FORCE_LEGACY).isVisible = AndroidUtil.isOOrLater
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         if (preference.key == null)
             return false
         when (preference.key) {
-            "video_min_group_length" -> {
-                activity!!.setResult(PreferencesActivity.RESULT_RESTART)
-                return true
-            }
-            "force_list_portrait" -> {
+            FORCE_LIST_PORTRAIT -> {
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
-            "show_video_thumbnails" -> {
-                VLCApplication.showVideoThumbs = (preference as TwoStatePreference).isChecked
+            SHOW_VIDEO_THUMBNAILS -> {
+                Settings.showVideoThumbs = (preference as TwoStatePreference).isChecked
                 (activity as PreferencesActivity).setRestart()
                 return true
             }
-            "media_seen" -> activity!!.setResult(PreferencesActivity.RESULT_UPDATE_SEEN_MEDIA)
+            "media_seen" -> activity!!.setResult(RESULT_UPDATE_SEEN_MEDIA)
         }
         return super.onPreferenceTreeClick(preference)
     }

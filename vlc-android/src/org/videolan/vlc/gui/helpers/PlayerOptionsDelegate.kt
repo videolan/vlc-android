@@ -71,7 +71,6 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     private val primary = activity is VideoPlayerActivity && activity.displayManager.isPrimary
     private val video = activity is VideoPlayerActivity
     private val res = activity.resources
-    private val tvUi by lazy(LazyThreadSafetyMode.NONE) { AndroidDevices.showTvUi(activity) }
     private val settings = Settings.getInstance(activity)
     private lateinit var abrBinding: PlayerOptionItemBinding
     private lateinit var ptBinding: PlayerOptionItemBinding
@@ -103,7 +102,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
                 options.add(PlayerOption(playerOptionType, ID_JUMP_TO, R.attr.ic_jumpto_normal_style, res.getString(R.string.jump_to_time)))
                 options.add(PlayerOption(playerOptionType, ID_EQUALIZER, R.attr.ic_equalizer_normal_style, res.getString(R.string.equalizer)))
                 if (video) {
-                    if (primary && !tvUi && service.audioTracksCount > 0)
+                    if (primary && !Settings.showTvUi && service.audioTracksCount > 0)
                         options.add(PlayerOption(playerOptionType, ID_PLAY_AS_AUDIO, R.attr.ic_playasaudio_on, res.getString(R.string.play_as_audio)))
                     if (primary && AndroidDevices.pipAllowed && !AndroidDevices.isDex(activity))
                         options.add(PlayerOption(playerOptionType, ID_POPUP_VIDEO, R.attr.ic_popup_dim, res.getString(R.string.ctx_pip_title)))
@@ -151,7 +150,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
         }
         setup()
         rootView.visibility = View.VISIBLE
-        if (AndroidDevices.showTvUi(activity)) AppScope.launch {
+        if (Settings.showTvUi) AppScope.launch {
             delay(100L)
             val position = (recyclerview.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
             (recyclerview.layoutManager as LinearLayoutManager).findViewByPosition(position)?.requestFocus()
@@ -172,7 +171,7 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             PlayerOptionType.ADVANCED -> {
                 when (option.id) {
                     ID_SLEEP -> {
-                        if (VLCApplication.sPlayerSleepTime == null)
+                        if (VLCApplication.playerSleepTime == null)
                             showFragment(ID_SLEEP)
                         else {
                             activity.setSleep(null)
@@ -283,12 +282,12 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
     }
 
     private fun initSleep() {
-        sleepBinding.optionTitle.text = if (VLCApplication.sPlayerSleepTime == null) {
+        sleepBinding.optionTitle.text = if (VLCApplication.playerSleepTime == null) {
             sleepBinding.optionIcon.setImageResource(UiTools.getResourceFromAttribute(activity, R.attr.ic_sleep_normal_style))
             null
         } else {
             sleepBinding.optionIcon.setImageResource(R.drawable.ic_sleep_on)
-            DateFormat.getTimeFormat(activity).format(VLCApplication.sPlayerSleepTime!!.time)
+            DateFormat.getTimeFormat(activity).format(VLCApplication.playerSleepTime!!.time)
         }
     }
 
@@ -420,7 +419,7 @@ fun Context.setSleep(time: Calendar?) {
 
     if (time != null) alarmMgr.set(AlarmManager.RTC_WAKEUP, time.timeInMillis, sleepPendingIntent)
     else alarmMgr.cancel(sleepPendingIntent)
-    VLCApplication.sPlayerSleepTime = time
+    VLCApplication.playerSleepTime = time
 }
 
 class PlayerOption(val type: PlayerOptionType, val id: Int, val icon: Int, val title: String)

@@ -24,7 +24,6 @@
 package org.videolan.vlc.gui.tv.preferences
 
 import android.annotation.TargetApi
-import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
@@ -33,6 +32,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
+import org.videolan.vlc.util.RESULT_RESTART
+import org.videolan.vlc.util.RESULT_RESTART_APP
 import org.videolan.vlc.util.Settings
 
 @ObsoleteCoroutinesApi
@@ -84,15 +85,6 @@ class PreferencesActivity : FragmentActivity() {
 
     fun detectHeadset(detect: Boolean) {
         val le = PlaybackService.headSetDetection
-        if (le.hasObservers()) le.setValue(detect)
-    }
-
-    companion object {
-
-        val TAG = "VLC/PreferencesActivity"
-
-        const val RESULT_RESCAN = Activity.RESULT_FIRST_USER + 1
-        const val RESULT_RESTART = Activity.RESULT_FIRST_USER + 2
-        const val RESULT_RESTART_APP = Activity.RESULT_FIRST_USER + 3
+        if (le.hasObservers()) le.value = detect
     }
 }

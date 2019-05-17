@@ -35,30 +35,20 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.SecondaryActivity
-import org.videolan.vlc.gui.preferences.PreferencesActivity.Companion.KEY_VIDEO_APP_SWITCH
-import org.videolan.vlc.util.AndroidDevices
-import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 class PreferencesFragment : BasePreferenceFragment() {
 
-    override fun getXml(): Int {
-        return R.xml.preferences
-    }
+    override fun getXml() = R.xml.preferences
 
-    override fun getTitleId(): Int {
-        return R.string.preferences
-    }
-
-    override fun onStart() {
-        super.onStart()
-    }
+    override fun getTitleId() = R.string.preferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findPreference("screen_orientation").isVisible = false
+        findPreference(SCREEN_ORIENTATION).isVisible = false
         findPreference("extensions_category").isVisible = false
         findPreference("casting_category").isVisible = false
         findPreference(KEY_VIDEO_APP_SWITCH).isVisible = AndroidDevices.hasPiP
@@ -66,27 +56,21 @@ class PreferencesFragment : BasePreferenceFragment() {
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
         val context = activity ?: return false
-        when (preference.key) {
+        return when (preference.key) {
             "directories" -> {
-                if (VLCApplication.mlInstance.isWorking)
-                    Toast.makeText(context, getString(R.string.settings_ml_block_scan), Toast.LENGTH_SHORT).show()
-                else if (Permissions.canReadStorage(context)) {
-                    val intent = Intent(context.applicationContext, SecondaryActivity::class.java)
-                    intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
-                    startActivity(intent)
-                    activity.setResult(PreferencesActivity.RESULT_RESTART)
-                } else
-                    Permissions.showStoragePermissionDialog(activity as FragmentActivity, false)
-                return true
+                when {
+                    VLCApplication.mlInstance.isWorking -> Toast.makeText(context, getString(R.string.settings_ml_block_scan), Toast.LENGTH_SHORT).show()
+                    Permissions.canReadStorage(context) -> {
+                        val intent = Intent(context.applicationContext, SecondaryActivity::class.java)
+                        intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
+                        startActivity(intent)
+                        activity.setResult(RESULT_RESTART)
+                    }
+                    else -> Permissions.showStoragePermissionDialog(activity as FragmentActivity, false)
+                }
+                true
             }
-            else -> return super.onPreferenceTreeClick(preference)
+            else -> super.onPreferenceTreeClick(preference)
         }
-    }
-
-    companion object {
-
-        val TAG = "VLC/PreferencesFragment"
-
-        val PLAYBACK_HISTORY = "playback_history"
     }
 }

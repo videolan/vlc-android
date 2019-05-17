@@ -20,12 +20,9 @@
 
 package org.videolan.vlc.gui.preferences
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import com.google.android.material.appbar.AppBarLayout
@@ -33,18 +30,18 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.util.Settings
+import org.videolan.vlc.gui.BaseActivity
+import org.videolan.vlc.util.RESULT_RESTART
+import org.videolan.vlc.util.RESULT_RESTART_APP
+import org.videolan.vlc.util.RESULT_UPDATE_ARTISTS
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class PreferencesActivity : AppCompatActivity() {
+class PreferencesActivity : BaseActivity() {
 
     private var mAppBarLayout: AppBarLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        /* Theme must be applied before super.onCreate */
-        applyTheme()
-
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.preferences_activity)
@@ -69,18 +66,6 @@ class PreferencesActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun applyTheme() {
-        val pref = Settings.getInstance(this)
-        if (pref.contains("app_theme")) {
-            AppCompatDelegate.setDefaultNightMode(Integer.valueOf(pref.getString("app_theme", "-1")!!))
-        } else if (pref.contains("daynight") || pref.contains("enable_black_theme")) { // legacy support
-            val daynight = pref.getBoolean("daynight", false)
-            val dark = pref.getBoolean("enable_black_theme", false)
-            val mode = if (dark) AppCompatDelegate.MODE_NIGHT_YES else if (daynight) AppCompatDelegate.MODE_NIGHT_AUTO else AppCompatDelegate.MODE_NIGHT_NO
-            AppCompatDelegate.setDefaultNightMode(mode)
-        }
     }
 
     fun restartMediaPlayer() {
@@ -110,28 +95,5 @@ class PreferencesActivity : AppCompatActivity() {
     fun detectHeadset(detect: Boolean) {
         val le = PlaybackService.headSetDetection
         if (le.hasObservers()) le.value = detect
-    }
-
-    companion object {
-
-        const val TAG = "VLC/PreferencesActivity"
-
-        val NAME = "VlcSharedPreferences"
-        const val VIDEO_RESUME_TIME = "VideoResumeTime"
-        const val VIDEO_PAUSED = "VideoPaused"
-        const val VIDEO_SPEED = "VideoSpeed"
-        const val VIDEO_RESTORE = "video_restore"
-        const val VIDEO_RATE = "video_rate"
-        const val VIDEO_RATIO = "video_ratio"
-        const val AUTO_RESCAN = "auto_rescan"
-        const val LOGIN_STORE = "store_login"
-        const val KEY_PLAYBACK_RATE = "playback_rate"
-        const val KEY_PLAYBACK_SPEED_PERSIST = "playback_speed"
-        const val KEY_VIDEO_APP_SWITCH = "video_action_switch"
-        const val RESULT_RESCAN = Activity.RESULT_FIRST_USER + 1
-        const val RESULT_RESTART = Activity.RESULT_FIRST_USER + 2
-        const val RESULT_RESTART_APP = Activity.RESULT_FIRST_USER + 3
-        const val RESULT_UPDATE_SEEN_MEDIA = Activity.RESULT_FIRST_USER + 4
-        const val RESULT_UPDATE_ARTISTS = Activity.RESULT_FIRST_USER + 5
     }
 }

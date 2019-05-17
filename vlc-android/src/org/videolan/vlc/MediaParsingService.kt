@@ -445,7 +445,7 @@ fun Context.rescan() {
 fun Context.startMedialibrary(firstRun: Boolean = false, upgrade: Boolean = false, parse: Boolean = true) = AppScope.launch {
     if (Medialibrary.getInstance().isStarted || !Permissions.canReadStorage(this@startMedialibrary)) return@launch
     val prefs = withContext(Dispatchers.IO) { Settings.getInstance(this@startMedialibrary) }
-    val scanOpt = if (AndroidDevices.showTvUi(this@startMedialibrary)) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
+    val scanOpt = if (Settings.showTvUi) ML_SCAN_ON else prefs.getInt(KEY_MEDIALIBRARY_SCAN, -1)
     if (parse && scanOpt == -1) {
         if (dbExists()) prefs.edit().putInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON).apply()
     }

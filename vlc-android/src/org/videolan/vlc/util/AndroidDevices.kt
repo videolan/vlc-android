@@ -166,10 +166,6 @@ object AndroidDevices {
         return 0f
     }
 
-    fun showTvUi(context: Context): Boolean {
-        return isTv || Settings.getInstance(context.applicationContext).getBoolean("tv_ui", false)
-    }
-
     fun canUseSystemNightMode(): Boolean {
         return Build.VERSION.SDK_INT > Build.VERSION_CODES.P || Build.VERSION.SDK_INT == Build.VERSION_CODES.P && "samsung" == Build.MANUFACTURER.toLowerCase()
     }

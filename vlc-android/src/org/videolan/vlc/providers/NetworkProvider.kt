@@ -30,14 +30,14 @@ import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.repository.BrowserFavRepository
-import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.LiveDataset
+import org.videolan.vlc.util.Settings
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class NetworkProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String? = null, showHiddenFiles: Boolean): BrowserProvider(context, dataset, url, showHiddenFiles), Observer<List<MediaWrapper>> {
 
-    private val favorites = if (url == null && !AndroidDevices.showTvUi(context)) BrowserFavRepository.getInstance(context).networkFavorites else null
+    private val favorites = if (url == null && !Settings.showTvUi) BrowserFavRepository.getInstance(context).networkFavorites else null
 
     init {
         favorites?.observeForever(this)

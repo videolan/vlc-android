@@ -39,7 +39,6 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.gui.DialogActivity
-import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.tv.MainTvActivity
 import org.videolan.vlc.gui.tv.NowPlayingDelegate
 import org.videolan.vlc.gui.tv.TvUtil
@@ -106,7 +105,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     }
 
     private fun setHistory() {
-        val historyEnabled = settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)
+        val historyEnabled = settings.getBoolean(PLAYBACK_HISTORY, true)
         if (showHistory != historyEnabled) {
             showHistory = historyEnabled
             if (!historyEnabled) (history as MutableLiveData).value = emptyList()

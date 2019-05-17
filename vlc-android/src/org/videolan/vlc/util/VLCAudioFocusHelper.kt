@@ -118,7 +118,7 @@ class VLCAudioFocusHelper(private val service: PlaybackService) {
                         if (service.isPlaying) {
                             if (AndroidDevices.isAmazon) {
                                 pausePlayback()
-                            } else if (service.settings.getBoolean("audio_ducking", true)) {
+                            } else if (service.settings.getBoolean(AUDIO_DUCKING, true)) {
                                 val volume = service.volume
                                 lossTransientVolume = volume
                                 service.setVolume(volume/3)
@@ -133,7 +133,7 @@ class VLCAudioFocusHelper(private val service: PlaybackService) {
                             lossTransientVolume = -1
                         }
                         if (lossTransient) {
-                            if (wasPlaying && service.settings.getBoolean("resume_playback", true))
+                            if (wasPlaying && service.settings.getBoolean(RESUME_PLAYBACK, true))
                                 service.play()
                             lossTransient = false
                         }

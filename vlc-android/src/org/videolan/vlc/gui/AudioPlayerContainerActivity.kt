@@ -201,7 +201,7 @@ open class AudioPlayerContainerActivity : BaseActivity(), CoroutineScope by Main
     fun showTipViewIfNeeded(stubId: Int, settingKey: String) {
         if (BuildConfig.DEBUG) return
         val vsc = findViewById<View>(stubId)
-        if (vsc != null && !settings.getBoolean(settingKey, false) && !AndroidDevices.showTvUi(this)) {
+        if (vsc != null && !settings.getBoolean(settingKey, false) && !Settings.showTvUi) {
             val v = (vsc as ViewStubCompat).inflate()
             v.setOnClickListener { removeTipViewIfDisplayed() }
             val okGotIt = v.findViewById<TextView>(R.id.okgotit_button)

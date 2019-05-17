@@ -76,11 +76,13 @@ import java.util.TreeMap
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 
 @ObsoleteCoroutinesApi
@@ -600,4 +602,20 @@ fun setTouchListener(view: View, onTouchListener: View.OnTouchListener?) {
 @BindingAdapter("selected")
 fun isSelected(v: View, isSelected: Boolean?) {
     v.isSelected = isSelected!!
+}
+
+fun BaseActivity.applyTheme() {
+    if (Settings.showTvUi) {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        setTheme(R.style.Theme_VLC_Black)
+        return
+    }
+    if (settings.contains(KEY_APP_THEME)) {
+        AppCompatDelegate.setDefaultNightMode(Integer.valueOf(settings.getString(KEY_APP_THEME, "-1")!!))
+    } else if (settings.contains(KEY_DAYNIGHT) || settings.contains(KEY_BLACK_THEME)) { // legacy support
+        val daynight = settings.getBoolean(KEY_DAYNIGHT, false)
+        val dark = settings.getBoolean(KEY_BLACK_THEME, false)
+        val mode = if (dark) AppCompatDelegate.MODE_NIGHT_YES else if (daynight) AppCompatDelegate.MODE_NIGHT_AUTO else AppCompatDelegate.MODE_NIGHT_NO
+        AppCompatDelegate.setDefaultNightMode(mode)
+    }
 }

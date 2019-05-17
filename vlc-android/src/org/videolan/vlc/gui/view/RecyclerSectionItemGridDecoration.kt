@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.Settings
 
 private const val TAG = "RecyclerSectionItemDecoration"
 
@@ -101,7 +101,7 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
     }
 
     private fun inflateHeaderView(parent: RecyclerView): View {
-        if (AndroidDevices.showTvUi(parent.context)) {
+        if (Settings.showTvUi) {
             return LayoutInflater.from(parent.context).inflate(R.layout.recycler_section_header_tv, parent, false)
         }
         return LayoutInflater.from(parent.context).inflate(R.layout.recycler_section_header, parent, false)

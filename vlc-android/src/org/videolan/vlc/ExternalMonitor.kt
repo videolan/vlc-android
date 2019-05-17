@@ -177,7 +177,7 @@ object ExternalMonitor : BroadcastReceiver(), LifecycleObserver, CoroutineScope 
     @ObsoleteCoroutinesApi
     private fun checkNewStorages(ctx: Context) {
         if (VLCApplication.mlInstance.isStarted) {
-            val scanOpt = if (AndroidDevices.showTvUi(ctx)) ML_SCAN_ON
+            val scanOpt = if (Settings.showTvUi) ML_SCAN_ON
             else Settings.getInstance(ctx).getInt(KEY_MEDIALIBRARY_SCAN, -1)
             if (scanOpt == ML_SCAN_ON)
                 AppScope.launch { ContextCompat.startForegroundService(ctx,Intent(ACTION_CHECK_STORAGES, null, ctx, MediaParsingService::class.java)) }

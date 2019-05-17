@@ -34,12 +34,9 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.vlc.R
 import org.videolan.vlc.ScanProgress
 import org.videolan.vlc.StartActivity
-import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.tv.browser.BaseTvActivity
 import org.videolan.vlc.reloadLibrary
-import org.videolan.vlc.util.Permissions
-import org.videolan.vlc.util.Util
-import org.videolan.vlc.util.WeakHandler
+import org.videolan.vlc.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
@@ -87,10 +84,10 @@ class MainTvActivity : BaseTvActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             when (resultCode) {
-                PreferencesActivity.RESULT_RESCAN -> this.reloadLibrary()
-                PreferencesActivity.RESULT_RESTART, PreferencesActivity.RESULT_RESTART_APP -> {
+                RESULT_RESCAN -> this.reloadLibrary()
+                RESULT_RESTART, RESULT_RESTART_APP -> {
                     val intent = intent
-                    intent.setClass(this, if (resultCode == PreferencesActivity.RESULT_RESTART_APP) StartActivity::class.java else MainTvActivity::class.java)
+                    intent.setClass(this, if (resultCode == RESULT_RESTART_APP) StartActivity::class.java else MainTvActivity::class.java)
                     finish()
                     startActivity(intent)
                 }

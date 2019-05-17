@@ -53,10 +53,10 @@ import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.media.MediaUtils
-import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.CTX_ADD_TO_PLAYLIST
 import org.videolan.vlc.util.CTX_APPEND
 import org.videolan.vlc.util.CTX_RENAME
+import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.StreamsModel
 
 const val TAG = "VLC/MrlPanelFragment"
@@ -91,7 +91,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         adapter = MRLAdapter(listEventActor)
         val recyclerView = binding.mrlList
 
-        if (AndroidDevices.showTvUi(requireActivity())) {
+        if (Settings.showTvUi) {
             val gridLayoutManager = GridLayoutManager(activity, 2)
             recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
                 override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {

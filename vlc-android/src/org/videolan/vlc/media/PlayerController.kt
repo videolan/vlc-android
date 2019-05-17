@@ -15,9 +15,7 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.repository.SlaveRepository
-import org.videolan.vlc.util.Settings
-import org.videolan.vlc.util.VLCInstance
-import org.videolan.vlc.util.VLCOptions
+import org.videolan.vlc.util.*
 import kotlin.math.abs
 
 @ObsoleteCoroutinesApi
@@ -228,8 +226,8 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     fun setRate(rate: Float, save: Boolean) {
         if (mediaplayer.isReleased) return
         mediaplayer.rate = rate
-        if (save && settings.getBoolean(PreferencesActivity.KEY_PLAYBACK_SPEED_PERSIST, false))
-            settings.edit().putFloat(PreferencesActivity.KEY_PLAYBACK_RATE, rate).apply()
+        if (save && settings.getBoolean(KEY_PLAYBACK_SPEED_PERSIST, false))
+            settings.edit().putFloat(KEY_PLAYBACK_RATE, rate).apply()
     }
 
     /**

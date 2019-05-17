@@ -37,6 +37,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -52,7 +53,6 @@ import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.gui.dialogs.showContext
 import org.videolan.vlc.gui.helpers.ItemOffsetDecoration
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.media.MediaGroup
 import org.videolan.vlc.media.MediaUtils
@@ -145,7 +145,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             val intent = Intent(activity.applicationContext, SecondaryActivity::class.java)
             intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
             startActivity(intent)
-            activity.setResult(PreferencesActivity.RESULT_RESTART)
+            activity.setResult(RESULT_RESTART)
         }
     }
 
@@ -195,7 +195,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         val res = resources
         if (gridItemDecoration == null)
             gridItemDecoration = ItemOffsetDecoration(resources, R.dimen.left_right_1610_margin, R.dimen.top_bottom_1610_margin)
-        val listMode = res.getBoolean(R.bool.list_mode) || res.configuration.orientation == Configuration.ORIENTATION_PORTRAIT && Settings.getInstance(requireContext()).getBoolean("force_list_portrait", false)
+        val listMode = res.getBoolean(R.bool.list_mode) || res.configuration.orientation == Configuration.ORIENTATION_PORTRAIT && Settings.getInstance(requireContext()).getBoolean(FORCE_LIST_PORTRAIT, false)
 
         // Select between grid or list
         binding.videoGrid.removeItemDecoration(gridItemDecoration!!)
@@ -325,7 +325,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
         } else {
             media.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
             val settings = Settings.getInstance(v.context)
-            if (settings.getBoolean("force_play_all", false)) {
+            if (settings.getBoolean(FORCE_PLAY_ALL, false)) {
                 MediaUtils.playAll(requireContext(), viewModel.provider, position, false)
             } else {
                 playVideo(media, false)
@@ -355,13 +355,13 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     override fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem) {}
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {
-        handler.post(Runnable {
-            if (!isResumed) return@Runnable
+        launch {
+            if (!isResumed) return@launch
             if (!mediaLibrary.isWorking) handler.sendEmptyMessage(UNSET_REFRESHING)
             updateEmptyView()
             setFabPlayVisibility(true)
             UiTools.updateSortTitles(this@VideoGridFragment)
-        })
+        }
     }
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {}

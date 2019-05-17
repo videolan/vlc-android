@@ -42,7 +42,6 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.view.PopupLayout
 import org.videolan.vlc.util.*
 
@@ -54,7 +53,7 @@ class PopupManager constructor(private val mService: PlaybackService) : Playback
     private lateinit var expandButton: ImageView
     private lateinit var closeButton: ImageView
     private lateinit var playPauseButton: ImageView
-    private val alwaysOn: Boolean = Settings.getInstance(mService).getBoolean("popup_keepscreen", false)
+    private val alwaysOn: Boolean = Settings.getInstance(mService).getBoolean(POPUP_KEEPSCREEN, false)
 
     private val handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
@@ -235,7 +234,7 @@ class PopupManager constructor(private val mService: PlaybackService) : Playback
             // Save position
             if (mService.isSeekable)
                 Settings.getInstance(mService).edit()
-                        .putLong(PreferencesActivity.VIDEO_RESUME_TIME, time).apply()
+                        .putLong(VIDEO_RESUME_TIME, time).apply()
         }
         mService.stop()
     }

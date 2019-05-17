@@ -115,7 +115,7 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
 
     private fun setupNavigationView() {
         navigationView = findViewById(R.id.navigation)
-        navigationView!!.menu.findItem(R.id.nav_history).isVisible = settings.getBoolean(PreferencesFragment.PLAYBACK_HISTORY, true)
+        navigationView!!.menu.findItem(R.id.nav_history).isVisible = settings.getBoolean(PLAYBACK_HISTORY, true)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -308,16 +308,16 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ACTIVITY_RESULT_PREFERENCES) {
             when (resultCode) {
-                PreferencesActivity.RESULT_RESCAN -> this.reloadLibrary()
-                PreferencesActivity.RESULT_RESTART, PreferencesActivity.RESULT_RESTART_APP -> {
-                    val intent = Intent(this@MainActivity, if (resultCode == PreferencesActivity.RESULT_RESTART_APP) StartActivity::class.java else MainActivity::class.java)
+                RESULT_RESCAN -> this.reloadLibrary()
+                RESULT_RESTART, RESULT_RESTART_APP -> {
+                    val intent = Intent(this@MainActivity, if (resultCode == RESULT_RESTART_APP) StartActivity::class.java else MainActivity::class.java)
                     finish()
                     startActivity(intent)
                 }
-                PreferencesActivity.RESULT_UPDATE_SEEN_MEDIA -> for (fragment in supportFragmentManager.fragments)
+                RESULT_UPDATE_SEEN_MEDIA -> for (fragment in supportFragmentManager.fragments)
                     if (fragment is VideoGridFragment)
                         fragment.updateSeenMediaMarker()
-                PreferencesActivity.RESULT_UPDATE_ARTISTS -> {
+                RESULT_UPDATE_ARTISTS -> {
                     val fragment = currentFragment
                     if (fragment is AudioBrowserFragment) fragment.viewModel.refresh()
                 }
@@ -325,7 +325,7 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
         } else if (requestCode == ACTIVITY_RESULT_OPEN && resultCode == Activity.RESULT_OK) {
             MediaUtils.openUri(this, data!!.data)
         } else if (requestCode == ACTIVITY_RESULT_SECONDARY) {
-            if (resultCode == PreferencesActivity.RESULT_RESCAN) {
+            if (resultCode == RESULT_RESCAN) {
                 forceRefresh(currentFragment)
             }
         }

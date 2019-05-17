@@ -38,19 +38,17 @@ import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.util.PLAYBACK_HISTORY
 import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.RESULT_RESTART
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    override fun getXml(): Int {
-        return R.xml.preferences
-    }
+    override fun getXml() = R.xml.preferences
 
-    override fun getTitleId(): Int {
-        return R.string.preferences
-    }
+    override fun getTitleId() = R.string.preferences
 
     override fun onStart() {
         super.onStart()
@@ -78,7 +76,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                         val intent = Intent(activity.applicationContext, SecondaryActivity::class.java)
                         intent.putExtra("fragment", SecondaryActivity.STORAGE_BROWSER)
                         startActivity(intent)
-                        activity.setResult(PreferencesActivity.RESULT_RESTART)
+                        activity.setResult(RESULT_RESTART)
                     }
                     else -> Permissions.showStoragePermissionDialog(requireActivity(), false)
                 }
@@ -93,7 +91,7 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
             "casting_category" -> loadFragment(PreferencesCasting())
             PLAYBACK_HISTORY -> {
                 val activity = activity
-                activity?.setResult(PreferencesActivity.RESULT_RESTART)
+                activity?.setResult(RESULT_RESTART)
                 return true
             }
             else -> return super.onPreferenceTreeClick(preference)
@@ -108,12 +106,5 @@ class PreferencesFragment : BasePreferenceFragment(), SharedPreferences.OnShared
                     && !Permissions.canDrawOverlays(activity))
                 Permissions.checkDrawOverlaysPermission(activity)
         }
-    }
-
-    companion object {
-
-        const val TAG = "VLC/PreferencesFragment"
-
-        const val PLAYBACK_HISTORY = "playback_history"
     }
 }

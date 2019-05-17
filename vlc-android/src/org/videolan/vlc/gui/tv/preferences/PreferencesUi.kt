@@ -32,7 +32,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.util.AndroidDevices
+import org.videolan.vlc.util.*
 
 
 @ExperimentalCoroutinesApi
@@ -52,12 +52,12 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
         super.onCreate(savedInstanceState)
 
         findPreference("enable_clone_mode").isVisible = false
-        findPreference("tv_ui").isVisible = AndroidDevices.hasTsp
-        findPreference("app_theme").isVisible = false
+        findPreference(PREF_TV_UI).isVisible = AndroidDevices.hasTsp
+        findPreference(KEY_APP_THEME).isVisible = false
         findPreference("secondary_display_category").isVisible = false
         findPreference("secondary_display_category_summary").isVisible = false
         findPreference("blurred_cover_background").isVisible = false
-        findPreference("resume_playback").isVisible = false
+        findPreference(RESUME_PLAYBACK).isVisible = false
         prepareLocaleList()
     }
 
@@ -75,7 +75,10 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             "set_locale" -> UiTools.restartDialog(activity)
-            "tv_ui" -> (activity as PreferencesActivity).setRestartApp()
+            PREF_TV_UI -> {
+                Settings.tvUI = sharedPreferences.getBoolean(PREF_TV_UI, false)
+                (activity as PreferencesActivity).setRestartApp()
+            }
             "browser_show_all_files" -> (activity as PreferencesActivity).setRestart()
         }
     }
