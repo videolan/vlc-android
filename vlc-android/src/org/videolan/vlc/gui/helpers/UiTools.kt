@@ -38,11 +38,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.renderscript.Allocation
-import android.renderscript.Element
-import android.renderscript.RSInvalidStateException
-import android.renderscript.RenderScript
-import android.renderscript.ScriptIntrinsicBlur
+import android.renderscript.*
 import android.text.Html
 import android.text.TextUtils
 import android.view.*
@@ -53,9 +49,16 @@ import android.view.animation.RotateAnimation
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
-
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.databinding.BindingAdapter
+import androidx.fragment.app.FragmentActivity
 import com.google.android.material.snackbar.Snackbar
-
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -64,26 +67,18 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
+import org.videolan.vlc.gui.BaseActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
 import org.videolan.vlc.gui.dialogs.SavePlaylistDialog
 import org.videolan.vlc.media.MediaUtils
+import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.*
-import org.videolan.vlc.util.FileUtils
-import org.videolan.vlc.util.LocalePair
-
 import java.util.Locale
 import java.util.TreeMap
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
-import androidx.databinding.BindingAdapter
-import androidx.fragment.app.FragmentActivity
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.vlc.gui.BaseActivity
-import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
+import kotlin.collections.ArrayList
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -199,11 +194,6 @@ object UiTools {
      */
     fun getColorFromAttribute(context: Context, attrId: Int): Int {
         return ContextCompat.getColor(context, getResourceFromAttribute(context, attrId))
-    }
-
-
-    fun setViewVisibility(v: View?, visibility: Int) {
-        if (v != null) v.visibility = visibility
     }
 
     fun setViewOnClickListener(v: View?, ocl: View.OnClickListener?) {

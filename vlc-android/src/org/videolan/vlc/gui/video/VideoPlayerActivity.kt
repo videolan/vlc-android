@@ -73,6 +73,7 @@ import org.videolan.libvlc.util.VLCVideoLayout
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.*
 import org.videolan.vlc.*
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.databinding.PlayerHudBinding
@@ -83,7 +84,6 @@ import org.videolan.vlc.gui.browser.FilePickerActivity
 import org.videolan.vlc.gui.dialogs.RenderersDialog
 import org.videolan.vlc.gui.helpers.*
 import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate
-import org.videolan.vlc.gui.preferences.PreferencesActivity
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.MediaUtils
@@ -543,7 +543,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             videoUri = uri
             if (isPlaylistVisible) {
                 playlistAdapter!!.currentIndex = currentMediaPosition
-                playlist!!.visibility = View.GONE
+                playlist.setGone()
             }
             if (settings.getBoolean("video_transition_show", true)) showTitle()
             initUI()
@@ -679,7 +679,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         val btFilter = IntentFilter(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED)
         btFilter.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED)
         registerReceiver(btReceiver, btFilter)
-        UiTools.setViewVisibility(overlayInfo, View.INVISIBLE)
+        overlayInfo.setInvisible()
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -786,10 +786,10 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 playlistAdapter!!.setModel(playlistModel!!)
                 playlistModel!!.dataset.observe(this, playlistObserver)
             }
-            playlistToggle!!.visibility = View.VISIBLE
+            playlistToggle.setVisible()
             if (hudBinding != null) {
-                hudBinding!!.playlistPrevious.visibility = View.VISIBLE
-                hudBinding!!.playlistNext.visibility = View.VISIBLE
+                hudBinding!!.playlistPrevious.setVisible()
+                hudBinding!!.playlistNext.setVisible()
             }
             playlistToggle!!.setOnClickListener(this@VideoPlayerActivity)
 
@@ -992,7 +992,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 return true
             }
             KeyEvent.KEYCODE_BUTTON_A -> {
-                if (hudBinding != null && hudBinding!!.progressOverlay.visibility == View.VISIBLE)
+                if (hudBinding != null && hudBinding!!.progressOverlay.isVisible())
                     return false
                 when {
                     isNavMenu -> return navigateDvdMenu(keyCode)
@@ -1325,8 +1325,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         playbackSettingPlus!!.setOnClickListener(this)
         playbackSettingMinus!!.setOnTouchListener(OnRepeatListener(this))
         playbackSettingPlus!!.setOnTouchListener(OnRepeatListener(this))
-        playbackSettingMinus!!.visibility = View.VISIBLE
-        playbackSettingPlus!!.visibility = View.VISIBLE
+        playbackSettingMinus.setVisible()
+        playbackSettingPlus.setVisible()
         playbackSettingPlus!!.requestFocus()
         initPlaybackSettingInfo()
     }
@@ -1334,8 +1334,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     private fun initPlaybackSettingInfo() {
         initInfoOverlay()
-        UiTools.setViewVisibility(verticalBar, View.GONE)
-        UiTools.setViewVisibility(overlayInfo, View.VISIBLE)
+        verticalBar.setGone()
+        overlayInfo.setVisible()
         var text = ""
         when (playbackSetting) {
             IPlaybackSettingsController.DelayState.AUDIO -> {
@@ -1367,13 +1367,13 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             playbackSetting = IPlaybackSettingsController.DelayState.OFF
             if (playbackSettingMinus != null) {
                 playbackSettingMinus!!.setOnClickListener(null)
-                playbackSettingMinus!!.visibility = View.INVISIBLE
+                playbackSettingMinus.setInvisible()
             }
             if (playbackSettingPlus != null) {
                 playbackSettingPlus!!.setOnClickListener(null)
-                playbackSettingPlus!!.visibility = View.INVISIBLE
+                playbackSettingPlus.setInvisible()
             }
-            UiTools.setViewVisibility(overlayInfo, View.INVISIBLE)
+            overlayInfo.setInvisible()
             info!!.text = ""
             if (hudBinding != null) hudBinding!!.playerOverlayPlay.requestFocus()
         }
@@ -1480,7 +1480,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             layoutParams.weight = (barNewValue - 100) * 100 / max.toFloat()
             verticalBarBoostProgress!!.layoutParams = layoutParams
         }
-        verticalBar!!.visibility = View.VISIBLE
+        verticalBar.setVisible()
     }
 
     /**
@@ -1491,8 +1491,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     internal fun showInfo(text: String, duration: Int) {
         if (isInPictureInPictureMode) return
         initInfoOverlay()
-        UiTools.setViewVisibility(verticalBar, View.GONE)
-        UiTools.setViewVisibility(overlayInfo, View.VISIBLE)
+        verticalBar.setGone()
+        overlayInfo.setVisible()
         info!!.text = text
         handler.removeMessages(FADE_OUT_INFO)
         handler.sendEmptyMessageDelayed(FADE_OUT_INFO, duration.toLong())
@@ -1527,7 +1527,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         if (overlayInfo != null && overlayInfo!!.visibility == View.VISIBLE) {
             overlayInfo!!.startAnimation(AnimationUtils.loadAnimation(
                     this@VideoPlayerActivity, android.R.anim.fade_out))
-            UiTools.setViewVisibility(overlayInfo, View.INVISIBLE)
+            overlayInfo.setInvisible()
         }
     }
 
@@ -2133,9 +2133,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     showControls(true)
                 }
                 dimStatusBar(false)
-                if (hudBinding != null) hudBinding!!.progressOverlay.visibility = View.VISIBLE
+                if (hudBinding != null) hudBinding!!.progressOverlay.setVisible()
                 if (!displayManager.isPrimary)
-                    overlayBackground!!.visibility = View.VISIBLE
+                    overlayBackground.setVisible()
                 updateOverlayPausePlay()
             }
             handler.removeMessages(FADE_OUT)
@@ -2185,7 +2185,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                         && Settings.getInstance(this).getBoolean("enable_casting", true)) {
                     rendererBtn = findViewById(R.id.video_renderer)
                     PlaybackService.renderer.observe(this, Observer { rendererItem -> if (rendererBtn != null) rendererBtn!!.setImageResource(if (rendererItem == null) R.drawable.ic_renderer_circle else R.drawable.ic_renderer_on_circle) })
-                    RendererDelegate.renderers.observe(this, Observer<List<RendererItem>> { rendererItems -> UiTools.setViewVisibility(rendererBtn, if (Util.isListEmpty(rendererItems)) View.GONE else View.VISIBLE) })
+                    RendererDelegate.renderers.observe(this, Observer<List<RendererItem>> { rendererItems -> rendererBtn.setVisibility(if (Util.isListEmpty(rendererItems)) View.GONE else View.VISIBLE) })
                 }
                 if (seekButtons) initSeekButton()
                 resetHudLayout()
@@ -2196,12 +2196,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 setListeners(true)
                 initPlaylistUi()
                 if (!displayManager.isPrimary) {
-                    hudBinding!!.lockOverlayButton.visibility = View.GONE
-                    hudBinding!!.playerOverlaySize.visibility = View.GONE
+                    hudBinding!!.lockOverlayButton.setGone()
+                    hudBinding!!.playerOverlaySize.setGone()
                 }
 
                 if (!isTv && !AndroidDevices.isChromeBook)
-                    orientationToggle!!.visibility = View.VISIBLE
+                    orientationToggle.setVisible()
             } else if (hudBinding != null) {
                 hudBinding!!.progress = service.playlistManager.player.progress
                 hudBinding!!.lifecycleOwner = this
@@ -2217,12 +2217,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         if (isShowing) {
             handler.removeMessages(FADE_OUT)
             Log.i(TAG, "remove View!")
-            UiTools.setViewVisibility(overlayTips, View.INVISIBLE)
+            overlayTips.setInvisible()
             if (!displayManager.isPrimary) {
-                overlayBackground!!.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out))
-                overlayBackground!!.visibility = View.INVISIBLE
+                overlayBackground?.startAnimation(AnimationUtils.loadAnimation(this, android.R.anim.fade_out))
+                overlayBackground.setInvisible()
             }
-            if (hudBinding != null) hudBinding!!.progressOverlay.visibility = View.INVISIBLE
+            if (hudBinding != null) hudBinding!!.progressOverlay.setInvisible()
             showControls(false)
             isShowing = false
             dimStatusBar(true)
@@ -2658,12 +2658,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     internal fun togglePlaylist() {
         if (isPlaylistVisible) {
-            playlist!!.visibility = View.GONE
-            playlist!!.setOnClickListener(null)
+            playlist.setGone()
+            playlist?.setOnClickListener(null)
             return
         }
         hideOverlay(true)
-        playlist!!.visibility = View.VISIBLE
+        playlist.setVisible()
         playlist!!.adapter = playlistAdapter
         update()
     }
@@ -2685,7 +2685,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         rotate.interpolator = DecelerateInterpolator()
         rotate.repeatCount = RotateAnimation.INFINITE
         anim.addAnimation(rotate)
-        loadingImageView!!.visibility = View.VISIBLE
+        loadingImageView.setVisible()
         loadingImageView!!.startAnimation(anim)
     }
 
@@ -2696,16 +2696,16 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         handler.removeMessages(LOADING_ANIMATION)
         if (!isLoading) return
         isLoading = false
-        loadingImageView!!.visibility = View.INVISIBLE
-        loadingImageView!!.clearAnimation()
+        loadingImageView.setInvisible()
+        loadingImageView?.clearAnimation()
     }
 
     fun onClickOverlayTips(v: View) {
-        UiTools.setViewVisibility(overlayTips, View.GONE)
+        overlayTips.setGone()
     }
 
     fun onClickDismissTips(v: View) {
-        UiTools.setViewVisibility(overlayTips, View.GONE)
+        overlayTips.setGone()
         settings.edit().putBoolean(PREF_TIPS_SHOWN, true).apply()
     }
 
@@ -2738,7 +2738,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     hideOverlay(false)
                 } else if (menuIdx != -1) setESTracks()
 
-                UiTools.setViewVisibility(navMenu, if (menuIdx >= 0 && navMenu != null) View.VISIBLE else View.GONE)
+                navMenu.setVisibility(if (menuIdx >= 0 && navMenu != null) View.VISIBLE else View.GONE)
                 supportInvalidateOptionsMenu()
             })
         })

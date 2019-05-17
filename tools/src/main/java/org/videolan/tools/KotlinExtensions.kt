@@ -1,5 +1,6 @@
 package org.videolan.tools
 
+import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -35,3 +36,15 @@ fun <T> List<T>.getposition(target: T) : Int {
 }
 
 fun LifecycleOwner.isStarted() = lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
+
+fun View.isVisible() = visibility == View.VISIBLE
+fun View.isInvisible() = visibility == View.INVISIBLE
+fun View.isGone() = visibility == View.GONE
+
+fun View?.setVisibility(visibility: Int) {
+    this?.visibility = visibility
+}
+
+fun View?.setVisible() = setVisibility(View.VISIBLE)
+fun View?.setInvisible() = setVisibility(View.INVISIBLE)
+fun View?.setGone() = setVisibility(View.GONE)

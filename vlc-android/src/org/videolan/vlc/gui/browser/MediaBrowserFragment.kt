@@ -301,7 +301,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             TransitionManager.beginDelayedTransition(cl)
             cs.applyTo(cl)
         } else
-            UiTools.setViewVisibility(searchButtonView, if (visible) View.VISIBLE else View.GONE)
+            searchButtonView.visibility = if (visible) View.VISIBLE else View.GONE
     }
 
     override fun allowedToExpand() = true

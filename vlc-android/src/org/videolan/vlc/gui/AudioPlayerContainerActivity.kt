@@ -49,6 +49,7 @@ import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.tools.setVisibility
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.audio.AudioPlayer
 import org.videolan.vlc.gui.browser.StorageBrowserFragment
@@ -287,7 +288,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
             activityHandler.sendEmptyMessageDelayed(ACTION_DISPLAY_PROGRESSBAR, 1000)
         else {
             activityHandler.removeMessages(ACTION_DISPLAY_PROGRESSBAR)
-            UiTools.setViewVisibility(scanProgressLayout, visibility)
+            scanProgressLayout.setVisibility(visibility)
         }
     }
 
