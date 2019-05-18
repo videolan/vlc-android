@@ -261,6 +261,7 @@
     <string name="about_text">VLC dla Androida™ jest portem VLC Media Player, popularnego odtwarzacza multimedialnego o otwartym kodzie źródłowym. Wersja systemu Android™ może odczytać większość plików i strumieni sieciowych.</string>
     <string name="vlc_authors">i autorzy VLC.</string>
     <string name="compiled_by">Ta wersja VLC została skompilowana przez:</string>
+    <string name="feedback_forum">Forum opinii</string>
 
     <!-- Preferences -->
     <string name="preferences">Ustawienia</string>
@@ -694,4 +695,6 @@
     <string name="device_default">Systemowy</string>
     <string name="track_number">%s utwory</string>
     <string name="jump_to">Przejdź do</string>
+    <string name="show_video_thumbnails_summary">Pokaż miniaturki wideo w listach</string>
+    <string name="show_video_thumbnails">Miniaturki wideo</string>
 </resources>
