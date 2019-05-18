@@ -211,6 +211,7 @@
     <string name="playback_speed_summary">設定した再生速度を保存</string>
 
     <string name="play_button">再生ボタン</string>
+
     <!-- Tips -->
     <string name="video_player_tips">ビデオプレイヤーのTips:</string>
     <string name="seek">シーク</string>
@@ -240,6 +241,7 @@
     <string name="about_text">VLC for Android™ はポピュラーなオープンソースのメディアプレイヤーであるVLCメディアプレイヤーの移植版です。Android™ 版は多くのファイルとネットワークストリームを読み込むことが可能です。</string>
     <string name="vlc_authors">およびVLCの著作者。</string>
     <string name="compiled_by">このバージョンのVLCのコンパイラ:</string>
+    <string name="feedback_forum">フィードバックフォーム</string>
 
     <!-- Preferences -->
     <string name="preferences">設定</string>
@@ -673,4 +675,6 @@
     <string name="device_default">デバイスのデフォルト</string>
     <string name="track_number">%s トラック</string>
     <string name="jump_to">ジャンプ先</string>
+    <string name="show_video_thumbnails_summary">リストにビデオのサムネイルを表示</string>
+    <string name="show_video_thumbnails">ビデオサムネイル</string>
 </resources>
