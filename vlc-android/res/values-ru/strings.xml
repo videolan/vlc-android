@@ -261,6 +261,7 @@
     <string name="about_text">VLC для Android™ - порт медиаплеера VLC (популярного плеера с открытым исходным кодом). Версия для Android™ может воспроизводить большинство файлов и сетевых потоков.</string>
     <string name="vlc_authors">и авторы VLC.</string>
     <string name="compiled_by">Эту версию VLC скомпилировал:</string>
+    <string name="feedback_forum">Форум</string>
 
     <!-- Preferences -->
     <string name="preferences">Настройки</string>
@@ -694,4 +695,6 @@
     <string name="device_default">По умолчанию для устройства</string>
     <string name="track_number">дорожек: %s </string>
     <string name="jump_to">Переход к</string>
+    <string name="show_video_thumbnails_summary">Показывать в списках видео в миниатюрах</string>
+    <string name="show_video_thumbnails">Видео в миниатюрах</string>
 </resources>
