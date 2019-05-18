@@ -247,6 +247,7 @@
     <string name="about_text">VLC für Android™ ist eine Portierung des VLC media players, dem beliebten quelloffenen Mediaplayer. Die Android™-Version kann die meisten Dateien und Netzwerk-Streams lesen.</string>
     <string name="vlc_authors">und VLC-Autoren.</string>
     <string name="compiled_by">Diese Version von VLC wurde kompiliert von:</string>
+    <string name="feedback_forum">Bewertungsportal</string>
 
     <!-- Preferences -->
     <string name="preferences">Einstellungen</string>
@@ -680,4 +681,6 @@
     <string name="device_default">Systemsprache</string>
     <string name="track_number">%s Titel</string>
     <string name="jump_to">Springe zu</string>
+    <string name="show_video_thumbnails_summary">Video-Vorschau in Listen anzeigen</string>
+    <string name="show_video_thumbnails">Video-Vorschau</string>
 </resources>
