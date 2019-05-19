@@ -211,6 +211,7 @@
     <string name="playback_speed_summary">记住您所设置的回放速度</string>
 
     <string name="play_button">播放按钮</string>
+
     <!-- Tips -->
     <string name="video_player_tips">视频播放器小提示:</string>
     <string name="seek">定位</string>
@@ -240,6 +241,7 @@
     <string name="about_text">VLC for Android™ 是广受欢迎的开源媒体播放器 VLC media player 的移植版本。Android™ 版本可以读取大多数文件及网络流。</string>
     <string name="vlc_authors">及 VLC 全体作者。</string>
     <string name="compiled_by">此版本 VLC 的编译者为:</string>
+    <string name="feedback_forum">反馈论坛</string>
 
     <!-- Preferences -->
     <string name="preferences">设置</string>
@@ -673,4 +675,6 @@
     <string name="device_default">设备默认</string>
     <string name="track_number">%s 条轨道</string>
     <string name="jump_to">跳转到</string>
+    <string name="show_video_thumbnails_summary">在列表中显示视频缩略图</string>
+    <string name="show_video_thumbnails">视频缩略图</string>
 </resources>
