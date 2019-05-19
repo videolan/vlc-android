@@ -248,6 +248,7 @@
     <string name="about_text">VLC pro Android™ est una versione mòbile de su leghidore multimediale VLC, su populare leghidore multimediale a mitza aberta. Sa versione pro Android™ podet lèghere sa majoria de sos documentos e de sos flussos de retza.</string>
     <string name="vlc_authors">Autores de VLC.</string>
     <string name="compiled_by">Custa versione de VLC est compilata dae:</string>
+    <string name="feedback_forum">Forum de sinnalatzione</string>
 
     <!-- Preferences -->
     <string name="preferences">Impostatziones</string>
@@ -681,4 +682,6 @@
     <string name="device_default">Predefinidu de su dispositivu</string>
     <string name="track_number">%s rastas</string>
     <string name="jump_to">Brinca a</string>
+    <string name="show_video_thumbnails_summary">Ammustra sas miniaturas de sos vìdeos in sas listas</string>
+    <string name="show_video_thumbnails">Miniaturas de sos vìdeos</string>
 </resources>
