@@ -212,6 +212,7 @@
     <string name="playback_speed_summary">Gogoratu ezarritako erreprodukzio-abiadura</string>
 
     <string name="play_button">Play Botoia</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Bideo-erreproduzigailuaren aholkuak:</string>
     <string name="seek">Saltatu</string>

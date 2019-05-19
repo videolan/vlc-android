@@ -151,7 +151,6 @@
     <string name="about">Tocante a</string>
     <string name="about_text">VLC p\'Android™ ye una aplicación portada de VLC media player, l\'afamáu reproductor multimedia de códigu abiertu. La versión p\'Android™ que pue lleer la mayoría de los ficheros y fluxos na rede.</string>
     <string name="compiled_by">Esta versión de VLC ta compilada por:</string>
-
     <string name="general_prefs_category">Xeneral</string>
     <string name="automatic">Automática</string>
     <string name="screen_orientation_portrait">Retratu</string>

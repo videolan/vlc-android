@@ -218,6 +218,7 @@
     <string name="playback_speed_summary">Emlékezzen a beállított lejátszási sebességre</string>
 
     <string name="play_button">Lejátszás gomb</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Lejátszó tippek:</string>
     <string name="seek">Keresés</string>

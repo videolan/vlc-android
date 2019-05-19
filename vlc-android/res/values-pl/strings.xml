@@ -232,6 +232,7 @@
     <string name="playback_speed_summary">Zapamiętaj ustawioną prędkość odtwarzania</string>
 
     <string name="play_button">Przycisk odtwarzania</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Porady odtwarzacza wideo:</string>
     <string name="seek">Szukaj</string>

@@ -139,8 +139,7 @@
     <string name="error_problem">क्षमस्व, VLC लोड करतेवेळी काही समस्या होती त्यामुळे तो बंद करावा लागला.</string>
     <string name="error_message_is">चूक संदेश असा आहे (कृपया डीबग करतेवेळी याचा उल्लेख करा):\n</string>
     <string name="encountered_error_title">प्लेबॅक मध्ये त्रुटी</string>
-    <string name="encountered_error_message">या मीडिया बरोबर VLC ला एक त्रुटी आली आहे.
-कृपया मीडिया लायब्ररी ताजी करून पुन्हा प्रयत्न करा.</string>
+    <string name="encountered_error_message">या मीडिया बरोबर VLC ला एक त्रुटी आली आहे.\nकृपया मीडिया लायब्ररी ताजी करून पुन्हा प्रयत्न करा.</string>
     <string name="invalid_location">%1$s हे स्थान प्ले केले जाऊ शकत नाही.</string>
 
     <string name="search">शोधा</string>
@@ -169,16 +168,13 @@
     <string name="about">VLC विषयी</string>
     <string name="about_text">Android™ साठी VLC ही VLC मीडिया प्लेयर या लोकप्रिय आणि उघड-स्त्रोत मीडिया प्लेयरची आवृत्ती आहे. ही Android™ आवृत्ती जवळपास सर्व फाईल्स आणि नेटवर्क स्ट्रीम वाचू शकते .</string>
     <string name="compiled_by">ही VLC आवृत्ती यांनी संकलित केली:</string>
-
     <string name="general_prefs_category">सर्वसामान्य</string>
     <string name="directories_summary">मीडिया लायब्ररी मध्ये समावेश करण्यासाठी निर्देशिका निवडा</string>
     <string name="add_custom_path">सानुकूल मार्ग प्रविष्ट करा</string>
     <string name="add_custom_path_description">स्कॅन करण्यासाठी अधिक सानुकूल निर्देशिका प्रविष्ट करा:</string>
     <string name="remove_custom_path">सानुकूल मार्ग काढून टाका</string>
     <string name="hardware_acceleration">हार्डवेअर अॅक्सलरेशन</string>
-    <string name="hardware_acceleration_summary">अक्षम: चांगले स्थिरता.
-डिकोड: कार्यप्रदर्शन सुधारू शकते.
-पूर्ण: पुढील कामगिरी सुधारू शकते.</string>
+    <string name="hardware_acceleration_summary">अक्षम: चांगले स्थिरता.\nडिकोड: कार्यप्रदर्शन सुधारू शकते.\nपूर्ण: पुढील कामगिरी सुधारू शकते.</string>
     <string name="hardware_acceleration_disabled">निष्क्रिय करा</string>
     <string name="hardware_acceleration_decoding">डिकोडिंग अॅक्सलरेशन</string>
     <string name="hardware_acceleration_full">पूर्ण अॅक्सलरेशन</string>
@@ -207,15 +203,12 @@
     <string name="audio_title_alignment_marquee">चिन्ह</string>
     <string name="enable_headset_detection">हेडसेट शोधा</string>
     <string name="enable_steal_remote_control">विशिष्ट हेडसेट दूरस्थ नियंत्रण</string>
-    <string name="enable_steal_remote_control_summary">अन्य अनुप्रयोगांकडून दूरस्थ नियंत्रण चोरून परस्परविरोध टाळा.
-हे HTC फोन वरील डायलिंग ऑन डबल क्लिक प्रतिबंधित करते.</string>
+    <string name="enable_steal_remote_control_summary">अन्य अनुप्रयोगांकडून दूरस्थ नियंत्रण चोरून परस्परविरोध टाळा. हे HTC फोन वरील डायलिंग ऑन डबल क्लिक प्रतिबंधित करते.</string>
     <string name="aout">ध्वनी आउटपुट</string>
     <string name="aout_summary">ध्वनी आउटपुटसाठी VLC जी पद्धत वापरते ती बदला.</string>
     <string name="performance_prefs_category">कार्यप्रदर्शन</string>
     <string name="chroma_format">चित्रफीत क्रोमा सक्त करा</string>
-    <string name="chroma_format_summary">RGB 32-bit: डीफॉल्ट क्रोमा
-RGB 16-bit: उत्तम कार्यप्रदर्शन पण कमी गुणवत्ता
-YUV: सर्वोत्तम कार्यप्रदर्शन पण सर्व साधनांवर काम करत नाही. फक्त Android 2.3 आणि नंतरचे.</string>
+    <string name="chroma_format_summary">RGB 32-bit: डीफॉल्ट क्रोमा\nRGB 16-bit: उत्तम कार्यप्रदर्शन पण कमी गुणवत्ता\nYUV: सर्वोत्तम कार्यप्रदर्शन पण सर्व साधनांवर काम करत नाही. फक्त Android 2.3 आणि नंतरचे.</string>
     <string name="deblocking">डीब्लॉकिंग फिल्टर सेटींग्स</string>
     <string name="deblocking_summary">डीब्लॉकिंग फिल्टर सेटींग्स बदला. चित्रफीत गुणवत्ता सुधारू शकते. फक्त प्रगत वापरकर्त्यांसाठी.</string>
     <string name="deblocking_always">पूर्ण डीब्लॉकिंग (सर्वात मंद)</string>

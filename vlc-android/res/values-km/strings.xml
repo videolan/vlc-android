@@ -184,7 +184,6 @@
     <string name="about">អំពី</string>
     <string name="about_text">VLC សម្រាប់ Android™ គឺ​ជា​កម្មវិធី​ចាក់​មេឌៀ VLC ដែល​ជា​កម្មវិធី​មេឌៀ​កូដ​ចំ​ហ​ដ៏​មាន​ប្រជាប្រិយ ។ Android™ អាច​អាន​ឯកសារ និង​​ស្ទ្រីម​បណ្ដាញ​​ភាគ​ច្រើន ។</string>
     <string name="compiled_by">VLC កំណែ​នេះ​ត្រូវ​បាន​ចងក្រង​ដោយ ៖</string>
-
     <string name="general_prefs_category">ទូទៅ</string>
     <string name="directories_summary">ជ្រើស​ថត ដើម្បី​ដាក់​បញ្ចូល​បណ្ណាល័យ​មេឌៀ</string>
     <string name="add_custom_path">បន្ថែម​ផ្លូវ​ផ្ទាល់​ខ្លួន</string>

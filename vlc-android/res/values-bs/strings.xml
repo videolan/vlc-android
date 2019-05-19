@@ -164,7 +164,6 @@
     <string name="about">O nama</string>
     <string name="about_text">VLC za Android™ je port VLC medijskog izvođača, popularnog medijskog izvođača otvorenog koda. Android™ verzija može čitati većinu datoteka i mrežnih strujanja.</string>
     <string name="compiled_by">Ova verzija VLC-a je kompajlirana od strane:</string>
-
     <string name="general_prefs_category">Opće</string>
     <string name="directories_summary">Izaberi direktorije za uključivanje u medijskoj biblioteci</string>
     <string name="add_custom_path">Dodaj prilagođen put</string>
@@ -205,9 +204,7 @@
     <string name="aout_summary">Izmijeni način na koji VLC koristi izlazni zvuk.</string>
     <string name="performance_prefs_category">Performansa</string>
     <string name="chroma_format">Forsiraj video krom</string>
-    <string name="chroma_format_summary">RGB 32-bit: zadana kroma
-RGB 16-bit: bolja performansa ali slabiji kvalitet
-YUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije.</string>
+    <string name="chroma_format_summary">RGB 32-bit: zadana kroma\nRGB 16-bit: bolja performansa ali slabiji kvalitet\nYUV: najbolja performansa ali ne radi na svim uređajima. Android 2.3 i novije.</string>
     <string name="deblocking">Postavke filtera za deblokiranje</string>
     <string name="deblocking_summary">Izmijeni postavke filtera za deblokiranje. Moguće poboljšanje kvalitete videa. Samo za napredne korisnike.</string>
     <string name="deblocking_always">Puno deblokiranje (najsporije)</string>

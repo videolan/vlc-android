@@ -218,6 +218,7 @@
     <string name="playback_speed_summary">Husk avspillingshastigheten du valgte</string>
 
     <string name="play_button">Avspillingsknapp</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Videospiller-tips:</string>
     <string name="seek">Søk</string>

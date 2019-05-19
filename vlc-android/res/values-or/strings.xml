@@ -110,7 +110,6 @@
     <string name="about">ବିଷୟରେ</string>
     <string name="about_text">Android™ ପାଇଁ VLC ହେଉଛି ଲୋକପ୍ରିୟ ମୁକ୍ତ ସ୍ରୋତ ମିଡିଆ ପ୍ଲେୟାର, VLC ମିଡିଆ ପ୍ଲେୟାରର ଏକ ଅନୁଭାଗ| Android™ ସଂସ୍କରଣ ପ୍ରାୟ ଫାଇଲ ଏବଂ ନେଟୱର୍କ ଷ୍ଟ୍ରିମ୍‌ ଗୁଡିକକୁ ଚଳାଇ ପାରିବ|</string>
     <string name="compiled_by">VLC ର ଏହି ସଂସ୍କରଣକୁ ସଙ୍କଳନ କରିଛନ୍ତି:</string>
-
     <string name="add_custom_path">ଇଚ୍ଛାରୂପୀ ପଥ ଯୋଗ କରନ୍ତୁ</string>
     <string name="remove_custom_path">ଇଚ୍ଛାରୂପୀ ପଥ ଅପସାରଣ କରନ୍ତୁ</string>
     <string name="hardware_acceleration_disabled">ନିଷ୍କ୍ରିୟ</string>

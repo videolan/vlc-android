@@ -218,6 +218,7 @@
     <string name="playback_speed_summary">Muna afspilunarhraðann sem þú stilltir</string>
 
     <string name="play_button">Afspilunarhnappur</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Ábendingar myndskeiðaspilara:</string>
     <string name="seek">Leita</string>

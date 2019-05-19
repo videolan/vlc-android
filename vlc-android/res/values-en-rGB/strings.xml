@@ -157,7 +157,6 @@
     <string name="about">About</string>
     <string name="about_text">VLC for Android™ is a port of VLC media player, the popular open source media player. The Android™ version can read most files and network streams.</string>
     <string name="compiled_by">This version of VLC is compiled by:</string>
-
     <string name="general_prefs_category">General</string>
     <string name="directories_summary">Select directories to include in the media library</string>
     <string name="add_custom_path">Add a custom path</string>

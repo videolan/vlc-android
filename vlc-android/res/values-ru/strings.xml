@@ -232,6 +232,7 @@
     <string name="playback_speed_summary">Запоминать последнюю установленную скорость воспроизведения</string>
 
     <string name="play_button">Кнопка воспроизведения</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Подсказки для видеоплеера:</string>
     <string name="seek">Переход</string>

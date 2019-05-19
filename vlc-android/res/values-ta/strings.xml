@@ -196,6 +196,7 @@
 
     <string name="playback_history_title">இயக்க வரலாறு</string>
     <string name="playback_speed_title">இயக்க வேகத்தை சேமிக்க</string>
+
     <!-- Tips -->
     <string name="video_player_tips">ஊடக இயக்கி உதவிக்குறிப்புகள்:</string>
     <string name="seek">நாடுங்கள்</string>
@@ -368,6 +369,7 @@
     <string name="chapter">அத்தியாயம்</string>
     <string name="directory_empty">அடைவு வெறுமையாக உள்ளது</string>
     <string name="medialibrary">ஊடக நூலகம்</string>
+
     <!-- Accessibility -->
     <string name="more_actions">மேலும் செயல்கள்</string>
     <string name="move">நகர்த்து</string>
@@ -378,6 +380,7 @@
     <string name="music_now_playing">இப்போ ஒடுவது</string>
 
     <string name="exit_app">VLC-ஐ நிறுத்து</string>
+
     <!-- Plugins -->
     <string name="plugins">நிரல்கள்</string>
     <string name="download_on_device">பதிவிறக்கு</string>

@@ -231,6 +231,7 @@
     <string name="playback_speed_summary">Cofio\'r cyflymder chwarae wyt ti\'n ei osod</string>
 
     <string name="play_button">Botwm Chwarae</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Awgrymiadau chwaraeydd fideo:</string>
     <string name="seek">Canfod</string>

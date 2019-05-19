@@ -218,6 +218,7 @@
     <string name="playback_speed_summary">Lembrar a velocidade de reprodução definida</string>
 
     <string name="play_button">Botão de Reprodução</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Dicas do reprodutor de vídeo:</string>
     <string name="seek">Buscar</string>

@@ -171,7 +171,6 @@
     <string name="about">Апісанне праграмы</string>
     <string name="about_text">VLC для Android™ — гэта порт VLC, папулярнага адкрытага медыяплэера. Версія для Android™ можа чытаць бальшыню файлаў і сеткавых патокаў.</string>
     <string name="compiled_by">Гэта версія VLC скампілявана:</string>
-
     <string name="general_prefs_category">Агульныя</string>
     <string name="directories_summary">Абярыце каталогі для ўключэння ў медыятэку</string>
     <string name="add_custom_path">Дадаць свой шлях</string>

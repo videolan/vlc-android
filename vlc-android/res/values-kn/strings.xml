@@ -139,7 +139,6 @@
     <string name="about">ಇದರ ಬಗ್ಗೆ</string>
     <string name="about_text">Android™ಗಾಗಿ VLCಯು ಜನಪ್ರಿಯ ಮುಕ್ತ VLC ಮಾಧ್ಯಮ ತಂತ್ರಾಂಶದ Android™ನ ಅವತರಣಿಕೆ. Android™ನ ಆವೃತ್ತಿಯು ಅನೇಕ ಕಡತಗಳು ಮತ್ತು ನೆಟ್ವರ್ಕ್ ಸ್ಟ್ರೀಮ್ ಗಳನ್ನು ಆಡಿಸಬಲ್ಲದು.</string>
     <string name="compiled_by">VLCಯ ಈ ಆವೃತ್ತಿಯ ಸಂಕಲನಕಾರರು:</string>
-
     <string name="general_prefs_category">ಸಾಮಾನ್ಯ</string>
     <string name="directories_summary">ಮಾಧ್ಯಮ ಭಂಡಾರದಲ್ಲಿ ಸೇರಿಸಲು ಕೋಶಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="add_custom_path">ಐಚ್ಚಿಕ ಪಥವನ್ನು ಸೇರಿಸಿ</string>
