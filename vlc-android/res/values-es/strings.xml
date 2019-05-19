@@ -248,6 +248,7 @@
     <string name="about_text">VLC para Android™ es una reescritura del Reproductor multimedia VLC, el popular reproductor multimedia de código abierto. La versión de Android™ puede leer la mayoría de archivos y flujos de red.</string>
     <string name="vlc_authors">y autores VLC.</string>
     <string name="compiled_by">Esta versión de VLC está compilada por:</string>
+    <string name="feedback_forum">Foro de comentarios</string>
 
     <!-- Preferences -->
     <string name="preferences">Preferencias</string>
@@ -681,4 +682,6 @@
     <string name="device_default">Dispositivo por defecto</string>
     <string name="track_number">%s pistas</string>
     <string name="jump_to">Saltar a</string>
+    <string name="show_video_thumbnails_summary">Mostrar previsualización de vídeos en listas</string>
+    <string name="show_video_thumbnails">Previsualización de vídeo</string>
 </resources>
