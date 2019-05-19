@@ -248,6 +248,7 @@
     <string name="about_text">A VLC for Android™ a népszerű nyílt forráskódú VLC médialejátszó androidos változata. Ez a változat képes a legtöbb fájlból és hálózati forrásból lejátszani.</string>
     <string name="vlc_authors">és a VLC szerzői.</string>
     <string name="compiled_by">Ezt a VLC verziót készítették:</string>
+    <string name="feedback_forum">Visszajelző fórum</string>
 
     <!-- Preferences -->
     <string name="preferences">Beállítások</string>
@@ -681,4 +682,6 @@
     <string name="device_default">Eszköz alapértelmezése</string>
     <string name="track_number">%s szám</string>
     <string name="jump_to">Ugrás</string>
+    <string name="show_video_thumbnails_summary">Videó bélyegképek megjelenítése a listákban</string>
+    <string name="show_video_thumbnails">Videó bélyegképek</string>
 </resources>
