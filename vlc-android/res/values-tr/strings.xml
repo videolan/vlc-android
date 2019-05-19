@@ -20,8 +20,8 @@
     <string name="sortby_date_desc">Tarih (azalan)</string>
     <string name="sortby_last_modified_date">Son eklenen</string>
     <string name="sortby_last_modified_date_desc">Son eklenen (azalan)</string>
-    <string name="sortby_number">İz numarası</string>
-    <string name="sortby_number_desc">İz numarası (azalan)</string>
+    <string name="sortby_number">Kayıt numarası</string>
+    <string name="sortby_number_desc">Kayıt numarası (azalan)</string>
     <string name="searchable_hint">Arama…</string>
     <string name="history">Geçmiş</string>
 
@@ -66,7 +66,7 @@
     <string name="unknown_artist">Bilinmeyen Sanatçı</string>
     <string name="unknown_album">Bilinmeyen Albüm</string>
     <string name="unknown_genre">Bilinmeyen Tür</string>
-    <string name="unknown_number">Bilinmeyen iz numarası</string>
+    <string name="unknown_number">Bilinmeyen kayıt numarası</string>
     <string name="songs">Parçalar</string>
     <plurals name="songs_quantity">
         <item quantity="one">1 parça</item>
@@ -75,7 +75,7 @@
 
     <string name="artists">Sanatçılar</string>
     <string name="albums">Albümler</string>
-    <string name="tracks">İzler</string>
+    <string name="tracks">Kayıtlar</string>
 
     <plurals name="albums_quantity">
         <item quantity="one">1 albüm</item>
@@ -142,10 +142,10 @@
     <string name="thumbnail">Küçük görsel</string>
     <string name="unseekable_stream">Arama yapılamayan akış</string>
     <string name="refresh">Yenile</string>
-    <string name="track_audio">Ses izi</string>
-    <string name="track_video">Görüntü izi</string>
-    <string name="track_text">Alt yazı izi</string>
-    <string name="track_unknown">Bilinmeyen iz</string>
+    <string name="track_audio">Ses kaydı</string>
+    <string name="track_video">Görüntü kaydı</string>
+    <string name="track_text">Alt yazı kaydı</string>
+    <string name="track_unknown">Bilinmeyen kayıt</string>
     <string name="track_bitrate_info">Bit hızı: %1$s/s\n</string>
     <string name="track_codec_info">Kodlayıcı/Çözücü: %1$s\n</string>
     <string name="track_language_info">Dil: %1$s\n</string>
@@ -223,7 +223,7 @@
     <string name="video_player_tips">Görüntü oynatıcı ipuçları:</string>
     <string name="seek">Arama</string>
     <string name="subtitles">Alt yazılar</string>
-    <string name="audio_sub">Ses izleri\nve alt yazılar</string>
+    <string name="audio_sub">Ses kayıtları\nve alt yazılar</string>
     <string name="resize">Boyutlandır</string>
     <string name="options">Ayarlar</string>
     <string name="lock">Kilitle</string>
@@ -362,7 +362,7 @@
     <string name="enable_headset_detection">Kulaklık algılansın</string>
     <string name="enable_headset_detection_summary">Kulaklığın takıldığı ve çıkarıldığı algılansın</string>
     <string name="enable_headset_actions_title">Uzaktan Denetim Kısayolları</string>
-    <string name="enable_headset_actions_summary">\'Oynat\' üzerine çift dokunarak sonraki ize, uzun basarak önceki ize geçebilirsiniz</string>
+    <string name="enable_headset_actions_summary">\'Oynat\' üzerine çift dokunarak sonraki kayıda, uzun basarak önceki kayıda geçebilirsiniz</string>
     <string name="enable_play_on_headset_insertion">Kulaklık takıldığında sürdürülsün</string>
     <string name="enable_play_on_headset_insertion_summary">Çıkartıldığında duraklatılsın</string>
     <string name="enable_steal_remote_control">Kumanda yalnız kulaklık için kullanılsın</string>
@@ -629,7 +629,7 @@
     <string name="otg_device_title">Dokun yedekle aygıtı</string>
     <string name="browser">Tarayıcı</string>
     <string name="ab_repeat">A-B Yineleme</string>
-    <string name="stop_after_this">Bu izden sonra dur</string>
+    <string name="stop_after_this">Bu kayıttan sonra dur</string>
     <string name="time_category_new">Yeni ortam</string>
     <string name="time_category_current_month">Bu ay</string>
     <string name="time_category_current_year">Bu yıl</string>
@@ -646,10 +646,10 @@
     <string name="download_the_selected">Seçimi indir</string>
     <string name="next">Sonraki</string>
     <string name="download">İndir</string>
-    <string name="ctx_player_video_track">Görüntü izini seçin</string>
-    <string name="ctx_player_audio_track">Ses izi</string>
-    <string name="ctx_player_subs_track">Alt yazı izi</string>
-    <string name="ctx_player_tracks_title">Ortam izleri</string>
+    <string name="ctx_player_video_track">Görüntü kaydını seçin</string>
+    <string name="ctx_player_audio_track">Ses kaydı</string>
+    <string name="ctx_player_subs_track">Alt yazı kaydı</string>
+    <string name="ctx_player_tracks_title">Ortam kayıtları</string>
     <string name="ctx_pip_title">Açılan pencerede oynatıcı</string>
     <string name="device_dialog_title">Bir dış aygıt takıldı</string>
     <string name="device_dialog_message">TV kutunuza yeni bir depolama aygıtı bağladınız. Bu aygıtın VLC ile açılmasını ister misiniz?</string>
@@ -680,7 +680,7 @@
     <string name="popup_force_legacy_title">Görsel içinde görsel penceresi kullanılsın</string>
     <string name="popup_force_legacy_summary">Boyutu ayarlanabilir görsel içinde görsel penceresi kullanılsın</string>
     <string name="device_default">Aygıt varsayılanları</string>
-    <string name="track_number">%s iz</string>
+    <string name="track_number">%s kayıt</string>
     <string name="jump_to">Şuraya atla</string>
     <string name="show_video_thumbnails_summary">Bu seçenek etkinleştirildiğinde, listede görüntü küçük görselleri görüntülenir</string>
     <string name="show_video_thumbnails">Görüntü küçük görselleri</string>
