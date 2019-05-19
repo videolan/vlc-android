@@ -152,7 +152,6 @@
     <string name="about">Mu dheidhinn</string>
     <string name="about_text">Tha VLC airson Android™ \'na phort de chluicheadair mheadhanan VLC, cluicheadaire le còd fosgailte air a bheil fèill mhòr. Cluichidh an tionndadh Android™ a\' mhòrchuid dhe na faidhlichean is sruthan lìonraidh.</string>
     <string name="compiled_by">Chaidh an tionndadh seo de VLC a thrusadh le:</string>
-
     <string name="general_prefs_category">Coitcheann</string>
     <string name="directories_summary">Tagh pasgan a thèid a ghabhail a-steach ann an leabharlann nam meadhan</string>
     <string name="add_custom_path">Cuir slighe ghnàthaichte ris</string>

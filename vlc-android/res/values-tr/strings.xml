@@ -218,6 +218,7 @@
     <string name="playback_speed_summary">Ayarlanan oynatma hızı hatırlansın</string>
 
     <string name="play_button">Oynatma Düğmesi</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Görüntü oynatıcı ipuçları:</string>
     <string name="seek">Arama</string>

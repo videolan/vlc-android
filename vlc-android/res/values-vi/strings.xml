@@ -102,6 +102,7 @@
     <string name="error_not_compatible">Thật đáng tiếc, phiên bản VLC dành cho Android™ này hiện không hỗ trợ đối với thiết bị của bạn.</string>
     <string name="error_problem">Thật đáng tiếc, VLC dành cho Android đã gặp phải trục trặc trong quá trình khởi động và buộc phải đóng lại.</string>
     <string name="encountered_error_title">Lỗi xảy ra khi phát lại</string>
+
     <!-- About -->
     <string name="app_name_full">VLC dành cho</string>
     <string name="licence">Bản quyền</string>
@@ -109,7 +110,6 @@
     <string name="about">Thông tin</string>
     <string name="about_text">VLC dành cho  Android™ là một chương trình nằm trong dự án VLC Media Player, vốn được biết tới với đại đa số người dùng trên khắp thế giới vì tính miễn phí, mã nguồn mở và đầy tiện dụng của mình. Phiên bản dành cho Android™ có thể xem/đọc được hầu hết các định dạng file/tập tin lẫn tương tác với luồng dữ liệu trực tuyến. Bản dịch Việt Ngữ được thực hiện bởi Phan Anh.</string>
     <string name="compiled_by">Phiên bản VLC này được biên dịch bởi:</string>
-
     <string name="directories_summary">Chọn thư mục để chứa Thư Viện Media</string>
     <string name="add_custom_path">Thêm vào đường dẫn tự chọn</string>
     <string name="add_custom_path_description">Thêm vào thư mục do bạn chỉ định để quét:</string>

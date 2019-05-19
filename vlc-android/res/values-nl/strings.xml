@@ -218,6 +218,7 @@
     <string name="playback_speed_summary">Ingestelde afspeelsnelheid onthouden</string>
 
     <string name="play_button">Afspeelknop</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Videospeler-tips:</string>
     <string name="seek">Zoeken</string>

@@ -203,6 +203,7 @@
     <string name="playback_speed_summary">설정한 재생 속도를 기억합니다</string>
 
     <string name="play_button">재생 버튼</string>
+
     <!-- Tips -->
     <string name="video_player_tips">비디오 재생기 팁:</string>
     <string name="seek">탐색</string>

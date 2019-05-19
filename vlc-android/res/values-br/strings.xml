@@ -234,6 +234,7 @@
     <string name="playback_speed_summary">Dalc\'hit soñj eus an tizh lenn ho peus termenet</string>
 
     <string name="play_button">Bouton Lenn</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Alioù al lenner video:</string>
     <string name="seek">Klask</string>
@@ -371,6 +372,7 @@
     <string name="playlist_save">Enrollañ ar roll-lenn</string>
     <string name="go_to_chapter">Mont d\'ar chabistr...</string>
     <string name="chapter">Chabistr</string>
+
     <!-- Accessibility -->
     <string name="more_actions">Muioc\'h a oberoù</string>
     <string name="move">Fiñval</string>
@@ -379,8 +381,10 @@
     <string name="allow_settings_access_ringtone_description">VLC en deus ezhomm ec\'h aotrefec\'h an arload-mañ evit lakaat ar ganaouenn-mañ evel soniri.</string>
     <string name="allow_settings_access_brightness_title">Aotren VLC da cheñch ar mod lintr</string>
     <string name="allow_settings_access_brightness_description">VLC en deus ezhomm ec\'h aotrefec\'h an arload-mañ da cheñch al lintr.</string>
+
     <!-- fast scroller -->
     <string name="fastscroller_track">Roud FastScroller</string>
+
     <!-- Plugins -->
     <string name="plugins">Lugantoù</string>
     <string name="extension_empty">Elfenn ebet da ziskouez, kit da arventennoù hoc\'h astennoù evit kaout un nebeud re.</string>

@@ -218,6 +218,7 @@
     <string name="playback_speed_summary">Ricorda la velocità di riproduzione impostata</string>
 
     <string name="play_button">Pulsante Riproduci</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Suggerimenti del lettore video:</string>
     <string name="seek">Posiziona</string>

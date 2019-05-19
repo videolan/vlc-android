@@ -2,12 +2,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Main VLC Interface -->
-    <string name="ok">	
-ঠিক আছে</string>
-    <string name="cancel">	
-রদ করা</string>
-    <string name="other">	
-অন্য</string>
+    <string name="ok">ঠিক আছে</string>
+    <string name="cancel">রদ করা</string>
+    <string name="other">অন্য</string>
     <string name="sortby">সাজান…</string>
     <string name="sortby_name">নাম</string>
     <string name="sortby_artist_name">শিল্পী</string>
@@ -95,7 +92,6 @@
     <string name="about">সম্পর্কে</string>
     <string name="about_text">অ্যানড্রইড ™ জন্য VLC হয় VLC মিডিয়া প্লেয়ার, জনপ্রিয় ওপেন সোর্স মিডিয়া প্লেয়ার একটি বন্দর. অ্যানড্রইড ™ সংস্করণে সর্বাধিক ফাইল এবং নেটওয়ার্ক স্ট্রিম পড়তে পারেন.</string>
     <string name="compiled_by">VLC \'র এই সংস্করণ দ্বারা কম্পাইল করা হয়:</string>
-
     <string name="automatic">স্বয়ংক্রিয়</string>
     <string name="enable_headset_detection">হেডসেট সনাক্ত করুন</string>
     <string name="aout">অডিও আউটপুট</string>

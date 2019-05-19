@@ -232,6 +232,7 @@
     <string name="playback_speed_summary">Pamatovat si nastavenou rychlost přehrávání</string>
 
     <string name="play_button">Tlačítko přehrát</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Tipy přehrávače videa:</string>
     <string name="seek">Posun</string>

@@ -218,6 +218,7 @@
     <string name="playback_speed_summary">Kom ihåg uppspelningshastigheten du angav</string>
 
     <string name="play_button">Uppspelningsknapp</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Tips för videospelaren:</string>
     <string name="seek">Snabbspola</string>

@@ -131,7 +131,6 @@
     <string name="about">ھەققىدە</string>
     <string name="about_text">VLC for Android™ ئالقىشقا ئېرىشكەن كودى ئوچۇق ۋاستە چالغۇچ VLC media player نىڭ يۆتكەلگەن نەشرى. Android™ نەشرى كۆپ قىسىم ھۆججەتلەر ۋە تور ئېقىم ۋاستىلىرىنى ئوقۇيالايدۇ.</string>
     <string name="compiled_by">بۇ نەشرىدىكى VLC نى ھاسىللىغۇچى</string>
-
     <string name="general_prefs_category">ئادەتتىكى</string>
     <string name="directories_summary">ۋاستە ئامبىرى ئۆز ئىچىگە ئالىدىغان مۇندەرىجىنى تاللاڭ</string>
     <string name="add_custom_path">ئىختىيارىي يول قوش</string>

@@ -215,6 +215,7 @@
     <string name="playback_speed_summary">Husk den afspilningshastighed du har sat</string>
 
     <string name="play_button">Afspil-knap</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Tips til videoafspilleren:</string>
     <string name="seek">Søg</string>

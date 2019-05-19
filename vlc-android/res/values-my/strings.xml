@@ -99,7 +99,6 @@
     <string name="about">အကြောင်း</string>
     <string name="about_text">စက်ရုပ်အတွက်ဗီအယ်စီမှာဗီအယ်စီမီဒီယာဖွင့်စက်၏ထွက်ပေါက်ဖြစ်၊ စက်ရုပ်ပံုစံမှာဖိုင်အများစနှင့်ကွန်ယက်စီးကြောင်းများကိုဖတ်ရှုနိုင်။</string>
     <string name="compiled_by">ယခုဗီအယ်စီပံုစံမှာအားဖြင့်စည်း:</string>
-
     <string name="directories_summary">မီဒီယာတိုက်တွင်ထည့်သွင်းရန်ဖိုင်လမ်းညွန်များရွေးချယ်</string>
     <string name="add_custom_path">စိတ်ကြိက်လမ်းကြောင်းထည့်</string>
     <string name="add_custom_path_description">ဖတ်ရှုရန်နောက်ထပ်စိတ်ကြိုက်ဖိုင်လမ်းညွှန်ထည့်:</string>

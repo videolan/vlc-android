@@ -188,6 +188,7 @@
 
     <string name="playback_history_title">बजाउने इतिहास</string>
     <string name="playback_history_summary">बजाइसकेका सबै मिडियाहरूलाइ इतिहास खण्डमा साँच्नुहोस्</string>
+
     <!-- Tips -->
     <string name="video_player_tips">भिडियो प्लेयर जानकारी:</string>
     <string name="subtitles">उपशिर्षकहरु</string>

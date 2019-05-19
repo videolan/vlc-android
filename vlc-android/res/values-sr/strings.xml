@@ -156,7 +156,6 @@
     <string name="about">О апликацији</string>
     <string name="about_text">VLC за Android је порт VLC Media Player-а, популарног медијског плејера отвореног кода. Верзија за Android може да репродукује многе датотеке и мрежне токове.</string>
     <string name="compiled_by">Ову верзију VLC-а је компилирао:</string>
-
     <string name="general_prefs_category">Опште</string>
     <string name="directories_summary">Изаберите фасцикле за медијску библиотеку</string>
     <string name="add_custom_path">Додај прилагођену путању</string>

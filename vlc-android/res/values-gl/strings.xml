@@ -218,6 +218,7 @@
     <string name="playback_speed_summary">Lembrar a veloc. de reprodución que escollida</string>
 
     <string name="play_button">Botón de reprodución</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Suxestións para o reprodutor de vídeo:</string>
     <string name="seek">Buscar</string>

@@ -232,6 +232,7 @@
     <string name="playback_speed_summary">Запам\'ятати швидкість відтворення, задану вами</string>
 
     <string name="play_button">Кнопка Відтворити</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Поради для відеопрогравача:</string>
     <string name="seek">Шукати</string>

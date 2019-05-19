@@ -216,6 +216,7 @@
     <string name="playback_speed_summary">Διατήρηση μνήμης ταχήτητας αναπαραγωγής</string>
 
     <string name="play_button">Κουμπί αναπαραγωγής</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Συμβουλές αναπαραγωγής βίντεο:</string>
     <string name="seek">Εύρεση</string>

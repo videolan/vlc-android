@@ -123,7 +123,6 @@
     <string name="about">Programmist</string>
     <string name="about_text">VLC Androidile™ on avatud lähtekoodiga populaarse VLC meediaesitaja port. Androidi™ versioon suudab avada enamikke meediafaile ja võrguvoogusid.</string>
     <string name="compiled_by">Selle VLC versiooni kompileerisid:</string>
-
     <string name="general_prefs_category">Üldine</string>
     <string name="directories_summary">Vali katalooge, mida lisada meediakogusse</string>
     <string name="add_custom_path">Kohandatud raja lisamine</string>
