@@ -189,6 +189,7 @@
     <string name="remove_song">ഗാനം നീക്കം ചെയ്യുക</string>
     <string name="rearrange_order">ക്രമം പുനക്രമീകരിക്കുക</string>
     <string name="show_playlist">പ്ലേലിസ്റ്റ് കാണിക്കുക</string>
+
     <!-- About -->
     <string name="app_name_full">ആന്‍ഡ്രോയ്ഡിനുള്ള വിഎല്‍സി</string>
     <string name="licence">ലൈസന്‍സ്‌</string>

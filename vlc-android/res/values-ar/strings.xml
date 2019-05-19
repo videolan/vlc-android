@@ -243,6 +243,7 @@
     <string name="playback_speed_summary">تذكّر سرعة التشغيل التي ضبطتُها</string>
 
     <string name="play_button">زر التشغيل</string>
+
     <!-- Tips -->
     <string name="video_player_tips">نصائح حول مُشغّل المرئيات :</string>
     <string name="seek">سعي</string>

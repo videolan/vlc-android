@@ -232,6 +232,7 @@
     <string name="playback_speed_summary">לזכור את מהירות הנגינה שהגדרת</string>
 
     <string name="play_button">כפתור נגינה</string>
+
     <!-- Tips -->
     <string name="video_player_tips">עצות לנגן הווידאו:</string>
     <string name="seek">גלילה</string>

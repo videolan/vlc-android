@@ -217,6 +217,7 @@
     <string name="playback_speed_summary">یادآوری سرعت پخشی که شما قرار داده‌اید</string>
 
     <string name="play_button">کلید پخش</string>
+
     <!-- Tips -->
     <string name="video_player_tips">راهنمایی‌های پخش کننده تصویری:</string>
     <string name="seek">گشتن</string>

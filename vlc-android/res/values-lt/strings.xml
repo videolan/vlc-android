@@ -185,6 +185,7 @@
 
 
     <string name="playback_history_title">Grojimo žurnalas</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Vaizdo leistuvės paaiškinimai:</string>
     <string name="subtitles">Subtitrai</string>
@@ -319,6 +320,7 @@
 
     <string name="permission_ask_again">Leisti</string>
     <string name="exit_app">Užverti VLC</string>
+
     <!-- Plugins -->
     <string name="plugins">Papildiniai</string>
     <string name="download_on_device">Parsisiųsti</string>

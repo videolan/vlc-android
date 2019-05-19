@@ -28,9 +28,8 @@
     <string name="unknown_album">અજ્ઞાત આલ્બમ</string>
     <string name="unknown_genre">અજ્ઞાત શૈલી</string>
     <plurals name="songs_quantity">
-        <item quantity="one">એક: 1 ગીત
-</item>
-        <item quantity="other">અન્ય:  ગીતો \n </item>
+        <item quantity="one">એક: 1 ગીત</item>
+        <item quantity="other">અન્ય: %d ગીતો</item>
     </plurals>
 
     <string name="artists">આર્ટિસ્ટ</string>
@@ -83,6 +82,7 @@
     <string name="search">શોધો</string>
     <string name="subtitles">ઉપશીર્ષકો</string>
     <string name="options">વિકલ્પો</string>
+
     <!-- About -->
     <string name="app_name_full">Android™ માટે VLC</string>
     <string name="licence">લાઇસન્સ</string>
@@ -90,7 +90,6 @@
     <string name="about">લગભગ</string>
     <string name="about_text">Android ™ માટે VLC મીડિયા પ્લેયર, લોકપ્રિય ઓપન સોર્સ મીડિયા પ્લેયર એક બંદર છે. ફક્ત Android ™ આવૃત્તિ મોટા ભાગના ફાઈલો અને નેટવર્ક સ્ટ્રીમ્સ વાંચી શકે છે.</string>
     <string name="compiled_by">વીએલસીનુ સંસ્કરણ આના દ્વારા સંકલિત છે:</string>
-
     <string name="general_prefs_category">સામાન્ય</string>
     <string name="hardware_acceleration">હાર્ડવેર પ્રવેગ</string>
     <string name="automatic">સ્વ્નીયાન્ત્ર્ણ</string>

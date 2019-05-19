@@ -212,6 +212,7 @@
     <string name="playback_speed_summary">Recorda la velocitat de reproducció configurada</string>
 
     <string name="play_button">Botó de reproducció</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Consells del reproductor de vídeo:</string>
     <string name="seek">Cerca</string>
@@ -401,6 +402,7 @@
     <string name="go_to_chapter">Vés al capítol…</string>
     <string name="chapter">Capítol</string>
     <string name="directory_empty">El directori és buit</string>
+
     <!-- Accessibility -->
     <string name="more_actions">Més accions</string>
     <string name="move">Mou</string>

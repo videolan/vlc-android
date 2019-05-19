@@ -224,6 +224,7 @@
     <string name="playback_speed_summary">Program si zapomni nastavljeno hitrost predvajanja</string>
 
     <string name="play_button">Gumb Predvajaj</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Namigi predvajalnika:</string>
     <string name="seek">Išči</string>

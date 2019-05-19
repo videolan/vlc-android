@@ -218,6 +218,7 @@
     <string name="playback_speed_summary">Conserver la vitesse de lecture d\'une vidéo à l\'autre</string>
 
     <string name="play_button">Bouton Jouer</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Astuces du lecteur vidéo :</string>
     <string name="seek">Naviguer</string>

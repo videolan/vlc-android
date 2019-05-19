@@ -124,7 +124,6 @@
     <string name="about">මේ ගැන</string>
     <string name="about_text">ඇන්ඩ්‍රොයිඩ්™ සඳහා VLC යනු ජනප්‍රිය විවෘත මූලාශ්‍ර මාධ්‍ය වාදකයක් වන, VLC මාධ්‍ය වාදකයේ කවුළුවකි. ඇන්ඩ්‍රොයිඩ්™ අනුවාදය හට බොහෝ ගොනු සහ ජාල දහරාවන් කියවීමට හැක. සිංහල පරිවර්තනය පසිඳු කවින්ද විසිනි.</string>
     <string name="compiled_by">VLC හී මෙම අනුවාදය සම්පාදන කරන ලද්දේ:</string>
-
     <string name="general_prefs_category">ප්‍රධාන</string>
     <string name="directories_summary">මාධ්‍ය පුස්තකාලයේ අඩංගු විය යුතු ඩිරෙක්ටරියන් තෝරාගන්න</string>
     <string name="add_custom_path">රිසිකළ පෙතක් එක් කරන්න</string>

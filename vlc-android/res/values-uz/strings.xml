@@ -121,8 +121,7 @@
     <string name="error_problem">Kechirasiz, Android uchun VLC dasturini yuklashda muammo yuz berdi, shuning uchun uni yopishga to‘g‘ri keldi.</string>
     <string name="error_message_is">Xatolik haqida xabar (nosozlikni tuzatish uchun kerak bo‘ladi):\n</string>
     <string name="encountered_error_title">Ijro etishda xato</string>
-    <string name="encountered_error_message">VLC`da ushbu media bilan muammo boʻldi.
-Media kutubxonasini yangilashga harakat qiling.</string>
+    <string name="encountered_error_message">VLC`da ushbu media bilan muammo boʻldi.\nMedia kutubxonasini yangilashga harakat qiling.</string>
     <string name="invalid_location">%1$s manzilidagi media faylni ijro etib bo‘lmaydi.</string>
 
     <string name="search">Izlash</string>
@@ -151,7 +150,6 @@ Media kutubxonasini yangilashga harakat qiling.</string>
     <string name="about">Dastur haqida</string>
     <string name="about_text">Android™ uchun VLC – VLC media pleyerning (ochiq kodli mashhur pleyer) port qilingan versiyasi hisoblanadi. Uning Android™ versyasi ko‘plab fayl turlari va tarmoqli oqim rejimida uzatiladigan videolarni o‘qiy oladi.</string>
     <string name="compiled_by">VLC dasturining ushbu versiyasi ushbu inson tomonidan kompilatsiya qilingan:</string>
-
     <string name="general_prefs_category">Umumiy</string>
     <string name="directories_summary">Media kutubxonaga qoʻshish uchun direktoriyalarni tanlang</string>
     <string name="add_custom_path">Boshqa yo‘lni qo‘shish</string>

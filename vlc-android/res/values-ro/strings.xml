@@ -225,6 +225,7 @@
     <string name="playback_speed_summary">Rețineți viteza de redare aleasă</string>
 
     <string name="play_button">Buton de redare</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Sfaturi pentru redarea video:</string>
     <string name="seek">Căutare</string>

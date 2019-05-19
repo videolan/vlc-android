@@ -158,7 +158,6 @@
     <string name="about">Par</string>
     <string name="about_text">VLC priekš Android ™ ir osta no VLC multimediju atskaņotāja, populārā atvērtā koda multimediju atskaņotājs.Android ™ versiju var izlasīt lielāko failus un tīkla plūsmas.</string>
     <string name="compiled_by">Šī versija VLC tiek apkopota pēc:</string>
-
     <string name="general_prefs_category">Vispārīgi</string>
     <string name="directories_summary">Izvēlaties direktorijas, lai iekļautu multivides bibliotēku</string>
     <string name="add_custom_path">Pievienot pielāgotu ceļu</string>

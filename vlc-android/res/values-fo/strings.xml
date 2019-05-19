@@ -157,7 +157,6 @@
     <string name="about">Um</string>
     <string name="about_text">VLC til Android™ er eitt portur hjá VLC margmiðlaspælaranum, tí víða gitta open-source spælaranum. Android™ útgávan klárar at lesa flestu fílur og kann stroyma flestu keldur.</string>
     <string name="compiled_by">Henda útgáva av VLC verður umsett av:</string>
-
     <string name="general_prefs_category">Yvirskipað</string>
     <string name="directories_summary">Vel fíluskráir av hava við í miðlasavninum</string>
     <string name="add_custom_path">Legg sjálvvalda rás afturat</string>

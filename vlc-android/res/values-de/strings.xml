@@ -218,6 +218,7 @@
     <string name="playback_speed_summary">Eingestellte Wiedergabegeschwindigkeit wird gespeichert</string>
 
     <string name="play_button">Wiedergabe-Knopf</string>
+
     <!-- Tips -->
     <string name="video_player_tips">Filmwiedergabetipps:</string>
     <string name="seek">Suchen</string>
