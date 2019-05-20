@@ -58,6 +58,7 @@ import org.videolan.vlc.gui.tv.*
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
+import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.RefreshModel
 import org.videolan.vlc.util.getScreenWidth
 import org.videolan.vlc.viewmodels.SortableModel
@@ -117,9 +118,10 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
 
         calculateNbColumns()
 
-        title.text = if (viewModel.currentItem != null) {
-            viewModel.currentItem!!.title
-        } else getTitle()
+        title.text = viewModel.currentItem?.let {
+            if (it is MediaWrapper && it.uri.path == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) getString(R.string.internal_memory)
+            else it.title
+        } ?: getTitle()
 
 
         val searchHeaderClick: (View) -> Unit = { animationDelegate.hideFAB() }

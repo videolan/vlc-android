@@ -72,7 +72,7 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
 
                 fragment = FileBrowserTvFragment.newInstance(TYPE_NETWORK, item)
             } else if (type == HEADER_DIRECTORIES) {
-                fragment = FileBrowserTvFragment.newInstance(TYPE_FILE, null)
+                fragment = FileBrowserTvFragment.newInstance(TYPE_FILE, intent.data?.let { MediaWrapper(it) })
             } else {
                 finish()
                 return

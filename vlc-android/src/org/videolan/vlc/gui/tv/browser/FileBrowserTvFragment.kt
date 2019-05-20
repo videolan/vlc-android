@@ -34,12 +34,11 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
     private var item: MediaLibraryItem? = null
     override lateinit var adapter: TvItemAdapter
 
-    override fun getTitle(): String =
-            when (getCategory()) {
-                TYPE_FILE -> getString(R.string.directories)
-                TYPE_NETWORK -> getString(R.string.network_browsing)
-                else -> getString(R.string.video)
-            }
+    override fun getTitle() = when (getCategory()) {
+        TYPE_FILE -> getString(R.string.directories)
+        TYPE_NETWORK -> getString(R.string.network_browsing)
+        else -> getString(R.string.video)
+    }
 
     override fun getColumnNumber(): Int =
             resources.getInteger(R.integer.tv_songs_col_count)
