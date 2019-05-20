@@ -77,7 +77,6 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
     abstract fun getColumnNumber(): Int
     abstract fun provideAdapter(eventsHandler: IEventsHandler, itemSize: Int): TvItemAdapter
 
-
     lateinit var viewModel: TvBrowserModel
     private var spacing: Int = 0
     abstract var adapter: TvItemAdapter
@@ -87,17 +86,13 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
     private lateinit var backgroundManager: BackgroundManager
     internal lateinit var animationDelegate: MediaBrowserAnimatorDelegate
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.song_browser, container, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         backgroundManager = BackgroundManager.getInstance(requireActivity())
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,14 +102,11 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         val vp = TvUtil.getOverscanVertical(requireContext())
         headerList.setPadding(list.paddingLeft + hp, list.paddingTop + vp, list.paddingRight + hp, list.paddingBottom + vp)
 
-
         val lp = (imageButtonSettings.layoutParams as ConstraintLayout.LayoutParams)
         lp.leftMargin += hp
         lp.rightMargin += hp
         lp.topMargin += vp
         lp.bottomMargin += vp
-
-
 
         calculateNbColumns()
 
@@ -122,7 +114,6 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
             if (it is MediaWrapper && it.uri.path == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) getString(R.string.internal_memory)
             else it.title
         } ?: getTitle()
-
 
         val searchHeaderClick: (View) -> Unit = { animationDelegate.hideFAB() }
 
@@ -136,7 +127,6 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
 
         sortButton.setOnClickListener(sortClick)
         imageButtonSort.setOnClickListener(sortClick)
-
 
         gridLayoutManager = object : GridLayoutManager(requireActivity(), viewModel.nbColumns) {
             override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean) = false
@@ -202,7 +192,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
 
         calculateNbColumns()
         gridLayoutManager.spanCount = viewModel.nbColumns
-        if (BuildConfig.DEBUG) Log.d(TAG, "${viewModel.nbColumns}");
+        if (BuildConfig.DEBUG) Log.d(TAG, "${viewModel.nbColumns}")
         list.layoutManager = gridLayoutManager
     }
 
@@ -214,22 +204,16 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         super.onActivityCreated(savedInstanceState)
     }
 
-
     override fun refresh() = (viewModel as RefreshModel).refresh()
 
-
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
-
         if (item is MediaWrapper) {
-
             val intent = Intent(requireActivity(), DetailsActivity::class.java)
             // pass the item information
             intent.putExtra("media", item)
             intent.putExtra("item", MediaItemDetails(item.title, item.artist, item.album, item.location, item.artworkURL))
             startActivity(intent)
         }
-
-
         return true
     }
 
@@ -343,7 +327,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
             val now = System.currentTimeMillis()
             if (now - lastDpadEventTime > 200) {
                 lastDpadEventTime = now
-                if (BuildConfig.DEBUG) Log.d("keydown", "Keydown propagated");
+                if (BuildConfig.DEBUG) Log.d("keydown", "Keydown propagated")
                 false
             } else true
         }
@@ -356,11 +340,8 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         animationDelegate.setVisibility(imageButtonHeader, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         animationDelegate.setVisibility(headerButton, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         animationDelegate.setVisibility(headerDescription, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
-
-
     }
 }
-
 
 @MainThread
 @BindingAdapter("constraintRatio")
@@ -373,6 +354,4 @@ fun constraintRatio(v: View, isSquare: Boolean) {
         constraintLayout.setConstraintSet(constraintSet)
 
     }
-
-
 }

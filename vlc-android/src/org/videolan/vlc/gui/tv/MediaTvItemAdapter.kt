@@ -23,7 +23,7 @@ import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getAudioIconDrawable
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.interfaces.IEventsHandler
-import org.videolan.vlc.util.UPDATE_SELECTION
+import org.videolan.vlc.util.UPDATE_PAYLOAD
 import org.videolan.vlc.util.Util
 import org.videolan.vlc.util.generateResolutionClass
 
@@ -31,21 +31,22 @@ import org.videolan.vlc.util.generateResolutionClass
 @ObsoleteCoroutinesApi
 class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, var itemSize: Int) : PagedListAdapter<MediaLibraryItem, MediaTvItemAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK), FastScroller.SeparatedAdapter, TvItemAdapter {
     override var focusNext = -1
-    private val mDefaultCover: BitmapDrawable?
+    private val defaultCover: BitmapDrawable?
     private var focusListener: FocusableRecyclerView.FocusListener? = null
 
-
     init {
-        var ctx: Context? = null
-        if (eventsHandler is Context)
-            ctx = eventsHandler
-        else if (eventsHandler is Fragment) ctx = (eventsHandler as Fragment).context
-        mDefaultCover = if (ctx != null) getAudioIconDrawable(ctx, type) else null
+        val ctx: Context? = when (eventsHandler) {
+            is Context -> eventsHandler
+            is Fragment -> (eventsHandler as Fragment).context
+            else -> null
+        }
+        defaultCover = ctx?.let { getAudioIconDrawable(it, type) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
         val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val binding = MediaBrowserTvItemBinding.inflate(inflater, parent, false)
+        @Suppress("UNCHECKED_CAST")
         return MediaItemTVViewHolder(binding, eventsHandler) as AbstractMediaItemViewHolder<ViewDataBinding>
     }
 
@@ -69,37 +70,29 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
                 val isSelected = payload.hasStateFlags(MediaLibraryItem.FLAG_SELECTED)
                 holder.setCoverlay(isSelected)
                 holder.selectView(isSelected)
-            } else if (payload is Int) {
-                if (payload == UPDATE_SELECTION) {
-                }
             }
         }
     }
 
-    override fun hasSections(): Boolean {
-        return true
-    }
-
+    override fun hasSections() = true
 
     override fun submitList(pagedList: Any?) {
         if (pagedList == null) {
             this.submitList(null)
         }
         if (pagedList is PagedList<*>) {
+            @Suppress("UNCHECKED_CAST")
             this.submitList(pagedList as PagedList<MediaLibraryItem>)
         }
     }
-
 
     override fun setOnFocusChangeListener(focusListener: FocusableRecyclerView.FocusListener?) {
         this.focusListener = focusListener
     }
 
-
     companion object {
 
-        private val TAG = "VLC/AudioBrowserAdapter"
-        private const val UPDATE_PAYLOAD = 1
+        private const val TAG = "VLC/MediaTvItemAdapter"
         /**
          * Awful hack to workaround the [PagedListAdapter] not keeping track of notifyItemMoved operations
          */
@@ -107,16 +100,10 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
 
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MediaLibraryItem>() {
             override fun areItemsTheSame(
-                    oldMedia: MediaLibraryItem, newMedia: MediaLibraryItem): Boolean {
-                return if (preventNextAnim) {
-                    true
-                } else oldMedia === newMedia || oldMedia.itemType == newMedia.itemType && oldMedia.equals(newMedia)
-            }
+                    oldMedia: MediaLibraryItem, newMedia: MediaLibraryItem) = if (preventNextAnim)  true
+            else oldMedia === newMedia || oldMedia.itemType == newMedia.itemType && oldMedia.equals(newMedia)
 
-            override fun areContentsTheSame(
-                    oldMedia: MediaLibraryItem, newMedia: MediaLibraryItem): Boolean {
-                return false
-            }
+            override fun areContentsTheSame(oldMedia: MediaLibraryItem, newMedia: MediaLibraryItem) = false
 
             override fun getChangePayload(oldItem: MediaLibraryItem, newItem: MediaLibraryItem): Any? {
                 preventNextAnim = false
@@ -129,30 +116,24 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
     abstract class AbstractMediaItemViewHolder<T : ViewDataBinding> @TargetApi(Build.VERSION_CODES.M)
     internal constructor(binding: T) : SelectorViewHolder<T>(binding), View.OnFocusChangeListener {
 
-
         fun onClick(v: View) {
-            val item = getItem(layoutPosition)
-            if (item != null) eventsHandler.onClick(v, layoutPosition, item)
+            getItem(layoutPosition)?.let { eventsHandler.onClick(v, layoutPosition, it) }
         }
 
         fun onMoreClick(v: View) {
-            val item = getItem(layoutPosition)
-            if (item != null) eventsHandler.onCtxClick(v, layoutPosition, item)
+            getItem(layoutPosition)?.let { eventsHandler.onCtxClick(v, layoutPosition, it) }
         }
 
         fun onLongClick(view: View): Boolean {
-            val item = getItem(layoutPosition)
-            return item != null && eventsHandler.onLongClick(view, layoutPosition, item)
+            return getItem(layoutPosition)?.let { eventsHandler.onLongClick(view, layoutPosition, it) } ?: false
         }
 
         fun onImageClick(v: View) {
-            val item = getItem(layoutPosition)
-            if (item != null) eventsHandler.onImageClick(v, layoutPosition, item)
+            getItem(layoutPosition)?.let { eventsHandler.onImageClick(v, layoutPosition, it) }
         }
 
         fun onMainActionClick(v: View) {
-            val item = getItem(layoutPosition)
-            if (item != null) eventsHandler.onMainActionClick(v, layoutPosition, item)
+            getItem(layoutPosition)?.let { eventsHandler.onMainActionClick(v, layoutPosition, it) }
         }
 
         abstract fun getItem(layoutPosition: Int): MediaLibraryItem?
@@ -168,13 +149,11 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
 
     inner class MediaItemTVViewHolder @TargetApi(Build.VERSION_CODES.M)
     internal constructor(binding: MediaBrowserTvItemBinding, override val eventsHandler: IEventsHandler) : AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>(binding), View.OnFocusChangeListener {
-        override fun getItem(layoutPosition: Int): MediaLibraryItem? {
-            return this@MediaTvItemAdapter.getItem(layoutPosition)
-        }
+        override fun getItem(layoutPosition: Int) =  this@MediaTvItemAdapter.getItem(layoutPosition)
 
         init {
             binding.holder = this
-            if (mDefaultCover != null) binding.cover = mDefaultCover
+            if (defaultCover != null) binding.cover = defaultCover
             if (AndroidUtil.isMarshMallowOrLater)
                 itemView.setOnContextClickListener { v ->
                     onMoreClick(v)
@@ -200,11 +179,10 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
                 }
             }
             binding.container.clipToOutline = true
-
         }
 
         override fun recycle() {
-            if (mDefaultCover != null) binding.cover = mDefaultCover
+            if (defaultCover != null) binding.cover = defaultCover
             binding.title.text = ""
             binding.subtitle.text = ""
         }
@@ -225,7 +203,6 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
                     seen = item.seen
                     var max = 0
 
-
                     if (item.length > 0) {
                         val lastTime = item.displayTime
                         if (lastTime > 0) {
@@ -235,8 +212,6 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
                     }
                     binding.max = max
                 }
-
-
             }
 
             binding.progress = progress
@@ -249,11 +224,6 @@ class MediaTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, v
         }
 
         @ObsoleteCoroutinesApi
-        override fun setCoverlay(selected: Boolean) {
-        }
-
-
+        override fun setCoverlay(selected: Boolean) {}
     }
-
-
 }

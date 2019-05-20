@@ -31,22 +31,18 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
 
     override lateinit var adapter: TvItemAdapter
 
+    override fun getTitle() = when (arguments?.getLong(CATEGORY, CATEGORY_SONGS)) {
+        CATEGORY_SONGS -> getString(R.string.tracks)
+        CATEGORY_ALBUMS -> getString(R.string.albums)
+        CATEGORY_ARTISTS -> getString(R.string.artists)
+        CATEGORY_GENRES -> getString(R.string.genres)
+        else -> getString(R.string.video)
+    }
 
-    override fun getTitle(): String =
-            when (arguments?.getLong(CATEGORY, CATEGORY_SONGS)) {
-                CATEGORY_SONGS -> getString(R.string.tracks)
-                CATEGORY_ALBUMS -> getString(R.string.albums)
-                CATEGORY_ARTISTS -> getString(R.string.artists)
-                CATEGORY_GENRES -> getString(R.string.genres)
-                else -> getString(R.string.video)
-            }
-
-    override fun getColumnNumber(): Int =
-            when (arguments?.getLong(CATEGORY, CATEGORY_SONGS)) {
-
-                CATEGORY_VIDEOS -> resources.getInteger(R.integer.tv_videos_col_count)
-                else -> resources.getInteger(R.integer.tv_songs_col_count)
-            }
+    override fun getColumnNumber() = when (arguments?.getLong(CATEGORY, CATEGORY_SONGS)) {
+        CATEGORY_VIDEOS -> resources.getInteger(R.integer.tv_videos_col_count)
+        else -> resources.getInteger(R.integer.tv_songs_col_count)
+    }
 
     companion object {
         fun newInstance(type: Long, item: MediaLibraryItem?) =
@@ -61,9 +57,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-        viewModel = getMediaBrowserModel(arguments?.getLong(CATEGORY, CATEGORY_SONGS)
-                ?: CATEGORY_SONGS)
+        viewModel = getMediaBrowserModel(arguments?.getLong(CATEGORY, CATEGORY_SONGS) ?: CATEGORY_SONGS)
 
         viewModel.currentItem = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(ITEM) as? MediaLibraryItem
         else requireActivity().intent.getParcelableExtra<Parcelable>(ITEM) as? MediaLibraryItem
@@ -92,5 +86,4 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         launch { TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider as MedialibraryProvider<out MediaLibraryItem>) }
     }
-
 }

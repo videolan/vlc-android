@@ -40,8 +40,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         else -> getString(R.string.video)
     }
 
-    override fun getColumnNumber(): Int =
-            resources.getInteger(R.integer.tv_songs_col_count)
+    override fun getColumnNumber() = resources.getInteger(R.integer.tv_songs_col_count)
 
     companion object {
         fun newInstance(type: Int, item: MediaLibraryItem?) =
@@ -64,7 +63,6 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         viewModel = getBrowserModel(getCategory(), (item as? MediaWrapper)?.location, true, false)
 
         viewModel.currentItem = item
-
 
         (viewModel.provider as BrowserProvider).dataset.observe(this, Observer { items ->
             submitList(items)
@@ -89,17 +87,13 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
             if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "Description update: ${pair.first} ${pair.second}")
             if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first, pair.second)
         })
-
-
     }
 
     override fun onResume() {
         super.onResume()
 
-        if (item == null)
-            (viewModel.provider as BrowserProvider).browseRoot()
-        else
-            refresh()
+        if (item == null) (viewModel.provider as BrowserProvider).browseRoot()
+        else refresh()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -113,7 +107,6 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         super.onStop()
         (viewModel as BrowserModel).stop()
     }
-
 
     private fun getCategory() = arguments?.getInt(CATEGORY, TYPE_FILE) ?: TYPE_FILE
 
@@ -135,5 +128,4 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         ft.replace(R.id.tv_fragment_placeholder, next, media.title)
         ft.commit()
     }
-
 }

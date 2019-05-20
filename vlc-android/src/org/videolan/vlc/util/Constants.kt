@@ -63,7 +63,6 @@ const val REPEAT_ONE = 1
 const val REPEAT_ALL = 2
 const val MEDIALIBRARY_PAGE_SIZE = 500
 
-
 // MediaParsingService
 const val ACTION_INIT = "medialibrary_init"
 const val ACTION_RELOAD = "medialibrary_reload"
@@ -129,6 +128,7 @@ const val UPDATE_THUMB = 1
 const val UPDATE_TIME = 2
 const val UPDATE_SEEN = 3
 const val UPDATE_DESCRIPTION = 4
+const val UPDATE_PAYLOAD = 5
 
 const val KEY_URI = "uri"
 const val SELECTED_ITEM = "selected"
