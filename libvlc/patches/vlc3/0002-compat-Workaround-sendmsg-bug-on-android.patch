@@ -1,7 +1,7 @@
-From a9bf3d0db32407b7320269e33a4864e2977badaf Mon Sep 17 00:00:00 2001
+From 62e61c44f3c7a35a39e718c85f06531c5a1f928f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Hugo=20Beauz=C3=A9e-Luyssen?= <hugo@beauzee.fr>
 Date: Thu, 28 Mar 2019 15:23:48 +0100
-Subject: [PATCH 1/2] compat: Workaround sendmsg bug on android
+Subject: [PATCH 2/6] compat: Workaround sendmsg bug on android
 
 This only happens on 64bits builds, see compat/sendmsg.c comments
 ---
@@ -46,7 +46,7 @@ index 0f42e782f8..8d69048746 100644
  #else
  #error sendmsg not implemented on your platform!
 diff --git a/configure.ac b/configure.ac
-index 49b1166742..6f1edd73a3 100644
+index 7bcdb44c9b..1ad82e2d75 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -365,6 +365,9 @@ AS_IF([test "$SYS" = linux],[

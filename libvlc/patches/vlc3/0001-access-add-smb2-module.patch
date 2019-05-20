@@ -1,7 +1,7 @@
-From 582275c70b3441d1b8e8eaf6a196c719254efdfe Mon Sep 17 00:00:00 2001
+From 2e675c6533bdf0a12c68e7673736c24613809665 Mon Sep 17 00:00:00 2001
 From: Thomas Guillem <thomas@gllm.fr>
 Date: Fri, 13 Apr 2018 16:15:16 +0200
-Subject: [PATCH] access: add smb2 module
+Subject: [PATCH 1/6] access: add smb2 module
 
 Using libsmb2 from Ronnie Sahlberg https://github.com/sahlberg/libsmb2
 This is LGPL 2.1 fully async lib for accessing SMB2 and SMB3 shares.
@@ -471,7 +471,7 @@ index 765ceec45f..2a773029e3 100644
  access_LTLIBRARIES += libtcp_plugin.la
 diff --git a/modules/access/smb2.c b/modules/access/smb2.c
 new file mode 100644
-index 0000000000..90cd0d327f
+index 0000000000..9c9529385b
 --- /dev/null
 +++ b/modules/access/smb2.c
 @@ -0,0 +1,717 @@

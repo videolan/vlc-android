@@ -1,18 +1,27 @@
-From 06d50c42ed4a2a03826ef0d311c2f0659af43e4e Mon Sep 17 00:00:00 2001
+From de351093bd7df450c3790ec08290ad0927b00236 Mon Sep 17 00:00:00 2001
 From: Soomin Lee <bubu@mikan.io>
 Date: Wed, 31 Oct 2018 10:08:55 +0100
 Subject: [PATCH 5/5] libvlc: media_player: Add record method
 
 ---
- include/vlc/libvlc_media_player.h | 12 ++++++++++++
+ include/vlc/libvlc_media_player.h | 14 ++++++++++++++
  lib/media_player.c                | 19 +++++++++++++++++++
- 2 files changed, 31 insertions(+)
+ 2 files changed, 33 insertions(+)
 
 diff --git a/include/vlc/libvlc_media_player.h b/include/vlc/libvlc_media_player.h
-index 0df3c0bcc7..0ce69257d7 100644
+index 0df3c0bcc7..4e5bb918cb 100644
 --- a/include/vlc/libvlc_media_player.h
 +++ b/include/vlc/libvlc_media_player.h
-@@ -2416,6 +2416,18 @@ LIBVLC_API int libvlc_media_player_get_role(libvlc_media_player_t *p_mi);
+@@ -25,6 +25,8 @@
+ #ifndef VLC_LIBVLC_MEDIA_PLAYER_H
+ #define VLC_LIBVLC_MEDIA_PLAYER_H 1
+ 
++#define LIBVLC_MEDIA_PLAYER_HAS_RECORDING
++
+ # ifdef __cplusplus
+ extern "C" {
+ # else
+@@ -2416,6 +2418,18 @@ LIBVLC_API int libvlc_media_player_get_role(libvlc_media_player_t *p_mi);
  LIBVLC_API int libvlc_media_player_set_role(libvlc_media_player_t *p_mi,
                                              unsigned role);
  
