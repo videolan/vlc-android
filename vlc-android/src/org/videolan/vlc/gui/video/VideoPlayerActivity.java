@@ -761,7 +761,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             mPlaybackStarted = false;
             return;
         }
-        mWasPaused = !(mService.isPlaying() && isInteractive());
+        mWasPaused = !mService.isPlaying() || (!AndroidDevices.showTvUi(this) && !isInteractive());
         if (mWasPaused) mSettings.edit().putBoolean(PreferencesActivity.VIDEO_PAUSED, true).apply();
         if (!isFinishing()) {
             mCurrentAudioTrack = mService.getAudioTrack();
