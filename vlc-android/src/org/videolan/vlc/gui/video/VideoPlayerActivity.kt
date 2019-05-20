@@ -840,7 +840,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             return
         }
         service?.run {
-            wasPaused = !(isPlaying && isInteractive)
+            wasPaused = !isPlaying || (!Settings.showTvUi && !isInteractive)
             if (wasPaused) settings.edit().putBoolean(VIDEO_PAUSED, true).apply()
             if (!isFinishing) {
                 currentAudioTrack = audioTrack
