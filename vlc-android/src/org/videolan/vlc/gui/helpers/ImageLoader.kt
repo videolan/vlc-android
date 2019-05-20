@@ -34,6 +34,7 @@ import org.videolan.vlc.util.ThumbnailsProvider.obtainBitmap
 private val sMedialibrary = VLCApplication.mlInstance
 @Volatile
 private var defaultImageWidth = 0
+private var defaultImageWidthTV = 0
 private const val TAG = "ImageLoader"
 
 @ExperimentalCoroutinesApi
@@ -149,6 +150,12 @@ private suspend fun getImage(v: View, item: MediaLibraryItem, binding: ViewDataB
         binding.addOnRebindCallback(rebindCallbacks!!)
     }
     val width = when {
+        isForTV(binding) -> {
+            if (defaultImageWidthTV == 0) {
+                defaultImageWidthTV = v.context.resources.getDimensionPixelSize(R.dimen.tv_grid_card_thumb_width)
+            }
+            defaultImageWidthTV
+        }
         v.width > 0 -> v.width
         defaultImageWidth > 0 -> defaultImageWidth
         else -> {

@@ -60,6 +60,7 @@ import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.util.RefreshModel
 import org.videolan.vlc.util.getScreenWidth
+import org.videolan.vlc.viewmodels.SortableModel
 import org.videolan.vlc.viewmodels.tv.TvBrowserModel
 
 private const val TAG = "MediaBrowserTvFragment"
@@ -250,11 +251,12 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
     fun sort(v: View) {
         val menu = PopupMenu(v.context, v)
         menu.inflate(R.menu.sort_options)
-        menu.menu.findItem(R.id.ml_menu_sortby_filename).isVisible = viewModel.canSortByFileNameName()
-        menu.menu.findItem(R.id.ml_menu_sortby_length).isVisible = viewModel.canSortByDuration()
-        menu.menu.findItem(R.id.ml_menu_sortby_date).isVisible = viewModel.canSortByInsertionDate() || viewModel.canSortByReleaseDate() || viewModel.canSortByLastModified()
-        menu.menu.findItem(R.id.ml_menu_sortby_date).isVisible = viewModel.canSortByReleaseDate()
-        menu.menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = viewModel.canSortByLastModified()
+        val canSortByFileNameName = (viewModel as SortableModel).canSortByFileNameName()
+        menu.menu.findItem(R.id.ml_menu_sortby_filename).isVisible = canSortByFileNameName
+        menu.menu.findItem(R.id.ml_menu_sortby_length).isVisible = (viewModel as SortableModel).canSortByDuration()
+        menu.menu.findItem(R.id.ml_menu_sortby_date).isVisible = (viewModel as SortableModel).canSortByInsertionDate() || (viewModel as SortableModel).canSortByReleaseDate() || (viewModel as SortableModel).canSortByLastModified()
+        menu.menu.findItem(R.id.ml_menu_sortby_date).isVisible = (viewModel as SortableModel).canSortByReleaseDate()
+        menu.menu.findItem(R.id.ml_menu_sortby_last_modified).isVisible = (viewModel as SortableModel).canSortByLastModified()
         menu.menu.findItem(R.id.ml_menu_sortby_number).isVisible = false
         menu.setOnMenuItemClickListener(this)
         menu.show()
@@ -299,7 +301,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         }
     }
 
-    private fun sortBy(sort: Int) = viewModel.sort(sort)
+    private fun sortBy(sort: Int) = (viewModel as SortableModel).sort(sort)
 
     override fun onHeaderSelected(header: String) {
         hideHeaderSelectionScreen()

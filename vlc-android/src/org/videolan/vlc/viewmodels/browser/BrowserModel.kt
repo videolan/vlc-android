@@ -92,6 +92,8 @@ open class BrowserModel(context: Context, val url: String?, type: Int, showHidde
             return BrowserModel(context.applicationContext, url, type, showHiddenFiles, showDummyCategory = showDummyCategory) as T
         }
     }
+
+    override fun canSortByFileNameName(): Boolean = true
 }
 
 private val ascComp by lazy {
