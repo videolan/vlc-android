@@ -1,21 +1,21 @@
-From 948de9b69af4735e06bd7533d51ae260166d6897 Mon Sep 17 00:00:00 2001
+From 06d50c42ed4a2a03826ef0d311c2f0659af43e4e Mon Sep 17 00:00:00 2001
 From: Soomin Lee <bubu@mikan.io>
 Date: Wed, 31 Oct 2018 10:08:55 +0100
 Subject: [PATCH 5/5] libvlc: media_player: Add record method
 
 ---
- include/vlc/libvlc_media_player.h | 11 +++++++++++
+ include/vlc/libvlc_media_player.h | 12 ++++++++++++
  lib/media_player.c                | 19 +++++++++++++++++++
- 2 files changed, 30 insertions(+)
+ 2 files changed, 31 insertions(+)
 
 diff --git a/include/vlc/libvlc_media_player.h b/include/vlc/libvlc_media_player.h
-index ca72a550d3..e2039a7b3f 100644
+index 0df3c0bcc7..0ce69257d7 100644
 --- a/include/vlc/libvlc_media_player.h
 +++ b/include/vlc/libvlc_media_player.h
-@@ -2176,6 +2176,17 @@ LIBVLC_API int libvlc_media_player_get_role(libvlc_media_player_t *p_mi);
-  */
+@@ -2416,6 +2416,18 @@ LIBVLC_API int libvlc_media_player_get_role(libvlc_media_player_t *p_mi);
  LIBVLC_API int libvlc_media_player_set_role(libvlc_media_player_t *p_mi,
                                              unsigned role);
+ 
 +/**
 + * Start/stop recording
 + *
@@ -27,11 +27,12 @@ index ca72a550d3..e2039a7b3f 100644
 + */
 +LIBVLC_API int libvlc_media_player_record(libvlc_media_player_t *p_mi,
 +                                          const char *directory);
- 
++
  /** @} audio */
  
+ /** @} media_player */
 diff --git a/lib/media_player.c b/lib/media_player.c
-index bb41dbf17b..6c40602924 100644
+index ee8f27330a..84aa750551 100644
 --- a/lib/media_player.c
 +++ b/lib/media_player.c
 @@ -638,6 +638,7 @@ libvlc_media_player_new( libvlc_instance_t *instance )
@@ -42,11 +43,10 @@ index bb41dbf17b..6c40602924 100644
  
      /* Video */
      var_Create (mp, "vout", VLC_VAR_STRING|VLC_VAR_DOINHERIT);
-@@ -2065,3 +2066,21 @@ int libvlc_media_player_get_role(libvlc_media_player_t *mp)
-     free(str);
+@@ -2102,6 +2103,24 @@ int libvlc_media_player_get_role(libvlc_media_player_t *mp)
      return ret;
  }
-+
+ 
 +int libvlc_media_player_record( libvlc_media_player_t *p_mi,
 +                                const char *directory )
 +{
@@ -64,6 +64,10 @@ index bb41dbf17b..6c40602924 100644
 +    input_Release( p_input_thread );
 +    return VLC_SUCCESS;
 +}
++
+ #include <vlc_vout_display.h>
+ 
+ /* make sure surface structures from libvlc can be passed as such to vlc
 -- 
 2.20.1
 
