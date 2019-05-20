@@ -22,6 +22,7 @@
 #define LIBVLCJNI_VLCOBJECT_H
 
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include <jni.h>
 #include <vlc/vlc.h>
