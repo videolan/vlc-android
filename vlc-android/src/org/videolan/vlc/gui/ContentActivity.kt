@@ -27,7 +27,6 @@ import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -57,7 +56,7 @@ import org.videolan.vlc.util.Util
 @SuppressLint("Registered")
 open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryTextListener, MenuItem.OnActionExpandListener {
 
-    private var mSearchView: SearchView? = null
+    private lateinit var searchView: SearchView
     private var showRenderers = !AndroidDevices.isChromeBook && !Util.isListEmpty(RendererDelegate.renderers.value)
 
     override fun initAudioPlayerContainerActivity() {
@@ -95,16 +94,16 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         if (current is Filterable) {
             val filterable = current as Filterable?
             val searchItem = menu.findItem(R.id.ml_menu_filter)
-            mSearchView = searchItem.actionView as SearchView
-            mSearchView!!.queryHint = getString(R.string.search_list_hint)
-            mSearchView!!.setOnQueryTextListener(this)
-            val query = filterable!!.getFilterQuery()
-            if (!TextUtils.isEmpty(query)) {
+            searchView = searchItem.actionView as SearchView
+            searchView.queryHint = getString(R.string.search_list_hint)
+            searchView.setOnQueryTextListener(this)
+            val query = filterable?.getFilterQuery()
+            if (!query.isNullOrEmpty()) {
                 activityHandler.post {
                     searchItem.expandActionView()
-                    mSearchView!!.clearFocus()
-                    UiTools.setKeyboardVisibility(mSearchView, false)
-                    mSearchView!!.setQuery(query, false)
+                    searchView.clearFocus()
+                    UiTools.setKeyboardVisibility(searchView, false)
+                    searchView.setQuery(query, false)
                 }
             }
             searchItem.setOnActionExpandListener(this)
@@ -162,13 +161,11 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         return true
     }
 
-    override fun onQueryTextSubmit(query: String): Boolean {
-        return false
-    }
+    override fun onQueryTextSubmit(query: String) = false
 
     private fun openSearchActivity() {
         startActivity(Intent(Intent.ACTION_SEARCH, null, this, SearchActivity::class.java)
-                .putExtra(SearchManager.QUERY, mSearchView!!.query.toString()))
+                .putExtra(SearchManager.QUERY, searchView.query.toString()))
     }
 
     private fun setSearchVisibility(visible: Boolean) {
@@ -185,8 +182,7 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
         val renderersItem = menu.findItem(R.id.ml_menu_renderers)
         if (renderersItem != null) renderersItem.isVisible = !hide && showRenderers
         if (current is MediaBrowserFragment<*>) {
-            val sortItem = menu.findItem(R.id.ml_menu_sortby)
-            if (sortItem != null) sortItem.isVisible = !hide && current.viewModel.canSortByName()
+            menu.findItem(R.id.ml_menu_sortby)?.isVisible = !hide && current.viewModel.canSortByName()
         }
         if (current is VideoGridFragment || current is AudioBrowserFragment
                 || current is FoldersFragment) {
@@ -200,17 +196,11 @@ open class ContentActivity : AudioPlayerContainerActivity(), SearchView.OnQueryT
     }
 
     fun closeSearchView() {
-        if (toolbar.menu != null) {
-            val item = toolbar.menu.findItem(R.id.ml_menu_filter)
-            item?.collapseActionView()
-        }
+        toolbar.menu?.findItem(R.id.ml_menu_filter)?.collapseActionView()
     }
 
     private fun restoreCurrentList() {
-        val current = currentFragment
-        if (current is Filterable) {
-            (current as Filterable).restoreList()
-        }
+        (currentFragment as? Filterable)?.restoreList()
     }
 
     companion object {

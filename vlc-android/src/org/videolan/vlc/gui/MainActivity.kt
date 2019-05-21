@@ -49,8 +49,6 @@ import org.videolan.vlc.gui.browser.BaseBrowserFragment
 import org.videolan.vlc.gui.browser.ExtensionBrowser
 import org.videolan.vlc.gui.helpers.Navigator
 import org.videolan.vlc.gui.helpers.UiTools
-import org.videolan.vlc.gui.preferences.PreferencesActivity
-import org.videolan.vlc.gui.preferences.PreferencesFragment
 import org.videolan.vlc.gui.video.VideoGridFragment
 import org.videolan.vlc.gui.view.HackyDrawerLayout
 import org.videolan.vlc.interfaces.Filterable
@@ -62,11 +60,11 @@ import org.videolan.vlc.util.*
 @ObsoleteCoroutinesApi
 class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManagerActivity {
 
-    private var mediaLibrary: Medialibrary? = null
-    private var extensionsManager: ExtensionsManager? = null
-    private var drawerLayout: HackyDrawerLayout? = null
-    private var navigationView: NavigationView? = null
-    private var drawerToggle: ActionBarDrawerToggle? = null
+    private lateinit var mediaLibrary: Medialibrary
+    private lateinit var extensionsManager: ExtensionsManager
+    private lateinit var drawerLayout: HackyDrawerLayout
+    private lateinit var navigationView: NavigationView
+    private lateinit var drawerToggle: ActionBarDrawerToggle
     lateinit var navigator: Navigator
         private set
 
@@ -95,7 +93,7 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
                  * the info dialog. If (for any reason) the dialog is not shown,
                  * open the menu after a short delay.
                  */
-                activityHandler.postDelayed({ drawerLayout!!.openDrawer(navigationView!!) }, 500)
+                activityHandler.postDelayed({ drawerLayout.openDrawer(navigationView) }, 500)
             }
             Permissions.checkReadStoragePermission(this@MainActivity, false)
         }
@@ -104,24 +102,24 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
         prepareActionBar()
 
         drawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close)
-        drawerLayout!!.addDrawerListener(drawerToggle!!)
-        drawerLayout!!.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START)
+        drawerLayout.addDrawerListener(drawerToggle)
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START)
 
         /* Reload the latest preferences */
         scanNeeded = savedInstanceState == null && settings.getBoolean("auto_rescan", true)
-        extensionsManager = ExtensionsManager.getInstance()
+        if (BuildConfig.DEBUG) extensionsManager = ExtensionsManager.getInstance()
         mediaLibrary = VLCApplication.mlInstance
     }
 
     private fun setupNavigationView() {
         navigationView = findViewById(R.id.navigation)
-        navigationView!!.menu.findItem(R.id.nav_history).isVisible = settings.getBoolean(PLAYBACK_HISTORY, true)
+        navigationView.menu.findItem(R.id.nav_history).isVisible = settings.getBoolean(PLAYBACK_HISTORY, true)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle!!.syncState()
+        drawerToggle.syncState()
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -133,7 +131,7 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
 
     override fun onStart() {
         super.onStart()
-        if (mediaLibrary!!.isInitiated) {
+        if (mediaLibrary.isInitiated) {
             /* Load media items from database and storage */
             if (scanNeeded && Permissions.canReadStorage(this)) this.reloadLibrary()
         }
@@ -147,10 +145,10 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
 
     override fun onStop() {
         super.onStop()
-        navigationView!!.setNavigationItemSelectedListener(null)
+        navigationView.setNavigationItemSelectedListener(null)
         if (changingConfigurations == 0) {
             /* Check for an ongoing scan that needs to be resumed during onResume */
-            scanNeeded = mediaLibrary!!.isWorking
+            scanNeeded = mediaLibrary.isWorking
         }
         if (isExtensionServiceBinded) {
             unbindService(extensionServiceConnection)
@@ -158,41 +156,41 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
         }
         if (navigator.currentIdIsExtension())
             settings.edit()
-                    .putString("current_extension_name", extensionsManager!!.getExtensions(application, false)[navigator.currentFragmentId].componentName().packageName)
+                    .putString("current_extension_name", extensionsManager.getExtensions(application, false)[navigator.currentFragmentId].componentName().packageName)
                     .apply()
     }
 
     private fun updateNavMenu() {
-        navigationView!!.setNavigationItemSelectedListener(navigator)
+        navigationView.setNavigationItemSelectedListener(navigator)
     }
 
     private fun loadPlugins() {
-        val plugins = extensionsManager!!.getExtensions(this, true)
+        val plugins = extensionsManager.getExtensions(this, true)
         if (plugins.isEmpty()) {
             unbindService(extensionServiceConnection)
             extensionServiceConnection = null
             extensionManagerService!!.stopSelf()
             return
         }
-        val extensionGroup = navigationView!!.menu.findItem(R.id.extensions_group)
+        val extensionGroup = navigationView.menu.findItem(R.id.extensions_group)
         extensionGroup.subMenu.clear()
         for (id in plugins.indices) {
             val extension = plugins[id]
             val key = "extension_" + extension.componentName().packageName
             if (settings.contains(key)) {
-                extensionsManager!!.displayPlugin(this, id, extension, settings.getBoolean(key, false))
+                extensionsManager.displayPlugin(this, id, extension, settings.getBoolean(key, false))
             } else {
-                extensionsManager!!.showExtensionPermissionDialog(this, id, extension, key)
+                extensionsManager.showExtensionPermissionDialog(this, id, extension, key)
             }
         }
         if (extensionGroup.subMenu.size() == 0) extensionGroup.isVisible = false
         onPluginsLoaded()
-        navigationView!!.invalidate()
+        navigationView.invalidate()
     }
 
     private fun onPluginsLoaded() {
         if (navigator.currentFragment == null && navigator.currentIdIsExtension())
-            if (extensionsManager!!.previousExtensionIsEnabled(application))
+            if (extensionsManager.previousExtensionIsEnabled(application))
                 extensionManagerService!!.openExtension(navigator.currentFragmentId)
             else
                 navigator.showFragment(R.id.nav_video)
@@ -227,9 +225,10 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
         navigator.reloadPreferences()
     }
 
+    @TargetApi(Build.VERSION_CODES.N)
     override fun onBackPressed() {
         /* Close the menu first */
-        if (drawerLayout!!.isDrawerOpen(navigationView!!)) {
+        if (drawerLayout.isDrawerOpen(navigationView)) {
             closeDrawer()
             return
         }
@@ -255,7 +254,7 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
 
     override fun displayExtensionItems(extensionId: Int, title: String, items: List<VLCExtensionItem>, showParams: Boolean, refresh: Boolean) {
         navigator.displayExtensionItems(extensionId, title, items, showParams, refresh)
-        navigationView!!.menu.findItem(extensionId).isCheckable = true
+        navigationView.menu.findItem(extensionId).isCheckable = true
         updateCheckedItem(extensionId)
     }
 
@@ -269,19 +268,19 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         closeDrawer()
-        UiTools.setKeyboardVisibility(drawerLayout, false)
+        if (item.itemId != R.id.ml_menu_filter) UiTools.setKeyboardVisibility(drawerLayout, false)
 
         // Handle item selection
-        when (item.itemId) {
+        return when (item.itemId) {
             // Refresh
             R.id.ml_menu_refresh -> {
                 forceRefresh()
-                return true
+                true
             }
             android.R.id.home ->
                 // Slide down the audio player or toggle the sidebar
-                return slideDownAudioPlayer() || drawerToggle!!.onOptionsItemSelected(item)
-            else -> return super.onOptionsItemSelected(item)
+                slideDownAudioPlayer() || drawerToggle.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -296,7 +295,7 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
     }
 
     private fun forceRefresh(current: Fragment?) {
-        if (!mediaLibrary!!.isWorking) {
+        if (!mediaLibrary.isWorking) {
             if (current != null && current is IRefreshable)
                 (current as IRefreshable).refresh()
             else
@@ -358,7 +357,7 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
     }
 
     fun closeDrawer() {
-        drawerLayout!!.closeDrawer(navigationView!!)
+        drawerLayout.closeDrawer(navigationView)
     }
 
     fun updateCheckedItem(id: Int) {
@@ -366,9 +365,9 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
             R.id.nav_settings, R.id.nav_about -> return
             else -> {
                 val currentId = navigator.currentFragmentId
-                val target = navigationView!!.menu.findItem(id)
+                val target = navigationView.menu.findItem(id)
                 if (id != currentId && target != null) {
-                    val current = navigationView!!.menu.findItem(currentId)
+                    val current = navigationView.menu.findItem(currentId)
                     if (current != null) current.isChecked = false
                     target.isChecked = true
                     /* Save the tab status in pref */
