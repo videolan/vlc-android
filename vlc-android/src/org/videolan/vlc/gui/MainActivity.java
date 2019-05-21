@@ -301,7 +301,7 @@ public class MainActivity extends ContentActivity implements ExtensionManagerSer
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         closeDrawer();
-        UiTools.setKeyboardVisibility(mDrawerLayout, false);
+        if (item.getItemId() != R.id.ml_menu_filter) UiTools.setKeyboardVisibility(mDrawerLayout, false);
 
         // Handle item selection
         switch (item.getItemId()) {
