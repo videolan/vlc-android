@@ -24,12 +24,12 @@ import org.videolan.vlc.util.generateResolutionClass
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, var itemSize: Int) : DiffUtilAdapter<MediaLibraryItem, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
+class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, var itemSize: Int) : DiffUtilAdapter<MediaWrapper, MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>>(), FastScroller.SeparatedAdapter, TvItemAdapter {
 
     override fun submitList(pagedList: Any?) {
         if (pagedList is List<*>) {
             @Suppress("UNCHECKED_CAST")
-            update(pagedList as List<MediaLibraryItem>)
+            update(pagedList as List<MediaWrapper>)
         }
     }
 
@@ -63,23 +63,33 @@ class FileTvItemAdapter(type: Int, private val eventsHandler: IEventsHandler, va
         }
     }
 
+    override fun onBindViewHolder(holder: MediaTvItemAdapter.AbstractMediaItemViewHolder<MediaBrowserTvItemBinding>, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isNullOrEmpty()) onBindViewHolder(holder, position)
+        else if ((payloads[0] as? Int) == UPDATE_PAYLOAD) {
+            getItem(position).let {
+                holder.binding.title.text = it.title
+                holder.binding.description = it.title
+            }
+        }
+    }
+
     override fun hasSections() = true
 
     override fun setOnFocusChangeListener(focusListener: FocusableRecyclerView.FocusListener?) {
         this.focusListener = focusListener
     }
 
-    override fun createCB(): DiffCallback<MediaLibraryItem> {
-        return object : DiffCallback<MediaLibraryItem>() {
+    override fun createCB(): DiffCallback<MediaWrapper> {
+        return object : DiffCallback<MediaWrapper>() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) = try {
-                    dataset[oldItemPosition] === dataset[newItemPosition]
+                oldList[oldItemPosition] == newList[newItemPosition]
                 } catch (e: IndexOutOfBoundsException) {
                     false
                 }
 
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return dataset[oldItemPosition].description == dataset[newItemPosition].description
-                        && dataset[oldItemPosition].title == dataset[newItemPosition].title
+                return oldList[oldItemPosition].description == newList[newItemPosition].description
+                        && oldList[oldItemPosition].title == newList[newItemPosition].title
             }
 
             override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int) = arrayListOf(UPDATE_PAYLOAD)
