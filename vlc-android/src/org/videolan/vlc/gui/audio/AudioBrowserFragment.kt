@@ -204,6 +204,10 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
         sortMenuTitles()
     }
 
+    override fun sortBy(sort: Int) {
+        viewModel.providers[currentTab].sort(sort)
+    }
+
     override fun onFabPlayClick(view: View) {
         MediaUtils.playAll(view.context, viewModel.tracksProvider, 0, true)
     }
