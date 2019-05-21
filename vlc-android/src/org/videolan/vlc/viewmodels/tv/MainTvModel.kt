@@ -52,6 +52,7 @@ import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
 
 private const val NUM_ITEMS_PREVIEW = 5
+private const val TAG = "MainTvModel"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -64,7 +65,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     private val showInternalStorage = AndroidDevices.showInternalStorage()
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
     private var updatedFavoritList: List<MediaWrapper> = listOf()
-    private var showHistory = false
+    var showHistory = false
+    private set
     // LiveData
     private val favorites: LiveData<List<BrowserFav>> = browserFavRepository.browserFavorites
     val videos : LiveData<List<MediaLibraryItem>> = MutableLiveData()
@@ -76,6 +78,10 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     private val updateActor = actor<Unit>(capacity = Channel.CONFLATED) {
         for (action in channel) updateBrowsers()
+    }
+
+    private val historyActor = actor<Unit>(capacity = Channel.CONFLATED) {
+        for (action in channel) setHistory()
     }
 
     private val favObserver = Observer<List<BrowserFav>> { list ->
@@ -99,24 +105,22 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     fun refresh() = launch {
         updateAudioCategories()
-        updateActor.offer(Unit)
         updateVideos()
-        setHistory()
+        historyActor.offer(Unit)
+        updateActor.offer(Unit)
     }
 
-    private fun setHistory() {
+    private suspend fun setHistory() {
+        if (!medialibrary.isStarted) return
         val historyEnabled = settings.getBoolean(PLAYBACK_HISTORY, true)
-        if (showHistory != historyEnabled) {
-            showHistory = historyEnabled
-            if (!historyEnabled) (history as MutableLiveData).value = emptyList()
-            else updateHistory()
-        }
+        showHistory = historyEnabled
+        if (!historyEnabled) (history as MutableLiveData).value = emptyList()
+        else updateHistory()
     }
 
-    fun updateHistory() {
-        if (showHistory) launch {
-            (history as MutableLiveData).value = withContext(Dispatchers.Default) { medialibrary.lastMediaPlayed().toMutableList() }
-        }
+    suspend fun updateHistory() {
+        if (!showHistory) return
+        (history as MutableLiveData).value = context.getFromMl { lastMediaPlayed().toMutableList() }
     }
 
     private fun updateVideos() = launch {

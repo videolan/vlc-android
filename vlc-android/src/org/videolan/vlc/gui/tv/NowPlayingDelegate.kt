@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.tv
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.util.EmptyPBSCallback
@@ -61,7 +62,9 @@ class NowPlayingDelegate(private val model: MainTvModel): PlaybackService.Callba
     }
 
     private fun updateCurrent() {
-        model.updateAudioCategories()
-        model.updateHistory()
+        model.run {
+            updateAudioCategories()
+            if (showHistory) launch { updateHistory() }
+        }
     }
 }
