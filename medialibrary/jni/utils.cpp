@@ -68,7 +68,7 @@ mediaToMediaWrapper(JNIEnv* env, fields *fields, medialibrary::MediaPtr const& m
     } catch(const medialibrary::fs::DeviceRemovedException&) {
         return nullptr;
     }
-    thumbnail = mediaPtr->thumbnail().empty() ? NULL : env->NewStringUTF(mediaPtr->thumbnail().c_str());
+    thumbnail = mediaPtr->thumbnailMrl().empty() ? NULL : env->NewStringUTF(mediaPtr->thumbnailMrl().c_str());
     std::vector<medialibrary::VideoTrackPtr> videoTracks = mediaPtr->videoTracks()->all();
     bool hasVideoTracks = !videoTracks.empty();
     unsigned int width = hasVideoTracks ? videoTracks.at(0)->width() : 0;
