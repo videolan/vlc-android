@@ -2,9 +2,12 @@ package org.videolan.vlc.gui.dialogs
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.ContextThemeWrapper
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.annotation.LayoutRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -12,9 +15,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.videolan.vlc.R
 import org.videolan.vlc.util.AppScope
+import org.videolan.vlc.util.Settings
 
 abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
+
+    fun inflate(inflater: LayoutInflater, container: ViewGroup?, @LayoutRes layout: Int): View? {
+        if (Settings.showTvUi) {
+
+            val contextThemeWrapper = ContextThemeWrapper(activity, R.style.Theme_VLC) // your app theme here
+            return inflater.cloneInContext(contextThemeWrapper).inflate(layout, container, true)
+        }
+        return inflater.inflate(layout, container, false)
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,7 +57,7 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
+    override fun onConfigurationChanged(newConfig: Configuration) {
         if (!needToManageOrientation()) {
             super.onConfigurationChanged(newConfig)
             return
@@ -74,8 +88,6 @@ abstract class VLCBottomSheetDialogFragment : BottomSheetDialogFragment() {
      * Both fields [isFocusable] and [isFocusableInTouchMode] will be set to true
      */
     abstract fun initialFocusedView(): View
-
-
 
 
 }

@@ -2,6 +2,7 @@ package org.videolan.vlc.gui.dialogs
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.net.Uri
 import android.os.Bundle
@@ -58,8 +59,8 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
 
     }
 
-    override fun onAttach(activity: Activity?) {
-        super.onAttach(activity)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
         mActivity = activity
         if (!::mBrowserFavRepository.isInitialized) mBrowserFavRepository = BrowserFavRepository.getInstance(requireActivity())
     }
@@ -69,7 +70,7 @@ class NetworkServerDialog : DialogFragment(), AdapterView.OnItemSelectedListener
         mActivity = null
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         if (mActivity is MainActivity)
             (mActivity as MainActivity).forceRefresh()

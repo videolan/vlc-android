@@ -84,7 +84,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_playlist, container)
+        return inflate(inflater, container, R.layout.dialog_playlist)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

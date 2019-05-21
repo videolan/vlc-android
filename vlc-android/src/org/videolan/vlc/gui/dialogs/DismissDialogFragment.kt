@@ -7,7 +7,7 @@ class DismissDialogFragment : DialogFragment() {
     var onDismissListener: DialogInterface.OnDismissListener? = null
 
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         if (onDismissListener != null) {
             onDismissListener!!.onDismiss(dialog)

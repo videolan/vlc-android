@@ -54,16 +54,16 @@ private const val TAG = "VLC/MainTvFragment"
 class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnItemViewClickedListener, View.OnClickListener {
 
     private var backgroundManager: BackgroundManager? = null
-
     private lateinit var rowsAdapter: ArrayObjectAdapter
+
     private lateinit var videoAdapter: ArrayObjectAdapter
     private lateinit var categoriesAdapter: ArrayObjectAdapter
     private lateinit var historyAdapter: ArrayObjectAdapter
     private lateinit var playlistAdapter: ArrayObjectAdapter
     private lateinit var browserAdapter: ArrayObjectAdapter
     private lateinit var otherAdapter: ArrayObjectAdapter
-
     private lateinit var videoRow: ListRow
+
     private lateinit var audioRow: ListRow
     private lateinit var historyRow: ListRow
     private lateinit var playlistRow: ListRow
@@ -71,9 +71,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private lateinit var miscRow: ListRow
 
     private var displayHistory = false
+    private var displayPlaylist = false
     private var selectedItem: Any? = null
 
-    internal lateinit var model : MainTvModel
+    internal lateinit var model: MainTvModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,9 +112,9 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
         // Playlists
         playlistAdapter = ArrayObjectAdapter(CardPresenter(ctx))
-        val playlistHeader = HeaderItem(0, getString(R.string.playlists))
+        val playlistHeader = HeaderItem(HEADER_PLAYLISTS, getString(R.string.playlists))
         playlistRow = ListRow(playlistHeader, playlistAdapter)
-        rowsAdapter.add(playlistRow)
+//        rowsAdapter.add(playlistRow)
 
         //Browser section
         browserAdapter = ArrayObjectAdapter(CardPresenter(ctx))
@@ -130,6 +131,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         otherAdapter.add(GenericCardItem(ID_LICENCE, getString(R.string.licence), "", R.drawable.ic_menu_open_source, R.color.tv_card_content))
         miscRow = ListRow(miscHeader, otherAdapter)
         rowsAdapter.add(miscRow)
+
+        historyAdapter = ArrayObjectAdapter(CardPresenter(requireActivity()))
+        val historyHeader = HeaderItem(HEADER_HISTORY, getString(R.string.history))
+        historyRow = ListRow(historyHeader, historyAdapter)
 
         adapter = rowsAdapter
         onItemViewClickedListener = this
@@ -149,28 +154,36 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
             videoAdapter.setItems(it, diffCallback)
         })
         model.history.observe(this, Observer {
+            displayHistory = it.isNotEmpty()
             if (it.isNotEmpty()) {
-                if (!displayHistory) {
-                    displayHistory = true
-                    if (!this::historyRow.isInitialized) {
-                        historyAdapter = ArrayObjectAdapter(CardPresenter(requireActivity()))
-                        val historyHeader = HeaderItem(HEADER_HISTORY, getString(R.string.history))
-                        historyRow = ListRow(historyHeader, historyAdapter)
-                    }
-                }
                 historyAdapter.setItems(it, diffCallback)
-                val adapters = listOf(videoRow, audioRow, historyRow, browsersRow, miscRow)
-                rowsAdapter.setItems(adapters, TvUtil.listDiffCallback)
-            } else if (displayHistory) {
-                displayHistory = false
-                val adapters = listOf(videoRow, audioRow, browsersRow, miscRow)
-                rowsAdapter.setItems(adapters, TvUtil.listDiffCallback)
             }
+            resetLines()
         })
 
         model.playlist.observe(this, Observer {
+            displayPlaylist = it.isNotEmpty()
             playlistAdapter.setItems(it, diffCallback)
+            resetLines()
+
         })
+    }
+
+    private fun resetLines() {
+
+
+        val adapters = listOf(videoRow, audioRow, playlistRow, historyRow, browsersRow, miscRow).filter {
+
+            when {
+                !displayHistory && it == historyRow -> false
+                !displayPlaylist && it == playlistRow -> false
+
+                else -> true
+
+            }
+
+        }
+        rowsAdapter.setItems(adapters, TvUtil.listDiffCallback)
     }
 
     override fun onStart() {
@@ -186,7 +199,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     override fun onClick(v: View?) = requireActivity().startActivity(Intent(requireContext(), SearchActivity::class.java))
 
-    fun showDetails() : Boolean {
+    fun showDetails(): Boolean {
         val media = selectedItem as? MediaWrapper ?: return false
         if (media.type != MediaWrapper.TYPE_DIR) return false
         val intent = Intent(requireActivity(), DetailsActivity::class.java)
@@ -199,7 +212,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     override fun onItemClicked(itemViewHolder: Presenter.ViewHolder?, item: Any?, rowViewHolder: RowPresenter.ViewHolder?, row: Row?) {
         val activity = requireActivity()
-        when(row?.id) {
+        when (row?.id) {
             HEADER_CATEGORIES -> {
                 if ((item as DummyItem).id == CATEGORY_NOW_PLAYING) { //NOW PLAYING CARD
                     activity.startActivity(Intent(activity, AudioPlayerActivity::class.java))

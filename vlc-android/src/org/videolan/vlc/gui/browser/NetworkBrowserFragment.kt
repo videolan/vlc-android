@@ -78,7 +78,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
         ExternalMonitor.connected.observe(this, Observer { connected -> refresh(connected!!) })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater!!.inflate(R.menu.fragment_option_network, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }

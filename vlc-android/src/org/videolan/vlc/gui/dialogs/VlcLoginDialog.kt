@@ -57,7 +57,7 @@ class VlcLoginDialog : VlcDialog<Dialog.LoginDialog, VlcLoginDialogBinding>(), V
         binding.store.onFocusChangeListener = this
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         mSettings = Settings.getInstance(requireActivity())
     }

@@ -109,8 +109,8 @@ class PlaybackSpeedDialog : VLCBottomSheetDialogFragment(), Observer<PlaybackSer
         textColor = speedValue.currentTextColor
 
 
-        dialog.setCancelable(true)
-        dialog.setCanceledOnTouchOutside(true)
+        dialog?.setCancelable(true)
+        dialog?.setCanceledOnTouchOutside(true)
         return view
     }
 

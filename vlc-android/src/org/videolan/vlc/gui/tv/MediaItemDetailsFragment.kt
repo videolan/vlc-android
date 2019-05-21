@@ -114,6 +114,9 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
                     TvUtil.playMedia(activity, media)
                     activity.finish()
                 }
+                ID_PLAYLIST -> {
+                    UiTools.addToPlaylist(requireActivity(), arrayListOf(mediaWrapper))
+                }
                 ID_FAVORITE_ADD -> {
                     val uri = Uri.parse(mediaItemDetails.location)
                     val local = "file" == uri.scheme
@@ -180,6 +183,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
 
                     detailsOverview.addAction(Action(ID_PLAY.toLong(), res.getString(R.string.play)))
                     detailsOverview.addAction(Action(ID_LISTEN.toLong(), res.getString(R.string.listen)))
+                    detailsOverview.addAction(Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
                 } else if (media.type == MediaWrapper.TYPE_VIDEO) {
                     // Add images and action buttons to the details view
                     if (cover == null)
@@ -191,6 +195,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
                     detailsOverview.addAction(Action(ID_PLAY_FROM_START.toLong(), res.getString(R.string.play_from_start)))
                     if (FileUtils.canWrite(media.uri))
                         detailsOverview.addAction(Action(ID_DL_SUBS.toLong(), res.getString(R.string.download_subtitles)))
+                    detailsOverview.addAction(Action(ID_PLAYLIST.toLong(), res.getString(R.string.add_to_playlist)))
                 }
                 rowsAdapter.add(detailsOverview)
                 adapter = rowsAdapter
@@ -208,5 +213,6 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
         private const val ID_BROWSE = 5
         private const val ID_DL_SUBS = 6
         private const val ID_PLAY_FROM_START = 7
+        private const val ID_PLAYLIST = 8
     }
 }

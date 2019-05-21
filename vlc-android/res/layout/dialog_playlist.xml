@@ -67,8 +67,7 @@
                 android:layout_alignParentTop="true"
                 android:hint="@string/playlist_name_hint"
                 android:imeOptions="actionSend"
-                android:inputType="text"
-                android:textColorHint="?attr/font_default" />
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
