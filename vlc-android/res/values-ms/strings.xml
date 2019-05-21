@@ -241,6 +241,7 @@
     <string name="about_text">VLC untuk Android™ adalah port pemain media VLC, pemain media sumber terbuka yang popular. Versi Android™ boleh membaca kebanyakan fail dan strim rangkaian.</string>
     <string name="vlc_authors">dan Pengarang VLC.</string>
     <string name="compiled_by">Versi VLC ini dikompil oleh:</string>
+    <string name="feedback_forum">Forum maklumbalas</string>
 
     <!-- Preferences -->
     <string name="preferences">Tetapan</string>
@@ -673,4 +674,7 @@
     <string name="popup_force_legacy_summary">Guna tetingkap timbul boleh saiz semua Gambar-dalam-Gambar suai</string>
     <string name="device_default">Lalai peranti</string>
     <string name="track_number">%s trek</string>
+    <string name="jump_to">Lompat ke</string>
+    <string name="show_video_thumbnails_summary">Tunjuk lakaran kenit video dalam senarai</string>
+    <string name="show_video_thumbnails">Lakaran kenit video</string>
 </resources>
