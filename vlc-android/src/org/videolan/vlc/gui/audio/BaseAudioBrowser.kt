@@ -205,11 +205,6 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
         adapter?.multiSelectHelper?.clearSelection()
     }
 
-    override fun sortBy(sort: Int) {
-        viewModel.canSortBy(sort)
-        super.sortBy(sort)
-    }
-
     override fun onRefresh() {}
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
