@@ -35,10 +35,12 @@ class VoiceSearchParams(val query: String, extras: Bundle?) {
     var isGenreFocus: Boolean = false
     var isArtistFocus: Boolean = false
     var isAlbumFocus: Boolean = false
+    var isPlaylistFocus: Boolean = false
     var isSongFocus: Boolean = false
     var genre: String? = null
     var artist: String? = null
     var album: String? = null
+    var playlist: String? = null
     var song: String? = null
 
     init {
@@ -69,6 +71,10 @@ class VoiceSearchParams(val query: String, extras: Bundle?) {
                     genre = extras.getString(genreKey)
                     artist = extras.getString(MediaStore.EXTRA_MEDIA_ARTIST)
                 }
+                MediaStore.Audio.Playlists.ENTRY_CONTENT_TYPE -> {
+                    isPlaylistFocus = true
+                    playlist = extras.getString(MediaStore.EXTRA_MEDIA_PLAYLIST)
+                }
                 MediaStore.Audio.Media.ENTRY_CONTENT_TYPE -> {
                     isSongFocus = true
                     song = extras.getString(MediaStore.EXTRA_MEDIA_TITLE)
@@ -83,16 +89,19 @@ class VoiceSearchParams(val query: String, extras: Bundle?) {
     }
 
     override fun toString(): String {
-        return ("query=" + query
-                + " isAny=" + isAny
-                + " isUnstructured=" + isUnstructured
-                + " isGenreFocus=" + isGenreFocus
-                + " isArtistFocus=" + isArtistFocus
-                + " isAlbumFocus=" + isAlbumFocus
-                + " isSongFocus=" + isSongFocus
-                + " genre=" + genre
-                + " artist=" + artist
-                + " album=" + album
-                + " song=" + song)
+        return ("""
+            query=$query
+            isAny=$isAny
+            isUnstructured=$isUnstructured
+            isGenreFocus=$isGenreFocus
+            isArtistFocus=$isArtistFocus
+            isAlbumFocus=$isAlbumFocus
+            isPlaylistFocus=$isPlaylistFocus
+            isSongFocus=$isSongFocus
+            genre=$genre
+            artist=$artist
+            album=$album
+            playlist=$playlist
+            song=$song""".trimIndent())
     }
 }
