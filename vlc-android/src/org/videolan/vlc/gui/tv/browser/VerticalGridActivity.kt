@@ -88,13 +88,15 @@ class VerticalGridActivity : BaseTvActivity(), BrowserActivityInterface {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        if (fragment is DetailsFragment && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
-            (fragment as DetailsFragment).showDetails()
-            return true
-        }
-        if (fragment is OnKeyPressedListener) {
-            if ((fragment as OnKeyPressedListener).onKeyPressed(keyCode)) {
+        if (::fragment.isInitialized) {
+            if (fragment is DetailsFragment && (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE || keyCode == KeyEvent.KEYCODE_BUTTON_Y || keyCode == KeyEvent.KEYCODE_Y)) {
+                (fragment as DetailsFragment).showDetails()
                 return true
+            }
+            if (fragment is OnKeyPressedListener) {
+                if ((fragment as OnKeyPressedListener).onKeyPressed(keyCode)) {
+                    return true
+                }
             }
         }
         return super.onKeyDown(keyCode, event)
