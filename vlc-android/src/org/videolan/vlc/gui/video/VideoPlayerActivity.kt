@@ -2052,7 +2052,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
     }
 
-    internal fun seekDelta(delta: Int) {
+    internal fun seekDelta(delta: Int, nbTimesTaped: Int = -1) {
         service?.let { service ->
             // unseekable stream
             if (service.length <= 0 || !service.isSeekable) return
@@ -2063,10 +2063,14 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             val sb = StringBuilder()
             if (delta > 0f)
                 sb.append('+')
-            sb.append((delta / 1000f).toInt())
+            if (nbTimesTaped != -1 && delta < 0) {
+                sb.append('-')
+            }
+            sb.append(if (nbTimesTaped == -1) (delta / 1000f).toInt() else (nbTimesTaped * 10))
                     .append("s (")
                     .append(Tools.millisToString(service.time))
                     .append(')')
+            if (BuildConfig.DEBUG) Log.d("VideoTouchDelegate", "Displaying $sb for $nbTimesTaped")
             showInfo(sb.toString(), 1000)
         }
     }

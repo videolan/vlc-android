@@ -2,16 +2,15 @@ package org.videolan.vlc.gui.video
 
 import android.content.res.Configuration
 import android.media.AudioManager
+import android.os.Handler
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.*
-import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.ScaleGestureDetectorCompat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Tools
-import org.videolan.vlc.R
 import org.videolan.vlc.util.AndroidDevices
 
 
@@ -37,6 +36,11 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                          var screenConfig: ScreenConfig,
                          private val tv: Boolean) {
 
+    var handler = Handler()
+
+    var numberOfTaps = 0
+    var lastTapTimeMs: Long = 0
+    var touchDownMs: Long = 0
     private var mTouchAction = TOUCH_NONE
     private var mInitTouchY = 0f
     private var mInitTouchX = 0f
@@ -48,9 +52,6 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
     private val mScaleGestureDetector by lazy(LazyThreadSafetyMode.NONE) {
         ScaleGestureDetector(player, mScaleListener).apply { ScaleGestureDetectorCompat.setQuickScaleEnabled(this, false) }
-    }
-    private val mDetector by lazy(LazyThreadSafetyMode.NONE) {
-        GestureDetectorCompat(player, mGestureListener).apply { setOnDoubleTapListener(mGestureListener) }
     }
 
     // Brightness
@@ -83,7 +84,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             }
             else -> {
                 mScaleGestureDetector.onTouchEvent(event)
-                if (mScaleGestureDetector.isInProgress || mDetector.onTouchEvent(event)) {
+                if (mScaleGestureDetector.isInProgress) {
                     mTouchAction = TOUCH_IGNORE
                     return true
                 }
@@ -104,8 +105,10 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 val xTouch = Math.round(event.rawX)
                 val yTouch = Math.round(event.rawY)
 
+                val now = System.currentTimeMillis()
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
+                        touchDownMs = now
                         mVerticalTouchActive = false
                         // Audio
                         mInitTouchY = event.rawY
@@ -159,6 +162,51 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         if (mTouchAction == TOUCH_SEEK) doSeekTouch(Math.round(deltaY), xgesturesize, true)
                         mTouchX = -1f
                         mTouchY = -1f
+
+                        handler.removeCallbacksAndMessages(null)
+
+                        if (now - touchDownMs > ViewConfiguration.getTapTimeout()) {
+                            //it was not a tap
+
+                            numberOfTaps = 0
+                            lastTapTimeMs = 0
+                        }
+
+
+                        if (numberOfTaps > 0 && now - lastTapTimeMs < 500) {
+                            numberOfTaps += 1
+                        } else {
+                            numberOfTaps = 1
+                        }
+
+                        lastTapTimeMs = now
+                        val lastNbTimesTaped = numberOfTaps
+
+
+                        //handle multi taps
+
+                        if (numberOfTaps > 1 && !player.isLocked) {
+                            if (mTouchControls and TOUCH_FLAG_SEEK == 0) {
+                                player.doPlayPause()
+                            }
+                            val range = (if (screenConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) screenConfig.xRange else screenConfig.yRange).toFloat()
+
+                            when {
+                                event.rawX < range / 4f -> player.seekDelta(-10000, nbTimesTaped = lastNbTimesTaped - 1)
+                                event.rawX > range * 0.75 -> player.seekDelta(10000, nbTimesTaped = lastNbTimesTaped - 1)
+                                else -> player.doPlayPause()
+                            }
+                        }
+
+
+                        handler.postDelayed({
+                            when (numberOfTaps) {
+
+                                1 -> player.handler.sendEmptyMessageDelayed(if (player.isShowing) VideoPlayerActivity.HIDE_INFO else VideoPlayerActivity.SHOW_INFO, 200)
+
+                            }
+                        }, ViewConfiguration.getDoubleTapTimeout().toLong())
+
                     }
                 }
                 return mTouchAction != TOUCH_NONE
@@ -260,7 +308,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 Tools.millisToString(jump.toLong()),
                 Tools.millisToString(time + jump),
                 if (coef > 1) String.format(" x%.1g", 1.0 / coef) else ""), 50)
-        else player.showInfo(R.string.unseekable_stream, 1000)
+        else player.showInfo(org.videolan.vlc.R.string.unseekable_stream, 1000)
     }
 
     private fun doVolumeTouch(y_changed: Float) {
@@ -353,38 +401,6 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         }
     }
 
-    private val mGestureListener = object : GestureDetector.SimpleOnGestureListener() {
-
-        private val SWIPE_THRESHOLD = 100
-        private val SWIPE_VELOCITY_THRESHOLD = 100
-
-        override fun onSingleTapUp(e: MotionEvent): Boolean {
-            player.handler.sendEmptyMessageDelayed(if (player.isShowing) VideoPlayerActivity.HIDE_INFO else VideoPlayerActivity.SHOW_INFO, 200)
-            return true
-        }
-
-        override fun onDoubleTap(e: MotionEvent): Boolean {
-            player.handler.removeMessages(VideoPlayerActivity.HIDE_INFO)
-            player.handler.removeMessages(VideoPlayerActivity.SHOW_INFO)
-            val range = (if (screenConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) screenConfig.xRange else screenConfig.yRange).toFloat()
-            if (!player.isLocked) {
-                if (mTouchControls and TOUCH_FLAG_SEEK == 0) {
-                    player.doPlayPause()
-                    return true
-                }
-                val x = e.x
-                when {
-                    x < range / 4f -> player.seekDelta(-10000)
-                    x > range * 0.75 -> player.seekDelta(10000)
-                    else -> player.doPlayPause()
-                }
-                return true
-            }
-            return false
-        }
-
-        override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float) = false
-    }
 }
 
 data class ScreenConfig(val metrics: DisplayMetrics, val xRange: Int, val yRange: Int, val orientation: Int)
