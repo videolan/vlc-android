@@ -37,10 +37,12 @@ public class VoiceSearchParams {
     public boolean isGenreFocus;
     public boolean isArtistFocus;
     public boolean isAlbumFocus;
+    public boolean isPlaylistFocus;
     public boolean isSongFocus;
     public String genre;
     public String artist;
     public String album;
+    public String playlist;
     public String song;
 
     public VoiceSearchParams(String query, Bundle extras) {
@@ -70,6 +72,10 @@ public class VoiceSearchParams {
                     genre = extras.getString(genreKey);
                     artist = extras.getString(MediaStore.EXTRA_MEDIA_ARTIST);
                     break;
+                case MediaStore.Audio.Playlists.ENTRY_CONTENT_TYPE:
+                    isPlaylistFocus = true;
+                    playlist = extras.getString(MediaStore.EXTRA_MEDIA_PLAYLIST);
+                    break;
                 case MediaStore.Audio.Media.ENTRY_CONTENT_TYPE:
                     isSongFocus = true;
                     song = extras.getString(MediaStore.EXTRA_MEDIA_TITLE);
@@ -90,10 +96,12 @@ public class VoiceSearchParams {
             + " isGenreFocus=" + isGenreFocus
             + " isArtistFocus=" + isArtistFocus
             + " isAlbumFocus=" + isAlbumFocus
+            + " isPlaylistFocus=" + isPlaylistFocus
             + " isSongFocus=" + isSongFocus
             + " genre=" + genre
             + " artist=" + artist
             + " album=" + album
+            + " playlist=" + playlist
             + " song=" + song;
     }
 }
