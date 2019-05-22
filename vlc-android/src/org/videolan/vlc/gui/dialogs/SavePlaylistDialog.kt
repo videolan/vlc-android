@@ -113,7 +113,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         savePlaylist()
     }
 
-    override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent): Boolean {
+    override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
         if (actionId == EditorInfo.IME_ACTION_SEND)
             savePlaylist()
         return false
