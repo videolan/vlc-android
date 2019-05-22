@@ -248,6 +248,7 @@
     <string name="about_text">VLC voor Android™ is een port van VLC media player, de populaire open source mediaspeler. De Android™-versie kan de meeste bestanden en netwerkstreams lezen.</string>
     <string name="vlc_authors">en VLC-auteurs.</string>
     <string name="compiled_by">Deze versie van VLC werd gecompileerd door:</string>
+    <string name="feedback_forum">Feedback-forum</string>
 
     <!-- Preferences -->
     <string name="preferences">Instellingen</string>
@@ -680,4 +681,7 @@
     <string name="popup_force_legacy_summary">Aangepaste grootte-instelbare beeld-in-beeld popup gebruiken</string>
     <string name="device_default">Standaard van apparaat</string>
     <string name="track_number">%s tracks</string>
+    <string name="jump_to">Springen naar</string>
+    <string name="show_video_thumbnails_summary">Video-miniaturen weergeven in lijsten</string>
+    <string name="show_video_thumbnails">Video-miniaturen</string>
 </resources>
