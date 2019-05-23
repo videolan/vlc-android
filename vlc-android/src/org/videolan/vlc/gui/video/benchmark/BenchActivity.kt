@@ -314,6 +314,13 @@ class BenchActivity : ShallowVideoPlayer() {
      * At the end of the video buffering, the screenshot callback is set.
      */
     private fun seekScreenshot() {
+        // tmp fix
+        // mService should never be null in this context but it happens
+        if (service == null) {
+            Log.w(TAG, "seekScreenshot: service is null");
+            errorFinish("PlayerService is null");
+            return;
+        }
         if (mProjectionManager != null && mScreenshotCount < mTimestamp!!.size) {
             setTimeout()
             seek(mTimestamp!![mScreenshotCount])
