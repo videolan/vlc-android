@@ -47,6 +47,7 @@
 
     <color name="blacktransparent">#b4000000</color>
     <color name="whitetransparent">#b4ffffff</color>
+    <color name="ripple_white">#88ffffff</color>
     <color name="transparent">#00000000</color>
 
     <color name="white_selection_transparent">#44ffffff</color>

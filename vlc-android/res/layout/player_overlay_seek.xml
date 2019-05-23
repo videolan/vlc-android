@@ -20,18 +20,19 @@
         android:layout_marginBottom="8dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/right_container"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout3"
+        app:layout_constraintEnd_toEndOf="@id/guideline4"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.circularreveal.CircularRevealFrameLayout
         android:id="@+id/right_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,11 +49,12 @@
             android:id="@+id/seek_rewind_second"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha="0"
             android:src="@drawable/ic_half_seek_rewind"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/seek_rewind_first"
-            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,6 +62,7 @@
             android:id="@+id/seek_rewind_first"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha="0"
             android:src="@drawable/ic_half_seek_rewind"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -95,6 +98,7 @@
             android:id="@+id/seek_forward_first"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha="0"
             android:src="@drawable/ic_half_seek_forward"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/seek_forward_second"
@@ -107,6 +111,7 @@
             android:id="@+id/seek_forward_second"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha="0"
             android:src="@drawable/ic_half_seek_forward"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

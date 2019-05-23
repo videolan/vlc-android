@@ -53,6 +53,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.ViewStubCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Lifecycle
@@ -2161,13 +2162,13 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 val cx = if (seekForward) container.width else 0
                 val cy = container.height / 2
                 val animatorSet = AnimatorSet()
-                val circularReveal = CircularRevealCompat.createCircularReveal(container, cx.toFloat(), cy.toFloat(), 0F, container.height.toFloat())
+                val circularReveal = CircularRevealCompat.createCircularReveal(container, cx.toFloat(), cy.toFloat(), 0F, container.width.toFloat())
 
 
                 val backgroundColorAnimator = ObjectAnimator.ofObject(container,
                         CircularRevealWidget.CircularRevealScrimColorProperty.CIRCULAR_REVEAL_SCRIM_COLOR.name,
                         ArgbEvaluator(),
-                        Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT)
+                        Color.TRANSPARENT, ContextCompat.getColor(this, R.color.ripple_white), Color.TRANSPARENT)
 
 
                 animatorSet.playTogether(
