@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.video
 
+import android.animation.*
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
@@ -30,6 +31,7 @@ import android.bluetooth.BluetoothHeadset
 import android.content.*
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.graphics.Color
 import android.media.AudioManager
 import android.net.Uri
 import android.os.*
@@ -61,6 +63,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.circularreveal.CircularRevealCompat
+import com.google.android.material.circularreveal.CircularRevealFrameLayout
+import com.google.android.material.circularreveal.CircularRevealWidget
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -159,6 +164,18 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var lockBackButton = false
     private var wasPaused = false
     private var mSavedTime: Long = -1
+
+    /*seek*/
+    private var seekLeftContainer: CircularRevealFrameLayout? = null
+    private var seekRightContainer: CircularRevealFrameLayout? = null
+    private var seekBackground: FrameLayout? = null
+    private var seekLeftText: TextView? = null
+    private var seekRightText: TextView? = null
+    private var seekForwardFirst: ImageView? = null
+    private var seekForwardSecond: ImageView? = null
+    private var seekRewindFirst: ImageView? = null
+    private var seekRewindSecond: ImageView? = null
+
 
     /**
      * For uninterrupted switching between audio and video mode
@@ -371,7 +388,11 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
     }
 
-    private val btSaveListener = OnClickListener { service?.run { settings.edit().putLong(KEY_BLUETOOTH_DELAY, service?.audioDelay ?: 0L).apply() } }
+    private val btSaveListener = OnClickListener {
+        service?.run {
+            settings.edit().putLong(KEY_BLUETOOTH_DELAY, service?.audioDelay ?: 0L).apply()
+        }
+    }
 
     private val serviceReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -1511,6 +1532,27 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
     }
 
+    private fun initSeekOverlay() {
+        val vsc = findViewById<ViewStubCompat>(R.id.player_seek_stub)
+        if (vsc != null) {
+            vsc.inflate()
+            // the info textView is not on the overlay
+
+            seekLeftContainer = findViewById(R.id.left_container)
+            seekRightContainer = findViewById(R.id.right_container)
+            seekLeftText = findViewById(R.id.seekLeftText)
+            seekRightText = findViewById(R.id.seekRightText)
+            seekBackground = findViewById(R.id.seek_background)
+            seekForwardFirst = findViewById(R.id.seek_forward_first)
+            seekForwardSecond = findViewById(R.id.seek_forward_second)
+
+            seekRewindFirst = findViewById(R.id.seek_rewind_first)
+            seekRewindSecond = findViewById(R.id.seek_rewind_second)
+
+
+        }
+    }
+
     internal fun showInfo(textid: Int, duration: Int) {
         showInfo(getString(textid), duration)
     }
@@ -1807,9 +1849,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
             if (item.itemId == R.id.audio_player_mini_remove) service?.run {
-                    playlistAdapter!!.remove(position)
-                    remove(position)
-                    return@OnMenuItemClickListener true
+                playlistAdapter!!.remove(position)
+                remove(position)
+                return@OnMenuItemClickListener true
             }
             false
         })
@@ -2061,17 +2103,124 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             if (position < 0) position = 0
             seek(position)
             val sb = StringBuilder()
+            var seekForward = true
             if (delta > 0f)
                 sb.append('+')
             if (nbTimesTaped != -1 && delta < 0) {
                 sb.append('-')
+                seekForward = false
             }
             sb.append(if (nbTimesTaped == -1) (delta / 1000f).toInt() else (nbTimesTaped * 10))
                     .append("s (")
                     .append(Tools.millisToString(service.time))
                     .append(')')
-            if (BuildConfig.DEBUG) Log.d("VideoTouchDelegate", "Displaying $sb for $nbTimesTaped")
-            showInfo(sb.toString(), 1000)
+
+            initSeekOverlay()
+
+            val container = if (seekForward) {
+                seekRightContainer!!
+            } else {
+                seekLeftContainer!!
+            }
+
+            val textView = if (seekForward) {
+                seekRightText!!
+            } else {
+                seekLeftText!!
+            }
+
+            val imageFirst = if (seekForward) {
+                seekForwardFirst!!
+            } else {
+                seekRewindFirst!!
+            }
+
+            val imageSecond = if (seekForward) {
+                seekForwardSecond!!
+            } else {
+                seekRewindSecond!!
+            }
+
+
+
+
+
+            container.post {
+
+                val backgroundAnim = ObjectAnimator.ofFloat(seekBackground, "alpha", 1f)
+                backgroundAnim.duration = 200
+
+                val firstImageAnim = ObjectAnimator.ofFloat(imageFirst, "alpha", 1f, 0f)
+                firstImageAnim.duration = 500
+
+
+                val secondImageAnim = ObjectAnimator.ofFloat(imageSecond, "alpha", 0F, 1f, 0f)
+                secondImageAnim.duration = 750
+
+
+                val cx = if (seekForward) container.width else 0
+                val cy = container.height / 2
+                val animatorSet = AnimatorSet()
+                val circularReveal = CircularRevealCompat.createCircularReveal(container, cx.toFloat(), cy.toFloat(), 0F, container.height.toFloat())
+
+
+                val backgroundColorAnimator = ObjectAnimator.ofObject(container,
+                        CircularRevealWidget.CircularRevealScrimColorProperty.CIRCULAR_REVEAL_SCRIM_COLOR.name,
+                        ArgbEvaluator(),
+                        Color.TRANSPARENT, Color.WHITE, Color.TRANSPARENT)
+
+
+                animatorSet.playTogether(
+                        circularReveal,
+                        backgroundColorAnimator,
+                        backgroundAnim,
+                        firstImageAnim,
+                        secondImageAnim
+                )
+                animatorSet.duration = 1000
+
+
+                val mainAnimOut = ObjectAnimator.ofFloat(seekBackground, "alpha", 0f)
+                backgroundAnim.duration = 200
+
+                val seekAnimatorSet = AnimatorSet()
+                seekAnimatorSet.playSequentially(animatorSet, mainAnimOut)
+
+
+                mainAnimOut.addListener(object : AnimatorListenerAdapter() {
+
+                    override fun onAnimationEnd(animation: Animator) {
+                        super.onAnimationEnd(animation)
+
+                        container.visibility = View.INVISIBLE
+                        textView.text = ""
+
+
+                    }
+                })
+
+
+                container.visibility = View.VISIBLE
+                seekAnimatorSet.start()
+            }
+
+
+//            val anim = CircularRevealCompat.createCircularReveal(container, cx.toFloat(), cy.toFloat(), 0F, container.height.toFloat())
+//            anim.addListener(object : AnimatorListenerAdapter() {
+//
+//                override fun onAnimationEnd(animation: Animator) {
+//                    super.onAnimationEnd(animation)
+//                    container.visibility = View.INVISIBLE
+//                    textView.text = ""
+//
+//                }
+//            })
+//            anim.start()
+
+            textView.text = sb.toString()
+
+
+//            showInfo(sb.toString(), 1000)
         }
     }
 
@@ -2653,7 +2802,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         if (screenOrientation == 98) {
             screenOrientation = Integer.valueOf(
                     settings.getString(SCREEN_ORIENTATION, "99" /*SCREEN ORIENTATION SENSOR*/)!!)
-            rootView?.let { UiTools.snacker(it,  R.string.reset_orientation) }
+            rootView?.let { UiTools.snacker(it, R.string.reset_orientation) }
             requestedOrientation = getScreenOrientation(screenOrientation)
             return true
         }

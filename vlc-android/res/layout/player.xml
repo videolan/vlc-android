@@ -17,6 +17,13 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="false"/>
 
+
+    <androidx.appcompat.widget.ViewStubCompat
+        android:id="@+id/player_seek_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
+        android:layout="@layout/player_overlay_seek" />
     <RelativeLayout
         android:id="@+id/player_ui_container"
         android:layout_width="match_parent"
