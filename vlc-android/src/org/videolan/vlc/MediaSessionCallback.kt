@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.KeyEvent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.extensions.ExtensionsManager
@@ -55,32 +52,32 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
     }
 
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle?) {
-        AppScope.launch {
+        playbackService.launch {
             val context = playbackService.applicationContext
             when {
                 mediaId == MediaSessionBrowser.ID_SHUFFLE_ALL -> {
                     val tracks = context.getFromMl { audio }
-                    if (tracks.isNotEmpty()) {
+                    if (tracks.isNotEmpty() && isActive) {
                         playbackService.load(tracks, Random().nextInt(min(tracks.size, MEDIALIBRARY_PAGE_SIZE)))
                         if (!playbackService.isShuffling) playbackService.shuffle()
                     }
                 }
                 mediaId.startsWith(MediaSessionBrowser.ALBUM_PREFIX) -> {
                     val tracks = context.getFromMl { getAlbum(mediaId.extractId())?.tracks }
-                    tracks?.let { playbackService.load(it, 0) }
+                    if (isActive) tracks?.let { playbackService.load(it, 0) }
                 }
                 mediaId.startsWith(MediaSessionBrowser.PLAYLIST_PREFIX) -> {
                     val tracks = context.getFromMl { getPlaylist(mediaId.extractId())?.tracks }
-                    tracks?.let { playbackService.load(it, 0) }
+                    if (isActive) tracks?.let { playbackService.load(it, 0) }
                 }
                 mediaId.startsWith(ExtensionsManager.EXTENSION_PREFIX) -> {
                     val id = mediaId.replace(ExtensionsManager.EXTENSION_PREFIX + "_" + mediaId.split("_".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1] + "_", "")
                     onPlayFromUri(Uri.parse(id), null)
                 }
                 else -> try {
-                    context.getFromMl { getMedia(mediaId.toLong()) }?.let { playbackService.load(it) }
+                    context.getFromMl { getMedia(mediaId.toLong()) }?.let { if (isActive) playbackService.load(it) }
                 } catch (e: NumberFormatException) {
-                    playbackService.loadLocation(mediaId)
+                    if (isActive) playbackService.loadLocation(mediaId)
                 }
             }
         }
@@ -92,7 +89,8 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
 
     override fun onPlayFromSearch(query: String?, extras: Bundle?) {
         playbackService.mediaSession.setPlaybackState(PlaybackStateCompat.Builder().setState(PlaybackStateCompat.STATE_CONNECTING, playbackService.time, 1.0f).build())
-        AppScope.launch(Dispatchers.IO) {
+        playbackService.launch(Dispatchers.IO) {
+            if (!isActive) return@launch
             playbackService.getFromMl { isStarted }
             val vsp = VoiceSearchParams(query ?: "", extras)
             var items: Array<out MediaLibraryItem>? = null
@@ -107,6 +105,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                 vsp.isPlaylistFocus -> items = playbackService.medialibrary.searchPlaylist(vsp.playlist)
                 vsp.isSongFocus -> tracks = playbackService.medialibrary.searchMedia(vsp.song)
             }
+            if (!isActive) return@launch
             if (tracks.isNullOrEmpty() && items.isNullOrEmpty() && query?.length ?: 0 > 2) playbackService.medialibrary.search(query)?.run {
                 when {
                     !albums.isNullOrEmpty() -> tracks = albums[0].tracks
@@ -115,6 +114,7 @@ internal class MediaSessionCallback(private val playbackService: PlaybackService
                     !genres.isNullOrEmpty() -> tracks = genres[0].tracks
                 }
             }
+            if (!isActive) return@launch
             if (tracks.isNullOrEmpty() && !items.isNullOrEmpty()) tracks = items[0].tracks
             if (!tracks.isNullOrEmpty()) playbackService.load(tracks, 0)
         }
