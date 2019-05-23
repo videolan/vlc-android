@@ -68,6 +68,7 @@ import com.google.android.material.circularreveal.CircularRevealCompat
 import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.circularreveal.CircularRevealWidget
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.player_overlay_seek.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.Media
@@ -135,8 +136,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var info: TextView? = null
     private var overlayInfo: View? = null
     private var verticalBar: View? = null
-    private var verticalBarProgress: View? = null
-    private var verticalBarBoostProgress: View? = null
+    private lateinit var verticalBarProgress: View
+    private lateinit var verticalBarBoostProgress: View
     internal var isLoading: Boolean = false
         private set
     private var isPlaying = false
@@ -165,17 +166,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var lockBackButton = false
     private var wasPaused = false
     private var mSavedTime: Long = -1
-
-    /*seek*/
-    private var seekLeftContainer: CircularRevealFrameLayout? = null
-    private var seekRightContainer: CircularRevealFrameLayout? = null
-    private var seekBackground: FrameLayout? = null
-    private var seekLeftText: TextView? = null
-    private var seekRightText: TextView? = null
-    private var seekForwardFirst: ImageView? = null
-    private var seekForwardSecond: ImageView? = null
-    private var seekRewindFirst: ImageView? = null
-    private var seekRewindSecond: ImageView? = null
 
 
     /**
@@ -1485,22 +1475,22 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
      */
     private fun showInfoWithVerticalBar(text: String, duration: Int, barNewValue: Int, max: Int) {
         showInfo(text, duration)
-        if (verticalBarProgress == null) return
+        if (!::verticalBarProgress.isInitialized) return
         var layoutParams: LinearLayout.LayoutParams
         if (barNewValue <= 100) {
-            layoutParams = verticalBarProgress!!.layoutParams as LinearLayout.LayoutParams
+            layoutParams = verticalBarProgress.layoutParams as LinearLayout.LayoutParams
             layoutParams.weight = barNewValue * 100 / max.toFloat()
-            verticalBarProgress!!.layoutParams = layoutParams
-            layoutParams = verticalBarBoostProgress!!.layoutParams as LinearLayout.LayoutParams
+            verticalBarProgress.layoutParams = layoutParams
+            layoutParams = verticalBarBoostProgress.layoutParams as LinearLayout.LayoutParams
             layoutParams.weight = 0f
-            verticalBarBoostProgress!!.layoutParams = layoutParams
+            verticalBarBoostProgress.layoutParams = layoutParams
         } else {
-            layoutParams = verticalBarProgress!!.layoutParams as LinearLayout.LayoutParams
+            layoutParams = verticalBarProgress.layoutParams as LinearLayout.LayoutParams
             layoutParams.weight = 100 * 100 / max.toFloat()
-            verticalBarProgress!!.layoutParams = layoutParams
-            layoutParams = verticalBarBoostProgress!!.layoutParams as LinearLayout.LayoutParams
+            verticalBarProgress.layoutParams = layoutParams
+            layoutParams = verticalBarBoostProgress.layoutParams as LinearLayout.LayoutParams
             layoutParams.weight = (barNewValue - 100) * 100 / max.toFloat()
-            verticalBarBoostProgress!!.layoutParams = layoutParams
+            verticalBarBoostProgress.layoutParams = layoutParams
         }
         verticalBar.setVisible()
     }
@@ -1523,7 +1513,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private fun initInfoOverlay() {
         val vsc = findViewById<ViewStubCompat>(R.id.player_info_stub)
         if (vsc != null) {
-            vsc.inflate()
+            vsc.setVisible()
             // the info textView is not on the overlay
             info = findViewById(R.id.player_overlay_textinfo)
             overlayInfo = findViewById(R.id.player_overlay_info)
@@ -1533,26 +1523,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
     }
 
-    private fun initSeekOverlay() {
-        val vsc = findViewById<ViewStubCompat>(R.id.player_seek_stub)
-        if (vsc != null) {
-            vsc.inflate()
-            // the info textView is not on the overlay
-
-            seekLeftContainer = findViewById(R.id.left_container)
-            seekRightContainer = findViewById(R.id.right_container)
-            seekLeftText = findViewById(R.id.seekLeftText)
-            seekRightText = findViewById(R.id.seekRightText)
-            seekBackground = findViewById(R.id.seek_background)
-            seekForwardFirst = findViewById(R.id.seek_forward_first)
-            seekForwardSecond = findViewById(R.id.seek_forward_second)
-
-            seekRewindFirst = findViewById(R.id.seek_rewind_first)
-            seekRewindSecond = findViewById(R.id.seek_rewind_second)
-
-
-        }
-    }
+    private fun initSeekOverlay() = findViewById<ViewStubCompat>(R.id.player_seek_stub)?.setVisible()
 
     internal fun showInfo(textid: Int, duration: Int) {
         showInfo(getString(textid), duration)
@@ -2105,8 +2076,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             seek(position)
             val sb = StringBuilder()
             var seekForward = true
-            if (delta > 0f)
-                sb.append('+')
+            if (delta > 0f) sb.append('+')
             if (nbTimesTaped != -1 && delta < 0) {
                 sb.append('-')
                 seekForward = false
@@ -2118,58 +2088,30 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
             initSeekOverlay()
 
-            val container = if (seekForward) {
-                seekRightContainer!!
-            } else {
-                seekLeftContainer!!
-            }
-
-            val textView = if (seekForward) {
-                seekRightText!!
-            } else {
-                seekLeftText!!
-            }
-
-            val imageFirst = if (seekForward) {
-                seekForwardFirst!!
-            } else {
-                seekRewindFirst!!
-            }
-
-            val imageSecond = if (seekForward) {
-                seekForwardSecond!!
-            } else {
-                seekRewindSecond!!
-            }
-
-
-
-
+            val container = if (seekForward) right_container else left_container
+            val textView = if (seekForward) seekRightText else seekLeftText
+            val imageFirst = if (seekForward) seek_forward_first else seek_rewind_first
+            val imageSecond = if (seekForward) seek_forward_second else seek_rewind_second
 
             container.post {
-
-                val backgroundAnim = ObjectAnimator.ofFloat(seekBackground, "alpha", 1f)
+                val backgroundAnim = ObjectAnimator.ofFloat(seek_background, "alpha", 1f)
                 backgroundAnim.duration = 200
 
                 val firstImageAnim = ObjectAnimator.ofFloat(imageFirst, "alpha", 1f, 0f)
                 firstImageAnim.duration = 500
 
-
                 val secondImageAnim = ObjectAnimator.ofFloat(imageSecond, "alpha", 0F, 1f, 0f)
                 secondImageAnim.duration = 750
-
 
                 val cx = if (seekForward) container.width else 0
                 val cy = container.height / 2
                 val animatorSet = AnimatorSet()
                 val circularReveal = CircularRevealCompat.createCircularReveal(container, cx.toFloat(), cy.toFloat(), 0F, container.width.toFloat())
 
-
                 val backgroundColorAnimator = ObjectAnimator.ofObject(container,
                         CircularRevealWidget.CircularRevealScrimColorProperty.CIRCULAR_REVEAL_SCRIM_COLOR.name,
                         ArgbEvaluator(),
                         Color.TRANSPARENT, ContextCompat.getColor(this, R.color.ripple_white), Color.TRANSPARENT)
-
 
                 animatorSet.playTogether(
                         circularReveal,
@@ -2180,48 +2122,26 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 )
                 animatorSet.duration = 1000
 
-
-                val mainAnimOut = ObjectAnimator.ofFloat(seekBackground, "alpha", 0f)
+                val mainAnimOut = ObjectAnimator.ofFloat(seek_background, "alpha", 0f)
                 backgroundAnim.duration = 200
 
                 val seekAnimatorSet = AnimatorSet()
                 seekAnimatorSet.playSequentially(animatorSet, mainAnimOut)
 
-
                 mainAnimOut.addListener(object : AnimatorListenerAdapter() {
 
                     override fun onAnimationEnd(animation: Animator) {
                         super.onAnimationEnd(animation)
-
                         container.visibility = View.INVISIBLE
                         textView.text = ""
-
-
                     }
                 })
-
 
                 container.visibility = View.VISIBLE
                 seekAnimatorSet.start()
             }
 
-
-//            val anim = CircularRevealCompat.createCircularReveal(container, cx.toFloat(), cy.toFloat(), 0F, container.height.toFloat())
-//            anim.addListener(object : AnimatorListenerAdapter() {
-//
-//                override fun onAnimationEnd(animation: Animator) {
-//                    super.onAnimationEnd(animation)
-//                    container.visibility = View.INVISIBLE
-//                    textView.text = ""
-//
-//                }
-//            })
-//            anim.start()
-
             textView.text = sb.toString()
-
-
-//            showInfo(sb.toString(), 1000)
         }
     }
 

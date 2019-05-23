@@ -41,21 +41,21 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     var numberOfTaps = 0
     var lastTapTimeMs: Long = 0
     var touchDownMs: Long = 0
-    private var mTouchAction = TOUCH_NONE
-    private var mInitTouchY = 0f
-    private var mInitTouchX = 0f
-    private var mTouchY = -1f
-    private var mTouchX = -1f
-    private var mVerticalTouchActive = false
+    private var touchAction = TOUCH_NONE
+    private var initTouchY = 0f
+    private var initTouchX = 0f
+    private var touchY = -1f
+    private var touchX = -1f
+    private var verticalTouchActive = false
 
-    private var mLastMove: Long = 0
+    private var lastMove: Long = 0
 
-    private val mScaleGestureDetector by lazy(LazyThreadSafetyMode.NONE) {
+    private val scaleGestureDetector by lazy(LazyThreadSafetyMode.NONE) {
         ScaleGestureDetector(player, mScaleListener).apply { ScaleGestureDetectorCompat.setQuickScaleEnabled(this, false) }
     }
 
     // Brightness
-    private var mIsFirstBrightnessGesture = true
+    private var isFirstBrightnessGesture = true
 
     fun onTouchEvent(event: MotionEvent): Boolean {// Mouse events for the core
         // Seek
@@ -73,34 +73,34 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
             player.isPlaybackSettingActive -> {
                 if (event.action == MotionEvent.ACTION_UP) {
                     player.endPlaybackSetting()
-                    mTouchAction = TOUCH_NONE
+                    touchAction = TOUCH_NONE
                 }
                 return true
             }
             player.isPlaylistVisible -> {
-                mTouchAction = TOUCH_IGNORE
+                touchAction = TOUCH_IGNORE
                 player.togglePlaylist()
                 return true
             }
             else -> {
-                mScaleGestureDetector.onTouchEvent(event)
-                if (mScaleGestureDetector.isInProgress) {
-                    mTouchAction = TOUCH_IGNORE
+                scaleGestureDetector.onTouchEvent(event)
+                if (scaleGestureDetector.isInProgress) {
+                    touchAction = TOUCH_IGNORE
                     return true
                 }
                 if (mTouchControls == 0 || player.isLocked) {
                     // locked or swipe disabled, only handle show/hide & ignore all actions
-                    if (event.action == MotionEvent.ACTION_UP && mTouchAction != TOUCH_IGNORE) player.toggleOverlay()
+                    if (event.action == MotionEvent.ACTION_UP && touchAction != TOUCH_IGNORE) player.toggleOverlay()
                     return false
                 }
 
-                val xChanged = if (mTouchX != -1f && mTouchY != -1f) event.rawX - mTouchX else 0f
-                val yChanged = if (mTouchX != -1f && mTouchY != -1f) event.rawY - mTouchY else 0f
+                val xChanged = if (touchX != -1f && touchY != -1f) event.rawX - touchX else 0f
+                val yChanged = if (touchX != -1f && touchY != -1f) event.rawY - touchY else 0f
 
                 // coef is the gradient's move to determine a neutral zone
                 val coef = Math.abs(yChanged / xChanged)
                 val xgesturesize = xChanged / screenConfig.metrics.xdpi * 2.54f
-                val deltaY = Math.max(1f, (Math.abs(mInitTouchY - event.rawY) / screenConfig.metrics.xdpi + 0.5f) * 2f)
+                val deltaY = Math.max(1f, (Math.abs(initTouchY - event.rawY) / screenConfig.metrics.xdpi + 0.5f) * 2f)
 
                 val xTouch = Math.round(event.rawX)
                 val yTouch = Math.round(event.rawY)
@@ -109,69 +109,67 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         touchDownMs = now
-                        mVerticalTouchActive = false
+                        verticalTouchActive = false
                         // Audio
-                        mInitTouchY = event.rawY
-                        mInitTouchX = event.rawX
-                        mTouchY = mInitTouchY
+                        initTouchY = event.rawY
+                        initTouchX = event.rawX
+                        touchY = initTouchY
                         player.initAudioVolume()
-                        mTouchAction = TOUCH_NONE
+                        touchAction = TOUCH_NONE
                         // Seek
-                        mTouchX = event.rawX
+                        touchX = event.rawX
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_DOWN, xTouch, yTouch)
                     }
                     MotionEvent.ACTION_MOVE -> {
-                        if (mTouchAction == TOUCH_IGNORE) return false
+                        if (touchAction == TOUCH_IGNORE) return false
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_MOVE, xTouch, yTouch)
 
                         if (player.fov == 0f) {
                             // No volume/brightness action if coef < 2 or a secondary display is connected
                             //TODO : Volume action when a secondary display is connected
-                            if (mTouchAction != TOUCH_SEEK && coef > 2 && player.isOnPrimaryDisplay) {
-                                if (!mVerticalTouchActive) {
+                            if (touchAction != TOUCH_SEEK && coef > 2 && player.isOnPrimaryDisplay) {
+                                if (!verticalTouchActive) {
                                     if (Math.abs(yChanged / screenConfig.yRange) >= 0.05) {
-                                        mVerticalTouchActive = true
-                                        mTouchY = event.rawY
-                                        mTouchX = event.rawX
+                                        verticalTouchActive = true
+                                        touchY = event.rawY
+                                        touchX = event.rawX
                                     }
                                     return false
                                 }
-                                mTouchY = event.rawY
-                                mTouchX = event.rawX
+                                touchY = event.rawY
+                                touchX = event.rawX
                                 doVerticalTouchAction(yChanged)
-                            } else if (mInitTouchX < screenConfig.metrics.widthPixels * 0.95) {
+                            } else if (initTouchX < screenConfig.metrics.widthPixels * 0.95) {
                                 // Seek (Right or Left move)
                                 doSeekTouch(Math.round(deltaY), xgesturesize, false)
                             }
                         } else {
-                            mTouchY = event.rawY
-                            mTouchX = event.rawX
-                            mTouchAction = TOUCH_MOVE
+                            touchY = event.rawY
+                            touchX = event.rawX
+                            touchAction = TOUCH_MOVE
                             val yaw = player.fov * -xChanged / screenConfig.xRange.toFloat()
                             val pitch = player.fov * -yChanged / screenConfig.xRange.toFloat()
                             player.updateViewpoint(yaw, pitch, 0f)
                         }
                     }
                     MotionEvent.ACTION_UP -> {
-                        if (mTouchAction == TOUCH_IGNORE) mTouchAction = TOUCH_NONE
+                        if (touchAction == TOUCH_IGNORE) touchAction = TOUCH_NONE
                         // Mouse events for the core
                         player.sendMouseEvent(MotionEvent.ACTION_UP, xTouch, yTouch)
                         // Seek
-                        if (mTouchAction == TOUCH_SEEK) doSeekTouch(Math.round(deltaY), xgesturesize, true)
-                        mTouchX = -1f
-                        mTouchY = -1f
+                        if (touchAction == TOUCH_SEEK) doSeekTouch(Math.round(deltaY), xgesturesize, true)
+                        touchX = -1f
+                        touchY = -1f
 
                         handler.removeCallbacksAndMessages(null)
 
                         if (now - touchDownMs > ViewConfiguration.getTapTimeout()) {
                             //it was not a tap
-
                             numberOfTaps = 0
                             lastTapTimeMs = 0
                         }
-
 
                         if (numberOfTaps > 0 && now - lastTapTimeMs < 500) {
                             numberOfTaps += 1
@@ -182,9 +180,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         lastTapTimeMs = now
                         val lastNbTimesTaped = numberOfTaps
 
-
                         //handle multi taps
-
                         if (numberOfTaps > 1 && !player.isLocked) {
                             if (mTouchControls and TOUCH_FLAG_SEEK == 0) {
                                 player.doPlayPause()
@@ -198,21 +194,16 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                             }
                         }
 
-
                         handler.postDelayed({
                             when (numberOfTaps) {
-
                                 1 -> player.handler.sendEmptyMessageDelayed(if (player.isShowing) VideoPlayerActivity.HIDE_INFO else VideoPlayerActivity.SHOW_INFO, 200)
-
                             }
                         }, ViewConfiguration.getDoubleTapTimeout().toLong())
-
                     }
                 }
-                return mTouchAction != TOUCH_NONE
+                return touchAction != TOUCH_NONE
             }
         }
-
     }
 
     fun dispatchGenericMotionEvent(event: MotionEvent): Boolean {
@@ -231,7 +222,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         val y = AndroidDevices.getCenteredAxis(event, mInputDevice, MotionEvent.AXIS_Y)
         val rz = AndroidDevices.getCenteredAxis(event, mInputDevice, MotionEvent.AXIS_RZ)
 
-        if (System.currentTimeMillis() - mLastMove > JOYSTICK_INPUT_DELAY) {
+        if (System.currentTimeMillis() - lastMove > JOYSTICK_INPUT_DELAY) {
             if (Math.abs(x) > 0.3) {
                 if (tv) {
                     player.navigateDvdMenu(if (x > 0.0f) KeyEvent.KEYCODE_DPAD_RIGHT else KeyEvent.KEYCODE_DPAD_LEFT)
@@ -241,7 +232,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 if (tv)
                     player.navigateDvdMenu(if (x > 0.0f) KeyEvent.KEYCODE_DPAD_UP else KeyEvent.KEYCODE_DPAD_DOWN)
                 else {
-                    if (mIsFirstBrightnessGesture)
+                    if (isFirstBrightnessGesture)
                         initBrightnessTouch()
                     player.changeBrightness(-y / 10f)
                 }
@@ -251,20 +242,20 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                 val vol = Math.min(Math.max(player.volume + delta, 0f), player.audioMax.toFloat()).toInt()
                 player.setAudioVolume(vol)
             }
-            mLastMove = System.currentTimeMillis()
+            lastMove = System.currentTimeMillis()
         }
         return true
     }
 
-    fun isSeeking() = mTouchAction == TOUCH_SEEK
+    fun isSeeking() = touchAction == TOUCH_SEEK
 
     fun clearTouchAction() {
-        mTouchAction = TOUCH_NONE
+        touchAction = TOUCH_NONE
     }
 
     private fun doVerticalTouchAction(y_changed: Float) {
-        val rightAction = mTouchX.toInt() > 4 * screenConfig.metrics.widthPixels / 7f
-        val leftAction = !rightAction && mTouchX.toInt() < 3 * screenConfig.metrics.widthPixels / 7f
+        val rightAction = touchX.toInt() > 4 * screenConfig.metrics.widthPixels / 7f
+        val leftAction = !rightAction && touchX.toInt() < 3 * screenConfig.metrics.widthPixels / 7f
         if (!leftAction && !rightAction) return
         val audio = mTouchControls and TOUCH_FLAG_AUDIO_VOLUME != 0
         val brightness = mTouchControls and TOUCH_FLAG_BRIGHTNESS != 0
@@ -286,8 +277,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
         // No seek action if coef > 0.5 and gesturesize < 1cm
         if (Math.abs(gesturesize) < 1 || !player.service!!.isSeekable) return
 
-        if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_SEEK) return
-        mTouchAction = TOUCH_SEEK
+        if (touchAction != TOUCH_NONE && touchAction != TOUCH_SEEK) return
+        touchAction = TOUCH_SEEK
 
         val length = player.service!!.length
         val time = player.service!!.time
@@ -312,7 +303,7 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
     }
 
     private fun doVolumeTouch(y_changed: Float) {
-        if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_VOLUME) return
+        if (touchAction != TOUCH_NONE && touchAction != TOUCH_VOLUME) return
         val audioMax = player.audioMax
         val delta = -(y_changed / screenConfig.yRange * audioMax * 1.25f)
         player.volume += delta
@@ -327,11 +318,11 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                     } else {
                         player.setAudioVolume(vol)
                     }
-                    mTouchAction = TOUCH_VOLUME
+                    touchAction = TOUCH_VOLUME
                 }
             } else {
                 player.setAudioVolume(vol)
-                mTouchAction = TOUCH_VOLUME
+                touchAction = TOUCH_VOLUME
             }
         }
     }
@@ -353,13 +344,13 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
 
         lp.screenBrightness = brightnesstemp
         player.window.attributes = lp
-        mIsFirstBrightnessGesture = false
+        isFirstBrightnessGesture = false
     }
 
     private fun doBrightnessTouch(ychanged: Float) {
-        if (mTouchAction != TOUCH_NONE && mTouchAction != TOUCH_BRIGHTNESS) return
-        if (mIsFirstBrightnessGesture) initBrightnessTouch()
-        mTouchAction = TOUCH_BRIGHTNESS
+        if (touchAction != TOUCH_NONE && touchAction != TOUCH_BRIGHTNESS) return
+        if (isFirstBrightnessGesture) initBrightnessTouch()
+        touchAction = TOUCH_BRIGHTNESS
 
         // Set delta : 2f is arbitrary for now, it possibly will change in the future
         val delta = -ychanged / screenConfig.yRange * 1.25f
