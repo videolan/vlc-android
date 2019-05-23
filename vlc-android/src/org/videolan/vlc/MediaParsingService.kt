@@ -130,7 +130,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
             ACTION_FORCE_RELOAD -> actions.offer(ForceReload)
             ACTION_DISCOVER -> discover(intent.getStringExtra(EXTRA_PATH))
             ACTION_DISCOVER_DEVICE -> discoverStorage(intent.getStringExtra(EXTRA_PATH))
-            ACTION_CHECK_STORAGES -> if (scanActivated) actions.offer(UpdateStorages) else exitCommand()
+            ACTION_CHECK_STORAGES -> if (settings.getInt(KEY_MEDIALIBRARY_SCAN, -1) != ML_SCAN_OFF) actions.offer(UpdateStorages) else exitCommand()
             else -> {
                 exitCommand()
                 return Service.START_NOT_STICKY
@@ -248,11 +248,9 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
 
     private suspend fun updateStorages() {
         serviceLock = true
-        val ctx = applicationContext
-        val (sharedPreferences, devices, knownDevices) = withContext(Dispatchers.IO) {
-            val sharedPreferences = Settings.getInstance(ctx)
+        val (devices, knownDevices) = withContext(Dispatchers.IO) {
             val devices = AndroidDevices.getExternalStorageDirectories()
-            Triple(sharedPreferences, devices, medialibrary.devices)
+            Pair(devices, medialibrary.devices)
         }
         val missingDevices = Util.arrayToArrayList(knownDevices)
         missingDevices.remove("file://${AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY}")
