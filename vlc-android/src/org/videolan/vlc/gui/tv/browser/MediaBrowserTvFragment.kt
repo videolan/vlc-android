@@ -11,6 +11,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
+import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.MediaTvItemAdapter
 import org.videolan.vlc.gui.tv.TvItemAdapter
@@ -31,7 +32,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
 
     override lateinit var adapter: TvItemAdapter
 
-    override fun getTitle() = when (arguments?.getLong(CATEGORY, CATEGORY_SONGS)) {
+    override fun getTitle() = when ((viewModel as MediaBrowserViewModel).category) {
         CATEGORY_SONGS -> getString(R.string.tracks)
         CATEGORY_ALBUMS -> getString(R.string.albums)
         CATEGORY_ARTISTS -> getString(R.string.artists)
@@ -39,7 +40,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
         else -> getString(R.string.video)
     }
 
-    override fun getColumnNumber() = when (arguments?.getLong(CATEGORY, CATEGORY_SONGS)) {
+    override fun getColumnNumber() = when ((viewModel as MediaBrowserViewModel).category) {
         CATEGORY_VIDEOS -> resources.getInteger(R.integer.tv_videos_col_count)
         else -> resources.getInteger(R.integer.tv_songs_col_count)
     }
@@ -79,11 +80,15 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
             headerAdapter.items = headerItems
             headerAdapter.notifyDataSetChanged()
         })
-
-
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        launch { TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider as MedialibraryProvider<out MediaLibraryItem>) }
+        launch {
+            if ((viewModel as MediaBrowserViewModel).category == CATEGORY_VIDEOS && !Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL, true)) {
+                TvUtil.playMedia(requireActivity(), item as MediaWrapper)
+            } else {
+                TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider as MedialibraryProvider<out MediaLibraryItem>)
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@ import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 
 @ExperimentalCoroutinesApi
-class MediaBrowserViewModel(context: Context, category: Long) : MedialibraryViewModel(context), TvBrowserModel {
+class MediaBrowserViewModel(context: Context, val category: Long) : MedialibraryViewModel(context), TvBrowserModel {
 
 
     override var nbColumns = 0

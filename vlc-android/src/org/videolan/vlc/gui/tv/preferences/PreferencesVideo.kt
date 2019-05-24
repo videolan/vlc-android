@@ -42,6 +42,9 @@ class PreferencesVideo : BasePreferenceFragment() {
     override fun getTitleId() = R.string.video_prefs_category
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Settings.getInstance(activity).run {
+            if (!contains(FORCE_PLAY_ALL)) edit().putBoolean(FORCE_PLAY_ALL, true).apply()
+        }
         super.onCreate(savedInstanceState)
 
         findPreference(FORCE_LIST_PORTRAIT).isVisible = false
@@ -51,7 +54,6 @@ class PreferencesVideo : BasePreferenceFragment() {
         findPreference(ENABLE_BRIGHTNESS_GESTURE).isVisible = AndroidDevices.hasTsp
         findPreference(POPUP_KEEPSCREEN).isVisible = false
         findPreference(POPUP_FORCE_LEGACY).isVisible = false
-        findPreference(FORCE_PLAY_ALL).isVisible = false
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {

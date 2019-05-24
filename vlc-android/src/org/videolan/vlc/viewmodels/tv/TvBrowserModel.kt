@@ -8,6 +8,4 @@ interface TvBrowserModel {
     var currentItem: MediaLibraryItem?
     var nbColumns: Int
     val provider: HeaderProvider
-
-
 }

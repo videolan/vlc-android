@@ -4,6 +4,15 @@
     android:key="video_category"
     android:title="@string/video_prefs_category">
 
+    <ListPreference
+        android:defaultValue="6"
+        android:entries="@array/video_min_group_length_list"
+        android:entryValues="@array/video_min_group_length_values"
+        android:key="video_min_group_length"
+        android:persistent="true"
+        android:summary="@string/video_min_group_length_summary"
+        android:title="@string/video_min_group_length_title" />
+
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="media_seen"
@@ -11,15 +20,14 @@
         android:title="@string/media_seen" />
     <CheckBoxPreference
         android:defaultValue="false"
+        android:key="force_play_all"
+        android:summary="@string/force_play_all_summary"
+        android:title="@string/force_play_all_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
         android:key="force_list_portrait"
         android:summary="@string/force_list_portrait_summary"
         android:title="@string/force_list_portrait" />
-
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="show_video_thumbnails"
-        android:summary="@string/show_video_thumbnails_summary"
-        android:title="@string/show_video_thumbnails" />
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="save_brightness"
@@ -53,11 +61,6 @@
             android:key="audio_boost"
             android:summary="@string/audio_boost_summary"
             android:title="@string/audio_boost_title" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="force_play_all"
-            android:summary="@string/force_play_all_summary"
-            android:title="@string/force_play_all_title" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="enable_volume_gesture"
