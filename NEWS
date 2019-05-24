@@ -1,11 +1,24 @@
+Changes between 3.1.4 and 3.1.5:
+------------------
+
+Application:
+ * Fix external device detection, should fix medialibrary issues
+ * Fix keyboard not shown on search
+ * Fix crash when no brightness setting is found
+ * Fix crash in player option when no chapter is found
+ * Updated translations
+ * Misc. fixes
+
+VLC:
+ * updated on v3.0.7 with security fixes
+ * dav1d decoder v0.3.1
+
 Changes between 3.1.3 and 3.1.4:
 ------------------
 
 Application:
  * Fix multiple crashes due to Kotlin migration
  * Fix onboarding started when ML is already set up
- * Fix crash when no brightness setting is found
- * Fix crash in player option when no chapter is found
  * Translations update
 
 Changes between 3.1.2-2 and 3.1.3:
