@@ -20,6 +20,7 @@
 
 package org.videolan.vlc.gui.video
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
@@ -58,6 +59,7 @@ import androidx.appcompat.widget.ViewStubCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.leanback.transition.TransitionHelper.FADE_OUT
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -69,6 +71,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.circularreveal.CircularRevealCompat
 import com.google.android.material.circularreveal.CircularRevealWidget
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.onboarding_welcome.*
 import kotlinx.android.synthetic.main.player_overlay_seek.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -83,6 +86,7 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.*
 import org.videolan.vlc.*
+import org.videolan.vlc.PlaybackService.Companion.service
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.gui.MainActivity
@@ -98,6 +102,7 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.*
+import org.videolan.vlc.util.AndroidDevices.isTv
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.util.*
 
