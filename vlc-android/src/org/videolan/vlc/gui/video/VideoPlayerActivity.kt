@@ -20,7 +20,9 @@
 
 package org.videolan.vlc.gui.video
 
-import android.animation.*
+import android.animation.AnimatorSet
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
@@ -65,7 +67,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.circularreveal.CircularRevealCompat
-import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.circularreveal.CircularRevealWidget
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.player_overlay_seek.*
@@ -261,6 +262,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     LOADING_ANIMATION -> startLoading()
                     HIDE_INFO -> hideOverlay(true)
                     SHOW_INFO -> showOverlay()
+                    HIDE_SEEK -> hideSeekOverlay()
                 }
             }
         }
@@ -2066,21 +2068,28 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
     }
 
-    internal fun seekDelta(delta: Int, nbTimesTaped: Int = -1) {
+    private var nbTimesTaped = 0
+    private var lastSeekWasForward = true
+    internal fun seekDelta(delta: Int) {
         service?.let { service ->
             // unseekable stream
             if (service.length <= 0 || !service.isSeekable) return
+
 
             var position = time + delta
             if (position < 0) position = 0
             seek(position)
             val sb = StringBuilder()
-            var seekForward = true
-            if (delta > 0f) sb.append('+')
-            if (nbTimesTaped != -1 && delta < 0) {
-                sb.append('-')
-                seekForward = false
+            val seekForward = delta >= 0
+
+            if (nbTimesTaped != 0 && lastSeekWasForward != seekForward) {
+                hideSeekOverlay()
+                nbTimesTaped = 0
             }
+
+            nbTimesTaped++
+
+            lastSeekWasForward = seekForward
             sb.append(if (nbTimesTaped == -1) (delta / 1000f).toInt() else (nbTimesTaped * 10))
                     .append("s (")
                     .append(Tools.millisToString(service.time))
@@ -2088,10 +2097,10 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
             initSeekOverlay()
 
-            val container = if (seekForward) right_container else left_container
+            val container = if (seekForward) rightContainer else leftContainer
             val textView = if (seekForward) seekRightText else seekLeftText
-            val imageFirst = if (seekForward) seek_forward_first else seek_rewind_first
-            val imageSecond = if (seekForward) seek_forward_second else seek_rewind_second
+            val imageFirst = if (seekForward) seekForwardFirst else seekRewindFirst
+            val imageSecond = if (seekForward) seekForwardSecond else seekRewindSecond
 
             container.post {
                 val backgroundAnim = ObjectAnimator.ofFloat(seek_background, "alpha", 1f)
@@ -2128,21 +2137,27 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 val seekAnimatorSet = AnimatorSet()
                 seekAnimatorSet.playSequentially(animatorSet, mainAnimOut)
 
-                mainAnimOut.addListener(object : AnimatorListenerAdapter() {
 
-                    override fun onAnimationEnd(animation: Animator) {
-                        super.onAnimationEnd(animation)
-                        container.visibility = View.INVISIBLE
-                        textView.text = ""
-                    }
-                })
+                handler.removeMessages(HIDE_SEEK)
+                handler.sendEmptyMessageDelayed(HIDE_SEEK, SEEK_TIMEOUT.toLong())
 
                 container.visibility = View.VISIBLE
                 seekAnimatorSet.start()
             }
-
             textView.text = sb.toString()
         }
+    }
+
+    private fun hideSeekOverlay() {
+        rightContainer.visibility = View.INVISIBLE
+        leftContainer.visibility = View.INVISIBLE
+        seekRightText.text = ""
+        seekLeftText.text = ""
+        nbTimesTaped = 0
+        seekForwardFirst.alpha = 0f
+        seekForwardSecond.alpha = 0f
+        seekRewindFirst.alpha = 0f
+        seekRewindSecond.alpha = 0f
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -2852,6 +2867,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         private const val KEY_TIME = "saved_time"
         private const val KEY_URI = "saved_uri"
         private const val OVERLAY_TIMEOUT = 4000
+        private const val SEEK_TIMEOUT = 1500
         private const val OVERLAY_INFINITE = -1
         private const val FADE_OUT = 1
         private const val FADE_OUT_INFO = 2
@@ -2862,6 +2878,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         private const val LOADING_ANIMATION = 7
         internal const val SHOW_INFO = 8
         internal const val HIDE_INFO = 9
+        internal const val HIDE_SEEK = 10
         private const val KEY_REMAINING_TIME_DISPLAY = "remaining_time_display"
         private const val KEY_BLUETOOTH_DELAY = "key_bluetooth_delay"
 

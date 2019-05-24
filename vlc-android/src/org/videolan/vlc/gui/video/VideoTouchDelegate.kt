@@ -178,7 +178,6 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         }
 
                         lastTapTimeMs = now
-                        val lastNbTimesTaped = numberOfTaps
 
                         //handle multi taps
                         if (numberOfTaps > 1 && !player.isLocked) {
@@ -188,8 +187,8 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                             val range = (if (screenConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) screenConfig.xRange else screenConfig.yRange).toFloat()
 
                             when {
-                                event.rawX < range / 4f -> player.seekDelta(-10000, nbTimesTaped = lastNbTimesTaped - 1)
-                                event.rawX > range * 0.75 -> player.seekDelta(10000, nbTimesTaped = lastNbTimesTaped - 1)
+                                event.rawX < range / 4f -> player.seekDelta(-10000)
+                                event.rawX > range * 0.75 -> player.seekDelta(10000)
                                 else -> player.doPlayPause()
                             }
                         }

@@ -13,7 +13,7 @@
         android:background="@drawable/video_list_length_bg" />
 
     <com.google.android.material.circularreveal.CircularRevealFrameLayout
-        android:id="@+id/left_container"
+        android:id="@+id/leftContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.circularreveal.CircularRevealFrameLayout
-        android:id="@+id/right_container"
+        android:id="@+id/rightContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -46,20 +46,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/seek_rewind_second"
+            android:id="@+id/seekRewindSecond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0"
             android:src="@drawable/ic_half_seek_rewind"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/seek_rewind_first"
+            app:layout_constraintEnd_toStartOf="@+id/seekRewindFirst"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/seek_rewind_first"
+            android:id="@+id/seekRewindFirst"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0"
@@ -67,7 +67,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/seek_rewind_second"
+            app:layout_constraintStart_toEndOf="@+id/seekRewindSecond"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -81,7 +81,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seek_rewind_second" />
+            app:layout_constraintTop_toBottomOf="@+id/seekRewindSecond" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -95,20 +95,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/seek_forward_first"
+            android:id="@+id/seekForwardFirst"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0"
             android:src="@drawable/ic_half_seek_forward"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/seek_forward_second"
+            app:layout_constraintEnd_toStartOf="@+id/seekForwardSecond"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/seek_forward_second"
+            android:id="@+id/seekForwardSecond"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0"
@@ -116,7 +116,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/seek_forward_first"
+            app:layout_constraintStart_toEndOf="@+id/seekForwardFirst"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -130,7 +130,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seek_forward_first" />
+            app:layout_constraintTop_toBottomOf="@+id/seekForwardFirst" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
