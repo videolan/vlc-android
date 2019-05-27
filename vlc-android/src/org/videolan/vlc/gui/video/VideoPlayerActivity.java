@@ -2946,7 +2946,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             mHandler.post(new Runnable() {
                 @Override
                 public void run() { // delay mediaplayer loading, prevent ANR
-                    if (mService.getVolume() > 100 && !audioBoostEnabled) mService.setVolume(100);
+                    if (mService != null && mService.getVolume() > 100 && !audioBoostEnabled) mService.setVolume(100);
                 }
             });
             mService.addCallback(this);
