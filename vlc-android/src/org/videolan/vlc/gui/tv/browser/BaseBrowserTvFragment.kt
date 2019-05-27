@@ -54,6 +54,7 @@ import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
+import org.videolan.vlc.databinding.SongBrowserBinding
 import org.videolan.vlc.gui.tv.*
 import org.videolan.vlc.gui.tv.browser.interfaces.BrowserFragmentInterface
 import org.videolan.vlc.gui.view.RecyclerSectionItemGridDecoration
@@ -77,6 +78,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
     abstract fun getColumnNumber(): Int
     abstract fun provideAdapter(eventsHandler: IEventsHandler, itemSize: Int): TvItemAdapter
 
+    lateinit var binding: SongBrowserBinding
     lateinit var viewModel: TvBrowserModel
     private var spacing: Int = 0
     abstract var adapter: TvItemAdapter
@@ -87,7 +89,8 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
     internal lateinit var animationDelegate: MediaBrowserAnimatorDelegate
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.song_browser, container, false)
+        binding = SongBrowserBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

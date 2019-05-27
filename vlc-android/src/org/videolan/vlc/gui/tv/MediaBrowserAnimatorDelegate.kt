@@ -25,6 +25,7 @@ package org.videolan.vlc.gui.tv
 
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.ProgressBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
@@ -234,6 +235,11 @@ internal class MediaBrowserAnimatorDelegate(val browser: BaseBrowserTvFragment, 
         // Hide the FAB
         headerVisibleConstraintSet.clear(R.id.imageButtonSettings, ConstraintSet.BOTTOM)
         headerVisibleConstraintSet.connect(R.id.imageButtonSettings, ConstraintSet.TOP, R.id.headerListContainer, ConstraintSet.BOTTOM)
+
+
+        transition.removeTarget(R.id.loadingBar)
+        transition.excludeTarget(R.id.loadingBar, true)
+        transition.excludeTarget(ProgressBar::class.java, true)
 
 
         // The fake toolbar has to be View.GONE to avoid focus on its elements when it's not shown

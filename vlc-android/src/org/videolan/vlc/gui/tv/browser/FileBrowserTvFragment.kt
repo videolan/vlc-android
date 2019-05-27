@@ -87,6 +87,11 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
             if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "Description update: ${pair.first} ${pair.second}")
             if (pair != null) (adapter as RecyclerView.Adapter<*>).notifyItemChanged(pair.first, pair.second)
         })
+
+        (viewModel as BrowserModel).loading.observe(this, Observer {
+            binding.loading = it
+            animationDelegate.setVisibility(binding.loadingBar, if (it) View.VISIBLE else View.GONE)
+        })
     }
 
     override fun onResume() {

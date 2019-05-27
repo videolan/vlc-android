@@ -80,6 +80,10 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
             headerAdapter.items = headerItems
             headerAdapter.notifyDataSetChanged()
         })
+        (viewModel.provider as MedialibraryProvider<*>).loading.observe(this, Observer {
+            binding.loading = it
+            animationDelegate.setVisibility(binding.loadingBar, if (it) View.VISIBLE else View.GONE)
+        })
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
