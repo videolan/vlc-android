@@ -35,6 +35,9 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.annotation.WorkerThread;
+import androidx.documentfile.provider.DocumentFile;
+
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.vlc.BuildConfig;
@@ -60,9 +63,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import androidx.annotation.WorkerThread;
-import androidx.documentfile.provider.DocumentFile;
 
 public class FileUtils {
 
@@ -438,7 +438,7 @@ public class FileUtils {
 //                        }
 //                        returnCursor.close();
 //                    }
-                } catch (FileNotFoundException|IllegalArgumentException e) {
+                } catch (FileNotFoundException|IllegalArgumentException|NullPointerException e) {
                     Log.e(TAG, "Couldn't understand the intent");
                     return null;
                 } catch (SecurityException e) {
