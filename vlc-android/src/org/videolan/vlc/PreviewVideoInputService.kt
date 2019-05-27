@@ -55,6 +55,7 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
                     val media = Media(VLCInstance.get(this@PreviewVideoInputService), mw.uri)
                     val start = if (mw.length <= 0L) 0L else mw.length.random()
                     media.addOption(":start-time=${start/1000L}")
+                    awaitSurface()
                     player.getVout()?.apply {
                         setVideoSurface(surface, null)
                         attachViews(null)
@@ -78,9 +79,11 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
         private var width = 0
         private var height = 0
         private lateinit var surface: Surface
+        private var surfaceReady : CompletableDeferred<Unit>? = null
         override fun onSetSurface(surface: Surface?): Boolean {
             if (surface == null) return false
             this.surface = surface
+            surfaceReady?.complete(Unit)
             return true
         }
 
@@ -96,6 +99,14 @@ class PreviewVideoInputService : TvInputService(), CoroutineScope {
         override suspend fun onEvent(event: MediaPlayer.Event) {
             when(event.type) {
                 MediaPlayer.Event.EndReached -> player.release()
+            }
+        }
+
+        private suspend fun awaitSurface() {
+            if (!::surface.isInitialized) {
+                surfaceReady = CompletableDeferred(Unit)
+                surfaceReady?.await()
+                surfaceReady = null
             }
         }
     }
