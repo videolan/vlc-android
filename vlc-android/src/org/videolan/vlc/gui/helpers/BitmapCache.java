@@ -25,8 +25,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import androidx.collection.LruCache;
 import android.util.Log;
+
+import androidx.collection.LruCache;
 
 import org.videolan.vlc.BuildConfig;
 import org.videolan.vlc.util.Strings;
@@ -63,6 +64,7 @@ public class BitmapCache {
     }
 
     public synchronized Bitmap getBitmapFromMemCache(String key) {
+        if (mMemCache == null || key == null) return null;
         final Bitmap b = mMemCache.get(key);
         if (b == null){
             mMemCache.remove(key);
@@ -72,6 +74,7 @@ public class BitmapCache {
     }
 
     public synchronized void addBitmapToMemCache(String key, Bitmap bitmap) {
+        if (mMemCache == null) return ;
         if (key != null && bitmap != null && getBitmapFromMemCache(key) == null) {
             mMemCache.put(key, bitmap);
         }
@@ -86,7 +89,7 @@ public class BitmapCache {
     }
 
     public synchronized void clear() {
-        mMemCache.evictAll();
+        if (mMemCache != null) mMemCache.evictAll();
     }
 
     public static Bitmap getFromResource(Resources res, int resId) {
