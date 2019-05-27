@@ -42,10 +42,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
-import org.videolan.vlc.gui.AudioPlayerContainerActivity
-import org.videolan.vlc.gui.ContentActivity
-import org.videolan.vlc.gui.PlaylistActivity
-import org.videolan.vlc.gui.SecondaryActivity
+import org.videolan.vlc.gui.*
 import org.videolan.vlc.gui.view.FastScroller
 import org.videolan.vlc.gui.view.RecyclerSectionItemDecoration
 import org.videolan.vlc.media.MediaUtils
@@ -179,6 +176,8 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
                     handler.sendEmptyMessageDelayed(SET_REFRESHING, 300)
                 else
                     handler.sendEmptyMessage(UNSET_REFRESHING)
+
+                (activity as? MainActivity)?.refreshing = loading
             })
         }
     }

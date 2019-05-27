@@ -26,7 +26,8 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/orange500</item>
         <item name="item_footer">@color/grey300</item>
-        <item name="background_default">@color/grey50</item>
+        <item name="progress_background">@color/grey50</item>
+        <item name="progress_indeterminate_tint">@color/white</item>
         <item name="background_default_gradient">@drawable/gradient_background_light</item>
         <item name="background_default_darker">@color/grey100</item>
         <item name="background_actionbar">@color/orange500</item>
@@ -92,7 +93,6 @@
         <item name="ic_abrepeat_setb">@drawable/ic_abrepeat_setb</item>
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_dial">@drawable/ic_dial</item>
-        <item name="progress_background">@color/grey600transparent</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.MaterialComponents.Dialog">
@@ -198,6 +198,7 @@
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset_w</item>
         <item name="ic_dial">@drawable/ic_dial_w</item>
         <item name="progress_background">@color/grey400transparent</item>
+        <item name="progress_indeterminate_tint">@color/orange500</item>
     </style>
 
     <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Black">

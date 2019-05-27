@@ -29,13 +29,16 @@ import android.content.ServiceConnection
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.view.ActionMode
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
@@ -56,10 +59,16 @@ import org.videolan.vlc.interfaces.IRefreshable
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.util.*
 
+
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManagerActivity {
 
+    var refreshing: Boolean = false
+        set(value) {
+            mainLoading.visibility = if (value) View.VISIBLE else View.GONE
+            field = value
+        }
     private lateinit var mediaLibrary: Medialibrary
     private lateinit var extensionsManager: ExtensionsManager
     private lateinit var drawerLayout: HackyDrawerLayout
@@ -109,6 +118,14 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
         scanNeeded = savedInstanceState == null && settings.getBoolean("auto_rescan", true)
         if (BuildConfig.DEBUG) extensionsManager = ExtensionsManager.getInstance()
         mediaLibrary = VLCApplication.mlInstance
+
+
+        val typedValue = TypedValue()
+        theme.resolveAttribute(R.attr.progress_indeterminate_tint, typedValue, true)
+        val color = typedValue.data
+
+        mainLoadingProgress.indeterminateDrawable.setColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN)
+
     }
 
     private fun setupNavigationView() {
