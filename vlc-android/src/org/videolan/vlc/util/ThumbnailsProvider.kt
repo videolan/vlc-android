@@ -64,17 +64,16 @@ object ThumbnailsProvider {
 
     @WorkerThread
     fun getVideoThumbnail(media: MediaWrapper, width: Int): Bitmap? {
-        val filePath = media.uri.path
+        val filePath = media.uri.path ?: return null
         if (appDir == null) appDir = VLCApplication.appContext.getExternalFilesDir(null)
-        val hasCache = appDir != null && appDir!!.exists()
-        val thumbPath = getMediaCacheKey(true, media)
+        val hasCache = appDir?.exists() == true
+        val thumbPath = getMediaCacheKey(true, media) ?: return null
         val cacheBM = if (hasCache) BitmapCache.getBitmapFromMemCache(thumbPath) else null
         if (cacheBM != null) return cacheBM
         if (hasCache && File(thumbPath).exists()) return readCoverBitmap(thumbPath, width)
         if (media.isThumbnailGenerated) return null
-        val bitmap: Bitmap?
-        synchronized(lock) {
-            bitmap = ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND)
+        val bitmap = synchronized(lock) {
+            ThumbnailUtils.createVideoThumbnail(filePath, MediaStore.Video.Thumbnails.MINI_KIND)
         }
         if (bitmap != null) {
             BitmapCache.addBitmapToMemCache(thumbPath, bitmap)
