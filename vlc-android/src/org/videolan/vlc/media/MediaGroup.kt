@@ -79,7 +79,7 @@ class MediaGroup private constructor(media: MediaWrapper, filename: Boolean) : M
 
                 //Handle titles starting with "The"
                 val groupOffset = if (group.startsWith("the")) 4 else 0
-                if (title.startsWith("the"))
+                if (title.startsWith("the") && title.length > 4)
                     title = title.substring(4)
 
                 // find common prefix
