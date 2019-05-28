@@ -439,6 +439,9 @@ object FileUtils {
                 } catch (e: IllegalArgumentException) {
                     Log.e(TAG, "Couldn't understand the intent")
                     return null
+                } catch (e: NullPointerException) {
+                    Log.e(TAG, "Couldn't understand the intent")
+                    return null
                 } catch (e: SecurityException) {
                     Log.e(TAG, "Permission is no longer valid")
                     return null
