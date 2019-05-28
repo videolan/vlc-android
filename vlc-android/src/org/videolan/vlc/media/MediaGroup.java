@@ -103,7 +103,7 @@ public class MediaGroup extends MediaWrapper {
 
             //Handle titles starting with "The"
             int groupOffset = group.startsWith("the") ? 4 : 0;
-            if (title.startsWith("the"))
+            if (title.startsWith("the") && title.length() > 4)
                 title = title.substring(4);
 
             // find common prefix
