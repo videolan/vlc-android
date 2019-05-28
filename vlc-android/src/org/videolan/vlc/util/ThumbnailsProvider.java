@@ -65,9 +65,11 @@ public class ThumbnailsProvider {
     @WorkerThread
     static Bitmap getVideoThumbnail(final MediaWrapper media, int width) {
         final String filePath = media.getUri().getPath();
+        if (filePath == null) return null;
         if (appDir == null) appDir = VLCApplication.getAppContext().getExternalFilesDir(null);
         final boolean hasCache = appDir != null && appDir.exists();
         final String thumbPath = getMediaCacheKey(true, media);
+        if (thumbPath == null) return null;
         final Bitmap cacheBM = hasCache ? BitmapCache.getInstance().getBitmapFromMemCache(thumbPath) : null;
         if (cacheBM != null) return cacheBM;
         if (hasCache && new File(thumbPath).exists()) return readCoverBitmap(thumbPath, width);
