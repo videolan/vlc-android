@@ -22,11 +22,14 @@ package org.videolan.libvlc;
 
 import androidx.annotation.Nullable;
 
+import org.videolan.libvlc.interfaces.AbstractVLCEvent;
+import org.videolan.libvlc.interfaces.ILibVLC;
+
 @SuppressWarnings("unused, JniMissingFunction")
 public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
     private final static String TAG = "LibVLC/MediaDiscoverer";
 
-    public static class Event extends VLCEvent {
+    public static class Event extends AbstractVLCEvent {
 
         public static final int Started = 0x500;
         public static final int Ended   = 0x501;
@@ -65,19 +68,19 @@ public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
         return new Description(name, longName, category);
     }
 
-    public interface EventListener extends VLCEvent.Listener<MediaDiscoverer.Event> {}
+    public interface EventListener extends AbstractVLCEvent.Listener<MediaDiscoverer.Event> {}
 
     private MediaList mMediaList = null;
 
     /**
      * Create a MediaDiscover.
      *
-     * @param libVLC a valid LibVLC
+     * @param ILibVLC a valid LibVLC
      * @param name Name of the vlc service discovery ("dsm", "upnp", "bonjour"...).
      */
-    public MediaDiscoverer(LibVLC libVLC, String name) {
-        super(libVLC);
-        nativeNew(libVLC, name);
+    public MediaDiscoverer(ILibVLC ILibVLC, String name) {
+        super(ILibVLC);
+        nativeNew(ILibVLC, name);
     }
 
     /**
@@ -148,14 +151,14 @@ public class MediaDiscoverer extends VLCObject<MediaDiscoverer.Event> {
      * @param category see {@link Description.Category}
      */
     @Nullable
-    public static Description[] list(LibVLC libVLC, int category) {
-        return nativeList(libVLC, category);
+    public static Description[] list(ILibVLC ILibVLC, int category) {
+        return nativeList(ILibVLC, category);
     }
 
     /* JNI */
-    private native void nativeNew(LibVLC libVLC, String name);
+    private native void nativeNew(ILibVLC ILibVLC, String name);
     private native void nativeRelease();
     private native boolean nativeStart();
     private native void nativeStop();
-    private static native Description[] nativeList(LibVLC libVLC, int category);
+    private static native Description[] nativeList(ILibVLC ILibVLC, int category);
 }

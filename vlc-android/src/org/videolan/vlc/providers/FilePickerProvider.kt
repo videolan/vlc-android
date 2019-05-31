@@ -22,6 +22,7 @@ package org.videolan.vlc.providers
 
 import android.content.Context
 import org.videolan.libvlc.Media
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
@@ -38,7 +39,7 @@ class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem
         mediabrowser?.setIgnoreFileTypes("db,nfo,ini,jpg,jpeg,ljpg,gif,png,pgm,pgmyuv,pbm,pam,tga,bmp,pnm,xpm,xcf,pcx,tif,tiff,lbm,sfv")
     }
 
-    override suspend fun findMedia(media: Media) = MLServiceLocator.getAbstractMediaWrapper(media)?.takeIf { mw ->
+    override suspend fun findMedia(media: IMedia) = MLServiceLocator.getAbstractMediaWrapper(media)?.takeIf { mw ->
         mw.type == AbstractMediaWrapper.TYPE_DIR || mw.type == AbstractMediaWrapper.TYPE_SUBTITLE
     }
 

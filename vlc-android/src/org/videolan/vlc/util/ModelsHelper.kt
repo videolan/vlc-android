@@ -6,6 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
+import org.videolan.libvlc.interfaces.IMedia
+
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary.*
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
@@ -294,7 +296,7 @@ object ModelsHelper {
 
 object EmptyPBSCallback : PlaybackService.Callback {
     override fun update() {}
-    override fun onMediaEvent(event: Media.Event) {}
+    override fun onMediaEvent(event: IMedia.Event) {}
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {}
 }
 

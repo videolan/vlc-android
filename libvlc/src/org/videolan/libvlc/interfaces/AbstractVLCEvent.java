@@ -18,44 +18,44 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston MA 02110-1301, USA.
  *****************************************************************************/
 
-package org.videolan.libvlc;
+package org.videolan.libvlc.interfaces;
 
 import androidx.annotation.Nullable;
 
-public abstract class VLCEvent {
+public abstract class AbstractVLCEvent {
     public final int type;
     protected final long arg1;
     protected final long arg2;
     protected final float argf1;
     protected final String args1;
 
-    VLCEvent(int type) {
+    public AbstractVLCEvent(int type) {
         this.type = type;
         this.arg1 = this.arg2 = 0;
         this.argf1 = 0.0f;
         this.args1 = null;
     }
-    VLCEvent(int type, long arg1) {
+    public AbstractVLCEvent(int type, long arg1) {
         this.type = type;
         this.arg1 = arg1;
         this.arg2 = 0;
         this.argf1 = 0.0f;
         this.args1 = null;
     }
-    VLCEvent(int type, long arg1, long arg2) {
+    public AbstractVLCEvent(int type, long arg1, long arg2) {
         this.type = type;
         this.arg1 = arg1;
         this.arg2 = arg2;
         this.argf1 = 0.0f;
         this.args1 = null;
     }
-    VLCEvent(int type, float argf) {
+    public AbstractVLCEvent(int type, float argf) {
         this.type = type;
         this.arg1 = this.arg2 = 0;
         this.argf1 = argf;
         this.args1 = null;
     }
-    VLCEvent(int type, long arg1, @Nullable String args1) {
+    public AbstractVLCEvent(int type, long arg1, @Nullable String args1) {
         this.type = type;
         this.arg1 = arg1;
         this.arg2 = 0;
@@ -63,16 +63,16 @@ public abstract class VLCEvent {
         this.args1 = args1;
     }
 
-    void release() {
+    public void release() {
         /* do nothing */
     }
 
     /**
      * Listener for libvlc events
      *
-     * @see VLCEvent
+     * @see AbstractVLCEvent
      */
-    public interface Listener<T extends VLCEvent> {
+    public interface Listener<T extends AbstractVLCEvent> {
         void onEvent(T event);
     }
 }

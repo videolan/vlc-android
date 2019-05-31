@@ -1,6 +1,9 @@
 package org.videolan.medialibrary.stubs;
 
+import android.os.Environment;
 import android.text.TextUtils;
+
+import androidx.annotation.Nullable;
 
 import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
@@ -16,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_ALBUM;
 import static org.videolan.medialibrary.interfaces.AbstractMedialibrary.SORT_ALPHA;
@@ -41,7 +45,9 @@ public class StubDataSource {
     ArrayList<AbstractFolder> mFolders = new ArrayList<>();
     ArrayList<String> mDevices = new ArrayList<>();
 
-    private static long uuid = 2;
+    private static String baseMrl = Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
+
+    private static AtomicLong uuid = new AtomicLong(2);
 
     private static StubDataSource mInstance = null;
 
@@ -52,14 +58,35 @@ public class StubDataSource {
         return mInstance;
     }
 
-    private StubDataSource() { }
+    private StubDataSource() {
+    }
 
     public void init() {
-        String baseMrl = "/storage/emulated/0/Movies/";
+    }
+
+    public void resetData() {
+        mFolders.clear();
+        mVideoMediaWrappers.clear();
+        mAudioMediaWrappers.clear();
+    }
+
+    public void setVideoByCount(int count, @Nullable String folder) {
+        mVideoMediaWrappers.clear();
         AbstractMediaWrapper media;
+        String fileName;
+
+        for (int i = 0; i < count; i++) {
+            fileName = i + "58_foar_everywun_frum_boxxy.flv";
+            String mrl = baseMrl + ((folder != null) ? folder + "/" : "") + fileName;
+            media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 18820L, AbstractMediaWrapper.TYPE_VIDEO,
+                    fileName, fileName, "", "",
+                    "", "", 416, 304, "", 0, -2,
+                    0, 0, 1509466228L, 0L, true, 0);
+            addVideo(media);
+        }
 
         // Video
-        String fileName = "058_foar_everywun_frum_boxxy.flv";
+        fileName = "058_foar_everywun_frum_boxxy.flv";
         media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), baseMrl + fileName, 0L, 18820L, 0,
                 fileName, fileName, "", "",
                 "", "", 416, 304, "", 0, -2,
@@ -113,9 +140,43 @@ public class StubDataSource {
         addAudio(media, "", 1970, 360);
     }
 
+    public void setAudioByCount(int count, @Nullable String folder) {
+        mAudioMediaWrappers.clear();
+        String fileName;
+        AbstractMediaWrapper media;
+
+        for (int i = 0; i < count; i++) {
+            fileName = i + "-Show Me The Way.mp3";
+            String mrl = baseMrl + ((folder != null) ? folder + "/" : "") + fileName;
+            media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 280244L, AbstractMediaWrapper.TYPE_AUDIO,
+                    i + "-Show Me The Way", fileName, "Peter Frampton", "Rock",
+                    "Shine On CD2", "Peter Frampton",
+                    0, 0, baseMrl + folder + ".jpg",
+                    0, -2, 1, 0,
+                    1547452796L, 0L, true, 0);
+            addAudio(media, "", 1965, 400);
+        }
+    }
+
+    public AbstractMediaWrapper addMediaWrapper(String mrl, String title, int type) {
+        AbstractMediaWrapper media = MLServiceLocator.getAbstractMediaWrapper(getUUID(), mrl, 0L, 280224L, type,
+                title, title, "Artisto", "Jazz", "XYZ CD1", "", 0, 0, baseMrl + title, -2,
+                1, 1, 0, 1547452796L, 0L, true, 0);
+        if (type == AbstractMediaWrapper.TYPE_ALL) type = media.getType();
+        if (type == AbstractMediaWrapper.TYPE_VIDEO) addVideo(media);
+        else if (type == AbstractMediaWrapper.TYPE_AUDIO) addAudio(media, "", 2018, 12313);
+        return media;
+    }
+
+    public AbstractFolder createFolder(String name) {
+        AbstractFolder folder = MLServiceLocator.getAbstractFolder(getUUID(), name, baseMrl + name);
+        mFolders.add(folder);
+        return folder;
+    }
+
     <T> List<T> secureSublist(List<T> list, int offset, int nbItems) {
         int min = list.size() - 1 < 0 ? 0 : list.size();
-        int secureOffset =  (offset >= list.size()) && (offset > 0) ? min : offset;
+        int secureOffset = (offset >= list.size()) && (offset > 0) ? min : offset;
         int end = offset + nbItems;
         int secureEnd = (end >= list.size()) && end > 0 ? min : end;
         return list.subList(secureOffset, secureEnd);
@@ -123,40 +184,58 @@ public class StubDataSource {
 
     class MediaComparator implements Comparator<AbstractMediaWrapper> {
         private int sort;
-        MediaComparator(int sort) { this.sort = sort; }
+
+        MediaComparator(int sort) {
+            this.sort = sort;
+        }
 
         @Override //TODO checkout if types of sort are verified before being used in native
         public int compare(AbstractMediaWrapper o1, AbstractMediaWrapper o2) {
-            switch(sort) {
+            switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
-                case SORT_FILENAME :return o1.getFileName().compareTo(o2.getFileName());
-                case SORT_DURATION: return (int)(o1.getLength() - o2.getLength());
-                case SORT_INSERTIONDATE: return (int)(o1.getTime() - o2.getTime()); // TODO checkout if insertiton <=> time
-                case SORT_LASTMODIFICATIONDATE: return (int)(o1.getLastModified() - o2.getLastModified());
-                case SORT_ARTIST: return o1.getArtist().compareTo(o2.getArtist());
-                default: return 0;
+                case SORT_ALPHA:
+                    return o1.getTitle().compareTo(o2.getTitle());
+                case SORT_FILENAME:
+                    return o1.getFileName().compareTo(o2.getFileName());
+                case SORT_DURATION:
+                    return (int) (o1.getLength() - o2.getLength());
+                case SORT_INSERTIONDATE:
+                    return (int) (o1.getTime() - o2.getTime()); // TODO checkout if insertiton <=> time
+                case SORT_LASTMODIFICATIONDATE:
+                    return (int) (o1.getLastModified() - o2.getLastModified());
+                case SORT_ARTIST:
+                    return o1.getArtist().compareTo(o2.getArtist());
+                default:
+                    return 0;
             }
         }
     }
 
     class ArtistComparator implements Comparator<AbstractArtist> {
         private int sort;
-        ArtistComparator(int sort) { this.sort = sort; }
+
+        ArtistComparator(int sort) {
+            this.sort = sort;
+        }
 
         @Override
         public int compare(AbstractArtist o1, AbstractArtist o2) {
-            switch(sort) {
+            switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ARTIST: return o1.getTitle().compareTo(o2.getTitle());
-                default: return 0;
+                case SORT_ARTIST:
+                    return o1.getTitle().compareTo(o2.getTitle());
+                default:
+                    return 0;
             }
         }
     }
 
     class AlbumComparator implements Comparator<AbstractAlbum> {
         private int sort;
-        AlbumComparator(int sort) { this.sort = sort; }
+
+        AlbumComparator(int sort) {
+            this.sort = sort;
+        }
 
         @Override
         public int compare(AbstractAlbum o1, AbstractAlbum o2) {
@@ -172,43 +251,59 @@ public class StubDataSource {
 
     class GenreComparator implements Comparator<AbstractGenre> {
         private int sort;
-        GenreComparator(int sort) { this.sort = sort; }
+
+        GenreComparator(int sort) {
+            this.sort = sort;
+        }
 
         @Override
         public int compare(AbstractGenre o1, AbstractGenre o2) {
-            switch(sort) {
+            switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
-                default: return 0;
+                case SORT_ALPHA:
+                    return o1.getTitle().compareTo(o2.getTitle());
+                default:
+                    return 0;
             }
         }
     }
 
     class PlaylistComparator implements Comparator<AbstractPlaylist> {
         private int sort;
-        PlaylistComparator(int sort) { this.sort = sort; }
+
+        PlaylistComparator(int sort) {
+            this.sort = sort;
+        }
 
         @Override
         public int compare(AbstractPlaylist o1, AbstractPlaylist o2) {
             switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
-                case SORT_DURATION: return 0; //TODO WTF is there a duration attribute
-                default: return 0;
+                case SORT_ALPHA:
+                    return o1.getTitle().compareTo(o2.getTitle());
+                case SORT_DURATION:
+                    return 0; //TODO WTF is there a duration attribute
+                default:
+                    return 0;
             }
         }
     }
 
     class FolderComparator implements Comparator<AbstractFolder> {
         private int sort;
-        FolderComparator(int sort) { this.sort = sort; }
+
+        FolderComparator(int sort) {
+            this.sort = sort;
+        }
 
         @Override
         public int compare(AbstractFolder o1, AbstractFolder o2) {
             switch (sort) {
                 case SORT_DEFAULT:
-                case SORT_ALPHA: return o1.getTitle().compareTo(o2.getTitle());
-                default: return 0;
+                case SORT_ALPHA:
+                    return o1.getTitle().compareTo(o2.getTitle());
+                default:
+                    return 0;
             }
         }
     }
@@ -291,9 +386,8 @@ public class StubDataSource {
         return false;
     }
 
-    long getUUID() {
-        uuid++;
-        return uuid;
+    public long getUUID() {
+        return uuid.addAndGet(1);
     }
 
     private void addAudio(AbstractMediaWrapper media, String shortBio, int releaseYear, int albumDuration) {
@@ -328,13 +422,17 @@ public class StubDataSource {
 
     private String[] getGenresString() {
         ArrayList<String> results = new ArrayList<>();
-        for (AbstractGenre genre : mGenres) { results.add(genre.getTitle()); }
+        for (AbstractGenre genre : mGenres) {
+            results.add(genre.getTitle());
+        }
         return results.toArray(new String[0]);
     }
 
     private String[] getFoldersString() {
         ArrayList<String> results = new ArrayList<>();
-        for (AbstractFolder folder : mFolders) { results.add(folder.getTitle()); }
+        for (AbstractFolder folder : mFolders) {
+            results.add(folder.getTitle());
+        }
         return results.toArray(new String[0]);
     }
 

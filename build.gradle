@@ -58,6 +58,7 @@ ext {
     espressoVersion = '3.1.1'
     livedataTest = '1.1.0'
     robolectric = '4.2.1'
+    mockk = '1.9.3'
     supportTest = '1.1.0'
 //    versionCode scheme is T M NN RR AA
 //    T: Target/Flavour (1 for Android, 2 for Chrome?)

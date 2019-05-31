@@ -28,12 +28,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.videolan.libvlc.Media
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.vlc.R
 import org.videolan.vlc.util.readableSize
 
 class MediaInfoAdapter : RecyclerView.Adapter<MediaInfoAdapter.ViewHolder>() {
     private lateinit var inflater: LayoutInflater
-    private var dataset: List<Media.Track>? = null
+    private var dataset: List<IMedia.Track>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (!::inflater.isInitialized)
@@ -47,17 +48,17 @@ class MediaInfoAdapter : RecyclerView.Adapter<MediaInfoAdapter.ViewHolder>() {
         val textBuilder = StringBuilder()
         val res = holder.itemView.context.resources
         when (track.type) {
-            Media.Track.Type.Audio -> {
+            IMedia.Track.Type.Audio -> {
                 title = res.getString(R.string.track_audio)
                 appendCommon(textBuilder, res, track)
-                appendAudio(textBuilder, res, track as Media.AudioTrack)
+                appendAudio(textBuilder, res, track as IMedia.AudioTrack)
             }
-            Media.Track.Type.Video -> {
+            IMedia.Track.Type.Video -> {
                 title = res.getString(R.string.track_video)
                 appendCommon(textBuilder, res, track)
-                appendVideo(textBuilder, res, track as Media.VideoTrack)
+                appendVideo(textBuilder, res, track as IMedia.VideoTrack)
             }
-            Media.Track.Type.Text -> {
+            IMedia.Track.Type.Text -> {
                 title = res.getString(R.string.track_text)
                 appendCommon(textBuilder, res, track)
             }
@@ -69,14 +70,14 @@ class MediaInfoAdapter : RecyclerView.Adapter<MediaInfoAdapter.ViewHolder>() {
 
     override fun getItemCount() = dataset?.size ?: 0
 
-    fun setTracks(tracks: List<Media.Track>) {
+    fun setTracks(tracks: List<IMedia.Track>) {
         val size = itemCount
         dataset = tracks
         if (size > 0) notifyItemRangeRemoved(0, size - 1)
         notifyItemRangeInserted(0, tracks.size)
     }
 
-    private fun appendCommon(textBuilder: StringBuilder, res: Resources, track: Media.Track) {
+    private fun appendCommon(textBuilder: StringBuilder, res: Resources, track: IMedia.Track) {
         if (track.bitrate != 0)
             textBuilder.append(res.getString(R.string.track_bitrate_info, track.bitrate.toLong().readableSize()))
         textBuilder.append(res.getString(R.string.track_codec_info, track.codec))
@@ -84,12 +85,12 @@ class MediaInfoAdapter : RecyclerView.Adapter<MediaInfoAdapter.ViewHolder>() {
             textBuilder.append(res.getString(R.string.track_language_info, track.language))
     }
 
-    private fun appendAudio(textBuilder: StringBuilder, res: Resources, track: Media.AudioTrack) {
+    private fun appendAudio(textBuilder: StringBuilder, res: Resources, track: IMedia.AudioTrack) {
         textBuilder.append(res.getQuantityString(R.plurals.track_channels_info_quantity, track.channels, track.channels))
         textBuilder.append(res.getString(R.string.track_samplerate_info, track.rate))
     }
 
-    private fun appendVideo(textBuilder: StringBuilder, res: Resources, track: Media.VideoTrack) {
+    private fun appendVideo(textBuilder: StringBuilder, res: Resources, track: IMedia.VideoTrack) {
         val framerate = track.frameRateNum / track.frameRateDen.toDouble()
         if (track.width != 0 && track.height != 0)
             textBuilder.append(res.getString(R.string.track_resolution_info, track.width, track.height))

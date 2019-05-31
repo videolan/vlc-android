@@ -12,9 +12,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
-import org.videolan.libvlc.Media
-import org.videolan.libvlc.MediaPlayer
-import org.videolan.libvlc.RendererItem
+import org.videolan.libvlc.*
+import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
@@ -34,7 +34,7 @@ private const val PLAYLIST_REPEAT_MODE_KEY = "audio_repeat_mode" //we keep the o
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventListener, Media.EventListener, CoroutineScope {
+class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventListener, IMedia.EventListener, CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
 
     companion object {
@@ -66,6 +66,8 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
     private var expanding = false
     private var entryUrl : String? = null
     val abRepeat by lazy(LazyThreadSafetyMode.NONE) { MutableLiveData<ABRepeat>().apply { value = ABRepeat() } }
+
+    internal val mMediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
     fun hasCurrentMedia() = isValidPosition(currentIndex)
 
@@ -298,7 +300,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
                 return
             }
             val start = getStartTime(mw)
-            val media = Media(VLCInstance.get(service), uri)
+            val media = mMediaFactory.getFromUri(VLCInstance.get(service), uri)
             media.addOption(":start-time=${start/1000L}")
             VLCOptions.setMediaOptions(media, ctx, flags or mw.flags)
             /* keeping only video during benchmark */
@@ -709,15 +711,15 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
         }
     }
 
-    override fun onEvent(event: Media.Event) {
+    override fun onEvent(event: IMedia.Event) {
         var update = true
         when (event.type) {
-            Media.Event.MetaChanged -> {
+            IMedia.Event.MetaChanged -> {
                 /* Update Meta if file is already parsed */
                 if (parsed && player.updateCurrentMeta(event.metaId, getCurrentMedia())) service.executeUpdate()
                 if (BuildConfig.DEBUG) Log.i(TAG, "Media.Event.MetaChanged: " + event.metaId)
             }
-            Media.Event.ParsedChanged -> {
+            IMedia.Event.ParsedChanged -> {
                 if (BuildConfig.DEBUG) Log.i(TAG, "Media.Event.ParsedChanged")
                 player.updateCurrentMeta(-1, getCurrentMedia())
                 parsed = true

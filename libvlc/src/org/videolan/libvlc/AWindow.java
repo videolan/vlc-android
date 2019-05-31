@@ -31,6 +31,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.TextureView;
 
+import org.videolan.libvlc.interfaces.IVLCVout;
+
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 

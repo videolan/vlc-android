@@ -22,7 +22,7 @@ package org.videolan.tools
 
 open class SingletonHolder<T, in A>(creator: (A) -> T) {
     private var creator: ((A) -> T)? = creator
-    @Volatile protected var instance: T? = null
+    @Volatile var instance: T? = null
 
     fun getInstance(arg: A) = instance ?: synchronized(this) {
         val i2 = instance

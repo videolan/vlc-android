@@ -3,10 +3,13 @@ package org.videolan.medialibrary.stubs;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+import android.webkit.URLUtil;
 
 import androidx.annotation.NonNull;
 
+import org.videolan.libvlc.util.Extensions;
 import org.videolan.medialibrary.MLServiceLocator;
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
@@ -19,6 +22,7 @@ import org.videolan.medialibrary.media.SearchAggregate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class StubMedialibrary extends AbstractMedialibrary {
 
@@ -30,6 +34,11 @@ public class StubMedialibrary extends AbstractMedialibrary {
         sContext = context;
         dt.init();
         return ML_INIT_SUCCESS;
+    }
+
+    @Override
+    public boolean isStarted() {
+        return true;
     }
 
     public void start() {
@@ -306,8 +315,8 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public AbstractMediaWrapper[] lastMediaPlayed() {
         ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mHistory) {
-            if (media.getItemType() == AbstractMediaWrapper.TYPE_VIDEO ||
-                media.getItemType() == AbstractMediaWrapper.TYPE_AUDIO) results.add(media);
+            if (media.getType() == AbstractMediaWrapper.TYPE_VIDEO ||
+                media.getType() == AbstractMediaWrapper.TYPE_AUDIO) results.add(media);
             // the native method specifies an nbItems of 100, offset 0
             if (results.size() >= 100) break;
         }
@@ -317,7 +326,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     public AbstractMediaWrapper[] lastStreamsPlayed() {
         ArrayList<AbstractMediaWrapper> results = new ArrayList<>();
         for (AbstractMediaWrapper media : dt.mHistory) {
-            if (media.getItemType() == AbstractMediaWrapper.TYPE_STREAM) results.add(media);
+            if (media.getType() == AbstractMediaWrapper.TYPE_STREAM) results.add(media);
             // the native method specifies an nbItems of 100, offset 0
             if (results.size() >= 100) break;
         }
@@ -347,15 +356,19 @@ public class StubMedialibrary extends AbstractMedialibrary {
 
     // TODO Handle uri to mrl
     private AbstractMediaWrapper getMedia(String mrl, String title) {
+        mrl = Tools.encodeVLCMrl(mrl);
         for (AbstractMediaWrapper media : dt.mVideoMediaWrappers) {
-            if (media.getTitle().equals(title)) return media;
+            if (media.getLocation().equals(mrl)) return media;
         }
         for (AbstractMediaWrapper media : dt.mAudioMediaWrappers) {
-            if (media.getTitle().equals(title)) return media;
+            if (media.getLocation().equals(mrl)) return media;
         }
         for (AbstractMediaWrapper media : dt.mStreamMediaWrappers) {
-            if (media.getTitle().equals(title)) return media;
+            if (media.getLocation().equals(mrl)) return media;
         }
+
+        if (!URLUtil.isNetworkUrl(mrl))
+            return dt.addMediaWrapper(mrl, title, AbstractMediaWrapper.TYPE_ALL);
         return null;
     }
 
@@ -400,7 +413,7 @@ public class StubMedialibrary extends AbstractMedialibrary {
     }
 
     public AbstractMediaWrapper addStream(String mrl, String title) {
-        return null;
+        return dt.addMediaWrapper(mrl, title, AbstractMediaWrapper.TYPE_STREAM);
     }
 
     public AbstractFolder[] getFolders(int type, int sort, boolean desc, int nbItems, int offset) {

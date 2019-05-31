@@ -17,6 +17,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManage
     var showVideoThumbs = true
     var tvUI = false
     var listTitleEllipsize = 0
+    var overrideTvUI = false
 
     fun init(prefs: SharedPreferences) {
         showVideoThumbs = prefs.getBoolean(SHOW_VIDEO_THUMBNAILS, true)
@@ -25,7 +26,7 @@ object Settings : SingletonHolder<SharedPreferences, Context>({ PreferenceManage
     }
 
     val showTvUi : Boolean
-        get() = AndroidDevices.isTv || tvUI
+        get() = !overrideTvUI && AndroidDevices.isTv || tvUI
 
 }
 

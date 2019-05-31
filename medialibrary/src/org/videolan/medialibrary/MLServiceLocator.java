@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Parcel;
 
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractAlbum;
 import org.videolan.medialibrary.interfaces.media.AbstractArtist;
@@ -96,7 +97,7 @@ public class MLServiceLocator {
         }
     }
 
-    public static AbstractMediaWrapper getAbstractMediaWrapper(Media media) {
+    public static AbstractMediaWrapper getAbstractMediaWrapper(IMedia media) {
         if (sMode == LocatorMode.VLC_ANDROID) {
             return new MediaWrapper(media);
         } else {

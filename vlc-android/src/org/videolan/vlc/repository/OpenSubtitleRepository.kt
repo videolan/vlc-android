@@ -82,5 +82,9 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
         }
     }
 
-    companion object { fun getInstance() = OpenSubtitleRepository(OpenSubtitleClient.instance)}
+    companion object {
+        // To ensure the instance can be overridden in tests.
+        var instance = lazy { OpenSubtitleRepository(OpenSubtitleClient.instance) }
+        fun getInstance() = instance.value
+    }
 }

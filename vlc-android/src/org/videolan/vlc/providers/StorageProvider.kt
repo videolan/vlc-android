@@ -24,6 +24,8 @@ import android.content.Context
 import android.net.Uri
 import android.text.TextUtils
 import org.videolan.libvlc.Media
+import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
@@ -59,9 +61,9 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         dataset.value = storagesList
     }
 
-    override suspend fun findMedia(media: Media) = media.takeIf { it.isStorage() }?.let { Storage(it.uri) }
+    override suspend fun findMedia(media: IMedia) = media.takeIf { it.isStorage() }?.let { Storage(it.uri) }
 
     override fun computeHeaders(value: List<MediaLibraryItem>) {}
 }
 
-private fun Media.isStorage() = type == Media.Type.Directory
+private fun IMedia.isStorage() = type == IMedia.Type.Directory

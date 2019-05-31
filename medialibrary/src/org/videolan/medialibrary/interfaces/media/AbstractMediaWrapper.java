@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
+import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.libvlc.util.Extensions;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.MLServiceLocator;
@@ -100,7 +101,7 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
     protected boolean mIsPictureParsed;
     protected int mFlags = 0;
     protected long mLastModified = 0L;
-    protected Media.Slave[] mSlaves = null;
+    protected IMedia.Slave[] mSlaves = null;
 
     protected long mSeen = 0L;
 
@@ -184,7 +185,7 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
      *
      * @param media should be parsed and not NULL
      */
-    public AbstractMediaWrapper(Media media) {
+    public AbstractMediaWrapper(IMedia media) {
         super();
         if (media == null)
             throw new NullPointerException("media was null");
@@ -208,7 +209,7 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
         return !(mUri == null || otherUri == null) && (mUri == otherUri || mUri.equals(otherUri));
     }
 
-    private void init(Media media) {
+    private void init(IMedia media) {
         mType = TYPE_ALL;
 
         if (media != null) {
@@ -216,11 +217,11 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
                 mLength = media.getDuration();
 
                 for (int i = 0; i < media.getTrackCount(); ++i) {
-                    final Media.Track track = media.getTrack(i);
+                    final IMedia.Track track = media.getTrack(i);
                     if (track == null)
                         continue;
                     if (track.type == Media.Track.Type.Video) {
-                        final Media.VideoTrack videoTrack = (Media.VideoTrack) track;
+                        final IMedia.VideoTrack videoTrack = (IMedia.VideoTrack) track;
                         mType = TYPE_VIDEO;
                         mWidth = videoTrack.width;
                         mHeight = videoTrack.height;
@@ -278,7 +279,7 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
     private void init(long time, long length, int type,
                       Bitmap picture, String title, String artist, String genre, String album, String albumArtist,
                       int width, int height, String artworkURL, int audio, int spu, int trackNumber, int discNumber, long lastModified,
-                      long seen, Media.Slave[] slaves) {
+                      long seen, IMedia.Slave[] slaves) {
         mFilename = null;
         mTime = time;
         mDisplayTime = time;
@@ -339,12 +340,12 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
         return mUri;
     }
 
-    private static String getMetaId(Media media, String defaultMeta, int id, boolean trim) {
+    private static String getMetaId(IMedia media, String defaultMeta, int id, boolean trim) {
         String meta = media.getMeta(id);
         return meta != null ? trim ? meta.trim() : meta : defaultMeta;
     }
 
-    private void updateMeta(Media media) {
+    private void updateMeta(IMedia media) {
         mTitle = getMetaId(media, mTitle, Media.Meta.Title, true);
         mArtist = getMetaId(media, mArtist, Media.Meta.Artist, true);
         mAlbum = getMetaId(media, mAlbum, Media.Meta.Album, true);
@@ -369,7 +370,7 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
     public void updateMeta(MediaPlayer mediaPlayer) {
         if (!TextUtils.isEmpty(mTitle) && TextUtils.isEmpty(mDisplayTitle))
             mDisplayTitle = mTitle;
-        final Media media = mediaPlayer.getMedia();
+        final IMedia media = mediaPlayer.getMedia();
         if (media == null)
             return;
         updateMeta(media);
@@ -636,7 +637,7 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
     }
 
     @Nullable
-    public Media.Slave[] getSlaves() {
+    public IMedia.Slave[] getSlaves() {
         return mSlaves;
     }
 
@@ -714,9 +715,9 @@ public abstract class AbstractMediaWrapper extends MediaLibraryItem implements P
         }
     };
 
-    protected static class PSlave extends Media.Slave implements Parcelable {
+    protected static class PSlave extends IMedia.Slave implements Parcelable {
 
-        PSlave(Media.Slave slave) {
+        PSlave(IMedia.Slave slave) {
             super(slave.type, slave.priority, slave.uri);
         }
 

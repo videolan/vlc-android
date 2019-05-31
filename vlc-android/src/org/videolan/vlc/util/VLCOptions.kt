@@ -29,6 +29,7 @@ import android.util.Log
 import androidx.annotation.MainThread
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.libvlc.util.VLCUtil
@@ -200,7 +201,7 @@ object VLCOptions {
         return ret
     }
 
-    fun setMediaOptions(media: Media, context: Context, flags: Int) {
+    fun setMediaOptions(media: IMedia, context: Context, flags: Int) {
         val noHardwareAcceleration = flags and AbstractMediaWrapper.MEDIA_NO_HWACCEL != 0
         val noVideo = flags and AbstractMediaWrapper.MEDIA_VIDEO == 0
         val benchmark = flags and AbstractMediaWrapper.MEDIA_BENCHMARK != 0

@@ -34,10 +34,11 @@ import org.videolan.vlc.database.MediaDatabase
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.gui.dialogs.State
 import org.videolan.vlc.gui.dialogs.SubtitleItem
+import org.videolan.vlc.util.CoroutineContextProvider
 import org.videolan.vlc.util.LiveDataMap
 import java.io.File
 
-class ExternalSubRepository(private val externalSubDao: ExternalSubDao ) {
+class ExternalSubRepository(private val externalSubDao: ExternalSubDao, private val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()) {
 
     private var _downloadingSubtitles = LiveDataMap<Long, SubtitleItem>()
 
@@ -45,7 +46,7 @@ class ExternalSubRepository(private val externalSubDao: ExternalSubDao ) {
         get() = _downloadingSubtitles as LiveData<Map<Long, SubtitleItem>>
 
     fun saveDownloadedSubtitle(idSubtitle: String, subtitlePath: String, mediaPath: String, language: String, movieReleaseName: String): Job {
-        return GlobalScope.launch(Dispatchers.IO) { externalSubDao.insert(ExternalSub(idSubtitle, subtitlePath, mediaPath, language, movieReleaseName)) }
+        return GlobalScope.launch(coroutineContextProvider.IO) { externalSubDao.insert(ExternalSub(idSubtitle, subtitlePath, mediaPath, language, movieReleaseName)) }
     }
 
     fun getDownloadedSubtitles(mediaUri: Uri): LiveData<List<ExternalSub>> {

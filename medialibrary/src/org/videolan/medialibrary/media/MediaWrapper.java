@@ -28,6 +28,7 @@ import android.os.Parcel;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary;
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
@@ -57,7 +58,7 @@ public class MediaWrapper extends AbstractMediaWrapper {
     }
 
     public MediaWrapper(Uri uri) { super(uri); }
-    public MediaWrapper(Media media) { super(media); }
+    public MediaWrapper(IMedia media) { super(media); }
     public MediaWrapper(Parcel in) { super(in); }
 
     public void rename(String name) {

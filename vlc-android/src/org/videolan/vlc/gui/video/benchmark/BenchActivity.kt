@@ -121,10 +121,11 @@ class BenchActivity : ShallowVideoPlayer() {
             val sharedPref = Settings.getInstance(this)
             mOldOpenglValue = sharedPref.getString(PREFERENCE_OPENGL, "-1")
             mOldHistoryBoolean = sharedPref.getBoolean(PREFERENCE_PLAYBACK_HISTORY, true)
-            val editor = sharedPref.edit()
-            editor.putString(PREFERENCE_OPENGL, "0")
-            editor.putBoolean(PREFERENCE_PLAYBACK_HISTORY, false)
-            editor.commit()
+            sharedPref.edit().run {
+                putString(PREFERENCE_OPENGL, "0")
+                putBoolean(PREFERENCE_PLAYBACK_HISTORY, false)
+                commit()
+            }
             VLCInstance.restart()
             this.service?.restartMediaPlayer()
         }
@@ -480,10 +481,11 @@ class BenchActivity : ShallowVideoPlayer() {
         /* Resetting vout preference to it value before the benchmark */
         if (mIsHardware && mOldOpenglValue != "-2") {
             val sharedPref = Settings.getInstance(this)
-            val editor = sharedPref.edit()
-            editor.putString(PREFERENCE_OPENGL, mOldOpenglValue)
-            editor.putBoolean(PREFERENCE_PLAYBACK_HISTORY, mOldHistoryBoolean)
-            editor.commit()
+            sharedPref.edit().run {
+                putString(PREFERENCE_OPENGL, mOldOpenglValue)
+                putBoolean(PREFERENCE_PLAYBACK_HISTORY, mOldHistoryBoolean)
+                commit()
+            }
             VLCInstance.restart()
         }
         /* Case of error in VideoPlayerActivity, then finish is not overridden */

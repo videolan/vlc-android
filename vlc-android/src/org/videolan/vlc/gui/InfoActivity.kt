@@ -22,7 +22,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
-import org.videolan.libvlc.Media
+import org.videolan.libvlc.FactoryManager
+import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.util.Extensions
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
@@ -229,9 +231,10 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
 class InfoModel : ViewModel() {
 
     internal val hasSubs = MutableLiveData<Boolean>()
-    internal val mediaTracks = MutableLiveData<List<Media.Track>>()
+    internal val mediaTracks = MutableLiveData<List<IMedia.Track>>()
     internal val sizeText = MutableLiveData<String>()
     internal val cover = MutableLiveData<Bitmap>()
+    internal val mMediaFactory = FactoryManager.getFactory(IMediaFactory.factoryId) as IMediaFactory
 
     internal fun getCover(mrl: String?, width: Int) = viewModelScope.launch {
         cover.value = mrl?.let { withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(it), width) } }
@@ -240,16 +243,16 @@ class InfoModel : ViewModel() {
     internal fun parseTracks(context: Context, mw: AbstractMediaWrapper) = viewModelScope.launch {
         val media = withContext(Dispatchers.IO) {
             val libVlc = VLCInstance[context]
-            Media(libVlc, mw.uri).apply { parse() }
+            mMediaFactory.getFromUri(libVlc, mw.uri).apply { parse() }
         }
         if (!isActive) return@launch
         var subs = false
         val trackCount = media.trackCount
-        val tracks = LinkedList<Media.Track>()
+        val tracks = LinkedList<IMedia.Track>()
         for (i in 0 until trackCount) {
             val track = media.getTrack(i)
             tracks.add(track)
-            subs = subs or (track.type == Media.Track.Type.Text)
+            subs = subs or (track.type == IMedia.Track.Type.Text)
         }
         media.release()
         hasSubs.value = subs

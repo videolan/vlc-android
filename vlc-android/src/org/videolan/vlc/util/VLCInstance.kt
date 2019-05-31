@@ -25,23 +25,28 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-
-import org.videolan.libvlc.LibVLC
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.libvlc.FactoryManager
+import org.videolan.libvlc.interfaces.ILibVLC
+import org.videolan.libvlc.interfaces.ILibVLCFactory
 import org.videolan.libvlc.util.VLCUtil
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.VLCCrashHandler
 import org.videolan.vlc.gui.CompatErrorActivity
 
+@ObsoleteCoroutinesApi
 object VLCInstance {
     val TAG = "VLC/UiTools/VLCInstance"
 
     @SuppressLint("StaticFieldLeak")
-    private var sLibVLC: LibVLC? = null
+    private var sLibVLC: ILibVLC? = null
+
+    internal val mLibVLCFactory = FactoryManager.getFactory(ILibVLCFactory.factoryId) as ILibVLCFactory
 
     /** A set of utility functions for the VLC application  */
     @Synchronized
     @Throws(IllegalStateException::class)
-    operator fun get(ctx: Context): LibVLC {
+    operator fun get(ctx: Context): ILibVLC {
         if (sLibVLC == null) {
             Thread.setDefaultUncaughtExceptionHandler(VLCCrashHandler())
 
@@ -52,7 +57,7 @@ object VLCInstance {
             }
 
             // TODO change LibVLC signature to accept a List instead of an ArrayList
-            sLibVLC = LibVLC(context, VLCOptions.libOptions)
+            sLibVLC = mLibVLCFactory.getFromOptions(context, VLCOptions.libOptions)
         }
         return sLibVLC!!
     }
@@ -62,7 +67,7 @@ object VLCInstance {
     fun restart() {
         if (sLibVLC != null) {
             sLibVLC!!.release()
-            sLibVLC = LibVLC(VLCApplication.appContext, VLCOptions.libOptions)
+            sLibVLC = mLibVLCFactory.getFromOptions(VLCApplication.appContext, VLCOptions.libOptions)
         }
     }
 

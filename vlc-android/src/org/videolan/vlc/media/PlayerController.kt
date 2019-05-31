@@ -10,6 +10,9 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.*
+import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.interfaces.IMediaList
+import org.videolan.libvlc.interfaces.IVLCVout
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
@@ -34,7 +37,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     var switchToVideo = false
     var seekable = false
     var pausable = false
-    var previousMediaStats: Media.Stats? = null
+    var previousMediaStats: IMedia.Stats? = null
         private set
     @Volatile var hasRenderer = false
         private set
@@ -43,7 +46,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun canDoPassthrough() = mediaplayer.hasMedia() && !mediaplayer.isReleased && mediaplayer.canDoPassthrough()
 
-    fun getMedia(): Media? = mediaplayer.media
+    fun getMedia(): IMedia? = mediaplayer.media
 
     fun play() {
         if (mediaplayer.hasMedia() && !mediaplayer.isReleased) mediaplayer.play()
@@ -68,7 +71,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     }
 
     private var mediaplayerEventListener: MediaPlayerEventListener? = null
-    internal suspend fun startPlayback(media: Media, listener: MediaPlayerEventListener, time: Long) {
+    internal suspend fun startPlayback(media: IMedia, listener: MediaPlayerEventListener, time: Long) {
         mediaplayerEventListener = listener
         resetPlaybackState(time, media.duration)
         mediaplayer.setEventListener(null)
@@ -120,7 +123,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun getVideoTrack() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.videoTrack else -1
 
-    fun getCurrentVideoTrack(): Media.VideoTrack? = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.currentVideoTrack else null
+    fun getCurrentVideoTrack(): IMedia.VideoTrack? = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.currentVideoTrack else null
 
     fun getAudioTracksCount() = if (!mediaplayer.isReleased && mediaplayer.hasMedia()) mediaplayer.audioTracksCount else 0
 
@@ -144,9 +147,9 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun setVideoTrackEnabled(enabled: Boolean) = mediaplayer.setVideoTrackEnabled(enabled)
 
-    fun addSubtitleTrack(path: String, select: Boolean) = mediaplayer.addSlave(Media.Slave.Type.Subtitle, path, select)
+    fun addSubtitleTrack(path: String, select: Boolean) = mediaplayer.addSlave(IMedia.Slave.Type.Subtitle, path, select)
 
-    fun addSubtitleTrack(uri: Uri, select: Boolean) = mediaplayer.addSlave(Media.Slave.Type.Subtitle, uri, select)
+    fun addSubtitleTrack(uri: Uri, select: Boolean) = mediaplayer.addSlave(IMedia.Slave.Type.Subtitle, uri, select)
 
     fun getSpuTracks(): Array<out MediaPlayer.TrackDescription>? = mediaplayer.spuTracks
 
@@ -190,7 +193,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
         setPlaybackStopped()
     }
 
-    fun setSlaves(media: Media, mw: AbstractMediaWrapper) = launch {
+    fun setSlaves(media: IMedia, mw: AbstractMediaWrapper) = launch {
         if (mediaplayer.isReleased) return@launch
         val slaves = mw.slaves
         slaves?.let { it.forEach { slave -> media.addSlave(slave) } }
@@ -234,9 +237,9 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
      * @return true if UI needs to be updated
      */
     internal fun updateCurrentMeta(id: Int, mw: AbstractMediaWrapper?): Boolean {
-        if (id == Media.Meta.Publisher) return false
+        if (id == IMedia.Meta.Publisher) return false
         mw?.updateMeta(mediaplayer)
-        return id != Media.Meta.NowPlaying || mw?.nowPlaying !== null
+        return id != IMedia.Meta.NowPlaying || mw?.nowPlaying !== null
     }
 
     fun setPreviousStats() {
@@ -269,7 +272,7 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
 
     fun setVolume(volume: Int) = if (!mediaplayer.isReleased) mediaplayer.setVolume(volume) else -1
 
-    suspend fun expand(): MediaList? {
+    suspend fun expand(): IMediaList? {
         return mediaplayer.media?.let {
             return withContext(playerContext) {
                 mediaplayer.setEventListener(null)
@@ -336,7 +339,7 @@ internal interface MediaPlayerEventListener {
     suspend fun onEvent(event: MediaPlayer.Event)
 }
 
-private fun Array<Media.Slave>?.contains(item: Media.Slave) : Boolean {
+private fun Array<IMedia.Slave>?.contains(item: IMedia.Slave) : Boolean {
     if (this == null) return false
     for (slave in this) if (slave.uri == item.uri) return true
     return false

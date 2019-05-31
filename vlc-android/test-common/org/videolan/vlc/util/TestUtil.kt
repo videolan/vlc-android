@@ -22,11 +22,14 @@ package org.videolan.vlc.util
 
 import android.net.Uri
 import org.videolan.libvlc.Media
+import org.videolan.vlc.api.OpenSubtitle
+import org.videolan.vlc.api.QueryParameters
 import org.videolan.vlc.database.models.BrowserFav
 import org.videolan.vlc.database.models.CustomDirectory
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.database.models.Slave
-import java.io.File
+import org.videolan.vlc.gui.dialogs.State
+import org.videolan.vlc.gui.dialogs.SubtitleItem
 
 object TestUtil {
     private const val fakeUri: String = "https://www.videolan.org/fake_"
@@ -39,15 +42,13 @@ object TestUtil {
 
     fun createLocalUris(count: Int): List<String> {
         return (0 until count).map {
-            "${fakeUri}_local$it"
+            "${fakeMediaUri}local_$it.mp4"
         }
     }
 
     fun createLocalFavs(count: Int): List<BrowserFav> {
         return (0 until count).map {
-            createLocalFav(Uri.parse(fakeUri + "local" + it),
-                    "local" + 1,
-                    null)
+            createLocalFav(Uri.parse("${fakeMediaUri}_$it.mp4"), "local$it", null)
         }
     }
 
@@ -56,9 +57,7 @@ object TestUtil {
     }
 
     fun createNetworkUris(count: Int): List<String> {
-        return (0 until count).map {
-            "${fakeUri}_network$it"
-        }
+        return (0 until count).map { "${fakeUri}_network$it.mp4" }
     }
 
     fun createNetworkFavs(count: Int): List<BrowserFav> {
@@ -76,13 +75,13 @@ object TestUtil {
             subtitlePath: String,
             mediaPath: String,
             subLanguageID: String,
-            movieReleaseName: String ): ExternalSub {
+            movieReleaseName: String): ExternalSub {
         return ExternalSub(idSubtitle, subtitlePath, mediaPath, subLanguageID, movieReleaseName)
     }
 
     fun createExternalSubsForMedia(mediaPath: String, mediaName: String, count: Int): List<ExternalSub> {
         return (0 until count).map {
-            ExternalSub(it.toString(),"${fakeSubUri}$mediaName$it", mediaPath, "en", mediaName)
+            ExternalSub(it.toString(), "${fakeSubUri}$mediaName$it", mediaPath, "en", mediaName)
         }
     }
 
@@ -90,13 +89,13 @@ object TestUtil {
         return Slave(mediaPath, Media.Slave.Type.Subtitle, 2, uri)
     }
 
-    fun createSubtitleSlavesForMedia(mediaName: String, count:Int): List<Slave> {
+    fun createSubtitleSlavesForMedia(mediaName: String, count: Int): List<Slave> {
         return (0 until count).map {
-            createSubtitleSlave( "$fakeMediaUri$mediaName", "$fakeSubUri$mediaName$it.srt" )
+            createSubtitleSlave("$fakeMediaUri$mediaName", "$fakeSubUri$mediaName$it.srt")
         }
     }
 
-    fun createCustomDirectory(path: String): CustomDirectory{
+    fun createCustomDirectory(path: String): CustomDirectory {
         return CustomDirectory(path)
     }
 
@@ -106,4 +105,32 @@ object TestUtil {
             createCustomDirectory("$directory$it")
         }
     }
+
+    fun createDownloadingSubtitleItem(
+            idSubtitle: String,
+            mediaUri: Uri,
+            subLanguageID: String,
+            movieReleaseName: String,
+            zipDownloadLink: String): SubtitleItem = SubtitleItem(idSubtitle, mediaUri, subLanguageID, movieReleaseName, State.Downloading, zipDownloadLink)
+
+    fun createDownloadingSubtitleItem(
+            idSubtitle: String,
+            mediaPath: String,
+            subLanguageID: String,
+            movieReleaseName: String,
+            zipDownloadLink: String): SubtitleItem = TestUtil.createDownloadingSubtitleItem(idSubtitle, Uri.parse(mediaPath), subLanguageID, movieReleaseName, zipDownloadLink)
+
+    fun createOpenSubtitle(
+            idSubtitle: String,
+            subLanguageID: String,
+            movieReleaseName: String,
+            zipDownloadLink: String) = OpenSubtitle(
+                idSubtitle = idSubtitle, subLanguageID = subLanguageID, movieReleaseName = movieReleaseName, zipDownloadLink = zipDownloadLink,
+                idMovie = "", idMovieImdb = "", idSubMovieFile = "", idSubtitleFile = "", infoFormat = "", infoOther = "", infoReleaseGroup = "",
+                userID = "", iSO639 = "", movieFPS = "", languageName = "", subActualCD = "", subSumVotes = "", subAuthorComment = "", subComments = "",
+                score = 0.0, seriesEpisode = "", seriesIMDBParent = "", seriesSeason = "", subAddDate = "", subAutoTranslation = "", subBad = "", subDownloadLink = "",
+                subDownloadsCnt = "", subEncoding = "", subFeatured = "", subFileName = "", subForeignPartsOnly = "", subFormat = "", subFromTrusted = "", subHash = "",
+                subHD = "", subHearingImpaired = "", subLastTS = "", subRating = "", subSize = "", subSumCD = "", subtitlesLink = "", subTranslator = "", subTSGroup = "",
+                subTSGroupHash = "", movieByteSize = "", movieHash = "", movieTimeMS = "", queryParameters = QueryParameters("", "", ""), queryNumber = "",
+                userNickName = "", userRank = "", matchedBy = "", movieImdbRating = "", movieKind = "", movieName = "", movieNameEng = "", movieYear = "")
 }

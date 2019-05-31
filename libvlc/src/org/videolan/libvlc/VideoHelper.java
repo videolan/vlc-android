@@ -15,6 +15,8 @@ import android.view.ViewStub;
 import android.widget.FrameLayout;
 
 import org.videolan.R;
+import org.videolan.libvlc.interfaces.IMedia;
+import org.videolan.libvlc.interfaces.IVLCVout;
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.DisplayManager;
 import org.videolan.libvlc.util.VLCVideoLayout;
@@ -135,11 +137,11 @@ class VideoHelper implements IVLCVout.OnNewVideoLayoutListener {
                 break;
             case SURFACE_FIT_SCREEN:
             case SURFACE_FILL: {
-                Media.VideoTrack vtrack = mMediaPlayer.getCurrentVideoTrack();
+                IMedia.VideoTrack vtrack = mMediaPlayer.getCurrentVideoTrack();
                 if (vtrack == null)
                     return;
-                final boolean videoSwapped = vtrack.orientation == Media.VideoTrack.Orientation.LeftBottom
-                        || vtrack.orientation == Media.VideoTrack.Orientation.RightTop;
+                final boolean videoSwapped = vtrack.orientation == IMedia.VideoTrack.Orientation.LeftBottom
+                        || vtrack.orientation == IMedia.VideoTrack.Orientation.RightTop;
                 if (mCurrentScaleType == MediaPlayer.ScaleType.SURFACE_FIT_SCREEN) {
                     int videoW = vtrack.width;
                     int videoH = vtrack.height;

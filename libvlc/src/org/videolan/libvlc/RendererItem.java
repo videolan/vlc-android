@@ -2,6 +2,8 @@ package org.videolan.libvlc;
 
 import androidx.annotation.Nullable;
 
+import org.videolan.libvlc.interfaces.AbstractVLCEvent;
+
 @SuppressWarnings("unused, JniMissingFunction")
 public class RendererItem extends VLCObject<RendererItem.Event> {
 
@@ -42,7 +44,7 @@ public class RendererItem extends VLCObject<RendererItem.Event> {
         nativeReleaseItem();
     }
 
-    public static class Event extends VLCEvent {
+    public static class Event extends AbstractVLCEvent {
         protected Event(int type) {
             super(type);
         }

@@ -26,6 +26,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import org.videolan.libvlc.Media
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
@@ -71,7 +72,7 @@ inline fun <reified T : ViewModel> Fragment.getModelWithActivity() = ViewModelPr
 inline fun <reified T : ViewModel> Fragment.getModel() = ViewModelProviders.of(this).get(T::class.java)
 inline fun <reified T : ViewModel> FragmentActivity.getModel() = ViewModelProviders.of(this).get(T::class.java)
 
-fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
+fun Media?.canExpand() = this != null && (type == IMedia.Type.Directory || type == IMedia.Type.Playlist)
 suspend fun AppCompatActivity.share(media: AbstractMediaWrapper) {
     val intentShareFile = Intent(Intent.ACTION_SEND)
     val fileWithinMyDir = File(media.uri.path)

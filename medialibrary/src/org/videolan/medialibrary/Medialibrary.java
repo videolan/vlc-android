@@ -1,5 +1,4 @@
-/*
- *****************************************************************************
+/*****************************************************************************
  * Medialibrary.java
  *****************************************************************************
  * Copyright © 2017-2018 VLC authors and VideoLAN
@@ -59,8 +58,7 @@ public class Medialibrary extends AbstractMedialibrary {
         try {
             System.loadLibrary("c++_shared");
             System.loadLibrary("mla");
-        } catch (UnsatisfiedLinkError ule)
-        {
+        } catch (UnsatisfiedLinkError ule) {
             Log.e(TAG, "Can't load mla: " + ule);
             return ML_INIT_FAILED;
         }
@@ -87,10 +85,12 @@ public class Medialibrary extends AbstractMedialibrary {
             Log.e(TAG, "Medialib database is corrupted. Clearing it and try to restore playlists");
             nativeClearDatabase(true);
         }
+
         mIsInitiated = initCode != ML_INIT_FAILED;
         return initCode;
     }
 
+    @Override
     public void start() {
         if (isStarted()) return;
         nativeStart();

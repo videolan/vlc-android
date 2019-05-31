@@ -28,6 +28,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Media
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
@@ -50,7 +51,7 @@ class SlaveRepository(private val slaveDao:SlaveDao) : IOScopedObject() {
         }
     }
 
-    suspend fun getSlaves(mrl: String): List<Media.Slave> {
+    suspend fun getSlaves(mrl: String): List<IMedia.Slave> {
         return withContext(Dispatchers.IO) {
             val slaves = try {
                 slaveDao.get(mrl)
@@ -61,7 +62,7 @@ class SlaveRepository(private val slaveDao:SlaveDao) : IOScopedObject() {
                 var uri = it.uri
                 if (uri.isNotEmpty())
                     uri = Uri.decode(it.uri)
-                Media.Slave(it.type, it.priority, uri)
+                IMedia.Slave(it.type, it.priority, uri)
             }
              mediaSlaves
         }

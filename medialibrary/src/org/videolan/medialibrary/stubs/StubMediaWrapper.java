@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.util.SparseArray;
 
 import org.videolan.libvlc.Media;
+import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper;
 
 public class StubMediaWrapper extends AbstractMediaWrapper {
@@ -28,7 +29,7 @@ public class StubMediaWrapper extends AbstractMediaWrapper {
     }
 
     public StubMediaWrapper(Uri uri) { super(uri); }
-    public StubMediaWrapper(Media media) { super(media); }
+    public StubMediaWrapper(IMedia media) { super(media); }
     public StubMediaWrapper(Parcel in) { super(in); }
 
     private SparseArray<Long> mMetaLong = new SparseArray<>();

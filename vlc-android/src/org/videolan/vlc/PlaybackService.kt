@@ -49,10 +49,10 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
-import org.videolan.libvlc.IVLCVout
-import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
+import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.interfaces.IVLCVout
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AbstractMedialibrary
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
@@ -184,7 +184,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
             }
             MediaPlayer.Event.EncounteredError -> executeUpdate()
             MediaPlayer.Event.PositionChanged -> if (widget != 0) updateWidgetPosition(event.positionChanged)
-            MediaPlayer.Event.ESAdded -> if (event.esChangedType == Media.Track.Type.Video && (playlistManager.videoBackground || !playlistManager.switchToVideo())) {
+            MediaPlayer.Event.ESAdded -> if (event.esChangedType == IMedia.Track.Type.Video && (playlistManager.videoBackground || !playlistManager.switchToVideo())) {
                 /* CbAction notification content intent: resume video or resume audio activity */
                 updateMetadata()
             }
@@ -333,7 +333,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         @MainThread
         get() = playlistManager.player.getLength()
 
-    val lastStats: Media.Stats?
+    val lastStats: IMedia.Stats?
         get() = playlistManager.player.previousMediaStats
 
     val isPlayingPopup: Boolean
@@ -409,7 +409,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
         @MainThread
         get() = playlistManager.player.getVideoTracks()
 
-    val currentVideoTrack: Media.VideoTrack?
+    val currentVideoTrack: IMedia.VideoTrack?
         @MainThread
         get() = playlistManager.player.getCurrentVideoTrack()
 
@@ -439,7 +439,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     interface Callback {
         fun update()
-        fun onMediaEvent(event: Media.Event)
+        fun onMediaEvent(event: IMedia.Event)
         fun onMediaPlayerEvent(event: MediaPlayer.Event)
     }
 
@@ -579,7 +579,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     override fun onBind(intent: Intent): IBinder? {
         dispatcher.onServicePreSuperOnBind()
-        return if (MediaBrowserServiceCompat.SERVICE_INTERFACE == intent.action) super.onBind(intent) else binder
+        return if (SERVICE_INTERFACE == intent.action) super.onBind(intent) else binder
     }
 
     val vout: IVLCVout?
@@ -645,7 +645,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 
     private fun canSwitchToVideo() = playlistManager.player.canSwitchToVideo()
 
-    fun onMediaEvent(event: Media.Event) = cbActor.safeOffer(CbMediaEvent(event))
+    fun onMediaEvent(event: IMedia.Event) = cbActor.safeOffer(CbMediaEvent(event))
 
     fun executeUpdate() {
         cbActor.safeOffer(CbUpdate)
@@ -1345,7 +1345,7 @@ class PlaybackService : MediaBrowserServiceCompat(), LifecycleOwner {
 private sealed class CbAction
 
 private object CbUpdate : CbAction()
-private class CbMediaEvent(val event: Media.Event) : CbAction()
+private class CbMediaEvent(val event: IMedia.Event) : CbAction()
 private class CbMediaPlayerEvent(val event: MediaPlayer.Event) : CbAction()
 private class CbAdd(val cb: PlaybackService.Callback) : CbAction()
 private class CbRemove(val cb: PlaybackService.Callback) : CbAction()

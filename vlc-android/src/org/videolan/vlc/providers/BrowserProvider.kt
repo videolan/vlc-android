@@ -33,6 +33,7 @@ import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import org.videolan.libvlc.Media
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
 import org.videolan.medialibrary.MLServiceLocator
@@ -41,6 +42,7 @@ import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.R
+import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.util.*
 import java.util.*
 
@@ -48,12 +50,15 @@ const val TAG = "VLC/BrowserProvider"
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
+
 abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<MediaLibraryItem>, val url: String?, private var showHiddenFiles: Boolean) : CoroutineScope, HeaderProvider() {
 
     override val coroutineContext = Dispatchers.Main.immediate + SupervisorJob()
     val loading = MutableLiveData<Boolean>().apply { value = false }
 
-    protected var mediabrowser: MediaBrowser? = null
+    var mediabrowser: MediaBrowser? = null
+
+    val coroutineContextProvider: CoroutineContextProvider
     private var parsingJob : Job? = null
     private var discoveryJob : Job? = null
 
@@ -62,6 +67,12 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
     internal val medialibrary = AbstractMedialibrary.getInstance()
+
+    init {
+//        BrowserProvider.registerCreator { CoroutineContextProvider() }
+//        coroutineContextProvider = BrowserProvider.get(this)
+        coroutineContextProvider = CoroutineContextProvider()
+    }
 
     private val completionHandler : CompletionHandler = object : CompletionHandler {
         override fun invoke(cause: Throwable?) {
@@ -89,6 +100,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open fun initBrowser() {
+//        BrowserProvider.registerCreator { MediaBrowser(VLCInstance[context], it, browserHandler) }
+//        if (mediabrowser == null) mediabrowser = BrowserProvider.get(this)
         if (mediabrowser == null) mediabrowser = MediaBrowser(VLCInstance[context], null, browserHandler)
     }
 
@@ -130,7 +143,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     private suspend fun filesFlow(url: String? = this.url, interact : Boolean = true) = channelFlow {
         val listener = object : EventListener {
-            override fun onMediaAdded(index: Int, media: Media) {
+            override fun onMediaAdded(index: Int, media: IMedia) {
                 if (!isClosedForSend) offer(media.apply { retain() })
             }
 
@@ -138,7 +151,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 if (!isClosedForSend) close()
             }
 
-            override fun onMediaRemoved(index: Int, media: Media) {}
+            override fun onMediaRemoved(index: Int, media: IMedia) {}
         }
         requestBrowsing(url, listener, interact)
         awaitClose { if (url != null) browserActor.post(ClearListener) }
@@ -174,12 +187,12 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     private suspend fun parseSubDirectoriesImpl(list : List<MediaLibraryItem>? = null) {
         if (list === null && dataset.value.isEmpty()) return
-        val currentMediaList = list ?: withContext(Dispatchers.Main) { dataset.value.toList() }
+        val currentMediaList = list ?: withContext(coroutineContextProvider.Main) { dataset.value.toList() }
         val directories: MutableList<AbstractMediaWrapper> = ArrayList()
         val files: MutableList<AbstractMediaWrapper> = ArrayList()
         foldersContentMap.clear()
         coroutineScope { // allow child coroutine to be cancelled without closing the actor.
-            parsingJob = launch (Dispatchers.IO) {
+            parsingJob = launch (coroutineContextProvider.IO) {
                 initBrowser()
                 var currentParsedPosition = -1
                 loop@ while (++currentParsedPosition < currentMediaList.size) {
@@ -210,12 +223,12 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                     // all subitems are in
                     getDescription(directories.size, files.size).takeIf { it.isNotEmpty() }?.let {
                         val position = currentParsedPosition
-                        withContext(Dispatchers.Main) {
+                        withContext(coroutineContextProvider.Main) {
                             item.description = it
                             descriptionUpdate.value = Pair(position, it)
                         }
                         directories.addAll(files)
-                        withContext(Dispatchers.Main) { foldersContentMap.put(item, directories.toMutableList()) }
+                        withContext(coroutineContextProvider.Main) { foldersContentMap.put(item, directories.toMutableList()) }
                     }
                     directories.clear()
                     files.clear()
@@ -238,8 +251,8 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         return sb.toString()
     }
 
-    protected open suspend fun findMedia(media: Media): MediaLibraryItem? {
-        val mw = MLServiceLocator.getAbstractMediaWrapper(media)
+    protected open suspend fun findMedia(media: IMedia): MediaLibraryItem? {
+        val mw: AbstractMediaWrapper = MLServiceLocator.getAbstractMediaWrapper(media)
         media.release()
         if (!mw.isMedia()) {
             if (mw.isBrowserMedia()) return mw
@@ -247,7 +260,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         }
         val uri = mw.uri
         if ((mw.type == AbstractMediaWrapper.TYPE_AUDIO || mw.type == AbstractMediaWrapper.TYPE_VIDEO)
-                && "file" == uri.scheme) return withContext(Dispatchers.IO) {
+                && "file" == uri.scheme) return withContext(coroutineContextProvider.IO) {
             medialibrary.getMedia(uri) ?: mw
         }
         return mw
@@ -292,11 +305,11 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     protected fun removeList(url: String) =  prefetchLists.remove(url)
 
-    fun saveList(media: AbstractMediaWrapper) = foldersContentMap[media]?.let { if (!it.isEmpty()) prefetchLists[media.location] = it }
+    fun saveList(media: AbstractMediaWrapper) = foldersContentMap[media]?.let { if (it.isNotEmpty()) prefetchLists[media.location] = it }
 
     fun isFolderEmpty(mw: AbstractMediaWrapper) = foldersContentMap[mw]?.isEmpty() ?: true
 
-    companion object {
+    companion object : DependencyProvider<EventListener>() {
         private val browserHandler by lazy {
             val handlerThread = HandlerThread("vlc-provider", Process.THREAD_PRIORITY_DEFAULT + Process.THREAD_PRIORITY_LESS_FAVORABLE)
             handlerThread.start()

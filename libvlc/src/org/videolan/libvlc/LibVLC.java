@@ -23,18 +23,22 @@ package org.videolan.libvlc;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
+import org.videolan.libvlc.interfaces.AbstractVLCEvent;
+import org.videolan.libvlc.interfaces.ILibVLC;
 import org.videolan.libvlc.util.HWDecoderUtil;
 
 import java.util.ArrayList;
-
-import androidx.annotation.Nullable;
+import java.util.List;
 
 @SuppressWarnings("unused, JniMissingFunction")
-public class LibVLC extends VLCObject<LibVLC.Event> {
+public class LibVLC extends VLCObject<ILibVLC.Event> implements ILibVLC {
     private static final String TAG = "VLC/LibVLC";
+
     final Context mAppContext;
 
-    public static class Event extends VLCEvent {
+    public static class Event extends AbstractVLCEvent {
         protected Event(int type) {
             super(type);
         }
@@ -45,12 +49,12 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
      *
      * @param options
      */
-    public LibVLC(Context context, ArrayList<String> options) {
+    public LibVLC(Context context, List<String> options) {
         mAppContext = context.getApplicationContext();
         loadLibraries();
 
         if (options == null)
-            options = new ArrayList<String>();
+            options = new ArrayList<>();
         boolean setAout = true, setChroma = true;
         // check if aout/vout options are already set
         for (String option : options) {
@@ -88,25 +92,33 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
 
     /**
      * Get the libVLC version
+     *
      * @return the libVLC version string
      */
     public native String version();
 
     /**
      * Get the libVLC compiler
+     *
      * @return the libVLC compiler string
      */
     public native String compiler();
 
     /**
      * Get the libVLC changeset
+     *
      * @return the libVLC changeset string
      */
     public native String changeset();
 
     @Override
-    protected Event onEventNative(int eventType, long arg1, long arg2, float argf1, @Nullable String args1) {
+    protected ILibVLC.Event onEventNative(int eventType, long arg1, long arg2, float argf1, @Nullable String args1) {
         return null;
+    }
+
+    @Override
+    public Context getAppContext() {
+        return mAppContext;
     }
 
     @Override
@@ -121,13 +133,15 @@ public class LibVLC extends VLCObject<LibVLC.Event> {
      * @param name human-readable application name, e.g. "FooBar player 1.2.3"
      * @param http HTTP User Agent, e.g. "FooBar/1.2.3 Python/2.6.0"
      */
-    public void setUserAgent(String name, String http){
+    public void setUserAgent(String name, String http) {
         nativeSetUserAgent(name, http);
     }
 
     /* JNI */
     private native void nativeNew(String[] options, String homePath);
+
     private native void nativeRelease();
+
     private native void nativeSetUserAgent(String name, String http);
 
     private static boolean sLoaded = false;

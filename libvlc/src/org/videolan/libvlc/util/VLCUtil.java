@@ -28,13 +28,13 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 import android.util.Log;
 
-import org.videolan.libvlc.LibVLC;
+import org.videolan.libvlc.interfaces.ILibVLC;
+import org.videolan.libvlc.interfaces.IMedia;
 import org.videolan.libvlc.Media;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -551,6 +551,7 @@ public class VLCUtil {
         }
         return sb.toString();
     }
+
 
     private static void close(Closeable closeable) {
         if (closeable != null)

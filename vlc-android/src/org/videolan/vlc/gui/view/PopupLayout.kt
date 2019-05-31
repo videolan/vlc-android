@@ -33,7 +33,7 @@ import android.util.AttributeSet
 import android.view.*
 import android.widget.RelativeLayout
 import androidx.core.view.GestureDetectorCompat
-import org.videolan.libvlc.IVLCVout
+import org.videolan.libvlc.interfaces.IVLCVout
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.vlc.R
 

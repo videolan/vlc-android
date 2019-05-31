@@ -36,9 +36,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.view.GestureDetectorCompat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.libvlc.IVLCVout
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
+import org.videolan.libvlc.interfaces.IMedia
+import org.videolan.libvlc.interfaces.IVLCVout
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -184,7 +185,7 @@ class PopupManager constructor(private val mService: PlaybackService) : Playback
 
     override fun update() {}
 
-    override fun onMediaEvent(event: Media.Event) {}
+    override fun onMediaEvent(event: IMedia.Event) {}
 
     override fun onMediaPlayerEvent(event: MediaPlayer.Event) {
         when (event.type) {

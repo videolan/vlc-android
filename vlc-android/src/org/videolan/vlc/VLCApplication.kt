@@ -38,6 +38,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.Dialog
+import org.videolan.libvlc.FactoryManager
+import org.videolan.libvlc.LibVLCFactory
+import org.videolan.libvlc.MediaFactory
+import org.videolan.libvlc.interfaces.ILibVLCFactory
+import org.videolan.libvlc.interfaces.IMediaFactory
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.tools.isStarted
 import org.videolan.vlc.gui.SendCrashActivity
@@ -54,6 +59,9 @@ class VLCApplication : MultiDexApplication(), Dialog.Callbacks by DialogDelegate
     init {
         instance = this
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+
+        FactoryManager.registerFactory(IMediaFactory.factoryId, MediaFactory())
+        FactoryManager.registerFactory(ILibVLCFactory.factoryId, LibVLCFactory())
     }
 
     @TargetApi(Build.VERSION_CODES.O)

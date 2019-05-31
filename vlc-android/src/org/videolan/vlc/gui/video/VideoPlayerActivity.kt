@@ -73,6 +73,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
+import org.videolan.libvlc.interfaces.IMedia
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.DisplayManager
 import org.videolan.libvlc.util.VLCVideoLayout
@@ -892,7 +893,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         if (data.hasExtra(EXTRA_MRL)) {
             service?.addSubtitleTrack(Uri.parse(data.getStringExtra(EXTRA_MRL)), false)
             service?.currentMediaWrapper?.let {
-                SlaveRepository.getInstance(this).saveSlave(it.location, Media.Slave.Type.Subtitle, 2, data.getStringExtra(EXTRA_MRL))
+                SlaveRepository.getInstance(this).saveSlave(it.location, IMedia.Slave.Type.Subtitle, 2, data.getStringExtra(EXTRA_MRL))
             }
             addNextTrack = true
         } else if (BuildConfig.DEBUG) Log.d(TAG, "Subtitle selection dialog was cancelled")
@@ -1459,10 +1460,10 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         playlistModel?.update()
     }
 
-    override fun onMediaEvent(event: Media.Event) {
+    override fun onMediaEvent(event: IMedia.Event) {
         when (event.type) {
-            Media.Event.ParsedChanged -> updateNavStatus()
-            Media.Event.MetaChanged -> {
+            IMedia.Event.ParsedChanged -> updateNavStatus()
+            IMedia.Event.MetaChanged -> {
             }
         }
     }
@@ -1483,14 +1484,14 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 MediaPlayer.Event.ESAdded -> {
                     if (menuIdx == -1) {
                         val media = medialibrary.findMedia(service.currentMediaWrapper) ?: return
-                        if (event.esChangedType == Media.Track.Type.Audio) {
+                        if (event.esChangedType == IMedia.Track.Type.Audio) {
                             setESTrackLists()
                             runIO(Runnable {
                                 val audioTrack = media.getMetaLong(AbstractMediaWrapper.META_AUDIOTRACK).toInt()
                                 if (audioTrack != 0 || currentAudioTrack != -2)
                                     service.setAudioTrack(if (media.id == 0L) currentAudioTrack else audioTrack)
                             })
-                        } else if (event.esChangedType == Media.Track.Type.Text) {
+                        } else if (event.esChangedType == IMedia.Track.Type.Text) {
                             setESTrackLists()
                             runIO(Runnable {
                                 val spuTrack = media.getMetaLong(AbstractMediaWrapper.META_SUBTITLE_TRACK).toInt()
@@ -1504,23 +1505,23 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                             })
                         }
                     }
-                    if (menuIdx == -1 && event.esChangedType == Media.Track.Type.Video) {
+                    if (menuIdx == -1 && event.esChangedType == IMedia.Track.Type.Video) {
                         handler.removeMessages(CHECK_VIDEO_TRACKS)
                         handler.sendEmptyMessageDelayed(CHECK_VIDEO_TRACKS, 1000)
                     }
                     invalidateESTracks(event.esChangedType)
                 }
                 MediaPlayer.Event.ESDeleted -> {
-                    if (menuIdx == -1 && event.esChangedType == Media.Track.Type.Video) {
+                    if (menuIdx == -1 && event.esChangedType == IMedia.Track.Type.Video) {
                         handler.removeMessages(CHECK_VIDEO_TRACKS)
                         handler.sendEmptyMessageDelayed(CHECK_VIDEO_TRACKS, 1000)
                     }
                     invalidateESTracks(event.esChangedType)
                 }
-                MediaPlayer.Event.ESSelected -> if (event.esChangedType == Media.Track.Type.Video) {
+                MediaPlayer.Event.ESSelected -> if (event.esChangedType == IMedia.Track.Type.Video) {
                     val vt = service.currentVideoTrack
                     if (vt != null)
-                        fov = if (vt.projection == Media.VideoTrack.Projection.Rectangular) 0f else DEFAULT_FOV
+                        fov = if (vt.projection == IMedia.VideoTrack.Projection.Rectangular) 0f else DEFAULT_FOV
                 }
                 MediaPlayer.Event.SeekableChanged -> updateSeekable(event.seekable)
                 MediaPlayer.Event.PausableChanged -> updatePausable(event.pausable)
@@ -2223,8 +2224,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     private fun invalidateESTracks(type: Int) {
         when (type) {
-            Media.Track.Type.Audio -> audioTracksList = null
-            Media.Track.Type.Text -> subtitleTracksList = null
+            IMedia.Track.Type.Audio -> audioTracksList = null
+            IMedia.Track.Type.Text -> subtitleTracksList = null
         }
     }
 
