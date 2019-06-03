@@ -36,6 +36,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.SparseArray;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+
 import org.videolan.libvlc.util.AndroidUtil;
 import org.videolan.libvlc.util.DisplayManager;
 import org.videolan.libvlc.util.VLCUtil;
@@ -43,10 +47,6 @@ import org.videolan.libvlc.util.VLCVideoLayout;
 
 import java.io.File;
 import java.io.IOException;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 @SuppressWarnings("unused, JniMissingFunction")
 public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
@@ -1050,9 +1050,8 @@ public class MediaPlayer extends VLCObject<MediaPlayer.Event> {
     public void setVideoTrackEnabled(boolean enabled) {
         if (!enabled) {
             setVideoTrack(-1);
-        } else if (getVideoTrack() == -1) {
+        } else if (!isReleased() && hasMedia() && getVideoTrack() == -1) {
             final MediaPlayer.TrackDescription tracks[] = getVideoTracks();
-
             if (tracks != null) {
                 for (MediaPlayer.TrackDescription track : tracks) {
                     if (track.id != -1) {
