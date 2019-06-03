@@ -131,11 +131,11 @@ object TvUtil {
                     intent.putExtra(KEY_GROUP, title)
                     activity.startActivity(intent)
                 }
-                else -> {
-                    val list = (model!!.dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
+                else -> model?.run {
+                    val list = (dataset.value as List<MediaWrapper>).filter { it.type != MediaWrapper.TYPE_DIR }
                     val position = list.getposition(item)
                     MediaUtils.openList(activity, list, position)
-                }
+                } ?: MediaUtils.openMedia(activity, item)
             }
             is DummyItem -> when {
                 item.id == HEADER_STREAM -> activity.startActivity(Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_STREAM)
