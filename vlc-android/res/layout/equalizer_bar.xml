@@ -1,43 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="0dp"
+    android:layout_weight="1"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/default_margin"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <!-- Be careful: the view is rotated by 90 degrees. -->
-    <org.videolan.vlc.gui.view.VerticalSeekBar
-        android:id="@+id/equalizer_seek"
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:maxHeight="4dip"
-        android:minHeight="4dip"
-        android:progressDrawable="@drawable/po_seekbar"
-        android:thumb="@drawable/seekbar_thumb"
-        android:splitTrack="false"/>
+        android:text="+20dB"
+        android:textSize="10sp"
+        tools:ignore="HardcodedText" />
+
+    <org.videolan.vlc.gui.view.VerticalSeekBarContainer
+        android:layout_width="wrap_content"
+        android:layout_height="150dp">
+
+        <org.videolan.vlc.gui.view.VerticalSeekBar
+            android:id="@+id/equalizer_seek"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:splitTrack="false"
+            android:thumb="@drawable/seekbar_thumb" />
+    </org.videolan.vlc.gui.view.VerticalSeekBarContainer>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="-20dB"
+        android:textSize="10sp"
+        tools:ignore="HardcodedText" />
+
 
     <TextView
         android:id="@+id/equalizer_band"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textSize="12sp"
-        android:text="16 kHz"
+        android:text="16kHz"
+        android:textSize="10sp"
         tools:ignore="HardcodedText" />
 
-    <TextView
-        android:id="@+id/equalizer_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:textSize="12sp"
-        android:text="0.0 dB"
-        tools:ignore="HardcodedText" />
 
 </LinearLayout>

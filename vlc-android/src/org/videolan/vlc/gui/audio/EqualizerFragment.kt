@@ -31,9 +31,9 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableInt
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.MediaPlayer
@@ -41,6 +41,7 @@ import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.EqualizerBinding
+import org.videolan.vlc.gui.dialogs.VLCBottomSheetDialogFragment
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.view.EqualizerBar
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
@@ -50,7 +51,12 @@ import java.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class EqualizerFragment : AppCompatDialogFragment() {
+class EqualizerFragment : VLCBottomSheetDialogFragment() {
+    override fun getDefaultState() = STATE_EXPANDED
+
+    override fun needToManageOrientation() = false
+
+    override fun initialFocusedView() = binding.equalizerBands.getChildAt(0)
 
     private lateinit var equalizer: MediaPlayer.Equalizer
     private var customCount = 0
@@ -178,8 +184,8 @@ class EqualizerFragment : AppCompatDialogFragment() {
     }
 
     override fun onResume() {
-        super.onResume()
         fillViews()
+        super.onResume()
     }
 
     override fun onPause() {
@@ -254,11 +260,11 @@ class EqualizerFragment : AppCompatDialogFragment() {
                 .setPositiveButton(R.string.save, null)
                 .setNegativeButton(R.string.do_not_save) { _, _ ->
                     if (onPause)
-                        VLCOptions.saveEqualizerInSettings(requireActivity(), equalizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
+                        VLCOptions.saveEqualizerInSettings(VLCApplication.appContext, equalizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
                 }
                 .setOnCancelListener {
                     if (onPause)
-                        VLCOptions.saveEqualizerInSettings(requireActivity(), equalizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
+                        VLCOptions.saveEqualizerInSettings(VLCApplication.appContext, equalizer, allSets[positionToSave], binding.equalizerButton.isChecked, false)
                 }
                 .create()
         val window = saveEqualizer.window

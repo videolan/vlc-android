@@ -30,25 +30,23 @@ import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
-
 import org.videolan.vlc.R
 import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
 
+
 class EqualizerBar : LinearLayout {
 
-    private var mSeek: VerticalSeekBar? = null
-    private var mBand: TextView? = null
-    private var mValue: TextView? = null
+    private lateinit var verticalSeekBar: VerticalSeekBar
+    private var bandTextView: TextView? = null
     private var listener: OnEqualizerBarChangeListener? = null
 
-    private val mSeekListener = object : OnSeekBarChangeListener {
+    private val seekListener = object : OnSeekBarChangeListener {
         override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
         override fun onStopTrackingTouch(seekBar: SeekBar) {}
 
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
             val value = (progress - RANGE) / PRECISION.toFloat()
-            mValue!!.text = "$value dB"
             if (listener != null) {
                 // HACK:    VerticalSeekBar programmatically calls onProgress
                 //          fromUser will always be false
@@ -58,8 +56,6 @@ class EqualizerBar : LinearLayout {
         }
     }
 
-    private val fromUser: Boolean
-        get() = mSeek!!.fromUser
 
     constructor(context: Context, band: Float) : super(context) {
         init(context, band)
@@ -73,22 +69,21 @@ class EqualizerBar : LinearLayout {
     private fun init(context: Context, band: Float) {
         LayoutInflater.from(context).inflate(R.layout.equalizer_bar, this, true)
 
-        mSeek = findViewById(R.id.equalizer_seek)
+        verticalSeekBar = findViewById(R.id.equalizer_seek)
         //Force LTR to fix VerticalSeekBar background problem with RTL layout
-        mSeek!!.layoutDirection = View.LAYOUT_DIRECTION_LTR
-        mSeek!!.max = 2 * RANGE
-        mSeek!!.progress = RANGE
-        mSeek!!.setOnSeekBarChangeListener(mSeekListener)
-        mBand = findViewById(R.id.equalizer_band)
-        mBand!!.text = if (band < 999.5f)
-            (band + 0.5f).toInt().toString() + " Hz"
+        verticalSeekBar.layoutDirection = View.LAYOUT_DIRECTION_LTR
+        verticalSeekBar.max = 2 * RANGE
+        verticalSeekBar.progress = RANGE
+        verticalSeekBar.setOnSeekBarChangeListener(seekListener)
+        bandTextView = findViewById(R.id.equalizer_band)
+        bandTextView!!.text = if (band < 999.5f)
+            (band + 0.5f).toInt().toString() + "Hz"
         else
-            (band / 1000.0f + 0.5f).toInt().toString() + " kHz"
-        mValue = findViewById(R.id.equalizer_value)
+            (band / 1000.0f + 0.5f).toInt().toString() + "kHz"
     }
 
     fun setValue(value: Float) {
-        mSeek!!.progress = (value * PRECISION + RANGE).toInt()
+        verticalSeekBar.progress = (value * PRECISION + RANGE).toInt()
     }
 
     fun setListener(listener: OnEqualizerBarChangeListener) {

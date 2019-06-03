@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="state"
             type="org.videolan.vlc.gui.audio.EqualizerFragment.EqualizerState" />
@@ -10,19 +12,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:minHeight="320dp"
         android:minWidth="448dp"
+        android:minHeight="320dp"
         android:padding="@dimen/default_margin">
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/equalizer_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/equalizer_preamp"
             app:layout_constraintBottom_toBottomOf="@+id/equalizer_preamp"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/equalizer_presets"
-            app:layout_constraintHorizontal_chainStyle="spread_inside" />
+            app:layout_constraintTop_toTopOf="@+id/equalizer_preamp" />
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/equalizer_presets"
@@ -34,46 +36,46 @@
             app:layout_constraintTop_toTopOf="@+id/equalizer_preamp" />
 
         <ImageView
-            android:visibility="@{state.saveButtonVisibility}"
             android:id="@+id/equalizer_save"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            app:layout_constraintWidth_min="wrap"
-            app:layout_constraintDimensionRatio="1"
             android:src="?attr/ic_save"
-            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{state.saveButtonVisibility}"
+            app:layout_constraintDimensionRatio="1"
             app:layout_constraintLeft_toRightOf="@+id/equalizer_presets"
-            app:layout_constraintRight_toLeftOf="@+id/equalizer_revert"/>
+            app:layout_constraintRight_toLeftOf="@+id/equalizer_revert"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_min="wrap" />
 
         <ImageView
-            android:visibility="@{state.revertButtonVisibility}"
             android:id="@+id/equalizer_revert"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            app:layout_constraintWidth_min="wrap"
-            app:layout_constraintDimensionRatio="1"
             android:src="?attr/ic_reset"
-            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{state.revertButtonVisibility}"
+            app:layout_constraintDimensionRatio="1"
             app:layout_constraintLeft_toRightOf="@+id/equalizer_save"
-            app:layout_constraintRight_toLeftOf="@+id/guideine" />
+            app:layout_constraintRight_toLeftOf="@+id/guideine"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_min="wrap" />
 
         <ImageView
-            android:visibility="@{state.deleteButtonVisibility}"
             android:id="@+id/equalizer_delete"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            app:layout_constraintWidth_min="wrap"
-            app:layout_constraintDimensionRatio="1"
             android:src="?attr/ic_trash"
-            app:layout_constraintTop_toTopOf="@+id/equalizer_save"
+            android:visibility="@{state.deleteButtonVisibility}"
+            app:layout_constraintDimensionRatio="1"
             app:layout_constraintLeft_toLeftOf="@+id/equalizer_save"
-            app:layout_constraintRight_toRightOf="@+id/equalizer_save" />
+            app:layout_constraintRight_toRightOf="@+id/equalizer_save"
+            app:layout_constraintTop_toTopOf="@+id/equalizer_save"
+            app:layout_constraintWidth_min="wrap" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideine"
-            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5"
             app:layout_constraintLeft_toRightOf="@+id/equalizer_revert"
             app:layout_constraintRight_toLeftOf="@+id/equalizer_preamp" />
@@ -85,33 +87,22 @@
             android:maxHeight="4dip"
             android:minHeight="4dip"
             android:progressDrawable="@drawable/po_seekbar"
-            android:thumb="@drawable/seekbar_thumb"
             android:splitTrack="false"
+            android:thumb="@drawable/seekbar_thumb"
             app:layout_constraintBottom_toBottomOf="@+id/equalizer_revert"
-            app:layout_constraintTop_toTopOf="@+id/equalizer_revert"
             app:layout_constraintLeft_toRightOf="@+id/guideine"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/equalizer_revert" />
 
-        <HorizontalScrollView
-            android:id="@+id/equalizer_scroll"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintHorizontal_bias="0.5"
-            android:fillViewport="true"
-            android:fadeScrollbars="false"
-            app:layout_constraintTop_toBottomOf="@+id/equalizer_preamp"
+
+        <LinearLayout
+            android:id="@+id/equalizer_bands"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/kl_normal"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
-
-            <LinearLayout
-                android:id="@+id/equalizer_bands"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-        </HorizontalScrollView>
+            app:layout_constraintTop_toBottomOf="@+id/equalizer_preamp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
