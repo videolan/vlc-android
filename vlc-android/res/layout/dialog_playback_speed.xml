@@ -15,7 +15,6 @@
         android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:text="@string/playback_speed"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

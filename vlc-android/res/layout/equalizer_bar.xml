@@ -25,6 +25,7 @@
             android:id="@+id/equalizer_seek"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:progressDrawable="@drawable/po_seekbar"
             android:splitTrack="false"
             android:thumb="@drawable/seekbar_thumb" />
     </org.videolan.vlc.gui.view.VerticalSeekBarContainer>

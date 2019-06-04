@@ -93,7 +93,7 @@
         <item name="ic_abrepeat_setb">@drawable/ic_abrepeat_setb</item>
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_dial">@drawable/ic_dial</item>
-        <item name="progress_background">@color/grey600transparent</item>
+        <item name="progress_background">@color/grey300</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.MaterialComponents.Dialog">
@@ -198,8 +198,8 @@
         <item name="ic_abrepeat_setb">@drawable/ic_abrepeat_setb_w</item>
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset_w</item>
         <item name="ic_dial">@drawable/ic_dial_w</item>
-        <item name="progress_background">@color/grey400transparent</item>
         <item name="progress_indeterminate_tint">@color/orange500</item>
+        <item name="progress_background">@color/grey700</item>
     </style>
 
     <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Black">
@@ -328,7 +328,7 @@
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title_last">@color/list_title_last</item>
         <item name="list_title">@color/bt_list_title</item>
-        <item name="progress_background">@color/grey400transparent</item>
+        <item name="progress_background">@color/grey300</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat_w</item>
         <item name="ic_abrepeat_seta">@drawable/ic_abrepeat_seta_w</item>
         <item name="ic_abrepeat_setb">@drawable/ic_abrepeat_setb_w</item>
@@ -487,9 +487,8 @@
     <style name="Theme.VLC.BottomSheetTitle">
         <item name="android:minHeight">56dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textSize">18sp</item>
 
     </style>
 
