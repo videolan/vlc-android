@@ -40,21 +40,33 @@ class EqualizerBar : LinearLayout {
     private var bandTextView: TextView? = null
     private var listener: OnEqualizerBarChangeListener? = null
 
+    override fun setNextFocusLeftId(nextFocusLeftId: Int) {
+        super.setNextFocusLeftId(nextFocusLeftId)
+        verticalSeekBar.nextFocusLeftId = nextFocusLeftId
+    }
+
+    override fun setNextFocusRightId(nextFocusRightId: Int) {
+        super.setNextFocusRightId(nextFocusRightId)
+        verticalSeekBar.nextFocusRightId = nextFocusRightId
+    }
+
     private val seekListener = object : OnSeekBarChangeListener {
-        override fun onStartTrackingTouch(seekBar: SeekBar) {}
+        override fun onStartTrackingTouch(seekBar: SeekBar) {
+            listener?.onStartTrackingTouch()
+        }
 
         override fun onStopTrackingTouch(seekBar: SeekBar) {}
 
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
             val value = (progress - RANGE) / PRECISION.toFloat()
-            if (listener != null) {
-                // HACK:    VerticalSeekBar programmatically calls onProgress
-                //          fromUser will always be false
-                //          So use custom getFromUser() instead of fromUser
-                listener!!.onProgressChanged(value, fromUser)
-            }
+            // HACK:    VerticalSeekBar programmatically calls onProgress
+            //          fromUser will always be false
+            //          So use custom getFromUser() instead of fromUser
+            listener?.onProgressChanged(value, isFromUser())
         }
     }
+
+    private fun isFromUser() = verticalSeekBar.fromUser
 
 
     constructor(context: Context, band: Float) : super(context) {
@@ -90,9 +102,15 @@ class EqualizerBar : LinearLayout {
         this.listener = listener
     }
 
+    fun setProgress(fl: Int) {
+        verticalSeekBar.progress = fl
+    }
+
+    fun getProgress(): Int = verticalSeekBar.progress
+
     companion object {
 
-        private const val PRECISION = 10
-        private const val RANGE = 20 * PRECISION
+        const val PRECISION = 10
+        const val RANGE = 20 * PRECISION
     }
 }

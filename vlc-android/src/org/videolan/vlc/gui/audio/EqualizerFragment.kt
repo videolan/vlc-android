@@ -32,7 +32,7 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ObservableInt
+import androidx.databinding.ObservableBoolean
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -48,6 +48,7 @@ import org.videolan.vlc.interfaces.OnEqualizerBarChangeListener
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.VLCOptions
 import java.util.*
+import kotlin.collections.ArrayList
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -69,6 +70,8 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
     private lateinit var binding: EqualizerBinding
     private val state = EqualizerState()
     private val newPresetName = VLCApplication.appResources.getString(R.string.equalizer_new_preset_name)
+
+    private val eqBandsViews = ArrayList<EqualizerBar>()
 
     private val mSetListener = object : OnItemSelectedListener {
         override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
@@ -176,11 +179,18 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
             bar.setValue(equalizer.getAmp(i))
             bar.setListener(BandListener(i))
 
+
             binding.equalizerBands.addView(bar)
-            val params = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-                    LayoutParams.MATCH_PARENT, 1f)
+
+
+            val params = LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT, 1f)
             bar.layoutParams = params
+            eqBandsViews.add(bar)
         }
+
+        eqBandsViews[0].nextFocusLeftId = R.id.equalizer_preamp
+        eqBandsViews[eqBandsViews.size - 1].nextFocusRightId = R.id.snapBands
+
     }
 
     override fun onResume() {
@@ -211,6 +221,9 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
 
     private inner class BandListener internal constructor(private val index: Int) : OnEqualizerBarChangeListener {
 
+        private var oldBands: MutableList<Int> = ArrayList()
+
+
         override fun onProgressChanged(value: Float, fromUser: Boolean) {
             if (!fromUser)
                 return
@@ -231,7 +244,35 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
                 state.update(pos, false)
             }
 
+
+            if (binding.snapBands.isChecked) {
+                val delta = eqBandsViews[index].getProgress() - oldBands[index]
+                for (i in eqBandsViews.indices) {
+                    if (i == index) {
+                        continue
+                    }
+
+                    eqBandsViews[i].setProgress(oldBands[i] + delta / (Math.abs(i - index) * Math.abs(i - index) * Math.abs(i - index) + 1))
+
+                    if (binding.equalizerButton.isChecked) {
+
+                        val newValue = (eqBandsViews[i].getProgress() - EqualizerBar.RANGE) / EqualizerBar.PRECISION.toFloat()
+                        equalizer.setAmp(i, newValue)
+                    }
+
+                }
+            }
+
             if (binding.equalizerButton.isChecked) PlaybackService.equalizer.value = equalizer
+
+
+        }
+
+        override fun onStartTrackingTouch() {
+            oldBands.clear()
+            for (eqBandsView in eqBandsViews) {
+                oldBands.add(eqBandsView.getProgress())
+            }
         }
     }
 
@@ -398,15 +439,15 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
     inner class EqualizerState {
 
         internal var saved = true
-        var saveButtonVisibility = ObservableInt(View.INVISIBLE)
-        var revertButtonVisibility = ObservableInt(View.INVISIBLE)
-        var deleteButtonVisibility = ObservableInt(View.INVISIBLE)
+        var saveButtonVisibility = ObservableBoolean(false)
+        var revertButtonVisibility = ObservableBoolean(false)
+        var deleteButtonVisibility = ObservableBoolean(false)
 
         fun update(newPos: Int, newSaved: Boolean) {
             saved = newSaved
-            saveButtonVisibility.set(if (newSaved) View.INVISIBLE else View.VISIBLE)
-            revertButtonVisibility.set(if (newSaved) View.INVISIBLE else View.VISIBLE)
-            deleteButtonVisibility.set(if (newSaved && getEqualizerType(newPos) == TYPE_CUSTOM) View.VISIBLE else View.INVISIBLE)
+            saveButtonVisibility.set(!newSaved)
+            revertButtonVisibility.set(!newSaved)
+            deleteButtonVisibility.set(newSaved && getEqualizerType(newPos) == TYPE_CUSTOM)
         }
     }
 

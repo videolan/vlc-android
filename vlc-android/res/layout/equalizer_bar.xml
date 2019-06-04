@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="0dp"
-    android:layout_weight="1"
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/default_margin"
+    android:layout_weight="1"
     android:orientation="vertical">
 
     <!-- Be careful: the view is rotated by 90 degrees. -->
@@ -18,7 +18,8 @@
 
     <org.videolan.vlc.gui.view.VerticalSeekBarContainer
         android:layout_width="wrap_content"
-        android:layout_height="150dp">
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal">
 
         <org.videolan.vlc.gui.view.VerticalSeekBar
             android:id="@+id/equalizer_seek"

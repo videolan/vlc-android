@@ -707,4 +707,9 @@
     <string name="jump_to">Jump to</string>
     <string name="show_video_thumbnails_summary">Show video thumbnails in lists</string>
     <string name="show_video_thumbnails">Video thumbnails</string>
+    <string name="eq_snap_bands">Snap bands</string>
+    <string name="enable_equalizer">Enable</string>
+    <string name="preamp">Preamp</string>
+    <string name="presets">Presets</string>
+    <string name="reset">Reset</string>
 </resources>

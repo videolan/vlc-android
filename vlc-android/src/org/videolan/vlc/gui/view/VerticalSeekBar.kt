@@ -8,6 +8,8 @@ import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatSeekBar
 
 class VerticalSeekBar : AppCompatSeekBar {
+    private var listener: OnSeekBarChangeListener? = null
+    var fromUser = false
 
 
     constructor(context: Context) : super(context)
@@ -23,13 +25,24 @@ class VerticalSeekBar : AppCompatSeekBar {
 
         if (handled) {
             when (event.action) {
-                MotionEvent.ACTION_DOWN -> parent?.requestDisallowInterceptTouchEvent(true)
+                MotionEvent.ACTION_DOWN -> {
+                    parent?.requestDisallowInterceptTouchEvent(true)
+                    fromUser = true
+                }
 
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> parent?.requestDisallowInterceptTouchEvent(false)
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    parent?.requestDisallowInterceptTouchEvent(false)
+                    fromUser = false
+                }
             }
         }
 
         return handled
+    }
+
+    override fun setOnSeekBarChangeListener(l: OnSeekBarChangeListener?) {
+        listener = l
+        super.setOnSeekBarChangeListener(l)
     }
 
 
@@ -40,6 +53,9 @@ class VerticalSeekBar : AppCompatSeekBar {
 
 
             if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                fromUser = true
+                //to allow snaping to save current state when modifying a band from DPAD
+                listener?.onStartTrackingTouch(this)
 
                 val direction = if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) -1 else 1
                 var currentProgress = progress + (direction * keyProgressIncrement)
@@ -56,6 +72,11 @@ class VerticalSeekBar : AppCompatSeekBar {
         }
 
         return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        fromUser = false
+        return super.onKeyUp(keyCode, event)
     }
 
 
