@@ -57,7 +57,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
 
     override fun needToManageOrientation() = false
 
-    override fun initialFocusedView() = binding.equalizerBands.getChildAt(0)
+    override fun initialFocusedView() = binding.equalizerButton
 
     private lateinit var equalizer: MediaPlayer.Equalizer
     private var customCount = 0
@@ -288,6 +288,12 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
         input.setText(oldName)
         input.setSelectAllOnFocus(true)
 
+        val container = FrameLayout(context)
+        val klNormal = resources.getDimension(R.dimen.kl_normal).toInt()
+        container.setPadding(klNormal, 0, klNormal, 0)
+
+        container.addView(input)
+
         val saveEqualizer = AlertDialog.Builder(requireActivity())
                 .setTitle(resources.getString(if (displayedByUser)
                     R.string.custom_set_save_title
@@ -297,7 +303,7 @@ class EqualizerFragment : VLCBottomSheetDialogFragment() {
                     R.string.existing_custom_set_save_message
                 else
                     R.string.new_custom_set_save_message))
-                .setView(input)
+                .setView(container)
                 .setPositiveButton(R.string.save, null)
                 .setNegativeButton(R.string.do_not_save) { _, _ ->
                     if (onPause)
