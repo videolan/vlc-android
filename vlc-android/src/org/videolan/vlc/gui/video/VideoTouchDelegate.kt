@@ -183,13 +183,14 @@ class VideoTouchDelegate(private val player: VideoPlayerActivity,
                         if (numberOfTaps > 1 && !player.isLocked) {
                             if (mTouchControls and TOUCH_FLAG_SEEK == 0) {
                                 player.doPlayPause()
-                            }
-                            val range = (if (screenConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) screenConfig.xRange else screenConfig.yRange).toFloat()
+                            } else {
+                                val range = (if (screenConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) screenConfig.xRange else screenConfig.yRange).toFloat()
 
-                            when {
-                                event.rawX < range / 4f -> player.seekDelta(-10000)
-                                event.rawX > range * 0.75 -> player.seekDelta(10000)
-                                else -> player.doPlayPause()
+                                when {
+                                    event.rawX < range / 4f -> player.seekDelta(-10000)
+                                    event.rawX > range * 0.75 -> player.seekDelta(10000)
+                                    else -> player.doPlayPause()
+                                }
                             }
                         }
 
