@@ -220,6 +220,10 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         return true
     }
 
+    override fun onShiftClick(v: View, layoutPosition: Int, item: MediaLibraryItem) {
+        onLongClick(v, layoutPosition, item)
+    }
+
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {}
 
     override fun onUpdateFinished(adapter: RecyclerView.Adapter<*>) {}

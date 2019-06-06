@@ -412,6 +412,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         return true
     }
 
+    override fun onShiftClick(v: View, layoutPosition: Int, item: MediaLibraryItem) {
+        if (actionMode != null) onClick(v, layoutPosition, item) else onLongClick(v, layoutPosition, item)
+    }
+
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         if (actionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) launch {
             val mw = item as MediaWrapper

@@ -36,6 +36,7 @@ import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.vlc.*
+import org.videolan.vlc.gui.helpers.KeyHelper
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.SearchActivity
 import org.videolan.vlc.gui.tv.registerTimeView
@@ -83,6 +84,7 @@ abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope(
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        KeyHelper.manageModifiers(event)
         if (keyCode == KeyEvent.KEYCODE_SEARCH) {
             startActivity(Intent(this, SearchActivity::class.java))
             return true
@@ -90,6 +92,10 @@ abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope(
         return super.onKeyDown(keyCode, event)
     }
 
+    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+        KeyHelper.manageModifiers(event)
+        return super.onKeyDown(keyCode, event)
+    }
     protected abstract fun refresh()
 
     protected open fun onParsingServiceStarted() {}

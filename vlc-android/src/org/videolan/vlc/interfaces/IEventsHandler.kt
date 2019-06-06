@@ -12,4 +12,5 @@ interface IEventsHandler {
     fun onUpdateFinished(adapter: RecyclerView.Adapter<*>)
     fun onMainActionClick(v: View, position: Int, item: MediaLibraryItem)
     fun onItemFocused(v: View, item: MediaLibraryItem)
+    fun onShiftClick(v: View, layoutPosition: Int, item: MediaLibraryItem)
 }
