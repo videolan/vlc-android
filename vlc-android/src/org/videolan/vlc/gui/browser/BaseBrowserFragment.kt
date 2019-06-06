@@ -288,8 +288,10 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         val mw = item as? MediaWrapper ?: return false
         val cancel = Runnable { viewModel.refresh() }
         val deleteAction = Runnable {
-            deleteMedia(mw, false, cancel)
-            viewModel.remove(mw)
+            launch {
+                deleteMedia(mw, false, cancel)
+                viewModel.remove(mw)
+            }
         }
         val resId = if (mw.type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
         UiTools.snackerConfirm(view, getString(resId, mw.title), Runnable { if (Util.checkWritePermission(requireActivity(), mw, deleteAction)) deleteAction.run() })

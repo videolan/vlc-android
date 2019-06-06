@@ -58,8 +58,10 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -148,6 +150,14 @@ object UiTools {
     fun snackerConfirm(view: View, message: String, action: Runnable) {
         val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction(android.R.string.ok) { action.run() }
+        if (AndroidUtil.isLolliPopOrLater)
+            snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
+        snack.show()
+    }
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    fun CoroutineScope.snackerConfirm(view: View, message: String, action: suspend() -> Unit) {
+        val snack = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                .setAction(android.R.string.ok) { launch { action.invoke() } }
         if (AndroidUtil.isLolliPopOrLater)
             snack.view.elevation = view.resources.getDimensionPixelSize(R.dimen.audio_player_elevation).toFloat()
         snack.show()

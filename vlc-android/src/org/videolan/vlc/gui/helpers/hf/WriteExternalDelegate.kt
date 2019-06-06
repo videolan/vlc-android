@@ -10,6 +10,7 @@ import android.provider.DocumentsContract
 import android.text.TextUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.documentfile.provider.DocumentFile
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
@@ -95,20 +96,21 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
         internal const val KEY_STORAGE_PATH = "VLC/storage_path"
         private const val REQUEST_CODE_STORAGE_ACCESS = 42
 
-        fun askForExtWrite(activity: FragmentActivity?, uri: Uri, cb: Runnable? = null) {
+        fun askForExtWrite(activity: FragmentActivity, uri: Uri, cb: Runnable? = null) {
             AppScope.launch {
-                if (getExtWritePermission(activity, uri)) cb?.run()
+                if (activity.getExtWritePermission(uri)) cb?.run()
             }
         }
 
-        suspend fun getExtWritePermission(activity: FragmentActivity?, uri: Uri) : Boolean {
-            if (activity === null) return false
+        suspend fun FragmentActivity.getExtWritePermission(uri: Uri) : Boolean {
             val storage = FileUtils.getMediaStorage(uri) ?: return false
             val fragment = WriteExternalDelegate()
             fragment.arguments = Bundle(1).apply { putString(KEY_STORAGE_PATH, storage) }
-            activity.supportFragmentManager.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
+            supportFragmentManager.beginTransaction().add(fragment, TAG).commitAllowingStateLoss()
             return fragment.awaitGrant()
         }
+
+        suspend fun Fragment.getExtWritePermission(uri: Uri) = activity?.getExtWritePermission(uri) ?: false
 
         fun needsWritePermission(uri: Uri) : Boolean {
             val path = uri.path ?: return false
