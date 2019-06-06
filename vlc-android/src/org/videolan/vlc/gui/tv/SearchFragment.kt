@@ -32,6 +32,7 @@ import androidx.leanback.widget.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.media.AArtist
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.*
 import org.videolan.tools.coroutineScope
@@ -95,7 +96,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
         val songsAdapter = ArrayObjectAdapter(cp)
         if (!mediaEmpty) songsAdapter.addAll(0, Arrays.asList(*searchAggregate.tracks))
         val artistsAdapter = ArrayObjectAdapter(cp)
-        if (!empty) artistsAdapter.addAll(0, Arrays.asList<Artist>(*searchAggregate.artists))
+        if (!empty) artistsAdapter.addAll(0, Arrays.asList<AArtist>(*searchAggregate.artists))
         val albumsAdapter = ArrayObjectAdapter(cp)
         if (!empty) albumsAdapter.addAll(0, Arrays.asList<Album>(*searchAggregate.albums))
         val genresAdapter = ArrayObjectAdapter(cp)

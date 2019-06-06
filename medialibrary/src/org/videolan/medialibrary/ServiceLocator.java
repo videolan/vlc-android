@@ -5,8 +5,11 @@ import android.net.Uri;
 import android.os.Parcel;
 
 import org.videolan.libvlc.Media;
+import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
+import org.videolan.medialibrary.media.Artist;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.stubs.StubArtist;
 import org.videolan.medialibrary.stubs.StubMediaWrapper;
 
 public class ServiceLocator {
@@ -84,6 +87,23 @@ public class ServiceLocator {
             return new MediaWrapper(in);
         } else {
             return new StubMediaWrapper(in);
+        }
+    }
+
+    //Artist
+    public static AArtist getAArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
+        if (mMode == LocatorMode.VLC_ANDROID) {
+            return new Artist(id, name, shortBio, artworkMrl, musicBrainzId);
+        } else {
+            return new StubArtist(id, name, shortBio, artworkMrl, musicBrainzId);
+        }
+    }
+
+    public static AArtist getAArtist(Parcel in) {
+        if (mMode == LocatorMode.VLC_ANDROID) {
+            return new Artist(in);
+        } else {
+            return new StubArtist(in);
         }
     }
 }

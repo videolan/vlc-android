@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.R;
+import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 
 @SuppressWarnings("JniMissingFunction")
@@ -33,9 +34,9 @@ public class Album extends MediaLibraryItem {
         this.duration = duration;
         if (TextUtils.isEmpty(title)) mTitle = SpecialRes.UNKNOWN_ALBUM;
         if (albumArtistId == 1L) {
-            this.albumArtist = Artist.SpecialRes.UNKNOWN_ARTIST;
+            this.albumArtist = AArtist.SpecialRes.UNKNOWN_ARTIST;
         } else if (albumArtistId == 2L) {
-            this.albumArtist = Artist.SpecialRes.VARIOUS_ARTISTS;
+            this.albumArtist = AArtist.SpecialRes.VARIOUS_ARTISTS;
         }
     }
 
@@ -58,7 +59,7 @@ public class Album extends MediaLibraryItem {
         return artworkMrl;
     }
 
-    public Artist getAlbumArtist() {
+    public AArtist getAlbumArtist() {
         //TODO
         return null;
     }

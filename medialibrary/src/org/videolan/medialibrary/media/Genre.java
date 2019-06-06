@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 
 import androidx.annotation.NonNull;
@@ -30,13 +31,13 @@ public class Genre extends MediaLibraryItem {
         return ml.isInitiated() ? nativeGetPagedAlbums(ml, mId, sort, desc, nbItems, offset) : new Album[0];
     }
 
-    public Artist[] getArtists() {
+    public AArtist[] getArtists() {
         return getArtists(Medialibrary.SORT_DEFAULT, false);
     }
 
-    public Artist[] getArtists(int sort, boolean desc) {
+    public AArtist[] getArtists(int sort, boolean desc) {
         final Medialibrary ml = Medialibrary.getInstance();
-        return ml.isInitiated() ? nativeGetArtists(ml, mId, sort, desc) : new Artist[0];
+        return ml.isInitiated() ? nativeGetArtists(ml, mId, sort, desc) : new AArtist[0];
     }
 
     @Override
@@ -91,11 +92,11 @@ public class Genre extends MediaLibraryItem {
     }
 
     private native Album[] nativeGetAlbums(Medialibrary ml, long mId, int sort, boolean desc);
-    private native Artist[] nativeGetArtists(Medialibrary ml, long mId, int sort, boolean desc);
+    private native AArtist[] nativeGetArtists(Medialibrary ml, long mId, int sort, boolean desc);
     private native AMediaWrapper[] nativeGetTracks(Medialibrary ml, long mId, int sort, boolean desc);
 
     private native Album[] nativeGetPagedAlbums(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
-    private native Artist[] nativeGetPagedArtists(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
+    private native AArtist[] nativeGetPagedArtists(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
     private native AMediaWrapper[] nativeGetPagedTracks(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetTracksCount(Medialibrary ml, long id);
     private native int nativeGetAlbumsCount(Medialibrary ml, long mId);

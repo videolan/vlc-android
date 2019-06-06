@@ -1,13 +1,14 @@
 package org.videolan.medialibrary.media;
 
 import org.videolan.medialibrary.Tools;
+import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 
 public class SearchAggregate {
     private static final String TAG = "VLC/SearchAggregate";
 
     private final Album[] albums;
-    private final Artist[] artists;
+    private final AArtist[] artists;
     private final Genre[] genres;
     private final AMediaWrapper[] videos;
     private final AMediaWrapper[] tracks;
@@ -21,7 +22,7 @@ public class SearchAggregate {
         this.tracks = null;
         this.playlists = null;}
 
-    public SearchAggregate(Album[] albums, Artist[] artists, Genre[] genres, AMediaWrapper[] videos, AMediaWrapper[] tracks, Playlist[] playlists) {
+    public SearchAggregate(Album[] albums, AArtist[] artists, Genre[] genres, AMediaWrapper[] videos, AMediaWrapper[] tracks, Playlist[] playlists) {
         this.albums = albums;
         this.artists = artists;
         this.genres = genres;
@@ -34,7 +35,7 @@ public class SearchAggregate {
         return albums;
     }
 
-    public Artist[] getArtists() {
+    public AArtist[] getArtists() {
         return artists;
     }
 
@@ -68,7 +69,7 @@ public class SearchAggregate {
         }
         if (artists.length > 0) {
             sb.append("Artists:\n");
-            for (Artist artist : artists)
+            for (AArtist artist : artists)
                 sb.append(artist.getTitle()).append("\n");
         }
         if (genres.length > 0) {

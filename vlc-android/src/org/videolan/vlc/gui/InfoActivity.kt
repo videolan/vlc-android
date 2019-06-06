@@ -22,8 +22,8 @@ import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.Extensions
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.media.AArtist
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
-import org.videolan.medialibrary.media.Artist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -138,7 +138,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
                 } else binding.ariane.visibility = View.GONE
             }
             item.itemType == MediaLibraryItem.TYPE_ARTIST -> {
-                val albums = (item as Artist).albums
+                val albums = (item as AArtist).albums
                 val nbAlbums = albums?.size ?: 0
                 binding.sizeTitleText = getString(R.string.albums)
                 binding.sizeValueText = nbAlbums.toString()
