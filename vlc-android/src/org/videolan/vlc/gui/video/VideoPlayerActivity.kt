@@ -20,7 +20,6 @@
 
 package org.videolan.vlc.gui.video
 
-import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
@@ -59,7 +58,6 @@ import androidx.appcompat.widget.ViewStubCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
-import androidx.leanback.transition.TransitionHelper.FADE_OUT
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -71,7 +69,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.circularreveal.CircularRevealCompat
 import com.google.android.material.circularreveal.CircularRevealWidget
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.onboarding_welcome.*
 import kotlinx.android.synthetic.main.player_overlay_seek.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -86,7 +83,6 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.*
 import org.videolan.vlc.*
-import org.videolan.vlc.PlaybackService.Companion.service
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.databinding.PlayerHudBinding
 import org.videolan.vlc.gui.MainActivity
@@ -102,7 +98,6 @@ import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.repository.ExternalSubRepository
 import org.videolan.vlc.repository.SlaveRepository
 import org.videolan.vlc.util.*
-import org.videolan.vlc.util.AndroidDevices.isTv
 import org.videolan.vlc.viewmodels.PlaylistModel
 import java.util.*
 
@@ -1038,10 +1033,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 onAudioSubClick(if (::hudBinding.isInitialized) hudBinding.playerOverlayTracks else null)
                 return true
             }
-            KeyEvent.KEYCODE_N -> {
-                showNavMenu()
-                return true
-            }
             KeyEvent.KEYCODE_A -> {
                 resizeVideo()
                 return true
@@ -1058,94 +1049,31 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (!isShowing) {
-                    if (fov == 0f)
+                    if (event.isAltPressed && event.isCtrlPressed) {
+                        seekDelta(-300000)
+                    } else if (event.isCtrlPressed) {
+                        seekDelta(-60000)
+                    } else if (fov == 0f)
                         seekDelta(-10000)
                     else
                         service?.updateViewpoint(-5f, 0f, 0f, 0f, false)
                     return true
                 }
-                if (isNavMenu)
-                    return navigateDvdMenu(keyCode)
-                else if (!isShowing) {
-                    if (fov == 0f)
-                        seekDelta(10000)
-                    else
-                        service?.updateViewpoint(5f, 0f, 0f, 0f, false)
-                    return true
-                }
-                if (isNavMenu)
-                    return navigateDvdMenu(keyCode)
-                else if (event.isCtrlPressed) {
-                    volumeUp()
-                    return true
-                } else if (!isShowing) {
-                    if (fov == 0f)
-                        showAdvancedOptions()
-                    else
-                        service?.updateViewpoint(0f, -5f, 0f, 0f, false)
-                    return true
-                }
-                if (isNavMenu)
-                    return navigateDvdMenu(keyCode)
-                else if (event.isCtrlPressed) {
-                    volumeDown()
-                    return true
-                } else if (!isShowing && fov != 0f) {
-                    service?.updateViewpoint(0f, 5f, 0f, 0f, false)
-                    return true
-                }
-                if (isNavMenu)
-                    return navigateDvdMenu(keyCode)
-                else if (!isShowing) {
-                    doPlayPause()
-                    return true
-                }
-                return if (isNavMenu)
-                    navigateDvdMenu(keyCode)
-                else
-                    super.onKeyDown(keyCode, event)
             }
             KeyEvent.KEYCODE_DPAD_RIGHT -> {
                 if (isNavMenu)
                     return navigateDvdMenu(keyCode)
                 else if (!isShowing) {
-                    if (fov == 0f)
+                    if (event.isAltPressed && event.isCtrlPressed) {
+                        seekDelta(300000)
+                    } else if (event.isCtrlPressed) {
+                        seekDelta(60000)
+                    } else if (fov == 0f)
                         seekDelta(10000)
                     else
                         service?.updateViewpoint(5f, 0f, 0f, 0f, false)
                     return true
                 }
-                if (isNavMenu)
-                    return navigateDvdMenu(keyCode)
-                else if (event.isCtrlPressed) {
-                    volumeUp()
-                    return true
-                } else if (!isShowing) {
-                    if (fov == 0f)
-                        showAdvancedOptions()
-                    else
-                        service?.updateViewpoint(0f, -5f, 0f, 0f, false)
-                    return true
-                }
-                if (isNavMenu)
-                    return navigateDvdMenu(keyCode)
-                else if (event.isCtrlPressed) {
-                    volumeDown()
-                    return true
-                } else if (!isShowing && fov != 0f) {
-                    service?.updateViewpoint(0f, 5f, 0f, 0f, false)
-                    return true
-                }
-                if (isNavMenu)
-                    return navigateDvdMenu(keyCode)
-                else if (!isShowing) {
-                    doPlayPause()
-                    return true
-                }
-                return if (isNavMenu)
-                    navigateDvdMenu(keyCode)
-                else
-                    super.onKeyDown(keyCode, event)
             }
             KeyEvent.KEYCODE_DPAD_UP -> {
                 if (isNavMenu)
@@ -1160,25 +1088,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                         service?.updateViewpoint(0f, -5f, 0f, 0f, false)
                     return true
                 }
-                if (isNavMenu)
-                    return navigateDvdMenu(keyCode)
-                else if (event.isCtrlPressed) {
-                    volumeDown()
-                    return true
-                } else if (!isShowing && fov != 0f) {
-                    service?.updateViewpoint(0f, 5f, 0f, 0f, false)
-                    return true
-                }
-                if (isNavMenu)
-                    return navigateDvdMenu(keyCode)
-                else if (!isShowing) {
-                    doPlayPause()
-                    return true
-                }
-                return if (isNavMenu)
-                    navigateDvdMenu(keyCode)
-                else
-                    super.onKeyDown(keyCode, event)
             }
             KeyEvent.KEYCODE_DPAD_DOWN -> {
                 if (isNavMenu)
@@ -1190,16 +1099,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     service?.updateViewpoint(0f, 5f, 0f, 0f, false)
                     return true
                 }
-                if (isNavMenu)
-                    return navigateDvdMenu(keyCode)
-                else if (!isShowing) {
-                    doPlayPause()
-                    return true
-                }
-                return if (isNavMenu)
-                    navigateDvdMenu(keyCode)
-                else
-                    super.onKeyDown(keyCode, event)
             }
             KeyEvent.KEYCODE_DPAD_CENTER -> {
                 if (isNavMenu)
@@ -1208,10 +1107,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     doPlayPause()
                     return true
                 }
-                return if (isNavMenu)
-                    navigateDvdMenu(keyCode)
-                else
-                    super.onKeyDown(keyCode, event)
             }
             KeyEvent.KEYCODE_ENTER -> return if (isNavMenu)
                 navigateDvdMenu(keyCode)
@@ -1231,6 +1126,18 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             }
             KeyEvent.KEYCODE_H -> {
                 delaySubs(50000L)
+                return true
+            }
+            KeyEvent.KEYCODE_Z -> {
+                resizeVideo()
+                return true
+            }
+            KeyEvent.KEYCODE_N -> {
+                next()
+                return true
+            }
+            KeyEvent.KEYCODE_P -> {
+                previous()
                 return true
             }
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
@@ -2095,7 +2002,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             nbTimesTaped++
 
             lastSeekWasForward = seekForward
-            sb.append(if (nbTimesTaped == -1) (delta / 1000f).toInt() else (nbTimesTaped * 10))
+            sb.append(if (nbTimesTaped == -1) (delta / 1000f).toInt() else (nbTimesTaped * (delta / 1000f).toInt()))
                     .append("s (")
                     .append(Tools.millisToString(service.time))
                     .append(')')
