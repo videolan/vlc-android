@@ -39,8 +39,8 @@ import com.google.android.material.textfield.TextInputLayout
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.APlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.Playlist
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.SimpleAdapter
@@ -123,7 +123,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         runIO(Runnable {
             val name = mEditText!!.text.toString().trim { it <= ' ' }
             val addTracks = !Tools.isArrayEmpty(mNewTrack)
-            var playlist: Playlist? = mMedialibrary.getPlaylist(mPlaylistId)
+            var playlist: APlaylist? = mMedialibrary.getPlaylist(mPlaylistId)
             val exists = playlist != null
             val tracks: Array<AMediaWrapper>?
             if (!exists) playlist = mMedialibrary.createPlaylist(name)

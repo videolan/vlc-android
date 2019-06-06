@@ -1,21 +1,22 @@
 package org.videolan.medialibrary.media;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.APlaylist;
 
 import java.util.List;
 
 @SuppressWarnings("JniMissingFunction")
-public class Playlist extends MediaLibraryItem {
+public class Playlist extends APlaylist {
 
-    private int mTracksCount;
+    public Playlist(long id, String name, int trackCount) {
+        super(id, name, trackCount);
+    }
 
-    protected Playlist(long id, String name, int trackCount) {
-        super(id, name);
-        mTracksCount = trackCount;
+    public Playlist(Parcel in) {
+        super(in);
     }
 
     @Override
@@ -29,20 +30,11 @@ public class Playlist extends MediaLibraryItem {
         return ml.isInitiated() ? nativeGetPagedTracks(ml, mId, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
-    @Override
-    public int getTracksCount() {
-        return mTracksCount;
-    }
-
     public int getRealTracksCount() {
         Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetTracksCount(ml, mId) : 0;
     }
 
-    @Override
-    public int getItemType() {
-        return TYPE_PLAYLIST;
-    }
 
     public boolean append(long mediaId) {
         Medialibrary ml = Medialibrary.getInstance();
@@ -92,30 +84,6 @@ public class Playlist extends MediaLibraryItem {
     public int searchTracksCount(String query) {
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
-    }
-
-    public static Parcelable.Creator<Playlist> CREATOR
-            = new Parcelable.Creator<Playlist>() {
-        @Override
-        public Playlist createFromParcel(Parcel in) {
-            return new Playlist(in);
-        }
-
-        @Override
-        public Playlist[] newArray(int size) {
-            return new Playlist[size];
-        }
-    };
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        super.writeToParcel(parcel, i);
-        parcel.writeInt(mTracksCount);
-    }
-
-    private Playlist(Parcel in) {
-        super(in);
-        this.mTracksCount = in.readInt();
     }
 
     private native AMediaWrapper[] nativeGetTracks(Medialibrary ml, long id);

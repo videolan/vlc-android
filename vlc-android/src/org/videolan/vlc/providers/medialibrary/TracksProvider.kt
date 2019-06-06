@@ -23,10 +23,7 @@ package org.videolan.vlc.providers.medialibrary
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.Medialibrary
-import org.videolan.medialibrary.interfaces.media.AAlbum
-import org.videolan.medialibrary.interfaces.media.AArtist
-import org.videolan.medialibrary.interfaces.media.AGenre
-import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.SortableModel
@@ -57,13 +54,13 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: So
             is AArtist -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
             is AAlbum -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
             is AGenre -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
-            is Playlist -> parent.getPagedTracks(loadSize, startposition)
+            is APlaylist -> parent.getPagedTracks(loadSize, startposition)
             else -> medialibrary.getPagedAudio(sort, scope.desc, loadSize, startposition)
         } else when(parent) {
             is AArtist -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
             is AAlbum -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
             is AGenre -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            is Playlist -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            is APlaylist -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
             else -> medialibrary.searchAudio(scope.filterQuery, sort, scope.desc, loadSize, startposition)
         }
         return list.also { completeHeaders(it, startposition) }
@@ -71,7 +68,7 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: So
 
     override fun getTotalCount() = if (scope.filterQuery == null) when (parent) {
         is AAlbum -> parent.realTracksCount
-        is Playlist -> parent.realTracksCount
+        is APlaylist -> parent.realTracksCount
         is AArtist,
         is AGenre -> parent.tracksCount
         else -> medialibrary.audioCount
@@ -79,7 +76,7 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: So
         is AArtist -> parent.searchTracksCount(scope.filterQuery)
         is AAlbum -> parent.searchTracksCount(scope.filterQuery)
         is AGenre -> parent.searchTracksCount(scope.filterQuery)
-        is Playlist -> parent.searchTracksCount(scope.filterQuery)
+        is APlaylist -> parent.searchTracksCount(scope.filterQuery)
         else ->medialibrary.getAudioCount(scope.filterQuery)
     }
 }

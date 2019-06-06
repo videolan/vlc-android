@@ -38,7 +38,7 @@ import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AFolder;
 import org.videolan.medialibrary.interfaces.media.AGenre;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
-import org.videolan.medialibrary.media.Playlist;
+import org.videolan.medialibrary.interfaces.media.APlaylist;
 import org.videolan.medialibrary.media.SearchAggregate;
 
 import java.io.File;
@@ -352,18 +352,18 @@ public class Medialibrary {
     }
 
     @WorkerThread
-    public Playlist[] getPlaylists() {
+    public APlaylist[] getPlaylists() {
         return getPlaylists(Medialibrary.SORT_DEFAULT, false);
     }
 
     @WorkerThread
-    public Playlist[] getPlaylists(int sort, boolean desc) {
-        return mIsInitiated ? nativeGetPlaylists(sort, desc) : new Playlist[0];
+    public APlaylist[] getPlaylists(int sort, boolean desc) {
+        return mIsInitiated ? nativeGetPlaylists(sort, desc) : new APlaylist[0];
     }
 
     @WorkerThread
-    public Playlist[] getPagedPlaylists(int sort, boolean desc, int nbItems, int offset) {
-        return mIsInitiated ? nativeGetPagedPlaylists(sort, desc, nbItems, offset) : new Playlist[0];
+    public APlaylist[] getPagedPlaylists(int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetPagedPlaylists(sort, desc, nbItems, offset) : new APlaylist[0];
     }
 
     public int getPlaylistsCount() {
@@ -374,11 +374,11 @@ public class Medialibrary {
         return mIsInitiated ? nativeGetPlaylistSearchCount(query) : 0;
     }
 
-    public Playlist getPlaylist(long playlistId) {
+    public APlaylist getPlaylist(long playlistId) {
         return mIsInitiated ? nativeGetPlaylist(playlistId) : null;
     }
 
-    public Playlist createPlaylist(String name) {
+    public APlaylist createPlaylist(String name) {
         return mIsInitiated && !TextUtils.isEmpty(name) ? nativePlaylistCreate(name) : null;
     }
 
@@ -872,11 +872,11 @@ public class Medialibrary {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedGenre(query, sort, desc, nbItems, offset) : null;
     }
 
-    public Playlist[] searchPlaylist(String query) {
+    public APlaylist[] searchPlaylist(String query) {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPlaylist(query) : null;
     }
 
-    public Playlist[] searchPlaylist(String query, int sort, boolean desc, int nbItems, int offset) {
+    public APlaylist[] searchPlaylist(String query, int sort, boolean desc, int nbItems, int offset) {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedPlaylist(query, sort, desc, nbItems, offset) : null;
     }
 
@@ -1012,11 +1012,11 @@ public class Medialibrary {
     private native AGenre[] nativeGetPagedGenres(int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetGenresCount();
     private native AGenre nativeGetGenre(long genreId);
-    private native Playlist[] nativeGetPlaylists(int sort, boolean desc);
-    private native Playlist[] nativeGetPagedPlaylists(int sort, boolean desc, int nbItems, int offset);
+    private native APlaylist[] nativeGetPlaylists(int sort, boolean desc);
+    private native APlaylist[] nativeGetPagedPlaylists(int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetPlaylistsCount();
-    private native Playlist nativeGetPlaylist(long playlistId);
-    private native Playlist nativePlaylistCreate(String name);
+    private native APlaylist nativeGetPlaylist(long playlistId);
+    private native APlaylist nativePlaylistCreate(String name);
     private native AFolder[] nativeGetFolders(int type, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetFoldersCount(int type);
     private native void nativePauseBackgroundOperations();
@@ -1045,8 +1045,8 @@ public class Medialibrary {
     private native AGenre[] nativeSearchGenre(String query);
     private native AGenre[] nativeSearchPagedGenre(String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetGenreSearchCount(String query);
-    private native Playlist[] nativeSearchPlaylist(String query);
-    private native Playlist[] nativeSearchPagedPlaylist(String query, int sort, boolean desc, int nbItems, int offset);
+    private native APlaylist[] nativeSearchPlaylist(String query);
+    private native APlaylist[] nativeSearchPagedPlaylist(String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetPlaylistSearchCount(String query);
     private native void nativeRequestThumbnail(long mediaId);
 

@@ -9,6 +9,7 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.media.AAlbum
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.APlaylist
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -224,7 +225,7 @@ object ModelsHelper {
     fun getTracksCount(media: MediaLibraryItem): Int {
         return when (media.itemType) {
             MediaLibraryItem.TYPE_ALBUM -> (media as AAlbum).tracksCount
-            MediaLibraryItem.TYPE_PLAYLIST -> (media as Playlist).tracksCount
+            MediaLibraryItem.TYPE_PLAYLIST -> (media as APlaylist).tracksCount
             else -> 0
         }
     }

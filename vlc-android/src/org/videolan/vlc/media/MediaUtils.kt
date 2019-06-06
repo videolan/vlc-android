@@ -26,6 +26,7 @@ import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AAlbum
 import org.videolan.medialibrary.interfaces.media.AFolder
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.APlaylist
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -433,7 +434,7 @@ object MediaUtils : CoroutineScope {
     } catch (ignored: SecurityException) {
     }
 
-    fun deletePlaylist(playlist: Playlist) = launch(Dispatchers.IO) { playlist.delete() }
+    fun deletePlaylist(playlist: APlaylist) = launch(Dispatchers.IO) { playlist.delete() }
 }
 
 @WorkerThread

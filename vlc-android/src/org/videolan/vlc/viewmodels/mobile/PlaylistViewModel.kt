@@ -28,8 +28,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.media.AAlbum
+import org.videolan.medialibrary.interfaces.media.APlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.Playlist
 import org.videolan.vlc.gui.PlaylistActivity
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.providers.medialibrary.TracksProvider
@@ -47,7 +47,7 @@ class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : Medi
 
     init {
         when (playlist) {
-            is Playlist -> medialibrary.addPlaylistCb(this@PlaylistViewModel)
+            is APlaylist -> medialibrary.addPlaylistCb(this@PlaylistViewModel)
             is AAlbum -> medialibrary.addAlbumsCb(this@PlaylistViewModel)
             else -> medialibrary.addMediaCb(this@PlaylistViewModel)
         }
@@ -67,7 +67,7 @@ class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : Medi
 
     override fun onCleared() {
         when (playlist) {
-            is Playlist -> medialibrary.removePlaylistCb(this)
+            is APlaylist -> medialibrary.removePlaylistCb(this)
             is AAlbum -> medialibrary.removeAlbumsCb(this)
             else -> medialibrary.removeMediaCb(this)
         }

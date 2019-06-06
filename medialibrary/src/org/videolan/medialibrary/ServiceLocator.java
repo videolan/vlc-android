@@ -10,16 +10,19 @@ import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AFolder;
 import org.videolan.medialibrary.interfaces.media.AGenre;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
+import org.videolan.medialibrary.interfaces.media.APlaylist;
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
 import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.media.Playlist;
 import org.videolan.medialibrary.stubs.StubAlbum;
 import org.videolan.medialibrary.stubs.StubArtist;
 import org.videolan.medialibrary.stubs.StubFolder;
 import org.videolan.medialibrary.stubs.StubGenre;
 import org.videolan.medialibrary.stubs.StubMediaWrapper;
+import org.videolan.medialibrary.stubs.StubPlaylist;
 
 public class ServiceLocator {
 
@@ -168,6 +171,23 @@ public class ServiceLocator {
             return new Folder(in);
         } else {
             return new StubFolder(in);
+        }
+    }
+
+    //Playlist
+    public static APlaylist getAPlaylist(long id, String name, int trackCount) {
+        if (mMode == LocatorMode.VLC_ANDROID) {
+            return new Playlist(id, name, trackCount);
+        } else {
+            return new StubPlaylist(id, name, trackCount);
+        }
+    }
+
+    public static APlaylist getAPlaylist(Parcel in) {
+        if (mMode == LocatorMode.VLC_ANDROID) {
+            return new Playlist(in);
+        } else {
+            return new StubPlaylist(in);
         }
     }
 }

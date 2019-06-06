@@ -40,8 +40,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.APlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.Playlist
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -173,7 +173,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     protected open fun removeItem(item: MediaLibraryItem): Boolean {
         view ?: return false
         when {
-            item.itemType == MediaLibraryItem.TYPE_PLAYLIST -> UiTools.snackerConfirm(view!!, getString(R.string.confirm_delete_playlist, item.title), Runnable { MediaUtils.deletePlaylist(item as Playlist) })
+            item.itemType == MediaLibraryItem.TYPE_PLAYLIST -> UiTools.snackerConfirm(view!!, getString(R.string.confirm_delete_playlist, item.title), Runnable { MediaUtils.deletePlaylist(item as APlaylist) })
             item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
 <<<<<<< HEAD
                 val deleteAction = Runnable {

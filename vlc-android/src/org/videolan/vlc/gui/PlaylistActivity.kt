@@ -48,8 +48,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
+import org.videolan.medialibrary.interfaces.media.APlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.Playlist
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -206,7 +206,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
 
     override fun onMove(oldPosition: Int, newPosition: Int) {
         if (BuildConfig.DEBUG) Log.d(TAG, "Moving item from $oldPosition to $newPosition")
-        (viewModel.playlist as Playlist).move(oldPosition, newPosition)
+        (viewModel.playlist as APlaylist).move(oldPosition, newPosition)
 
     }
 
@@ -329,7 +329,11 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     private fun removeItem(position: Int, media: AMediaWrapper) {
         val resId = if (isPlaylist) R.string.confirm_remove_from_playlist else R.string.confirm_delete
         if (isPlaylist) {
+<<<<<<< HEAD
             snackerConfirm(binding.root, getString(resId, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
+=======
+            UiTools.snackerConfirm(binding.root, getString(resId, media.title), Runnable { (viewModel.playlist as APlaylist).remove(position) })
+>>>>>>> Medialibrary: move Playlist to APlaylist
         } else {
             val deleteAction = Runnable { deleteMedia(media) }
             snackerConfirm(binding.root, getString(resId, media.title), Runnable { if (Util.checkWritePermission(this@PlaylistActivity, media, deleteAction)) deleteAction.run() })
@@ -365,7 +369,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
 
     private fun removeFromPlaylist(list: List<AMediaWrapper>, indexes: List<Int>) {
         val itemsRemoved = HashMap<Int, Long>()
-        val playlist = viewModel.playlist as? Playlist ?: return
+        val playlist = viewModel.playlist as? APlaylist ?: return
 
         for (mediaItem in list) {
             for (i in 0 until playlist.tracks.size) {
