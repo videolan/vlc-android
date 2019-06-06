@@ -489,7 +489,7 @@
             android:theme="@style/Theme.VLC" />
         <activity
             android:name=".gui.video.VideoPlayerActivity"
-            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|uiMode|keyboard|keyboardHidden|navigation"
             android:exported="true"
             android:finishOnTaskLaunch="true"
             android:launchMode="singleTask"
