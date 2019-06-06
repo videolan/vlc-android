@@ -24,6 +24,7 @@ import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.media.AArtist
+import org.videolan.medialibrary.interfaces.media.AGenre
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.util.Settings
@@ -54,13 +55,13 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: So
         val list = if (scope.filterQuery == null) when(parent) {
             is AArtist -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
             is Album -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
-            is Genre -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
+            is AGenre -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
             is Playlist -> parent.getPagedTracks(loadSize, startposition)
             else -> medialibrary.getPagedAudio(sort, scope.desc, loadSize, startposition)
         } else when(parent) {
             is AArtist -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
             is Album -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            is Genre -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            is AGenre -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
             is Playlist -> parent.searchTracks(scope.filterQuery, sort, scope.desc, loadSize, startposition)
             else -> medialibrary.searchAudio(scope.filterQuery, sort, scope.desc, loadSize, startposition)
         }
@@ -71,12 +72,12 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: So
         is Album -> parent.realTracksCount
         is Playlist -> parent.realTracksCount
         is AArtist,
-        is Genre -> parent.tracksCount
+        is AGenre -> parent.tracksCount
         else -> medialibrary.audioCount
     } else when(parent) {
         is AArtist -> parent.searchTracksCount(scope.filterQuery)
         is Album -> parent.searchTracksCount(scope.filterQuery)
-        is Genre -> parent.searchTracksCount(scope.filterQuery)
+        is AGenre -> parent.searchTracksCount(scope.filterQuery)
         is Playlist -> parent.searchTracksCount(scope.filterQuery)
         else ->medialibrary.getAudioCount(scope.filterQuery)
     }

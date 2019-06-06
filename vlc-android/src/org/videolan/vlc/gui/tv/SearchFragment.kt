@@ -33,6 +33,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AArtist
+import org.videolan.medialibrary.interfaces.media.AGenre
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.*
 import org.videolan.tools.coroutineScope
@@ -100,7 +101,7 @@ class SearchFragment : SearchSupportFragment(), SearchSupportFragment.SearchResu
         val albumsAdapter = ArrayObjectAdapter(cp)
         if (!empty) albumsAdapter.addAll(0, Arrays.asList<Album>(*searchAggregate.albums))
         val genresAdapter = ArrayObjectAdapter(cp)
-        if (!empty) genresAdapter.addAll(0, Arrays.asList<Genre>(*searchAggregate.genres))
+        if (!empty) genresAdapter.addAll(0, Arrays.asList<AGenre>(*searchAggregate.genres))
         if (!mediaEmpty && videoAdapter.size() > 0)
             rowsAdapter.add(ListRow(HeaderItem(0, resources.getString(R.string.videos)), videoAdapter))
 //        if (!mediaEmpty && episodesAdapter.size() > 0)

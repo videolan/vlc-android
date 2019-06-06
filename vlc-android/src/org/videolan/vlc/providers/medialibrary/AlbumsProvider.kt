@@ -24,8 +24,8 @@ import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.media.AArtist
+import org.videolan.medialibrary.interfaces.media.AGenre
 import org.videolan.medialibrary.media.Album
-import org.videolan.medialibrary.media.Genre
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.SortableModel
@@ -45,18 +45,18 @@ class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, scope: So
 
     override fun getAll() : Array<Album> = when (parent) {
         is AArtist -> parent.getAlbums(sort, scope.desc)
-        is Genre -> parent.getAlbums(sort, scope.desc)
+        is AGenre -> parent.getAlbums(sort, scope.desc)
         else -> medialibrary.getAlbums(sort, scope.desc)
     }
 
     override fun getPage(loadSize: Int, startposition: Int) : Array<Album> {
         val list = if (scope.filterQuery == null) when(parent) {
             is AArtist -> parent.getPagedAlbums(sort, scope.desc, loadSize, startposition)
-            is Genre -> parent.getPagedAlbums(sort, scope.desc, loadSize, startposition)
+            is AGenre -> parent.getPagedAlbums(sort, scope.desc, loadSize, startposition)
             else -> medialibrary.getPagedAlbums(sort, scope.desc, loadSize, startposition)
         } else when(parent) {
             is AArtist -> parent.searchAlbums(scope.filterQuery, sort, scope.desc, loadSize, startposition)
-            is Genre -> parent.searchAlbums(scope.filterQuery, sort, scope.desc, loadSize, startposition)
+            is AGenre -> parent.searchAlbums(scope.filterQuery, sort, scope.desc, loadSize, startposition)
             else -> medialibrary.searchAlbum(scope.filterQuery, sort, scope.desc, loadSize, startposition)
         }
         return list.also { completeHeaders(it, startposition) }
@@ -64,11 +64,11 @@ class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, scope: So
 
     override fun getTotalCount() = if (scope.filterQuery == null) when(parent) {
         is AArtist -> parent.albumsCount
-        is Genre -> parent.albumsCount
+        is AGenre -> parent.albumsCount
         else -> medialibrary.albumsCount
     } else when (parent) {
         is AArtist -> parent.searchAlbumsCount(scope.filterQuery)
-        is Genre -> parent.searchAlbumsCount(scope.filterQuery)
+        is AGenre -> parent.searchAlbumsCount(scope.filterQuery)
         else -> medialibrary.getAlbumsCount(scope.filterQuery)
     }
 }

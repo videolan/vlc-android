@@ -1,24 +1,21 @@
 package org.videolan.medialibrary.media;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.interfaces.media.AArtist;
+import org.videolan.medialibrary.interfaces.media.AGenre;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 
 import androidx.annotation.NonNull;
 
 @SuppressWarnings("JniMissingFunction")
-public class Genre extends MediaLibraryItem {
+public class Genre extends AGenre {
 
     public Genre(long id, String title) {
         super(id, title);
     }
 
-    public Album[] getAlbums() {
-        return getAlbums(Medialibrary.SORT_DEFAULT, false);
-    }
 
     public Album[] getAlbums(int sort, boolean desc) {
         final Medialibrary ml = Medialibrary.getInstance();
@@ -31,18 +28,9 @@ public class Genre extends MediaLibraryItem {
         return ml.isInitiated() ? nativeGetPagedAlbums(ml, mId, sort, desc, nbItems, offset) : new Album[0];
     }
 
-    public AArtist[] getArtists() {
-        return getArtists(Medialibrary.SORT_DEFAULT, false);
-    }
-
     public AArtist[] getArtists(int sort, boolean desc) {
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetArtists(ml, mId, sort, desc) : new AArtist[0];
-    }
-
-    @Override
-    public AMediaWrapper[] getTracks() {
-        return getTracks(Medialibrary.SORT_ALBUM, false);
     }
 
     public AMediaWrapper[] getTracks(int sort, boolean desc) {
@@ -86,11 +74,6 @@ public class Genre extends MediaLibraryItem {
         return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
     }
 
-    @Override
-    public int getItemType() {
-        return TYPE_GENRE;
-    }
-
     private native Album[] nativeGetAlbums(Medialibrary ml, long mId, int sort, boolean desc);
     private native AArtist[] nativeGetArtists(Medialibrary ml, long mId, int sort, boolean desc);
     private native AMediaWrapper[] nativeGetTracks(Medialibrary ml, long mId, int sort, boolean desc);
@@ -106,18 +89,6 @@ public class Genre extends MediaLibraryItem {
     private native int nativeGetSearchCount(Medialibrary ml, long mId, String query);
     private native int nativeGetSearchAlbumCount(Medialibrary ml, long mId, String query);
 
-    public static Parcelable.Creator<Genre> CREATOR
-            = new Parcelable.Creator<Genre>() {
-        @Override
-        public Genre createFromParcel(Parcel in) {
-            return new Genre(in);
-        }
-
-        @Override
-        public Genre[] newArray(int size) {
-            return new Genre[size];
-        }
-    };
     public Genre(Parcel in) {
         super(in);
     }

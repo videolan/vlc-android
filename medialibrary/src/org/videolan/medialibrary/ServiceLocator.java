@@ -6,11 +6,15 @@ import android.os.Parcel;
 
 import org.videolan.libvlc.Media;
 import org.videolan.medialibrary.interfaces.media.AArtist;
+import org.videolan.medialibrary.interfaces.media.AGenre;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 import org.videolan.medialibrary.media.Artist;
+import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.stubs.StubArtist;
+import org.videolan.medialibrary.stubs.StubGenre;
 import org.videolan.medialibrary.stubs.StubMediaWrapper;
+import org.xml.sax.Locator;
 
 public class ServiceLocator {
 
@@ -104,6 +108,23 @@ public class ServiceLocator {
             return new Artist(in);
         } else {
             return new StubArtist(in);
+        }
+    }
+
+    //Genre
+    public static AGenre getAGenre(long id, String title) {
+        if (mMode == LocatorMode.VLC_ANDROID) {
+            return new Genre(id, title);
+        } else {
+            return new StubGenre(id, title);
+        }
+    }
+
+    public static AGenre getAGenre(Parcel in) {
+        if (mMode == LocatorMode.VLC_ANDROID) {
+            return new Genre(in);
+        } else {
+            return new StubGenre(in);
         }
     }
 }

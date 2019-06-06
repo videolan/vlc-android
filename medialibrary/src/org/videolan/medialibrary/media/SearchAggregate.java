@@ -2,6 +2,7 @@ package org.videolan.medialibrary.media;
 
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AArtist;
+import org.videolan.medialibrary.interfaces.media.AGenre;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 
 public class SearchAggregate {
@@ -9,7 +10,7 @@ public class SearchAggregate {
 
     private final Album[] albums;
     private final AArtist[] artists;
-    private final Genre[] genres;
+    private final AGenre[] genres;
     private final AMediaWrapper[] videos;
     private final AMediaWrapper[] tracks;
     private final Playlist[] playlists;
@@ -20,9 +21,10 @@ public class SearchAggregate {
         this.genres = null;
         this.videos = null;
         this.tracks = null;
-        this.playlists = null;}
+        this.playlists = null;
+    }
 
-    public SearchAggregate(Album[] albums, AArtist[] artists, Genre[] genres, AMediaWrapper[] videos, AMediaWrapper[] tracks, Playlist[] playlists) {
+    public SearchAggregate(Album[] albums, AArtist[] artists, AGenre[] genres, AMediaWrapper[] videos, AMediaWrapper[] tracks, Playlist[] playlists) {
         this.albums = albums;
         this.artists = artists;
         this.genres = genres;
@@ -39,7 +41,7 @@ public class SearchAggregate {
         return artists;
     }
 
-    public Genre[] getGenres() {
+    public AGenre[] getGenres() {
         return genres;
     }
 
@@ -74,7 +76,7 @@ public class SearchAggregate {
         }
         if (genres.length > 0) {
             sb.append("Genres:\n");
-            for (Genre genre : genres)
+            for (AGenre genre : genres)
                 sb.append(genre.getTitle()).append("\n");
         }
         if (tracks.length > 0) {
