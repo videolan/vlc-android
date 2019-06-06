@@ -15,8 +15,8 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.Medialibrary.THUMBS_FOLDER_NAME
+import org.videolan.medialibrary.interfaces.media.AFolder
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
-import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.helpers.AudioUtil.readCoverBitmap
@@ -41,8 +41,8 @@ object ThumbnailsProvider {
     private val lock = Any()
 
     @WorkerThread
-    fun getFolderThumbnail(folder: Folder, width: Int): Bitmap? {
-        val media = listOf(*folder.media(Folder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, true, 4, 0))
+    fun getFolderThumbnail(folder: AFolder, width: Int): Bitmap? {
+        val media = listOf(*folder.media(AFolder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, true, 4, 0))
         return getComposedImage("folder:" + folder.title, media, width)
     }
 
@@ -170,7 +170,7 @@ object ThumbnailsProvider {
     suspend fun obtainBitmap(item: MediaLibraryItem, width: Int) = withContext(Dispatchers.IO) {
         when (item) {
             is AMediaWrapper -> getMediaThumbnail(item, width)
-            is Folder -> getFolderThumbnail(item, width)
+            is AFolder -> getFolderThumbnail(item, width)
             else -> readCoverBitmap(Uri.decode(item.artworkMrl), width)
         }
     }

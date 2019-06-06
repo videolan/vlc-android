@@ -13,14 +13,14 @@ import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.media.Folder
+import org.videolan.medialibrary.interfaces.media.AFolder
 import org.videolan.tools.MultiSelectAdapter
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.databinding.FolderItemBinding
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.util.UPDATE_SELECTION
 
-class FoldersAdapter(val actor: SendChannel<FolderAction>) : PagedListAdapter<Folder, FoldersAdapter.ViewHolder>(DIFF_CALLBACK), MultiSelectAdapter<Folder>, CoroutineScope {
+class FoldersAdapter(val actor: SendChannel<FolderAction>) : PagedListAdapter<AFolder, FoldersAdapter.ViewHolder>(DIFF_CALLBACK), MultiSelectAdapter<AFolder>, CoroutineScope {
     override val coroutineContext = Dispatchers.Main.immediate
     private lateinit var inflater: LayoutInflater
 
@@ -36,7 +36,7 @@ class FoldersAdapter(val actor: SendChannel<FolderAction>) : PagedListAdapter<Fo
         val folder = getItem(position)
         holder.binding.folder = folder
         launch {
-            val count = withContext(Dispatchers.IO) { folder?.mediaCount(Folder.TYPE_FOLDER_VIDEO) ?: 0 }
+            val count = withContext(Dispatchers.IO) { folder?.mediaCount(AFolder.TYPE_FOLDER_VIDEO) ?: 0 }
             holder.binding.folderDesc.visibility = if (count == 0) View.GONE else View.VISIBLE
             if (count > 0) holder.binding.folderDesc.text = "$count videos"
         }
@@ -54,7 +54,7 @@ class FoldersAdapter(val actor: SendChannel<FolderAction>) : PagedListAdapter<Fo
         }
     }
 
-    override fun getItem(position: Int): Folder? = super.getItem(position)
+    override fun getItem(position: Int): AFolder? = super.getItem(position)
 
     @TargetApi(Build.VERSION_CODES.M)
     inner class ViewHolder(binding: FolderItemBinding) : SelectorViewHolder<FolderItemBinding>(binding) {
@@ -81,10 +81,10 @@ class FoldersAdapter(val actor: SendChannel<FolderAction>) : PagedListAdapter<Fo
 }
 
 private const val UPDATE_PAYLOAD = 1
-private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Folder>() {
-    override fun areItemsTheSame( oldItem: Folder, newItem: Folder) = oldItem == newItem
+private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AFolder>() {
+    override fun areItemsTheSame( oldItem: AFolder, newItem: AFolder) = oldItem == newItem
 
-    override fun areContentsTheSame(oldItem: Folder, newItem: Folder) = true
+    override fun areContentsTheSame(oldItem: AFolder, newItem: AFolder) = true
 
-    override fun getChangePayload(oldItem: Folder, newItem: Folder) = UPDATE_PAYLOAD
+    override fun getChangePayload(oldItem: AFolder, newItem: AFolder) = UPDATE_PAYLOAD
 }

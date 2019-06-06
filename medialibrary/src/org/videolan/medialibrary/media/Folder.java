@@ -1,40 +1,20 @@
 package org.videolan.medialibrary.media;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.interfaces.media.AFolder;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 
 @SuppressWarnings("JniMissingFunction")
-public class Folder extends MediaLibraryItem {
-
-    public static int TYPE_FOLDER_UNKNOWN = 0;
-    public static int TYPE_FOLDER_VIDEO = 1;
-    public static int TYPE_FOLDER_AUDIO = 2;
-    public static int TYPE_FOLDER_EXTERNAL = 3;
-    public static int TYPE_FOLDER_STREAM = 4;
-
-    private String mMrl;
+public class Folder extends AFolder {
 
     public Folder(long id, String name, String mrl) {
-        super(id, name);
-        mMrl = mrl;
+        super(id, name, mrl);
     }
 
-    @Override
-    public AMediaWrapper[] getTracks() {
-        return new AMediaWrapper[0];
-    }
-
-    @Override
-    public int getTracksCount() {
-        return 0;
-    }
-
-    @Override
-    public int getItemType() {
-        return TYPE_FOLDER;
+    public Folder(Parcel in) {
+        super(in);
     }
 
     public AMediaWrapper[] media(int type, int sort, boolean desc, int nbItems, int offset) {
@@ -47,7 +27,7 @@ public class Folder extends MediaLibraryItem {
         return ml.isInitiated() ? nativeMediaCount(ml, mId, type) : 0;
     }
 
-    public Folder[] subfolders(int sort, boolean desc, int nbItems, int offset) {
+    public AFolder[] subfolders(int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeSubfolders(ml, mId, sort, desc, nbItems, offset) : new Folder[0];
     }
@@ -71,31 +51,8 @@ public class Folder extends MediaLibraryItem {
 //    private native int nativeGetTracksCount();
     private native AMediaWrapper[] nativeMedia(Medialibrary ml, long mId, int type, int sort, boolean desc, int nbItems, int offset);
     private native int nativeMediaCount(Medialibrary ml, long mId, int type);
-    private native Folder[] nativeSubfolders(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
+    private native AFolder[] nativeSubfolders(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
     private native int nativeSubfoldersCount(Medialibrary ml, long mId, int type);
     private native AMediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int mediaType, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetSearchCount(Medialibrary ml, long mId, String query, int mediaType);
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        super.writeToParcel(parcel, i);
-        parcel.writeString(mMrl);
-    }
-
-    public static Parcelable.Creator<Folder> CREATOR = new Parcelable.Creator<Folder>() {
-        @Override
-        public Folder createFromParcel(Parcel in) {
-            return new Folder(in);
-        }
-
-        @Override
-        public Folder[] newArray(int size) {
-            return new Folder[size];
-        }
-    };
-
-    private Folder(Parcel in) {
-        super(in);
-        this.mMrl = in.readString();
-    }
 }

@@ -1791,7 +1791,7 @@ static JNINativeMethod methods[] = {
     {"nativeGetPagedPlaylists", "(IZII)[Lorg/videolan/medialibrary/media/Playlist;", (void*)getPagedPlaylists },
     {"nativeGetPlaylistsCount", "()I", (void*)getPlaylistsCount },
     {"nativeGetPlaylist", "(J)Lorg/videolan/medialibrary/media/Playlist;", (void*)getPlaylist },
-    {"nativeGetFolders", "(IIZII)[Lorg/videolan/medialibrary/media/Folder;", (void*)folders },
+    {"nativeGetFolders", "(IIZII)[Lorg/videolan/medialibrary/interfaces/media/AFolder;", (void*)folders },
     {"nativeGetFoldersCount", "(I)I", (void*)foldersCount },
     {"nativePauseBackgroundOperations", "()V", (void*)pauseBackgroundOperations },
     {"nativeResumeBackgroundOperations", "()V", (void*)resumeBackgroundOperations },
@@ -1855,7 +1855,7 @@ static JNINativeMethod genre_methods[] = {
 
 static JNINativeMethod folder_methods[] = {
     {"nativeMedia", "(Lorg/videolan/medialibrary/Medialibrary;JIIZII)[Lorg/videolan/medialibrary/interfaces/media/AMediaWrapper;", (void*)mediaFromFolder },
-    {"nativeSubfolders", "(Lorg/videolan/medialibrary/Medialibrary;JIZII)[Lorg/videolan/medialibrary/media/Folder;", (void*)subFolders },
+    {"nativeSubfolders", "(Lorg/videolan/medialibrary/Medialibrary;JIZII)[Lorg/videolan/medialibrary/interfaces/media/AFolder;", (void*)subFolders },
     {"nativeMediaCount", "(Lorg/videolan/medialibrary/Medialibrary;JI)I", (void*)mediaFromFolderCount },
     {"nativeSubfoldersCount", "(Lorg/videolan/medialibrary/Medialibrary;JI)I", (void*)subFoldersCount },
     {"nativeSearch", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;IIZII)[Lorg/videolan/medialibrary/interfaces/media/AMediaWrapper;", (void*)searchMediaFromFolder },

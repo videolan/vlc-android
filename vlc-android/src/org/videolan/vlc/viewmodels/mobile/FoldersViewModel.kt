@@ -25,7 +25,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.media.Folder
+import org.videolan.medialibrary.interfaces.media.AFolder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.folders.FoldersFragment
 import org.videolan.vlc.media.MediaUtils
@@ -51,12 +51,12 @@ class FoldersViewModel(context: Context, val type : Int) : MedialibraryViewModel
         list?.let { MediaUtils.appendMedia(context, it) }
     }
 
-    fun playSelection(selection: List<Folder>) = launch {
+    fun playSelection(selection: List<AFolder>) = launch {
         val list = selection.flatMap { it.getAll() }
         MediaUtils.openList(context, list, 0)
     }
 
-    fun appendSelection(selection: List<Folder>) = launch {
+    fun appendSelection(selection: List<AFolder>) = launch {
         val list = selection.flatMap { it.getAll() }
         MediaUtils.appendMedia(context, list)
     }
@@ -71,4 +71,4 @@ class FoldersViewModel(context: Context, val type : Int) : MedialibraryViewModel
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-internal fun FoldersFragment.getViewModel() = ViewModelProviders.of(requireActivity(), FoldersViewModel.Factory(requireContext(), Folder.TYPE_FOLDER_VIDEO)).get(FoldersViewModel::class.java)
+internal fun FoldersFragment.getViewModel() = ViewModelProviders.of(requireActivity(), FoldersViewModel.Factory(requireContext(), AFolder.TYPE_FOLDER_VIDEO)).get(FoldersViewModel::class.java)

@@ -39,8 +39,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.media.AFolder
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
-import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
@@ -105,7 +105,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
             val seenMarkVisible = preferences.getBoolean("media_seen", true)
             videoListAdapter = VideoListAdapter(this, seenMarkVisible)
             multiSelectHelper = videoListAdapter.multiSelectHelper
-            val folder = if (savedInstanceState != null ) savedInstanceState.getParcelable<Folder>(KEY_FOLDER)
+            val folder = if (savedInstanceState != null ) savedInstanceState.getParcelable<AFolder>(KEY_FOLDER)
             else arguments?.getParcelable(KEY_FOLDER)
             viewModel = getViewModel(folder)
             viewModel.provider.pagedList.observe(this, this)

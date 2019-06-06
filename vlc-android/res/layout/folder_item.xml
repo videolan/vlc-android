@@ -5,7 +5,7 @@
     <data>
         <variable
             name="folder"
-            type="org.videolan.medialibrary.media.Folder" />
+            type="org.videolan.medialibrary.interfaces.media.AFolder" />
 
         <variable
             name="bgColor"

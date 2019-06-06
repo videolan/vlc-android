@@ -22,16 +22,16 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.videolan.medialibrary.media.Folder
+import org.videolan.medialibrary.interfaces.media.AFolder
 import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class FoldersProvider(context: Context, scope: SortableModel, val type: Int) : MedialibraryProvider<Folder>(context, scope) {
-    override fun getAll() : Array<Folder> = medialibrary.getFolders(type, sort, scope.desc, getTotalCount(), 0)
+class FoldersProvider(context: Context, scope: SortableModel, val type: Int) : MedialibraryProvider<AFolder>(context, scope) {
+    override fun getAll() : Array<AFolder> = medialibrary.getFolders(type, sort, scope.desc, getTotalCount(), 0)
 
     override fun getTotalCount() = medialibrary.getFoldersCount(type)
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<Folder> = medialibrary.getFolders(type, sort, scope.desc, loadSize, startposition).also { completeHeaders(it, startposition) }
+    override fun getPage(loadSize: Int, startposition: Int) : Array<AFolder> = medialibrary.getFolders(type, sort, scope.desc, loadSize, startposition).also { completeHeaders(it, startposition) }
 
 }

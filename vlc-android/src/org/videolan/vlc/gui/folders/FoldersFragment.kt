@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.folders_fragment.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
-import org.videolan.medialibrary.media.Folder
+import org.videolan.medialibrary.interfaces.media.AFolder
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.SecondaryActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
@@ -149,6 +149,6 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
 }
 
 sealed class FolderAction
-class FolderClick(val position: Int, val folder: Folder) : FolderAction()
-class FolderLongClick(val position: Int, val folder: Folder) : FolderAction()
-class FolderCtxClick(val position: Int, val folder: Folder) : FolderAction()
+class FolderClick(val position: Int, val folder: AFolder) : FolderAction()
+class FolderLongClick(val position: Int, val folder: AFolder) : FolderAction()
+class FolderCtxClick(val position: Int, val folder: AFolder) : FolderAction()

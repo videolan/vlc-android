@@ -7,14 +7,17 @@ import android.os.Parcel;
 import org.videolan.libvlc.Media;
 import org.videolan.medialibrary.interfaces.media.AAlbum;
 import org.videolan.medialibrary.interfaces.media.AArtist;
+import org.videolan.medialibrary.interfaces.media.AFolder;
 import org.videolan.medialibrary.interfaces.media.AGenre;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
+import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaWrapper;
 import org.videolan.medialibrary.stubs.StubAlbum;
 import org.videolan.medialibrary.stubs.StubArtist;
+import org.videolan.medialibrary.stubs.StubFolder;
 import org.videolan.medialibrary.stubs.StubGenre;
 import org.videolan.medialibrary.stubs.StubMediaWrapper;
 
@@ -148,6 +151,23 @@ public class ServiceLocator {
             return new Album(in);
         } else {
             return new StubAlbum(in);
+        }
+    }
+
+    //Folder
+    public static AFolder getAFolder(long id, String name, String mrl) {
+        if (mMode == LocatorMode.VLC_ANDROID) {
+            return new Folder(id, name, mrl);
+        } else {
+            return new StubFolder(id, name, mrl);
+        }
+    }
+
+    public static AFolder getAFolder(Parcel in) {
+        if (mMode == LocatorMode.VLC_ANDROID) {
+            return new Folder(in);
+        } else {
+            return new StubFolder(in);
         }
     }
 }

@@ -24,6 +24,7 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.ServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AAlbum
+import org.videolan.medialibrary.interfaces.media.AFolder
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
@@ -436,7 +437,7 @@ object MediaUtils : CoroutineScope {
 }
 
 @WorkerThread
-fun Folder.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false): List<AMediaWrapper> {
+fun AFolder.getAll(type: Int = AFolder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AMediaWrapper> {
     var index = 0
     val count = mediaCount(type)
     val all = mutableListOf<AMediaWrapper>()
@@ -449,7 +450,7 @@ fun Folder.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary
     return all
 }
 
-fun List<Folder>.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false): List<AMediaWrapper> {
+fun List<AFolder>.getAll(type: Int = AFolder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AMediaWrapper> {
     return flatMap { it.getAll(type, sort, desc) }
 }
 
