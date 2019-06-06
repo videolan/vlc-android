@@ -140,7 +140,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         spacing = resources.getDimensionPixelSize(R.dimen.kl_small)
 
         //size of an item
-        val itemSize = (requireActivity().getScreenWidth() - list.paddingLeft - list.paddingRight) / viewModel.nbColumns - spacing * 2
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - list.paddingLeft - list.paddingRight, viewModel.nbColumns, spacing)
 
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {

@@ -71,6 +71,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         super.onCreate(savedInstanceState)
         viewModel = getViewModel()
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = PlaylistsFragmentBinding.inflate(inflater, container, false)
         playlists = binding.swipeLayout.findViewById(R.id.playlist_list)
@@ -104,8 +105,8 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         }
 
         //size of an item
-        val spacing = resources.getDimension(R.dimen.kl_small).toInt()
-        val itemSize = requireActivity().getScreenWidth() / nbColumns - spacing * 2
+        val spacing = resources.getDimension(R.dimen.kl_half).toInt()
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
 
         playlistAdapter = AudioBrowserAdapter(MediaLibraryItem.TYPE_PLAYLIST, this, itemSize)
         adapter = playlistAdapter

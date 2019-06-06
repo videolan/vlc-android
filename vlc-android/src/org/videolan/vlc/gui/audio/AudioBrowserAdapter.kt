@@ -40,6 +40,7 @@ import androidx.recyclerview.widget.DiffUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.media.Artist
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaLibraryItem.FLAG_SELECTED
 import org.videolan.tools.MultiSelectAdapter
@@ -59,7 +60,7 @@ import org.videolan.vlc.util.Util
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-class AudioBrowserAdapter @JvmOverloads constructor(private val mType: Int, private val mIEventsHandler: IEventsHandler, private val mListEventsHandler: IListEventsHandler? = null, private val mReorder: Boolean = false) : PagedListAdapter<MediaLibraryItem, AudioBrowserAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK), FastScroller.SeparatedAdapter, MultiSelectAdapter<MediaLibraryItem>, SwipeDragHelperAdapter {
+class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, private val mIEventsHandler: IEventsHandler, private val mListEventsHandler: IListEventsHandler? = null, private val mReorder: Boolean = false) : PagedListAdapter<MediaLibraryItem, AudioBrowserAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK), FastScroller.SeparatedAdapter, MultiSelectAdapter<MediaLibraryItem>, SwipeDragHelperAdapter {
     private var itemSize = -1
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
     private val mDefaultCover: BitmapDrawable?
@@ -77,7 +78,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val mType: Int, priv
         if (mIEventsHandler is Context)
             ctx = mIEventsHandler
         else if (mIEventsHandler is Fragment) ctx = (mIEventsHandler as Fragment).context
-        mDefaultCover = if (ctx != null) getAudioIconDrawable(ctx, mType) else null
+        mDefaultCover = if (ctx != null) getAudioIconDrawable(ctx, type) else null
     }
 
     constructor(typeMedia: Int, eventsHandler: IEventsHandler, itemSize: Int) : this(typeMedia, eventsHandler) {
@@ -86,7 +87,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val mType: Int, priv
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AbstractMediaItemViewHolder<ViewDataBinding> {
         val inflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        return if (mType == MediaLibraryItem.TYPE_PLAYLIST) {
+        return if (type == MediaLibraryItem.TYPE_PLAYLIST || type == MediaLibraryItem.TYPE_ARTIST || type == MediaLibraryItem.TYPE_ALBUM) {
             val binding = AudioBrowserCardItemBinding.inflate(inflater, parent, false)
             MediaItemCardViewHolder(binding) as AbstractMediaItemViewHolder<ViewDataBinding>
         } else {
@@ -99,6 +100,9 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val mType: Int, priv
         if (position >= itemCount) return
         val item = getItem(position)
         holder.setItem(item)
+        if (item is Artist) {
+            item.description = holder.binding.root.context.resources.getQuantityString(R.plurals.albums_quantity, item.albumsCount, item.albumsCount)
+        }
         val isSelected = multiSelectHelper.isSelected(position)
         holder.setCoverlay(isSelected)
         holder.selectView(isSelected)
