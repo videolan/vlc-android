@@ -10,8 +10,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.MediaTvItemAdapter
 import org.videolan.vlc.gui.tv.TvItemAdapter
@@ -89,7 +89,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         launch {
             if ((viewModel as MediaBrowserViewModel).category == CATEGORY_VIDEOS && !Settings.getInstance(requireContext()).getBoolean(FORCE_PLAY_ALL, true)) {
-                TvUtil.playMedia(requireActivity(), item as MediaWrapper)
+                TvUtil.playMedia(requireActivity(), item as AMediaWrapper)
             } else {
                 TvUtil.openMediaFromPaged(requireActivity(), item, viewModel.provider as MedialibraryProvider<out MediaLibraryItem>)
             }

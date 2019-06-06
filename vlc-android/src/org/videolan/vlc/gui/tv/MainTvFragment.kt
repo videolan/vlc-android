@@ -34,8 +34,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.RecommendationsService
@@ -200,7 +200,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     override fun onStart() {
         super.onStart()
-        if (selectedItem is MediaWrapper) TvUtil.updateBackground(backgroundManager, selectedItem)
+        if (selectedItem is AMediaWrapper) TvUtil.updateBackground(backgroundManager, selectedItem)
         model.refresh()
     }
 
@@ -212,8 +212,8 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     override fun onClick(v: View?) = requireActivity().startActivity(Intent(requireContext(), SearchActivity::class.java))
 
     fun showDetails(): Boolean {
-        val media = selectedItem as? MediaWrapper ?: return false
-        if (media.type != MediaWrapper.TYPE_DIR) return false
+        val media = selectedItem as? AMediaWrapper ?: return false
+        if (media.type != AMediaWrapper.TYPE_DIR) return false
         val intent = Intent(requireActivity(), DetailsActivity::class.java)
         // pass the item information
         intent.putExtra("media", media)

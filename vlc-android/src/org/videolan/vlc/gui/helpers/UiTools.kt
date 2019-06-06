@@ -64,8 +64,9 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
@@ -252,16 +253,20 @@ object UiTools {
         }
     }
 
-    fun savePlaylist(activity: FragmentActivity, list: List<MediaWrapper>) {
+    fun savePlaylist(activity: FragmentActivity, list: List<AMediaWrapper>) {
         addToPlaylist(activity, list.toTypedArray(), SavePlaylistDialog.KEY_TRACKS)
     }
 
-    fun addToPlaylist(activity: FragmentActivity, list: List<MediaWrapper>) {
+    fun addToPlaylist(activity: FragmentActivity, list: List<AMediaWrapper>) {
         addToPlaylist(activity, list.toTypedArray(), SavePlaylistDialog.KEY_NEW_TRACKS)
     }
 
+<<<<<<< HEAD
     fun addToPlaylist(activity: FragmentActivity, tracks: Array<MediaWrapper>, key: String) {
         if (!activity.isStarted()) return
+=======
+    fun addToPlaylist(activity: FragmentActivity, tracks: Array<AMediaWrapper>, key: String) {
+>>>>>>> Medialibrary: move MediaWrapper to AMediaWrapper
         val savePlaylistDialog = SavePlaylistDialog()
         val args = Bundle()
         args.putParcelableArray(key, tracks)
@@ -275,7 +280,7 @@ object UiTools {
             MediaLibraryItem.TYPE_ARTIST -> getDefaultArtistDrawable(context)
             MediaLibraryItem.TYPE_ALBUM -> getDefaultAlbumDrawable(context)
             MediaLibraryItem.TYPE_MEDIA -> {
-                if ((item as MediaWrapper).type == MediaWrapper.TYPE_VIDEO) getDefaultVideoDrawable(context) else getDefaultAudioDrawable(context)
+                if ((item as AMediaWrapper).type == AMediaWrapper.TYPE_VIDEO) getDefaultVideoDrawable(context) else getDefaultAudioDrawable(context)
             }
             else -> getDefaultAudioDrawable(context)
         }
@@ -421,9 +426,9 @@ object UiTools {
                                 MediaUtils.openUri(activity, item.uri)
                             else if (item.text != null) {
                                 val uri = Uri.parse(item.text.toString())
-                                val media = MediaWrapper(uri)
+                                val media = ServiceLocator.getAMediaWrapper(uri)
                                 if ("file" != uri.scheme)
-                                    media.type = MediaWrapper.TYPE_STREAM
+                                    media.type = AMediaWrapper.TYPE_STREAM
                                 MediaUtils.openMedia(activity, media)
                             }
                             return@OnDragListener true

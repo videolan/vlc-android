@@ -35,8 +35,9 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
+import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.hf.OtgAccess
@@ -107,7 +108,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
         if (item.itemType == MediaLibraryItem.TYPE_MEDIA) {
-            val mw = item as MediaWrapper
+            val mw = item as AMediaWrapper
             if ("otg://" == mw.location) {
                 val title = getString(R.string.otg_device_title)
                 val otgRoot = OtgAccess.otgRoot
@@ -130,7 +131,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
     }
 
     override fun onCtxAction(position: Int, option: Int) {
-        val mw = this.adapter.getItem(position) as MediaWrapper?
+        val mw = this.adapter.getItem(position) as AMediaWrapper?
         when (option) {
             CTX_FAV_ADD -> browserFavRepository.addLocalFavItem(mw!!.uri, mw.title, mw.artworkURL)
             else -> super.onCtxAction(position, option)
@@ -163,8 +164,8 @@ open class FileBrowserFragment : BaseBrowserFragment() {
 
 
     private fun browseOtgDevice(uri: Uri, title: String) {
-        val mw = MediaWrapper(uri)
-        mw.type = MediaWrapper.TYPE_DIR
+        val mw = ServiceLocator.getAMediaWrapper(uri)
+        mw.type = AMediaWrapper.TYPE_DIR
         mw.title = title
         handler.post { browse(mw, true) }
     }

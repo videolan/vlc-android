@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 
 public class DummyItem extends MediaLibraryItem {
 
@@ -20,7 +21,7 @@ public class DummyItem extends MediaLibraryItem {
     }
 
     @Override
-    public MediaWrapper[] getTracks() {
+    public AMediaWrapper[] getTracks() {
         return Medialibrary.EMPTY_COLLECTION;
     }
 

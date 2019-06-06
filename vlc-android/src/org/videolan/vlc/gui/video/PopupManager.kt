@@ -39,7 +39,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.IVLCVout
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.view.PopupLayout
@@ -221,7 +221,7 @@ class PopupManager constructor(private val mService: PlaybackService) : Playback
     private fun expandToVideoPlayer() {
         removePopup()
         if (mService.hasMedia() && !mService.isPlaying)
-            mService.currentMediaWrapper!!.flags = MediaWrapper.MEDIA_PAUSED
+            mService.currentMediaWrapper!!.flags = AMediaWrapper.MEDIA_PAUSED
         mService.switchToVideo()
     }
 

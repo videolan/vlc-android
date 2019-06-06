@@ -85,6 +85,13 @@ android {
         unitTests {
             includeAndroidResources = true
         }
+        unitTests.all {
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen {false}
+                showStandardStreams = true
+            }
+        }
     }
 
     signingConfigs {
@@ -263,6 +270,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.retrofit"
 
     // Test
+    testImplementation project(":medialibrary")
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$rootProject.espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espressoVersion"
     testImplementation "junit:junit:$rootProject.ext.junitVersion"

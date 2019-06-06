@@ -37,11 +37,12 @@ import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
+import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 import org.videolan.vlc.extensions.api.IExtensionHost;
 import org.videolan.vlc.extensions.api.IExtensionService;
 import org.videolan.vlc.extensions.api.VLCExtensionItem;
 import org.videolan.vlc.media.MediaUtils;
-import org.videolan.medialibrary.media.MediaWrapper;
 
 import java.util.List;
 
@@ -201,7 +202,7 @@ public class ExtensionManagerService extends Service {
 
             @Override
             public void playUri(Uri uri, String title) throws RemoteException {
-                final MediaWrapper media = new MediaWrapper(uri);
+                final AMediaWrapper media = ServiceLocator.getAMediaWrapper(uri);
                 if (!TextUtils.isEmpty(title));
                     media.setDisplayTitle(title);
                 mHandler.post(new Runnable() {

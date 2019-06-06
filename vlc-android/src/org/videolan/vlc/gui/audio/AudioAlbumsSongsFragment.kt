@@ -37,9 +37,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.Album
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.PlaylistActivity
@@ -196,7 +196,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             i.putExtra(AudioBrowserFragment.TAG_ITEM, item)
             startActivity(i)
         } else
-            MediaUtils.openMedia(v.context, item as MediaWrapper)
+            MediaUtils.openMedia(v.context, item as AMediaWrapper)
     }
 
     override fun onCtxAction(position: Int, option: Int) {

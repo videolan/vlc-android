@@ -22,8 +22,8 @@ package org.videolan.vlc.providers
 
 import android.content.Context
 import org.videolan.libvlc.util.MediaBrowser
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.util.LiveDataset
 
 class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, url: String?, showDummyCategory: Boolean = false) : FileBrowserProvider(context, dataset, url, true, false, showDummyCategory) {
@@ -38,7 +38,7 @@ class FilePickerProvider(context: Context, dataset: LiveDataset<MediaLibraryItem
     }
 
     override fun addMedia(media: MediaLibraryItem) {
-        if (media is MediaWrapper && (media.type == MediaWrapper.TYPE_SUBTITLE || media.type == MediaWrapper.TYPE_DIR)) super.addMedia(media)
+        if (media is AMediaWrapper && (media.type == AMediaWrapper.TYPE_SUBTITLE || media.type == AMediaWrapper.TYPE_DIR)) super.addMedia(media)
     }
 
     override fun parseSubDirectories() {}

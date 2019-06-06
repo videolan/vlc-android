@@ -27,7 +27,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.media.MediaUtils
@@ -68,7 +68,7 @@ class DialogActivity : BaseActivity() {
 
     @ObsoleteCoroutinesApi
     private fun setupSubsDialog() {
-        val medialist = intent.getParcelableArrayListExtra<MediaWrapper>(EXTRA_MEDIALIST)
+        val medialist = intent.getParcelableArrayListExtra<AMediaWrapper>(EXTRA_MEDIALIST)
         if (medialist != null)
             MediaUtils.getSubs(this, medialist)
         else

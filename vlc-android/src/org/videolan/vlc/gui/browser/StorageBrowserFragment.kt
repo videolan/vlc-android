@@ -43,9 +43,10 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.medialibrary.ServiceLocator
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
@@ -134,7 +135,7 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
         return super.onOptionsItemSelected(item)
     }
 
-    fun browse(media: MediaWrapper, position: Int, scanned: Boolean) {
+    fun browse(media: AMediaWrapper, position: Int, scanned: Boolean) {
         val ft = activity?.supportFragmentManager?.beginTransaction()
         val next = createFragment()
         val args = Bundle()
@@ -165,8 +166,8 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        val mw = (item as? Storage)?.let { MediaWrapper(it.uri) } ?: return
-        mw.type = MediaWrapper.TYPE_DIR
+        val mw = (item as? Storage)?.let { ServiceLocator.getAMediaWrapper(it.uri) } ?: return
+        mw.type = AMediaWrapper.TYPE_DIR
         browse(mw, position, (DataBindingUtil.findBinding<BrowserItemBinding>(v))?.browserCheckbox?.state == ThreeStatesCheckbox.STATE_CHECKED)
     }
 

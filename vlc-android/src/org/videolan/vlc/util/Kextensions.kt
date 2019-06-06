@@ -22,8 +22,8 @@ import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.startMedialibrary
 import java.io.File
@@ -72,8 +72,8 @@ suspend fun retry (
 }
 
 fun Media?.canExpand() = this != null && (type == Media.Type.Directory || type == Media.Type.Playlist)
-fun MediaWrapper?.isMedia() = this != null && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO)
-fun MediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == MediaWrapper.TYPE_DIR || type == MediaWrapper.TYPE_PLAYLIST)
+fun AMediaWrapper?.isMedia() = this != null && (type == AMediaWrapper.TYPE_AUDIO || type == AMediaWrapper.TYPE_VIDEO)
+fun AMediaWrapper?.isBrowserMedia() = this != null && (isMedia() || type == AMediaWrapper.TYPE_DIR || type == AMediaWrapper.TYPE_PLAYLIST)
 
 fun Context.getAppSystemService(name: String) = applicationContext.getSystemService(name)!!
 
@@ -105,14 +105,14 @@ suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary
 }
 
 
-fun List<MediaWrapper>.getWithMLMeta() : List<MediaWrapper> {
-    if (this is MutableList<MediaWrapper>) return updateWithMLMeta()
-    val list = mutableListOf<MediaWrapper>()
+fun List<AMediaWrapper>.getWithMLMeta() : List<AMediaWrapper> {
+    if (this is MutableList<AMediaWrapper>) return updateWithMLMeta()
+    val list = mutableListOf<AMediaWrapper>()
     val ml = VLCApplication.mlInstance
     for (media in this) {
         if (media.id == 0L) {
             val mw = ml.findMedia(media)
-            if (mw.id != 0L) if (mw.type == MediaWrapper.TYPE_ALL) mw.type = media.type
+            if (mw.id != 0L) if (mw.type == AMediaWrapper.TYPE_ALL) mw.type = media.type
             list.add(mw)
         }
     }
@@ -120,7 +120,7 @@ fun List<MediaWrapper>.getWithMLMeta() : List<MediaWrapper> {
 }
 
 
-fun MutableList<MediaWrapper>.updateWithMLMeta() : MutableList<MediaWrapper> {
+fun MutableList<AMediaWrapper>.updateWithMLMeta() : MutableList<AMediaWrapper> {
     val iter = listIterator()
     val ml = VLCApplication.mlInstance
     try {
@@ -129,7 +129,7 @@ fun MutableList<MediaWrapper>.updateWithMLMeta() : MutableList<MediaWrapper> {
             if (media.id == 0L) {
                 val mw = ml.findMedia(media)
                 if (mw!!.id != 0L) {
-                    if (mw.type == MediaWrapper.TYPE_ALL) mw.type = media.getType()
+                    if (mw.type == AMediaWrapper.TYPE_ALL) mw.type = media.getType()
                     iter.set(mw)
                 }
             }

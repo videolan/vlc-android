@@ -47,8 +47,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SongBrowserBinding
@@ -112,7 +112,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         calculateNbColumns()
 
         title.text = viewModel.currentItem?.let {
-            if (it is MediaWrapper && it.uri.path == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) getString(R.string.internal_memory)
+            if (it is AMediaWrapper && it.uri.path == AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) getString(R.string.internal_memory)
             else it.title
         } ?: getTitle()
 
@@ -213,7 +213,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
     override fun refresh() = (viewModel as RefreshModel).refresh()
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
-        if (item is MediaWrapper) {
+        if (item is AMediaWrapper) {
             TvUtil.showMediaDetail(requireActivity(), item)
         }
         return true

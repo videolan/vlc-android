@@ -32,8 +32,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.history_list.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.KeyHelper
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
@@ -52,7 +52,7 @@ private const val TAG = "VLC/HistoryFragment"
 @ExperimentalCoroutinesApi
 class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHistory, SwipeRefreshLayout.OnRefreshListener, IEventsHandler {
 
-    private lateinit var multiSelectHelper: MultiSelectHelper<MediaWrapper>
+    private lateinit var multiSelectHelper: MultiSelectHelper<AMediaWrapper>
     private val historyAdapter: HistoryAdapter = HistoryAdapter(this)
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -63,7 +63,7 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(requireActivity(), HistoryModel.Factory(requireContext())).get(HistoryModel::class.java)
-        viewModel.dataset.observe(this, Observer<List<MediaWrapper>> { list ->
+        viewModel.dataset.observe(this, Observer<List<AMediaWrapper>> { list ->
             list?.let {
                 historyAdapter.update(it)
                 updateEmptyView()
@@ -195,8 +195,8 @@ class HistoryFragment : MediaBrowserFragment<HistoryModel>(), IRefreshable, IHis
             invalidateActionMode()
             return
         }
-        if (position != 0) viewModel.moveUp(item as MediaWrapper)
-        MediaUtils.openMedia(v.context, item as MediaWrapper)
+        if (position != 0) viewModel.moveUp(item as AMediaWrapper)
+        MediaUtils.openMedia(v.context, item as AMediaWrapper)
     }
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {

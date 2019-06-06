@@ -7,6 +7,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -77,7 +78,7 @@ object ModelsHelper {
                 var currentArtist: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
-                    val artist = (item as MediaWrapper).artist ?: ""
+                    val artist = (item as AMediaWrapper).artist ?: ""
                     if (currentArtist === null || !TextUtils.equals(currentArtist, artist)) {
                         currentArtist = artist
                         if (array[currentArtist].isNullOrEmpty()) array[currentArtist] = mutableListOf()
@@ -89,7 +90,7 @@ object ModelsHelper {
                 var currentAlbum: String? = null
                 for (item in items) {
                     if (item.itemType == MediaLibraryItem.TYPE_DUMMY) continue
-                    val album = (item as MediaWrapper).album ?: ""
+                    val album = (item as AMediaWrapper).album ?: ""
                     if (currentAlbum === null || !TextUtils.equals(currentAlbum, album)) {
                         currentAlbum = album
                         if (array[currentAlbum].isNullOrEmpty()) array[currentAlbum] = mutableListOf()
@@ -136,27 +137,27 @@ object ModelsHelper {
             }
         }
         Medialibrary.SORT_LASTMODIFICATIONDATE -> {
-            val timestamp = (item as MediaWrapper).lastModified
+            val timestamp = (item as AMediaWrapper).lastModified
             val category = getTimeCategory(timestamp)
             if (aboveItem == null) getTimeCategoryString(context, category)
             else {
-                val prevCat = getTimeCategory((aboveItem as MediaWrapper).lastModified)
+                val prevCat = getTimeCategory((aboveItem as AMediaWrapper).lastModified)
                 if (prevCat != category) getTimeCategoryString(context, category) else null
             }
         }
         Medialibrary.SORT_ARTIST -> {
-            val artist = (item as MediaWrapper).artist ?: ""
+            val artist = (item as AMediaWrapper).artist ?: ""
             if (aboveItem == null) artist
             else {
-                val previous = (aboveItem as MediaWrapper).artist ?: ""
+                val previous = (aboveItem as AMediaWrapper).artist ?: ""
                 if (artist != previous) artist else null
             }
         }
         Medialibrary.SORT_ALBUM -> {
-            val album = (item as MediaWrapper).album ?: ""
+            val album = (item as AMediaWrapper).album ?: ""
             if (aboveItem == null) album
             else {
-                val previous = (aboveItem as MediaWrapper).album ?: ""
+                val previous = (aboveItem as AMediaWrapper).album ?: ""
                 if (album != previous) album else null
             }
         }
@@ -189,7 +190,7 @@ object ModelsHelper {
     private fun getLength(media: MediaLibraryItem): Int {
         return when {
             media.itemType == MediaLibraryItem.TYPE_ALBUM -> (media as Album).duration
-            media.itemType == MediaLibraryItem.TYPE_MEDIA -> (media as MediaWrapper).length.toInt()
+            media.itemType == MediaLibraryItem.TYPE_MEDIA -> (media as AMediaWrapper).length.toInt()
             else -> 0
         }
     }
@@ -214,7 +215,7 @@ object ModelsHelper {
     private fun getYear(media: MediaLibraryItem): String {
         return when (media.itemType) {
             MediaLibraryItem.TYPE_ALBUM -> if ((media as Album).releaseYear == 0) "-" else media.releaseYear.toString()
-            MediaLibraryItem.TYPE_MEDIA -> if ((media as MediaWrapper).date == null) "-" else media.date
+            MediaLibraryItem.TYPE_MEDIA -> if ((media as AMediaWrapper).date == null) "-" else media.date
             else -> "-"
         }
     }

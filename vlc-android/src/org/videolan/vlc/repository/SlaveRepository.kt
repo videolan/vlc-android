@@ -28,7 +28,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Media
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.database.MediaDatabase
@@ -44,7 +44,7 @@ class SlaveRepository(private val slaveDao:SlaveDao) : IOScopedObject() {
         }
     }
 
-    fun saveSlaves(mw: MediaWrapper): List<Job>? {
+    fun saveSlaves(mw: AMediaWrapper): List<Job>? {
         return mw.slaves?.let{
             it.map { saveSlave(mw.location, it.type, it.priority, it.uri) }
         }

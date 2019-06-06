@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.R;
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 
 @SuppressWarnings("JniMissingFunction")
 public class Album extends MediaLibraryItem {
@@ -77,21 +78,21 @@ public class Album extends MediaLibraryItem {
     }
 
     @Override
-    public MediaWrapper[] getTracks() {
+    public AMediaWrapper[] getTracks() {
         return getTracks(Medialibrary.SORT_ALBUM, false);
     }
 
-    public MediaWrapper[] getTracks(int sort, boolean desc) {
+    public AMediaWrapper[] getTracks(int sort, boolean desc) {
         Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetTracks(ml, mId, sort, desc) : Medialibrary.EMPTY_COLLECTION;
     }
 
-    public MediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset) {
+    public AMediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeGetPagedTracks(ml, mId, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
 
-    public MediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
+    public AMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeSearch(ml, mId, query, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
@@ -106,9 +107,9 @@ public class Album extends MediaLibraryItem {
         return TYPE_ALBUM;
     }
 
-    private native MediaWrapper[] nativeGetTracks(Medialibrary ml, long mId, int sort, boolean desc);
-    private native MediaWrapper[] nativeGetPagedTracks(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
-    private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int sort, boolean desc, int nbItems, int offset);
+    private native AMediaWrapper[] nativeGetTracks(Medialibrary ml, long mId, int sort, boolean desc);
+    private native AMediaWrapper[] nativeGetPagedTracks(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
+    private native AMediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetTracksCount(Medialibrary ml, long id);
     private native int nativeGetSearchCount(Medialibrary ml, long mId, String query);
 

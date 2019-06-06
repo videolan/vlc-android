@@ -22,9 +22,9 @@ import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.Extensions
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.Artist
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.InfoActivityBinding
@@ -69,7 +69,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         }
         this.item = item
         if (item.id == 0L) {
-            val libraryItem = VLCApplication.mlInstance.getMedia((item as MediaWrapper).uri)
+            val libraryItem = VLCApplication.mlInstance.getMedia((item as AMediaWrapper).uri)
             if (libraryItem != null)
                 this.item = libraryItem
         }
@@ -79,7 +79,7 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         model = getModel()
 
         binding.fab.setOnClickListener(this)
-        if (item is MediaWrapper) {
+        if (item is AMediaWrapper) {
             adapter = MediaInfoAdapter()
             binding.list.layoutManager = LinearLayoutManager(binding.root.context)
             binding.list.adapter = adapter
@@ -111,15 +111,15 @@ class InfoActivity : AudioPlayerContainerActivity(), View.OnClickListener, PathA
         if (length > 0)
             binding.length = Tools.millisToText(length)
 
-        if (item is MediaWrapper) {
-            val media = item as MediaWrapper
+        if (item is AMediaWrapper) {
+            val media = item as AMediaWrapper
             val resolution = generateResolutionClass(media.width, media.height)
             binding.resolution = resolution
         }
 
         when {
             item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
-                val media = item as MediaWrapper
+                val media = item as AMediaWrapper
 //                binding.path = Uri.decode(media!!.uri.path).replace("/", " > ")
                 binding.progress = if (media.length == 0L) 0 else (100.toLong() * media.time / length).toInt()
                 binding.sizeTitleText = getString(R.string.file_size)
@@ -212,7 +212,7 @@ class InfoModel : ViewModel(), CoroutineScope by MainScope() {
         cover.value = mrl?.let { withContext(Dispatchers.IO) { AudioUtil.readCoverBitmap(Uri.decode(it), width) } }
     }
 
-    internal fun parseTracks(context: Context, mw: MediaWrapper) = launch {
+    internal fun parseTracks(context: Context, mw: AMediaWrapper) = launch {
         val media = withContext(Dispatchers.IO) {
             val libVlc = VLCInstance[context]
             Media(libVlc, mw.uri).apply { parse() }
@@ -231,11 +231,11 @@ class InfoModel : ViewModel(), CoroutineScope by MainScope() {
         mediaTracks.value = tracks.toList()
     }
 
-    internal fun checkFile(mw: MediaWrapper) = launch {
+    internal fun checkFile(mw: AMediaWrapper) = launch {
         val itemFile = withContext(Dispatchers.IO) { File(Uri.decode(mw.location.substring(5))) }
 
         if (!withContext(Dispatchers.IO) { itemFile.exists() } || !isActive) return@launch
-        if (mw.type == MediaWrapper.TYPE_VIDEO) checkSubtitles(itemFile)
+        if (mw.type == AMediaWrapper.TYPE_VIDEO) checkSubtitles(itemFile)
         sizeText.value = itemFile.length().readableFileSize()
     }
 

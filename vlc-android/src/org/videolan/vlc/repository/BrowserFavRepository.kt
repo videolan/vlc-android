@@ -26,7 +26,7 @@ import android.net.Uri
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
 import org.videolan.vlc.ExternalMonitor
@@ -56,7 +56,7 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) : IOScopedO
     }
 
     val networkFavorites by lazy {
-        MediatorLiveData<List<MediaWrapper>>().apply {
+        MediatorLiveData<List<AMediaWrapper>>().apply {
             addSource(networkFavs) { value = convertFavorites(it).filterNetworkFavs() }
             addSource(ExternalMonitor.connected) {
                 launch(Dispatchers.Main.immediate) {
@@ -72,13 +72,13 @@ class BrowserFavRepository(private val browserFavDao: BrowserFavDao) : IOScopedO
 
     fun deleteBrowserFav(uri: Uri) = launch { browserFavDao.delete(uri) }
 
-    private fun List<MediaWrapper>.filterNetworkFavs() : List<MediaWrapper> {
+    private fun List<AMediaWrapper>.filterNetworkFavs() : List<AMediaWrapper> {
         return when {
             isEmpty() -> this
             !ExternalMonitor.isConnected -> emptyList()
             !ExternalMonitor.allowLan() -> {
                 val schemes = Arrays.asList("ftp", "sftp", "ftps", "http", "https")
-                mutableListOf<MediaWrapper>().apply { this@filterNetworkFavs.filterTo(this) { schemes.contains(it.uri.scheme) } }
+                mutableListOf<AMediaWrapper>().apply { this@filterNetworkFavs.filterTo(this) { schemes.contains(it.uri.scheme) } }
             }
             else -> this
         }

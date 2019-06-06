@@ -56,7 +56,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -197,7 +197,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         }
     }
 
-    override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
+    override fun onPopupMenu(view: View, position: Int, item: AMediaWrapper?) {
         val activity = activity
         if (activity === null || position >= playlistAdapter.itemCount) return
         val flags = CTX_REMOVE_FROM_PLAYLIST or CTX_SET_RINGTONE or CTX_ADD_TO_PLAYLIST or CTX_STOP_AFTER_THIS
@@ -320,7 +320,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         }
     }
 
-    override fun playItem(position: Int, item: MediaWrapper) {
+    override fun playItem(position: Int, item: AMediaWrapper) {
         clearSearch()
         playlistModel.play(playlistModel.getPlaylistPosition(position, item))
     }
@@ -372,7 +372,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
             if (PlaybackService.hasRenderer()) VideoPlayerActivity.startOpened(v.context,
                     it.uri, playlistModel.currentMediaPosition)
             else if (hasMedia()) {
-                it.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                it.removeFlags(AMediaWrapper.MEDIA_FORCE_AUDIO)
                 playlistModel.switchToVideo()
             }
         }
@@ -473,7 +473,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
 
     override fun afterTextChanged(editable: Editable) {}
 
-    private val playlistObserver = Observer<MutableList<MediaWrapper>> {
+    private val playlistObserver = Observer<MutableList<AMediaWrapper>> {
         playlistAdapter.update(it!!)
         updateActor.offer(Unit)
     }

@@ -21,8 +21,9 @@
 package org.videolan.vlc.util
 
 import android.net.Uri
+import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.database.models.BrowserFav
 
 
@@ -32,9 +33,9 @@ fun isSchemeSupported(scheme: String?) = when(scheme) {
 }
 
 fun convertFavorites(browserFavs: List<BrowserFav>?) = browserFavs?.map { (uri, _, title, iconUrl) ->
-    MediaWrapper(uri).apply {
+    ServiceLocator.getAMediaWrapper(uri).apply {
         setDisplayTitle(Uri.decode(title))
-        type = MediaWrapper.TYPE_DIR
+        type = AMediaWrapper.TYPE_DIR
         iconUrl?.let { artworkURL = Uri.decode(it) }
         setStateFlags(MediaLibraryItem.FLAG_FAVORITE)
     }

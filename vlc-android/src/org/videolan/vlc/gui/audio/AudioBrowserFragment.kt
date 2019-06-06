@@ -42,9 +42,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
+<<<<<<< HEAD
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
+=======
+>>>>>>> Medialibrary: move MediaWrapper to AMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.*
 import org.videolan.vlc.gui.view.FastScroller
@@ -336,7 +340,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
 
     override fun onCtxAction(position: Int, option: Int) {
         @Suppress("UNCHECKED_CAST")
-        if (option == CTX_PLAY_ALL) MediaUtils.playAll(requireContext(), viewModel.providers[currentTab] as MedialibraryProvider<MediaWrapper>, position, false)
+        if (option == CTX_PLAY_ALL) MediaUtils.playAll(requireContext(), viewModel.providers[currentTab] as MedialibraryProvider<AMediaWrapper>, position, false)
         else super.onCtxAction(position, option)
     }
 
@@ -346,7 +350,7 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
             return
         }
         if (item.itemType == MediaLibraryItem.TYPE_MEDIA) {
-            MediaUtils.openMedia(activity, item as MediaWrapper)
+            MediaUtils.openMedia(activity, item as AMediaWrapper)
             return
         }
         val i: Intent

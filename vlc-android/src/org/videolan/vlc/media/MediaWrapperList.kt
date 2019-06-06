@@ -1,5 +1,5 @@
 /*****************************************************************************
- * MediaWrapperList.java
+ * AMediaWrapperList.java
  *
  * Copyright © 2013-2015 VLC authors and VideoLAN
  * Copyright © 2013 Edward Wang
@@ -20,17 +20,17 @@
  */
 package org.videolan.vlc.media
 
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import java.util.*
 
-class MediaWrapperList {
+class AMediaWrapperList {
 
     /* TODO: add locking */
-    private val internalList = ArrayList<MediaWrapper>()
+    private val internalList = ArrayList<AMediaWrapper>()
     private val eventListenerList = ArrayList<EventListener>()
     private var videoCount = 0
 
-    val copy: MutableList<MediaWrapper>
+    val copy: MutableList<AMediaWrapper>
         @Synchronized get() = ArrayList(internalList)
 
     val isAudioList: Boolean
@@ -43,10 +43,10 @@ class MediaWrapperList {
     }
 
     @Synchronized
-    fun add(media: MediaWrapper) {
+    fun add(media: AMediaWrapper) {
         internalList.add(media)
         signalEventListeners(EVENT_ADDED, internalList.size - 1, -1, media.location)
-        if (media.type == MediaWrapper.TYPE_VIDEO)
+        if (media.type == AMediaWrapper.TYPE_VIDEO)
             ++videoCount
     }
 
@@ -90,11 +90,11 @@ class MediaWrapperList {
     }
 
     @Synchronized
-    fun insert(position: Int, media: MediaWrapper) {
+    fun insert(position: Int, media: AMediaWrapper) {
         if (position < 0) return
         internalList.add(Math.min(position, internalList.size), media)
         signalEventListeners(EVENT_ADDED, position, -1, media.location)
-        if (media.type == MediaWrapper.TYPE_VIDEO)
+        if (media.type == AMediaWrapper.TYPE_VIDEO)
             ++videoCount
     }
 
@@ -123,7 +123,7 @@ class MediaWrapperList {
     @Synchronized
     fun remove(position: Int) {
         if (!isValid(position)) return
-        if (internalList[position].type == MediaWrapper.TYPE_VIDEO)
+        if (internalList[position].type == AMediaWrapper.TYPE_VIDEO)
             --videoCount
         val uri = internalList[position].location
         internalList.removeAt(position)
@@ -136,7 +136,7 @@ class MediaWrapperList {
         while (i < internalList.size) {
             val uri = internalList[i].location
             if (uri == location) {
-                if (internalList[i].type == MediaWrapper.TYPE_VIDEO)
+                if (internalList[i].type == AMediaWrapper.TYPE_VIDEO)
                     --videoCount
                 internalList.removeAt(i)
                 signalEventListeners(EVENT_REMOVED, i, -1, uri)
@@ -152,18 +152,18 @@ class MediaWrapperList {
     }
 
     @Synchronized
-    fun getMedia(position: Int): MediaWrapper? {
+    fun getMedia(position: Int): AMediaWrapper? {
         return if (isValid(position)) internalList[position] else null
     }
 
     @Synchronized
-    fun replaceWith(list: List<MediaWrapper>) {
+    fun replaceWith(list: List<AMediaWrapper>) {
         internalList.clear()
         internalList.addAll(list)
     }
 
     @Synchronized
-    fun map(list: List<MediaWrapper>) {
+    fun map(list: List<AMediaWrapper>) {
         internalList.addAll(list)
     }
 
@@ -190,7 +190,7 @@ class MediaWrapperList {
     }
 
     companion object {
-        private const val TAG = "VLC/MediaWrapperList"
+        private const val TAG = "VLC/AMediaWrapperList"
 
         private const val EVENT_ADDED = 0
         private const val EVENT_REMOVED = 1

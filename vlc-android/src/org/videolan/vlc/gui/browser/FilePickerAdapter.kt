@@ -26,7 +26,7 @@ package org.videolan.vlc.gui.browser
 import androidx.databinding.ViewDataBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -34,7 +34,7 @@ class FilePickerAdapter internal constructor(fragment: BaseBrowserFragment) : Ba
 
     override fun onBindViewHolder(holder: ViewHolder<ViewDataBinding>, position: Int) {
         val h = holder as MediaViewHolder
-        val media = getItem(position) as MediaWrapper
+        val media = getItem(position) as AMediaWrapper
         h.binding.item = media
         h.binding.hasContextMenu = false
         h.binding.protocol = null

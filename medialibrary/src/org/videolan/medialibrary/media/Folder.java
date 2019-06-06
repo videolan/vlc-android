@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 
 @SuppressWarnings("JniMissingFunction")
 public class Folder extends MediaLibraryItem {
@@ -22,8 +23,8 @@ public class Folder extends MediaLibraryItem {
     }
 
     @Override
-    public MediaWrapper[] getTracks() {
-        return new MediaWrapper[0];
+    public AMediaWrapper[] getTracks() {
+        return new AMediaWrapper[0];
     }
 
     @Override
@@ -36,7 +37,7 @@ public class Folder extends MediaLibraryItem {
         return TYPE_FOLDER;
     }
 
-    public MediaWrapper[] media(int type, int sort, boolean desc, int nbItems, int offset) {
+    public AMediaWrapper[] media(int type, int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeMedia(ml, mId, type, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
@@ -56,7 +57,7 @@ public class Folder extends MediaLibraryItem {
         return ml.isInitiated() ? nativeSubfoldersCount(ml, mId, type) : 0;
     }
 
-    public MediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, int nbItems, int offset) {
+    public AMediaWrapper[] searchTracks(String query, int mediaType, int sort, boolean desc, int nbItems, int offset) {
         final Medialibrary ml = Medialibrary.getInstance();
         return ml.isInitiated() ? nativeSearch(ml, mId, query, mediaType, sort, desc, nbItems, offset) : Medialibrary.EMPTY_COLLECTION;
     }
@@ -66,13 +67,13 @@ public class Folder extends MediaLibraryItem {
         return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query, mediaType) : 0;
     }
 
-    //    private native MediaWrapper[] nativeGetTracks();
+    //    private native AMediaWrapper[] nativeGetTracks();
 //    private native int nativeGetTracksCount();
-    private native MediaWrapper[] nativeMedia(Medialibrary ml, long mId, int type, int sort, boolean desc, int nbItems, int offset);
+    private native AMediaWrapper[] nativeMedia(Medialibrary ml, long mId, int type, int sort, boolean desc, int nbItems, int offset);
     private native int nativeMediaCount(Medialibrary ml, long mId, int type);
     private native Folder[] nativeSubfolders(Medialibrary ml, long mId, int sort, boolean desc, int nbItems, int offset);
     private native int nativeSubfoldersCount(Medialibrary ml, long mId, int type);
-    private native MediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int mediaType, int sort, boolean desc, int nbItems, int offset);
+    private native AMediaWrapper[] nativeSearch(Medialibrary ml, long mId, String query, int mediaType, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetSearchCount(Medialibrary ml, long mId, String query, int mediaType);
 
     @Override

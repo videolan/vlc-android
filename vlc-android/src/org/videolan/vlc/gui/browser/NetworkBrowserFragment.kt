@@ -40,7 +40,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -131,7 +131,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
     }
 
     override fun onCtxAction(position: Int, option: Int) {
-        val mw = this.adapter.getItem(position) as MediaWrapper
+        val mw = this.adapter.getItem(position) as AMediaWrapper
         when (option) {
             CTX_FAV_ADD -> browserFavRepository.addNetworkFavItem(mw.uri, mw.title, mw.artworkURL)
             CTX_FAV_EDIT -> showAddServerDialog(mw)
@@ -182,7 +182,7 @@ class NetworkBrowserFragment : BaseBrowserFragment() {
         else if (v.id == R.id.fab) showAddServerDialog(null)
     }
 
-    private fun showAddServerDialog(mw: MediaWrapper?) {
+    private fun showAddServerDialog(mw: AMediaWrapper?) {
         val fm = fragmentManager ?: return
         val dialog = NetworkServerDialog()
         if (mw != null) dialog.setServer(mw)

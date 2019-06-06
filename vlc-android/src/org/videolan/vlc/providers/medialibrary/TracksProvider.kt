@@ -23,13 +23,14 @@ package org.videolan.vlc.providers.medialibrary
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: SortableModel) : MedialibraryProvider<MediaWrapper>(context, scope) {
+class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: SortableModel) : MedialibraryProvider<AMediaWrapper>(context, scope) {
 
     override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
@@ -46,9 +47,9 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: So
         }
     }
 
-    override fun getAll(): Array<MediaWrapper> = parent?.tracks ?: medialibrary.getAudio(sort, scope.desc)
+    override fun getAll(): Array<AMediaWrapper> = parent?.tracks ?: medialibrary.getAudio(sort, scope.desc)
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<MediaWrapper> {
+    override fun getPage(loadSize: Int, startposition: Int) : Array<AMediaWrapper> {
         val list = if (scope.filterQuery == null) when(parent) {
             is Artist -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)
             is Album -> parent.getPagedTracks(sort, scope.desc, loadSize, startposition)

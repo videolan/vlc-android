@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="org.videolan.medialibrary.media.MediaWrapper" />
+        <import type="org.videolan.medialibrary.interfaces.media.AMediaWrapper" />
 
         <import type="android.text.TextUtils" />
 
@@ -16,7 +16,7 @@
 
         <variable
             name="media"
-            type="MediaWrapper" />
+            type="AMediaWrapper" />
 
         <variable
             name="cover"

@@ -39,8 +39,8 @@ import androidx.transition.TransitionManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Playlist
 import org.videolan.tools.isStarted
 import org.videolan.vlc.R
@@ -175,10 +175,15 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         when {
             item.itemType == MediaLibraryItem.TYPE_PLAYLIST -> UiTools.snackerConfirm(view!!, getString(R.string.confirm_delete_playlist, item.title), Runnable { MediaUtils.deletePlaylist(item as Playlist) })
             item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
+<<<<<<< HEAD
                 val deleteAction = Runnable {
                     if (isStarted()) launch { deleteMedia(item, false, null) }
                 }
                 val resid = if ((item as MediaWrapper).type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
+=======
+                val deleteAction = Runnable { deleteMedia(item, false, null) }
+                val resid = if ((item as AMediaWrapper).type == AMediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
+>>>>>>> Medialibrary: move MediaWrapper to AMediaWrapper
                 UiTools.snackerConfirm(view!!, getString(resid, item.getTitle()), Runnable { if (Util.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() })
             }
             else -> return false
@@ -210,7 +215,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         }
     }
 
-    private fun onDeleteFailed(media: MediaWrapper) {
+    private fun onDeleteFailed(media: AMediaWrapper) {
         if (isAdded) view?.let { UiTools.snacker(it, getString(R.string.msg_delete_failed, media.title)) }
     }
 

@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.collection.SimpleArrayMap
 import androidx.recyclerview.widget.RecyclerView
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.util.AndroidDevices
 
 private val storages = SimpleArrayMap<String, String>()
 
-class PathAdapter(val browser: PathAdapterListener, media: MediaWrapper) : RecyclerView.Adapter<PathAdapter.ViewHolder>() {
+class PathAdapter(val browser: PathAdapterListener, media: AMediaWrapper) : RecyclerView.Adapter<PathAdapter.ViewHolder>() {
 
     init {
         if (media.hasStateFlags(MediaLibraryItem.FLAG_STORAGE)) storages.put(Uri.decode(media.uri.path), media.title)

@@ -38,8 +38,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import com.google.android.material.textfield.TextInputLayout
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Playlist
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -57,8 +57,8 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private lateinit var mEmptyView: TextView
     private lateinit var mSaveButton: Button
     private lateinit var adapter: SimpleAdapter
-    private lateinit var mTracks: Array<MediaWrapper>
-    private lateinit var mNewTrack: Array<MediaWrapper>
+    private lateinit var mTracks: Array<AMediaWrapper>
+    private lateinit var mNewTrack: Array<AMediaWrapper>
     private lateinit var mMedialibrary: Medialibrary
     private var mPlaylistId: Long = 0
 
@@ -70,13 +70,13 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
         adapter = SimpleAdapter(this)
         mTracks = try {
             @Suppress("UNCHECKED_CAST")
-            arguments!!.getParcelableArray(KEY_TRACKS) as Array<MediaWrapper>
+            arguments!!.getParcelableArray(KEY_TRACKS) as Array<AMediaWrapper>
         } catch (e: Exception) {
             emptyArray()
         }
         mNewTrack = try {
             @Suppress("UNCHECKED_CAST")
-            arguments!!.getParcelableArray(KEY_NEW_TRACKS) as Array<MediaWrapper>
+            arguments!!.getParcelableArray(KEY_NEW_TRACKS) as Array<AMediaWrapper>
         } catch (e: Exception) {
             emptyArray()
         }
@@ -125,7 +125,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
             val addTracks = !Tools.isArrayEmpty(mNewTrack)
             var playlist: Playlist? = mMedialibrary.getPlaylist(mPlaylistId)
             val exists = playlist != null
-            val tracks: Array<MediaWrapper>?
+            val tracks: Array<AMediaWrapper>?
             if (!exists) playlist = mMedialibrary.createPlaylist(name)
             if (playlist == null) return@Runnable
             tracks = if (addTracks) {

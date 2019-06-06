@@ -11,8 +11,8 @@ import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.tv.FileTvItemAdapter
@@ -60,7 +60,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
         super.onCreate(savedInstanceState)
         item = if (savedInstanceState != null) savedInstanceState.getParcelable<Parcelable>(ITEM) as? MediaLibraryItem
         else arguments?.getParcelable(ITEM) as? MediaLibraryItem
-        viewModel = getBrowserModel(getCategory(), (item as? MediaWrapper)?.location, true, false)
+        viewModel = getBrowserModel(getCategory(), (item as? AMediaWrapper)?.location, true, false)
 
         viewModel.currentItem = item
 
@@ -116,14 +116,14 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
     private fun getCategory() = arguments?.getInt(CATEGORY, TYPE_FILE) ?: TYPE_FILE
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        val mediaWrapper = item as MediaWrapper
+        val mediaWrapper = item as AMediaWrapper
 
-        mediaWrapper.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-        if (mediaWrapper.type == MediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
+        mediaWrapper.removeFlags(AMediaWrapper.MEDIA_FORCE_AUDIO)
+        if (mediaWrapper.type == AMediaWrapper.TYPE_DIR) browse(mediaWrapper, true)
         else TvUtil.openMedia(requireActivity(), item, viewModel as BrowserModel)
     }
 
-    fun browse(media: MediaWrapper, save: Boolean) {
+    fun browse(media: AMediaWrapper, save: Boolean) {
         val ctx = activity
         if (ctx == null || !isResumed || isRemoving) return
         val ft = ctx.supportFragmentManager.beginTransaction()

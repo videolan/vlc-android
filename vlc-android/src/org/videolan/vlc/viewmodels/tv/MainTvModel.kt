@@ -31,9 +31,9 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.ExternalMonitor
 import org.videolan.vlc.PlaybackService
 import org.videolan.vlc.R
@@ -64,7 +64,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     val settings = Settings.getInstance(context)
     private val showInternalStorage = AndroidDevices.showInternalStorage()
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
-    private var updatedFavoritList: List<MediaWrapper> = listOf()
+    private var updatedFavoritList: List<AMediaWrapper> = listOf()
     var showHistory = false
         private set
     // LiveData
@@ -215,8 +215,8 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
 
     fun open(activity: FragmentActivity, item: Any?) {
         when (item) {
-            is MediaWrapper -> when {
-                item.type == MediaWrapper.TYPE_DIR -> {
+            is AMediaWrapper -> when {
+                item.type == AMediaWrapper.TYPE_DIR -> {
                     val intent = Intent(activity, VerticalGridActivity::class.java)
                     intent.putExtra(MainTvActivity.BROWSER_TYPE, if ("file" == item.uri.scheme) HEADER_DIRECTORIES else HEADER_NETWORK)
                     intent.data = item.uri
@@ -224,7 +224,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
                 }
                 else -> {
                     MediaUtils.openMedia(activity, item)
-                    if (item.type == MediaWrapper.TYPE_AUDIO) {
+                    if (item.type == AMediaWrapper.TYPE_AUDIO) {
                         activity.startActivity(Intent(activity, AudioPlayerActivity::class.java))
                     }
                 }

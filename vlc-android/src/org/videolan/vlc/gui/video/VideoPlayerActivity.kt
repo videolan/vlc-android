@@ -82,8 +82,9 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.DisplayManager
 import org.videolan.libvlc.util.VLCVideoLayout
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.ServiceLocator
 import org.videolan.medialibrary.Tools
-import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.tools.*
 import org.videolan.vlc.*
 import org.videolan.vlc.database.models.ExternalSub
@@ -231,7 +232,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             return if (AndroidUtil.isLolliPopOrLater) pm.isInteractive else pm.isScreenOn
         }
 
-    private val playlistObserver = Observer<List<MediaWrapper>> { mediaWrappers -> if (mediaWrappers != null) playlistAdapter.update(mediaWrappers) }
+    private val playlistObserver = Observer<List<AMediaWrapper>> { mediaWrappers -> if (mediaWrappers != null) playlistAdapter!!.update(mediaWrappers) }
 
     private var addNextTrack = false
 
@@ -626,7 +627,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             if (Permissions.canDrawOverlays(this)) {
                 switchingView = true
                 switchToPopup = true
-                if (service?.isPlaying != true) mw.addFlags(MediaWrapper.MEDIA_PAUSED)
+                if (service?.isPlaying != true) mw.addFlags(AMediaWrapper.MEDIA_PAUSED)
                 cleanUI()
                 exitOK()
             } else
@@ -858,7 +859,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 if (switchToPopup)
                     switchToPopup(currentMediaPosition)
                 else {
-                    currentMediaWrapper!!.addFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
+                    currentMediaWrapper!!.addFlags(AMediaWrapper.MEDIA_FORCE_AUDIO)
                     showWithoutParse(currentMediaPosition)
                 }
                 return
@@ -1475,14 +1476,14 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                         if (event.esChangedType == Media.Track.Type.Audio) {
                             setESTrackLists()
                             runIO(Runnable {
-                                val audioTrack = media.getMetaLong(MediaWrapper.META_AUDIOTRACK).toInt()
+                                val audioTrack = media.getMetaLong(AMediaWrapper.META_AUDIOTRACK).toInt()
                                 if (audioTrack != 0 || currentAudioTrack != -2)
                                     service.setAudioTrack(if (media.id == 0L) currentAudioTrack else audioTrack)
                             })
                         } else if (event.esChangedType == Media.Track.Type.Text) {
                             setESTrackLists()
                             runIO(Runnable {
-                                val spuTrack = media.getMetaLong(MediaWrapper.META_SUBTITLE_TRACK).toInt()
+                                val spuTrack = media.getMetaLong(AMediaWrapper.META_SUBTITLE_TRACK).toInt()
                                 if (addNextTrack) {
                                     val tracks = service.spuTracks
                                     if (!Util.isArrayEmpty(tracks as Array<MediaPlayer.TrackDescription>)) service!!.setSpuTrack(tracks[tracks.size - 1].id)
@@ -1533,10 +1534,10 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         stopLoading()
         updateOverlayPausePlay()
         updateNavStatus()
-        if (!mw.hasFlag(MediaWrapper.MEDIA_PAUSED))
+        if (!mw.hasFlag(AMediaWrapper.MEDIA_PAUSED))
             handler.sendEmptyMessageDelayed(FADE_OUT, OVERLAY_TIMEOUT.toLong())
         else {
-            mw.removeFlags(MediaWrapper.MEDIA_PAUSED)
+            mw.removeFlags(AMediaWrapper.MEDIA_PAUSED)
             wasPaused = false
         }
         setESTracks()
@@ -1711,7 +1712,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
 
-    override fun onPopupMenu(view: View, position: Int, item: MediaWrapper?) {
+    override fun onPopupMenu(view: View, position: Int, item: AMediaWrapper?) {
         val popupMenu = PopupMenu(this, view)
         popupMenu.menuInflater.inflate(R.menu.audio_player, popupMenu.menu)
 
@@ -1728,7 +1729,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     override fun onSelectionSet(position: Int) = playlist.scrollToPosition(position)
 
-    override fun playItem(position: Int, item: MediaWrapper) {
+    override fun playItem(position: Int, item: AMediaWrapper) {
         service?.playIndex(position)
     }
 
@@ -1867,7 +1868,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                                 service.setAudioTrack(trackID)
                                 runIO(Runnable {
                                     val mw = medialibrary.findMedia(service.currentMediaWrapper)
-                                    if (mw != null && mw.id != 0L) mw.setLongMeta(MediaWrapper.META_AUDIOTRACK, trackID.toLong())
+                                    if (mw != null && mw.id != 0L) mw.setLongMeta(AMediaWrapper.META_AUDIOTRACK, trackID.toLong())
                                 })
                             }
                         }
@@ -1906,7 +1907,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private fun setSpuTrack(trackID: Int) {
         runOnMainThread(Runnable { service?.setSpuTrack(trackID) })
         val mw = medialibrary.findMedia(service?.currentMediaWrapper) ?: return
-        if (mw.id != 0L) mw.setLongMeta(MediaWrapper.META_SUBTITLE_TRACK, trackID.toLong())
+        if (mw.id != 0L) mw.setLongMeta(AMediaWrapper.META_SUBTITLE_TRACK, trackID.toLong())
     }
 
     private fun showNavMenu() {
@@ -2432,7 +2433,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             if (startTime == 0L && savedTime > 0L) startTime = savedTime
             val restorePlayback = hasMedia && currentMedia!!.uri == videoUri
 
-            var openedMedia: MediaWrapper? = null
+            var openedMedia: AMediaWrapper? = null
             val resumePlaylist = service.isValidIndex(positionInPlaylist)
             val continueplayback = isPlaying && (restorePlayback || positionInPlaylist == service.currentMediaPosition)
             if (resumePlaylist) {
@@ -2448,7 +2449,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 updatePausable(service.isPausable)
             }
             if (videoUri != null) {
-                var media: MediaWrapper? = null
+                var media: AMediaWrapper? = null
                 if (!continueplayback) {
                     if (!resumePlaylist) {
                         // restore last position
@@ -2459,7 +2460,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                             media = medialibrary.getMedia(videoUri!!)
                         }
                         if (media != null && media.id != 0L && media.time == 0L)
-                            media.time = media.getMetaLong(MediaWrapper.META_PROGRESS)
+                            media.time = media.getMetaLong(AMediaWrapper.META_PROGRESS)
                     } else
                         media = openedMedia
                     if (media != null) {
@@ -2496,14 +2497,14 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 // Start playback & seek
                 /* prepare playback */
                 val medialoaded = media != null
-                if (!medialoaded) media = if (hasMedia) currentMedia else MediaWrapper(videoUri!!)
+                if (!medialoaded) media = if (hasMedia) currentMedia else ServiceLocator.getAMediaWrapper(videoUri!!)
                 if (wasPaused)
-                    media!!.addFlags(MediaWrapper.MEDIA_PAUSED)
+                    media!!.addFlags(AMediaWrapper.MEDIA_PAUSED)
                 if (intent.hasExtra(PLAY_DISABLE_HARDWARE))
-                    media!!.addFlags(MediaWrapper.MEDIA_NO_HWACCEL)
-                media!!.removeFlags(MediaWrapper.MEDIA_FORCE_AUDIO)
-                media.addFlags(MediaWrapper.MEDIA_VIDEO)
-                if (fromStart) media.addFlags(MediaWrapper.MEDIA_FROM_START)
+                    media!!.addFlags(AMediaWrapper.MEDIA_NO_HWACCEL)
+                media!!.removeFlags(AMediaWrapper.MEDIA_FORCE_AUDIO)
+                media.addFlags(AMediaWrapper.MEDIA_VIDEO)
+                if (fromStart) media.addFlags(AMediaWrapper.MEDIA_FROM_START)
 
                 // Set resume point
                 if (!continueplayback && !fromStart) {
@@ -2847,7 +2848,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             context.startActivity(intent)
         }
 
-        fun getIntent(action: String, mw: MediaWrapper, fromStart: Boolean, openedPosition: Int): Intent {
+        fun getIntent(action: String, mw: AMediaWrapper, fromStart: Boolean, openedPosition: Int): Intent {
             return getIntent(action, VLCApplication.appContext, mw.uri, mw.title, fromStart, openedPosition)
         }
 
