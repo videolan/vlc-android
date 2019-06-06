@@ -23,6 +23,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.ServiceLocator
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.interfaces.media.AAlbum
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
@@ -147,7 +148,7 @@ object MediaUtils : CoroutineScope {
         openList(context, withContext(Dispatchers.IO) { item.tracks }.toList(), position)
     }
 
-    fun playAlbums(context: Context?, provider: MedialibraryProvider<Album>, position: Int, shuffle: Boolean) {
+    fun playAlbums(context: Context?, provider: MedialibraryProvider<AAlbum>, position: Int, shuffle: Boolean) {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }

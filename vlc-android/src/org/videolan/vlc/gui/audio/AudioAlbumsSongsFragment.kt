@@ -37,8 +37,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.media.AAlbum
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
-import org.videolan.medialibrary.media.Album
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
@@ -191,7 +191,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
             super.onClick(v, position, item)
             return
         }
-        if (item is Album) {
+        if (item is AAlbum) {
             val i = Intent(activity, PlaylistActivity::class.java)
             i.putExtra(AudioBrowserFragment.TAG_ITEM, item)
             startActivity(i)

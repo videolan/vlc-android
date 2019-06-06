@@ -7,6 +7,7 @@ import kotlinx.coroutines.withContext
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.media.AAlbum
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.PlaybackService
@@ -185,11 +186,11 @@ object ModelsHelper {
 
     private fun isSpecialItem(item: MediaLibraryItem) = item.itemType == MediaLibraryItem.TYPE_ARTIST
             && (item.id == 1L || item.id == 2L) || item.itemType == MediaLibraryItem.TYPE_ALBUM
-            && item.title == Album.SpecialRes.UNKNOWN_ALBUM
+            && item.title == AAlbum.SpecialRes.UNKNOWN_ALBUM
 
     private fun getLength(media: MediaLibraryItem): Int {
         return when {
-            media.itemType == MediaLibraryItem.TYPE_ALBUM -> (media as Album).duration
+            media.itemType == MediaLibraryItem.TYPE_ALBUM -> (media as AAlbum).duration
             media.itemType == MediaLibraryItem.TYPE_MEDIA -> (media as AMediaWrapper).length.toInt()
             else -> 0
         }
@@ -214,7 +215,7 @@ object ModelsHelper {
 
     private fun getYear(media: MediaLibraryItem): String {
         return when (media.itemType) {
-            MediaLibraryItem.TYPE_ALBUM -> if ((media as Album).releaseYear == 0) "-" else media.releaseYear.toString()
+            MediaLibraryItem.TYPE_ALBUM -> if ((media as AAlbum).releaseYear == 0) "-" else media.releaseYear.toString()
             MediaLibraryItem.TYPE_MEDIA -> if ((media as AMediaWrapper).date == null) "-" else media.date
             else -> "-"
         }
@@ -222,7 +223,7 @@ object ModelsHelper {
 
     fun getTracksCount(media: MediaLibraryItem): Int {
         return when (media.itemType) {
-            MediaLibraryItem.TYPE_ALBUM -> (media as Album).tracksCount
+            MediaLibraryItem.TYPE_ALBUM -> (media as AAlbum).tracksCount
             MediaLibraryItem.TYPE_PLAYLIST -> (media as Playlist).tracksCount
             else -> 0
         }

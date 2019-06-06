@@ -7,7 +7,6 @@ import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.R;
 import org.videolan.medialibrary.ServiceLocator;
-import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 abstract public class AArtist extends MediaLibraryItem {
@@ -33,9 +32,9 @@ abstract public class AArtist extends MediaLibraryItem {
         }
     }
 
-    abstract public Album[] getAlbums(int sort, boolean desc);
-    abstract public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
-    abstract public Album[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset);
+    abstract public AAlbum[] getAlbums(int sort, boolean desc);
+    abstract public AAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset);
+    abstract public AAlbum[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchAlbumsCount(String query);
     abstract public AMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
@@ -65,7 +64,7 @@ abstract public class AArtist extends MediaLibraryItem {
         this.artworkMrl = artworkMrl;
     }
 
-    public Album[] getAlbums() {
+    public AAlbum[] getAlbums() {
         return getAlbums(Medialibrary.SORT_DEFAULT, false);
     }
 

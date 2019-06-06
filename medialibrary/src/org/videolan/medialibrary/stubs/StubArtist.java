@@ -2,9 +2,9 @@ package org.videolan.medialibrary.stubs;
 
 import android.os.Parcel;
 
+import org.videolan.medialibrary.interfaces.media.AAlbum;
 import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
-import org.videolan.medialibrary.media.Album;
 
 public class StubArtist extends AArtist {
 
@@ -12,20 +12,19 @@ public class StubArtist extends AArtist {
         super(id, name, shortBio, artworkMrl, musicBrainzId);
     }
 
-
     public StubArtist(Parcel in) {
         super(in);
     }
 
-    public Album[] getAlbums(int sort, boolean desc) {
+    public AAlbum[] getAlbums(int sort, boolean desc) {
         return null;
     }
 
-    public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
+    public AAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
         return null;
     }
 
-    public Album[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset) {
+    public AAlbum[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset) {
         return null;
     }
 

@@ -27,8 +27,8 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.media.AAlbum
 import org.videolan.medialibrary.interfaces.media.AArtist
-import org.videolan.medialibrary.media.Album
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.gui.audio.AudioAlbumsSongsFragment
 import org.videolan.vlc.providers.medialibrary.AlbumsProvider
@@ -49,7 +49,7 @@ class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : Medi
     init {
         when (parent) {
             is AArtist -> medialibrary.addArtistsCb(this@AlbumSongsViewModel)
-            is Album -> medialibrary.addAlbumsCb(this@AlbumSongsViewModel)
+            is AAlbum -> medialibrary.addAlbumsCb(this@AlbumSongsViewModel)
             else -> medialibrary.addMediaCb(this@AlbumSongsViewModel)
         }
     }
@@ -67,7 +67,7 @@ class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : Medi
     override fun onCleared() {
         when (parent) {
             is AArtist -> medialibrary.removeArtistsCb(this)
-            is Album -> medialibrary.removeAlbumsCb(this)
+            is AAlbum -> medialibrary.removeAlbumsCb(this)
             else -> medialibrary.removeMediaCb(this)
         }
         super.onCleared()

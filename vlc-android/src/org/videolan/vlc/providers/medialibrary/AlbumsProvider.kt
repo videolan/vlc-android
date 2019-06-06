@@ -23,16 +23,16 @@ package org.videolan.vlc.providers.medialibrary
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.media.AAlbum
 import org.videolan.medialibrary.interfaces.media.AArtist
 import org.videolan.medialibrary.interfaces.media.AGenre
-import org.videolan.medialibrary.media.Album
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.viewmodels.SortableModel
 
 
 @ExperimentalCoroutinesApi
-class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, scope: SortableModel) : MedialibraryProvider<Album>(context, scope) {
+class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, scope: SortableModel) : MedialibraryProvider<AAlbum>(context, scope) {
 
     override val sortKey = "${super.sortKey}_${parent?.javaClass?.simpleName}"
     override fun canSortByDuration() = true
@@ -43,13 +43,13 @@ class AlbumsProvider(val parent : MediaLibraryItem?, context: Context, scope: So
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", false)
     }
 
-    override fun getAll() : Array<Album> = when (parent) {
+    override fun getAll() : Array<AAlbum> = when (parent) {
         is AArtist -> parent.getAlbums(sort, scope.desc)
         is AGenre -> parent.getAlbums(sort, scope.desc)
         else -> medialibrary.getAlbums(sort, scope.desc)
     }
 
-    override fun getPage(loadSize: Int, startposition: Int) : Array<Album> {
+    override fun getPage(loadSize: Int, startposition: Int) : Array<AAlbum> {
         val list = if (scope.filterQuery == null) when(parent) {
             is AArtist -> parent.getPagedAlbums(sort, scope.desc, loadSize, startposition)
             is AGenre -> parent.getPagedAlbums(sort, scope.desc, loadSize, startposition)

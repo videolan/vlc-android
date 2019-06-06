@@ -33,10 +33,10 @@ import android.util.Log;
 import org.videolan.libvlc.LibVLC;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb;
+import org.videolan.medialibrary.interfaces.media.AAlbum;
 import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AGenre;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
-import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Folder;
 import org.videolan.medialibrary.media.Playlist;
 import org.videolan.medialibrary.media.SearchAggregate;
@@ -268,19 +268,19 @@ public class Medialibrary {
 
 
     @WorkerThread
-    public Album[] getAlbums() {
+    public AAlbum[] getAlbums() {
         return getAlbums(Medialibrary.SORT_DEFAULT, false);
     }
 
     @WorkerThread
-    public Album[] getAlbums(int sort, boolean desc) {
-        return mIsInitiated ? nativeGetAlbums(sort, desc) : new Album[0];
+    public AAlbum[] getAlbums(int sort, boolean desc) {
+        return mIsInitiated ? nativeGetAlbums(sort, desc) : new AAlbum[0];
     }
 
     @NonNull
     @WorkerThread
-    public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
-        return mIsInitiated ? nativeGetPagedAlbums(sort, desc, nbItems, offset) : new Album[0];
+    public AAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
+        return mIsInitiated ? nativeGetPagedAlbums(sort, desc, nbItems, offset) : new AAlbum[0];
     }
 
     public int getAlbumsCount() {
@@ -292,7 +292,7 @@ public class Medialibrary {
     }
 
     @WorkerThread
-    public Album getAlbum(long albumId) {
+    public AAlbum getAlbum(long albumId) {
         return mIsInitiated ? nativeGetAlbum(albumId) : null;
     }
 
@@ -856,11 +856,11 @@ public class Medialibrary {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedArtist(query, sort, desc, nbItems, offset) : new AArtist[0];
     }
 
-    public Album[] searchAlbum(String query, int sort, boolean desc, int nbItems, int offset) {
+    public AAlbum[] searchAlbum(String query, int sort, boolean desc, int nbItems, int offset) {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchPagedAlbum(query, sort, desc, nbItems, offset) : null;
     }
 
-    public Album[] searchAlbum(String query) {
+    public AAlbum[] searchAlbum(String query) {
         return mIsInitiated && !TextUtils.isEmpty(query) ? nativeSearchAlbum(query) : null;
     }
 
@@ -1000,10 +1000,10 @@ public class Medialibrary {
     private native AMediaWrapper[] nativeGetRecentAudio();
     private native int nativeGetVideoCount();
     private native int nativeGetAudioCount();
-    private native Album[] nativeGetAlbums(int sort, boolean desc);
-    private native Album[] nativeGetPagedAlbums(int sort, boolean desc, int nbItems, int offset);
+    private native AAlbum[] nativeGetAlbums(int sort, boolean desc);
+    private native AAlbum[] nativeGetPagedAlbums(int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetAlbumsCount();
-    private native Album nativeGetAlbum(long albumtId);
+    private native AAlbum nativeGetAlbum(long albumtId);
     private native AArtist[] nativeGetArtists(boolean all, int sort, boolean desc);
     private native AArtist[] nativeGetPagedArtists(boolean all, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetArtistsCount(boolean all);
@@ -1039,8 +1039,8 @@ public class Medialibrary {
     private native AArtist[] nativeSearchArtist(String query);
     private native AArtist[] nativeSearchPagedArtist(String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetArtistsSearchCount(String query);
-    private native Album[] nativeSearchAlbum(String query);
-    private native Album[] nativeSearchPagedAlbum(String query, int sort, boolean desc, int nbItems, int offset);
+    private native AAlbum[] nativeSearchAlbum(String query);
+    private native AAlbum[] nativeSearchPagedAlbum(String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetAlbumSearchCount(String query);
     private native AGenre[] nativeSearchGenre(String query);
     private native AGenre[] nativeSearchPagedGenre(String query, int sort, boolean desc, int nbItems, int offset);

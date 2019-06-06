@@ -2,21 +2,21 @@ package org.videolan.medialibrary.stubs;
 
 import android.os.Parcel;
 
+import org.videolan.medialibrary.interfaces.media.AAlbum;
 import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AGenre;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
-import org.videolan.medialibrary.media.Album;
 
 public class StubGenre extends AGenre {
 
     public StubGenre(long id, String title) { super(id, title); }
     public StubGenre(Parcel in) { super(in); }
 
-    public Album[] getAlbums(int sort, boolean desc) {
+    public AAlbum[] getAlbums(int sort, boolean desc) {
         return null;
     }
 
-    public Album[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
+    public AAlbum[] getPagedAlbums(int sort, boolean desc, int nbItems, int offset) {
         return null;
     }
 
@@ -40,7 +40,7 @@ public class StubGenre extends AGenre {
         return 0;
     }
 
-    public Album[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset) {
+    public AAlbum[] searchAlbums(String query, int sort, boolean desc, int nbItems, int offset) {
         return null;
     }
 

@@ -5,16 +5,18 @@ import android.net.Uri;
 import android.os.Parcel;
 
 import org.videolan.libvlc.Media;
+import org.videolan.medialibrary.interfaces.media.AAlbum;
 import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AGenre;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
+import org.videolan.medialibrary.media.Album;
 import org.videolan.medialibrary.media.Artist;
 import org.videolan.medialibrary.media.Genre;
 import org.videolan.medialibrary.media.MediaWrapper;
+import org.videolan.medialibrary.stubs.StubAlbum;
 import org.videolan.medialibrary.stubs.StubArtist;
 import org.videolan.medialibrary.stubs.StubGenre;
 import org.videolan.medialibrary.stubs.StubMediaWrapper;
-import org.xml.sax.Locator;
 
 public class ServiceLocator {
 
@@ -125,6 +127,27 @@ public class ServiceLocator {
             return new Genre(in);
         } else {
             return new StubGenre(in);
+        }
+    }
+
+    //Album
+    public static AAlbum getAAlbum(long id, String title, int releaseYear, String artworkMrl,
+                                   String albumArtist, long albumArtistId, int nbTracks,
+                                   int duration) {
+        if (mMode == LocatorMode.VLC_ANDROID) {
+            return new Album(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId,
+                    nbTracks, duration);
+        } else {
+            return new StubAlbum(id, title, releaseYear, artworkMrl, albumArtist, albumArtistId,
+                    nbTracks, duration);
+        }
+    }
+
+    public static AAlbum getAAlbum(Parcel in) {
+        if (mMode == LocatorMode.VLC_ANDROID) {
+            return new Album(in);
+        } else {
+            return new StubAlbum(in);
         }
     }
 }
