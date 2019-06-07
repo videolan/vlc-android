@@ -20,6 +20,8 @@
  */
 package org.videolan.vlc.gui.network
 
+import android.content.ClipboardManager
+import android.content.Context
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
@@ -48,6 +50,7 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AbstractMediaWrapper
 import org.videolan.tools.copy
+import org.videolan.tools.isValidUrl
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.MrlPanelBinding
 import org.videolan.vlc.gui.ContentActivity
@@ -65,7 +68,8 @@ const val TAG = "VLC/MrlPanelFragment"
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorActionListener, View.OnClickListener, CtxActionReceiver, BrowserFragmentInterface {
+class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorActionListener,
+        View.OnClickListener, CtxActionReceiver, BrowserFragmentInterface {
 
     private lateinit var adapter: MRLAdapter
     private lateinit var editText: com.google.android.material.textfield.TextInputLayout
@@ -103,7 +107,6 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
                 }
             })
             recyclerView.layoutManager = gridLayoutManager
-
         } else {
             recyclerView.layoutManager = LinearLayoutManager(activity)
             recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
@@ -121,13 +124,19 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
         viewModel.loading.observe(requireActivity(), Observer { (activity as? MainActivity)?.refreshing = it })
     }
 
+    override fun onResume() {
+        super.onResume()
+        val clipBoardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val text = clipBoardManager.primaryClip?.getItemAt(0)?.text?.toString()
+        if (text.isValidUrl()) viewModel.observableSearchText.set(text)
+    }
+
     override fun onStart() {
         super.onStart()
         viewModel.refresh()
         (activity as? ContentActivity)?.setTabLayoutVisibility(false)
         (activity as? AppCompatActivity)?.supportActionBar?.setTitle(R.string.open_mrl)
     }
-
 
     override fun onKey(v: View, keyCode: Int, event: KeyEvent) = (keyCode == EditorInfo.IME_ACTION_DONE ||
             keyCode == EditorInfo.IME_ACTION_GO ||
