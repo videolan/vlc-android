@@ -25,17 +25,18 @@ package org.videolan.vlc.gui.helpers.hf
 
 import android.Manifest
 import android.annotation.TargetApi
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
+import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate.Companion.getExtWritePermission
 import org.videolan.vlc.startMedialibrary
-import org.videolan.vlc.util.AppScope
-import org.videolan.vlc.util.EXTRA_FIRST_RUN
-import org.videolan.vlc.util.EXTRA_UPGRADE
-import org.videolan.vlc.util.Permissions
+import org.videolan.vlc.util.*
 import org.videolan.vlc.util.Permissions.canReadStorage
 import videolan.org.commontools.LiveEvent
 
@@ -141,5 +142,12 @@ class StoragePermissionsDelegate : BaseHeadlessFragment() {
                 activity.startMedialibrary(firstRun, upgrade, true)
             }
         }
+
+        suspend fun FragmentActivity.getWritePermission(uri: Uri) = if (uri.path?.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) == true) {
+            if (AndroidUtil.isOOrLater && !Permissions.canWriteStorage()) getStoragePermission(this, true)
+            else withContext(Dispatchers.IO) { FileUtils.canWrite(uri) }
+        } else getExtWritePermission(uri)
+
+        suspend fun Fragment.getWritePermission(uri: Uri) = activity?.getWritePermission(uri) ?: false
     }
 }

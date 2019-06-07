@@ -331,22 +331,25 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             stopActionMode()
             return false
         }
-        val single = this is FileBrowserFragment && count == 1
+        val fileBrowser = this is FileBrowserFragment
+        val single = fileBrowser && count == 1
         val selection = if (single) adapter.multiSelectHelper.getSelection() else null
         val type = if (!Util.isListEmpty(selection)) (selection!![0] as MediaWrapper).type else -1
         menu.findItem(R.id.action_mode_file_info).isVisible = single && (type == MediaWrapper.TYPE_AUDIO || type == MediaWrapper.TYPE_VIDEO)
         menu.findItem(R.id.action_mode_file_append).isVisible = PlaylistManager.hasMedia()
+        menu.findItem(R.id.action_mode_file_delete).isVisible = fileBrowser
         return true
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         val list = adapter.multiSelectHelper.getSelection() as? List<MediaWrapper> ?: return false
-        if (!list.isEmpty()) {
+        if (list.isNotEmpty()) {
             when (item.itemId) {
                 R.id.action_mode_file_play -> MediaUtils.openList(activity, list, 0)
                 R.id.action_mode_file_append -> MediaUtils.appendMedia(activity, list)
                 R.id.action_mode_file_add_playlist -> UiTools.addToPlaylist(requireActivity(), list)
                 R.id.action_mode_file_info -> showMediaInfo(list[0])
+                R.id.action_mode_file_delete -> removeItems(list)
                 else -> {
                     stopActionMode()
                     return false

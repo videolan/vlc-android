@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.DocumentsContract
-import android.text.TextUtils
 import androidx.appcompat.app.AlertDialog
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.Fragment
@@ -103,6 +102,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
         }
 
         suspend fun FragmentActivity.getExtWritePermission(uri: Uri) : Boolean {
+            if (!needsWritePermission(uri)) return true
             val storage = FileUtils.getMediaStorage(uri) ?: return false
             val fragment = WriteExternalDelegate()
             fragment.arguments = Bundle(1).apply { putString(KEY_STORAGE_PATH, storage) }
@@ -115,7 +115,7 @@ class WriteExternalDelegate : BaseHeadlessFragment() {
         fun needsWritePermission(uri: Uri) : Boolean {
             val path = uri.path ?: return false
             return AndroidUtil.isLolliPopOrLater && "file" == uri.scheme
-                    && !TextUtils.isEmpty(path) && path.startsWith('/')
+                    && !path.isEmpty() && path.startsWith('/')
                     && !path.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
                     && !(FileUtils.findFile(uri)?.canWrite() ?: false)
         }

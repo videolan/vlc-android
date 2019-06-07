@@ -222,7 +222,7 @@ object FileUtils {
     @WorkerThread
     fun deleteFile(uri: Uri): Boolean {
         if (!AndroidUtil.isLolliPopOrLater || uri.path!!.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)) return deleteFile(uri.path)
-        val docFile = FileUtils.findFile(uri)
+        val docFile = findFile(uri)
         if (docFile != null)
             try {
                 return docFile.delete()
@@ -233,9 +233,7 @@ object FileUtils {
     }
 
     @WorkerThread
-    fun deleteFile(path: String?): Boolean {
-        return deleteFile(File(path))
-    }
+    fun deleteFile(path: String?) = path?.let { deleteFile(File(it)) } ?: false
 
     @WorkerThread
     fun deleteFile(file: File): Boolean {
@@ -260,6 +258,8 @@ object FileUtils {
         }
         return deleted
     }
+
+    fun String.isInternalStorage() = startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY)
 
     private fun asyncRecursiveDelete(path: String, callback: Callback?) {
         asyncRecursiveDelete(File(path), callback)
@@ -331,7 +331,6 @@ object FileUtils {
             else
                 return null
         }
-        if (documentFile != null) Log.d(TAG, "findFile: write " + documentFile.canWrite())
         return documentFile
 
     }

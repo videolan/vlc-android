@@ -50,7 +50,7 @@ import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.InfoActivity
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
-import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate.Companion.getExtWritePermission
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.gui.view.SwipeRefreshLayout
 import org.videolan.vlc.interfaces.Filterable
 import org.videolan.vlc.media.MediaUtils
@@ -152,16 +152,21 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
     abstract fun onRefresh()
     open fun clear() {}
 
-    protected open fun removeItems(items: List<MediaLibraryItem>, title: String) {
+    protected open fun removeItems(items: List<MediaLibraryItem>) {
+        if (items.size == 1) {
+            removeItem(items[0])
+            return
+        }
         val v = view ?: return
-        snackerConfirm(v, title) {
+        snackerConfirm(v,getString(R.string.confirm_delete_several_media, items.size)) {
             for (item in items) {
-                if (!activity.isStarted()) break
+                if (!isStarted()) break
                 when(item) {
-                    is MediaWrapper -> if (getExtWritePermission(item.uri)) deleteMedia(item)
+                    is MediaWrapper -> if (getWritePermission(item.uri)) deleteMedia(item)
                     is Playlist -> withContext(Dispatchers.IO) { item.delete() }
                 }
             }
+            if (isStarted()) viewModel.refresh()
         }
     }
 
@@ -171,7 +176,7 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             item.itemType == MediaLibraryItem.TYPE_PLAYLIST -> UiTools.snackerConfirm(view!!, getString(R.string.confirm_delete_playlist, item.title), Runnable { MediaUtils.deletePlaylist(item as Playlist) })
             item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
                 val deleteAction = Runnable {
-                    if (activity.isStarted()) launch { deleteMedia(item, false, null) }
+                    if (isStarted()) launch { deleteMedia(item, false, null) }
                 }
                 val resid = if ((item as MediaWrapper).type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
                 UiTools.snackerConfirm(view!!, getString(resid, item.getTitle()), Runnable { if (Util.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() })
@@ -187,25 +192,21 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         for (media in mw.tracks) {
             val path = media.uri.path
             val parentPath = FileUtils.getParent(path)
-            if (FileUtils.deleteFile(media.uri)) {
-                if (media.id > 0L && !foldersToReload.contains(parentPath)) {
-                    if (parentPath != null) {
-                        foldersToReload.add(parentPath)
-                    }
+            if (FileUtils.deleteFile(media.uri)) parentPath?.let {
+                if (media.id > 0L && !foldersToReload.contains(it)) {
+                    foldersToReload.add(it)
                 }
                 mediaPaths.add(media.location)
             } else
                 onDeleteFailed(media)
         }
         for (folder in foldersToReload) mediaLibrary.reload(folder)
-        if (activity.isStarted()) {
-            launch {
-                if (mediaPaths.isEmpty()) {
-                    failCB?.run()
-                    return@launch
-                }
-                if (refresh) onRefresh()
+        if (isStarted()) launch {
+            if (mediaPaths.isEmpty()) {
+                failCB?.run()
+                return@launch
             }
+            if (refresh) onRefresh()
         }
     }
 
