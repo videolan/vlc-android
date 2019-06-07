@@ -67,7 +67,18 @@ continuous-app-build:
             - assets/**/*
             - .gitlab-ci.yml
     except:
-        - schedules
+        refs:
+            - schedules
+        changes:
+            - libvlc/**/*
+            - build-common
+            - compile.sh
+            - compile-libvlc.sh
+            - medialibrary/**/*
+            - compile.sh
+            - build-common
+            - compile-libvlc.sh
+            - compile-medialibrary.sh
 
 #################################
 # Template config instantiation #
