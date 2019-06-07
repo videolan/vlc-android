@@ -846,6 +846,18 @@ void AndroidMediaLibrary::onEntryPointUnbanned( const std::string& entryPoint, b
     env->DeleteLocalRef(ep);
 }
 
+void AndroidMediaLibrary::onEntryPointAdded( const std::string& entryPoint, bool success )
+{
+    JNIEnv *env = getEnv();
+    if (env == NULL) return;
+    jstring ep = env->NewStringUTF(entryPoint.c_str());
+    if (weak_thiz)
+    {
+        env->CallVoidMethod(weak_thiz, p_fields->MediaLibrary.onEntryPointAddedId, ep, success);
+    }
+    env->DeleteLocalRef(ep);
+}
+
 void AndroidMediaLibrary::onEntryPointRemoved( const std::string& entryPoint, bool success )
 {
     JNIEnv *env = getEnv();

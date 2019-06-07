@@ -133,6 +133,7 @@ public:
     void onReloadCompleted( const std::string& entryPoint, bool success );
     void onEntryPointBanned( const std::string& entryPoint, bool success );
     void onEntryPointUnbanned( const std::string& entryPoint, bool success );
+    void onEntryPointAdded( const std::string& entryPoint, bool success );
     void onEntryPointRemoved( const std::string& entryPoint, bool success );
     void onParsingStatsUpdated( uint32_t percent);
     void onBackgroundTasksIdleChanged( bool isIdle );

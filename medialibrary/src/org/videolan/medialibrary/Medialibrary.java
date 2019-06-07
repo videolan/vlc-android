@@ -714,6 +714,15 @@ public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
+    void onEntryPointAdded(String entryPoint, boolean success) {
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onEntryPointAdded(entryPoint, success);
+        }
+    }
+
+    @SuppressWarnings("unused")
     void onEntryPointRemoved(String entryPoint, boolean success) {
         synchronized (entryPointsEventsCbList) {
             if (!entryPointsEventsCbList.isEmpty())

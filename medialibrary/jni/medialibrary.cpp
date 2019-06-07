@@ -2112,6 +2112,10 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved)
            ml_fields.MediaLibrary.clazz,
            "onEntryPointUnbanned", "(Ljava/lang/String;Z)V");
     GET_ID(GetMethodID,
+           ml_fields.MediaLibrary.onEntryPointAddedId,
+           ml_fields.MediaLibrary.clazz,
+           "onEntryPointAdded", "(Ljava/lang/String;Z)V");
+    GET_ID(GetMethodID,
            ml_fields.MediaLibrary.onEntryPointRemovedId,
            ml_fields.MediaLibrary.clazz,
            "onEntryPointRemoved", "(Ljava/lang/String;Z)V");

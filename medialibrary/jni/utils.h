@@ -63,6 +63,7 @@ struct fields {
         jmethodID onReloadCompletedId;
         jmethodID onEntryPointBannedId;
         jmethodID onEntryPointUnbannedId;
+        jmethodID onEntryPointAddedId;
         jmethodID onEntryPointRemovedId;
         jmethodID onMediaThumbnailReadyId;
     } MediaLibrary;

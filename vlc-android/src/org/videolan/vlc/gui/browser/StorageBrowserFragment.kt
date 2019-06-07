@@ -205,6 +205,8 @@ class StorageBrowserFragment : FileBrowserFragment(), EntryPointsEventsCb {
 
     override fun onEntryPointUnbanned(entryPoint: String, success: Boolean) {}
 
+    override fun onEntryPointAdded(entryPoint: String, success: Boolean) {}
+
     override fun onEntryPointRemoved(entryPoint: String, success: Boolean) {
         var entryPoint = entryPoint
         if (entryPoint.endsWith("/"))
