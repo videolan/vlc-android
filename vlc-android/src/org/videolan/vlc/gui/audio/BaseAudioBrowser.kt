@@ -32,11 +32,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
@@ -162,37 +161,40 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
 
     override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
         val selection = getCurrentAdapter()?.multiSelectHelper?.getSelection()
-        val count = selection?.size
+        val count = selection?.size ?: return false
         if (count == 0) {
             stopActionMode()
             return false
         }
-        val isSong = count == 1 && selection[0].itemType == MediaLibraryItem.TYPE_MEDIA
+        val isMedia = selection[0].itemType == MediaLibraryItem.TYPE_MEDIA
+        val isSong = count == 1 && isMedia
         menu.findItem(R.id.action_mode_audio_set_song).isVisible = isSong && AndroidDevices.isPhone
         menu.findItem(R.id.action_mode_audio_info).isVisible = count == 1
         menu.findItem(R.id.action_mode_audio_append).isVisible = PlaylistManager.hasMedia()
+        menu.findItem(R.id.action_mode_audio_delete).isVisible = isMedia
         return true
     }
 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         val list = getCurrentAdapter()?.multiSelectHelper?.getSelection()
         stopActionMode()
-        if (list != null && list.isNotEmpty())
-            runIO(Runnable {
-                val tracks = ArrayList<MediaWrapper>()
-                for (mediaItem in list)
-                    tracks.addAll(Arrays.asList(*mediaItem.tracks))
-                launch {
-                    when (item.itemId) {
-                        R.id.action_mode_audio_play -> MediaUtils.openList(activity, tracks, 0)
-                        R.id.action_mode_audio_append -> MediaUtils.appendMedia(activity, tracks)
-                        R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), tracks)
-                        R.id.action_mode_audio_info -> showInfoDialog(list[0])
-                        R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, requireActivity())
-                    }
-                }
-            })
+        if (!list.isNullOrEmpty()) launch {
+            if (isStarted()) when (item.itemId) {
+                R.id.action_mode_audio_play -> MediaUtils.openList(activity, list.getTracks(), 0)
+                R.id.action_mode_audio_append -> MediaUtils.appendMedia(activity, list.getTracks())
+                R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), list.getTracks())
+                R.id.action_mode_audio_info -> showInfoDialog(list[0])
+                R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, requireActivity())
+                R.id.action_mode_audio_delete -> removeItems(list)
+            }
+        }
         return true
+    }
+
+    private suspend fun List<MediaLibraryItem>.getTracks() = withContext(Dispatchers.Default) {
+        ArrayList<MediaWrapper>().apply {
+            for (mediaItem in this@getTracks) addAll(Arrays.asList(*mediaItem.tracks))
+        }
     }
 
     override fun onDestroyActionMode(actionMode: ActionMode) {

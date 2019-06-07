@@ -50,6 +50,7 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Playlist
+import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -63,6 +64,8 @@ import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.FloatingActionButtonBehavior
 import org.videolan.vlc.gui.helpers.SwipeDragItemTouchHelperCallback
 import org.videolan.vlc.gui.helpers.UiTools
+import org.videolan.vlc.gui.helpers.UiTools.snackerConfirm
+import org.videolan.vlc.gui.helpers.hf.StoragePermissionsDelegate.Companion.getWritePermission
 import org.videolan.vlc.interfaces.IEventsHandler
 import org.videolan.vlc.interfaces.IListEventsHandler
 import org.videolan.vlc.media.MediaUtils
@@ -232,11 +235,9 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
         actionMode = startSupportActionMode(this)
     }
 
-    private fun stopActionMode() {
-        if (actionMode != null) {
-            actionMode!!.finish()
-            onDestroyActionMode(actionMode!!)
-        }
+    private fun stopActionMode() = actionMode?.let {
+        it.finish()
+        onDestroyActionMode(it)
     }
 
     private fun invalidateActionMode() {
@@ -255,13 +256,14 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
             stopActionMode()
             return false
         }
-        val isSong = count == 1 && audioBrowserAdapter.multiSelectHelper.getSelection()[0].itemType == MediaLibraryItem.TYPE_MEDIA
+        val isMedia = audioBrowserAdapter.multiSelectHelper.getSelection()[0].itemType == MediaLibraryItem.TYPE_MEDIA
+        val isSong = count == 1 && isMedia
         //menu.findItem(R.id.action_mode_audio_playlist_up).setVisible(isSong && isPlaylist);
         //menu.findItem(R.id.action_mode_audio_playlist_down).setVisible(isSong && isPlaylist);
         menu.findItem(R.id.action_mode_audio_set_song).isVisible = isSong && AndroidDevices.isPhone && !isPlaylist
         menu.findItem(R.id.action_mode_audio_info).isVisible = isSong
         menu.findItem(R.id.action_mode_audio_append).isVisible = PlaylistManager.hasMedia()
-        menu.findItem(R.id.action_mode_audio_delete).isVisible = isPlaylist
+        menu.findItem(R.id.action_mode_audio_delete).isVisible = true
         return true
     }
 
@@ -272,13 +274,11 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
             tracks.addAll(Arrays.asList(*mediaItem.tracks))
 
         if (item.itemId == R.id.action_mode_audio_playlist_up) {
-            Toast.makeText(this, "UP !",
-                    Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "UP !", Toast.LENGTH_SHORT).show()
             return true
         }
         if (item.itemId == R.id.action_mode_audio_playlist_down) {
-            Toast.makeText(this, "DOWN !",
-                    Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "DOWN !", Toast.LENGTH_SHORT).show()
             return true
         }
         val indexes = ArrayList<Int>()
@@ -293,7 +293,7 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
             R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(this, tracks)
             R.id.action_mode_audio_info -> showInfoDialog(list[0] as MediaWrapper)
             R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, this)
-            R.id.action_mode_audio_delete -> removeFromPlaylist(tracks, indexes)
+            R.id.action_mode_audio_delete -> if (isPlaylist) removeFromPlaylist(tracks, indexes) else removeItems(tracks)
             else -> return false
         }
         return true
@@ -327,10 +327,20 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     private fun removeItem(position: Int, media: MediaWrapper) {
         val resId = if (isPlaylist) R.string.confirm_remove_from_playlist else R.string.confirm_delete
         if (isPlaylist) {
-            UiTools.snackerConfirm(binding.root, getString(resId, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
+            snackerConfirm(binding.root, getString(resId, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
         } else {
             val deleteAction = Runnable { deleteMedia(media) }
-            UiTools.snackerConfirm(binding.root, getString(resId, media.title), Runnable { if (Util.checkWritePermission(this@PlaylistActivity, media, deleteAction)) deleteAction.run() })
+            snackerConfirm(binding.root, getString(resId, media.title), Runnable { if (Util.checkWritePermission(this@PlaylistActivity, media, deleteAction)) deleteAction.run() })
+        }
+    }
+
+    private fun removeItems(items: List<MediaWrapper>) {
+        snackerConfirm(binding.root,getString(R.string.confirm_delete_several_media, items.size)) {
+            for (item in items) {
+                if (!isStarted()) break
+                if (getWritePermission(item.uri)) deleteMedia(item)
+            }
+            if (isStarted()) viewModel.refresh()
         }
     }
 

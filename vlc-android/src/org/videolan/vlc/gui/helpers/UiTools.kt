@@ -66,6 +66,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.MediaParsingService
 import org.videolan.vlc.R
@@ -260,6 +261,7 @@ object UiTools {
     }
 
     fun addToPlaylist(activity: FragmentActivity, tracks: Array<MediaWrapper>, key: String) {
+        if (!activity.isStarted()) return
         val savePlaylistDialog = SavePlaylistDialog()
         val args = Bundle()
         args.putParcelableArray(key, tracks)

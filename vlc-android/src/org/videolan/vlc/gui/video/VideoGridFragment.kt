@@ -294,6 +294,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
                     MediaUtils.openList(activity, list, 0)
                 }
                 R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), list)
+                R.id.action_video_delete -> removeItems(list)
                 else -> {
                     stopActionMode()
                     return false
