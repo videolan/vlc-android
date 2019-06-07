@@ -24,7 +24,7 @@ cache:
             - master
             - merge_requests
         changes:
-            - libvlc/*
+            - libvlc/**/*
             - build-common
             - compile.sh
             - compile-libvlc.sh
@@ -42,7 +42,7 @@ cache:
             - master
             - merge_requests
         changes:
-            - medialibrary/*
+            - medialibrary/**/*
             - compile.sh
             - build-common
             - compile-libvlc.sh
