@@ -1,5 +1,6 @@
 package org.videolan.tools
 
+import android.util.Patterns
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo
 import android.content.ClipData
@@ -11,6 +12,14 @@ import android.view.View
 import androidx.annotation.AttrRes
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.OnLifecycleEvent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
+import kotlinx.coroutines.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
@@ -83,3 +92,11 @@ suspend fun Context.awaitAppIsForegroung() : Boolean {
 }
 
 private fun ActivityManager.isAppForeground() = runningAppProcesses[0].importance <= RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+
+@UseExperimental(ExperimentalContracts::class)
+fun String?.isValidUrl() : Boolean {
+    contract {
+        returns(true) implies (this@isValidUrl != null)
+    }
+    return !isNullOrEmpty() && Patterns.WEB_URL.matcher(this).matches()
+}
