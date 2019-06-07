@@ -28,7 +28,7 @@ open class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
         KeyHelper.manageModifiers(event)
-        return super.onKeyDown(keyCode, event)
+        return super.onKeyUp(keyCode, event)
     }
 
 }
