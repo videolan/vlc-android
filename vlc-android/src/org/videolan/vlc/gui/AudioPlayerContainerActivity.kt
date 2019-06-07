@@ -248,7 +248,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
      * @return true on success else false.
      */
     fun slideDownAudioPlayer(): Boolean {
-        if (isAudioPlayerReady && bottomSheetBehavior!!.state == STATE_EXPANDED) {
+        if (isAudioPlayerReady && bottomSheetBehavior?.state == STATE_EXPANDED) {
             bottomSheetBehavior?.state = STATE_COLLAPSED
             return true
         }

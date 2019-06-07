@@ -251,7 +251,7 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
         }
 
         /* Close playlist search if open or Slide down the audio player if it is shown entirely. */
-        if (isAudioPlayerReady && (audioPlayer!!.backPressed() || slideDownAudioPlayer()))
+        if (isAudioPlayerReady && (audioPlayer?.backPressed() == true || slideDownAudioPlayer()))
             return
 
         // If it's the directory view, a "backpressed" action shows a parent.
