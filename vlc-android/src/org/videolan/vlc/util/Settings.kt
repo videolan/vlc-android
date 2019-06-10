@@ -71,4 +71,5 @@ const val RESULT_UPDATE_ARTISTS = Activity.RESULT_FIRST_USER + 5
 
 const val PLAYBACK_HISTORY = "playback_history"
 const val RESUME_PLAYBACK = "resume_playback"
+const val AUTO_REWIND_A_BIT_AFTER_PAUSE = "auto_rewind_a_bit_after_pause"
 const val AUDIO_DUCKING = "audio_ducking"

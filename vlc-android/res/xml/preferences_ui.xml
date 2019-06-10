@@ -34,6 +34,12 @@
         android:title="@string/resume_playback_title" />
 
     <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="auto_rewind_a_bit_after_pause"
+        android:summary="@string/auto_rewind_a_bit_after_pause_summary"
+        android:title="@string/auto_rewind_a_bit_after_pause_title" />
+
+    <CheckBoxPreference
         android:defaultValue="true"
         android:key="browser_show_all_files"
         android:summary="@string/browser_show_all_summary"

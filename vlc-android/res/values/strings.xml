@@ -450,6 +450,8 @@
     <string name="network_caching_summary">The amount of time to buffer network media (in ms). Does not work with hardware decoding. Leave blank to reset.</string>
     <string name="resume_playback_title">Resume playback after a call</string>
     <string name="resume_playback_summary">Stay in pause otherwise</string>
+    <string name="auto_rewind_a_bit_after_pause_title">Auto rewind 5 seconds after pause</string>
+    <string name="auto_rewind_a_bit_after_pause_summary">Useful when listen audio book or podcast</string>
     <string name="blurred_cover_background_title">Blurred cover background</string>
     <string name="blurred_cover_background_summary">Blurred cover in audio player background</string>
     <string name="network_caching_popup">This value must be between 0 and 6000 ms</string>

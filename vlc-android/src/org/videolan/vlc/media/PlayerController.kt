@@ -55,6 +55,10 @@ class PlayerController(val context: Context) : IVLCVout.Callback, MediaPlayer.Ev
     fun pause(): Boolean {
         if (isPlaying() && mediaplayer.hasMedia() && pausable) {
             mediaplayer.pause()
+            if (settings.getBoolean(AUTO_REWIND_A_BIT_AFTER_PAUSE, false)){
+                val autoRewindDurationInMs = 5000
+                setTime(getCurrentTime() - autoRewindDurationInMs)
+            }
             return true
         }
         return false
