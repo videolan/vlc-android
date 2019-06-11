@@ -1853,6 +1853,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                         listener.onTrackSelected(trackID)
                         dialog.dismiss()
                     }
+                    .setOnDismissListener { this.dimStatusBar(true) }
                     .create()
             alertDialog!!.setCanceledOnTouchOutside(true)
             alertDialog!!.ownerActivity = this@VideoPlayerActivity
@@ -2242,7 +2243,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
      * Hide it on Android 4.0 and later
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    private fun dimStatusBar(dim: Boolean) {
+    public fun dimStatusBar(dim: Boolean) {
         if (isNavMenu) return
         if (dim || isLocked)
             actionBar.hide()

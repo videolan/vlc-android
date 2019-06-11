@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.support.v4.media.session.PlaybackStateCompat
 import android.text.format.DateFormat
@@ -29,10 +30,7 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.databinding.PlayerOptionItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.audio.EqualizerFragment
-import org.videolan.vlc.gui.dialogs.JumpToTimeDialog
-import org.videolan.vlc.gui.dialogs.PlaybackSpeedDialog
-import org.videolan.vlc.gui.dialogs.SelectChapterDialog
-import org.videolan.vlc.gui.dialogs.SleepTimerDialog
+import org.videolan.vlc.gui.dialogs.*
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.interfaces.IPlaybackSettingsController
 import org.videolan.vlc.media.ABRepeat
@@ -243,6 +241,8 @@ class PlayerOptionsDelegate(val activity: AppCompatActivity, val service: Playba
             }
             else -> return
         }
+        if (newFragment is VLCBottomSheetDialogFragment && activity is VideoPlayerActivity)
+            newFragment.onDismissListener = DialogInterface.OnDismissListener { activity.dimStatusBar(true) }
         newFragment.show(activity.supportFragmentManager, tag)
         hide()
     }
