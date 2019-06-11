@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.SongHeaderItemBinding
 
@@ -13,7 +13,7 @@ class MediaHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : Recyc
 
     private val alphaItems = listOf("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#")
 
-    var sortType = Medialibrary.SORT_ALPHA
+    var sortType = AMedialibrary.SORT_ALPHA
 
     var items = ArrayList<String>()
 
@@ -23,14 +23,18 @@ class MediaHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : Recyc
 
     override fun getItemCount(): Int {
         return when (sortType) {
-            Medialibrary.SORT_ALPHA, Medialibrary.SORT_DEFAULT -> alphaItems.size
+            AMedialibrary.SORT_ALPHA, AMedialibrary.SORT_DEFAULT -> alphaItems.size
             else -> items.size
         }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+<<<<<<< HEAD
         if (sortType == Medialibrary.SORT_ALPHA || sortType == Medialibrary.SORT_DEFAULT) {
+=======
+        if (sortType == AMedialibrary.SORT_ALPHA) {
+>>>>>>> Medialibrary: move Medialibrary to AMedialibrary
             holder.binding.headerText = alphaItems[position]
             holder.binding.hasContent = items.contains(alphaItems[position])
         } else {
@@ -40,7 +44,11 @@ class MediaHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : Recyc
     }
 
     fun getItem(position: Int): String {
+<<<<<<< HEAD
         return if (sortType == Medialibrary.SORT_ALPHA || sortType == Medialibrary.SORT_DEFAULT) {
+=======
+        return if (sortType == AMedialibrary.SORT_ALPHA) {
+>>>>>>> Medialibrary: move Medialibrary to AMedialibrary
             alphaItems[position]
         } else {
             items[position]

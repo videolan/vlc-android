@@ -36,7 +36,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.textfield.TextInputLayout
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.interfaces.media.APlaylist
@@ -59,7 +59,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private lateinit var adapter: SimpleAdapter
     private lateinit var mTracks: Array<AMediaWrapper>
     private lateinit var mNewTrack: Array<AMediaWrapper>
-    private lateinit var mMedialibrary: Medialibrary
+    private lateinit var mMedialibrary: AMedialibrary
     private var mPlaylistId: Long = 0
 
     override fun initialFocusedView(): View = mListView

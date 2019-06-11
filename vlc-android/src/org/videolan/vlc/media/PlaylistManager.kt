@@ -16,7 +16,7 @@ import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.ServiceLocator
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.vlc.BuildConfig
@@ -43,7 +43,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
         fun hasMedia() = mediaList.size() != 0
     }
 
-    private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { Medialibrary.getInstance() }
+    private val medialibrary by lazy(LazyThreadSafetyMode.NONE) { AMedialibrary.getInstance() }
     val player by lazy(LazyThreadSafetyMode.NONE) { PlayerController(service.applicationContext) }
     private val settings by lazy(LazyThreadSafetyMode.NONE) { Settings.getInstance(service) }
     private val ctx by lazy(LazyThreadSafetyMode.NONE) { service.applicationContext }

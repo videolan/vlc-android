@@ -42,7 +42,7 @@ import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.vlc.*
 import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.extensions.ExtensionsManager
@@ -69,7 +69,7 @@ class MainActivity : ContentActivity(), ExtensionManagerService.ExtensionManager
             mainLoading.visibility = if (value) View.VISIBLE else View.GONE
             field = value
         }
-    private lateinit var mediaLibrary: Medialibrary
+    private lateinit var mediaLibrary: AMedialibrary
     private lateinit var extensionsManager: ExtensionsManager
     private lateinit var drawerLayout: HackyDrawerLayout
     private lateinit var navigationView: NavigationView

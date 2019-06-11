@@ -21,7 +21,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.VLCApplication
@@ -80,13 +80,13 @@ fun Context.getAppSystemService(name: String) = applicationContext.getSystemServ
 fun Long.random() = (Random().nextFloat() * this).toLong()
 
 @ExperimentalCoroutinesApi
-suspend inline fun <reified T> Context.getFromMl(crossinline block: Medialibrary.() -> T) = withContext(Dispatchers.IO) {
-    val ml = Medialibrary.getInstance()
+suspend inline fun <reified T> Context.getFromMl(crossinline block: AMedialibrary.() -> T) = withContext(Dispatchers.IO) {
+    val ml = AMedialibrary.getInstance()
     if (ml.isStarted) block.invoke(ml)
     else {
         val scan = Settings.getInstance(this@getFromMl).getInt(KEY_MEDIALIBRARY_SCAN, ML_SCAN_ON) == ML_SCAN_ON
         suspendCancellableCoroutine { continuation ->
-            val listener = object : Medialibrary.OnMedialibraryReadyListener {
+            val listener = object : AMedialibrary.OnMedialibraryReadyListener {
                 override fun onMedialibraryReady() {
                     val cb = this
                     if (!continuation.isCompleted) launch(start = CoroutineStart.UNDISPATCHED) {

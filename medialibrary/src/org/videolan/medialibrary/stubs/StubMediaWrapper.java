@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.os.Parcel;
 
 import org.videolan.libvlc.Media;
-import org.videolan.medialibrary.Medialibrary;
-import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 
 public class StubMediaWrapper extends AMediaWrapper {
@@ -33,41 +31,25 @@ public class StubMediaWrapper extends AMediaWrapper {
     public StubMediaWrapper(Parcel in) { super(in); }
 
     public void rename(String name) {
-
     }
 
     public long getMetaLong(int metaDataType) {
-//        Medialibrary ml = Medialibrary.getInstance();
-//        return mId == 0 || !ml.isInitiated() ? 0L : nativeGetMediaLongMetadata(ml, mId, metaDataType);
         return 0L;
     }
 
     public String getMetaString(int metaDataType) {
-//        Medialibrary ml = Medialibrary.getInstance();
-//        return mId == 0 || !ml.isInitiated() ? null : nativeGetMediaStringMetadata(ml, mId, metaDataType);
         return "";
     }
 
     public boolean setLongMeta(int metaDataType, long metadataValue) {
-//        Medialibrary ml = Medialibrary.getInstance();
-//        if (mId != 0 && ml.isInitiated())
-//            nativeSetMediaLongMetadata(ml, mId, metaDataType, metadataValue);
-//        return mId != 0;
         return true;
     }
 
     public boolean setStringMeta(int metaDataType, String metadataValue) {
-//        Medialibrary ml = Medialibrary.getInstance();
-//        if (mId != 0 && ml.isInitiated())
-//            nativeSetMediaStringMetadata(ml, mId, metaDataType, metadataValue);
-//        return mId != 0;
         return true;
     }
 
     public void setThumbnail(String mrl) {
-//        mArtworkURL = mrl;
-//        final Medialibrary ml = Medialibrary.getInstance();
-//        if (mId != 0 && ml.isInitiated()) nativeSetMediaThumbnail(ml, mId, Tools.encodeVLCMrl(mrl));
     }
 
 }

@@ -57,7 +57,7 @@ import org.videolan.libvlc.Media
 import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.vlc.gui.helpers.AudioUtil
 import org.videolan.vlc.gui.helpers.BitmapUtil
@@ -89,7 +89,7 @@ class PlaybackService : MediaBrowserServiceCompat(), CoroutineScope, LifecycleOw
     private lateinit var keyguardManager: KeyguardManager
     internal lateinit var settings: SharedPreferences
     private val mBinder = LocalBinder()
-    internal lateinit var medialibrary: Medialibrary
+    internal lateinit var medialibrary: AMedialibrary
 
     private val callbacks = mutableListOf<Callback>()
     private var detectHeadset = true

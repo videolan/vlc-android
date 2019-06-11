@@ -35,7 +35,7 @@ import kotlinx.coroutines.channels.mapNotNullTo
 import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.ServiceLocator
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -60,7 +60,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     private val showAll = Settings.getInstance(context).getBoolean("browser_show_all_files", true)
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
-    internal val medialibrary = Medialibrary.getInstance()
+    internal val medialibrary = AMedialibrary.getInstance()
 
     private val browserActor = actor<BrowserAction>(capacity = Channel.UNLIMITED) {
         for (action in channel) if (isActive) when (action) {
@@ -126,7 +126,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 position > 0 -> value[position - 1]
                 else -> null
             }
-            ModelsHelper.getHeader(context, Medialibrary.SORT_ALPHA, item, previous)?.let {
+            ModelsHelper.getHeader(context, AMedialibrary.SORT_ALPHA, item, previous)?.let {
                 launch {
                     headers.put(position, it)
                     (liveHeaders as MutableLiveData<HeadersIndex>).value = headers

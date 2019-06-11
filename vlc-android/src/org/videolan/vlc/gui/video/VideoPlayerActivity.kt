@@ -81,7 +81,7 @@ import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.DisplayManager
 import org.videolan.libvlc.util.VLCVideoLayout
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.ServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
@@ -116,7 +116,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private val controlsConstraintSetPortrait = ConstraintSet()
     private val controlsConstraintSetLandscape = ConstraintSet()
     var service: PlaybackService? = null
-    private lateinit var medialibrary: Medialibrary
+    private lateinit var medialibrary: AMedialibrary
     private var videoLayout: VLCVideoLayout? = null
     lateinit var displayManager: DisplayManager
     private var rootView: View? = null

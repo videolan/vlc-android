@@ -20,17 +20,14 @@
 
 package org.videolan.medialibrary;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
 import org.videolan.libvlc.LibVLC;
+import org.videolan.medialibrary.interfaces.AMedialibrary;
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb;
 import org.videolan.medialibrary.interfaces.EntryPointsEventsCb;
 import org.videolan.medialibrary.interfaces.media.AAlbum;
@@ -42,82 +39,16 @@ import org.videolan.medialibrary.interfaces.media.APlaylist;
 import org.videolan.medialibrary.media.SearchAggregate;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 @SuppressWarnings("JniMissingFunction")
-public class Medialibrary {
+public class Medialibrary extends AMedialibrary {
     private static final String TAG = "VLC/JMedialibrary";
-
-    // Sorting
-    public final static int SORT_DEFAULT = 0;
-    public final static int SORT_ALPHA = 1;
-    public final static int SORT_DURATION = 2;
-    public final static int SORT_INSERTIONDATE = 3;
-    public final static int SORT_LASTMODIFICATIONDATE = 4;
-    public final static int SORT_RELEASEDATE = 5;
-    public final static int SORT_FILESIZE = 6;
-    public final static int SORT_ARTIST = 7;
-    public final static int SORT_PLAYCOUNT = 8;
-    public final static int SORT_ALBUM = 9;
-    public final static int SORT_FILENAME = 10;
-
-    private long mInstanceID;
-    public static final int FLAG_MEDIA_UPDATED_AUDIO        = 1 << 0;
-    public static final int FLAG_MEDIA_UPDATED_AUDIO_EMPTY  = 1 << 1;
-    public static final int FLAG_MEDIA_UPDATED_VIDEO        = 1 << 2;
-    public static final int FLAG_MEDIA_UPDATED_VIDEO_EMPTY  = 1 << 3;
-    public static final int FLAG_MEDIA_ADDED_AUDIO          = 1 << 4;
-    public static final int FLAG_MEDIA_ADDED_AUDIO_EMPTY    = 1 << 5;
-    public static final int FLAG_MEDIA_ADDED_VIDEO          = 1 << 6;
-    public static final int FLAG_MEDIA_ADDED_VIDEO_EMPTY    = 1 << 7;
-
-    public static final int ML_INIT_SUCCESS = 0;
-    public static final int ML_INIT_ALREADY_INITIALIZED = 1;
-    public static final int ML_INIT_FAILED = 2;
-    public static final int ML_INIT_DB_RESET = 3;
-
-    public static final String ACTION_IDLE = "action_idle";
-    public static final String STATE_IDLE = "state_idle";
-
-    public static final AMediaWrapper[] EMPTY_COLLECTION = {};
-    public static final String VLC_MEDIA_DB_NAME = "/vlc_media.db";
-    public static final String THUMBS_FOLDER_NAME = "/thumbs";
-
-    private volatile boolean mIsInitiated = false;
-    private volatile boolean mIsWorking = false;
-    private static MutableLiveData<Boolean> sRunning = new MutableLiveData<>();
-
-    private final List<ArtistsCb> mArtistsCbs = new ArrayList<>();
-    private final List<AlbumsCb> mAlbumsCbs = new ArrayList<>();
-    private final List<MediaCb> mMediaCbs = new ArrayList<>();
-    private final List<GenresCb> mGenreCbs = new ArrayList<>();
-    private final List<PlaylistsCb> mPlaylistCbs = new ArrayList<>();
-    private final List<OnMedialibraryReadyListener> onMedialibraryReadyListeners = new ArrayList<>();
-    private final List<OnDeviceChangeListener> onDeviceChangeListeners = new ArrayList<>();
-    private volatile boolean isMedialibraryStarted = false;
-    private final List<DevicesDiscoveryCb> devicesDiscoveryCbList = new ArrayList<>();
-    private final List<EntryPointsEventsCb> entryPointsEventsCbList = new ArrayList<>();
-    private static Context sContext;
-
-    private static final Medialibrary instance = new Medialibrary();
-
-    public static Context getContext() {
-        return sContext;
-    }
-
-    public static LiveData<Boolean> getState() {
-        return sRunning;
-    }
 
     public int init(Context context) {
         if (context == null) return ML_INIT_FAILED;
@@ -149,10 +80,6 @@ public class Medialibrary {
         }
         nativeSetMediaAddedCbFlag(FLAG_MEDIA_ADDED_AUDIO_EMPTY|FLAG_MEDIA_ADDED_VIDEO_EMPTY);
         nativeSetMediaUpdatedCbFlag(FLAG_MEDIA_UPDATED_AUDIO_EMPTY|FLAG_MEDIA_UPDATED_VIDEO_EMPTY);
-    }
-
-    public boolean isStarted() {
-        return isMedialibraryStarted;
     }
 
     public void banFolder(@NonNull String path) {
@@ -212,12 +139,6 @@ public class Medialibrary {
         super.finalize();
     }
 
-    @NonNull
-    public static Medialibrary getInstance() {
-        System.out.println("This is the real medialibrary");
-        return instance;
-    }
-
     @WorkerThread
     public AMediaWrapper[] getVideos() {
         return mIsInitiated ? nativeGetVideos() : new AMediaWrapper[0];
@@ -269,7 +190,7 @@ public class Medialibrary {
 
     @WorkerThread
     public AAlbum[] getAlbums() {
-        return getAlbums(Medialibrary.SORT_DEFAULT, false);
+        return getAlbums(AMedialibrary.SORT_DEFAULT, false);
     }
 
     @WorkerThread
@@ -298,7 +219,7 @@ public class Medialibrary {
 
     @WorkerThread
     public AArtist[] getArtists(boolean all) {
-        return getArtists(all, Medialibrary.SORT_DEFAULT, false);
+        return getArtists(all, AMedialibrary.SORT_DEFAULT, false);
     }
 
     @WorkerThread
@@ -325,7 +246,7 @@ public class Medialibrary {
 
     @WorkerThread
     public AGenre[] getGenres() {
-        return getGenres(Medialibrary.SORT_DEFAULT, false);
+        return getGenres(AMedialibrary.SORT_DEFAULT, false);
     }
 
     @WorkerThread
@@ -353,7 +274,7 @@ public class Medialibrary {
 
     @WorkerThread
     public APlaylist[] getPlaylists() {
-        return getPlaylists(Medialibrary.SORT_DEFAULT, false);
+        return getPlaylists(AMedialibrary.SORT_DEFAULT, false);
     }
 
     @WorkerThread
@@ -475,18 +396,6 @@ public class Medialibrary {
 
     public void requestThumbnail(long id) {
         if (mIsInitiated) nativeRequestThumbnail(id);
-    }
-
-    public long getId() {
-        return mInstanceID;
-    }
-
-    public boolean isWorking() {
-        return mIsWorking;
-    }
-
-    public boolean isInitiated() {
-        return mIsInitiated;
     }
 
     public boolean increasePlayCount(long mediaId) {
@@ -679,7 +588,7 @@ public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
-    void onReloadStarted(String entryPoint) {
+    public void onReloadStarted(String entryPoint) {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
@@ -688,7 +597,7 @@ public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
-    void onReloadCompleted(String entryPoint) {
+    public void onReloadCompleted(String entryPoint) {
         synchronized (devicesDiscoveryCbList) {
             if (!devicesDiscoveryCbList.isEmpty())
                 for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
@@ -697,7 +606,7 @@ public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
-    void onEntryPointBanned(String entryPoint, boolean success) {
+    public void onEntryPointBanned(String entryPoint, boolean success) {
         synchronized (entryPointsEventsCbList) {
             if (!entryPointsEventsCbList.isEmpty())
                 for (EntryPointsEventsCb cb : entryPointsEventsCbList)
@@ -706,7 +615,7 @@ public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
-    void onEntryPointUnbanned(String entryPoint, boolean success) {
+    public void onEntryPointUnbanned(String entryPoint, boolean success) {
         synchronized (entryPointsEventsCbList) {
             if (!entryPointsEventsCbList.isEmpty())
                 for (EntryPointsEventsCb cb : entryPointsEventsCbList)
@@ -724,7 +633,7 @@ public class Medialibrary {
     }
 
     @SuppressWarnings("unused")
-    void onEntryPointRemoved(String entryPoint, boolean success) {
+    public void onEntryPointRemoved(String entryPoint, boolean success) {
         synchronized (entryPointsEventsCbList) {
             if (!entryPointsEventsCbList.isEmpty())
                 for (EntryPointsEventsCb cb : entryPointsEventsCbList)
@@ -732,9 +641,9 @@ public class Medialibrary {
         }
     }
 
-    public static LiveData<AMediaWrapper> lastThumb = new SingleEvent<>();
+//    public static LiveData<AMediaWrapper> lastThumb = new SingleEvent<>();
     @SuppressWarnings({"unused", "unchecked"})
-    void onMediaThumbnailReady(AMediaWrapper media, boolean success) {
+    public void onMediaThumbnailReady(AMediaWrapper media, boolean success) {
         if (success) ((MutableLiveData)lastThumb).postValue(media);
     }
 
@@ -932,43 +841,6 @@ public class Medialibrary {
         }
     }
 
-    public static String[] getBlackList() {
-        return new String[] {
-                "/Android/data/",
-                "/Android/media/",
-                "/Alarms/",
-                "/Ringtones/",
-                "/Notifications/",
-                "/alarms/",
-                "/ringtones/",
-                "/notifications/",
-                "/audio/Alarms/",
-                "/audio/Ringtones/",
-                "/audio/Notifications/",
-                "/audio/alarms/",
-                "/audio/ringtones/",
-                "/audio/notifications/",
-                "/WhatsApp/Media/WhatsApp Animated Gifs/",
-        };
-    }
-
-    public static File[] getDefaultFolders() {
-        return new File[]{
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES),
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC),
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PODCASTS),
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
-        };
-    }
-
-    /* used only before API 13: substitute for NewWeakGlobalRef */
-    @SuppressWarnings("unused") /* Used from JNI */
-    private Object getWeakReference() {
-        return new WeakReference<>(this);
-    }
-
-
     // Native methods
     private native int nativeInit(String dbPath, String thumbsPath);
     private native void nativeStart();
@@ -1049,48 +921,4 @@ public class Medialibrary {
     private native APlaylist[] nativeSearchPagedPlaylist(String query, int sort, boolean desc, int nbItems, int offset);
     private native int nativeGetPlaylistSearchCount(String query);
     private native void nativeRequestThumbnail(long mediaId);
-
-    private boolean canReadStorage(Context context) {
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M || ContextCompat.checkSelfPermission(context,
-                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-    }
-
-    public interface MediaCb {
-        void onMediaAdded();
-        void onMediaModified();
-        void onMediaDeleted();
-    }
-
-    public interface ArtistsCb {
-        void onArtistsAdded();
-        void onArtistsModified();
-        void onArtistsDeleted();
-    }
-
-    public interface AlbumsCb {
-        void onAlbumsAdded();
-        void onAlbumsModified();
-        void onAlbumsDeleted();
-    }
-
-    public interface GenresCb {
-        void onGenresAdded();
-        void onGenresModified();
-        void onGenresDeleted();
-    }
-
-    public interface PlaylistsCb {
-        void onPlaylistsAdded();
-        void onPlaylistsModified();
-        void onPlaylistsDeleted();
-    }
-
-    public interface OnMedialibraryReadyListener {
-        void onMedialibraryReady();
-        void onMedialibraryIdle();
-    }
-
-    public interface OnDeviceChangeListener {
-        void onDeviceChange();
-    }
 }

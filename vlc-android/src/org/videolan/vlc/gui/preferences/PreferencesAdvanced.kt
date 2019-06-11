@@ -34,7 +34,7 @@ import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
@@ -107,9 +107,9 @@ class PreferencesAdvanced : BasePreferenceFragment(), SharedPreferences.OnShared
                 else
                     runIO(Runnable {
                         val dump = Runnable {
-                            val db = File(requireContext().getDir("db", Context.MODE_PRIVATE).toString() + Medialibrary.VLC_MEDIA_DB_NAME)
+                            val db = File(requireContext().getDir("db", Context.MODE_PRIVATE).toString() + AMedialibrary.VLC_MEDIA_DB_NAME)
 
-                            if (FileUtils.copyFile(db, File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + Medialibrary.VLC_MEDIA_DB_NAME)))
+                            if (FileUtils.copyFile(db, File(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY + AMedialibrary.VLC_MEDIA_DB_NAME)))
                                 runOnMainThread(Runnable {
                                     val ctx = context
                                     if (ctx != null) Toast.makeText(ctx, "Database dumped on internal storage root", Toast.LENGTH_LONG).show()

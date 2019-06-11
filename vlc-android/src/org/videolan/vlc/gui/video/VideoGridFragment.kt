@@ -38,7 +38,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.interfaces.media.AFolder
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -179,7 +179,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun onChanged(list: PagedList<AMediaWrapper>?) {
-        videoListAdapter.showFilename(viewModel.sort == Medialibrary.SORT_FILENAME)
+        videoListAdapter.showFilename(viewModel.sort == AMedialibrary.SORT_FILENAME)
         if (list != null) videoListAdapter.submitList(list)
     }
 

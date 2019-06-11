@@ -39,7 +39,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.tools.MultiSelectAdapter
@@ -74,11 +74,11 @@ class VideoListAdapter internal constructor(
     }
 
     init {
-        Medialibrary.lastThumb.observeForever(thumbObs)
+        AMedialibrary.lastThumb.observeForever(thumbObs)
     }
 
     fun release() {
-        Medialibrary.lastThumb.removeObserver(thumbObs)
+        AMedialibrary.lastThumb.removeObserver(thumbObs)
     }
 
     val all: List<AMediaWrapper>

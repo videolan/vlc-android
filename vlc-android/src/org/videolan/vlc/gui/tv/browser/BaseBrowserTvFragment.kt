@@ -45,8 +45,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.song_browser.*
-import kotlinx.coroutines.*
-import org.videolan.medialibrary.Medialibrary
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.BuildConfig
@@ -255,35 +258,35 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         animationDelegate.collapseExtendedFAB()
         when (item.itemId) {
             R.id.ml_menu_sortby_name -> {
-                sortBy(Medialibrary.SORT_ALPHA)
+                sortBy(AMedialibrary.SORT_ALPHA)
                 return true
             }
             R.id.ml_menu_sortby_filename -> {
-                sortBy(Medialibrary.SORT_FILENAME)
+                sortBy(AMedialibrary.SORT_FILENAME)
                 return true
             }
             R.id.ml_menu_sortby_length -> {
-                sortBy(Medialibrary.SORT_DURATION)
+                sortBy(AMedialibrary.SORT_DURATION)
                 return true
             }
             R.id.ml_menu_sortby_date -> {
-                sortBy(Medialibrary.SORT_RELEASEDATE)
+                sortBy(AMedialibrary.SORT_RELEASEDATE)
                 return true
             }
             R.id.ml_menu_sortby_last_modified -> {
-                sortBy(Medialibrary.SORT_LASTMODIFICATIONDATE)
+                sortBy(AMedialibrary.SORT_LASTMODIFICATIONDATE)
                 return true
             }
             R.id.ml_menu_sortby_artist_name -> {
-                sortBy(Medialibrary.SORT_ARTIST)
+                sortBy(AMedialibrary.SORT_ARTIST)
                 return true
             }
             R.id.ml_menu_sortby_album_name -> {
-                sortBy(Medialibrary.SORT_ALBUM)
+                sortBy(AMedialibrary.SORT_ALBUM)
                 return true
             }
             R.id.ml_menu_sortby_number -> {
-                sortBy(Medialibrary.SORT_FILESIZE)
+                sortBy(AMedialibrary.SORT_FILESIZE)
                 return super.onOptionsItemSelected(item)
             }
             else -> return super.onOptionsItemSelected(item)

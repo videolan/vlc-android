@@ -23,14 +23,14 @@ package org.videolan.vlc.viewmodels
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context) : BaseModel<T>(context), Medialibrary.OnMedialibraryReadyListener, Medialibrary.OnDeviceChangeListener {
+abstract class MedialibraryModel<T : MediaLibraryItem>(context: Context) : BaseModel<T>(context), AMedialibrary.OnMedialibraryReadyListener, AMedialibrary.OnDeviceChangeListener {
 
-    val medialibrary = Medialibrary.getInstance()
+    val medialibrary = AMedialibrary.getInstance()
 
     init {
         medialibrary.apply {

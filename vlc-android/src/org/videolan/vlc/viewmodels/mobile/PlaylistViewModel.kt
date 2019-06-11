@@ -26,7 +26,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.interfaces.media.AAlbum
 import org.videolan.medialibrary.interfaces.media.APlaylist
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -39,9 +39,9 @@ import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 @ExperimentalCoroutinesApi
 class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : MedialibraryViewModel(context),
-        Medialibrary.MediaCb by EmptyMLCallbacks,
-        Medialibrary.AlbumsCb by EmptyMLCallbacks,
-        Medialibrary.PlaylistsCb by EmptyMLCallbacks {
+        AMedialibrary.MediaCb by EmptyMLCallbacks,
+        AMedialibrary.AlbumsCb by EmptyMLCallbacks,
+        AMedialibrary.PlaylistsCb by EmptyMLCallbacks {
     val tracksProvider = TracksProvider(playlist, context, this)
     override val providers : Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(tracksProvider)
 

@@ -1,7 +1,7 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.vlc.util.RefreshModel
 import org.videolan.vlc.util.Settings
 import org.videolan.vlc.util.canSortBy
@@ -9,7 +9,7 @@ import org.videolan.vlc.util.canSortBy
 abstract class SortableModel(protected val context: Context): ScopedModel(), RefreshModel {
 
     protected open val sortKey : String = this.javaClass.simpleName
-    var sort = Medialibrary.SORT_DEFAULT
+    var sort = AMedialibrary.SORT_DEFAULT
     var desc = false
 
     var filterQuery : String? = null
@@ -30,7 +30,7 @@ abstract class SortableModel(protected val context: Context): ScopedModel(), Ref
     open fun sort(sort: Int) {
         if (canSortBy(sort)) {
             desc = when (this.sort) {
-                Medialibrary.SORT_DEFAULT -> sort == Medialibrary.SORT_ALPHA
+                AMedialibrary.SORT_DEFAULT -> sort == AMedialibrary.SORT_ALPHA
                 sort -> !desc
                 else -> false
             }

@@ -22,7 +22,7 @@ package org.videolan.vlc.providers.medialibrary
 
 import android.content.Context
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.interfaces.media.*
 import org.videolan.medialibrary.media.*
 import org.videolan.vlc.util.Settings
@@ -38,12 +38,12 @@ class TracksProvider(val parent : MediaLibraryItem?, context: Context, scope: So
     override fun canSortByLastModified() = true
 
     init {
-        sort = Settings.getInstance(context).getInt(sortKey, Medialibrary.SORT_DEFAULT)
+        sort = Settings.getInstance(context).getInt(sortKey, AMedialibrary.SORT_DEFAULT)
         desc = Settings.getInstance(context).getBoolean("${sortKey}_desc", parent is AArtist)
-        if (sort == Medialibrary.SORT_DEFAULT) sort = when (parent) {
-            is AArtist -> Medialibrary.SORT_ALBUM
-            is AAlbum -> Medialibrary.SORT_DEFAULT
-            else -> Medialibrary.SORT_ALPHA
+        if (sort == AMedialibrary.SORT_DEFAULT) sort = when (parent) {
+            is AArtist -> AMedialibrary.SORT_ALBUM
+            is AAlbum -> AMedialibrary.SORT_DEFAULT
+            else -> AMedialibrary.SORT_ALPHA
         }
     }
 

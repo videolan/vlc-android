@@ -12,7 +12,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import kotlinx.coroutines.delay
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.vlc.gui.DialogActivity
 import org.videolan.vlc.util.AppScope
 import org.videolan.vlc.util.getFromMl
@@ -53,7 +53,7 @@ class StoragesMonitor : BroadcastReceiver() {
             }
             is Unmount -> {
                 delay(100L)
-                Medialibrary.getInstance().removeDevice(action.uuid, action.path)
+                AMedialibrary.getInstance().removeDevice(action.uuid, action.path)
             }
         }
     }

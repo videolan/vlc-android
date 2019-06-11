@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.SearchAggregate
 import org.videolan.tools.isStarted
@@ -35,7 +35,7 @@ import org.videolan.vlc.media.MediaUtils
 
 open class SearchActivity : BaseActivity(), TextWatcher, TextView.OnEditorActionListener {
 
-    private lateinit var medialibrary: Medialibrary
+    private lateinit var medialibrary: AMedialibrary
     private lateinit var binding: SearchActivityBinding
     private val clickHandler = ClickHandler()
 

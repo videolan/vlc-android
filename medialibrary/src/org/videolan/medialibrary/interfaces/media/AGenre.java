@@ -3,8 +3,8 @@ package org.videolan.medialibrary.interfaces.media;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.interfaces.AMedialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 public abstract class AGenre extends MediaLibraryItem {
@@ -25,13 +25,13 @@ public abstract class AGenre extends MediaLibraryItem {
     abstract public int searchTracksCount(String query);
 
     public AAlbum[] getAlbums() {
-        return getAlbums(Medialibrary.SORT_DEFAULT, false);
+        return getAlbums(AMedialibrary.SORT_DEFAULT, false);
     }
     public AArtist[] getArtists() {
-        return getArtists(Medialibrary.SORT_DEFAULT, false);
+        return getArtists(AMedialibrary.SORT_DEFAULT, false);
     }
     public AMediaWrapper[] getTracks() {
-        return getTracks(Medialibrary.SORT_ALBUM, false);
+        return getTracks(AMedialibrary.SORT_ALBUM, false);
     }
     @Override
     public int getItemType() {

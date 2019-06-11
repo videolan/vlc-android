@@ -3,7 +3,7 @@ package org.videolan.vlc.interfaces
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
 import org.videolan.vlc.viewmodels.BaseModel
@@ -29,11 +29,11 @@ interface Sortable : PopupMenu.OnMenuItemClickListener {
     override fun onMenuItemClick(item: MenuItem): Boolean {
         val vm = getVM()
         vm.sort(when (item.itemId) {
-            R.id.ml_menu_sortby_name -> Medialibrary.SORT_ALPHA
-            R.id.ml_menu_sortby_filename -> Medialibrary.SORT_FILENAME
-            R.id.ml_menu_sortby_length -> Medialibrary.SORT_DURATION
-            R.id.ml_menu_sortby_last_modified -> Medialibrary.SORT_LASTMODIFICATIONDATE
-            R.id.ml_menu_sortby_date -> Medialibrary.SORT_RELEASEDATE
+            R.id.ml_menu_sortby_name -> AMedialibrary.SORT_ALPHA
+            R.id.ml_menu_sortby_filename -> AMedialibrary.SORT_FILENAME
+            R.id.ml_menu_sortby_length -> AMedialibrary.SORT_DURATION
+            R.id.ml_menu_sortby_last_modified -> AMedialibrary.SORT_LASTMODIFICATIONDATE
+            R.id.ml_menu_sortby_date -> AMedialibrary.SORT_RELEASEDATE
             else -> return false
         })
         return true

@@ -20,7 +20,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.medialibrary.ServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AAlbum
@@ -218,7 +218,7 @@ object MediaUtils : CoroutineScope {
                 0 -> return@SuspendDialogCallback
                 in 1..MEDIALIBRARY_PAGE_SIZE -> play(withContext(Dispatchers.IO) {
                     provider.getAll().flatMap {
-                        it.media(provider.type, Medialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
+                        it.media(provider.type, AMedialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
                     }
                 })
                 else -> {
@@ -227,7 +227,7 @@ object MediaUtils : CoroutineScope {
                         val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                         val list = withContext(Dispatchers.IO) {
                             provider.getPage(pageCount, index).flatMap {
-                                it.media(provider.type, Medialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
+                                it.media(provider.type, AMedialibrary.SORT_DEFAULT, false, it.mediaCount(provider.type), 0).toList()
                             }
                         }
                         if (index == 0) play(list)
@@ -438,7 +438,7 @@ object MediaUtils : CoroutineScope {
 }
 
 @WorkerThread
-fun AFolder.getAll(type: Int = AFolder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AMediaWrapper> {
+fun AFolder.getAll(type: Int = AFolder.TYPE_FOLDER_VIDEO, sort: Int = AMedialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AMediaWrapper> {
     var index = 0
     val count = mediaCount(type)
     val all = mutableListOf<AMediaWrapper>()
@@ -451,7 +451,7 @@ fun AFolder.getAll(type: Int = AFolder.TYPE_FOLDER_VIDEO, sort: Int = Medialibra
     return all
 }
 
-fun List<AFolder>.getAll(type: Int = AFolder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AMediaWrapper> {
+fun List<AFolder>.getAll(type: Int = AFolder.TYPE_FOLDER_VIDEO, sort: Int = AMedialibrary.SORT_DEFAULT, desc: Boolean = false) : List<AMediaWrapper> {
     return flatMap { it.getAll(type, sort, desc) }
 }
 

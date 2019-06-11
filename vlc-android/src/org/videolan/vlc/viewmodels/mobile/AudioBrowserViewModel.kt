@@ -26,7 +26,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.vlc.gui.audio.AudioBrowserFragment
 import org.videolan.vlc.providers.medialibrary.AlbumsProvider
 import org.videolan.vlc.providers.medialibrary.ArtistsProvider
@@ -40,10 +40,10 @@ import org.videolan.vlc.viewmodels.MedialibraryViewModel
 
 @ExperimentalCoroutinesApi
 class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context),
-        Medialibrary.MediaCb,
-        Medialibrary.ArtistsCb by EmptyMLCallbacks,
-        Medialibrary.AlbumsCb by EmptyMLCallbacks,
-        Medialibrary.GenresCb by EmptyMLCallbacks {
+        AMedialibrary.MediaCb,
+        AMedialibrary.ArtistsCb by EmptyMLCallbacks,
+        AMedialibrary.AlbumsCb by EmptyMLCallbacks,
+        AMedialibrary.GenresCb by EmptyMLCallbacks {
 
     val artistsProvider = ArtistsProvider(context, this, true)
     val albumsProvider = AlbumsProvider(null, context, this)

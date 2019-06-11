@@ -4,9 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.videolan.libvlc.util.VLCUtil;
-import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.R;
 import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.interfaces.AMedialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 abstract public class AArtist extends MediaLibraryItem {
@@ -16,8 +16,8 @@ abstract public class AArtist extends MediaLibraryItem {
     private String musicBrainzId;
 
     public static class SpecialRes {
-        public static String UNKNOWN_ARTIST = Medialibrary.getContext().getString(R.string.unknown_artist);
-        public static String VARIOUS_ARTISTS = Medialibrary.getContext().getString(R.string.various_artists);
+        public static String UNKNOWN_ARTIST = AMedialibrary.getContext().getString(R.string.unknown_artist);
+        public static String VARIOUS_ARTISTS = AMedialibrary.getContext().getString(R.string.various_artists);
     }
 
     public AArtist(long id, String name, String shortBio, String artworkMrl, String musicBrainzId) {
@@ -65,12 +65,12 @@ abstract public class AArtist extends MediaLibraryItem {
     }
 
     public AAlbum[] getAlbums() {
-        return getAlbums(Medialibrary.SORT_DEFAULT, false);
+        return getAlbums(AMedialibrary.SORT_DEFAULT, false);
     }
 
     @Override
     public AMediaWrapper[] getTracks() {
-        return getTracks(Medialibrary.SORT_ALBUM, true);
+        return getTracks(AMedialibrary.SORT_ALBUM, true);
     }
 
     @Override

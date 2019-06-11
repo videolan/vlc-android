@@ -13,8 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.withContext
-import org.videolan.medialibrary.Medialibrary
-import org.videolan.medialibrary.Medialibrary.THUMBS_FOLDER_NAME
+import org.videolan.medialibrary.interfaces.AMedialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary.THUMBS_FOLDER_NAME
 import org.videolan.medialibrary.interfaces.media.AFolder
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
@@ -42,7 +42,7 @@ object ThumbnailsProvider {
 
     @WorkerThread
     fun getFolderThumbnail(folder: AFolder, width: Int): Bitmap? {
-        val media = listOf(*folder.media(AFolder.TYPE_FOLDER_VIDEO, Medialibrary.SORT_DEFAULT, true, 4, 0))
+        val media = listOf(*folder.media(AFolder.TYPE_FOLDER_VIDEO, AMedialibrary.SORT_DEFAULT, true, 4, 0))
         return getComposedImage("folder:" + folder.title, media, width)
     }
 
@@ -86,7 +86,7 @@ object ThumbnailsProvider {
                 media.artworkURL = thumbPath
             }
         } else if (media.id != 0L) {
-            Medialibrary.getInstance().requestThumbnail(media.id)
+            AMedialibrary.getInstance().requestThumbnail(media.id)
         }
         return bitmap
     }

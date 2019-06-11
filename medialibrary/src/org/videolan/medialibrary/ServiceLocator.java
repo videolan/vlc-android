@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Parcel;
 
 import org.videolan.libvlc.Media;
+import org.videolan.medialibrary.interfaces.AMedialibrary;
 import org.videolan.medialibrary.interfaces.media.AAlbum;
 import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AFolder;
@@ -22,6 +23,7 @@ import org.videolan.medialibrary.stubs.StubArtist;
 import org.videolan.medialibrary.stubs.StubFolder;
 import org.videolan.medialibrary.stubs.StubGenre;
 import org.videolan.medialibrary.stubs.StubMediaWrapper;
+import org.videolan.medialibrary.stubs.StubMedialibrary;
 import org.videolan.medialibrary.stubs.StubPlaylist;
 
 public class ServiceLocator {
@@ -40,6 +42,14 @@ public class ServiceLocator {
 
     public static ServiceLocator getInstance() {
         return mServiceLocator;
+    }
+
+    public static AMedialibrary getAMedialibrary() {
+        if (mMode == LocatorMode.VLC_ANDROID) {
+            return new Medialibrary();
+        } else {
+            return new StubMedialibrary();
+        }
     }
 
     // AMediaWrapper

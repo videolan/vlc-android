@@ -5,14 +5,14 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 
 import org.videolan.libvlc.util.VLCUtil;
-import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.R;
 import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.interfaces.AMedialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 public abstract class AAlbum extends MediaLibraryItem {
     public static class SpecialRes {
-        public static String UNKNOWN_ALBUM = Medialibrary.getContext().getString(R.string.unknown_album);
+        public static String UNKNOWN_ALBUM = AMedialibrary.getContext().getString(R.string.unknown_album);
     }
 
     protected int releaseYear;
@@ -89,7 +89,7 @@ public abstract class AAlbum extends MediaLibraryItem {
 
     @Override
     public AMediaWrapper[] getTracks() {
-        return getTracks(Medialibrary.SORT_ALBUM, false);
+        return getTracks(AMedialibrary.SORT_ALBUM, false);
     }
 
     @Override

@@ -48,7 +48,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.*
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.Medialibrary
+import org.videolan.medialibrary.interfaces.AMedialibrary
 import org.videolan.tools.setVisibility
 import org.videolan.vlc.*
 import org.videolan.vlc.gui.audio.AudioPlayer
@@ -293,7 +293,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
     }
 
     private fun showProgressBar() {
-        if (!Medialibrary.getInstance().isWorking) return
+        if (!AMedialibrary.getInstance().isWorking) return
         MediaParsingService.progress.value?.run {
             val vsc = findViewById<View>(R.id.scan_viewstub)
             if (vsc != null) {
@@ -345,7 +345,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
             }
         })
         MediaParsingService.progress.observe(this, Observer { scanProgress ->
-            if (scanProgress == null || !Medialibrary.getInstance().isWorking) {
+            if (scanProgress == null || !AMedialibrary.getInstance().isWorking) {
                 updateProgressVisibility(false)
                 return@Observer
             }
@@ -353,7 +353,7 @@ open class AudioPlayerContainerActivity : BaseActivity() {
             if (scanProgressText != null) scanProgressText!!.text = scanProgress.discovery
             if (scanProgressBar != null) scanProgressBar!!.progress = scanProgress.parsing
         })
-        Medialibrary.getState().observe(this, Observer { started -> if (started != null) updateProgressVisibility(started) })
+        AMedialibrary.getState().observe(this, Observer { started -> if (started != null) updateProgressVisibility(started) })
         MediaParsingService.newStorages.observe(this, Observer<List<String>> { devices ->
             if (devices == null) return@Observer
             for (device in devices) UiTools.newStorageDetected(this@AudioPlayerContainerActivity, device)

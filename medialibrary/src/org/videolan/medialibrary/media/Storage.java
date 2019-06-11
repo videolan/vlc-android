@@ -6,7 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.interfaces.AMedialibrary;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 
 public class Storage extends MediaLibraryItem {
@@ -16,7 +16,7 @@ public class Storage extends MediaLibraryItem {
 
     @Override
     public AMediaWrapper[] getTracks() {
-        return Medialibrary.EMPTY_COLLECTION;
+        return AMedialibrary.EMPTY_COLLECTION;
     }
 
     @Override

@@ -41,7 +41,7 @@ import android.support.v4.media.MediaDescriptionCompat;
 import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 
-import org.videolan.medialibrary.Medialibrary;
+import org.videolan.medialibrary.interfaces.AMedialibrary;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 import org.videolan.vlc.R;
@@ -207,30 +207,30 @@ public class MediaSessionBrowser implements ExtensionManagerService.ExtensionMan
                     return results;
                 case ID_LAST_ADDED:
                     limitSize = true;
-                    list = Medialibrary.getInstance().getRecentAudio();
+                    list = AMedialibrary.getInstance().getRecentAudio();
                     break;
                 case ID_HISTORY:
                     limitSize = true;
-                    list = Medialibrary.getInstance().lastMediaPlayed();
+                    list = AMedialibrary.getInstance().lastMediaPlayed();
                     break;
                 case ID_ARTISTS:
-                    list = Medialibrary.getInstance().getArtists(Settings.INSTANCE.getInstance(context).getBoolean(SettingsKt.KEY_ARTISTS_SHOW_ALL, false));
+                    list = AMedialibrary.getInstance().getArtists(Settings.INSTANCE.getInstance(context).getBoolean(SettingsKt.KEY_ARTISTS_SHOW_ALL, false));
                     break;
                 case ID_ALBUMS:
-                    list = Medialibrary.getInstance().getAlbums();
+                    list = AMedialibrary.getInstance().getAlbums();
                     break;
                 case ID_GENRES:
-                    list = Medialibrary.getInstance().getGenres();
+                    list = AMedialibrary.getInstance().getGenres();
                     break;
                 case ID_PLAYLISTS:
-                    list = Medialibrary.getInstance().getPlaylists();
+                    list = AMedialibrary.getInstance().getPlaylists();
                     break;
                 case ID_SONGS:
-                    list = Medialibrary.getInstance().getAudio();
+                    list = AMedialibrary.getInstance().getAudio();
                     break;
                 default:
                     String[] idSections = parentId.split("_");
-                    Medialibrary ml = Medialibrary.getInstance();
+                    AMedialibrary ml = AMedialibrary.getInstance();
                     long id = Long.parseLong(idSections[1]);
                     switch (idSections[0]) {
                         case ARTIST_PREFIX:
