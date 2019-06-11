@@ -54,6 +54,7 @@
     <string name="set_song_question">Definir \'%1$s\' como toque?</string>
     <string name="info">Informações</string>
     <string name="confirm_delete">Excluir o arquivo \'%1$s\'?</string>
+    <string name="confirm_delete_several_media">Deseja excluir essas %1$d mídias?</string>
     <string name="confirm_delete_folder">Excluir a pasta \'%1$s\' e todo o seu conteúdo?</string>
     <string name="confirm_delete_playlist">Excluir a lista de reprodução \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Excluir \'%1$s\' da lista de reprodução?</string>
@@ -684,4 +685,9 @@
     <string name="jump_to">Ir para</string>
     <string name="show_video_thumbnails_summary">Exibir miniaturas de vídeos em listas</string>
     <string name="show_video_thumbnails">Miniaturas de vídeos</string>
+    <string name="eq_snap_bands">Braceletes</string>
+    <string name="enable_equalizer">Habilitar</string>
+    <string name="preamp">Pré amplificador</string>
+    <string name="presets">Padrões</string>
+    <string name="reset">Restaurar</string>
 </resources>
