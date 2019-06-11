@@ -45,10 +45,7 @@ import androidx.leanback.app.BackgroundManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.song_browser.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
@@ -87,6 +84,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
     private var currentArt: String? = null
     private lateinit var backgroundManager: BackgroundManager
     internal lateinit var animationDelegate: MediaBrowserAnimatorDelegate
+    private var setFocus = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = SongBrowserBinding.inflate(inflater, container, false)
@@ -183,6 +181,11 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         })
         setAnimator(view as ConstraintLayout)
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setFocus = true
     }
 
     private fun calculateNbColumns() {
@@ -343,10 +346,14 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
 
     fun submitList(pagedList: Any) {
         adapter.submitList(pagedList)
-
+        if (setFocus) {
+            setFocus = false
+            launch { binding.list.requestFocus() }
+        }
         animationDelegate.setVisibility(imageButtonHeader, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         animationDelegate.setVisibility(headerButton, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
         animationDelegate.setVisibility(headerDescription, if (viewModel.provider.headers.isEmpty) View.GONE else View.VISIBLE)
+
     }
 }
 
