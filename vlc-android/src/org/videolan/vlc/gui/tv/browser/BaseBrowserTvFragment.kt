@@ -43,6 +43,7 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.leanback.app.BackgroundManager
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.song_browser.*
 import kotlinx.coroutines.*
@@ -303,7 +304,11 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
         hideHeaderSelectionScreen()
 
         val positionForSectionByName = viewModel.provider.getPositionForSectionByName(header)
-        if (list.getChildAt(positionForSectionByName) == null) {
+        val linearLayoutManager: LinearLayoutManager = list.layoutManager as LinearLayoutManager
+
+        val view = linearLayoutManager.findViewByPosition(positionForSectionByName)
+
+        if (view == null) {
             adapter.focusNext = positionForSectionByName
         } else {
             list.getChildAt(positionForSectionByName).requestFocus()
