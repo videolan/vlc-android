@@ -67,7 +67,7 @@ class MediaBrowserTvFragment : BaseBrowserTvFragment() {
             submitList(items)
 
             //headers
-            val nbColumns = if ((viewModel as MediaBrowserViewModel).sort == Medialibrary.SORT_ALPHA) 9 else 1
+            val nbColumns = if ((viewModel as MediaBrowserViewModel).sort == Medialibrary.SORT_ALPHA || (viewModel as MediaBrowserViewModel).sort == Medialibrary.SORT_DEFAULT) 9 else 1
 
             headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
             headerAdapter.sortType = (viewModel as MediaBrowserViewModel).sort

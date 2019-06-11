@@ -69,7 +69,7 @@ class FileBrowserTvFragment : BaseBrowserTvFragment() {
             if (BuildConfig.DEBUG) Log.d("FileBrowserTvFragment", "Submit lis of ${items.size} items")
 
             //headers
-            val nbColumns = if ((viewModel as BrowserModel).sort == Medialibrary.SORT_ALPHA) 9 else 1
+            val nbColumns = if ((viewModel as BrowserModel).sort == Medialibrary.SORT_ALPHA || (viewModel as BrowserModel).sort == Medialibrary.SORT_DEFAULT) 9 else 1
 
             headerList.layoutManager = GridLayoutManager(requireActivity(), nbColumns)
             headerAdapter.sortType = (viewModel as BrowserModel).sort

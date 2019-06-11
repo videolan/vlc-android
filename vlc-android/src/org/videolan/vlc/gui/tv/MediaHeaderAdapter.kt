@@ -11,26 +11,26 @@ import org.videolan.vlc.databinding.SongHeaderItemBinding
 
 class MediaHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : RecyclerView.Adapter<MediaHeaderAdapter.ViewHolder>() {
 
-    val alphaItems = listOf("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#")
+    private val alphaItems = listOf("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "#")
 
     var sortType = Medialibrary.SORT_ALPHA
 
     var items = ArrayList<String>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaHeaderAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.song_header_item, parent, false) as SongHeaderItemBinding)
     }
 
     override fun getItemCount(): Int {
         return when (sortType) {
-            Medialibrary.SORT_ALPHA -> alphaItems.size
+            Medialibrary.SORT_ALPHA, Medialibrary.SORT_DEFAULT -> alphaItems.size
             else -> items.size
         }
     }
 
-    override fun onBindViewHolder(holder: MediaHeaderAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        if (sortType == Medialibrary.SORT_ALPHA) {
+        if (sortType == Medialibrary.SORT_ALPHA || sortType == Medialibrary.SORT_DEFAULT) {
             holder.binding.headerText = alphaItems[position]
             holder.binding.hasContent = items.contains(alphaItems[position])
         } else {
@@ -40,7 +40,7 @@ class MediaHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : Recyc
     }
 
     fun getItem(position: Int): String {
-        return if (sortType == Medialibrary.SORT_ALPHA) {
+        return if (sortType == Medialibrary.SORT_ALPHA || sortType == Medialibrary.SORT_DEFAULT) {
             alphaItems[position]
         } else {
             items[position]
