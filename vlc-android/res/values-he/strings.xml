@@ -56,6 +56,7 @@
     <string name="set_song_question">להגדיר את ‚%1$s’ כצלצול?</string>
     <string name="info">מידע</string>
     <string name="confirm_delete">למחוק את הקובץ „%1$s“?</string>
+    <string name="confirm_delete_several_media">למחוק את %1$d פריטי המדיה האלו?</string>
     <string name="confirm_delete_folder">למחוק את התיקייה „%1$s“ על כל תכניה?</string>
     <string name="confirm_delete_playlist">למחוק את רשימת הנגינה „%1$s“?</string>
     <string name="confirm_remove_from_playlist">להסיר את ‚%1$s’ מרשימת הנגינה?</string>
@@ -262,6 +263,7 @@
     <string name="about_text">VLC ל־Android™ הנו הסבה של נגן המדיה VLC הפופולרי בקוד פתוח. גרסת ה־Android™ יכולה לקרוא את רוב הקבצים וסוגי תזרימי הרשת</string>
     <string name="vlc_authors">ויוצרי VLC.</string>
     <string name="compiled_by">גרסה זו של VLC הודרה על ידי:</string>
+    <string name="feedback_forum">פורום משוב</string>
 
     <!-- Preferences -->
     <string name="preferences">הגדרות</string>
@@ -695,4 +697,11 @@
     <string name="device_default">בררת המחדל של המכשיר</string>
     <string name="track_number">%s רצועות</string>
     <string name="jump_to">קפיצה אל</string>
+    <string name="show_video_thumbnails_summary">הצגת תמונות ייצוגיות של הסרטונים ברשימות</string>
+    <string name="show_video_thumbnails">תמונות ייצוגיות של סרטונים</string>
+    <string name="eq_snap_bands">הצמדת ערוצים</string>
+    <string name="enable_equalizer">הפעלה</string>
+    <string name="preamp">הגברת קדם</string>
+    <string name="presets">ערכות מוגדרות</string>
+    <string name="reset">איפוס</string>
 </resources>
