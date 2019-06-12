@@ -54,6 +54,7 @@
     <string name="set_song_question">Impostare \'%1$s\' comente soneria?</string>
     <string name="info">Informatziones</string>
     <string name="confirm_delete">Cheres iscantzellare su documentu \'%1$s\'?</string>
+    <string name="confirm_delete_several_media">Iscantzellare custos %1$d documentos multimediales?</string>
     <string name="confirm_delete_folder">Cheres iscantzellare sa cartella \'%1$s\' e su chi b\'est in intro?</string>
     <string name="confirm_delete_playlist">Cheres iscantzellare s\'iscalita \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Bogare \'%1$s\' dae s\'iscalita?</string>
@@ -684,4 +685,9 @@
     <string name="jump_to">Brinca a</string>
     <string name="show_video_thumbnails_summary">Ammustra sas miniaturas de sos vìdeos in sas listas</string>
     <string name="show_video_thumbnails">Miniaturas de sos vìdeos</string>
+    <string name="eq_snap_bands">Fàscias elàsticas</string>
+    <string name="enable_equalizer">Abìlita</string>
+    <string name="preamp">Preamplificatzione</string>
+    <string name="presets">Preseletziones</string>
+    <string name="reset">Riprìstina</string>
 </resources>
