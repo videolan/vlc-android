@@ -54,6 +54,7 @@
     <string name="set_song_question">Beállítja csengőhangként a(z) „%1$s” fájlt?</string>
     <string name="info">Információ</string>
     <string name="confirm_delete">Törli ezt a fájlt: „%1$s”?</string>
+    <string name="confirm_delete_several_media">Törli ezt a(z) %1$d médiát?</string>
     <string name="confirm_delete_folder">Törli a(z) „%1$s” mappát és a teljes tartalmát?</string>
     <string name="confirm_delete_playlist">Törli a(z) „%1$s” lejátszólistát?</string>
     <string name="confirm_remove_from_playlist">Eltávolítja a(z) „%1$s” elemet a lejátszólistáról?</string>
@@ -684,4 +685,9 @@
     <string name="jump_to">Ugrás</string>
     <string name="show_video_thumbnails_summary">Videó bélyegképek megjelenítése a listákban</string>
     <string name="show_video_thumbnails">Videó bélyegképek</string>
+    <string name="eq_snap_bands">Sávok egymáshoz tapasztása</string>
+    <string name="enable_equalizer">Engedélyezés</string>
+    <string name="preamp">Előerősítés</string>
+    <string name="presets">Előbeállítások</string>
+    <string name="reset">Visszaállítás</string>
 </resources>
