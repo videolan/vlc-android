@@ -54,6 +54,7 @@
     <string name="set_song_question">Ange  \"%1$s\" som ringsignal?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Radera filen \"%1$s\"?</string>
+    <string name="confirm_delete_several_media">Radera dessa %1$d mediafiler?</string>
     <string name="confirm_delete_folder">Radera mappen \"%1$s\" och allt innehåll?</string>
     <string name="confirm_delete_playlist">Radera spellistan \"%1$s\"?</string>
     <string name="confirm_remove_from_playlist">Ta bort \"%1$s\" från spellistan?</string>
@@ -684,4 +685,9 @@
     <string name="jump_to">Hoppa till</string>
     <string name="show_video_thumbnails_summary">Visa videominiatyrer i listor</string>
     <string name="show_video_thumbnails">Videominiatyrer</string>
+    <string name="eq_snap_bands">Fäst band</string>
+    <string name="enable_equalizer">Aktivera</string>
+    <string name="preamp">Försteg</string>
+    <string name="presets">Förinställningar</string>
+    <string name="reset">Nollställ</string>
 </resources>
