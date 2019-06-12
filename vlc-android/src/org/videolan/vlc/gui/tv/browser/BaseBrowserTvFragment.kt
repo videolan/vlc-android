@@ -136,10 +136,10 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
             override fun requestChildRectangleOnScreen(parent: RecyclerView, child: View, rect: Rect, immediate: Boolean, focusedChildVisible: Boolean) = false
         }
 
-        spacing = resources.getDimensionPixelSize(R.dimen.kl_small)
+        spacing = resources.getDimensionPixelSize(R.dimen.kl_half)
 
         //size of an item
-        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth() - list.paddingLeft - list.paddingRight, viewModel.nbColumns, spacing)
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), viewModel.nbColumns, spacing)
 
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {

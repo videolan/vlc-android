@@ -128,6 +128,6 @@ class RecyclerSectionItemGridDecoration(private val headerOffset: Int, private v
     }
 
     companion object {
-        fun getItemSize(screenWidth: Int, nbColumns: Int, spacing: Int) = (screenWidth - spacing * 2) / nbColumns - spacing * nbColumns
+        fun getItemSize(screenWidth: Int, nbColumns: Int, spacing: Int) = ((screenWidth - spacing * 2) / nbColumns) - (spacing * nbColumns)
     }
 }
