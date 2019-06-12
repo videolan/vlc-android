@@ -56,6 +56,7 @@
     <string name="set_song_question">Встановити \'%1$s\' як мелодію дзвінків?</string>
     <string name="info">Інформація</string>
     <string name="confirm_delete">Видалити файл \'%1$s\'?</string>
+    <string name="confirm_delete_several_media">Вилучити ці %1$d медіа?</string>
     <string name="confirm_delete_folder">Вилучити теку \'%1$s\' та увесь її вміст?</string>
     <string name="confirm_delete_playlist">Вилучити список відтворення \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Вилучити \'%1$s\' зі списку відтворення?</string>
@@ -698,4 +699,9 @@
     <string name="jump_to">Перейти до</string>
     <string name="show_video_thumbnails_summary">Показувати  ескізи відео у списках</string>
     <string name="show_video_thumbnails">Ескізи відео</string>
+    <string name="eq_snap_bands">Вхопити смуги</string>
+    <string name="enable_equalizer">Увімкнути</string>
+    <string name="preamp">Попередній підсилювач</string>
+    <string name="presets">Переднабори</string>
+    <string name="reset">Очистити</string>
 </resources>
