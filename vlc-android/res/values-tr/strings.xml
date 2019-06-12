@@ -38,10 +38,10 @@
     <string name="play_from_start">Başlangıçtan oynat</string>
     <string name="play_as_audio">Ses olarak oynat</string>
     <string name="play_as_video">Görüntü olarak oynat</string>
-    <string name="video_app_switch_title">Art Alan/PiP Kipi</string>
+    <string name="video_app_switch_title">Arka Plan/PiP Kipi</string>
     <string name="video_app_switch_summary">Görüntü oynatılırken başka bir uygulamaya geçildiğinde VLC tarafından yapılacak işlemi seçin</string>
     <string name="play_pip_title">Görüntüler görsel içinde görsel kipinde oynatılsın</string>
-    <string name="play_as_audio_background">Görüntüler art alanda oynatılsın</string>
+    <string name="play_as_audio_background">Görüntüler arka planda oynatılsın</string>
     <string name="append">Ekle</string>
     <string name="insert_next">Sonrakini ekle</string>
     <string name="play_all">Tümünü oynat</string>
@@ -54,6 +54,7 @@
     <string name="set_song_question">\'%1$s\' zil sesi olarak ayarlansın mı?</string>
     <string name="info">Bilgiler</string>
     <string name="confirm_delete">\'%1$s\' dosyası silinsin mi?</string>
+    <string name="confirm_delete_several_media">Bu %1$d ortam silinsin mi?</string>
     <string name="confirm_delete_folder">\'%1$s\' klasörü ve tüm içeriği silinsin mi?</string>
     <string name="confirm_delete_playlist">\'%1$s\' oynatma listesi silinsin mi?</string>
     <string name="confirm_remove_from_playlist">\'%1$s\' oynatma listesinden kaldırılsın mı?</string>
@@ -339,7 +340,7 @@
     <string name="subtitles_color_blue">Mavi</string>
     <string name="subtitles_color_yellow">Sarı</string>
     <string name="subtitles_color_green">Yeşil</string>
-    <string name="subtitles_background_title">Alt Yazı Art Alanı</string>
+    <string name="subtitles_background_title">Alt Yazı Arka Planı</string>
     <string name="subtitles_bold_title">Koyu alt yazılar</string>
     <string name="subtitles_autoload_title">Alt yazılar otomatik yüklensin</string>
 
@@ -429,8 +430,8 @@
     <string name="network_caching_summary">Milisaniye cinsinden, ağ ortamının ön belleğe alınacağı süre. Donanımsal kod çözme ile birlikte çalışmaz. Sıfırlamak için boş bırakın.</string>
     <string name="resume_playback_title">Çağrı sonrası oynatım sürdürülsün</string>
     <string name="resume_playback_summary">Bunun dışında duraklatılmış olarak kalsın</string>
-    <string name="blurred_cover_background_title">Bulanık kapak art alanı</string>
-    <string name="blurred_cover_background_summary">Bu seçenek etkinleştirildiğinde, oynatıcı art alanına albüm kapağının bulanık biçimi yerleştirilir</string>
+    <string name="blurred_cover_background_title">Bulanık kapak arka planı</string>
+    <string name="blurred_cover_background_summary">Bu seçenek etkinleştirildiğinde, oynatıcı arka planına albüm kapağının bulanık biçimi yerleştirilir</string>
     <string name="network_caching_popup">Bu değer 0 ile 6000 ms arasında olmalıdır</string>
     <string name="quit">Çıkıp uygulamayı yeniden başlatın</string>
     <string name="restart_message">Değişikliklerin etkili olması için uygulamanın yeniden başlatılması gerekiyor.\n\nYeniden başlatılsın mı?</string>
@@ -684,4 +685,9 @@
     <string name="jump_to">Şuraya atla</string>
     <string name="show_video_thumbnails_summary">Bu seçenek etkinleştirildiğinde, listede görüntü küçük görselleri görüntülenir</string>
     <string name="show_video_thumbnails">Görüntü küçük görselleri</string>
+    <string name="eq_snap_bands">Bantlar ayrılsın</string>
+    <string name="enable_equalizer">Etkinleştir</string>
+    <string name="preamp">Ön güçlendirme</string>
+    <string name="presets">Hazır Ayarlar</string>
+    <string name="reset">Sıfırla</string>
 </resources>
