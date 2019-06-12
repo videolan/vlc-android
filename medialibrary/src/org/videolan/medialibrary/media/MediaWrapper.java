@@ -26,6 +26,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import androidx.annotation.Nullable;
+
 import org.videolan.libvlc.Media;
 import org.videolan.libvlc.Media.Meta;
 import org.videolan.libvlc.Media.VideoTrack;
@@ -36,8 +38,6 @@ import org.videolan.medialibrary.Medialibrary;
 import org.videolan.medialibrary.Tools;
 
 import java.util.Locale;
-
-import androidx.annotation.Nullable;
 
 @SuppressWarnings("JniMissingFunction")
 public class MediaWrapper extends MediaLibraryItem implements Parcelable {
@@ -502,6 +502,13 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
         if (mId != 0 && ml.isInitiated()) nativeSetMediaTitle(ml, mId, name);
     }
 
+    public void removeFromHistory() {
+        if (mId != 0L) {
+            final Medialibrary ml = Medialibrary.getInstance();
+            if (ml.isInitiated()) nativeRemoveFromHistory(ml, mId);
+        }
+    }
+
     public void setArtist(String artist) {
         mArtist = artist;
     }
@@ -678,16 +685,12 @@ public class MediaWrapper extends MediaLibraryItem implements Parcelable {
     }
 
     private native long nativeGetMediaLongMetadata(Medialibrary ml, long id, int metaDataType);
-
     private native String nativeGetMediaStringMetadata(Medialibrary ml, long id, int metaDataType);
-
     private native void nativeSetMediaStringMetadata(Medialibrary ml, long id, int metaDataType, String metadataValue);
-
     private native void nativeSetMediaLongMetadata(Medialibrary ml, long id, int metaDataType, long metadataValue);
-
     private native void nativeSetMediaThumbnail(Medialibrary ml, long id, String mrl);
-
     private native void nativeSetMediaTitle(Medialibrary ml, long id, String name);
+    private native void nativeRemoveFromHistory(Medialibrary ml, long id);
 
     @Nullable
     public Media.Slave[] getSlaves() {

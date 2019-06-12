@@ -171,6 +171,13 @@ AndroidMediaLibrary::increasePlayCount(int64_t mediaId)
     return false;
 }
 
+void
+AndroidMediaLibrary::removeMediaFromHistory(int64_t mediaId)
+{
+    auto media = p_ml->media(mediaId);
+    if (media != nullptr) media->removeFromHistory();
+}
+
 std::vector<medialibrary::MediaPtr>
 AndroidMediaLibrary::lastMediaPlayed()
 {

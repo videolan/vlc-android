@@ -209,6 +209,12 @@ increasePlayCount(JNIEnv* env, jobject thiz, jlong id)
     return MediaLibrary_getInstance(env, thiz)->increasePlayCount((int64_t)id);
 }
 
+void
+removeMediaFromHistory(JNIEnv* env, jobject thiz, jobject medialibrary, jlong id)
+{
+    MediaLibrary_getInstance(env, medialibrary)->removeMediaFromHistory((int64_t)id);
+}
+
 jobjectArray
 lastMediaPLayed(JNIEnv* env, jobject thiz)
 {
@@ -1807,6 +1813,7 @@ static JNINativeMethod media_methods[] = {
     {"nativeSetMediaLongMetadata", "(Lorg/videolan/medialibrary/Medialibrary;JIJ)V", (void*)setMediaLongMetadata },
     {"nativeSetMediaThumbnail", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)V", (void*)setMediaThumbnail },
     {"nativeSetMediaTitle", "(Lorg/videolan/medialibrary/Medialibrary;JLjava/lang/String;)V", (void*)setMediaTitle },
+    {"nativeRemoveFromHistory", "(Lorg/videolan/medialibrary/Medialibrary;J)V", (void*)removeMediaFromHistory },
 };
 
 static JNINativeMethod album_methods[] = {
