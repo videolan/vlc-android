@@ -22,13 +22,13 @@ package org.videolan.vlc.gui.audio
 
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Message
 import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.view.ActionMode
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
@@ -56,7 +56,6 @@ import org.videolan.vlc.reloadLibrary
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.mobile.AudioBrowserViewModel
 import org.videolan.vlc.viewmodels.mobile.getViewModel
-import java.util.*
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
@@ -126,12 +125,17 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewPager?.let { viewPager ->
-            for (i in 0 until MODE_TOTAL) lists[i] = viewPager.getChildAt(i) as RecyclerView
+            val views = ArrayList<View>(MODE_TOTAL)
+            for (i in 0 until MODE_TOTAL) {
+                views.add(viewPager.getChildAt(i))
+                lists[i] = viewPager.getChildAt(i).findViewById(R.id.audio_list) as RecyclerView
+            }
 
             val titles = arrayOf(getString(R.string.artists), getString(R.string.albums), getString(R.string.tracks), getString(R.string.genres))
             viewPager.offscreenPageLimit = MODE_TOTAL - 1
+            val audioPagerAdapter = AudioPagerAdapter(views.toTypedArray(), titles)
             @Suppress("UNCHECKED_CAST")
-            viewPager.adapter = AudioPagerAdapter(lists as Array<View>, titles)
+            viewPager.adapter = audioPagerAdapter
             val tabPosition = settings.getInt(KEY_AUDIO_CURRENT_TAB, 0)
             currentTab = tabPosition
             val positions = savedInstanceState?.getIntegerArrayList(KEY_LISTS_POSITIONS)
@@ -143,6 +147,11 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
                 list.adapter = adapters[i]
                 if (positions != null) list.scrollToPosition(positions[i])
                 list.addOnScrollListener(scrollListener)
+                if (i < 2) {
+                    val lp = list.layoutParams
+                    lp.width = ViewGroup.LayoutParams.MATCH_PARENT
+                    list.layoutParams = lp
+                }
             }
             viewPager.setOnTouchListener(swipeFilter)
             swipeRefreshLayout?.setOnRefreshListener(this)
@@ -159,18 +168,30 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
         }
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        nbColumns = resources.getInteger(R.integer.mobile_card_columns)
+
+        val itemSize = RecyclerSectionItemGridDecoration.getItemSize(requireActivity().getScreenWidth(), nbColumns, spacing)
+        for (i in 0 until MODE_TOTAL) {
+            if (lists[i]?.layoutManager is GridLayoutManager) {
+                val gridLayoutManager = lists[i]?.layoutManager as GridLayoutManager
+                gridLayoutManager.spanCount = nbColumns
+                lists[i]?.layoutManager = gridLayoutManager
+                adapters[i].itemSize = itemSize
+                adapters[i].notifyItemRangeChanged(gridLayoutManager.findFirstVisibleItemPosition(), gridLayoutManager.findLastVisibleItemPosition() - gridLayoutManager.findFirstVisibleItemPosition())
+            }
+        }
+    }
+
     private fun getLayoutManager(index: Int): LinearLayoutManager {
 
         return when (viewModel.providersInCard[index]) {
             true -> {
-
-
                 val provider = viewModel.providers[index]
                 val layoutManager = GridLayoutManager(requireActivity(), nbColumns)
-                //size of an item
-
                 lists[index]!!.addItemDecoration(RecyclerSectionItemGridDecoration(resources.getDimensionPixelSize(R.dimen.recycler_section_header_height), spacing, true, nbColumns, provider))
-
                 layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                     override fun getSpanSize(position: Int): Int {
 
@@ -187,7 +208,6 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
 
                             return nbColumns - nbItems % nbColumns
                         }
-
                         return 1
                     }
                 }
@@ -355,13 +375,11 @@ class AudioBrowserFragment : BaseAudioBrowser<AudioBrowserViewModel>(), SwipeRef
             setFabPlayShuffleAllVisibility()
     }
 
-
     override fun getCurrentRV() = lists[currentTab]!!
 
     override fun getCurrentAdapter() = adapters[currentTab]
 
     private class AudioBrowserHandler internal constructor(owner: AudioBrowserFragment) : WeakHandler<AudioBrowserFragment>(owner) {
-
         override fun handleMessage(msg: Message) {
             val fragment = owner ?: return
             when (msg.what) {

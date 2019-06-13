@@ -62,7 +62,7 @@ import org.videolan.vlc.util.Util
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, private val mIEventsHandler: IEventsHandler, private val mListEventsHandler: IListEventsHandler? = null, private val mReorder: Boolean = false) : PagedListAdapter<MediaLibraryItem, AudioBrowserAdapter.AbstractMediaItemViewHolder<ViewDataBinding>>(DIFF_CALLBACK), FastScroller.SeparatedAdapter, MultiSelectAdapter<MediaLibraryItem>, SwipeDragHelperAdapter {
-    private var itemSize = -1
+    var itemSize = -1
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
     private val mDefaultCover: BitmapDrawable?
     var focusNext = -1
