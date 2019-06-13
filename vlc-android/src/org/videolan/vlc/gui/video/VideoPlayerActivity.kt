@@ -115,8 +115,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var askResume = true
 
     private var playlistToggle: ImageView? = null
-    private var playlist: RecyclerView? = null
-    private var playlistAdapter: PlaylistAdapter? = null
+    private lateinit var playlist: RecyclerView
+    private lateinit var playlistAdapter: PlaylistAdapter
     private var playlistModel: PlaylistModel? = null
 
     private var orientationToggle: ImageView? = null
@@ -229,7 +229,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             return if (AndroidUtil.isLolliPopOrLater) pm.isInteractive else pm.isScreenOn
         }
 
-    private val playlistObserver = Observer<List<MediaWrapper>> { mediaWrappers -> if (mediaWrappers != null) playlistAdapter!!.update(mediaWrappers) }
+    private val playlistObserver = Observer<List<MediaWrapper>> { mediaWrappers -> if (mediaWrappers != null) playlistAdapter.update(mediaWrappers) }
 
     private var addNextTrack = false
 
@@ -357,7 +357,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var optionsDelegate: PlayerOptionsDelegate? = null
 
     val isPlaylistVisible: Boolean
-        get() = playlist!!.visibility == View.VISIBLE
+        get() = playlist.visibility == View.VISIBLE
 
     private val btReceiver = object : BroadcastReceiver() {
         @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -556,7 +556,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             }
             videoUri = uri
             if (isPlaylistVisible) {
-                playlistAdapter!!.currentIndex = currentMediaPosition
+                playlistAdapter.currentIndex = currentMediaPosition
                 playlist.setGone()
             }
             if (settings.getBoolean("video_transition_show", true)) showTitle()
@@ -703,8 +703,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         LocalBroadcastManager.getInstance(this).unregisterReceiver(serviceReceiver)
 
         unregisterReceiver(btReceiver)
-        if (alertDialog != null && alertDialog!!.isShowing)
-            alertDialog!!.dismiss()
+        alertDialog?.dismiss()
         if (displayManager.isPrimary && !isFinishing && service?.isPlaying == true
                 && "1" == settings.getString(KEY_VIDEO_APP_SWITCH, "0")) {
             switchToAudioMode(false)
@@ -725,6 +724,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         // Clear Intent to restore playlist on activity restart
         intent = Intent()
         handler.removeCallbacksAndMessages(null)
+        removeDownloadedSubtitlesObserver()
+        previousMediaPath = null
+        addedExternalSubs.clear()
     }
 
     private fun saveBrightness() {
@@ -749,9 +751,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(receiver)
-        if (playlistModel != null) {
-            playlistModel!!.dataset.removeObserver(playlistObserver)
-            playlistModel!!.onCleared()
+        playlistModel?.run {
+            dataset.removeObserver(playlistObserver)
+            onCleared()
         }
 
         // Dismiss the presentation when the activity is not visible.
@@ -790,15 +792,16 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private fun initPlaylistUi() {
         if (service?.hasPlaylist() == true) {
             hasPlaylist = true
-            if (playlistAdapter == null) {
+            if (!::playlistAdapter.isInitialized) {
                 playlistAdapter = PlaylistAdapter(this)
                 val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-                playlist!!.layoutManager = layoutManager
+                playlist.layoutManager = layoutManager
             }
             if (playlistModel == null) {
-                playlistModel = ViewModelProviders.of(this).get(PlaylistModel::class.java)
-                playlistAdapter!!.setModel(playlistModel!!)
-                playlistModel!!.dataset.observe(this, playlistObserver)
+                playlistModel = ViewModelProviders.of(this).get(PlaylistModel::class.java).apply {
+                    playlistAdapter.setModel(this)
+                    dataset.observe(this@VideoPlayerActivity, playlistObserver)
+                }
             }
             playlistToggle.setVisible()
             if (::hudBinding.isInitialized) {
@@ -807,7 +810,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             }
             playlistToggle!!.setOnClickListener(this@VideoPlayerActivity)
 
-            val callback = SwipeDragItemTouchHelperCallback(playlistAdapter!!)
+            val callback = SwipeDragItemTouchHelperCallback(playlistAdapter)
             val touchHelper = ItemTouchHelper(callback)
             touchHelper.attachToRecyclerView(playlist)
         }
@@ -978,11 +981,11 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             return false
         }
         //Handle playlist d-pad navigation
-        if (playlist!!.hasFocus()) {
+        if (playlist.hasFocus()) {
             when (keyCode) {
-                KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_LEFT -> playlistAdapter!!.currentIndex = playlistAdapter!!.currentIndex - 1
-                KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT -> playlistAdapter!!.currentIndex = playlistAdapter!!.currentIndex + 1
-                KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_BUTTON_A -> service?.playIndex(playlistAdapter!!.currentIndex)
+                KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_LEFT -> playlistAdapter.currentIndex = playlistAdapter.currentIndex - 1
+                KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT -> playlistAdapter.currentIndex = playlistAdapter.currentIndex + 1
+                KeyEvent.KEYCODE_ENTER, KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_BUTTON_A -> service?.playIndex(playlistAdapter.currentIndex)
             }
             return true
         }
@@ -1462,8 +1465,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     /* PlaybackService.Callback */
 
     override fun update() {
-        if (service == null || playlistAdapter == null) return
-        playlistModel!!.update()
+        if (service == null || !::playlistAdapter.isInitialized) return
+        playlistModel?.update()
     }
 
     override fun onMediaEvent(event: Media.Event) {
@@ -1557,11 +1560,10 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             wasPaused = false
         }
         setESTracks()
-        if (titleTextView != null && titleTextView!!.length() == 0)
-            titleTextView!!.text = mw.title
+        if (titleTextView?.length() == 0) titleTextView?.text = mw.title
         // Get possible subtitles
         observeDownloadedSubtitles()
-        if (optionsDelegate != null) optionsDelegate!!.setup()
+        optionsDelegate?.setup()
         settings.edit().remove(VIDEO_PAUSED).apply()
     }
 
@@ -1573,8 +1575,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 .setPositiveButton(R.string.ok) { _, _ -> exit(RESULT_PLAYBACK_ERROR) }
                 .setTitle(R.string.encountered_error_title)
                 .setMessage(R.string.encountered_error_message)
-                .create()
-        alertDialog?.show()
+                .create().apply { show() }
     }
 
     private fun handleVout(voutCount: Int) {
@@ -1735,7 +1736,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
             if (item.itemId == R.id.audio_player_mini_remove) service?.run {
-                playlistAdapter!!.remove(position)
+                playlistAdapter.remove(position)
                 remove(position)
                 return@OnMenuItemClickListener true
             }
@@ -1744,9 +1745,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         popupMenu.show()
     }
 
-    override fun onSelectionSet(position: Int) {
-        playlist!!.scrollToPosition(position)
-    }
+    override fun onSelectionSet(position: Int) = playlist.scrollToPosition(position)
 
     override fun playItem(position: Int, item: MediaWrapper) {
         service?.playIndex(position)
@@ -1838,27 +1837,26 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             if (track.id == currentTrack) listPosition = i
         }
 
-        if (!isFinishing) {
-            alertDialog = AlertDialog.Builder(this@VideoPlayerActivity)
-                    .setTitle(titleId)
-                    .setSingleChoiceItems(nameList, listPosition) { dialog, listPosition ->
-                        var trackID = -1
-                        // Reverse map search...
-                        for (track in tracks) {
-                            if (idList[listPosition] == track.id) {
-                                trackID = track.id
-                                break
-                            }
-                        }
-                        listener.onTrackSelected(trackID)
-                        dialog.dismiss()
+        if (!isFinishing) alertDialog = AlertDialog.Builder(this@VideoPlayerActivity)
+            .setTitle(titleId)
+            .setSingleChoiceItems(nameList, listPosition) { dialog, listPosition ->
+                var trackID = -1
+                // Reverse map search...
+                for (track in tracks) {
+                    if (idList[listPosition] == track.id) {
+                        trackID = track.id
+                        break
                     }
-                    .setOnDismissListener { this.dimStatusBar(true) }
-                    .create()
-            alertDialog!!.setCanceledOnTouchOutside(true)
-            alertDialog!!.ownerActivity = this@VideoPlayerActivity
-            alertDialog!!.show()
-        }
+                }
+                listener.onTrackSelected(trackID)
+                dialog.dismiss()
+            }
+            .setOnDismissListener { this.dimStatusBar(true) }
+            .create().apply {
+                setCanceledOnTouchOutside(true)
+                ownerActivity = this@VideoPlayerActivity
+                show()
+            }
     }
 
     fun selectVideoTrack() {
@@ -2535,18 +2533,19 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     }
 
     private fun removeDownloadedSubtitlesObserver() {
-        if (downloadedSubtitleLiveData != null)
-            downloadedSubtitleLiveData!!.removeObserver(downloadedSubtitleObserver)
+        downloadedSubtitleLiveData?.removeObserver(downloadedSubtitleObserver)
         downloadedSubtitleLiveData = null
     }
 
     private fun observeDownloadedSubtitles() {
         service?.let { service ->
-            if (previousMediaPath == null || service.currentMediaWrapper!!.uri.path != previousMediaPath) {
-                previousMediaPath = service.currentMediaWrapper!!.uri.path
+            val path = service.currentMediaWrapper?.uri?.path ?: return
+            if (previousMediaPath == null || path != previousMediaPath) {
+                previousMediaPath = path
                 removeDownloadedSubtitlesObserver()
-                downloadedSubtitleLiveData = ExternalSubRepository.getInstance(this@VideoPlayerActivity).getDownloadedSubtitles(service!!.currentMediaWrapper!!.uri.path!!)
-                downloadedSubtitleLiveData!!.observe(this, downloadedSubtitleObserver)
+                downloadedSubtitleLiveData = ExternalSubRepository.getInstance(this).getDownloadedSubtitles(path).apply {
+                    observe(this@VideoPlayerActivity, downloadedSubtitleObserver)
+                }
             }
         }
     }
@@ -2620,20 +2619,21 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         service?.pause()
         /* Encountered Error, exit player with a message */
         alertDialog = AlertDialog.Builder(this@VideoPlayerActivity)
-                .setMessage(R.string.confirm_resume)
-                .setPositiveButton(R.string.resume_from_position) { _, _ -> loadMedia(false) }
-                .setNegativeButton(R.string.play_from_start) { _, _ -> loadMedia(true) }
-                .create()
-        alertDialog!!.setCancelable(false)
-        alertDialog!!.setOnKeyListener(DialogInterface.OnKeyListener { dialog, keyCode, _ ->
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                dialog.dismiss()
-                finish()
-                return@OnKeyListener true
+            .setMessage(R.string.confirm_resume)
+            .setPositiveButton(R.string.resume_from_position) { _, _ -> loadMedia(false) }
+            .setNegativeButton(R.string.play_from_start) { _, _ -> loadMedia(true) }
+            .create().apply {
+                setCancelable(false)
+                setOnKeyListener(DialogInterface.OnKeyListener { dialog, keyCode, _ ->
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        dialog.dismiss()
+                        finish()
+                        return@OnKeyListener true
+                    }
+                    false
+                })
+                show()
             }
-            false
-        })
-        alertDialog!!.show()
     }
 
     fun showAdvancedOptions() {
@@ -2661,12 +2661,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     internal fun togglePlaylist() {
         if (isPlaylistVisible) {
             playlist.setGone()
-            playlist?.setOnClickListener(null)
+            playlist.setOnClickListener(null)
             return
         }
         hideOverlay(true)
         playlist.setVisible()
-        playlist!!.adapter = playlistAdapter
+        playlist.adapter = playlistAdapter
         update()
     }
 
@@ -2678,8 +2678,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
      * Start the video loading animation.
      */
     private fun startLoading() {
-        if (isLoading)
-            return
+        if (isLoading) return
         isLoading = true
         val anim = AnimationSet(true)
         val rotate = RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
@@ -2762,6 +2761,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             this.service?.removeCallback(this)
             this.service = null
             handler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED)
+            removeDownloadedSubtitlesObserver()
+            previousMediaPath = null
         }
     }
 
