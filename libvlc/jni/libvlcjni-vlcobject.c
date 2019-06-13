@@ -199,8 +199,8 @@ VLCJniObject_eventCallback(const libvlc_event_t *ev, void *data)
                                      p_obj->p_owner->weakCompat,
                                      jevent.type, jevent.arg1, jevent.arg2,
                                      jevent.argf1, string);
-    if (jevent.argc1)
-        (*env)->ReleaseStringUTFChars(env, string, jevent.argc1);
+    if (string)
+        (*env)->DeleteLocalRef(env, string);
 }
 
 void
