@@ -3,19 +3,10 @@
 SCRIPT_PATH=$(dirname $0)
 TMP_PATH="$SCRIPT_PATH"/.gdb
 
-FLAVOUR=vanillaARMv7
 NDK_GDB_ARGS="--force"
 
 while [ $# -gt 0 ]; do
     case $1 in
-        help|--help|-h)
-            echo "Use -f to set the flavour. Default is vanillaARMv7."
-            exit 0
-            ;;
-        -f)
-            FLAVOUR=$2
-            shift
-            ;;
         -s)
             NDK_GDB_ARGS="$NDK_GDB_ARGS --nowait --start"
             ;;
@@ -26,17 +17,18 @@ done
 rm -rf "$TMP_PATH"
 mkdir -p "$TMP_PATH"
 
-ANDROID_MANIFEST="$SCRIPT_PATH"/vlc-android/build/intermediates/manifests/full/$FLAVOUR/debug/AndroidManifest.xml
+ANDROID_MANIFEST="$SCRIPT_PATH/vlc-android/build/intermediates/merged_manifests/dev/AndroidManifest.xml"
 
 if [ ! -f "$ANDROID_MANIFEST" ]; then
-    echo "invalid flavour, did you try building first for this flavour ?"
+    echo "invalid manifest, did you try building first ?"
     exit 1
 fi
 
 mkdir -p "$TMP_PATH"/jni
 
-cp -r "$SCRIPT_PATH"/libvlc/jni/libs "$TMP_PATH"
-cp -r "$SCRIPT_PATH"/libvlc/jni/obj "$TMP_PATH"
+cp -r "$SCRIPT_PATH"/vlc/build-android-*linux-android*/ndk/libs $TMP_PATH
+cp -r "$SCRIPT_PATH"/vlc/build-android-*linux-android*/ndk/obj $TMP_PATH
+
 cp -r "$SCRIPT_PATH"/medialibrary/jni/libs "$TMP_PATH"
 cp -r "$SCRIPT_PATH"/medialibrary/jni/obj "$TMP_PATH"
 
