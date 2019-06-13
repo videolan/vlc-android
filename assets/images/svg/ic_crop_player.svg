@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.4"
-     inkscape:cx="3.9092837"
-     inkscape:cy="13.286613"
+     inkscape:zoom="15.839192"
+     inkscape:cx="9.8625268"
+     inkscape:cy="15.929419"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -54,7 +54,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -64,9 +64,9 @@
      id="layer1"
      transform="translate(0,-1028.3622)">
     <path
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:markers fill stroke;enable-background:accumulate"
-       d="M 6 4 L 6 6 L 4 6 L 4 8 L 6 8 L 6 16 C 6 17.108 6.892 18 8 18 L 16 18 L 16 20 L 18 20 L 18 18 L 20 18 L 20 16 L 18 16 L 18 8 C 18 6.892 17.10801 6 16 6 L 8 6 L 8 4 L 6 4 z M 8 8 L 16 8 L 16 16 L 8 16 L 8 8 z M 10.476562 9.5039062 C 10.353087 9.5369062 10.23753 9.7344 10.125 10 L 9.375 12 C 9.375 12 9 13 9 13.5 L 9 14 C 9 14 9 15 10 15 L 14 15 C 14 15 15 15 15 14 L 15 13.5 C 15 13 15 13 14.25 12 C 14.25 12 13.81886 11.40625 13.5 11.40625 C 13.18114 11.40625 12.75 12 12.75 12 L 12 13 L 10.875 10 C 10.73143 9.6044 10.600037 9.4714062 10.476562 9.5039062 z "
-       transform="translate(0,1028.3622)"
-       id="rect6838" />
+       style="fill:#212121;fill-opacity:1;stroke:none;stroke-width:1.33333337"
+       d="m 6.666016,1032.3622 v 2.666 H 4 v 1.334 h 2.666016 v 8 c 0,0.7387 0.595314,1.334 1.333984,1.334 h 8 v 2.666 h 1.333984 v -2.666 H 20 v -1.334 h -2.666016 v -8 c 0,-0.7387 -0.595444,-1.334 -1.333984,-1.334 H 8 v -2.666 z m 1.333984,4 h 8 v 8 H 8 Z m 2.476562,1.5039 c -0.123474,0.033 -0.239032,0.2305 -0.351562,0.4961 l -0.75,2 c 0,0 -0.375,1 -0.375,1.5 v 0.5 c 0,0 0,1 1,1 h 4 c 0,0 1,0 1,-1 v -0.5 c 0,-0.5 0,-0.5 -0.75,-1.5 0,0 -0.43114,-0.5937 -0.75,-0.5937 -0.31886,0 -0.75,0.5937 -0.75,0.5937 l -0.75,1 -1.125,-3 c -0.14357,-0.3956 -0.274963,-0.5286 -0.398438,-0.4961 z"
+       id="path6414"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
