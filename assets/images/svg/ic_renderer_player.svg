@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="15.839192"
-     inkscape:cx="5.9576266"
+     inkscape:cx="-5.5328585"
      inkscape:cy="21.701065"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -65,9 +65,8 @@
      transform="translate(0,-1028.3622)">
     <path
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#212121;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="m 5.5,1033.3622 c -0.831,0 -1.5,0.669 -1.5,1.5 v 3.5 h 1.5 v -3.5 h 13 v 11 H 13 v 1.5 h 5.5 c 0.831,0 1.5,-0.669 1.5,-1.5 v -11 c 0,-0.831 -0.669,-1.5 -1.5,-1.5 z m -1.5,6.5 v 1.5 c 3.3137,0 6,2.6863 6,6 h 1.5 c 0,-4.1422 -3.3579,-7.5 -7.5,-7.5 z m 0,3 v 1.5 c 1.6569,0 3,1.3431 3,3 h 1.5 c 0,-2.4853 -2.0147,-4.5 -4.5,-4.5 z m 0,3 v 1.5 h 1.5 c 0,-0.8284 -0.6716,-1.5 -1.5,-1.5 z"
-       id="rect8420-7"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="sscccccccssssscccccccccccccc" />
+       d="M 5.5 5 C 4.669 5 4 5.669 4 6.5 L 4 10 L 5.5 10 L 5.5 6.5 L 18.5 6.5 L 18.5 17.5 L 13 17.5 L 13 19 L 18.5 19 C 19.331 19 20 18.331 20 17.5 L 20 6.5 C 20 5.669 19.331 5 18.5 5 L 5.5 5 z M 4 11.5 L 4 13 C 7.3137 13 10 15.6863 10 19 L 11.5 19 C 11.5 14.8578 8.1421 11.5 4 11.5 z M 4 14.5 L 4 16 C 5.6569 16 7 17.3431 7 19 L 8.5 19 C 8.5 16.5147 6.4853 14.5 4 14.5 z M 4 17.5 L 4 19 L 5.5 19 C 5.5 18.1716 4.8284 17.5 4 17.5 z "
+       transform="translate(0,1028.3622)"
+       id="rect8420-7" />
   </g>
 </svg>

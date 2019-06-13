@@ -14,7 +14,7 @@
    id="svg4682"
    version="1.1"
    inkscape:version="0.92.3 (unknown)"
-   sodipodi:docname="ic_lock_normal.svg"
+   sodipodi:docname="ic_lock_player.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="2.2346031"
+     inkscape:cx="10.984603"
      inkscape:cy="16.782262"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -71,8 +71,8 @@
      transform="translate(0,-1028.3622)">
     <path
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="m 12,1032.3622 a 4,4 0 0 0 -4.0000001,4 v 0.25 a 0.75,0.75 0 0 0 0.75,0.75 0.75,0.75 0 0 0 0.75,-0.75 v -0.25 a 2.4999969,2.4999969 0 0 1 2.5000001,-2.5 2.4999969,2.4999969 0 0 1 2.5,2.5 v 3 H 7.9999999 c -0.5539998,0 -0.9999998,0.446 -0.9999998,1 v 7 c 0,0.554 0.446,1 0.9999998,1 H 16 c 0.554,0 1,-0.446 1,-1 v -7 c 0,-0.554 -0.446,-1 -1,-1 v -3 a 4,4 0 0 0 -4,-4 z"
-       id="path8089-4"
-       inkscape:connector-curvature="0" />
+       d="M 12 4 A 4 4 0 0 0 8 8 L 8 8.25 A 0.75 0.75 0 0 0 8.75 9 A 0.75 0.75 0 0 0 9.5 8.25 L 9.5 8 A 2.4999969 2.4999969 0 0 1 12 5.5 A 2.4999969 2.4999969 0 0 1 14.5 8 L 14.5 11 L 8 11 C 7.4460002 11 7 11.446 7 12 L 7 19 C 7 19.554 7.4460002 20 8 20 L 16 20 C 16.554 20 17 19.554 17 19 L 17 12 C 17 11.446 16.554 11 16 11 L 16 8 A 4 4 0 0 0 12 4 z "
+       transform="translate(0,1028.3622)"
+       id="path8089-4" />
   </g>
 </svg>

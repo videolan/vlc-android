@@ -9,12 +9,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="20"
-   height="20"
+   width="24"
+   height="24"
    id="svg4682"
    version="1.1"
    inkscape:version="0.92.3 (unknown)"
-   sodipodi:docname="ic_crop_normal.svg"
+   sodipodi:docname="ic_crop_player.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="22.4"
-     inkscape:cx="4.8914266"
+     inkscape:cx="3.9092837"
      inkscape:cy="13.286613"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -62,11 +62,11 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-1032.3622)">
+     transform="translate(0,-1028.3622)">
     <path
        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#212121;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:markers fill stroke;enable-background:accumulate"
-       d="m 4,1034.3622 v 2 H 2 v 2 h 2 v 8 c 0,1.108 0.892,2 2,2 h 8 v 2 h 2 v -2 h 2 v -2 h -2 v -8 c 0,-1.108 -0.89199,-2 -2,-2 H 6 v -2 z m 2,4 h 8 v 8 H 6 Z m 2.4765625,1.5039 c -0.123475,0.033 -0.2390325,0.2305 -0.3515625,0.4961 l -0.75,2 c 0,0 -0.375,1 -0.375,1.5 v 0.5 c 0,0 0,1 1,1 h 4 c 0,0 1,0 1,-1 v -0.5 c 0,-0.5 0,-0.5 -0.75,-1.5 0,0 -0.43114,-0.5937 -0.75,-0.5937 -0.31886,0 -0.75,0.5937 -0.75,0.5937 l -0.75,1 -1.125,-3 c -0.14357,-0.3956 -0.2749625,-0.5286 -0.3984375,-0.4961 z"
-       id="rect6838"
-       inkscape:connector-curvature="0" />
+       d="M 6 4 L 6 6 L 4 6 L 4 8 L 6 8 L 6 16 C 6 17.108 6.892 18 8 18 L 16 18 L 16 20 L 18 20 L 18 18 L 20 18 L 20 16 L 18 16 L 18 8 C 18 6.892 17.10801 6 16 6 L 8 6 L 8 4 L 6 4 z M 8 8 L 16 8 L 16 16 L 8 16 L 8 8 z M 10.476562 9.5039062 C 10.353087 9.5369062 10.23753 9.7344 10.125 10 L 9.375 12 C 9.375 12 9 13 9 13.5 L 9 14 C 9 14 9 15 10 15 L 14 15 C 14 15 15 15 15 14 L 15 13.5 C 15 13 15 13 14.25 12 C 14.25 12 13.81886 11.40625 13.5 11.40625 C 13.18114 11.40625 12.75 12 12.75 12 L 12 13 L 10.875 10 C 10.73143 9.6044 10.600037 9.4714062 10.476562 9.5039062 z "
+       transform="translate(0,1028.3622)"
+       id="rect6838" />
   </g>
 </svg>
