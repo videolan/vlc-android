@@ -50,7 +50,7 @@ class PlaylistFilterDelegate(dataset: MutableLiveData<out List<MediaWrapper>>) :
     override suspend fun filteringJob(charSequence: CharSequence?): MutableList<MediaWrapper>? {
         if (charSequence !== null) initSource()?.let { list ->
             return withContext(Dispatchers.Default) { mutableListOf<MediaWrapper>().apply {
-                val queryStrings = charSequence.trim().toString().split(" ").asSequence().filter { it.length > 2 }.map { it.toLowerCase() }.toList()
+                val queryStrings = charSequence.trim().toString().split(" ").asSequence().filter { it.isNotEmpty() }.map { it.toLowerCase() }.toList()
                 for (media in list) {
                     val title = MediaUtils.getMediaTitle(media).toLowerCase()
                     val location = media.location.toLowerCase()

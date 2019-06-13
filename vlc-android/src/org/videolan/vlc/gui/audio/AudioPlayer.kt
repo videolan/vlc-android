@@ -315,7 +315,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
     }
 
     override fun onSelectionSet(position: Int) {
-        if (playerState != com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED && playerState != com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN) {
+        if (playerState != BottomSheetBehavior.STATE_COLLAPSED && playerState != com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN) {
             binding.songsList.scrollToPosition(position)
         }
     }
@@ -455,17 +455,17 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
             addTextChangedListener(this@AudioPlayer)
         }
         UiTools.setKeyboardVisibility(binding.playlistSearchText, false)
-        if (playerState == com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED) setHeaderVisibilities(false, false, true, true, true, false)
+        if (playerState == BottomSheetBehavior.STATE_COLLAPSED) setHeaderVisibilities(false, false, true, true, true, false)
         else setHeaderVisibilities(true, true, false, false, false, true)
         return true
     }
 
     override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
         val length = charSequence.length
-        if (length > 1) {
+        if (length > 0) {
             playlistModel.filter(charSequence)
             handler.removeCallbacks(hideSearchRunnable)
-        } else if (length == 0) {
+        } else {
             playlistModel.filter(null)
             hideSearchField()
         }
