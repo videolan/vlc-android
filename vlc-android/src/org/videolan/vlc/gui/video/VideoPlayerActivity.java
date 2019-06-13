@@ -619,6 +619,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         // Clear Intent to restore playlist on activity restart
         setIntent(new Intent());
         mHandler.removeCallbacksAndMessages(null);
+        removeDownloadedSubtitlesObserver();
+        previousMediaPath = null;
+        addedExternalSubs.clear();
     }
 
     private void saveBrightness() {
@@ -2954,6 +2957,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             mService.removeCallback(this);
             mService = null;
             mHandler.sendEmptyMessage(AUDIO_SERVICE_CONNECTION_FAILED);
+            removeDownloadedSubtitlesObserver();
+            previousMediaPath = null;
+            addedExternalSubs.clear();
         }
     }
 
