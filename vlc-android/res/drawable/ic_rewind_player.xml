@@ -8,8 +8,8 @@
         android:strokeAlpha="1"
         android:strokeLineJoin="round"
         android:strokeWidth="2"
-        android:fillColor="#fafafa"
-        android:strokeColor="#fafafa"
+        android:fillColor="?attr/player_icon_color"
+        android:strokeColor="?attr/player_icon_color"
         android:fillAlpha="1"
         android:fillType="evenOdd"
         android:strokeLineCap="butt" />
@@ -18,8 +18,8 @@
         android:strokeAlpha="1"
         android:strokeLineJoin="round"
         android:strokeWidth="2"
-        android:fillColor="#fafafa"
-        android:strokeColor="#fafafa"
+        android:fillColor="?attr/player_icon_color"
+        android:strokeColor="?attr/player_icon_color"
         android:fillAlpha="1"
         android:fillType="evenOdd"
         android:strokeLineCap="butt" />

@@ -63,6 +63,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
+        vectorDrawables.useSupportLibrary = true
 
         tasks.whenTaskAdded { task ->
             if (task.name.startsWith('merge')) {

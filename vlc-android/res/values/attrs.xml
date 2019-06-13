@@ -74,6 +74,7 @@
     <attr name="ic_abrepeat_seta" format="reference" />
     <attr name="ic_abrepeat_setb" format="reference" />
     <attr name="ic_dial" format="reference" />
+    <attr name="player_icon_color" format="reference" />
 
     <attr name="shadow_top_9patch" format="reference"/>
     <attr name="shadow_bottom_9patch" format="reference"/>

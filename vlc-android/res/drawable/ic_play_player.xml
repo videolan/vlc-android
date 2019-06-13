@@ -5,11 +5,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <path
         android:fillAlpha="1"
-        android:fillColor="#fafafa"
+        android:fillColor="?attr/player_icon_color"
         android:fillType="evenOdd"
         android:pathData="m7,5 l12,7 -12,7z"
         android:strokeAlpha="1"
-        android:strokeColor="#fafafa"
+        android:strokeColor="?attr/player_icon_color"
         android:strokeLineCap="butt"
         android:strokeLineJoin="round"
         android:strokeWidth="2" />
