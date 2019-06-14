@@ -764,11 +764,14 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
             mPlaybackStarted = false;
             return;
         }
-        mWasPaused = !mService.isPlaying() || (!AndroidDevices.showTvUi(this) && !isInteractive());
+        final boolean tv = AndroidDevices.showTvUi(this);
+        final boolean isInteractive = isInteractive();
+        mWasPaused = !mService.isPlaying() || (!tv && !isInteractive());
         if (mWasPaused) mSettings.edit().putBoolean(PreferencesActivity.VIDEO_PAUSED, true).apply();
         if (!isFinishing()) {
             mCurrentAudioTrack = mService.getAudioTrack();
             mCurrentSpuTrack = mService.getSpuTrack();
+            if (tv && !isInteractive) finish(); // Leave player on TV, restauration can be difficult
         }
 
         if (mMute) mute(false);
