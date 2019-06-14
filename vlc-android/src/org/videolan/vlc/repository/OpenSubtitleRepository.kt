@@ -3,12 +3,6 @@ package org.videolan.vlc.repository
 import org.videolan.vlc.api.IOpenSubtitleService
 import org.videolan.vlc.api.OpenSubtitle
 import org.videolan.vlc.api.OpenSubtitleClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleService) {
 
@@ -24,31 +18,31 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
         val actualSeason = season ?: 0
         val actualLanguageId = languageId ?: ""
         val actualTag = tag ?: ""
-        return retrofitResponseCall { openSubtitleService.query(
+        return openSubtitleService.query(
                 imdbId = String.format("%07d", imdbId),
                 tag = actualTag,
                 episode = actualEpisode,
                 season = actualSeason,
-                languageId = actualLanguageId) }
+                languageId = actualLanguageId)
     }
 
     suspend fun queryWithHash(movieByteSize: Long, movieHash: String, languageId: String?): List<OpenSubtitle> {
         val actualLanguageId = languageId ?: ""
-        return  retrofitResponseCall { openSubtitleService.query(
+        return openSubtitleService.query(
                 movieByteSize = movieByteSize.toString(),
                 movieHash = movieHash,
-                languageId = actualLanguageId) }
+                languageId = actualLanguageId)
     }
 
     suspend fun queryWithName(name: String, episode: Int?, season: Int?, languageId: String?): List<OpenSubtitle> {
         val actualEpisode = episode ?: 0
         val actualSeason = season ?: 0
         val actualLanguageId = languageId ?: ""
-        return retrofitResponseCall { openSubtitleService.query(
+        return openSubtitleService.query(
                 name = name,
                 episode = actualEpisode,
                 season = actualSeason,
-                languageId = actualLanguageId) }
+                languageId = actualLanguageId)
     }
 
     suspend fun queryWithImdbid(imdbId: Int, tag: String?, episode: Int? , season: Int?, languageIds: List<String>? ): List<OpenSubtitle> {
@@ -57,24 +51,21 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
         val actualLanguageIds = languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this } ?: setOf("")
         val actualTag = tag ?: ""
         return actualLanguageIds.flatMap {
-            retrofitResponseCall { openSubtitleService.query(
+            openSubtitleService.query(
                     imdbId = String.format("%07d", imdbId),
                     tag = actualTag,
                     episode = actualEpisode,
                     season = actualSeason,
                     languageId = it) }
-        }
     }
 
     suspend fun queryWithHash(movieByteSize: Long, movieHash: String?, languageIds: List<String>?): List<OpenSubtitle> {
         val actualLanguageIds = languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this } ?: setOf("")
         return actualLanguageIds.flatMap {
-            retrofitResponseCall {
-                openSubtitleService.query(
-                        movieByteSize = movieByteSize.toString(),
-                        movieHash = movieHash ?: "",
-                        languageId = it)
-            }
+            openSubtitleService.query(
+                    movieByteSize = movieByteSize.toString(),
+                    movieHash = movieHash ?: "",
+                    languageId = it)
         }
     }
 
@@ -83,29 +74,13 @@ class OpenSubtitleRepository(private val openSubtitleService: IOpenSubtitleServi
         val actualSeason = season ?: 0
         val actualLanguageIds = languageIds?.toSet()?.run { if (contains("") || isEmpty()) setOf("") else this } ?: setOf("")
         return actualLanguageIds.flatMap {
-            retrofitResponseCall {
-                openSubtitleService.query(
-                        name = name,
-                        episode = actualEpisode,
-                        season = actualSeason,
-                        languageId = it)
-            }
+            openSubtitleService.query(
+                    name = name,
+                    episode = actualEpisode,
+                    season = actualSeason,
+                    languageId = it)
         }
     }
 
     companion object { fun getInstance() = OpenSubtitleRepository(OpenSubtitleClient.instance)}
-
-    private suspend inline fun <reified T> retrofitResponseCall(crossinline call: () -> Call<T>) : T {
-        with(retrofitSuspendCall(call)) {
-            if (isSuccessful) return body()!!
-            else throw Exception(message())
-        }
-    }
-
-    private suspend inline fun <reified T> retrofitSuspendCall(crossinline call: () -> Call<T>) : Response<T> = suspendCoroutine { continuation ->
-        call.invoke().enqueue(object : Callback<T> {
-            override fun onResponse(call: Call<T>?, response: Response<T>) = continuation.resume(response)
-            override fun onFailure(call: Call<T>, t: Throwable) = continuation.resumeWithException(t)
-        })
-    }
 }
