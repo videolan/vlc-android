@@ -54,6 +54,7 @@
     <string name="set_song_question">\'%1$s\' als beltoon instellen?</string>
     <string name="info">Informatie</string>
     <string name="confirm_delete">Het bestand \'%1$s\' verwijderen?</string>
+    <string name="confirm_delete_several_media">Deze %1$d media verwijderen?</string>
     <string name="confirm_delete_folder">Map \'%1$s\' en de volledige inhoud verwijderen?</string>
     <string name="confirm_delete_playlist">Afspeellijst \'%1$s\' verwijderen?</string>
     <string name="confirm_remove_from_playlist">\'%1$s\' verwijderen uit afspeellijst?</string>
@@ -171,9 +172,9 @@
 
     <string name="tools">Extra</string>
     <string name="playback_speed">Afspeelsnelheid</string>
-    <string name="sleep_title">Slaapstand</string>
-    <string name="sleep_in">Slapen binnen</string>
-    <string name="sleep_cancel">Slaapstand annuleren</string>
+    <string name="sleep_title">Slaaptimer</string>
+    <string name="sleep_in">Slapen over</string>
+    <string name="sleep_cancel">Slaaptimer annuleren</string>
     <string name="jump_to_time">Naar tijdstip springen</string>
     <string name="subtitle_label">Ondertitelbestand toevoegen</string>
     <string name="subtitle_select">Ondertitelbestand selecteren</string>
@@ -684,4 +685,9 @@
     <string name="jump_to">Springen naar</string>
     <string name="show_video_thumbnails_summary">Video-miniaturen weergeven in lijsten</string>
     <string name="show_video_thumbnails">Video-miniaturen</string>
+    <string name="eq_snap_bands">Banden uitlijnen</string>
+    <string name="enable_equalizer">Inschakelen</string>
+    <string name="preamp">Voorversterking</string>
+    <string name="presets">Presets</string>
+    <string name="reset">Herstellen</string>
 </resources>
