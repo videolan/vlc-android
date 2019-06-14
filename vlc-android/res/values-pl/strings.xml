@@ -56,6 +56,7 @@
     <string name="set_song_question">Ustaw \'%1$s\' jako dzwonek?</string>
     <string name="info">Informacje</string>
     <string name="confirm_delete">Usunąć plik \"%1$s\"?</string>
+    <string name="confirm_delete_several_media">Czy naprawdę usunąć %1$d?</string>
     <string name="confirm_delete_folder">Usunąć folder \'%1$s\' i całą jego zawartość?</string>
     <string name="confirm_delete_playlist">Usunąć listę odtwarzania \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Usunąć \'%1$s\' z listy odtwarzania?</string>
@@ -698,4 +699,9 @@
     <string name="jump_to">Przejdź do</string>
     <string name="show_video_thumbnails_summary">Pokaż miniaturki wideo w listach</string>
     <string name="show_video_thumbnails">Miniaturki wideo</string>
+    <string name="eq_snap_bands">Pociągnij pasma</string>
+    <string name="enable_equalizer">Włącz</string>
+    <string name="preamp">Przedwzmacniacz</string>
+    <string name="presets">Domyślne</string>
+    <string name="reset">Resetuj</string>
 </resources>
