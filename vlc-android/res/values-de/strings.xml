@@ -54,6 +54,7 @@
     <string name="set_song_question">\'%1$s\' als Klingelton festlegen?</string>
     <string name="info">Information</string>
     <string name="confirm_delete">Die Datei \'%1$s\' löschen?</string>
+    <string name="confirm_delete_several_media">%1$d wirklich löschen?</string>
     <string name="confirm_delete_folder">Den Ordner \'%1$s\' mit dem gesamten Inhalt löschen?</string>
     <string name="confirm_delete_playlist">Wiedergabeliste \'%1$s\' löschen?</string>
     <string name="confirm_remove_from_playlist">Entfernen von \'%1$s\' aus der Wiedergabeliste?</string>
@@ -684,4 +685,9 @@
     <string name="jump_to">Springe zu</string>
     <string name="show_video_thumbnails_summary">Video-Vorschau in Listen anzeigen</string>
     <string name="show_video_thumbnails">Video-Vorschau</string>
+    <string name="eq_snap_bands">Bänder mitziehen (benachbarte Bänder linear anpassen)</string>
+    <string name="enable_equalizer">Aktivieren</string>
+    <string name="preamp">Vorverstärker</string>
+    <string name="presets">Voreinstellung</string>
+    <string name="reset">Zurücksetzen</string>
 </resources>
