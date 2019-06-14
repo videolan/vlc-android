@@ -56,6 +56,7 @@
     <string name="set_song_question">Nastaviť „%1$s“ ako zvonenie?</string>
     <string name="info">Informácia</string>
     <string name="confirm_delete">Vymazať súbor \'%1$s\'?</string>
+    <string name="confirm_delete_several_media">Vymazať tieto médiá v počte: %1$d?</string>
     <string name="confirm_delete_folder">Vymazať priečinok \'%1$s\' a všetok jeho obsah?</string>
     <string name="confirm_delete_playlist">Vymazať playlist \'%1$s\'?</string>
     <string name="confirm_remove_from_playlist">Odstrániť \'%1$s\' z playlistu?</string>
@@ -698,4 +699,9 @@
     <string name="jump_to">Preskočiť na</string>
     <string name="show_video_thumbnails_summary">Zobraziť náhľady videa v zoznamoch</string>
     <string name="show_video_thumbnails">Náhľady videa</string>
+    <string name="eq_snap_bands">Prichytiť pásma</string>
+    <string name="enable_equalizer">Aktivovať</string>
+    <string name="preamp">Predbežné zosilnenie</string>
+    <string name="presets">Prednastavenia</string>
+    <string name="reset">Reset</string>
 </resources>
