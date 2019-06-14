@@ -53,6 +53,7 @@
     <string name="set_song_question">是否将「%1$s」设为铃声?</string>
     <string name="info">信息</string>
     <string name="confirm_delete">是否要删除文件「%1$s」?</string>
+    <string name="confirm_delete_several_media">删除这些 %1$d 媒体?</string>
     <string name="confirm_delete_folder">是否删除文件夹「%1$s」及其全部内容?</string>
     <string name="confirm_delete_playlist">是否删除播放列表「%1$s」?</string>
     <string name="confirm_remove_from_playlist">将「%1$s」从播放列表中移除？</string>
@@ -677,4 +678,9 @@
     <string name="jump_to">跳转到</string>
     <string name="show_video_thumbnails_summary">在列表中显示视频缩略图</string>
     <string name="show_video_thumbnails">视频缩略图</string>
+    <string name="eq_snap_bands">啪啪手环</string>
+    <string name="enable_equalizer">启用</string>
+    <string name="preamp">前置放大器</string>
+    <string name="presets">预设</string>
+    <string name="reset">重置</string>
 </resources>
