@@ -55,7 +55,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     protected var mediabrowser: MediaBrowser? = null
 
     private val foldersContentMap = SimpleArrayMap<MediaLibraryItem, MutableList<MediaLibraryItem>>()
-    private lateinit var browserChannel : Channel<Media>
+    protected lateinit var browserChannel : Channel<Media>
     private val showAll = Settings.getInstance(context).getBoolean("browser_show_all_files", true)
 
     val descriptionUpdate = MutableLiveData<Pair<Int, String>>()
@@ -249,7 +249,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         return flags
     }
 
-    private suspend fun requestBrowsing(url: String?) = withContext(Dispatchers.IO) {
+    protected suspend fun requestBrowsing(url: String?) = withContext(Dispatchers.IO) {
         initBrowser()
         mediabrowser?.let {
             if (url != null) it.browse(Uri.parse(url), getFlags())

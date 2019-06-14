@@ -23,6 +23,10 @@ package org.videolan.vlc.providers
 import android.content.Context
 import android.net.Uri
 import android.text.TextUtils
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.filter
+import kotlinx.coroutines.channels.mapTo
+import org.videolan.libvlc.Media
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Storage
@@ -66,4 +70,15 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         } else if (media.itemType != MediaLibraryItem.TYPE_STORAGE) return
         super.addMedia(media)
     }
+
+    override suspend fun refreshImpl() {
+        browserChannel = Channel(Channel.UNLIMITED)
+        requestBrowsing(url)
+        val value: MutableList<MediaLibraryItem> = browserChannel.filter { it.isStorage() }.mapTo(mutableListOf()) { Storage(it.uri)}
+        dataset.value = value
+        parseSubDirectories()
+        loading.value = false
+    }
 }
+
+private fun Media.isStorage() = type == Media.Type.Directory
