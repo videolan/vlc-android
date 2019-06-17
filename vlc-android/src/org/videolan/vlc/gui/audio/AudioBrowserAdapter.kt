@@ -65,7 +65,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
     var itemSize = -1
     val multiSelectHelper: MultiSelectHelper<MediaLibraryItem> = MultiSelectHelper(this, UPDATE_SELECTION)
     private val mDefaultCover: BitmapDrawable?
-    var focusNext = -1
+    private var focusNext = -1
     private var focusListener: FocusableRecyclerView.FocusListener? = null
 
     val isEmpty: Boolean

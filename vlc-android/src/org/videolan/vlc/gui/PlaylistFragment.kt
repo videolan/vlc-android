@@ -74,7 +74,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = PlaylistsFragmentBinding.inflate(inflater, container, false)
-        playlists = binding.swipeLayout.findViewById(R.id.playlist_list)
+        playlists = binding.swipeLayout.findViewById(R.id.audio_list)
         return binding.root
     }
 
@@ -86,7 +86,7 @@ class PlaylistFragment : BaseAudioBrowser<PlaylistsViewModel>(), SwipeRefreshLay
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
 
-                if (position == playlistAdapter.getItemCount() - 1) {
+                if (position == playlistAdapter.itemCount - 1) {
                     return 1
                 }
                 if (viewModel.provider.isFirstInSection(position + 1)) {

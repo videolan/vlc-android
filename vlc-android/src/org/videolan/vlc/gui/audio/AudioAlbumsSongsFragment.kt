@@ -98,8 +98,8 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val albumsList = viewPager!!.getChildAt(MODE_ALBUM) as RecyclerView
-        val songsList = viewPager!!.getChildAt(MODE_SONG) as RecyclerView
+        val albumsList = viewPager!!.getChildAt(MODE_ALBUM).findViewById(R.id.audio_list) as RecyclerView
+        val songsList = viewPager!!.getChildAt(MODE_SONG).findViewById(R.id.audio_list) as RecyclerView
 
         lists = arrayOf(albumsList, songsList)
         val titles = arrayOf(getString(R.string.albums), getString(R.string.songs))
@@ -114,7 +114,7 @@ class AudioAlbumsSongsFragment : BaseAudioBrowser<AlbumSongsViewModel>(), SwipeR
         albumsList.adapter = albumsAdapter
         viewPager!!.offscreenPageLimit = MODE_TOTAL - 1
         @Suppress("UNCHECKED_CAST")
-        viewPager!!.adapter = AudioPagerAdapter(lists as Array<View>, titles)
+        viewPager!!.adapter = AudioPagerAdapter(arrayOf(viewPager!!.getChildAt(MODE_ALBUM), viewPager!!.getChildAt(MODE_SONG)), titles)
 
         fastScroller = view.rootView.findViewById<View>(R.id.songs_fast_scroller) as FastScroller
         fastScroller.attachToCoordinator(view.rootView.findViewById<View>(R.id.appbar) as AppBarLayout, view.rootView.findViewById<View>(R.id.coordinator) as CoordinatorLayout, view.rootView.findViewById<View>(R.id.fab) as FloatingActionButton)

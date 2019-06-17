@@ -72,7 +72,7 @@ fun loadPlaylistImageWithWidth(v: ImageView, item: MediaLibraryItem?, imageWidth
     if (imageWidth == 0) return
     if (item == null) return
     val binding = DataBindingUtil.findBinding<ViewDataBinding>(v)
-    AppScope.launch { getPlaylistImage(v, item, binding, imageWidth.toInt()) }
+    AppScope.launch { if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) getPlaylistImage(v, item, binding, imageWidth) else loadImage(v, item) }
 }
 
 fun getAudioIconDrawable(context: Context?, type: Int): BitmapDrawable? = context?.let {
