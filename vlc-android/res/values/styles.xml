@@ -287,7 +287,8 @@
     </style>
 
     <style name="Theme.VLC.Player" parent="Theme.VLC.Player.7" />
-    <style name="Theme.VLC.Player.7" parent="Theme.MaterialComponents">
+
+    <style name="Theme.VLC.Player.7" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/black</item>

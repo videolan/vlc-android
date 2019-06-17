@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent">
 
     <!--
      the double FrameLayout is necessary here to do cropping on the bottom right
@@ -12,14 +12,13 @@
         android:id="@+id/video_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="false"/>
+        android:fitsSystemWindows="false" />
 
     <RelativeLayout
         android:id="@+id/player_overlay_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
-        android:fitsSystemWindows="true" >
+        android:fitsSystemWindows="true">
 
         <ImageView
             android:id="@+id/renderer_background_cone"
@@ -35,12 +34,12 @@
             android:layout_above="@+id/progress_overlay"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/default_margin"
-            android:layout="@layout/player_overlay_info"/>
+            android:layout="@layout/player_overlay_info" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/progress_overlay" >
+            android:layout_above="@+id/progress_overlay">
 
             <ImageView
                 android:id="@+id/player_overlay_loading"
@@ -48,32 +47,44 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:src="@drawable/ic_cone_o"
-                android:visibility="invisible"
-                android:top="40dp" />
+                android:top="40dp"
+                android:visibility="invisible" />
 
         </RelativeLayout>
 
         <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/player_overlay_settings_stub"
-            android:layout="@layout/player_overlay_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/progress_overlay"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="@dimen/default_margin"
+            android:layout_alignParentRight="true"
             android:layout_marginEnd="@dimen/default_margin"
-            android:layout_marginBottom="@dimen/default_margin"/>
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout="@layout/player_overlay_settings" />
 
         <androidx.appcompat.widget.ViewStubCompat
             android:id="@+id/player_hud_stub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout="@layout/player_hud"
-            android:layout_marginBottom="@dimen/overlay_margin"
-            android:layout_marginRight="@dimen/overlay_margin"
+            android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/overlay_margin"
-            android:layout_alignParentBottom="true" />
+            android:layout_marginRight="@dimen/overlay_margin"
+            android:layout_marginBottom="@dimen/overlay_margin"
+            android:layout="@layout/player_hud" />
+
+        <androidx.appcompat.widget.ViewStubCompat
+            android:id="@+id/player_hud_right_stub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="@dimen/overlay_margin"
+            android:layout_marginTop="@dimen/overlay_margin"
+            android:layout_marginRight="@dimen/overlay_margin"
+            android:layout_marginBottom="@dimen/overlay_margin"
+            android:layout="@layout/player_hud_right" />
 
     </RelativeLayout>
 
@@ -83,7 +94,7 @@
         android:layout_height="480dp"
         android:layout_centerInParent="true"
         android:background="@drawable/rounded_corners"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <androidx.appcompat.widget.ViewStubCompat
         android:id="@+id/player_options_stub"

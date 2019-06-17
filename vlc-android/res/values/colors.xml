@@ -37,7 +37,7 @@
     <color name="grey875">#2a2a2a</color>
     <color name="grey900">#212121</color>
 
-    <color name="player_background">#c0141414</color>
+    <color name="playerbackground">#c0141414</color>
 
     <color name="grey50transparent">#b9fafafa</color>
     <color name="grey50transparent_ea">#eafafafa</color>

@@ -12,8 +12,7 @@
    width="48"
    height="48"
    id="svg4682"
-   version="1.1"
-   inkscape:version="0.92.3 (unknown)"
+   version="1.1" inkscape:version="0.92.3 (2405546, 2018-03-11)"
    sodipodi:docname="ic_renderer_circle_player.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -27,14 +26,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="-17.584125"
+     inkscape:zoom="5.6" inkscape:cx="-0.35198214"
      inkscape:cy="23.184609"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1016"
+     showgrid="false" inkscape:window-width="1600" inkscape:window-height="836"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -71,7 +67,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+          <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -81,15 +77,15 @@
      id="layer1"
      transform="translate(-2,-1002.3622)">
     <circle
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#141414;fill-opacity:0.75294119;fill-rule:nonzero;stroke:none;stroke-width:15.1181097;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#141414;fill-opacity:0.75294118;fill-rule:nonzero;stroke:none;stroke-width:15.1181097;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
        id="circle6014"
        cx="26"
        cy="1026.3622"
        r="24" />
     <path
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#fafafa;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3.75;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate"
-       d="m 13.8125,1013.2372 c -1.5582,0 -2.8125,1.2543 -2.8125,2.8125 v 6.5625 h 2.8125 v -6.5625 h 24.375 v 20.625 H 27.875 v 2.8125 h 10.3125 c 1.5582,0 2.8125,-1.2543 2.8125,-2.8125 v -20.625 c 0,-1.5582 -1.2543,-2.8125 -2.8125,-2.8125 z M 11,1025.4247 v 2.8125 c 6.2132,0 11.25,5.0368 11.25,11.25 h 2.8125 c 0,-7.7667 -6.296,-14.0625 -14.0625,-14.0625 z m 0,5.625 v 2.8125 c 3.1067,0 5.625,2.5183 5.625,5.625 h 2.8125 c 0,-4.66 -3.7775,-8.4375 -8.4375,-8.4375 z m 0,5.625 v 2.8125 h 2.8125 c 0,-1.5533 -1.2592,-2.8125 -2.8125,-2.8125 z"
-       id="path6286"
+        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#fafafa;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:3;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:4.19999981;stroke-opacity:1;marker:none;enable-background:accumulate"
+        d="m 16.249999,1015.8622 c -1.2465,0 -2.25,1.0035 -2.25,2.25 v 5.25 h 2.25 v -5.25 h 19.5 v 16.5 h -8.25 v 2.25 h 8.25 c 1.2465,0 2.25,-1.0035 2.25,-2.25 v -16.5 c 0,-1.2465 -1.0035,-2.25 -2.25,-2.25 z m -2.25,9.75 v 2.25 c 4.9706,0 9,4.0295 9,9 h 2.25 c 0,-6.2133 -5.0368,-11.25 -11.25,-11.25 z m 0,4.5 v 2.25 c 2.4854,0 4.5,2.0147 4.5,4.5 h 2.25 c 0,-3.7279 -3.022,-6.75 -6.75,-6.75 z m 0,4.5 v 2.25 h 2.25 c 0,-1.2426 -1.0074,-2.25 -2.25,-2.25 z"
+        id="rect8420-7-5"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="sscccccccssssscccccccccccccc" />
   </g>

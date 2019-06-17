@@ -50,9 +50,10 @@ import android.widget.*
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.annotation.StringRes
 import androidx.annotation.WorkerThread
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.ViewStubCompat
 import androidx.constraintlayout.widget.ConstraintSet
@@ -67,6 +68,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.circularreveal.CircularRevealCompat
 import com.google.android.material.circularreveal.CircularRevealWidget
 import com.google.android.material.snackbar.Snackbar
@@ -86,6 +88,7 @@ import org.videolan.tools.*
 import org.videolan.vlc.*
 import org.videolan.vlc.database.models.ExternalSub
 import org.videolan.vlc.databinding.PlayerHudBinding
+import org.videolan.vlc.databinding.PlayerHudRightBinding
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.audio.PlaylistAdapter
 import org.videolan.vlc.gui.browser.EXTRA_MRL
@@ -107,6 +110,11 @@ import java.util.*
 @ExperimentalCoroutinesApi
 open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsController, PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, Observer<PlaybackService> {
 
+    init {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+    }
+
+    private var wasPlaying = true
     private val controlsConstraintSetPortrait = ConstraintSet()
     private val controlsConstraintSetLandscape = ConstraintSet()
     var service: PlaybackService? = null
@@ -117,7 +125,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var videoUri: Uri? = null
     private var askResume = true
 
-    private var playlistToggle: ImageView? = null
     private lateinit var playlist: RecyclerView
     private lateinit var playlistAdapter: PlaylistAdapter
     private var playlistModel: PlaylistModel? = null
@@ -126,8 +133,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private lateinit var settings: SharedPreferences
 
     /** Overlay  */
-    private lateinit var actionBar: ActionBar
-    private var actionBarView: ViewGroup? = null
     private var overlayBackground: View? = null
 
     private var isDragging: Boolean = false
@@ -146,7 +151,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var loadingImageView: ImageView? = null
     private var navMenu: ImageView? = null
     private var rendererBtn: ImageView? = null
-    private var secondaryDisplayBtn: ImageView? = null
     private var playbackSettingPlus: ImageView? = null
     private var playbackSettingMinus: ImageView? = null
     protected var enableCloneMode: Boolean = false
@@ -233,6 +237,10 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private val playlistObserver = Observer<List<MediaWrapper>> { mediaWrappers -> if (mediaWrappers != null) playlistAdapter.update(mediaWrappers) }
 
     private var addNextTrack = false
+
+
+    private lateinit var playToPause: AnimatedVectorDrawableCompat
+    private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -335,6 +343,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
 
     private lateinit var hudBinding: PlayerHudBinding
+    private lateinit var hudRightBinding: PlayerHudRightBinding
     private var seekButtons: Boolean = false
     private var hasPlaylist: Boolean = false
 
@@ -414,23 +423,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         displayManager = DisplayManager(this, PlaybackService.renderer, false, enableCloneMode, isBenchmark)
         setContentView(if (displayManager.isPrimary) R.layout.player else R.layout.player_remote_control)
 
-        /** initialize Views an their Events  */
-        actionBar = supportActionBar!!.apply {
-            setDisplayShowHomeEnabled(false)
-            setDisplayShowTitleEnabled(false)
-            setBackgroundDrawable(null)
-            setDisplayShowCustomEnabled(true)
-            setCustomView(R.layout.player_action_bar)
-        }
 
         rootView = findViewById(R.id.player_root)
-        actionBarView = actionBar.customView as ViewGroup
 
 
-        playlistToggle = actionBarView!!.findViewById(R.id.playlist_toggle)
         playlist = findViewById(R.id.video_playlist)
 
-        secondaryDisplayBtn = actionBarView!!.findViewById(R.id.video_secondary_display)
 
 
         screenOrientation = Integer.valueOf(
@@ -511,6 +509,10 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             mSavedTime = savedInstanceState.getLong(KEY_TIME)
             videoUri = savedInstanceState.getParcelable<Parcelable>(KEY_URI) as Uri?
         }
+
+        playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause)!!
+        pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play)!!
+
     }
 
     override fun onResume() {
@@ -799,12 +801,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     dataset.observe(this@VideoPlayerActivity, playlistObserver)
                 }
             }
-            playlistToggle.setVisible()
+            hudRightBinding.playlistToggle.setVisible()
             if (::hudBinding.isInitialized) {
                 hudBinding.playlistPrevious.setVisible()
                 hudBinding.playlistNext.setVisible()
             }
-            playlistToggle!!.setOnClickListener(this@VideoPlayerActivity)
+            hudRightBinding.playlistToggle.setOnClickListener(this@VideoPlayerActivity)
 
             val callback = SwipeDragItemTouchHelperCallback(playlistAdapter)
             val touchHelper = ItemTouchHelper(callback)
@@ -814,19 +816,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     private fun initUI() {
 
-        /* Dispatch ActionBar touch events to the Activity */
-        actionBarView!!.setOnTouchListener { _, event ->
-            onTouchEvent(event)
-            true
-        }
-
-        val secondary = displayManager.isSecondary
-        if (secondary) secondaryDisplayBtn!!.setImageResource(R.drawable.ic_stop_screen_share)
-        secondaryDisplayBtn!!.visibility = if (UiTools.hasSecondaryDisplay(applicationContext)) View.VISIBLE else View.GONE
-        secondaryDisplayBtn!!.contentDescription = resources.getString(if (secondary) R.string.video_remote_disable else R.string.video_remote_enable)
-        if (!isBenchmark && enableCloneMode && !settings.contains("enable_clone_mode")) {
-            UiTools.snackerConfirm(secondaryDisplayBtn!!, getString(R.string.video_save_clone_mode), Runnable { settings.edit().putBoolean("enable_clone_mode", true).apply() })
-        }
 
         /* Listen for changes to media routes. */
         if (!isBenchmark) displayManager.setMediaRouterCallback()
@@ -903,7 +892,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
         if (!displayManager.isSecondary) service?.mediaplayer?.detachViews()
 
-        actionBarView!!.setOnTouchListener(null)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -1348,7 +1336,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
         showInfo(R.string.locked, 1000)
         if (::hudBinding.isInitialized) {
-            hudBinding.lockOverlayButton.setImageResource(R.drawable.ic_locked_circle)
+            hudBinding.lockOverlayButton.setImageResource(R.drawable.ic_locked_player)
             hudBinding.playerOverlayTime.isEnabled = false
             hudBinding.playerOverlaySeekbar.isEnabled = false
             hudBinding.playerOverlayLength.isEnabled = false
@@ -1369,7 +1357,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             requestedOrientation = screenOrientationLock
         showInfo(R.string.unlocked, 1000)
         if (::hudBinding.isInitialized) {
-            hudBinding.lockOverlayButton.setImageResource(R.drawable.ic_lock_circle)
+            hudBinding.lockOverlayButton.setImageResource(R.drawable.ic_lock_player)
             hudBinding.playerOverlayTime.isEnabled = true
             hudBinding.playerOverlaySeekbar.isEnabled = service?.isSeekable != false
             hudBinding.playerOverlayLength.isEnabled = true
@@ -2134,9 +2122,10 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 }
                 dimStatusBar(false)
                 hudBinding.progressOverlay.setVisible()
+                hudRightBinding.hudRightOverlay.setVisible()
                 if (!displayManager.isPrimary)
                     overlayBackground.setVisible()
-                updateOverlayPausePlay()
+                updateOverlayPausePlay(true)
             }
             handler.removeMessages(FADE_OUT)
             if (overlayTimeout != OVERLAY_INFINITE)
@@ -2165,6 +2154,24 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun initOverlay() {
         service?.let { service ->
+
+
+            val vscRight = findViewById<ViewStubCompat>(R.id.player_hud_right_stub)
+            vscRight?.let {
+                it.inflate()
+                hudRightBinding = DataBindingUtil.bind(findViewById(R.id.hud_right_overlay))
+                        ?: return
+                val secondary = displayManager.isSecondary
+                if (secondary) hudRightBinding.videoSecondaryDisplay.setImageResource(R.drawable.ic_screenshare_stop_circle_player)
+                hudRightBinding.videoSecondaryDisplay.visibility = if (UiTools.hasSecondaryDisplay(applicationContext)) View.VISIBLE else View.GONE
+                hudRightBinding.videoSecondaryDisplay.contentDescription = resources.getString(if (secondary) R.string.video_remote_disable else R.string.video_remote_enable)
+                if (!isBenchmark && enableCloneMode && !settings.contains("enable_clone_mode")) {
+                    UiTools.snackerConfirm(hudRightBinding.videoSecondaryDisplay, getString(R.string.video_save_clone_mode), Runnable { settings.edit().putBoolean("enable_clone_mode", true).apply() })
+                }
+
+
+            }
+
             val vsc = findViewById<ViewStubCompat>(R.id.player_hud_stub)
             if (vsc != null) {
                 seekButtons = settings.getBoolean(ENABLE_SEEK_BUTTONS, false)
@@ -2184,7 +2191,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 if (!AndroidDevices.isChromeBook && !isTv
                         && Settings.getInstance(this).getBoolean("enable_casting", true)) {
                     rendererBtn = findViewById(R.id.video_renderer)
-                    PlaybackService.renderer.observe(this, Observer { rendererItem -> if (rendererBtn != null) rendererBtn!!.setImageResource(if (rendererItem == null) R.drawable.ic_renderer_circle else R.drawable.ic_renderer_on_circle) })
+                    PlaybackService.renderer.observe(this, Observer { rendererItem -> rendererBtn?.setImageDrawable(AppCompatResources.getDrawable(this, if (rendererItem == null) R.drawable.ic_renderer_circle_player else R.drawable.ic_renderer_circle_player)) })
                     RendererDelegate.renderers.observe(this, Observer<List<RendererItem>> { rendererItems -> rendererBtn.setVisibility(if (Util.isListEmpty(rendererItems)) View.GONE else View.VISIBLE) })
                 }
 
@@ -2221,7 +2228,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
 
                 resetHudLayout()
-                updateOverlayPausePlay()
+                updateOverlayPausePlay(true)
                 updateSeekable(service.isSeekable)
                 updatePausable(service.isPausable)
                 updateNavStatus()
@@ -2254,6 +2261,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 overlayBackground.setInvisible()
             }
             if (::hudBinding.isInitialized) hudBinding.progressOverlay.setInvisible()
+            if (::hudRightBinding.isInitialized) hudRightBinding.hudRightOverlay.setInvisible()
             showControls(false)
             isShowing = false
             dimStatusBar(true)
@@ -2274,10 +2282,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public fun dimStatusBar(dim: Boolean) {
         if (isNavMenu) return
-        if (dim || isLocked)
-            actionBar.hide()
-        else
-            actionBar.show()
 
         var visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         var navbar = 0
@@ -2287,7 +2291,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             if (AndroidUtil.isKitKatOrLater) visibility = visibility or View.SYSTEM_UI_FLAG_IMMERSIVE
             visibility = visibility or View.SYSTEM_UI_FLAG_FULLSCREEN
         } else {
-            actionBar.show()
             window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             visibility = visibility or View.SYSTEM_UI_FLAG_VISIBLE
         }
@@ -2300,7 +2303,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private fun showTitle() {
         if (isNavMenu) return
-        actionBar.show()
 
         var visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
         var navbar = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -2311,14 +2313,30 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     }
 
-    private fun updateOverlayPausePlay() {
+    private fun updateOverlayPausePlay(skipAnim: Boolean = false) {
         if (!::hudBinding.isInitialized) return
         service?.let { service ->
-            if (service.isPausable)
-                hudBinding.playerOverlayPlay.setImageResource(if (service.isPlaying)
-                    R.drawable.ic_pause_player
-                else
-                    R.drawable.ic_play_player)
+            if (service.isPausable) {
+
+                if (skipAnim) {
+                    hudBinding.playerOverlayPlay.setImageResource(if (service.isPlaying)
+                        R.drawable.ic_pause_player
+                    else
+                        R.drawable.ic_play_player)
+                } else {
+
+                    val drawable = if (service.isPlaying) playToPause else pauseToPlay
+                    hudBinding.playerOverlayPlay.setImageDrawable(drawable)
+                    if (service.isPlaying != wasPlaying) {
+                        drawable.start()
+
+                    }
+                }
+
+                wasPlaying = service.isPlaying
+
+
+            }
             hudBinding.playerOverlayPlay.requestFocus()
         }
     }

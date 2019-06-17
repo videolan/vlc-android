@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import org.videolan.vlc.gui.helpers.KeyHelper
@@ -11,6 +12,10 @@ import org.videolan.vlc.gui.helpers.applyTheme
 import org.videolan.vlc.util.Settings
 
 open class BaseActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+
+    init {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+    }
 
     lateinit var settings: SharedPreferences
 

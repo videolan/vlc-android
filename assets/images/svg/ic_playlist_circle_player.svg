@@ -12,8 +12,7 @@
    width="48"
    height="48"
    id="svg4682"
-   version="1.1"
-   inkscape:version="0.92.3 (unknown)"
+   version="1.1" inkscape:version="0.92.3 (2405546, 2018-03-11)"
    sodipodi:docname="ic_playlist_circle_player.svg"
    inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
    inkscape:export-xdpi="90"
@@ -26,15 +25,10 @@
      bordercolor="#666666"
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="-67.121867"
-     inkscape:cy="33.055211"
+     inkscape:pageshadow="2" inkscape:zoom="11.2" inkscape:cx="34.392558" inkscape:cy="29.085431"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1016"
+     showgrid="false" inkscape:window-width="1600" inkscape:window-height="836"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -71,7 +65,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+          <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -81,15 +75,14 @@
      id="layer1"
      transform="translate(-2,-1002.3622)">
     <circle
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#141414;fill-opacity:0.75294119;fill-rule:nonzero;stroke:none;stroke-width:15.1181097;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
+        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#141414;fill-opacity:0.75294118;fill-rule:nonzero;stroke:none;stroke-width:15.1181097;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate"
        id="circle6014"
        cx="26"
        cy="1026.3622"
        r="24" />
     <path
-       inkscape:connector-curvature="0"
-       id="path6300"
-       d="m 14.3333,1018.0289 v 3.3333 H 36 v -3.3333 z m 0,6.6666 v 3.3334 H 36 v -3.3334 z m 0,6.6667 v 3.3333 h 15 v -3.3333 z m 19.1342,0 c -0.4463,0.018 -0.798,0.3867 -0.7975,0.8333 v 8.3334 c 0,0.6526 0.7182,1.0506 1.2727,0.7063 l 6.6666,-4.1667 c 0.5219,-0.3265 0.5219,-1.0861 0,-1.4126 l -6.6666,-4.1667 c -0.1417,-0.088 -0.3077,-0.1333 -0.4752,-0.1267 z"
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.16666667;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
+       inkscape:connector-curvature="0" id="path6181"
+        d="m 15.500001,1018.8624 v 3 h 19.5 v -3 z m 0,6 v 3 h 19.5 v -3 z m 0,6 v 3 h 13.5 v -3 z m 17.2208,0 c -0.4018,0.016 -0.7183,0.348 -0.7178,0.75 v 7.5 c 0,0.5874 0.6464,0.9456 1.1454,0.6357 l 6,-3.75 c 0.4697,-0.2939 0.4697,-0.9776 0,-1.2714 l -6,-3.75 c -0.1275,-0.079 -0.2769,-0.12 -0.4276,-0.114 z"
+        style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#fafafa;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.15000001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;enable-background:accumulate" />
   </g>
 </svg>

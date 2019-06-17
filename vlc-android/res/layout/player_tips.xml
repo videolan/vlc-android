@@ -108,14 +108,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="center"
-                android:src="@drawable/ic_lock_circle" />
+                app:srcCompat="@drawable/ic_lock_player" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="center"
-                android:src="@drawable/ic_audiosub_circle" />
+                android:src="@drawable/ic_audiotrack_player" />
 
             <ImageView
                 android:layout_width="0dp"
@@ -129,14 +129,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="center"
-                android:src="@drawable/ic_more_circle" />
+                app:srcCompat="@drawable/ic_advanced_player" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:scaleType="center"
-                android:src="@drawable/ic_crop_circle_o" />
+                app:srcCompat="@drawable/ic_crop_player" />
         </LinearLayout>
 
         <LinearLayout

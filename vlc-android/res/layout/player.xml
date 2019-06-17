@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/player_root"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:keepScreenOn="true" >
+    android:keepScreenOn="true">
 
     <!--
      the double FrameLayout is necessary here to do cropping on the bottom right
@@ -71,6 +70,18 @@
             android:layout_marginRight="@dimen/overlay_margin"
             android:layout_marginLeft="@dimen/overlay_margin"
             android:layout_alignParentBottom="true" />
+
+        <androidx.appcompat.widget.ViewStubCompat
+            android:id="@+id/player_hud_right_stub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="@dimen/overlay_margin"
+            android:layout_marginTop="@dimen/overlay_margin"
+            android:layout_marginRight="@dimen/overlay_margin"
+            android:layout_marginBottom="@dimen/overlay_margin"
+            android:layout="@layout/player_hud_right" />
 
     </RelativeLayout>
 
