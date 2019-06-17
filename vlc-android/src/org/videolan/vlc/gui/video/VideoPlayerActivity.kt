@@ -1826,25 +1826,25 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
 
         if (!isFinishing) alertDialog = AlertDialog.Builder(this@VideoPlayerActivity)
-            .setTitle(titleId)
-            .setSingleChoiceItems(nameList, listPosition) { dialog, listPosition ->
-                var trackID = -1
-                // Reverse map search...
-                for (track in tracks) {
-                    if (idList[listPosition] == track.id) {
-                        trackID = track.id
-                        break
+                .setTitle(titleId)
+                .setSingleChoiceItems(nameList, listPosition) { dialog, listPosition ->
+                    var trackID = -1
+                    // Reverse map search...
+                    for (track in tracks) {
+                        if (idList[listPosition] == track.id) {
+                            trackID = track.id
+                            break
+                        }
                     }
+                    listener.onTrackSelected(trackID)
+                    dialog.dismiss()
                 }
-                listener.onTrackSelected(trackID)
-                dialog.dismiss()
-            }
-            .setOnDismissListener { this.dimStatusBar(true) }
-            .create().apply {
-                setCanceledOnTouchOutside(true)
-                ownerActivity = this@VideoPlayerActivity
-                show()
-            }
+                .setOnDismissListener { this.dimStatusBar(true) }
+                .create().apply {
+                    setCanceledOnTouchOutside(true)
+                    ownerActivity = this@VideoPlayerActivity
+                    show()
+                }
     }
 
     fun selectVideoTrack() {
@@ -2180,12 +2180,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 hudBinding.player = this
                 hudBinding.progress = service.playlistManager.player.progress
                 hudBinding.lifecycleOwner = this
-                val layoutParams = hudBinding.progressOverlay.layoutParams as RelativeLayout.LayoutParams
-                if (AndroidDevices.isPhone || !AndroidDevices.hasNavBar)
-                    layoutParams.width = LayoutParams.MATCH_PARENT
-                else
-                    layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE)
-                hudBinding.progressOverlay.layoutParams = layoutParams
+//                val layoutParams = hudBinding.progressOverlay.layoutParams as RelativeLayout.LayoutParams
+//                layoutParams.width = LayoutParams.MATCH_PARENT
+//                hudBinding.progressOverlay.layoutParams = layoutParams
                 overlayBackground = findViewById(R.id.player_overlay_background)
                 navMenu = findViewById(R.id.player_overlay_navmenu)
                 if (!AndroidDevices.isChromeBook && !isTv
@@ -2669,21 +2666,21 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         service?.pause()
         /* Encountered Error, exit player with a message */
         alertDialog = AlertDialog.Builder(this@VideoPlayerActivity)
-            .setMessage(R.string.confirm_resume)
-            .setPositiveButton(R.string.resume_from_position) { _, _ -> loadMedia(false) }
-            .setNegativeButton(R.string.play_from_start) { _, _ -> loadMedia(true) }
-            .create().apply {
-                setCancelable(false)
-                setOnKeyListener(DialogInterface.OnKeyListener { dialog, keyCode, _ ->
-                    if (keyCode == KeyEvent.KEYCODE_BACK) {
-                        dialog.dismiss()
-                        finish()
-                        return@OnKeyListener true
-                    }
-                    false
-                })
-                show()
-            }
+                .setMessage(R.string.confirm_resume)
+                .setPositiveButton(R.string.resume_from_position) { _, _ -> loadMedia(false) }
+                .setNegativeButton(R.string.play_from_start) { _, _ -> loadMedia(true) }
+                .create().apply {
+                    setCancelable(false)
+                    setOnKeyListener(DialogInterface.OnKeyListener { dialog, keyCode, _ ->
+                        if (keyCode == KeyEvent.KEYCODE_BACK) {
+                            dialog.dismiss()
+                            finish()
+                            return@OnKeyListener true
+                        }
+                        false
+                    })
+                    show()
+                }
     }
 
     fun showAdvancedOptions() {
