@@ -30,11 +30,7 @@ class MediaHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : Recyc
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-<<<<<<< HEAD
-        if (sortType == Medialibrary.SORT_ALPHA || sortType == Medialibrary.SORT_DEFAULT) {
-=======
-        if (sortType == AMedialibrary.SORT_ALPHA) {
->>>>>>> Medialibrary: move Medialibrary to AMedialibrary
+        if (sortType == AMedialibrary.SORT_ALPHA || sortType == AMedialibrary.SORT_DEFAULT) {
             holder.binding.headerText = alphaItems[position]
             holder.binding.hasContent = items.contains(alphaItems[position])
         } else {
@@ -44,11 +40,7 @@ class MediaHeaderAdapter(private val onHeaderSelected: OnHeaderSelected) : Recyc
     }
 
     fun getItem(position: Int): String {
-<<<<<<< HEAD
-        return if (sortType == Medialibrary.SORT_ALPHA || sortType == Medialibrary.SORT_DEFAULT) {
-=======
-        return if (sortType == AMedialibrary.SORT_ALPHA) {
->>>>>>> Medialibrary: move Medialibrary to AMedialibrary
+        return if (sortType == AMedialibrary.SORT_ALPHA || sortType == AMedialibrary.SORT_DEFAULT) {
             alphaItems[position]
         } else {
             items[position]

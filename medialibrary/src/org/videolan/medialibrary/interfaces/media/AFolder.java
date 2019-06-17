@@ -13,7 +13,7 @@ public abstract class AFolder extends MediaLibraryItem {
     public static int TYPE_FOLDER_EXTERNAL = 3;
     public static int TYPE_FOLDER_STREAM = 4;
 
-    private String mMrl;
+    public String mMrl;
 
     public AFolder(long id, String name, String mrl) {
         super(id, name);

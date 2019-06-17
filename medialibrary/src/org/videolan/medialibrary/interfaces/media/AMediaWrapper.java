@@ -62,45 +62,45 @@ public abstract class AMediaWrapper extends MediaLibraryItem implements Parcelab
     public final static int META_APPLICATION_SPECIFIC = 250;
 
     // threshold lentgh between song and podcast ep, set to 15 minutes
-    private static final long PODCAST_THRESHOLD = 900000L;
-    private static final long PODCAST_ABSOLUTE = 3600000L;
+    protected static final long PODCAST_THRESHOLD = 900000L;
+    protected static final long PODCAST_ABSOLUTE = 3600000L;
 
-    private String mDisplayTitle;
-    private String mArtist;
-    private String mGenre;
-    private String mCopyright;
-    private String mAlbum;
-    private int mTrackNumber;
-    private int mDiscNumber;
-    private String mAlbumArtist;
-    private String mRating;
-    private String mDate;
-    private String mSettings;
-    private String mNowPlaying;
-    private String mPublisher;
-    private String mEncodedBy;
-    private String mTrackID;
+    protected String mDisplayTitle;
+    protected String mArtist;
+    protected String mGenre;
+    protected String mCopyright;
+    protected String mAlbum;
+    protected int mTrackNumber;
+    protected int mDiscNumber;
+    protected String mAlbumArtist;
+    protected String mRating;
+    protected String mDate;
+    protected String mSettings;
+    protected String mNowPlaying;
+    protected String mPublisher;
+    protected String mEncodedBy;
+    protected String mTrackID;
     protected String mArtworkURL;
-    private boolean mThumbnailGenerated;
+    protected boolean mThumbnailGenerated;
 
-    private final Uri mUri;
-    private String mFilename;
+    protected final Uri mUri;
+    protected String mFilename;
     protected long mTime = 0;
-    private long mDisplayTime = 0;
+    protected long mDisplayTime = 0;
     /* -1 is a valid track (Disabled) */
-    private int mAudioTrack = -2;
-    private int mSpuTrack = -2;
-    private long mLength = 0;
+    protected int mAudioTrack = -2;
+    protected int mSpuTrack = -2;
+    protected long mLength = 0;
     protected int mType;
-    private int mWidth = 0;
-    private int mHeight = 0;
-    private Bitmap mPicture;
-    private boolean mIsPictureParsed;
+    protected int mWidth = 0;
+    protected int mHeight = 0;
+    protected Bitmap mPicture;
+    protected boolean mIsPictureParsed;
     protected int mFlags = 0;
-    private long mLastModified = 0L;
-    private Media.Slave[] mSlaves = null;
+    protected long mLastModified = 0L;
+    protected Media.Slave[] mSlaves = null;
 
-    private long mSeen = 0L;
+    protected long mSeen = 0L;
 
     public abstract void rename(String name);
     public abstract long getMetaLong(int metaDataType);

@@ -4,6 +4,7 @@ import android.os.Parcel;
 
 import org.videolan.medialibrary.interfaces.AMedialibrary;
 import org.videolan.medialibrary.interfaces.media.AAlbum;
+import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 
 @SuppressWarnings("JniMissingFunction")
@@ -41,6 +42,11 @@ public class Album extends AAlbum {
     public int searchTracksCount(String query) {
         final AMedialibrary ml = AMedialibrary.getInstance();
         return ml.isInitiated() ? nativeGetSearchCount(ml, mId, query) : 0;
+    }
+
+    public AArtist getAlbumArtist() {
+        //TODO
+        return null;
     }
 
     private native AMediaWrapper[] nativeGetTracks(AMedialibrary ml, long mId, int sort, boolean desc);

@@ -73,7 +73,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AMedialibrary.OnMed
     val videos: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val audioCategories: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val browsers: LiveData<List<MediaLibraryItem>> = MutableLiveData()
-    val history: LiveData<List<MediaWrapper>> = MutableLiveData()
+    val history: LiveData<List<AMediaWrapper>> = MutableLiveData()
     val playlist: LiveData<List<MediaLibraryItem>> = MutableLiveData()
 
     private val nowPlayingDelegate = NowPlayingDelegate(this)
@@ -150,7 +150,7 @@ class MainTvModel(app: Application) : AndroidViewModel(app), AMedialibrary.OnMed
 
     private fun updatePlaylists() = launch {
         context.getFromMl {
-            getPagedPlaylists(Medialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
+            getPagedPlaylists(AMedialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
         }.let {
             (playlist as MutableLiveData).value = mutableListOf<MediaLibraryItem>().apply {
                 //                add(DummyItem(HEADER_PLAYLISTS, context.getString(R.string.playlists), ""))

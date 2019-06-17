@@ -261,12 +261,8 @@ object UiTools {
         addToPlaylist(activity, list.toTypedArray(), SavePlaylistDialog.KEY_NEW_TRACKS)
     }
 
-<<<<<<< HEAD
-    fun addToPlaylist(activity: FragmentActivity, tracks: Array<MediaWrapper>, key: String) {
-        if (!activity.isStarted()) return
-=======
     fun addToPlaylist(activity: FragmentActivity, tracks: Array<AMediaWrapper>, key: String) {
->>>>>>> Medialibrary: move MediaWrapper to AMediaWrapper
+        if (!activity.isStarted()) return
         val savePlaylistDialog = SavePlaylistDialog()
         val args = Bundle()
         args.putParcelableArray(key, tracks)

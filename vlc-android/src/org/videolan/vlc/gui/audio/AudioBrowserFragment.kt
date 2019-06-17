@@ -44,11 +44,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
-<<<<<<< HEAD
-import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
-=======
->>>>>>> Medialibrary: move MediaWrapper to AMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.*
 import org.videolan.vlc.gui.view.FastScroller

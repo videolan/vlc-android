@@ -287,15 +287,9 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
             R.id.action_mode_audio_play -> MediaUtils.openList(this, tracks, 0)
             R.id.action_mode_audio_append -> MediaUtils.appendMedia(this, tracks)
             R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(this, tracks)
-<<<<<<< HEAD
-            R.id.action_mode_audio_info -> showInfoDialog(list[0] as MediaWrapper)
-            R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, this)
-            R.id.action_mode_audio_delete -> if (isPlaylist) removeFromPlaylist(tracks, indexes) else removeItems(tracks)
-=======
             R.id.action_mode_audio_info -> showInfoDialog(list[0] as AMediaWrapper)
             R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as AMediaWrapper, this)
-            R.id.action_mode_audio_delete -> removeFromPlaylist(tracks, indexes)
->>>>>>> Medialibrary: move MediaWrapper to AMediaWrapper
+            R.id.action_mode_audio_delete -> if (isPlaylist) removeFromPlaylist(tracks, indexes) else removeItems(tracks)
             else -> return false
         }
         return true
@@ -329,18 +323,14 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     private fun removeItem(position: Int, media: AMediaWrapper) {
         val resId = if (isPlaylist) R.string.confirm_remove_from_playlist else R.string.confirm_delete
         if (isPlaylist) {
-<<<<<<< HEAD
-            snackerConfirm(binding.root, getString(resId, media.title), Runnable { (viewModel.playlist as Playlist).remove(position) })
-=======
-            UiTools.snackerConfirm(binding.root, getString(resId, media.title), Runnable { (viewModel.playlist as APlaylist).remove(position) })
->>>>>>> Medialibrary: move Playlist to APlaylist
+            snackerConfirm(binding.root, getString(resId, media.title), Runnable { (viewModel.playlist as APlaylist).remove(position) })
         } else {
             val deleteAction = Runnable { deleteMedia(media) }
             snackerConfirm(binding.root, getString(resId, media.title), Runnable { if (Util.checkWritePermission(this@PlaylistActivity, media, deleteAction)) deleteAction.run() })
         }
     }
 
-    private fun removeItems(items: List<MediaWrapper>) {
+    private fun removeItems(items: List<AMediaWrapper>) {
         snackerConfirm(binding.root,getString(R.string.confirm_delete_several_media, items.size)) {
             for (item in items) {
                 if (!isStarted()) break

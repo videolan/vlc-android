@@ -25,6 +25,7 @@ package org.videolan.medialibrary.media;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcel;
+import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
@@ -68,7 +69,7 @@ public class MediaWrapper extends AMediaWrapper {
 
     public void removeFromHistory() {
         if (mId != 0L) {
-            final Medialibrary ml = Medialibrary.getInstance();
+            final AMedialibrary ml = AMedialibrary.getInstance();
             if (ml.isInitiated()) nativeRemoveFromHistory(ml, mId);
         }
     }
@@ -248,11 +249,11 @@ public class MediaWrapper extends AMediaWrapper {
         if (mId != 0 && ml.isInitiated()) nativeSetMediaThumbnail(ml, mId, Tools.encodeVLCMrl(mrl));
     }
 
-    private native long nativeGetMediaLongMetadata(Medialibrary ml, long id, int metaDataType);
-    private native String nativeGetMediaStringMetadata(Medialibrary ml, long id, int metaDataType);
-    private native void nativeSetMediaStringMetadata(Medialibrary ml, long id, int metaDataType, String metadataValue);
-    private native void nativeSetMediaLongMetadata(Medialibrary ml, long id, int metaDataType, long metadataValue);
-    private native void nativeSetMediaThumbnail(Medialibrary ml, long id, String mrl);
-    private native void nativeSetMediaTitle(Medialibrary ml, long id, String name);
-    private native void nativeRemoveFromHistory(Medialibrary ml, long id);
+    private native long nativeGetMediaLongMetadata(AMedialibrary ml, long id, int metaDataType);
+    private native String nativeGetMediaStringMetadata(AMedialibrary ml, long id, int metaDataType);
+    private native void nativeSetMediaStringMetadata(AMedialibrary ml, long id, int metaDataType, String metadataValue);
+    private native void nativeSetMediaLongMetadata(AMedialibrary ml, long id, int metaDataType, long metadataValue);
+    private native void nativeSetMediaThumbnail(AMedialibrary ml, long id, String mrl);
+    private native void nativeSetMediaTitle(AMedialibrary ml, long id, String name);
+    private native void nativeRemoveFromHistory(AMedialibrary ml, long id);
 }

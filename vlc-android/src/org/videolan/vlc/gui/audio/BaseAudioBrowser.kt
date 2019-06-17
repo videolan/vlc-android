@@ -32,18 +32,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-<<<<<<< HEAD
 import kotlinx.coroutines.*
-import org.videolan.medialibrary.media.MediaLibraryItem
-import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.tools.isStarted
-=======
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.launch
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
->>>>>>> Medialibrary: move MediaWrapper to AMediaWrapper
+import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.ContentActivity
 import org.videolan.vlc.gui.browser.MediaBrowserFragment
@@ -186,39 +178,21 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
     override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
         val list = getCurrentAdapter()?.multiSelectHelper?.getSelection()
         stopActionMode()
-<<<<<<< HEAD
         if (!list.isNullOrEmpty()) launch {
             if (isStarted()) when (item.itemId) {
                 R.id.action_mode_audio_play -> MediaUtils.openList(activity, list.getTracks(), 0)
                 R.id.action_mode_audio_append -> MediaUtils.appendMedia(activity, list.getTracks())
                 R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), list.getTracks())
                 R.id.action_mode_audio_info -> showInfoDialog(list[0])
-                R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as MediaWrapper, requireActivity())
+                R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as AMediaWrapper, requireActivity())
                 R.id.action_mode_audio_delete -> removeItems(list)
             }
         }
-=======
-        if (list != null && list.isNotEmpty())
-            runIO(Runnable {
-                val tracks = ArrayList<AMediaWrapper>()
-                for (mediaItem in list)
-                    tracks.addAll(Arrays.asList(*mediaItem.tracks))
-                launch {
-                    when (item.itemId) {
-                        R.id.action_mode_audio_play -> MediaUtils.openList(activity, tracks, 0)
-                        R.id.action_mode_audio_append -> MediaUtils.appendMedia(activity, tracks)
-                        R.id.action_mode_audio_add_playlist -> UiTools.addToPlaylist(requireActivity(), tracks)
-                        R.id.action_mode_audio_info -> showInfoDialog(list[0])
-                        R.id.action_mode_audio_set_song -> AudioUtil.setRingtone(list[0] as AMediaWrapper, requireActivity())
-                    }
-                }
-            })
->>>>>>> Medialibrary: move MediaWrapper to AMediaWrapper
         return true
     }
 
     private suspend fun List<MediaLibraryItem>.getTracks() = withContext(Dispatchers.Default) {
-        ArrayList<MediaWrapper>().apply {
+        ArrayList<AMediaWrapper>().apply {
             for (mediaItem in this@getTracks) addAll(Arrays.asList(*mediaItem.tracks))
         }
     }

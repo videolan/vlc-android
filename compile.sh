@@ -66,6 +66,9 @@ while [ $# -gt 0 ]; do
         run)
             RUN=1
             ;;
+        test)
+            TEST=1
+            ;;
         --no-ml)
             NO_ML=1
             ;;
@@ -370,10 +373,14 @@ fi
 #######
 if [ "$RUN" = 1 ]; then
     export PATH="${ANDROID_SDK}/platform-tools/:$PATH"
+    EXTRA=""
+    if [ "$TEST" = 1 ]; then
+        EXTRA="--ez 'extra_test_stubs' true"
+    fi
     adb wait-for-device
     if [ "$RELEASE" = 1 ]; then
-        adb shell am start -n org.videolan.vlc/org.videolan.vlc.StartActivity
+        adb shell am start -n org.videolan.vlc/org.videolan.vlc.StartActivity $EXTRA
     else
-        adb shell am start -n org.videolan.vlc.debug/org.videolan.vlc.StartActivity
+        adb shell am start -n org.videolan.vlc.debug/org.videolan.vlc.StartActivity $EXTRA
     fi
 fi

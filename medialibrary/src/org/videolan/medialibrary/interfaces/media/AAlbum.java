@@ -53,6 +53,7 @@ public abstract class AAlbum extends MediaLibraryItem {
     abstract public AMediaWrapper[] getPagedTracks(int sort, boolean desc, int nbItems, int offset);
     abstract public AMediaWrapper[] searchTracks(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public int searchTracksCount(String query);
+    abstract public AArtist getAlbumArtist();
 
     @Override
     public long getId() {
@@ -71,11 +72,6 @@ public abstract class AAlbum extends MediaLibraryItem {
     @Override
     public String getArtworkMrl() {
         return artworkMrl;
-    }
-
-    public AArtist getAlbumArtist() {
-        //TODO
-        return null;
     }
 
     @Override

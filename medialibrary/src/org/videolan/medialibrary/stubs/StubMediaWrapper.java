@@ -3,6 +3,7 @@ package org.videolan.medialibrary.stubs;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Parcel;
+import android.util.SparseArray;
 
 import org.videolan.libvlc.Media;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
@@ -30,26 +31,33 @@ public class StubMediaWrapper extends AMediaWrapper {
     public StubMediaWrapper(Media media) { super(media); }
     public StubMediaWrapper(Parcel in) { super(in); }
 
+    private SparseArray<Long> mMetaLong = new SparseArray<>();
+    private SparseArray<String> mMetaString = new SparseArray<>();
+
     public void rename(String name) {
+        mTitle = name;
     }
 
     public long getMetaLong(int metaDataType) {
-        return 0L;
+        return mMetaLong.get(metaDataType);
     }
 
     public String getMetaString(int metaDataType) {
-        return "";
+        return mMetaString.get(metaDataType);
     }
 
     public boolean setLongMeta(int metaDataType, long metadataValue) {
+        mMetaLong.setValueAt(metaDataType, metadataValue);
         return true;
     }
 
     public boolean setStringMeta(int metaDataType, String metadataValue) {
+        mMetaString.setValueAt(metaDataType, metadataValue);
         return true;
     }
 
     public void setThumbnail(String mrl) {
+        //TODO
     }
 
 }

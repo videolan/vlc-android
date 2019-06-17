@@ -2,18 +2,22 @@ package org.videolan.medialibrary.interfaces;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import org.videolan.medialibrary.ServiceLocator;
 import org.videolan.medialibrary.SingleEvent;
+import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AAlbum;
 import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AFolder;
@@ -101,7 +105,6 @@ abstract public class AMedialibrary {
 
     @NonNull
     public static AMedialibrary getInstance() {
-        System.out.println("This is the real medialibrary");
         return instance;
     }
 
@@ -197,6 +200,382 @@ abstract public class AMedialibrary {
         void onDeviceChange();
     }
 
+    // If media is not in ML, find it with its path
+    public AMediaWrapper findMedia(AMediaWrapper mw) {
+        if (mIsInitiated && mw != null && mw.getId() == 0L) {
+            final Uri uri = mw.getUri();
+            final AMediaWrapper libraryMedia = getMedia(uri);
+            if (libraryMedia != null) {
+                libraryMedia.addFlags(mw.getFlags());
+                return libraryMedia;
+            }
+            if (TextUtils.equals("file", uri.getScheme()) &&
+                    uri.getPath() != null && uri.getPath().startsWith("/sdcard")) {
+                final AMediaWrapper alternateMedia = getMedia(Tools.convertLocalUri(uri));
+                if (alternateMedia != null) {
+                    alternateMedia.addFlags(mw.getFlags());
+                    return alternateMedia;
+                }
+            }
+        }
+        return mw;
+    }
+
+    @SuppressWarnings("unused")
+    public void onMediaAdded(AMediaWrapper[] mediaList) {
+        synchronized (mMediaCbs) {
+            for (MediaCb cb : mMediaCbs) cb.onMediaAdded();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onMediaUpdated(AMediaWrapper[] mediaList) {
+        synchronized (mMediaCbs) {
+            for (MediaCb cb : mMediaCbs) cb.onMediaModified();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onMediaDeleted() {
+        synchronized (mMediaCbs) {
+            for (MediaCb cb : mMediaCbs) cb.onMediaDeleted();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onArtistsAdded() {
+        synchronized (mArtistsCbs) {
+            for (ArtistsCb cb : mArtistsCbs) cb.onArtistsAdded();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onArtistsModified() {
+        synchronized (mArtistsCbs) {
+            for (ArtistsCb cb : mArtistsCbs) cb.onArtistsModified();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onArtistsDeleted() {
+        synchronized (mArtistsCbs) {
+            for (ArtistsCb cb : mArtistsCbs) cb.onArtistsDeleted();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onAlbumsAdded() {
+        synchronized (mAlbumsCbs) {
+            for (AlbumsCb cb : mAlbumsCbs) cb.onAlbumsAdded();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onAlbumsModified() {
+        synchronized (mAlbumsCbs) {
+            for (AlbumsCb cb : mAlbumsCbs) cb.onAlbumsModified();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onAlbumsDeleted() {
+        synchronized (mAlbumsCbs) {
+            for (AlbumsCb cb : mAlbumsCbs) cb.onAlbumsDeleted();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onGenresAdded() {
+        synchronized (mGenreCbs) {
+            for (GenresCb cb : mGenreCbs) cb.onGenresAdded();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onGenresModified() {
+        synchronized (mGenreCbs) {
+            for (GenresCb cb : mGenreCbs) cb.onGenresModified();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onGenresDeleted() {
+        synchronized (mGenreCbs) {
+            for (GenresCb cb : mGenreCbs) cb.onGenresDeleted();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onPlaylistsAdded() {
+        synchronized (mPlaylistCbs) {
+            for (PlaylistsCb cb : mPlaylistCbs) cb.onPlaylistsAdded();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onPlaylistsModified() {
+        synchronized (mPlaylistCbs) {
+            for (PlaylistsCb cb : mPlaylistCbs) cb.onPlaylistsModified();
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onPlaylistsDeleted() {
+        synchronized (mPlaylistCbs) {
+            for (PlaylistsCb cb : mPlaylistCbs) cb.onPlaylistsDeleted();
+        }
+    }
+
+    public void onDiscoveryStarted(String entryPoint) {
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onDiscoveryStarted(entryPoint);
+        }
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onDiscoveryStarted(entryPoint);
+        }
+    }
+
+    public void onDiscoveryProgress(String entryPoint) {
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onDiscoveryProgress(entryPoint);
+        }
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onDiscoveryProgress(entryPoint);
+        }
+    }
+
+    public void onDiscoveryCompleted(String entryPoint) {
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onDiscoveryCompleted(entryPoint);
+        }
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onDiscoveryCompleted(entryPoint);
+        }
+    }
+
+    public void onParsingStatsUpdated(int percent) {
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onParsingStatsUpdated(percent);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onBackgroundTasksIdleChanged(boolean isIdle) {
+        mIsWorking = !isIdle;
+        sRunning.postValue(mIsWorking);
+        LocalBroadcastManager.getInstance(sContext).sendBroadcast(new Intent(ACTION_IDLE).putExtra(STATE_IDLE, isIdle));
+        if (isIdle) {
+            synchronized (onMedialibraryReadyListeners) {
+                for (OnMedialibraryReadyListener listener : onMedialibraryReadyListeners) listener.onMedialibraryIdle();
+            }
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onReloadStarted(String entryPoint) {
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onReloadStarted(entryPoint);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onReloadCompleted(String entryPoint) {
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.isEmpty())
+                for (DevicesDiscoveryCb cb : devicesDiscoveryCbList)
+                    cb.onReloadCompleted(entryPoint);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEntryPointBanned(String entryPoint, boolean success) {
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onEntryPointBanned(entryPoint, success);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEntryPointUnbanned(String entryPoint, boolean success) {
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onEntryPointUnbanned(entryPoint, success);
+        }
+    }
+
+
+    @SuppressWarnings("unused")
+    void onEntryPointAdded(String entryPoint, boolean success) {
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onEntryPointAdded(entryPoint, success);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public void onEntryPointRemoved(String entryPoint, boolean success) {
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.isEmpty())
+                for (EntryPointsEventsCb cb : entryPointsEventsCbList)
+                    cb.onEntryPointRemoved(entryPoint, success);
+        }
+    }
+
+    //    public static LiveData<AMediaWrapper> lastThumb = new SingleEvent<>();
+    @SuppressWarnings({"unused", "unchecked"})
+    public void onMediaThumbnailReady(AMediaWrapper media, boolean success) {
+        if (success) ((MutableLiveData)lastThumb).postValue(media);
+    }
+
+    public void addMediaCb(MediaCb mediaUpdatedCb) {
+        if (!mIsInitiated) return;
+        synchronized (mMediaCbs) {
+//            if (mMediaCbs.isEmpty()) {
+//                nativeSetMediaAddedCbFlag(FLAG_MEDIA_ADDED_AUDIO|FLAG_MEDIA_ADDED_VIDEO);
+//                nativeSetMediaUpdatedCbFlag(FLAG_MEDIA_UPDATED_AUDIO|FLAG_MEDIA_UPDATED_VIDEO);
+//            }
+            mMediaCbs.add(mediaUpdatedCb);
+        }
+    }
+
+    public void removeMediaCb(MediaCb mediaUpdatedCb) {
+        if (!mIsInitiated) return;
+        synchronized (mMediaCbs) {
+            mMediaCbs.remove(mediaUpdatedCb);
+//            if (mMediaCbs.isEmpty()) {
+//                nativeSetMediaAddedCbFlag(0);
+//                nativeSetMediaUpdatedCbFlag(0);
+//            }
+        }
+    }
+
+    public void addArtistsCb(ArtistsCb artistsAddedCb) {
+        if (!mIsInitiated) return;
+        synchronized (mArtistsCbs) {
+            mArtistsCbs.add(artistsAddedCb);
+        }
+    }
+
+    public void removeArtistsCb(ArtistsCb artistsAddedCb) {
+        if (!mIsInitiated) return;
+        synchronized (mArtistsCbs) {
+            mArtistsCbs.remove(artistsAddedCb);
+        }
+    }
+
+    public void addAlbumsCb(AlbumsCb AlbumsAddedCb) {
+        if (!mIsInitiated) return;
+        synchronized (mAlbumsCbs) {
+            mAlbumsCbs.add(AlbumsAddedCb);
+        }
+    }
+
+    public void removeAlbumsCb(AlbumsCb AlbumsAddedCb) {
+        if (!mIsInitiated) return;
+        synchronized (mAlbumsCbs) {
+            mAlbumsCbs.remove(AlbumsAddedCb);
+        }
+    }
+
+    public void addGenreCb(GenresCb GenreCb) {
+        if (!mIsInitiated) return;
+        synchronized (mGenreCbs) {
+            this.mGenreCbs.add(GenreCb);
+        }
+    }
+
+    public void removeGenreCb(GenresCb GenreCb) {
+        if (!mIsInitiated) return;
+        synchronized (mGenreCbs) {
+            this.mGenreCbs.remove(GenreCb);
+        }
+    }
+
+    public void addPlaylistCb(PlaylistsCb playlistCb) {
+        if (!mIsInitiated) return;
+        synchronized (mPlaylistCbs) {
+            this.mPlaylistCbs.add(playlistCb);
+        }
+    }
+
+    public void removePlaylistCb(PlaylistsCb playlistCb) {
+        if (!mIsInitiated) return;
+        synchronized (mPlaylistCbs) {
+            this.mPlaylistCbs.remove(playlistCb);
+        }
+    }
+
+    public void addDeviceDiscoveryCb(DevicesDiscoveryCb cb) {
+        synchronized (devicesDiscoveryCbList) {
+            if (!devicesDiscoveryCbList.contains(cb))
+                devicesDiscoveryCbList.add(cb);
+        }
+    }
+
+    public void removeDeviceDiscoveryCb(DevicesDiscoveryCb cb) {
+        synchronized (devicesDiscoveryCbList) {
+            devicesDiscoveryCbList.remove(cb);
+        }
+    }
+
+    public void addOnMedialibraryReadyListener(OnMedialibraryReadyListener cb) {
+        synchronized (onMedialibraryReadyListeners) {
+            if (!onMedialibraryReadyListeners.contains(cb))
+                onMedialibraryReadyListeners.add(cb);
+        }
+    }
+
+    public void removeOnMedialibraryReadyListener(OnMedialibraryReadyListener cb) {
+        synchronized (onMedialibraryReadyListeners) {
+            onMedialibraryReadyListeners.remove(cb);
+        }
+    }
+
+    public void addEntryPointsEventsCb(EntryPointsEventsCb cb) {
+        synchronized (entryPointsEventsCbList) {
+            if (!entryPointsEventsCbList.contains(cb))
+                entryPointsEventsCbList.add(cb);
+        }
+    }
+
+    public void removeEntryPointsEventsCb(EntryPointsEventsCb cb) {
+        synchronized (entryPointsEventsCbList) {
+            entryPointsEventsCbList.remove(cb);
+        }
+    }
+
+    public void addOnDeviceChangeListener(OnDeviceChangeListener listener) {
+        synchronized (onDeviceChangeListeners) {
+            if (!onDeviceChangeListeners.contains(listener))
+                onDeviceChangeListeners.add(listener);
+        }
+    }
+
+    public void removeOnDeviceChangeListener(OnDeviceChangeListener listener) {
+        synchronized (onDeviceChangeListeners) {
+            onDeviceChangeListeners.remove(listener);
+        }
+    }
+
     abstract public int init(Context context);
     abstract public void start();
     abstract public void banFolder(@NonNull String path);
@@ -262,43 +641,6 @@ abstract public class AMedialibrary {
     abstract public int getFoldersCount(int type);
     abstract public void requestThumbnail(long id);
     abstract public boolean increasePlayCount(long mediaId);
-    abstract public AMediaWrapper findMedia(AMediaWrapper mw);
-    abstract public void onMediaAdded(AMediaWrapper[] mediaList);
-    abstract public void onMediaUpdated(AMediaWrapper[] mediaList);
-    abstract public void onMediaDeleted();
-    abstract public void onArtistsAdded();
-    abstract public void onArtistsModified();
-    abstract public void onArtistsDeleted();
-    abstract public void onAlbumsAdded();
-    abstract public void onAlbumsModified();
-    abstract public void onAlbumsDeleted();
-    abstract public void onGenresAdded();
-    abstract public void onGenresModified();
-    abstract public void onGenresDeleted();
-    abstract public void onPlaylistsAdded();
-    abstract public void onPlaylistsModified();
-    abstract public void onPlaylistsDeleted();
-    abstract public void onDiscoveryStarted(String entryPoint);
-    abstract public void onDiscoveryProgress(String entryPoint);
-    abstract public void onDiscoveryCompleted(String entryPoint);
-    abstract public void onParsingStatsUpdated(int percent);
-    abstract public void onBackgroundTasksIdleChanged(boolean isIdle);
-    abstract public void onReloadStarted(String entryPoint);
-    abstract public void onReloadCompleted(String entryPoint);
-    abstract public void onEntryPointBanned(String entryPoint, boolean success);
-    abstract public void onEntryPointUnbanned(String entryPoint, boolean success);
-    abstract public void onEntryPointRemoved(String entryPoint, boolean success);
-    abstract public void onMediaThumbnailReady(AMediaWrapper Amedia, boolean success);
-    abstract public void addMediaCb(MediaCb mediaUpdated);
-    abstract public void removeMediaCb(MediaCb mediaUpdatedCb);
-    abstract public void addArtistsCb(ArtistsCb artictAddedCb);
-    abstract public void removeArtistsCb(ArtistsCb artistCb);
-    abstract public void addAlbumsCb(AlbumsCb albumsAddedCb);
-    abstract public void removeAlbumsCb(AlbumsCb albumsAddedCb);
-    abstract public void addGenreCb(GenresCb genresAddedCb);
-    abstract public void removeGenreCb(GenresCb genresAddedCb);
-    abstract public void addPlaylistCb(PlaylistsCb playlistsAddedCb);
-    abstract public void removePlaylistCb(PlaylistsCb playlistsAddedCb);
     abstract public SearchAggregate search(String query);
     abstract public AMediaWrapper[] searchMedia(String query);
     abstract public AMediaWrapper[] searchMedia(String query, int sort, boolean desc, int nbItems, int offset);
@@ -315,12 +657,4 @@ abstract public class AMedialibrary {
     abstract public AGenre[] searchGenre(String query, int sort, boolean desc, int nbItems, int offset);
     abstract public APlaylist[] searchPlaylist(String query);
     abstract public APlaylist[] searchPlaylist(String query, int sort, boolean desc, int nbItems, int offset);
-    abstract public void addDeviceDiscoveryCb(DevicesDiscoveryCb cb);
-    abstract public void removeDeviceDiscoveryCb(DevicesDiscoveryCb cb);
-    abstract public void addOnMedialibraryReadyListener(OnMedialibraryReadyListener cb);
-    abstract public void removeOnMedialibraryReadyListener(OnMedialibraryReadyListener cb);
-    abstract public void addEntryPointsEventsCb(EntryPointsEventsCb cb);
-    abstract public void removeEntryPointsEventsCb(EntryPointsEventsCb cb);
-    abstract public void addOnDeviceChangeListener(OnDeviceChangeListener cb);
-    abstract public void removeOnDeviceChangeListener(OnDeviceChangeListener cb);
 }

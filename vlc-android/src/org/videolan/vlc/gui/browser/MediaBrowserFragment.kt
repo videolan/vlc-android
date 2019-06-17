@@ -162,8 +162,8 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
             for (item in items) {
                 if (!isStarted()) break
                 when(item) {
-                    is MediaWrapper -> if (getWritePermission(item.uri)) deleteMedia(item)
-                    is Playlist -> withContext(Dispatchers.IO) { item.delete() }
+                    is AMediaWrapper -> if (getWritePermission(item.uri)) deleteMedia(item)
+                    is APlaylist -> withContext(Dispatchers.IO) { item.delete() }
                 }
             }
             if (isStarted()) viewModel.refresh()
@@ -175,15 +175,10 @@ abstract class MediaBrowserFragment<T : SortableModel> : Fragment(), ActionMode.
         when {
             item.itemType == MediaLibraryItem.TYPE_PLAYLIST -> UiTools.snackerConfirm(view!!, getString(R.string.confirm_delete_playlist, item.title), Runnable { MediaUtils.deletePlaylist(item as APlaylist) })
             item.itemType == MediaLibraryItem.TYPE_MEDIA -> {
-<<<<<<< HEAD
                 val deleteAction = Runnable {
                     if (isStarted()) launch { deleteMedia(item, false, null) }
                 }
-                val resid = if ((item as MediaWrapper).type == MediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
-=======
-                val deleteAction = Runnable { deleteMedia(item, false, null) }
                 val resid = if ((item as AMediaWrapper).type == AMediaWrapper.TYPE_DIR) R.string.confirm_delete_folder else R.string.confirm_delete
->>>>>>> Medialibrary: move MediaWrapper to AMediaWrapper
                 UiTools.snackerConfirm(view!!, getString(resid, item.getTitle()), Runnable { if (Util.checkWritePermission(requireActivity(), item, deleteAction)) deleteAction.run() })
             }
             else -> return false

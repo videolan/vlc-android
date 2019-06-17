@@ -28,20 +28,16 @@ import org.videolan.medialibrary.stubs.StubPlaylist;
 
 public class ServiceLocator {
 
-    private static ServiceLocator mServiceLocator;
     private static LocatorMode mMode = LocatorMode.VLC_ANDROID;
 
     public static void setLocatorMode(LocatorMode mode) {
         ServiceLocator.mMode = mode;
     }
 
-    enum LocatorMode {
+    public static String EXTRA_TEST_STUBS = "extra_test_stubs";
+    public enum LocatorMode {
         VLC_ANDROID,
         TESTS,
-    }
-
-    public static ServiceLocator getInstance() {
-        return mServiceLocator;
     }
 
     public static AMedialibrary getAMedialibrary() {
