@@ -2221,8 +2221,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     controlsConstraintSetPortrait.connect(it, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
                 }
 
-
-                controlsConstraintSetPortrait.createHorizontalChain(ConstraintSet.PARENT_ID, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, chainIds.toIntArray(), null, ConstraintSet.CHAIN_PACKED)
+                controlsConstraintSetPortrait.createHorizontalChain(ConstraintSet.PARENT_ID, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, chainIds.toIntArray(), null, ConstraintSet.CHAIN_SPREAD_INSIDE)
 
 
 

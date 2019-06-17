@@ -65,10 +65,10 @@
             android:layoutDirection="ltr"
             android:maxHeight="@dimen/seekbar_height"
             android:minHeight="@dimen/seekbar_height"
-            android:paddingStart="0dp"
-            android:paddingEnd="0dp"
-            android:layout_marginStart="@dimen/time_margin_sides"
-            android:layout_marginEnd="@dimen/time_margin_sides"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_marginStart="@dimen/seek_margin_sides"
+            android:layout_marginEnd="@dimen/seek_margin_sides"
             android:progress="@{(int)progress.time}"
             android:progressDrawable="@drawable/po_seekbar_video"
             android:splitTrack="false"
@@ -85,8 +85,8 @@
             android:layout_marginStart="@dimen/time_margin_sides"
             android:layout_marginBottom="8dp"
             vlc:layout_constraintBottom_toBottomOf="parent"
-            vlc:layout_constraintHorizontal_chainStyle="spread_inside"
             vlc:layout_constraintStart_toStartOf="parent"
+            vlc:layout_constraintEnd_toStartOf="@+id/lock_overlay_button"
             vlc:layout_constraintTop_toBottomOf="@+id/player_overlay_seekbar">
 
             <TextView
@@ -117,7 +117,6 @@
             vlc:layout_constraintBottom_toBottomOf="parent"
             vlc:layout_constraintEnd_toStartOf="@+id/player_overlay_tracks"
             vlc:layout_constraintHorizontal_bias="0.5"
-            vlc:layout_constraintHorizontal_chainStyle="spread"
             vlc:layout_constraintStart_toEndOf="@+id/player_overlay_time_container"
             vlc:layout_constraintTop_toBottomOf="@+id/player_overlay_seekbar"
             vlc:srcCompat="@drawable/ic_lock_player" />
@@ -291,6 +290,7 @@
             android:layout_marginBottom="8dp"
             vlc:layout_constraintBottom_toBottomOf="parent"
             vlc:layout_constraintEnd_toEndOf="parent"
+            vlc:layout_constraintStart_toEndOf="@+id/player_overlay_size"
             vlc:layout_constraintTop_toBottomOf="@+id/player_overlay_seekbar">
 
             <TextView

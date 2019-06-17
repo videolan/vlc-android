@@ -31,6 +31,7 @@
 
     <dimen name="seekbar_height">1dip</dimen>
     <dimen name="images_margin_sides">10dp</dimen>
+    <dimen name="seek_margin_sides">8dp</dimen>
     <dimen name="time_margin_sides">16dp</dimen>
 
 
