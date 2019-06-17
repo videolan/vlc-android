@@ -19,7 +19,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/progress_overlay"
-        android:layout_width="match_parent"
+        android:layout_width="800dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_corners"
         android:paddingTop="@dimen/overlay_padding_top"

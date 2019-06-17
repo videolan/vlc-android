@@ -2180,9 +2180,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 hudBinding.player = this
                 hudBinding.progress = service.playlistManager.player.progress
                 hudBinding.lifecycleOwner = this
-//                val layoutParams = hudBinding.progressOverlay.layoutParams as RelativeLayout.LayoutParams
-//                layoutParams.width = LayoutParams.MATCH_PARENT
-//                hudBinding.progressOverlay.layoutParams = layoutParams
+                val layoutParams = hudBinding.progressOverlay.layoutParams as RelativeLayout.LayoutParams
+                if (AndroidDevices.isPhone || !AndroidDevices.hasNavBar)
+                    layoutParams.width = LayoutParams.MATCH_PARENT
+                else
+                    layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE)
+                hudBinding.progressOverlay.layoutParams = layoutParams
                 overlayBackground = findViewById(R.id.player_overlay_background)
                 navMenu = findViewById(R.id.player_overlay_navmenu)
                 if (!AndroidDevices.isChromeBook && !isTv
