@@ -41,12 +41,11 @@ import org.videolan.vlc.util.AndroidDevices
 import org.videolan.vlc.util.Util
 
 object NotificationHelper {
-    val TAG = "VLC/NotificationHelper"
+    const val TAG = "VLC/NotificationHelper"
 
     private val sb = StringBuilder()
-    val VLC_DEBUG_CHANNEL = "vlc_debug"
+    const val VLC_DEBUG_CHANNEL = "vlc_debug"
 
-    private var scanCompatBuilder: NotificationCompat.Builder? = null
     private val notificationIntent = Intent()
 
     fun createPlaybackNotification(ctx: Context, video: Boolean, title: String, artist: String,
@@ -104,30 +103,25 @@ object NotificationHelper {
         return builder.build()
     }
 
-    fun createScanNotification(ctx: Context, progressText: String, updateActions: Boolean, paused: Boolean): Notification {
-        if (scanCompatBuilder == null) {
-            scanCompatBuilder = NotificationCompat.Builder(ctx, "vlc_medialibrary")
-                    .setContentIntent(PendingIntent.getActivity(ctx, 0, Intent(ctx, StartActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT))
-                    .setSmallIcon(R.drawable.ic_notif_scan)
-                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                    .setContentTitle(ctx.getString(R.string.ml_scanning))
-                    .setAutoCancel(false)
-                    .setCategory(NotificationCompat.CATEGORY_PROGRESS)
-                    .setOngoing(true)
-        }
-        scanCompatBuilder!!.setContentText(progressText)
+    fun createScanNotification(ctx: Context, progressText: String, paused: Boolean): Notification {
+        val scanCompatBuilder = NotificationCompat.Builder(ctx, "vlc_medialibrary")
+                .setContentIntent(PendingIntent.getActivity(ctx, 0, Intent(ctx, StartActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT))
+                .setSmallIcon(R.drawable.ic_notif_scan)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentTitle(ctx.getString(R.string.ml_scanning))
+                .setAutoCancel(false)
+                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
+                .setOngoing(true)
+        scanCompatBuilder.setContentText(progressText)
 
-        if (updateActions) {
-            notificationIntent.action = if (paused) ACTION_RESUME_SCAN else ACTION_PAUSE_SCAN
-            val pi = PendingIntent.getBroadcast(ctx.applicationContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-            val playpause = if (paused)
-                NotificationCompat.Action(R.drawable.ic_play, ctx.getString(R.string.resume), pi)
-            else
-                NotificationCompat.Action(R.drawable.ic_pause, ctx.getString(R.string.pause), pi)
-            scanCompatBuilder!!.mActions.clear()
-            scanCompatBuilder!!.addAction(playpause)
-        }
-        return scanCompatBuilder!!.build()
+        notificationIntent.action = if (paused) ACTION_RESUME_SCAN else ACTION_PAUSE_SCAN
+        val pi = PendingIntent.getBroadcast(ctx.applicationContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val playpause = if (paused)
+            NotificationCompat.Action(R.drawable.ic_play, ctx.getString(R.string.resume), pi)
+        else
+            NotificationCompat.Action(R.drawable.ic_pause, ctx.getString(R.string.pause), pi)
+        scanCompatBuilder.addAction(playpause)
+        return scanCompatBuilder.build()
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -46,7 +46,6 @@ import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.interfaces.DevicesDiscoveryCb
-import org.videolan.vlc.extensions.ExtensionManagerService
 import org.videolan.vlc.gui.helpers.NotificationHelper
 import org.videolan.vlc.repository.DirectoryRepository
 import org.videolan.vlc.util.*
@@ -77,7 +76,6 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
 
     @Volatile
     private var serviceLock = false
-    private var wasWorking: Boolean = false
     internal val sb = StringBuilder()
 
     private val notificationActor by lazy {
@@ -142,7 +140,7 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
 
     @TargetApi(Build.VERSION_CODES.O)
     private fun forceForeground() {
-        val notification = NotificationHelper.createScanNotification(applicationContext, getString(R.string.loading_medialibrary), false, scanPaused)
+        val notification = NotificationHelper.createScanNotification(applicationContext, getString(R.string.loading_medialibrary), scanPaused)
         NotificationHelper.createNotificationChannels(applicationContext)
         startForeground(43, notification)
     }
@@ -285,10 +283,8 @@ class MediaParsingService : Service(), DevicesDiscoveryCb, CoroutineScope {
                 else -> sb.append(getString(R.string.ml_parse_media))
             }
             val progressText = sb.toString()
-            val updateAction = wasWorking != medialibrary.isWorking
-            if (updateAction) wasWorking = !wasWorking
             if (!isActive) return@withContext ""
-            val notification = NotificationHelper.createScanNotification(applicationContext, progressText, updateAction, scanPaused)
+            val notification = NotificationHelper.createScanNotification(applicationContext, progressText, scanPaused)
             if (lastNotificationTime != -1L) {
                 try {
                     startForeground(43, notification)
