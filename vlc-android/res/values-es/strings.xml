@@ -54,6 +54,7 @@
     <string name="set_song_question">¿Establecer «%1$s» como tono de llamada?</string>
     <string name="info">Información</string>
     <string name="confirm_delete">¿Eliminar el archivo «%1$s»?</string>
+    <string name="confirm_delete_several_media">¿Eliminar estos %1$d medios?</string>
     <string name="confirm_delete_folder">¿Eliminar la carpeta «%1$s» y todo su contenido?</string>
     <string name="confirm_delete_playlist">¿Eliminar la lista de reproducción «%1$s»?</string>
     <string name="confirm_remove_from_playlist">¿Eliminar «%1$s» de la lista de reproducción?</string>
@@ -684,4 +685,9 @@
     <string name="jump_to">Saltar a</string>
     <string name="show_video_thumbnails_summary">Mostrar previsualización de vídeos en listas</string>
     <string name="show_video_thumbnails">Previsualización de vídeo</string>
+    <string name="eq_snap_bands">Bandas «snap»</string>
+    <string name="enable_equalizer">Habilitar</string>
+    <string name="preamp">Preamp</string>
+    <string name="presets">Predefiniciones</string>
+    <string name="reset">Restaurar</string>
 </resources>
