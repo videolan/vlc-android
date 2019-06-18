@@ -2151,8 +2151,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private fun initOverlay() {
         service?.let { service ->
-
-
             val vscRight = findViewById<ViewStubCompat>(R.id.player_hud_right_stub)
             vscRight?.let {
                 it.inflate()
@@ -2165,8 +2163,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 if (!isBenchmark && enableCloneMode && !settings.contains("enable_clone_mode")) {
                     UiTools.snackerConfirm(hudRightBinding.videoSecondaryDisplay, getString(R.string.video_save_clone_mode), Runnable { settings.edit().putBoolean("enable_clone_mode", true).apply() })
                 }
-
-
             }
 
             val vsc = findViewById<ViewStubCompat>(R.id.player_hud_stub)
@@ -2207,7 +2203,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 controlsConstraintSetPortrait.setMargin(R.id.player_overlay_time_container, ConstraintSet.START, resources.getDimensionPixelSize(R.dimen.time_margin_sides))
                 controlsConstraintSetPortrait.setMargin(R.id.player_overlay_length_container, ConstraintSet.END, resources.getDimensionPixelSize(R.dimen.time_margin_sides))
 
-
                 val chainIds = arrayOf(R.id.lock_overlay_button, R.id.playlist_previous, R.id.player_overlay_rewind, R.id.player_overlay_play, R.id.player_overlay_forward, R.id.playlist_next, R.id.player_overlay_tracks)
 
                 chainIds.forEach {
@@ -2220,9 +2215,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
                 controlsConstraintSetPortrait.createHorizontalChain(ConstraintSet.PARENT_ID, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, chainIds.toIntArray(), null, ConstraintSet.CHAIN_SPREAD_INSIDE)
 
-
-
-
                 resetHudLayout()
                 updateOverlayPausePlay(true)
                 updateSeekable(service.isSeekable)
@@ -2230,18 +2222,13 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 updateNavStatus()
                 setListeners(true)
                 initPlaylistUi()
-                if (!displayManager.isPrimary) {
-                    hudBinding.lockOverlayButton.setGone()
-                }
-
-
+                if (!displayManager.isPrimary) hudBinding.lockOverlayButton.setGone()
             } else if (::hudBinding.isInitialized) {
                 hudBinding.progress = service.playlistManager.player.progress
                 hudBinding.lifecycleOwner = this
             }
         }
     }
-
 
     /**
      * hider overlay
@@ -2319,18 +2306,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     else
                         R.drawable.ic_play_player)
                 } else {
-
                     val drawable = if (service.isPlaying) playToPause else pauseToPlay
                     hudBinding.playerOverlayPlay.setImageDrawable(drawable)
-                    if (service.isPlaying != wasPlaying) {
-                        drawable.start()
-
-                    }
+                    if (service.isPlaying != wasPlaying) drawable.start()
                 }
 
                 wasPlaying = service.isPlaying
-
-
             }
             hudBinding.playerOverlayPlay.requestFocus()
         }
