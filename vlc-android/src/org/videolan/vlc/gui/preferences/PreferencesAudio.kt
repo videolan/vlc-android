@@ -32,25 +32,20 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.vlc.R
-import org.videolan.vlc.util.AUDIO_DUCKING
-import org.videolan.vlc.util.KEY_ARTISTS_SHOW_ALL
-import org.videolan.vlc.util.VLCInstance
+import org.videolan.vlc.util.*
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
 
-    override fun getXml(): Int {
-        return R.xml.preferences_audio
-    }
+    override fun getXml() = R.xml.preferences_audio
 
-    override fun getTitleId(): Int {
-        return R.string.audio_prefs_category
-    }
+    override fun getTitleId() = R.string.audio_prefs_category
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         findPreference(AUDIO_DUCKING).isVisible = !AndroidUtil.isOOrLater
+        findPreference(RESUME_PLAYBACK).isVisible = AndroidDevices.isPhone
         val aout = HWDecoderUtil.getAudioOutputFromDevice()
         if (aout != HWDecoderUtil.AudioOutput.ALL) {
             /* no AudioOutput choice */
@@ -97,7 +92,6 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
                 if (opensles) (findPreference("audio_digital_output") as CheckBoxPreference).isChecked = false
                 findPreference("audio_digital_output").isVisible = !opensles
             }
-            KEY_ARTISTS_SHOW_ALL -> (activity as PreferencesActivity).updateArtists()
             "audio_digital_output" -> updatePassThroughSummary()
         }
     }

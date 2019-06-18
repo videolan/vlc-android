@@ -42,9 +42,6 @@ class PreferencesVideo : BasePreferenceFragment() {
     override fun getTitleId() = R.string.video_prefs_category
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Settings.getInstance(activity).run {
-            if (!contains(FORCE_PLAY_ALL)) edit().putBoolean(FORCE_PLAY_ALL, true).apply()
-        }
         super.onCreate(savedInstanceState)
 
         findPreference("secondary_display_category").isVisible = false

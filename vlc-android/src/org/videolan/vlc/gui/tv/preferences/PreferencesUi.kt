@@ -51,13 +51,15 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Settings.getInstance(activity).run {
+            if (!contains(FORCE_PLAY_ALL)) edit().putBoolean(FORCE_PLAY_ALL, true).apply()
+        }
         super.onCreate(savedInstanceState)
 
+        findPreference("ui_audio_category").isVisible = false
         findPreference(FORCE_LIST_PORTRAIT).isVisible = false
         findPreference(PREF_TV_UI).isVisible = AndroidDevices.hasTsp
         findPreference(KEY_APP_THEME).isVisible = false
-        findPreference("blurred_cover_background").isVisible = false
-        findPreference(RESUME_PLAYBACK).isVisible = false
         prepareLocaleList()
     }
 

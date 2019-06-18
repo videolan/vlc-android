@@ -46,7 +46,6 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findPreference(RESUME_PLAYBACK).isVisible = AndroidDevices.isPhone
         prepareLocaleList()
         setupTheme()
     }
@@ -96,6 +95,7 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 return true
             }
             "media_seen" -> activity!!.setResult(RESULT_UPDATE_SEEN_MEDIA)
+            KEY_ARTISTS_SHOW_ALL -> (activity as PreferencesActivity).updateArtists()
         }
         return super.onPreferenceTreeClick(preference)
     }

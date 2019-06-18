@@ -33,6 +33,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.HWDecoderUtil
 import org.videolan.vlc.R
 import org.videolan.vlc.util.AUDIO_DUCKING
+import org.videolan.vlc.util.RESUME_PLAYBACK
 import org.videolan.vlc.util.VLCInstance
 
 @ExperimentalCoroutinesApi
@@ -54,9 +55,8 @@ class PreferencesAudio : BasePreferenceFragment(), SharedPreferences.OnSharedPre
         findPreference("enable_headset_detection").isVisible = false
         findPreference("enable_play_on_headset_insertion").isVisible = false
         findPreference("headset_prefs_category").isVisible = false
-        findPreference("lockscreen_cover").isVisible = false
+        findPreference(RESUME_PLAYBACK).isVisible = false
         findPreference(AUDIO_DUCKING).isVisible = !AndroidUtil.isOOrLater
-        findPreference("audio_resume_card").isVisible = false
 
         val aout = HWDecoderUtil.getAudioOutputFromDevice()
         if (aout != HWDecoderUtil.AudioOutput.ALL) {

@@ -4,11 +4,16 @@
     android:key="audio_category"
     android:title="@string/audio_prefs_category">
 
-    <SwitchPreference
+    <CheckBoxPreference
         android:defaultValue="true"
-        android:key="audio_resume_card"
-        android:title="@string/audio_resume_card_title"
-        android:summary="@string/audio_resume_card_summary"/>
+        android:key="resume_playback"
+        android:summary="@string/resume_playback_summary"
+        android:title="@string/resume_playback_title" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="playback_speed"
+        android:summary="@string/playback_speed_summary"
+        android:title="@string/playback_speed_title" />
 
     <CheckBoxPreference
         android:defaultValue="false"
@@ -22,26 +27,9 @@
         android:title="@string/audio_digital_title" />
     <CheckBoxPreference
         android:defaultValue="false"
-        android:key="artists_show_all"
-        android:summary="@string/artists_show_all_summary"
-        android:title="@string/artists_show_all_title" />
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="lockscreen_cover"
-        android:summary="@string/lockscreen_cover_summary"
-        android:title="@string/lockscreen_cover_title" />
-    <CheckBoxPreference
-        android:defaultValue="false"
         android:key="audio_save_repeat"
         android:summary="@string/audio_save_repeat_summary"
         android:title="@string/audio_save_repeat_title" />
-    <ListPreference
-        android:defaultValue="0"
-        android:entries="@array/audio_title_alignment_list"
-        android:entryValues="@array/audio_title_alignment_values"
-        android:key="audio_title_alignment"
-        android:persistent="true"
-        android:title="@string/audio_title_alignment" />
 
     <PreferenceCategory
         android:title="@string/headset_prefs_category"
