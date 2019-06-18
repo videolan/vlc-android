@@ -86,6 +86,16 @@ class PreferencesUi : BasePreferenceFragment(), SharedPreferences.OnSharedPrefer
                 (activity as PreferencesActivity).setRestartApp()
                 return true
             }
+            FORCE_LIST_PORTRAIT -> {
+                (activity as PreferencesActivity).setRestart()
+                return true
+            }
+            SHOW_VIDEO_THUMBNAILS -> {
+                Settings.showVideoThumbs = (preference as TwoStatePreference).isChecked
+                (activity as PreferencesActivity).setRestart()
+                return true
+            }
+            "media_seen" -> activity!!.setResult(RESULT_UPDATE_SEEN_MEDIA)
         }
         return super.onPreferenceTreeClick(preference)
     }
