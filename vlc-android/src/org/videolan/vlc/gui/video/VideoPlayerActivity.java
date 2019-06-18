@@ -385,8 +385,11 @@ public class VideoPlayerActivity extends AppCompatActivity implements IPlaybackS
         mMedialibrary = VLCApplication.getMLInstance();
         final int touch;
         if (!mIsTv) {
-            touch = (mSettings.getBoolean("enable_volume_gesture", true) ? VideoTouchDelegateKt.TOUCH_FLAG_AUDIO_VOLUME : 0)
-                    + (mSettings.getBoolean("enable_brightness_gesture", true) ? VideoTouchDelegateKt.TOUCH_FLAG_BRIGHTNESS : 0)
+            final boolean audioTouch = (!AndroidUtil.isLolliPopOrLater || !mAudioManager.isVolumeFixed())
+                    && mSettings.getBoolean("enable_volume_gesture", true);
+            final boolean videoTouch = !AndroidDevices.isChromeBook && mSettings.getBoolean("enable_brightness_gesture", true);
+            touch = (audioTouch ? VideoTouchDelegateKt.TOUCH_FLAG_AUDIO_VOLUME : 0)
+                    + (videoTouch ? VideoTouchDelegateKt.TOUCH_FLAG_BRIGHTNESS : 0)
                     + (mSettings.getBoolean("enable_double_tap_seek", true) ? VideoTouchDelegateKt.TOUCH_FLAG_SEEK : 0);
         } else touch = 0;
         mCurrentScreenOrientation = getResources().getConfiguration().orientation;
