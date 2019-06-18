@@ -1340,7 +1340,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             hudBinding.playerOverlayTime.isEnabled = false
             hudBinding.playerOverlaySeekbar.isEnabled = false
             hudBinding.playerOverlayLength.isEnabled = false
-            hudBinding.playerOverlaySize.isEnabled = false
             hudBinding.playlistNext.isEnabled = false
             hudBinding.playlistPrevious.isEnabled = false
         }
@@ -1361,7 +1360,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             hudBinding.playerOverlayTime.isEnabled = true
             hudBinding.playerOverlaySeekbar.isEnabled = service?.isSeekable != false
             hudBinding.playerOverlayLength.isEnabled = true
-            hudBinding.playerOverlaySize.isEnabled = true
             hudBinding.playlistNext.isEnabled = true
             hudBinding.playlistPrevious.isEnabled = true
         }
@@ -2141,7 +2139,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 hudBinding.playerOverlayRewind.visibility = if (show) View.VISIBLE else View.INVISIBLE
                 hudBinding.playerOverlayForward.visibility = if (show) View.VISIBLE else View.INVISIBLE
             }
-            if (displayManager.isPrimary) hudBinding.playerOverlaySize.visibility = if (show) View.VISIBLE else View.INVISIBLE
             hudBinding.playerOverlayTracks.visibility = if (show) View.VISIBLE else View.INVISIBLE
             hudBinding.playerOverlayAdvFunction.visibility = if (show) View.VISIBLE else View.INVISIBLE
             if (hasPlaylist) {
@@ -2211,7 +2208,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 controlsConstraintSetPortrait.setMargin(R.id.player_overlay_length_container, ConstraintSet.END, resources.getDimensionPixelSize(R.dimen.time_margin_sides))
 
 
-                val chainIds = arrayOf(R.id.lock_overlay_button, R.id.player_overlay_tracks, R.id.playlist_previous, R.id.player_overlay_rewind, R.id.player_overlay_play, R.id.player_overlay_forward, R.id.playlist_next, R.id.orientation_toggle, R.id.player_overlay_size)
+                val chainIds = arrayOf(R.id.lock_overlay_button, R.id.playlist_previous, R.id.player_overlay_rewind, R.id.player_overlay_play, R.id.player_overlay_forward, R.id.playlist_next, R.id.player_overlay_tracks)
 
                 chainIds.forEach {
                     controlsConstraintSetPortrait.clear(it, ConstraintSet.START)
@@ -2235,7 +2232,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 initPlaylistUi()
                 if (!displayManager.isPrimary) {
                     hudBinding.lockOverlayButton.setGone()
-                    hudBinding.playerOverlaySize.setGone()
                 }
 
 
