@@ -35,8 +35,10 @@ import android.text.TextUtils
 import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.documentfile.provider.DocumentFile
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.BuildConfig
@@ -471,13 +473,13 @@ object FileUtils {
         return volumeDescription
     }
 
-    fun unpackZip(path: String, unzipDirectory: String): ArrayList<String> {
-        val `is`: InputStream
+    suspend fun unpackZip(path: String, unzipDirectory: String): ArrayList<String> = withContext(Dispatchers.IO) {
+        val fis: InputStream
         val zis: ZipInputStream
         val unzippedFiles = ArrayList<String>()
         try {
-            `is` = FileInputStream(path)
-            zis = ZipInputStream(BufferedInputStream(`is`))
+            fis = FileInputStream(path)
+            zis = ZipInputStream(BufferedInputStream(fis))
             var ze = zis.nextEntry
 
             while (ze != null) {
@@ -503,12 +505,24 @@ object FileUtils {
                 zis.closeEntry()
                 ze = zis.nextEntry
             }
-
             zis.close()
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
-        return unzippedFiles
+        unzippedFiles
     }
 }
+
+fun String?.getParentFolder(): String? {
+    if (this == null || TextUtils.equals("/", this)) return this
+    var parentPath: String = this
+    if (parentPath.endsWith("/"))
+        parentPath = parentPath.substring(0, parentPath.length - 1)
+    val index = parentPath.lastIndexOf('/')
+    if (index > 0) {
+        parentPath = parentPath.substring(0, index)
+    } else if (index == 0)
+        parentPath = "/"
+    return parentPath
+}
+

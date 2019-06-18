@@ -34,7 +34,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.vlc.gui.helpers.hf.WriteExternalDelegate.Companion.getExtWritePermission
 import org.videolan.vlc.startMedialibrary
 import org.videolan.vlc.util.*
 import org.videolan.vlc.util.Permissions.canReadStorage

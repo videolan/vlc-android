@@ -41,19 +41,15 @@ class SubtitleDownloaderDialogFragment : DialogFragment() {
     val listEventActor = coroutineScope.actor<SubtitleEvent> {
         for (subtitleEvent in channel) if (isActive) when (subtitleEvent) {
             is Click -> when (subtitleEvent.item.state) {
-                State.NotDownloaded -> VLCDownloadManager.download(context!!, subtitleEvent.item)
+                State.NotDownloaded -> VLCDownloadManager.download(requireActivity(), subtitleEvent.item)
                 State.Downloaded -> deleteSubtitleDialog(requireActivity(), DialogInterface.OnClickListener { _, _ -> viewModel.deleteSubtitle(subtitleEvent.item.mediaPath, subtitleEvent.item.idSubtitle) }
                         , DialogInterface.OnClickListener { _, _ -> })
                 else -> return@actor
             }
             is LongClick -> {
                 @StringRes val message = when (subtitleEvent.item.state) {
-                    State.NotDownloaded -> {
-                        R.string.download_the_selected
-                    }
-                    State.Downloaded -> {
-                        R.string.delete_the_selected
-                    }
+                    State.NotDownloaded -> R.string.download_the_selected
+                    State.Downloaded -> R.string.delete_the_selected
                     // Todo else -> {"Cancel download"}
                     else -> return@actor
                 }

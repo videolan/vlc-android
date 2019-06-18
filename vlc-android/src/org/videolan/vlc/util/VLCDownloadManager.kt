@@ -7,30 +7,35 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Environment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ProcessLifecycleOwner
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.videolan.tools.isStarted
 import org.videolan.vlc.R
 import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.dialogs.SubtitleItem
+import org.videolan.vlc.gui.helpers.hf.getExtWritePermission
 import org.videolan.vlc.repository.ExternalSubRepository
-import java.io.File
 
 
 object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
     private val downloadManager = VLCApplication.appContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+    private var dlDeferred : CompletableDeferred<SubDlResult>? = null
+
     override fun onReceive(context: Context, intent: Intent?) {
-        intent?.let {
-            val id = it.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0L)
-            id.let {
-                val subtitleItem = ExternalSubRepository.getInstance(context).getDownloadingSubtitle(it)
-                subtitleItem?.let {
-                    val (state, localUri) = getDownloadState(id)
-                    when(state) {
-                        DownloadManager.STATUS_SUCCESSFUL -> downloadSuccessful(id, subtitleItem, localUri, context)
-                        DownloadManager.STATUS_FAILED -> downloadFailed(id, context)
-                    }
+        intent?.run {
+            val id = getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0L)
+            ExternalSubRepository.getInstance(context).getDownloadingSubtitle(id)?.let { subtitleItem ->
+                val (state, localUri) = getDownloadState(id)
+                when(state) {
+                    DownloadManager.STATUS_SUCCESSFUL -> dlDeferred?.complete(SubDlSuccess(id, subtitleItem, localUri))
+                    DownloadManager.STATUS_FAILED -> dlDeferred?.complete(SubDlFailure(id))
+                    else -> return
                 }
             }
         }
@@ -56,28 +61,40 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
         VLCApplication.appContext.applicationContext.unregisterReceiver(this)
     }
 
-    fun download(context: Context, subtitleItem: SubtitleItem) {
+    suspend fun download(context: FragmentActivity, subtitleItem: SubtitleItem) {
         val request = DownloadManager.Request(Uri.parse(subtitleItem.zipDownloadLink))
         request.setDescription(subtitleItem.movieReleaseName)
         request.setTitle(context.resources.getString(R.string.download_subtitle_title))
         request.setVisibleInDownloadsUi(false)
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, getDownloadPath(subtitleItem))
         val id = downloadManager.enqueue(request)
-        ExternalSubRepository.getInstance(context.applicationContext!!).addDownloadingItem(id, subtitleItem)
+        val deferred = CompletableDeferred<SubDlResult>().also { dlDeferred = it }
+        ExternalSubRepository.getInstance(context.applicationContext).addDownloadingItem(id, subtitleItem)
+        when (val result = deferred.await()) {
+            is SubDlFailure -> downloadFailed(result.id, context)
+            is SubDlSuccess -> downloadSuccessful(result.id, result.subtitleItem, result.localUri, context)
+        }
     }
 
-    private fun downloadSuccessful(id:Long, subtitleItem: SubtitleItem, localUri: String, context: Context) {
-        val baseDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val extractDirectory = File(baseDirectory, "VLC").absolutePath
+    private suspend fun downloadSuccessful(id:Long, subtitleItem: SubtitleItem, localUri: String, context: FragmentActivity) {
+        val extractDirectory = getFinalDirectory(context, subtitleItem) ?: return
         val downloadedPaths = FileUtils.unpackZip(localUri, extractDirectory)
-        subtitleItem.apply {
+        subtitleItem.run {
             ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
             downloadedPaths.forEach {
                 if (it.endsWith(".srt"))
                     ExternalSubRepository.getInstance(context).saveDownloadedSubtitle(idSubtitle, it, mediaPath, subLanguageID, movieReleaseName)
             }
-            FileUtils.deleteFile(localUri)
+            withContext(Dispatchers.IO) { FileUtils.deleteFile(localUri) }
         }
+    }
+
+    private suspend fun getFinalDirectory(context: FragmentActivity, subtitleItem: SubtitleItem) : String? {
+        val folder = subtitleItem.mediaPath.getParentFolder() ?: return context.getExternalFilesDir("subs")?.absolutePath
+        val uri = Uri.parse(folder)
+        val canWrite = context.isStarted() && context.getExtWritePermission(uri)
+        return if (canWrite) folder
+        else (context.applicationContext.getExternalFilesDir(null) ?: Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)).absolutePath
     }
 
     private fun downloadFailed(id: Long, context: Context) {
@@ -105,3 +122,7 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
         return Pair(status, if (localUri != null) Uri.parse(localUri).path else "")
     }
 }
+
+private sealed class SubDlResult
+private class SubDlSuccess(val id:Long, val subtitleItem: SubtitleItem, val localUri: String) : SubDlResult()
+private class SubDlFailure(val id:Long) : SubDlResult()
