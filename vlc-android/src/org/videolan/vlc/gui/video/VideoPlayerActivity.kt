@@ -171,7 +171,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var overlayTimeout = 0
     private var lockBackButton = false
     private var wasPaused = false
-    private var mSavedTime: Long = -1
+    private var savedTime: Long = -1
 
 
     /**
@@ -181,7 +181,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private var switchToPopup: Boolean = false
 
     //Volume
-    internal var audiomanager: AudioManager? = null
+    internal lateinit var audiomanager: AudioManager
         private set
     internal var audioMax: Int = 0
         private set
@@ -406,7 +406,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -416,7 +416,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
         /* Services and miscellaneous */
         audiomanager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        audioMax = audiomanager!!.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        audioMax = audiomanager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
         isAudioBoostEnabled = settings.getBoolean("audio_boost", false)
 
         enableCloneMode = if (clone != null) clone!! else settings.getBoolean("enable_clone_mode", false)
@@ -492,11 +492,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
         medialibrary = VLCApplication.mlInstance
         val touch = if (!isTv) {
-            ((if (settings.getBoolean(ENABLE_VOLUME_GESTURE, true)) TOUCH_FLAG_AUDIO_VOLUME else 0)
-                    + (if (settings.getBoolean(ENABLE_BRIGHTNESS_GESTURE, true)) TOUCH_FLAG_BRIGHTNESS else 0)
+            val audioTouch = (!AndroidUtil.isLolliPopOrLater || !audiomanager.isVolumeFixed) && settings.getBoolean(ENABLE_VOLUME_GESTURE, true)
+            val brightnessTouch = !AndroidDevices.isChromeBook && settings.getBoolean(ENABLE_BRIGHTNESS_GESTURE, true)
+            ((if (audioTouch) TOUCH_FLAG_AUDIO_VOLUME else 0)
+                    + (if (brightnessTouch) TOUCH_FLAG_BRIGHTNESS else 0)
                     + if (settings.getBoolean(ENABLE_DOUBLE_TAP_SEEK, true)) TOUCH_FLAG_SEEK else 0)
-        } else
-            0
+        } else 0
         currentScreenOrientation = resources.configuration.orientation
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
@@ -506,7 +507,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         touchDelegate = VideoTouchDelegate(this, touch, sc, isTv)
         UiTools.setRotationAnimation(this)
         if (savedInstanceState != null) {
-            mSavedTime = savedInstanceState.getLong(KEY_TIME)
+            savedTime = savedInstanceState.getLong(KEY_TIME)
             videoUri = savedInstanceState.getParcelable<Parcelable>(KEY_URI) as Uri?
         }
 
@@ -594,7 +595,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         if (videoUri != null && "content" != videoUri!!.scheme) {
-            outState.putLong(KEY_TIME, mSavedTime)
+            outState.putLong(KEY_TIME, savedTime)
             if (playlistModel == null) outState.putParcelable(KEY_URI, videoUri)
         }
         videoUri = null
@@ -711,7 +712,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         stopPlayback()
 
         val editor = settings.edit()
-        if (mSavedTime != -1L) editor.putLong(VIDEO_RESUME_TIME, mSavedTime)
+        if (savedTime != -1L) editor.putLong(VIDEO_RESUME_TIME, savedTime)
 
         editor.apply()
 
@@ -756,7 +757,6 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
         // Dismiss the presentation when the activity is not visible.
         displayManager.release()
-        audiomanager = null
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -826,9 +826,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     private fun setPlaybackParameters() {
         service?.run {
             if (audioDelay != 0L && audioDelay != audioDelay) setAudioDelay(audioDelay)
-            else if (audiomanager != null && (audiomanager!!.isBluetoothA2dpOn
-                            || audiomanager!!.isBluetoothScoOn))
-                toggleBtDelay(true)
+            else if (audiomanager.isBluetoothA2dpOn || audiomanager.isBluetoothScoOn) toggleBtDelay(true)
             if (spuDelay != 0L && spuDelay != spuDelay) setSpuDelay(spuDelay)
         }
     }
@@ -870,13 +868,13 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             }
 
             if (isSeekable) {
-                mSavedTime = time
+                savedTime = time
                 val length = length
                 //remove saved position if in the last 5 seconds
-                if (length - mSavedTime < 5000)
-                    mSavedTime = 0
+                if (length - savedTime < 5000)
+                    savedTime = 0
                 else
-                    mSavedTime -= 2000 // go back 2 seconds, to compensate loading time
+                    savedTime -= 2000 // go back 2 seconds, to compensate loading time
             }
             stop()
         }
@@ -1169,8 +1167,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         if (isMute) {
             updateMute()
         } else service?.let { service ->
-            var volume = if (audiomanager!!.getStreamVolume(AudioManager.STREAM_MUSIC) < audioMax)
-                audiomanager!!.getStreamVolume(AudioManager.STREAM_MUSIC) + 1
+            var volume = if (audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC) < audioMax)
+                audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC) + 1
             else
                 Math.round(service.volume.toFloat() * audioMax / 100 + 1)
             volume = Math.min(Math.max(volume, 0), audioMax * if (isAudioBoostEnabled) 2 else 1)
@@ -1183,7 +1181,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             var vol = if (service.volume > 100)
                 Math.round(service.volume.toFloat() * audioMax / 100 - 1)
             else
-                audiomanager!!.getStreamVolume(AudioManager.STREAM_MUSIC) - 1
+                audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC) - 1
             vol = Math.min(Math.max(vol, 0), audioMax * if (isAudioBoostEnabled) 2 else 1)
             originalVol = vol.toFloat()
             setAudioVolume(vol)
@@ -1272,7 +1270,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
     override fun endPlaybackSetting() {
         service?.let { service ->
             service.saveMediaMeta()
-            if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO && (audiomanager!!.isBluetoothA2dpOn || audiomanager!!.isBluetoothScoOn)) {
+            if (playbackSetting == IPlaybackSettingsController.DelayState.AUDIO && (audiomanager.isBluetoothA2dpOn || audiomanager.isBluetoothScoOn)) {
                 val msg = (getString(R.string.audio_delay) + "\n"
                         + service.audioDelay / 1000L
                         + " ms")
@@ -1618,8 +1616,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     internal fun initAudioVolume() = service?.let { service ->
         if (service.volume <= 100) {
-            volume = audiomanager!!.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
-            originalVol = audiomanager!!.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
+            volume = audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
+            originalVol = audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
         } else {
             volume = service.volume.toFloat() * audioMax / 100
         }
@@ -1649,12 +1647,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
         service?.let { service ->
             if (vol <= audioMax) {
                 service.setVolume(100)
-                if (vol != audiomanager!!.getStreamVolume(AudioManager.STREAM_MUSIC)) {
+                if (vol != audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC)) {
                     try {
-                        audiomanager!!.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0)
+                        audiomanager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, 0)
                         // High Volume warning can block volume setting
-                        if (audiomanager!!.getStreamVolume(AudioManager.STREAM_MUSIC) != vol)
-                            audiomanager!!.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI)
+                        if (audiomanager.getStreamVolume(AudioManager.STREAM_MUSIC) != vol)
+                            audiomanager.setStreamVolume(AudioManager.STREAM_MUSIC, vol, AudioManager.FLAG_SHOW_UI)
                     } catch (ignored: RuntimeException) {
                     }
                     //Some device won't allow us to change volume
@@ -2398,7 +2396,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
             var positionInPlaylist = -1
             val intent = intent
             val extras = intent.extras
-            var savedTime = 0L
+            var startTime = 0L
             val currentMedia = service.currentMediaWrapper
             val hasMedia = currentMedia != null
             val isPlaying = service.isPlaying
@@ -2423,9 +2421,9 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 // restarting again when playback is paused.
                 intent.putExtra(PLAY_EXTRA_FROM_START, false)
                 askResume = askResume and !fromStart
-                savedTime = if (fromStart) 0L else extras.getLong(PLAY_EXTRA_START_TIME) // position passed in by intent (ms)
-                if (!fromStart && savedTime == 0L) {
-                    savedTime = extras.getInt(PLAY_EXTRA_START_TIME).toLong()
+                startTime = if (fromStart) 0L else extras.getLong(PLAY_EXTRA_START_TIME) // position passed in by intent (ms)
+                if (!fromStart && startTime == 0L) {
+                    startTime = extras.getInt(PLAY_EXTRA_START_TIME).toLong()
                 }
                 positionInPlaylist = extras.getInt(PLAY_EXTRA_OPENED_POSITION, -1)
 
@@ -2434,7 +2432,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 if (intent.hasExtra(PLAY_EXTRA_ITEM_TITLE))
                     itemTitle = extras.getString(PLAY_EXTRA_ITEM_TITLE)
             }
-            if (savedTime == 0L && mSavedTime > 0L) savedTime = mSavedTime
+            if (startTime == 0L && savedTime > 0L) startTime = savedTime
             val restorePlayback = hasMedia && currentMedia!!.uri == videoUri
 
             var openedMedia: MediaWrapper? = null
@@ -2478,7 +2476,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                         lastSpuTrack = media.spuTrack
                     } else if (!fromStart) {
                         // not in media library
-                        if (askResume && savedTime > 0L) {
+                        if (askResume && startTime > 0L) {
                             showConfirmResumeDialog()
                             return
                         } else {
@@ -2491,7 +2489,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                                     settings.edit()
                                             .putLong(VIDEO_RESUME_TIME, -1)
                                             .apply()
-                                    savedTime = rTime
+                                    startTime = rTime
                                 }
                             }
                         }
@@ -2512,8 +2510,8 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
                 // Set resume point
                 if (!continueplayback && !fromStart) {
-                    if (savedTime <= 0L && media.time > 0L) savedTime = media.time
-                    if (savedTime > 0L) service.saveStartTime(savedTime)
+                    if (startTime <= 0L && media.time > 0L) startTime = media.time
+                    if (startTime > 0L) service.saveStartTime(startTime)
                 }
 
                 // Handle playback
@@ -2543,7 +2541,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
             if (wasPaused) {
                 // XXX: Workaround to update the seekbar position
-                forcedTime = savedTime
+                forcedTime = startTime
                 forcedTime = -1
                 showOverlay(true)
             }
