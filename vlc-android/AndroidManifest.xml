@@ -575,6 +575,12 @@
             android:exported="true"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.VLC.TV" />
+
+        <activity
+            android:name=".gui.tv.details.MediaListActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.VLC.TV" />
         <activity
             android:name=".gui.tv.browser.TVActivity"
             android:exported="true"
@@ -607,7 +613,7 @@
 
         <service
             android:name=".RecommendationsService"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <receiver
             android:name=".TvReceiver"

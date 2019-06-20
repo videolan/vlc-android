@@ -14,7 +14,7 @@
     <color name="orange200">#ffca7d</color>
     <color name="orange300">#ffb54c</color>
     <color name="orange400">#ffa11a</color>
-    <color name="orange500">#ff8800</color>
+    <color name="orange500">#FF8800</color>
     <color name="orange600">#ff7d00</color>
     <color name="orange700">#ff7200</color>
     <color name="orange800">#ff610a</color>
@@ -50,6 +50,7 @@
     <color name="blacktransparent">#b4000000</color>
     <color name="whitetransparent">#b4ffffff</color>
     <color name="ripple_white">#88ffffff</color>
+    <color name="white_more_transparent">#33ffffff</color>
     <color name="transparent">#00000000</color>
 
     <color name="white_selection_transparent">#44ffffff</color>

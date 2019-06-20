@@ -31,6 +31,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
@@ -53,6 +54,10 @@ abstract class BaseTvActivity : FragmentActivity(), CoroutineScope by MainScope(
     private lateinit var settings: SharedPreferences
     @Volatile
     private var currentlyVisible = false
+
+    init {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //Init Medialibrary if KO

@@ -713,4 +713,6 @@
     <string name="preamp">Preamp</string>
     <string name="presets">Presets</string>
     <string name="reset">Reset</string>
+    <string name="appended">Track(s) appended</string>
+    <string name="inserted">Track(s) inserted</string>
 </resources>

@@ -1,5 +1,6 @@
 package org.videolan.tools
 
+import android.content.res.Resources
 import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -19,6 +20,7 @@ fun LifecycleOwner.createJob(cancelEvent: Lifecycle.Event = Lifecycle.Event.ON_D
         }
     })
 }
+
 private val lifecycleCoroutineScopes = mutableMapOf<Lifecycle, CoroutineScope>()
 
 @ExperimentalCoroutinesApi
@@ -30,7 +32,7 @@ val LifecycleOwner.coroutineScope: CoroutineScope
         newScope
     }
 
-fun <T> List<T>.getposition(target: T) : Int {
+fun <T> List<T>.getposition(target: T): Int {
     for ((index, item) in withIndex()) if (item == target) return index
     return -1
 }
@@ -48,3 +50,6 @@ fun View?.setVisibility(visibility: Int) {
 fun View?.setVisible() = setVisibility(View.VISIBLE)
 fun View?.setInvisible() = setVisibility(View.INVISIBLE)
 fun View?.setGone() = setVisibility(View.GONE)
+
+val Int.dp: Int get() = (this / Resources.getSystem().displayMetrics.density).toInt()
+val Int.px: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()

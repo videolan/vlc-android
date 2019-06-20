@@ -1,5 +1,6 @@
 package org.videolan.vlc.media
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -14,6 +15,7 @@ import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
@@ -45,7 +47,8 @@ object MediaUtils : CoroutineScope {
         else {
             val intent = Intent(activity, DialogActivity::class.java).setAction(DialogActivity.KEY_SUBS_DL)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.putParcelableArrayListExtra(DialogActivity.EXTRA_MEDIALIST, mediaList as? ArrayList ?: ArrayList(mediaList))
+            intent.putParcelableArrayListExtra(DialogActivity.EXTRA_MEDIALIST, mediaList as? ArrayList
+                    ?: ArrayList(mediaList))
             ContextCompat.startActivity(activity, intent, null)
         }
     }
@@ -72,21 +75,21 @@ object MediaUtils : CoroutineScope {
     }
 
     fun appendMedia(context: Context?, media: List<MediaWrapper>?) {
-        if (media == null || context == null) return
+        if (media == null || media.isEmpty() || context == null) return
         DialogCallback(context, object : DialogCallback.Runnable {
             override fun run(service: PlaybackService) {
                 service.append(media)
+                context.let {
+                    if (it is Activity) {
+                        Snackbar.make(it.findViewById(android.R.id.content), R.string.appended, Snackbar.LENGTH_LONG).show()
+                    }
+                }
             }
         })
     }
 
     fun appendMedia(context: Context?, media: MediaWrapper?) {
-        if (media == null || context == null) return
-        DialogCallback(context, object : DialogCallback.Runnable {
-            override fun run(service: PlaybackService) {
-                service.append(media)
-            }
-        })
+        if (media != null) appendMedia(context, arrayListOf(media))
     }
 
     fun appendMedia(context: Context, array: Array<MediaWrapper>) = appendMedia(context, array.asList())
@@ -96,17 +99,18 @@ object MediaUtils : CoroutineScope {
         DialogCallback(context, object : DialogCallback.Runnable {
             override fun run(service: PlaybackService) {
                 service.insertNext(media)
+                context.let {
+                    if (it is Activity) {
+                        Snackbar.make(it.findViewById(android.R.id.content), R.string.inserted, Snackbar.LENGTH_LONG).show()
+                    }
+                }
             }
         })
     }
 
     fun insertNext(context: Context?, media: MediaWrapper?) {
         if (media == null || context == null) return
-        DialogCallback(context, object : DialogCallback.Runnable {
-            override fun run(service: PlaybackService) {
-                service.insertNext(media)
-            }
-        })
+        insertNext(context, arrayOf(media))
     }
 
     fun openMedia(context: Context?, media: MediaWrapper?) {
@@ -156,7 +160,7 @@ object MediaUtils : CoroutineScope {
                     mutableListOf<MediaWrapper>().apply {
                         var index = 0
                         while (index < count) {
-                            val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count-index)
+                            val pageCount = min(MEDIALIBRARY_PAGE_SIZE, count - index)
                             val albums = withContext(Dispatchers.IO) { provider.getPage(pageCount, index) }
                             for (album in albums) addAll(album.tracks)
                             index += pageCount
@@ -174,7 +178,7 @@ object MediaUtils : CoroutineScope {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
-            fun play(list : List<MediaWrapper>) {
+            fun play(list: List<MediaWrapper>) {
                 service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
@@ -201,7 +205,7 @@ object MediaUtils : CoroutineScope {
         if (context == null) return
         SuspendDialogCallback(context) { service ->
             val count = withContext(Dispatchers.IO) { provider.getTotalCount() }
-            fun play(list : List<MediaWrapper>) {
+            fun play(list: List<MediaWrapper>) {
                 service.load(list, if (shuffle) Random().nextInt(min(count, MEDIALIBRARY_PAGE_SIZE)) else position)
                 if (shuffle && !service.isShuffling) service.shuffle()
             }
@@ -259,15 +263,19 @@ object MediaUtils : CoroutineScope {
         })
     }
 
-    fun getMediaArtist(ctx: Context, media: MediaWrapper?) = media?.artist ?: if (media?.nowPlaying != null) "" else getMediaString(ctx, R.string.unknown_artist)
+    fun getMediaArtist(ctx: Context, media: MediaWrapper?) = media?.artist
+            ?: if (media?.nowPlaying != null) "" else getMediaString(ctx, R.string.unknown_artist)
 
     fun getMediaReferenceArtist(ctx: Context, media: MediaWrapper?) = getMediaArtist(ctx, media)
 
-    fun getMediaAlbumArtist(ctx: Context, media: MediaWrapper?) = media?.albumArtist ?: getMediaString(ctx, R.string.unknown_artist)
+    fun getMediaAlbumArtist(ctx: Context, media: MediaWrapper?) = media?.albumArtist
+            ?: getMediaString(ctx, R.string.unknown_artist)
 
-    fun getMediaAlbum(ctx: Context, media: MediaWrapper?) = media?.album ?: if (media?.nowPlaying != null) "" else getMediaString(ctx, R.string.unknown_album)
+    fun getMediaAlbum(ctx: Context, media: MediaWrapper?) = media?.album
+            ?: if (media?.nowPlaying != null) "" else getMediaString(ctx, R.string.unknown_album)
 
-    fun getMediaGenre(ctx: Context, media: MediaWrapper?) = media?.genre ?: getMediaString(ctx, R.string.unknown_genre)
+    fun getMediaGenre(ctx: Context, media: MediaWrapper?) = media?.genre
+            ?: getMediaString(ctx, R.string.unknown_genre)
 
     fun getMediaSubtitle(media: MediaWrapper): String? {
         var subtitle = media.nowPlaying ?: media.artist
@@ -278,9 +286,10 @@ object MediaUtils : CoroutineScope {
         return subtitle
     }
 
-    fun getMediaTitle(mediaWrapper: MediaWrapper) = mediaWrapper.title ?: FileUtils.getFileNameFromPath(mediaWrapper.location)!!
+    fun getMediaTitle(mediaWrapper: MediaWrapper) = mediaWrapper.title
+            ?: FileUtils.getFileNameFromPath(mediaWrapper.location)!!
 
-    fun getContentMediaUri(data: Uri)= try {
+    fun getContentMediaUri(data: Uri) = try {
         VLCApplication.appContext.contentResolver.query(data,
                 arrayOf(MediaStore.Video.Media.DATA), null, null, null)?.use {
             val columnIndex = it.getColumnIndexOrThrow(MediaStore.Video.Media.DATA)
@@ -318,7 +327,7 @@ object MediaUtils : CoroutineScope {
         }
     }
 
-    private class DialogCallback (context: Context, private val runnable: Runnable) : BaseCallBack() {
+    private class DialogCallback(context: Context, private val runnable: Runnable) : BaseCallBack() {
         private lateinit var dialog: ProgressDialog
         private val handler = Handler(Looper.getMainLooper())
 
@@ -361,9 +370,9 @@ object MediaUtils : CoroutineScope {
     }
 
     @ObsoleteCoroutinesApi
-    private class SuspendDialogCallback (context: Context, private val task: suspend (service: PlaybackService) -> Unit) : BaseCallBack() {
+    private class SuspendDialogCallback(context: Context, private val task: suspend (service: PlaybackService) -> Unit) : BaseCallBack() {
         private lateinit var dialog: ProgressDialog
-        var job : Job = Job()
+        var job: Job = Job()
         val actor = actor<Action>(capacity = Channel.UNLIMITED) {
             for (action in channel) when (action) {
                 Connect -> {
@@ -381,7 +390,7 @@ object MediaUtils : CoroutineScope {
         }
 
         init {
-            job = launch{
+            job = launch {
                 delay(300)
                 dialog = ProgressDialog.show(
                         context,
@@ -415,13 +424,14 @@ object MediaUtils : CoroutineScope {
     } catch (ignored: IllegalArgumentException) {
     } catch (ignored: NullPointerException) {
     } catch (ignored: IllegalStateException) {
-    } catch (ignored: SecurityException) {}
+    } catch (ignored: SecurityException) {
+    }
 
     fun deletePlaylist(playlist: Playlist) = launch(Dispatchers.IO) { playlist.delete() }
 }
 
 @WorkerThread
-fun Folder.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) : List<MediaWrapper> {
+fun Folder.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false): List<MediaWrapper> {
     var index = 0
     val count = mediaCount(type)
     val all = mutableListOf<MediaWrapper>()
@@ -434,7 +444,7 @@ fun Folder.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary
     return all
 }
 
-fun List<Folder>.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false) : List<MediaWrapper> {
+fun List<Folder>.getAll(type: Int = Folder.TYPE_FOLDER_VIDEO, sort: Int = Medialibrary.SORT_DEFAULT, desc: Boolean = false): List<MediaWrapper> {
     return flatMap { it.getAll(type, sort, desc) }
 }
 
@@ -443,4 +453,4 @@ private object Connect : Action()
 private object Disconnect : Action()
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-private class Task(val service : PlaybackService, val task: suspend (service: PlaybackService) -> Unit): Action()
+private class Task(val service: PlaybackService, val task: suspend (service: PlaybackService) -> Unit) : Action()

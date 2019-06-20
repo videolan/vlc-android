@@ -33,7 +33,6 @@ import android.text.TextUtils
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.widget.DiffCallback
@@ -52,13 +51,12 @@ import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.audioplayer.AudioPlayerActivity
 import org.videolan.vlc.gui.tv.browser.TVActivity
 import org.videolan.vlc.gui.tv.browser.VerticalGridActivity
+import org.videolan.vlc.gui.tv.details.MediaListActivity
 import org.videolan.vlc.media.MediaUtils
 import org.videolan.vlc.providers.medialibrary.MedialibraryProvider
 import org.videolan.vlc.util.*
 import org.videolan.vlc.viewmodels.BaseModel
 import org.videolan.vlc.viewmodels.browser.BrowserModel
-
-import kotlin.collections.ArrayList
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -115,11 +113,15 @@ object TvUtil {
         if (media.type == MediaWrapper.TYPE_AUDIO) {
             val tracks = ArrayList<MediaWrapper>()
             tracks.add(media)
-            val intent = Intent(activity, AudioPlayerActivity::class.java)
-            intent.putExtra(AudioPlayerActivity.MEDIA_LIST, tracks)
-            activity.startActivity(intent)
+            playMedia(activity, tracks)
         } else
             MediaUtils.openMedia(activity, media)
+    }
+
+    fun playMedia(activity: Activity, media: List<MediaWrapper>) {
+        val intent = Intent(activity, AudioPlayerActivity::class.java)
+        intent.putExtra(AudioPlayerActivity.MEDIA_LIST, ArrayList(media))
+        activity.startActivity(intent)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -294,8 +296,11 @@ object TvUtil {
 
     fun openAudioCategory(context: Activity, mediaLibraryItem: MediaLibraryItem) {
         when {
-            mediaLibraryItem.itemType == MediaLibraryItem.TYPE_ALBUM -> playAudioList(context, mediaLibraryItem.tracks, 0)
-            mediaLibraryItem.itemType == MediaLibraryItem.TYPE_PLAYLIST -> playAudioList(context, mediaLibraryItem.tracks, 0)
+            mediaLibraryItem.itemType == MediaLibraryItem.TYPE_ALBUM || mediaLibraryItem.itemType == MediaLibraryItem.TYPE_PLAYLIST -> {
+                val intent = Intent(context, MediaListActivity::class.java)
+                intent.putExtra(ITEM, mediaLibraryItem)
+                context.startActivity(intent)
+            }
             mediaLibraryItem.itemType == MediaLibraryItem.TYPE_MEDIA -> {
                 val list = ArrayList<MediaWrapper>().apply { add(mediaLibraryItem as MediaWrapper) }
                 playAudioList(context, list, 0)
@@ -324,6 +329,20 @@ object TvUtil {
                         cover = BitmapUtil.centerCrop(cover, cover.width, cover.width * 10 / 16)
                     UiTools.blurBitmap(cover, 10f)
                 }
+                @Suppress("SENSELESS_COMPARISON")
+                if (bm !== null) {
+                    bm.color = 0
+                    bm.drawable = BitmapDrawable(VLCApplication.appResources, blurred)
+                }
+            } else if (item.itemType == MediaLibraryItem.TYPE_PLAYLIST) {
+                val blurred = withContext(Dispatchers.IO) {
+                    var cover: Bitmap? = ThumbnailsProvider.getPlaylistImage("playlist:${item.id}", item.tracks.toList(), 512)
+                            ?: return@withContext null
+                    if (cover != null && crop)
+                        cover = BitmapUtil.centerCrop(cover!!, cover!!.width, cover!!.width * 10 / 16)
+                    UiTools.blurBitmap(cover, 10f)
+                }
+
                 @Suppress("SENSELESS_COMPARISON")
                 if (bm !== null) {
                     bm.color = 0

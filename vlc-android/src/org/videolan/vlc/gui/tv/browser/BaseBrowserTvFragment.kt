@@ -24,7 +24,6 @@
 package org.videolan.vlc.gui.tv.browser
 
 import android.annotation.TargetApi
-import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Rect
 import android.os.Build
@@ -215,11 +214,7 @@ abstract class BaseBrowserTvFragment : Fragment(), BrowserFragmentInterface, IEv
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
         if (item is MediaWrapper) {
-            val intent = Intent(requireActivity(), DetailsActivity::class.java)
-            // pass the item information
-            intent.putExtra("media", item)
-            intent.putExtra("item", MediaItemDetails(item.title, item.artist, item.album, item.location, item.artworkURL))
-            startActivity(intent)
+            TvUtil.showMediaDetail(requireActivity(), item)
         }
         return true
     }
