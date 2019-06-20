@@ -1,8 +1,7 @@
 package org.videolan.vlc.gui.tv
 
-interface TvItemAdapter {
+interface TvItemAdapter : TvFocusableAdapter {
     fun submitList(pagedList: Any?)
-    fun setOnFocusChangeListener(focusListener: FocusableRecyclerView.FocusListener?)
 
     var focusNext: Int
 }

@@ -16,11 +16,21 @@ import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.databinding.ActivityMediaListTvItemBinding
 import org.videolan.vlc.gui.DiffUtilAdapter
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
+import org.videolan.vlc.gui.tv.FocusableRecyclerView
+import org.videolan.vlc.gui.tv.TvFocusableAdapter
 import org.videolan.vlc.interfaces.ITVEventsHandler
 
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
-class MediaListAdapter(private val type: Int, private val listener: ITVEventsHandler) : DiffUtilAdapter<MediaWrapper, MediaListAdapter.MediaListViewHolder>() {
+class MediaListAdapter(private val type: Int, private val listener: ITVEventsHandler) : DiffUtilAdapter<MediaWrapper, MediaListAdapter.MediaListViewHolder>(), TvFocusableAdapter {
+
+    private var focusListener: FocusableRecyclerView.FocusListener? = null
+
+
+    override fun setOnFocusChangeListener(focusListener: FocusableRecyclerView.FocusListener?) {
+        this.focusListener = focusListener
+    }
+
 
     var lastMovedItemFrom = -1
     var lastMovedItemTo = -1
@@ -80,6 +90,9 @@ class MediaListAdapter(private val type: Int, private val listener: ITVEventsHan
                 binding.itemPlay.animate().alpha(playAlpha)
                 if (hasFocus) {
                     listener.onFocusChanged(getItem(layoutPosition))
+                }
+                if (hasFocus) {
+                    focusListener?.onFocusChanged(layoutPosition)
                 }
 
             }

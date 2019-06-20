@@ -61,7 +61,7 @@
             android:id="@+id/cover"
             android:layout_width="0dp"
             android:layout_height="90dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="@dimen/tv_overscan_horizontal"
             android:layout_marginBottom="8dp"
             android:background="@{cover}"
             app:imageWidth="@{imageWidth}"
@@ -179,12 +179,13 @@
             </LinearLayout>
         </HorizontalScrollView>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <org.videolan.vlc.gui.tv.FocusableRecyclerView
             android:id="@+id/media_list"
             android:layout_width="800dp"
             android:layout_height="0dp"
             android:clipToPadding="false"
             android:paddingTop="40dp"
+            android:paddingBottom="150dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
