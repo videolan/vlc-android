@@ -38,8 +38,9 @@ import org.videolan.vlc.viewmodels.SortableModel
 
 abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, val scope: SortableModel) : HeaderProvider() {
     protected val medialibrary = Medialibrary.getInstance()
+    private lateinit var dataSource : DataSource<Int, T>
     val loading = MutableLiveData<Boolean>().apply { value = false }
-
+    @Volatile private var isRefreshing = false
 
     protected open val sortKey : String = this.javaClass.simpleName
     var sort = Medialibrary.SORT_DEFAULT
@@ -87,10 +88,12 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     }
 
     fun refresh(): Boolean {
+        if (isRefreshing || !medialibrary.isStarted) return false
         headers.clear()
-        if (pagedList.value?.dataSource?.isInvalid == false) {
+        if (!dataSource.isInvalid) {
             loading.postValue(true)
-            pagedList.value?.dataSource?.invalidate()
+            isRefreshing = true
+            dataSource.invalidate()
         }
         return true
     }
@@ -113,8 +116,6 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
         }
     }
 
-
-
     inner class MLDataSource : PositionalDataSource<T>() {
 
         @ExperimentalCoroutinesApi
@@ -130,6 +131,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
                         false
                     }
                 }
+                isRefreshing = false
                 loading.postValue(false)
             }
         }
@@ -140,6 +142,6 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     }
 
     inner class MLDatasourceFactory : DataSource.Factory<Int, T>() {
-        override fun create() = MLDataSource()
+        override fun create() = MLDataSource().also { dataSource = it }
     }
 }
