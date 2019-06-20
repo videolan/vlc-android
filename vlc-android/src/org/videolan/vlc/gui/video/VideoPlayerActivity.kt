@@ -2561,11 +2561,12 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
 
     private fun observeDownloadedSubtitles() {
         service?.let { service ->
-            val path = service.currentMediaWrapper?.uri?.path ?: return
+            val uri = service.currentMediaWrapper?.uri ?: return
+            val path = uri.path ?: return
             if (previousMediaPath == null || path != previousMediaPath) {
                 previousMediaPath = path
                 removeDownloadedSubtitlesObserver()
-                downloadedSubtitleLiveData = ExternalSubRepository.getInstance(this).getDownloadedSubtitles(path).apply {
+                downloadedSubtitleLiveData = ExternalSubRepository.getInstance(this).getDownloadedSubtitles(uri).apply {
                     observe(this@VideoPlayerActivity, downloadedSubtitleObserver)
                 }
             }

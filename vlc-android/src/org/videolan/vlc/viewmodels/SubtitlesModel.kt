@@ -1,6 +1,7 @@
 package org.videolan.vlc.viewmodels
 
 import android.content.Context
+import android.net.Uri
 import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -20,7 +21,7 @@ import java.util.*
 
 private const val LAST_USED_LANGUAGES = "last_used_subtitles"
 
-class SubtitlesModel(private val context: Context, private val mediaPath: String): ScopedModel() {
+class SubtitlesModel(private val context: Context, private val mediaUri: Uri): ScopedModel() {
     val observableSearchName = ObservableField<String>()
     val observableSearchEpisode = ObservableField<String>()
     val observableSearchSeason = ObservableField<String>()
@@ -32,8 +33,8 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
     val observableMessage = ObservableField<String>()
 
     private val apiResultLiveData: MutableLiveData<List<OpenSubtitle>> = MutableLiveData()
-    val downloadedLiveData = Transformations.map(ExternalSubRepository.getInstance(context).getDownloadedSubtitles(mediaPath)) {
-        it.map { SubtitleItem(it.idSubtitle, mediaPath, it.subLanguageID, it.movieReleaseName, State.Downloaded, "") }
+    val downloadedLiveData = Transformations.map(ExternalSubRepository.getInstance(context).getDownloadedSubtitles(mediaUri)) {
+        it.map { SubtitleItem(it.idSubtitle, mediaUri, it.subLanguageID, it.movieReleaseName, State.Downloaded, "") }
     }
 
     private val downloadingLiveData =  ExternalSubRepository.getInstance(context).downloadingSubtitles
@@ -56,13 +57,13 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
         history.apply {
             addSource(downloadedLiveData) {
                 launch {
-                    value = merge(it, downloadingLiveData.value?.values?.filter { it.mediaPath == mediaPath })
+                    value = merge(it, downloadingLiveData.value?.values?.filter { it.mediaUri == mediaUri })
                 }
             }
 
             addSource(downloadingLiveData) {
                 launch {
-                    value = merge(downloadedLiveData.value, it?.values?.filter { it.mediaPath == mediaPath })
+                    value = merge(downloadedLiveData.value, it?.values?.filter { it.mediaUri == mediaUri })
                 }
             }
         }
@@ -92,7 +93,7 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
         apiResultLiveData?.forEach { openSubtitle ->
             val exist = history?.find { it.idSubtitle == openSubtitle.idSubtitle }
             val state = exist?.state ?: State.NotDownloaded
-            list.add(SubtitleItem(openSubtitle.idSubtitle, mediaPath, openSubtitle.subLanguageID, openSubtitle.movieReleaseName, state, openSubtitle.zipDownloadLink))
+            list.add(SubtitleItem(openSubtitle.idSubtitle, mediaUri, openSubtitle.subLanguageID, openSubtitle.movieReleaseName, state, openSubtitle.zipDownloadLink))
         }
         list
     }
@@ -138,7 +139,7 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
             try {
                 val subs = if (byHash) {
                     withContext(Dispatchers.IO) {
-                        val videoFile = File(mediaPath)
+                        val videoFile = File(mediaUri.path)
                         val hash = FileUtils.computeHash(videoFile)
                         val fileLength = videoFile.length()
 
@@ -177,10 +178,10 @@ class SubtitlesModel(private val context: Context, private val mediaPath: String
 
     fun saveLastUsedLanguage(lastUsedLanguages: List<String>) = Settings.getInstance(context).edit().putStringSet(LAST_USED_LANGUAGES, lastUsedLanguages.toSet()).apply()
 
-    class Factory(private val context: Context, private val mediaPath: String): ViewModelProvider.NewInstanceFactory() {
+    class Factory(private val context: Context, private val mediaUri: Uri): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")
-            return SubtitlesModel(context.applicationContext, mediaPath) as T
+            return SubtitlesModel(context.applicationContext, mediaUri) as T
         }
     }
 

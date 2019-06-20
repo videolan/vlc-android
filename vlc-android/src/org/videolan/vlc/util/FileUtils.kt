@@ -477,6 +477,7 @@ object FileUtils {
         val fis: InputStream
         val zis: ZipInputStream
         val unzippedFiles = ArrayList<String>()
+        File(unzipDirectory).mkdirs()
         try {
             fis = FileInputStream(path)
             zis = ZipInputStream(BufferedInputStream(fis))
@@ -488,6 +489,11 @@ object FileUtils {
                 var count = zis.read(buffer)
 
                 val filename = ze.name.replace('/', ' ')
+                if (filename.endsWith(".nfo")) {
+                    zis.closeEntry()
+                    ze = zis.nextEntry
+                    continue
+                }
                 val fileToUnzip = File(unzipDirectory, filename)
                 val fout = FileOutputStream(fileToUnzip)
 

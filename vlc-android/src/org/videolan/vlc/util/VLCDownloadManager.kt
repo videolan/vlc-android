@@ -26,6 +26,7 @@ import org.videolan.vlc.repository.ExternalSubRepository
 object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
     private val downloadManager = VLCApplication.appContext.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
     private var dlDeferred : CompletableDeferred<SubDlResult>? = null
+    private lateinit var defaultSubsDirectory : String
 
     override fun onReceive(context: Context, intent: Intent?) {
         intent?.run {
@@ -83,18 +84,20 @@ object VLCDownloadManager: BroadcastReceiver(), LifecycleObserver {
             ExternalSubRepository.getInstance(context).removeDownloadingItem(id)
             downloadedPaths.forEach {
                 if (it.endsWith(".srt"))
-                    ExternalSubRepository.getInstance(context).saveDownloadedSubtitle(idSubtitle, it, mediaPath, subLanguageID, movieReleaseName)
+                    ExternalSubRepository.getInstance(context).saveDownloadedSubtitle(idSubtitle, it, mediaUri.path, subLanguageID, movieReleaseName)
             }
             withContext(Dispatchers.IO) { FileUtils.deleteFile(localUri) }
         }
     }
 
     private suspend fun getFinalDirectory(context: FragmentActivity, subtitleItem: SubtitleItem) : String? {
-        val folder = subtitleItem.mediaPath.getParentFolder() ?: return context.getExternalFilesDir("subs")?.absolutePath
+        if (!this::defaultSubsDirectory.isInitialized) defaultSubsDirectory = "${context.applicationContext.getExternalFilesDir(null)!!.absolutePath}/subtitles"
+        if (subtitleItem.mediaUri.scheme != "file") return defaultSubsDirectory
+        val folder = subtitleItem.mediaUri.path.getParentFolder() ?: return context.getExternalFilesDir("subs")?.absolutePath
         val uri = Uri.parse(folder)
         val canWrite = context.isStarted() && context.getExtWritePermission(uri)
         return if (canWrite) folder
-        else (context.applicationContext.getExternalFilesDir(null) ?: Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)).absolutePath
+        else (context.applicationContext.getExternalFilesDir(null))?.absolutePath ?: defaultSubsDirectory
     }
 
     private fun downloadFailed(id: Long, context: Context) {

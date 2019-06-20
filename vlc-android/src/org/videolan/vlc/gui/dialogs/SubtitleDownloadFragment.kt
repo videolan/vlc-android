@@ -1,5 +1,6 @@
 package org.videolan.vlc.gui.dialogs
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,12 +21,12 @@ import org.videolan.vlc.viewmodels.SubtitlesModel
 class SubtitleDownloadFragment : Fragment() {
     private lateinit var viewModel: SubtitlesModel
     private lateinit var adapter: SubtitlesAdapter
-    lateinit var mediaPath: String
+    lateinit var mediaUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mediaPath = arguments?.getString(MEDIA_PATH, "") ?: ""
-        viewModel = ViewModelProviders.of(requireActivity(), SubtitlesModel.Factory(requireContext(), mediaPath)).get(mediaPath, SubtitlesModel::class.java)
+        mediaUri = arguments?.getParcelable(MEDIA_PATH) ?: Uri.EMPTY
+        viewModel = ViewModelProviders.of(requireActivity(), SubtitlesModel.Factory(requireContext(), mediaUri)).get(mediaUri.path, SubtitlesModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -75,9 +76,9 @@ class SubtitleDownloadFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(mediaPath: String): SubtitleDownloadFragment {
+        fun newInstance(mediaUri: Uri): SubtitleDownloadFragment {
             val subtitleDownloadFragment = SubtitleDownloadFragment()
-            subtitleDownloadFragment.arguments = Bundle(1).apply { putString(MEDIA_PATH, mediaPath) }
+            subtitleDownloadFragment.arguments = Bundle(1).apply { putParcelable(MEDIA_PATH, mediaUri) }
             return subtitleDownloadFragment
         }
     }
