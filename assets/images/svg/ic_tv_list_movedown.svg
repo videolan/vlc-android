@@ -11,15 +11,13 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="24"
    height="24"
-   id="svg4682"
+   viewBox="0 0 24 24"
    version="1.1"
+   id="svg6424"
    inkscape:version="0.92.3 (unknown)"
-   sodipodi:docname="ic_tv_list_movedown.svg"
-   inkscape:export-filename="/home/corbax/Dev/android/Icons/Test 1/ic_play_normal.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   sodipodi:docname="ic_tv_list_movedown.svg">
   <defs
-     id="defs4684" />
+     id="defs6418" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -27,27 +25,24 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="31.678384"
-     inkscape:cx="15.454175"
-     inkscape:cy="4.4294537"
+     inkscape:zoom="15.839192"
+     inkscape:cx="25.853136"
+     inkscape:cy="7.5887027"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="960"
+     units="px"
+     inkscape:window-width="1920"
      inkscape:window-height="1043"
-     inkscape:window-x="2880"
+     inkscape:window-x="1920"
      inkscape:window-y="0"
-     inkscape:window-maximized="0">
+     inkscape:window-maximized="1">
     <inkscape:grid
        type="xygrid"
-       id="grid3956"
-       empspacing="4"
-       visible="true"
-       enabled="true"
-       snapvisiblegridlinesonly="true" />
+       id="grid6969" />
   </sodipodi:namedview>
   <metadata
-     id="metadata4687">
+     id="metadata6421">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
@@ -62,10 +57,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-1028.3622)">
+     transform="translate(0,-290.64999)">
     <path
-       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.99995553;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:markers fill stroke;enable-background:accumulate"
-       d="m 12,1045.3622 a 1,0.99995556 0 0 1 -0.70703,-0.293 l -6.99024,-6.9899 -0.01,-0.01 a 1,0.99995556 0 0 1 -0.29297,-0.7069 1,0.99995556 0 0 1 1,-1 1,0.99995556 0 0 1 0.70703,0.293 l 6.29297,6.2926 6.2832,-6.2829 a 1,0.99995556 0 0 1 0.7168,-0.3027 1,0.99995556 0 0 1 1,1 1,0.99995556 0 0 1 -0.29297,0.7069 l -6.99023,6.99 A 1,0.99995556 0 0 1 12,1045.3622 Z"
+       style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:markers fill stroke;enable-background:accumulate"
+       d="m 12,307.64999 a 1,1 0 0 1 -0.70703,-0.293 l -6.99024,-6.9902 -0.01,-0.01 a 1,1 0 0 1 -0.29297,-0.707 1,1 0 0 1 1,-1 1,1 0 0 1 0.70703,0.293 l 6.29297,6.2929 6.2832,-6.2832 a 1,1 0 0 1 0.7168,-0.3027 1,1 0 0 1 1,1 1,1 0 0 1 -0.29297,0.707 l -6.99023,6.9903 A 1,1 0 0 1 12,307.64999 Z"
        id="path6239"
        inkscape:connector-curvature="0" />
   </g>
