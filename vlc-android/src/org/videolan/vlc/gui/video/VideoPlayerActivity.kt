@@ -110,9 +110,6 @@ import java.util.*
 @ExperimentalCoroutinesApi
 open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsController, PlaybackService.Callback, PlaylistAdapter.IPlayer, OnClickListener, OnLongClickListener, StoragePermissionsDelegate.CustomActionController, Observer<PlaybackService> {
 
-    init {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-    }
 
     private var wasPlaying = true
     private val controlsConstraintSetPortrait = ConstraintSet()

@@ -28,6 +28,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.collection.SimpleArrayMap
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
@@ -86,6 +87,8 @@ class VLCApplication : Application() {
 
     init {
         instance = this
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+
     }
 
     @TargetApi(Build.VERSION_CODES.O)
