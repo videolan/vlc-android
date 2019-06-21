@@ -50,7 +50,7 @@
         <item name="list_menu">@color/grey600</item>
         <item name="list_subtitle">@color/list_subtitle</item>
         <item name="list_title_last">@color/list_title_last</item>
-        <item name="list_title">@color/list_title</item>
+        <item name="list_title">@color/grey900</item>
         <item name="android:windowBackground">@color/grey200</item>
 
         <item name="ic_playlist">@drawable/ic_playlist</item>
@@ -103,7 +103,7 @@
         <item name="font_default">@color/grey50</item>
         <item name="font_light">@color/grey600</item>
         <item name="list_subtitle">@color/grey400</item>
-        <item name="list_title">@color/bt_list_title</item>
+        <item name="list_title">@color/white</item>
         <item name="android:windowBackground">@color/grey900</item>
         <item name="android:textViewStyle">@style/VLC.TextView</item>
     </style>
@@ -155,7 +155,7 @@
         <item name="list_menu">@color/grey50</item>
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title_last">@color/list_title_last</item>
-        <item name="list_title">@color/bt_list_title</item>
+        <item name="list_title">@color/white</item>
         <item name="android:windowBackground">@color/grey900</item>
 
         <item name="ic_playlist">@drawable/ic_playlist_w</item>
@@ -328,7 +328,7 @@
 
         <item name="list_subtitle">@color/grey400</item>
         <item name="list_title_last">@color/list_title_last</item>
-        <item name="list_title">@color/bt_list_title</item>
+        <item name="list_title">@color/white</item>
         <item name="progress_background">@color/grey200</item>
         <item name="ic_abrepeat">@drawable/ic_abrepeat_w</item>
         <item name="ic_abrepeat_seta">@drawable/ic_abrepeat_seta_w</item>

@@ -56,7 +56,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     private lateinit var mListView: RecyclerView
     private lateinit var mEmptyView: TextView
     private lateinit var mSaveButton: Button
-    private lateinit var mAdapter: SimpleAdapter
+    private lateinit var adapter: SimpleAdapter
     private lateinit var mTracks: Array<MediaWrapper>
     private lateinit var mNewTrack: Array<MediaWrapper>
     private lateinit var mMedialibrary: Medialibrary
@@ -67,7 +67,7 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mMedialibrary = VLCApplication.mlInstance
-        mAdapter = SimpleAdapter(this)
+        adapter = SimpleAdapter(this)
         mTracks = try {
             @Suppress("UNCHECKED_CAST")
             arguments!!.getParcelableArray(KEY_TRACKS) as Array<MediaWrapper>
@@ -99,14 +99,14 @@ class SavePlaylistDialog : VLCBottomSheetDialogFragment(), View.OnClickListener,
 
         mEditText!!.setOnEditorActionListener(this)
         mListView.layoutManager = LinearLayoutManager(view.context)
-        mListView.adapter = mAdapter
-        mAdapter.submitList(Arrays.asList<MediaLibraryItem>(*mMedialibrary.playlists))
+        mListView.adapter = adapter
+        adapter.submitList(Arrays.asList<MediaLibraryItem>(*mMedialibrary.playlists))
         updateEmptyView()
 
     }
 
     private fun updateEmptyView() {
-        mEmptyView.visibility = if (mAdapter.isEmpty()) View.VISIBLE else View.GONE
+        mEmptyView.visibility = if (adapter.isEmpty()) View.VISIBLE else View.GONE
     }
 
     override fun onClick(v: View) {
