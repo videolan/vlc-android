@@ -2201,7 +2201,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 controlsConstraintSetPortrait.setMargin(R.id.player_overlay_time_container, ConstraintSet.START, resources.getDimensionPixelSize(R.dimen.time_margin_sides))
                 controlsConstraintSetPortrait.setMargin(R.id.player_overlay_length_container, ConstraintSet.END, resources.getDimensionPixelSize(R.dimen.time_margin_sides))
 
-                val chainIds = arrayOf(R.id.lock_overlay_button, R.id.playlist_previous, R.id.player_overlay_rewind, R.id.player_overlay_play, R.id.player_overlay_forward, R.id.playlist_next, R.id.player_overlay_tracks)
+                val chainIds = intArrayOf(R.id.lock_overlay_button, R.id.playlist_previous, R.id.player_overlay_rewind, R.id.player_overlay_play, R.id.player_overlay_forward, R.id.playlist_next, R.id.player_overlay_tracks)
 
                 chainIds.forEach {
                     controlsConstraintSetPortrait.clear(it, ConstraintSet.START)
@@ -2211,7 +2211,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                     controlsConstraintSetPortrait.connect(it, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
                 }
 
-                controlsConstraintSetPortrait.createHorizontalChain(ConstraintSet.PARENT_ID, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, chainIds.toIntArray(), null, ConstraintSet.CHAIN_SPREAD_INSIDE)
+                controlsConstraintSetPortrait.createHorizontalChain(ConstraintSet.PARENT_ID, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT, chainIds, null, ConstraintSet.CHAIN_SPREAD)
 
                 resetHudLayout()
                 updateOverlayPausePlay(true)
