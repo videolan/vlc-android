@@ -88,7 +88,7 @@ abstract class MedialibraryProvider<T : MediaLibraryItem>(val context: Context, 
     }
 
     fun refresh(): Boolean {
-        if (isRefreshing || !medialibrary.isStarted) return false
+        if (isRefreshing || !medialibrary.isStarted || !this::dataSource.isInitialized) return false
         headers.clear()
         if (!dataSource.isInvalid) {
             loading.postValue(true)

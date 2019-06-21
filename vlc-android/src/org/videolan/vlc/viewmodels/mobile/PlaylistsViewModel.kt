@@ -38,10 +38,6 @@ class PlaylistsViewModel(context: Context) : MedialibraryViewModel(context) {
     val provider = PlaylistsProvider(context, this)
     override val providers : Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
 
-    init {
-        if (medialibrary.isStarted) refresh()
-    }
-
     class Factory(val context: Context): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")

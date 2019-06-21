@@ -52,7 +52,6 @@ class AlbumSongsViewModel(context: Context, val parent: MediaLibraryItem) : Medi
             is Album -> medialibrary.addAlbumsCb(this@AlbumSongsViewModel)
             else -> medialibrary.addMediaCb(this@AlbumSongsViewModel)
         }
-        if (medialibrary.isStarted) refresh()
     }
 
     override fun onMediaAdded() { refresh() }

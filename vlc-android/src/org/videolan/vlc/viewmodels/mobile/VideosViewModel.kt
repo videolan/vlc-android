@@ -38,10 +38,6 @@ class VideosViewModel(context: Context, val folder: Folder?) : MedialibraryViewM
     val provider = VideosProvider(folder, context, this)
     override val providers: Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
 
-    init {
-        if (medialibrary.isStarted) refresh()
-    }
-
     class Factory(val context: Context, val folder: Folder?): ViewModelProvider.NewInstanceFactory() {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             @Suppress("UNCHECKED_CAST")

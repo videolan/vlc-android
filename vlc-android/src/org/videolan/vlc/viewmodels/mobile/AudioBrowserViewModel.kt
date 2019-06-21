@@ -59,7 +59,6 @@ class AudioBrowserViewModel(context: Context) : MedialibraryViewModel(context),
         medialibrary.addAlbumsCb(this)
         medialibrary.addGenreCb(this)
         medialibrary.addMediaCb(this)
-        if (medialibrary.isStarted) refresh()
     }
 
     override fun onCleared() {

@@ -51,7 +51,6 @@ class PlaylistViewModel(context: Context, val playlist: MediaLibraryItem) : Medi
             is Album -> medialibrary.addAlbumsCb(this@PlaylistViewModel)
             else -> medialibrary.addMediaCb(this@PlaylistViewModel)
         }
-        if (medialibrary.isStarted) refresh()
     }
 
     override fun onMediaAdded() { refresh() }

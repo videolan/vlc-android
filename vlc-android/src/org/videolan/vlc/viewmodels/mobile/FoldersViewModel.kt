@@ -41,10 +41,6 @@ class FoldersViewModel(context: Context, val type : Int) : MedialibraryViewModel
     val provider = FoldersProvider(context, this, type)
     override val providers: Array<MedialibraryProvider<out MediaLibraryItem>> = arrayOf(provider)
 
-    init {
-        if (medialibrary.isStarted) refresh()
-    }
-
     suspend fun play(position: Int) {
         val list = withContext(Dispatchers.IO) { provider.pagedList.value?.get(position)?.getAll()}
         list?.let { MediaUtils.openList(context, it, 0) }
