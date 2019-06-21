@@ -290,6 +290,8 @@ object MediaUtils : CoroutineScope {
         data
     } catch (e: IllegalArgumentException) {
         data
+    } catch (e: NullPointerException) {
+        data
     }
 
     private fun getMediaString(ctx: Context?, id: Int): String {
