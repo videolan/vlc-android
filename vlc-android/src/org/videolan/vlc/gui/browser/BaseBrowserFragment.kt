@@ -40,6 +40,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
+import org.videolan.tools.KeyHelper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.DirectoryBrowserBinding
 import org.videolan.vlc.gui.AudioPlayerContainerActivity
@@ -389,6 +390,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
+        if (KeyHelper.isShiftPressed && actionMode == null) {
+            onLongClick(v, position, item)
+            return
+        }
+
         val mediaWrapper = item as MediaWrapper
         if (actionMode != null) {
             if (mediaWrapper.type == MediaWrapper.TYPE_AUDIO ||
@@ -417,9 +423,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         return true
     }
 
-    override fun onShiftClick(v: View, layoutPosition: Int, item: MediaLibraryItem) {
-        if (actionMode != null) onClick(v, layoutPosition, item) else onLongClick(v, layoutPosition, item)
-    }
 
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         if (actionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) launch {

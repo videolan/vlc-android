@@ -35,8 +35,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.Medialibrary
+import org.videolan.tools.KeyHelper
 import org.videolan.vlc.*
-import org.videolan.vlc.gui.helpers.KeyHelper
 import org.videolan.vlc.gui.helpers.UiTools
 import org.videolan.vlc.gui.tv.SearchActivity
 import org.videolan.vlc.gui.tv.registerTimeView

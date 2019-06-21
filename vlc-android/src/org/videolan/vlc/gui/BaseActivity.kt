@@ -6,7 +6,7 @@ import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
-import org.videolan.vlc.gui.helpers.KeyHelper
+import org.videolan.tools.KeyHelper
 import org.videolan.vlc.gui.helpers.applyTheme
 import org.videolan.vlc.util.Settings
 

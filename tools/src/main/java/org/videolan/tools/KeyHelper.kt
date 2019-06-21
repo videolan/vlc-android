@@ -1,4 +1,4 @@
-package org.videolan.vlc.gui.helpers
+package org.videolan.tools
 
 import android.view.KeyEvent
 

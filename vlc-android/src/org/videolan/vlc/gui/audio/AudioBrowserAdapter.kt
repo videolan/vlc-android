@@ -48,7 +48,6 @@ import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.AudioBrowserCardItemBinding
 import org.videolan.vlc.databinding.AudioBrowserItemBinding
-import org.videolan.vlc.gui.helpers.KeyHelper
 import org.videolan.vlc.gui.helpers.SelectorViewHolder
 import org.videolan.vlc.gui.helpers.getAudioIconDrawable
 import org.videolan.vlc.gui.tv.FocusableRecyclerView
@@ -292,10 +291,7 @@ class AudioBrowserAdapter @JvmOverloads constructor(private val type: Int, priva
         fun onClick(v: View) {
             val item = getItem(layoutPosition)
             if (item != null)
-                if (KeyHelper.isShiftPressed)
-                    mIEventsHandler.onShiftClick(v, layoutPosition, item)
-                else
-                    mIEventsHandler.onClick(v, layoutPosition, item)
+                mIEventsHandler.onClick(v, layoutPosition, item)
         }
 
         fun onMoreClick(v: View) {
