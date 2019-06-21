@@ -37,6 +37,7 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
             maxSize = MEDIALIBRARY_PAGE_SIZE*3
     )
 
+    private lateinit var dataSource : DataSource<Int, T>
     val pagedList = MLDatasourceFactory().toLiveData(pagingConfig)
 
     init {
@@ -101,10 +102,10 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
 
     override fun refresh(): Boolean {
         headers.clear()
-        if (this::restoreJob.isInitialized && restoreJob.isActive) restoreJob.cancel()
-        if (pagedList.value?.dataSource?.isInvalid == false) {
+        if (::restoreJob.isInitialized && restoreJob.isActive) restoreJob.cancel()
+        if (::dataSource.isInitialized && !dataSource.isInvalid) {
             loading.postValue(true)
-            pagedList.value?.dataSource?.invalidate()
+            dataSource.invalidate()
         }
         return true
     }
@@ -171,6 +172,6 @@ abstract class MLPagedModel<T : MediaLibraryItem>(context: Context) : SortableMo
     }
 
     inner class MLDatasourceFactory : DataSource.Factory<Int, T>() {
-        override fun create() = MLDataSource()
+        override fun create() = MLDataSource().also { dataSource = it }
     }
 }

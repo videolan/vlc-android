@@ -12,8 +12,8 @@ class PagedArtistsModel(context: Context, private var showAll: Boolean = false):
 
     init {
         medialibrary.addArtistsCb(this)
-        if (medialibrary.isStarted) refresh()
     }
+
     override fun onArtistsAdded() {
         refresh()
     }

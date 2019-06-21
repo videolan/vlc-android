@@ -28,7 +28,6 @@ class PagedTracksModel(context: Context, val parent: MediaLibraryItem? = null): 
             is Album -> Medialibrary.SORT_DEFAULT
             else -> Medialibrary.SORT_ALPHA
         }
-        if (medialibrary.isStarted) refresh()
         when (parent) {
             is Artist -> medialibrary.addArtistsCb(this@PagedTracksModel)
             is Album -> medialibrary.addAlbumsCb(this@PagedTracksModel)

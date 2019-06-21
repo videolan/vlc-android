@@ -10,7 +10,6 @@ class PagedPlaylistsModel(context: Context): MLPagedModel<Playlist>(context), Me
 
     init {
         medialibrary.addPlaylistCb(this)
-        if (medialibrary.isStarted) refresh()
     }
 
     override fun onCleared() {
