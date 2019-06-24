@@ -72,10 +72,6 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         } else channel.close()
     }
 
-    init {
-        fetch()
-    }
-
     protected open fun initBrowser() {
         if (mediabrowser == null) mediabrowser = MediaBrowser(VLCInstance.get(context), this, browserHandler)
     }
