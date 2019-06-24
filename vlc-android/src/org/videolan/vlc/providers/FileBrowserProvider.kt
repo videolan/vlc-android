@@ -55,7 +55,8 @@ open class FileBrowserProvider(
 
     private var storagePosition = -1
     private var otgPosition = -1
-    private val showFavorites : Boolean
+    @Suppress("LeakingThis")
+    private val showFavorites = url == null && !filePicker && this !is StorageProvider
     private val favorites = if (url == null && !filePicker) BrowserFavRepository.getInstance(context).localFavorites else null
 
     private val favoritesObserver by lazy { Observer<List<BrowserFav>> {
@@ -88,7 +89,7 @@ open class FileBrowserProvider(
     } }
 
     init {
-        showFavorites = url == null && !filePicker && this !is StorageProvider
+        fetch()
     }
 
     private lateinit var storageObserver : Observer<Boolean>
