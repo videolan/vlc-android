@@ -164,8 +164,7 @@
                 android:focusable="true"
                 android:scaleType="fitXY"
                 android:onClick="@{fragment::onPlayPauseClick}"
-                android:onLongClick="@{fragment::onStopClick}"
-                android:src="?attr/ic_pause" />
+                android:onLongClick="@{fragment::onStopClick}" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier"
@@ -303,8 +302,7 @@
             android:focusable="true"
             android:scaleType="fitXY"
             android:onClick="@{fragment::onPlayPauseClick}"
-            android:onLongClick="@{fragment::onStopClick}"
-            android:src="?attr/ic_pause" />
+            android:onLongClick="@{fragment::onStopClick}" />
 
         <ImageView
             android:id="@+id/next"

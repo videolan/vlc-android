@@ -44,8 +44,6 @@
     <attr name="ic_shuffle" format="reference" />
     <attr name="ic_shuffle_on" format="reference" />
     <attr name="ic_audio_player_more" format="reference" />
-    <attr name="ic_play" format="reference" />
-    <attr name="ic_pause" format="reference" />
     <attr name="ic_previous" format="reference" />
     <attr name="ic_next" format="reference" />
     <attr name="ic_close" format="reference" />

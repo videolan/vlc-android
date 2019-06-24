@@ -165,8 +165,7 @@
                 android:focusable="true"
                 android:scaleType="fitXY"
                 android:onClick="@{fragment::onPlayPauseClick}"
-                android:onLongClick="@{fragment::onStopClick}"
-                android:src="?attr/ic_pause" />
+                android:onLongClick="@{fragment::onStopClick}" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier"
@@ -294,18 +293,17 @@
 
         <ImageView
             android:id="@+id/play_pause"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            app:layout_constraintBottom_toTopOf="@+id/time"
-            app:layout_constraintLeft_toRightOf="@+id/previous"
-            app:layout_constraintRight_toLeftOf="@+id/next"
-            android:contentDescription="@string/play"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginBottom="@dimen/audioplayer_controls_margin"
+            android:contentDescription="@string/play"
             android:focusable="true"
-            android:scaleType="fitXY"
             android:onClick="@{fragment::onPlayPauseClick}"
             android:onLongClick="@{fragment::onStopClick}"
-            android:src="?attr/ic_pause" />
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toTopOf="@+id/time"
+            app:layout_constraintLeft_toRightOf="@+id/previous"
+            app:layout_constraintRight_toLeftOf="@+id/next" />
 
         <ImageView
             android:id="@+id/next"

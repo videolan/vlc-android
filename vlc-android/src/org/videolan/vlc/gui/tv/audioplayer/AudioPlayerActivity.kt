@@ -36,6 +36,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.tools.isStarted
@@ -65,6 +66,8 @@ class AudioPlayerActivity : BaseTvActivity() {
     private var currentCoverArt: String? = null
     private lateinit var model: PlaylistModel
     private var settings: SharedPreferences? = null
+    private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
+    private lateinit var playToPause: AnimatedVectorDrawableCompat
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,14 +91,24 @@ class AudioPlayerActivity : BaseTvActivity() {
         val medialist = intent.getParcelableArrayListExtra<MediaWrapper>(MEDIA_LIST)
         val position = intent.getIntExtra(MEDIA_POSITION, 0)
         if (medialist != null) MediaUtils.openList(this, medialist, position)
+        playToPause = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_play_pause)!!
+        pauseToPlay = AnimatedVectorDrawableCompat.create(this, R.drawable.anim_pause_play)!!
     }
 
     override fun refresh() {}
 
-
+    private var wasPlaying = false
     fun update(state: PlayerState?) {
         if (state == null) return
-        binding.buttonPlay.setImageResource(if (state.playing) R.drawable.ic_pause_w else R.drawable.ic_play_w)
+
+        val drawable = if (state.playing) playToPause else pauseToPlay
+        binding.buttonPlay.setImageDrawable(drawable)
+        if (state.playing != wasPlaying) {
+            drawable.start()
+        }
+
+        wasPlaying = state.playing
+
         val mw = model.currentMediaWrapper
         if (mw != null && !mw.hasFlag(MediaWrapper.MEDIA_FORCE_AUDIO) && model.canSwitchToVideo()) {
             model.switchToVideo()

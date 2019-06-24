@@ -49,6 +49,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
@@ -99,6 +100,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
     private var headerTimeVisible = false
     private var playerState = 0
     private var currentCoverArt: String? = null
+    private lateinit var pauseToPlay: AnimatedVectorDrawableCompat
+    private lateinit var playToPause: AnimatedVectorDrawableCompat
+    private lateinit var pauseToPlaySmall: AnimatedVectorDrawableCompat
+    private lateinit var playToPauseSmall: AnimatedVectorDrawableCompat
 
     companion object {
         private var DEFAULT_BACKGROUND_DARKER_ID = 0
@@ -107,11 +112,11 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        savedInstanceState?.let { playerState = it.getInt("player_state")}
+        savedInstanceState?.let { playerState = it.getInt("player_state") }
         playlistAdapter = PlaylistAdapter(this)
         settings = Settings.getInstance(requireContext())
         playlistModel = PlaylistModel.get(this)
-        playlistModel.progress.observe(this@AudioPlayer,  Observer { it?.let { updateProgress(it) } })
+        playlistModel.progress.observe(this@AudioPlayer, Observer { it?.let { updateProgress(it) } })
         playlistModel.dataset.observe(this@AudioPlayer, playlistObserver)
         playlistAdapter.setModel(playlistModel)
     }
@@ -150,6 +155,12 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         binding.showCover = settings.getBoolean("audio_player_show_cover", false)
         binding.playlistSwitch.setImageResource(UiTools.getResourceFromAttribute(view.context, if (binding.showCover) R.attr.ic_playlist else R.attr.ic_playlist_on))
         binding.timeline.setOnSeekBarChangeListener(timelineListener)
+
+        //For resizing purpose, we have to cache this twice even if it's from the same resource
+        playToPause = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_play_pause)!!
+        pauseToPlay = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play)!!
+        playToPauseSmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_play_pause)!!
+        pauseToPlaySmall = AnimatedVectorDrawableCompat.create(requireActivity(), R.drawable.anim_pause_play)!!
     }
 
     override fun onResume() {
@@ -162,9 +173,9 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         outState.putInt("player_state", playerState)
     }
 
-    private val ctxReceiver : CtxActionReceiver = object : CtxActionReceiver {
+    private val ctxReceiver: CtxActionReceiver = object : CtxActionReceiver {
         override fun onCtxAction(position: Int, option: Int) {
-            when(option) {
+            when (option) {
                 CTX_SET_RINGTONE -> AudioUtil.setRingtone(playlistAdapter.getItem(position), requireActivity())
                 CTX_ADD_TO_PLAYLIST -> {
                     val mw = playlistAdapter.getItem(position)
@@ -205,11 +216,18 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
     private fun updatePlayPause() {
         val playing = playlistModel.playing
         if (playing == wasPlaying) return
-        val imageResId = UiTools.getResourceFromAttribute(requireActivity(), if (playing) R.attr.ic_pause else R.attr.ic_play)
         val text = getString(if (playing) R.string.pause else R.string.play)
-        binding.playPause.setImageResource(imageResId)
+
+        val drawable = if (playing) playToPause else pauseToPlay
+        val drawableSmall = if (playing) playToPauseSmall else pauseToPlaySmall
+        binding.playPause.setImageDrawable(drawable)
+        binding.headerPlayPause.setImageDrawable(drawableSmall)
+        if (playing != wasPlaying) {
+            drawable.start()
+            drawableSmall.start()
+        }
+
         binding.playPause.contentDescription = text
-        binding.headerPlayPause.setImageResource(imageResId)
         binding.headerPlayPause.contentDescription = text
         wasPlaying = playing
     }
@@ -269,7 +287,8 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
                 if (TextUtils.isEmpty(mw.artworkMrl)) {
                     setDefaultBackground()
                 } else {
-                    val width = if (binding.contentLayout.width > 0) binding.contentLayout.width else activity?.getScreenWidth() ?: return@launch
+                    val width = if (binding.contentLayout.width > 0) binding.contentLayout.width else activity?.getScreenWidth()
+                            ?: return@launch
                     val blurredCover = withContext(Dispatchers.IO) { UiTools.blurBitmap(AudioUtil.readCoverBitmap(Uri.decode(mw.artworkMrl), width)) }
                     if (!isStarted()) return@launch
                     if (blurredCover !== null) {
@@ -356,7 +375,6 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         }
     }
 
-
     fun showAdvancedOptions(v: View) {
         if (!isVisible) return
         if (!this::optionsDelegate.isInitialized) {
@@ -413,7 +431,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
 
     override fun beforeTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {}
 
-    fun backPressed() : Boolean {
+    fun backPressed(): Boolean {
         if (this::optionsDelegate.isInitialized && optionsDelegate.isShowing()) {
             optionsDelegate.hide()
             return true
@@ -560,7 +578,7 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         override fun onStartTrackingTouch(seekBar: SeekBar) {}
 
         override fun onProgressChanged(sb: SeekBar, progress: Int, fromUser: Boolean) {
-            if (fromUser)  {
+            if (fromUser) {
                 playlistModel.time = progress.toLong()
                 binding.time.text = Tools.millisToString(if (showRemainingTime) progress - playlistModel.length else progress.toLong())
                 binding.headerTime.text = Tools.millisToString(progress.toLong())
@@ -573,10 +591,10 @@ class AudioPlayer : Fragment(), PlaylistAdapter.IPlayer, TextWatcher, CoroutineS
         override fun onMediaSwitching() {}
 
         override fun onMediaSwitched(position: Int) {
-                when (position) {
-                    AudioMediaSwitcherListener.PREVIOUS_MEDIA -> playlistModel.previous(true)
-                    AudioMediaSwitcherListener.NEXT_MEDIA ->  playlistModel.next()
-                }
+            when (position) {
+                AudioMediaSwitcherListener.PREVIOUS_MEDIA -> playlistModel.previous(true)
+                AudioMediaSwitcherListener.NEXT_MEDIA -> playlistModel.next()
+            }
         }
 
         override fun onTouchClick() {

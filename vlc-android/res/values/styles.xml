@@ -62,8 +62,6 @@
         <item name="ic_shuffle">@drawable/ic_shuffle</item>
         <item name="ic_shuffle_on">@drawable/ic_shuffle_on</item>
         <item name="ic_audio_player_more">@drawable/ic_more</item>
-        <item name="ic_play">@drawable/ic_play</item>
-        <item name="ic_pause">@drawable/ic_pause</item>
         <item name="ic_previous">@drawable/ic_previous</item>
         <item name="ic_next">@drawable/ic_next</item>
         <item name="ic_close">@drawable/ic_close</item>
@@ -94,6 +92,7 @@
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_dial">@drawable/ic_dial</item>
         <item name="progress_background">@color/grey300</item>
+        <item name="player_icon_color">@color/black</item>
     </style>
 
     <style name="Theme.VLC.PickerDialog" parent="Theme.MaterialComponents.Dialog">
@@ -167,8 +166,6 @@
         <item name="ic_shuffle">@drawable/ic_shuffle_w</item>
         <item name="ic_shuffle_on">@drawable/ic_shuffle_on</item>
         <item name="ic_audio_player_more">@drawable/ic_more_w</item>
-        <item name="ic_play">@drawable/ic_play_w</item>
-        <item name="ic_pause">@drawable/ic_pause_w</item>
         <item name="ic_previous">@drawable/ic_previous_w</item>
         <item name="ic_next">@drawable/ic_next_w</item>
         <item name="ic_close">@drawable/ic_close_w</item>
@@ -218,6 +215,7 @@
         <item name="audio_player_background_tint">@color/grey900transparent</item>
         <item name="background_default_gradient">@drawable/gradient_background_tv</item>
         <item name="audio_browser_separator">@color/orange500</item>
+        <item name="player_icon_color">@color/white</item>
 
     </style>
 
