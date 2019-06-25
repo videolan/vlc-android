@@ -93,7 +93,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open fun browse(url: String? = null) {
-        loading.value = true
+        loading.postValue(true)
         if (!browserActor.isClosedForSend) browserActor.offer(Browse(url))
     }
 
@@ -104,7 +104,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
             for (media in browserChannel) findMedia(media)?.let { addMedia(it) }
             if (dataset.value.isNotEmpty()) parseSubDirectories()
             else dataset.clear() // send observable event when folder is empty
-            loading.value = false
+            loading.postValue(false)
         }
     }
 
@@ -112,7 +112,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
 
     open fun refresh() : Boolean {
         if (url === null || browserActor.isClosedForSend) return false
-        loading.value = true
+        loading.postValue(true)
         browserActor.offer(Refresh)
         return true
     }
@@ -127,7 +127,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         job = launch {
             dataset.value = browserChannel.mapNotNullTo(mutableListOf()) { findMedia(it) }
             parseSubDirectories()
-            loading.value = false
+            loading.postValue(false)
         }
     }
 
@@ -251,7 +251,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                 }
             }
         }
-        loading.value = false
+        loading.postValue(false)
     }
 
     protected fun getList(url: String) =  prefetchLists[url]
