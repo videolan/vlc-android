@@ -25,6 +25,7 @@ import org.videolan.vlc.VLCApplication
 import org.videolan.vlc.gui.video.VideoPlayerActivity
 import org.videolan.vlc.util.*
 import java.util.*
+import kotlin.math.max
 
 private const val TAG = "VLC/PlaylistManager"
 private const val PREVIOUS_LIMIT_DELAY = 5000L
@@ -159,7 +160,7 @@ class PlaylistManager(val service: PlaybackService) : MediaWrapperList.EventList
             // load playlist
             shuffling = settings.getBoolean(if (audio) "audio_shuffling" else "media_shuffling", false)
             repeating = settings.getInt(if (audio) "audio_repeating" else "media_repeating", REPEAT_NONE)
-            val position = settings.getInt(if (audio) "position_in_audio_list" else "position_in_media_list", 0)
+            val position = max(0, settings.getInt(if (audio) "position_in_audio_list" else "position_in_media_list", 0))
             savedTime = settings.getLong(if (audio) "position_in_song" else "position_in_media", -1)
             if (!audio && position < playList.size && settings.getBoolean(VIDEO_PAUSED, false)) {
                 playList[position].addFlags(MediaWrapper.MEDIA_PAUSED)
