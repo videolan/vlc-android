@@ -77,7 +77,7 @@ class StorageProvider(context: Context, dataset: LiveDataset<MediaLibraryItem>, 
         val value: MutableList<MediaLibraryItem> = browserChannel.filter { it.isStorage() }.mapTo(mutableListOf()) { Storage(it.uri)}
         dataset.value = value
         parseSubDirectories()
-        loading.value = false
+        loading.postValue(false)
     }
 }
 

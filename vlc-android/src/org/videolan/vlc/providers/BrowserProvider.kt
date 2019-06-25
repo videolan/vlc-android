@@ -97,7 +97,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     protected open fun browse(url: String? = null) {
-        loading.value = true
+        loading.postValue(true)
         browserActor.post(Browse(url))
     }
 
@@ -107,14 +107,14 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         for (media in browserChannel) findMedia(media)?.let { addMedia(it) }
         if (dataset.value.isNotEmpty()) parseSubDirectories()
         else dataset.clear() // send observable event when folder is empty
-        loading.value = false
+        loading.postValue(false)
     }
 
     protected open fun addMedia(media: MediaLibraryItem) = dataset.add(media)
 
     open fun refresh() {
         if (url === null) return
-        loading.value = true
+        loading.postValue(true)
         browserActor.post(Refresh)
     }
 
@@ -145,7 +145,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
         computeHeaders(value)
         dataset.value = value
         parseSubDirectories()
-        loading.value = false
+        loading.postValue(false)
     }
 
     private suspend fun parseSubDirectoriesImpl() {
@@ -265,7 +265,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     open fun release() {
         browserActor.post(Release)
         cancel()
-        loading.value = false
+        loading.postValue(false)
     }
 
     protected fun getList(url: String) =  prefetchLists[url]
