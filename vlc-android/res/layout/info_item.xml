@@ -20,29 +20,27 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/half_default_margin"
-            android:layout_marginEnd="@dimen/half_default_margin"
-            android:layout_marginTop="@dimen/half_default_margin"
-            android:gravity="center_vertical"
-            android:fontFamily="sans-serif"
-            android:textColor="?attr/list_title"
-            android:textSize="16sp"
-            android:scrollHorizontally="true"
-            tools:targetApi="jelly_bean" />
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/half_default_margin"
+                android:layout_marginEnd="@dimen/half_default_margin"
+                android:layout_marginTop="@dimen/half_default_margin"
+                android:gravity="center_vertical"
+                android:fontFamily="sans-serif"
+                android:textColor="?attr/font_audio_light"
+                android:textSize="18sp"
+                android:scrollHorizontally="true"
+                tools:targetApi="jelly_bean"
+                android:textStyle="bold"/>
         <TextView
-            android:id="@+id/subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/half_default_margin"
-            android:layout_marginLeft="@dimen/half_default_margin"
-            android:layout_marginRight="@dimen/half_default_margin"
-            android:fontFamily="sans-serif"
-            android:textColor="?attr/list_subtitle"
-            android:maxLines="2"
-            tools:targetApi="jelly_bean" />
+                android:id="@+id/subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/half_default_margin"
+                android:fontFamily="sans-serif"
+                android:textColor="?attr/list_subtitle"
+                tools:targetApi="jelly_bean"/>
     </LinearLayout>
 
 </LinearLayout>

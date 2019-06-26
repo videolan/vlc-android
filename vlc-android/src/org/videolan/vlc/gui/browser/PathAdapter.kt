@@ -1,5 +1,6 @@
 package org.videolan.vlc.gui.browser
 
+import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,15 +14,15 @@ import org.videolan.vlc.util.AndroidDevices
 
 private val storages = SimpleArrayMap<String, String>()
 
-class PathAdapter(val browser: BaseBrowserFragment, media: MediaWrapper) : RecyclerView.Adapter<PathAdapter.ViewHolder>() {
+class PathAdapter(val browser: PathAdapterListener, media: MediaWrapper) : RecyclerView.Adapter<PathAdapter.ViewHolder>() {
 
     init {
         if (media.hasStateFlags(MediaLibraryItem.FLAG_STORAGE)) storages.put(Uri.decode(media.uri.path), media.title)
     }
 
-    private val memoryTitle = browser.getString(R.string.internal_memory)
-    private val browserTitle = browser.getString(R.string.browser)
-    private val otgDevice = browser.getString(R.string.otg_device_title)
+    private val memoryTitle = browser.currentContext().getString(R.string.internal_memory)
+    private val browserTitle = browser.currentContext().getString(R.string.browser)
+    private val otgDevice = browser.currentContext().getString(R.string.otg_device_title)
     private val segments = prepareSegments(Uri.decode(media.uri.path))
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -52,7 +53,7 @@ class PathAdapter(val browser: BaseBrowserFragment, media: MediaWrapper) : Recyc
             path.startsWith(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY) -> path.replace(AndroidDevices.EXTERNAL_PUBLIC_DIRECTORY, memoryTitle)
             else -> replaceStoragePath(path)
         }
-        val list = mutableListOf(browserTitle)
+        val list = if (browser.showRoot()) mutableListOf(browserTitle) else mutableListOf()
         if (isOtg) list.add(otgDevice)
         list.addAll(string.split('/').filter { !it.isEmpty() })
         return list
@@ -65,4 +66,10 @@ class PathAdapter(val browser: BaseBrowserFragment, media: MediaWrapper) : Recyc
         }
         return path
     }
+}
+
+interface PathAdapterListener {
+    fun backTo(tag: String)
+    fun currentContext(): Context
+    fun showRoot(): Boolean
 }

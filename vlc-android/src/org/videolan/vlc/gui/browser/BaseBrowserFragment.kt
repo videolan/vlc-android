@@ -70,7 +70,7 @@ private const val MSG_REFRESH = 3
 
 @ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
-abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler, CtxActionReceiver {
+abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefreshable, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, IEventsHandler, CtxActionReceiver, PathAdapterListener {
 
     protected val handler = BrowserFragmentHandler(this)
     private lateinit var layoutManager: LinearLayoutManager
@@ -85,7 +85,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
 
     protected lateinit var binding: DirectoryBrowserBinding
     protected lateinit var browserFavRepository: BrowserFavRepository
-
 
     protected abstract fun createFragment(): Fragment
     protected abstract fun browseRoot()
@@ -147,17 +146,20 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             ariane.adapter = PathAdapter(this, media)
             if (ariane.itemDecorationCount == 0) {
                 val did = DividerItemDecoration(requireContext(), DividerItemDecoration.HORIZONTAL)
-                did.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider_grey_50_18dp)!!)
+                did.setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_divider)!!)
                 ariane.addItemDecoration(did)
             }
             ariane.scrollToPosition(ariane.adapter!!.itemCount - 1)
         } else ariane.visibility = View.GONE
     }
 
-    fun backTo(tag: String) {
+    override fun backTo(tag: String) {
         requireActivity().supportFragmentManager.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
+    override fun currentContext() = requireContext()
+
+    override fun showRoot() = true
 
     override fun onStart() {
         super.onStart()
@@ -185,13 +187,11 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         super.onSaveInstanceState(outState)
     }
 
-
     override fun getTitle(): String = when {
         isRootDirectory -> categoryTitle
         currentMedia != null -> currentMedia!!.title
         else -> mrl ?: ""
     }
-
 
     override val subTitle: String? =
             if (isRootDirectory) null else {
@@ -203,7 +203,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
                 }
                 if (currentMedia != null) mrl else null
             }
-
 
     fun goBack(): Boolean {
         val activity = activity ?: return false
@@ -281,7 +280,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun clear() = adapter.clear()
-
 
     override fun removeItem(item: MediaLibraryItem): Boolean {
 
@@ -423,7 +421,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
         return true
     }
 
-
     override fun onCtxClick(v: View, position: Int, item: MediaLibraryItem) {
         if (actionMode == null && item.itemType == MediaLibraryItem.TYPE_MEDIA) launch {
             val mw = item as MediaWrapper
@@ -453,7 +450,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
             if (flags != 0) showContext(requireActivity(), this@BaseBrowserFragment, position, item.getTitle(), flags)
         }
     }
-
 
     override fun onCtxAction(position: Int, option: Int) {
         val mw = adapter.getItem(position) as? MediaWrapper ?: return
@@ -503,7 +499,6 @@ abstract class BaseBrowserFragment : MediaBrowserFragment<BrowserModel>(), IRefr
     }
 
     override fun onItemFocused(v: View, item: MediaLibraryItem) {
-
     }
 
     private fun updateFab() {

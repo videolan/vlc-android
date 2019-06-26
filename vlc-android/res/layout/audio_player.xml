@@ -217,6 +217,15 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header" />
 
+        <include
+                layout="@layout/shadow_bottom"
+                android:layout_width="0dp"
+                android:layout_height="6dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/songs_list"
+                android:id="@+id/include"/>
+
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
@@ -230,6 +239,19 @@
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/timeline"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <!--<View-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:background="@color/transparent"-->
+        <!--android:outlineProvider="bounds"-->
+        <!--android:clipToPadding="false"-->
+        <!--app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--app:layout_constraintRight_toRightOf="parent"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/songs_list"-->
+        <!--android:id="@+id/view"-->
+        <!--android:elevation="8dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"/>-->
 
         <SeekBar
             android:id="@+id/timeline"

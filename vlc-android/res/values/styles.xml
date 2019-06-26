@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.VLC" parent="Theme.VLC.7" />
+    <style name="Theme.VLC" parent="Theme.VLC.7"/>
+
     <style name="Theme.VLC.7" parent="Theme.VLC.Apearance">
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="android:textViewStyle">@style/VLC.TextView</item>
@@ -92,6 +93,7 @@
         <item name="ic_abrepeat_reset">@drawable/ic_abrepeat_reset</item>
         <item name="ic_dial">@drawable/ic_dial</item>
         <item name="progress_background">@color/grey300</item>
+        <item name="ariane_text_color">@color/grey50</item>
         <item name="player_icon_color">@color/black</item>
     </style>
 
@@ -107,7 +109,8 @@
         <item name="android:textViewStyle">@style/VLC.TextView</item>
     </style>
 
-    <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7" />
+    <style name="Theme.VLC.Black" parent="Theme.VLC.Black.7"/>
+
     <style name="Theme.VLC.Black.7" parent="Theme.VLC.Apearance.Black">
         <item name="actionBarStyle">@style/ActionBar</item>
         <item name="windowActionBarOverlay">true</item>
@@ -197,6 +200,7 @@
         <item name="ic_dial">@drawable/ic_dial_w</item>
         <item name="progress_indeterminate_tint">@color/orange500</item>
         <item name="progress_background">@color/grey700</item>
+        <item name="ariane_text_color">@color/grey50</item>
     </style>
 
     <style name="Theme.VLC.Onboarding" parent="Theme.VLC.Black">
@@ -219,16 +223,29 @@
 
     </style>
 
+    <style name="Theme.VLC.Info" parent="Theme.VLC">
+        <item name="ariane_text_color">@color/grey900</item>
+
+    </style>
+
+    <style name="Theme.VLC.Info.Black" parent="Theme.VLC.Black">
+        <item name="ariane_text_color">@color/grey50</item>
+
+
+    </style>
+
     <style name="VLCardView" parent="Widget.Leanback.ImageCardViewStyle">
         <item name="cardType">infoUnderWithExtra</item>
         <item name="infoVisibility">always</item>
 
     </style>
+
     <style name="VLCardViewTitleStyle" parent="Widget.Leanback.ImageCardView.TitleStyle">
         <item name="android:scrollHorizontally">true</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">marquee</item>
     </style>
+
     <style name="VLCardViewInfoStyle" parent="Widget.Leanback.ImageCardView.InfoAreaStyle">
         <item name="android:background">@color/tv_card_content</item>
     </style>
@@ -284,7 +301,7 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="Theme.VLC.Player" parent="Theme.VLC.Player.7" />
+    <style name="Theme.VLC.Player" parent="Theme.VLC.Player.7"/>
 
     <style name="Theme.VLC.Player.7" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowNoTitle">true</item>
