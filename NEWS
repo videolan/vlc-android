@@ -1,3 +1,22 @@
+Changes between 3.1.6 and 3.1.7:
+------------------
+
+Application:
+ - Video: Fix subtitles lost on multitasking
+ - Fix media loading & page refresh, it could sometimes fail
+ - Misc. crash fixes
+
+Chrome OS:
+ - Prevent video playback to be stopped on laptop <-> tablet modes switch
+ - Disable volume/brightness touch gestures
+
+TV:
+ - Leave video player when device is shut down
+
+VLC:
+ - Fix vtt subtitles rendering
+ - Updated youtube lua scripts
+
 Changes between 3.1.5 and 3.1.6:
 ------------------
 
