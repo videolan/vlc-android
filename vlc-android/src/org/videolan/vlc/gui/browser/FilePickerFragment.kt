@@ -33,7 +33,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.R
@@ -104,7 +104,7 @@ class FilePickerFragment : FileBrowserFragment() {
                 viewModel.refresh()
             }
             mrl != null -> {
-                val mw = ServiceLocator.getAMediaWrapper(Uri.parse(FileUtils.getParent(mrl)))
+                val mw = MLServiceLocator.getAMediaWrapper(Uri.parse(FileUtils.getParent(mrl)))
                 browse(mw, false)
             }
         }

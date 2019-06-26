@@ -26,12 +26,12 @@ import org.videolan.medialibrary.stubs.StubMediaWrapper;
 import org.videolan.medialibrary.stubs.StubMedialibrary;
 import org.videolan.medialibrary.stubs.StubPlaylist;
 
-public class ServiceLocator {
+public class MLServiceLocator {
 
     private static LocatorMode mMode = LocatorMode.VLC_ANDROID;
 
     public static void setLocatorMode(LocatorMode mode) {
-        ServiceLocator.mMode = mode;
+        MLServiceLocator.mMode = mode;
     }
 
     public static String EXTRA_TEST_STUBS = "extra_test_stubs";

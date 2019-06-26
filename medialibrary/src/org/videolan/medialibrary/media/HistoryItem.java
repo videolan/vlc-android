@@ -1,12 +1,11 @@
 package org.videolan.medialibrary.media;
 
 
-import android.app.Service;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper;
 
 import java.util.Date;
@@ -24,7 +23,7 @@ public class HistoryItem extends MediaLibraryItem {
     }
 
     public AMediaWrapper getMedia() {
-        AMediaWrapper mw = ServiceLocator.getAMediaWrapper(Uri.parse(mrl));
+        AMediaWrapper mw = MLServiceLocator.getAMediaWrapper(Uri.parse(mrl));
         mw.setTitle(title);
         mw.setType(AMediaWrapper.TYPE_STREAM);
         return mw;

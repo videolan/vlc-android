@@ -3,7 +3,7 @@ package org.videolan.medialibrary.interfaces.media;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.AMedialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
@@ -42,7 +42,7 @@ public abstract class AGenre extends MediaLibraryItem {
             = new Parcelable.Creator<AGenre>() {
         @Override
         public AGenre createFromParcel(Parcel in) {
-            return ServiceLocator.getAGenre(in);
+            return MLServiceLocator.getAGenre(in);
         }
 
         @Override

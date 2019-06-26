@@ -6,7 +6,7 @@ import android.text.TextUtils;
 
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.R;
-import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.AMedialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
@@ -97,7 +97,7 @@ public abstract class AAlbum extends MediaLibraryItem {
             = new Parcelable.Creator<AAlbum>() {
         @Override
         public AAlbum createFromParcel(Parcel in) {
-            return ServiceLocator.getAAlbum(in);
+            return MLServiceLocator.getAAlbum(in);
         }
 
         @Override

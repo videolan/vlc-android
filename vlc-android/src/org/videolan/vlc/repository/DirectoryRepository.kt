@@ -6,7 +6,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.tools.IOScopedObject
 import org.videolan.tools.SingletonHolder
@@ -51,7 +51,7 @@ class DirectoryRepository (private val customDirectoryDao: CustomDirectoryDao) :
 }
 
 fun createDirectory(it: String, context: Context): AMediaWrapper {
-    val directory = ServiceLocator.getAMediaWrapper(AndroidUtil.PathToUri(it))
+    val directory = MLServiceLocator.getAMediaWrapper(AndroidUtil.PathToUri(it))
     directory.type = AMediaWrapper.TYPE_DIR
     if (TextUtils.equals(EXTERNAL_PUBLIC_DIRECTORY, it)) {
         directory.setDisplayTitle(context.resources.getString(R.string.internal_memory))

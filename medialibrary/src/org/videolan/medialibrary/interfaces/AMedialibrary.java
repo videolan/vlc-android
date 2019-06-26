@@ -15,7 +15,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.SingleEvent;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.interfaces.media.AAlbum;
@@ -85,7 +85,7 @@ abstract public class AMedialibrary {
     protected static Context sContext;
     public static LiveData<AMediaWrapper> lastThumb = new SingleEvent<>();
 
-    protected static final AMedialibrary instance = ServiceLocator.getAMedialibrary();
+    protected static final AMedialibrary instance = MLServiceLocator.getAMedialibrary();
 
     public static Context getContext() {
         return sContext;

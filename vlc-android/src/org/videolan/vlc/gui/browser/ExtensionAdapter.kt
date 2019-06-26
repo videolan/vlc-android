@@ -9,7 +9,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
-import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.ExtensionItemViewBinding
@@ -36,7 +36,7 @@ class ExtensionAdapter(internal var fragment: ExtensionBrowser?) : RecyclerView.
             if (item.type == VLCExtensionItem.TYPE_DIRECTORY) {
                 fragment!!.browseItem(item)
             } else if (item.type == VLCExtensionItem.TYPE_AUDIO || item.type == VLCExtensionItem.TYPE_VIDEO) {
-                val mw = ServiceLocator.getAMediaWrapper(Uri.parse(item.link))
+                val mw = MLServiceLocator.getAMediaWrapper(Uri.parse(item.link))
                 mw.setDisplayTitle(item.getTitle())
                 mw.description = item.getSubTitle()
                 mw.type = getTypeAccordingToItem(item.type)

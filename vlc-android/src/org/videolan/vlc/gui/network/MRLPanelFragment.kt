@@ -43,7 +43,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.actor
-import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.tools.coroutineScope
 import org.videolan.vlc.R
@@ -138,7 +138,7 @@ class MRLPanelFragment : Fragment(), View.OnKeyListener, TextView.OnEditorAction
 
     private fun processUri(): Boolean {
         if (!TextUtils.isEmpty(viewModel.observableSearchText.get())) {
-            val mw = ServiceLocator.getAMediaWrapper(Uri.parse(viewModel.observableSearchText.get()))
+            val mw = MLServiceLocator.getAMediaWrapper(Uri.parse(viewModel.observableSearchText.get()))
             playMedia(mw)
             viewModel.observableSearchText.set("")
             return true

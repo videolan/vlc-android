@@ -35,7 +35,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
-import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.vlc.ExternalMonitor
@@ -164,7 +164,7 @@ open class FileBrowserFragment : BaseBrowserFragment() {
 
 
     private fun browseOtgDevice(uri: Uri, title: String) {
-        val mw = ServiceLocator.getAMediaWrapper(uri)
+        val mw = MLServiceLocator.getAMediaWrapper(uri)
         mw.type = AMediaWrapper.TYPE_DIR
         mw.title = title
         handler.post { browse(mw, true) }

@@ -12,7 +12,7 @@ import org.videolan.libvlc.Media;
 import org.videolan.libvlc.MediaPlayer;
 import org.videolan.libvlc.util.Extensions;
 import org.videolan.libvlc.util.VLCUtil;
-import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.Tools;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
@@ -696,7 +696,7 @@ public abstract class AMediaWrapper extends MediaLibraryItem implements Parcelab
     public static final Parcelable.Creator<AMediaWrapper> CREATOR = new Parcelable.Creator<AMediaWrapper>() {
         @Override
         public AMediaWrapper createFromParcel(Parcel in) {
-            return ServiceLocator.getAMediaWrapper(in);
+            return MLServiceLocator.getAMediaWrapper(in);
         }
 
         @Override

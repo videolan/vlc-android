@@ -82,7 +82,7 @@ import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.libvlc.util.DisplayManager
 import org.videolan.libvlc.util.VLCVideoLayout
 import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.tools.*
@@ -2497,7 +2497,7 @@ open class VideoPlayerActivity : AppCompatActivity(), IPlaybackSettingsControlle
                 // Start playback & seek
                 /* prepare playback */
                 val medialoaded = media != null
-                if (!medialoaded) media = if (hasMedia) currentMedia else ServiceLocator.getAMediaWrapper(videoUri!!)
+                if (!medialoaded) media = if (hasMedia) currentMedia else MLServiceLocator.getAMediaWrapper(videoUri!!)
                 if (wasPaused)
                     media!!.addFlags(AMediaWrapper.MEDIA_PAUSED)
                 if (intent.hasExtra(PLAY_DISABLE_HARDWARE))

@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import org.videolan.libvlc.util.VLCUtil;
 import org.videolan.medialibrary.R;
-import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.AMedialibrary;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
@@ -90,7 +90,7 @@ abstract public class AArtist extends MediaLibraryItem {
             = new Parcelable.Creator<AArtist>() {
         @Override
         public AArtist createFromParcel(Parcel in) {
-            return ServiceLocator.getAArtist(in);
+            return MLServiceLocator.getAArtist(in);
         }
 
         @Override

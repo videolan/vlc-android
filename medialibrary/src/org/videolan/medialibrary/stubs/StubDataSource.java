@@ -1,9 +1,8 @@
 package org.videolan.medialibrary.stubs;
 
-import android.os.Handler;
 import android.text.TextUtils;
 
-import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.media.AAlbum;
 import org.videolan.medialibrary.interfaces.media.AArtist;
 import org.videolan.medialibrary.interfaces.media.AFolder;
@@ -61,21 +60,21 @@ public class StubDataSource {
 
         // Video
         String fileName = "058_foar_everywun_frum_boxxy.flv";
-        media = ServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 18820L, 0,
+        media = MLServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 18820L, 0,
                 fileName, fileName, "", "",
                 "", "", 416, 304, "", 0, -2,
                 0, 0, 1509466228L, 0L, true);
         addVideo(media);
 
         fileName = "FMA - MultiChapter.mkv";
-        media = ServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 1467383L, 0,
+        media = MLServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 1467383L, 0,
                 "Encoded with MiniCoder", fileName, "", "",
                 "", "", 1280, 720, "", 0,
                 -2, 0, 0, 1512396147L, 0L, true);
         addVideo(media);
 
         fileName = "114_My_Heart_Will_Go_On.avi";
-        media = ServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 20000L, 0,
+        media = MLServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 20000L, 0,
                 "My Heart Will Go On - Celine Dion", fileName, "", "",
                 "", "", 352, 220, "", 0,
                 -2, 0, 0, 1509465852L, 0L, true);
@@ -85,7 +84,7 @@ public class StubDataSource {
 
         fileName = "01-Show Me The Way.mp3";
         baseMrl = "/storage/emulated/0/Music/Peter Frampton/Shine On - CD2/";
-        media = ServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 280244L, 1,
+        media = MLServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 280244L, 1,
                 "01-Show Me The Way", fileName, "Peter Frampton", "Rock",
                 "Shine On CD2", "Peter Frampton",
                 0, 0, "/storage/emulated/0/Music/Peter Frampton/Shine On - CD2/Folder.jpg",
@@ -95,7 +94,7 @@ public class StubDataSource {
 
         fileName = "01-Wind Of Change.mp3";
         baseMrl = "/storage/emulated/0/Music/Peter Frampton/Shine On - CD1/";
-        media = ServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 184271L, 1,
+        media = MLServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 184271L, 1,
                 "01-Wind Of Change", fileName, "Peter Frampton", "Rock",
                 "Shine On CD1", "Peter Frampton",
                 0, 0, "/storage/emulated/0/Music/Peter Frampton/Shine On - CD1/Folder.jpg",
@@ -105,7 +104,7 @@ public class StubDataSource {
 
         fileName = "03 Bloody Well Right.wma";
         baseMrl = "/storage/emulated/0/Music/Supertramp/Best of/";
-        media = ServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 257199L, 1,
+        media = MLServiceLocator.getAMediaWrapper(getUUID(), baseMrl + fileName, 0L, 257199L, 1,
                 "Bloody Well Right", fileName, "Supertramp", "Rock",
                 "The Autobiography of Supertramp", "Supertramp",
                 0, 0, "/storage/emulated/0/Music/Supertramp/Best of/Folder.jpg", 0,
@@ -300,26 +299,26 @@ public class StubDataSource {
     private void addAudio(AMediaWrapper media, String shortBio, int releaseYear, int albumDuration) {
         addFolders(media);
         mAudioMediaWrappers.add(media);
-        AArtist artist = ServiceLocator.getAArtist(getUUID(), media.getArtist(), shortBio, media.getArtworkMrl(), "");
+        AArtist artist = MLServiceLocator.getAArtist(getUUID(), media.getArtist(), shortBio, media.getArtworkMrl(), "");
         mArtists.add(artist);
         AArtist albumArtist = null;
         if (!media.getArtist().equals(media.getAlbumArtist())) {
-            albumArtist = ServiceLocator.getAArtist(getUUID(), media.getAlbumArtist(), "", media.getArtworkMrl(), "");
+            albumArtist = MLServiceLocator.getAArtist(getUUID(), media.getAlbumArtist(), "", media.getArtworkMrl(), "");
             mArtists.add(albumArtist);
         }
         AAlbum album;
         if (albumArtist == null)
-            album = ServiceLocator.getAAlbum(getUUID(), media.getAlbum(), releaseYear,
+            album = MLServiceLocator.getAAlbum(getUUID(), media.getAlbum(), releaseYear,
                     media.getArtworkMrl(), artist.getTitle(),
                     artist.getId(), media.getTracks().length, albumDuration);
         else
-            album = ServiceLocator.getAAlbum(getUUID(), media.getAlbum(), releaseYear,
+            album = MLServiceLocator.getAAlbum(getUUID(), media.getAlbum(), releaseYear,
                     media.getArtworkMrl(), albumArtist.getTitle(),
                     albumArtist.getId(), media.getTracks().length, albumDuration);
         mAlbums.add(album);
         ArrayList genreStrings = new ArrayList<>();
 //        if (!getGenresString())
-        mGenres.add(ServiceLocator.getAGenre(getUUID(), media.getGenre()));
+        mGenres.add(MLServiceLocator.getAGenre(getUUID(), media.getGenre()));
     }
 
     private void addVideo(AMediaWrapper media) {
@@ -350,7 +349,7 @@ public class StubDataSource {
             ArrayList<String> mlFolders = new ArrayList<>(Arrays.asList(getFoldersString()));
             if (!mlFolders.contains(mrl)) {
                 final String name = folderArray[folderArray.length - 1];
-                mFolders.add(ServiceLocator.getAFolder(getUUID(), name, mrl));
+                mFolders.add(MLServiceLocator.getAFolder(getUUID(), name, mrl));
             }
         }
     }

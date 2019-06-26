@@ -34,7 +34,7 @@ import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.vlc.gui.MainActivity
 import org.videolan.vlc.gui.SearchActivity
 import org.videolan.vlc.gui.helpers.UiTools
@@ -97,9 +97,9 @@ class StartActivity : FragmentActivity() {
         }
 
         // Setting test mode with stubbed media library if required
-        if (intent.hasExtra(ServiceLocator.EXTRA_TEST_STUBS)
-                && intent.getBooleanExtra(ServiceLocator.EXTRA_TEST_STUBS, false)) {
-            ServiceLocator.setLocatorMode(ServiceLocator.LocatorMode.TESTS)
+        if (intent.hasExtra(MLServiceLocator.EXTRA_TEST_STUBS)
+                && intent.getBooleanExtra(MLServiceLocator.EXTRA_TEST_STUBS, false)) {
+            MLServiceLocator.setLocatorMode(MLServiceLocator.LocatorMode.TESTS)
             Log.i(TAG, "onCreate: Setting test mode`")
         }
 

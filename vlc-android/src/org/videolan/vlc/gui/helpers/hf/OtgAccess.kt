@@ -32,7 +32,7 @@ import androidx.annotation.WorkerThread
 import androidx.documentfile.provider.DocumentFile
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
-import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import videolan.org.commontools.LiveEvent
 
@@ -94,7 +94,7 @@ fun getDocumentFiles(context: Context, path: String) : List<AMediaWrapper>? {
     for (file in documentFile.listFiles()) {
         if (file.exists() && file.canRead()) {
             if (file.name?.startsWith(".") == true) continue
-            val mw = ServiceLocator.getAMediaWrapper(file.uri).apply {
+            val mw = MLServiceLocator.getAMediaWrapper(file.uri).apply {
                 type = when {
                     file.isDirectory -> AMediaWrapper.TYPE_DIR
                     file.type?.startsWith("video") == true -> AMediaWrapper.TYPE_VIDEO

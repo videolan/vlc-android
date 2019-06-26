@@ -3,7 +3,7 @@ package org.videolan.medialibrary.interfaces.media;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 public abstract class AFolder extends MediaLibraryItem {
@@ -51,7 +51,7 @@ public abstract class AFolder extends MediaLibraryItem {
     public static Parcelable.Creator<AFolder> CREATOR = new Parcelable.Creator<AFolder>() {
         @Override
         public AFolder createFromParcel(Parcel in) {
-            return ServiceLocator.getAFolder(in);
+            return MLServiceLocator.getAFolder(in);
         }
 
         @Override

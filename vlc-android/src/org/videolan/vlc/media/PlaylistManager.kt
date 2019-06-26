@@ -17,7 +17,7 @@ import org.videolan.libvlc.MediaPlayer
 import org.videolan.libvlc.RendererItem
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.PlaybackService
@@ -100,7 +100,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
                             continue
                         }
                         Log.v(TAG, "Creating on-the-fly Media object for $location")
-                        mediaWrapper = ServiceLocator.getAMediaWrapper(Uri.parse(location))
+                        mediaWrapper = MLServiceLocator.getAMediaWrapper(Uri.parse(location))
                         mediaList.add(mediaWrapper)
                     } else
                         mediaList.add(mediaWrapper)
@@ -158,7 +158,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
         launch {
             val playList = withContext(Dispatchers.Default) {
                 locations.asSequence().map { Uri.decode(it) }.mapTo(ArrayList(locations.size)) {
-                    ServiceLocator.getAMediaWrapper(Uri.parse(it))
+                    MLServiceLocator.getAMediaWrapper(Uri.parse(it))
                 }
             }
             // load playlist
@@ -583,7 +583,7 @@ class PlaylistManager(val service: PlaybackService) : AMediaWrapperList.EventLis
             for (i in 0 until ml.count) {
                 val child = ml.getMediaAt(i)
                 withContext(Dispatchers.IO) { child.parse() }
-                mediaList.insert(index+i, ServiceLocator.getAMediaWrapper(child))
+                mediaList.insert(index+i, MLServiceLocator.getAMediaWrapper(child))
                 child.release()
             }
             mediaList.addEventListener(this)

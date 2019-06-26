@@ -6,7 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.interfaces.AMedialibrary;
 import org.videolan.medialibrary.interfaces.media.AAlbum;
 import org.videolan.medialibrary.interfaces.media.AArtist;
@@ -268,7 +268,7 @@ public class StubMedialibrary extends AMedialibrary {
     }
 
     public APlaylist createPlaylist(String name) {
-        APlaylist playlist = ServiceLocator.getAPlaylist(dt.getUUID(), name, 0);
+        APlaylist playlist = MLServiceLocator.getAPlaylist(dt.getUUID(), name, 0);
         dt.mPlaylists.add(playlist);
         onPlaylistsAdded();
         return playlist;

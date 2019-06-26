@@ -35,7 +35,7 @@ import androidx.leanback.widget.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.libvlc.util.AndroidUtil
-import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.vlc.R
 import org.videolan.vlc.gui.helpers.AudioUtil
@@ -88,7 +88,7 @@ class MediaItemDetailsFragment : DetailsSupportFragment() {
         mediaItemDetails = extras.getParcelable("item") as MediaItemDetails
         val hasMedia = extras.containsKey("media")
         val selector = ClassPresenterSelector()
-        val media = (if (hasMedia) extras.getParcelable<Parcelable>("media") else ServiceLocator.getAMediaWrapper(AndroidUtil.LocationToUri(mediaItemDetails.location))) as AMediaWrapper
+        val media = (if (hasMedia) extras.getParcelable<Parcelable>("media") else MLServiceLocator.getAMediaWrapper(AndroidUtil.LocationToUri(mediaItemDetails.location))) as AMediaWrapper
         if (!hasMedia) {
             media.setDisplayTitle(mediaItemDetails.title)
         }

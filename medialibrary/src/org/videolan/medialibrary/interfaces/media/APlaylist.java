@@ -3,7 +3,7 @@ package org.videolan.medialibrary.interfaces.media;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.videolan.medialibrary.ServiceLocator;
+import org.videolan.medialibrary.MLServiceLocator;
 import org.videolan.medialibrary.media.MediaLibraryItem;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public abstract class APlaylist extends MediaLibraryItem {
             = new Parcelable.Creator<APlaylist>() {
         @Override
         public APlaylist createFromParcel(Parcel in) {
-            return ServiceLocator.getAPlaylist(in);
+            return MLServiceLocator.getAPlaylist(in);
         }
 
         @Override

@@ -21,7 +21,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.actor
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.Tools
 import org.videolan.medialibrary.interfaces.media.AAlbum
 import org.videolan.medialibrary.interfaces.media.AFolder
@@ -132,7 +132,7 @@ object MediaUtils : CoroutineScope {
         openMediaNoUi(ctx, media)
     }
 
-    fun openMediaNoUi(uri: Uri) = openMediaNoUi(VLCApplication.appContext, ServiceLocator.getAMediaWrapper(uri))
+    fun openMediaNoUi(uri: Uri) = openMediaNoUi(VLCApplication.appContext, MLServiceLocator.getAMediaWrapper(uri))
 
     fun openMediaNoUi(context: Context?, media: AMediaWrapper?) {
         if (media == null || context == null) return

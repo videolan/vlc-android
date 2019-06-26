@@ -25,7 +25,6 @@ import android.net.Uri
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Process
-import android.util.Log
 import androidx.collection.SimpleArrayMap
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
@@ -37,7 +36,7 @@ import org.videolan.libvlc.Media
 import org.videolan.libvlc.util.MediaBrowser
 import org.videolan.libvlc.util.MediaBrowser.EventListener
 import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.Storage
@@ -174,7 +173,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
                         mw
                     }
                     item.itemType == MediaLibraryItem.TYPE_STORAGE ->
-                        ServiceLocator.getAMediaWrapper((item as Storage).uri).apply { type = AMediaWrapper.TYPE_DIR }
+                        MLServiceLocator.getAMediaWrapper((item as Storage).uri).apply { type = AMediaWrapper.TYPE_DIR }
                     else -> continue@loop
                 }
                 // request parsing
@@ -226,7 +225,7 @@ abstract class BrowserProvider(val context: Context, val dataset: LiveDataset<Me
     }
 
     private suspend fun findMedia(media: Media): AMediaWrapper? {
-        val mw = ServiceLocator.getAMediaWrapper(media)
+        val mw = MLServiceLocator.getAMediaWrapper(media)
         media.release()
         if (!mw.isMedia()) {
             if (mw.isBrowserMedia()) return mw

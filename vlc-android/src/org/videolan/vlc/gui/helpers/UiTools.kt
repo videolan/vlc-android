@@ -64,7 +64,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.launch
 import org.videolan.libvlc.util.AndroidUtil
 import org.videolan.medialibrary.interfaces.AMedialibrary
-import org.videolan.medialibrary.ServiceLocator
+import org.videolan.medialibrary.MLServiceLocator
 import org.videolan.medialibrary.interfaces.media.AMediaWrapper
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.tools.isStarted
@@ -422,7 +422,7 @@ object UiTools {
                                 MediaUtils.openUri(activity, item.uri)
                             else if (item.text != null) {
                                 val uri = Uri.parse(item.text.toString())
-                                val media = ServiceLocator.getAMediaWrapper(uri)
+                                val media = MLServiceLocator.getAMediaWrapper(uri)
                                 if ("file" != uri.scheme)
                                     media.type = AMediaWrapper.TYPE_STREAM
                                 MediaUtils.openMedia(activity, media)
