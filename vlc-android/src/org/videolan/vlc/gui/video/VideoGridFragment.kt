@@ -42,7 +42,6 @@ import org.videolan.medialibrary.Medialibrary
 import org.videolan.medialibrary.media.Folder
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
-import org.videolan.tools.KeyHelper
 import org.videolan.tools.MultiSelectHelper
 import org.videolan.vlc.R
 import org.videolan.vlc.databinding.VideoGridBinding
@@ -313,10 +312,6 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        if (KeyHelper.isShiftPressed && actionMode == null) {
-            onLongClick(v, position, item)
-            return
-        }
         val media = item as MediaWrapper
         if (actionMode != null) {
             multiSelectHelper.toggleSelection(position)
@@ -341,7 +336,7 @@ class VideoGridFragment : MediaBrowserFragment<VideosViewModel>(), SwipeRefreshL
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
         if (actionMode != null) return false
-        multiSelectHelper.toggleSelection(position)
+        multiSelectHelper.toggleSelection(position, true)
         startActionMode()
         return true
     }

@@ -50,7 +50,6 @@ import kotlinx.coroutines.*
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.medialibrary.media.Playlist
-import org.videolan.tools.KeyHelper
 import org.videolan.tools.isStarted
 import org.videolan.vlc.BuildConfig
 import org.videolan.vlc.R
@@ -169,10 +168,6 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     }
 
     override fun onClick(v: View, position: Int, item: MediaLibraryItem) {
-        if (KeyHelper.isShiftPressed && actionMode == null) {
-            onLongClick(v, position, item)
-            return
-        }
         if (actionMode != null) {
             audioBrowserAdapter.multiSelectHelper.toggleSelection(position)
             invalidateActionMode()
@@ -181,9 +176,8 @@ open class PlaylistActivity : AudioPlayerContainerActivity(), IEventsHandler, IL
     }
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
-        if (actionMode != null) return false
-        audioBrowserAdapter.multiSelectHelper.toggleSelection(position)
-        startActionMode()
+        audioBrowserAdapter.multiSelectHelper.toggleSelection(position, true)
+        if (actionMode == null) startActionMode()
         return true
     }
 

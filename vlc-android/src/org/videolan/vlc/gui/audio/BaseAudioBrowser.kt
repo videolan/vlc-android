@@ -217,9 +217,8 @@ abstract class BaseAudioBrowser<T : SortableModel> : MediaBrowserFragment<T>(), 
     }
 
     override fun onLongClick(v: View, position: Int, item: MediaLibraryItem): Boolean {
-        if (actionMode != null) return false
-        getCurrentAdapter()?.multiSelectHelper?.toggleSelection(position)
-        startActionMode()
+        getCurrentAdapter()?.multiSelectHelper?.toggleSelection(position, true)
+        if (actionMode == null) startActionMode()
         return true
     }
 

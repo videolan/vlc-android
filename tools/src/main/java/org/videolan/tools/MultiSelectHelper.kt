@@ -19,8 +19,8 @@ class MultiSelectHelper<T>(val adapter: MultiSelectAdapter<T>, private val paylo
     @MainThread
     fun getSelectionCount() = selectionMap.size()
 
-    fun toggleSelection(position: Int) {
-        if (KeyHelper.isShiftPressed && selectionMap.size() != 0) {
+    fun toggleSelection(position: Int, forceShift: Boolean = false) {
+        if ((KeyHelper.isShiftPressed || forceShift) && selectionMap.size() != 0) {
             val positions = HashSet<Int>()
             for (i in 0 until selectionMap.size()) {
                 positions.add(selectionMap.keyAt(i))

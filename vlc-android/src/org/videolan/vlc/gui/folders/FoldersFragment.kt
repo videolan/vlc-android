@@ -45,8 +45,8 @@ class FoldersFragment : MediaBrowserFragment<FoldersViewModel>(), CtxActionRecei
                 }
             }
             is FolderLongClick -> {
+                adapter.multiSelectHelper.toggleSelection(action.position, true)
                 if (actionMode == null) {
-                    adapter.multiSelectHelper.toggleSelection(action.position)
                     startActionMode()
                 }
             }
