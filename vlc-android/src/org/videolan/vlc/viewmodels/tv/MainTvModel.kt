@@ -66,9 +66,10 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     private val browserFavRepository = BrowserFavRepository.getInstance(context)
     private var updatedFavoritList: List<MediaWrapper> = listOf()
     var showHistory = false
-    private set
+        private set
     // LiveData
     private val favorites: LiveData<List<BrowserFav>> = browserFavRepository.browserFavorites
+    val nowPlaying: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val videos: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val audioCategories: LiveData<List<MediaLibraryItem>> = MutableLiveData()
     val browsers: LiveData<List<MediaLibraryItem>> = MutableLiveData()
@@ -105,8 +106,9 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
     }
 
     fun refresh() = launch {
-        updateAudioCategories()
+        updateNowPlaying()
         updateVideos()
+        updateAudioCategories()
         historyActor.offer(Unit)
         updateActor.offer(Unit)
         updatePlaylists()
@@ -136,6 +138,16 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         }
     }
 
+    private fun updateNowPlaying() = launch {
+        val list = mutableListOf<MediaLibraryItem>()
+        PlaybackService.service.value?.run {
+            currentMediaWrapper?.let {
+                DummyItem(CATEGORY_NOW_PLAYING, it.title, it.artist).apply { setArtWork(coverArt) }
+            }
+        }?.let { list.add(0, it) }
+        (nowPlaying as MutableLiveData).value = list
+    }
+
     private fun updatePlaylists() = launch {
         context.getFromMl {
             getPagedPlaylists(Medialibrary.SORT_INSERTIONDATE, true, NUM_ITEMS_PREVIEW, 0)
@@ -154,11 +166,6 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
                 DummyItem(CATEGORY_GENRES, context.getString(R.string.genres), ""),
                 DummyItem(CATEGORY_SONGS, context.getString(R.string.tracks), "")
         )
-        PlaybackService.service.value?.run {
-            currentMediaWrapper?.let {
-                DummyItem(CATEGORY_NOW_PLAYING, it.title, it.artist).apply { setArtWork(coverArt) }
-            }
-        }?.let { list.add(0, it) }
         (audioCategories as MutableLiveData).value = list
     }
 
@@ -181,11 +188,17 @@ class MainTvModel(app: Application) : AndroidViewModel(app), Medialibrary.OnMedi
         delay(500L)
     }
 
-    override fun onMedialibraryIdle() { refresh() }
+    override fun onMedialibraryIdle() {
+        refresh()
+    }
 
-    override fun onMedialibraryReady() { refresh() }
+    override fun onMedialibraryReady() {
+        refresh()
+    }
 
-    override fun onDeviceChange() { refresh() }
+    override fun onDeviceChange() {
+        refresh()
+    }
 
     override fun onCleared() {
         super.onCleared()

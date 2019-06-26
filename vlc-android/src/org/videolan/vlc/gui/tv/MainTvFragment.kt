@@ -56,14 +56,16 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
     private var backgroundManager: BackgroundManager? = null
     private lateinit var rowsAdapter: ArrayObjectAdapter
 
+    private lateinit var nowPlayingAdapter: ArrayObjectAdapter
     private lateinit var videoAdapter: ArrayObjectAdapter
     private lateinit var categoriesAdapter: ArrayObjectAdapter
     private lateinit var historyAdapter: ArrayObjectAdapter
     private lateinit var playlistAdapter: ArrayObjectAdapter
     private lateinit var browserAdapter: ArrayObjectAdapter
     private lateinit var otherAdapter: ArrayObjectAdapter
-    private lateinit var videoRow: ListRow
 
+    private lateinit var nowPlayingRow: ListRow
+    private lateinit var videoRow: ListRow
     private lateinit var audioRow: ListRow
     private lateinit var historyRow: ListRow
     private lateinit var playlistRow: ListRow
@@ -72,6 +74,7 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     private var displayHistory = false
     private var displayPlaylist = false
+    private var displayNowPlaying = false
     private var selectedItem: Any? = null
 
     internal lateinit var model: MainTvModel
@@ -98,6 +101,11 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         super.onViewCreated(view, savedInstanceState)
         val ctx = requireActivity()
         rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
+        // Now Playing
+        nowPlayingAdapter = ArrayObjectAdapter(CardPresenter(ctx))
+        val nowPlayingHeader = HeaderItem(HEADER_CATEGORIES, getString(R.string.music_now_playing))
+        nowPlayingRow = ListRow(nowPlayingHeader, nowPlayingAdapter)
+        rowsAdapter.add(nowPlayingRow)
         // Video
         videoAdapter = ArrayObjectAdapter(CardPresenter(ctx))
         val videoHeader = HeaderItem(0, getString(R.string.video))
@@ -153,6 +161,10 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
         model.videos.observe(this, Observer {
             videoAdapter.setItems(it, diffCallback)
         })
+        model.nowPlaying.observe(this, Observer {
+            displayNowPlaying = it.isNotEmpty()
+            nowPlayingAdapter.setItems(it, diffCallback)
+        })
         model.history.observe(this, Observer {
             displayHistory = it.isNotEmpty()
             if (it.isNotEmpty()) {
@@ -171,12 +183,12 @@ class MainTvFragment : BrowseSupportFragment(), OnItemViewSelectedListener, OnIt
 
     private fun resetLines() {
 
-
-        val adapters = listOf(videoRow, audioRow, playlistRow, historyRow, browsersRow, miscRow).filter {
+        val adapters = listOf(nowPlayingRow, videoRow, audioRow, playlistRow, historyRow, browsersRow, miscRow).filter {
 
             when {
                 !displayHistory && it == historyRow -> false
                 !displayPlaylist && it == playlistRow -> false
+                !displayNowPlaying && it == nowPlayingRow -> false
 
                 else -> true
 

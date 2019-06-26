@@ -35,9 +35,12 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.videolan.medialibrary.Tools
+import org.videolan.medialibrary.media.DummyItem
 import org.videolan.medialibrary.media.MediaLibraryItem
 import org.videolan.medialibrary.media.MediaWrapper
 import org.videolan.vlc.R
@@ -152,6 +155,17 @@ class CardPresenter(private val context: Activity) : Presenter() {
                 holder.cardView.contentText = ""
                 holder.updateCardViewImage(sDefaultCardImage)
             }
+        }
+        if (item is DummyItem && item.id == CATEGORY_NOW_PLAYING) {
+            val badge = AnimatedVectorDrawableCompat.create(context, R.drawable.anim_now_playing)!!
+            holder.cardView.badgeImage = badge
+            badge.registerAnimationCallback(object : Animatable2Compat.AnimationCallback() {
+                override fun onAnimationEnd(drawable: Drawable?) {
+                    badge.start()
+                    super.onAnimationEnd(drawable)
+                }
+            })
+            badge.start()
         }
     }
 
