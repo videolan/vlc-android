@@ -64,7 +64,6 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         vectorDrawables.useSupportLibrary = true
-        multiDexEnabled true
 
         tasks.whenTaskAdded { task ->
             if (task.name.startsWith('merge')) {
@@ -127,6 +126,7 @@ android {
         debug {
             applicationIdSuffix ".debug"
             jniDebuggable true
+            multiDexEnabled true
         }
         dev {
             initWith debug
